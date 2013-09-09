@@ -14,6 +14,10 @@
 		3B93F8FC17D66FE700547034 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B93F8FB17D66FE700547034 /* UIKit.framework */; };
 		3B93F8FE17D66FF300547034 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B93F8FD17D66FF300547034 /* CoreGraphics.framework */; };
 		3BA6D69017DE328400FC3EB9 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA6D68F17DE328400FC3EB9 /* NSData+Base64.m */; };
+		3BA6D6BF17DE83C200FC3EB9 /* Auth0Client.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3B416AF817DACAC0004B7208 /* Auth0Client.h */; };
+		3BA6D6C017DE83C200FC3EB9 /* Auth0User.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3B416AFA17DACAC0004B7208 /* Auth0User.h */; };
+		3BA6D6C117DE83C200FC3EB9 /* NSData+Base64.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3BA6D68E17DE328400FC3EB9 /* NSData+Base64.h */; };
+		3BA6D6C217DE83C200FC3EB9 /* NSData+Base64.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3BA6D68F17DE328400FC3EB9 /* NSData+Base64.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,6 +27,10 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				3BA6D6BF17DE83C200FC3EB9 /* Auth0Client.h in CopyFiles */,
+				3BA6D6C017DE83C200FC3EB9 /* Auth0User.h in CopyFiles */,
+				3BA6D6C117DE83C200FC3EB9 /* NSData+Base64.h in CopyFiles */,
+				3BA6D6C217DE83C200FC3EB9 /* NSData+Base64.m in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
