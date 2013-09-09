@@ -13,6 +13,7 @@
 		3B93F8EB17D62B3900547034 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B93F8EA17D62B3900547034 /* Foundation.framework */; };
 		3B93F8FC17D66FE700547034 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B93F8FB17D66FE700547034 /* UIKit.framework */; };
 		3B93F8FE17D66FF300547034 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B93F8FD17D66FF300547034 /* CoreGraphics.framework */; };
+		3BA6D69017DE328400FC3EB9 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA6D68F17DE328400FC3EB9 /* NSData+Base64.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +39,8 @@
 		3B93F8EA17D62B3900547034 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3B93F8FB17D66FE700547034 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3B93F8FD17D66FF300547034 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3BA6D68E17DE328400FC3EB9 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		3BA6D68F17DE328400FC3EB9 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +77,7 @@
 		3B93F8E917D62B3900547034 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3BA6D68D17DE328400FC3EB9 /* NSData+Base64 */,
 				3B93F8FD17D66FF300547034 /* CoreGraphics.framework */,
 				3B93F8FB17D66FE700547034 /* UIKit.framework */,
 				3B93F8EA17D62B3900547034 /* Foundation.framework */,
@@ -92,6 +96,16 @@
 				3B416AFD17DACAC0004B7208 /* Auth0WebViewController.m */,
 			);
 			path = Auth0Client;
+			sourceTree = "<group>";
+		};
+		3BA6D68D17DE328400FC3EB9 /* NSData+Base64 */ = {
+			isa = PBXGroup;
+			children = (
+				3BA6D68E17DE328400FC3EB9 /* NSData+Base64.h */,
+				3BA6D68F17DE328400FC3EB9 /* NSData+Base64.m */,
+			);
+			name = "NSData+Base64";
+			path = "../NSData+Base64";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +162,7 @@
 				3B416AFE17DACAC0004B7208 /* Auth0Client.m in Sources */,
 				3B416AFF17DACAC0004B7208 /* Auth0User.m in Sources */,
 				3B416B0017DACAC0004B7208 /* Auth0WebViewController.m in Sources */,
+				3BA6D69017DE328400FC3EB9 /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

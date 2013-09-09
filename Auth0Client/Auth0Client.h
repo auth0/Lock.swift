@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "Auth0User.h"
 
 @interface Auth0Client : NSObject
 {
-    NSData * _auth0User;
+    Auth0User * _auth0User;
 @private
     NSString * _clientId;
     NSString * _clientSecret;
@@ -21,7 +22,7 @@
 @property (readonly) NSString *clientId;
 @property (readonly) NSString *clientSecret;
 @property (readonly) NSString *subDomain;
-@property (readonly) NSData *auth0User;
+@property (readonly) Auth0User *auth0User;
 
 + (Auth0Client *)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret;
 

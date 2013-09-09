@@ -7,19 +7,20 @@
 //
 
 #import "Auth0User.h"
+#import "NSData+Base64.h"
 
 @implementation Auth0User
 
-@synthesize Auth0AccessToken = _Auth0AccessToken;
-@synthesize IdToken = _IdToken;
-@synthesize Profile = _Profile;
+@synthesize Auth0AccessToken = _auth0AccessToken;
+@synthesize IdToken = _idToken;
+@synthesize Profile = _profile;
 
 - (id)auth0User:(NSDictionary *)accountProperties
 {
     if ((self = [super init])) {
-        _Auth0AccessToken = [accountProperties objectForKey:@"access_token"];
-        _IdToken = [accountProperties objectForKey:@"id_token"];
-        _Profile = [[[accountProperties objectForKey:@"id_token"] componentsSeparatedByString: @"."] objectAtIndex: 1];
+        _auth0AccessToken = [accountProperties objectForKey:@"access_token"];
+        _idToken = [accountProperties objectForKey:@"id_token"];
+        _profile = [self decodeBase64UrlEncode:[[[accountProperties objectForKey:@"id_token"] componentsSeparatedByString: @"."] objectAtIndex: 1]];
     }
     
     return self;
@@ -27,15 +28,48 @@
 
 - (void)dealloc
 {
-    [_Auth0AccessToken release];
-    [_IdToken release];
-    [_Profile release];
+    [_auth0AccessToken release];
+    [_idToken release];
+    [_profile release];
     [super dealloc];
 }
 
 + (Auth0User*)auth0User:(NSDictionary *)accountProperties
 {
     return [[[Auth0User alloc] auth0User:accountProperties] autorelease];
+}
+
+- (NSDictionary *)decodeBase64UrlEncode:(NSString *)encodedString
+{
+    encodedString = [encodedString stringByReplacingOccurrencesOfString:@"-"
+                                                   withString:@"+"];
+    encodedString = [encodedString stringByReplacingOccurrencesOfString:@"_"
+                                                   withString:@"/"];
+    
+    NSUInteger len = [encodedString length];
+    switch (len % 4) {
+        case 0:
+            break;
+        case 2:
+            encodedString = [encodedString stringByAppendingString:@"=="];
+            break;
+        case 3:
+            encodedString = [encodedString stringByAppendingString:@"="];
+            break;
+            
+        default:
+            [NSException raise:@"Invalid Operation" format:@"Illegal base64url string!"];
+            break;
+    }
+    
+    NSData *data = [[[NSData alloc] initWithData:[NSData dataFromBase64String:encodedString]] autorelease];
+    NSError* parseError;
+    NSDictionary* parseData = [NSJSONSerialization
+                               JSONObjectWithData:data
+                               options:kNilOptions
+                               error:&parseError];
+    
+    return parseData;
 }
 
 @end

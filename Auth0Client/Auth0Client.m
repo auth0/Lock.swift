@@ -64,11 +64,11 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     
     Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[[NSURL URLWithString:url] retain] returnUrl:callback allowsClose:NO withCompletionHandler:^(NSString *token, NSString * jwtToken){
         if(token) {
-            NSDictionary *accountProperties = [[NSDictionary alloc] initWithObjectsAndKeys:
+            NSDictionary *accountProperties = [[[NSDictionary alloc] initWithObjectsAndKeys:
                                                token ?: [NSNull null], @"access_token",
                                                jwtToken?: [NSNull null], @"id_token",
                                                nil
-                                               ];
+                                               ] autorelease];
             
             _auth0User = [Auth0User auth0User:accountProperties];
         }
@@ -100,7 +100,7 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 - (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection username:(NSString *)username password:(NSString *)password withCompletionHandler:(void (^)(BOOL authenticated))block
 {
     NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _subDomain];
-    NSURL *resourceUrl = [[NSURL URLWithString:url] retain];
+    NSURL *resourceUrl = [[[NSURL URLWithString:url] retain] autorelease];
     
     NSString *post =[NSString stringWithFormat:@"client_id=%@&client_secret=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=openid profile",
                      _clientId, _clientSecret, connection, username, password];
