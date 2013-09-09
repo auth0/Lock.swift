@@ -2,55 +2,55 @@
 
 1. Git clone and reference the library in your project
 
-  ~~~bash
-  git clone git@github.com:auth0/Auth0.iPhone.git
-  ~~~
+	```bash
+	git clone git@github.com:auth0/Auth0.iPhone.git
+	```
 
-  * Go to your project 
-  * Right-click in the Frameworks folder and select ___Add Files to "Your Project Name"___
-  * Go to the Auth0.iPhone, select the iAuth0Client folder, ensure that your project target is selected and press __Add__
+	1. Go to your project 
+	2. Right-click in the Frameworks folder and select ___Add Files to "Your Project Name"___
+	3. Go to the Auth0.iPhone, select the iAuth0Client folder, ensure that your project target is selected and press __Add__
 
 2. Instantiate Auth0Client
 
-~~~objective-c
-Auth0Client *client = [Auth0Client auth0Client:@"youraccount.auth0.com" 
-								 clientId:@"Your Client ID" 
-								 clientSecret:@"Your Client Secret"];
-~~~
+	```Objective-c
+	Auth0Client *client = [Auth0Client auth0Client:@"youraccount.auth0.com" 
+									 clientId:@"Your Client ID" 
+									 clientSecret:@"Your Client Secret"];
+	```
 
 3. Trigger login (with Widget) 
 
-~~~objective-c
-[client loginAsync:self withCompletionHandler:^(BOOL authenticated) {
-    if (!authenticated) {
-        NSLog(@"Error authenticating");
-    }
-    else{            
-        // * Use client.auth0User to do wonderful things, e.g.:
-		// - get user email => [client.auth0User.Profile objectForKey:@"email"]
-		// - get facebook/google/twitter/etc access token => [[[client.auth0User.Profile objectForKey:@"identities"] objectAtIndex:0] objectForKey:@"access_token"]
-		// - get Windows Azure AD groups => [client.auth0User.Profile objectForKey:@"groups"]
-		// - etc.
-    }
-}];
-~~~
+	```Objective-c
+	[client loginAsync:self withCompletionHandler:^(BOOL authenticated) {
+	    if (!authenticated) {
+	        NSLog(@"Error authenticating");
+	    }
+	    else{            
+	        // * Use client.auth0User to do wonderful things, e.g.:
+			// - get user email => [client.auth0User.Profile objectForKey:@"email"]
+			// - get facebook/google/twitter/etc access token => [[[client.auth0User.Profile objectForKey:@"identities"] objectAtIndex:0] objectForKey:@"access_token"]
+			// - get Windows Azure AD groups => [client.auth0User.Profile objectForKey:@"groups"]
+			// - etc.
+	    }
+	}];
+	```
 
-![](http://puu.sh/4no9m.png)
+	![](http://puu.sh/4no9m.png)
 
 Or you can use the connection as a parameter (e.g. here we login with a Windows Azure AD account)
 
-~~~objective-c
+```Objective-c
 [client loginAsync:self connection:@"auth0waadtests.onmicrosoft.com" withCompletionHandler:^(BOOL authenticated) { ... }];
-~~~
+```
 
 Or with specific user name and password (only for providers that support this)
 
-~~~objective-c
+```Objective-c
 [client loginAsync:self connection:@"my-db-connection" 
 						username:@"username"
 						password:@"password"
 						withCompletionHandler:^(BOOL authenticated) { ... }];
-~~~
+```
 
 ---
 
