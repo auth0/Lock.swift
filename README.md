@@ -35,7 +35,7 @@
 	}];
 	```
 
-	![](http://puu.sh/4no9m.png)
+	![](http://puu.sh/4nZfX.png)
 
 Or you can use the connection as a parameter (e.g. here we login with a Windows Azure AD account)
 
