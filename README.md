@@ -3,7 +3,7 @@
 1. Git clone and reference the library in your project
 
 	```bash
-	git clone git@github.com:auth0/Auth0.iPhone.git
+	git clone git@github.com:auth0/Auth0.iOS.git
 	```
 
 	1. Go to your project 
