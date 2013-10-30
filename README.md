@@ -13,7 +13,7 @@
 2. Instantiate Auth0Client
 
 	```Objective-c
-	Auth0Client *client = [Auth0Client auth0Client:@"youraccount.auth0.com" 
+	Auth0Client *client = [Auth0Client auth0Client:@"Your Tenant" 
 									 clientId:@"Your Client ID" 
 									 clientSecret:@"Your Client Secret"];
 	```
