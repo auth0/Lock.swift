@@ -286,25 +286,4 @@ char *NewBase64Encode(
     return result;
 }
 
-//
-// base64EncodedString
-//
-// Creates an NSString object that contains the base 64 encoding of the
-// receiver's data. Lines are broken at 64 characters long.
-//
-// returns an NSString being the base 64 representation of the
-//  receiver.
-//
-- (NSString *)base64EncodedString
-{
-    size_t outputLength;
-    char *outputBuffer =
-        NewBase64Encode([self bytes], [self length], true, &outputLength);
-    
-    NSString *result =
-        [[NSString alloc] initWithBytes:outputBuffer length:outputLength encoding:NSASCIIStringEncoding];
-    free(outputBuffer);
-    return result;
-}
-
 @end

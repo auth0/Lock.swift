@@ -20,7 +20,7 @@
     if ((self = [super init])) {
         _auth0AccessToken = [accountProperties objectForKey:@"access_token"];
         _idToken = [accountProperties objectForKey:@"id_token"];
-        _profile = [self decodeBase64UrlEncode:[[[accountProperties objectForKey:@"id_token"] componentsSeparatedByString: @"."] objectAtIndex: 1]];
+        _profile = [[self decodeBase64UrlEncode:[[[accountProperties objectForKey:@"id_token"] componentsSeparatedByString: @"."] objectAtIndex: 1]] copy];
     }
     
     return self;
@@ -64,10 +64,10 @@
     
     NSData *data = [[[NSData alloc] initWithData:[NSData dataFromBase64String:encodedString]] autorelease];
     NSError* parseError;
-    NSDictionary* parseData = [NSJSONSerialization
-                               JSONObjectWithData:data
-                               options:kNilOptions
-                               error:&parseError];
+    NSDictionary* parseData = [[[NSDictionary alloc] initWithDictionary:[NSJSONSerialization
+                                                                          JSONObjectWithData:data
+                                                                          options:kNilOptions
+                                                                          error:&parseError]] autorelease];
     
     return parseData;
 }

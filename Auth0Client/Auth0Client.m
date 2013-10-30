@@ -44,7 +44,12 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 
 + (Auth0Client*)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
 {
-    return [[[Auth0Client alloc] auth0Client:subDomain clientId:clientId clientSecret:clientSecret] autorelease];
+    static Auth0Client *instance = nil;
+    static dispatch_once_t predicate;
+    
+    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] auth0Client:subDomain clientId:clientId clientSecret:clientSecret]; });
+    
+    return instance;
 }
 
 - (Auth0WebViewController*)getAuthenticator:(NSString *)connection withCompletionHandler:(void (^)(BOOL authenticated))block
@@ -64,17 +69,19 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     
     Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[[NSURL URLWithString:url] retain] returnUrl:callback allowsClose:NO withCompletionHandler:^(NSString *token, NSString * jwtToken){
         if(token) {
-            NSDictionary *accountProperties = [[[NSDictionary alloc] initWithObjectsAndKeys:
+            #ifndef __clang_analyzer__
+            NSDictionary* accountProperties = [[NSDictionary alloc] initWithObjectsAndKeys:
                                                token ?: [NSNull null], @"access_token",
                                                jwtToken?: [NSNull null], @"id_token",
                                                nil
-                                               ] autorelease];
+                                               ];
             
             _auth0User = [Auth0User auth0User:accountProperties];
+            #endif
         }
         block(!!token);
     }];
-    return [webController autorelease];
+    return webController;
 }
 
 - (void)loginAsync:(UIViewController *)controller withCompletionHandler:(void (^)(BOOL authenticated))block
@@ -118,12 +125,16 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
      {
          if (error == nil) {
              NSError* parseError;
-             NSDictionary* parseData = [NSJSONSerialization
-                                        JSONObjectWithData:data
-                                        options:kNilOptions
-                                        error:&parseError];
+             
+            #ifndef __clang_analyzer__
+             NSDictionary* parseData = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization
+                                                                                 JSONObjectWithData:data
+                                                                                 options:kNilOptions
+                                                                                 error:&parseError]];
              
              _auth0User = [Auth0User auth0User:parseData];
+            #endif
+             
              block(true);
          }
      }];

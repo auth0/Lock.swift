@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5A29C2AC-1C62-48E3-BBF3-E05B3881B2B6</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Auth0Client</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>24DE5F5A-7F1C-4FEC-AD9A-55CA9BA8E93E</key>
+		<string>ssh://github.com/auth0/Auth0.iOS.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Auth0Client/Auth0Client.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>24DE5F5A-7F1C-4FEC-AD9A-55CA9BA8E93E</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/auth0/Auth0.iOS.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>24DE5F5A-7F1C-4FEC-AD9A-55CA9BA8E93E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>24DE5F5A-7F1C-4FEC-AD9A-55CA9BA8E93E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Auth0</string>
+		</dict>
+	</array>
+</dict>
+</plist>
