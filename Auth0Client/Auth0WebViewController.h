@@ -13,4 +13,6 @@
 
 - (id)initWithAuthorizeUrl:(NSURL *)authzUrl returnUrl:(NSString*)returnUrl allowsClose:(BOOL)allowsClose withCompletionHandler:(void (^)(NSString * token, NSString * jwtToken))block;
 
++ (void)clearCookies;
+
 @end

@@ -140,4 +140,10 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
      }];
 }
 
+- (void)logout
+{
+    _auth0User = nil;
+    [Auth0WebViewController clearCookies];
+}
+
 @end

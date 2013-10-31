@@ -126,4 +126,13 @@
     [_spinner startAnimating];
     return YES;
 }
+
++ (void)clearCookies
+{
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (cookie in [storage cookies]) {
+        [storage deleteCookie:cookie];
+    }
+}
 @end
