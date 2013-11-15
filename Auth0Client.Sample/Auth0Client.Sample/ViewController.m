@@ -46,6 +46,8 @@ NSString * const connection = @"google-oauth2"; // change to "facebook", "paypal
             // - get facebook/google/twitter/etc access token => [[[client.auth0User.Profile objectForKey:@"identities"] objectAtIndex:0] objectForKey:@"access_token"]
             // - get Windows Azure AD groups => [client.auth0User.Profile objectForKey:@"groups"]
             // - etc.
+            NSString *userName = [client.auth0User.Profile objectForKey:@"name"];
+            self.profileLabel.text = [NSString stringWithFormat:@"Hi %@!", userName];
         }
     }];
 }
@@ -65,6 +67,8 @@ NSString * const connection = @"google-oauth2"; // change to "facebook", "paypal
             // - get facebook/google/twitter/etc access token => [[[client.auth0User.Profile objectForKey:@"identities"] objectAtIndex:0] objectForKey:@"access_token"]
             // - get Windows Azure AD groups => [client.auth0User.Profile objectForKey:@"groups"]
             // - etc.
+            NSString *userName = [client.auth0User.Profile objectForKey:@"name"];
+            self.profileLabel.text = [NSString stringWithFormat:@"Hi %@!", userName];
         }
     }];
 }
