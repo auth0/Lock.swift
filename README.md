@@ -8,11 +8,15 @@
 
 	1. Go to your project 
 	2. Right-click in the Frameworks folder and select ___Add Files to "Your Project Name"___
-	3. Go to the Auth0.iPhone, select the iAuth0Client folder, ensure that your project target is selected and press __Add__
+	3. Go to the Auth0.iOS, select the iAuth0Client folder, ensure that your project target is selected and press __Add__
 
 2. Instantiate Auth0Client
 
 	```Objective-c
+	#import "Auth0Client.h"
+	
+	// ...
+	
 	Auth0Client *client = [Auth0Client auth0Client:@"Your Tenant" 
 									 clientId:@"Your Client ID" 
 									 clientSecret:@"Your Client Secret"];
