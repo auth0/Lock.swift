@@ -17,9 +17,10 @@
 @synthesize subDomain = _subDomain;
 @synthesize auth0User = _auth0User;
 
-NSString *AuthorizeUrl = @"https://%@.auth0.com/authorize?client_id=%@&scope=openid%%20profile&redirect_uri=%@&response_type=token&connection=%@";
-NSString *LoginWidgetUrl = @"https://%@.auth0.com/login/?client=%@&scope=openid%%20profile&redirect_uri=%@&response_type=token";
+NSString *AuthorizeUrl = @"https://%@.auth0.com/authorize?client_id=%@&scope=openid&redirect_uri=%@&response_type=token&connection=%@";
+NSString *LoginWidgetUrl = @"https://%@.auth0.com/login/?client=%@&scope=openid&redirect_uri=%@&response_type=token";
 NSString *ResourceOwnerEndpoint = @"https://%@.auth0.com/oauth/ro";
+NSString *UserInfoEndpoint = @"https://%@.auth0.com/userinfo?%@";
 NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 
 - (id)auth0Client:(NSString *)sudDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
@@ -68,19 +69,25 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     }
     
     Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[[NSURL URLWithString:url] retain] returnUrl:callback allowsClose:NO withCompletionHandler:^(NSString *token, NSString * jwtToken){
-        if(token) {
-            #ifndef __clang_analyzer__
-            NSDictionary* accountProperties = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                               token ?: [NSNull null], @"access_token",
-                                               jwtToken?: [NSNull null], @"id_token",
-                                               nil
-                                               ];
+        if (token) {
             
-            _auth0User = [Auth0User auth0User:accountProperties];
-            #endif
+            [self getUserInfo:token withCompletionHandler:^(NSMutableDictionary* profile) {
+                
+                NSMutableDictionary* accountProperties = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                                   token ?: [NSNull null], @"access_token",
+                                                   jwtToken?: [NSNull null], @"id_token",
+                                                   profile?: [NSNull null], @"profile",
+                                                   nil];
+                
+                _auth0User = [Auth0User auth0User:accountProperties];
+                block(true);
+            }];
         }
-        block(!!token);
+        else {
+            block(false);
+        }
     }];
+    
     return webController;
 }
 
@@ -109,8 +116,7 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _subDomain];
     NSURL *resourceUrl = [[[NSURL URLWithString:url] retain] autorelease];
     
-    NSString *post =[NSString stringWithFormat:@"client_id=%@&client_secret=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=openid profile",
-                     _clientId, _clientSecret, connection, username, password];
+    NSString *post =[NSString stringWithFormat:@"client_id=%@&client_secret=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=openid", _clientId, _clientSecret, connection, username, password];
     
     
     NSData *postData = [ NSData dataWithBytes: [ post UTF8String ] length: [ post length ] ];
@@ -125,17 +131,20 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
      {
          if (error == nil) {
              NSError* parseError;
-             
-            #ifndef __clang_analyzer__
-             NSDictionary* parseData = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization
+             NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
                                                                                  JSONObjectWithData:data
                                                                                  options:kNilOptions
                                                                                  error:&parseError]];
              
-             _auth0User = [Auth0User auth0User:parseData];
-            #endif
+             NSString *accessToken = [parseData objectForKey:@"access_token"];
              
-             block(true);
+             if (accessToken) {
+                 [self getUserInfo:accessToken withCompletionHandler:^(NSMutableDictionary* profile) {
+                     [parseData setObject:profile forKey:@"profile"];
+                     _auth0User = [Auth0User auth0User:parseData];
+                     block(true);
+                 }];
+             }
          }
      }];
 }
@@ -144,6 +153,33 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 {
     _auth0User = nil;
     [Auth0WebViewController clearCookies];
+}
+
+- (void)getUserInfo:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block
+{
+    if (![accessToken hasPrefix:@"access_token"])
+    {
+        accessToken = [NSString stringWithFormat:@"access_token=%@", accessToken];
+    }
+    
+    NSString *url = [NSString stringWithFormat:UserInfoEndpoint, _subDomain, accessToken];
+    NSURL *enpoint = [[[NSURL URLWithString:url] retain] autorelease];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:enpoint];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         if (error == nil) {
+             NSError* parseError;
+             NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
+                                                                                 JSONObjectWithData:data
+                                                                                 options:kNilOptions
+                                                                                 error:&parseError]];
+             block(parseData);
+         }
+     }];
 }
 
 @end

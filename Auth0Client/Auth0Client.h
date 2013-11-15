@@ -36,4 +36,6 @@
 
 - (void)logout;
 
+- (void)getUserInfo:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block;
+
 @end

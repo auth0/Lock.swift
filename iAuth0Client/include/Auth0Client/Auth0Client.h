@@ -36,4 +36,6 @@
 
 - (void)logout;
 
+- (void)getUserInfo:(NSString *)accessToken withCompletionHandler:(void (^)(Auth0User *auth0User))block;
+
 @end

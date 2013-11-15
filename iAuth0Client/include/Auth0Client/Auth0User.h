@@ -21,6 +21,4 @@
 
 + (Auth0User *)auth0User:(NSDictionary *)accountProperties;
 
-- (NSDictionary *)decodeBase64UrlEncode:(NSString *)encodedString;
-
 @end
