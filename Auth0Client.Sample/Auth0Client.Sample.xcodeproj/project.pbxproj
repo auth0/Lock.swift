@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B75BD0EA1836D34800DC18D2 /* libAuth0Client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B75BD0E91836D34800DC18D2 /* libAuth0Client.a */; };
 		B7AB5F1E183696920025E7A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AB5F1D183696920025E7A9 /* Foundation.framework */; };
 		B7AB5F20183696920025E7A9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AB5F1F183696920025E7A9 /* CoreGraphics.framework */; };
 		B7AB5F22183696920025E7A9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AB5F21183696920025E7A9 /* UIKit.framework */; };
@@ -21,8 +22,6 @@
 		B7AB5F3F183696920025E7A9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AB5F21183696920025E7A9 /* UIKit.framework */; };
 		B7AB5F47183696920025E7A9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B7AB5F45183696920025E7A9 /* InfoPlist.strings */; };
 		B7AB5F49183696920025E7A9 /* Auth0Client_SampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AB5F48183696920025E7A9 /* Auth0Client_SampleTests.m */; };
-		B7AB5F5A183699910025E7A9 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AB5F58183699910025E7A9 /* NSData+Base64.m */; };
-		B7AB5F5B183699910025E7A9 /* libAuth0Client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AB5F59183699910025E7A9 /* libAuth0Client.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +35,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B75BD0E71836D34800DC18D2 /* Auth0Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Auth0Client.h; sourceTree = "<group>"; };
+		B75BD0E81836D34800DC18D2 /* Auth0User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Auth0User.h; sourceTree = "<group>"; };
+		B75BD0E91836D34800DC18D2 /* libAuth0Client.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAuth0Client.a; sourceTree = "<group>"; };
 		B7AB5F1A183696920025E7A9 /* Auth0Client.Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Auth0Client.Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7AB5F1D183696920025E7A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B7AB5F1F183696920025E7A9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -55,11 +57,6 @@
 		B7AB5F44183696920025E7A9 /* Auth0Client.SampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Auth0Client.SampleTests-Info.plist"; sourceTree = "<group>"; };
 		B7AB5F46183696920025E7A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B7AB5F48183696920025E7A9 /* Auth0Client_SampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Auth0Client_SampleTests.m; sourceTree = "<group>"; };
-		B7AB5F55183699910025E7A9 /* Auth0Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Auth0Client.h; sourceTree = "<group>"; };
-		B7AB5F56183699910025E7A9 /* Auth0User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Auth0User.h; sourceTree = "<group>"; };
-		B7AB5F57183699910025E7A9 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
-		B7AB5F58183699910025E7A9 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
-		B7AB5F59183699910025E7A9 /* libAuth0Client.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAuth0Client.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +67,7 @@
 				B7AB5F20183696920025E7A9 /* CoreGraphics.framework in Frameworks */,
 				B7AB5F22183696920025E7A9 /* UIKit.framework in Frameworks */,
 				B7AB5F1E183696920025E7A9 /* Foundation.framework in Frameworks */,
-				B7AB5F5B183699910025E7A9 /* libAuth0Client.a in Frameworks */,
+				B75BD0EA1836D34800DC18D2 /* libAuth0Client.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +84,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B75BD0E41836D34800DC18D2 /* iAuth0Client */ = {
+			isa = PBXGroup;
+			children = (
+				B75BD0E51836D34800DC18D2 /* include */,
+				B75BD0E91836D34800DC18D2 /* libAuth0Client.a */,
+			);
+			name = iAuth0Client;
+			path = ../iAuth0Client;
+			sourceTree = "<group>";
+		};
+		B75BD0E51836D34800DC18D2 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				B75BD0E61836D34800DC18D2 /* Auth0Client */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		B75BD0E61836D34800DC18D2 /* Auth0Client */ = {
+			isa = PBXGroup;
+			children = (
+				B75BD0E71836D34800DC18D2 /* Auth0Client.h */,
+				B75BD0E81836D34800DC18D2 /* Auth0User.h */,
+			);
+			path = Auth0Client;
+			sourceTree = "<group>";
+		};
 		B7AB5F11183696920025E7A9 = {
 			isa = PBXGroup;
 			children = (
@@ -109,7 +133,7 @@
 		B7AB5F1C183696920025E7A9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B7AB5F52183699910025E7A9 /* iAuth0Client */,
+				B75BD0E41836D34800DC18D2 /* iAuth0Client */,
 				B7AB5F1D183696920025E7A9 /* Foundation.framework */,
 				B7AB5F1F183696920025E7A9 /* CoreGraphics.framework */,
 				B7AB5F21183696920025E7A9 /* UIKit.framework */,
@@ -159,35 +183,6 @@
 				B7AB5F45183696920025E7A9 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		B7AB5F52183699910025E7A9 /* iAuth0Client */ = {
-			isa = PBXGroup;
-			children = (
-				B7AB5F53183699910025E7A9 /* include */,
-				B7AB5F59183699910025E7A9 /* libAuth0Client.a */,
-			);
-			name = iAuth0Client;
-			path = ../iAuth0Client;
-			sourceTree = "<group>";
-		};
-		B7AB5F53183699910025E7A9 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				B7AB5F54183699910025E7A9 /* Auth0Client */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		B7AB5F54183699910025E7A9 /* Auth0Client */ = {
-			isa = PBXGroup;
-			children = (
-				B7AB5F55183699910025E7A9 /* Auth0Client.h */,
-				B7AB5F56183699910025E7A9 /* Auth0User.h */,
-				B7AB5F57183699910025E7A9 /* NSData+Base64.h */,
-				B7AB5F58183699910025E7A9 /* NSData+Base64.m */,
-			);
-			path = Auth0Client;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,7 +283,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7AB5F34183696920025E7A9 /* ViewController.m in Sources */,
-				B7AB5F5A183699910025E7A9 /* NSData+Base64.m in Sources */,
 				B7AB5F2E183696920025E7A9 /* AppDelegate.m in Sources */,
 				B7AB5F2A183696920025E7A9 /* main.m in Sources */,
 			);
@@ -507,6 +501,7 @@
 				B7AB5F4E183696920025E7A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B7AB5F4F183696920025E7A9 /* Build configuration list for PBXNativeTarget "Auth0Client.SampleTests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +510,7 @@
 				B7AB5F51183696920025E7A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
