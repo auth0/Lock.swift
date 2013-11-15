@@ -1,11 +1,3 @@
-//
-//  Auth0Client.m
-//  Auth0Client
-//
-//  Created by Ezequiel Morito on 9/3/13.
-//  Copyright (c) 2013 Auth0. All rights reserved.
-//
-
 #import "Auth0Client.h"
 #import "Auth0WebViewController.h"
 #import "Auth0User.h"

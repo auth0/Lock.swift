@@ -1,11 +1,3 @@
-//
-//  Auth0Client.h
-//  Auth0Client
-//
-//  Created by Ezequiel Morito on 9/3/13.
-//  Copyright (c) 2013 Auth0. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "Auth0User.h"

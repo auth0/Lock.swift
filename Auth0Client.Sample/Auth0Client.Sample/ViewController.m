@@ -1,11 +1,3 @@
-//
-//  ViewController.m
-//  Auth0Client.Sample
-//
-//  Created by Sebastian Iacomuzzi on 11/15/13.
-//  Copyright (c) 2013 Sebastian Iacomuzzi. All rights reserved.
-//
-
 #import "ViewController.h"
 #import "Auth0Client.h"
 

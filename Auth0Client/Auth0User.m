@@ -1,11 +1,3 @@
-//
-//  Auth0User.m
-//  Auth0Client
-//
-//  Created by Ezequiel Morito on 9/4/13.
-//  Copyright (c) 2013 Auth0. All rights reserved.
-//
-
 #import "Auth0User.h"
 
 @implementation Auth0User
