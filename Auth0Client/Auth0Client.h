@@ -18,6 +18,8 @@
 @property (readonly) NSString *scope;
 @property (readonly) Auth0User *auth0User;
 
++ (Auth0Client *)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret;
+
 + (Auth0Client *)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope;
 
 - (UIViewController *)getAuthenticator:(NSString *)connection withCompletionHandler:(void (^)(BOOL authenticated))block;

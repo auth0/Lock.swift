@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B75BD0EA1836D34800DC18D2 /* libAuth0Client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B75BD0E91836D34800DC18D2 /* libAuth0Client.a */; };
+		B7354A2E183A87A800AB1BC4 /* Auth0Client.m in Sources */ = {isa = PBXBuildFile; fileRef = B7354A26183A87A800AB1BC4 /* Auth0Client.m */; };
+		B7354A2F183A87A800AB1BC4 /* Auth0User.m in Sources */ = {isa = PBXBuildFile; fileRef = B7354A2B183A87A800AB1BC4 /* Auth0User.m */; };
+		B7354A30183A87A800AB1BC4 /* Auth0WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7354A2D183A87A800AB1BC4 /* Auth0WebViewController.m */; };
 		B7AB5F1E183696920025E7A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AB5F1D183696920025E7A9 /* Foundation.framework */; };
 		B7AB5F20183696920025E7A9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AB5F1F183696920025E7A9 /* CoreGraphics.framework */; };
 		B7AB5F22183696920025E7A9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AB5F21183696920025E7A9 /* UIKit.framework */; };
@@ -25,6 +27,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B7354A32183A87A800AB1BC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B7354A27183A87A800AB1BC4 /* Auth0Client.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3B93F8E717D62B3900547034;
+			remoteInfo = Auth0Client;
+		};
 		B7AB5F40183696920025E7A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B7AB5F12183696920025E7A9 /* Project object */;
@@ -35,9 +44,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B75BD0E71836D34800DC18D2 /* Auth0Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Auth0Client.h; sourceTree = "<group>"; };
-		B75BD0E81836D34800DC18D2 /* Auth0User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Auth0User.h; sourceTree = "<group>"; };
-		B75BD0E91836D34800DC18D2 /* libAuth0Client.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAuth0Client.a; sourceTree = "<group>"; };
+		B7354A24183A87A800AB1BC4 /* Auth0Client-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Auth0Client-Prefix.pch"; sourceTree = "<group>"; };
+		B7354A25183A87A800AB1BC4 /* Auth0Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Auth0Client.h; sourceTree = "<group>"; };
+		B7354A26183A87A800AB1BC4 /* Auth0Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Auth0Client.m; sourceTree = "<group>"; };
+		B7354A27183A87A800AB1BC4 /* Auth0Client.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Auth0Client.xcodeproj; sourceTree = "<group>"; };
+		B7354A2A183A87A800AB1BC4 /* Auth0User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Auth0User.h; sourceTree = "<group>"; };
+		B7354A2B183A87A800AB1BC4 /* Auth0User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Auth0User.m; sourceTree = "<group>"; };
+		B7354A2C183A87A800AB1BC4 /* Auth0WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Auth0WebViewController.h; sourceTree = "<group>"; };
+		B7354A2D183A87A800AB1BC4 /* Auth0WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Auth0WebViewController.m; sourceTree = "<group>"; };
 		B7AB5F1A183696920025E7A9 /* Auth0Client.Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Auth0Client.Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7AB5F1D183696920025E7A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B7AB5F1F183696920025E7A9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -67,7 +81,6 @@
 				B7AB5F20183696920025E7A9 /* CoreGraphics.framework in Frameworks */,
 				B7AB5F22183696920025E7A9 /* UIKit.framework in Frameworks */,
 				B7AB5F1E183696920025E7A9 /* Foundation.framework in Frameworks */,
-				B75BD0EA1836D34800DC18D2 /* libAuth0Client.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,31 +97,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B75BD0E41836D34800DC18D2 /* iAuth0Client */ = {
+		B7354A23183A87A800AB1BC4 /* Auth0Client */ = {
 			isa = PBXGroup;
 			children = (
-				B75BD0E51836D34800DC18D2 /* include */,
-				B75BD0E91836D34800DC18D2 /* libAuth0Client.a */,
+				B7354A24183A87A800AB1BC4 /* Auth0Client-Prefix.pch */,
+				B7354A25183A87A800AB1BC4 /* Auth0Client.h */,
+				B7354A26183A87A800AB1BC4 /* Auth0Client.m */,
+				B7354A27183A87A800AB1BC4 /* Auth0Client.xcodeproj */,
+				B7354A2A183A87A800AB1BC4 /* Auth0User.h */,
+				B7354A2B183A87A800AB1BC4 /* Auth0User.m */,
+				B7354A2C183A87A800AB1BC4 /* Auth0WebViewController.h */,
+				B7354A2D183A87A800AB1BC4 /* Auth0WebViewController.m */,
 			);
-			name = iAuth0Client;
-			path = ../iAuth0Client;
+			name = Auth0Client;
+			path = ../Auth0Client;
 			sourceTree = "<group>";
 		};
-		B75BD0E51836D34800DC18D2 /* include */ = {
+		B7354A28183A87A800AB1BC4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B75BD0E61836D34800DC18D2 /* Auth0Client */,
+				B7354A33183A87A800AB1BC4 /* libAuth0Client.a */,
 			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		B75BD0E61836D34800DC18D2 /* Auth0Client */ = {
-			isa = PBXGroup;
-			children = (
-				B75BD0E71836D34800DC18D2 /* Auth0Client.h */,
-				B75BD0E81836D34800DC18D2 /* Auth0User.h */,
-			);
-			path = Auth0Client;
+			name = Products;
 			sourceTree = "<group>";
 		};
 		B7AB5F11183696920025E7A9 = {
@@ -133,7 +143,7 @@
 		B7AB5F1C183696920025E7A9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B75BD0E41836D34800DC18D2 /* iAuth0Client */,
+				B7354A23183A87A800AB1BC4 /* Auth0Client */,
 				B7AB5F1D183696920025E7A9 /* Foundation.framework */,
 				B7AB5F1F183696920025E7A9 /* CoreGraphics.framework */,
 				B7AB5F21183696920025E7A9 /* UIKit.framework */,
@@ -248,6 +258,12 @@
 			mainGroup = B7AB5F11183696920025E7A9;
 			productRefGroup = B7AB5F1B183696920025E7A9 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B7354A28183A87A800AB1BC4 /* Products */;
+					ProjectRef = B7354A27183A87A800AB1BC4 /* Auth0Client.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				B7AB5F19183696920025E7A9 /* Auth0Client.Sample */,
@@ -255,6 +271,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		B7354A33183A87A800AB1BC4 /* libAuth0Client.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAuth0Client.a;
+			remoteRef = B7354A32183A87A800AB1BC4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		B7AB5F18183696920025E7A9 /* Resources */ = {
@@ -283,8 +309,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7AB5F34183696920025E7A9 /* ViewController.m in Sources */,
+				B7354A2E183A87A800AB1BC4 /* Auth0Client.m in Sources */,
+				B7354A30183A87A800AB1BC4 /* Auth0WebViewController.m in Sources */,
 				B7AB5F2E183696920025E7A9 /* AppDelegate.m in Sources */,
 				B7AB5F2A183696920025E7A9 /* main.m in Sources */,
+				B7354A2F183A87A800AB1BC4 /* Auth0User.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

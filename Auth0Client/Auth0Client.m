@@ -17,6 +17,11 @@ NSString *ResourceOwnerBody = @"client_id=%@&client_secret=%@&connection=%@&user
 NSString *UserInfoEndpoint = @"https://%@.auth0.com/userinfo?%@";
 NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 
+- (id)initAuth0Client:(NSString *)sudDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
+{
+    return [self initAuth0Client:sudDomain clientId:clientId clientSecret:clientSecret scope:@"openid"];
+}
+
 - (id)initAuth0Client:(NSString *)sudDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope
 {
     if ((self = [super init])) {
@@ -31,6 +36,16 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 
 - (void)dealloc
 {
+}
+
++ (Auth0Client*)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
+{
+    static Auth0Client *instance = nil;
+    static dispatch_once_t predicate;
+    
+    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:subDomain clientId:clientId clientSecret:clientSecret]; });
+    
+    return instance;
 }
 
 + (Auth0Client*)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope

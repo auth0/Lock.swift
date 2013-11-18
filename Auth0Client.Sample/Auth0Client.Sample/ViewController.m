@@ -26,7 +26,7 @@ NSString * const connection = @"google-oauth2"; // change to "facebook", "paypal
 - (IBAction)loginWithConnection:(id)sender {
     Auth0Client *client = [Auth0Client auth0Client:tenant
                                        clientId:clientId
-                                       clientSecret:clientSecret];
+                                       clientSecret:clientSecret]; // scope parameter is optional, e.g.: scope:@"openid%20profile"
     
     [client loginAsync:self connection:connection withCompletionHandler:^(BOOL authenticated) {
         if (!authenticated) {
@@ -47,7 +47,7 @@ NSString * const connection = @"google-oauth2"; // change to "facebook", "paypal
 - (IBAction)loginWithWidget:(id)sender {
     Auth0Client *client = [Auth0Client auth0Client:tenant
                                        clientId:clientId
-                                       clientSecret:clientSecret];
+                                       clientSecret:clientSecret]; // scope parameter is optional, e.g.: scope:@"openid%20profile"
     
     [client loginAsync:self withCompletionHandler:^(BOOL authenticated) {
         if (!authenticated) {
