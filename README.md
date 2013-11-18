@@ -8,7 +8,7 @@
 
 	1. Go to your project 
 	2. Right-click in the Frameworks folder and select ___Add Files to "Your Project Name"___
-	3. Go to the Auth0.iOS, select the iAuth0Client folder, ensure that your project target is selected and press __Add__
+	3. Go to the Auth0.iOS, select the __Auth0Client__ folder, ensure that your project target is selected and press __Add__
 
 2. Instantiate Auth0Client
 
@@ -55,6 +55,10 @@ Or with specific user name and password (only for providers that support this)
 						password:@"password"
 						withCompletionHandler:^(BOOL authenticated) { ... }];
 ```
+
+> Optionally you can specify the `scope` parameter. There are two possible values for scope today:
+* scope:@"openid" (default) - It will return, not only the access_token, but also an id_token which is a Json Web Token (JWT). The JWT will only contain the user id.
+* scope:@"openid%20profile": If you want the entire user profile to be part of the id_token.
 
 ---
 
