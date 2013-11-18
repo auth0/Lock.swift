@@ -443,10 +443,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Auth0Client.Sample/Auth0Client.Sample-Prefix.pch";
 				INFOPLIST_FILE = "Auth0Client.Sample/Auth0Client.Sample-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/sebas/Documents/Projects/Auth0.iOS/iAuth0Client,
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -460,10 +457,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Auth0Client.Sample/Auth0Client.Sample-Prefix.pch";
 				INFOPLIST_FILE = "Auth0Client.Sample/Auth0Client.Sample-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/sebas/Documents/Projects/Auth0.iOS/iAuth0Client,
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
