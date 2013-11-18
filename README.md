@@ -58,7 +58,7 @@ Or with specific user name and password (only for providers that support this)
 
 > Optionally you can specify the `scope` parameter. There are two possible values for scope today:
 * scope:@"openid" (default) - It will return, not only the access_token, but also an id_token which is a Json Web Token (JWT). The JWT will only contain the user id.
-* scope:@"openid%20profile": If you want the entire user profile to be part of the id_token.
+* scope:@"openid profile": If you want the entire user profile to be part of the id_token.
 
 ---
 
