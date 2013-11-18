@@ -7,20 +7,23 @@
 @synthesize clientId = _clientId;
 @synthesize clientSecret = _clientSecret;
 @synthesize subDomain = _subDomain;
+@synthesize scope = _scope;
 @synthesize auth0User = _auth0User;
 
-NSString *AuthorizeUrl = @"https://%@.auth0.com/authorize?client_id=%@&scope=openid&redirect_uri=%@&response_type=token&connection=%@";
-NSString *LoginWidgetUrl = @"https://%@.auth0.com/login/?client=%@&scope=openid&redirect_uri=%@&response_type=token";
+NSString *AuthorizeUrl = @"https://%@.auth0.com/authorize?client_id=%@&scope=%@&redirect_uri=%@&response_type=token&connection=%@";
+NSString *LoginWidgetUrl = @"https://%@.auth0.com/login/?client=%@&scope=%@&redirect_uri=%@&response_type=token";
 NSString *ResourceOwnerEndpoint = @"https://%@.auth0.com/oauth/ro";
+NSString *ResourceOwnerBody = @"client_id=%@&client_secret=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=%@";
 NSString *UserInfoEndpoint = @"https://%@.auth0.com/userinfo?%@";
 NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 
-- (id)initAuth0Client:(NSString *)sudDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
+- (id)initAuth0Client:(NSString *)sudDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope
 {
     if ((self = [super init])) {
         _clientId = [clientId copy];
         _subDomain = [sudDomain copy];
         _clientSecret = [clientSecret copy];
+        _scope = [scope copy];
     }
     
     return self;
@@ -30,12 +33,12 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 {
 }
 
-+ (Auth0Client*)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
++ (Auth0Client*)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope
 {
     static Auth0Client *instance = nil;
     static dispatch_once_t predicate;
     
-    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:subDomain clientId:clientId clientSecret:clientSecret]; });
+    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:subDomain clientId:clientId clientSecret:clientSecret scope:scope]; });
     
     return instance;
 }
@@ -46,12 +49,14 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     NSString *url = [NSString stringWithFormat:LoginWidgetUrl,
                      _subDomain,
                      _clientId,
+                     _scope,
                      callback];
     
     if (connection != nil) {
         url = [NSString stringWithFormat:AuthorizeUrl,
                          _subDomain,
                          _clientId,
+                         _scope,
                          callback, connection];
     }
     
@@ -102,10 +107,9 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _subDomain];
     NSURL *resourceUrl = [NSURL URLWithString:url];
     
-    NSString *post =[NSString stringWithFormat:@"client_id=%@&client_secret=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=openid", _clientId, _clientSecret, connection, username, password];
+    NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, _clientSecret, connection, username, password, _scope];
     
-    
-    NSData *postData = [ NSData dataWithBytes: [ post UTF8String ] length: [ post length ] ];
+    NSData *postData = [ NSData dataWithBytes: [ postBody UTF8String ] length: [ postBody length ] ];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:resourceUrl];
     [request setHTTPMethod:@"POST"];
