@@ -15,7 +15,7 @@ NSString *ResourceOwnerEndpoint = @"https://%@.auth0.com/oauth/ro";
 NSString *UserInfoEndpoint = @"https://%@.auth0.com/userinfo?%@";
 NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 
-- (id)auth0Client:(NSString *)sudDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
+- (id)initAuth0Client:(NSString *)sudDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
 {
     if ((self = [super init])) {
         _clientId = [clientId copy];
@@ -28,11 +28,6 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 
 - (void)dealloc
 {
-    [_clientId release];
-    [_subDomain release];
-    [_clientSecret release];
-    [_auth0User release];
-    [super dealloc];
 }
 
 + (Auth0Client*)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
@@ -40,7 +35,7 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     static Auth0Client *instance = nil;
     static dispatch_once_t predicate;
     
-    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] auth0Client:subDomain clientId:clientId clientSecret:clientSecret]; });
+    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:subDomain clientId:clientId clientSecret:clientSecret]; });
     
     return instance;
 }
@@ -60,7 +55,7 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
                          callback, connection];
     }
     
-    Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[[NSURL URLWithString:url] retain] returnUrl:callback allowsClose:NO withCompletionHandler:^(NSString *token, NSString * jwtToken){
+    Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[NSURL URLWithString:url] returnUrl:callback allowsClose:NO withCompletionHandler:^(NSString *token, NSString * jwtToken){
         if (token) {
             
             [self getUserInfo:token withCompletionHandler:^(NSMutableDictionary* profile) {
@@ -100,13 +95,12 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     navController.navigationBar.barStyle = UIBarStyleBlack;
     
     [controller presentViewController:navController animated:YES completion:nil];
-    [navController release];
 }
 
 - (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection username:(NSString *)username password:(NSString *)password withCompletionHandler:(void (^)(BOOL authenticated))block
 {
     NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _subDomain];
-    NSURL *resourceUrl = [[[NSURL URLWithString:url] retain] autorelease];
+    NSURL *resourceUrl = [NSURL URLWithString:url];
     
     NSString *post =[NSString stringWithFormat:@"client_id=%@&client_secret=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=openid", _clientId, _clientSecret, connection, username, password];
     
@@ -155,7 +149,7 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     }
     
     NSString *url = [NSString stringWithFormat:UserInfoEndpoint, _subDomain, accessToken];
-    NSURL *enpoint = [[[NSURL URLWithString:url] retain] autorelease];
+    NSURL *enpoint = [NSURL URLWithString:url];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:enpoint];
     [request setHTTPMethod:@"GET"];

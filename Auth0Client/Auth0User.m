@@ -6,7 +6,7 @@
 @synthesize IdToken = _idToken;
 @synthesize Profile = _profile;
 
-- (id)auth0User:(NSDictionary *)accountProperties
+- (id)initAuth0User:(NSDictionary *)accountProperties
 {
     if ((self = [super init])) {
         _auth0AccessToken = [accountProperties objectForKey:@"access_token"];
@@ -19,15 +19,11 @@
 
 - (void)dealloc
 {
-    [_auth0AccessToken release];
-    [_idToken release];
-    [_profile release];
-    [super dealloc];
 }
 
 + (Auth0User*)auth0User:(NSDictionary *)accountProperties
 {
-    return [[[Auth0User alloc] auth0User:accountProperties] autorelease];
+    return [[Auth0User alloc] initAuth0User:accountProperties];
 }
 
 @end

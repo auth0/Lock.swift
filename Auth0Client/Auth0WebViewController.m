@@ -10,30 +10,24 @@
 {
     if ((self = [super initWithNibName:nil bundle:nil]))
     {
-        _authzUrl = [authzUrl retain];
-        _returnUrl = [returnUrl retain];
+        _authzUrl = authzUrl;
+        _returnUrl = returnUrl;
 		_block = [block copy];
 		_allowsClose = allowsClose;
         
-        //Feedback
+        // Feedback
         _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         _spinner.hidesWhenStopped = YES;
-        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:_spinner] autorelease];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_spinner];
         
-        //Cancel button
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonSystemItemCancel target:self action:@selector(Cancel:)] autorelease];
+        // Cancel button
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonSystemItemCancel target:self action:@selector(Cancel:)];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [_authzUrl release];
-    [_url release];
-    [_block release];
-    [_spinner release];
-    
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,7 +55,6 @@
     _webView.scalesPageToFit = YES;
 
     self.view = _webView;
-    [_webView release];
 
     // navigate to the login url
     NSURLRequest *request = [NSURLRequest requestWithURL:_authzUrl];
@@ -87,7 +80,6 @@
                                                     cancelButtonTitle:@"OK"
                                                     otherButtonTitles: nil];
     [alert show];
-    [alert release];
     [_spinner stopAnimating];
 }
 

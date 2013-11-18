@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B416AFE17DACAC0004B7208 /* Auth0Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B416AF917DACAC0004B7208 /* Auth0Client.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		3B416AFF17DACAC0004B7208 /* Auth0User.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B416AFB17DACAC0004B7208 /* Auth0User.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		3B416B0017DACAC0004B7208 /* Auth0WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B416AFD17DACAC0004B7208 /* Auth0WebViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3B416AFE17DACAC0004B7208 /* Auth0Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B416AF917DACAC0004B7208 /* Auth0Client.m */; };
+		3B416AFF17DACAC0004B7208 /* Auth0User.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B416AFB17DACAC0004B7208 /* Auth0User.m */; };
+		3B416B0017DACAC0004B7208 /* Auth0WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B416AFD17DACAC0004B7208 /* Auth0WebViewController.m */; };
 		3B93F8EB17D62B3900547034 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B93F8EA17D62B3900547034 /* Foundation.framework */; };
 		3B93F8FC17D66FE700547034 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B93F8FB17D66FE700547034 /* UIKit.framework */; };
 		3B93F8FE17D66FF300547034 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B93F8FD17D66FF300547034 /* CoreGraphics.framework */; };
@@ -217,6 +217,7 @@
 		3B93F8F617D62B3900547034 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/Auth0Client.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Auth0Client-Prefix.pch";
@@ -237,6 +238,7 @@
 		3B93F8F717D62B3900547034 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/Auth0Client.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Auth0Client-Prefix.pch";
