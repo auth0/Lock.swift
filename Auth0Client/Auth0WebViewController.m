@@ -70,8 +70,8 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    //Ignore frame load error
-    if( error.code == 102 ) return;
+    // Ignore some errors
+    if (error.code == 102 || error.code == -999) return;
     
     NSLog(@"error %@", [error description]);
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
