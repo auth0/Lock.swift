@@ -58,20 +58,20 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     return instance;
 }
 
-- (Auth0WebViewController*)getAuthenticator:(NSString *)connection withCompletionHandler:(void (^)(BOOL authenticated))block
+- (Auth0WebViewController*)getAuthenticator:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(BOOL authenticated))block
 {
     NSString *callback = [NSString stringWithFormat:DefaultCallback, _subDomain];
     NSString *url = [NSString stringWithFormat:LoginWidgetUrl,
                      _subDomain,
                      _clientId,
-                     _scope,
+                     scope,
                      callback];
     
     if (connection != nil) {
         url = [NSString stringWithFormat:AuthorizeUrl,
                          _subDomain,
                          _clientId,
-                         _scope,
+                         scope,
                          callback, connection];
     }
     
@@ -100,12 +100,22 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 
 - (void)loginAsync:(UIViewController *)controller withCompletionHandler:(void (^)(BOOL authenticated))block
 {
-    [self loginAsync:controller connection:nil withCompletionHandler:(void (^)(BOOL authenticated))block];
+    [self loginAsync:controller connection:nil scope:_scope withCompletionHandler:(void (^)(BOOL authenticated))block];
+}
+
+- (void)loginAsync:(UIViewController *)controller scope:(NSString *)scope withCompletionHandler:(void (^)(BOOL authenticated))block
+{
+    [self loginAsync:controller connection:nil scope:scope withCompletionHandler:(void (^)(BOOL authenticated))block];
 }
 
 - (void)loginAsync:(UIViewController *)controller connection:(NSString *)connection withCompletionHandler:(void (^)(BOOL authenticated))block
 {
-    Auth0WebViewController * webController = (Auth0WebViewController *)[self getAuthenticator:connection withCompletionHandler:^(BOOL  authenticated)
+    [self loginAsync:controller connection:connection scope:_scope withCompletionHandler:(void (^)(BOOL authenticated))block];
+}
+
+- (void)loginAsync:(UIViewController *)controller connection:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(BOOL authenticated))block
+{
+    Auth0WebViewController * webController = (Auth0WebViewController *)[self getAuthenticator:connection scope:scope withCompletionHandler:^(BOOL  authenticated)
     {
         block(authenticated);
         [controller dismissViewControllerAnimated:YES completion:nil];
@@ -119,10 +129,15 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 
 - (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection username:(NSString *)username password:(NSString *)password withCompletionHandler:(void (^)(BOOL authenticated))block
 {
+    [self loginAsync:controller connection:connection username:username password:password scope:_scope withCompletionHandler:(void (^)(BOOL authenticated))block];
+}
+
+- (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection username:(NSString *)username password:(NSString *)password scope:(NSString *)scope withCompletionHandler:(void (^)(BOOL authenticated))block;
+{
     NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _subDomain];
     NSURL *resourceUrl = [NSURL URLWithString:url];
     
-    NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, _clientSecret, connection, username, password, _scope];
+    NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, _clientSecret, connection, username, password, scope];
     
     NSData *postData = [ NSData dataWithBytes: [ postBody UTF8String ] length: [ postBody length ] ];
     
