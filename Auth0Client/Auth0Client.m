@@ -64,14 +64,14 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     NSString *url = [NSString stringWithFormat:LoginWidgetUrl,
                      _subDomain,
                      _clientId,
-                     scope,
+                     [self urlEncode:scope],
                      callback];
     
     if (connection != nil) {
         url = [NSString stringWithFormat:AuthorizeUrl,
                          _subDomain,
                          _clientId,
-                         scope,
+                         [self urlEncode:scope],
                          callback, connection];
     }
     
@@ -137,7 +137,7 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
     NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _subDomain];
     NSURL *resourceUrl = [NSURL URLWithString:url];
     
-    NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, _clientSecret, connection, username, password, scope];
+    NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, _clientSecret, connection, username, password, [self urlEncode:scope]];
     
     NSData *postData = [ NSData dataWithBytes: [ postBody UTF8String ] length: [ postBody length ] ];
     
@@ -200,6 +200,18 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
              block(parseData);
          }
      }];
+}
+
+-(NSString *)urlEncode:(NSString *)url {
+	NSString *escapedString =
+        (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+            NULL,
+            (__bridge CFStringRef) url,
+            NULL,
+            CFSTR("!*'();:@&=+$,/?%#[]\" "),
+            kCFStringEncodingUTF8));
+    
+    return escapedString;
 }
 
 @end
