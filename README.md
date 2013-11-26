@@ -17,9 +17,9 @@
 	
 	// ...
 	
-	Auth0Client *client = [Auth0Client auth0Client:@"Your Tenant" 
-									 clientId:@"Your Client ID" 
-									 clientSecret:@"Your Client Secret"];
+	Auth0Client *client = [Auth0Client auth0Client:@"YOUR_AUTH0_DOMAIN" 
+									 clientId:@"YOUR_CLIENT_ID" 
+									 clientSecret:@"YOUR_CLIENT_SECRET"];
 	```
 
 3. Trigger login (with Widget) 
