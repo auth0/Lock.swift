@@ -4,7 +4,7 @@
 @interface ViewController ()
 @end
 
-NSString * const tenant = @"YOUR_TENANT";
+NSString * const domain = @"YOUR_AUTH0_DOMAIN"; // e.g.: contoso.auth0.com
 NSString * const clientId = @"YOUR_CLIENT_ID";
 NSString * const clientSecret = @"YOUR_CLIENT_SECRET";
 NSString * const connection = @"google-oauth2"; // change to "facebook", "paypal", "linkedin", etc.
@@ -24,7 +24,7 @@ NSString * const connection = @"google-oauth2"; // change to "facebook", "paypal
 }
 
 - (IBAction)loginWithConnection:(id)sender {
-    Auth0Client *client = [Auth0Client auth0Client:tenant
+    Auth0Client *client = [Auth0Client auth0Client:domain
                                        clientId:clientId
                                        clientSecret:clientSecret];
     
@@ -45,7 +45,7 @@ NSString * const connection = @"google-oauth2"; // change to "facebook", "paypal
 }
 
 - (IBAction)loginWithWidget:(id)sender {
-    Auth0Client *client = [Auth0Client auth0Client:tenant
+    Auth0Client *client = [Auth0Client auth0Client:domain
                                        clientId:clientId
                                        clientSecret:clientSecret];
     

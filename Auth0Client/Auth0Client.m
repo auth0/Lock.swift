@@ -6,27 +6,27 @@
 
 @synthesize clientId = _clientId;
 @synthesize clientSecret = _clientSecret;
-@synthesize subDomain = _subDomain;
+@synthesize domain = _domain;
 @synthesize scope = _scope;
 @synthesize auth0User = _auth0User;
 
-NSString *AuthorizeUrl = @"https://%@.auth0.com/authorize?client_id=%@&scope=%@&redirect_uri=%@&response_type=token&connection=%@";
-NSString *LoginWidgetUrl = @"https://%@.auth0.com/login/?client=%@&scope=%@&redirect_uri=%@&response_type=token";
-NSString *ResourceOwnerEndpoint = @"https://%@.auth0.com/oauth/ro";
+NSString *AuthorizeUrl = @"https://%@/authorize?client_id=%@&scope=%@&redirect_uri=%@&response_type=token&connection=%@";
+NSString *LoginWidgetUrl = @"https://%@/login/?client=%@&scope=%@&redirect_uri=%@&response_type=token";
+NSString *ResourceOwnerEndpoint = @"https://%@/oauth/ro";
 NSString *ResourceOwnerBody = @"client_id=%@&client_secret=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=%@";
-NSString *UserInfoEndpoint = @"https://%@.auth0.com/userinfo?%@";
-NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
+NSString *UserInfoEndpoint = @"https://%@/userinfo?%@";
+NSString *DefaultCallback = @"https://%@/mobile";
 
-- (id)initAuth0Client:(NSString *)sudDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
+- (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
 {
-    return [self initAuth0Client:sudDomain clientId:clientId clientSecret:clientSecret scope:@"openid"];
+    return [self initAuth0Client:domain clientId:clientId clientSecret:clientSecret scope:@"openid"];
 }
 
-- (id)initAuth0Client:(NSString *)sudDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope
+- (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope
 {
     if ((self = [super init])) {
         _clientId = [clientId copy];
-        _subDomain = [sudDomain copy];
+        _domain = [domain copy];
         _clientSecret = [clientSecret copy];
         _scope = [scope copy];
     }
@@ -38,38 +38,38 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 {
 }
 
-+ (Auth0Client*)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
++ (Auth0Client*)auth0Client:(NSString *)domain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
 {
     static Auth0Client *instance = nil;
     static dispatch_once_t predicate;
     
-    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:subDomain clientId:clientId clientSecret:clientSecret]; });
+    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:domain clientId:clientId clientSecret:clientSecret]; });
     
     return instance;
 }
 
-+ (Auth0Client*)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope
++ (Auth0Client*)auth0Client:(NSString *)domain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope
 {
     static Auth0Client *instance = nil;
     static dispatch_once_t predicate;
     
-    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:subDomain clientId:clientId clientSecret:clientSecret scope:scope]; });
+    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:domain clientId:clientId clientSecret:clientSecret scope:scope]; });
     
     return instance;
 }
 
 - (Auth0WebViewController*)getAuthenticator:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(BOOL authenticated))block
 {
-    NSString *callback = [NSString stringWithFormat:DefaultCallback, _subDomain];
+    NSString *callback = [NSString stringWithFormat:DefaultCallback, _domain];
     NSString *url = [NSString stringWithFormat:LoginWidgetUrl,
-                     _subDomain,
+                     _domain,
                      _clientId,
                      [self urlEncode:scope],
                      callback];
     
     if (connection != nil) {
         url = [NSString stringWithFormat:AuthorizeUrl,
-                         _subDomain,
+                         _domain,
                          _clientId,
                          [self urlEncode:scope],
                          callback, connection];
@@ -134,7 +134,7 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
 
 - (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection username:(NSString *)username password:(NSString *)password scope:(NSString *)scope withCompletionHandler:(void (^)(BOOL authenticated))block;
 {
-    NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _subDomain];
+    NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _domain];
     NSURL *resourceUrl = [NSURL URLWithString:url];
     
     NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, _clientSecret, connection, username, password, [self urlEncode:scope]];
@@ -182,7 +182,7 @@ NSString *DefaultCallback = @"https://%@.auth0.com/mobile";
         accessToken = [NSString stringWithFormat:@"access_token=%@", accessToken];
     }
     
-    NSString *url = [NSString stringWithFormat:UserInfoEndpoint, _subDomain, accessToken];
+    NSString *url = [NSString stringWithFormat:UserInfoEndpoint, _domain, accessToken];
     NSURL *enpoint = [NSURL URLWithString:url];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:enpoint];

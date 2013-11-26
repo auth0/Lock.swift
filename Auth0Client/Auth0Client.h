@@ -8,19 +8,19 @@
 @private
     NSString * _clientId;
     NSString * _clientSecret;
-    NSString * _subDomain;
+    NSString * _domain;
     NSString * _scope;
 }
 
 @property (readonly) NSString *clientId;
 @property (readonly) NSString *clientSecret;
-@property (readonly) NSString *subDomain;
+@property (readonly) NSString *domain;
 @property (readonly) NSString *scope;
 @property (readonly) Auth0User *auth0User;
 
-+ (Auth0Client *)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret;
++ (Auth0Client *)auth0Client:(NSString *)domain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret;
 
-+ (Auth0Client *)auth0Client:(NSString *)subDomain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope;
++ (Auth0Client *)auth0Client:(NSString *)domain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope;
 
 - (UIViewController *)getAuthenticator:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(BOOL authenticated))block;
 
