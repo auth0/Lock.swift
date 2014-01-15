@@ -5,7 +5,6 @@
 @implementation Auth0Client
 
 @synthesize clientId = _clientId;
-@synthesize clientSecret = _clientSecret;
 @synthesize domain = _domain;
 @synthesize scope = _scope;
 @synthesize auth0User = _auth0User;
@@ -13,21 +12,20 @@
 NSString *AuthorizeUrl = @"https://%@/authorize?client_id=%@&scope=%@&redirect_uri=%@&response_type=token&connection=%@";
 NSString *LoginWidgetUrl = @"https://%@/login/?client=%@&scope=%@&redirect_uri=%@&response_type=token";
 NSString *ResourceOwnerEndpoint = @"https://%@/oauth/ro";
-NSString *ResourceOwnerBody = @"client_id=%@&client_secret=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=%@";
+NSString *ResourceOwnerBody = @"client_id=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=%@";
 NSString *UserInfoEndpoint = @"https://%@/userinfo?%@";
 NSString *DefaultCallback = @"https://%@/mobile";
 
-- (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
+- (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId
 {
-    return [self initAuth0Client:domain clientId:clientId clientSecret:clientSecret scope:@"openid"];
+    return [self initAuth0Client:domain clientId:clientId scope:@"openid"];
 }
 
-- (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope
+- (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId scope:(NSString *)scope
 {
     if ((self = [super init])) {
         _clientId = [clientId copy];
         _domain = [domain copy];
-        _clientSecret = [clientSecret copy];
         _scope = [scope copy];
     }
     
@@ -38,22 +36,22 @@ NSString *DefaultCallback = @"https://%@/mobile";
 {
 }
 
-+ (Auth0Client*)auth0Client:(NSString *)domain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
++ (Auth0Client*)auth0Client:(NSString *)domain clientId:(NSString *)clientId
 {
     static Auth0Client *instance = nil;
     static dispatch_once_t predicate;
     
-    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:domain clientId:clientId clientSecret:clientSecret]; });
+    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:domain clientId:clientId]; });
     
     return instance;
 }
 
-+ (Auth0Client*)auth0Client:(NSString *)domain clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret scope:(NSString *)scope
++ (Auth0Client*)auth0Client:(NSString *)domain clientId:(NSString *)clientId scope:(NSString *)scope
 {
     static Auth0Client *instance = nil;
     static dispatch_once_t predicate;
     
-    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:domain clientId:clientId clientSecret:clientSecret scope:scope]; });
+    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:domain clientId:clientId scope:scope]; });
     
     return instance;
 }
@@ -137,7 +135,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
     NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _domain];
     NSURL *resourceUrl = [NSURL URLWithString:url];
     
-    NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, _clientSecret, connection, username, password, [self urlEncode:scope]];
+    NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, connection, username, password, [self urlEncode:scope]];
     
     NSData *postData = [ NSData dataWithBytes: [ postBody UTF8String ] length: [ postBody length ] ];
     

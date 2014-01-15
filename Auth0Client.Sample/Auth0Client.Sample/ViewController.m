@@ -6,8 +6,8 @@
 
 NSString * const domain = @"YOUR_AUTH0_DOMAIN"; // e.g.: contoso.auth0.com
 NSString * const clientId = @"YOUR_CLIENT_ID";
-NSString * const clientSecret = @"YOUR_CLIENT_SECRET";
 NSString * const connection = @"google-oauth2"; // change to "facebook", "paypal", "linkedin", etc.
+NSString * const userPassConnection = @"Username-Password-Authentication"; // only Database and ADLDAP connections
 
 @implementation ViewController
 
@@ -24,9 +24,7 @@ NSString * const connection = @"google-oauth2"; // change to "facebook", "paypal
 }
 
 - (IBAction)loginWithConnection:(id)sender {
-    Auth0Client *client = [Auth0Client auth0Client:domain
-                                       clientId:clientId
-                                       clientSecret:clientSecret];
+    Auth0Client *client = [Auth0Client auth0Client:domain clientId:clientId];
     
     [client loginAsync:self connection:connection withCompletionHandler:^(BOOL authenticated) {
         if (!authenticated) {
@@ -45,11 +43,28 @@ NSString * const connection = @"google-oauth2"; // change to "facebook", "paypal
 }
 
 - (IBAction)loginWithWidget:(id)sender {
-    Auth0Client *client = [Auth0Client auth0Client:domain
-                                       clientId:clientId
-                                       clientSecret:clientSecret];
+    Auth0Client *client = [Auth0Client auth0Client:domain clientId:clientId];
     
     [client loginAsync:self withCompletionHandler:^(BOOL authenticated) {
+        if (!authenticated) {
+            NSLog(@"Error authenticating");
+        }
+        else {
+            // * Use client.auth0User to do wonderful things, e.g.:
+            // - get user email => [client.auth0User.Profile objectForKey:@"email"]
+            // - get facebook/google/twitter/etc access token => [[[client.auth0User.Profile objectForKey:@"identities"] objectAtIndex:0] objectForKey:@"access_token"]
+            // - get Windows Azure AD groups => [client.auth0User.Profile objectForKey:@"groups"]
+            // - etc.
+            NSString *userName = [client.auth0User.Profile objectForKey:@"name"];
+            self.profileLabel.text = [NSString stringWithFormat:@"Hi %@!", userName];
+        }
+    }];
+}
+
+- (IBAction)loginWithUsernamePassword:(id)sender {
+    Auth0Client *client = [Auth0Client auth0Client:domain clientId:clientId];
+    
+    [client loginAsync:self connection:userPassConnection username:self.usernameText.text password:self.passwordText.text withCompletionHandler:^(BOOL authenticated) {
         if (!authenticated) {
             NSLog(@"Error authenticating");
         }
