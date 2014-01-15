@@ -22,8 +22,6 @@
 		B7AB5F3D183696920025E7A9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AB5F3C183696920025E7A9 /* XCTest.framework */; };
 		B7AB5F3E183696920025E7A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AB5F1D183696920025E7A9 /* Foundation.framework */; };
 		B7AB5F3F183696920025E7A9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AB5F21183696920025E7A9 /* UIKit.framework */; };
-		B7AB5F47183696920025E7A9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B7AB5F45183696920025E7A9 /* InfoPlist.strings */; };
-		B7AB5F49183696920025E7A9 /* Auth0Client_SampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AB5F48183696920025E7A9 /* Auth0Client_SampleTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,9 +66,6 @@
 		B7AB5F35183696920025E7A9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B7AB5F3B183696920025E7A9 /* Auth0Client.SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Auth0Client.SampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7AB5F3C183696920025E7A9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		B7AB5F44183696920025E7A9 /* Auth0Client.SampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Auth0Client.SampleTests-Info.plist"; sourceTree = "<group>"; };
-		B7AB5F46183696920025E7A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		B7AB5F48183696920025E7A9 /* Auth0Client_SampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Auth0Client_SampleTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +120,6 @@
 			isa = PBXGroup;
 			children = (
 				B7AB5F23183696920025E7A9 /* Auth0Client.Sample */,
-				B7AB5F42183696920025E7A9 /* Auth0Client.SampleTests */,
 				B7AB5F1C183696920025E7A9 /* Frameworks */,
 				B7AB5F1B183696920025E7A9 /* Products */,
 			);
@@ -173,24 +167,6 @@
 				B7AB5F26183696920025E7A9 /* InfoPlist.strings */,
 				B7AB5F29183696920025E7A9 /* main.m */,
 				B7AB5F2B183696920025E7A9 /* Auth0Client.Sample-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		B7AB5F42183696920025E7A9 /* Auth0Client.SampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				B7AB5F48183696920025E7A9 /* Auth0Client_SampleTests.m */,
-				B7AB5F43183696920025E7A9 /* Supporting Files */,
-			);
-			path = Auth0Client.SampleTests;
-			sourceTree = "<group>";
-		};
-		B7AB5F43183696920025E7A9 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				B7AB5F44183696920025E7A9 /* Auth0Client.SampleTests-Info.plist */,
-				B7AB5F45183696920025E7A9 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -297,7 +273,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7AB5F47183696920025E7A9 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,7 +296,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7AB5F49183696920025E7A9 /* Auth0Client_SampleTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,14 +324,6 @@
 				B7AB5F30183696920025E7A9 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		B7AB5F45183696920025E7A9 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B7AB5F46183696920025E7A9 /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
