@@ -78,15 +78,4 @@ Auth0Client *client;
     }];
 }
 
-- (void)getDelegationToken:(NSString *)targetClientId {
-    NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                             @"openid profile", @"scope",
-                             nil];
-    
-    [client getDelegationToken:targetClientId options:options withCompletionHandler:^(NSMutableDictionary* delegationResult)
-    {
-        // [delegationResult objectForKey:@"id_token"]
-    }];
-}
-
 @end
