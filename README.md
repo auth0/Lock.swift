@@ -58,6 +58,22 @@ Or with specific user name and password (only for providers that support this)
 * scope:@"openid" (default) - It will return, not only the access_token, but also an id_token which is a Json Web Token (JWT). The JWT will only contain the user id.
 * scope:@"openid profile": If you want the entire user profile to be part of the id_token.
 
+### Delegation Token Request
+
+You can obtain a delegation token specifying the ID of the target client (`targetClientId`) and, optionally, an NSMutableDictionary object (`options`) in order to include custom parameters like scope or id_token:
+
+```Objective-c
+NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+	@"USER_ID_TOKEN", @"id_token", 	// default: id_token of the authenticated user (client.auth0User.IdToken)
+	@"openid profile", @"scope", 	// default: openid
+	nil];
+
+[client getDelegationToken:targetClientId options:options withCompletionHandler:^(NSMutableDictionary* delegationResult)
+{
+	// [delegationResult objectForKey:@"id_token"]
+}];
+```
+
 ---
 
 ## What is Auth0?
