@@ -9,12 +9,16 @@ NSString * const clientId = @"YOUR_CLIENT_ID";
 NSString * const connection = @"google-oauth2"; // change to "facebook", "paypal", "linkedin", etc.
 NSString * const userPassConnection = @"Username-Password-Authentication"; // only Database and ADLDAP connections
 
+Auth0Client *client;
+
 @implementation ViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    client = [Auth0Client auth0Client:domain clientId:clientId];
 }
 
 - (void)didReceiveMemoryWarning
@@ -24,8 +28,6 @@ NSString * const userPassConnection = @"Username-Password-Authentication"; // on
 }
 
 - (IBAction)loginWithConnection:(id)sender {
-    Auth0Client *client = [Auth0Client auth0Client:domain clientId:clientId];
-    
     [client loginAsync:self connection:connection withCompletionHandler:^(BOOL authenticated) {
         if (!authenticated) {
             NSLog(@"Error authenticating");
@@ -43,8 +45,6 @@ NSString * const userPassConnection = @"Username-Password-Authentication"; // on
 }
 
 - (IBAction)loginWithWidget:(id)sender {
-    Auth0Client *client = [Auth0Client auth0Client:domain clientId:clientId];
-    
     [client loginAsync:self withCompletionHandler:^(BOOL authenticated) {
         if (!authenticated) {
             NSLog(@"Error authenticating");
@@ -62,8 +62,6 @@ NSString * const userPassConnection = @"Username-Password-Authentication"; // on
 }
 
 - (IBAction)loginWithUsernamePassword:(id)sender {
-    Auth0Client *client = [Auth0Client auth0Client:domain clientId:clientId];
-    
     [client loginAsync:self connection:userPassConnection username:self.usernameText.text password:self.passwordText.text withCompletionHandler:^(BOOL authenticated) {
         if (!authenticated) {
             NSLog(@"Error authenticating");
@@ -77,6 +75,17 @@ NSString * const userPassConnection = @"Username-Password-Authentication"; // on
             NSString *userName = [client.auth0User.Profile objectForKey:@"name"];
             self.profileLabel.text = [NSString stringWithFormat:@"Hi %@!", userName];
         }
+    }];
+}
+
+- (void)getDelegationToken:(NSString *)targetClientId {
+    NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                             @"openid profile", @"scope",
+                             nil];
+    
+    [client getDelegationToken:targetClientId options:options withCompletionHandler:^(NSMutableDictionary* delegationResult)
+    {
+        // [delegationResult objectForKey:@"id_token"]
     }];
 }
 

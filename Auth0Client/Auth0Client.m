@@ -13,6 +13,8 @@ NSString *AuthorizeUrl = @"https://%@/authorize?client_id=%@&scope=%@&redirect_u
 NSString *LoginWidgetUrl = @"https://%@/login/?client=%@&scope=%@&redirect_uri=%@&response_type=token";
 NSString *ResourceOwnerEndpoint = @"https://%@/oauth/ro";
 NSString *ResourceOwnerBody = @"client_id=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=%@";
+NSString *DelegationEndpoint = @"https://%@/delegation";
+NSString *DelegationBody = @"grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&id_token=%@&target=%@&client_id=%@";
 NSString *UserInfoEndpoint = @"https://%@/userinfo?%@";
 NSString *DefaultCallback = @"https://%@/mobile";
 
@@ -171,6 +173,63 @@ NSString *DefaultCallback = @"https://%@/mobile";
 {
     _auth0User = nil;
     [Auth0WebViewController clearCookies];
+}
+
+- (void)getDelegationToken:(NSString *)targetClientId withCompletionHandler:(void (^)(NSMutableDictionary* delegationResult))block
+{
+    [self getDelegationToken:targetClientId options:[NSMutableDictionary dictionary] withCompletionHandler:(void (^)(NSMutableDictionary* delegationResult))block];
+}
+
+- (void)getDelegationToken:(NSString *)targetClientId options:(NSMutableDictionary *)options withCompletionHandler:(void (^)(NSMutableDictionary* delegationResult))block
+{
+    NSString *id_token = [options objectForKey:@"id_token"];
+    [options removeObjectForKey:@"id_token"];
+    
+    if (id_token == nil)
+    {
+        if (self.auth0User == nil ||
+            self.auth0User.IdToken == (id)[NSNull null] ||
+            self.auth0User.IdToken.length == 0)
+        {
+            [NSException raise:@"Empty id_token" format:@"You need to login first or specify a value for id_token parameter."];
+        }
+        else
+        {
+            // take id_token from user profile
+            id_token = self.auth0User.IdToken;
+        }
+    }
+    
+    NSString *url = [NSString stringWithFormat:DelegationEndpoint, _domain];
+    NSURL *delegationUrl = [NSURL URLWithString:url];
+    
+    NSString *postBody = [NSString stringWithFormat:DelegationBody, id_token, targetClientId, _clientId];
+    
+    for (NSString* key in options) {
+        id value = [options objectForKey:key];
+        postBody = [postBody stringByAppendingString:[NSString stringWithFormat:@"&%@=%@", key, value]];
+    }
+    
+    NSData *postData = [ NSData dataWithBytes: [ postBody UTF8String ] length: [ postBody length ] ];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:delegationUrl];
+    [request setHTTPMethod:@"POST"];
+    
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         if (error == nil) {
+             NSError* parseError;
+             NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
+                                                                                               JSONObjectWithData:data
+                                                                                               options:kNilOptions
+                                                                                               error:&parseError]];
+             
+             block(parseData);
+         }
+     }];
 }
 
 - (void)getUserInfo:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block
