@@ -117,8 +117,8 @@ NSString *DefaultCallback = @"https://%@/mobile";
 {
     Auth0WebViewController * webController = (Auth0WebViewController *)[self getAuthenticator:connection scope:scope withCompletionHandler:^(BOOL  authenticated)
     {
-        block(authenticated);
         [controller dismissViewControllerAnimated:YES completion:nil];
+        block(authenticated);
     }];
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:webController];
