@@ -45,7 +45,9 @@ Or you can use the connection as a parameter (e.g. here we login with a Windows 
 [client loginAsync:self connection:@"auth0waadtests.onmicrosoft.com" withCompletionHandler:^(BOOL authenticated) { ... }];
 ```
 
-Or with specific user name and password (only for providers that support this)
+## Login with User/Password (without WebView)
+
+Only certain providers support this option (Datbaase Connections, AD Connector and ADFS)..
 
 ```Objective-c
 [client loginAsync:self connection:@"my-db-connection" 
