@@ -23,11 +23,11 @@
 3. Trigger login (with Widget) 
 
 	```Objective-c
-	[client loginAsync:self withCompletionHandler:^(BOOL authenticated) {
-	    if (!authenticated) {
-	        NSLog(@"Error authenticating");
+	[client loginAsync:self withCompletionHandler:^(NSMutableDictionary* error) {
+	    if (error) {
+	    	NSLog(@"Error authenticating: %@", [error objectForKey:@"error"]);
 	    }
-	    else{            
+	    else {         
 	        // * Use client.auth0User to do wonderful things, e.g.:
 			// - get user email => [client.auth0User.Profile objectForKey:@"email"]
 			// - get facebook/google/twitter/etc access token => [[[client.auth0User.Profile objectForKey:@"identities"] objectAtIndex:0] objectForKey:@"access_token"]
@@ -42,7 +42,7 @@
 Or you can use the connection as a parameter (e.g. here we login with a Windows Azure AD account)
 
 ```Objective-c
-[client loginAsync:self connection:@"auth0waadtests.onmicrosoft.com" withCompletionHandler:^(BOOL authenticated) { ... }];
+[client loginAsync:self connection:@"auth0waadtests.onmicrosoft.com" withCompletionHandler:^(NSMutableDictionary* error) { ... }];
 ```
 
 ## Login with User/Password (without WebView)
@@ -53,7 +53,18 @@ Only certain providers support this option (Datbaase Connections, AD Connector a
 [client loginAsync:self connection:@"my-db-connection" 
 						username:@"username"
 						password:@"password"
-						withCompletionHandler:^(BOOL authenticated) { ... }];
+						withCompletionHandler:^(NSMutableDictionary* error) {
+	if (error) {
+		NSLog(@"Error authenticating: %@ - %@", [error objectForKey:@"error"], [error objectForKey:@"error_description"]);
+	}
+	else {
+		// * Use client.auth0User to do wonderful things, e.g.:
+		// - get user email => [client.auth0User.Profile objectForKey:@"email"]
+		// - get facebook/google/twitter/etc access token => [[[client.auth0User.Profile objectForKey:@"identities"] objectAtIndex:0] objectForKey:@"access_token"]
+		// - get Windows Azure AD groups => [client.auth0User.Profile objectForKey:@"groups"]
+		// - etc.
+	}
+}];
 ```
 
 > Optionally you can specify the `scope` parameter. There are two possible values for scope today:
