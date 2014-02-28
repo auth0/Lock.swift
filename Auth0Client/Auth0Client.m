@@ -58,7 +58,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
     return instance;
 }
 
-- (Auth0WebViewController*)getAuthenticator:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(BOOL authenticated))block
+- (Auth0WebViewController*)getAuthenticator:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
     NSString *callback = [NSString stringWithFormat:DefaultCallback, _domain];
     NSString *url = [NSString stringWithFormat:LoginWidgetUrl,
@@ -87,38 +87,38 @@ NSString *DefaultCallback = @"https://%@/mobile";
                                                    nil];
                 
                 _auth0User = [Auth0User auth0User:accountProperties];
-                block(true);
+                block(nil);
             }];
         }
         else {
-            block(false);
+            block([[NSMutableDictionary alloc] initWithObjectsAndKeys: @"error", @"Authentication Failed", nil]);
         }
     }];
     
     return webController;
 }
 
-- (void)loginAsync:(UIViewController *)controller withCompletionHandler:(void (^)(BOOL authenticated))block
+- (void)loginAsync:(UIViewController *)controller withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
-    [self loginAsync:controller connection:nil scope:_scope withCompletionHandler:(void (^)(BOOL authenticated))block];
+    [self loginAsync:controller connection:nil scope:_scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block];
 }
 
-- (void)loginAsync:(UIViewController *)controller scope:(NSString *)scope withCompletionHandler:(void (^)(BOOL authenticated))block
+- (void)loginAsync:(UIViewController *)controller scope:(NSString *)scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
-    [self loginAsync:controller connection:nil scope:scope withCompletionHandler:(void (^)(BOOL authenticated))block];
+    [self loginAsync:controller connection:nil scope:scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block];
 }
 
-- (void)loginAsync:(UIViewController *)controller connection:(NSString *)connection withCompletionHandler:(void (^)(BOOL authenticated))block
+- (void)loginAsync:(UIViewController *)controller connection:(NSString *)connection withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
-    [self loginAsync:controller connection:connection scope:_scope withCompletionHandler:(void (^)(BOOL authenticated))block];
+    [self loginAsync:controller connection:connection scope:_scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block];
 }
 
-- (void)loginAsync:(UIViewController *)controller connection:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(BOOL authenticated))block
+- (void)loginAsync:(UIViewController *)controller connection:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
-    Auth0WebViewController * webController = (Auth0WebViewController *)[self getAuthenticator:connection scope:scope withCompletionHandler:^(BOOL  authenticated)
+    Auth0WebViewController * webController = (Auth0WebViewController *)[self getAuthenticator:connection scope:scope withCompletionHandler:^(NSMutableDictionary* error)
     {
         [controller dismissViewControllerAnimated:YES completion:nil];
-        block(authenticated);
+        block(error);
     }];
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:webController];
@@ -127,12 +127,12 @@ NSString *DefaultCallback = @"https://%@/mobile";
     [controller presentViewController:navController animated:YES completion:nil];
 }
 
-- (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection username:(NSString *)username password:(NSString *)password withCompletionHandler:(void (^)(BOOL authenticated))block
+- (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection username:(NSString *)username password:(NSString *)password withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
-    [self loginAsync:controller connection:connection username:username password:password scope:_scope withCompletionHandler:(void (^)(BOOL authenticated))block];
+    [self loginAsync:controller connection:connection username:username password:password scope:_scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block];
 }
 
-- (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection username:(NSString *)username password:(NSString *)password scope:(NSString *)scope withCompletionHandler:(void (^)(BOOL authenticated))block;
+- (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection username:(NSString *)username password:(NSString *)password scope:(NSString *)scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block;
 {
     NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _domain];
     NSURL *resourceUrl = [NSURL URLWithString:url];
@@ -149,22 +149,23 @@ NSString *DefaultCallback = @"https://%@/mobile";
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
-         if (error == nil) {
-             NSError* parseError;
-             NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
-                                                                                 JSONObjectWithData:data
-                                                                                 options:kNilOptions
-                                                                                 error:&parseError]];
-             
-             NSString *accessToken = [parseData objectForKey:@"access_token"];
-             
-             if (accessToken) {
-                 [self getUserInfo:accessToken withCompletionHandler:^(NSMutableDictionary* profile) {
-                     [parseData setObject:profile forKey:@"profile"];
-                     _auth0User = [Auth0User auth0User:parseData];
-                     block(true);
-                 }];
-             }
+         NSError* parseError;
+         NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
+                                                                                           JSONObjectWithData:data
+                                                                                           options:kNilOptions
+                                                                                           error:&parseError]];
+         
+         NSString *accessToken = [parseData objectForKey:@"access_token"];
+         
+         if (accessToken) {
+             [self getUserInfo:accessToken withCompletionHandler:^(NSMutableDictionary* profile) {
+                 [parseData setObject:profile forKey:@"profile"];
+                 _auth0User = [Auth0User auth0User:parseData];
+                 block(nil);
+             }];
+         }
+         else {
+             block(parseData);
          }
      }];
 }
@@ -220,15 +221,13 @@ NSString *DefaultCallback = @"https://%@/mobile";
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
-         if (error == nil) {
-             NSError* parseError;
-             NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
-                                                                                               JSONObjectWithData:data
-                                                                                               options:kNilOptions
-                                                                                               error:&parseError]];
-             
-             block(parseData);
-         }
+         NSError* parseError;
+         NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
+                                                                                           JSONObjectWithData:data
+                                                                                           options:kNilOptions
+                                                                                           error:&parseError]];
+         
+         block(parseData);
      }];
 }
 
@@ -248,14 +247,12 @@ NSString *DefaultCallback = @"https://%@/mobile";
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
-         if (error == nil) {
-             NSError* parseError;
-             NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
-                                                                                 JSONObjectWithData:data
-                                                                                 options:kNilOptions
-                                                                                 error:&parseError]];
-             block(parseData);
-         }
+         NSError* parseError;
+         NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
+                                                                                           JSONObjectWithData:data
+                                                                                           options:kNilOptions
+                                                                                           error:&parseError]];
+         block(parseData);
      }];
 }
 

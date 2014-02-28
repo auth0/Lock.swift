@@ -28,9 +28,9 @@ Auth0Client *client;
 }
 
 - (IBAction)loginWithConnection:(id)sender {
-    [client loginAsync:self connection:connection withCompletionHandler:^(BOOL authenticated) {
-        if (!authenticated) {
-            NSLog(@"Error authenticating");
+    [client loginAsync:self connection:connection withCompletionHandler:^(NSMutableDictionary* error) {
+        if (error) {
+            NSLog(@"Error authenticating: %@", [error objectForKey:@"error"]);
         }
         else {
             // * Use client.auth0User to do wonderful things, e.g.:
@@ -45,9 +45,9 @@ Auth0Client *client;
 }
 
 - (IBAction)loginWithWidget:(id)sender {
-    [client loginAsync:self withCompletionHandler:^(BOOL authenticated) {
-        if (!authenticated) {
-            NSLog(@"Error authenticating");
+    [client loginAsync:self withCompletionHandler:^(NSMutableDictionary* error) {
+        if (error) {
+            NSLog(@"Error authenticating: %@", [error objectForKey:@"error"]);
         }
         else {
             // * Use client.auth0User to do wonderful things, e.g.:
@@ -62,9 +62,9 @@ Auth0Client *client;
 }
 
 - (IBAction)loginWithUsernamePassword:(id)sender {
-    [client loginAsync:self connection:userPassConnection username:self.usernameText.text password:self.passwordText.text withCompletionHandler:^(BOOL authenticated) {
-        if (!authenticated) {
-            NSLog(@"Error authenticating");
+    [client loginAsync:self connection:userPassConnection username:self.usernameText.text password:self.passwordText.text withCompletionHandler:^(NSMutableDictionary* error) {
+        if (error) {
+            NSLog(@"Error authenticating: %@ - %@", [error objectForKey:@"error"], [error objectForKey:@"error_description"]);
         }
         else {
             // * Use client.auth0User to do wonderful things, e.g.:
