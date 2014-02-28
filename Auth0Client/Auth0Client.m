@@ -137,7 +137,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
     NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _domain];
     NSURL *resourceUrl = [NSURL URLWithString:url];
     
-    NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, connection, username, password, [self urlEncode:scope]];
+    NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, [self urlEncode:connection], [self urlEncode:username], [self urlEncode:password], [self urlEncode:scope]];
     
     NSData *postData = [ NSData dataWithBytes: [ postBody UTF8String ] length: [ postBody length ] ];
     
@@ -207,7 +207,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
     
     for (NSString* key in options) {
         id value = [options objectForKey:key];
-        postBody = [postBody stringByAppendingString:[NSString stringWithFormat:@"&%@=%@", key, value]];
+        postBody = [postBody stringByAppendingString:[NSString stringWithFormat:@"&%@=%@", key, [self urlEncode:value]]];
     }
     
     NSData *postData = [ NSData dataWithBytes: [ postBody UTF8String ] length: [ postBody length ] ];
