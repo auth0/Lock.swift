@@ -22,7 +22,10 @@
         
         // Cancel button
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonSystemItemCancel target:self action:@selector(Cancel:)];
-    }
+		
+		// Title
+		self.title = @"Auth0";
+	}
     return self;
 }
 
@@ -47,8 +50,6 @@
 
 - (void)loadView
 {
-    self.title = @"Auth0";
-
     // create our web view
     _webView = [[UIWebView alloc] init];
     _webView.delegate = self;
