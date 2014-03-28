@@ -21,7 +21,9 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_spinner];
         
         // Cancel button
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonSystemItemCancel target:self action:@selector(Cancel:)];
+		if (_allowsClose) {
+			self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(Cancel:)];
+		}
 		
 		// Title
 		self.title = @"Auth0";
@@ -40,10 +42,12 @@
 
 -(void) Cancel:(id)sender
 {
-    if (![[self presentedViewController] isBeingDismissed])
-    {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+	if (_allowsClose) {
+		if (![[self presentedViewController] isBeingDismissed])
+		{
+			[self dismissViewControllerAnimated:YES completion:nil];
+		}
+	}
 }
 
 #pragma mark - View lifecycle
