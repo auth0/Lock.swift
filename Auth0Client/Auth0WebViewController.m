@@ -21,8 +21,13 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_spinner];
         
         // Cancel button
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonSystemItemCancel target:self action:@selector(Cancel:)];
-    }
+		if (_allowsClose) {
+			self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(Cancel:)];
+		}
+		
+		// Title
+		self.title = @"Auth0";
+	}
     return self;
 }
 
@@ -37,18 +42,18 @@
 
 -(void) Cancel:(id)sender
 {
-    if (![[self presentedViewController] isBeingDismissed])
-    {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+	if (_allowsClose) {
+		if (![[self presentedViewController] isBeingDismissed])
+		{
+			[self dismissViewControllerAnimated:YES completion:nil];
+		}
+	}
 }
 
 #pragma mark - View lifecycle
 
 - (void)loadView
 {
-    self.title = @"Auth0";
-
     // create our web view
     _webView = [[UIWebView alloc] init];
     _webView.delegate = self;
@@ -99,24 +104,46 @@
     // Checking if the URL is the redirect_url
     if ([requestURLString rangeOfString:_returnUrl].location == 0)
     {
-        //Quick and Dirty parsing of the return URL withe access_token in the URL fragment
-        NSArray * fragments = [requestURLString componentsSeparatedByString:@"#"];
-        NSString * url_access_token = [fragments lastObject];
-        NSArray * url_token = [url_access_token componentsSeparatedByString:@"&"];
-        NSString * accessToken = [url_token objectAtIndex:0];
-        NSString * c_jwtToken = [url_token objectAtIndex:1];
-        
-        NSArray * jwt_fragments = [c_jwtToken componentsSeparatedByString:@"="];
-        NSString * jwtToken = [jwt_fragments objectAtIndex:1];
-        
-        //Notify caller
-        _block(accessToken, jwtToken);
+		NSDictionary* queryString = [self queryStringForUrl:request.URL];
+		NSString * accessToken = queryString[@"access_token"];
+		NSString * jwtToken = queryString[@"id_token"];
+		
+		if (!accessToken) {
+			NSLog(@"Error: accessToken missing");
+			[self Cancel:nil];
+			return NO;
+		}
+		
+		if (!jwtToken) {
+			NSLog(@"Error: jwtToken missing");
+			[self Cancel:nil];
+			return NO;
+		}
+		
+		//Notify caller
+		_block(accessToken, jwtToken);
         
         return NO;
     }
 
     [_spinner startAnimating];
     return YES;
+}
+
+- (NSDictionary*)queryStringForUrl:(NSURL*)URL
+{
+    NSString *queryString = [URL query] ?: [URL fragment];
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    NSArray *parameters = [queryString componentsSeparatedByString:@"&"];
+    for (NSString *parameter in parameters) {
+        NSArray *parts = [parameter componentsSeparatedByString:@"="];
+        NSString *key = [[parts objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        if ([parts count] > 1) {
+            id value = [[parts objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            [result setObject:value forKey:key];
+        }
+    }
+    return result;
 }
 
 + (void)clearCookies

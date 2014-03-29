@@ -75,7 +75,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
                          callback, connection];
     }
     
-    Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[NSURL URLWithString:url] returnUrl:callback allowsClose:NO withCompletionHandler:^(NSString *token, NSString * jwtToken){
+    Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[NSURL URLWithString:url] returnUrl:callback allowsClose:YES withCompletionHandler:^(NSString *token, NSString * jwtToken){
         if (token) {
             
             [self getUserInfo:token withCompletionHandler:^(NSMutableDictionary* profile) {
