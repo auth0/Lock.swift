@@ -31,6 +31,7 @@ Auth0Client *client;
     [client loginAsync:self connection:connection withCompletionHandler:^(NSMutableDictionary* error) {
         if (error) {
             NSLog(@"Error authenticating: %@", [error objectForKey:@"error"]);
+            self.profileLabel.text = @"Error (see logs)";
         }
         else {
             // * Use client.auth0User to do wonderful things, e.g.:
@@ -48,6 +49,7 @@ Auth0Client *client;
     [client loginAsync:self withCompletionHandler:^(NSMutableDictionary* error) {
         if (error) {
             NSLog(@"Error authenticating: %@", [error objectForKey:@"error"]);
+            self.profileLabel.text = @"Error (see logs)";
         }
         else {
             // * Use client.auth0User to do wonderful things, e.g.:
@@ -65,6 +67,7 @@ Auth0Client *client;
     [client loginAsync:self connection:userPassConnection username:self.usernameText.text password:self.passwordText.text withCompletionHandler:^(NSMutableDictionary* error) {
         if (error) {
             NSLog(@"Error authenticating: %@ - %@", [error objectForKey:@"error"], [error objectForKey:@"error_description"]);
+            self.profileLabel.text = @"Error (see logs)";
         }
         else {
             // * Use client.auth0User to do wonderful things, e.g.:
