@@ -75,7 +75,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
                          callback, connection];
     }
     
-    Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[NSURL URLWithString:url] returnUrl:callback allowsClose:YES withCompletionHandler:^(NSString *token, NSString * jwtToken){
+    Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[NSURL URLWithString:url] returnUrl:callback allowsClose:YES withCompletionHandler:^(NSString *token, NSString * jwtToken, NSString * error){
         if (token) {
             
             [self getUserInfo:token withCompletionHandler:^(NSMutableDictionary* profile) {
@@ -91,7 +91,8 @@ NSString *DefaultCallback = @"https://%@/mobile";
             }];
         }
         else {
-            block([[NSMutableDictionary alloc] initWithObjectsAndKeys: @"error", @"Authentication Failed", nil]);
+            NSString * errorMsg = error ? error : @"Authentication Failed";
+            block([[NSMutableDictionary alloc] initWithObjectsAndKeys: errorMsg, @"error", nil]);
         }
     }];
     

@@ -7,11 +7,11 @@
     NSURL * _url;
     NSURL * _authzUrl;
     NSString * _returnUrl;
-    void (^ _block)(NSString* token, NSString * jwtToken);
+    void (^ _block)(NSString* token, NSString * jwtToken, NSString * error);
 	BOOL _allowsClose;
 }
 
-- (id)initWithAuthorizeUrl:(NSURL *)authzUrl returnUrl:(NSString*)returnUrl allowsClose:(BOOL)allowsClose withCompletionHandler:(void (^)(NSString * token, NSString * jwtToken))block;
+- (id)initWithAuthorizeUrl:(NSURL *)authzUrl returnUrl:(NSString*)returnUrl allowsClose:(BOOL)allowsClose withCompletionHandler:(void (^)(NSString * token, NSString * jwtToken, NSString * error))block;
 
 + (void)clearCookies;
 

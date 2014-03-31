@@ -107,21 +107,24 @@
 		NSDictionary* queryString = [self queryStringForUrl:request.URL];
 		NSString * accessToken = queryString[@"access_token"];
 		NSString * jwtToken = queryString[@"id_token"];
+        NSString * error = queryString[@"denied"] ? @"access_denied" : queryString[@"error"];
 		
-		if (!accessToken) {
-			NSLog(@"Error: accessToken missing");
-			[self Cancel:nil];
-			return NO;
-		}
-		
-		if (!jwtToken) {
-			NSLog(@"Error: jwtToken missing");
-			[self Cancel:nil];
-			return NO;
-		}
+        if (!error) {
+            if (!accessToken) {
+                NSLog(@"Error: accessToken missing");
+                [self Cancel:nil];
+                return NO;
+            }
+            
+            if (!jwtToken) {
+                NSLog(@"Error: jwtToken missing");
+                [self Cancel:nil];
+                return NO;
+            }
+        }
 		
 		//Notify caller
-		_block(accessToken, jwtToken);
+		_block(accessToken, jwtToken, error);
         
         return NO;
     }
