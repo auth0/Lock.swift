@@ -150,24 +150,31 @@ NSString *DefaultCallback = @"https://%@/mobile";
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
+		 if (error && !data) {
+			 block([[error userInfo] mutableCopy]);
+			 return;
+		 }
+		 
          NSError* parseError;
-         NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
-                                                                                           JSONObjectWithData:data
-                                                                                           options:kNilOptions
-                                                                                           error:&parseError]];
+         NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError]];
          
+		 if (parseError) {
+			 block([[parseError userInfo] mutableCopy]);
+			 return;
+		 }
+		 
          NSString *accessToken = [parseData objectForKey:@"access_token"];
-         
-         if (accessToken) {
-             [self getUserInfo:accessToken withCompletionHandler:^(NSMutableDictionary* profile) {
-                 [parseData setObject:profile forKey:@"profile"];
-                 _auth0User = [Auth0User auth0User:parseData];
-                 block(nil);
-             }];
-         }
-         else {
-             block(parseData);
-         }
+		 
+		 if (!accessToken) {
+			 block(parseData);
+			 return;
+		 }
+		 
+		 [self getUserInfo:accessToken withCompletionHandler:^(NSMutableDictionary* profile) {
+			 [parseData setObject:profile forKey:@"profile"];
+			 _auth0User = [Auth0User auth0User:parseData];
+			 block(nil);
+		 }];
      }];
 }
 
