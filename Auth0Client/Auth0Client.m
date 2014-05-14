@@ -13,6 +13,8 @@ NSString *AuthorizeUrl = @"https://%@/authorize?client_id=%@&scope=%@&redirect_u
 NSString *LoginWidgetUrl = @"https://%@/login/?client=%@&scope=%@&redirect_uri=%@&response_type=token";
 NSString *ResourceOwnerEndpoint = @"https://%@/oauth/ro";
 NSString *ResourceOwnerBody = @"client_id=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=%@";
+NSString *IdPAccessTokenEndpoint = @"https://%@/oauth/access_token";
+NSString *IdPAccessTokenBody = @"client_id=%@&connection=%@&access_token=%@&scope=%@";
 NSString *DelegationEndpoint = @"https://%@/delegation";
 NSString *DelegationBody = @"grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&id_token=%@&target=%@&client_id=%@";
 NSString *UserInfoEndpoint = @"https://%@/userinfo?%@";
@@ -99,6 +101,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
     return webController;
 }
 
+// Login with widget
 - (void)loginAsync:(UIViewController *)controller withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
     [self loginAsync:controller connection:nil scope:_scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block];
@@ -109,6 +112,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
     [self loginAsync:controller connection:nil scope:scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block];
 }
 
+// Login with specified connection
 - (void)loginAsync:(UIViewController *)controller connection:(NSString *)connection withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
     [self loginAsync:controller connection:connection scope:_scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block];
@@ -128,6 +132,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
     [controller presentViewController:navController animated:YES completion:nil];
 }
 
+// Login with username/password
 - (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection username:(NSString *)username password:(NSString *)password withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
     [self loginAsync:controller connection:connection username:username password:password scope:_scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block];
@@ -140,7 +145,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
     
     NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, [self urlEncode:connection], [self urlEncode:username], [self urlEncode:password], [self urlEncode:scope]];
     
-    NSData *postData = [ NSData dataWithBytes: [ postBody UTF8String ] length: [ postBody length ] ];
+    NSData *postData = [NSData dataWithBytes: [postBody UTF8String] length: [postBody length]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:resourceUrl];
     [request setHTTPMethod:@"POST"];
@@ -178,12 +183,58 @@ NSString *DefaultCallback = @"https://%@/mobile";
      }];
 }
 
-- (void)logout
+// Login with Identity Provider access_token
+- (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection accessToken:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
-    _auth0User = nil;
-    [Auth0WebViewController clearCookies];
+    [self loginAsync:controller connection:connection accessToken:accessToken scope:_scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block];
 }
 
+- (void)loginAsync:(UIViewController*)controller connection:(NSString *)connection accessToken:(NSString *)accessToken scope:(NSString *)scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block;
+{
+    NSString *url = [NSString stringWithFormat:IdPAccessTokenEndpoint, _domain];
+    NSURL *resourceUrl = [NSURL URLWithString:url];
+    
+    NSString *postBody =[NSString stringWithFormat:IdPAccessTokenBody, _clientId, [self urlEncode:connection], [self urlEncode:accessToken], [self urlEncode:scope]];
+    
+    NSData *postData = [NSData dataWithBytes: [postBody UTF8String] length: [postBody length]];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:resourceUrl];
+    [request setHTTPMethod:@"POST"];
+    
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+		 if (error && !data) {
+			 block([[error userInfo] mutableCopy]);
+			 return;
+		 }
+		 
+         NSError* parseError;
+         NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError]];
+         
+		 if (parseError) {
+			 block([[parseError userInfo] mutableCopy]);
+			 return;
+		 }
+		 
+         NSString *auth0_accessToken = [parseData objectForKey:@"access_token"];
+		 
+		 if (!auth0_accessToken) {
+			 block(parseData);
+			 return;
+		 }
+		 
+		 [self getUserInfo:auth0_accessToken withCompletionHandler:^(NSMutableDictionary* profile) {
+			 [parseData setObject:profile forKey:@"profile"];
+			 _auth0User = [Auth0User auth0User:parseData];
+			 block(nil);
+		 }];
+     }];
+}
+
+// Delegation Token
 - (void)getDelegationToken:(NSString *)targetClientId withCompletionHandler:(void (^)(NSMutableDictionary* delegationResult))block
 {
     [self getDelegationToken:targetClientId options:[NSMutableDictionary dictionary] withCompletionHandler:(void (^)(NSMutableDictionary* delegationResult))block];
@@ -239,6 +290,14 @@ NSString *DefaultCallback = @"https://%@/mobile";
      }];
 }
 
+// Logout
+- (void)logout
+{
+    _auth0User = nil;
+    [Auth0WebViewController clearCookies];
+}
+
+// Helper methods
 - (void)getUserInfo:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block
 {
     if (![accessToken hasPrefix:@"access_token"])
