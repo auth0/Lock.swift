@@ -29,10 +29,10 @@
     }
     else {         
       // * Use client.auth0User to do wonderful things, e.g.:
-			// - get user email => [client.auth0User.Profile objectForKey:@"email"]
-			// - get facebook/google/twitter/etc access token => [[[client.auth0User.Profile objectForKey:@"identities"] objectAtIndex:0] objectForKey:@"access_token"]
-			// - get Windows Azure AD groups => [client.auth0User.Profile objectForKey:@"groups"]
-			// - etc.
+      // - get user email => [client.auth0User.Profile objectForKey:@"email"]
+      // - get facebook/google/twitter/etc access token => [[[client.auth0User.Profile objectForKey:@"identities"] objectAtIndex:0] objectForKey:@"access_token"]
+      // - get Windows Azure AD groups => [client.auth0User.Profile objectForKey:@"groups"]
+      // - etc.
     }
 	}];
 	```
@@ -51,9 +51,9 @@ Only certain providers support this option (Datbaase Connections, AD Connector a
 
 ```Objective-c
 [client loginAsync:self connection:@"my-db-connection" 
-												username:@"username"
-												password:@"password"
-												withCompletionHandler:^(NSMutableDictionary* error) {
+						username:@"username"
+						password:@"password"
+						withCompletionHandler:^(NSMutableDictionary* error) {
 	if (error) {
 		NSLog(@"Error authenticating: %@ - %@", [error objectForKey:@"error"], [error objectForKey:@"error_description"]);
 	}
@@ -95,14 +95,14 @@ NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithObjectsAndKe
 	* Using the [Facebook login button](https://developers.facebook.com/docs/facebook-login/ios/v2.0#login-button)
 	* Implementing your [custom login UI using API calls](https://developers.facebook.com/docs/facebook-login/ios/v2.0#login-apicalls)
 
-3. Once the user is authenticated with Facebook App Native, call to the `loginAsync` method specifying the `Facebook access_token`:
+3. Once the user is authenticated with Facebook App Native, call to the `loginAsync` method specifying the Facebook `access_token`:
 
 ```Objective-c
 NSString *fb_access_token = [[FBSession.activeSession accessTokenData] accessToken];
 
 [client loginAsync:self connection:@"facebook" 
-												accessToken:fb_access_token
-												withCompletionHandler:^(NSMutableDictionary* error) {
+						accessToken:fb_access_token
+						withCompletionHandler:^(NSMutableDictionary* error) {
 	if (error) {
 		NSLog(@"Error authenticating: %@ - %@", [error objectForKey:@"error"], [error objectForKey:@"error_description"]);
 	}
