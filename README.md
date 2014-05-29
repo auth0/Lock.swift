@@ -47,7 +47,7 @@ Or you can use the connection as a parameter (e.g. here we login with a Windows 
 
 ## Login with User/Password (without WebView)
 
-Only certain providers support this option (Datbaase Connections, AD Connector and ADFS)..
+Only certain providers support this option (Database Connections, AD Connector and ADFS)..
 
 ```Objective-c
 [client loginAsync:self connection:@"my-db-connection" 
