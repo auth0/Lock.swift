@@ -1,0 +1,486 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B7F395D9191EF1EC0082D792 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F395D8191EF1EC0082D792 /* Foundation.framework */; };
+		B7F395DB191EF1EC0082D792 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F395DA191EF1EC0082D792 /* CoreGraphics.framework */; };
+		B7F395DD191EF1EC0082D792 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F395DC191EF1EC0082D792 /* UIKit.framework */; };
+		B7F395E3191EF1EC0082D792 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B7F395E1191EF1EC0082D792 /* InfoPlist.strings */; };
+		B7F395E5191EF1EC0082D792 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F395E4191EF1EC0082D792 /* main.m */; };
+		B7F395E9191EF1EC0082D792 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F395E8191EF1EC0082D792 /* AppDelegate.m */; };
+		B7F395EC191EF1EC0082D792 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7F395EA191EF1EC0082D792 /* Main.storyboard */; };
+		B7F395EF191EF1EC0082D792 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F395EE191EF1EC0082D792 /* LoginViewController.m */; };
+		B7F395F8191EF1EC0082D792 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F395F7191EF1EC0082D792 /* XCTest.framework */; };
+		B7F395F9191EF1EC0082D792 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F395D8191EF1EC0082D792 /* Foundation.framework */; };
+		B7F395FA191EF1EC0082D792 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F395DC191EF1EC0082D792 /* UIKit.framework */; };
+		F635970BA1984315BD5F6738 /* libPods-Auth0Client.AppNativeLoginSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A32CD468CFD24E9FA5583879 /* libPods-Auth0Client.AppNativeLoginSample.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B7F395FB191EF1EC0082D792 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B7F395CD191EF1EB0082D792 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B7F395D4191EF1EB0082D792;
+			remoteInfo = Auth0Client.AppNativeLoginSample;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A32CD468CFD24E9FA5583879 /* libPods-Auth0Client.AppNativeLoginSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Auth0Client.AppNativeLoginSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7F395D5191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Auth0Client.AppNativeLoginSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7F395D8191EF1EC0082D792 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B7F395DA191EF1EC0082D792 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B7F395DC191EF1EC0082D792 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B7F395E0191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Auth0Client.AppNativeLoginSample-Info.plist"; sourceTree = "<group>"; };
+		B7F395E2191EF1EC0082D792 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B7F395E4191EF1EC0082D792 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B7F395E6191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Auth0Client.AppNativeLoginSample-Prefix.pch"; sourceTree = "<group>"; };
+		B7F395E7191EF1EC0082D792 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		B7F395E8191EF1EC0082D792 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		B7F395EB191EF1EC0082D792 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B7F395ED191EF1EC0082D792 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		B7F395EE191EF1EC0082D792 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		B7F395F6191EF1EC0082D792 /* Auth0Client.AppNativeLoginSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Auth0Client.AppNativeLoginSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7F395F7191EF1EC0082D792 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		D72003D1AB764C23B688890E /* Pods-Auth0Client.AppNativeLoginSample.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Client.AppNativeLoginSample.xcconfig"; path = "Pods/Pods-Auth0Client.AppNativeLoginSample.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B7F395D2191EF1EB0082D792 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7F395DB191EF1EC0082D792 /* CoreGraphics.framework in Frameworks */,
+				B7F395DD191EF1EC0082D792 /* UIKit.framework in Frameworks */,
+				B7F395D9191EF1EC0082D792 /* Foundation.framework in Frameworks */,
+				F635970BA1984315BD5F6738 /* libPods-Auth0Client.AppNativeLoginSample.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7F395F3191EF1EC0082D792 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7F395F8191EF1EC0082D792 /* XCTest.framework in Frameworks */,
+				B7F395FA191EF1EC0082D792 /* UIKit.framework in Frameworks */,
+				B7F395F9191EF1EC0082D792 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B7F395CC191EF1EB0082D792 = {
+			isa = PBXGroup;
+			children = (
+				B7F395DE191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample */,
+				B7F395D7191EF1EC0082D792 /* Frameworks */,
+				B7F395D6191EF1EC0082D792 /* Products */,
+				D72003D1AB764C23B688890E /* Pods-Auth0Client.AppNativeLoginSample.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		B7F395D6191EF1EC0082D792 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B7F395D5191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample.app */,
+				B7F395F6191EF1EC0082D792 /* Auth0Client.AppNativeLoginSampleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B7F395D7191EF1EC0082D792 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B7F395D8191EF1EC0082D792 /* Foundation.framework */,
+				B7F395DA191EF1EC0082D792 /* CoreGraphics.framework */,
+				B7F395DC191EF1EC0082D792 /* UIKit.framework */,
+				B7F395F7191EF1EC0082D792 /* XCTest.framework */,
+				A32CD468CFD24E9FA5583879 /* libPods-Auth0Client.AppNativeLoginSample.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B7F395DE191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample */ = {
+			isa = PBXGroup;
+			children = (
+				B7F395E7191EF1EC0082D792 /* AppDelegate.h */,
+				B7F395E8191EF1EC0082D792 /* AppDelegate.m */,
+				B7F395EA191EF1EC0082D792 /* Main.storyboard */,
+				B7F395ED191EF1EC0082D792 /* LoginViewController.h */,
+				B7F395EE191EF1EC0082D792 /* LoginViewController.m */,
+				B7F395DF191EF1EC0082D792 /* Supporting Files */,
+			);
+			path = Auth0Client.AppNativeLoginSample;
+			sourceTree = "<group>";
+		};
+		B7F395DF191EF1EC0082D792 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B7F395E0191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample-Info.plist */,
+				B7F395E1191EF1EC0082D792 /* InfoPlist.strings */,
+				B7F395E4191EF1EC0082D792 /* main.m */,
+				B7F395E6191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B7F395D4191EF1EB0082D792 /* Auth0Client.AppNativeLoginSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7F39607191EF1EC0082D792 /* Build configuration list for PBXNativeTarget "Auth0Client.AppNativeLoginSample" */;
+			buildPhases = (
+				74DDA7594C654695A7661967 /* Check Pods Manifest.lock */,
+				B7F395D1191EF1EB0082D792 /* Sources */,
+				B7F395D2191EF1EB0082D792 /* Frameworks */,
+				B7F395D3191EF1EB0082D792 /* Resources */,
+				C1C01D43BD844240AEBFEA73 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Auth0Client.AppNativeLoginSample;
+			productName = Auth0Client.AppNativeLoginSample;
+			productReference = B7F395D5191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B7F395F5191EF1EC0082D792 /* Auth0Client.AppNativeLoginSampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7F3960A191EF1EC0082D792 /* Build configuration list for PBXNativeTarget "Auth0Client.AppNativeLoginSampleTests" */;
+			buildPhases = (
+				B7F395F2191EF1EC0082D792 /* Sources */,
+				B7F395F3191EF1EC0082D792 /* Frameworks */,
+				B7F395F4191EF1EC0082D792 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B7F395FC191EF1EC0082D792 /* PBXTargetDependency */,
+			);
+			name = Auth0Client.AppNativeLoginSampleTests;
+			productName = Auth0Client.AppNativeLoginSampleTests;
+			productReference = B7F395F6191EF1EC0082D792 /* Auth0Client.AppNativeLoginSampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B7F395CD191EF1EB0082D792 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = auth0;
+				TargetAttributes = {
+					B7F395F5191EF1EC0082D792 = {
+						TestTargetID = B7F395D4191EF1EB0082D792;
+					};
+				};
+			};
+			buildConfigurationList = B7F395D0191EF1EB0082D792 /* Build configuration list for PBXProject "Auth0Client.AppNativeLoginSample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B7F395CC191EF1EB0082D792;
+			productRefGroup = B7F395D6191EF1EC0082D792 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B7F395D4191EF1EB0082D792 /* Auth0Client.AppNativeLoginSample */,
+				B7F395F5191EF1EC0082D792 /* Auth0Client.AppNativeLoginSampleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B7F395D3191EF1EB0082D792 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7F395E3191EF1EC0082D792 /* InfoPlist.strings in Resources */,
+				B7F395EC191EF1EC0082D792 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7F395F4191EF1EC0082D792 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		74DDA7594C654695A7661967 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C1C01D43BD844240AEBFEA73 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-Auth0Client.AppNativeLoginSample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B7F395D1191EF1EB0082D792 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7F395EF191EF1EC0082D792 /* LoginViewController.m in Sources */,
+				B7F395E9191EF1EC0082D792 /* AppDelegate.m in Sources */,
+				B7F395E5191EF1EC0082D792 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7F395F2191EF1EC0082D792 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B7F395FC191EF1EC0082D792 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B7F395D4191EF1EB0082D792 /* Auth0Client.AppNativeLoginSample */;
+			targetProxy = B7F395FB191EF1EC0082D792 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B7F395E1191EF1EC0082D792 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B7F395E2191EF1EC0082D792 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B7F395EA191EF1EC0082D792 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B7F395EB191EF1EC0082D792 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B7F39605191EF1EC0082D792 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		B7F39606191EF1EC0082D792 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B7F39608191EF1EC0082D792 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D72003D1AB764C23B688890E /* Pods-Auth0Client.AppNativeLoginSample.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Auth0Client.AppNativeLoginSample/Auth0Client.AppNativeLoginSample-Prefix.pch";
+				INFOPLIST_FILE = "Auth0Client.AppNativeLoginSample/Auth0Client.AppNativeLoginSample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B7F39609191EF1EC0082D792 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D72003D1AB764C23B688890E /* Pods-Auth0Client.AppNativeLoginSample.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Auth0Client.AppNativeLoginSample/Auth0Client.AppNativeLoginSample-Prefix.pch";
+				INFOPLIST_FILE = "Auth0Client.AppNativeLoginSample/Auth0Client.AppNativeLoginSample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		B7F3960B191EF1EC0082D792 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Auth0Client.AppNativeLoginSample.app/Auth0Client.AppNativeLoginSample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Auth0Client.AppNativeLoginSample/Auth0Client.AppNativeLoginSample-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Auth0Client.AppNativeLoginSampleTests/Auth0Client.AppNativeLoginSampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		B7F3960C191EF1EC0082D792 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Auth0Client.AppNativeLoginSample.app/Auth0Client.AppNativeLoginSample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Auth0Client.AppNativeLoginSample/Auth0Client.AppNativeLoginSample-Prefix.pch";
+				INFOPLIST_FILE = "Auth0Client.AppNativeLoginSampleTests/Auth0Client.AppNativeLoginSampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B7F395D0191EF1EB0082D792 /* Build configuration list for PBXProject "Auth0Client.AppNativeLoginSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7F39605191EF1EC0082D792 /* Debug */,
+				B7F39606191EF1EC0082D792 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B7F39607191EF1EC0082D792 /* Build configuration list for PBXNativeTarget "Auth0Client.AppNativeLoginSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7F39608191EF1EC0082D792 /* Debug */,
+				B7F39609191EF1EC0082D792 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B7F3960A191EF1EC0082D792 /* Build configuration list for PBXNativeTarget "Auth0Client.AppNativeLoginSampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7F3960B191EF1EC0082D792 /* Debug */,
+				B7F3960C191EF1EC0082D792 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B7F395CD191EF1EB0082D792 /* Project object */;
+}
