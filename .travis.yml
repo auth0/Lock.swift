@@ -1,0 +1,5 @@
+reference: http://www.objc.io/issue-6/travis-ci.html
+language: objective-c
+cache: bundler
+script:
+- xctool test -workspace Example/Auth0Client.xcworkspace -scheme Auth0Client -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO

@@ -1,0 +1,20 @@
+PODS:
+  - Auth0Client (0.1.0)
+  - Expecta (0.3.0)
+  - Specta (0.2.1)
+
+DEPENDENCIES:
+  - Auth0Client (from `../`)
+  - Expecta
+  - Specta (~> 0.2.1)
+
+EXTERNAL SOURCES:
+  Auth0Client:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Auth0Client: ff156bee2227bdab5fd2495ed4cf06d01c9b31e5
+  Expecta: ce8a51b9fad15a2cd573b291cb2909aaed865350
+  Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
+
+COCOAPODS: 0.33.1
