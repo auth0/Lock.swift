@@ -1,12 +1,20 @@
+#Auth0 iOS Client ![License MIT](https://go-shields.herokuapp.com/license-MIT-blue.png)
+[![Badge w/ Version](https://cocoapod-badges.herokuapp.com/v/Auth0Client/0.0.10/badge.png)](https://cocoadocs.org/docsets/NSStringMask)
+[![Badge w/ Platform](https://cocoapod-badges.herokuapp.com/p/Auth0Client/badge.png)](https://cocoadocs.org/docsets/NSStringMask)
 ## Usage
 
-1. Git clone and reference the library in your project
+1. Install library in your project
 
+	If you are using CocoaPods, add the following line to your _Podfile_
+	```ruby
+	pod 'Auth0Client'
+	```
+	Or just git clone and reference the library in your project following these steps:
 	```bash
 	git clone git@github.com:auth0/Auth0.iOS.git
 	```
 
-	1. Go to your project 
+	1. Go to your project
 	2. Right-click in the Frameworks folder and select ___Add Files to "Your Project Name"___
 	3. Go to the Auth0.iOS, select the __Auth0Client__ folder, ensure that your project target is selected and press __Add__
 
@@ -14,20 +22,20 @@
 
 	```Objective-c
 	#import "Auth0Client.h"
-	
+
 	// ...
-	
+
 	Auth0Client *client = [Auth0Client auth0Client:@"YOUR_AUTH0_DOMAIN" clientId:@"YOUR_CLIENT_ID"];
 	```
 
-3. Trigger login (with Widget) 
+3. Trigger login (with Widget)
 
 	```Objective-c
 	[client loginAsync:self withCompletionHandler:^(NSMutableDictionary* error) {
     if (error) {
     	NSLog(@"Error authenticating: %@", [error objectForKey:@"error"]);
     }
-    else {         
+    else {
       // * Use client.auth0User to do wonderful things, e.g.:
       // - get user email => [client.auth0User.Profile objectForKey:@"email"]
       // - get facebook/google/twitter/etc access token => [[[client.auth0User.Profile objectForKey:@"identities"] objectAtIndex:0] objectForKey:@"access_token"]
@@ -50,7 +58,7 @@ Or you can use the connection as a parameter (e.g. here we login with a Windows 
 Only certain providers support this option (Database Connections, AD Connector and ADFS)..
 
 ```Objective-c
-[client loginAsync:self connection:@"my-db-connection" 
+[client loginAsync:self connection:@"my-db-connection"
 						username:@"username"
 						password:@"password"
 						withCompletionHandler:^(NSMutableDictionary* error) {
@@ -100,7 +108,7 @@ NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithObjectsAndKe
 ```Objective-c
 NSString *fb_access_token = [[FBSession.activeSession accessTokenData] accessToken];
 
-[client loginAsync:self connection:@"facebook" 
+[client loginAsync:self connection:@"facebook"
 						accessToken:fb_access_token
 						withCompletionHandler:^(NSMutableDictionary* error) {
 	if (error) {
@@ -120,7 +128,7 @@ For more details, you can check our [sample](/Auth0Client.AppNativeLoginSample).
 
 Auth0 helps you to:
 
-* Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter**, or enterprise identity systems like **Windows Azure AD, Google Apps, AD, ADFS or any SAML Identity Provider**. 
+* Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter**, or enterprise identity systems like **Windows Azure AD, Google Apps, AD, ADFS or any SAML Identity Provider**.
 * Add authentication through more traditional **[username/password databases](https://docs.auth0.com/mysql-connection-tutorial)**.
 * Add support for **[linking different user accounts](https://docs.auth0.com/link-accounts)** with the same user.
 * Support for generating signed [Json Web Tokens](https://docs.auth0.com/jwt) to call your APIs and **flow the user identity** securely.
