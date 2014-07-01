@@ -85,7 +85,7 @@
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
-        <view contentMode="scaleToFill" id="WLb-RC-kdX">
+        <view contentMode="scaleToFill" id="WLb-RC-kdX" customClass="A0ServicesView">
             <rect key="frame" x="0.0" y="0.0" width="280" height="79"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -100,6 +100,10 @@
                         <inset key="sectionInset" minX="10" minY="5" maxX="10" maxY="5"/>
                     </collectionViewFlowLayout>
                     <cells/>
+                    <connections>
+                        <outlet property="dataSource" destination="WLb-RC-kdX" id="ino-2y-fUg"/>
+                        <outlet property="delegate" destination="WLb-RC-kdX" id="gOI-BS-2sV"/>
+                    </connections>
                 </collectionView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9hl-Fq-Lxb">
                     <rect key="frame" x="128" y="58" width="25" height="21"/>
@@ -118,6 +122,9 @@
                 <constraint firstAttribute="bottom" secondItem="9hl-Fq-Lxb" secondAttribute="bottom" id="rWG-B0-KNU"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="serviceCollectionView" destination="uOI-2A-wQC" id="dDC-ii-XZl"/>
+            </connections>
         </view>
         <view contentMode="scaleToFill" id="Hug-8U-rzn" customClass="A0UserPasswordView">
             <rect key="frame" x="0.0" y="0.0" width="280" height="232"/>
