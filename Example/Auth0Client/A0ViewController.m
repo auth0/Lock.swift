@@ -8,22 +8,18 @@
 
 #import "A0ViewController.h"
 
+#import <Auth0Client/A0LoginViewController.h>
+
 @interface A0ViewController ()
 
 @end
 
 @implementation A0ViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    A0LoginViewController *controller = [[A0LoginViewController alloc] init];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 @end
