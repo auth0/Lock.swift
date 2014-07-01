@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
   s.source_files = 'Pod/Classes'
   s.resources = 'Pod/Assets/*.png', 'Pod/Assets/*.xib'
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+  s.public_header_files = 'Pod/Classes/**/A0LoginViewController.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
 end
