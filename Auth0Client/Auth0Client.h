@@ -46,4 +46,6 @@
 
 - (void)getUserInfo:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block;
 
+- (void)getTokenInfo:(NSString *)idToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block;
+
 @end
