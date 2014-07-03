@@ -28,7 +28,8 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes'
-  s.resources = 'Pod/Assets/*.png', 'Pod/Assets/*.xib'
+  s.resources = 'Pod/Assets/*.xib'
+  s.resource_bundles = { 'Auth0' => ['Pod/Assets/Images/*.png', 'Pod/Assets/*.plist']}
 
   s.public_header_files = 'Pod/Classes/**/A0LoginViewController.h'
   # s.frameworks = 'UIKit', 'MapKit'

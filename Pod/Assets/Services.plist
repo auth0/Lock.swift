@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>yahoo</key>
+	<dict>
+		<key>icon_name</key>
+		<string>yahoo.png</string>
+		<key>background_color</key>
+		<string>a200c2</string>
+		<key>selected_background_color</key>
+		<string>6A0086</string>
+	</dict>
+	<key>linkedin</key>
+	<dict>
+		<key>icon_name</key>
+		<string>linkedin.png</string>
+		<key>background_color</key>
+		<string>0083a8</string>
+		<key>selected_background_color</key>
+		<string>073D51</string>
+	</dict>
+	<key>google+</key>
+	<dict>
+		<key>icon_name</key>
+		<string>g+.png</string>
+		<key>background_color</key>
+		<string>dd4b39</string>
+		<key>selected_background_color</key>
+		<string>7F221C</string>
+	</dict>
+	<key>twitter</key>
+	<dict>
+		<key>icon_name</key>
+		<string>twitter.png</string>
+		<key>background_color</key>
+		<string>46c0fb</string>
+		<key>selected_background_color</key>
+		<string>256B95</string>
+	</dict>
+	<key>facebook</key>
+	<dict>
+		<key>icon_name</key>
+		<string>facebook.png</string>
+		<key>background_color</key>
+		<string>4863AE</string>
+		<key>selected_background_color</key>
+		<string>222E5C</string>
+	</dict>
+	<key>amazon</key>
+	<dict>
+		<key>icon_name</key>
+		<string>amazon.png</string>
+		<key>background_color</key>
+		<string>ffad1d</string>
+		<key>selected_background_color</key>
+		<string>6C450D</string>
+	</dict>
+</dict>
+</plist>

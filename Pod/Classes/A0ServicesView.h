@@ -10,6 +10,8 @@
 
 @interface A0ServicesView : UIView
 
+@property (copy, nonatomic) NSArray *serviceNames;
+
 @property (weak, nonatomic) IBOutlet UICollectionView *serviceCollectionView;
 
 @end

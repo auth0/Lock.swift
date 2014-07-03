@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,11 +15,11 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IXD-s1-Lci">
-                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                        <rect key="frame" x="12" y="12" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="82J-cp-Sax"/>
-                            <constraint firstAttribute="height" constant="40" id="R13-i8-sT0"/>
+                            <constraint firstAttribute="width" constant="16" id="82J-cp-Sax"/>
+                            <constraint firstAttribute="width" secondItem="IXD-s1-Lci" secondAttribute="height" multiplier="1:1" id="MZI-ca-KBS"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
