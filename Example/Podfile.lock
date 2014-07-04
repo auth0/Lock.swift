@@ -36,7 +36,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
-  Auth0Client: cae0120a37f891e5d16a00cda5e91b423bc74484
+  Auth0Client: e8d8e4dfde2345f50bc6d01c60774b50507e66f9
   Expecta: ce8a51b9fad15a2cd573b291cb2909aaed865350
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
 
