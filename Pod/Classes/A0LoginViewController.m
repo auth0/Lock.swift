@@ -9,6 +9,7 @@
 #import "A0LoginViewController.h"
 
 #import "A0ServicesView.h"
+#import "A0APIClient.h"
 
 @interface A0LoginViewController ()
 
@@ -25,10 +26,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.socialSmallView.serviceNames = @[@"amazon", @"twitter", @"yahoo", @"google+", @"facebook"];
-    self.authView = [self layoutSocialView:self.socialSmallView
-                           andUserPassView:self.userPassSmallView
-                           inContainerView:self.containerView];
+    [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(id response) {
+        NSLog(@"%@", response);
+        self.socialSmallView.serviceNames = @[@"amazon", @"twitter", @"yahoo", @"google+", @"facebook"];
+        self.authView = [self layoutSocialView:self.socialSmallView
+                               andUserPassView:self.userPassSmallView
+                               inContainerView:self.containerView];
+    } failure:nil];
 }
 
 - (BOOL)shouldAutorotate {
