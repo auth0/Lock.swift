@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet UIView *userPassSmallView;
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) UIView *authView;
 
 @end
 
@@ -23,14 +24,54 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.socialSmallView.serviceNames = @[@"amazon", @"twitter", @"yahoo", @"google+", @"facebook"];
-    [self.containerView addSubview:self.socialSmallView];
-    self.userPassSmallView.frame = CGRectOffset(self.userPassSmallView.frame, 0, self.socialSmallView.frame.size.height);
-    [self.containerView addSubview:self.userPassSmallView];
+    self.authView = [self layoutSocialView:self.socialSmallView
+                           andUserPassView:self.userPassSmallView
+                           inContainerView:self.containerView];
 }
 
 - (BOOL)shouldAutorotate {
     return NO;
+}
+
+#pragma mark - Utility methods
+
+- (UIView *)layoutSocialView:(UIView *)socialView andUserPassView:(UIView *)userPassView inContainerView:(UIView *)containerView {
+    UIView *authView = [[UIView alloc] init];
+
+    containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    authView.translatesAutoresizingMaskIntoConstraints = NO;
+    socialView.frame = CGRectMake(0, 0, socialView.frame.size.width, socialView.frame.size.height);
+    userPassView.frame = CGRectOffset(userPassView.frame, 0, socialView.frame.size.height);
+    [authView addSubview:userPassView];
+    [authView addSubview:socialView];
+    [containerView addSubview:authView];
+
+    NSDictionary *views = NSDictionaryOfVariableBindings(socialView, userPassView);
+    NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[socialView][userPassView]|"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:views];
+    [authView addConstraints:verticalConstraints];
+    [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[socialView]|" options:0 metrics:nil views:views]];
+    [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[userPassView]|" options:0 metrics:nil views:views]];
+
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView
+                                                                   attribute:NSLayoutAttributeCenterX
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:authView
+                                                                   attribute:NSLayoutAttributeCenterX
+                                                                  multiplier:1.0f
+                                                                    constant:0.0f]];
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView
+                                                                   attribute:NSLayoutAttributeCenterY
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:authView
+                                                                   attribute:NSLayoutAttributeCenterY
+                                                                  multiplier:1.0f
+                                                                    constant:0.0f]];
+    return authView;
 }
 
 @end
