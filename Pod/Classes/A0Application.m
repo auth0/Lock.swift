@@ -18,14 +18,21 @@
         NSString *tenant = JSONDict[@"tenant"];
         NSString *authorize = JSONDict[@"authorize"];
         NSString *callback = JSONDict[@"callback"];
+        NSArray *array = JSONDict[@"strategies"];
+        NSMutableArray *strategies = [@[] mutableCopy];
+        [array enumerateObjectsUsingBlock:^(NSDictionary *strategyDict, NSUInteger idx, BOOL *stop) {
+            [strategies addObject:strategyDict[@"name"]];
+        }];
         NSAssert(identifier.length > 0, @"Must have a valid name");
         NSAssert(tenant.length > 0, @"Must have a valid tenant");
         NSAssert(authorize.length > 0, @"Must have a valid auhorize URL");
         NSAssert(callback.length > 0, @"Must have a valid callback URL");
+        NSAssert(strategies.count > 0, @"Must have at least 1 strategy");
         _identifier = identifier;
         _tenant = tenant;
         _authorizeURL = [NSURL URLWithString:authorize];
         _callbackURL = [NSURL URLWithString:callback];
+        _strategies = [NSArray arrayWithArray:strategies];
     }
     return self;
 }

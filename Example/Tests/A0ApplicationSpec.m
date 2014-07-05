@@ -42,6 +42,10 @@ describe(@"A0Application", ^{
         specify(@"valid callback URL", ^{
             expect(application.callbackURL).to.equal([NSURL URLWithString:kCallbackURL]);
         });
+
+        specify(@"valid strategies", ^{
+            expect(application.strategies).to.haveCountOf(3);
+        });
     });
 
     context(@"object creation from JSON", ^{
@@ -52,6 +56,11 @@ describe(@"A0Application", ^{
                                    @"tenant": kTenant,
                                    @"authorize": kAuthorizeURL,
                                    @"callback": kCallbackURL,
+                                   @"strategies": @[
+                                           @{@"name": @"facebook"},
+                                           @{@"name": @"twitter"},
+                                           @{@"name": @"yahoo"},
+                                           ],
                                    };
 
 
@@ -95,6 +104,12 @@ describe(@"A0Application", ^{
         itBehavesLike(@"invalid JSON dictionary", ^{
             NSMutableDictionary *dict = [jsonDict mutableCopy];
             [dict removeObjectForKey:@"callback"];
+            return dict;
+        });
+
+        itBehavesLike(@"invalid JSON dictionary", ^{
+            NSMutableDictionary *dict = [jsonDict mutableCopy];
+            [dict removeObjectForKey:@"strategies"];
             return dict;
         });
 

@@ -14,6 +14,7 @@
 @property (strong, nonatomic, readonly) NSString *tenant;
 @property (strong, nonatomic, readonly) NSURL *authorizeURL;
 @property (strong, nonatomic, readonly) NSURL *callbackURL;
+@property (strong, nonatomic, readonly) NSArray *strategies;
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict;
 
