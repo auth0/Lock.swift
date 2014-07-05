@@ -8,6 +8,8 @@
 
 #import "A0APIClient.h"
 
+#import "A0Application.h"
+
 #import <AFNetworking/AFNetworking.h>
 
 #define kClientIdKey @"AUTH0_CLIENT_ID"
@@ -47,8 +49,9 @@
             }
             NSError *error;
             NSDictionary *auth0AppInfo = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&error];
+            A0Application *application = [[A0Application alloc] initWithJSONDictionary:auth0AppInfo];
             if (!error) {
-                success(auth0AppInfo);
+                success(application);
             } else {
                 if (failure) {
                     failure(error);

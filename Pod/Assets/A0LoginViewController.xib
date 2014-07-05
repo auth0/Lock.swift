@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -7,8 +7,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0LoginViewController">
             <connections>
                 <outlet property="containerView" destination="eYP-oW-iTl" id="5LH-sV-ceC"/>
-                <outlet property="socialSmallView" destination="WLb-RC-kdX" id="hDy-31-OWf"/>
-                <outlet property="userPassSmallView" destination="Hug-8U-rzn" id="s0D-Jn-QrV"/>
+                <outlet property="databaseAuthView" destination="Hug-8U-rzn" id="Y6W-Qd-DxU"/>
+                <outlet property="smallSocialAuthView" destination="WLb-RC-kdX" id="vCq-pv-2Tl"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

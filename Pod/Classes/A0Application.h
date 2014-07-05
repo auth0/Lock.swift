@@ -18,4 +18,6 @@
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict;
 
+- (BOOL)hasDatabaseConnection;
+
 @end

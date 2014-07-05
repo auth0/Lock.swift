@@ -37,4 +37,11 @@
     return self;
 }
 
+- (BOOL)hasDatabaseConnection {
+    return [self.strategies containsObject:@"auth0"];
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<A0Application id = '%@'; tenant = '%@' strategies = %@>", self.identifier, self.tenant, self.strategies];
+}
 @end

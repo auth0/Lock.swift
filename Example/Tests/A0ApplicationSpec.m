@@ -19,9 +19,9 @@ SpecBegin(A0Application)
 
 describe(@"A0Application", ^{
 
+    __block A0Application *application;
 
     sharedExamplesFor(@"valid application object", ^(NSDictionary *data) {
-        __block A0Application *application;
 
         beforeEach(^{
             application = data[kAppDataKey];
@@ -51,6 +51,7 @@ describe(@"A0Application", ^{
     context(@"object creation from JSON", ^{
 
         NSString *JSONDictKey = @"JSONDict";
+
         NSDictionary *jsonDict = @{
                                    @"id": kAppIdentifier,
                                    @"tenant": kTenant,
@@ -63,12 +64,11 @@ describe(@"A0Application", ^{
                                            ],
                                    };
 
-
         sharedExamplesFor(@"invalid JSON dictionary", ^(NSDictionary *data) {
             it(@"should fail on init method", ^{
                 expect(^{
                     A0Application *app = [[A0Application alloc] initWithJSONDictionary:data[JSONDictKey]];
-                    expect(app).to.beNil;
+                    expect(app).to.beNil();
                 }).to.raiseAny();
             });
         });
@@ -111,6 +111,47 @@ describe(@"A0Application", ^{
             NSMutableDictionary *dict = [jsonDict mutableCopy];
             [dict removeObjectForKey:@"strategies"];
             return dict;
+        });
+
+    });
+
+    describe(NSStringFromSelector(@selector(hasDatabaseConnection)), ^{
+
+        NSDictionary *jsonDict = @{
+                                   @"id": kAppIdentifier,
+                                   @"tenant": kTenant,
+                                   @"authorize": kAuthorizeURL,
+                                   @"callback": kCallbackURL,
+                                   @"strategies": @[
+                                           @{@"name": @"auth0"},
+                                           @{@"name": @"twitter"},
+                                           ],
+                                   };
+
+        context(@"when it has auth0 strategy", ^{
+
+            beforeEach(^{
+                application = [[A0Application alloc] initWithJSONDictionary:jsonDict];
+            });
+
+            it(@"should be YES", ^{
+                expect(application.hasDatabaseConnection).to.beTruthy();
+            });
+
+        });
+
+        context(@"when it has not auth0 strategy", ^{
+
+            beforeEach(^{
+                NSMutableDictionary *dict = [jsonDict mutableCopy];
+                [dict setObject:@[@{@"name": @"twitter"}] forKey:@"strategies"];
+                application = [[A0Application alloc] initWithJSONDictionary:dict];
+            });
+
+            it(@"should be NO", ^{
+                expect(application.hasDatabaseConnection).toNot.beTruthy();
+            });
+            
         });
 
     });
