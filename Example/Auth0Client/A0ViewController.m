@@ -16,9 +16,11 @@
 
 @implementation A0ViewController
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)signIn:(id)sender {
     A0LoginViewController *controller = [[A0LoginViewController alloc] init];
+    controller.authBlock = ^(A0LoginViewController *controller, NSDictionary *authInfo) {
+        NSLog(@"SUCCESS %@", authInfo);
+    };
     [self presentViewController:controller animated:YES completion:nil];
 }
 

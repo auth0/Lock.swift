@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class A0LoginViewController;
+
+typedef void(^A0AuthBlock)(A0LoginViewController *controller, NSDictionary *authDictionary);
+
 @interface A0LoginViewController : UIViewController
+
+@property (copy, nonatomic) A0AuthBlock authBlock;
 
 @end

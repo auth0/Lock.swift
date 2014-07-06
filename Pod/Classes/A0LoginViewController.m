@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) UIView *authView;
 
+- (IBAction)dismiss:(id)sender;
+
 @end
 
 @implementation A0LoginViewController
@@ -33,7 +35,12 @@
     @weakify(self);
     self.databaseAuthView.loginBlock = ^(NSString *username, NSString *password) {
         [[A0APIClient sharedClient] loginWithUsername:username password:password success:^(id payload) {
-            NSLog(@"SUCCESS %@", payload);
+            @strongify(self);
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                if (self.authBlock) {
+                    self.authBlock(self, payload);
+                }
+            }];
         } failure:^(NSError *error) {
             NSLog(@"ERROR %@", error);
         }];
@@ -52,6 +59,10 @@
 
 - (BOOL)shouldAutorotate {
     return NO;
+}
+
+- (void)dismiss:(id)sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Utility methods

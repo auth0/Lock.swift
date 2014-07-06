@@ -10,4 +10,6 @@
 
 @interface A0ViewController : UIViewController
 
+- (IBAction)signIn:(id)sender;
+
 @end
