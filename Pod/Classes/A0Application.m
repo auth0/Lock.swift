@@ -8,6 +8,7 @@
 
 #import "A0Application.h"
 
+#import "A0Strategy.h"
 @implementation A0Application
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict {
@@ -21,7 +22,7 @@
         NSArray *array = JSONDict[@"strategies"];
         NSMutableArray *strategies = [@[] mutableCopy];
         [array enumerateObjectsUsingBlock:^(NSDictionary *strategyDict, NSUInteger idx, BOOL *stop) {
-            [strategies addObject:strategyDict[@"name"]];
+            [strategies addObject:[[A0Strategy alloc] initWithJSONDictionary:strategyDict]];
         }];
         NSAssert(identifier.length > 0, @"Must have a valid name");
         NSAssert(tenant.length > 0, @"Must have a valid tenant");
@@ -38,7 +39,12 @@
 }
 
 - (BOOL)hasDatabaseConnection {
-    return [self.strategies containsObject:@"auth0"];
+    NSInteger index = [self.strategies indexOfObjectPassingTest:^BOOL(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
+        BOOL isAuth0Strategy = [strategy.name isEqualToString:@"auth0"];
+        *stop = isAuth0Strategy;
+        return isAuth0Strategy;
+    }];
+    return index != NSNotFound;
 }
 
 - (NSString *)description {
