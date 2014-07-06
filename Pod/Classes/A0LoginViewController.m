@@ -32,11 +32,16 @@
 
     @weakify(self);
     self.databaseAuthView.loginBlock = ^(NSString *username, NSString *password) {
-        //Perform login
+        [[A0APIClient sharedClient] loginWithUsername:username password:password success:^(id payload) {
+            NSLog(@"SUCCESS %@", payload);
+        } failure:^(NSError *error) {
+            NSLog(@"ERROR %@", error);
+        }];
     };
 
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
+        [[A0APIClient sharedClient] configureForApplication:application];
         if ([application hasDatabaseConnection]) {
             self.authView = [self layoutUserPassView:self.databaseAuthView inContainer:self.containerView];
         } else {

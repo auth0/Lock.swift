@@ -27,7 +27,7 @@
         NSAssert(identifier.length > 0, @"Must have a valid name");
         NSAssert(tenant.length > 0, @"Must have a valid tenant");
         NSAssert(authorize.length > 0, @"Must have a valid auhorize URL");
-        NSAssert(callback.length > 0, @"Must have a valid callback URL");
+        NSAssert(callback, @"Must have a valid callback URL");
         NSAssert(strategies.count > 0, @"Must have at least 1 strategy");
         _identifier = identifier;
         _tenant = tenant;
@@ -45,6 +45,19 @@
         return isAuth0Strategy;
     }];
     return index != NSNotFound;
+}
+
+- (A0Strategy *)databaseStrategy {
+    NSInteger index = [self.strategies indexOfObjectPassingTest:^BOOL(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
+        BOOL isAuth0Strategy = [strategy.name isEqualToString:@"auth0"];
+        *stop = isAuth0Strategy;
+        return isAuth0Strategy;
+    }];
+    A0Strategy *strategy;
+    if (index != NSNotFound) {
+        strategy = self.strategies[index];
+    }
+    return strategy;
 }
 
 - (NSString *)description {

@@ -9,14 +9,18 @@
 #import "A0APIClient.h"
 
 #import "A0Application.h"
+#import "A0Strategy.h"
 
 #import <AFNetworking/AFNetworking.h>
+#import <libextobjc/EXTScope.h>
 
 #define kClientIdKey @"AUTH0_CLIENT_ID"
 
 @interface A0APIClient ()
 
 @property (strong, nonatomic) NSString *clientId;
+@property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
+@property (strong, nonatomic) A0Application *application;
 
 @end
 
@@ -29,6 +33,15 @@
         _clientId = [clientId copy];
     }
     return self;
+}
+
+- (void)configureForApplication:(A0Application *)application {
+    NSString *URLString = [NSString stringWithFormat:@"https://%@.auth0.com/api/", application.tenant.lowercaseString];
+    NSURL *baseURL = [NSURL URLWithString:URLString];
+    self.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+    self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    self.manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    self.application = application;
 }
 
 - (void)fetchAppInfoWithSuccess:(A0APIClientSuccess)success
@@ -64,6 +77,41 @@
         }
     }];
     [operation start];
+}
+
+- (void)loginWithUsername:(NSString *)username
+                 password:(NSString *)password
+                  success:(A0APIClientSuccess)success
+                  failure:(A0APIClientError)failure {
+    A0Strategy *databaseStrategy = self.application.databaseStrategy;
+    NSDictionary *params = @{
+                             @"username": username,
+                             @"password": password,
+                             @"client_id": self.clientId,
+                             @"connection": databaseStrategy.connection[@"name"],
+                             @"grant_type": @"password",
+                             @"scope": @"openid",
+                             };
+    @weakify(self);
+    [self.manager POST:@"/oauth/ro" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary *params = @{
+                                 @"id_token": responseObject[@"id_token"],
+                                 };
+        @strongify(self);
+        [self.manager POST:@"/tokeninfo" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            if (success) {
+                success(responseObject);
+            }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            if (failure) {
+                failure(error);
+            }
+        }];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
 }
 
 + (instancetype)sharedClient {

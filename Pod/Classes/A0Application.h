@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class A0Strategy;
+
 @interface A0Application : NSObject
 
 @property (strong, nonatomic, readonly) NSString *identifier;
@@ -19,5 +21,6 @@
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict;
 
 - (BOOL)hasDatabaseConnection;
+- (A0Strategy *)databaseStrategy;
 
 @end
