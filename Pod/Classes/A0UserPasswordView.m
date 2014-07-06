@@ -10,6 +10,20 @@
 
 #import <CoreGraphics/CoreGraphics.h>
 
+@interface A0UserPasswordView ()
+
+@property (weak, nonatomic) IBOutlet UIView *userContainerView;
+@property (weak, nonatomic) IBOutlet UIView *passwordContainerView;
+@property (weak, nonatomic) IBOutlet UITextField *userTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UIButton *accessButton;
+@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
+@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
+
+- (IBAction)access:(id)sender;
+
+@end
+
 @implementation A0UserPasswordView
 
 - (void)awakeFromNib {
@@ -24,6 +38,14 @@
     [self.accessButton setBackgroundImage:[self imageWithColor:[UIColor colorWithRed:0.043 green:0.063 blue:0.145 alpha:1.000]] forState:UIControlStateHighlighted];
     self.accessButton.layer.cornerRadius = 5;
     self.accessButton.clipsToBounds = YES;
+}
+
+- (void)access:(id)sender {
+    [self.userTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
+    if (self.loginBlock) {
+        self.loginBlock(self.userTextField.text, self.passwordTextField.text);
+    }
 }
 
 - (UIImage *)imageWithColor:(UIColor *)color {

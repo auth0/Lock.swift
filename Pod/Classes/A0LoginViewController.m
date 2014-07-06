@@ -11,11 +11,14 @@
 #import "A0ServicesView.h"
 #import "A0APIClient.h"
 #import "A0Application.h"
+#import "A0UserPasswordView.h"
+
+#import <libextobjc/EXTScope.h>
 
 @interface A0LoginViewController ()
 
 @property (strong, nonatomic) IBOutlet A0ServicesView *smallSocialAuthView;
-@property (strong, nonatomic) IBOutlet UIView *databaseAuthView;
+@property (strong, nonatomic) IBOutlet A0UserPasswordView *databaseAuthView;
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) UIView *authView;
@@ -27,7 +30,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    @weakify(self);
+    self.databaseAuthView.loginBlock = ^(NSString *username, NSString *password) {
+        //Perform login
+    };
+
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
+        @strongify(self);
         if ([application hasDatabaseConnection]) {
             self.authView = [self layoutUserPassView:self.databaseAuthView inContainer:self.containerView];
         } else {
