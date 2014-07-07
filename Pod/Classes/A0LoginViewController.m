@@ -15,6 +15,22 @@
 
 #import <libextobjc/EXTScope.h>
 
+@implementation NSNotification (UIKeyboardInfo)
+
+- (CGFloat)keyboardAnimationDuration {
+    return [[self userInfo][UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+}
+
+- (NSUInteger)keyboardAnimationCurve {
+    return [[self userInfo][UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue];
+}
+
+- (CGRect)keyboardEndFrame {
+    return [[self userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
+}
+
+@end
+
 @interface A0LoginViewController ()
 
 @property (strong, nonatomic) IBOutlet A0ServicesView *smallSocialAuthView;
@@ -57,12 +73,50 @@
     } failure:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeShown:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHided:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 - (BOOL)shouldAutorotate {
     return NO;
 }
 
 - (void)dismiss:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)keyboardWillBeShown:(NSNotification *)notification {
+    CGRect keyboardFrame = [notification keyboardEndFrame];
+    CGFloat animationDuration = [notification keyboardAnimationDuration];
+    NSUInteger animationCurve = [notification keyboardAnimationCurve];
+    CGRect buttonFrame = [self.view convertRect:self.databaseAuthView.accessButton.frame fromView:self.databaseAuthView.accessButton.superview];
+    CGRect frame = self.view.frame;
+    frame.origin.y -= (buttonFrame.origin.y + buttonFrame.size.height) - keyboardFrame.origin.y;
+    [UIView animateWithDuration:animationDuration delay:0.0f options:animationCurve animations:^{
+        self.view.frame = frame;
+    } completion:nil];
+}
+
+- (void)keyboardWillBeHided:(NSNotification *)notification {
+    CGFloat animationDuration = [notification keyboardAnimationDuration];
+    NSUInteger animationCurve = [notification keyboardAnimationCurve];
+    CGRect frame = self.view.frame;
+    frame.origin.y = 0;
+    [UIView animateWithDuration:animationDuration delay:0.0f options:animationCurve animations:^{
+        self.view.frame = frame;
+    } completion:nil];
+}
+
+- (void)hideKeyboard:(id)sender {
+    [self.databaseAuthView hideKeyboard];
 }
 
 #pragma mark - Utility methods

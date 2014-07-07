@@ -16,4 +16,6 @@ typedef void(^A0AuthBlock)(A0LoginViewController *controller, NSDictionary *auth
 
 @property (copy, nonatomic) A0AuthBlock authBlock;
 
+- (IBAction)hideKeyboard:(id)sender;
+
 @end

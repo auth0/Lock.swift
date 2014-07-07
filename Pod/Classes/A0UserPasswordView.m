@@ -14,13 +14,9 @@
 
 @property (weak, nonatomic) IBOutlet UIView *userContainerView;
 @property (weak, nonatomic) IBOutlet UIView *passwordContainerView;
-@property (weak, nonatomic) IBOutlet UITextField *userTextField;
-@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UIButton *accessButton;
-@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 
 - (IBAction)access:(id)sender;
+- (IBAction)goToPasswordField:(id)sender;
 
 @end
 
@@ -41,11 +37,19 @@
 }
 
 - (void)access:(id)sender {
-    [self.userTextField resignFirstResponder];
-    [self.passwordTextField resignFirstResponder];
+    [self hideKeyboard];
     if (self.loginBlock) {
         self.loginBlock(self.userTextField.text, self.passwordTextField.text);
     }
+}
+
+- (void)hideKeyboard {
+    [self.userTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
+}
+
+- (void)goToPasswordField:(id)sender {
+    [self.passwordTextField becomeFirstResponder];
 }
 
 - (UIImage *)imageWithColor:(UIColor *)color {

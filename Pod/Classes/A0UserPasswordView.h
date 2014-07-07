@@ -14,4 +14,12 @@ typedef void(^A0DatabaseLoginBlock)(NSString *username, NSString *password);
 
 @property (copy, nonatomic) A0DatabaseLoginBlock loginBlock;
 
+@property (weak, nonatomic) IBOutlet UITextField *userTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UIButton *accessButton;
+@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
+@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
+
+- (void)hideKeyboard;
+
 @end

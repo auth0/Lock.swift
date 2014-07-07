@@ -75,6 +75,7 @@
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="eYP-oW-iTl" secondAttribute="trailing" constant="20" id="5wC-Fh-B3a"/>
                 <constraint firstAttribute="centerX" secondItem="qyZ-SK-xbq" secondAttribute="centerX" id="VVF-YO-1xh"/>
@@ -87,6 +88,9 @@
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="Ysb-T4-PXN" appends="YES" id="XRh-HC-Yv9"/>
+            </connections>
         </view>
         <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" id="WLb-RC-kdX" customClass="A0ServicesView">
             <rect key="frame" x="0.0" y="0.0" width="280" height="79"/>
@@ -142,6 +146,9 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                            <connections>
+                                <action selector="goToPasswordField:" destination="Hug-8U-rzn" eventType="editingDidEndOnExit" id="1ss-BL-dr5"/>
+                            </connections>
                         </textField>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ezx-D1-gzQ">
                             <rect key="frame" x="11" y="18" width="14" height="14"/>
@@ -255,5 +262,10 @@
                 <outlet property="userTextField" destination="Pgp-2Z-QwI" id="FK7-af-C90"/>
             </connections>
         </view>
+        <tapGestureRecognizer id="Ysb-T4-PXN">
+            <connections>
+                <action selector="hideKeyboard:" destination="-1" id="lCk-ol-nWE"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
 </document>
