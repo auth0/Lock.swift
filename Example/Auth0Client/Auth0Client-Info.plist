@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>AUTH0_CLIENT_ID</key>
-	<string>U5MhUrbyQHSVWjlEqZSTCBUFABLbJAS3</string>
+	<string>${AUTH0_CLIENT_ID}</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
