@@ -45,6 +45,16 @@
 
 @implementation A0LoginViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            self.modalPresentationStyle = UIModalPresentationFormSheet;
+        }
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -99,7 +109,8 @@
     NSUInteger animationCurve = [notification keyboardAnimationCurve];
     CGRect buttonFrame = [self.view convertRect:self.databaseAuthView.accessButton.frame fromView:self.databaseAuthView.accessButton.superview];
     CGRect frame = self.view.frame;
-    frame.origin.y -= (buttonFrame.origin.y + buttonFrame.size.height) - keyboardFrame.origin.y;
+    CGFloat newY = frame.origin.y - (buttonFrame.origin.y + buttonFrame.size.height) - keyboardFrame.origin.y;
+    frame.origin.y = MAX(newY, 0);
     [UIView animateWithDuration:animationDuration delay:0.0f options:animationCurve animations:^{
         self.view.frame = frame;
     } completion:nil];

@@ -240,6 +240,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Hernan Zalazar";
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = UUWS9Z463H;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -493,6 +496,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Auth0Client/Auth0Client-Prefix.pch";
 				INFOPLIST_FILE = "Auth0Client/Auth0Client-Info.plist";
@@ -507,6 +511,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Auth0Client/Auth0Client-Prefix.pch";
 				INFOPLIST_FILE = "Auth0Client/Auth0Client-Info.plist";
