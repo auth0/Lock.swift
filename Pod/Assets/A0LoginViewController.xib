@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="containerView" destination="eYP-oW-iTl" id="5LH-sV-ceC"/>
                 <outlet property="databaseAuthView" destination="Hug-8U-rzn" id="Y6W-Qd-DxU"/>
+                <outlet property="loadingView" destination="F3d-6A-3VK" id="fMe-gf-m9a"/>
                 <outlet property="smallSocialAuthView" destination="WLb-RC-kdX" id="vCq-pv-2Tl"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -267,5 +268,22 @@
                 <action selector="hideKeyboard:" destination="-1" id="lCk-ol-nWE"/>
             </connections>
         </tapGestureRecognizer>
+        <view contentMode="scaleToFill" id="F3d-6A-3VK">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="XT8-MU-k4R">
+                    <rect key="frame" x="142" y="266" width="37" height="37"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="color" red="0.1371165812" green="0.18372429909999999" blue="0.36275362970000002" alpha="1" colorSpace="calibratedRGB"/>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="centerY" secondItem="XT8-MU-k4R" secondAttribute="centerY" id="4Nr-To-27l"/>
+                <constraint firstAttribute="centerX" secondItem="XT8-MU-k4R" secondAttribute="centerX" id="54j-h1-TZA"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
     </objects>
 </document>

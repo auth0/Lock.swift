@@ -35,6 +35,7 @@
 
 @property (strong, nonatomic) IBOutlet A0ServicesView *smallSocialAuthView;
 @property (strong, nonatomic) IBOutlet A0UserPasswordView *databaseAuthView;
+@property (strong, nonatomic) IBOutlet UIView *loadingView;
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) UIView *authView;
@@ -57,6 +58,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.authView = [self layoutLoadingView:self.loadingView inContainer:self.containerView];
 
     @weakify(self);
     self.databaseAuthView.loginBlock = ^(NSString *username, NSString *password) {
@@ -132,11 +135,21 @@
 
 #pragma mark - Utility methods
 
+- (UIView *)layoutLoadingView:(UIView *)loadingView inContainer:(UIView *)containerView {
+    loadingView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSDictionary *views = NSDictionaryOfVariableBindings(loadingView);
+    [loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[loadingView(232)]" options:0 metrics:nil views:views]];
+    [loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[loadingView(280)]" options:0 metrics:nil views:views]];
+    [self layoutAuthView:loadingView centeredInContainerView:containerView];
+    return loadingView;
+}
+
 - (UIView *)layoutUserPassView:(UIView *)userPassView inContainer:(UIView *)containerView {
     userPassView.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary *views = NSDictionaryOfVariableBindings(userPassView);
     [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[userPassView(232)]" options:0 metrics:nil views:views]];
     [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userPassView(280)]" options:0 metrics:nil views:views]];
+    [self.authView removeFromSuperview];
     [self layoutAuthView:userPassView centeredInContainerView:containerView];
     return userPassView;
 }
@@ -161,7 +174,8 @@
     [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[socialView(280)]|" options:0 metrics:nil views:views]];
     [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[userPassView(280)]|" options:0 metrics:nil views:views]];
 
-    [self layoutAuthView:authView centeredInContainerView:self.containerView];
+    [self.authView removeFromSuperview];
+    [self layoutAuthView:authView centeredInContainerView:containerView];
     return authView;
 }
 
