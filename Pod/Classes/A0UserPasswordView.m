@@ -18,6 +18,8 @@
 
 - (IBAction)access:(id)sender;
 - (IBAction)goToPasswordField:(id)sender;
+- (IBAction)showSignUp:(id)sender;
+- (IBAction)showForgotPassword:(id)sender;
 
 @end
 
@@ -53,4 +55,15 @@
     [self.passwordTextField becomeFirstResponder];
 }
 
+- (void)showSignUp:(id)sender {
+    if (self.signUpBlock) {
+        self.signUpBlock();
+    }
+}
+
+- (void)showForgotPassword:(id)sender {
+    if (self.forgotPasswordBlock) {
+        self.forgotPasswordBlock();
+    }
+}
 @end

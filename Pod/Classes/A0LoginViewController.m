@@ -12,6 +12,7 @@
 #import "A0APIClient.h"
 #import "A0Application.h"
 #import "A0UserPasswordView.h"
+#import "A0SignUpView.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -36,6 +37,7 @@
 @property (strong, nonatomic) IBOutlet A0ServicesView *smallSocialAuthView;
 @property (strong, nonatomic) IBOutlet A0UserPasswordView *databaseAuthView;
 @property (strong, nonatomic) IBOutlet UIView *loadingView;
+@property (strong, nonatomic) IBOutlet A0SignUpView *signUpView;
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) UIView *authView;
@@ -59,9 +61,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    @weakify(self);
     self.authView = [self layoutLoadingView:self.loadingView inContainer:self.containerView];
 
-    @weakify(self);
+    self.databaseAuthView.signUpBlock = ^{
+        @strongify(self);
+        self.authView = [self layoutSignUpInContainer:self.containerView];
+    };
     self.databaseAuthView.loginBlock = ^(NSString *username, NSString *password) {
         [[A0APIClient sharedClient] loginWithUsername:username password:password success:^(id payload) {
             @strongify(self);
@@ -75,6 +81,10 @@
         }];
     };
 
+    self.signUpView.cancelBlock = ^{
+        @strongify(self);
+        self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
+    };
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         [[A0APIClient sharedClient] configureForApplication:application];
@@ -134,6 +144,17 @@
 }
 
 #pragma mark - Utility methods
+
+- (UIView *)layoutSignUpInContainer:(UIView *)containerView {
+    UIView *signUpView = self.signUpView;
+    signUpView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self layoutAuthView:signUpView centeredInContainerView:containerView];
+    NSDictionary *views = NSDictionaryOfVariableBindings(signUpView);
+    [signUpView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[signUpView(260)]" options:0 metrics:nil views:views]];
+    [signUpView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[signUpView(280)]" options:0 metrics:nil views:views]];
+    [self animateFromView:self.authView toView:signUpView];
+    return signUpView;
+}
 
 - (UIView *)layoutLoadingView:(UIView *)loadingView inContainer:(UIView *)containerView {
     loadingView.translatesAutoresizingMaskIntoConstraints = NO;

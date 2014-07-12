@@ -9,6 +9,7 @@
                 <outlet property="containerView" destination="eYP-oW-iTl" id="5LH-sV-ceC"/>
                 <outlet property="databaseAuthView" destination="Hug-8U-rzn" id="Y6W-Qd-DxU"/>
                 <outlet property="loadingView" destination="F3d-6A-3VK" id="fMe-gf-m9a"/>
+                <outlet property="signUpView" destination="rHd-Nb-0by" id="kdW-cE-Czv"/>
                 <outlet property="smallSocialAuthView" destination="WLb-RC-kdX" id="vCq-pv-2Tl"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -225,6 +226,9 @@
                     <state key="normal" title="SIGN UP">
                         <color key="titleColor" red="0.30196078431372547" green="0.30196078431372547" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="showSignUp:" destination="Hug-8U-rzn" eventType="touchUpInside" id="1fB-DK-rF9"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BVy-AJ-6rI">
                     <rect key="frame" x="114" y="200" width="156" height="26"/>
@@ -234,6 +238,9 @@
                         <color key="titleColor" red="0.30196078431372547" green="0.30196078431372547" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="showForgotPassword:" destination="Hug-8U-rzn" eventType="touchUpInside" id="Poh-95-4Fa"/>
+                    </connections>
                 </button>
             </subviews>
             <constraints>
