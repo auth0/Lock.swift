@@ -11,6 +11,7 @@
                 <outlet property="loadingView" destination="F3d-6A-3VK" id="fMe-gf-m9a"/>
                 <outlet property="signUpView" destination="rHd-Nb-0by" id="kdW-cE-Czv"/>
                 <outlet property="smallSocialAuthView" destination="WLb-RC-kdX" id="vCq-pv-2Tl"/>
+                <outlet property="titleLabel" destination="1Lh-X5-oF7" id="RFJ-cE-Qvw"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

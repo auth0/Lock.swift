@@ -39,6 +39,7 @@
 @property (strong, nonatomic) IBOutlet UIView *loadingView;
 @property (strong, nonatomic) IBOutlet A0SignUpView *signUpView;
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) UIView *authView;
 
@@ -117,13 +118,13 @@
 }
 
 - (void)keyboardWillBeShown:(NSNotification *)notification {
-    CGRect keyboardFrame = [notification keyboardEndFrame];
+    CGRect keyboardFrame = [self.view convertRect:[notification keyboardEndFrame] fromView:nil];
     CGFloat animationDuration = [notification keyboardAnimationDuration];
     NSUInteger animationCurve = [notification keyboardAnimationCurve];
     CGRect buttonFrame = [self.view convertRect:self.databaseAuthView.accessButton.frame fromView:self.databaseAuthView.accessButton.superview];
     CGRect frame = self.view.frame;
-    CGFloat newY = frame.origin.y - (buttonFrame.origin.y + buttonFrame.size.height) - keyboardFrame.origin.y;
-    frame.origin.y = MAX(newY, 0);
+    CGFloat newY = keyboardFrame.origin.y - (buttonFrame.origin.y + buttonFrame.size.height);
+    frame.origin.y = MIN(newY, 0);
     [UIView animateWithDuration:animationDuration delay:0.0f options:animationCurve animations:^{
         self.view.frame = frame;
     } completion:nil];
@@ -152,7 +153,7 @@
     NSDictionary *views = NSDictionaryOfVariableBindings(signUpView);
     [signUpView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[signUpView(260)]" options:0 metrics:nil views:views]];
     [signUpView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[signUpView(280)]" options:0 metrics:nil views:views]];
-    [self animateFromView:self.authView toView:signUpView];
+    [self animateFromView:self.authView toView:signUpView withTitle:NSLocalizedString(@"Sign Up", nil)];
     return signUpView;
 }
 
@@ -192,7 +193,7 @@
     NSDictionary *views = NSDictionaryOfVariableBindings(userPassView);
     [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[userPassView(232)]" options:0 metrics:nil views:views]];
     [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userPassView(280)]" options:0 metrics:nil views:views]];
-    [self animateFromView:self.authView toView:userPassView];
+    [self animateFromView:self.authView toView:userPassView withTitle:NSLocalizedString(@"Login", nil)];
     return userPassView;
 }
 
@@ -216,16 +217,17 @@
     [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[socialView(280)]|" options:0 metrics:nil views:views]];
     [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[userPassView(280)]|" options:0 metrics:nil views:views]];
 
-    [self animateFromView:self.authView toView:authView];
+    [self animateFromView:self.authView toView:authView withTitle:NSLocalizedString(@"Login", nil)];
     return authView;
 }
 
-- (void)animateFromView:(UIView *)fromView toView:(UIView *)toView {
+- (void)animateFromView:(UIView *)fromView toView:(UIView *)toView withTitle:(NSString *)title {
     fromView.alpha = 1.0f;
     toView.alpha = 0.0f;
     [UIView animateWithDuration:0.5f animations:^{
         toView.alpha = 1.0f;
         fromView.alpha = 0.0f;
+        self.titleLabel.text = title;
     } completion:^(BOOL finished) {
         [fromView removeFromSuperview];
     }];
