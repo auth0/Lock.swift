@@ -79,7 +79,7 @@
         @strongify(self);
         [[A0APIClient sharedClient] configureForApplication:application];
         if ([application hasDatabaseConnection]) {
-            self.authView = [self layoutUserPassView:self.databaseAuthView inContainer:self.containerView];
+            self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
         } else {
             //Layout only social or error
         }
@@ -137,46 +137,11 @@
 
 - (UIView *)layoutLoadingView:(UIView *)loadingView inContainer:(UIView *)containerView {
     loadingView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self layoutAuthView:loadingView centeredInContainerView:containerView];
     NSDictionary *views = NSDictionaryOfVariableBindings(loadingView);
     [loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[loadingView(232)]" options:0 metrics:nil views:views]];
     [loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[loadingView(280)]" options:0 metrics:nil views:views]];
-    [self layoutAuthView:loadingView centeredInContainerView:containerView];
     return loadingView;
-}
-
-- (UIView *)layoutUserPassView:(UIView *)userPassView inContainer:(UIView *)containerView {
-    userPassView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSDictionary *views = NSDictionaryOfVariableBindings(userPassView);
-    [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[userPassView(232)]" options:0 metrics:nil views:views]];
-    [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userPassView(280)]" options:0 metrics:nil views:views]];
-    [self layoutAuthView:userPassView centeredInContainerView:containerView];
-    [self animateFromView:self.authView toView:userPassView];
-    return userPassView;
-}
-
-- (UIView *)layoutSocialView:(UIView *)socialView andUserPassView:(UIView *)userPassView inContainerView:(UIView *)containerView {
-    UIView *authView = [[UIView alloc] init];
-
-    authView.translatesAutoresizingMaskIntoConstraints = NO;
-    socialView.translatesAutoresizingMaskIntoConstraints = NO;
-    userPassView.translatesAutoresizingMaskIntoConstraints = NO;
-    socialView.frame = CGRectMake(0, 0, socialView.frame.size.width, socialView.frame.size.height);
-    userPassView.frame = CGRectOffset(userPassView.frame, 0, socialView.frame.size.height);
-    [authView addSubview:userPassView];
-    [authView addSubview:socialView];
-
-    NSDictionary *views = NSDictionaryOfVariableBindings(socialView, userPassView);
-    NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[socialView(79)][userPassView(232)]|"
-                                                                           options:0
-                                                                           metrics:nil
-                                                                             views:views];
-    [authView addConstraints:verticalConstraints];
-    [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[socialView(280)]|" options:0 metrics:nil views:views]];
-    [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[userPassView(280)]|" options:0 metrics:nil views:views]];
-
-    [self layoutAuthView:authView centeredInContainerView:containerView];
-    [self animateFromView:self.authView toView:authView];
-    return authView;
 }
 
 - (void)layoutAuthView:(UIView *)authView centeredInContainerView:(UIView *)containerView {
@@ -196,6 +161,42 @@
                                                               attribute:NSLayoutAttributeCenterY
                                                              multiplier:1.0f
                                                                constant:0.0f]];
+}
+
+- (UIView *)layoutDatabaseOnlyAuthViewInContainer:(UIView *)containerView {
+    UIView *userPassView = self.databaseAuthView;
+    [self layoutAuthView:userPassView centeredInContainerView:containerView];
+    userPassView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self layoutAuthView:userPassView centeredInContainerView:containerView];
+    NSDictionary *views = NSDictionaryOfVariableBindings(userPassView);
+    [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[userPassView(232)]" options:0 metrics:nil views:views]];
+    [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userPassView(280)]" options:0 metrics:nil views:views]];
+    [self animateFromView:self.authView toView:userPassView];
+    return userPassView;
+}
+
+- (UIView *)layoutFullAuthViewInContainer:(UIView *)containerView {
+    UIView *authView = [[UIView alloc] init];
+    UIView *socialView = self.smallSocialAuthView;
+    UIView *userPassView = self.databaseAuthView;
+    [self layoutAuthView:authView centeredInContainerView:containerView];
+    authView.translatesAutoresizingMaskIntoConstraints = NO;
+    socialView.translatesAutoresizingMaskIntoConstraints = NO;
+    userPassView.translatesAutoresizingMaskIntoConstraints = NO;
+    [authView addSubview:userPassView];
+    [authView addSubview:socialView];
+
+    NSDictionary *views = NSDictionaryOfVariableBindings(socialView, userPassView);
+    NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[socialView(79)][userPassView(232)]|"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:views];
+    [authView addConstraints:verticalConstraints];
+    [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[socialView(280)]|" options:0 metrics:nil views:views]];
+    [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[userPassView(280)]|" options:0 metrics:nil views:views]];
+
+    [self animateFromView:self.authView toView:authView];
+    return authView;
 }
 
 - (void)animateFromView:(UIView *)fromView toView:(UIView *)toView {
