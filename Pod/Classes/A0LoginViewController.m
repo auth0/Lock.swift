@@ -149,8 +149,8 @@
     NSDictionary *views = NSDictionaryOfVariableBindings(userPassView);
     [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[userPassView(232)]" options:0 metrics:nil views:views]];
     [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userPassView(280)]" options:0 metrics:nil views:views]];
-    [self.authView removeFromSuperview];
     [self layoutAuthView:userPassView centeredInContainerView:containerView];
+    [self animateFromView:self.authView toView:userPassView];
     return userPassView;
 }
 
@@ -174,8 +174,8 @@
     [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[socialView(280)]|" options:0 metrics:nil views:views]];
     [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[userPassView(280)]|" options:0 metrics:nil views:views]];
 
-    [self.authView removeFromSuperview];
     [self layoutAuthView:authView centeredInContainerView:containerView];
+    [self animateFromView:self.authView toView:authView];
     return authView;
 }
 
@@ -198,4 +198,14 @@
                                                                constant:0.0f]];
 }
 
+- (void)animateFromView:(UIView *)fromView toView:(UIView *)toView {
+    fromView.alpha = 1.0f;
+    toView.alpha = 0.0f;
+    [UIView animateWithDuration:0.5f animations:^{
+        toView.alpha = 1.0f;
+        fromView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        [fromView removeFromSuperview];
+    }];
+}
 @end
