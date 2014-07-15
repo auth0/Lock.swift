@@ -9,6 +9,7 @@
                 <outlet property="containerView" destination="eYP-oW-iTl" id="5LH-sV-ceC"/>
                 <outlet property="databaseAuthView" destination="Hug-8U-rzn" id="Y6W-Qd-DxU"/>
                 <outlet property="loadingView" destination="F3d-6A-3VK" id="fMe-gf-m9a"/>
+                <outlet property="recoverView" destination="VQ0-3t-gbE" id="kOX-SZ-Hf0"/>
                 <outlet property="signUpView" destination="rHd-Nb-0by" id="kdW-cE-Czv"/>
                 <outlet property="smallSocialAuthView" destination="WLb-RC-kdX" id="vCq-pv-2Tl"/>
                 <outlet property="titleLabel" destination="1Lh-X5-oF7" id="RFJ-cE-Qvw"/>
@@ -420,6 +421,173 @@
                 <outlet property="signUpButton" destination="0aY-KK-SLL" id="etN-Vb-zyQ"/>
                 <outlet property="userContainerView" destination="gg9-iB-vSX" id="8lD-PS-EtA"/>
                 <outlet property="userTextField" destination="kIy-Bv-Ci0" id="JgR-V6-JnU"/>
+            </connections>
+        </view>
+        <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" id="VQ0-3t-gbE" customClass="A0RecoverPasswordView">
+            <rect key="frame" x="0.0" y="0.0" width="280" height="325"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KAT-lL-JeF">
+                    <rect key="frame" x="1" y="67" width="278" height="50"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Hn-IS-HZf">
+                            <rect key="frame" x="33" y="10" width="238" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                            <connections>
+                                <action selector="goToPasswordField:" destination="VQ0-3t-gbE" eventType="editingDidEndOnExit" id="5Js-cv-KuV"/>
+                            </connections>
+                        </textField>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3if-m1-Hr8">
+                            <rect key="frame" x="11" y="18" width="14" height="14"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="14" id="E7q-VO-wjR"/>
+                                <constraint firstAttribute="width" constant="14" id="ElY-05-FZI"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="3if-m1-Hr8" firstAttribute="leading" secondItem="KAT-lL-JeF" secondAttribute="leading" constant="11" id="5k8-TU-ZCg"/>
+                        <constraint firstAttribute="bottom" secondItem="3Hn-IS-HZf" secondAttribute="bottom" constant="10" id="DQN-Ia-1Ld"/>
+                        <constraint firstItem="3Hn-IS-HZf" firstAttribute="top" secondItem="KAT-lL-JeF" secondAttribute="top" constant="10" id="WPV-Wp-Y52"/>
+                        <constraint firstAttribute="height" constant="50" id="bIi-Xl-eLT"/>
+                        <constraint firstAttribute="trailing" secondItem="3Hn-IS-HZf" secondAttribute="trailing" constant="7" id="bvW-gV-36P"/>
+                        <constraint firstItem="3Hn-IS-HZf" firstAttribute="leading" secondItem="3if-m1-Hr8" secondAttribute="trailing" constant="8" id="idQ-ef-JoG"/>
+                        <constraint firstItem="3if-m1-Hr8" firstAttribute="centerY" secondItem="3Hn-IS-HZf" secondAttribute="centerY" id="zbI-z7-s4I"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yuV-8j-2Wb">
+                    <rect key="frame" x="1" y="116" width="278" height="50"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s2t-v8-72m">
+                            <rect key="frame" x="33" y="10" width="238" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
+                            <connections>
+                                <action selector="goToRepeatPasswordField:" destination="VQ0-3t-gbE" eventType="editingDidEndOnExit" id="Hqi-6b-JdO"/>
+                            </connections>
+                        </textField>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="znd-pl-Fyj">
+                            <rect key="frame" x="11" y="18" width="14" height="14"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="14" id="i9G-6x-Uux"/>
+                                <constraint firstAttribute="height" constant="14" id="neG-xg-Skk"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="s2t-v8-72m" secondAttribute="trailing" constant="7" id="KLv-BS-TMK"/>
+                        <constraint firstAttribute="bottom" secondItem="s2t-v8-72m" secondAttribute="bottom" constant="10" id="KWG-jw-eSm"/>
+                        <constraint firstItem="s2t-v8-72m" firstAttribute="centerY" secondItem="znd-pl-Fyj" secondAttribute="centerY" id="MdG-SH-NAr"/>
+                        <constraint firstItem="s2t-v8-72m" firstAttribute="leading" secondItem="znd-pl-Fyj" secondAttribute="trailing" constant="8" id="YpN-OI-Z7a"/>
+                        <constraint firstItem="s2t-v8-72m" firstAttribute="top" secondItem="yuV-8j-2Wb" secondAttribute="top" constant="10" id="wch-zb-C0e"/>
+                        <constraint firstItem="znd-pl-Fyj" firstAttribute="leading" secondItem="yuV-8j-2Wb" secondAttribute="leading" constant="11" id="yPh-A0-8Q2"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TAK-YN-1I0">
+                    <rect key="frame" x="1" y="165" width="278" height="50"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm New Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FHc-Q3-kox">
+                            <rect key="frame" x="33" y="10" width="238" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
+                            <connections>
+                                <action selector="recover:" destination="VQ0-3t-gbE" eventType="editingDidEndOnExit" id="MGa-xr-tIx"/>
+                            </connections>
+                        </textField>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bAO-vX-rH2">
+                            <rect key="frame" x="11" y="18" width="14" height="14"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="14" id="2zE-RW-04p"/>
+                                <constraint firstAttribute="width" constant="14" id="ia3-R3-Ccf"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="FHc-Q3-kox" secondAttribute="bottom" constant="10" id="Qmx-BN-orc"/>
+                        <constraint firstAttribute="trailing" secondItem="FHc-Q3-kox" secondAttribute="trailing" constant="7" id="aTr-n7-tHT"/>
+                        <constraint firstItem="bAO-vX-rH2" firstAttribute="leading" secondItem="TAK-YN-1I0" secondAttribute="leading" constant="11" id="e8d-Bf-LHX"/>
+                        <constraint firstItem="FHc-Q3-kox" firstAttribute="leading" secondItem="bAO-vX-rH2" secondAttribute="trailing" constant="8" id="eFF-2f-W0U"/>
+                        <constraint firstItem="FHc-Q3-kox" firstAttribute="top" secondItem="TAK-YN-1I0" secondAttribute="top" constant="10" id="p15-6y-OYI"/>
+                        <constraint firstItem="FHc-Q3-kox" firstAttribute="centerY" secondItem="bAO-vX-rH2" secondAttribute="centerY" id="xZu-gh-Gje"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDk-No-AUj">
+                    <rect key="frame" x="1" y="235" width="278" height="55"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="55" id="WSQ-5T-30U"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                    <state key="normal" title="SEND">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="recover:" destination="VQ0-3t-gbE" eventType="touchUpInside" id="ahL-IA-8Ma"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pvd-VG-ziG">
+                    <rect key="frame" x="118" y="300" width="44" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                    <state key="normal" title="CANCEL">
+                        <color key="titleColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="cancel:" destination="VQ0-3t-gbE" eventType="touchUpInside" id="Mld-f6-1vW"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your email and the new password. We will send you an email to confirm the password change." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="225" translatesAutoresizingMaskIntoConstraints="NO" id="mtu-vR-xnY">
+                    <rect key="frame" x="28" y="10" width="225" height="47"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="wDk-No-AUj" firstAttribute="leading" secondItem="VQ0-3t-gbE" secondAttribute="leading" constant="1" id="4n6-oc-Df3"/>
+                <constraint firstItem="TAK-YN-1I0" firstAttribute="top" secondItem="yuV-8j-2Wb" secondAttribute="bottom" constant="-1" id="8Cc-p3-ODv"/>
+                <constraint firstAttribute="centerX" secondItem="yuV-8j-2Wb" secondAttribute="centerX" id="8yf-iS-a6C"/>
+                <constraint firstItem="TAK-YN-1I0" firstAttribute="height" secondItem="KAT-lL-JeF" secondAttribute="height" id="A4a-nr-Rxu"/>
+                <constraint firstItem="pvd-VG-ziG" firstAttribute="top" secondItem="wDk-No-AUj" secondAttribute="bottom" constant="10" id="A6l-gd-ZLB"/>
+                <constraint firstAttribute="trailing" secondItem="KAT-lL-JeF" secondAttribute="trailing" constant="1" id="Kfp-b9-t7Z"/>
+                <constraint firstAttribute="centerX" secondItem="TAK-YN-1I0" secondAttribute="centerX" id="O9N-Uv-VuP"/>
+                <constraint firstItem="TAK-YN-1I0" firstAttribute="width" secondItem="KAT-lL-JeF" secondAttribute="width" id="Q3i-Di-FgV"/>
+                <constraint firstItem="wDk-No-AUj" firstAttribute="top" secondItem="TAK-YN-1I0" secondAttribute="bottom" constant="20" id="Uib-7F-spi"/>
+                <constraint firstItem="yuV-8j-2Wb" firstAttribute="top" secondItem="KAT-lL-JeF" secondAttribute="bottom" constant="-1" id="ZNi-qi-Qif"/>
+                <constraint firstItem="mtu-vR-xnY" firstAttribute="top" secondItem="VQ0-3t-gbE" secondAttribute="top" constant="10" id="eUz-9z-LEK"/>
+                <constraint firstItem="TAK-YN-1I0" firstAttribute="width" secondItem="yuV-8j-2Wb" secondAttribute="width" id="evD-MI-aSs"/>
+                <constraint firstItem="TAK-YN-1I0" firstAttribute="height" secondItem="yuV-8j-2Wb" secondAttribute="height" id="lG7-rj-3ZQ"/>
+                <constraint firstAttribute="centerX" secondItem="pvd-VG-ziG" secondAttribute="centerX" id="mDH-Eb-OI8"/>
+                <constraint firstItem="KAT-lL-JeF" firstAttribute="leading" secondItem="VQ0-3t-gbE" secondAttribute="leading" constant="1" id="qfP-Aa-hgi"/>
+                <constraint firstAttribute="trailing" secondItem="wDk-No-AUj" secondAttribute="trailing" constant="1" id="rTN-Sp-McO"/>
+                <constraint firstAttribute="centerX" secondItem="mtu-vR-xnY" secondAttribute="centerX" id="sVX-Vm-y2I"/>
+                <constraint firstItem="KAT-lL-JeF" firstAttribute="top" secondItem="mtu-vR-xnY" secondAttribute="bottom" constant="10" id="x3c-ss-h6e"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="cancelButton" destination="pvd-VG-ziG" id="pRu-7c-OCN"/>
+                <outlet property="passwordContainerView" destination="yuV-8j-2Wb" id="445-vM-Wwc"/>
+                <outlet property="passwordTextField" destination="s2t-v8-72m" id="8ZE-x3-VYa"/>
+                <outlet property="recoverButton" destination="wDk-No-AUj" id="Z3D-fX-EXZ"/>
+                <outlet property="repeatPasswordContainerView" destination="TAK-YN-1I0" id="BQm-k3-zrU"/>
+                <outlet property="repeatPasswordTextField" destination="FHc-Q3-kox" id="yVN-m7-Hbr"/>
+                <outlet property="userContainerView" destination="KAT-lL-JeF" id="Qq8-T4-LP7"/>
+                <outlet property="userTextField" destination="3Hn-IS-HZf" id="aSK-ik-jC8"/>
             </connections>
         </view>
     </objects>

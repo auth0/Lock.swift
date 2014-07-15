@@ -13,6 +13,7 @@
 #import "A0Application.h"
 #import "A0UserPasswordView.h"
 #import "A0SignUpView.h"
+#import "A0RecoverPasswordView.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -38,6 +39,7 @@
 @property (strong, nonatomic) IBOutlet A0UserPasswordView *databaseAuthView;
 @property (strong, nonatomic) IBOutlet UIView *loadingView;
 @property (strong, nonatomic) IBOutlet A0SignUpView *signUpView;
+@property (strong, nonatomic) IBOutlet A0RecoverPasswordView *recoverView;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
@@ -69,6 +71,10 @@
         @strongify(self);
         self.authView = [self layoutSignUpInContainer:self.containerView];
     };
+    self.databaseAuthView.forgotPasswordBlock = ^{
+        @strongify(self);
+        self.authView = [self layoutRecoverInContainer:self.containerView];
+    };
     self.databaseAuthView.loginBlock = ^(NSString *username, NSString *password) {
         [[A0APIClient sharedClient] loginWithUsername:username password:password success:^(id payload) {
             @strongify(self);
@@ -83,6 +89,10 @@
     };
 
     self.signUpView.cancelBlock = ^{
+        @strongify(self);
+        self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
+    };
+    self.recoverView.cancelBlock = ^{
         @strongify(self);
         self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
     };
@@ -145,6 +155,17 @@
 }
 
 #pragma mark - Utility methods
+
+- (UIView *)layoutRecoverInContainer:(UIView *)containerView {
+    UIView *recoverView = self.recoverView;
+    recoverView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self layoutAuthView:recoverView centeredInContainerView:containerView];
+    NSDictionary *views = NSDictionaryOfVariableBindings(recoverView);
+    [recoverView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[recoverView(325)]" options:0 metrics:nil views:views]];
+    [recoverView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[recoverView(280)]" options:0 metrics:nil views:views]];
+    [self animateFromView:self.authView toView:recoverView withTitle:NSLocalizedString(@"Reset Password", nil)];
+    return recoverView;
+}
 
 - (UIView *)layoutSignUpInContainer:(UIView *)containerView {
     UIView *signUpView = self.signUpView;
