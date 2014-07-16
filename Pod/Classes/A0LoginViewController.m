@@ -75,30 +75,24 @@
         @strongify(self);
         self.authView = [self layoutRecoverInContainer:self.containerView];
     };
-    self.databaseAuthView.loginBlock = ^(NSString *username, NSString *password) {
-        [[A0APIClient sharedClient] loginWithUsername:username password:password success:^(id payload) {
-            @strongify(self);
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                if (self.authBlock) {
-                    self.authBlock(self, payload);
-                }
-            }];
-        } failure:^(NSError *error) {
-            NSLog(@"ERROR %@", error);
+
+    A0APIClientError failureBlock = ^(NSError *error){
+        NSLog(@"ERROR %@", error);
+    };
+    A0APIClientSuccess successBlock = ^(id payload) {
+        @strongify(self);
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            if (self.authBlock) {
+                self.authBlock(self, payload);
+            }
         }];
+    };
+    self.databaseAuthView.loginBlock = ^(NSString *username, NSString *password) {
+        [[A0APIClient sharedClient] loginWithUsername:username password:password success:successBlock failure:failureBlock];
     };
 
     self.signUpView.signUpBlock = ^(NSString *username, NSString *password){
-        [[A0APIClient sharedClient] signUpWithUsername:username password:password success:^(id payload) {
-            @strongify(self);
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                if (self.authBlock) {
-                    self.authBlock(self, payload);
-                }
-            }];
-        } failure:^(NSError *error) {
-            NSLog(@"ERROR %@", error);
-        }];
+        [[A0APIClient sharedClient] signUpWithUsername:username password:password success:successBlock failure:failureBlock];
     };
     self.signUpView.cancelBlock = ^{
         @strongify(self);
