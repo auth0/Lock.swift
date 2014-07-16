@@ -114,6 +114,27 @@
     }];
 }
 
+- (void)signUpWithUsername:(NSString *)username password:(NSString *)password success:(A0APIClientSuccess)success failure:(A0APIClientError)failure {
+    A0Strategy *databaseStrategy = self.application.databaseStrategy;
+    NSDictionary *params = @{
+                             @"email": username,
+                             @"password": password,
+                             @"client_id": self.clientId,
+                             @"connection": databaseStrategy.connection[@"name"],
+                             @"tenant": self.application.tenant,
+                             @"redirect_uri": self.application.callbackURL.absoluteString,
+                             };
+    @weakify(self);
+    [self.manager POST:@"/dbconnections/signup" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        @strongify(self);
+        [self loginWithUsername:username password:password success:success failure:failure];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
 + (instancetype)sharedClient {
     static A0APIClient *client;
     static dispatch_once_t onceToken;

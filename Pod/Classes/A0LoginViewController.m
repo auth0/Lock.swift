@@ -88,6 +88,18 @@
         }];
     };
 
+    self.signUpView.signUpBlock = ^(NSString *username, NSString *password){
+        [[A0APIClient sharedClient] signUpWithUsername:username password:password success:^(id payload) {
+            @strongify(self);
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                if (self.authBlock) {
+                    self.authBlock(self, payload);
+                }
+            }];
+        } failure:^(NSError *error) {
+            NSLog(@"ERROR %@", error);
+        }];
+    };
     self.signUpView.cancelBlock = ^{
         @strongify(self);
         self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];

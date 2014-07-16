@@ -23,6 +23,8 @@ typedef void(^A0APIClientError)(NSError *error);
 
 - (void)loginWithUsername:(NSString *)username password:(NSString *)password success:(A0APIClientSuccess)success failure:(A0APIClientError)failure;
 
+- (void)signUpWithUsername:(NSString *)username password:(NSString *)password success:(A0APIClientSuccess)success failure:(A0APIClientError)failure;
+
 + (instancetype)sharedClient;
 
 @end
