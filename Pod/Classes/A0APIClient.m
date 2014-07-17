@@ -21,6 +21,7 @@
 #define kLoginPath @"/oauth/ro"
 #define kSignUpPath @"/dbconnections/signup"
 #define kTokenInfoPath @"/tokeninfo"
+#define kChangePasswordPath @"/dbconnections/change_password"
 
 #define kClientIdParamName @"client_id"
 #define kUsernameParamName @"username"
@@ -122,6 +123,30 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
         @strongify(self);
         [self loginWithUsername:username password:password success:success failure:failure];
     } failure:sanitizeFailureBlock(failure)];
+}
+
+- (void)changePassword:(NSString *)newPassword forUsername:(NSString *)username success:(A0APIClientSuccess)success failure:(A0APIClientError)failure {
+    NSDictionary *params = [self buildBasicParamsWithDictionary:@{
+                                                                  kEmailParamName: username,
+                                                                  kPasswordParamName: newPassword,
+                                                                  kTenantParamName: self.application.tenant,
+                                                                  }];
+    NSError *error;
+    NSURL *changeURL = [NSURL URLWithString:kChangePasswordPath relativeToURL:self.manager.baseURL];
+    NSMutableURLRequest *request = [self.manager.requestSerializer requestWithMethod:@"POST" URLString:[changeURL absoluteString] parameters:params error:&error];
+    if (error) {
+        if (failure) {
+            failure(error);
+        }
+    } else {
+        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            if (success) {
+                success([[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+            }
+        } failure:sanitizeFailureBlock(failure)];
+        [operation start];
+    }
 }
 
 + (instancetype)sharedClient {

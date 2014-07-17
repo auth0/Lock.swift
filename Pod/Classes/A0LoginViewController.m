@@ -94,6 +94,14 @@
     self.signUpView.signUpBlock = ^(NSString *username, NSString *password){
         [[A0APIClient sharedClient] signUpWithUsername:username password:password success:successBlock failure:failureBlock];
     };
+
+    self.recoverView.recoverBlock = ^(NSString *username, NSString *password) {
+        [[A0APIClient sharedClient] changePassword:password forUsername:username success:^(id payload) {
+            @strongify(self);
+            self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
+        } failure:failureBlock];
+    };
+
     self.signUpView.cancelBlock = ^{
         @strongify(self);
         self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];

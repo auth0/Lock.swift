@@ -468,7 +468,7 @@
                             <rect key="frame" x="33" y="10" width="238" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
                             <connections>
                                 <action selector="goToRepeatPasswordField:" destination="VQ0-3t-gbE" eventType="editingDidEndOnExit" id="Hqi-6b-JdO"/>
                             </connections>
