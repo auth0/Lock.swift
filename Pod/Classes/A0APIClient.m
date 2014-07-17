@@ -20,8 +20,11 @@
 
 #define kLoginPath @"/oauth/ro"
 #define kSignUpPath @"/dbconnections/signup"
-#define kTokenInfoPath @"/tokeninfo"
+#define kUserInfoPath @"/userinfo"
 #define kChangePasswordPath @"/dbconnections/change_password"
+
+#define kAuthorizationHeaderName @"Authorization"
+#define kAuthorizationHeaderValueFormatString @"Bearer %@"
 
 #define kClientIdParamName @"client_id"
 #define kUsernameParamName @"username"
@@ -107,7 +110,7 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
     @weakify(self);
     [self.manager POST:kLoginPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
-        [self fetchUserInfoWithToken:responseObject[@"id_token"] success:success failure:failure];
+        [self fetchUserInfoWithToken:responseObject[@"access_token"] success:success failure:failure];
     } failure:sanitizeFailureBlock(failure)];
 }
 
@@ -163,14 +166,18 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
 #pragma mark - Internal API calls
 
 - (void)fetchUserInfoWithToken:(NSString *)token success:(A0APIClientSuccess)success failure:(A0APIClientError)failure {
-    NSDictionary *params = @{
-                             kIdTokenParamName: token,
-                             };
-    [self.manager POST:kTokenInfoPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSURL *connectionURL = [NSURL URLWithString:kUserInfoPath relativeToURL:self.manager.baseURL];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:connectionURL];
+    NSString *authorizationHeader = [NSString stringWithFormat:kAuthorizationHeaderValueFormatString, token];
+    [request setValue:authorizationHeader forHTTPHeaderField:kAuthorizationHeaderName];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    operation.responseSerializer = [AFJSONResponseSerializer serializer];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
             success(responseObject);
         }
     } failure:sanitizeFailureBlock(failure)];
+    [operation start];
 }
 
 #pragma mark - Utility methods
