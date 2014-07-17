@@ -66,4 +66,9 @@
         self.forgotPasswordBlock();
     }
 }
+
+- (CGRect)rectToKeepVisibleInView:(UIView *)view {
+    CGRect rect = [view convertRect:self.accessButton.frame fromView:self.accessButton.superview];
+    return rect;
+}
 @end

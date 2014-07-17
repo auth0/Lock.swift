@@ -57,4 +57,9 @@
         self.cancelBlock();
     }
 }
+
+- (CGRect)rectToKeepVisibleInView:(UIView *)view {
+    CGRect rect = [view convertRect:self.signUpButton.frame fromView:self.signUpButton.superview];
+    return rect;
+}
 @end

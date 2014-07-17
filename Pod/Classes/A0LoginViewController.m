@@ -14,6 +14,9 @@
 #import "A0UserPasswordView.h"
 #import "A0SignUpView.h"
 #import "A0RecoverPasswordView.h"
+#import "A0LoadingView.h"
+#import "A0KeyboardEnabledView.h"
+#import "A0CompositeAuthView.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -37,13 +40,13 @@
 
 @property (strong, nonatomic) IBOutlet A0ServicesView *smallSocialAuthView;
 @property (strong, nonatomic) IBOutlet A0UserPasswordView *databaseAuthView;
-@property (strong, nonatomic) IBOutlet UIView *loadingView;
+@property (strong, nonatomic) IBOutlet A0LoadingView *loadingView;
 @property (strong, nonatomic) IBOutlet A0SignUpView *signUpView;
 @property (strong, nonatomic) IBOutlet A0RecoverPasswordView *recoverView;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (weak, nonatomic) UIView *authView;
+@property (weak, nonatomic) UIView<A0KeyboardEnabledView> *authView;
 
 - (IBAction)dismiss:(id)sender;
 
@@ -124,7 +127,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeShown:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHided:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -145,7 +148,7 @@
     CGRect keyboardFrame = [self.view convertRect:[notification keyboardEndFrame] fromView:nil];
     CGFloat animationDuration = [notification keyboardAnimationDuration];
     NSUInteger animationCurve = [notification keyboardAnimationCurve];
-    CGRect buttonFrame = [self.view convertRect:self.databaseAuthView.accessButton.frame fromView:self.databaseAuthView.accessButton.superview];
+    CGRect buttonFrame = [self.authView rectToKeepVisibleInView:self.view];
     CGRect frame = self.view.frame;
     CGFloat newY = keyboardFrame.origin.y - (buttonFrame.origin.y + buttonFrame.size.height);
     frame.origin.y = MIN(newY, 0);
@@ -154,7 +157,7 @@
     } completion:nil];
 }
 
-- (void)keyboardWillBeHided:(NSNotification *)notification {
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
     CGFloat animationDuration = [notification keyboardAnimationDuration];
     NSUInteger animationCurve = [notification keyboardAnimationCurve];
     CGRect frame = self.view.frame;
@@ -165,13 +168,13 @@
 }
 
 - (void)hideKeyboard:(id)sender {
-    [self.databaseAuthView hideKeyboard];
+    [self.authView hideKeyboard];
 }
 
 #pragma mark - Utility methods
 
-- (UIView *)layoutRecoverInContainer:(UIView *)containerView {
-    UIView *recoverView = self.recoverView;
+- (UIView<A0KeyboardEnabledView> *)layoutRecoverInContainer:(UIView *)containerView {
+    UIView<A0KeyboardEnabledView> *recoverView = self.recoverView;
     recoverView.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:recoverView centeredInContainerView:containerView];
     NSDictionary *views = NSDictionaryOfVariableBindings(recoverView);
@@ -181,8 +184,8 @@
     return recoverView;
 }
 
-- (UIView *)layoutSignUpInContainer:(UIView *)containerView {
-    UIView *signUpView = self.signUpView;
+- (UIView<A0KeyboardEnabledView> *)layoutSignUpInContainer:(UIView *)containerView {
+    UIView<A0KeyboardEnabledView> *signUpView = self.signUpView;
     signUpView.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:signUpView centeredInContainerView:containerView];
     NSDictionary *views = NSDictionaryOfVariableBindings(signUpView);
@@ -192,7 +195,7 @@
     return signUpView;
 }
 
-- (UIView *)layoutLoadingView:(UIView *)loadingView inContainer:(UIView *)containerView {
+- (UIView<A0KeyboardEnabledView> *)layoutLoadingView:(A0LoadingView *)loadingView inContainer:(UIView *)containerView {
     loadingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:loadingView centeredInContainerView:containerView];
     NSDictionary *views = NSDictionaryOfVariableBindings(loadingView);
@@ -220,8 +223,8 @@
                                                                constant:0.0f]];
 }
 
-- (UIView *)layoutDatabaseOnlyAuthViewInContainer:(UIView *)containerView {
-    UIView *userPassView = self.databaseAuthView;
+- (UIView<A0KeyboardEnabledView> *)layoutDatabaseOnlyAuthViewInContainer:(UIView *)containerView {
+    UIView<A0KeyboardEnabledView> *userPassView = self.databaseAuthView;
     [self layoutAuthView:userPassView centeredInContainerView:containerView];
     userPassView.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:userPassView centeredInContainerView:containerView];
@@ -232,16 +235,17 @@
     return userPassView;
 }
 
-- (UIView *)layoutFullAuthViewInContainer:(UIView *)containerView {
-    UIView *authView = [[UIView alloc] init];
-    UIView *socialView = self.smallSocialAuthView;
-    UIView *userPassView = self.databaseAuthView;
+- (UIView<A0KeyboardEnabledView> *)layoutFullAuthViewInContainer:(UIView *)containerView {
+    A0CompositeAuthView *authView = [[A0CompositeAuthView alloc] init];
+    A0ServicesView *socialView = self.smallSocialAuthView;
+    A0UserPasswordView *userPassView = self.databaseAuthView;
     [self layoutAuthView:authView centeredInContainerView:containerView];
     authView.translatesAutoresizingMaskIntoConstraints = NO;
     socialView.translatesAutoresizingMaskIntoConstraints = NO;
     userPassView.translatesAutoresizingMaskIntoConstraints = NO;
     [authView addSubview:userPassView];
     [authView addSubview:socialView];
+    authView.delegate = userPassView;
 
     NSDictionary *views = NSDictionaryOfVariableBindings(socialView, userPassView);
     NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[socialView(79)][userPassView(232)]|"

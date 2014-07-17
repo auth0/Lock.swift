@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "A0KeyboardEnabledView.h"
+
 typedef void(^A0DatabaseLoginBlock)(NSString *username, NSString *password);
 typedef void(^A0SwitchViewBlock)();
 
-@interface A0UserPasswordView : UIView
+@interface A0UserPasswordView : UIView<A0KeyboardEnabledView>
 
 @property (copy, nonatomic) A0DatabaseLoginBlock loginBlock;
 @property (copy, nonatomic) A0SwitchViewBlock signUpBlock;
@@ -22,7 +24,5 @@ typedef void(^A0SwitchViewBlock)();
 @property (weak, nonatomic) IBOutlet UIButton *accessButton;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
-
-- (void)hideKeyboard;
 
 @end

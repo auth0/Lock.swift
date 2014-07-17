@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "A0KeyboardEnabledView.h"
+
 typedef void(^A0RecoverPasswordBlock)(NSString *username, NSString *newPassword);
 typedef void(^A0CancelBlock)();
 
-@interface A0RecoverPasswordView : UIView
+@interface A0RecoverPasswordView : UIView<A0KeyboardEnabledView>
 
 @property (copy, nonatomic) A0RecoverPasswordBlock recoverBlock;
 @property (copy, nonatomic) A0CancelBlock cancelBlock;
@@ -22,6 +24,5 @@ typedef void(^A0CancelBlock)();
 @property (weak, nonatomic) IBOutlet UIButton *recoverButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
-- (void)hideKeyboard;
 
 @end

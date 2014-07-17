@@ -65,4 +65,9 @@
     [self.passwordTextField resignFirstResponder];
     [self.repeatPasswordTextField resignFirstResponder];
 }
+
+- (CGRect)rectToKeepVisibleInView:(UIView *)view {
+    CGRect buttonFrame = [view convertRect:self.recoverButton.frame fromView:self.recoverButton.superview];
+    return buttonFrame;
+}
 @end
