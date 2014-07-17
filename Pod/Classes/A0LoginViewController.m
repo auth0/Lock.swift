@@ -118,6 +118,8 @@
         [[A0APIClient sharedClient] configureForApplication:application];
         if ([application hasDatabaseConnection]) {
             self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
+//            self.smallSocialAuthView.serviceNames = @[@"facebook", @"twitter"];
+//            self.authView = [self layoutFullAuthViewInContainer:self.containerView];
         } else {
             //Layout only social or error
         }

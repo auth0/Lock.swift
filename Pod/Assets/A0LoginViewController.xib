@@ -36,7 +36,7 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qyZ-SK-xbq">
-                    <rect key="frame" x="50" y="30" width="220" height="110"/>
+                    <rect key="frame" x="50" y="50" width="220" height="110"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Lh-X5-oF7">
@@ -90,9 +90,12 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eYP-oW-iTl">
-                    <rect key="frame" x="20" y="140" width="280" height="388"/>
+                    <rect key="frame" x="20" y="160" width="280" height="350"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="350" id="Qdr-YZ-aOY"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -101,10 +104,11 @@
                 <constraint firstAttribute="trailing" secondItem="eYP-oW-iTl" secondAttribute="trailing" constant="20" id="5wC-Fh-B3a"/>
                 <constraint firstAttribute="centerX" secondItem="qyZ-SK-xbq" secondAttribute="centerX" id="VVF-YO-1xh"/>
                 <constraint firstItem="eYP-oW-iTl" firstAttribute="top" secondItem="qyZ-SK-xbq" secondAttribute="bottom" id="ZaG-ve-WPd"/>
-                <constraint firstAttribute="bottom" secondItem="eYP-oW-iTl" secondAttribute="bottom" constant="40" id="bL8-AL-Tby"/>
-                <constraint firstItem="qyZ-SK-xbq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="iEO-2f-lvA"/>
+                <constraint firstItem="qyZ-SK-xbq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" priority="500" constant="30" id="hD3-5n-7cL"/>
+                <constraint firstItem="qyZ-SK-xbq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" priority="800" constant="50" id="iEO-2f-lvA"/>
                 <constraint firstAttribute="trailing" secondItem="BKq-31-ruo" secondAttribute="trailing" constant="10" id="ocE-wt-Znl"/>
                 <constraint firstItem="BKq-31-ruo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="wQT-XB-ZXO"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="eYP-oW-iTl" secondAttribute="bottom" id="wkC-fq-99I"/>
                 <constraint firstItem="eYP-oW-iTl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="yz1-GX-aMY"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
