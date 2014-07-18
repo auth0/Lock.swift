@@ -10,6 +10,7 @@
 @synthesize auth0User = _auth0User;
 
 NSString *AuthorizeUrl = @"https://%@/authorize?client_id=%@&scope=%@&redirect_uri=%@&response_type=token&connection=%@";
+NSString *LinkAccountUrl = @"https://%@/authorize?client_id=%@&scope=%@&connection=%@&access_token=%@&redirect_uri=%@&response_type=token";
 NSString *LoginWidgetUrl = @"https://%@/login/?client=%@&scope=%@&redirect_uri=%@&response_type=token";
 NSString *ResourceOwnerEndpoint = @"https://%@/oauth/ro";
 NSString *ResourceOwnerBody = @"client_id=%@&connection=%@&username=%@&password=%@&grant_type=password&scope=%@";
@@ -71,10 +72,10 @@ NSString *DefaultCallback = @"https://%@/mobile";
     
     if (connection != nil) {
         url = [NSString stringWithFormat:AuthorizeUrl,
-                         _domain,
-                         _clientId,
-                         [self urlEncode:scope],
-                         callback, connection];
+               _domain,
+               _clientId,
+               [self urlEncode:scope],
+               callback, connection];
     }
     
     Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[NSURL URLWithString:url] returnUrl:callback allowsClose:YES withCompletionHandler:^(NSString *token, NSString * jwtToken, NSString * error){
@@ -83,10 +84,10 @@ NSString *DefaultCallback = @"https://%@/mobile";
             [self getUserInfo:token withCompletionHandler:^(NSMutableDictionary* profile) {
                 
                 NSMutableDictionary* accountProperties = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                                   token ?: [NSNull null], @"access_token",
-                                                   jwtToken?: [NSNull null], @"id_token",
-                                                   profile?: [NSNull null], @"profile",
-                                                   nil];
+                                                          token ?: [NSNull null], @"access_token",
+                                                          jwtToken?: [NSNull null], @"id_token",
+                                                          profile?: [NSNull null], @"profile",
+                                                          nil];
                 
                 _auth0User = [Auth0User auth0User:accountProperties];
                 block(nil);
@@ -100,6 +101,48 @@ NSString *DefaultCallback = @"https://%@/mobile";
     
     return webController;
 }
+
+// link account with specified connection
+- (void)linkAccountAsync:(UIViewController *)controller connection:(NSString *)connection scope:(NSString *)scope auth0AccessToken:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* error))block
+{
+    NSString *callback = [NSString stringWithFormat:DefaultCallback, _domain];
+    NSString *url = [NSString stringWithFormat:LinkAccountUrl,
+                     _domain,
+                     _clientId,
+                     [self urlEncode:scope],
+                     connection,
+                     accessToken,
+                     callback];
+    
+    
+    Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[NSURL URLWithString:url] returnUrl:callback allowsClose:YES withCompletionHandler:^(NSString *token, NSString * jwtToken, NSString * error){
+        if (token) {
+            
+            [self getUserInfo:token withCompletionHandler:^(NSMutableDictionary* profile) {
+                
+                NSMutableDictionary* accountProperties = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                                          token ?: [NSNull null], @"access_token",
+                                                          jwtToken?: [NSNull null], @"id_token",
+                                                          profile?: [NSNull null], @"profile",
+                                                          nil];
+                
+                _auth0User = [Auth0User auth0User:accountProperties];
+                [controller dismissViewControllerAnimated:YES completion:nil];
+                block(nil);
+            }];
+        }
+        else {
+            NSString * errorMsg = error ? error : @"Authentication Failed";
+            block([[NSMutableDictionary alloc] initWithObjectsAndKeys: errorMsg, @"error", nil]);
+        }
+    }];
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:webController];
+    navController.navigationBar.barStyle = UIBarStyleBlack;
+    
+    [controller presentViewController:navController animated:YES completion:nil];
+}
+
 
 // Login with widget
 - (void)loginAsync:(UIViewController *)controller withCompletionHandler:(void (^)(NSMutableDictionary* error))block
@@ -121,10 +164,10 @@ NSString *DefaultCallback = @"https://%@/mobile";
 - (void)loginAsync:(UIViewController *)controller connection:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
     Auth0WebViewController * webController = (Auth0WebViewController *)[self getAuthenticator:connection scope:scope withCompletionHandler:^(NSMutableDictionary* error)
-    {
-        [controller dismissViewControllerAnimated:YES completion:nil];
-        block(error);
-    }];
+                                                                        {
+                                                                            [controller dismissViewControllerAnimated:YES completion:nil];
+                                                                            block(error);
+                                                                        }];
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:webController];
     navController.navigationBar.barStyle = UIBarStyleBlack;
@@ -325,12 +368,12 @@ NSString *DefaultCallback = @"https://%@/mobile";
 
 -(NSString *)urlEncode:(NSString *)url {
 	NSString *escapedString =
-        (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
-            NULL,
-            (__bridge CFStringRef) url,
-            NULL,
-            CFSTR("!*'();:@&=+$,/?%#[]\" "),
-            kCFStringEncodingUTF8));
+    (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                          NULL,
+                                                                          (__bridge CFStringRef) url,
+                                                                          NULL,
+                                                                          CFSTR("!*'();:@&=+$,/?%#[]\" "),
+                                                                          kCFStringEncodingUTF8));
     
     return escapedString;
 }
