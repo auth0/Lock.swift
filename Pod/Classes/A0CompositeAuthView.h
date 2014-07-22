@@ -14,4 +14,6 @@
 
 @property (weak, nonatomic) id<A0KeyboardEnabledView> delegate;
 
+- (instancetype)initWithFirstView:(UIView *)firstView
+                    andSecondView:(UIView *)secondView;
 @end

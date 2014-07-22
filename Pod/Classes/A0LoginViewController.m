@@ -179,9 +179,6 @@
     UIView<A0KeyboardEnabledView> *recoverView = self.recoverView;
     recoverView.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:recoverView centeredInContainerView:containerView];
-    NSDictionary *views = NSDictionaryOfVariableBindings(recoverView);
-    [recoverView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[recoverView(325)]" options:0 metrics:nil views:views]];
-    [recoverView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[recoverView(280)]" options:0 metrics:nil views:views]];
     [self animateFromView:self.authView toView:recoverView withTitle:NSLocalizedString(@"Reset Password", nil)];
     return recoverView;
 }
@@ -190,9 +187,6 @@
     UIView<A0KeyboardEnabledView> *signUpView = self.signUpView;
     signUpView.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:signUpView centeredInContainerView:containerView];
-    NSDictionary *views = NSDictionaryOfVariableBindings(signUpView);
-    [signUpView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[signUpView(260)]" options:0 metrics:nil views:views]];
-    [signUpView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[signUpView(280)]" options:0 metrics:nil views:views]];
     [self animateFromView:self.authView toView:signUpView withTitle:NSLocalizedString(@"Sign Up", nil)];
     return signUpView;
 }
@@ -200,9 +194,6 @@
 - (UIView<A0KeyboardEnabledView> *)layoutLoadingView:(A0LoadingView *)loadingView inContainer:(UIView *)containerView {
     loadingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:loadingView centeredInContainerView:containerView];
-    NSDictionary *views = NSDictionaryOfVariableBindings(loadingView);
-    [loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[loadingView(232)]" options:0 metrics:nil views:views]];
-    [loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[loadingView(280)]" options:0 metrics:nil views:views]];
     return loadingView;
 }
 
@@ -223,41 +214,23 @@
                                                               attribute:NSLayoutAttributeCenterY
                                                              multiplier:1.0f
                                                                constant:0.0f]];
+    NSDictionary *views = NSDictionaryOfVariableBindings(authView);
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
 }
 
 - (UIView<A0KeyboardEnabledView> *)layoutDatabaseOnlyAuthViewInContainer:(UIView *)containerView {
     UIView<A0KeyboardEnabledView> *userPassView = self.databaseAuthView;
-    [self layoutAuthView:userPassView centeredInContainerView:containerView];
     userPassView.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:userPassView centeredInContainerView:containerView];
-    NSDictionary *views = NSDictionaryOfVariableBindings(userPassView);
-    [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[userPassView(232)]" options:0 metrics:nil views:views]];
-    [userPassView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[userPassView(280)]" options:0 metrics:nil views:views]];
     [self animateFromView:self.authView toView:userPassView withTitle:NSLocalizedString(@"Login", nil)];
     return userPassView;
 }
 
 - (UIView<A0KeyboardEnabledView> *)layoutFullAuthViewInContainer:(UIView *)containerView {
-    A0CompositeAuthView *authView = [[A0CompositeAuthView alloc] init];
-    A0ServicesView *socialView = self.smallSocialAuthView;
-    A0UserPasswordView *userPassView = self.databaseAuthView;
+    A0CompositeAuthView *authView = [[A0CompositeAuthView alloc] initWithFirstView:self.smallSocialAuthView
+                                                                     andSecondView:self.databaseAuthView];
+    authView.delegate = self.databaseAuthView;
     [self layoutAuthView:authView centeredInContainerView:containerView];
-    authView.translatesAutoresizingMaskIntoConstraints = NO;
-    socialView.translatesAutoresizingMaskIntoConstraints = NO;
-    userPassView.translatesAutoresizingMaskIntoConstraints = NO;
-    [authView addSubview:userPassView];
-    [authView addSubview:socialView];
-    authView.delegate = userPassView;
-
-    NSDictionary *views = NSDictionaryOfVariableBindings(socialView, userPassView);
-    NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[socialView(79)][userPassView(232)]|"
-                                                                           options:0
-                                                                           metrics:nil
-                                                                             views:views];
-    [authView addConstraints:verticalConstraints];
-    [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[socialView(280)]|" options:0 metrics:nil views:views]];
-    [authView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[userPassView(280)]|" options:0 metrics:nil views:views]];
-
     [self animateFromView:self.authView toView:authView withTitle:NSLocalizedString(@"Login", nil)];
     return authView;
 }

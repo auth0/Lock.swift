@@ -125,6 +125,9 @@
                     <rect key="frame" x="0.0" y="0.0" width="280" height="50"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="yKe-uY-e1d"/>
+                    </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="4hX-Fk-YtM">
                         <size key="itemSize" width="40" height="40"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -227,7 +230,7 @@
                         <constraint firstAttribute="bottom" secondItem="nmu-gm-Wz7" secondAttribute="bottom" constant="10" id="jH9-oQ-o9K"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zcb-7z-yXi">
+                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zcb-7z-yXi">
                     <rect key="frame" x="1" y="129" width="278" height="55"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
@@ -267,6 +270,7 @@
                 </button>
             </subviews>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="3FK-eT-RPy" secondAttribute="bottom" constant="7" id="06c-FE-BQe"/>
                 <constraint firstAttribute="centerX" secondItem="c7L-V9-kcl" secondAttribute="centerX" id="2Wj-Vb-DOz"/>
                 <constraint firstAttribute="trailing" secondItem="Zcb-7z-yXi" secondAttribute="trailing" constant="1" id="3SQ-tQ-PeN"/>
                 <constraint firstItem="3FK-eT-RPy" firstAttribute="top" secondItem="Zcb-7z-yXi" secondAttribute="bottom" constant="16" id="66R-fi-6gn"/>
@@ -384,7 +388,7 @@
                         <constraint firstAttribute="trailing" secondItem="0Qt-XD-tM6" secondAttribute="trailing" constant="7" id="irM-CX-VLQ"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0aY-KK-SLL">
+                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0aY-KK-SLL">
                     <rect key="frame" x="1" y="155" width="278" height="55"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
@@ -429,6 +433,7 @@
                 <constraint firstItem="3pt-fV-LhX" firstAttribute="top" secondItem="0aY-KK-SLL" secondAttribute="bottom" constant="16" id="bjN-9X-yFe"/>
                 <constraint firstAttribute="centerX" secondItem="cY0-1s-ykg" secondAttribute="centerX" id="kNs-iO-GD2"/>
                 <constraint firstItem="gg9-iB-vSX" firstAttribute="height" secondItem="BXA-Wx-7fw" secondAttribute="height" id="l8n-Af-PVK"/>
+                <constraint firstAttribute="bottom" secondItem="3pt-fV-LhX" secondAttribute="bottom" constant="9" id="lX7-oZ-z72"/>
                 <constraint firstAttribute="trailing" secondItem="0aY-KK-SLL" secondAttribute="trailing" constant="1" id="rPH-wx-LWs"/>
                 <constraint firstAttribute="centerX" secondItem="BXA-Wx-7fw" secondAttribute="centerX" id="uyI-i6-bBH"/>
                 <constraint firstAttribute="trailing" secondItem="gg9-iB-vSX" secondAttribute="trailing" constant="1" id="zO8-5B-KgA"/>
@@ -580,6 +585,7 @@
                 </label>
             </subviews>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="pvd-VG-ziG" secondAttribute="bottom" id="1Zp-s3-36l"/>
                 <constraint firstItem="wDk-No-AUj" firstAttribute="leading" secondItem="VQ0-3t-gbE" secondAttribute="leading" constant="1" id="4n6-oc-Df3"/>
                 <constraint firstItem="TAK-YN-1I0" firstAttribute="top" secondItem="yuV-8j-2Wb" secondAttribute="bottom" constant="-1" id="8Cc-p3-ODv"/>
                 <constraint firstAttribute="centerX" secondItem="yuV-8j-2Wb" secondAttribute="centerX" id="8yf-iS-a6C"/>

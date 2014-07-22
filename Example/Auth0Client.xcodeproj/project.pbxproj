@@ -513,7 +513,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				AUTH0_CLIENT_ID = BUIJSW9x60sIHBw8Kd9EmCbj8eDIFxDC;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hernan Zalazar (UUWS9Z463H)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Auth0Client/Auth0Client-Prefix.pch";
 				INFOPLIST_FILE = "Auth0Client/Auth0Client-Info.plist";
