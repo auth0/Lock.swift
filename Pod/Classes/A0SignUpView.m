@@ -9,6 +9,7 @@
 #import "A0SignUpView.h"
 #import "UIButton+A0SolidButton.h"
 #import "A0Errors.h"
+#import "A0SignUpCredentialValidator.h"
 
 @interface A0SignUpView ()
 
@@ -44,7 +45,8 @@
 
 - (void)signUp:(id)sender {
     NSError *error;
-    if (!self.validateBlock || self.validateBlock(self.userTextField.text, self.passwordTextField.text, &error)) {
+    [self.validator setUsername:self.userTextField.text password:self.passwordTextField.text];
+    if ([self.validator validateCredential:&error]) {
         [self hideKeyboard];
         if (self.signUpBlock) {
             self.signUpBlock(self.userTextField.text, self.passwordTextField.text);

@@ -18,24 +18,12 @@
 #import "A0KeyboardEnabledView.h"
 #import "A0CompositeAuthView.h"
 #import "A0Errors.h"
+#import "A0KeyboardHandler.h"
+#import "A0DatabaseLoginCredentialValidator.h"
+#import "A0SignUpCredentialValidator.h"
+#import "A0ChangePasswordCredentialValidator.h"
 
 #import <libextobjc/EXTScope.h>
-
-@implementation NSNotification (UIKeyboardInfo)
-
-- (CGFloat)keyboardAnimationDuration {
-    return [[self userInfo][UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-}
-
-- (NSUInteger)keyboardAnimationCurve {
-    return [[self userInfo][UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue];
-}
-
-- (CGRect)keyboardEndFrame {
-    return [[self userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
-}
-
-@end
 
 @interface A0LoginViewController ()
 
@@ -50,6 +38,8 @@
 @property (weak, nonatomic) UIView<A0KeyboardEnabledView> *authView;
 
 @property (strong, nonatomic) NSPredicate *emailPredicate;
+@property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
+
 
 - (IBAction)dismiss:(id)sender;
 
@@ -73,22 +63,15 @@
 
     NSString *emailRegex = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
     self.emailPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    self.keyboardHandler = [[A0KeyboardHandler alloc] init];
 
     @weakify(self);
     self.authView = [self layoutLoadingView:self.loadingView inContainer:self.containerView];
 
-    self.databaseAuthView.signUpBlock = ^{
-        @strongify(self);
-        self.authView = [self layoutSignUpInContainer:self.containerView];
-    };
-    self.databaseAuthView.forgotPasswordBlock = ^{
-        @strongify(self);
-        self.authView = [self layoutRecoverInContainer:self.containerView];
-    };
-
     A0APIClientError failureBlock = ^(NSError *error){
         NSLog(@"ERROR %@", error);
     };
+
     A0APIClientSuccess successBlock = ^(id payload) {
         @strongify(self);
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
@@ -97,95 +80,10 @@
             }
         }];
     };
-    self.databaseAuthView.loginBlock = ^(NSString *username, NSString *password) {
-        [[A0APIClient sharedClient] loginWithUsername:username password:password success:successBlock failure:failureBlock];
-    };
 
-    self.signUpView.signUpBlock = ^(NSString *username, NSString *password){
-        [[A0APIClient sharedClient] signUpWithUsername:username password:password success:successBlock failure:failureBlock];
-    };
-
-    self.recoverView.recoverBlock = ^(NSString *username, NSString *password) {
-        [[A0APIClient sharedClient] changePassword:password forUsername:username success:^(id payload) {
-            @strongify(self);
-            self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
-        } failure:failureBlock];
-    };
-
-    self.signUpView.cancelBlock = ^{
-        @strongify(self);
-        self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
-    };
-    self.recoverView.cancelBlock = ^{
-        @strongify(self);
-        self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
-    };
-
-    self.databaseAuthView.validateBlock = ^BOOL(NSString *username, NSString *password, NSError **error) {
-        @strongify(self);
-        BOOL validUsername = [self validateUsername:username];
-        BOOL validPassword = password.length > 0;
-        if (!validUsername && !validPassword) {
-            *error = [A0Errors invalidLoginCredentialsUsingEmail:self.usesEmail];
-            return NO;
-        }
-        if (validUsername && !validPassword) {
-            *error = [A0Errors invalidLoginPassword];
-            return NO;
-        }
-        if (!validUsername && validPassword) {
-            *error = [A0Errors invalidLoginUsernameUsingEmail:self.usesEmail];
-            return NO;
-        }
-        return YES;
-    };
-
-    self.signUpView.validateBlock = ^BOOL(NSString *username, NSString *password, NSError **error) {
-        @strongify(self);
-        BOOL validUsername = [self validateUsername:username];
-        BOOL validPassword = password.length > 0;
-        if (!validUsername && !validPassword) {
-            *error = [A0Errors invalidSignUpCredentialsUsingEmail:self.usesEmail];
-            return NO;
-        }
-        if (validUsername && !validPassword) {
-            *error = [A0Errors invalidSignUpPassword];
-            return NO;
-        }
-        if (!validUsername && validPassword) {
-            *error = [A0Errors invalidSignUpUsernameUsingEmail:self.usesEmail];
-            return NO;
-        }
-        return YES;
-    };
-
-    self.recoverView.validateBlock = ^BOOL(NSString *username, NSString *password, NSString *repeatPassword, NSError **error) {
-        @strongify(self);
-        BOOL validUsername = [self validateUsername:username];
-        BOOL validPassword = password.length > 0;
-        BOOL validRepeat = repeatPassword.length > 0 && [password isEqualToString:repeatPassword];
-        if (!validUsername && (!validPassword || !validRepeat)) {
-            *error = [A0Errors invalidChangePasswordCredentialsUsingEmail:self.usesEmail];
-            return NO;
-        }
-        if (validUsername && !validPassword && !validRepeat) {
-            *error = [A0Errors invalidChangePasswordRepeatPasswordAndPassword];
-            return NO;
-        }
-        if (validUsername && validPassword && !validRepeat) {
-            *error = [A0Errors invalidChangePasswordRepeatPassword];
-            return NO;
-        }
-        if (validUsername && !validPassword && validRepeat) {
-            *error = [A0Errors invalidChangePasswordPassword];
-            return NO;
-        }
-        if (!validUsername && validPassword && validRepeat) {
-            *error = [A0Errors invalidChangePasswordUsernameUsingEmail:self.usesEmail];
-            return NO;
-        }
-        return YES;
-    };
+    [self configureDatabaseAuthViewWithSuccess:successBlock failure:failureBlock];
+    [self configureSignUpViewWithSuccess:successBlock failure:failureBlock];
+    [self configureChangePasswordViewWithFailure:failureBlock];
 
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
@@ -202,14 +100,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeShown:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+    [self.keyboardHandler start];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [self.keyboardHandler stop];
 }
 
 - (BOOL)shouldAutorotate {
@@ -218,29 +114,6 @@
 
 - (void)dismiss:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)keyboardWillBeShown:(NSNotification *)notification {
-    CGRect keyboardFrame = [self.view convertRect:[notification keyboardEndFrame] fromView:nil];
-    CGFloat animationDuration = [notification keyboardAnimationDuration];
-    NSUInteger animationCurve = [notification keyboardAnimationCurve];
-    CGRect buttonFrame = [self.authView rectToKeepVisibleInView:self.view];
-    CGRect frame = self.view.frame;
-    CGFloat newY = keyboardFrame.origin.y - (buttonFrame.origin.y + buttonFrame.size.height);
-    frame.origin.y = MIN(newY, 0);
-    [UIView animateWithDuration:animationDuration delay:0.0f options:animationCurve animations:^{
-        self.view.frame = frame;
-    } completion:nil];
-}
-
-- (void)keyboardWillBeHidden:(NSNotification *)notification {
-    CGFloat animationDuration = [notification keyboardAnimationDuration];
-    NSUInteger animationCurve = [notification keyboardAnimationCurve];
-    CGRect frame = self.view.frame;
-    frame.origin.y = 0;
-    [UIView animateWithDuration:animationDuration delay:0.0f options:animationCurve animations:^{
-        self.view.frame = frame;
-    } completion:nil];
 }
 
 - (void)hideKeyboard:(id)sender {
@@ -257,22 +130,18 @@
     }
 }
 
-#pragma mark - Utility methods
-
-- (UIView<A0KeyboardEnabledView> *)layoutRecoverInContainer:(UIView *)containerView {
-    UIView<A0KeyboardEnabledView> *recoverView = self.recoverView;
-    recoverView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self layoutAuthView:recoverView centeredInContainerView:containerView];
-    [self animateFromView:self.authView toView:recoverView withTitle:NSLocalizedString(@"Reset Password", nil)];
-    return recoverView;
+- (BOOL)validatePassword:(NSString *)password {
+    return password.length > 0;
 }
 
-- (UIView<A0KeyboardEnabledView> *)layoutSignUpInContainer:(UIView *)containerView {
-    UIView<A0KeyboardEnabledView> *signUpView = self.signUpView;
-    signUpView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self layoutAuthView:signUpView centeredInContainerView:containerView];
-    [self animateFromView:self.authView toView:signUpView withTitle:NSLocalizedString(@"Sign Up", nil)];
-    return signUpView;
+#pragma mark - Utility methods
+
+- (UIView<A0KeyboardEnabledView> *)layoutSingleView:(UIView<A0KeyboardEnabledView> *)view withTitle:(NSString *)title inContainer:(UIView *)containerView {
+    view.translatesAutoresizingMaskIntoConstraints = NO;
+    [self layoutAuthView:view centeredInContainerView:containerView];
+    [self animateFromView:self.authView toView:view withTitle:title];
+    [self.keyboardHandler handleForView:view inView:self.view];
+    return view;
 }
 
 - (UIView<A0KeyboardEnabledView> *)layoutLoadingView:(A0LoadingView *)loadingView inContainer:(UIView *)containerView {
@@ -303,11 +172,7 @@
 }
 
 - (UIView<A0KeyboardEnabledView> *)layoutDatabaseOnlyAuthViewInContainer:(UIView *)containerView {
-    UIView<A0KeyboardEnabledView> *userPassView = self.databaseAuthView;
-    userPassView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self layoutAuthView:userPassView centeredInContainerView:containerView];
-    [self animateFromView:self.authView toView:userPassView withTitle:NSLocalizedString(@"Login", nil)];
-    return userPassView;
+    return [self layoutSingleView:self.databaseAuthView withTitle:NSLocalizedString(@"Login", nil) inContainer:containerView];
 }
 
 - (UIView<A0KeyboardEnabledView> *)layoutFullAuthViewInContainer:(UIView *)containerView {
@@ -316,6 +181,7 @@
     authView.delegate = self.databaseAuthView;
     [self layoutAuthView:authView centeredInContainerView:containerView];
     [self animateFromView:self.authView toView:authView withTitle:NSLocalizedString(@"Login", nil)];
+    [self.keyboardHandler handleForView:authView inView:self.view];
     return authView;
 }
 
@@ -329,5 +195,59 @@
     } completion:^(BOOL finished) {
         [fromView removeFromSuperview];
     }];
+}
+
+- (void)configureDatabaseAuthViewWithSuccess:(A0APIClientSuccess)success failure:(A0APIClientError)failure {
+    @weakify(self);
+    self.databaseAuthView.signUpBlock = ^{
+        @strongify(self);
+        self.authView = [self layoutSingleView:self.signUpView
+                                     withTitle:NSLocalizedString(@"Sign Up", nil)
+                                   inContainer:self.containerView];
+    };
+    self.databaseAuthView.forgotPasswordBlock = ^{
+        @strongify(self);
+        self.authView = [self layoutSingleView:self.recoverView
+                                     withTitle:NSLocalizedString(@"Reset Password", nil)
+                                   inContainer:self.containerView];
+    };
+
+    self.databaseAuthView.loginBlock = ^(NSString *username, NSString *password) {
+        [[A0APIClient sharedClient] loginWithUsername:username password:password success:success failure:failure];
+    };
+
+    self.databaseAuthView.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+}
+
+- (void)configureSignUpViewWithSuccess:(A0APIClientSuccess)success failure:(A0APIClientError)failure {
+    @weakify(self);
+
+    self.signUpView.signUpBlock = ^(NSString *username, NSString *password){
+        [[A0APIClient sharedClient] signUpWithUsername:username password:password success:success failure:failure];
+    };
+
+    self.signUpView.cancelBlock = ^{
+        @strongify(self);
+        self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
+    };
+
+    self.signUpView.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+}
+
+- (void)configureChangePasswordViewWithFailure:(A0APIClientError)failure {
+    @weakify(self);
+    self.recoverView.recoverBlock = ^(NSString *username, NSString *password) {
+        [[A0APIClient sharedClient] changePassword:password forUsername:username success:^(id payload) {
+            @strongify(self);
+            self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
+        } failure:failure];
+    };
+
+    self.recoverView.cancelBlock = ^{
+        @strongify(self);
+        self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
+    };
+
+    self.recoverView.validator = [[A0ChangePasswordCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
 }
 @end

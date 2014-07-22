@@ -9,6 +9,7 @@
 #import "A0RecoverPasswordView.h"
 #import "UIButton+A0SolidButton.h"
 #import "A0Errors.h"
+#import "A0ChangePasswordCredentialValidator.h"
 
 @interface A0RecoverPasswordView ()
 
@@ -43,7 +44,8 @@
 
 - (IBAction)recover:(id)sender {
     NSError *error;
-    if (!self.validateBlock || self.validateBlock(self.userTextField.text, self.passwordTextField.text, self.repeatPasswordTextField.text, &error)) {
+    [self.validator setUsername:self.userTextField.text password:self.passwordTextField.text repeatPassword:self.repeatPasswordTextField.text];
+    if ([self.validator validateCredential:&error]) {
         [self hideKeyboard];
         if (self.recoverBlock) {
             self.recoverBlock(self.userTextField.text, self.passwordTextField.text);
