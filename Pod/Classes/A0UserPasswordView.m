@@ -91,14 +91,14 @@
     self.passwordTextField.textColor = [UIColor blackColor];
     if (error) {
         switch (error.code) {
-            case A0ErrorCodeInvalidLoginCredentials:
+            case A0ErrorCodeInvalidCredentials:
                 self.userTextField.textColor = [UIColor redColor];
                 self.passwordTextField.textColor = [UIColor redColor];
                 break;
-            case A0ErrorCodeInvalidLoginPassword:
+            case A0ErrorCodeInvalidPassword:
                 self.passwordTextField.textColor = [UIColor redColor];
                 break;
-            case A0ErrorCodeInvalidLoginUsername:
+            case A0ErrorCodeInvalidUsername:
                 self.userTextField.textColor = [UIColor redColor];
                 break;
         }

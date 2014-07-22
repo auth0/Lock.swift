@@ -49,6 +49,8 @@
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) UIView<A0KeyboardEnabledView> *authView;
 
+@property (strong, nonatomic) NSPredicate *emailPredicate;
+
 - (IBAction)dismiss:(id)sender;
 
 @end
@@ -69,6 +71,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    NSString *emailRegex = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
+    self.emailPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+
     @weakify(self);
     self.authView = [self layoutLoadingView:self.loadingView inContainer:self.containerView];
 
@@ -79,24 +84,6 @@
     self.databaseAuthView.forgotPasswordBlock = ^{
         @strongify(self);
         self.authView = [self layoutRecoverInContainer:self.containerView];
-    };
-    self.databaseAuthView.validateBlock = ^BOOL(NSString *username, NSString *password, NSError **error) {
-        @strongify(self);
-        BOOL validUsername = [self validateUsername:username];
-        BOOL validPassword = password.length > 0;
-        if (!validUsername && !validPassword) {
-            *error = [A0Errors invalidLoginCredentialsUsingEmail:self.usesEmail];
-            return NO;
-        }
-        if (validUsername && !validPassword) {
-            *error = [A0Errors invalidLoginPassword];
-            return NO;
-        }
-        if (!validUsername && validPassword) {
-            *error = [A0Errors invalidLoginUsernameUsingEmail:self.usesEmail];
-            return NO;
-        }
-        return YES;
     };
 
     A0APIClientError failureBlock = ^(NSError *error){
@@ -133,6 +120,45 @@
         @strongify(self);
         self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
     };
+
+    self.databaseAuthView.validateBlock = ^BOOL(NSString *username, NSString *password, NSError **error) {
+        @strongify(self);
+        BOOL validUsername = [self validateUsername:username];
+        BOOL validPassword = password.length > 0;
+        if (!validUsername && !validPassword) {
+            *error = [A0Errors invalidLoginCredentialsUsingEmail:self.usesEmail];
+            return NO;
+        }
+        if (validUsername && !validPassword) {
+            *error = [A0Errors invalidLoginPassword];
+            return NO;
+        }
+        if (!validUsername && validPassword) {
+            *error = [A0Errors invalidLoginUsernameUsingEmail:self.usesEmail];
+            return NO;
+        }
+        return YES;
+    };
+
+    self.signUpView.validateBlock = ^BOOL(NSString *username, NSString *password, NSError **error) {
+        @strongify(self);
+        BOOL validUsername = [self validateUsername:username];
+        BOOL validPassword = password.length > 0;
+        if (!validUsername && !validPassword) {
+            *error = [A0Errors invalidSignUpCredentialsUsingEmail:self.usesEmail];
+            return NO;
+        }
+        if (validUsername && !validPassword) {
+            *error = [A0Errors invalidSignUpPassword];
+            return NO;
+        }
+        if (!validUsername && validPassword) {
+            *error = [A0Errors invalidSignUpUsernameUsingEmail:self.usesEmail];
+            return NO;
+        }
+        return YES;
+    };
+
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         [[A0APIClient sharedClient] configureForApplication:application];
@@ -197,9 +223,7 @@
 
 - (BOOL)validateUsername:(NSString *)username {
     if (self.usesEmail) {
-        NSString *stricterFilterString = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
-        NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", stricterFilterString];
-        return [emailTest evaluateWithObject:username];
+        return [self.emailPredicate evaluateWithObject:username];
     } else {
         return username.length > 0;
     }

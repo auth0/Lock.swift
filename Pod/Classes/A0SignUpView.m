@@ -7,8 +7,8 @@
 //
 
 #import "A0SignUpView.h"
-
 #import "UIButton+A0SolidButton.h"
+#import "A0Errors.h"
 
 @interface A0SignUpView ()
 
@@ -43,9 +43,21 @@
 }
 
 - (void)signUp:(id)sender {
-    if (self.signUpBlock) {
-        self.signUpBlock(self.userTextField.text, self.passwordTextField.text);
+    NSError *error;
+    if (!self.validateBlock || self.validateBlock(self.userTextField.text, self.passwordTextField.text, &error)) {
+        [self hideKeyboard];
+        if (self.signUpBlock) {
+            self.signUpBlock(self.userTextField.text, self.passwordTextField.text);
+        }
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error.localizedDescription
+                                                        message:error.localizedFailureReason
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                              otherButtonTitles: nil];
+        [alert show];
     }
+    [self updateUIWithError:error];
 }
 
 - (void)goToPasswordField:(id)sender {
@@ -62,4 +74,26 @@
     CGRect rect = [view convertRect:self.signUpButton.frame fromView:self.signUpButton.superview];
     return rect;
 }
+
+#pragma mark - Error Handling
+
+- (void)updateUIWithError:(NSError *)error {
+    self.userTextField.textColor = [UIColor blackColor];
+    self.passwordTextField.textColor = [UIColor blackColor];
+    if (error) {
+        switch (error.code) {
+            case A0ErrorCodeInvalidCredentials:
+                self.userTextField.textColor = [UIColor redColor];
+                self.passwordTextField.textColor = [UIColor redColor];
+                break;
+            case A0ErrorCodeInvalidPassword:
+                self.passwordTextField.textColor = [UIColor redColor];
+                break;
+            case A0ErrorCodeInvalidUsername:
+                self.userTextField.textColor = [UIColor redColor];
+                break;
+        }
+    }
+}
+
 @end

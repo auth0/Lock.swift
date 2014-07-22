@@ -11,12 +11,15 @@
 #import "A0KeyboardEnabledView.h"
 
 typedef void(^A0SignUpBlock)(NSString *username, NSString *password);
+typedef BOOL(^A0SignUpValidateBlock)(NSString *username, NSString *password, NSError **error);
 typedef void(^A0CancelBlock)();
 
 @interface A0SignUpView : UIView<A0KeyboardEnabledView>
 
 @property (copy, nonatomic) A0SignUpBlock signUpBlock;
 @property (copy, nonatomic) A0CancelBlock cancelBlock;
+@property (copy, nonatomic) A0SignUpValidateBlock validateBlock;
+
 
 @property (weak, nonatomic) IBOutlet UITextField *userTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;

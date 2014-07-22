@@ -19,7 +19,7 @@ NSString * const A0ErrorDomain = @"com.auth0";
     } else {
         failureReason = NSLocalizedString(@"The username and password you entered is invalid. Please try again.", nil);
     }
-    return [self errorWithCode:A0ErrorCodeInvalidLoginCredentials
+    return [self errorWithCode:A0ErrorCodeInvalidCredentials
                    description:NSLocalizedString(@"Invalid login credentials", nil)
                  failureReason:failureReason];
 }
@@ -31,14 +31,44 @@ NSString * const A0ErrorDomain = @"com.auth0";
     } else {
         failureReason = NSLocalizedString(@"The username you entered is invalid. Please try again.", nil);
     }
-    return [self errorWithCode:A0ErrorCodeInvalidLoginUsername
+    return [self errorWithCode:A0ErrorCodeInvalidUsername
                    description:NSLocalizedString(@"Invalid login credentials", nil)
                  failureReason:failureReason];
 }
 
 + (id)invalidLoginPassword {
-    return [self errorWithCode:A0ErrorCodeInvalidLoginPassword
+    return [self errorWithCode:A0ErrorCodeInvalidPassword
                    description:NSLocalizedString(@"Invalid login credentials", nil)
+                 failureReason:NSLocalizedString(@"The password you entered is invalid. Please try again.", nil)];
+}
+
++ (id)invalidSignUpCredentialsUsingEmail:(BOOL)usesEmail {
+    NSString *failureReason;
+    if (usesEmail) {
+        failureReason = NSLocalizedString(@"The email and password you entered is invalid. Please try again.", nil);
+    } else {
+        failureReason = NSLocalizedString(@"The username and password you entered is invalid. Please try again.", nil);
+    }
+    return [self errorWithCode:A0ErrorCodeInvalidCredentials
+                   description:NSLocalizedString(@"Invalid credentials", nil)
+                 failureReason:failureReason];
+}
+
++ (id)invalidSignUpUsernameUsingEmail:(BOOL)usesEmail {
+    NSString *failureReason;
+    if (usesEmail) {
+        failureReason = NSLocalizedString(@"The email you entered is invalid. Please try again.", nil);
+    } else {
+        failureReason = NSLocalizedString(@"The username you entered is invalid. Please try again.", nil);
+    }
+    return [self errorWithCode:A0ErrorCodeInvalidUsername
+                   description:NSLocalizedString(@"Invalid credentials", nil)
+                 failureReason:failureReason];
+}
+
++ (id)invalidSignUpPassword {
+    return [self errorWithCode:A0ErrorCodeInvalidPassword
+                   description:NSLocalizedString(@"Invalid credentials", nil)
                  failureReason:NSLocalizedString(@"The password you entered is invalid. Please try again.", nil)];
 }
 
