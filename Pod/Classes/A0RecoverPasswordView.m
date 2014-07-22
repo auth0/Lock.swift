@@ -8,6 +8,7 @@
 
 #import "A0RecoverPasswordView.h"
 #import "UIButton+A0SolidButton.h"
+#import "A0Errors.h"
 
 @interface A0RecoverPasswordView ()
 
@@ -41,9 +42,21 @@
 }
 
 - (IBAction)recover:(id)sender {
-    if (self.recoverBlock) {
-        self.recoverBlock(self.userTextField.text, self.passwordTextField.text);
+    NSError *error;
+    if (!self.validateBlock || self.validateBlock(self.userTextField.text, self.passwordTextField.text, self.repeatPasswordTextField.text, &error)) {
+        [self hideKeyboard];
+        if (self.recoverBlock) {
+            self.recoverBlock(self.userTextField.text, self.passwordTextField.text);
+        }
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error.localizedDescription
+                                                        message:error.localizedFailureReason
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                              otherButtonTitles: nil];
+        [alert show];
     }
+    [self updateUIWithError:error];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -69,5 +82,33 @@
 - (CGRect)rectToKeepVisibleInView:(UIView *)view {
     CGRect buttonFrame = [view convertRect:self.recoverButton.frame fromView:self.recoverButton.superview];
     return buttonFrame;
+}
+
+- (void)updateUIWithError:(NSError *)error {
+    self.userTextField.textColor = [UIColor blackColor];
+    self.passwordTextField.textColor = [UIColor blackColor];
+    self.repeatPasswordTextField.textColor = [UIColor blackColor];
+    if (error) {
+        switch (error.code) {
+            case A0ErrorCodeInvalidCredentials:
+                self.userTextField.textColor = [UIColor redColor];
+                self.passwordTextField.textColor = [UIColor redColor];
+                self.repeatPasswordTextField.textColor = [UIColor redColor];
+                break;
+            case A0ErrorCodeInvalidPassword:
+                self.passwordTextField.textColor = [UIColor redColor];
+                break;
+            case A0ErrorCodeInvalidUsername:
+                self.userTextField.textColor = [UIColor redColor];
+                break;
+            case A0ErrorCodeInvalidRepeatPassword:
+                self.repeatPasswordTextField.textColor = [UIColor redColor];
+                break;
+            case A0ErrorCodeInvalidPasswordAndRepeatPassword:
+                self.passwordTextField.textColor = [UIColor redColor];
+                self.repeatPasswordTextField.textColor = [UIColor redColor];
+                break;
+        }
+    }
 }
 @end

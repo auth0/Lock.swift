@@ -12,11 +12,13 @@
 
 typedef void(^A0RecoverPasswordBlock)(NSString *username, NSString *newPassword);
 typedef void(^A0CancelBlock)();
+typedef BOOL(^A0RecoverPasswordValidateBlock)(NSString *username, NSString *newPassword, NSString *repeatPassword, NSError **error);
 
 @interface A0RecoverPasswordView : UIView<A0KeyboardEnabledView>
 
 @property (copy, nonatomic) A0RecoverPasswordBlock recoverBlock;
 @property (copy, nonatomic) A0CancelBlock cancelBlock;
+@property (copy, nonatomic) A0RecoverPasswordValidateBlock validateBlock;
 
 @property (weak, nonatomic) IBOutlet UITextField *userTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;

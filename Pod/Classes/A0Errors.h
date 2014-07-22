@@ -11,17 +11,25 @@
 typedef NS_ENUM(NSInteger, A0ErrorCode) {
     A0ErrorCodeInvalidCredentials = 0,
     A0ErrorCodeInvalidUsername,
-    A0ErrorCodeInvalidPassword
+    A0ErrorCodeInvalidPassword,
+    A0ErrorCodeInvalidRepeatPassword,
+    A0ErrorCodeInvalidPasswordAndRepeatPassword
 };
 
 @interface A0Errors : NSObject
 
-+ invalidLoginCredentialsUsingEmail:(BOOL)usesEmail;
-+ invalidLoginUsernameUsingEmail:(BOOL)usesEmail;
-+ invalidLoginPassword;
++ (NSError *)invalidLoginCredentialsUsingEmail:(BOOL)usesEmail;
++ (NSError *)invalidLoginUsernameUsingEmail:(BOOL)usesEmail;
++ (NSError *)invalidLoginPassword;
 
-+ invalidSignUpCredentialsUsingEmail:(BOOL)usesEmail;
-+ invalidSignUpUsernameUsingEmail:(BOOL)usesEmail;
-+ invalidSignUpPassword;
++ (NSError *)invalidSignUpCredentialsUsingEmail:(BOOL)usesEmail;
++ (NSError *)invalidSignUpUsernameUsingEmail:(BOOL)usesEmail;
++ (NSError *)invalidSignUpPassword;
+
++ (NSError *)invalidChangePasswordCredentialsUsingEmail:(BOOL)usesEmail;
++ (NSError *)invalidChangePasswordUsernameUsingEmail:(BOOL)usesEmail;
++ (NSError *)invalidChangePasswordPassword;
++ (NSError *)invalidChangePasswordRepeatPassword;
++ (NSError *)invalidChangePasswordRepeatPasswordAndPassword;
 
 @end

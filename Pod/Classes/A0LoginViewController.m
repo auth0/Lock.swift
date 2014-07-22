@@ -159,6 +159,34 @@
         return YES;
     };
 
+    self.recoverView.validateBlock = ^BOOL(NSString *username, NSString *password, NSString *repeatPassword, NSError **error) {
+        @strongify(self);
+        BOOL validUsername = [self validateUsername:username];
+        BOOL validPassword = password.length > 0;
+        BOOL validRepeat = repeatPassword.length > 0 && [password isEqualToString:repeatPassword];
+        if (!validUsername && (!validPassword || !validRepeat)) {
+            *error = [A0Errors invalidChangePasswordCredentialsUsingEmail:self.usesEmail];
+            return NO;
+        }
+        if (validUsername && !validPassword && !validRepeat) {
+            *error = [A0Errors invalidChangePasswordRepeatPasswordAndPassword];
+            return NO;
+        }
+        if (validUsername && validPassword && !validRepeat) {
+            *error = [A0Errors invalidChangePasswordRepeatPassword];
+            return NO;
+        }
+        if (validUsername && !validPassword && validRepeat) {
+            *error = [A0Errors invalidChangePasswordPassword];
+            return NO;
+        }
+        if (!validUsername && validPassword && validRepeat) {
+            *error = [A0Errors invalidChangePasswordUsernameUsingEmail:self.usesEmail];
+            return NO;
+        }
+        return YES;
+    };
+
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         [[A0APIClient sharedClient] configureForApplication:application];

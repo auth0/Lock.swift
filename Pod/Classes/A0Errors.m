@@ -12,7 +12,9 @@ NSString * const A0ErrorDomain = @"com.auth0";
 
 @implementation A0Errors
 
-+ (id)invalidLoginCredentialsUsingEmail:(BOOL)usesEmail {
+#pragma mark - Login errors
+
++ (NSError *)invalidLoginCredentialsUsingEmail:(BOOL)usesEmail {
     NSString *failureReason;
     if (usesEmail) {
         failureReason = NSLocalizedString(@"The email and password you entered is invalid. Please try again.", nil);
@@ -24,7 +26,7 @@ NSString * const A0ErrorDomain = @"com.auth0";
                  failureReason:failureReason];
 }
 
-+ (id)invalidLoginUsernameUsingEmail:(BOOL)usesEmail {
++ (NSError *)invalidLoginUsernameUsingEmail:(BOOL)usesEmail {
     NSString *failureReason;
     if (usesEmail) {
         failureReason = NSLocalizedString(@"The email you entered is invalid. Please try again.", nil);
@@ -36,13 +38,15 @@ NSString * const A0ErrorDomain = @"com.auth0";
                  failureReason:failureReason];
 }
 
-+ (id)invalidLoginPassword {
++ (NSError *)invalidLoginPassword {
     return [self errorWithCode:A0ErrorCodeInvalidPassword
                    description:NSLocalizedString(@"Invalid login credentials", nil)
                  failureReason:NSLocalizedString(@"The password you entered is invalid. Please try again.", nil)];
 }
 
-+ (id)invalidSignUpCredentialsUsingEmail:(BOOL)usesEmail {
+#pragma mark - SignUp errors
+
++ (NSError *)invalidSignUpCredentialsUsingEmail:(BOOL)usesEmail {
     NSString *failureReason;
     if (usesEmail) {
         failureReason = NSLocalizedString(@"The email and password you entered is invalid. Please try again.", nil);
@@ -54,7 +58,7 @@ NSString * const A0ErrorDomain = @"com.auth0";
                  failureReason:failureReason];
 }
 
-+ (id)invalidSignUpUsernameUsingEmail:(BOOL)usesEmail {
++ (NSError *)invalidSignUpUsernameUsingEmail:(BOOL)usesEmail {
     NSString *failureReason;
     if (usesEmail) {
         failureReason = NSLocalizedString(@"The email you entered is invalid. Please try again.", nil);
@@ -66,10 +70,54 @@ NSString * const A0ErrorDomain = @"com.auth0";
                  failureReason:failureReason];
 }
 
-+ (id)invalidSignUpPassword {
++ (NSError *)invalidSignUpPassword {
     return [self errorWithCode:A0ErrorCodeInvalidPassword
                    description:NSLocalizedString(@"Invalid credentials", nil)
                  failureReason:NSLocalizedString(@"The password you entered is invalid. Please try again.", nil)];
+}
+
+#pragma mark - Change password errors
+
++ (NSError *)invalidChangePasswordCredentialsUsingEmail:(BOOL)usesEmail {
+    NSString *failureReason;
+    if (usesEmail) {
+        failureReason = NSLocalizedString(@"The email and password you entered is invalid. Please try again.", nil);
+    } else {
+        failureReason = NSLocalizedString(@"The username and password you entered is invalid. Please try again.", nil);
+    }
+    return [self errorWithCode:A0ErrorCodeInvalidCredentials
+                   description:NSLocalizedString(@"Invalid credentials", nil)
+                 failureReason:failureReason];
+}
+
++ (NSError *)invalidChangePasswordUsernameUsingEmail:(BOOL)usesEmail {
+    NSString *failureReason;
+    if (usesEmail) {
+        failureReason = NSLocalizedString(@"The email you entered is invalid. Please try again.", nil);
+    } else {
+        failureReason = NSLocalizedString(@"The username you entered is invalid. Please try again.", nil);
+    }
+    return [self errorWithCode:A0ErrorCodeInvalidUsername
+                   description:NSLocalizedString(@"Invalid credentials", nil)
+                 failureReason:failureReason];
+}
+
++ (NSError *)invalidChangePasswordPassword {
+    return [self errorWithCode:A0ErrorCodeInvalidPassword
+                   description:NSLocalizedString(@"Invalid credentials", nil)
+                 failureReason:NSLocalizedString(@"The password you entered is invalid. Please try again.", nil)];
+}
+
++ (NSError *)invalidChangePasswordRepeatPassword {
+    return [self errorWithCode:A0ErrorCodeInvalidRepeatPassword
+                   description:NSLocalizedString(@"Invalid credentials", nil)
+                 failureReason:NSLocalizedString(@"The passwords you entered must match. Please try again.", nil)];
+}
+
++ (NSError *)invalidChangePasswordRepeatPasswordAndPassword {
+    return [self errorWithCode:A0ErrorCodeInvalidPasswordAndRepeatPassword
+                   description:NSLocalizedString(@"Invalid credentials", nil)
+                 failureReason:NSLocalizedString(@"The passwords you entered must match. Please try again.", nil)];
 }
 
 #pragma mark - Utility methods
