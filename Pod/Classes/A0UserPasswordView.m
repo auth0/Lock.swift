@@ -8,6 +8,7 @@
 
 #import "A0UserPasswordView.h"
 #import "UIButton+A0SolidButton.h"
+#import "A0Errors.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 
@@ -40,10 +41,21 @@
 }
 
 - (void)access:(id)sender {
-    [self hideKeyboard];
-    if (self.loginBlock) {
-        self.loginBlock(self.userTextField.text, self.passwordTextField.text);
+    NSError *error;
+    if (!self.validateBlock || self.validateBlock(self.userTextField.text, self.passwordTextField.text, &error)) {
+        [self hideKeyboard];
+        if (self.loginBlock) {
+            self.loginBlock(self.userTextField.text, self.passwordTextField.text);
+        }
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error.localizedDescription
+                                                        message:error.localizedFailureReason
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                              otherButtonTitles: nil];
+        [alert show];
     }
+    [self updateUIWithError:error];
 }
 
 - (void)hideKeyboard {
@@ -71,4 +83,26 @@
     CGRect rect = [view convertRect:self.accessButton.frame fromView:self.accessButton.superview];
     return rect;
 }
+
+#pragma mark - Error hanlding
+
+- (void)updateUIWithError:(NSError *)error {
+    self.userTextField.textColor = [UIColor blackColor];
+    self.passwordTextField.textColor = [UIColor blackColor];
+    if (error) {
+        switch (error.code) {
+            case A0ErrorCodeInvalidLoginCredentials:
+                self.userTextField.textColor = [UIColor redColor];
+                self.passwordTextField.textColor = [UIColor redColor];
+                break;
+            case A0ErrorCodeInvalidLoginPassword:
+                self.passwordTextField.textColor = [UIColor redColor];
+                break;
+            case A0ErrorCodeInvalidLoginUsername:
+                self.userTextField.textColor = [UIColor redColor];
+                break;
+        }
+    }
+}
+
 @end

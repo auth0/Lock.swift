@@ -17,6 +17,7 @@
 #import "A0LoadingView.h"
 #import "A0KeyboardEnabledView.h"
 #import "A0CompositeAuthView.h"
+#import "A0Errors.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -60,6 +61,7 @@
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             self.modalPresentationStyle = UIModalPresentationFormSheet;
         }
+        _usesEmail = YES;
     }
     return self;
 }
@@ -77,6 +79,24 @@
     self.databaseAuthView.forgotPasswordBlock = ^{
         @strongify(self);
         self.authView = [self layoutRecoverInContainer:self.containerView];
+    };
+    self.databaseAuthView.validateBlock = ^BOOL(NSString *username, NSString *password, NSError **error) {
+        @strongify(self);
+        BOOL validUsername = [self validateUsername:username];
+        BOOL validPassword = password.length > 0;
+        if (!validUsername && !validPassword) {
+            *error = [A0Errors invalidLoginCredentialsUsingEmail:self.usesEmail];
+            return NO;
+        }
+        if (validUsername && !validPassword) {
+            *error = [A0Errors invalidLoginPassword];
+            return NO;
+        }
+        if (!validUsername && validPassword) {
+            *error = [A0Errors invalidLoginUsernameUsingEmail:self.usesEmail];
+            return NO;
+        }
+        return YES;
     };
 
     A0APIClientError failureBlock = ^(NSError *error){
@@ -171,6 +191,18 @@
 
 - (void)hideKeyboard:(id)sender {
     [self.authView hideKeyboard];
+}
+
+#pragma mark - Validation
+
+- (BOOL)validateUsername:(NSString *)username {
+    if (self.usesEmail) {
+        NSString *stricterFilterString = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
+        NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", stricterFilterString];
+        return [emailTest evaluateWithObject:username];
+    } else {
+        return username.length > 0;
+    }
 }
 
 #pragma mark - Utility methods
