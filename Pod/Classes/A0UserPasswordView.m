@@ -10,6 +10,7 @@
 #import "UIButton+A0SolidButton.h"
 #import "A0Errors.h"
 #import "A0DatabaseLoginCredentialValidator.h"
+#import "A0ProgressButton.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 
@@ -84,6 +85,16 @@
 - (CGRect)rectToKeepVisibleInView:(UIView *)view {
     CGRect rect = [view convertRect:self.accessButton.frame fromView:self.accessButton.superview];
     return rect;
+}
+
+- (void)showInProgress {
+    self.userInteractionEnabled = NO;
+    [self.accessButton setInProgress:YES];
+}
+
+- (void)hideInProgress {
+    self.userInteractionEnabled = YES;
+    [self.accessButton setInProgress:NO];
 }
 
 #pragma mark - Error hanlding

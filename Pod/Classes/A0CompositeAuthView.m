@@ -27,6 +27,12 @@
     return [self.delegate rectToKeepVisibleInView:view];
 }
 
+- (void)showInProgress {
+}
+
+- (void)hideInProgress {
+}
+
 #pragma mark - Layout methods
 
 - (void)performLayoutWithFirstView:(UIView *)firstView

@@ -15,4 +15,8 @@
 - (CGRect)rectToKeepVisibleInView:(UIView *)view {
     return CGRectZero;
 }
+
+- (void)showInProgress {}
+
+- (void)hideInProgress {}
 @end

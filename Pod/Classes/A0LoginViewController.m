@@ -22,6 +22,7 @@
 #import "A0DatabaseLoginCredentialValidator.h"
 #import "A0SignUpCredentialValidator.h"
 #import "A0ChangePasswordCredentialValidator.h"
+#import "A0ProgressDisplay.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -44,7 +45,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (weak, nonatomic) UIView<A0KeyboardEnabledView> *authView;
+@property (weak, nonatomic) UIView<A0KeyboardEnabledView, A0ProgressDisplay> *authView;
 
 @property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
 
@@ -76,6 +77,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
     A0APIClientSuccess successBlock = ^(id payload) {
         @strongify(self);
+        [self.authView hideInProgress];
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             if (self.authBlock) {
                 self.authBlock(self, payload);
@@ -84,13 +86,19 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     };
 
     [self configureDatabaseAuthViewWithSuccess:successBlock failure:^(NSError *error) {
-        showAlertErrorView(NSLocalizedString(@"Login failed", nil), [A0Errors localizedStringForLoginError:error]);
+        @strongify(self);
+        [self.authView hideInProgress];
+        showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForLoginError:error]);
     }];
     [self configureSignUpViewWithSuccess:successBlock failure:^(NSError *error) {
-        showAlertErrorView(NSLocalizedString(@"Sign Up failed", nil), [A0Errors localizedStringForSignUpError:error]);
+        @strongify(self);
+        [self.authView hideInProgress];
+        showAlertErrorView(NSLocalizedString(@"There was an error signing up", nil), [A0Errors localizedStringForSignUpError:error]);
     }];
     [self configureChangePasswordViewWithFailure:^(NSError *error) {
-        showAlertErrorView(NSLocalizedString(@"Reset password failed", nil), NSLocalizedString(@"There was an error processing the reset password.", nil));
+        @strongify(self);
+        [self.authView hideInProgress];
+        showAlertErrorView(NSLocalizedString(@"Couldn't change your password", nil), NSLocalizedString(@"There was an error processing the reset password.", nil));
     }];
 
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
@@ -130,7 +138,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 #pragma mark - Utility methods
 
-- (UIView<A0KeyboardEnabledView> *)layoutSingleView:(UIView<A0KeyboardEnabledView> *)view withTitle:(NSString *)title inContainer:(UIView *)containerView {
+- (UIView<A0KeyboardEnabledView, A0ProgressDisplay> *)layoutSingleView:(UIView<A0KeyboardEnabledView, A0ProgressDisplay> *)view withTitle:(NSString *)title inContainer:(UIView *)containerView {
     view.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:view centeredInContainerView:containerView];
     [self animateFromView:self.authView toView:view withTitle:title];
@@ -138,7 +146,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     return view;
 }
 
-- (UIView<A0KeyboardEnabledView> *)layoutLoadingView:(A0LoadingView *)loadingView inContainer:(UIView *)containerView {
+- (UIView<A0KeyboardEnabledView, A0ProgressDisplay> *)layoutLoadingView:(A0LoadingView *)loadingView inContainer:(UIView *)containerView {
     loadingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:loadingView centeredInContainerView:containerView];
     return loadingView;
@@ -165,11 +173,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
 }
 
-- (UIView<A0KeyboardEnabledView> *)layoutDatabaseOnlyAuthViewInContainer:(UIView *)containerView {
+- (UIView<A0KeyboardEnabledView, A0ProgressDisplay> *)layoutDatabaseOnlyAuthViewInContainer:(UIView *)containerView {
     return [self layoutSingleView:self.databaseAuthView withTitle:NSLocalizedString(@"Login", nil) inContainer:containerView];
 }
 
-- (UIView<A0KeyboardEnabledView> *)layoutFullAuthViewInContainer:(UIView *)containerView {
+- (UIView<A0KeyboardEnabledView, A0ProgressDisplay> *)layoutFullAuthViewInContainer:(UIView *)containerView {
     A0CompositeAuthView *authView = [[A0CompositeAuthView alloc] initWithFirstView:self.smallSocialAuthView
                                                                      andSecondView:self.databaseAuthView];
     authView.delegate = self.databaseAuthView;
@@ -207,6 +215,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     };
 
     self.databaseAuthView.loginBlock = ^(NSString *username, NSString *password) {
+        @strongify(self);
+        [self.authView showInProgress];
         [[A0APIClient sharedClient] loginWithUsername:username password:password success:success failure:failure];
     };
 
@@ -217,6 +227,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     @weakify(self);
 
     self.signUpView.signUpBlock = ^(NSString *username, NSString *password){
+        @strongify(self);
+        [self.authView showInProgress];
         [[A0APIClient sharedClient] signUpWithUsername:username password:password success:success failure:failure];
     };
 
@@ -231,8 +243,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 - (void)configureChangePasswordViewWithFailure:(A0APIClientError)failure {
     @weakify(self);
     self.recoverView.recoverBlock = ^(NSString *username, NSString *password) {
+        @strongify(self);
+        [self.authView showInProgress];
         [[A0APIClient sharedClient] changePassword:password forUsername:username success:^(id payload) {
             @strongify(self);
+            [self.authView hideInProgress];
             showAlertErrorView(NSLocalizedString(@"Reset Password", nil), NSLocalizedString(@"We've just sent you an email to reset your password.", nil));
             self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
         } failure:failure];

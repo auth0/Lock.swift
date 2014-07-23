@@ -10,6 +10,7 @@
 #import "UIButton+A0SolidButton.h"
 #import "A0Errors.h"
 #import "A0ChangePasswordCredentialValidator.h"
+#import "A0ProgressButton.h"
 
 @interface A0RecoverPasswordView ()
 
@@ -84,6 +85,16 @@
 - (CGRect)rectToKeepVisibleInView:(UIView *)view {
     CGRect buttonFrame = [view convertRect:self.recoverButton.frame fromView:self.recoverButton.superview];
     return buttonFrame;
+}
+
+- (void)showInProgress {
+    self.userInteractionEnabled = NO;
+    [self.recoverButton setInProgress:YES];
+}
+
+- (void)hideInProgress {
+    self.userInteractionEnabled = YES;
+    [self.recoverButton setInProgress:NO];
 }
 
 - (void)updateUIWithError:(NSError *)error {

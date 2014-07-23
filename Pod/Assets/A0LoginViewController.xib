@@ -230,7 +230,7 @@
                         <constraint firstAttribute="bottom" secondItem="nmu-gm-Wz7" secondAttribute="bottom" constant="10" id="jH9-oQ-o9K"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zcb-7z-yXi">
+                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zcb-7z-yXi" customClass="A0ProgressButton">
                     <rect key="frame" x="1" y="129" width="278" height="55"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
@@ -388,7 +388,7 @@
                         <constraint firstAttribute="trailing" secondItem="0Qt-XD-tM6" secondAttribute="trailing" constant="7" id="irM-CX-VLQ"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0aY-KK-SLL">
+                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0aY-KK-SLL" customClass="A0ProgressButton">
                     <rect key="frame" x="1" y="155" width="278" height="55"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
@@ -550,7 +550,7 @@
                         <constraint firstItem="FHc-Q3-kox" firstAttribute="centerY" secondItem="bAO-vX-rH2" secondAttribute="centerY" id="xZu-gh-Gje"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDk-No-AUj">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDk-No-AUj" customClass="A0ProgressButton">
                     <rect key="frame" x="1" y="235" width="278" height="55"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>

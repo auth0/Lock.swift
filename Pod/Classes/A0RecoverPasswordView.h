@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 
 #import "A0KeyboardEnabledView.h"
+#import "A0ProgressDisplay.h"
 
-@class A0ChangePasswordCredentialValidator;
+@class A0ChangePasswordCredentialValidator, A0ProgressButton;
 
 typedef void(^A0RecoverPasswordBlock)(NSString *username, NSString *newPassword);
 typedef void(^A0CancelBlock)();
 
-@interface A0RecoverPasswordView : UIView<A0KeyboardEnabledView>
+@interface A0RecoverPasswordView : UIView<A0KeyboardEnabledView, A0ProgressDisplay>
 
 @property (copy, nonatomic) A0RecoverPasswordBlock recoverBlock;
 @property (copy, nonatomic) A0CancelBlock cancelBlock;
@@ -25,7 +26,7 @@ typedef void(^A0CancelBlock)();
 @property (weak, nonatomic) IBOutlet UITextField *userTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UITextField *repeatPasswordTextField;
-@property (weak, nonatomic) IBOutlet UIButton *recoverButton;
+@property (weak, nonatomic) IBOutlet A0ProgressButton *recoverButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 

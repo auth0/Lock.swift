@@ -10,6 +10,7 @@
 #import "UIButton+A0SolidButton.h"
 #import "A0Errors.h"
 #import "A0SignUpCredentialValidator.h"
+#import "A0ProgressButton.h"
 
 @interface A0SignUpView ()
 
@@ -77,6 +78,15 @@
     return rect;
 }
 
+- (void)showInProgress {
+    self.userInteractionEnabled = NO;
+    [self.signUpButton setInProgress:YES];
+}
+
+- (void)hideInProgress {
+    self.userInteractionEnabled = YES;
+    [self.signUpButton setInProgress:NO];
+}
 #pragma mark - Error Handling
 
 - (void)updateUIWithError:(NSError *)error {

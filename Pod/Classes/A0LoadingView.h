@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 #import "A0KeyboardEnabledView.h"
+#import "A0ProgressDisplay.h"
 
-@interface A0LoadingView : UIView<A0KeyboardEnabledView>
+@interface A0LoadingView : UIView<A0KeyboardEnabledView, A0ProgressDisplay>
 
 @end
