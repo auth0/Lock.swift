@@ -25,6 +25,15 @@
 
 #import <libextobjc/EXTScope.h>
 
+static void showAlertErrorView(NSString *title, NSString *message) {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                    message:message
+                                                   delegate:nil
+                                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                          otherButtonTitles:nil];
+    [alert show];
+}
+
 @interface A0LoginViewController ()
 
 @property (strong, nonatomic) IBOutlet A0ServicesView *smallSocialAuthView;
@@ -37,7 +46,6 @@
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) UIView<A0KeyboardEnabledView> *authView;
 
-@property (strong, nonatomic) NSPredicate *emailPredicate;
 @property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
 
 
@@ -61,16 +69,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    NSString *emailRegex = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
-    self.emailPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
 
     @weakify(self);
     self.authView = [self layoutLoadingView:self.loadingView inContainer:self.containerView];
-
-    A0APIClientError failureBlock = ^(NSError *error){
-        NSLog(@"ERROR %@", error);
-    };
 
     A0APIClientSuccess successBlock = ^(id payload) {
         @strongify(self);
@@ -81,9 +83,15 @@
         }];
     };
 
-    [self configureDatabaseAuthViewWithSuccess:successBlock failure:failureBlock];
-    [self configureSignUpViewWithSuccess:successBlock failure:failureBlock];
-    [self configureChangePasswordViewWithFailure:failureBlock];
+    [self configureDatabaseAuthViewWithSuccess:successBlock failure:^(NSError *error) {
+        showAlertErrorView(NSLocalizedString(@"Login failed", nil), [A0Errors localizedStringForLoginError:error]);
+    }];
+    [self configureSignUpViewWithSuccess:successBlock failure:^(NSError *error) {
+        showAlertErrorView(NSLocalizedString(@"Sign Up failed", nil), [A0Errors localizedStringForSignUpError:error]);
+    }];
+    [self configureChangePasswordViewWithFailure:^(NSError *error) {
+        showAlertErrorView(NSLocalizedString(@"Reset password failed", nil), NSLocalizedString(@"There was an error processing the reset password.", nil));
+    }];
 
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
@@ -118,20 +126,6 @@
 
 - (void)hideKeyboard:(id)sender {
     [self.authView hideKeyboard];
-}
-
-#pragma mark - Validation
-
-- (BOOL)validateUsername:(NSString *)username {
-    if (self.usesEmail) {
-        return [self.emailPredicate evaluateWithObject:username];
-    } else {
-        return username.length > 0;
-    }
-}
-
-- (BOOL)validatePassword:(NSString *)password {
-    return password.length > 0;
 }
 
 #pragma mark - Utility methods
@@ -239,6 +233,7 @@
     self.recoverView.recoverBlock = ^(NSString *username, NSString *password) {
         [[A0APIClient sharedClient] changePassword:password forUsername:username success:^(id payload) {
             @strongify(self);
+            showAlertErrorView(NSLocalizedString(@"Reset Password", nil), NSLocalizedString(@"We've just sent you an email to reset your password.", nil));
             self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
         } failure:failure];
     };

@@ -10,6 +10,7 @@
 
 #import "A0Application.h"
 #import "A0Strategy.h"
+#import "A0JSONResponseSerializer.h"
 
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
@@ -72,7 +73,7 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
     NSURL *baseURL = [NSURL URLWithString:URLString];
     self.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
     self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    self.manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    self.manager.responseSerializer = [A0JSONResponseSerializer serializer];
     self.application = application;
 }
 
@@ -134,22 +135,11 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
                                                                   kPasswordParamName: newPassword,
                                                                   kTenantParamName: self.application.tenant,
                                                                   }];
-    NSError *error;
-    NSURL *changeURL = [NSURL URLWithString:kChangePasswordPath relativeToURL:self.manager.baseURL];
-    NSMutableURLRequest *request = [self.manager.requestSerializer requestWithMethod:@"POST" URLString:[changeURL absoluteString] parameters:params error:&error];
-    if (error) {
-        if (failure) {
-            failure(error);
+    [self.manager POST:kChangePasswordPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (success) {
+            success(responseObject);
         }
-    } else {
-        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            if (success) {
-                success([[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-            }
-        } failure:sanitizeFailureBlock(failure)];
-        [operation start];
-    }
+    } failure:sanitizeFailureBlock(failure)];
 }
 
 + (instancetype)sharedClient {

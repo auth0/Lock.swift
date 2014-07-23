@@ -9,6 +9,7 @@
 #import "A0Errors.h"
 
 NSString * const A0ErrorDomain = @"com.auth0";
+NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializerErrorDataKey";
 
 @implementation A0Errors
 
@@ -118,6 +119,32 @@ NSString * const A0ErrorDomain = @"com.auth0";
     return [self errorWithCode:A0ErrorCodeInvalidPasswordAndRepeatPassword
                    description:NSLocalizedString(@"Invalid credentials", nil)
                  failureReason:NSLocalizedString(@"The passwords you entered must match. Please try again.", nil)];
+}
+
+#pragma mark - Localized error messages
+
++ (NSString *)localizedStringForLoginError:(NSError *)error {
+    NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
+    NSString *errorKey = apiErrorInfo[@"error"];
+    NSString *localizedString;
+    if ([errorKey isEqualToString:@"invalid_user_password"]) {
+        localizedString = NSLocalizedString(@"Wrong email or password.", nil);
+    } else {
+        localizedString = NSLocalizedString(@"There was an error processing the sign in.", nil);
+    }
+    return localizedString;
+}
+
++ (NSString *)localizedStringForSignUpError:(NSError *)error {
+    NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
+    NSString *errorKey = apiErrorInfo[@"code"];
+    NSString *localizedString;
+    if ([errorKey isEqualToString:@"user_exists"]) {
+        localizedString = NSLocalizedString(@"The user already exists.", nil);
+    } else {
+        localizedString = NSLocalizedString(@"There was an error processing the sign up.", nil);
+    }
+    return localizedString;
 }
 
 #pragma mark - Utility methods
