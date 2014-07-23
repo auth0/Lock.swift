@@ -95,6 +95,8 @@ NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithObjectsAndKe
 }];
 ```
 
+> The `options` parameter must not include the `client_id` and `target` keys. `target` is populated from `targetClientId` and `client_id` uses the id used when creeating the `Auth0Client` instance.
+
 ## Authentication with Facebook App Native Login Dialog
 
 1. Install and [configure your app](https://developers.facebook.com/docs/ios/getting-started/) in order to work with Facebook SDK for iOS.
