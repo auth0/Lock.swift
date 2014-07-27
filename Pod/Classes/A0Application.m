@@ -60,6 +60,22 @@
     return strategy;
 }
 
+- (BOOL)hasSocialStrategies {
+    NSInteger index = [self.strategies indexOfObjectPassingTest:^BOOL(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
+        BOOL hasSocial = [strategy.name isEqualToString:@"facebook"];
+        *stop = hasSocial;
+        return hasSocial;
+    }];
+    return index != NSNotFound;
+}
+
+- (NSArray *)availableSocialStrategies {
+    NSArray *filtered = [self.strategies filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(A0Strategy *strategy, NSDictionary *bindings) {
+        return [strategy.name isEqualToString:@"facebook"];
+    }]];
+    return filtered;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<A0Application id = '%@'; tenant = '%@' strategies = %@>", self.identifier, self.tenant, self.strategies];
 }

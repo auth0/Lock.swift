@@ -21,6 +21,8 @@
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict;
 
 - (BOOL)hasDatabaseConnection;
+- (BOOL)hasSocialStrategies;
 - (A0Strategy *)databaseStrategy;
+- (NSArray *)availableSocialStrategies;
 
 @end

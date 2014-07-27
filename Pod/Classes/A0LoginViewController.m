@@ -104,12 +104,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         [[A0APIClient sharedClient] configureForApplication:application];
-        if ([application hasDatabaseConnection]) {
+        if ([application hasDatabaseConnection] && [application hasSocialStrategies]) {
+            self.smallSocialAuthView.serviceNames = [application availableSocialStrategies];
+            self.authView = [self layoutFullAuthViewInContainer:self.containerView];
+        } else if ([application hasDatabaseConnection]) {
             self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
-//            self.smallSocialAuthView.serviceNames = @[@"facebook", @"twitter"];
-//            self.authView = [self layoutFullAuthViewInContainer:self.containerView];
-        } else {
-            //Layout only social or error
         }
     } failure:nil];
 }

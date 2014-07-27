@@ -61,7 +61,7 @@ alpha:alphaValue])
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     A0ServiceCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
-    NSString *serviceName = self.serviceNames[indexPath.row];
+    NSString *serviceName = [self.serviceNames[indexPath.row] name];
     NSDictionary *serviceInfo = self.services[serviceName];
     UIColor *background = [A0ServicesView colorFromString:serviceInfo[@"background_color"]];
     UIColor *selectedBackground = [A0ServicesView colorFromString:serviceInfo[@"selected_background_color"]];
