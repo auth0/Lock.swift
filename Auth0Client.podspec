@@ -35,4 +35,5 @@ Pod::Spec.new do |s|
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'AFNetworking', '~> 2.3'
   s.dependency 'libextobjc', '~> 0.4'
+  s.dependency 'Facebook-iOS-SDK', '3.15.1'
 end
