@@ -23,6 +23,7 @@
 #import "A0SignUpCredentialValidator.h"
 #import "A0ChangePasswordCredentialValidator.h"
 #import "A0ProgressDisplay.h"
+#import "A0SocialAuthenticator.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -105,7 +106,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         @strongify(self);
         [[A0APIClient sharedClient] configureForApplication:application];
         if ([application hasDatabaseConnection] && [application hasSocialStrategies]) {
-            self.smallSocialAuthView.serviceNames = [application availableSocialStrategies];
+            self.smallSocialAuthView.availableServices = [application availableSocialStrategies];
+            [[A0SocialAuthenticator sharedInstance] configureForApplication:application];
             self.authView = [self layoutFullAuthViewInContainer:self.containerView];
         } else if ([application hasDatabaseConnection]) {
             self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];

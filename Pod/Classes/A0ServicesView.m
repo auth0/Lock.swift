@@ -7,8 +7,9 @@
 //
 
 #import "A0ServicesView.h"
-
+#import "A0Strategy.h"
 #import "A0ServiceCollectionViewCell.h"
+#import "A0SocialAuthenticator.h"
 
 #define UIColorFromRGBA(rgbValue, alphaValue) ([UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0 \
@@ -37,6 +38,15 @@ alpha:alphaValue])
 
 #pragma mark - UICollectionViewDelegate
 
+- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    A0Strategy *strategy = self.availableServices[indexPath.item];
+    [[A0SocialAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(NSString *accessToken) {
+        NSLog(@"Authenticated %@", accessToken);
+    } failure:^(NSError *error) {
+        NSLog(@"Failed %@", error);
+    }];
+}
+
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
@@ -45,7 +55,7 @@ alpha:alphaValue])
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    NSInteger numberOfCells = self.serviceNames.count;
+    NSInteger numberOfCells = self.availableServices.count;
     CGFloat cellsWidth = (numberOfCells * 40) + MAX(0, (numberOfCells - 1) * 10);
 
     NSInteger edgeInsets = (self.frame.size.width - cellsWidth) / 2;
@@ -56,12 +66,12 @@ alpha:alphaValue])
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.serviceNames.count;
+    return self.availableServices.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     A0ServiceCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
-    NSString *serviceName = [self.serviceNames[indexPath.row] name];
+    NSString *serviceName = [self.availableServices[indexPath.row] name];
     NSDictionary *serviceInfo = self.services[serviceName];
     UIColor *background = [A0ServicesView colorFromString:serviceInfo[@"background_color"]];
     UIColor *selectedBackground = [A0ServicesView colorFromString:serviceInfo[@"selected_background_color"]];

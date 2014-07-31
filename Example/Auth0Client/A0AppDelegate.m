@@ -7,6 +7,7 @@
 //
 
 #import "A0AppDelegate.h"
+#import <Auth0Client/A0SocialAuthenticator.h>
 
 @implementation A0AppDelegate
 
@@ -43,4 +44,7 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [[A0SocialAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
+}
 @end
