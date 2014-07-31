@@ -7,7 +7,7 @@
 //
 
 #import "A0FacebookAuthentication.h"
-
+#import "A0Errors.h"
 #import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
 
 @implementation A0FacebookAuthentication
@@ -41,10 +41,11 @@
             success(active.accessTokenData.accessToken);
         }
     } else {
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile"] allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"] allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
             if (error) {
                 if (failure) {
-                    failure(error);
+                    NSError *errorParam = [FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled ? [A0Errors facebookCancelled] : error;
+                    failure(errorParam);
                 }
             } else {
                 switch (status) {
@@ -56,7 +57,7 @@
                         break;
                     case FBSessionStateClosedLoginFailed:
                         if (failure) {
-                            failure(error);
+                            failure([A0Errors facebookCancelled]);
                         }
                     default:
                         break;

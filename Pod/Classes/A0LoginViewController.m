@@ -96,9 +96,13 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         @strongify(self);
         A0Strategy *strategy = self.application.availableSocialStrategies[index];
         [[A0SocialAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(NSString *accessToken) {
-            NSLog(@"Authenticated %@", accessToken);
+            [[A0APIClient sharedClient] authenticateWithSocialStrategy:strategy acessToken:accessToken success:successBlock failure:^(NSError *error) {
+                showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForSocialLoginError:error]);
+            }];
         } failure:^(NSError *error) {
-            NSLog(@"Failed %@", error);
+            if (error.code != A0ErrorCodeFacebookCancelled) {
+                showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForSocialLoginError:error]);
+            }
         }];
     };
     [self configureDatabaseAuthViewWithSuccess:successBlock failure:^(NSError *error) {
@@ -114,7 +118,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [self configureChangePasswordViewWithFailure:^(NSError *error) {
         @strongify(self);
         [self.authView hideInProgress];
-        showAlertErrorView(NSLocalizedString(@"Couldn't change your password", nil), NSLocalizedString(@"There was an error processing the reset password.", nil));
+        showAlertErrorView(NSLocalizedString(@"Couldn't change your password", nil), [A0Errors localizedStringForChangePasswordError:error]);
     }];
 
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {

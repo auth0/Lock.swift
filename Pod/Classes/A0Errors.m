@@ -121,6 +121,14 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:NSLocalizedString(@"The passwords you entered must match. Please try again.", nil)];
 }
 
+#pragma mark - Social Errors
+
++ (NSError *)facebookCancelled {
+    return [self errorWithCode:A0ErrorCodeFacebookCancelled
+                   description:NSLocalizedString(@"There was an error contacting Facebook", nil)
+                 failureReason:NSLocalizedString(@"You need to authorize the application", nil)];
+}
+
 #pragma mark - Localized error messages
 
 + (NSString *)localizedStringForLoginError:(NSError *)error {
@@ -145,6 +153,14 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
         localizedString = NSLocalizedString(@"There was an error processing the sign up.", nil);
     }
     return localizedString;
+}
+
++ (NSString *)localizedStringForChangePasswordError:(NSError *)error {
+    return NSLocalizedString(@"There was an error processing the reset password.", nil);
+}
+
++ (NSString *)localizedStringForSocialLoginError:(NSError *)error {
+    return NSLocalizedString(@"There was an error processing the sign in.", nil);
 }
 
 #pragma mark - Utility methods

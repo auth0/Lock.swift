@@ -13,20 +13,27 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
     A0ErrorCodeInvalidUsername,
     A0ErrorCodeInvalidPassword,
     A0ErrorCodeInvalidRepeatPassword,
-    A0ErrorCodeInvalidPasswordAndRepeatPassword
+    A0ErrorCodeInvalidPasswordAndRepeatPassword,
+    A0ErrorCodeFacebookCancelled,
 };
 
 FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 
 @interface A0Errors : NSObject
 
+#pragma mark - Login Errors
+
 + (NSError *)invalidLoginCredentialsUsingEmail:(BOOL)usesEmail;
 + (NSError *)invalidLoginUsernameUsingEmail:(BOOL)usesEmail;
 + (NSError *)invalidLoginPassword;
 
+#pragma mark - Sign Up Errors
+
 + (NSError *)invalidSignUpCredentialsUsingEmail:(BOOL)usesEmail;
 + (NSError *)invalidSignUpUsernameUsingEmail:(BOOL)usesEmail;
 + (NSError *)invalidSignUpPassword;
+
+#pragma mark - Change Password Errors
 
 + (NSError *)invalidChangePasswordCredentialsUsingEmail:(BOOL)usesEmail;
 + (NSError *)invalidChangePasswordUsernameUsingEmail:(BOOL)usesEmail;
@@ -34,7 +41,15 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 + (NSError *)invalidChangePasswordRepeatPassword;
 + (NSError *)invalidChangePasswordRepeatPasswordAndPassword;
 
+#pragma mark - Social Errors
+
++ (NSError *)facebookCancelled;
+
+#pragma mark - Localized Messages
+
++ (NSString *)localizedStringForSocialLoginError:(NSError *)error;
 + (NSString *)localizedStringForLoginError:(NSError *)error;
 + (NSString *)localizedStringForSignUpError:(NSError *)error;
++ (NSString *)localizedStringForChangePasswordError:(NSError *)error;
 
 @end

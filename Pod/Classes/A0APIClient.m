@@ -23,6 +23,7 @@
 #define kSignUpPath @"/dbconnections/signup"
 #define kUserInfoPath @"/userinfo"
 #define kChangePasswordPath @"/dbconnections/change_password"
+#define kSocialAuthPath @"/oauth/access_token"
 
 #define kAuthorizationHeaderName @"Authorization"
 #define kAuthorizationHeaderValueFormatString @"Bearer %@"
@@ -37,6 +38,7 @@
 #define kConnectionParamName @"connection"
 #define kIdTokenParamName @"id_token"
 #define kEmailParamName @"email"
+#define kAccessTokenParamName @"access_token"
 
 typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
@@ -142,6 +144,23 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
     } failure:sanitizeFailureBlock(failure)];
 }
 
+- (void)authenticateWithSocialStrategy:(A0Strategy *)strategy
+                                acessToken:(NSString *)accessToken
+                                   success:(A0APIClientSuccess)success
+                                   failure:(A0APIClientError)failure {
+    NSDictionary *params = [self buildBasicParamsWithDictionary:@{
+                                                                  kScopeParamName: @"openid",
+                                                                  kAccessTokenParamName: accessToken,
+                                                                  }
+                                                       strategy:strategy];
+    @weakify(self);
+    [self.manager POST:kSocialAuthPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        @strongify(self);
+        [self fetchUserInfoWithToken:responseObject[@"access_token"] success:success failure:failure];
+    } failure:sanitizeFailureBlock(failure)];
+
+}
+
 + (instancetype)sharedClient {
     static A0APIClient *client;
     static dispatch_once_t onceToken;
@@ -173,10 +192,13 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
 #pragma mark - Utility methods
 
 - (NSDictionary *)buildBasicParamsWithDictionary:(NSDictionary *)dictionary {
-    A0Strategy *databaseStrategy = self.application.databaseStrategy;
+    return [self buildBasicParamsWithDictionary:dictionary strategy:self.application.databaseStrategy];
+}
+
+- (NSDictionary *)buildBasicParamsWithDictionary:(NSDictionary *)dictionary strategy:(A0Strategy *)strategy {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
     params[kClientIdParamName] = self.clientId;
-    params[kConnectionParamName] = databaseStrategy.connection[@"name"];
+    params[kConnectionParamName] = strategy.connection[@"name"];
     return params;
 }
 
