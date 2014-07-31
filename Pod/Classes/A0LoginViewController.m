@@ -49,6 +49,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 @property (weak, nonatomic) UIView<A0KeyboardEnabledView, A0ProgressDisplay> *authView;
 
 @property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
+@property (strong, nonatomic) A0Application *application;
+
 
 
 - (IBAction)dismiss:(id)sender;
@@ -86,6 +88,19 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         }];
     };
 
+    self.smallSocialAuthView.nameBlock = ^NSString *(NSInteger index) {
+        @strongify(self);
+        return [self.application.availableSocialStrategies[index] name];
+    };
+    self.smallSocialAuthView.authenticateBlock = ^(NSInteger index) {
+        @strongify(self);
+        A0Strategy *strategy = self.application.availableSocialStrategies[index];
+        [[A0SocialAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(NSString *accessToken) {
+            NSLog(@"Authenticated %@", accessToken);
+        } failure:^(NSError *error) {
+            NSLog(@"Failed %@", error);
+        }];
+    };
     [self configureDatabaseAuthViewWithSuccess:successBlock failure:^(NSError *error) {
         @strongify(self);
         [self.authView hideInProgress];
@@ -104,10 +119,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
+        self.application = application;
         [[A0APIClient sharedClient] configureForApplication:application];
         if ([application hasDatabaseConnection] && [application hasSocialStrategies]) {
-            self.smallSocialAuthView.availableServices = [application availableSocialStrategies];
             [[A0SocialAuthenticator sharedInstance] configureForApplication:application];
+            self.smallSocialAuthView.availableServicesCount = application.availableSocialStrategies.count;
             self.authView = [self layoutFullAuthViewInContainer:self.containerView];
         } else if ([application hasDatabaseConnection]) {
             self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];

@@ -39,12 +39,9 @@ alpha:alphaValue])
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    A0Strategy *strategy = self.availableServices[indexPath.item];
-    [[A0SocialAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(NSString *accessToken) {
-        NSLog(@"Authenticated %@", accessToken);
-    } failure:^(NSError *error) {
-        NSLog(@"Failed %@", error);
-    }];
+    if (self.authenticateBlock) {
+        self.authenticateBlock(indexPath.item);
+    }
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -55,7 +52,7 @@ alpha:alphaValue])
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    NSInteger numberOfCells = self.availableServices.count;
+    NSInteger numberOfCells = self.availableServicesCount;
     CGFloat cellsWidth = (numberOfCells * 40) + MAX(0, (numberOfCells - 1) * 10);
 
     NSInteger edgeInsets = (self.frame.size.width - cellsWidth) / 2;
@@ -66,12 +63,12 @@ alpha:alphaValue])
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.availableServices.count;
+    return self.availableServicesCount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     A0ServiceCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
-    NSString *serviceName = [self.availableServices[indexPath.row] name];
+    NSString *serviceName = self.nameBlock ? self.nameBlock(indexPath.item) : nil;
     NSDictionary *serviceInfo = self.services[serviceName];
     UIColor *background = [A0ServicesView colorFromString:serviceInfo[@"background_color"]];
     UIColor *selectedBackground = [A0ServicesView colorFromString:serviceInfo[@"selected_background_color"]];
