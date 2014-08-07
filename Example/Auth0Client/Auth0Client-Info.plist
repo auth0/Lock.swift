@@ -22,8 +22,21 @@
 	<string>1.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb507756515938786</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>3</string>
+	<string>4</string>
+	<key>FacebookAppID</key>
+	<string>507756515938786</string>
+	<key>FacebookDisplayName</key>
+	<string>Auth0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>
@@ -46,19 +59,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>FacebookAppID</key>
-	<string>507756515938786</string>
-	<key>FacebookDisplayName</key>
-	<string>Auth0</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb507756515938786</string>
-			</array>
-		</dict>
 	</array>
 </dict>
 </plist>
