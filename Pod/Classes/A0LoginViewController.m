@@ -26,6 +26,7 @@
 #import "A0SocialAuthenticator.h"
 
 #import <libextobjc/EXTScope.h>
+#import <CoreText/CoreText.h>
 
 static void showAlertErrorView(NSString *title, NSString *message) {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
@@ -66,6 +67,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
             self.modalPresentationStyle = UIModalPresentationFormSheet;
         }
         _usesEmail = YES;
+        [A0LoginViewController loadIconFont];
     }
     return self;
 }
@@ -281,4 +283,21 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
     self.recoverView.validator = [[A0ChangePasswordCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
 }
+
++ (void)loadIconFont {
+    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0" ofType:@"bundle"];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
+    NSString *fontPath = [resourceBundle pathForResource:@"connections" ofType:@"ttf"];
+    CFErrorRef error;
+    CGDataProviderRef provider = CGDataProviderCreateWithFilename([fontPath UTF8String]);
+    CGFontRef font = CGFontCreateWithDataProvider(provider);
+    if (! CTFontManagerRegisterGraphicsFont(font, &error)) {
+        CFStringRef errorDescription = CFErrorCopyDescription(error);
+        NSLog(@"Failed to load font: %@", errorDescription);
+        CFRelease(errorDescription);
+    }
+    CFRelease(font);
+    CFRelease(provider);
+}
+
 @end

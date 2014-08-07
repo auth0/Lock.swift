@@ -10,6 +10,6 @@
 
 @interface A0ServiceCollectionViewCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *serviceIcon;
+@property (weak, nonatomic) IBOutlet UIButton *serviceButton;
 
 @end

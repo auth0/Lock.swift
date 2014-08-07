@@ -4,8 +4,8 @@
 <dict>
 	<key>yahoo</key>
 	<dict>
-		<key>icon_name</key>
-		<string>yahoo.png</string>
+		<key>icon_character</key>
+		<string>3</string>
 		<key>background_color</key>
 		<string>a200c2</string>
 		<key>selected_background_color</key>
@@ -13,8 +13,8 @@
 	</dict>
 	<key>linkedin</key>
 	<dict>
-		<key>icon_name</key>
-		<string>linkedin.png</string>
+		<key>icon_character</key>
+		<string>-</string>
 		<key>background_color</key>
 		<string>0083a8</string>
 		<key>selected_background_color</key>
@@ -22,8 +22,8 @@
 	</dict>
 	<key>google+</key>
 	<dict>
-		<key>icon_name</key>
-		<string>g+.png</string>
+		<key>icon_character</key>
+		<string>&apos;</string>
 		<key>background_color</key>
 		<string>dd4b39</string>
 		<key>selected_background_color</key>
@@ -31,8 +31,8 @@
 	</dict>
 	<key>twitter</key>
 	<dict>
-		<key>icon_name</key>
-		<string>twitter.png</string>
+		<key>icon_character</key>
+		<string>0</string>
 		<key>background_color</key>
 		<string>46c0fb</string>
 		<key>selected_background_color</key>
@@ -40,8 +40,8 @@
 	</dict>
 	<key>facebook</key>
 	<dict>
-		<key>icon_name</key>
-		<string>facebook.png</string>
+		<key>icon_character</key>
+		<string>8</string>
 		<key>background_color</key>
 		<string>4863AE</string>
 		<key>selected_background_color</key>
@@ -49,8 +49,8 @@
 	</dict>
 	<key>amazon</key>
 	<dict>
-		<key>icon_name</key>
-		<string>amazon.png</string>
+		<key>icon_character</key>
+		<string>4</string>
 		<key>background_color</key>
 		<string>ffad1d</string>
 		<key>selected_background_color</key>

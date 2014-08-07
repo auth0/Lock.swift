@@ -13,10 +13,12 @@
 @implementation A0ServiceCollectionViewCell
 
 - (void)awakeFromNib {
-    self.backgroundColor = [UIColor redColor];
-    self.layer.cornerRadius = 5.0f;
-    self.selectedBackgroundView = [[UIView alloc] init];
-    self.selectedBackgroundView.layer.cornerRadius = 5.0f;
-    self.selectedBackgroundView.backgroundColor = [UIColor blueColor];
+    self.serviceButton.layer.cornerRadius = 5.0f;
+    self.serviceButton.clipsToBounds = YES;
 }
+
+- (void)prepareForReuse {
+    [self.serviceButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+}
+
 @end

@@ -10,6 +10,7 @@
 #import "A0Strategy.h"
 #import "A0ServiceCollectionViewCell.h"
 #import "A0SocialAuthenticator.h"
+#import "UIButton+A0SolidButton.h"
 
 #define UIColorFromRGBA(rgbValue, alphaValue) ([UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0 \
@@ -36,16 +37,16 @@ alpha:alphaValue])
     self.services = [A0ServicesView servicesDictionary];
 }
 
-#pragma mark - UICollectionViewDelegate
-
-- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void)triggerAuth:(UIButton *)sender {
     if (self.authenticateBlock) {
-        self.authenticateBlock(indexPath.item);
+        self.authenticateBlock(sender.tag);
     }
 }
 
+#pragma mark - UICollectionViewDelegate
+
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
+    return YES;
 }
 
 
@@ -72,11 +73,13 @@ alpha:alphaValue])
     NSDictionary *serviceInfo = self.services[serviceName];
     UIColor *background = [A0ServicesView colorFromString:serviceInfo[@"background_color"]];
     UIColor *selectedBackground = [A0ServicesView colorFromString:serviceInfo[@"selected_background_color"]];
-    cell.backgroundColor = background;
-    cell.selectedBackgroundView.backgroundColor = selectedBackground;
-    NSString *imageName = [@"Auth0.bundle" stringByAppendingPathComponent:serviceInfo[@"icon_name"]];
-    cell.serviceIcon.image = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    cell.serviceIcon.tintColor = [UIColor whiteColor];
+    cell.serviceButton.titleLabel.font = [UIFont fontWithName:@"connections" size:14.0f];
+    cell.serviceButton.titleLabel.tintColor = [UIColor whiteColor];
+    [cell.serviceButton setTitle:serviceInfo[@"icon_character"] forState:UIControlStateNormal];
+    [cell.serviceButton setBackgroundColor:background forState:UIControlStateNormal];
+    [cell.serviceButton setBackgroundColor:selectedBackground forState:UIControlStateHighlighted];
+    [cell.serviceButton addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];
+    cell.serviceButton.tag = indexPath.item;
     return cell;
 }
 
