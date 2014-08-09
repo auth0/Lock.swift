@@ -11,4 +11,6 @@
 
 @interface A0FacebookAuthentication : NSObject<A0SocialProviderAuth>
 
++ (A0FacebookAuthentication *)newFacebookAuthentication;
+
 @end

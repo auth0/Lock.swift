@@ -10,6 +10,8 @@
 #import "A0Errors.h"
 #import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
 
+static NSString * const A0FacebookAuthenticationName = @"facebook";
+
 @implementation A0FacebookAuthentication
 
 - (instancetype)init {
@@ -28,7 +30,15 @@
     [FBAppCall handleDidBecomeActive];
 }
 
++ (A0FacebookAuthentication *)newFacebookAuthentication {
+    return [[A0FacebookAuthentication alloc] init];
+}
+
 #pragma mark - A0SocialProviderAuth
+
+- (NSString *)identifier {
+    return A0FacebookAuthenticationName;
+}
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];

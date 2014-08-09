@@ -10,6 +10,8 @@
 
 #import "A0UserProfileViewController.h"
 #import <Auth0Client/A0LoginViewController.h>
+#import <Auth0Client/A0FacebookAuthentication.h>
+#import <Auth0Client/A0SocialAuthenticator.h>
 #import <libextobjc/EXTScope.h>
 
 @interface A0ViewController ()
@@ -20,6 +22,7 @@
 @implementation A0ViewController
 
 - (void)signIn:(id)sender {
+    [[A0SocialAuthenticator sharedInstance] registerSocialProviderAuth:[A0FacebookAuthentication newFacebookAuthentication]];
     A0LoginViewController *controller = [[A0LoginViewController alloc] init];
     @weakify(self);
     controller.authBlock = ^(A0LoginViewController *controller, NSDictionary *authInfo) {

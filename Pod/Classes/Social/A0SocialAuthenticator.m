@@ -7,12 +7,12 @@
 //
 
 #import "A0SocialAuthenticator.h"
-#import "A0FacebookAuthentication.h"
 #import "A0Strategy.h"
 #import "A0Application.h"
 
 @interface A0SocialAuthenticator ()
 
+@property (strong, nonatomic) NSMutableDictionary *registeredAuthenticators;
 @property (strong, nonatomic) NSMutableDictionary *authenticators;
 
 @end
@@ -28,11 +28,23 @@
     return instance;
 }
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        _registeredAuthenticators = [@{} mutableCopy];
+    }
+    return self;
+}
+
+- (void)registerSocialProviderAuth:(id<A0SocialProviderAuth>)socialProviderAuth {
+    self.registeredAuthenticators[socialProviderAuth.identifier] = socialProviderAuth;
+}
+
 - (void)configureForApplication:(A0Application *)application {
     self.authenticators = [@{} mutableCopy];
     [application.availableSocialStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
-        if ([strategy.name isEqualToString:@"facebook"]) {
-            self.authenticators[@"facebook"] = [[A0FacebookAuthentication alloc] init];
+        if (self.registeredAuthenticators[strategy.name]) {
+            self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
         }
     }];
 }

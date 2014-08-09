@@ -11,6 +11,7 @@
 @protocol A0SocialProviderAuth <NSObject>
 
 @required
+- (NSString *)identifier;
 - (void)authenticateWithSuccess:(void(^)(NSString *accessToken))success failure:(void(^)(NSError *))failure;
 
 @optional

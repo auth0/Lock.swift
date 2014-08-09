@@ -22,7 +22,7 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
   #s.source_files = 'Pod/Classes/**/*.{h,m}'
   s.public_header_files = 'Pod/Classes/**/*.h'
   s.dependency 'libextobjc', '~> 0.4'
-  s.default_subspecs = 'Social', 'UI'
+  s.default_subspecs = 'UI', 'Facebook'
 
   s.subspec 'Core' do |cs|
     cs.source_files = 'Pod/Classes/Core/*.{h,m}'
@@ -30,7 +30,7 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
   end
 
   s.subspec 'UI' do |ui|
-    ui.source_files = 'Pod/Classes/{UI,Utils}/*.{h,m}', 'Pod/Classes/A0LoginViewController.{h,m}' 
+    ui.source_files = 'Pod/Classes/{UI,Utils}/*.{h,m}', 'Pod/Classes/A0LoginViewController.{h,m}'
     ui.dependency 'Auth0Client/Social'
     ui.resources = 'Pod/Assets/*.xib'
     ui.resource_bundles = { 'Auth0' => ['Pod/Assets/Images/*.png', 'Pod/Assets/*.plist', 'Pod/Assets/connections.ttf']}
@@ -39,6 +39,12 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
   s.subspec 'Social' do |social|
     social.source_files = 'Pod/Classes/Social/*.{h,m}'
     social.dependency 'Auth0Client/Core'
-    social.dependency 'Facebook-iOS-SDK', '3.15.1'
   end
+
+  s.subspec 'Facebook' do |facebook|
+    facebook.source_files = 'Pod/Classes/Social/Facebook/*.{h,m}'
+    facebook.dependency 'Auth0Client/Social'
+    facebook.dependency 'Facebook-iOS-SDK', '3.15.1'
+  end
+
 end
