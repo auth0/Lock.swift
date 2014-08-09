@@ -97,9 +97,12 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     self.smallSocialAuthView.authenticateBlock = ^(NSInteger index) {
         @strongify(self);
         A0Strategy *strategy = self.application.availableSocialStrategies[index];
-        [[A0SocialAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(NSString *accessToken) {
-            [[A0APIClient sharedClient] authenticateWithSocialStrategy:strategy acessToken:accessToken success:successBlock failure:^(NSError *error) {
-                showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForSocialLoginError:error]);
+        [[A0SocialAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(A0SocialCredentials *socialCredentials) {
+            [[A0APIClient sharedClient] authenticateWithSocialStrategy:strategy
+                                                     socialCredentials:socialCredentials
+                                                               success:successBlock
+                                                               failure:^(NSError *error) {
+                                                                   showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForSocialLoginError:error]);
             }];
         } failure:^(NSError *error) {
             if (error.code != A0ErrorCodeFacebookCancelled) {

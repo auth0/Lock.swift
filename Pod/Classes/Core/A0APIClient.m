@@ -11,6 +11,7 @@
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "A0JSONResponseSerializer.h"
+#import "A0SocialCredentials.h"
 
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
@@ -145,12 +146,12 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
 }
 
 - (void)authenticateWithSocialStrategy:(A0Strategy *)strategy
-                                acessToken:(NSString *)accessToken
-                                   success:(A0APIClientSuccess)success
-                                   failure:(A0APIClientError)failure {
+                     socialCredentials:(A0SocialCredentials *)socialCredentials
+                               success:(A0APIClientSuccess)success
+                               failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                   kScopeParamName: @"openid",
-                                                                  kAccessTokenParamName: accessToken,
+                                                                  kAccessTokenParamName: socialCredentials.accessToken,
                                                                   }
                                                        strategy:strategy];
     @weakify(self);

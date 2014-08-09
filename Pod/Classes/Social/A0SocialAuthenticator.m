@@ -50,7 +50,7 @@
 }
 
 - (void)authenticateForStrategy:(A0Strategy *)strategy
-                    withSuccess:(void (^)(NSString *))success
+                    withSuccess:(void (^)(A0SocialCredentials *))success
                         failure:(void (^)(NSError *))failure {
     id<A0SocialProviderAuth> authenticator = self.authenticators[strategy.name];
     [authenticator authenticateWithSuccess:success failure:failure];

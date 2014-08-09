@@ -44,11 +44,11 @@ static NSString * const A0FacebookAuthenticationName = @"facebook";
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
 }
 
-- (void)authenticateWithSuccess:(void(^)(NSString *accessToken))success failure:(void(^)(NSError *))failure {
+- (void)authenticateWithSuccess:(void(^)(A0SocialCredentials *socialCredentials))success failure:(void(^)(NSError *))failure {
     FBSession *active = [FBSession activeSession];
     if (active.state == FBSessionStateOpen || active.state == FBSessionStateOpenTokenExtended) {
         if (success) {
-            success(active.accessTokenData.accessToken);
+            success([[A0SocialCredentials alloc] initWithAccessToken:active.accessTokenData.accessToken]);
         }
     } else {
         [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"] allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
@@ -61,7 +61,7 @@ static NSString * const A0FacebookAuthenticationName = @"facebook";
                 switch (status) {
                     case FBSessionStateOpen:
                         if (success) {
-                            success(session.accessTokenData.accessToken);
+                            success([[A0SocialCredentials alloc] initWithAccessToken:session.accessTokenData.accessToken]);
                             [session closeAndClearTokenInformation];
                         }
                         break;

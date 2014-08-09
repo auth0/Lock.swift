@@ -22,7 +22,7 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
   #s.source_files = 'Pod/Classes/**/*.{h,m}'
   s.public_header_files = 'Pod/Classes/**/*.h'
   s.dependency 'libextobjc', '~> 0.4'
-  s.default_subspecs = 'UI', 'Facebook'
+  s.default_subspecs = 'UI', 'Facebook', 'Twitter'
 
   s.subspec 'Core' do |cs|
     cs.source_files = 'Pod/Classes/Core/*.{h,m}'
@@ -44,7 +44,13 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
   s.subspec 'Facebook' do |facebook|
     facebook.source_files = 'Pod/Classes/Social/Facebook/*.{h,m}'
     facebook.dependency 'Auth0Client/Social'
-    facebook.dependency 'Facebook-iOS-SDK', '3.15.1'
+    facebook.dependency 'Facebook-iOS-SDK', '~> 3.15'
   end
 
+  s.subspec 'Twitter' do |twitter|
+    twitter.source_files = 'Pod/Classes/Social/Twitter/*.{h,m}'
+    twitter.dependency 'Auth0Client/Social'
+    twitter.dependency 'BDBOAuth1Manager', '~> 1.3'
+    twitter.dependency 'TWReverseAuth', '~>0.1.0'
+  end
 end

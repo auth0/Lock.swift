@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "A0SocialCredentials.h"
 
 @protocol A0SocialProviderAuth <NSObject>
 
 @required
 - (NSString *)identifier;
-- (void)authenticateWithSuccess:(void(^)(NSString *accessToken))success failure:(void(^)(NSError *))failure;
+- (void)authenticateWithSuccess:(void(^)(A0SocialCredentials *socialCredentials))success failure:(void(^)(NSError *))failure;
 
 @optional
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
