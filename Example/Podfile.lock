@@ -21,10 +21,20 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - Auth0Client (0.1.0):
+    - Auth0Client/Social
+    - Auth0Client/UI
+    - libextobjc (~> 0.4)
+  - Auth0Client/Core (0.1.0):
     - AFNetworking (~> 2.3)
+    - libextobjc (~> 0.4)
+  - Auth0Client/Social (0.1.0):
+    - Auth0Client/Core
     - Facebook-iOS-SDK (= 3.15.1)
     - libextobjc (~> 0.4)
-  - Bolts (1.1.0)
+  - Auth0Client/UI (0.1.0):
+    - Auth0Client/Social
+    - libextobjc (~> 0.4)
+  - Bolts (1.1.1)
   - Expecta (0.3.0)
   - Facebook-iOS-SDK (3.15.1):
     - Bolts
@@ -76,8 +86,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
-  Auth0Client: c75c96a24e21e1a022a01240edd537d72f5aaac9
-  Bolts: 91c2af8eae1d44e1dd75946a5b0ae04a43ea43e4
+  Auth0Client: b241b59e65fd173e107e71b6333fed3f56146eff
+  Bolts: 0ca796081c3e7c139bd86d6903c27f1b83036a5d
   Expecta: ce8a51b9fad15a2cd573b291cb2909aaed865350
   Facebook-iOS-SDK: 56214af8e0ef16e751eb2804250326b709e571b8
   libextobjc: ba42e4111f433273a886cd54f0ddaddb7f62f82f
