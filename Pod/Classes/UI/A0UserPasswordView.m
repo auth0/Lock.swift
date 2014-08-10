@@ -48,7 +48,8 @@
     if ([self.validator validateCredential:&error]) {
         [self hideKeyboard];
         if (self.loginBlock) {
-            self.loginBlock(self.userTextField.text, self.passwordTextField.text);
+            NSString *username = [self.userTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            self.loginBlock(username, self.passwordTextField.text);
         }
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error.localizedDescription
