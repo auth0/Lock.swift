@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class A0LoginViewController;
+@class A0LoginViewController, A0UserProfile;
 
-typedef void(^A0AuthBlock)(A0LoginViewController *controller, NSDictionary *authDictionary);
+typedef void(^A0AuthBlock)(A0LoginViewController *controller, A0UserProfile *profile);
 
 @interface A0LoginViewController : UIViewController
 

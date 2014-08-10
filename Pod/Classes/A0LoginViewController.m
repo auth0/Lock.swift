@@ -80,12 +80,12 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     @weakify(self);
     self.authView = [self layoutLoadingView:self.loadingView inContainer:self.containerView];
 
-    A0APIClientSuccess successBlock = ^(id payload) {
+    A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile) {
         @strongify(self);
         [self.authView hideInProgress];
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             if (self.authBlock) {
-                self.authBlock(self, payload);
+                self.authBlock(self, profile);
             }
         }];
     };
@@ -233,7 +233,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     }];
 }
 
-- (void)configureDatabaseAuthViewWithSuccess:(A0APIClientSuccess)success failure:(A0APIClientError)failure {
+- (void)configureDatabaseAuthViewWithSuccess:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
     @weakify(self);
     self.databaseAuthView.signUpBlock = ^{
         @strongify(self);
@@ -257,7 +257,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     self.databaseAuthView.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
 }
 
-- (void)configureSignUpViewWithSuccess:(A0APIClientSuccess)success failure:(A0APIClientError)failure {
+- (void)configureSignUpViewWithSuccess:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
     @weakify(self);
 
     self.signUpView.signUpBlock = ^(NSString *username, NSString *password){

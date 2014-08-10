@@ -13,11 +13,12 @@
 #import <Auth0Client/A0FacebookAuthentication.h>
 #import <Auth0Client/A0TwitterAuthentication.h>
 #import <Auth0Client/A0SocialAuthenticator.h>
+#import <Auth0Client/A0UserProfile.h>
 #import <libextobjc/EXTScope.h>
 
 @interface A0ViewController ()
 
-@property (strong, nonatomic) NSDictionary *authInfo;
+@property (strong, nonatomic) A0UserProfile *authInfo;
 
 @end
 
@@ -34,10 +35,10 @@
                                                                                    ]];
     A0LoginViewController *controller = [[A0LoginViewController alloc] init];
     @weakify(self);
-    controller.authBlock = ^(A0LoginViewController *controller, NSDictionary *authInfo) {
-        NSLog(@"SUCCESS %@", authInfo);
+    controller.authBlock = ^(A0LoginViewController *controller, A0UserProfile *profile) {
+        NSLog(@"SUCCESS %@", profile);
         @strongify(self);
-        self.authInfo = authInfo;
+        self.authInfo = profile;
         [self performSegueWithIdentifier:@"ShowInfo" sender:self];
     };
     [self presentViewController:controller animated:YES completion:nil];

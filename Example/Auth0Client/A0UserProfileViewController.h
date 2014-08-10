@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class A0UserProfile;
+
 @interface A0UserProfileViewController : UITableViewController
 
-@property (strong, nonatomic) NSDictionary *authInfo;
+@property (strong, nonatomic) A0UserProfile *authInfo;
 
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userIdLabel;

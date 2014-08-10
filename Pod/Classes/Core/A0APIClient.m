@@ -12,6 +12,7 @@
 #import "A0Strategy.h"
 #import "A0JSONResponseSerializer.h"
 #import "A0SocialCredentials.h"
+#import "A0UserProfile.h"
 
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
@@ -82,7 +83,7 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
     self.application = application;
 }
 
-- (void)fetchAppInfoWithSuccess:(A0APIClientSuccess)success
+- (void)fetchAppInfoWithSuccess:(A0APIClientFetchAppInfoSuccess)success
                                       failure:(A0APIClientError)failure {
     NSURL *connectionURL = [NSURL URLWithString:[NSString stringWithFormat:kAppInfoEndpointURLFormatString, self.clientId]];
     NSURLRequest *request = [NSURLRequest requestWithURL:connectionURL];
@@ -105,7 +106,7 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
 
 - (void)loginWithUsername:(NSString *)username
                  password:(NSString *)password
-                  success:(A0APIClientSuccess)success
+                  success:(A0APIClientAuthenticationSuccess)success
                   failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                  kUsernameParamName: username,
@@ -116,11 +117,11 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
     @weakify(self);
     [self.manager POST:kLoginPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
-        [self fetchUserInfoWithToken:responseObject[@"access_token"] success:success failure:failure];
+        [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
     } failure:sanitizeFailureBlock(failure)];
 }
 
-- (void)signUpWithUsername:(NSString *)username password:(NSString *)password success:(A0APIClientSuccess)success failure:(A0APIClientError)failure {
+- (void)signUpWithUsername:(NSString *)username password:(NSString *)password success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                  kEmailParamName: username,
                                                                  kPasswordParamName: password,
@@ -134,7 +135,7 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
     } failure:sanitizeFailureBlock(failure)];
 }
 
-- (void)changePassword:(NSString *)newPassword forUsername:(NSString *)username success:(A0APIClientSuccess)success failure:(A0APIClientError)failure {
+- (void)changePassword:(NSString *)newPassword forUsername:(NSString *)username success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                   kEmailParamName: username,
                                                                   kPasswordParamName: newPassword,
@@ -149,7 +150,7 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
 
 - (void)authenticateWithSocialStrategy:(A0Strategy *)strategy
                      socialCredentials:(A0SocialCredentials *)socialCredentials
-                               success:(A0APIClientSuccess)success
+                               success:(A0APIClientAuthenticationSuccess)success
                                failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                   kScopeParamName: @"openid",
@@ -159,7 +160,7 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
     @weakify(self);
     [self.manager POST:kSocialAuthPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
-        [self fetchUserInfoWithToken:responseObject[@"access_token"] success:success failure:failure];
+        [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
     } failure:sanitizeFailureBlock(failure)];
 
 }
@@ -177,7 +178,8 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
 
 #pragma mark - Internal API calls
 
-- (void)fetchUserInfoWithToken:(NSString *)token success:(A0APIClientSuccess)success failure:(A0APIClientError)failure {
+- (void)fetchUserInfoWithTokenInfo:(NSDictionary *)tokenInfo success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
+    NSString *token = tokenInfo[@"access_token"];
     NSURL *connectionURL = [NSURL URLWithString:kUserInfoPath relativeToURL:self.manager.baseURL];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:connectionURL];
     NSString *authorizationHeader = [NSString stringWithFormat:kAuthorizationHeaderValueFormatString, token];
@@ -186,7 +188,10 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
     operation.responseSerializer = [AFJSONResponseSerializer serializer];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
-            success(responseObject);
+            NSMutableDictionary *authInfo = [[NSMutableDictionary alloc] initWithDictionary:responseObject];
+            [authInfo setObject:tokenInfo forKey:@"token_info"];
+            A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:authInfo];
+            success(profile);
         }
     } failure:sanitizeFailureBlock(failure)];
     [operation start];

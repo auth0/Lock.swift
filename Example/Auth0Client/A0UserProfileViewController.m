@@ -8,6 +8,8 @@
 
 #import "A0UserProfileViewController.h"
 
+#import <Auth0Client/A0UserProfile.h>
+
 @interface A0UserProfileViewController ()
 
 @end
@@ -16,10 +18,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.userIdLabel.text = self.authInfo[@"user_id"];
-    self.usernameLabel.text = self.authInfo[@"name"];
-    self.emailLabel.text = self.authInfo[@"email"];
-    self.nicknameLabel.text = self.authInfo[@"nickname"];
+    self.userIdLabel.text = self.authInfo.userId;
+    self.usernameLabel.text = self.authInfo.name;
+    self.emailLabel.text = self.authInfo.email;
+    self.nicknameLabel.text = self.authInfo.nickname;
 }
 
 @end
