@@ -39,6 +39,7 @@ PODS:
     - Auth0Client/Social
     - BDBOAuth1Manager (~> 1.3)
     - libextobjc (~> 0.4)
+    - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
   - Auth0Client/UI (0.1.0):
     - Auth0Client/Social
@@ -89,6 +90,7 @@ PODS:
   - NSData+Base64 (1.0.0)
   - OAuthCore (0.0.1):
     - NSData+Base64
+  - PSAlertView (2.0.2)
   - Specta (0.2.1)
   - TWReverseAuth (0.1.1):
     - LUKeychainAccess
@@ -105,7 +107,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
-  Auth0Client: 98bc3f8c020c90701b8f1f5ec3141df90f07d0ee
+  Auth0Client: fd0b8c3c4cbdce61e2704370b4ad85402006aa0b
   BDBOAuth1Manager: b877a5d3b94071f8b3a55ff3738d8a73c23d460e
   Bolts: 0ca796081c3e7c139bd86d6903c27f1b83036a5d
   Expecta: ce8a51b9fad15a2cd573b291cb2909aaed865350
@@ -114,6 +116,7 @@ SPEC CHECKSUMS:
   LUKeychainAccess: 4365689e03b1a019ce40a86058aae6e31e9adcea
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
+  PSAlertView: d63447bd08316d39f8b9f341e902d44b2ef2d73b
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
 

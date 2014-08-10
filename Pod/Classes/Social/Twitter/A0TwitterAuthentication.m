@@ -16,6 +16,7 @@
 #import <TWReverseAuth/TWAPIManager.h>
 #import <OAuthCore/OAuth+Additions.h>
 #import <libextobjc/EXTScope.h>
+#import <PSAlertView/PSPDFActionSheet.h>
 
 @interface A0TwitterAuthentication ()
 
@@ -58,16 +59,13 @@
     BOOL handled = NO;
     if ([url.scheme.lowercaseString isEqualToString:self.callbackURL.scheme.lowercaseString] && [url.host isEqualToString:self.callbackURL.host]) {
         handled = YES;
-        NSLog(@"Received URL callback %@", url);
         NSDictionary *parameters = [NSURL ab_parseURLQueryString:url.query];
         @weakify(self);
         if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"]) {
             [self.manager fetchAccessTokenWithPath:@"/oauth/access_token" method:@"POST" requestToken:[BDBOAuthToken tokenWithQueryString:url.query] success:^(BDBOAuthToken *accessToken) {
                 @strongify(self);
-                NSLog(@"Obtained access to account %@", accessToken.userInfo);
                 [self reverseAuthWithNewAccountWithInfo:accessToken];
             } failure:^(NSError *error) {
-                NSLog(@"Failed to get authorization from user %@", error);
                 [self executeFailureWithError:error];
             }];
         } else {
@@ -87,23 +85,32 @@
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
         [self.accountStore requestAccessToAccountsWithType:self.accountType options:nil completion:^(BOOL granted, NSError *error) {
             @strongify(self);
-            NSLog(@"GRANTED %@", @(granted));
             if (granted && !error) {
-                ACAccount *account = [[self.accountStore accountsWithAccountType:self.accountType] firstObject];
-                [self reverseAuthForAccount:account];
+                NSArray *accounts = [self.accountStore accountsWithAccountType:self.accountType];
+                if (accounts.count > 1) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        PSPDFActionSheet *sheet = [[PSPDFActionSheet alloc] initWithTitle:nil];
+                        for (ACAccount *account in accounts) {
+                            [sheet addButtonWithTitle:[@"@" stringByAppendingString:account.username] block:^(NSInteger buttonIndex) {
+                                [self reverseAuthForAccount:account];
+                            }];
+                        }
+                        [sheet setCancelButtonWithTitle:NSLocalizedString(@"Cancel", nil) block:nil];
+                        [sheet showInView:[[UIApplication sharedApplication] keyWindow]];
+                    });
+                } else {
+                    [self reverseAuthForAccount:accounts.firstObject];
+                }
             } else {
                 [self executeFailureWithError:[A0Errors twitterAppNoAuthorized]];
             }
         }];
     } else {
-        NSLog(@"NEW LOGIN");
         [self.manager deauthorize];
         [self.manager fetchRequestTokenWithPath:@"/oauth/request_token" method:@"POST" callbackURL:self.callbackURL scope:nil success:^(BDBOAuthToken *requestToken) {
-            NSLog(@"REQUEST OBTAINED %@", requestToken);
             NSString *authURL = [NSString stringWithFormat:@"https://api.twitter.com/oauth/authorize?oauth_token=%@", requestToken.token];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:authURL]];
         } failure:^(NSError *error) {
-            NSLog(@"FAILED TO OBTAIN REQUEST %@", error);
             [self executeFailureWithError:error];
         }];
     }
@@ -122,7 +129,6 @@
         if (granted) {
             [self.accountStore saveAccount:account withCompletionHandler:^(BOOL success, NSError *error) {
                 @strongify(self);
-                NSLog(@"Account saved: %@ error %@", @(success), error);
                 if (success && !error) {
                     ACAccount *account = [[self.accountStore accountsWithAccountType:self.accountType] firstObject];
                     [self reverseAuthForAccount:account];
@@ -132,7 +138,6 @@
             }];
         }
         else {
-            NSLog(@"Failed to save account");
             [self executeFailureWithError:[A0Errors twitterAppNoAuthorized]];
         }
     }];
@@ -155,7 +160,6 @@
                                         };
             A0SocialCredentials *credentials = [[A0SocialCredentials alloc] initWithAccessToken:response[@"oauth_token"] extraInfo:extraInfo];
             [self executeSuccessWithCredentials:credentials];
-            NSLog(@"Should be success %@", response);
         } else {
             [self executeFailureWithError:error];
         }
