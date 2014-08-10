@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "A0SocialProviderAuth.h"
 
-@interface A0FacebookAuthentication : NSObject<A0SocialProviderAuth>
+@interface A0FacebookAuthentication : NSObject<A0SocialAuthenticationProvider>
 
-+ (A0FacebookAuthentication *)newFacebookAuthentication;
++ (A0FacebookAuthentication *)newAuthentication;
 
 @end

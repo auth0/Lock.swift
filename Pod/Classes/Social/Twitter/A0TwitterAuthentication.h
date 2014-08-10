@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "A0SocialProviderAuth.h"
 
-@interface A0TwitterAuthentication : NSObject<A0SocialProviderAuth>
+@interface A0TwitterAuthentication : NSObject<A0SocialAuthenticationProvider>
 
-+ (A0TwitterAuthentication *)newTwitterAuthentication;
++ (A0TwitterAuthentication *)newAuthenticationWithKey:(NSString *)key andSecret:(NSString *)secret callbackURL:(NSURL *)callbackURL;
 
 @end

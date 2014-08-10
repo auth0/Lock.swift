@@ -1,5 +1,5 @@
 //
-//  A0SocialProviderAuth.h
+//  A0SocialAuthenticationProvider.h
 //  Pods
 //
 //  Created by Hernan Zalazar on 7/28/14.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "A0SocialCredentials.h"
 
-@protocol A0SocialProviderAuth <NSObject>
+@protocol A0SocialAuthenticationProvider <NSObject>
 
 @required
 - (NSString *)identifier;

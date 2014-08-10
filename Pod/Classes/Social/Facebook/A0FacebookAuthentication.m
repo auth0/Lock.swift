@@ -30,7 +30,7 @@ static NSString * const A0FacebookAuthenticationName = @"facebook";
     [FBAppCall handleDidBecomeActive];
 }
 
-+ (A0FacebookAuthentication *)newFacebookAuthentication {
++ (A0FacebookAuthentication *)newAuthentication {
     return [[A0FacebookAuthentication alloc] init];
 }
 

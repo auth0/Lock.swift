@@ -36,7 +36,13 @@
     return self;
 }
 
-- (void)registerSocialProviderAuth:(id<A0SocialProviderAuth>)socialProviderAuth {
+- (void)registerSocialAuthenticatorProviders:(NSArray *)socialAuthenticatorProviders {
+    [socialAuthenticatorProviders enumerateObjectsUsingBlock:^(id<A0SocialAuthenticationProvider> provider, NSUInteger idx, BOOL *stop) {
+        [self registerSocialAuthenticatorProvider:provider];
+    }];
+}
+
+- (void)registerSocialAuthenticatorProvider:(id<A0SocialAuthenticationProvider>)socialProviderAuth {
     self.registeredAuthenticators[socialProviderAuth.identifier] = socialProviderAuth;
 }
 
@@ -52,13 +58,13 @@
 - (void)authenticateForStrategy:(A0Strategy *)strategy
                     withSuccess:(void (^)(A0SocialCredentials *))success
                         failure:(void (^)(NSError *))failure {
-    id<A0SocialProviderAuth> authenticator = self.authenticators[strategy.name];
+    id<A0SocialAuthenticationProvider> authenticator = self.authenticators[strategy.name];
     [authenticator authenticateWithSuccess:success failure:failure];
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application {
     __block BOOL handled = NO;
-    [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0SocialProviderAuth> authenticator, BOOL *stop) {
+    [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0SocialAuthenticationProvider> authenticator, BOOL *stop) {
         handled = [authenticator handleURL:url sourceApplication:application];
         *stop = handled;
     }];
