@@ -11,6 +11,7 @@
 #import "A0ServiceCollectionViewCell.h"
 #import "A0SocialAuthenticator.h"
 #import "UIButton+A0SolidButton.h"
+#import "A0ServiceTableViewCell.h"
 
 #define UIColorFromRGBA(rgbValue, alphaValue) ([UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0 \
@@ -21,7 +22,7 @@ alpha:alphaValue])
 
 #define kCellIdentifier @"ServiceCell"
 
-@interface A0ServicesView () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface A0ServicesView () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource>
 
 @property (strong, nonatomic) NSDictionary *services;
 
@@ -32,8 +33,14 @@ alpha:alphaValue])
 - (void)awakeFromNib {
     [super awakeFromNib];
 
-    UINib *cellNib = [UINib nibWithNibName:@"A0ServiceCollectionViewCell" bundle:nil];
-    [self.serviceCollectionView registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
+    if (self.serviceCollectionView) {
+        UINib *cellNib = [UINib nibWithNibName:@"A0ServiceCollectionViewCell" bundle:nil];
+        [self.serviceCollectionView registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
+    }
+    if (self.serviceTableView) {
+        UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:nil];
+        [self.serviceTableView registerNib:cellNib forCellReuseIdentifier:kCellIdentifier];
+    }
     self.services = [A0ServicesView servicesDictionary];
 }
 
@@ -41,6 +48,34 @@ alpha:alphaValue])
     if (self.authenticateBlock) {
         self.authenticateBlock(sender.tag);
     }
+}
+
+- (CGRect)rectToKeepVisibleInView:(UIView *)view {
+    return CGRectZero;
+}
+
+- (void)hideKeyboard {}
+
+- (void)showInProgress {}
+
+- (void)hideInProgress {}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.availableServicesCount;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *serviceName = self.nameBlock ? self.nameBlock(indexPath.row) : nil;
+    NSDictionary *serviceInfo = self.services[serviceName];
+    UIColor *background = [A0ServicesView colorFromString:serviceInfo[@"background_color"]];
+    UIColor *selectedBackground = [A0ServicesView colorFromString:serviceInfo[@"selected_background_color"]];
+    A0ServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+    [cell configureWithBackground:background highlighted:selectedBackground symbol:serviceInfo[@"icon_character"] name:serviceName];
+    [cell.button addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];
+    cell.button.tag = indexPath.row;
+    return cell;
 }
 
 #pragma mark - UICollectionViewDelegate

@@ -40,6 +40,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 @interface A0LoginViewController ()
 
 @property (strong, nonatomic) IBOutlet A0ServicesView *smallSocialAuthView;
+@property (strong, nonatomic) IBOutlet A0ServicesView *onlySocialAuthView;
 @property (strong, nonatomic) IBOutlet A0UserPasswordView *databaseAuthView;
 @property (strong, nonatomic) IBOutlet A0LoadingView *loadingView;
 @property (strong, nonatomic) IBOutlet A0SignUpView *signUpView;
@@ -90,11 +91,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         }];
     };
 
-    self.smallSocialAuthView.nameBlock = ^NSString *(NSInteger index) {
+    A0ServiceViewNameBlock nameBlock =^ NSString *(NSInteger index) {
         @strongify(self);
         return [self.application.availableSocialStrategies[index] name];
     };
-    self.smallSocialAuthView.authenticateBlock = ^(NSInteger index) {
+    A0ServiceViewAuthenticateBlock authenticateBlock = ^(NSInteger index) {
         @strongify(self);
         self.authView = [self layoutLoadingView:self.loadingView inContainer:self.containerView];
         A0Strategy *strategy = self.application.availableSocialStrategies[index];
@@ -105,7 +106,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                                                                failure:^(NSError *error) {
                                                                    self.authView = [self layoutLoginViewForApplication:self.application];
                                                                    showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForSocialLoginError:error]);
-            }];
+                                                               }];
         } failure:^(NSError *error) {
             self.authView = [self layoutLoginViewForApplication:self.application];
             if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled) {
@@ -120,6 +121,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
             }
         }];
     };
+    self.smallSocialAuthView.nameBlock = nameBlock;
+    self.smallSocialAuthView.authenticateBlock = authenticateBlock;
+    self.onlySocialAuthView.nameBlock = nameBlock;
+    self.onlySocialAuthView.authenticateBlock = authenticateBlock;
+
     [self configureDatabaseAuthViewWithSuccess:successBlock failure:^(NSError *error) {
         @strongify(self);
         [self.authView hideInProgress];
@@ -176,6 +182,9 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         authView = [self layoutFullAuthViewInContainer:self.containerView];
     } else if ([application hasDatabaseConnection]) {
         authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
+    } else if ([application hasSocialStrategies]) {
+        self.onlySocialAuthView.availableServicesCount = application.availableSocialStrategies.count;
+        authView = [self layoutSingleView:self.onlySocialAuthView withTitle:NSLocalizedString(@"Login", nil) inContainer:self.containerView];
     }
     return authView;
 }
@@ -305,20 +314,23 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 }
 
 + (void)loadIconFont {
-    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0" ofType:@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-    NSString *fontPath = [resourceBundle pathForResource:@"connections" ofType:@"ttf"];
-    CFErrorRef error;
-    CGDataProviderRef provider = CGDataProviderCreateWithFilename([fontPath UTF8String]);
-    CGFontRef font = CGFontCreateWithDataProvider(provider);
-    if (! CTFontManagerRegisterGraphicsFont(font, &error)) {
-        CFStringRef errorDescription = CFErrorCopyDescription(error);
-        NSLog(@"Failed to load font: %@", errorDescription);
-        CFRelease(errorDescription);
-        CFRelease(error);
+    UIFont *iconFont = [UIFont fontWithName:@"connections" size:14.0f];
+    if (!iconFont) {
+        NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0" ofType:@"bundle"];
+        NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
+        NSString *fontPath = [resourceBundle pathForResource:@"connections" ofType:@"ttf"];
+        CFErrorRef error;
+        CGDataProviderRef provider = CGDataProviderCreateWithFilename([fontPath UTF8String]);
+        CGFontRef font = CGFontCreateWithDataProvider(provider);
+        if (! CTFontManagerRegisterGraphicsFont(font, &error)) {
+            CFStringRef errorDescription = CFErrorCopyDescription(error);
+            NSLog(@"Failed to load font: %@", errorDescription);
+            CFRelease(errorDescription);
+            CFRelease(error);
+        }
+        CFRelease(font);
+        CFRelease(provider);
     }
-    CFRelease(font);
-    CFRelease(provider);
 }
 
 @end

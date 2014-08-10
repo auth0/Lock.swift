@@ -9,6 +9,7 @@
                 <outlet property="containerView" destination="eYP-oW-iTl" id="5LH-sV-ceC"/>
                 <outlet property="databaseAuthView" destination="Hug-8U-rzn" id="Y6W-Qd-DxU"/>
                 <outlet property="loadingView" destination="F3d-6A-3VK" id="fMe-gf-m9a"/>
+                <outlet property="onlySocialAuthView" destination="YB8-sq-auc" id="CrN-z8-Qu9"/>
                 <outlet property="recoverView" destination="VQ0-3t-gbE" id="kOX-SZ-Hf0"/>
                 <outlet property="signUpView" destination="rHd-Nb-0by" id="kdW-cE-Czv"/>
                 <outlet property="smallSocialAuthView" destination="WLb-RC-kdX" id="vCq-pv-2Tl"/>
@@ -615,6 +616,40 @@
                 <outlet property="repeatPasswordTextField" destination="FHc-Q3-kox" id="yVN-m7-Hbr"/>
                 <outlet property="userContainerView" destination="KAT-lL-JeF" id="Qq8-T4-LP7"/>
                 <outlet property="userTextField" destination="3Hn-IS-HZf" id="aSK-ik-jC8"/>
+            </connections>
+        </view>
+        <view contentMode="scaleToFill" id="FUY-hK-8kL">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+        <view contentMode="scaleToFill" id="YB8-sq-auc" customClass="A0ServicesView">
+            <rect key="frame" x="0.0" y="0.0" width="280" height="260"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="v1P-77-Dsh">
+                    <rect key="frame" x="0.0" y="0.0" width="280" height="260"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="260" id="rsi-Wb-r69"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="YB8-sq-auc" id="I9z-IM-NMu"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="v1P-77-Dsh" firstAttribute="top" secondItem="YB8-sq-auc" secondAttribute="top" id="8z9-Xe-Ou7"/>
+                <constraint firstAttribute="bottom" secondItem="v1P-77-Dsh" secondAttribute="bottom" id="NLb-hg-9QH"/>
+                <constraint firstItem="v1P-77-Dsh" firstAttribute="leading" secondItem="YB8-sq-auc" secondAttribute="leading" id="cfX-R0-l88"/>
+                <constraint firstAttribute="trailing" secondItem="v1P-77-Dsh" secondAttribute="trailing" id="dLe-oh-0tA"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="serviceTableView" destination="v1P-77-Dsh" id="y4a-BX-oi3"/>
             </connections>
         </view>
     </objects>
