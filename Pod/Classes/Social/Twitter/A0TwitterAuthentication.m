@@ -7,21 +7,25 @@
 //
 
 #import "A0TwitterAuthentication.h"
+#import "A0Errors.h"
+#import "A0Strategy.h"
 
 #import <Accounts/Accounts.h>
 #import <Twitter/Twitter.h>
 #import <BDBOAuth1Manager/BDBOAuth1RequestOperationManager.h>
 #import <TWReverseAuth/TWAPIManager.h>
-#import <OAuthCore/OAuthCore.h>
 #import <OAuthCore/OAuth+Additions.h>
-
-static NSString * const A0TwitterAuthenticationName = @"twitter";
+#import <libextobjc/EXTScope.h>
 
 @interface A0TwitterAuthentication ()
 
 @property (strong, nonatomic) BDBOAuth1RequestOperationManager *manager;
 @property (strong, nonatomic) NSURL *callbackURL;
+@property (strong, nonatomic) ACAccountStore *accountStore;
+@property (strong, nonatomic) ACAccountType *accountType;
 
+@property (copy, nonatomic) void(^successBlock)(A0SocialCredentials *socialCredentials);
+@property (copy, nonatomic) void(^failureBlock)(NSError *);
 
 @end
 
@@ -56,28 +60,39 @@ static NSString * const A0TwitterAuthenticationName = @"twitter";
         handled = YES;
         NSLog(@"Received URL callback %@", url);
         NSDictionary *parameters = [NSURL ab_parseURLQueryString:url.query];
+        @weakify(self);
         if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"]) {
             [self.manager fetchAccessTokenWithPath:@"/oauth/access_token" method:@"POST" requestToken:[BDBOAuthToken tokenWithQueryString:url.query] success:^(BDBOAuthToken *accessToken) {
+                @strongify(self);
                 NSLog(@"Obtained access to account %@", accessToken.userInfo);
                 [self reverseAuthWithNewAccountWithInfo:accessToken];
             } failure:^(NSError *error) {
                 NSLog(@"Failed to get authorization from user %@", error);
+                [self executeFailureWithError:error];
             }];
+        } else {
+            [self executeFailureWithError:[A0Errors twitterCancelled]];
         }
     }
     return handled;
 }
 
 - (void)authenticateWithSuccess:(void(^)(A0SocialCredentials *socialCredentials))success failure:(void(^)(NSError *))failure {
-    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
-    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    self.successBlock = success;
+    self.failureBlock = failure;
+    self.accountStore = [[ACAccountStore alloc] init];
+    self.accountType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
 
+    @weakify(self);
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
-        [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+        [self.accountStore requestAccessToAccountsWithType:self.accountType options:nil completion:^(BOOL granted, NSError *error) {
+            @strongify(self);
             NSLog(@"GRANTED %@", @(granted));
-            if (granted) {
-                ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
+            if (granted && !error) {
+                ACAccount *account = [[self.accountStore accountsWithAccountType:self.accountType] firstObject];
                 [self reverseAuthForAccount:account];
+            } else {
+                [self executeFailureWithError:[A0Errors twitterAppNoAuthorized]];
             }
         }];
     } else {
@@ -89,63 +104,87 @@ static NSString * const A0TwitterAuthenticationName = @"twitter";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:authURL]];
         } failure:^(NSError *error) {
             NSLog(@"FAILED TO OBTAIN REQUEST %@", error);
+            [self executeFailureWithError:error];
         }];
     }
 }
 
 #pragma mark - Twitter Reverse Auth
 - (void)reverseAuthWithNewAccountWithInfo:(BDBOAuthToken *)info {
-    ACAccountStore * accountStore  =  [[ACAccountStore alloc] init];
-    ACAccountType  * accountType   = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-
-    ACAccountCredential * credential    = [[ACAccountCredential alloc]
-                                           initWithOAuthToken:info.token tokenSecret:info.secret];
-    ACAccount * account = [[ACAccount alloc]
-                           initWithAccountType:accountType];
-    account.accountType = accountType;
+    ACAccountCredential * credential = [[ACAccountCredential alloc] initWithOAuthToken:info.token tokenSecret:info.secret];
+    ACAccount * account = [[ACAccount alloc] initWithAccountType:self.accountType];
+    account.accountType = self.accountType;
     account.credential = credential;
     account.username = [NSString stringWithFormat:@"@%@", info.userInfo[@"screen_name"]];
-    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+
+    @weakify(self);
+    [self.accountStore requestAccessToAccountsWithType:self.accountType options:nil completion:^(BOOL granted, NSError *error) {
         if (granted) {
-            ACAccountStore *accountStore  =  [[ACAccountStore alloc] init];
-            [accountStore saveAccount:account withCompletionHandler:^(BOOL success, NSError *error) {
+            [self.accountStore saveAccount:account withCompletionHandler:^(BOOL success, NSError *error) {
+                @strongify(self);
                 NSLog(@"Account saved: %@ error %@", @(success), error);
-                if (success) {
-                    ACAccountStore *accountStore  =  [[ACAccountStore alloc] init];
-                    ACAccountType  * accountType   = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-                    ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
+                if (success && !error) {
+                    ACAccount *account = [[self.accountStore accountsWithAccountType:self.accountType] firstObject];
                     [self reverseAuthForAccount:account];
+                } else {
+                    [self executeFailureWithError:error];
                 }
             }];
         }
         else {
             NSLog(@"Failed to save account");
+            [self executeFailureWithError:[A0Errors twitterAppNoAuthorized]];
         }
     }];
 }
 
 - (void)reverseAuthForAccount:(ACAccount *)account {
-    ACAccountStore * accountStore  =  [[ACAccountStore alloc] init];
-    ACAccountType  * accountType   = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    account.accountType = accountType;
+    account.accountType = self.accountType;
+
+    @weakify(self);
     [TWAPIManager performReverseAuthForAccount:account withHandler:^(NSData *responseData, NSError *error) {
 
-        if(responseData == nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"FAILED with no answer");
-                return;
-            });
-        }
-
-        NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-
-        NSDictionary * response = [NSURL ab_parseURLQueryString:responseStr];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
+        @strongify(self);
+        if (!error && responseData) {
+            NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+            NSDictionary *response = [NSURL ab_parseURLQueryString:responseStr];
+            NSDictionary *extraInfo = @{
+                                        A0StrategySocialTokenParameter: response[@"oauth_token"],
+                                        A0StrategySocialTokenSecretParameter: response[@"oauth_token_secret"],
+                                        A0StrategySocialUserIdParameter: response[@"user_id"],
+                                        };
+            A0SocialCredentials *credentials = [[A0SocialCredentials alloc] initWithAccessToken:response[@"oauth_token"] extraInfo:extraInfo];
+            [self executeSuccessWithCredentials:credentials];
             NSLog(@"Should be success %@", response);
-        });
-
+        } else {
+            [self executeFailureWithError:error];
+        }
     }];
 }
 
+#pragma mark - Block handling
+
+- (void)executeSuccessWithCredentials:(A0SocialCredentials *)credentials {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.successBlock) {
+            self.successBlock(credentials);
+        }
+        self.successBlock = nil;
+        self.failureBlock = nil;
+        self.accountStore = nil;
+        self.accountType = nil;
+    });
+}
+
+- (void)executeFailureWithError:(NSError *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.failureBlock) {
+            self.failureBlock(error);
+        }
+        self.successBlock = nil;
+        self.failureBlock = nil;
+        self.accountStore = nil;
+        self.accountType = nil;
+    });
+}
 @end

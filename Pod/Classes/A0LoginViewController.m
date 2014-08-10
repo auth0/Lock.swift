@@ -106,7 +106,15 @@ static void showAlertErrorView(NSString *title, NSString *message) {
             }];
         } failure:^(NSError *error) {
             if (error.code != A0ErrorCodeFacebookCancelled) {
-                showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForSocialLoginError:error]);
+                switch (error.code) {
+                    case A0ErrorCodeTwitterAppNoAuthorized:
+                    case A0ErrorCodeTwitterCancelled:
+                        showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+                        break;
+                    default:
+                        showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForSocialLoginError:error]);
+                        break;
+                }
             }
         }];
     };
@@ -298,6 +306,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         CFStringRef errorDescription = CFErrorCopyDescription(error);
         NSLog(@"Failed to load font: %@", errorDescription);
         CFRelease(errorDescription);
+        CFRelease(error);
     }
     CFRelease(font);
     CFRelease(provider);

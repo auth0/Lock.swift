@@ -40,6 +40,8 @@
 #define kIdTokenParamName @"id_token"
 #define kEmailParamName @"email"
 #define kAccessTokenParamName @"access_token"
+#define kAccessTokenSecretParamName @"access_token_secret"
+#define kSocialUserIdParamName @"user_id"
 
 typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
@@ -151,9 +153,9 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
                                failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                   kScopeParamName: @"openid",
-                                                                  kAccessTokenParamName: socialCredentials.accessToken,
                                                                   }
-                                                       strategy:strategy];
+                                                       strategy:strategy
+                                                    credentials:socialCredentials];
     @weakify(self);
     [self.manager POST:kSocialAuthPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
@@ -193,13 +195,24 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
 #pragma mark - Utility methods
 
 - (NSDictionary *)buildBasicParamsWithDictionary:(NSDictionary *)dictionary {
-    return [self buildBasicParamsWithDictionary:dictionary strategy:self.application.databaseStrategy];
+    return [self buildBasicParamsWithDictionary:dictionary strategy:self.application.databaseStrategy credentials:nil];
 }
 
-- (NSDictionary *)buildBasicParamsWithDictionary:(NSDictionary *)dictionary strategy:(A0Strategy *)strategy {
+- (NSDictionary *)buildBasicParamsWithDictionary:(NSDictionary *)dictionary
+                                        strategy:(A0Strategy *)strategy
+                                     credentials:(A0SocialCredentials *)credentials {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
     params[kClientIdParamName] = self.clientId;
     params[kConnectionParamName] = strategy.connection[@"name"];
+    if (credentials) {
+        params[kAccessTokenParamName] = credentials.accessToken;
+    }
+    if (credentials.extraInfo[A0StrategySocialTokenSecretParameter]) {
+        params[kAccessTokenSecretParamName] = credentials.extraInfo[A0StrategySocialTokenSecretParameter];
+    }
+    if (credentials.extraInfo[A0StrategySocialUserIdParameter]) {
+        params[kSocialUserIdParamName] = credentials.extraInfo[A0StrategySocialUserIdParameter];
+    }
     return params;
 }
 

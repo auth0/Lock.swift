@@ -8,9 +8,9 @@
 
 #import "A0FacebookAuthentication.h"
 #import "A0Errors.h"
-#import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
+#import "A0Strategy.h"
 
-static NSString * const A0FacebookAuthenticationName = @"facebook";
+#import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
 
 @implementation A0FacebookAuthentication
 

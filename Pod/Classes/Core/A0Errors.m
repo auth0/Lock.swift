@@ -129,6 +129,18 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:NSLocalizedString(@"You need to authorize the application", nil)];
 }
 
++ (NSError *)twitterAppNoAuthorized {
+    return [self errorWithCode:A0ErrorCodeTwitterAppNoAuthorized
+                   description:NSLocalizedString(@"There was an error contacting Twitter", nil)
+                 failureReason:NSLocalizedString(@"Permissions were not granted. Please authorize the app in Settings > Twitter", nil)];
+}
+
++ (NSError *)twitterCancelled {
+    return [self errorWithCode:A0ErrorCodeTwitterCancelled
+                   description:NSLocalizedString(@"There was an error contacting Twitter", nil)
+                 failureReason:NSLocalizedString(@"Permissions were not granted. Try again", nil)];
+}
+
 #pragma mark - Localized error messages
 
 + (NSString *)localizedStringForLoginError:(NSError *)error {

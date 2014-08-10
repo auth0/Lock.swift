@@ -51,7 +51,7 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
     twitter.source_files = 'Pod/Classes/Social/Twitter/*.{h,m}'
     twitter.dependency 'Auth0Client/Social'
     twitter.dependency 'BDBOAuth1Manager', '~> 1.3'
-    twitter.dependency 'TWReverseAuth', '~>0.1.0'
+    twitter.dependency 'TWReverseAuth', '~> 0.1.0'
     twitter.frameworks  = 'Social', 'Accounts', 'Twitter'
   end
 end
