@@ -95,14 +95,16 @@
                                 [self reverseAuthForAccount:account];
                             }];
                         }
-                        [sheet setCancelButtonWithTitle:NSLocalizedString(@"Cancel", nil) block:nil];
+                        [sheet setCancelButtonWithTitle:NSLocalizedString(@"Cancel", nil) block:^(NSInteger buttonIndex) {
+                            [self executeFailureWithError:[A0Errors twitterCancelled]];
+                        }];
                         [sheet showInView:[[UIApplication sharedApplication] keyWindow]];
                     });
                 } else {
                     [self reverseAuthForAccount:accounts.firstObject];
                 }
             } else {
-                [self executeFailureWithError:[A0Errors twitterAppNoAuthorized]];
+                [self executeFailureWithError:[A0Errors twitterAppNotAuthorized]];
             }
         }];
     } else {
@@ -138,7 +140,7 @@
             }];
         }
         else {
-            [self executeFailureWithError:[A0Errors twitterAppNoAuthorized]];
+            [self executeFailureWithError:[A0Errors twitterAppNotAuthorized]];
         }
     }];
 }

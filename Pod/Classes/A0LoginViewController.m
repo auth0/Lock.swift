@@ -105,10 +105,10 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                                                                    showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForSocialLoginError:error]);
             }];
         } failure:^(NSError *error) {
-            if (error.code != A0ErrorCodeFacebookCancelled) {
+            self.authView = [self layoutLoginViewForApplication:self.application];
+            if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled) {
                 switch (error.code) {
-                    case A0ErrorCodeTwitterAppNoAuthorized:
-                    case A0ErrorCodeTwitterCancelled:
+                    case A0ErrorCodeTwitterAppNotAuthorized:
                         showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                         break;
                     default:
