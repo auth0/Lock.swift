@@ -96,12 +96,14 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     };
     self.smallSocialAuthView.authenticateBlock = ^(NSInteger index) {
         @strongify(self);
+        self.authView = [self layoutLoadingView:self.loadingView inContainer:self.containerView];
         A0Strategy *strategy = self.application.availableSocialStrategies[index];
         [[A0SocialAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(A0SocialCredentials *socialCredentials) {
             [[A0APIClient sharedClient] authenticateWithSocialStrategy:strategy
                                                      socialCredentials:socialCredentials
                                                                success:successBlock
                                                                failure:^(NSError *error) {
+                                                                   self.authView = [self layoutLoginViewForApplication:self.application];
                                                                    showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForSocialLoginError:error]);
             }];
         } failure:^(NSError *error) {
@@ -138,13 +140,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         @strongify(self);
         self.application = application;
         [[A0APIClient sharedClient] configureForApplication:application];
-        if ([application hasDatabaseConnection] && [application hasSocialStrategies]) {
-            [[A0SocialAuthenticator sharedInstance] configureForApplication:application];
-            self.smallSocialAuthView.availableServicesCount = application.availableSocialStrategies.count;
-            self.authView = [self layoutFullAuthViewInContainer:self.containerView];
-        } else if ([application hasDatabaseConnection]) {
-            self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
-        }
+        [[A0SocialAuthenticator sharedInstance] configureForApplication:application];
+        self.authView = [self layoutLoginViewForApplication:application];
     } failure:nil];
 }
 
@@ -172,6 +169,17 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 #pragma mark - Utility methods
 
+- (UIView<A0KeyboardEnabledView, A0ProgressDisplay> *)layoutLoginViewForApplication:(A0Application *)application {
+    UIView<A0KeyboardEnabledView, A0ProgressDisplay> *authView;
+    if ([application hasDatabaseConnection] && [application hasSocialStrategies]) {
+        self.smallSocialAuthView.availableServicesCount = application.availableSocialStrategies.count;
+        authView = [self layoutFullAuthViewInContainer:self.containerView];
+    } else if ([application hasDatabaseConnection]) {
+        authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
+    }
+    return authView;
+}
+
 - (UIView<A0KeyboardEnabledView, A0ProgressDisplay> *)layoutSingleView:(UIView<A0KeyboardEnabledView, A0ProgressDisplay> *)view withTitle:(NSString *)title inContainer:(UIView *)containerView {
     view.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:view centeredInContainerView:containerView];
@@ -183,6 +191,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 - (UIView<A0KeyboardEnabledView, A0ProgressDisplay> *)layoutLoadingView:(A0LoadingView *)loadingView inContainer:(UIView *)containerView {
     loadingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self layoutAuthView:loadingView centeredInContainerView:containerView];
+    [self animateFromView:self.authView toView:loadingView withTitle:NSLocalizedString(@"Login", nil)];
     return loadingView;
 }
 
@@ -263,12 +272,12 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     self.signUpView.signUpBlock = ^(NSString *username, NSString *password){
         @strongify(self);
         [self.authView showInProgress];
-        [[A0APIClient sharedClient] signUpWithUsername:username password:password success:success failure:failure];
+        [[A0APIClient sharedClient] signUpWithUsername:username  password:password success:success failure:failure];
     };
 
     self.signUpView.cancelBlock = ^{
         @strongify(self);
-        self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
+        self.authView = [self layoutLoginViewForApplication:self.application];
     };
 
     self.signUpView.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
@@ -289,7 +298,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
     self.recoverView.cancelBlock = ^{
         @strongify(self);
-        self.authView = [self layoutDatabaseOnlyAuthViewInContainer:self.containerView];
+        self.authView = [self layoutLoginViewForApplication:self.application];
     };
 
     self.recoverView.validator = [[A0ChangePasswordCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
