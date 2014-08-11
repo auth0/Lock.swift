@@ -22,7 +22,9 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
   #s.source_files = 'Pod/Classes/**/*.{h,m}'
   s.public_header_files = 'Pod/Classes/**/*.h'
   s.dependency 'libextobjc', '~> 0.4'
+  s.dependency 'CocoaLumberjack', '~> 1.9'
   s.default_subspecs = 'UI', 'Facebook', 'Twitter'
+  s.prefix_header_contents = '#import "A0Logging.h"'
 
   s.subspec 'Core' do |cs|
     cs.source_files = 'Pod/Classes/Core/*.{h,m}'
