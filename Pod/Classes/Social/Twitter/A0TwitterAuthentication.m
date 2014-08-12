@@ -94,7 +94,7 @@
             @strongify(self);
             if (granted && !error) {
                 NSArray *accounts = [self.accountStore accountsWithAccountType:self.accountType];
-                Auth0LogDebug(@"Obtained %lu accounts from iOS Twitter integration", accounts.count);
+                Auth0LogDebug(@"Obtained %lu accounts from iOS Twitter integration", (unsigned long)accounts.count);
                 if (accounts.count > 1) {
                     Auth0LogVerbose(@"Asking the user to choose one account from the list...");
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -195,7 +195,8 @@
                 [self executeFailureWithError:[A0Errors twitterAppNotAuthorized]];
             }
         } else {
-            Auth0LogError(@"Failed to perform reverse auth with error %@", error);
+            NSString *string = responseData ? [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] : nil;
+            Auth0LogError(@"Failed to perform reverse auth with error %@ and response %@", error, string);
             [self executeFailureWithError:error];
         }
     }];

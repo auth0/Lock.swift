@@ -46,15 +46,6 @@
 
 typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
-static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
-    AFFailureBlock sanitized = ^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (failureBlock) {
-            failureBlock(error);
-        }
-    };
-    return sanitized;
-}
-
 @interface A0APIClient ()
 
 @property (strong, nonatomic) NSString *clientId;
@@ -75,8 +66,10 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
 }
 
 - (void)configureForApplication:(A0Application *)application {
+    Auth0LogDebug(@"Configuring APIClient for application %@", application);
     NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, application.tenant.lowercaseString];
     NSURL *baseURL = [NSURL URLWithString:URLString];
+    Auth0LogInfo(@"Base URL of API Endpoint is %@", baseURL);
     self.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
     self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
     self.manager.responseSerializer = [A0JSONResponseSerializer serializer];
@@ -88,19 +81,23 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
     NSURL *connectionURL = [NSURL URLWithString:[NSString stringWithFormat:kAppInfoEndpointURLFormatString, self.clientId]];
     NSURLRequest *request = [NSURLRequest requestWithURL:connectionURL];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    Auth0LogVerbose(@"Fetching app info from URL %@", connectionURL);
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
+            Auth0LogDebug(@"Obtained application info JSONP");
             NSError *error;
             A0Application *application = [self parseApplicationFromJSONP:responseObject error:&error];
+            Auth0LogDebug(@"Application parsed form JSONP %@", application);
             if (!error) {
                 success(application);
             } else {
+                Auth0LogError(@"Failed to parse JSONP with error %@", error);
                 if (failure) {
                     failure(error);
                 }
             }
         }
-    } failure:sanitizeFailureBlock(failure)];
+    } failure:[A0APIClient sanitizeFailureBlock:failure]];
     [operation start];
 }
 
@@ -114,11 +111,13 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
                                                                  kGrantTypeParamName: @"password",
                                                                  kScopeParamName: @"openid",
                                                                  }];
+    Auth0LogVerbose(@"Starting Login with username & password %@", params);
     @weakify(self);
     [self.manager POST:kLoginPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
+        Auth0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
-    } failure:sanitizeFailureBlock(failure)];
+    } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
 - (void)signUpWithUsername:(NSString *)username password:(NSString *)password success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
@@ -128,11 +127,13 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
                                                                  kTenantParamName: self.application.tenant,
                                                                  kRedirectUriParamName: self.application.callbackURL.absoluteString,
                                                                  }];
+    Auth0LogVerbose(@"Starting Signup with username & password %@", params);
     @weakify(self);
     [self.manager POST:kSignUpPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
+        Auth0LogDebug(@"Created user successfully %@", responseObject);
         [self loginWithUsername:username password:password success:success failure:failure];
-    } failure:sanitizeFailureBlock(failure)];
+    } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
 - (void)changePassword:(NSString *)newPassword forUsername:(NSString *)username success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
@@ -141,11 +142,13 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
                                                                   kPasswordParamName: newPassword,
                                                                   kTenantParamName: self.application.tenant,
                                                                   }];
+    Auth0LogVerbose(@"Chaning password with params %@", params);
     [self.manager POST:kChangePasswordPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        Auth0LogDebug(@"Changed password for user %@. Response %@", username, responseObject);
         if (success) {
             success(responseObject);
         }
-    } failure:sanitizeFailureBlock(failure)];
+    } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
 - (void)authenticateWithSocialStrategy:(A0Strategy *)strategy
@@ -157,11 +160,13 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
                                                                   }
                                                        strategy:strategy
                                                     credentials:socialCredentials];
+    Auth0LogVerbose(@"Authenticating with social strategy %@", params);
     @weakify(self);
     [self.manager POST:kSocialAuthPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
+        Auth0LogDebug(@"Authenticated successfuly with social strategy %@", strategy);
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
-    } failure:sanitizeFailureBlock(failure)];
+    } failure:[A0APIClient sanitizeFailureBlock:failure]];
 
 }
 
@@ -186,19 +191,29 @@ static AFFailureBlock sanitizeFailureBlock(A0APIClientError failureBlock) {
     [request setValue:authorizationHeader forHTTPHeaderField:kAuthorizationHeaderName];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     operation.responseSerializer = [AFJSONResponseSerializer serializer];
+    Auth0LogVerbose(@"Fetching User Profile from token info %@", tokenInfo);
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        Auth0LogDebug(@"Obtained user profile %@", responseObject);
         if (success) {
             NSMutableDictionary *authInfo = [[NSMutableDictionary alloc] initWithDictionary:responseObject];
             [authInfo setObject:tokenInfo forKey:@"token_info"];
             A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:authInfo];
             success(profile);
         }
-    } failure:sanitizeFailureBlock(failure)];
+    } failure:[A0APIClient sanitizeFailureBlock:failure]];
     [operation start];
 }
 
 #pragma mark - Utility methods
-
++ (AFFailureBlock) sanitizeFailureBlock:(A0APIClientError)failureBlock {
+    AFFailureBlock sanitized = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        Auth0LogError(@"Request %@ %@ failed with error %@", operation.request.HTTPMethod, operation.request.URL, error);
+        if (failureBlock) {
+            failureBlock(error);
+        }
+    };
+    return sanitized;
+}
 - (NSDictionary *)buildBasicParamsWithDictionary:(NSDictionary *)dictionary {
     return [self buildBasicParamsWithDictionary:dictionary strategy:self.application.databaseStrategy credentials:nil];
 }
