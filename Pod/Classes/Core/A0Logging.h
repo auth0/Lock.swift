@@ -1,6 +1,6 @@
 //
 //  A0Logging.h
-//  Auth0Client
+//  Pods
 //
 //  Created by Hernan Zalazar on 8/11/14.
 //
@@ -8,9 +8,9 @@
 
 #import <CocoaLumberjack/DDLog.h>
 
-#define AUTH0_LOG_CONTEXT 58205
+static const int auth0LogLevel = LOG_LEVEL_ALL;
 
-static const int auth0LogLevel = LOG_LEVEL_OFF;
+#define AUTH0_LOG_CONTEXT 58205
 
 #define Auth0LogError(frmt, ...)     SYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_ERROR,   AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
 #define Auth0LogWarn(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_WARN,    AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)

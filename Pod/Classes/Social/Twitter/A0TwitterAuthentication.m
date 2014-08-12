@@ -94,7 +94,7 @@
             @strongify(self);
             if (granted && !error) {
                 NSArray *accounts = [self.accountStore accountsWithAccountType:self.accountType];
-                Auth0LogDebug(@"Obtained %lud accounts from iOS Twitter integration", accounts.count);
+                Auth0LogDebug(@"Obtained %lu accounts from iOS Twitter integration", accounts.count);
                 if (accounts.count > 1) {
                     Auth0LogVerbose(@"Asking the user to choose one account from the list...");
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -178,14 +178,22 @@
             NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
             Auth0LogDebug(@"Reverse Auth successful. Received payload %@", responseStr);
             NSDictionary *response = [NSURL ab_parseURLQueryString:responseStr];
-            NSDictionary *extraInfo = @{
-                                        A0StrategySocialTokenParameter: response[@"oauth_token"],
-                                        A0StrategySocialTokenSecretParameter: response[@"oauth_token_secret"],
-                                        A0StrategySocialUserIdParameter: response[@"user_id"],
-                                        };
-            A0SocialCredentials *credentials = [[A0SocialCredentials alloc] initWithAccessToken:response[@"oauth_token"] extraInfo:extraInfo];
-            Auth0LogDebug(@"Successful Twitter auth with credentials %@", credentials);
-            [self executeSuccessWithCredentials:credentials];
+            NSString *oauthToken = response[@"oauth_token"];
+            NSString *oauthTokenSecret = response[@"oauth_token_secret"];
+            NSString *userId = response[@"user_id"];
+            if (oauthToken && oauthTokenSecret && userId) {
+                NSDictionary *extraInfo = @{
+                                            A0StrategySocialTokenParameter: oauthToken,
+                                            A0StrategySocialTokenSecretParameter: oauthTokenSecret,
+                                            A0StrategySocialUserIdParameter: userId,
+                                            };
+                A0SocialCredentials *credentials = [[A0SocialCredentials alloc] initWithAccessToken:response[@"oauth_token"] extraInfo:extraInfo];
+                Auth0LogDebug(@"Successful Twitter auth with credentials %@", credentials);
+                [self executeSuccessWithCredentials:credentials];
+            } else {
+                Auth0LogError(@"Reverse auth didnt return all credential info (token, token_secret & user_id)");
+                [self executeFailureWithError:[A0Errors twitterAppNotAuthorized]];
+            }
         } else {
             Auth0LogError(@"Failed to perform reverse auth with error %@", error);
             [self executeFailureWithError:error];
