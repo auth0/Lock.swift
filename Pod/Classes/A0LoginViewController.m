@@ -112,6 +112,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
             if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled) {
                 switch (error.code) {
                     case A0ErrorCodeTwitterAppNotAuthorized:
+                    case A0ErrorCodeTwitterInvalidAccount:
+                    case A0ErrorCodeTwitterNotConfigured:
                         showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                         break;
                     default:

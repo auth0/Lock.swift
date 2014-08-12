@@ -169,19 +169,22 @@
 
 - (void)reverseAuthForAccount:(ACAccount *)account {
     account.accountType = self.accountType;
-
     Auth0LogVerbose(@"Starting reverse authentication with Twitter account @%@...", account.username);
+
     @weakify(self);
     [TWAPIManager performReverseAuthForAccount:account withHandler:^(NSData *responseData, NSError *error) {
         @strongify(self);
-        if (!error && responseData) {
-            NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-            Auth0LogDebug(@"Reverse Auth successful. Received payload %@", responseStr);
-            NSDictionary *response = [NSURL ab_parseURLQueryString:responseStr];
-            NSString *oauthToken = response[@"oauth_token"];
-            NSString *oauthTokenSecret = response[@"oauth_token_secret"];
-            NSString *userId = response[@"user_id"];
-            if (oauthToken && oauthTokenSecret && userId) {
+        if (error || !responseData) {
+            Auth0LogError(@"Failed to perform reverse auth with error %@", error);
+            [self executeFailureWithError:error];
+        } else {
+            NSError *payloadError;
+            NSDictionary *response = [A0TwitterAuthentication payloadFromResponseData:responseData error:&payloadError];
+            if (!payloadError) {
+                Auth0LogDebug(@"Reverse Auth successful. Received payload %@", response);
+                NSString *oauthToken = response[@"oauth_token"];
+                NSString *oauthTokenSecret = response[@"oauth_token_secret"];
+                NSString *userId = response[@"user_id"];
                 NSDictionary *extraInfo = @{
                                             A0StrategySocialTokenParameter: oauthToken,
                                             A0StrategySocialTokenSecretParameter: oauthTokenSecret,
@@ -191,15 +194,48 @@
                 Auth0LogDebug(@"Successful Twitter auth with credentials %@", credentials);
                 [self executeSuccessWithCredentials:credentials];
             } else {
-                Auth0LogError(@"Reverse auth didnt return all credential info (token, token_secret & user_id)");
-                [self executeFailureWithError:[A0Errors twitterAppNotAuthorized]];
+                [self executeFailureWithError:payloadError];
             }
-        } else {
-            NSString *string = responseData ? [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] : nil;
-            Auth0LogError(@"Failed to perform reverse auth with error %@ and response %@", error, string);
-            [self executeFailureWithError:error];
         }
     }];
+}
+
++ (NSDictionary *)payloadFromResponseData:(NSData *)responseData error:(NSError **)error {
+    NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+    BOOL failed = responseStr && [responseStr rangeOfString:@"<error code=\""].location != NSNotFound;
+    NSDictionary *payload;
+    if (failed) {
+        Auth0LogError(@"Failed reverse auth with payload %@", responseStr);
+        // <?xml version="1.0" encoding="UTF-8"?>
+        // <errors>
+        //   <error code="87">Client is not permitted to perform this action</error>
+        // </errors>
+        BOOL error87 = responseStr && [responseStr rangeOfString:@"<error code=\"87\">"].location != NSNotFound;
+        // <?xml version="1.0" encoding="UTF-8"?>
+        // <errors>
+        //   <error code="89">Error processing your OAuth request: invalid signature or token</error>
+        // </errors>
+        BOOL error89 = responseStr && [responseStr rangeOfString:@"<error code=\"89\">"].location != NSNotFound;
+        *error = [A0Errors twitterAppNotAuthorized];
+        if (error87) {
+            Auth0LogError(@"Twitter app not configured in Auth0");
+            *error = [A0Errors twitterNotConfigured];
+        }
+        if (error89) {
+            Auth0LogError(@"Twitter Account in iOS is invalid. Re-enter credentials in Settings > Twitter");
+            *error = [A0Errors twitterInvalidAccount];
+        }
+    } else {
+        payload = [NSURL ab_parseURLQueryString:responseStr];
+        NSString *oauthToken = payload[@"oauth_token"];
+        NSString *oauthTokenSecret = payload[@"oauth_token_secret"];
+        NSString *userId = payload[@"user_id"];
+        if (!(oauthToken || oauthTokenSecret || userId)) {
+            Auth0LogError(@"Reverse auth didnt return all credential info (token, token_secret & user_id)");
+            *error = [A0Errors twitterAppNotAuthorized];
+        }
+    }
+    return payload;
 }
 
 #pragma mark - Block handling

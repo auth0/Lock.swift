@@ -147,6 +147,18 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:NSLocalizedString(@"User cancelled the login operation. Try again", nil)];
 }
 
++ (NSError *)twitterNotConfigured {
+    return [self errorWithCode:A0ErrorCodeTwitterNotConfigured
+                   description:NSLocalizedString(@"There was an error contacting Twitter", nil)
+                 failureReason:NSLocalizedString(@"The domain has not been setup for Twitter.", nil)];
+}
+
++ (NSError *)twitterInvalidAccount {
+    return [self errorWithCode:A0ErrorCodeTwitterInvalidAccount
+                   description:NSLocalizedString(@"There was an error contacting Twitter", nil)
+                 failureReason:NSLocalizedString(@"The twitter account seems to be invalid. Please check it in Settings > Twitter and re-enter them.", nil)];
+}
+
 #pragma mark - Localized error messages
 
 + (NSString *)localizedStringForLoginError:(NSError *)error {

@@ -17,6 +17,8 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
     A0ErrorCodeFacebookCancelled,
     A0ErrorCodeTwitterAppNotAuthorized,
     A0ErrorCodeTwitterCancelled,
+    A0ErrorCodeTwitterNotConfigured,
+    A0ErrorCodeTwitterInvalidAccount,
 };
 
 FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
@@ -49,6 +51,8 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 + (NSError *)twitterAppNotAuthorized;
 + (NSError *)twitterAppOauthNotAuthorized;
 + (NSError *)twitterCancelled;
++ (NSError *)twitterNotConfigured;
++ (NSError *)twitterInvalidAccount;
 
 #pragma mark - Localized Messages
 
