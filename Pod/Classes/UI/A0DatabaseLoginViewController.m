@@ -107,9 +107,15 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 }
 
 - (void)showSignUp:(id)sender {
+    if (self.onShowSignUp) {
+        self.onShowSignUp();
+    }
 }
 
 - (void)showForgotPassword:(id)sender {
+    if (self.onShowForgotPassword) {
+        self.onShowForgotPassword();
+    }
 }
 
 #pragma mark - A0KeyboardEnabledView

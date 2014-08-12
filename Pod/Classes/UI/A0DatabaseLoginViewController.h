@@ -35,5 +35,7 @@
 
 @property (strong, nonatomic) A0DatabaseLoginCredentialValidator *validator;
 @property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile);
+@property (copy, nonatomic) void(^onShowSignUp)();
+@property (copy, nonatomic) void(^onShowForgotPassword)();
 
 @end

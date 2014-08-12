@@ -73,18 +73,7 @@
         self.application = application;
         [[A0APIClient sharedClient] configureForApplication:application];
         [[A0SocialAuthenticator sharedInstance] configureForApplication:application];
-        A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
-        @weakify(self);
-        controller.onLoginBlock = ^(A0UserProfile *profile) {
-            @strongify(self);
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                if (self.authBlock) {
-                    self.authBlock(self, profile);
-                }
-            }];
-        };
-        controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
-        self.current = [self layoutController:controller inContainer:self.containerView];
+        [self layoutRootControllerForApplication:application];
     } failure:nil];
 }
 
@@ -107,6 +96,27 @@
 }
 
 #pragma mark - Container methods
+
+- (void)layoutRootControllerForApplication:(A0Application *)application {
+    if ([application hasDatabaseConnection] && [application hasSocialStrategies]) {
+        //FULL
+    } else if ([application hasDatabaseConnection]) {
+        A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
+        @weakify(self);
+        controller.onLoginBlock = ^(A0UserProfile *profile) {
+            @strongify(self);
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                if (self.authBlock) {
+                    self.authBlock(self, profile);
+                }
+            }];
+        };
+        controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+        self.current = [self layoutController:controller inContainer:self.containerView];
+    } else if ([application hasSocialStrategies]) {
+        //SOCIAL
+    }
+}
 
 - (UIViewController<A0KeyboardEnabledView> *)layoutController:(UIViewController<A0KeyboardEnabledView> *)controller inContainer:(UIView *)containerView {
     controller.view.translatesAutoresizingMaskIntoConstraints = NO;
