@@ -27,10 +27,12 @@
 #import "A0SocialAuthenticator.h"
 #import "A0DatabaseLoginCredentialValidator.h"
 #import "A0SignUpCredentialValidator.h"
+#import "A0ChangePasswordCredentialValidator.h"
 
 #import "A0LoadingViewController.h"
 #import "A0DatabaseLoginViewController.h"
 #import "A0SignUpViewController.h"
+#import "A0ChangePasswordViewController.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
@@ -116,14 +118,12 @@
         controller.onLoginBlock = onAuthSuccessBlock;
         controller.onShowSignUp = ^ {
             @strongify(self);
-            A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
-            controller.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
-            @weakify(self);
-            controller.onCancelBlock = ^{
-                @strongify(self);
-                [self layoutRootControllerForApplication:self.application];
-            };
-            controller.onSignUpBlock = onAuthSuccessBlock;
+            A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:onAuthSuccessBlock];
+            self.current = [self layoutController:controller inContainer:self.containerView];
+        };
+        controller.onShowForgotPassword = ^ {
+            @strongify(self);
+            A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
             self.current = [self layoutController:controller inContainer:self.containerView];
         };
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
@@ -176,6 +176,31 @@
         [from removeFromParentViewController];
         [to didMoveToParentViewController:self];
     }];
+}
+
+- (A0SignUpViewController *)newSignUpViewControllerWithSuccess:(void(^)(A0UserProfile *))success {
+    A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
+    controller.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+    @weakify(self);
+    controller.onCancelBlock = ^{
+        @strongify(self);
+        [self layoutRootControllerForApplication:self.application];
+    };
+    controller.onSignUpBlock = success;
+    return controller;
+}
+
+- (A0ChangePasswordViewController *)newChangePasswordViewController {
+    A0ChangePasswordViewController *controller = [[A0ChangePasswordViewController alloc] init];
+    controller.validator = [[A0ChangePasswordCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+    @weakify(self);
+    void(^block)() = ^{
+        @strongify(self);
+        [self layoutRootControllerForApplication:self.application];
+    };
+    controller.onCancelBlock = block;
+    controller.onChangePasswordBlock = block;
+    return controller;
 }
 
 #pragma mark - Icon Font loading
