@@ -1,4 +1,4 @@
-// A0KeyboardHandler.h
+//  A0DatabaseLoginViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,13 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
-@interface A0KeyboardHandler : NSObject
+@class A0ProgressButton, A0UserProfile, A0DatabaseLoginCredentialValidator;
 
-- (void)start;
-- (void)handleForView:(id<A0KeyboardEnabledView>)view inView:(UIView *)containerView;
-- (void)stop;
+@interface A0DatabaseLoginViewController : UIViewController<A0KeyboardEnabledView>
+
+@property (weak, nonatomic) IBOutlet UITextField *userTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet A0ProgressButton *accessButton;
+@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
+@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
+
+@property (strong, nonatomic) A0DatabaseLoginCredentialValidator *validator;
+@property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile);
 
 @end

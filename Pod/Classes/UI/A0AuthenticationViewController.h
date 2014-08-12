@@ -1,4 +1,4 @@
-// A0KeyboardHandler.h
+//  A0AuthenticationViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,13 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
-@interface A0KeyboardHandler : NSObject
+@class A0AuthenticationViewController, A0UserProfile;
 
-- (void)start;
-- (void)handleForView:(id<A0KeyboardEnabledView>)view inView:(UIView *)containerView;
-- (void)stop;
+typedef void(^A0AuthenticationBlock)(A0AuthenticationViewController *controller, A0UserProfile *profile);
+
+@interface A0AuthenticationViewController : UIViewController
+
+@property (copy, nonatomic) A0AuthenticationBlock authBlock;
+@property (assign, nonatomic) BOOL usesEmail;
+
+@property (readonly, nonatomic) UIViewController *current;
 
 @end

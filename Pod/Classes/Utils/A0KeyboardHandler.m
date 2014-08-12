@@ -40,7 +40,7 @@
 
 @interface A0KeyboardHandler ()
 
-@property (weak, nonatomic) UIView<A0KeyboardEnabledView> *view;
+@property (weak, nonatomic) id<A0KeyboardEnabledView> view;
 @property (weak, nonatomic) UIView *containerView;
 
 @end
@@ -57,7 +57,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
-- (void)handleForView:(UIView<A0KeyboardEnabledView> *)view inView:(UIView *)containerView {
+- (void)handleForView:(id<A0KeyboardEnabledView>)view inView:(UIView *)containerView {
     self.view = view;
     self.containerView = containerView;
 }

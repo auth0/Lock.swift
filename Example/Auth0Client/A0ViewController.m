@@ -24,6 +24,7 @@
 
 #import "A0UserProfileViewController.h"
 #import <Auth0Client/A0LoginViewController.h>
+#import <Auth0Client/A0AuthenticationViewController.h>
 #import <Auth0Client/A0FacebookAuthentication.h>
 #import <Auth0Client/A0TwitterAuthentication.h>
 #import <Auth0Client/A0SocialAuthenticator.h>
@@ -47,9 +48,9 @@
                                                                                    twitter,
                                                                                    facebook,
                                                                                    ]];
-    A0LoginViewController *controller = [[A0LoginViewController alloc] init];
+    A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
     @weakify(self);
-    controller.authBlock = ^(A0LoginViewController *controller, A0UserProfile *profile) {
+    controller.authBlock = ^(A0AuthenticationViewController *controller, A0UserProfile *profile) {
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);
         self.authInfo = profile;
