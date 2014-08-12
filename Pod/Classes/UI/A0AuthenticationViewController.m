@@ -26,9 +26,11 @@
 #import "A0APIClient.h"
 #import "A0SocialAuthenticator.h"
 #import "A0DatabaseLoginCredentialValidator.h"
+#import "A0SignUpCredentialValidator.h"
 
 #import "A0LoadingViewController.h"
 #import "A0DatabaseLoginViewController.h"
+#import "A0SignUpViewController.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
@@ -98,18 +100,31 @@
 #pragma mark - Container methods
 
 - (void)layoutRootControllerForApplication:(A0Application *)application {
+    @weakify(self);
+    void(^onAuthSuccessBlock)(A0UserProfile *) =  ^(A0UserProfile *profile) {
+        @strongify(self);
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            if (self.authBlock) {
+                self.authBlock(self, profile);
+            }
+        }];
+    };
     if ([application hasDatabaseConnection] && [application hasSocialStrategies]) {
         //FULL
     } else if ([application hasDatabaseConnection]) {
         A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
-        @weakify(self);
-        controller.onLoginBlock = ^(A0UserProfile *profile) {
+        controller.onLoginBlock = onAuthSuccessBlock;
+        controller.onShowSignUp = ^ {
             @strongify(self);
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                if (self.authBlock) {
-                    self.authBlock(self, profile);
-                }
-            }];
+            A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
+            controller.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+            @weakify(self);
+            controller.onCancelBlock = ^{
+                @strongify(self);
+                [self layoutRootControllerForApplication:self.application];
+            };
+            controller.onSignUpBlock = onAuthSuccessBlock;
+            self.current = [self layoutController:controller inContainer:self.containerView];
         };
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
         self.current = [self layoutController:controller inContainer:self.containerView];

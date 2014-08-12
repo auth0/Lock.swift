@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SignUpViewController">
+            <connections>
+                <outlet property="cancelButton" destination="1zr-3b-fiH" id="oCC-B0-FUa"/>
+                <outlet property="passwordContainerView" destination="zNW-cw-0jG" id="OVB-Uz-jEt"/>
+                <outlet property="passwordTextField" destination="7wj-Wd-FFp" id="1JI-V9-7TV"/>
+                <outlet property="signUpButton" destination="BV3-3N-All" id="0jt-Mt-c2t"/>
+                <outlet property="userContainerView" destination="EAh-88-CNI" id="hJL-m3-2Bz"/>
+                <outlet property="userTextField" destination="IVP-L3-yaG" id="qTo-Qk-p0z"/>
+                <outlet property="view" destination="gRZ-Jn-ZYC" id="FmM-ng-IA8"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" id="gRZ-Jn-ZYC">
+            <rect key="frame" x="0.0" y="0.0" width="280" height="260"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EAh-88-CNI">
+                    <rect key="frame" x="1" y="36" width="278" height="50"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IVP-L3-yaG">
+                            <rect key="frame" x="33" y="10" width="238" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                            <connections>
+                                <action selector="goToPasswordField:" destination="-1" eventType="editingDidEndOnExit" id="7r2-CM-EG1"/>
+                            </connections>
+                        </textField>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/person" translatesAutoresizingMaskIntoConstraints="NO" id="dNK-CM-wfp">
+                            <rect key="frame" x="11" y="18" width="14" height="14"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="14" id="0so-B3-vhk"/>
+                                <constraint firstAttribute="height" constant="14" id="DS2-29-ZQd"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="dNK-CM-wfp" firstAttribute="centerY" secondItem="IVP-L3-yaG" secondAttribute="centerY" id="6Ip-E4-zSw"/>
+                        <constraint firstItem="dNK-CM-wfp" firstAttribute="leading" secondItem="EAh-88-CNI" secondAttribute="leading" constant="11" id="9Pd-zJ-ufX"/>
+                        <constraint firstAttribute="trailing" secondItem="IVP-L3-yaG" secondAttribute="trailing" constant="7" id="G9l-5C-Kep"/>
+                        <constraint firstAttribute="bottom" secondItem="IVP-L3-yaG" secondAttribute="bottom" constant="10" id="Q9v-J8-8MV"/>
+                        <constraint firstAttribute="height" constant="50" id="Qpb-LF-H4V"/>
+                        <constraint firstItem="IVP-L3-yaG" firstAttribute="leading" secondItem="dNK-CM-wfp" secondAttribute="trailing" constant="8" id="YkC-oT-n2P"/>
+                        <constraint firstItem="IVP-L3-yaG" firstAttribute="top" secondItem="EAh-88-CNI" secondAttribute="top" constant="10" id="iMJ-Xh-haG"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zNW-cw-0jG">
+                    <rect key="frame" x="1" y="85" width="278" height="50"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7wj-Wd-FFp">
+                            <rect key="frame" x="33" y="10" width="238" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
+                            <connections>
+                                <action selector="signUp:" destination="-1" eventType="editingDidEndOnExit" id="fmo-fl-F6S"/>
+                            </connections>
+                        </textField>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="Dok-6r-exW">
+                            <rect key="frame" x="11" y="18" width="14" height="14"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="14" id="3RO-Ve-SXq"/>
+                                <constraint firstAttribute="width" constant="14" id="Arz-KY-MMc"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="7wj-Wd-FFp" firstAttribute="leading" secondItem="Dok-6r-exW" secondAttribute="trailing" constant="8" id="8fJ-BB-xIx"/>
+                        <constraint firstAttribute="trailing" secondItem="7wj-Wd-FFp" secondAttribute="trailing" constant="7" id="DU7-vM-qKM"/>
+                        <constraint firstItem="7wj-Wd-FFp" firstAttribute="centerY" secondItem="Dok-6r-exW" secondAttribute="centerY" id="JBH-QH-Mf1"/>
+                        <constraint firstItem="Dok-6r-exW" firstAttribute="leading" secondItem="zNW-cw-0jG" secondAttribute="leading" constant="11" id="XGh-hE-dAY"/>
+                        <constraint firstItem="7wj-Wd-FFp" firstAttribute="top" secondItem="zNW-cw-0jG" secondAttribute="top" constant="10" id="iqz-GC-a6y"/>
+                        <constraint firstAttribute="bottom" secondItem="7wj-Wd-FFp" secondAttribute="bottom" constant="10" id="mbk-HT-3qB"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BV3-3N-All" customClass="A0ProgressButton">
+                    <rect key="frame" x="1" y="155" width="278" height="55"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="55" id="1Pb-dt-8u6"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                    <state key="normal" title="SIGN UP">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="signUp:" destination="-1" eventType="touchUpInside" id="TpT-VF-lx1"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zr-3b-fiH">
+                    <rect key="frame" x="118" y="226" width="44" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                    <state key="normal" title="CANCEL">
+                        <color key="titleColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="cancel:" destination="-1" eventType="touchUpInside" id="Zf6-FP-HRM"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your email and password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gL1-Ds-LKT">
+                    <rect key="frame" x="26" y="10" width="229" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="EAh-88-CNI" secondAttribute="trailing" constant="1" id="0lE-jY-Ir5"/>
+                <constraint firstItem="EAh-88-CNI" firstAttribute="top" secondItem="gL1-Ds-LKT" secondAttribute="bottom" constant="10" id="4t4-6o-9YA"/>
+                <constraint firstItem="BV3-3N-All" firstAttribute="top" secondItem="zNW-cw-0jG" secondAttribute="bottom" constant="20" id="5tx-cg-sk4"/>
+                <constraint firstItem="EAh-88-CNI" firstAttribute="width" secondItem="zNW-cw-0jG" secondAttribute="width" id="6rd-qe-3za"/>
+                <constraint firstItem="EAh-88-CNI" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" constant="1" id="7le-AU-JuH"/>
+                <constraint firstItem="EAh-88-CNI" firstAttribute="height" secondItem="zNW-cw-0jG" secondAttribute="height" id="IJ4-aS-A7E"/>
+                <constraint firstAttribute="bottom" secondItem="1zr-3b-fiH" secondAttribute="bottom" constant="9" id="Lfh-xM-HFX"/>
+                <constraint firstItem="BV3-3N-All" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" constant="1" id="McZ-QV-Rmd"/>
+                <constraint firstItem="1zr-3b-fiH" firstAttribute="top" secondItem="BV3-3N-All" secondAttribute="bottom" constant="16" id="Tcr-Xf-VWc"/>
+                <constraint firstItem="zNW-cw-0jG" firstAttribute="top" secondItem="EAh-88-CNI" secondAttribute="bottom" constant="-1" id="XAB-f1-baF"/>
+                <constraint firstItem="gL1-Ds-LKT" firstAttribute="top" secondItem="gRZ-Jn-ZYC" secondAttribute="top" constant="10" id="YbM-fA-lZC"/>
+                <constraint firstAttribute="centerX" secondItem="1zr-3b-fiH" secondAttribute="centerX" id="icL-f2-TUW"/>
+                <constraint firstAttribute="centerX" secondItem="zNW-cw-0jG" secondAttribute="centerX" id="mFJ-ub-2fD"/>
+                <constraint firstAttribute="trailing" secondItem="BV3-3N-All" secondAttribute="trailing" constant="1" id="u9A-9x-E2r"/>
+                <constraint firstAttribute="centerX" secondItem="gL1-Ds-LKT" secondAttribute="centerX" id="zMt-cX-ZAA"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Auth0.bundle/lock" width="16" height="16"/>
+        <image name="Auth0.bundle/person" width="16" height="16"/>
+    </resources>
+</document>
