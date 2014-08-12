@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "A0KeyboardEnabledView.h"
 
-@interface A0LoadingViewController : UIViewController
+@interface A0LoadingViewController : UIViewController<A0KeyboardEnabledView>
 
 @end

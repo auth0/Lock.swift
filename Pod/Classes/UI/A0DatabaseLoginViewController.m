@@ -53,6 +53,14 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @implementation A0DatabaseLoginViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.title = NSLocalizedString(@"Login", nil);
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.userContainerView.layer.borderWidth = 1.0f;

@@ -38,9 +38,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 
-@property (strong, nonatomic) UIViewController *current;
+@property (strong, nonatomic) UIViewController<A0KeyboardEnabledView> *current;
 @property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
 @property (strong, nonatomic) A0Application *application;
+
+- (IBAction)dismiss:(id)sender;
 
 @end
 
@@ -63,7 +65,7 @@
 
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
 
-    self.current = [self layoutController:[[A0LoadingViewController alloc] init] withTitle:NSLocalizedString(@"Login", nil) inContainer:self.containerView];
+    self.current = [self layoutController:[[A0LoadingViewController alloc] init] inContainer:self.containerView];
 
     @weakify(self);
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
@@ -82,7 +84,7 @@
             }];
         };
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
-        self.current = [self layoutController:controller withTitle:NSLocalizedString(@"Login", nil) inContainer:self.containerView];
+        self.current = [self layoutController:controller inContainer:self.containerView];
     } failure:nil];
 }
 
@@ -106,14 +108,13 @@
 
 #pragma mark - Container methods
 
-- (UIViewController *)layoutController:(UIViewController *)controller withTitle:(NSString *)title inContainer:(UIView *)containerView {
+- (UIViewController<A0KeyboardEnabledView> *)layoutController:(UIViewController<A0KeyboardEnabledView> *)controller inContainer:(UIView *)containerView {
     controller.view.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.keyboardHandler handleForView:controller inView:self.view];
+    [self.current willMoveToParentViewController:nil];
+    [self addChildViewController:controller];
     [self layoutAuthView:controller.view centeredInContainerView:containerView];
-    [self animateFromView:self.current.view toView:controller.view withTitle:title];
-    if ([controller conformsToProtocol:@protocol(A0KeyboardEnabledView)]) {
-        UIViewController<A0KeyboardEnabledView> *view = (UIViewController<A0KeyboardEnabledView> *)controller;
-        [self.keyboardHandler handleForView:view inView:self.view];
-    }
+    [self animateFromViewController:self.current toViewController:controller];
     return controller;
 }
 
@@ -138,15 +139,17 @@
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
 }
 
-- (void)animateFromView:(UIView *)fromView toView:(UIView *)toView withTitle:(NSString *)title {
-    fromView.alpha = 1.0f;
-    toView.alpha = 0.0f;
+- (void)animateFromViewController:(UIViewController *)from toViewController:(UIViewController *)to {
+    from.view.alpha = 1.0f;
+    to.view.alpha = 0.0f;
     [UIView animateWithDuration:0.5f animations:^{
-        toView.alpha = 1.0f;
-        fromView.alpha = 0.0f;
-        self.titleLabel.text = title;
+        to.view.alpha = 1.0f;
+        from.view.alpha = 0.0f;
+        self.titleLabel.text = to.title;
     } completion:^(BOOL finished) {
-        [fromView removeFromSuperview];
+        [from.view removeFromSuperview];
+        [from removeFromParentViewController];
+        [to didMoveToParentViewController:self];
     }];
 }
 
