@@ -238,7 +238,7 @@
 			attributes = {
 				CLASSPREFIX = A0;
 				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = "Hernan Zalazar";
+				ORGANIZATIONNAME = Auth0;
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
 						DevelopmentTeam = UUWS9Z463H;
