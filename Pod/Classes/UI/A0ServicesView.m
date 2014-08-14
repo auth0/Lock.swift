@@ -26,6 +26,7 @@
 #import "A0SocialAuthenticator.h"
 #import "UIButton+A0SolidButton.h"
 #import "A0ServiceTableViewCell.h"
+#import "A0ProgressButton.h"
 
 #define UIColorFromRGBA(rgbValue, alphaValue) ([UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0 \

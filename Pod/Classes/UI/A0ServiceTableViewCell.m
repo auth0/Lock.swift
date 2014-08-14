@@ -22,6 +22,7 @@
 
 #import "A0ServiceTableViewCell.h"
 #import "UIButton+A0SolidButton.h"
+#import "A0ProgressButton.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 

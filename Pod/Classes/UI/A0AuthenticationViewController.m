@@ -34,6 +34,7 @@
 #import "A0SignUpViewController.h"
 #import "A0ChangePasswordViewController.h"
 #import "A0FullLoginViewController.h"
+#import "A0SocialTableViewController.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
@@ -120,7 +121,9 @@
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if ([application hasSocialStrategies]) {
-        //SOCIAL
+        A0SocialTableViewController *controller = [self newSocialLoginViewController:onAuthSuccessBlock];
+        controller.application = application;
+        self.current = [self layoutController:controller inContainer:self.containerView];
     }
 }
 
@@ -167,6 +170,12 @@
         [from removeFromParentViewController];
         [to didMoveToParentViewController:self];
     }];
+}
+
+- (A0SocialTableViewController *)newSocialLoginViewController:(void(^)(A0UserProfile *))success {
+    A0SocialTableViewController *controller = [[A0SocialTableViewController alloc] init];
+    controller.onLoginBlock = success;
+    return controller;
 }
 
 - (A0FullLoginViewController *)newFullLoginViewController:(void(^)(A0UserProfile *))success {
