@@ -33,6 +33,7 @@
 #import "A0DatabaseLoginViewController.h"
 #import "A0SignUpViewController.h"
 #import "A0ChangePasswordViewController.h"
+#import "A0FullLoginViewController.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
@@ -112,21 +113,11 @@
         }];
     };
     if ([application hasDatabaseConnection] && [application hasSocialStrategies]) {
-        //FULL
+        A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
+        controller.application = application;
+        self.current = [self layoutController:controller inContainer:self.containerView];
     } else if ([application hasDatabaseConnection]) {
-        A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
-        controller.onLoginBlock = onAuthSuccessBlock;
-        controller.onShowSignUp = ^ {
-            @strongify(self);
-            A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:onAuthSuccessBlock];
-            self.current = [self layoutController:controller inContainer:self.containerView];
-        };
-        controller.onShowForgotPassword = ^ {
-            @strongify(self);
-            A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
-            self.current = [self layoutController:controller inContainer:self.containerView];
-        };
-        controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+        A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if ([application hasSocialStrategies]) {
         //SOCIAL
@@ -176,6 +167,42 @@
         [from removeFromParentViewController];
         [to didMoveToParentViewController:self];
     }];
+}
+
+- (A0FullLoginViewController *)newFullLoginViewController:(void(^)(A0UserProfile *))success {
+    @weakify(self);
+    A0FullLoginViewController *controller = [[A0FullLoginViewController alloc] init];
+    controller.onLoginBlock = success;
+    controller.onShowSignUp = ^ {
+        @strongify(self);
+        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
+        self.current = [self layoutController:controller inContainer:self.containerView];
+    };
+    controller.onShowForgotPassword = ^ {
+        @strongify(self);
+        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
+        self.current = [self layoutController:controller inContainer:self.containerView];
+    };
+    controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+    return controller;
+}
+
+- (A0DatabaseLoginViewController *)newDatabaseLoginViewController:(void(^)(A0UserProfile *))success {
+    @weakify(self);
+    A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
+    controller.onLoginBlock = success;
+    controller.onShowSignUp = ^ {
+        @strongify(self);
+        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
+        self.current = [self layoutController:controller inContainer:self.containerView];
+    };
+    controller.onShowForgotPassword = ^ {
+        @strongify(self);
+        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
+        self.current = [self layoutController:controller inContainer:self.containerView];
+    };
+    controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+    return controller;
 }
 
 - (A0SignUpViewController *)newSignUpViewControllerWithSuccess:(void(^)(A0UserProfile *))success {
