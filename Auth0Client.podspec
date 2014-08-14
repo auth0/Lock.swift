@@ -33,7 +33,7 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
   end
 
   s.subspec 'UI' do |ui|
-    ui.source_files = 'Pod/Classes/{UI,Utils}/*.{h,m}', 'Pod/Classes/A0LoginViewController.{h,m}'
+    ui.source_files = 'Pod/Classes/{UI,Utils}/*.{h,m}'
     ui.dependency 'Auth0Client/Social'
     ui.resources = 'Pod/Assets/*.xib'
     ui.resource_bundles = { 'Auth0' => ['Pod/Assets/Images/*.png', 'Pod/Assets/*.plist', 'Pod/Assets/connections.ttf']}

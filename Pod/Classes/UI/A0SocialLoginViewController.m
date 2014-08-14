@@ -1,12 +1,26 @@
-//
 //  A0SocialTableViewController.m
-//  Pods
 //
-//  Created by Hernan Zalazar on 8/14/14.
+// Copyright (c) 2014 Auth0 (http://auth0.com)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
-#import "A0SocialTableViewController.h"
+#import "A0SocialLoginViewController.h"
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "A0SocialAuthenticator.h"
@@ -36,7 +50,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [alert show];
 }
 
-@interface A0SocialTableViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface A0SocialLoginViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
@@ -46,7 +60,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @end
 
-@implementation A0SocialTableViewController
+@implementation A0SocialLoginViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -60,7 +74,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [super viewDidLoad];
     UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:kCellIdentifier];
-    self.services = [A0SocialTableViewController servicesDictionary];
+    self.services = [A0SocialLoginViewController servicesDictionary];
     self.activeServices = self.application.availableSocialStrategies;
     self.selectedService = NSNotFound;
 }
@@ -120,8 +134,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *serviceName = [self.activeServices[indexPath.row] name];
     NSDictionary *serviceInfo = self.services[serviceName];
-    UIColor *background = [A0SocialTableViewController colorFromString:serviceInfo[@"background_color"]];
-    UIColor *selectedBackground = [A0SocialTableViewController colorFromString:serviceInfo[@"selected_background_color"]];
+    UIColor *background = [A0SocialLoginViewController colorFromString:serviceInfo[@"background_color"]];
+    UIColor *selectedBackground = [A0SocialLoginViewController colorFromString:serviceInfo[@"selected_background_color"]];
     A0ServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
     [cell configureWithBackground:background highlighted:selectedBackground symbol:serviceInfo[@"icon_character"] name:serviceName];
     [cell.button addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];

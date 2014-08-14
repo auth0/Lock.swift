@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SocialTableViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SocialLoginViewController">
             <connections>
                 <outlet property="tableView" destination="HI8-Yt-8Ez" id="fds-Pj-xsq"/>
                 <outlet property="view" destination="C9R-dC-ggy" id="N2O-Nz-iDo"/>

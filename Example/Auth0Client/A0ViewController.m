@@ -23,7 +23,6 @@
 #import "A0ViewController.h"
 
 #import "A0UserProfileViewController.h"
-#import <Auth0Client/A0LoginViewController.h>
 #import <Auth0Client/A0AuthenticationViewController.h>
 #import <Auth0Client/A0FacebookAuthentication.h>
 #import <Auth0Client/A0TwitterAuthentication.h>
