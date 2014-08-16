@@ -23,11 +23,11 @@
 #import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
-@class A0Application, A0UserProfile;
+@class A0Application, A0UserProfile, A0Token;
 
 @interface A0SocialLoginViewController : UIViewController<A0KeyboardEnabledView>
 
 @property (strong, nonatomic) A0Application *application;
-@property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile);
+@property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
 
 @end

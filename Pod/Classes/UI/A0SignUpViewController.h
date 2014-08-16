@@ -24,11 +24,11 @@
 
 #import "A0KeyboardEnabledView.h"
 
-@class A0SignUpCredentialValidator, A0ProgressButton, A0UserProfile;
+@class A0SignUpCredentialValidator, A0ProgressButton, A0UserProfile, A0Token;
 
 @interface A0SignUpViewController : UIViewController<A0KeyboardEnabledView>
 
-@property (copy, nonatomic) void(^onSignUpBlock)(A0UserProfile *profile);
+@property (copy, nonatomic) void(^onSignUpBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onCancelBlock)();
 
 @property (strong, nonatomic) A0SignUpCredentialValidator *validator;

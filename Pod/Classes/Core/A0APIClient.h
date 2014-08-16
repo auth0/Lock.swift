@@ -22,10 +22,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class A0Application, A0Strategy, A0SocialCredentials, A0UserProfile;
+@class A0Application, A0Strategy, A0SocialCredentials, A0UserProfile, A0Token;
 
 typedef void(^A0APIClientFetchAppInfoSuccess)(id payload);
-typedef void(^A0APIClientAuthenticationSuccess)(A0UserProfile *profile);
+typedef void(^A0APIClientAuthenticationSuccess)(A0UserProfile *profile, A0Token *tokenInfo);
 typedef void(^A0APIClientError)(NSError *error);
 
 @interface A0APIClient : NSObject
@@ -40,7 +40,7 @@ typedef void(^A0APIClientError)(NSError *error);
 
 - (void)signUpWithUsername:(NSString *)username password:(NSString *)password success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure;
 
-- (void)changePassword:(NSString *)newPassword forUsername:(NSString *)username success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure;
+- (void)changePassword:(NSString *)newPassword forUsername:(NSString *)username success:(void(^)())success failure:(A0APIClientError)failure;
 
 - (void)authenticateWithSocialStrategy:(A0Strategy *)strategy socialCredentials:(A0SocialCredentials *)socialCredentials success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure;
 

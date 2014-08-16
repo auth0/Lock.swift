@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class A0TokenInfo;
+@class A0Token;
 
 @interface A0UserProfile : NSObject
 
@@ -32,7 +32,6 @@
 @property (readonly, nonatomic) NSString *email;
 @property (readonly, nonatomic) NSURL *picture;
 @property (readonly, nonatomic) NSDate *createdAt;
-@property (readonly, nonatomic) A0TokenInfo *tokenInfo;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

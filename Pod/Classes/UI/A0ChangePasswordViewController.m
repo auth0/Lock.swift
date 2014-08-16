@@ -91,7 +91,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         NSString *username = [self.userTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSString *password = self.passwordTextField.text;
         @weakify(self);
-        A0APIClientAuthenticationSuccess success = ^(id payload) {
+        void(^success)() = ^ {
             @strongify(self);
             [self.recoverButton setInProgress:NO];
             showAlertErrorView(NSLocalizedString(@"Reset Password", nil), NSLocalizedString(@"We've just sent you an email to reset your password.", nil));

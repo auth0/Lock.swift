@@ -1,4 +1,4 @@
-// A0TokenInfo.m
+// A0Token.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,29 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0TokenInfo.h"
+#import <Foundation/Foundation.h>
 
-@implementation A0TokenInfo
+@interface A0Token : NSObject
 
-- (instancetype)initWithAccessToken:(NSString *)accessToken
-                            idToken:(NSString *)idToken
-                          tokenType:(NSString *)tokenType {
-    self = [super init];
-    if (self) {
-        NSAssert(accessToken.length > 0, @"Must have a valid access token");
-        NSAssert(idToken.length > 0, @"Must have a valid id token");
-        NSAssert(tokenType.length > 0, @"Must have a valid token type");
-        _accessToken = [accessToken copy];
-        _idToken = [idToken copy];
-        _tokenType = [tokenType copy];
-    }
-    return self;
-}
+@property (readonly, nonatomic) NSString *accessToken;
+@property (readonly, nonatomic) NSString *idToken;
+@property (readonly, nonatomic) NSString *tokenType;
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
-    return [self initWithAccessToken:dictionary[@"access_token"]
-                             idToken:dictionary[@"id_token"]
-                           tokenType:dictionary[@"token_type"]];
-}
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

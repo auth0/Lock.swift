@@ -86,11 +86,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         NSString *username = [self.userTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSString *password = self.passwordTextField.text;
         @weakify(self);
-        A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile){
+        A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
             @strongify(self);
             [self.signUpButton setInProgress:NO];
             if (self.onSignUpBlock) {
-                self.onSignUpBlock(profile);
+                self.onSignUpBlock(profile, token);
             }
         };
         A0APIClientError failure = ^(NSError *error) {

@@ -81,11 +81,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 - (void)triggerAuth:(UIButton *)sender {
     @weakify(self);
-    A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile){
+    A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
         @strongify(self);
         [self setInProgress:NO];
         if (self.onLoginBlock) {
-            self.onLoginBlock(profile);
+            self.onLoginBlock(profile, token);
         }
     };
 

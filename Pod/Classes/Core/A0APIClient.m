@@ -27,6 +27,7 @@
 #import "A0JSONResponseSerializer.h"
 #import "A0SocialCredentials.h"
 #import "A0UserProfile.h"
+#import "A0Token.h"
 
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
@@ -150,7 +151,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
-- (void)changePassword:(NSString *)newPassword forUsername:(NSString *)username success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
+- (void)changePassword:(NSString *)newPassword forUsername:(NSString *)username success:(void(^)())success failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                   kEmailParamName: username,
                                                                   kPasswordParamName: newPassword,
@@ -160,7 +161,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     [self.manager POST:kChangePasswordPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Changed password for user %@. Response %@", username, responseObject);
         if (success) {
-            success(responseObject);
+            success();
         }
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
@@ -209,10 +210,9 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Obtained user profile %@", responseObject);
         if (success) {
-            NSMutableDictionary *authInfo = [[NSMutableDictionary alloc] initWithDictionary:responseObject];
-            [authInfo setObject:tokenInfo forKey:@"token_info"];
-            A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:authInfo];
-            success(profile);
+            A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
+            A0Token *token = [[A0Token alloc] initWithDictionary:tokenInfo];
+            success(profile, token);
         }
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
     [operation start];

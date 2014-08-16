@@ -49,7 +49,7 @@
                                                                                    ]];
     A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
     @weakify(self);
-    controller.authBlock = ^(A0AuthenticationViewController *controller, A0UserProfile *profile) {
+    controller.authBlock = ^(A0AuthenticationViewController *controller, A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);
         self.authInfo = profile;

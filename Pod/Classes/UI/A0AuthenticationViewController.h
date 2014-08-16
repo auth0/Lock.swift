@@ -23,9 +23,9 @@
 #import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
-@class A0AuthenticationViewController, A0UserProfile;
+@class A0AuthenticationViewController, A0UserProfile, A0Token;
 
-typedef void(^A0AuthenticationBlock)(A0AuthenticationViewController *controller, A0UserProfile *profile);
+typedef void(^A0AuthenticationBlock)(A0AuthenticationViewController *controller, A0UserProfile *profile, A0Token *token);
 
 @interface A0AuthenticationViewController : UIViewController
 

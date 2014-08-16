@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
-@class A0ProgressButton, A0UserProfile, A0DatabaseLoginCredentialValidator;
+@class A0ProgressButton, A0UserProfile, A0DatabaseLoginCredentialValidator, A0Token;
 
 @interface A0DatabaseLoginViewController : UIViewController<A0KeyboardEnabledView>
 
@@ -34,7 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 
 @property (strong, nonatomic) A0DatabaseLoginCredentialValidator *validator;
-@property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile);
+@property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onShowSignUp)();
 @property (copy, nonatomic) void(^onShowForgotPassword)();
 

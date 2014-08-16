@@ -114,11 +114,11 @@
 
 - (void)layoutRootControllerForApplication:(A0Application *)application {
     @weakify(self);
-    void(^onAuthSuccessBlock)(A0UserProfile *) =  ^(A0UserProfile *profile) {
+    void(^onAuthSuccessBlock)(A0UserProfile *, A0Token *) =  ^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             if (self.authBlock) {
-                self.authBlock(self, profile);
+                self.authBlock(self, profile, token);
             }
         }];
     };
@@ -181,13 +181,13 @@
     }];
 }
 
-- (A0SocialLoginViewController *)newSocialLoginViewController:(void(^)(A0UserProfile *))success {
+- (A0SocialLoginViewController *)newSocialLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
     A0SocialLoginViewController *controller = [[A0SocialLoginViewController alloc] init];
     controller.onLoginBlock = success;
     return controller;
 }
 
-- (A0FullLoginViewController *)newFullLoginViewController:(void(^)(A0UserProfile *))success {
+- (A0FullLoginViewController *)newFullLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
     @weakify(self);
     A0FullLoginViewController *controller = [[A0FullLoginViewController alloc] init];
     controller.onLoginBlock = success;
@@ -205,7 +205,7 @@
     return controller;
 }
 
-- (A0DatabaseLoginViewController *)newDatabaseLoginViewController:(void(^)(A0UserProfile *))success {
+- (A0DatabaseLoginViewController *)newDatabaseLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
     @weakify(self);
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.onLoginBlock = success;
@@ -223,7 +223,7 @@
     return controller;
 }
 
-- (A0SignUpViewController *)newSignUpViewControllerWithSuccess:(void(^)(A0UserProfile *))success {
+- (A0SignUpViewController *)newSignUpViewControllerWithSuccess:(void(^)(A0UserProfile *, A0Token *))success {
     A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
     controller.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
     @weakify(self);
