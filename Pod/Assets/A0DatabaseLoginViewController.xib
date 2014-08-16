@@ -43,7 +43,7 @@
                             </constraints>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="6J4-7P-fUC"/>
                         <constraint firstAttribute="trailing" secondItem="fq0-8M-X87" secondAttribute="trailing" constant="7" id="6zE-Ik-xB1"/>
@@ -76,7 +76,7 @@
                             </constraints>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="BnE-BV-fdh" firstAttribute="centerY" secondItem="z9P-va-W73" secondAttribute="centerY" id="147-Gm-8Ae"/>
                         <constraint firstAttribute="trailing" secondItem="BnE-BV-fdh" secondAttribute="trailing" constant="7" id="7YP-5i-m6I"/>
@@ -125,6 +125,7 @@
                     </connections>
                 </button>
             </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="5dk-Sf-YCK" firstAttribute="leading" secondItem="qGo-dc-PGm" secondAttribute="leading" constant="1" id="2Wm-rR-L0V"/>
                 <constraint firstItem="jgh-HF-gxc" firstAttribute="top" secondItem="5dk-Sf-YCK" secondAttribute="bottom" constant="16" id="3sK-5b-AM7"/>

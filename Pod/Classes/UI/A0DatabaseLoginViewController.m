@@ -26,6 +26,7 @@
 #import "A0DatabaseLoginCredentialValidator.h"
 #import "A0Errors.h"
 #import "A0APIClient.h"
+#import "A0Theme.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
@@ -68,10 +69,12 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     self.passwordContainerView.layer.borderWidth = 1.0f;
     self.passwordContainerView.layer.borderColor = [[UIColor colorWithWhite:0.302 alpha:1.000] CGColor];
 
-    [self.accessButton setBackgroundColor:[UIColor colorWithRed:0.086 green:0.129 blue:0.302 alpha:1.000] forState:UIControlStateNormal];
-    [self.accessButton setBackgroundColor:[UIColor colorWithRed:0.043 green:0.063 blue:0.145 alpha:1.000] forState:UIControlStateHighlighted];
-    self.accessButton.layer.cornerRadius = 5;
-    self.accessButton.clipsToBounds = YES;
+    A0Theme *theme = [A0Theme sharedInstance];
+    [theme configurePrimaryButton:self.accessButton];
+    [theme configureSecondaryButton:self.signUpButton];
+    [theme configureSecondaryButton:self.forgotPasswordButton];
+    [theme configureTextField:self.userTextField];
+    [theme configureTextField:self.passwordTextField];
 }
 
 - (void)access:(id)sender {

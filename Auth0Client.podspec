@@ -19,20 +19,21 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  #s.source_files = 'Pod/Classes/**/*.{h,m}'
-  s.public_header_files = 'Pod/Classes/**/*.h'
   s.dependency 'libextobjc', '~> 0.4'
   s.dependency 'CocoaLumberjack', '~> 1.9'
   s.default_subspecs = 'UI', 'Facebook', 'Twitter'
   s.prefix_header_contents = '#import "A0Logging.h"'
 
   s.subspec 'Core' do |cs|
+    cs.public_header_files = 'Pod/Classes/Core/*.h'
+    cs.private_header_files = 'Pod/Classes/Core/A0Strategy.h'
     cs.source_files = 'Pod/Classes/Core/*.{h,m}'
     cs.dependency 'AFNetworking', '~> 2.3'
     cs.dependency 'ISO8601DateFormatter', '~> 0.7'
   end
 
   s.subspec 'UI' do |ui|
+    ui.public_header_files = 'Pod/Classes/{UI,Utils}/*.h'
     ui.source_files = 'Pod/Classes/{UI,Utils}/*.{h,m}'
     ui.dependency 'Auth0Client/Social'
     ui.resources = 'Pod/Assets/*.xib'
@@ -40,17 +41,20 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
   end
 
   s.subspec 'Social' do |social|
+    social.public_header_files = 'Pod/Classes/Social/*.h'
     social.source_files = 'Pod/Classes/Social/*.{h,m}'
     social.dependency 'Auth0Client/Core'
   end
 
   s.subspec 'Facebook' do |facebook|
+    facebook.public_header_files = 'Pod/Classes/Facebook/*.h'
     facebook.source_files = 'Pod/Classes/Social/Facebook/*.{h,m}'
     facebook.dependency 'Auth0Client/Social'
     facebook.dependency 'Facebook-iOS-SDK', '~> 3.15'
   end
 
   s.subspec 'Twitter' do |twitter|
+    twitter.public_header_files = 'Pod/Classes/Twitter/*.h'
     twitter.source_files = 'Pod/Classes/Social/Twitter/*.{h,m}'
     twitter.dependency 'Auth0Client/Social'
     twitter.dependency 'BDBOAuth1Manager', '~> 1.3'

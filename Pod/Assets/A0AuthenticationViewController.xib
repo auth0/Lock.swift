@@ -7,6 +7,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0AuthenticationViewController">
             <connections>
                 <outlet property="containerView" destination="EQ5-97-4tm" id="pf7-J9-mQ3"/>
+                <outlet property="iconContainerView" destination="kvp-f2-bVw" id="qAd-jE-aWa"/>
+                <outlet property="iconImageView" destination="1g1-6A-sZJ" id="WhI-qs-kWL"/>
                 <outlet property="titleLabel" destination="ZbU-sd-IPu" id="Aes-JI-fao"/>
                 <outlet property="view" destination="jWq-Pm-WRM" id="BkF-zK-3nw"/>
             </connections>
@@ -74,7 +76,7 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerX" secondItem="kvp-f2-bVw" secondAttribute="centerX" id="1do-29-3ga"/>
                         <constraint firstItem="ZbU-sd-IPu" firstAttribute="top" secondItem="kvp-f2-bVw" secondAttribute="bottom" constant="10" id="OQW-7c-H0X"/>
@@ -87,7 +89,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQ5-97-4tm">
                     <rect key="frame" x="20" y="160" width="280" height="350"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="350" id="NKt-zC-H1d"/>
                     </constraints>

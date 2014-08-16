@@ -28,6 +28,7 @@
 #import "UIButton+A0SolidButton.h"
 #import "A0APIClient.h"
 #import "A0Errors.h"
+#import "A0Theme.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -52,6 +53,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 @interface A0FullLoginViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
+@property (weak, nonatomic) IBOutlet UILabel *orLabel;
 @property (strong, nonatomic) NSDictionary *services;
 @property (strong, nonatomic) NSArray *activeServices;
 
@@ -65,6 +67,10 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [self.serviceCollectionView registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
     self.services = [A0FullLoginViewController servicesDictionary];
     self.activeServices = self.application.availableSocialStrategies;
+    A0Theme *theme = [A0Theme sharedInstance];
+    self.orLabel.font = [theme fontForKey:A0ThemeTextFieldFont defaultFont:self.orLabel.font];
+    self.orLabel.textColor = [theme colorForKey:A0ThemeTextFieldTextColor defaultColor:self.orLabel.textColor];
+
 }
 
 - (void)triggerAuth:(UIButton *)sender {

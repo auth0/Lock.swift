@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SignUpViewController">
             <connections>
                 <outlet property="cancelButton" destination="1zr-3b-fiH" id="oCC-B0-FUa"/>
+                <outlet property="messageLabel" destination="gL1-Ds-LKT" id="5Rp-gY-oak"/>
                 <outlet property="passwordContainerView" destination="zNW-cw-0jG" id="OVB-Uz-jEt"/>
                 <outlet property="passwordTextField" destination="7wj-Wd-FFp" id="1JI-V9-7TV"/>
                 <outlet property="signUpButton" destination="BV3-3N-All" id="0jt-Mt-c2t"/>
@@ -42,7 +43,7 @@
                             </constraints>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="dNK-CM-wfp" firstAttribute="centerY" secondItem="IVP-L3-yaG" secondAttribute="centerY" id="6Ip-E4-zSw"/>
                         <constraint firstItem="dNK-CM-wfp" firstAttribute="leading" secondItem="EAh-88-CNI" secondAttribute="leading" constant="11" id="9Pd-zJ-ufX"/>
@@ -75,7 +76,7 @@
                             </constraints>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="7wj-Wd-FFp" firstAttribute="leading" secondItem="Dok-6r-exW" secondAttribute="trailing" constant="8" id="8fJ-BB-xIx"/>
                         <constraint firstAttribute="trailing" secondItem="7wj-Wd-FFp" secondAttribute="trailing" constant="7" id="DU7-vM-qKM"/>

@@ -26,6 +26,7 @@
 #import "A0SignUpCredentialValidator.h"
 #import "A0ProgressButton.h"
 #import "A0APIClient.h"
+#import "A0Theme.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
@@ -41,6 +42,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @interface A0SignUpViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *userContainerView;
 @property (weak, nonatomic) IBOutlet UIView *passwordContainerView;
 
@@ -67,10 +69,12 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     self.passwordContainerView.layer.borderWidth = 1.0f;
     self.passwordContainerView.layer.borderColor = [[UIColor colorWithWhite:0.302 alpha:1.000] CGColor];
 
-    [self.signUpButton setBackgroundColor:[UIColor colorWithRed:0.086 green:0.129 blue:0.302 alpha:1.000] forState:UIControlStateNormal];
-    [self.signUpButton setBackgroundColor:[UIColor colorWithRed:0.043 green:0.063 blue:0.145 alpha:1.000] forState:UIControlStateHighlighted];
-    self.signUpButton.layer.cornerRadius = 5;
-    self.signUpButton.clipsToBounds = YES;
+    A0Theme *theme = [A0Theme sharedInstance];
+    [theme configurePrimaryButton:self.signUpButton];
+    [theme configureSecondaryButton:self.cancelButton];
+    [theme configureTextField:self.userTextField];
+    [theme configureTextField:self.passwordTextField];
+    [theme configureLabel:self.messageLabel];
 }
 
 - (void)signUp:(id)sender {

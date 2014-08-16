@@ -9,6 +9,7 @@
                 <outlet property="accessButton" destination="XYO-zd-sKu" id="IFS-Ku-3Wf"/>
                 <outlet property="forgotPasswordButton" destination="2yR-hB-ufD" id="mLf-Nn-fGi"/>
                 <outlet property="loadingView" destination="fCB-wy-jDg" id="7Ei-Ik-7rB"/>
+                <outlet property="orLabel" destination="sFo-mK-7If" id="cc5-nE-pgk"/>
                 <outlet property="passwordContainerView" destination="T9N-fd-MMV" id="bBq-Fb-MRO"/>
                 <outlet property="passwordTextField" destination="I1u-zo-5Wg" id="79V-Vx-qi0"/>
                 <outlet property="serviceCollectionView" destination="ynd-lY-AHE" id="EgX-0x-4VM"/>
@@ -33,7 +34,7 @@
                             <color key="color" red="0.13333333333333333" green="0.1803921568627451" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
                         </activityIndicatorView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerX" secondItem="s6B-ti-XIO" secondAttribute="centerX" id="WE2-k1-xYy"/>
                         <constraint firstAttribute="centerY" secondItem="s6B-ti-XIO" secondAttribute="centerY" id="Xlb-hv-MDe"/>
@@ -69,7 +70,7 @@
                             <color key="highlightedColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerX" secondItem="sFo-mK-7If" secondAttribute="centerX" id="JT8-OG-cZb"/>
                         <constraint firstItem="sFo-mK-7If" firstAttribute="top" secondItem="ynd-lY-AHE" secondAttribute="bottom" constant="8" id="N6d-ID-XGS"/>
@@ -106,7 +107,7 @@
                                     </constraints>
                                 </imageView>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="jiy-wY-wCM" secondAttribute="bottom" constant="10" id="1Ou-53-R7n"/>
                                 <constraint firstItem="YYC-VE-9yH" firstAttribute="centerY" secondItem="jiy-wY-wCM" secondAttribute="centerY" id="8tB-kY-6IH"/>
@@ -139,7 +140,7 @@
                                     </constraints>
                                 </imageView>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="I1u-zo-5Wg" firstAttribute="leading" secondItem="SsZ-1G-EQD" secondAttribute="trailing" constant="8" id="4wA-lM-DyT"/>
                                 <constraint firstAttribute="bottom" secondItem="I1u-zo-5Wg" secondAttribute="bottom" constant="10" id="51C-44-m9y"/>
@@ -188,6 +189,7 @@
                             </connections>
                         </button>
                     </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="Vzp-TO-GQH" firstAttribute="leading" secondItem="r9V-aE-Dje" secondAttribute="leading" constant="19" id="07w-5b-xlb"/>
                         <constraint firstItem="T9N-fd-MMV" firstAttribute="top" secondItem="d5T-jc-U5F" secondAttribute="bottom" constant="-1" id="14T-ic-D7z"/>
@@ -208,7 +210,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="r9V-aE-Dje" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6kC-se-nef"/>
                 <constraint firstItem="pdV-35-L9G" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="FtB-Mz-04j"/>

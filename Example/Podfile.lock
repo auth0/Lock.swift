@@ -120,7 +120,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
-  Auth0Client: d1fb30919b36d3fe4d05c56d731abfca4a0d474a
+  Auth0Client: 21d1bb4b6bd5394227b5d7446fc0c132d618bbcf
   BDBOAuth1Manager: b877a5d3b94071f8b3a55ff3738d8a73c23d460e
   Bolts: 0ca796081c3e7c139bd86d6903c27f1b83036a5d
   CocoaLumberjack: 94accd5749f5c5d15134c8d50f34a973aed8ef69

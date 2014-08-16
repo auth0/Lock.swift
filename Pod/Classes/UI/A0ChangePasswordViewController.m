@@ -26,6 +26,7 @@
 #import "A0ChangePasswordCredentialValidator.h"
 #import "A0ProgressButton.h"
 #import "A0APIClient.h"
+#import "A0Theme.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
@@ -41,6 +42,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @interface A0ChangePasswordViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *userContainerView;
 @property (weak, nonatomic) IBOutlet UIView *passwordContainerView;
 @property (weak, nonatomic) IBOutlet UIView *repeatPasswordContainerView;
@@ -71,10 +73,13 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     self.repeatPasswordContainerView.layer.borderWidth = 1.0f;
     self.repeatPasswordContainerView.layer.borderColor = [[UIColor colorWithWhite:0.302 alpha:1.000] CGColor];
 
-    [self.recoverButton setBackgroundColor:[UIColor colorWithRed:0.086 green:0.129 blue:0.302 alpha:1.000] forState:UIControlStateNormal];
-    [self.recoverButton setBackgroundColor:[UIColor colorWithRed:0.043 green:0.063 blue:0.145 alpha:1.000] forState:UIControlStateHighlighted];
-    self.recoverButton.layer.cornerRadius = 5;
-    self.recoverButton.clipsToBounds = YES;
+    A0Theme *theme = [A0Theme sharedInstance];
+    [theme configurePrimaryButton:self.recoverButton];
+    [theme configureSecondaryButton:self.cancelButton];
+    [theme configureLabel:self.messageLabel];
+    [theme configureTextField:self.userTextField];
+    [theme configureTextField:self.passwordTextField];
+    [theme configureTextField:self.repeatPasswordTextField];
 }
 
 - (IBAction)recover:(id)sender {

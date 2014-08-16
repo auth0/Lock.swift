@@ -35,12 +35,15 @@
 #import "A0ChangePasswordViewController.h"
 #import "A0FullLoginViewController.h"
 #import "A0SocialLoginViewController.h"
+#import "A0Theme.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
 
 @interface A0AuthenticationViewController ()
 
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+@property (weak, nonatomic) IBOutlet UIView *iconContainerView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 
@@ -69,8 +72,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.keyboardHandler = [[A0KeyboardHandler alloc] init];
+    A0Theme *theme = [A0Theme sharedInstance];
+    self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor defaultColor:self.view.backgroundColor];
+    self.titleLabel.font = [theme fontForKey:A0ThemeTitleFont defaultFont:self.titleLabel.font];
+    self.titleLabel.textColor = [theme colorForKey:A0ThemeTitleTextColor defaultColor:self.titleLabel.textColor];
+    self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor defaultColor:self.iconContainerView.backgroundColor];
+    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName defaultImage:self.iconImageView.image];
 
+    self.keyboardHandler = [[A0KeyboardHandler alloc] init];
     self.current = [self layoutController:[[A0LoadingViewController alloc] init] inContainer:self.containerView];
 
     @weakify(self);
