@@ -18,6 +18,7 @@ NSString *IdPAccessTokenBody = @"client_id=%@&connection=%@&access_token=%@&scop
 NSString *DelegationEndpoint = @"https://%@/delegation";
 NSString *DelegationBody = @"grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&id_token=%@&target=%@&client_id=%@";
 NSString *UserInfoEndpoint = @"https://%@/userinfo?%@";
+NSString *TokenInfoEndpoint = @"https://%@/tokeninfo?%@";
 NSString *DefaultCallback = @"https://%@/mobile";
 
 - (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId
@@ -306,6 +307,31 @@ NSString *DefaultCallback = @"https://%@/mobile";
     }
     
     NSString *url = [NSString stringWithFormat:UserInfoEndpoint, _domain, accessToken];
+    NSURL *enpoint = [NSURL URLWithString:url];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:enpoint];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         NSError* parseError;
+         NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
+                                                                                           JSONObjectWithData:data
+                                                                                           options:kNilOptions
+                                                                                           error:&parseError]];
+         block(parseData);
+     }];
+}
+
+- (void)getTokenInfo:(NSString *)idToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block
+{
+    if (![idToken hasPrefix:@"id_token"])
+    {
+        idToken = [NSString stringWithFormat:@"id_token=%@", idToken];
+    }
+    
+    NSString *url = [NSString stringWithFormat:TokenInfoEndpoint, _domain, idToken];
     NSURL *enpoint = [NSURL URLWithString:url];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:enpoint];
