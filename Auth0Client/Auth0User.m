@@ -5,6 +5,7 @@
 @synthesize Auth0AccessToken = _auth0AccessToken;
 @synthesize IdToken = _idToken;
 @synthesize Profile = _profile;
+@synthesize refreshToken = _refreshToken;
 
 - (id)initAuth0User:(NSDictionary *)accountProperties
 {
@@ -12,6 +13,7 @@
         _auth0AccessToken = [accountProperties objectForKey:@"access_token"];
         _idToken = [accountProperties objectForKey:@"id_token"];
         _profile = [accountProperties objectForKey:@"profile"];
+        _refreshToken = [accountProperties objectForKey:@"refresh_token"];
     }
     
     return self;
