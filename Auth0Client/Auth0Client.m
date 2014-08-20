@@ -8,6 +8,7 @@
 @synthesize domain = _domain;
 @synthesize scope = _scope;
 @synthesize auth0User = _auth0User;
+@synthesize offlineAccess = _offlineAccess;
 
 NSString *AuthorizeUrl = @"https://%@/authorize?client_id=%@&scope=%@&redirect_uri=%@&response_type=token&connection=%@";
 NSString *LoginWidgetUrl = @"https://%@/login/?client=%@&scope=%@&redirect_uri=%@&response_type=token";
@@ -20,17 +21,18 @@ NSString *DelegationBody = @"grant_type=urn:ietf:params:oauth:grant-type:jwt-bea
 NSString *UserInfoEndpoint = @"https://%@/userinfo?%@";
 NSString *DefaultCallback = @"https://%@/mobile";
 
-- (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId
+- (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId offlineAccess:(BOOL)offlineAccess
 {
-    return [self initAuth0Client:domain clientId:clientId scope:@"openid"];
+    return [self initAuth0Client:domain clientId:clientId scope:@"openid" offlineAccess:offlineAccess];
 }
 
-- (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId scope:(NSString *)scope
+- (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId scope:(NSString *)scope offlineAccess:(BOOL)offlineAccess
 {
     if ((self = [super init])) {
         _clientId = [clientId copy];
         _domain = [domain copy];
         _scope = [scope copy];
+        _offlineAccess = offlineAccess;
     }
     
     return self;
@@ -40,43 +42,47 @@ NSString *DefaultCallback = @"https://%@/mobile";
 {
 }
 
-+ (Auth0Client*)auth0Client:(NSString *)domain clientId:(NSString *)clientId
++ (Auth0Client*)auth0Client:(NSString *)domain clientId:(NSString *)clientId offlineAccess:(BOOL)offlineAccess
 {
     static Auth0Client *instance = nil;
     static dispatch_once_t predicate;
     
-    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:domain clientId:clientId]; });
+    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:domain clientId:clientId offlineAccess:offlineAccess]; });
     
     return instance;
 }
 
-+ (Auth0Client*)auth0Client:(NSString *)domain clientId:(NSString *)clientId scope:(NSString *)scope
++ (Auth0Client*)auth0Client:(NSString *)domain clientId:(NSString *)clientId scope:(NSString *)scope offlineAccess:(BOOL)offlineAccess
 {
     static Auth0Client *instance = nil;
     static dispatch_once_t predicate;
     
-    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:domain clientId:clientId scope:scope]; });
+    dispatch_once(&predicate, ^{ instance = [[Auth0Client alloc] initAuth0Client:domain clientId:clientId scope:scope offlineAccess:offlineAccess]; });
     
     return instance;
 }
 
 - (Auth0WebViewController*)getAuthenticator:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block
 {
+    NSString *loginScope = [self requestScopeWithDefaultScope:scope];
     NSString *callback = [NSString stringWithFormat:DefaultCallback, _domain];
     NSString *url = [NSString stringWithFormat:LoginWidgetUrl,
                      _domain,
                      _clientId,
-                     [self urlEncode:scope],
+                     [self urlEncode:loginScope],
                      callback];
     
     if (connection != nil) {
         url = [NSString stringWithFormat:AuthorizeUrl,
                          _domain,
                          _clientId,
-                         [self urlEncode:scope],
+                         [self urlEncode:loginScope],
                          callback, connection];
     }
-    
+
+    if (self.offlineAccess) {
+        url = [url stringByAppendingFormat:@"&device=%@", [self urlEncode:[[UIDevice currentDevice] name]]];
+    }
     Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[NSURL URLWithString:url] returnUrl:callback allowsClose:YES withCompletionHandler:^(NSString *token, NSString * jwtToken, NSString * error){
         if (token) {
             
@@ -142,9 +148,12 @@ NSString *DefaultCallback = @"https://%@/mobile";
 {
     NSString *url = [NSString stringWithFormat:ResourceOwnerEndpoint, _domain];
     NSURL *resourceUrl = [NSURL URLWithString:url];
-    
-    NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, [self urlEncode:connection], [self urlEncode:username], [self urlEncode:password], [self urlEncode:scope]];
-    
+    NSString *loginScope = [self requestScopeWithDefaultScope:scope];
+
+    NSString *postBody =[NSString stringWithFormat:ResourceOwnerBody, _clientId, [self urlEncode:connection], [self urlEncode:username], [self urlEncode:password], [self urlEncode:loginScope]];
+    if (self.offlineAccess) {
+        postBody = [postBody stringByAppendingFormat:@"&device=%@", [self urlEncode:[[UIDevice currentDevice] name]]];
+    }
     NSData *postData = [NSData dataWithBytes: [postBody UTF8String] length: [postBody length]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:resourceUrl];
@@ -335,4 +344,11 @@ NSString *DefaultCallback = @"https://%@/mobile";
     return escapedString;
 }
 
+- (NSString *)requestScopeWithDefaultScope:(NSString *)defaultScope {
+    NSString *scope = [defaultScope copy];
+    if (self.offlineAccess && [scope rangeOfString:@"offline_access"].location == NSNotFound) {
+        scope = [scope stringByAppendingString:@" offline_access"];
+    }
+    return scope;
+}
 @end

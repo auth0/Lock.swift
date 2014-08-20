@@ -9,16 +9,18 @@
     NSString * _clientId;
     NSString * _domain;
     NSString * _scope;
+    BOOL _offlineAccess;
 }
 
 @property (readonly) NSString *clientId;
 @property (readonly) NSString *domain;
 @property (readonly) NSString *scope;
 @property (readonly) Auth0User *auth0User;
+@property (readonly) BOOL offlineAccess;
 
-+ (Auth0Client *)auth0Client:(NSString *)domain clientId:(NSString *)clientId;
++ (Auth0Client *)auth0Client:(NSString *)domain clientId:(NSString *)clientId offlineAccess:(BOOL)offlineAccess;
 
-+ (Auth0Client *)auth0Client:(NSString *)domain clientId:(NSString *)clientId scope:(NSString *)scope;
++ (Auth0Client *)auth0Client:(NSString *)domain clientId:(NSString *)clientId scope:(NSString *)scope offlineAccess:(BOOL)offlineAccess;
 
 - (UIViewController *)getAuthenticator:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block;
 
