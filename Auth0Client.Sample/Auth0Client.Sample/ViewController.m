@@ -17,7 +17,7 @@ Auth0Client *client;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    
+
     client = [Auth0Client auth0Client:domain clientId:clientId offlineAccess:YES];
 }
 

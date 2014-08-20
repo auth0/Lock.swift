@@ -1,0 +1,22 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#define kAuth0ClientId @"YOUR_CLIENT_ID"
+#define kAuth0Domain @"YOUR_DOMAIN_NAME"
+#define kAuth0KeychainAccessGroup @"(YOUR_APPLE_APP_ID_PREFIX).com.auth0.shared"
+#define kAuth0NoRefreshTokenNotificationName @"NoRefreshTokenNotificationName"
+#define kAuth0RefreshTokenNotificationName @"RefreshTokenNotificationName"
+
+#endif

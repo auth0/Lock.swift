@@ -18,7 +18,8 @@ NSString *IdPAccessTokenEndpoint = @"https://%@/oauth/access_token";
 NSString *IdPAccessTokenBody = @"client_id=%@&connection=%@&access_token=%@&scope=%@";
 NSString *DelegationEndpoint = @"https://%@/delegation";
 NSString *DelegationBody = @"grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&target=%@&client_id=%@";
-NSString *UserInfoEndpoint = @"https://%@/userinfo?%@";
+NSString *UserInfoEndpoint = @"https://%@/userinfo";
+NSString *TokenInfoEndpoint = @"https://%@/tokeninfo";
 NSString *DefaultCallback = @"https://%@/mobile";
 
 - (id)initAuth0Client:(NSString *)domain clientId:(NSString *)clientId offlineAccess:(BOOL)offlineAccess
@@ -86,7 +87,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
     Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[NSURL URLWithString:url] returnUrl:callback allowsClose:YES withCompletionHandler:^(NSString *token, NSString * jwtToken, NSString *refreshToken, NSString * error){
         if (token) {
             
-            [self getUserInfo:token withCompletionHandler:^(NSMutableDictionary* profile) {
+            [self getUserInfoWithAccessToken:token withCompletionHandler:^(NSMutableDictionary* profile) {
                 
                 NSMutableDictionary* accountProperties = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                                    token ?: [NSNull null], @"access_token",
@@ -185,7 +186,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
 			 return;
 		 }
 		 
-		 [self getUserInfo:accessToken withCompletionHandler:^(NSMutableDictionary* profile) {
+		 [self getUserInfoWithAccessToken:accessToken withCompletionHandler:^(NSMutableDictionary* profile) {
 			 [parseData setObject:profile forKey:@"profile"];
 			 _auth0User = [Auth0User auth0User:parseData];
 			 block(nil);
@@ -236,7 +237,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
 			 return;
 		 }
 		 
-		 [self getUserInfo:auth0_accessToken withCompletionHandler:^(NSMutableDictionary* profile) {
+		 [self getUserInfoWithAccessToken:auth0_accessToken withCompletionHandler:^(NSMutableDictionary* profile) {
 			 [parseData setObject:profile forKey:@"profile"];
 			 _auth0User = [Auth0User auth0User:parseData];
 			 block(nil);
@@ -313,20 +314,50 @@ NSString *DefaultCallback = @"https://%@/mobile";
 }
 
 // Helper methods
-- (void)getUserInfo:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block
+- (void)getUserInfoWithAccessToken:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block
 {
     if (![accessToken hasPrefix:@"access_token"])
     {
         accessToken = [NSString stringWithFormat:@"access_token=%@", accessToken];
     }
     
-    NSString *url = [NSString stringWithFormat:UserInfoEndpoint, _domain, accessToken];
+    NSString *url = [NSString stringWithFormat:UserInfoEndpoint, _domain];
+    url = [url stringByAppendingFormat:@"?%@", accessToken];
     NSURL *enpoint = [NSURL URLWithString:url];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:enpoint];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         NSError* parseError;
+         NSMutableDictionary* parseData = [[NSMutableDictionary alloc] initWithDictionary:[NSJSONSerialization
+                                                                                           JSONObjectWithData:data
+                                                                                           options:kNilOptions
+                                                                                           error:&parseError]];
+         block(parseData);
+     }];
+}
+
+- (void)getUserInfoWithIdToken:(NSString *)idToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block
+{
+    if (![idToken hasPrefix:@"id_token"])
+    {
+        idToken = [NSString stringWithFormat:@"id_token=%@", [self urlEncode:idToken]];
+    }
+
+    NSString *url = [NSString stringWithFormat:TokenInfoEndpoint, _domain];
+
+    NSURL *enpoint = [NSURL URLWithString:url];
+
+    NSData *postData = [ NSData dataWithBytes: [ idToken UTF8String ] length: [ idToken length ] ];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:enpoint];
+    [request setHTTPMethod:@"POST"];
+
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
          NSError* parseError;

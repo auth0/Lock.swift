@@ -1,0 +1,20 @@
+PODS:
+  - Auth0Client (0.0.10)
+  - SVProgressHUD (1.0)
+  - UICKeyChainStore (1.0.5)
+
+DEPENDENCIES:
+  - Auth0Client (from `../`)
+  - SVProgressHUD
+  - UICKeyChainStore
+
+EXTERNAL SOURCES:
+  Auth0Client:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Auth0Client: a2e7aec872849a9c3837f1fff7f983140db07bc3
+  SVProgressHUD: 5034c6e22b8c2ca3e09402e48d41ed0340aa1c50
+  UICKeyChainStore: 4f9719600cc70025064e26f28f1210bcfc3b0c35
+
+COCOAPODS: 0.33.1

@@ -46,6 +46,7 @@
 
 - (void)getDelegationToken:(NSString *)targetClientId options:(NSMutableDictionary *)options withCompletionHandler:(void (^)(NSMutableDictionary* delegationResult))block;
 
-- (void)getUserInfo:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block;
+- (void)getUserInfoWithAccessToken:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block;
+- (void)getUserInfoWithIdToken:(NSString *)idToken withCompletionHandler:(void (^)(NSMutableDictionary* profile))block;
 
 @end
