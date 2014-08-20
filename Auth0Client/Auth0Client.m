@@ -83,7 +83,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
     if (self.offlineAccess) {
         url = [url stringByAppendingFormat:@"&device=%@", [self urlEncode:[[UIDevice currentDevice] name]]];
     }
-    Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[NSURL URLWithString:url] returnUrl:callback allowsClose:YES withCompletionHandler:^(NSString *token, NSString * jwtToken, NSString * error){
+    Auth0WebViewController *webController = [[Auth0WebViewController alloc] initWithAuthorizeUrl:[NSURL URLWithString:url] returnUrl:callback allowsClose:YES withCompletionHandler:^(NSString *token, NSString * jwtToken, NSString *refreshToken, NSString * error){
         if (token) {
             
             [self getUserInfo:token withCompletionHandler:^(NSMutableDictionary* profile) {
@@ -92,6 +92,7 @@ NSString *DefaultCallback = @"https://%@/mobile";
                                                    token ?: [NSNull null], @"access_token",
                                                    jwtToken?: [NSNull null], @"id_token",
                                                    profile?: [NSNull null], @"profile",
+                                                   refreshToken?: [NSNull null], @"refresh_token",
                                                    nil];
                 
                 _auth0User = [Auth0User auth0User:accountProperties];
