@@ -17,7 +17,7 @@ NSString *ResourceOwnerBody = @"client_id=%@&connection=%@&username=%@&password=
 NSString *IdPAccessTokenEndpoint = @"https://%@/oauth/access_token";
 NSString *IdPAccessTokenBody = @"client_id=%@&connection=%@&access_token=%@&scope=%@";
 NSString *DelegationEndpoint = @"https://%@/delegation";
-NSString *DelegationBody = @"grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&id_token=%@&target=%@&client_id=%@";
+NSString *DelegationBody = @"grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&target=%@&client_id=%@";
 NSString *UserInfoEndpoint = @"https://%@/userinfo?%@";
 NSString *DefaultCallback = @"https://%@/mobile";
 
@@ -254,26 +254,31 @@ NSString *DefaultCallback = @"https://%@/mobile";
 {
     NSString *id_token = [options objectForKey:@"id_token"];
     [options removeObjectForKey:@"id_token"];
-    
-    if (id_token == nil)
-    {
-        if (self.auth0User == nil ||
-            self.auth0User.IdToken == (id)[NSNull null] ||
-            self.auth0User.IdToken.length == 0)
-        {
-            [NSException raise:@"Empty id_token" format:@"You need to login first or specify a value for id_token parameter."];
-        }
-        else
-        {
-            // take id_token from user profile
-            id_token = self.auth0User.IdToken;
-        }
+    NSString *refresh_token = [options objectForKey:@"refresh_token"];
+    [options removeObjectForKey:@"refresh_token"];
+
+    if (refresh_token == nil && id_token == nil && ![self.auth0User hasIdToken] && ![self.auth0User hasRefreshToken]) {
+        [NSException raise:@"Empty id_token or refresh_token" format:@"You need to login first or specify a value for id_token or refresh_token parameter."];
     }
-    
+
+    if (refresh_token == nil) {
+        refresh_token = self.auth0User.refreshToken;
+    }
+
+    if (id_token == nil) {
+        id_token = self.auth0User.IdToken;
+    }
+
+    if (refresh_token) {
+        options[@"refresh_token"] = refresh_token;
+    } else {
+        options[@"id_token"] = id_token;
+    }
+
     NSString *url = [NSString stringWithFormat:DelegationEndpoint, _domain];
     NSURL *delegationUrl = [NSURL URLWithString:url];
     
-    NSString *postBody = [NSString stringWithFormat:DelegationBody, id_token, targetClientId, _clientId];
+    NSString *postBody = [NSString stringWithFormat:DelegationBody, targetClientId, _clientId];
     
     for (NSString* key in options) {
         id value = [options objectForKey:key];

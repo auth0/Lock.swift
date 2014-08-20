@@ -23,6 +23,16 @@
 {
 }
 
+- (BOOL)hasIdToken {
+    BOOL noIdToken = self.IdToken == (id)[NSNull null] || self.IdToken.length == 0;
+    return !(noIdToken);
+}
+
+- (BOOL)hasRefreshToken {
+    BOOL noRefreshToken = self.refreshToken == (id)[NSNull null] || self.refreshToken.length == 0;
+    return !(noRefreshToken);
+}
+
 + (Auth0User*)auth0User:(NSDictionary *)accountProperties
 {
     return [[Auth0User alloc] initAuth0User:accountProperties];

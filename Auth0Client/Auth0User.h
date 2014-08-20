@@ -15,4 +15,7 @@
 
 + (Auth0User *)auth0User:(NSDictionary *)accountProperties;
 
+- (BOOL)hasIdToken;
+- (BOOL)hasRefreshToken;
+
 @end
