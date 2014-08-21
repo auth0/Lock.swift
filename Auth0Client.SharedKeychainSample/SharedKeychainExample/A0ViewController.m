@@ -27,7 +27,9 @@
 }
 
 - (void)showLoginScreen {
-    self.welcomeLabel.text = @" ";
+    self.welcomeLabel.text = nil;
+    self.jwtLabel.text = nil;
+    self.refreshTokenLabel.text = nil;
     if (!self.presentedViewController) {
         [self.client loginAsync:self withCompletionHandler:^(NSMutableDictionary *error) {
             NSLog(@"Logged in with result %@", self.client.auth0User);
@@ -50,6 +52,8 @@
         [self.client getUserInfoWithIdToken:idToken withCompletionHandler:^(NSMutableDictionary *profile) {
             NSLog(@"User info %@", profile);
             self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@", profile[@"email"]];
+            self.refreshTokenLabel.text = [self.store stringForKey:@"refresh_token"];
+            self.jwtLabel.text = idToken;
             [SVProgressHUD dismiss];
         }];
     }];
