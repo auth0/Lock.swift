@@ -22,6 +22,8 @@
 
 - (UIViewController *)getAuthenticator:(NSString *)connection scope:(NSString *)scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block;
 
+- (void)linkAccountAsync:(UIViewController *)controller connection:(NSString *)connection scope:(NSString *)scope auth0AccessToken:(NSString *)accessToken withCompletionHandler:(void (^)(NSMutableDictionary* error))block;
+
 - (void)loginAsync:(UIViewController*)controller withCompletionHandler:(void (^)(NSMutableDictionary* error))block;
 
 - (void)loginAsync:(UIViewController*)controller scope:(NSString *)scope withCompletionHandler:(void (^)(NSMutableDictionary* error))block;

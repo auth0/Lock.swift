@@ -102,7 +102,7 @@
     NSLog(@"URL: %@\n", request.URL.absoluteString);
     
     // Checking if the URL is the redirect_url
-    if ([requestURLString rangeOfString:_returnUrl].location == 0)
+    if ([requestURLString rangeOfString:_returnUrl options:NSCaseInsensitiveSearch].location == 0)
     {
 		NSDictionary* queryString = [self queryStringForUrl:request.URL];
 		NSString * accessToken = queryString[@"access_token"];
