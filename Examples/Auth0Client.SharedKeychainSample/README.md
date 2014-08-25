@@ -1,3 +1,5 @@
+# Keychain Sharing example
+
 To enable keychain sharing you'll have to define a keychain access group with the following format:
 `<Bundle Seed Id>.<Group Name>`
 
