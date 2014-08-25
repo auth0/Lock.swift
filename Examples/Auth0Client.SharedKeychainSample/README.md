@@ -2,7 +2,7 @@
 
 This example shows how to use Refresh Token so that your users don't have to log in again. Besides that, it shows how you can have 2 apps share a Keychain so that they can share the Refresh Token.
 
-## How to share a keychain?
+## How to share a keychain between two apps for SSO?
 
 To enable keychain sharing you'll have to define a keychain access group with the following format:
 `<Bundle Seed Id>.<Group Name>`
