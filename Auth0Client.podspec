@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name     = 'Auth0Client'
-  s.version  = '0.0.10'
+  s.version  = '0.0.11'
   s.license  = 'MIT'
   s.summary  = 'A Cocoa Touch Static Library for authenticating users with the Auth0 platform.'
   s.homepage = 'https://github.com/auth0/Auth0.iOS'
   s.author  = "Auth0"
-  s.source   = { :git => 'https://github.com/auth0/Auth0.iOS.git', :tag => "0.0.10" }
+  s.source   = { :git => 'https://github.com/auth0/Auth0.iOS.git', :tag => "0.0.11" }
   s.requires_arc = true
 
   s.ios.deployment_target = '7.0'

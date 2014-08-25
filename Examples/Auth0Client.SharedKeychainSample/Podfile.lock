@@ -4,13 +4,13 @@ PODS:
   - UICKeyChainStore (1.0.5)
 
 DEPENDENCIES:
-  - Auth0Client (from `../`)
+  - Auth0Client (from `../../`)
   - SVProgressHUD
   - UICKeyChainStore
 
 EXTERNAL SOURCES:
   Auth0Client:
-    :path: ../
+    :path: ../../
 
 SPEC CHECKSUMS:
   Auth0Client: a2e7aec872849a9c3837f1fff7f983140db07bc3
