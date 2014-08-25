@@ -1,0 +1,7 @@
+platform :ios, '7.0'
+
+target "SharedKeychainExample" do
+    pod "Auth0Client", :path => "../"
+    pod "UICKeyChainStore"
+    pod "SVProgressHUD"
+end

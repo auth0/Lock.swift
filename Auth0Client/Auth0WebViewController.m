@@ -6,7 +6,7 @@
 
 @implementation Auth0WebViewController
 
-- (id)initWithAuthorizeUrl:(NSURL *)authzUrl returnUrl:(NSString*)returnUrl allowsClose:(BOOL)allowsClose withCompletionHandler:(void (^)(NSString* token, NSString * jwtToken))block
+- (id)initWithAuthorizeUrl:(NSURL *)authzUrl returnUrl:(NSString*)returnUrl allowsClose:(BOOL)allowsClose withCompletionHandler:(void (^)(NSString* token, NSString * jwtToken, NSString *refreshToken, NSString *error))block
 {
     if ((self = [super initWithNibName:nil bundle:nil]))
     {
@@ -108,6 +108,7 @@
 		NSString * accessToken = queryString[@"access_token"];
 		NSString * jwtToken = queryString[@"id_token"];
         NSString * error = queryString[@"denied"] ? @"access_denied" : queryString[@"error"];
+        NSString * refreshToken = queryString[@"refresh_token"];
 		
         if (!error) {
             if (!accessToken) {
@@ -124,7 +125,7 @@
         }
 		
 		//Notify caller
-		_block(accessToken, jwtToken, error);
+		_block(accessToken, jwtToken, refreshToken, error);
         
         return NO;
     }
