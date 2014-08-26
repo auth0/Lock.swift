@@ -110,7 +110,15 @@
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="RMQ-Jj-fkQ" appends="YES" id="auN-Cs-zIn"/>
+            </connections>
         </view>
+        <tapGestureRecognizer id="RMQ-Jj-fkQ">
+            <connections>
+                <action selector="hideKeyboard:" destination="-1" id="cCM-SU-i5g"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="Auth0.bundle/close" width="16" height="16"/>

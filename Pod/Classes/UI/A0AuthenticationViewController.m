@@ -110,6 +110,10 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)hideKeyboard:(id)sender {
+    [self.current hideKeyboard];
+}
+
 #pragma mark - Container methods
 
 - (void)layoutRootControllerForApplication:(A0Application *)application {
