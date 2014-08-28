@@ -36,11 +36,13 @@
     activityIndicator.hidden = YES;
     [self addSubview:activityIndicator];
     activityIndicator.translatesAutoresizingMaskIntoConstraints = NO;
-    NSDictionary *views = NSDictionaryOfVariableBindings(activityIndicator);
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[activityIndicator]-|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:views]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                     attribute:NSLayoutAttributeCenterX
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:activityIndicator
+                                                     attribute:NSLayoutAttributeCenterX
+                                                    multiplier:1.0f
+                                                      constant:0.0f]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self
                                                               attribute:NSLayoutAttributeCenterY
                                                               relatedBy:NSLayoutRelationEqual

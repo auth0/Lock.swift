@@ -42,8 +42,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @interface A0DatabaseLoginViewController ()
 
-@property (weak, nonatomic) IBOutlet UIView *userContainerView;
-@property (weak, nonatomic) IBOutlet UIView *passwordContainerView;
+@property (weak, nonatomic) IBOutlet UIView *credentialsBoxView;
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *icons;
 
 - (IBAction)access:(id)sender;
 - (IBAction)goToPasswordField:(id)sender;
@@ -64,10 +64,13 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.userContainerView.layer.borderWidth = 1.0f;
-    self.userContainerView.layer.borderColor = [[UIColor colorWithWhite:0.302 alpha:1.000] CGColor];
-    self.passwordContainerView.layer.borderWidth = 1.0f;
-    self.passwordContainerView.layer.borderColor = [[UIColor colorWithWhite:0.302 alpha:1.000] CGColor];
+    self.credentialsBoxView.layer.borderWidth = 1.0f;
+    self.credentialsBoxView.layer.borderColor = [[UIColor colorWithWhite:0.600 alpha:1.000] CGColor];
+    self.credentialsBoxView.layer.cornerRadius = 3.0f;
+
+    for (UIImageView *icon in self.icons) {
+        icon.image = [icon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    }
 
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.accessButton];

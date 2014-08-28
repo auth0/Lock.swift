@@ -132,4 +132,5 @@ NSString * const A0ThemeIconBackgroundColor = @"A0ThemeIconBackgroundColor";
     label.font = [self fontForKey:A0ThemeDescriptionFont defaultFont:label.font];
     label.textColor = [self colorForKey:A0ThemeDescriptionTextColor defaultColor:label.textColor];
 }
+
 @end

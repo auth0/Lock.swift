@@ -172,11 +172,10 @@
 }
 
 - (void)animateFromViewController:(UIViewController *)from toViewController:(UIViewController *)to {
-    from.view.alpha = 1.0f;
     to.view.alpha = 0.0f;
-    [UIView animateWithDuration:0.5f animations:^{
+    from.view.alpha = 0.0f;
+    [UIView animateWithDuration:0.3f animations:^{
         to.view.alpha = 1.0f;
-        from.view.alpha = 0.0f;
         self.titleLabel.text = to.title;
     } completion:^(BOOL finished) {
         [from.view removeFromSuperview];
