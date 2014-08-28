@@ -29,7 +29,6 @@
                           tokenType:(NSString *)tokenType {
     self = [super init];
     if (self) {
-        NSAssert(accessToken.length > 0, @"Must have a valid access token");
         NSAssert(idToken.length > 0, @"Must have a valid id token");
         NSAssert(tokenType.length > 0, @"Must have a valid token type");
         _accessToken = [accessToken copy];

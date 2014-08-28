@@ -11,6 +11,10 @@
 		4D878C4130EA4C84AF0DA22A /* libPods-Auth0Client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8BB77CC67D644FB8F85C8EE /* libPods-Auth0Client.a */; };
 		5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */; };
 		5F15815E196A3682003C4DD2 /* A0UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F15815D196A3682003C4DD2 /* A0UserProfileViewController.m */; };
+		5F9F5B6419AF8FBD0021068C /* A0UserProfileSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6319AF8FBD0021068C /* A0UserProfileSpec.m */; };
+		5F9F5B6619AF9A8D0021068C /* A0TokenSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6519AF9A8D0021068C /* A0TokenSpec.m */; };
+		5F9F5B6819AF9D8E0021068C /* A0StrategySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */; };
+		5F9F5B6A19AF9F960021068C /* A0SocialAuthenticatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6919AF9F960021068C /* A0SocialAuthenticatorSpec.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -43,6 +47,10 @@
 		5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ApplicationSpec.m; sourceTree = "<group>"; };
 		5F15815C196A3682003C4DD2 /* A0UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0UserProfileViewController.h; sourceTree = "<group>"; };
 		5F15815D196A3682003C4DD2 /* A0UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileViewController.m; sourceTree = "<group>"; };
+		5F9F5B6319AF8FBD0021068C /* A0UserProfileSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileSpec.m; sourceTree = "<group>"; };
+		5F9F5B6519AF9A8D0021068C /* A0TokenSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0TokenSpec.m; sourceTree = "<group>"; };
+		5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0StrategySpec.m; sourceTree = "<group>"; };
+		5F9F5B6919AF9F960021068C /* A0SocialAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SocialAuthenticatorSpec.m; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* Auth0Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Auth0Client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -164,6 +172,10 @@
 			children = (
 				6003F5B6195388D20070C39A /* Supporting Files */,
 				5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */,
+				5F9F5B6319AF8FBD0021068C /* A0UserProfileSpec.m */,
+				5F9F5B6519AF9A8D0021068C /* A0TokenSpec.m */,
+				5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */,
+				5F9F5B6919AF9F960021068C /* A0SocialAuthenticatorSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -368,7 +380,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F9F5B6419AF8FBD0021068C /* A0UserProfileSpec.m in Sources */,
+				5F9F5B6619AF9A8D0021068C /* A0TokenSpec.m in Sources */,
+				5F9F5B6819AF9D8E0021068C /* A0StrategySpec.m in Sources */,
 				5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */,
+				5F9F5B6A19AF9F960021068C /* A0SocialAuthenticatorSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

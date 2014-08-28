@@ -57,6 +57,8 @@
 }
 
 - (void)registerSocialAuthenticatorProvider:(id<A0SocialAuthenticationProvider>)socialProviderAuth {
+    NSAssert(socialProviderAuth != nil, @"Must supply a non-nil profile");
+    NSAssert(socialProviderAuth.identifier != nil, @"Provider must have a valid indentifier");
     self.registeredAuthenticators[socialProviderAuth.identifier] = socialProviderAuth;
 }
 
