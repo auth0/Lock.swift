@@ -42,7 +42,7 @@
     A0TwitterAuthentication *twitter = [A0TwitterAuthentication newAuthenticationWithKey:@"o8HFHDVB1yEVXSvxSO5F1WuKP"
                                                                                       andSecret:@"v04WbftIrRJENoTFAr91eCEgLmVCDcaEm5brZlLJtS0ccJjHIz"
                                                                                     callbackURL:[NSURL URLWithString:@"com.auth0.Auth0Client://twitter-auth"]];
-    A0FacebookAuthentication *facebook = [A0FacebookAuthentication newAuthentication];
+    A0FacebookAuthentication *facebook = [A0FacebookAuthentication newAuthenticationWithPermissions:nil];
     [[A0SocialAuthenticator sharedInstance] registerSocialAuthenticatorProviders:@[
                                                                                    twitter,
                                                                                    facebook,

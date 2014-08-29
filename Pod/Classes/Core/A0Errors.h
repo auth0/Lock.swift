@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
     A0ErrorCodeTwitterCancelled,
     A0ErrorCodeTwitterNotConfigured,
     A0ErrorCodeTwitterInvalidAccount,
+    A0ErrorCodeUknownProviderForStrategy,
 };
 
 FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
@@ -61,6 +62,7 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 
 #pragma mark - Social Errors
 
++ (NSError *)unkownProviderForStrategy:(NSString *)strategyName;
 + (NSError *)facebookCancelled;
 + (NSError *)twitterAppNotAuthorized;
 + (NSError *)twitterAppOauthNotAuthorized;

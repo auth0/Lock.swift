@@ -137,6 +137,12 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 
 #pragma mark - Social Errors
 
++ (NSError *)unkownProviderForStrategy:(NSString *)strategyName {
+    return [self errorWithCode:A0ErrorCodeUknownProviderForStrategy
+                   description:NSLocalizedString(@"Couldn't found authentication method for unknown strategy", nil)
+                 failureReason:[NSString stringWithFormat:NSLocalizedString(@"The strategy %@ has no registered authentication provider", nil), strategyName]];
+}
+
 + (NSError *)facebookCancelled {
     return [self errorWithCode:A0ErrorCodeFacebookCancelled
                    description:NSLocalizedString(@"There was an error contacting Facebook", nil)

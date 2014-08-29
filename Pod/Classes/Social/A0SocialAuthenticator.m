@@ -23,6 +23,7 @@
 #import "A0SocialAuthenticator.h"
 #import "A0Strategy.h"
 #import "A0Application.h"
+#import "A0Errors.h"
 
 @interface A0SocialAuthenticator ()
 
@@ -75,13 +76,22 @@
                     withSuccess:(void (^)(A0SocialCredentials *))success
                         failure:(void (^)(NSError *))failure {
     id<A0SocialAuthenticationProvider> authenticator = self.authenticators[strategy.name];
-    [authenticator authenticateWithSuccess:success failure:failure];
+    if (authenticator) {
+        [authenticator authenticateWithSuccess:success failure:failure];
+    } else {
+        Auth0LogWarn(@"No known provider for strategy %@", strategy.name);
+        if (failure) {
+            failure([A0Errors unkownProviderForStrategy:strategy.name]);
+        }
+    }
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application {
     __block BOOL handled = NO;
     [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0SocialAuthenticationProvider> authenticator, BOOL *stop) {
-        handled = [authenticator handleURL:url sourceApplication:application];
+        if ([authenticator respondsToSelector:@selector(handleURL:sourceApplication:)]) {
+            handled = [authenticator handleURL:url sourceApplication:application];
+        }
         *stop = handled;
     }];
     return handled;

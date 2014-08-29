@@ -25,6 +25,6 @@
 
 @interface A0FacebookAuthentication : NSObject<A0SocialAuthenticationProvider>
 
-+ (A0FacebookAuthentication *)newAuthentication;
++ (A0FacebookAuthentication *)newAuthenticationWithPermissions:(NSArray *)permissions;
 
 @end

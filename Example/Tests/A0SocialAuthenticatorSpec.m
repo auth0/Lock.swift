@@ -10,6 +10,7 @@
 #import "A0SocialAuthenticator.h"
 #import "A0Application.h"
 #import "A0Strategy.h"
+#import "A0Errors.h"
 
 #define HC_SHORTHAND
 #import <OCHamcrest/OCHamcrest.h>
@@ -141,6 +142,127 @@ describe(@"A0SocialAuthenticator", ^{
 
         });
 
+    });
+
+    describe(@"Authentication", ^{
+
+        __block A0Strategy *strategy;
+        __block id<A0SocialAuthenticationProvider> provider;
+        void(^successBlock)(A0SocialCredentials *) = ^(A0SocialCredentials *credentials) {};
+
+        beforeEach(^{
+            provider = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+            [given([provider identifier]) willReturn:@"provider"];
+            strategy = mock(A0Strategy.class);
+            [given([strategy name]) willReturn:@"provider"];
+            authenticator.authenticators = [@{ @"provider": provider } mutableCopy];
+        });
+
+        context(@"authenticate with known strategy", ^{
+
+            void(^failureBlock)(NSError *) = ^(NSError *error) {};
+            beforeEach(^{
+                [authenticator authenticateForStrategy:strategy withSuccess:successBlock failure:failureBlock];
+            });
+
+            it(@"should call the correct provider", ^{
+                [MKTVerify(provider) authenticateWithSuccess:successBlock failure:failureBlock];
+            });
+
+        });
+
+        context(@"authenticate with unknown strategy", ^{
+
+            __block NSError *failureError;
+            void(^failureBlock)(NSError *) = ^(NSError *error) { failureError = error; };
+
+            beforeEach(^{
+                failureError = nil;
+                [authenticator authenticateForStrategy:mock(A0Strategy.class) withSuccess:successBlock failure:failureBlock];
+            });
+
+            it(@"should not call any provider", ^{
+                [verifyCount(provider, never()) authenticateWithSuccess:successBlock failure:failureBlock];
+            });
+
+            it(@"should call failure block", ^{
+                expect(failureError).toNot.beNil();
+            });
+
+            specify(@"unkown strategy error", ^{
+                expect(failureError.code).to.equal(@(A0ErrorCodeUknownProviderForStrategy));
+            });
+        });
+
+    });
+
+    describe(@"Handle URL", ^{
+
+        __block id<A0SocialAuthenticationProvider> facebook;
+        __block id<A0SocialAuthenticationProvider> twitter;
+        NSURL *facebookURL = [NSURL URLWithString:@"fb12345678://handler"];
+        NSURL *twitterURL = [NSURL URLWithString:@"twitter://handler"];
+
+        beforeEach(^{
+            facebook = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+            twitter = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+            [given([facebook handleURL:facebookURL sourceApplication:nil]) willReturnBool:YES];
+            [given([twitter handleURL:twitterURL sourceApplication:nil]) willReturnBool:YES];
+            authenticator.authenticators = [@{ @"facebook": facebook, @"twitter": twitter } mutableCopy];
+        });
+
+        context(@"url for facebook provider to handle", ^{
+
+            __block BOOL handled;
+
+            beforeEach(^{
+                handled = [authenticator handleURL:facebookURL sourceApplication:nil];
+            });
+
+            it(@"should call facebook provider", ^{
+                [verifyCount(facebook, times(1)) handleURL:facebookURL sourceApplication:nil];
+            });
+
+            it(@"should be handled", ^{
+                expect(handled).to.beTruthy();
+            });
+        });
+
+        context(@"url for twitter provider to handle", ^{
+
+            __block BOOL handled;
+
+            beforeEach(^{
+                handled = [authenticator handleURL:twitterURL sourceApplication:nil];
+            });
+
+            it(@"should call facebook provider", ^{
+                [verifyCount(twitter, times(1)) handleURL:twitterURL sourceApplication:nil];
+            });
+
+            it(@"should be handled", ^{
+                expect(handled).to.beTruthy();
+            });
+        });
+
+        context(@"unknown url to handle", ^{
+
+            __block BOOL handled;
+            NSURL *invalidURL = [NSURL URLWithString:@"ftp://pepe"];
+
+            beforeEach(^{
+                handled = [authenticator handleURL:invalidURL sourceApplication:nil];
+            });
+
+            it(@"should call all providers", ^{
+                [verifyCount(twitter, times(1)) handleURL:invalidURL sourceApplication:nil];
+                [verifyCount(facebook, times(1)) handleURL:invalidURL sourceApplication:nil];
+            });
+
+            it(@"should be handled", ^{
+                expect(handled).to.beFalsy();
+            });
+        });
 
     });
 });

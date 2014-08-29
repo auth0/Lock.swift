@@ -26,11 +26,22 @@
 
 #import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
 
+@interface A0FacebookAuthentication ()
+@property (strong, nonatomic) NSArray *permissions;
+@end
+
 @implementation A0FacebookAuthentication
 
-- (instancetype)init {
+- (instancetype)initWithPermissions:(NSArray *)permissions {
     self = [super init];
     if (self) {
+        if (permissions) {
+            NSMutableSet *perms = [[NSMutableSet alloc] initWithArray:permissions];
+            [perms addObject:@"public_profile"];
+            self.permissions = [perms allObjects];
+        } else {
+            self.permissions = @[@"public_profile", @"email"];
+        }
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationActiveNotification:) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
     return self;
@@ -44,8 +55,8 @@
     [FBAppCall handleDidBecomeActive];
 }
 
-+ (A0FacebookAuthentication *)newAuthentication {
-    return [[A0FacebookAuthentication alloc] init];
++ (A0FacebookAuthentication *)newAuthenticationWithPermissions:(NSArray *)permissions {
+    return [[A0FacebookAuthentication alloc] initWithPermissions:permissions];
 }
 
 #pragma mark - A0SocialProviderAuth
@@ -68,7 +79,7 @@
             success([[A0SocialCredentials alloc] initWithAccessToken:active.accessTokenData.accessToken]);
         }
     } else {
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"] allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+        [FBSession openActiveSessionWithReadPermissions:self.permissions allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
             if (error) {
                 if (failure) {
                     Auth0LogError(@"Failed to open FB Session with error %@", error);
@@ -81,7 +92,6 @@
                         Auth0LogDebug(@"Successfully opened FB Session");
                         if (success) {
                             success([[A0SocialCredentials alloc] initWithAccessToken:session.accessTokenData.accessToken]);
-                            [session closeAndClearTokenInformation];
                         }
                         break;
                     case FBSessionStateClosedLoginFailed:
