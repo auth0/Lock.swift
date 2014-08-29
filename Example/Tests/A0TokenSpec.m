@@ -12,6 +12,7 @@
 #define kAccessToken @"ACCESS TOKEN"
 #define kIdToken @"ID TOKEN"
 #define kTokenType @"BEARER"
+#define kRefreshToken @"REFRESH TOKEN"
 
 SpecBegin(A0Token)
 
@@ -65,6 +66,34 @@ describe(@"A0Token", ^{
 
     });
 
+    sharedExamplesFor(@"valid basic with offline token", ^(NSDictionary *data) {
+
+        beforeEach(^{
+            token = data[@"token"];
+        });
+
+        itShouldBehaveLike(@"valid basic token", data);
+
+        specify(@"valid refresh token", ^{
+            expect(token.refreshToken).to.equal(kRefreshToken);
+        });
+        
+    });
+
+    sharedExamplesFor(@"valid complete with offline token", ^(NSDictionary *data) {
+
+        beforeEach(^{
+            token = data[@"token"];
+        });
+
+        itShouldBehaveLike(@"valid complete token", data);
+
+        specify(@"valid refresh token", ^{
+            expect(token.refreshToken).to.equal(kRefreshToken);
+        });
+        
+    });
+
     context(@"creating from JSON", ^{
 
         itShouldBehaveLike(@"valid complete token", @{ @"token": [[A0Token alloc] initWithDictionary:jsonDict] });
@@ -75,10 +104,28 @@ describe(@"A0Token", ^{
             return @{ @"token": [[A0Token alloc] initWithDictionary:dict] };
         });
 
+        itShouldBehaveLike(@"valid basic with offline token", ^{
+            NSMutableDictionary *dict = [jsonDict mutableCopy];
+            [dict removeObjectForKey:@"access_token"];
+            dict[@"refresh_token"] = kRefreshToken;
+            return @{ @"token": [[A0Token alloc] initWithDictionary:dict] };
+        });
+
+        itShouldBehaveLike(@"valid complete with offline token", ^{
+            NSMutableDictionary *dict = [jsonDict mutableCopy];
+            dict[@"refresh_token"] = kRefreshToken;
+            return @{ @"token": [[A0Token alloc] initWithDictionary:dict] };
+        });
+
         itBehavesLike(@"invalid token", @{});
         itBehavesLike(@"invalid token", @{ @"access_token": kAccessToken });
+        itBehavesLike(@"invalid token", @{ @"refresh_token": kRefreshToken });
         itBehavesLike(@"invalid token", @{ @"access_token": kAccessToken, @"token_type": kTokenType });
         itBehavesLike(@"invalid token", @{ @"access_token": kAccessToken, @"id_token": kIdToken });
+        itBehavesLike(@"invalid token", @{ @"access_token": kAccessToken, @"refresh_token": kRefreshToken });
+        itBehavesLike(@"invalid token", @{ @"access_token": kAccessToken, @"token_type": kTokenType, @"refresh_token": kRefreshToken });
+        itBehavesLike(@"invalid token", @{ @"access_token": kAccessToken, @"id_token": kIdToken, @"refresh_token": kRefreshToken });
+
     });
 });
 

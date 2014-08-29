@@ -27,6 +27,7 @@
 @property (readonly, nonatomic) NSString *accessToken;
 @property (readonly, nonatomic) NSString *idToken;
 @property (readonly, nonatomic) NSString *tokenType;
+@property (readonly, nonatomic) NSString *refreshToken;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

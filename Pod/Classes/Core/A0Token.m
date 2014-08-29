@@ -26,7 +26,8 @@
 
 - (instancetype)initWithAccessToken:(NSString *)accessToken
                             idToken:(NSString *)idToken
-                          tokenType:(NSString *)tokenType {
+                          tokenType:(NSString *)tokenType
+                       refreshToken:(NSString *)refreshToken {
     self = [super init];
     if (self) {
         NSAssert(idToken.length > 0, @"Must have a valid id token");
@@ -34,6 +35,7 @@
         _accessToken = [accessToken copy];
         _idToken = [idToken copy];
         _tokenType = [tokenType copy];
+        _refreshToken = [refreshToken copy];
     }
     return self;
 }
@@ -41,7 +43,11 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     return [self initWithAccessToken:dictionary[@"access_token"]
                              idToken:dictionary[@"id_token"]
-                           tokenType:dictionary[@"token_type"]];
+                           tokenType:dictionary[@"token_type"]
+                        refreshToken:dictionary[@"refresh_token"]];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<A0Token access_token = '%@'; id_token = '%@' token_type = %@; refresh_token = '%@'>", self.accessToken, self.idToken, self.tokenType, self.refreshToken];
+}
 @end
