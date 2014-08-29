@@ -1,6 +1,6 @@
 # Auth0Client
 
-[![CI Status](http://img.shields.io/travis/Hernan Zalazar/Auth0Client.svg?style=flat)](https://travis-ci.org/Auth0/Auth0Client)
+[![CI Status](http://img.shields.io/travis/auth0/Auth0.iOS.svg?style=flat)](https://travis-ci.org/auth0/Auth0.iOS)
 [![Version](https://img.shields.io/cocoapods/v/Auth0Client.svg?style=flat)](http://cocoadocs.org/docsets/Auth0Client)
 [![License](https://img.shields.io/cocoapods/l/Auth0Client.svg?style=flat)](http://cocoadocs.org/docsets/Auth0Client)
 [![Platform](https://img.shields.io/cocoapods/p/Auth0Client.svg?style=flat)](http://cocoadocs.org/docsets/Auth0Client)
@@ -25,4 +25,3 @@ Auth0
 ## License
 
 Auth0Client is available under the MIT license. See the LICENSE file for more info.
-
