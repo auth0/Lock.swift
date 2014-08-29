@@ -31,5 +31,6 @@ typedef void(^A0AuthenticationBlock)(A0AuthenticationViewController *controller,
 
 @property (copy, nonatomic) A0AuthenticationBlock authBlock;
 @property (assign, nonatomic) BOOL usesEmail;
+@property (assign, nonatomic) BOOL offlineAccess;
 
 @end

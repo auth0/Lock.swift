@@ -59,6 +59,7 @@
 #define kAccessTokenParamName @"access_token"
 #define kAccessTokenSecretParamName @"access_token_secret"
 #define kSocialUserIdParamName @"user_id"
+#define kDeviceNameParamName @"device"
 
 typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
@@ -105,6 +106,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
             A0Application *application = [self parseApplicationFromJSONP:responseObject error:&error];
             Auth0LogDebug(@"Application parsed form JSONP %@", application);
             if (!error) {
+                [self configureForApplication:application];
+                [[A0SocialAuthenticator sharedInstance] configureForApplication:application];
                 success(application);
             } else {
                 Auth0LogError(@"Failed to parse JSONP with error %@", error);
@@ -125,7 +128,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                                                  kUsernameParamName: username,
                                                                  kPasswordParamName: password,
                                                                  kGrantTypeParamName: @"password",
-                                                                 kScopeParamName: @"openid",
+                                                                 kScopeParamName: [self defaultScope],
                                                                  }];
     Auth0LogVerbose(@"Starting Login with username & password %@", params);
     @weakify(self);
@@ -172,7 +175,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                success:(A0APIClientAuthenticationSuccess)success
                                failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
-                                                                  kScopeParamName: @"openid",
+                                                                  kScopeParamName: [self defaultScope],
                                                                   }
                                                        strategy:strategy
                                                     credentials:socialCredentials];
@@ -252,6 +255,9 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     if (credentials.extraInfo[A0StrategySocialUserIdParameter]) {
         params[kSocialUserIdParamName] = credentials.extraInfo[A0StrategySocialUserIdParameter];
     }
+    if (self.offlineAccess) {
+        params[kDeviceNameParamName] = [[UIDevice currentDevice] name];
+    }
     return params;
 }
 
@@ -273,10 +279,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 - (NSString *)defaultScope {
     NSString *scope = @"openid";
     if (self.offlineAccess) {
-        NSMutableCharacterSet *chars = [NSCharacterSet.URLQueryAllowedCharacterSet mutableCopy];
-        [chars removeCharactersInRange:NSMakeRange('&', 1)]; // %26
-        NSString *encodedName = [[[UIDevice currentDevice] name] stringByAddingPercentEncodingWithAllowedCharacters:chars];
-        scope = [scope stringByAppendingFormat:@" offline_access device=%@", encodedName];
+        scope = [scope stringByAppendingString:@" offline_access"];
     }
     return scope;
 }

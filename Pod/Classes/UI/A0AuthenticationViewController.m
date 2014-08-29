@@ -82,12 +82,11 @@
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
     self.current = [self layoutController:[[A0LoadingViewController alloc] init] inContainer:self.containerView];
 
+    [[A0APIClient sharedClient] setOfflineAccess:self.offlineAccess];
     @weakify(self);
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         self.application = application;
-        [[A0APIClient sharedClient] configureForApplication:application];
-        [[A0SocialAuthenticator sharedInstance] configureForApplication:application];
         [self layoutRootControllerForApplication:application];
     } failure:nil];
 }
