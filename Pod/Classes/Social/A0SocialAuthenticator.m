@@ -96,4 +96,12 @@
     }];
     return handled;
 }
+
+- (void)clearSessions {
+    [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0SocialAuthenticationProvider> authenticator, BOOL *stop) {
+        [authenticator clearSessions];
+    }];
+
+}
+
 @end

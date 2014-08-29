@@ -265,6 +265,35 @@ describe(@"A0SocialAuthenticator", ^{
         });
 
     });
+
+    describe(@"Clear sessions", ^{
+
+        __block id<A0SocialAuthenticationProvider> facebook;
+        __block id<A0SocialAuthenticationProvider> twitter;
+
+        beforeEach(^{
+            facebook = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+            twitter = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+            authenticator.authenticators = [@{ @"facebook": facebook, @"twitter": twitter } mutableCopy];
+        });
+
+        context(@"url for facebook provider to handle", ^{
+
+            beforeEach(^{
+                [authenticator clearSessions];
+            });
+
+            it(@"should call facebook provider", ^{
+                [verifyCount(facebook, times(1)) clearSessions];
+            });
+
+            it(@"should call twitter provider", ^{
+                [verifyCount(twitter, times(1)) clearSessions];
+            });
+        });
+        
+    });
+
 });
 
 SpecEnd

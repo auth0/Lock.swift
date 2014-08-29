@@ -28,6 +28,7 @@
 @required
 - (NSString *)identifier;
 - (void)authenticateWithSuccess:(void(^)(A0SocialCredentials *socialCredentials))success failure:(void(^)(NSError *))failure;
+- (void)clearSessions;
 
 @optional
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;

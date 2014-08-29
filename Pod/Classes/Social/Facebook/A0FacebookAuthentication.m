@@ -65,6 +65,10 @@
     return A0FacebookAuthenticationName;
 }
 
+- (void)clearSessions {
+    [[FBSession activeSession] closeAndClearTokenInformation];
+}
+
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     Auth0LogDebug(@"Received url %@ from source application %@", url, sourceApplication);
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];

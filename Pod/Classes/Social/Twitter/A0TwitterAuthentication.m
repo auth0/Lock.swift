@@ -69,6 +69,8 @@
     return A0TwitterAuthenticationName;
 }
 
+- (void)clearSessions { }
+
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     BOOL handled = NO;
     Auth0LogDebug(@"Received url %@ from source application %@", url, sourceApplication);

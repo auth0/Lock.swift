@@ -30,6 +30,8 @@ typedef void(^A0APIClientError)(NSError *error);
 
 @interface A0APIClient : NSObject
 
+@property (assign, nonatomic) BOOL offlineAccess;
+
 - (void)configureForApplication:(A0Application *)application;
 
 - (instancetype)initWithClientId:(NSString *)clientId;
@@ -43,6 +45,8 @@ typedef void(^A0APIClientError)(NSError *error);
 - (void)changePassword:(NSString *)newPassword forUsername:(NSString *)username success:(void(^)())success failure:(A0APIClientError)failure;
 
 - (void)authenticateWithSocialStrategy:(A0Strategy *)strategy socialCredentials:(A0SocialCredentials *)socialCredentials success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure;
+
+- (void)logout;
 
 + (instancetype)sharedClient;
 

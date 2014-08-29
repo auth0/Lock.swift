@@ -34,5 +34,6 @@
 - (void)configureForApplication:(A0Application *)application;
 - (void)authenticateForStrategy:(A0Strategy *)strategy withSuccess:(void(^)(A0SocialCredentials *socialCredentials))success failure:(void(^)(NSError *error))failure;
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application;
+- (void)clearSessions;
 
 @end

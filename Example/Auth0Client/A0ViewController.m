@@ -28,6 +28,7 @@
 #import <Auth0Client/A0TwitterAuthentication.h>
 #import <Auth0Client/A0SocialAuthenticator.h>
 #import <Auth0Client/A0UserProfile.h>
+#import <Auth0Client/A0APIClient.h>
 #import <libextobjc/EXTScope.h>
 
 @interface A0ViewController ()
@@ -55,6 +56,7 @@
         self.authInfo = profile;
         [self performSegueWithIdentifier:@"ShowInfo" sender:self];
     };
+    [[A0APIClient sharedClient] logout];
     [self presentViewController:controller animated:YES completion:nil];
 }
 

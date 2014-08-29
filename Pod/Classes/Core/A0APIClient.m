@@ -28,6 +28,7 @@
 #import "A0SocialCredentials.h"
 #import "A0UserProfile.h"
 #import "A0Token.h"
+#import "A0SocialAuthenticator.h"
 
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
@@ -185,6 +186,10 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 }
 
+- (void)logout {
+    [[A0SocialAuthenticator sharedInstance] clearSessions];
+}
+
 + (instancetype)sharedClient {
     static A0APIClient *client;
     static dispatch_once_t onceToken;
@@ -263,5 +268,16 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     NSDictionary *auth0AppInfo = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:error];
     A0Application *application = [[A0Application alloc] initWithJSONDictionary:auth0AppInfo];
     return application;
+}
+
+- (NSString *)defaultScope {
+    NSString *scope = @"openid";
+    if (self.offlineAccess) {
+        NSMutableCharacterSet *chars = [NSCharacterSet.URLQueryAllowedCharacterSet mutableCopy];
+        [chars removeCharactersInRange:NSMakeRange('&', 1)]; // %26
+        NSString *encodedName = [[[UIDevice currentDevice] name] stringByAddingPercentEncodingWithAllowedCharacters:chars];
+        scope = [scope stringByAppendingFormat:@" offline_access device=%@", encodedName];
+    }
+    return scope;
 }
 @end
