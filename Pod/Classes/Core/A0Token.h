@@ -28,6 +28,7 @@
 @property (readonly, nonatomic) NSString *idToken;
 @property (readonly, nonatomic) NSString *tokenType;
 @property (readonly, nonatomic) NSString *refreshToken;
+@property (readonly, nonatomic) NSDate *expiresAt;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

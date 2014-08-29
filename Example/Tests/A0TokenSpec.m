@@ -14,6 +14,13 @@
 #define kTokenType @"BEARER"
 #define kRefreshToken @"REFRESH TOKEN"
 
+NSString *A0TokenJWTCreate(NSDate *expireDate) {
+    NSString *claims = [NSString stringWithFormat:@"{\"exp\": %f}", expireDate.timeIntervalSince1970]; //It has more values but not used in A0Token
+    NSData *claimsData = [claims dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *base64Claims = [claimsData base64EncodedStringWithOptions:0];
+    return [NSString stringWithFormat:@"HEADER.%@.SIGNATURE", base64Claims];
+}
+
 SpecBegin(A0Token)
 
 describe(@"A0Token", ^{
@@ -126,6 +133,43 @@ describe(@"A0Token", ^{
         itBehavesLike(@"invalid token", @{ @"access_token": kAccessToken, @"token_type": kTokenType, @"refresh_token": kRefreshToken });
         itBehavesLike(@"invalid token", @{ @"access_token": kAccessToken, @"id_token": kIdToken, @"refresh_token": kRefreshToken });
 
+    });
+
+    describe(@"id_token expiration date", ^{
+
+        context(@"valid id_token", ^{
+            __block NSDate *expireDate;
+
+            beforeEach(^{
+                expireDate = [NSDate dateWithTimeIntervalSinceNow:2 * 60 * 60];
+                NSMutableDictionary *dict = [jsonDict mutableCopy];
+                dict[@"id_token"] = A0TokenJWTCreate(expireDate);
+                token = [[A0Token alloc] initWithDictionary:dict];
+            });
+
+            it(@"should return expire date form id_token", ^{
+                expect(token.expiresAt.timeIntervalSince1970).to.equal(expireDate.timeIntervalSince1970);
+            });
+
+        });
+
+        sharedExamplesFor(@"invalid id_token", ^(NSDictionary *data) {
+
+            beforeEach(^{
+                NSMutableDictionary *dict = [jsonDict mutableCopy];
+                dict[@"id_token"] = data[@"id_token"];
+                token = [[A0Token alloc] initWithDictionary:dict];
+            });
+
+            specify(@"no expire date", ^{
+                expect(token.expiresAt).to.beNil();
+            });
+
+        });
+
+        itShouldBehaveLike(@"invalid id_token", @{ @"id_token": @"NOPARTS" });
+        itShouldBehaveLike(@"invalid id_token", @{ @"id_token": @"NOTENOUGH.PARTS" });
+        itShouldBehaveLike(@"invalid id_token", @{ @"id_token": @"HEADER.INVALIDCLAIM.SIGNATURE" });
     });
 });
 

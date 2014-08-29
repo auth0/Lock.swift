@@ -21,8 +21,8 @@
 // THE SOFTWARE.
 
 #import "A0Application.h"
-
 #import "A0Strategy.h"
+
 @implementation A0Application
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict {

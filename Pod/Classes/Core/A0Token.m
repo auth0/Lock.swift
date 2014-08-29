@@ -47,6 +47,26 @@
                         refreshToken:dictionary[@"refresh_token"]];
 }
 
+- (NSDate *)expiresAt {
+    NSDate *expiresAt = nil;
+    NSArray *parts = [self.idToken componentsSeparatedByString:@"."];
+    if (parts.count == 3) {
+        NSString *claimsBase64 = parts[1];
+        NSData *claimsData = [[NSData alloc] initWithBase64EncodedString:claimsBase64 options:0];
+        NSError *error;
+        NSDictionary *claimsJSON = [NSJSONSerialization JSONObjectWithData:claimsData options:0 error:&error];
+        if (!error && claimsJSON[@"exp"] && [claimsJSON[@"exp"] isKindOfClass:NSNumber.class]) {
+            NSNumber *expireFromEpoch = claimsJSON[@"exp"];
+            expiresAt = [NSDate dateWithTimeIntervalSince1970:expireFromEpoch.doubleValue];
+        } else {
+            Auth0LogWarn(@"Invalid id_token claims part. Not valid json or missing exp attr");
+        }
+    } else {
+        Auth0LogWarn(@"Invalid id_token. Not enough parts (Required 3 parts obtained %ld)", parts.count);
+    }
+    return expiresAt;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<A0Token access_token = '%@'; id_token = '%@' token_type = %@; refresh_token = '%@'>", self.accessToken, self.idToken, self.tokenType, self.refreshToken];
 }
