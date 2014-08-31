@@ -30,6 +30,11 @@
 @property (readonly, nonatomic) NSString *refreshToken;
 @property (readonly, nonatomic) NSDate *expiresAt;
 
+- (instancetype)initWithAccessToken:(NSString *)accessToken
+                            idToken:(NSString *)idToken
+                          tokenType:(NSString *)tokenType
+                       refreshToken:(NSString *)refreshToken;
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

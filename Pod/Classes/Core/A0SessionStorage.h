@@ -1,4 +1,4 @@
-//  A0StrategySpec.m
+//  A0SessionStorage.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,28 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "Specta.h"
-#import "A0Strategy.h"
+#import <Foundation/Foundation.h>
 
+@class A0Token, A0UserProfile;
 
-#define kName @"facebook"
+@protocol A0SessionStorage <NSObject>
 
-SpecBegin(A0Strategy)
+@required
+- (void)storeToken:(A0Token *)token andUserProfile:(A0UserProfile *)userProfile;
+- (void)storeToken:(A0Token *)token;
+- (void)storeUserProfile:(A0UserProfile *)userProfile;
 
-describe(@"A0Strategy", ^{
+- (A0Token *)currentToken;
+- (A0UserProfile *)currentUserProfile;
 
-    __block A0Strategy *strategy;
-
-    context(@"creating from JSON", ^{
-
-        beforeEach(^{
-            strategy = [[A0Strategy alloc] initWithJSONDictionary:@{ @"name": kName }];
-        });
-
-        specify(@"valid name", ^{
-            expect(strategy.name).to.equal(kName);
-        });
-    });
-});
-
-SpecEnd
+- (void)clearAll;
+@end

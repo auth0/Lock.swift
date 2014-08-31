@@ -55,4 +55,34 @@
                       createdAt:[formatter dateFromString:dictionary[@"created_at"]]];
 }
 
+#pragma mark - NSCoding
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    return [self initWithUserId:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(userId))]
+                           name:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(name))]
+                       nickname:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(nickname))]
+                          email:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(email))]
+                        picture:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(picture))]
+                      createdAt:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(createdAt))]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:self.userId forKey:NSStringFromSelector(@selector(userId))];
+    if (self.name) {
+        [aCoder encodeObject:self.name forKey:NSStringFromSelector(@selector(name))];
+    }
+    if (self.nickname) {
+        [aCoder encodeObject:self.nickname forKey:NSStringFromSelector(@selector(nickname))];
+    }
+    if (self.email) {
+        [aCoder encodeObject:self.email forKey:NSStringFromSelector(@selector(email))];
+    }
+    if (self.picture) {
+        [aCoder encodeObject:self.picture forKey:NSStringFromSelector(@selector(picture))];
+    }
+    if (self.createdAt) {
+        [aCoder encodeObject:self.createdAt forKey:NSStringFromSelector(@selector(createdAt))];
+    }
+}
+
 @end

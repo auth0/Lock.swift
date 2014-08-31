@@ -31,6 +31,7 @@ PODS:
     - CocoaLumberjack (~> 1.9)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
+    - UICKeyChainStore (~> 1.0.5)
   - Auth0Client/Facebook (0.1.0):
     - Auth0Client/Social
     - CocoaLumberjack (~> 1.9)
@@ -113,6 +114,7 @@ PODS:
   - TWReverseAuth (0.1.1):
     - LUKeychainAccess
     - OAuthCore
+  - UICKeyChainStore (1.0.5)
 
 DEPENDENCIES:
   - Auth0Client (from `../`)
@@ -126,7 +128,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
-  Auth0Client: 59b200962c0a548f639c570711fee7035368d5e7
+  Auth0Client: d401627937984fd4d4c06f2972283b5503d1bbc4
   BDBOAuth1Manager: b877a5d3b94071f8b3a55ff3738d8a73c23d460e
   Bolts: 2635e8698a630774689441047f3465d78c48d485
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
@@ -143,5 +145,6 @@ SPEC CHECKSUMS:
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
   TPWeakProxy: a23251ba7fbe268c93f809cc072ef834f5063798
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
+  UICKeyChainStore: 4f9719600cc70025064e26f28f1210bcfc3b0c35
 
 COCOAPODS: 0.33.1

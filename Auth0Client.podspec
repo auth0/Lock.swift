@@ -29,6 +29,7 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
     core.source_files = 'Pod/Classes/Core/*.{h,m}'
     core.dependency 'AFNetworking', '~> 2.3'
     core.dependency 'ISO8601DateFormatter', '~> 0.7'
+    core.dependency 'UICKeyChainStore', '~> 1.0.5'
   end
 
   s.subspec 'UI' do |ui|

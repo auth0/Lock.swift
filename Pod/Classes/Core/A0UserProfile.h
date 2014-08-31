@@ -24,7 +24,7 @@
 
 @class A0Token;
 
-@interface A0UserProfile : NSObject
+@interface A0UserProfile : NSObject<NSCoding>
 
 @property (readonly, nonatomic) NSString *userId;
 @property (readonly, nonatomic) NSString *name;
@@ -32,6 +32,13 @@
 @property (readonly, nonatomic) NSString *email;
 @property (readonly, nonatomic) NSURL *picture;
 @property (readonly, nonatomic) NSDate *createdAt;
+
+- initWithUserId:(NSString *)userId
+            name:(NSString *)name
+        nickname:(NSString *)nickname
+           email:(NSString *)email
+         picture:(NSURL *)picture
+       createdAt:(NSDate *)createdAt;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
