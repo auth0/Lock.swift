@@ -42,6 +42,7 @@
 #define kUserInfoPath @"/userinfo"
 #define kChangePasswordPath @"/dbconnections/change_password"
 #define kSocialAuthPath @"/oauth/access_token"
+#define kDelegationAuthPath @"/delegation"
 
 #define kAuthorizationHeaderName @"Authorization"
 #define kAuthorizationHeaderValueFormatString @"Bearer %@"
@@ -60,6 +61,10 @@
 #define kAccessTokenSecretParamName @"access_token_secret"
 #define kSocialUserIdParamName @"user_id"
 #define kDeviceNameParamName @"device"
+#define kRefreshTokenParamName @"refresh_token"
+
+NSString * const A0APIClientDelegationAPIType = @"api_type";
+NSString * const A0APIClientDelegationTarget = @"target";
 
 typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
@@ -82,6 +87,23 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     }
     return self;
 }
+
+- (void)logout {
+    [[A0SocialAuthenticator sharedInstance] clearSessions];
+}
+
++ (instancetype)sharedClient {
+    static A0APIClient *client;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+        NSString *clientId = info[kClientIdKey];
+        client = [[A0APIClient alloc] initWithClientId:clientId];
+    });
+    return client;
+}
+
+#pragma mark - Client configuration
 
 - (void)configureForApplication:(A0Application *)application {
     Auth0LogDebug(@"Configuring APIClient for application %@", application);
@@ -120,6 +142,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
     [operation start];
 }
+
+#pragma mark - Database Authentication
 
 - (void)loginWithUsername:(NSString *)username
                  password:(NSString *)password
@@ -171,6 +195,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
+#pragma mark - Social Authentication
+
 - (void)authenticateWithSocialStrategy:(A0Strategy *)strategy
                      socialCredentials:(A0SocialCredentials *)socialCredentials
                                success:(A0APIClientAuthenticationSuccess)success
@@ -190,19 +216,37 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 }
 
-- (void)logout {
-    [[A0SocialAuthenticator sharedInstance] clearSessions];
+#pragma mark - Delegation Authentication
+
+- (void)delegationWithRefreshToken:(NSString *)refreshToken
+                           options:(NSDictionary *)options
+                           success:(A0APIClientDelegationSuccess)success
+                           failure:(A0APIClientError)failure {
+    NSMutableDictionary *optionWithToken = options ? [options mutableCopy] : [@{} mutableCopy];
+    optionWithToken[kRefreshTokenParamName] = refreshToken;
+    [self delegationWithOptions:optionWithToken success:success failure:failure];
 }
 
-+ (instancetype)sharedClient {
-    static A0APIClient *client;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-        NSString *clientId = info[kClientIdKey];
-        client = [[A0APIClient alloc] initWithClientId:clientId];
-    });
-    return client;
+- (void)delegationWithIdToken:(NSString *)idToken options:(NSDictionary *)options success:(A0APIClientDelegationSuccess)success failure:(A0APIClientError)failure {
+    NSMutableDictionary *optionWithToken = options ? [options mutableCopy] : [@{} mutableCopy];
+    optionWithToken[kIdTokenParamName] = idToken;
+    [self delegationWithOptions:optionWithToken success:success failure:failure];
+}
+
+- (void)delegationWithOptions:(NSDictionary *)options success:(A0APIClientDelegationSuccess)success failure:(A0APIClientError)failure {
+    NSMutableDictionary *params = [@{
+                                     kClientIdParamName: self.clientId,
+                                     kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                     kScopeParamName: [self defaultScopeString],
+                                     } mutableCopy];
+    [params addEntriesFromDictionary:options];
+    Auth0LogVerbose(@"Calling delegate authentication with params %@", params);
+    [self.manager POST:kDelegationAuthPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        Auth0LogDebug(@"Delegation successful parmas %@", params);
+        if (success) {
+            success([[A0Token alloc] initWithDictionary:responseObject]);
+        }
+    } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
 #pragma mark - Internal API calls
@@ -228,6 +272,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 }
 
 #pragma mark - Utility methods
+
 + (AFFailureBlock) sanitizeFailureBlock:(A0APIClientError)failureBlock {
     AFFailureBlock sanitized = ^(AFHTTPRequestOperation *operation, NSError *error) {
         Auth0LogError(@"Request %@ %@ failed with error %@", operation.request.HTTPMethod, operation.request.URL, error);

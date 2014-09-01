@@ -29,6 +29,7 @@
 #import <Auth0Client/A0SocialAuthenticator.h>
 #import <Auth0Client/A0UserProfile.h>
 #import <Auth0Client/A0APIClient.h>
+#import <Auth0Client/A0Token.h>
 #import <libextobjc/EXTScope.h>
 
 @interface A0ViewController ()

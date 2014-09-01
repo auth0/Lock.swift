@@ -28,22 +28,35 @@ typedef NS_OPTIONS(NSInteger, A0APIClientScope) {
     A0APIClientScopeOfflineAccess = 1 << 2
 };
 
+FOUNDATION_EXTERN NSString * const A0APIClientDelegationAPIType;
+FOUNDATION_EXTERN NSString * const A0APIClientDelegationTarget;
+
 @class A0Application, A0Strategy, A0SocialCredentials, A0UserProfile, A0Token;
 
 typedef void(^A0APIClientFetchAppInfoSuccess)(id payload);
 typedef void(^A0APIClientAuthenticationSuccess)(A0UserProfile *profile, A0Token *tokenInfo);
+typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 typedef void(^A0APIClientError)(NSError *error);
 
 @interface A0APIClient : NSObject
 
 @property (assign, nonatomic) A0APIClientScope defaultScope;
 
+- (instancetype)initWithClientId:(NSString *)clientId;
+
++ (instancetype)sharedClient;
+
+#pragma mark - Client configuration
+
 - (void)configureForApplication:(A0Application *)application;
 
-- (instancetype)initWithClientId:(NSString *)clientId;
 
 - (void)fetchAppInfoWithSuccess:(A0APIClientFetchAppInfoSuccess)success
                         failure:(A0APIClientError)failure;
+
+- (void)logout;
+
+#pragma mark - Database Authentication
 
 - (void)loginWithUsername:(NSString *)username
                  password:(NSString *)password
@@ -60,13 +73,24 @@ typedef void(^A0APIClientError)(NSError *error);
                success:(void(^)())success
                failure:(A0APIClientError)failure;
 
+#pragma mark - Social Authentication
+
 - (void)authenticateWithSocialStrategy:(A0Strategy *)strategy
                      socialCredentials:(A0SocialCredentials *)socialCredentials
                                success:(A0APIClientAuthenticationSuccess)success
                                failure:(A0APIClientError)failure;
-    
-- (void)logout;
 
-+ (instancetype)sharedClient;
+
+#pragma mark - Delegation Authentication
+
+- (void)delegationWithRefreshToken:(NSString *)refreshToken
+                           options:(NSDictionary *)options
+                           success:(A0APIClientDelegationSuccess)success
+                           failure:(A0APIClientError)failure;
+
+- (void)delegationWithIdToken:(NSString *)idToken
+                           options:(NSDictionary *)options
+                           success:(A0APIClientDelegationSuccess)success
+                           failure:(A0APIClientError)failure;
 
 @end
