@@ -38,6 +38,14 @@
 
 @implementation A0UserSessionStorage
 
+- (instancetype)initWithAccessGroup:(NSString *)accessGroup {
+    self = [super init];
+    if (self) {
+        _store = [[UICKeyChainStore alloc] initWithService:@"Auth0" accessGroup:accessGroup];
+    }
+    return self;
+}
+
 - (id)init {
     self = [super init];
     if (self) {

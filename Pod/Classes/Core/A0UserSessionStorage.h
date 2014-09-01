@@ -25,4 +25,6 @@
 
 @interface A0UserSessionStorage : NSObject<A0SessionStorage>
 
+- (instancetype)initWithAccessGroup:(NSString *)accessGroup;
+
 @end
