@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
     A0ErrorCodeTwitterNotConfigured,
     A0ErrorCodeTwitterInvalidAccount,
     A0ErrorCodeUknownProviderForStrategy,
+    A0ErrorCodeNoSessionFound,
 };
 
 FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
@@ -69,6 +70,10 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 + (NSError *)twitterCancelled;
 + (NSError *)twitterNotConfigured;
 + (NSError *)twitterInvalidAccount;
+
+#pragma mark - Refresh Session
+
++ (NSError *)noSessionFound;
 
 #pragma mark - Localized Messages
 

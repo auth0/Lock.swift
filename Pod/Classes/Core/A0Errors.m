@@ -179,6 +179,14 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:NSLocalizedString(@"The twitter account seems to be invalid. Please check it in Settings > Twitter and re-enter them.", nil)];
 }
 
+#pragma mark - Refresh Session
+
++ (NSError *)noSessionFound {
+    return [self errorWithCode:A0ErrorCodeNoSessionFound
+                   description:NSLocalizedString(@"There was an error refreshing session", nil)
+                 failureReason:NSLocalizedString(@"No id_token or refresh_token was found in session storage", nil)];
+}
+
 #pragma mark - Localized error messages
 
 + (NSString *)localizedStringForLoginError:(NSError *)error {
