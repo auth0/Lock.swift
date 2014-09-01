@@ -78,6 +78,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     if (self) {
         NSAssert(clientId, @"You must supply Auth0 Client Id.");
         _clientId = [clientId copy];
+        _defaultScope = A0APIClientScopeOpenId | A0APIClientScopeOfflineAccess;
     }
     return self;
 }
@@ -128,7 +129,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                                                  kUsernameParamName: username,
                                                                  kPasswordParamName: password,
                                                                  kGrantTypeParamName: @"password",
-                                                                 kScopeParamName: [self defaultScope],
+                                                                 kScopeParamName: [self defaultScopeString],
                                                                  }];
     Auth0LogVerbose(@"Starting Login with username & password %@", params);
     @weakify(self);
@@ -175,7 +176,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                success:(A0APIClientAuthenticationSuccess)success
                                failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
-                                                                  kScopeParamName: [self defaultScope],
+                                                                  kScopeParamName: [self defaultScopeString],
                                                                   }
                                                        strategy:strategy
                                                     credentials:socialCredentials];
@@ -255,7 +256,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     if (credentials.extraInfo[A0StrategySocialUserIdParameter]) {
         params[kSocialUserIdParamName] = credentials.extraInfo[A0StrategySocialUserIdParameter];
     }
-    if (self.offlineAccess) {
+    if (self.defaultScope & A0APIClientScopeOfflineAccess) {
         params[kDeviceNameParamName] = [[UIDevice currentDevice] name];
     }
     return params;
@@ -276,11 +277,14 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     return application;
 }
 
-- (NSString *)defaultScope {
-    NSString *scope = @"openid";
-    if (self.offlineAccess) {
-        scope = [scope stringByAppendingString:@" offline_access"];
+- (NSString *)defaultScopeString {
+    NSMutableArray *scopes = [@[ @"openid" ] mutableCopy];
+    if (self.defaultScope & A0APIClientScopeOfflineAccess) {
+        [scopes addObject:@"offline_access"];
     }
-    return scope;
+    if (self.defaultScope & A0APIClientScopeProfile) {
+        [scopes addObject:@"profile"];
+    }
+    return [scopes componentsJoinedByString:@" "];
 }
 @end
