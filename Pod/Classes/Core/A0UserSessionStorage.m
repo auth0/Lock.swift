@@ -69,7 +69,7 @@
 - (void)storeUserProfile:(A0UserProfile *)userProfile {
     NSAssert(userProfile != nil, @"profile should not be nil");
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:userProfile forKey:kUserProfileKey];
+    [userDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:userProfile] forKey:kUserProfileKey];
     [userDefaults synchronize];
 }
 
@@ -95,6 +95,7 @@
 
 - (A0UserProfile *)currentUserProfile {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults objectForKey:kUserProfileKey];
+    NSData *data = [userDefaults objectForKey:kUserProfileKey];
+    return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
 }
 @end

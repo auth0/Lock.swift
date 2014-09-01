@@ -30,36 +30,89 @@
 #import <Auth0Client/A0UserProfile.h>
 #import <Auth0Client/A0APIClient.h>
 #import <Auth0Client/A0Token.h>
+#import <Auth0Client/A0Session.h>
+#import <Auth0Client/A0UserSessionStorage.h>
 #import <libextobjc/EXTScope.h>
 
 @interface A0ViewController ()
 
 @property (strong, nonatomic) A0UserProfile *authInfo;
+@property (strong, nonatomic) A0Session *session;
 
 @end
 
 @implementation A0ViewController
 
-- (void)signIn:(id)sender {
+- (void)viewDidLoad {
+    [super viewDidLoad];
     A0TwitterAuthentication *twitter = [A0TwitterAuthentication newAuthenticationWithKey:@"o8HFHDVB1yEVXSvxSO5F1WuKP"
-                                                                                      andSecret:@"v04WbftIrRJENoTFAr91eCEgLmVCDcaEm5brZlLJtS0ccJjHIz"
-                                                                                    callbackURL:[NSURL URLWithString:@"com.auth0.Auth0Client://twitter-auth"]];
+                                                                               andSecret:@"v04WbftIrRJENoTFAr91eCEgLmVCDcaEm5brZlLJtS0ccJjHIz"
+                                                                             callbackURL:[NSURL URLWithString:@"com.auth0.Auth0Client://twitter-auth"]];
     A0FacebookAuthentication *facebook = [A0FacebookAuthentication newAuthenticationWithPermissions:nil];
     [[A0SocialAuthenticator sharedInstance] registerSocialAuthenticatorProviders:@[
                                                                                    twitter,
                                                                                    facebook,
                                                                                    ]];
+    A0UserSessionStorage *storage = [[A0UserSessionStorage alloc] init];
+    self.session = [[A0Session alloc] initWithSessionStorage:storage];
+    [self refreshSession:nil];
+}
+
+- (void)signIn:(id)sender {
+    [self clearSession:nil];
     A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
     @weakify(self);
     controller.offlineAccess = YES;
-    controller.authBlock = ^(A0AuthenticationViewController *controller, A0UserProfile *profile, A0Token *token) {
+    controller.authBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);
         self.authInfo = profile;
-        [self performSegueWithIdentifier:@"ShowInfo" sender:self];
+        [self.session.storage storeToken:token andUserProfile:profile];
+        [self refreshSession:nil];
     };
-    [[A0APIClient sharedClient] logout];
     [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (IBAction)showProfileInfo:(id)sender {
+    [self performSegueWithIdentifier:@"ShowInfo" sender:self];
+}
+
+- (IBAction)refreshSession:(id)sender {
+    @weakify(self);
+    [self.session refreshWithSuccess:^(A0Token *token) {
+        @strongify(self);
+        A0UserProfile *profile = self.session.profile;
+        self.authInfo = profile;
+        self.refreshButton.enabled = YES;
+        self.showProfileButton.enabled = YES;
+        self.idTokenLabel.text = token.idToken;
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateStyle = NSDateFormatterShortStyle;
+        formatter.timeStyle = NSDateFormatterShortStyle;
+        self.expiresLabel.text = [formatter stringFromDate:token.expiresAt];
+        self.refreshTokenLabel.text = token.refreshToken;
+        self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", profile.name];
+        self.signInButton.enabled = NO;
+    } failure:^(NSError *error) {
+        self.signInButton.enabled = YES;
+        self.refreshButton.enabled = NO;
+        self.showProfileButton.enabled = NO;
+        self.idTokenLabel.text = nil;
+        self.expiresLabel.text = nil;
+        self.refreshTokenLabel.text = nil;
+        self.welcomeLabel.text = @"No Session found";
+    }];
+}
+
+- (IBAction)clearSession:(id)sender {
+    [self.session clear];
+    self.signInButton.enabled = YES;
+    self.refreshButton.enabled = NO;
+    self.showProfileButton.enabled = NO;
+    self.idTokenLabel.text = nil;
+    self.expiresLabel.text = nil;
+    self.refreshTokenLabel.text = nil;
+    self.welcomeLabel.text = @"No Session found";
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

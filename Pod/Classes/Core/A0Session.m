@@ -76,6 +76,7 @@
 
 - (void)clear {
     Auth0LogVerbose(@"Cleaning Auth0 session...");
+    [[A0APIClient sharedClient] logout];
     [self.storage clearAll];
 }
 

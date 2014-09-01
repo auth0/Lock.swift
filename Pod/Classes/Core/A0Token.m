@@ -52,14 +52,29 @@
     NSArray *parts = [self.idToken componentsSeparatedByString:@"."];
     if (parts.count == 3) {
         NSString *claimsBase64 = parts[1];
-        NSData *claimsData = [[NSData alloc] initWithBase64EncodedString:claimsBase64 options:0];
+        NSInteger claimsLength = claimsBase64.length;
+        NSInteger requiredLength = (4 * ceil((double)claimsLength / 4.0));
+        NSInteger paddingCount = requiredLength - claimsLength;
+
+        if (paddingCount > 0) {
+            NSString *padding =
+            [[NSString string] stringByPaddingToLength:paddingCount
+                                            withString:@"=" startingAtIndex:0];
+            claimsBase64 = [claimsBase64 stringByAppendingString:padding];
+        }
+
+        NSData *claimsData = [[NSData alloc] initWithBase64EncodedString:claimsBase64 options:NSDataBase64DecodingIgnoreUnknownCharacters];
         NSError *error;
-        NSDictionary *claimsJSON = [NSJSONSerialization JSONObjectWithData:claimsData options:0 error:&error];
-        if (!error && claimsJSON[@"exp"] && [claimsJSON[@"exp"] isKindOfClass:NSNumber.class]) {
-            NSNumber *expireFromEpoch = claimsJSON[@"exp"];
-            expiresAt = [NSDate dateWithTimeIntervalSince1970:expireFromEpoch.doubleValue];
+        if (claimsData) {
+            NSDictionary *claimsJSON = [NSJSONSerialization JSONObjectWithData:claimsData options:0 error:&error];
+            if (!error && claimsJSON[@"exp"] && [claimsJSON[@"exp"] isKindOfClass:NSNumber.class]) {
+                NSNumber *expireFromEpoch = claimsJSON[@"exp"];
+                expiresAt = [NSDate dateWithTimeIntervalSince1970:expireFromEpoch.doubleValue];
+            } else {
+                Auth0LogWarn(@"Invalid id_token claims part. Not valid json or missing exp attr");
+            }
         } else {
-            Auth0LogWarn(@"Invalid id_token claims part. Not valid json or missing exp attr");
+            Auth0LogWarn(@"Invalid id_token claims part. Failed to decode base64");
         }
     } else {
         Auth0LogWarn(@"Invalid id_token. Not enough parts (Required 3 parts obtained %ld)", parts.count);

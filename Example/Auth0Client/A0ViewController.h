@@ -23,7 +23,18 @@
 #import <UIKit/UIKit.h>
 
 @interface A0ViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *idTokenLabel;
+@property (weak, nonatomic) IBOutlet UILabel *refreshTokenLabel;
+@property (weak, nonatomic) IBOutlet UILabel *expiresLabel;
+@property (weak, nonatomic) IBOutlet UIButton *showProfileButton;
+@property (weak, nonatomic) IBOutlet UIButton *refreshButton;
+@property (weak, nonatomic) IBOutlet UIButton *clearButton;
+@property (weak, nonatomic) IBOutlet UIButton *signInButton;
 
 - (IBAction)signIn:(id)sender;
+- (IBAction)showProfileInfo:(id)sender;
+- (IBAction)refreshSession:(id)sender;
+- (IBAction)clearSession:(id)sender;
 
 @end

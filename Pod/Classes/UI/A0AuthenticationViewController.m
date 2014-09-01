@@ -124,7 +124,7 @@
         @strongify(self);
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             if (self.authBlock) {
-                self.authBlock(self, profile, token);
+                self.authBlock(profile, token);
             }
         }];
     };
