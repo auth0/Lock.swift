@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
-@class A0ChangePasswordCredentialValidator, A0ProgressButton;
+@class A0ChangePasswordCredentialValidator, A0ProgressButton, A0CredentialFieldView;
 
 @interface A0ChangePasswordViewController : UIViewController<A0KeyboardEnabledView>
 
@@ -32,9 +32,9 @@
 
 @property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;
 
-@property (weak, nonatomic) IBOutlet UITextField *userTextField;
-@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UITextField *repeatPasswordTextField;
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *repeatPasswordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *recoverButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 

@@ -24,7 +24,7 @@
 
 #import "A0KeyboardEnabledView.h"
 
-@class A0SignUpCredentialValidator, A0ProgressButton, A0UserProfile, A0Token;
+@class A0SignUpCredentialValidator, A0ProgressButton, A0UserProfile, A0Token, A0CredentialFieldView;
 
 @interface A0SignUpViewController : UIViewController<A0KeyboardEnabledView>
 
@@ -33,8 +33,8 @@
 
 @property (strong, nonatomic) A0SignUpCredentialValidator *validator;
 
-@property (weak, nonatomic) IBOutlet UITextField *userTextField;
-@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 

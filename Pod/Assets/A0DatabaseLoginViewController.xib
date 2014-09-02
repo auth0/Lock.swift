@@ -9,12 +9,10 @@
                 <outlet property="accessButton" destination="CDN-kF-M6Z" id="fsL-2g-Dfb"/>
                 <outlet property="credentialsBoxView" destination="imv-tB-KW9" id="WFS-zu-bqw"/>
                 <outlet property="forgotPasswordButton" destination="vgb-q9-92f" id="e92-df-d4g"/>
-                <outlet property="passwordTextField" destination="jiD-tp-0bD" id="odk-L5-DvH"/>
+                <outlet property="passwordField" destination="E2O-P0-lwl" id="yu5-G5-mSo"/>
                 <outlet property="signUpButton" destination="VjF-IX-phX" id="C1a-VR-UM0"/>
-                <outlet property="userTextField" destination="BBb-h3-p5Y" id="xiT-n3-9oF"/>
+                <outlet property="userField" destination="LRt-CG-Jii" id="3Pe-zO-UEe"/>
                 <outlet property="view" destination="qGo-dc-PGm" id="iSt-Gz-FiS"/>
-                <outletCollection property="icons" destination="RRD-UR-JiT" id="mEu-vs-8o5"/>
-                <outletCollection property="icons" destination="Ls7-Eu-ilY" id="bf3-uJ-yHl"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -30,7 +28,7 @@
                             <rect key="frame" x="1" y="10" width="278" height="101"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LRt-CG-Jii">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LRt-CG-Jii" customClass="A0CredentialFieldView">
                                     <rect key="frame" x="0.0" y="0.0" width="278" height="50"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -54,6 +52,7 @@
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="BBb-h3-p5Y" firstAttribute="leading" secondItem="RRD-UR-JiT" secondAttribute="trailing" constant="10" id="Dcp-X1-gTA"/>
                                         <constraint firstAttribute="bottom" secondItem="BBb-h3-p5Y" secondAttribute="bottom" constant="10" id="F9i-3W-buG"/>
@@ -63,8 +62,12 @@
                                         <constraint firstItem="RRD-UR-JiT" firstAttribute="leading" secondItem="LRt-CG-Jii" secondAttribute="leading" constant="18" id="kLg-l8-Yti"/>
                                         <constraint firstAttribute="height" constant="50" id="m4m-QH-CYT"/>
                                     </constraints>
+                                    <connections>
+                                        <outlet property="iconImageView" destination="RRD-UR-JiT" id="i9N-Qb-8TT"/>
+                                        <outlet property="textField" destination="BBb-h3-p5Y" id="bx9-va-8rw"/>
+                                    </connections>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E2O-P0-lwl">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E2O-P0-lwl" customClass="A0CredentialFieldView">
                                     <rect key="frame" x="0.0" y="51" width="278" height="50"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -88,6 +91,7 @@
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="jiD-tp-0bD" firstAttribute="top" secondItem="E2O-P0-lwl" secondAttribute="top" constant="10" id="9gA-au-MSD"/>
                                         <constraint firstAttribute="bottom" secondItem="jiD-tp-0bD" secondAttribute="bottom" constant="10" id="9uC-qg-b5W"/>
@@ -96,6 +100,10 @@
                                         <constraint firstAttribute="trailing" secondItem="jiD-tp-0bD" secondAttribute="trailing" constant="7" id="qQF-D8-Vmj"/>
                                         <constraint firstItem="Ls7-Eu-ilY" firstAttribute="leading" secondItem="E2O-P0-lwl" secondAttribute="leading" constant="18" id="s6R-tG-TVF"/>
                                     </constraints>
+                                    <connections>
+                                        <outlet property="iconImageView" destination="Ls7-Eu-ilY" id="Y3d-Wk-rfe"/>
+                                        <outlet property="textField" destination="jiD-tp-0bD" id="BuF-99-gwe"/>
+                                    </connections>
                                 </view>
                             </subviews>
                             <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>

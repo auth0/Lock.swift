@@ -27,6 +27,7 @@
 #import "A0Errors.h"
 #import "A0APIClient.h"
 #import "A0Theme.h"
+#import "A0CredentialFieldView.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
@@ -43,7 +44,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 @interface A0DatabaseLoginViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *credentialsBoxView;
-@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *icons;
 
 - (IBAction)access:(id)sender;
 - (IBAction)goToPasswordField:(id)sender;
@@ -68,26 +68,22 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     self.credentialsBoxView.layer.borderColor = [[UIColor colorWithWhite:0.600 alpha:1.000] CGColor];
     self.credentialsBoxView.layer.cornerRadius = 3.0f;
 
-    for (UIImageView *icon in self.icons) {
-        icon.image = [icon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    }
-
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.accessButton];
     [theme configureSecondaryButton:self.signUpButton];
     [theme configureSecondaryButton:self.forgotPasswordButton];
-    [theme configureTextField:self.userTextField];
-    [theme configureTextField:self.passwordTextField];
+    [theme configureTextField:self.userField.textField];
+    [theme configureTextField:self.passwordField.textField];
 }
 
 - (void)access:(id)sender {
     [self.accessButton setInProgress:YES];
     NSError *error;
-    [self.validator setUsername:self.userTextField.text password:self.passwordTextField.text];
+    [self.validator setUsername:self.userField.textField.text password:self.passwordField.textField.text];
     if ([self.validator validateCredential:&error]) {
         [self hideKeyboard];
-        NSString *username = [self.userTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        NSString *password = self.passwordTextField.text;
+        NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        NSString *password = self.passwordField.textField.text;
         @weakify(self);
         A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
             @strongify(self);
@@ -109,7 +105,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 }
 
 - (void)goToPasswordField:(id)sender {
-    [self.passwordTextField becomeFirstResponder];
+    [self.passwordField.textField becomeFirstResponder];
 }
 
 - (void)showSignUp:(id)sender {
@@ -132,26 +128,26 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 }
 
 - (void)hideKeyboard {
-    [self.userTextField resignFirstResponder];
-    [self.passwordTextField resignFirstResponder];
+    [self.userField.textField resignFirstResponder];
+    [self.passwordField.textField resignFirstResponder];
 }
 
 #pragma mark - Utility methods
 
 - (void)updateUIWithError:(NSError *)error {
-    self.userTextField.textColor = [UIColor blackColor];
-    self.passwordTextField.textColor = [UIColor blackColor];
+    self.userField.invalid = NO;
+    self.passwordField.invalid = NO;
     if (error) {
         switch (error.code) {
             case A0ErrorCodeInvalidCredentials:
-                self.userTextField.textColor = [UIColor redColor];
-                self.passwordTextField.textColor = [UIColor redColor];
+                self.userField.invalid = YES;
+                self.passwordField.invalid = YES;
                 break;
             case A0ErrorCodeInvalidPassword:
-                self.passwordTextField.textColor = [UIColor redColor];
+                self.passwordField.invalid = YES;
                 break;
             case A0ErrorCodeInvalidUsername:
-                self.userTextField.textColor = [UIColor redColor];
+                self.userField.invalid = YES;
                 break;
         }
     }
