@@ -31,6 +31,7 @@
 #define kTokenTypeKey @"auth0-token-type"
 #define kRefreshTokenKey @"auth0-refresh-token"
 #define kUserProfileKey @"auth0-user-profile"
+#define kUserProfileIdentitiesKey @"auth0-user-profile-identities"
 
 @interface A0UserSessionStorage ()
 @property (strong, nonatomic) UICKeyChainStore *store;
@@ -79,6 +80,10 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:userProfile] forKey:kUserProfileKey];
     [userDefaults synchronize];
+    if (userProfile.identities) {
+        [self.store setData:[NSKeyedArchiver archivedDataWithRootObject:userProfile.identities] forKey:kUserProfileIdentitiesKey];
+        [self.store synchronize];
+    }
 }
 
 - (void)clearAll {
@@ -104,6 +109,14 @@
 - (A0UserProfile *)currentUserProfile {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSData *data = [userDefaults objectForKey:kUserProfileKey];
-    return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
+    A0UserProfile *profile;
+    if (data) {
+        profile = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        NSData *identityData = [self.store dataForKey:kUserProfileIdentitiesKey];
+        if (identityData) {
+            profile.identities = [NSKeyedUnarchiver unarchiveObjectWithData:identityData];
+        }
+    }
+    return profile;
 }
 @end

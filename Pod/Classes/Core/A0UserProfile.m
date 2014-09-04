@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0UserProfile.h"
+#import "A0UserIdentity.h"
 
 #import <ISO8601DateFormatter/ISO8601DateFormatter.h>
 
@@ -47,23 +48,39 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
-    return [self initWithUserId:dictionary[@"user_id"]
+    self = [self initWithUserId:dictionary[@"user_id"]
                            name:dictionary[@"name"]
                        nickname:dictionary[@"nickname"]
                           email:dictionary[@"email"]
                         picture:[NSURL URLWithString:dictionary[@"picture"]]
                       createdAt:[formatter dateFromString:dictionary[@"created_at"]]];
+    if (self) {
+        NSArray *identitiesJSON = dictionary[@"identities"];
+        NSMutableDictionary *extraInfo = [dictionary mutableCopy];
+        [extraInfo removeObjectsForKeys:@[@"user_id", @"name", @"nickname", @"email", @"picture", @"created_at", @"identities"]];
+        NSMutableArray *identities = [[NSMutableArray alloc] initWithCapacity:identitiesJSON.count];
+        for (NSDictionary *identityJSON in identitiesJSON) {
+            [identities addObject:[[A0UserIdentity alloc] initWithJSONDictionary:identityJSON]];
+        }
+        _identities = [NSArray arrayWithArray:identities];
+        _extraInfo = extraInfo;
+    }
+    return self;
 }
 
 #pragma mark - NSCoding
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithUserId:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(userId))]
+    self = [self initWithUserId:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(userId))]
                            name:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(name))]
                        nickname:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(nickname))]
                           email:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(email))]
                         picture:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(picture))]
                       createdAt:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(createdAt))]];
+    if (self) {
+        _extraInfo = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(extraInfo))];
+    }
+    return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -82,6 +99,9 @@
     }
     if (self.createdAt) {
         [aCoder encodeObject:self.createdAt forKey:NSStringFromSelector(@selector(createdAt))];
+    }
+    if (self.extraInfo) {
+        [aCoder encodeObject:self.extraInfo forKey:NSStringFromSelector(@selector(extraInfo))];
     }
 }
 

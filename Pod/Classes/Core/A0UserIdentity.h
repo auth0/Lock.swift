@@ -1,4 +1,4 @@
-// A0UserProfile.h
+//  A0UserIdentity.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -22,26 +22,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class A0Token;
+@interface A0UserIdentity : NSObject<NSCoding>
 
-@interface A0UserProfile : NSObject<NSCoding>
-
+@property (readonly, nonatomic) NSString *connection;
+@property (readonly, nonatomic) NSString *provider;
 @property (readonly, nonatomic) NSString *userId;
-@property (readonly, nonatomic) NSString *name;
-@property (readonly, nonatomic) NSString *nickname;
-@property (readonly, nonatomic) NSString *email;
-@property (readonly, nonatomic) NSURL *picture;
-@property (readonly, nonatomic) NSDate *createdAt;
-@property (readonly, nonatomic) NSDictionary *extraInfo;
-@property (strong, nonatomic) NSArray *identities;
+@property (readonly, nonatomic, getter = isSocial) BOOL social;
+@property (readonly, nonatomic) NSString *accessToken;
 
-- initWithUserId:(NSString *)userId
-            name:(NSString *)name
-        nickname:(NSString *)nickname
-           email:(NSString *)email
-         picture:(NSURL *)picture
-       createdAt:(NSDate *)createdAt;
-
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict;
 
 @end

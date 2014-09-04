@@ -154,6 +154,10 @@ describe(@"A0UserProfile", ^{
                 [verify(coder) encodeObject:profile.createdAt forKey:@"createdAt"];
             });
 
+            specify(@"store key for extraInfo", ^{
+                [verify(coder) encodeObject:profile.extraInfo forKey:@"extraInfo"];
+            });
+
         });
 
         context(@"restore A0UserProfile", ^{
@@ -166,10 +170,15 @@ describe(@"A0UserProfile", ^{
                 [given([coder decodeObjectForKey:@"nickname"]) willReturn:profile.nickname];
                 [given([coder decodeObjectForKey:@"createdAt"]) willReturn:profile.createdAt];
                 [given([coder decodeObjectForKey:@"picture"]) willReturn:profile.picture];
+                [given([coder decodeObjectForKey:@"extraInfo"]) willReturn:@{}];
+                profile = [[A0UserProfile alloc] initWithCoder:coder];
             });
 
-            itShouldBehaveLike(@"valid complete profile", ^{ return @{ @"profile": [[A0UserProfile alloc] initWithCoder:coder] }; });
+            itShouldBehaveLike(@"valid complete profile", ^{ return @{ @"profile": profile }; });
 
+            specify(@"valid extraInfo", ^{
+                expect(profile.extraInfo).to.equal(@{});
+            });
         });
     });
 });

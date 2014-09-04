@@ -325,6 +325,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     return application;
 }
 
+#pragma mark - API Scope methods
+
 - (NSString *)defaultScopeString {
     NSMutableArray *scopes = [@[ @"openid" ] mutableCopy];
     if (self.defaultScope & A0APIClientScopeOfflineAccess) {

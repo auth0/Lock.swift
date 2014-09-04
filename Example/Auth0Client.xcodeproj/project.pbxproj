@@ -13,6 +13,7 @@
 		5F017F0419B102D70003F8E4 /* A0JSONResponseSerializerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F017F0319B102D70003F8E4 /* A0JSONResponseSerializerSpec.m */; };
 		5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */; };
 		5F15815E196A3682003C4DD2 /* A0UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F15815D196A3682003C4DD2 /* A0UserProfileViewController.m */; };
+		5F35161619B8CBA500574C11 /* A0UserIdentitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */; };
 		5F93A2D119B3AEC100AD9FAE /* A0UserSessionStorageSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93A2D019B3AEC100AD9FAE /* A0UserSessionStorageSpec.m */; };
 		5F9F5B6419AF8FBD0021068C /* A0UserProfileSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6319AF8FBD0021068C /* A0UserProfileSpec.m */; };
 		5F9F5B6619AF9A8D0021068C /* A0TokenSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6519AF9A8D0021068C /* A0TokenSpec.m */; };
@@ -52,6 +53,7 @@
 		5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ApplicationSpec.m; sourceTree = "<group>"; };
 		5F15815C196A3682003C4DD2 /* A0UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0UserProfileViewController.h; sourceTree = "<group>"; };
 		5F15815D196A3682003C4DD2 /* A0UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileViewController.m; sourceTree = "<group>"; };
+		5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserIdentitySpec.m; sourceTree = "<group>"; };
 		5F93A2D019B3AEC100AD9FAE /* A0UserSessionStorageSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserSessionStorageSpec.m; sourceTree = "<group>"; };
 		5F9F5B6319AF8FBD0021068C /* A0UserProfileSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileSpec.m; sourceTree = "<group>"; };
 		5F9F5B6519AF9A8D0021068C /* A0TokenSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0TokenSpec.m; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				5F017F0119B0E3750003F8E4 /* A0FacebookAuthenticationSpec.m */,
 				5F017F0319B102D70003F8E4 /* A0JSONResponseSerializerSpec.m */,
 				5F93A2D019B3AEC100AD9FAE /* A0UserSessionStorageSpec.m */,
+				5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				5F017F0419B102D70003F8E4 /* A0JSONResponseSerializerSpec.m in Sources */,
 				5F017F0219B0E3750003F8E4 /* A0FacebookAuthenticationSpec.m in Sources */,
 				5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */,
+				5F35161619B8CBA500574C11 /* A0UserIdentitySpec.m in Sources */,
 				5F9F5B6A19AF9F960021068C /* A0SocialAuthenticatorSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
