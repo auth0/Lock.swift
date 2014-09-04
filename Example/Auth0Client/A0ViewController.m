@@ -69,6 +69,7 @@
         self.authInfo = profile;
         [self.session.storage storeToken:token andUserProfile:profile];
         [self refreshSession:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
     };
     [self presentViewController:controller animated:YES completion:nil];
 }

@@ -122,11 +122,9 @@
     @weakify(self);
     void(^onAuthSuccessBlock)(A0UserProfile *, A0Token *) =  ^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-            if (self.authBlock) {
-                self.authBlock(profile, token);
-            }
-        }];
+        if (self.authBlock) {
+            self.authBlock(profile, token);
+        }
     };
     if ([application hasDatabaseConnection] && [application hasSocialStrategies]) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
