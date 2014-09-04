@@ -1,4 +1,4 @@
-//  A0Session.h
+//  A0AuthCore.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,26 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#ifndef Auth0Client_A0AuthCore_h
+#define Auth0Client_A0AuthCore_h
 
-#import "A0SessionStorage.h"
+#import "A0APIClient.h"
+#import "A0Application.h"
+#import "A0Errors.h"
+#import "A0Session.h"
 #import "A0Token.h"
 #import "A0UserProfile.h"
+#import "A0UserSessionStorage.h"
 
-@interface A0Session : NSObject
-
-@property (readonly, nonatomic) id<A0SessionStorage> storage;
-@property (readonly, nonatomic) A0Token *token;
-@property (readonly, nonatomic) A0UserProfile *profile;
-
-- (instancetype)initWithSessionStorage:(id<A0SessionStorage>)sessionStorage;
-
-- (BOOL)isExpired;
-
-- (void)refreshWithSuccess:(void(^)(A0Token *))success failure:(void(^)(NSError *))failure;
-
-- (void)clear;
-
-+ (instancetype)newDefaultSession;
-
-@end
+#endif

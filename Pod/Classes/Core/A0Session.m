@@ -24,6 +24,7 @@
 #import "A0Token.h"
 #import "A0Errors.h"
 #import "A0APIClient.h"
+#import "A0UserSessionStorage.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -88,4 +89,9 @@
     return self.storage.currentUserProfile;
 }
 
++ (instancetype)newDefaultSession {
+    A0UserSessionStorage *storage = [[A0UserSessionStorage alloc] init];
+    return [[A0Session alloc] initWithSessionStorage:storage];
+
+}
 @end

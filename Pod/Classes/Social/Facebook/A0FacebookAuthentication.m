@@ -59,6 +59,10 @@
     return [[A0FacebookAuthentication alloc] initWithPermissions:permissions];
 }
 
++ (A0FacebookAuthentication *)newAuthenticationWithDefaultPermissions {
+    return [self newAuthenticationWithPermissions:nil];
+}
+
 #pragma mark - A0SocialProviderAuth
 
 - (NSString *)identifier {

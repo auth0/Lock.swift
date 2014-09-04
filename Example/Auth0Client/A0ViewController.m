@@ -27,11 +27,7 @@
 #import <Auth0Client/A0FacebookAuthentication.h>
 #import <Auth0Client/A0TwitterAuthentication.h>
 #import <Auth0Client/A0SocialAuthenticator.h>
-#import <Auth0Client/A0UserProfile.h>
-#import <Auth0Client/A0APIClient.h>
-#import <Auth0Client/A0Token.h>
-#import <Auth0Client/A0Session.h>
-#import <Auth0Client/A0UserSessionStorage.h>
+#import <Auth0Client/A0AuthCore.h>
 #import <libextobjc/EXTScope.h>
 
 @interface A0ViewController ()
@@ -48,13 +44,13 @@
     A0TwitterAuthentication *twitter = [A0TwitterAuthentication newAuthenticationWithKey:@"o8HFHDVB1yEVXSvxSO5F1WuKP"
                                                                                andSecret:@"v04WbftIrRJENoTFAr91eCEgLmVCDcaEm5brZlLJtS0ccJjHIz"
                                                                              callbackURL:[NSURL URLWithString:@"com.auth0.Auth0Client://twitter-auth"]];
-    A0FacebookAuthentication *facebook = [A0FacebookAuthentication newAuthenticationWithPermissions:nil];
+    A0FacebookAuthentication *facebook = [A0FacebookAuthentication newAuthenticationWithDefaultPermissions];
     [[A0SocialAuthenticator sharedInstance] registerSocialAuthenticatorProviders:@[
                                                                                    twitter,
                                                                                    facebook,
                                                                                    ]];
-    A0UserSessionStorage *storage = [[A0UserSessionStorage alloc] init];
-    self.session = [[A0Session alloc] initWithSessionStorage:storage];
+
+    self.session = [A0Session newDefaultSession];
     [self refreshSession:nil];
 }
 
