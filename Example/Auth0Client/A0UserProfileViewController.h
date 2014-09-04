@@ -28,9 +28,4 @@
 
 @property (strong, nonatomic) A0UserProfile *authInfo;
 
-@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userIdLabel;
-@property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *emailLabel;
-
 @end

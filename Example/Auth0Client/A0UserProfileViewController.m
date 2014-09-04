@@ -23,19 +23,97 @@
 #import "A0UserProfileViewController.h"
 
 #import <Auth0Client/A0UserProfile.h>
+#import <Auth0Client/A0UserIdentity.h>
 
 @interface A0UserProfileViewController ()
-
+@property (strong, nonatomic) NSDictionary *basicInfo;
+@property (strong, nonatomic) NSArray *basicInfoKeys;
+@property (strong, nonatomic) NSArray *extraInfoKeys;
 @end
 
 @implementation A0UserProfileViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.userIdLabel.text = self.authInfo.userId;
-    self.usernameLabel.text = self.authInfo.name;
-    self.emailLabel.text = self.authInfo.email;
-    self.nicknameLabel.text = self.authInfo.nickname;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateStyle = NSDateFormatterShortStyle;
+    formatter.timeStyle = NSDateFormatterShortStyle;
+    self.basicInfo = @{
+                       @"Username": self.authInfo.name,
+                       @"UserId": self.authInfo.userId,
+                       @"Nickname": self.authInfo.nickname,
+                       @"Email": self.authInfo.email,
+                       @"CreatedAt": [formatter stringFromDate:self.authInfo.createdAt],
+                       @"PictureURL": self.authInfo.picture.absoluteString,
+                       };
+    self.basicInfoKeys = self.basicInfo.allKeys;
+    self.extraInfoKeys = self.authInfo.extraInfo.allKeys;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSInteger count = 0;
+    switch (section) {
+        case 0:
+            count = self.basicInfoKeys.count;
+            break;
+        case 1:
+            count = self.authInfo.identities.count;
+            break;
+        case 2:
+            count = self.authInfo.extraInfo.count;
+            break;
+    }
+    return count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *title;
+    switch (section) {
+        case 0:
+            title = @"Auth0 Info";
+            break;
+        case 1:
+            title = @"Identities";
+            break;
+        case 2:
+            title = @"Extra Info";
+            break;
+    }
+    return title;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *PropertyCell = @"PropertyCell";
+    static NSString *IdentityCell = @"IdentityCell";
+    UITableViewCell *cell;
+    switch (indexPath.section) {
+        case 0:
+            cell = [tableView dequeueReusableCellWithIdentifier:PropertyCell forIndexPath:indexPath];
+            cell.textLabel.text = self.basicInfoKeys[indexPath.row];
+            cell.detailTextLabel.text = self.basicInfo[self.basicInfoKeys[indexPath.row]];
+            break;
+        case 1:
+            cell = [tableView dequeueReusableCellWithIdentifier:IdentityCell forIndexPath:indexPath];
+            cell.textLabel.text = [self.authInfo.identities[indexPath.row] connection];
+            cell.detailTextLabel.text = [self.authInfo.identities[indexPath.row] accessToken];
+            break;
+        case 2: {
+            cell = [tableView dequeueReusableCellWithIdentifier:PropertyCell forIndexPath:indexPath];
+            cell.textLabel.text = self.extraInfoKeys[indexPath.row];
+            NSObject *extraInfoValue = self.authInfo.extraInfo[self.extraInfoKeys[indexPath.row]];
+            if ([extraInfoValue isKindOfClass:NSDictionary.class] || [extraInfoValue isKindOfClass:NSArray.class]) {
+                cell.detailTextLabel.text = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:extraInfoValue options:0 error:nil] encoding:NSUTF8StringEncoding];
+            } else {
+                cell.detailTextLabel.text = [extraInfoValue description];
+            }
+            break;
+        }
+    }
+    return cell;
 }
 
 @end
