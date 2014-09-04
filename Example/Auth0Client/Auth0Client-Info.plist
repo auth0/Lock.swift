@@ -4,6 +4,8 @@
 <dict>
 	<key>AUTH0_CLIENT_ID</key>
 	<string>${AUTH0_CLIENT_ID}</string>
+	<key>AUTH0_DOMAIN_NAME</key>
+	<string>${AUTH0_DOMAIN_NAME}</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

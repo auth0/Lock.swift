@@ -34,6 +34,7 @@
 #import <libextobjc/EXTScope.h>
 
 #define kClientIdKey @"AUTH0_CLIENT_ID"
+#define kDomainNameKey @"AUTH0_DOMAIN_NAME"
 #define kAppBaseURLFormatString @"https://%@.auth0.com/api/"
 #define kAppInfoEndpointURLFormatString @"https://s3.amazonaws.com/assets.auth0.com/client/%@.js"
 
@@ -78,12 +79,19 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 @implementation A0APIClient
 
-- (instancetype)initWithClientId:(NSString *)clientId {
+- (instancetype)initWithClientId:(NSString *)clientId andDomainName:(NSString *)domainName {
     self = [super init];
     if (self) {
-        NSAssert(clientId, @"You must supply Auth0 Client Id.");
+        NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
+        NSAssert(domainName, @"You must supply your Auth0 app's Domain Name.");
         _clientId = [clientId copy];
         _defaultScope = A0APIClientScopeOpenId | A0APIClientScopeOfflineAccess;
+        NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, domainName];
+        NSURL *baseURL = [NSURL URLWithString:URLString];
+        Auth0LogInfo(@"Base URL of API Endpoint is %@", baseURL);
+        _manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+        _manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        _manager.responseSerializer = [A0JSONResponseSerializer serializer];
     }
     return self;
 }
@@ -98,7 +106,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     dispatch_once(&onceToken, ^{
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
         NSString *clientId = info[kClientIdKey];
-        client = [[A0APIClient alloc] initWithClientId:clientId];
+        NSString *domainName = info[kDomainNameKey];
+        client = [[A0APIClient alloc] initWithClientId:clientId andDomainName:domainName];
     });
     return client;
 }
@@ -107,12 +116,6 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 - (void)configureForApplication:(A0Application *)application {
     Auth0LogDebug(@"Configuring APIClient for application %@", application);
-    NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, application.tenant.lowercaseString];
-    NSURL *baseURL = [NSURL URLWithString:URLString];
-    Auth0LogInfo(@"Base URL of API Endpoint is %@", baseURL);
-    self.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
-    self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    self.manager.responseSerializer = [A0JSONResponseSerializer serializer];
     self.application = application;
 }
 
@@ -237,12 +240,12 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     NSMutableDictionary *params = [@{
                                      kClientIdParamName: self.clientId,
                                      kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
-                                     kScopeParamName: [self defaultScopeString],
+                                     kScopeParamName: [self defaultDelegationScopeString],
                                      } mutableCopy];
     [params addEntriesFromDictionary:options];
     Auth0LogVerbose(@"Calling delegate authentication with params %@", params);
     [self.manager POST:kDelegationAuthPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        Auth0LogDebug(@"Delegation successful parmas %@", params);
+        Auth0LogDebug(@"Delegation successful params %@", params);
         if (success) {
             success([[A0Token alloc] initWithDictionary:responseObject]);
         }
@@ -332,4 +335,13 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     }
     return [scopes componentsJoinedByString:@" "];
 }
+
+- (NSString *)defaultDelegationScopeString {
+    NSMutableArray *scopes = [@[ @"openid" ] mutableCopy];
+    if (self.defaultScope & A0APIClientScopeProfile) {
+        [scopes addObject:@"profile"];
+    }
+    return [scopes componentsJoinedByString:@" "];
+}
+
 @end

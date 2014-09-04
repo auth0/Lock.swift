@@ -51,7 +51,14 @@
                                                                                    ]];
 
     self.session = [A0Session newDefaultSession];
-    [self refreshSession:nil];
+    @weakify(self);
+    [self.session refreshWithSuccess:^(A0Token *token) {
+        @strongify(self);
+        [self loadSessionInfoWithToken:token];
+    } failure:^(NSError *error) {
+        @strongify(self);
+        [self clearSessionInfo];
+    }];
 }
 
 - (void)signIn:(id)sender {
@@ -64,7 +71,7 @@
         @strongify(self);
         self.authInfo = profile;
         [self.session.storage storeToken:token andUserProfile:profile];
-        [self refreshSession:nil];
+        [self loadSessionInfoWithToken:token];
         [self dismissViewControllerAnimated:YES completion:nil];
     };
     [self presentViewController:controller animated:YES completion:nil];
@@ -76,33 +83,28 @@
 
 - (IBAction)refreshSession:(id)sender {
     @weakify(self);
-    [self.session refreshWithSuccess:^(A0Token *token) {
+    [self.session forceRefreshWithSuccess:^(A0Token *token) {
         @strongify(self);
-        A0UserProfile *profile = self.session.profile;
-        self.authInfo = profile;
-        self.refreshButton.enabled = YES;
-        self.showProfileButton.enabled = YES;
-        self.idTokenLabel.text = token.idToken;
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.dateStyle = NSDateFormatterShortStyle;
-        formatter.timeStyle = NSDateFormatterShortStyle;
-        self.expiresLabel.text = [formatter stringFromDate:token.expiresAt];
-        self.refreshTokenLabel.text = token.refreshToken;
-        self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", profile.name];
-        self.signInButton.enabled = NO;
+        [self loadSessionInfoWithToken:token];
     } failure:^(NSError *error) {
-        self.signInButton.enabled = YES;
-        self.refreshButton.enabled = NO;
-        self.showProfileButton.enabled = NO;
-        self.idTokenLabel.text = nil;
-        self.expiresLabel.text = nil;
-        self.refreshTokenLabel.text = nil;
-        self.welcomeLabel.text = @"No Session found";
+        @strongify(self);
+        [self clearSessionInfo];
     }];
 }
 
 - (IBAction)clearSession:(id)sender {
     [self.session clear];
+    [self clearSessionInfo];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"ShowInfo"]) {
+        A0UserProfileViewController *controller = segue.destinationViewController;
+        controller.authInfo = self.authInfo;
+    }
+}
+
+- (void)clearSessionInfo {
     self.signInButton.enabled = YES;
     self.refreshButton.enabled = NO;
     self.showProfileButton.enabled = NO;
@@ -112,10 +114,19 @@
     self.welcomeLabel.text = @"No Session found";
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"ShowInfo"]) {
-        A0UserProfileViewController *controller = segue.destinationViewController;
-        controller.authInfo = self.authInfo;
-    }
+- (void)loadSessionInfoWithToken:(A0Token *)token {
+    A0UserProfile *profile = self.session.profile;
+    self.authInfo = profile;
+    self.refreshButton.enabled = YES;
+    self.showProfileButton.enabled = YES;
+    self.idTokenLabel.text = token.idToken;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateStyle = NSDateFormatterShortStyle;
+    formatter.timeStyle = NSDateFormatterShortStyle;
+    self.expiresLabel.text = [formatter stringFromDate:token.expiresAt];
+    self.refreshTokenLabel.text = token.refreshToken;
+    self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", profile.name];
+    self.signInButton.enabled = NO;
 }
+
 @end

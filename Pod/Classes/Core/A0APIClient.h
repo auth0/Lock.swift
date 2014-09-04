@@ -42,7 +42,7 @@ typedef void(^A0APIClientError)(NSError *error);
 
 @property (assign, nonatomic) A0APIClientScope defaultScope;
 
-- (instancetype)initWithClientId:(NSString *)clientId;
+- (instancetype)initWithClientId:(NSString *)clientId andDomainName:(NSString *)domainName;
 
 + (instancetype)sharedClient;
 
