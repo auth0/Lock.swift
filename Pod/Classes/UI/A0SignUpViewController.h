@@ -37,5 +37,8 @@
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet UIView *disclaimerView;
+
+- (void)addDisclaimerSubview:(UIView *)view;
 
 @end

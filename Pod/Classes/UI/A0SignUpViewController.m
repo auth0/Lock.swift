@@ -114,6 +114,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     }
 }
 
+- (void)addDisclaimerSubview:(UIView *)view {
+    [self.disclaimerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.disclaimerView addSubview:view];
+}
+
 #pragma mark - A0KeyboardEnabledView
 
 - (void)hideKeyboard {

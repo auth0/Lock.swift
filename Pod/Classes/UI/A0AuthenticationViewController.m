@@ -230,6 +230,9 @@
     A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
     controller.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
     @weakify(self);
+    if (self.signUpDisclaimerView) {
+        [controller addDisclaimerSubview:self.signUpDisclaimerView];
+    }
     controller.onCancelBlock = ^{
         @strongify(self);
         [self layoutRootControllerForApplication:self.application];
