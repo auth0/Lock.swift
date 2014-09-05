@@ -85,7 +85,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
         NSAssert(domainName, @"You must supply your Auth0 app's Domain Name.");
         _clientId = [clientId copy];
-        _defaultScope = A0APIClientScopeOpenId | A0APIClientScopeOfflineAccess;
+        _defaultScope = @[@"openid", @"offline_access"];
         NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, domainName];
         NSURL *baseURL = [NSURL URLWithString:URLString];
         Auth0LogInfo(@"Base URL of API Endpoint is %@", baseURL);
@@ -240,7 +240,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     NSMutableDictionary *params = [@{
                                      kClientIdParamName: self.clientId,
                                      kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
-                                     kScopeParamName: [self defaultDelegationScopeString],
+                                     kScopeParamName: [self defaultScopeString],
                                      } mutableCopy];
     [params addEntriesFromDictionary:options];
     Auth0LogVerbose(@"Calling delegate authentication with params %@", params);
@@ -252,26 +252,53 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
-#pragma mark - Internal API calls
+#pragma mark - User Profile
 
-- (void)fetchUserInfoWithTokenInfo:(NSDictionary *)tokenInfo success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
-    NSString *token = tokenInfo[@"access_token"];
+- (void)fetchUserProfileWithIdToken:(NSString *)idToken
+                            success:(A0APIClientUserProfileSuccess)success
+                            failure:(A0APIClientError)failure {
+    Auth0LogVerbose(@"Fetching User Profile from id token %@", idToken);
+    [self.manager POST:kUserInfoPath parameters:@{
+                                                  kIdTokenParamName: idToken,
+                                                  }
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   Auth0LogDebug(@"Obtained user profile %@", responseObject);
+                   if (success) {
+                       A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
+                       success(profile);
+                   }
+               } failure:[A0APIClient sanitizeFailureBlock:failure]];
+}
+
+- (void)fetchUserProfileWithAccessToken:(NSString *)accessToken
+                                success:(A0APIClientUserProfileSuccess)success
+                                failure:(A0APIClientError)failure {
     NSURL *connectionURL = [NSURL URLWithString:kUserInfoPath relativeToURL:self.manager.baseURL];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:connectionURL];
-    NSString *authorizationHeader = [NSString stringWithFormat:kAuthorizationHeaderValueFormatString, token];
+    NSString *authorizationHeader = [NSString stringWithFormat:kAuthorizationHeaderValueFormatString, accessToken];
     [request setValue:authorizationHeader forHTTPHeaderField:kAuthorizationHeaderName];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     operation.responseSerializer = [AFJSONResponseSerializer serializer];
-    Auth0LogVerbose(@"Fetching User Profile from token info %@", tokenInfo);
+    Auth0LogVerbose(@"Fetching User Profile from access token %@", accessToken);
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Obtained user profile %@", responseObject);
         if (success) {
             A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
-            A0Token *token = [[A0Token alloc] initWithDictionary:tokenInfo];
-            success(profile, token);
+            success(profile);
         }
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
     [operation start];
+}
+
+#pragma mark - Internal API calls
+
+- (void)fetchUserInfoWithTokenInfo:(NSDictionary *)tokenInfo success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
+    A0Token *token = [[A0Token alloc] initWithDictionary:tokenInfo];
+    [self fetchUserProfileWithAccessToken:token.accessToken success:^(A0UserProfile *profile) {
+        if (success) {
+            success(profile, token);
+        }
+    } failure:failure];
 }
 
 #pragma mark - Utility methods
@@ -304,7 +331,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     if (credentials.extraInfo[A0StrategySocialUserIdParameter]) {
         params[kSocialUserIdParamName] = credentials.extraInfo[A0StrategySocialUserIdParameter];
     }
-    if (self.defaultScope & A0APIClientScopeOfflineAccess) {
+    if ([self.defaultScope containsObject:@"offline_access"]) {
         params[kDeviceNameParamName] = [[UIDevice currentDevice] name];
     }
     return params;
@@ -328,20 +355,12 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 #pragma mark - API Scope methods
 
 - (NSString *)defaultScopeString {
-    NSMutableArray *scopes = [@[ @"openid" ] mutableCopy];
-    if (self.defaultScope & A0APIClientScopeOfflineAccess) {
-        [scopes addObject:@"offline_access"];
+    NSMutableArray *scopes = [[NSMutableArray alloc] init];
+    if (self.defaultScope) {
+        [scopes addObjectsFromArray:self.defaultScope];
     }
-    if (self.defaultScope & A0APIClientScopeProfile) {
-        [scopes addObject:@"profile"];
-    }
-    return [scopes componentsJoinedByString:@" "];
-}
-
-- (NSString *)defaultDelegationScopeString {
-    NSMutableArray *scopes = [@[ @"openid" ] mutableCopy];
-    if (self.defaultScope & A0APIClientScopeProfile) {
-        [scopes addObject:@"profile"];
+    if (![scopes containsObject:@"openid"]) {
+        [scopes addObject:@"openid"];
     }
     return [scopes componentsJoinedByString:@" "];
 }

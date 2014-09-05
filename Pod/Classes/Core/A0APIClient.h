@@ -22,12 +22,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_OPTIONS(NSInteger, A0APIClientScope) {
-    A0APIClientScopeOpenId = 1 << 0,
-    A0APIClientScopeProfile = 1 << 1,
-    A0APIClientScopeOfflineAccess = 1 << 2
-};
-
 FOUNDATION_EXTERN NSString * const A0APIClientDelegationAPIType;
 FOUNDATION_EXTERN NSString * const A0APIClientDelegationTarget;
 
@@ -36,11 +30,12 @@ FOUNDATION_EXTERN NSString * const A0APIClientDelegationTarget;
 typedef void(^A0APIClientFetchAppInfoSuccess)(id payload);
 typedef void(^A0APIClientAuthenticationSuccess)(A0UserProfile *profile, A0Token *tokenInfo);
 typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
+typedef void(^A0APIClientUserProfileSuccess)(A0UserProfile *profile);
 typedef void(^A0APIClientError)(NSError *error);
 
 @interface A0APIClient : NSObject
 
-@property (assign, nonatomic) A0APIClientScope defaultScope;
+@property (strong, nonatomic) NSArray *defaultScope;
 
 - (instancetype)initWithClientId:(NSString *)clientId andDomainName:(NSString *)domainName;
 
@@ -93,4 +88,13 @@ typedef void(^A0APIClientError)(NSError *error);
                            success:(A0APIClientDelegationSuccess)success
                            failure:(A0APIClientError)failure;
 
+#pragma mark - User Profile
+
+- (void)fetchUserProfileWithIdToken:(NSString *)idToken
+                            success:(A0APIClientUserProfileSuccess)success
+                            failure:(A0APIClientError)failure;
+
+- (void)fetchUserProfileWithAccessToken:(NSString *)accessToken
+                                success:(A0APIClientUserProfileSuccess)success
+                                failure:(A0APIClientError)failure;
 @end

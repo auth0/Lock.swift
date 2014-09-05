@@ -35,12 +35,12 @@
 @property (readonly, nonatomic) NSDictionary *extraInfo;
 @property (strong, nonatomic) NSArray *identities;
 
-- initWithUserId:(NSString *)userId
-            name:(NSString *)name
-        nickname:(NSString *)nickname
-           email:(NSString *)email
-         picture:(NSURL *)picture
-       createdAt:(NSDate *)createdAt;
+- (instancetype)initWithUserId:(NSString *)userId
+                          name:(NSString *)name
+                      nickname:(NSString *)nickname
+                         email:(NSString *)email
+                       picture:(NSURL *)picture
+                     createdAt:(NSDate *)createdAt;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

@@ -84,7 +84,7 @@
     self.current = [self layoutController:[[A0LoadingViewController alloc] init] inContainer:self.containerView];
 
     if (!self.offlineAccess) {
-        [A0APIClient sharedClient].defaultScope = A0APIClientScopeOpenId;
+        [A0APIClient sharedClient].defaultScope = @[@"openid"];
     }
     @weakify(self);
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
