@@ -1,4 +1,4 @@
-//  A0UserSessionStorage.m
+//  A0UserSessionDataSource.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0UserSessionStorage.h"
+#import "A0UserSessionDataSource.h"
 #import "A0UserProfile.h"
 #import "A0Token.h"
 
@@ -33,11 +33,11 @@
 #define kUserProfileKey @"auth0-user-profile"
 #define kUserProfileIdentitiesKey @"auth0-user-profile-identities"
 
-@interface A0UserSessionStorage ()
+@interface A0UserSessionDataSource ()
 @property (strong, nonatomic) UICKeyChainStore *store;
 @end
 
-@implementation A0UserSessionStorage
+@implementation A0UserSessionDataSource
 
 - (instancetype)initWithAccessGroup:(NSString *)accessGroup {
     self = [super init];

@@ -29,6 +29,6 @@
 #import "A0Session.h"
 #import "A0Token.h"
 #import "A0UserProfile.h"
-#import "A0UserSessionStorage.h"
+#import "A0UserSessionDataSource.h"
 
 #endif

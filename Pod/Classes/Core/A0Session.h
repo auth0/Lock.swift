@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "A0SessionStorage.h"
+#import "A0SessionDataSource.h"
 #import "A0Token.h"
 #import "A0UserProfile.h"
 
@@ -31,11 +31,11 @@ typedef void(^A0RefreshFailureBlock)(NSError *error);
 
 @interface A0Session : NSObject
 
-@property (readonly, nonatomic) id<A0SessionStorage> storage;
+@property (readonly, nonatomic) id<A0SessionDataSource> dataSource;
 @property (readonly, nonatomic) A0Token *token;
 @property (readonly, nonatomic) A0UserProfile *profile;
 
-- (instancetype)initWithSessionStorage:(id<A0SessionStorage>)sessionStorage;
+- (instancetype)initWithSessionDataSource:(id<A0SessionDataSource>)sessionDataSource;
 
 - (BOOL)isExpired;
 

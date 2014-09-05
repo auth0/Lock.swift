@@ -70,7 +70,7 @@
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);
         self.authInfo = profile;
-        [self.session.storage storeToken:token andUserProfile:profile];
+        [self.session.dataSource storeToken:token andUserProfile:profile];
         [self loadSessionInfoWithToken:token];
         [self dismissViewControllerAnimated:YES completion:nil];
     };

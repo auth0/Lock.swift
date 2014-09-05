@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import "Specta.h"
-#import "A0UserSessionStorage.h"
+#import "A0UserSessionDataSource.h"
 #import "A0Token.h"
 
 #import <UICKeyChainStore/UICKeyChainStore.h>
@@ -37,7 +37,7 @@
 #define kTokenType @"TokenType"
 #define kRefreshToken @"RefreshToken"
 
-@interface A0UserSessionStorage (TestAPI)
+@interface A0UserSessionDataSource (TestAPI)
 
 @property (strong, nonatomic) UICKeyChainStore *store;
 
@@ -47,11 +47,11 @@ SpecBegin(A0UserSessionStorage)
 
 describe(@"A0UserSessionStorage", ^{
 
-    __block A0UserSessionStorage *storage;
+    __block A0UserSessionDataSource *storage;
     __block UICKeyChainStore *store;
 
     beforeEach(^{
-        storage = [[A0UserSessionStorage alloc] init];
+        storage = [[A0UserSessionDataSource alloc] init];
         store = mock(UICKeyChainStore.class);
         storage.store = store;
     });

@@ -1,4 +1,4 @@
-//  A0UserSessionStorage.h
+//  A0SessionDataSource.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,10 +21,18 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0SessionStorage.h"
 
-@interface A0UserSessionStorage : NSObject<A0SessionStorage>
+@class A0Token, A0UserProfile;
 
-- (instancetype)initWithAccessGroup:(NSString *)accessGroup;
+@protocol A0SessionDataSource <NSObject>
 
+@required
+- (void)storeToken:(A0Token *)token andUserProfile:(A0UserProfile *)userProfile;
+- (void)storeToken:(A0Token *)token;
+- (void)storeUserProfile:(A0UserProfile *)userProfile;
+
+- (A0Token *)currentToken;
+- (A0UserProfile *)currentUserProfile;
+
+- (void)clearAll;
 @end

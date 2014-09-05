@@ -24,16 +24,16 @@
 #import "A0Token.h"
 #import "A0Errors.h"
 #import "A0APIClient.h"
-#import "A0UserSessionStorage.h"
+#import "A0UserSessionDataSource.h"
 
 #import <libextobjc/EXTScope.h>
 
 @implementation A0Session
 
-- (instancetype)initWithSessionStorage:(id<A0SessionStorage>)sessionStorage {
+- (instancetype)initWithSessionDataSource:(id<A0SessionDataSource>)sessionDataSource {
     self = [super init];
     if (self) {
-        _storage = sessionStorage;
+        _dataSource = sessionDataSource;
     }
     return self;
 }
@@ -51,7 +51,7 @@
     Auth0LogVerbose(@"Refreshing Auth0 session...");
     A0Token *token = self.token;
     if (!token) {
-        Auth0LogWarn(@"No session information found in session storage %@", self.storage);
+        Auth0LogWarn(@"No session information found in session data source %@", self.dataSource);
         if (failure) {
             [self clear];
             failure([A0Errors noSessionFound]);
@@ -65,7 +65,7 @@
         [[A0APIClient sharedClient] delegationWithRefreshToken:token.refreshToken options:nil success:^(A0Token *tokenInfo) {
             @strongify(self);
             A0Token *refreshedToken = [[A0Token alloc] initWithAccessToken:tokenInfo.accessToken idToken:tokenInfo.idToken tokenType:tokenInfo.tokenType refreshToken:token.refreshToken];
-            [self.storage storeToken:refreshedToken];
+            [self.dataSource storeToken:refreshedToken];
             Auth0LogDebug(@"Session refreshed with token expiring %@", tokenInfo.expiresAt);
             if (success) {
                 success(self.profile, refreshedToken);
@@ -83,7 +83,7 @@
     Auth0LogVerbose(@"Forcing refresh Auth0 session...");
     A0Token *token = self.token;
     if (!token) {
-        Auth0LogWarn(@"No session information found in session storage %@", self.storage);
+        Auth0LogWarn(@"No session information found in session data source %@", self.dataSource);
         if (failure) {
             [self clear];
             failure([A0Errors noSessionFound]);
@@ -95,7 +95,7 @@
     A0APIClientDelegationSuccess successBlock = ^(A0Token *tokenInfo) {
         @strongify(self);
         A0Token *refreshedToken = [[A0Token alloc] initWithAccessToken:tokenInfo.accessToken idToken:tokenInfo.idToken tokenType:tokenInfo.tokenType refreshToken:token.refreshToken];
-        [self.storage storeToken:refreshedToken];
+        [self.dataSource storeToken:refreshedToken];
         Auth0LogDebug(@"Session refreshed with token expiring %@", tokenInfo.expiresAt);
         if (success) {
             success(self.profile, refreshedToken);
@@ -129,20 +129,20 @@
 - (void)clear {
     Auth0LogVerbose(@"Cleaning Auth0 session...");
     [[A0APIClient sharedClient] logout];
-    [self.storage clearAll];
+    [self.dataSource clearAll];
 }
 
 - (A0Token *)token {
-    return self.storage.currentToken;
+    return self.dataSource.currentToken;
 }
 
 - (A0UserProfile *)profile {
-    return self.storage.currentUserProfile;
+    return self.dataSource.currentUserProfile;
 }
 
 + (instancetype)newDefaultSession {
-    A0UserSessionStorage *storage = [[A0UserSessionStorage alloc] init];
-    return [[A0Session alloc] initWithSessionStorage:storage];
+    A0UserSessionDataSource *dataSource = [[A0UserSessionDataSource alloc] init];
+    return [[A0Session alloc] initWithSessionDataSource:dataSource];
 
 }
 
