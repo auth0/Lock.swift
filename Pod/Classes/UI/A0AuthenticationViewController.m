@@ -122,8 +122,8 @@
     @weakify(self);
     void(^onAuthSuccessBlock)(A0UserProfile *, A0Token *) =  ^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);
-        if (self.authBlock) {
-            self.authBlock(profile, token);
+        if (self.onAuthenticationBlock) {
+            self.onAuthenticationBlock(profile, token);
         }
     };
     if ([application hasDatabaseConnection] && [application hasSocialStrategies]) {

@@ -53,6 +53,7 @@
     if (!token) {
         Auth0LogWarn(@"No session information found in session storage %@", self.storage);
         if (failure) {
+            [self clear];
             failure([A0Errors noSessionFound]);
         }
         return;
@@ -67,23 +68,24 @@
             [self.storage storeToken:refreshedToken];
             Auth0LogDebug(@"Session refreshed with token expiring %@", tokenInfo.expiresAt);
             if (success) {
-                success(refreshedToken);
+                success(self.profile, refreshedToken);
             }
-        } failure:failure];
+        } failure:[self sanitizeFailureBlock:failure]];
     } else {
         Auth0LogDebug(@"Session not expired. No need to call API.");
         if (success) {
-            success(token);
+            success(self.profile, token);
         }
     }
 }
 
-- (void)forceRefreshWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
+- (void)renewWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
     Auth0LogVerbose(@"Forcing refresh Auth0 session...");
     A0Token *token = self.token;
     if (!token) {
         Auth0LogWarn(@"No session information found in session storage %@", self.storage);
         if (failure) {
+            [self clear];
             failure([A0Errors noSessionFound]);
         }
         return;
@@ -96,17 +98,32 @@
         [self.storage storeToken:refreshedToken];
         Auth0LogDebug(@"Session refreshed with token expiring %@", tokenInfo.expiresAt);
         if (success) {
-            success(refreshedToken);
+            success(self.profile, refreshedToken);
         }
     };
 
     if (self.isExpired) {
         Auth0LogDebug(@"Session already expired. Requesting new id_token from API using refresh_token...");
-        [[A0APIClient sharedClient] delegationWithRefreshToken:token.refreshToken options:nil success:successBlock failure:failure];
+        [[A0APIClient sharedClient] delegationWithRefreshToken:token.refreshToken
+                                                       options:nil
+                                                       success:successBlock
+                                                       failure:[self sanitizeFailureBlock:failure]];
     } else {
         Auth0LogDebug(@"Session not expired. Requesting new id_token from API using id_token...");
-        [[A0APIClient sharedClient] delegationWithIdToken:token.idToken options:nil success:successBlock failure:failure];
+        [[A0APIClient sharedClient] delegationWithIdToken:token.idToken
+                                                  options:nil
+                                                  success:successBlock
+                                                  failure:[self sanitizeFailureBlock:failure]];
     }
+}
+
+- (void)renewUserProfileWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
+    Auth0LogVerbose(@"Renew user profile");
+    [[A0APIClient sharedClient] fetchUserProfileWithIdToken:self.token.idToken success:^(A0UserProfile *profile) {
+        if (success) {
+            success(profile, self.token);
+        }
+    } failure:[self sanitizeFailureBlock:failure]];
 }
 
 - (void)clear {
@@ -128,4 +145,18 @@
     return [[A0Session alloc] initWithSessionStorage:storage];
 
 }
+
+- (A0APIClientError) sanitizeFailureBlock:(A0RefreshFailureBlock)failureBlock {
+    @weakify(self);
+    A0APIClientError sanitized = ^(NSError *error) {
+        @strongify(self);
+        Auth0LogError(@"Refresh failed with error %@", error);
+        [self clear];
+        if (failureBlock) {
+            failureBlock(error);
+        }
+    };
+    return sanitized;
+}
+
 @end

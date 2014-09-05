@@ -26,7 +26,7 @@
 #import "A0Token.h"
 #import "A0UserProfile.h"
 
-typedef void(^A0RefreshBlock)(A0Token *token);
+typedef void(^A0RefreshBlock)(A0UserProfile *profile, A0Token *token);
 typedef void(^A0RefreshFailureBlock)(NSError *error);
 
 @interface A0Session : NSObject
@@ -39,8 +39,9 @@ typedef void(^A0RefreshFailureBlock)(NSError *error);
 
 - (BOOL)isExpired;
 
+- (void)renewWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure;
 - (void)refreshWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure;
-- (void)forceRefreshWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure;
+- (void)renewUserProfileWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure;
 
 - (void)clear;
 

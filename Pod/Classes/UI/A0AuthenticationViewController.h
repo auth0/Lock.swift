@@ -29,7 +29,7 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
 @interface A0AuthenticationViewController : UIViewController
 
-@property (copy, nonatomic) A0AuthenticationBlock authBlock;
+@property (copy, nonatomic) A0AuthenticationBlock onAuthenticationBlock;
 @property (assign, nonatomic) BOOL usesEmail;
 @property (assign, nonatomic) BOOL offlineAccess;
 @property (strong, nonatomic) UIView *signUpDisclaimerView;

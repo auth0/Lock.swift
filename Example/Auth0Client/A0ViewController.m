@@ -52,7 +52,7 @@
 
     self.session = [A0Session newDefaultSession];
     @weakify(self);
-    [self.session refreshWithSuccess:^(A0Token *token) {
+    [self.session refreshWithSuccess:^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);
         [self loadSessionInfoWithToken:token];
     } failure:^(NSError *error) {
@@ -66,7 +66,7 @@
     A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
     @weakify(self);
     controller.offlineAccess = YES;
-    controller.authBlock = ^(A0UserProfile *profile, A0Token *token) {
+    controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);
         self.authInfo = profile;
@@ -83,7 +83,7 @@
 
 - (IBAction)refreshSession:(id)sender {
     @weakify(self);
-    [self.session forceRefreshWithSuccess:^(A0Token *token) {
+    [self.session renewWithSuccess:^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);
         [self loadSessionInfoWithToken:token];
     } failure:^(NSError *error) {

@@ -312,6 +312,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     };
     return sanitized;
 }
+
 - (NSDictionary *)buildBasicParamsWithDictionary:(NSDictionary *)dictionary {
     return [self buildBasicParamsWithDictionary:dictionary strategy:self.application.databaseStrategy credentials:nil];
 }
