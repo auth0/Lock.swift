@@ -43,6 +43,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @interface A0SignUpViewController ()
 
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
+@property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet UIView *disclaimerView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
 
@@ -96,7 +101,10 @@ static void showAlertErrorView(NSString *title, NSString *message) {
             [self.signUpButton setInProgress:NO];
             showAlertErrorView(NSLocalizedString(@"There was an error signing up", nil), [A0Errors localizedStringForLoginError:error]);
         };
-        [[A0APIClient sharedClient] signUpWithUsername:username password:password success:success failure:failure];
+        [[A0APIClient sharedClient] signUpWithUsername:username
+                                              password:password
+                                        loginOnSuccess:self.shouldLoginUser
+                                               success:success failure:failure];
     } else {
         [self.signUpButton setInProgress:NO];
         showAlertErrorView(error.localizedDescription, error.localizedFailureReason);

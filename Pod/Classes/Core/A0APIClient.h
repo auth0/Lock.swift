@@ -63,6 +63,7 @@ typedef void(^A0APIClientError)(NSError *error);
 
 - (void)signUpWithUsername:(NSString *)username
                   password:(NSString *)password
+            loginOnSuccess:(BOOL)loginOnSuccess
                    success:(A0APIClientAuthenticationSuccess)success
                    failure:(A0APIClientError)failure;
 

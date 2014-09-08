@@ -66,6 +66,9 @@
     A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
     @weakify(self);
     controller.allowDismiss = YES;
+    controller.loginAfterSignUp = YES;
+    controller.usesEmail = YES;
+    controller.defaultScopes = @[A0APIClientScopeOpenId];
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);

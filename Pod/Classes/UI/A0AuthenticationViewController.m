@@ -66,6 +66,7 @@
             self.modalPresentationStyle = UIModalPresentationFormSheet;
         }
         _usesEmail = YES;
+        _loginAfterSignUp = YES;
         [A0AuthenticationViewController loadIconFont];
     }
     return self;
@@ -88,7 +89,7 @@
         [A0APIClient sharedClient].defaultScope = [self.defaultScopes copy];
     }
     self.dismissButton.hidden = !self.allowDismiss;
-    
+
     @weakify(self);
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
@@ -237,6 +238,7 @@
 - (A0SignUpViewController *)newSignUpViewControllerWithSuccess:(void(^)(A0UserProfile *, A0Token *))success {
     A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
     controller.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+    controller.loginUser = self.loginAfterSignUp;
     @weakify(self);
     if (self.signUpDisclaimerView) {
         [controller addDisclaimerSubview:self.signUpDisclaimerView];

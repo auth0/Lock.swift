@@ -32,12 +32,7 @@
 @property (copy, nonatomic) void(^onCancelBlock)();
 
 @property (strong, nonatomic) A0SignUpCredentialValidator *validator;
-
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
-@property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
-@property (weak, nonatomic) IBOutlet UIView *disclaimerView;
+@property (assign, nonatomic, getter = shouldLoginUser) BOOL loginUser;
 
 - (void)addDisclaimerSubview:(UIView *)view;
 

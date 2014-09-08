@@ -170,7 +170,10 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
-- (void)signUpWithUsername:(NSString *)username password:(NSString *)password success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
+- (void)signUpWithUsername:(NSString *)username
+                  password:(NSString *)password
+            loginOnSuccess:(BOOL)loginOnSuccess
+                   success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                  kEmailParamName: username,
                                                                  kPasswordParamName: password,
@@ -182,7 +185,13 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     [self.manager POST:kSignUpPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
         Auth0LogDebug(@"Created user successfully %@", responseObject);
-        [self loginWithUsername:username password:password success:success failure:failure];
+        if (loginOnSuccess) {
+            [self loginWithUsername:username password:password success:success failure:failure];
+        } else {
+            if (success) {
+                success(nil, nil);
+            }
+        }
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
