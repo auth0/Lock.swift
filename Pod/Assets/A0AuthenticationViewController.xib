@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0AuthenticationViewController">
             <connections>
                 <outlet property="containerView" destination="EQ5-97-4tm" id="pf7-J9-mQ3"/>
+                <outlet property="dismissButton" destination="uS7-Fm-CsT" id="ZKV-3K-e2r"/>
                 <outlet property="iconContainerView" destination="kvp-f2-bVw" id="qAd-jE-aWa"/>
                 <outlet property="iconImageView" destination="1g1-6A-sZJ" id="WhI-qs-kWL"/>
                 <outlet property="titleLabel" destination="ZbU-sd-IPu" id="Aes-JI-fao"/>

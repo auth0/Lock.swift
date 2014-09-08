@@ -43,6 +43,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @interface A0DatabaseLoginViewController ()
 
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
+@property (weak, nonatomic) IBOutlet A0ProgressButton *accessButton;
+@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
+@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 @property (weak, nonatomic) IBOutlet UIView *credentialsBoxView;
 
 - (IBAction)access:(id)sender;
@@ -58,6 +63,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = NSLocalizedString(@"Login", nil);
+        self.showSignUp = YES;
+        self.showResetPassword = YES;
     }
     return self;
 }
@@ -74,6 +81,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configureSecondaryButton:self.forgotPasswordButton];
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
+    self.signUpButton.hidden = !self.showSignUp;
+    self.forgotPasswordButton.hidden = !self.showResetPassword;
 }
 
 - (void)access:(id)sender {

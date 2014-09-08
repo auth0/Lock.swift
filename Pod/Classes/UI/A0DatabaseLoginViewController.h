@@ -27,12 +27,8 @@
 
 @interface A0DatabaseLoginViewController : UIViewController<A0KeyboardEnabledView>
 
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
-@property (weak, nonatomic) IBOutlet A0ProgressButton *accessButton;
-@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
-
+@property (assign, nonatomic) BOOL showSignUp;
+@property (assign, nonatomic) BOOL showResetPassword;
 @property (strong, nonatomic) A0DatabaseLoginCredentialValidator *validator;
 @property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onShowSignUp)();

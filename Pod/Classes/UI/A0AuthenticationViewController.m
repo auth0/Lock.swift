@@ -36,6 +36,7 @@
 #import "A0FullLoginViewController.h"
 #import "A0SocialLoginViewController.h"
 #import "A0Theme.h"
+#import "A0Strategy.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
@@ -46,6 +47,7 @@
 @property (weak, nonatomic) IBOutlet UIView *iconContainerView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 
 @property (strong, nonatomic) UIViewController<A0KeyboardEnabledView> *current;
 @property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
@@ -85,6 +87,8 @@
     if (self.defaultScopes.count > 0) {
         [A0APIClient sharedClient].defaultScope = [self.defaultScopes copy];
     }
+    self.dismissButton.hidden = !self.allowDismiss;
+    
     @weakify(self);
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
@@ -125,12 +129,17 @@
             self.onAuthenticationBlock(profile, token);
         }
     };
+    A0Strategy *strategy = [application databaseStrategy];
     if ([application hasDatabaseConnection] && [application hasSocialStrategies]) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.application = application;
+        controller.showResetPassword = [strategy.connection[@"showForgot"] boolValue];
+        controller.showSignUp = [strategy.connection[@"showSignup"] boolValue];
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if ([application hasDatabaseConnection]) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
+        controller.showResetPassword = [strategy.connection[@"showForgot"] boolValue];
+        controller.showSignUp = [strategy.connection[@"showSignup"] boolValue];
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if ([application hasSocialStrategies]) {
         A0SocialLoginViewController *controller = [self newSocialLoginViewController:onAuthSuccessBlock];
