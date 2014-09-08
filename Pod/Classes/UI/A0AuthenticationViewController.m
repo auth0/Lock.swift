@@ -64,7 +64,6 @@
             self.modalPresentationStyle = UIModalPresentationFormSheet;
         }
         _usesEmail = YES;
-        _offlineAccess = YES;
         [A0AuthenticationViewController loadIconFont];
     }
     return self;
@@ -83,8 +82,8 @@
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
     self.current = [self layoutController:[[A0LoadingViewController alloc] init] inContainer:self.containerView];
 
-    if (!self.offlineAccess) {
-        [A0APIClient sharedClient].defaultScope = @[@"openid"];
+    if (self.defaultScopes.count > 0) {
+        [A0APIClient sharedClient].defaultScope = [self.defaultScopes copy];
     }
     @weakify(self);
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {

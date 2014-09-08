@@ -66,6 +66,9 @@
 
 NSString * const A0APIClientDelegationAPIType = @"api_type";
 NSString * const A0APIClientDelegationTarget = @"target";
+NSString * const A0APIClientScopeOpenId = @"openid";
+NSString * const A0APIClientScopeOfflineAccess = @"offline_access";
+NSString * const A0APIClientScopeProfile = @"profile";
 
 typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
@@ -85,7 +88,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
         NSAssert(domainName, @"You must supply your Auth0 app's Domain Name.");
         _clientId = [clientId copy];
-        _defaultScope = @[@"openid", @"offline_access"];
+        _defaultScope = @[A0APIClientScopeOpenId, A0APIClientScopeOfflineAccess];
         NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, domainName];
         NSURL *baseURL = [NSURL URLWithString:URLString];
         Auth0LogInfo(@"Base URL of API Endpoint is %@", baseURL);
@@ -360,8 +363,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     if (self.defaultScope) {
         [scopes addObjectsFromArray:self.defaultScope];
     }
-    if (![scopes containsObject:@"openid"]) {
-        [scopes addObject:@"openid"];
+    if (![scopes containsObject:A0APIClientScopeOpenId]) {
+        [scopes addObject:A0APIClientScopeOpenId];
     }
     return [scopes componentsJoinedByString:@" "];
 }

@@ -24,6 +24,9 @@
 
 FOUNDATION_EXTERN NSString * const A0APIClientDelegationAPIType;
 FOUNDATION_EXTERN NSString * const A0APIClientDelegationTarget;
+FOUNDATION_EXPORT NSString * const A0APIClientScopeOpenId;
+FOUNDATION_EXPORT NSString * const A0APIClientScopeOfflineAccess;
+FOUNDATION_EXPORT NSString * const A0APIClientScopeProfile;
 
 @class A0Application, A0Strategy, A0SocialCredentials, A0UserProfile, A0Token;
 

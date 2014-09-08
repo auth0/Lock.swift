@@ -65,7 +65,6 @@
     [self clearSession:nil];
     A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
     @weakify(self);
-    controller.offlineAccess = YES;
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);
