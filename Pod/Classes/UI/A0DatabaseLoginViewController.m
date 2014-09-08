@@ -36,7 +36,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                     message:message
                                                    delegate:nil
-                                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                          cancelButtonTitle:A0LocalizedString(@"OK")
                                           otherButtonTitles:nil];
     [alert show];
 }
@@ -62,7 +62,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"Login", nil);
+        self.title = A0LocalizedString(@"Login");
         self.showSignUp = YES;
         self.showResetPassword = YES;
     }
@@ -103,7 +103,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         };
         A0APIClientError failure = ^(NSError *error) {
             [self.accessButton setInProgress:NO];
-            showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForLoginError:error]);
+            showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForLoginError:error]);
         };
         [[A0APIClient sharedClient] loginWithUsername:username password:password success:success failure:failure];
     } else {

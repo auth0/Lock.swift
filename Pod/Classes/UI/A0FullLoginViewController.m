@@ -45,7 +45,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                     message:message
                                                    delegate:nil
-                                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                          cancelButtonTitle:A0LocalizedString(@"OK")
                                           otherButtonTitles:nil];
     [alert show];
 }
@@ -92,7 +92,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                                                            failure:^(NSError *error) {
                                                                @strongify(self);
                                                                [self setInProgress:NO];
-                                                               showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForSocialLoginError:error]);
+                                                               showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
                                                            }];
     } failure:^(NSError *error) {
         @strongify(self);
@@ -105,7 +105,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                     showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                     break;
                 default:
-                    showAlertErrorView(NSLocalizedString(@"There was an error logging in", nil), [A0Errors localizedStringForSocialLoginError:error]);
+                    showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
                     break;
             }
         }

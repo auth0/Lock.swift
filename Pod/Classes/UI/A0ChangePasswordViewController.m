@@ -36,7 +36,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                     message:message
                                                    delegate:nil
-                                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                          cancelButtonTitle:A0LocalizedString(@"OK")
                                           otherButtonTitles:nil];
     [alert show];
 }
@@ -59,7 +59,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"Reset Password", nil);
+        self.title = A0LocalizedString(@"Reset Password");
     }
     return self;
 }
@@ -91,7 +91,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         void(^success)() = ^ {
             @strongify(self);
             [self.recoverButton setInProgress:NO];
-            showAlertErrorView(NSLocalizedString(@"Reset Password", nil), NSLocalizedString(@"We've just sent you an email to reset your password.", nil));
+            showAlertErrorView(A0LocalizedString(@"Reset Password"), A0LocalizedString(@"We've just sent you an email to reset your password."));
             if (self.onChangePasswordBlock) {
                 self.onChangePasswordBlock();
             }
@@ -99,7 +99,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         A0APIClientError failure = ^(NSError *error) {
             @strongify(self);
             [self.recoverButton setInProgress:NO];
-            showAlertErrorView(NSLocalizedString(@"Couldn't change your password", nil), [A0Errors localizedStringForChangePasswordError:error]);
+            showAlertErrorView(A0LocalizedString(@"Couldn't change your password"), [A0Errors localizedStringForChangePasswordError:error]);
         };
         [[A0APIClient sharedClient] changePassword:password forUsername:username success:success failure:failure];
 

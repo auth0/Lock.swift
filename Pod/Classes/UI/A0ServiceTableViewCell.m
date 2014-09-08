@@ -66,7 +66,7 @@
     [self.button setBackgroundColor:highlighted forState:UIControlStateHighlighted];
     self.label.backgroundColor = highlighted;
     self.label.text = symbol;
-    NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Login with %@", nil), name];
+    NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), name];
     [self.button setTitle:title.uppercaseString forState:UIControlStateNormal];
 }
 

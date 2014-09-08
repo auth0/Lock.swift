@@ -121,7 +121,7 @@
                                 [self reverseAuthForAccount:account];
                             }];
                         }
-                        [sheet setCancelButtonWithTitle:NSLocalizedString(@"Cancel", nil) block:^(NSInteger buttonIndex) {
+                        [sheet setCancelButtonWithTitle:A0LocalizedString(@"Cancel") block:^(NSInteger buttonIndex) {
                             Auth0LogDebug(@"User did not pick an account");
                             [self executeFailureWithError:[A0Errors twitterCancelled]];
                         }];

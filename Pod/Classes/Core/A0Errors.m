@@ -32,31 +32,31 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 + (NSError *)invalidLoginCredentialsUsingEmail:(BOOL)usesEmail {
     NSString *failureReason;
     if (usesEmail) {
-        failureReason = NSLocalizedString(@"The email and password you entered are invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The email and password you entered are invalid. Please try again.");
     } else {
-        failureReason = NSLocalizedString(@"The username and password you entered are invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The username and password you entered are invalid. Please try again.");
     }
     return [self errorWithCode:A0ErrorCodeInvalidCredentials
-                   description:NSLocalizedString(@"Invalid login credentials", nil)
+                   description:A0LocalizedString(@"Invalid login credentials")
                  failureReason:failureReason];
 }
 
 + (NSError *)invalidLoginUsernameUsingEmail:(BOOL)usesEmail {
     NSString *failureReason;
     if (usesEmail) {
-        failureReason = NSLocalizedString(@"The email you entered is invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The email you entered is invalid. Please try again.");
     } else {
-        failureReason = NSLocalizedString(@"The username you entered is invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The username you entered is invalid. Please try again.");
     }
     return [self errorWithCode:A0ErrorCodeInvalidUsername
-                   description:NSLocalizedString(@"Invalid login credentials", nil)
+                   description:A0LocalizedString(@"Invalid login credentials")
                  failureReason:failureReason];
 }
 
 + (NSError *)invalidLoginPassword {
     return [self errorWithCode:A0ErrorCodeInvalidPassword
-                   description:NSLocalizedString(@"Invalid login credentials", nil)
-                 failureReason:NSLocalizedString(@"The password you entered is invalid. Please try again.", nil)];
+                   description:A0LocalizedString(@"Invalid login credentials")
+                 failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
 }
 
 #pragma mark - SignUp errors
@@ -64,31 +64,31 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 + (NSError *)invalidSignUpCredentialsUsingEmail:(BOOL)usesEmail {
     NSString *failureReason;
     if (usesEmail) {
-        failureReason = NSLocalizedString(@"The email and password you entered are invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The email and password you entered are invalid. Please try again.");
     } else {
-        failureReason = NSLocalizedString(@"The username and password you entered are invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The username and password you entered are invalid. Please try again.");
     }
     return [self errorWithCode:A0ErrorCodeInvalidCredentials
-                   description:NSLocalizedString(@"Invalid credentials", nil)
+                   description:A0LocalizedString(@"Invalid credentials")
                  failureReason:failureReason];
 }
 
 + (NSError *)invalidSignUpUsernameUsingEmail:(BOOL)usesEmail {
     NSString *failureReason;
     if (usesEmail) {
-        failureReason = NSLocalizedString(@"The email you entered is invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The email you entered is invalid. Please try again.");
     } else {
-        failureReason = NSLocalizedString(@"The username you entered is invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The username you entered is invalid. Please try again.");
     }
     return [self errorWithCode:A0ErrorCodeInvalidUsername
-                   description:NSLocalizedString(@"Invalid credentials", nil)
+                   description:A0LocalizedString(@"Invalid credentials")
                  failureReason:failureReason];
 }
 
 + (NSError *)invalidSignUpPassword {
     return [self errorWithCode:A0ErrorCodeInvalidPassword
-                   description:NSLocalizedString(@"Invalid credentials", nil)
-                 failureReason:NSLocalizedString(@"The password you entered is invalid. Please try again.", nil)];
+                   description:A0LocalizedString(@"Invalid credentials")
+                 failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
 }
 
 #pragma mark - Change password errors
@@ -96,95 +96,95 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 + (NSError *)invalidChangePasswordCredentialsUsingEmail:(BOOL)usesEmail {
     NSString *failureReason;
     if (usesEmail) {
-        failureReason = NSLocalizedString(@"The email and password you entered are invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The email and password you entered are invalid. Please try again.");
     } else {
-        failureReason = NSLocalizedString(@"The username and password you entered are invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The username and password you entered are invalid. Please try again.");
     }
     return [self errorWithCode:A0ErrorCodeInvalidCredentials
-                   description:NSLocalizedString(@"Invalid credentials", nil)
+                   description:A0LocalizedString(@"Invalid credentials")
                  failureReason:failureReason];
 }
 
 + (NSError *)invalidChangePasswordUsernameUsingEmail:(BOOL)usesEmail {
     NSString *failureReason;
     if (usesEmail) {
-        failureReason = NSLocalizedString(@"The email you entered is invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The email you entered is invalid. Please try again.");
     } else {
-        failureReason = NSLocalizedString(@"The username you entered is invalid. Please try again.", nil);
+        failureReason = A0LocalizedString(@"The username you entered is invalid. Please try again.");
     }
     return [self errorWithCode:A0ErrorCodeInvalidUsername
-                   description:NSLocalizedString(@"Invalid credentials", nil)
+                   description:A0LocalizedString(@"Invalid credentials")
                  failureReason:failureReason];
 }
 
 + (NSError *)invalidChangePasswordPassword {
     return [self errorWithCode:A0ErrorCodeInvalidPassword
-                   description:NSLocalizedString(@"Invalid credentials", nil)
-                 failureReason:NSLocalizedString(@"The password you entered is invalid. Please try again.", nil)];
+                   description:A0LocalizedString(@"Invalid credentials")
+                 failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
 }
 
 + (NSError *)invalidChangePasswordRepeatPassword {
     return [self errorWithCode:A0ErrorCodeInvalidRepeatPassword
-                   description:NSLocalizedString(@"Invalid credentials", nil)
-                 failureReason:NSLocalizedString(@"The passwords you entered must match. Please try again.", nil)];
+                   description:A0LocalizedString(@"Invalid credentials")
+                 failureReason:A0LocalizedString(@"The passwords you entered must match. Please try again.")];
 }
 
 + (NSError *)invalidChangePasswordRepeatPasswordAndPassword {
     return [self errorWithCode:A0ErrorCodeInvalidPasswordAndRepeatPassword
-                   description:NSLocalizedString(@"Invalid credentials", nil)
-                 failureReason:NSLocalizedString(@"The passwords you entered must match. Please try again.", nil)];
+                   description:A0LocalizedString(@"Invalid credentials")
+                 failureReason:A0LocalizedString(@"The passwords you entered must match. Please try again.")];
 }
 
 #pragma mark - Social Errors
 
 + (NSError *)unkownProviderForStrategy:(NSString *)strategyName {
     return [self errorWithCode:A0ErrorCodeUknownProviderForStrategy
-                   description:NSLocalizedString(@"Couldn't found authentication method for unknown strategy", nil)
-                 failureReason:[NSString stringWithFormat:NSLocalizedString(@"The strategy %@ has no registered authentication provider", nil), strategyName]];
+                   description:A0LocalizedString(@"Couldn't found authentication method for unknown strategy")
+                 failureReason:[NSString stringWithFormat:A0LocalizedString(@"The strategy %@ has no registered authentication provider"), strategyName]];
 }
 
 + (NSError *)facebookCancelled {
     return [self errorWithCode:A0ErrorCodeFacebookCancelled
-                   description:NSLocalizedString(@"There was an error contacting Facebook", nil)
-                 failureReason:NSLocalizedString(@"You need to authorize the application", nil)];
+                   description:A0LocalizedString(@"There was an error contacting Facebook")
+                 failureReason:A0LocalizedString(@"You need to authorize the application")];
 }
 
 + (NSError *)twitterAppNotAuthorized {
     return [self errorWithCode:A0ErrorCodeTwitterAppNotAuthorized
-                   description:NSLocalizedString(@"There was an error contacting Twitter", nil)
-                 failureReason:NSLocalizedString(@"Permissions were not granted. Please authorize the app in Settings > Twitter", nil)];
+                   description:A0LocalizedString(@"There was an error contacting Twitter")
+                 failureReason:A0LocalizedString(@"Permissions were not granted. Please authorize the app in Settings > Twitter")];
 }
 
 + (NSError *)twitterAppOauthNotAuthorized {
     return [self errorWithCode:A0ErrorCodeTwitterAppNotAuthorized
-                   description:NSLocalizedString(@"There was an error contacting Twitter", nil)
-                 failureReason:NSLocalizedString(@"Permissions were not granted. Try again", nil)];
+                   description:A0LocalizedString(@"There was an error contacting Twitter")
+                 failureReason:A0LocalizedString(@"Permissions were not granted. Try again")];
 }
 
 + (NSError *)twitterCancelled {
     return [self errorWithCode:A0ErrorCodeTwitterCancelled
-                   description:NSLocalizedString(@"There was an error contacting Twitter", nil)
-                 failureReason:NSLocalizedString(@"User cancelled the login operation. Try again", nil)];
+                   description:A0LocalizedString(@"There was an error contacting Twitter")
+                 failureReason:A0LocalizedString(@"User cancelled the login operation. Try again")];
 }
 
 + (NSError *)twitterNotConfigured {
     return [self errorWithCode:A0ErrorCodeTwitterNotConfigured
-                   description:NSLocalizedString(@"There was an error contacting Twitter", nil)
-                 failureReason:NSLocalizedString(@"The domain has not been setup for Twitter.", nil)];
+                   description:A0LocalizedString(@"There was an error contacting Twitter")
+                 failureReason:A0LocalizedString(@"The domain has not been setup for Twitter.")];
 }
 
 + (NSError *)twitterInvalidAccount {
     return [self errorWithCode:A0ErrorCodeTwitterInvalidAccount
-                   description:NSLocalizedString(@"There was an error contacting Twitter", nil)
-                 failureReason:NSLocalizedString(@"The twitter account seems to be invalid. Please check it in Settings > Twitter and re-enter them.", nil)];
+                   description:A0LocalizedString(@"There was an error contacting Twitter")
+                 failureReason:A0LocalizedString(@"The twitter account seems to be invalid. Please check it in Settings > Twitter and re-enter them.")];
 }
 
 #pragma mark - Refresh Session
 
 + (NSError *)noSessionFound {
     return [self errorWithCode:A0ErrorCodeNoSessionFound
-                   description:NSLocalizedString(@"There was an error refreshing session", nil)
-                 failureReason:NSLocalizedString(@"No id_token or refresh_token was found in session storage", nil)];
+                   description:A0LocalizedString(@"There was an error refreshing session")
+                 failureReason:A0LocalizedString(@"No id_token or refresh_token was found in session storage")];
 }
 
 #pragma mark - Localized error messages
@@ -194,9 +194,9 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     NSString *errorKey = apiErrorInfo[@"error"];
     NSString *localizedString;
     if ([errorKey isEqualToString:@"invalid_user_password"]) {
-        localizedString = NSLocalizedString(@"Wrong email or password.", nil);
+        localizedString = A0LocalizedString(@"Wrong email or password.");
     } else {
-        localizedString = NSLocalizedString(@"There was an error processing the sign in.", nil);
+        localizedString = A0LocalizedString(@"There was an error processing the sign in.");
     }
     return localizedString;
 }
@@ -206,19 +206,19 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     NSString *errorKey = apiErrorInfo[@"code"];
     NSString *localizedString;
     if ([errorKey isEqualToString:@"user_exists"]) {
-        localizedString = NSLocalizedString(@"The user already exists.", nil);
+        localizedString = A0LocalizedString(@"The user already exists.");
     } else {
-        localizedString = NSLocalizedString(@"There was an error processing the sign up.", nil);
+        localizedString = A0LocalizedString(@"There was an error processing the sign up.");
     }
     return localizedString;
 }
 
 + (NSString *)localizedStringForChangePasswordError:(NSError *)error {
-    return NSLocalizedString(@"There was an error processing the reset password.", nil);
+    return A0LocalizedString(@"There was an error processing the reset password.");
 }
 
 + (NSString *)localizedStringForSocialLoginError:(NSError *)error {
-    return NSLocalizedString(@"There was an error processing the sign in.", nil);
+    return A0LocalizedString(@"There was an error processing the sign in.");
 }
 
 #pragma mark - Utility methods
