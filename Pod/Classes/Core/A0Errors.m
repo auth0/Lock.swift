@@ -184,7 +184,13 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 + (NSError *)noSessionFound {
     return [self errorWithCode:A0ErrorCodeNoSessionFound
                    description:A0LocalizedString(@"There was an error refreshing session")
-                 failureReason:A0LocalizedString(@"No id_token or refresh_token was found in session storage")];
+                 failureReason:A0LocalizedString(@"No id_token or refresh_token was found for current session")];
+}
+
++ (NSError *)noRefreshTokenFound {
+    return [self errorWithCode:A0ErrorCodeNoRefreshTokenFound
+                   description:A0LocalizedString(@"There was an error refreshing session")
+                 failureReason:A0LocalizedString(@"No refresh_token was found for current session. Make sure you're requesting offline access on login.")];
 }
 
 #pragma mark - Localized error messages

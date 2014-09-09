@@ -52,25 +52,15 @@
     A0Token *token = self.token;
     if (!token) {
         Auth0LogWarn(@"No session information found in session data source %@", self.dataSource);
+        [self clear];
         if (failure) {
-            [self clear];
             failure([A0Errors noSessionFound]);
         }
         return;
     }
 
     if (self.isExpired) {
-        Auth0LogDebug(@"Session already expired. Requesting new id_token from API...");
-        @weakify(self);
-        [[A0APIClient sharedClient] delegationWithRefreshToken:token.refreshToken options:nil success:^(A0Token *tokenInfo) {
-            @strongify(self);
-            A0Token *refreshedToken = [[A0Token alloc] initWithAccessToken:tokenInfo.accessToken idToken:tokenInfo.idToken tokenType:tokenInfo.tokenType refreshToken:token.refreshToken];
-            [self.dataSource storeToken:refreshedToken];
-            Auth0LogDebug(@"Session refreshed with token expiring %@", tokenInfo.expiresAt);
-            if (success) {
-                success(self.profile, refreshedToken);
-            }
-        } failure:[self sanitizeFailureBlock:failure]];
+        [self refreshWithRefreshToken:token success:success failure:failure];
     } else {
         Auth0LogDebug(@"Session not expired. No need to call API.");
         if (success) {
@@ -82,38 +72,27 @@
 - (void)renewWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
     Auth0LogVerbose(@"Forcing refresh Auth0 session...");
     A0Token *token = self.token;
+    NSError *error;
     if (!token) {
         Auth0LogWarn(@"No session information found in session data source %@", self.dataSource);
+        error = [A0Errors noSessionFound];
+    } else if (self.isExpired && !token.refreshToken) {
+        Auth0LogWarn(@"No refresh_token found to refresh expired id_token");
+        error = [A0Errors noRefreshTokenFound];
+    }
+
+    if (error) {
+        [self clear];
         if (failure) {
-            [self clear];
-            failure([A0Errors noSessionFound]);
+            failure(error);
         }
         return;
     }
 
-    @weakify(self);
-    A0APIClientDelegationSuccess successBlock = ^(A0Token *tokenInfo) {
-        @strongify(self);
-        A0Token *refreshedToken = [[A0Token alloc] initWithAccessToken:tokenInfo.accessToken idToken:tokenInfo.idToken tokenType:tokenInfo.tokenType refreshToken:token.refreshToken];
-        [self.dataSource storeToken:refreshedToken];
-        Auth0LogDebug(@"Session refreshed with token expiring %@", tokenInfo.expiresAt);
-        if (success) {
-            success(self.profile, refreshedToken);
-        }
-    };
-
     if (self.isExpired) {
-        Auth0LogDebug(@"Session already expired. Requesting new id_token from API using refresh_token...");
-        [[A0APIClient sharedClient] delegationWithRefreshToken:token.refreshToken
-                                                       options:nil
-                                                       success:successBlock
-                                                       failure:[self sanitizeFailureBlock:failure]];
+        [self refreshWithRefreshToken:token success:success failure:failure];
     } else {
-        Auth0LogDebug(@"Session not expired. Requesting new id_token from API using id_token...");
-        [[A0APIClient sharedClient] delegationWithIdToken:token.idToken
-                                                  options:nil
-                                                  success:successBlock
-                                                  failure:[self sanitizeFailureBlock:failure]];
+        [self refreshWithIdToken:token success:success failure:failure];
     }
 }
 
@@ -144,6 +123,36 @@
     A0UserSessionDataSource *dataSource = [[A0UserSessionDataSource alloc] init];
     return [[A0Session alloc] initWithSessionDataSource:dataSource];
 
+}
+
+#pragma mark - Utility methods
+
+- (void)refreshWithRefreshToken:(A0Token *)token success:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
+    Auth0LogDebug(@"Session already expired. Requesting new id_token from API...");
+    @weakify(self);
+    [[A0APIClient sharedClient] delegationWithRefreshToken:token.refreshToken options:nil success:^(A0Token *tokenInfo) {
+        @strongify(self);
+        A0Token *refreshedToken = [[A0Token alloc] initWithAccessToken:tokenInfo.accessToken idToken:tokenInfo.idToken tokenType:tokenInfo.tokenType refreshToken:token.refreshToken];
+        [self.dataSource storeToken:refreshedToken];
+        Auth0LogDebug(@"Session refreshed with token expiring %@", tokenInfo.expiresAt);
+        if (success) {
+            success(self.profile, refreshedToken);
+        }
+    } failure:[self sanitizeFailureBlock:failure]];
+}
+
+- (void)refreshWithIdToken:(A0Token *)token success:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
+    Auth0LogDebug(@"Session not expired. Requesting new id_token from API using id_token...");
+    @weakify(self);
+    [[A0APIClient sharedClient] delegationWithIdToken:token.idToken options:nil success:^(A0Token *tokenInfo) {
+        @strongify(self);
+        A0Token *refreshedToken = [[A0Token alloc] initWithAccessToken:tokenInfo.accessToken idToken:tokenInfo.idToken tokenType:tokenInfo.tokenType refreshToken:token.refreshToken];
+        [self.dataSource storeToken:refreshedToken];
+        Auth0LogDebug(@"Session refreshed with token expiring %@", tokenInfo.expiresAt);
+        if (success) {
+            success(self.profile, refreshedToken);
+        }
+    } failure:[self sanitizeFailureBlock:failure]];
 }
 
 - (A0APIClientError) sanitizeFailureBlock:(A0RefreshFailureBlock)failureBlock {
