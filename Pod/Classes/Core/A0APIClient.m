@@ -33,8 +33,8 @@
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
 
-#define kClientIdKey @"AUTH0_CLIENT_ID"
-#define kDomainNameKey @"AUTH0_DOMAIN_NAME"
+#define kClientIdKey @"Auth0ClientId"
+#define kTenantKey @"Auth0Tenant"
 #define kAppBaseURLFormatString @"https://%@.auth0.com/api/"
 #define kAppInfoEndpointURLFormatString @"https://s3.amazonaws.com/assets.auth0.com/client/%@.js"
 
@@ -82,14 +82,14 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 @implementation A0APIClient
 
-- (instancetype)initWithClientId:(NSString *)clientId andDomainName:(NSString *)domainName {
+- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant {
     self = [super init];
     if (self) {
         NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
-        NSAssert(domainName, @"You must supply your Auth0 app's Domain Name.");
+        NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
         _clientId = [clientId copy];
         _defaultScope = @[A0APIClientScopeOpenId, A0APIClientScopeOfflineAccess];
-        NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, domainName];
+        NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, tenant];
         NSURL *baseURL = [NSURL URLWithString:URLString];
         Auth0LogInfo(@"Base URL of API Endpoint is %@", baseURL);
         _manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
@@ -109,8 +109,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     dispatch_once(&onceToken, ^{
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
         NSString *clientId = info[kClientIdKey];
-        NSString *domainName = info[kDomainNameKey];
-        client = [[A0APIClient alloc] initWithClientId:clientId andDomainName:domainName];
+        NSString *tenant = info[kTenantKey];
+        client = [[A0APIClient alloc] initWithClientId:clientId andTenant:tenant];
     });
     return client;
 }

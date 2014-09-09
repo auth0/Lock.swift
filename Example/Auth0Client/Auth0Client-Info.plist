@@ -2,10 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AUTH0_CLIENT_ID</key>
+	<key>Auth0ClientId</key>
 	<string>${AUTH0_CLIENT_ID}</string>
-	<key>AUTH0_DOMAIN_NAME</key>
-	<string>${AUTH0_DOMAIN_NAME}</string>
+	<key>Auth0Tenant</key>
+	<string>${AUTH0_TENANT}</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
