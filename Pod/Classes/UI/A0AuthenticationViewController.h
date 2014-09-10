@@ -31,7 +31,7 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
 @property (copy, nonatomic) A0AuthenticationBlock onAuthenticationBlock;
 @property (assign, nonatomic) BOOL usesEmail;
-@property (assign, nonatomic) BOOL allowDismiss;
+@property (assign, nonatomic) BOOL closable;
 @property (assign, nonatomic) BOOL loginAfterSignUp;
 @property (assign, nonatomic) NSArray *defaultScopes;
 @property (strong, nonatomic) UIView *signUpDisclaimerView;

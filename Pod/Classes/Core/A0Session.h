@@ -46,5 +46,6 @@ typedef void(^A0RefreshFailureBlock)(NSError *error);
 - (void)clear;
 
 + (instancetype)newDefaultSession;
++ (instancetype)newSessionWithDataSource:(id<A0SessionDataSource>)dataSource;
 
 @end

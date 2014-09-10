@@ -101,6 +101,114 @@ A0TwitterAuthentication *twitter = [A0TwitterAuthentication newAuthenticationWit
 We need your twitter app's key & secret in order to sign the reverse auth request. For more info please read twitter documentation about [Authorizing Requests](https://dev.twitter.com/docs/auth/authorizing-request) and [Reverse Auth](https://dev.twitter.com/docs/ios/using-reverse-auth).
 The callback URL is used when authenticating with OAuth Web Flow in order to identify the correct call to `application:openURL:sourceApplication:annotation:` and extract the results of OAuth Web Flow. We recommend using a URL with a custom scheme equal to your app's Bundle Indentifier, e.g. _com.auth0.Example://twitter_
 
+##API
+
+###A0AuthenticationViewController
+####-init
+Initialise 'A0AuthenticationViewController' using `Auth0ClientId` * `Auth0Tenant` from info plist file.
+```objc
+A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
+```
+####onAuthenticationBlock
+Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.
+```objc
+controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
+        NSLog(@"Auth successful: profile %@, token %@", profile, token);
+    };
+```
+####usesEmail
+Enable the username to be treated as an email (and validated as one too) in all Auth0 screens. Default is `YES`
+```objc
+controller.usesEmail = NO;
+```
+####closable
+Allows the `A0AuthenticationViewController` to be dismissed by adding a button. Default is `NO`
+```objc
+controller.usesEmail = YES;
+```
+####loginAfterSignup
+After a successful Signup, `A0AuthenticationViewController` will attempt to login the user if this property is `YES`. Default is `YES`
+```objc
+controller.loginAfterSignup = NO;
+```
+####defaultScopes
+List of scopes used when authenticating against Auth0 REST API. By default the values are: `scope` & `offline_access` but you can use `A0APIClientScopeOpenId`, `A0APIClientScopeOfflineAccess` constants instead.
+```objc
+controller.defaultScopes = @[A0APIClientScopeOpenId, A0APIClientScopeOfflineAccess];
+```
+###signupDisclaimerView
+View that will appear in the bottom of Signup screen. It should be used to show Terms & Conditions of your app.
+```objc
+UIView *view = \\Build your own view
+controller.signupDisclaimerView = view;
+```
+
+###A0Session
+
+####-initWithSessionDataSource:
+Initialise the session with info from the `dataSource`. You can implement your own or use Auth0's `A0UserSessionDataSource`.
+```objc
+id<A0SessionDataSource> dataSource = //...
+A0Session *session = [[A0Session alloc] initWithSessionDataSource:dataSource];
+```
+####-isExpired
+Returns `YES` if the id_token is expired
+```objc
+BOOL expired = session.isExpired;
+```
+####-renewWithSuccess:failure
+Checks whether the id_token is expired.
+If it is, it will request a new one using the stored refresh_token. Otherwise it will request a new id_token using the old id_token. On success, it will update the stored id_token.
+```objc
+[session renewWithSuccess:^(A0UserProfile *profile, A0Token *token) {
+  NSLog(@"Token renewed %@", token);
+} failure:^(NSError *error) {
+  NSLog(@"Failed to renew token %@", error);
+}];
+```
+####-refreshWithSuccess:failure
+It will only request a new id_token using the stored refresh_token if it's expired. On successful request of a new id_token it will update it in the DataSource. If the token is not expired, it will be returned as a paramater in the success block.
+```objc
+[session refreshWithSuccess:^(A0UserProfile *profile, A0Token *token) {
+  NSLog(@"Token %@", token);
+} failure:^(NSError *error) {
+  NSLog(@"Failed to refresh token %@", error);
+}];
+```
+####-renewUserProfileWithSuccess:failure
+Tries to refresh User's profile using the stored id_token. On success returns both the stored token and updated profile, and updates the DataSource with the new one.
+```objc
+[session renewUserProfileWithSuccess:^(A0UserProfile *profile, A0Token *token) {
+  NSLog(@"Profile updated %@", token);
+} failure:^(NSError *error) {
+  NSLog(@"Failed to update profile %@", error);
+}];
+```
+####-clear
+Removes all session information & clears the DataSource calling it's `clearAll` method.
+```objc
+[session clear];
+```
+####-token
+Returns the current token from the DataSource or nil.
+```objc
+A0Token *token = session.token;
+```
+####-profile
+Returns the current profile from the DataSource or nil.
+```objc
+A0UserProfile *profile = session.profile;
+```
+####+newDefaultSession
+Returns a new `A0Session` instance with the default DataSource `A0UserSessionDataSource`.
+```objc
+A0Session *session = [A0Session newDefaultSession];
+```
+####+newSessionWithDataSource:
+Returns a new `A0Session` instance that uses dataSource parameter.
+```objc
+A0Session *session = [A0Session newDefaultSessionWithDataSource:dataSource];
+```
 
 ## Author
 

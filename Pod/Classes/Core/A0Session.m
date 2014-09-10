@@ -120,9 +120,11 @@
 }
 
 + (instancetype)newDefaultSession {
-    A0UserSessionDataSource *dataSource = [[A0UserSessionDataSource alloc] init];
-    return [[A0Session alloc] initWithSessionDataSource:dataSource];
+    return [self newSessionWithDataSource:[[A0UserSessionDataSource alloc] init]];
+}
 
++ (instancetype)newSessionWithDataSource:(id<A0SessionDataSource>)dataSource {
+    return [[A0Session alloc] initWithSessionDataSource:dataSource];
 }
 
 #pragma mark - Utility methods

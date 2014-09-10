@@ -65,7 +65,7 @@
     [self clearSession:nil];
     A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
     @weakify(self);
-    controller.allowDismiss = YES;
+    controller.closable = YES;
     controller.loginAfterSignUp = YES;
     controller.usesEmail = YES;
     controller.defaultScopes = @[A0APIClientScopeOpenId];

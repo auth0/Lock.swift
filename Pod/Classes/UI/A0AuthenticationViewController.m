@@ -88,7 +88,7 @@
     if (self.defaultScopes.count > 0) {
         [A0APIClient sharedClient].defaultScopes = [self.defaultScopes copy];
     }
-    self.dismissButton.hidden = !self.allowDismiss;
+    self.dismissButton.hidden = !self.closable;
 
     @weakify(self);
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
