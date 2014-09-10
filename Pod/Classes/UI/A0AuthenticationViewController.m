@@ -86,7 +86,7 @@
     self.current = [self layoutController:[[A0LoadingViewController alloc] init] inContainer:self.containerView];
 
     if (self.defaultScopes.count > 0) {
-        [A0APIClient sharedClient].defaultScope = [self.defaultScopes copy];
+        [A0APIClient sharedClient].defaultScopes = [self.defaultScopes copy];
     }
     self.dismissButton.hidden = !self.allowDismiss;
 

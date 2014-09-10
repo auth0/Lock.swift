@@ -38,7 +38,7 @@ typedef void(^A0APIClientError)(NSError *error);
 
 @interface A0APIClient : NSObject
 
-@property (strong, nonatomic) NSArray *defaultScope;
+@property (strong, nonatomic) NSArray *defaultScopes;
 
 - (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant;
 

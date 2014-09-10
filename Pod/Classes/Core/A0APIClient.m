@@ -88,7 +88,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
         NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
         _clientId = [clientId copy];
-        _defaultScope = @[A0APIClientScopeOpenId, A0APIClientScopeOfflineAccess];
+        _defaultScopes = @[A0APIClientScopeOpenId, A0APIClientScopeOfflineAccess];
         NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, tenant];
         NSURL *baseURL = [NSURL URLWithString:URLString];
         Auth0LogInfo(@"Base URL of API Endpoint is %@", baseURL);
@@ -344,7 +344,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     if (credentials.extraInfo[A0StrategySocialUserIdParameter]) {
         params[kSocialUserIdParamName] = credentials.extraInfo[A0StrategySocialUserIdParameter];
     }
-    if ([self.defaultScope containsObject:@"offline_access"]) {
+    if ([self.defaultScopes containsObject:@"offline_access"]) {
         params[kDeviceNameParamName] = [[UIDevice currentDevice] name];
     }
     return params;
@@ -369,8 +369,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 - (NSString *)defaultScopeString {
     NSMutableArray *scopes = [[NSMutableArray alloc] init];
-    if (self.defaultScope) {
-        [scopes addObjectsFromArray:self.defaultScope];
+    if (self.defaultScopes) {
+        [scopes addObjectsFromArray:self.defaultScopes];
     }
     if (![scopes containsObject:A0APIClientScopeOpenId]) {
         [scopes addObject:A0APIClientScopeOpenId];

@@ -155,7 +155,7 @@
     } failure:[self sanitizeFailureBlock:failure]];
 }
 
-- (A0APIClientError) sanitizeFailureBlock:(A0RefreshFailureBlock)failureBlock {
+- (A0APIClientError)sanitizeFailureBlock:(A0RefreshFailureBlock)failureBlock {
     @weakify(self);
     A0APIClientError sanitized = ^(NSError *error) {
         @strongify(self);
