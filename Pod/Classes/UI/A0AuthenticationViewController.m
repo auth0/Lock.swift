@@ -114,6 +114,9 @@
 
 - (void)dismiss:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    if (self.onUserDismissBlock) {
+        self.onUserDismissBlock();
+    }
 }
 
 - (IBAction)hideKeyboard:(id)sender {
