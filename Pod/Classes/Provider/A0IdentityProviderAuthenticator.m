@@ -1,4 +1,4 @@
-// A0SocialAuthenticator.m
+// A0IdentityProviderAuthenticator.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,25 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0SocialAuthenticator.h"
+#import "A0IdentityProviderAuthenticator.h"
 #import "A0Strategy.h"
 #import "A0Application.h"
 #import "A0Errors.h"
 
-@interface A0SocialAuthenticator ()
+@interface A0IdentityProviderAuthenticator ()
 
 @property (strong, nonatomic) NSMutableDictionary *registeredAuthenticators;
 @property (strong, nonatomic) NSMutableDictionary *authenticators;
 
 @end
 
-@implementation A0SocialAuthenticator
+@implementation A0IdentityProviderAuthenticator
 
-+ (A0SocialAuthenticator *)sharedInstance {
-    static A0SocialAuthenticator *instance = nil;
++ (A0IdentityProviderAuthenticator *)sharedInstance {
+    static A0IdentityProviderAuthenticator *instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [[A0SocialAuthenticator alloc] init];
+        instance = [[A0IdentityProviderAuthenticator alloc] init];
     });
     return instance;
 }
@@ -52,12 +52,12 @@
 }
 
 - (void)registerSocialAuthenticatorProviders:(NSArray *)socialAuthenticatorProviders {
-    [socialAuthenticatorProviders enumerateObjectsUsingBlock:^(id<A0SocialAuthenticationProvider> provider, NSUInteger idx, BOOL *stop) {
+    [socialAuthenticatorProviders enumerateObjectsUsingBlock:^(id<A0AuthenticationProvider> provider, NSUInteger idx, BOOL *stop) {
         [self registerSocialAuthenticatorProvider:provider];
     }];
 }
 
-- (void)registerSocialAuthenticatorProvider:(id<A0SocialAuthenticationProvider>)socialProviderAuth {
+- (void)registerSocialAuthenticatorProvider:(id<A0AuthenticationProvider>)socialProviderAuth {
     NSAssert(socialProviderAuth != nil, @"Must supply a non-nil profile");
     NSAssert(socialProviderAuth.identifier != nil, @"Provider must have a valid indentifier");
     self.registeredAuthenticators[socialProviderAuth.identifier] = socialProviderAuth;
@@ -73,9 +73,9 @@
 }
 
 - (void)authenticateForStrategy:(A0Strategy *)strategy
-                    withSuccess:(void (^)(A0SocialCredentials *))success
+                    withSuccess:(void (^)(A0IdentityProviderCredentials *))success
                         failure:(void (^)(NSError *))failure {
-    id<A0SocialAuthenticationProvider> authenticator = self.authenticators[strategy.name];
+    id<A0AuthenticationProvider> authenticator = self.authenticators[strategy.name];
     if (authenticator) {
         [authenticator authenticateWithSuccess:success failure:failure];
     } else {
@@ -88,7 +88,7 @@
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application {
     __block BOOL handled = NO;
-    [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0SocialAuthenticationProvider> authenticator, BOOL *stop) {
+    [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0AuthenticationProvider> authenticator, BOOL *stop) {
         if ([authenticator respondsToSelector:@selector(handleURL:sourceApplication:)]) {
             handled = [authenticator handleURL:url sourceApplication:application];
         }
@@ -98,7 +98,7 @@
 }
 
 - (void)clearSessions {
-    [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0SocialAuthenticationProvider> authenticator, BOOL *stop) {
+    [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0AuthenticationProvider> authenticator, BOOL *stop) {
         [authenticator clearSessions];
     }];
 

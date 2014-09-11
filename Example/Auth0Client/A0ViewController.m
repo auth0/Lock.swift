@@ -26,7 +26,7 @@
 #import <Auth0Client/A0AuthenticationViewController.h>
 #import <Auth0Client/A0FacebookAuthentication.h>
 #import <Auth0Client/A0TwitterAuthentication.h>
-#import <Auth0Client/A0SocialAuthenticator.h>
+#import <Auth0Client/A0IdentityProviderAuthenticator.h>
 #import <Auth0Client/A0AuthCore.h>
 #import <libextobjc/EXTScope.h>
 
@@ -45,7 +45,7 @@
                                                                                andSecret:@"v04WbftIrRJENoTFAr91eCEgLmVCDcaEm5brZlLJtS0ccJjHIz"
                                                                              callbackURL:[NSURL URLWithString:@"com.auth0.Auth0Client://twitter-auth"]];
     A0FacebookAuthentication *facebook = [A0FacebookAuthentication newAuthenticationWithDefaultPermissions];
-    [[A0SocialAuthenticator sharedInstance] registerSocialAuthenticatorProviders:@[
+    [[A0IdentityProviderAuthenticator sharedInstance] registerSocialAuthenticatorProviders:@[
                                                                                    twitter,
                                                                                    facebook,
                                                                                    ]];

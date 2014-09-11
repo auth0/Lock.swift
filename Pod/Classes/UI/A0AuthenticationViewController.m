@@ -24,7 +24,7 @@
 #import "A0KeyboardHandler.h"
 #import "A0Application.h"
 #import "A0APIClient.h"
-#import "A0SocialAuthenticator.h"
+#import "A0IdentityProviderAuthenticator.h"
 #import "A0DatabaseLoginCredentialValidator.h"
 #import "A0SignUpCredentialValidator.h"
 #import "A0ChangePasswordCredentialValidator.h"

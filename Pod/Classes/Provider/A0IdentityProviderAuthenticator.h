@@ -1,4 +1,4 @@
-// A0SocialAuthenticator.h
+// A0IdentityProviderAuthenticator.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,18 +21,18 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0SocialProviderAuth.h"
+#import "A0AuthenticationProvider.h"
 
 @class A0Application, A0Strategy;
 
-@interface A0SocialAuthenticator : NSObject
+@interface A0IdentityProviderAuthenticator : NSObject
 
-+ (A0SocialAuthenticator *)sharedInstance;
++ (A0IdentityProviderAuthenticator *)sharedInstance;
 
 - (void)registerSocialAuthenticatorProviders:(NSArray *)socialAuthenticatorProviders;
-- (void)registerSocialAuthenticatorProvider:(id<A0SocialAuthenticationProvider>)socialAuthenticatorProvider;
+- (void)registerSocialAuthenticatorProvider:(id<A0AuthenticationProvider>)socialAuthenticatorProvider;
 - (void)configureForApplication:(A0Application *)application;
-- (void)authenticateForStrategy:(A0Strategy *)strategy withSuccess:(void(^)(A0SocialCredentials *socialCredentials))success failure:(void(^)(NSError *error))failure;
+- (void)authenticateForStrategy:(A0Strategy *)strategy withSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *error))failure;
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application;
 - (void)clearSessions;
 

@@ -28,7 +28,7 @@ FOUNDATION_EXPORT NSString * const A0APIClientScopeOpenId;
 FOUNDATION_EXPORT NSString * const A0APIClientScopeOfflineAccess;
 FOUNDATION_EXPORT NSString * const A0APIClientScopeProfile;
 
-@class A0Application, A0Strategy, A0SocialCredentials, A0UserProfile, A0Token;
+@class A0Application, A0Strategy, A0IdentityProviderCredentials, A0UserProfile, A0Token;
 
 typedef void(^A0APIClientFetchAppInfoSuccess)(id payload);
 typedef void(^A0APIClientAuthenticationSuccess)(A0UserProfile *profile, A0Token *tokenInfo);
@@ -75,7 +75,7 @@ typedef void(^A0APIClientError)(NSError *error);
 #pragma mark - Social Authentication
 
 - (void)authenticateWithSocialStrategy:(A0Strategy *)strategy
-                     socialCredentials:(A0SocialCredentials *)socialCredentials
+                     socialCredentials:(A0IdentityProviderCredentials *)socialCredentials
                                success:(A0APIClientAuthenticationSuccess)success
                                failure:(A0APIClientError)failure;
 

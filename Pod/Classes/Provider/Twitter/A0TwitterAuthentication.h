@@ -1,4 +1,4 @@
-// A0SocialAuthenticationProvider.h
+// A0TwitterAuthentication.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,16 +21,10 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0SocialCredentials.h"
+#import "A0AuthenticationProvider.h"
 
-@protocol A0SocialAuthenticationProvider <NSObject>
+@interface A0TwitterAuthentication : NSObject<A0AuthenticationProvider>
 
-@required
-- (NSString *)identifier;
-- (void)authenticateWithSuccess:(void(^)(A0SocialCredentials *socialCredentials))success failure:(void(^)(NSError *))failure;
-- (void)clearSessions;
-
-@optional
-- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
++ (A0TwitterAuthentication *)newAuthenticationWithKey:(NSString *)key andSecret:(NSString *)secret callbackURL:(NSURL *)callbackURL;
 
 @end

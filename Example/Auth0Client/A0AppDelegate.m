@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0AppDelegate.h"
-#import <Auth0Client/A0SocialAuthenticator.h>
+#import <Auth0Client/A0IdentityProviderAuthenticator.h>
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 #import <CocoaLumberjack/DDLog.h>
@@ -41,6 +41,6 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [[A0SocialAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
+    return [[A0IdentityProviderAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
 }
 @end

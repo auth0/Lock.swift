@@ -25,10 +25,10 @@
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "A0JSONResponseSerializer.h"
-#import "A0SocialCredentials.h"
+#import "A0IdentityProviderCredentials.h"
 #import "A0UserProfile.h"
 #import "A0Token.h"
-#import "A0SocialAuthenticator.h"
+#import "A0IdentityProviderAuthenticator.h"
 
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
@@ -100,7 +100,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 }
 
 - (void)logout {
-    [[A0SocialAuthenticator sharedInstance] clearSessions];
+    [[A0IdentityProviderAuthenticator sharedInstance] clearSessions];
 }
 
 + (instancetype)sharedClient {
@@ -136,7 +136,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
             Auth0LogDebug(@"Application parsed form JSONP %@", application);
             if (!error) {
                 [self configureForApplication:application];
-                [[A0SocialAuthenticator sharedInstance] configureForApplication:application];
+                [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
                 success(application);
             } else {
                 Auth0LogError(@"Failed to parse JSONP with error %@", error);
@@ -213,7 +213,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 #pragma mark - Social Authentication
 
 - (void)authenticateWithSocialStrategy:(A0Strategy *)strategy
-                     socialCredentials:(A0SocialCredentials *)socialCredentials
+                     socialCredentials:(A0IdentityProviderCredentials *)socialCredentials
                                success:(A0APIClientAuthenticationSuccess)success
                                failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
@@ -331,7 +331,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 - (NSDictionary *)buildBasicParamsWithDictionary:(NSDictionary *)dictionary
                                         strategy:(A0Strategy *)strategy
-                                     credentials:(A0SocialCredentials *)credentials {
+                                     credentials:(A0IdentityProviderCredentials *)credentials {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
     params[kClientIdParamName] = self.clientId;
     params[kConnectionParamName] = strategy.connection[@"name"];

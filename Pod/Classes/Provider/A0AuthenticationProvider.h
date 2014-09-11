@@ -1,4 +1,4 @@
-// A0SocialCredentials.h
+// A0AuthenticationProvider.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,14 +21,16 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import "A0IdentityProviderCredentials.h"
 
-@interface A0SocialCredentials : NSObject
+@protocol A0AuthenticationProvider <NSObject>
 
-@property (readonly, nonatomic) NSString *accessToken;
+@required
+- (NSString *)identifier;
+- (void)authenticateWithSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *))failure;
+- (void)clearSessions;
 
-@property (readonly, nonatomic) NSDictionary *extraInfo;
-
-- (instancetype)initWithAccessToken:(NSString *)accessToken extraInfo:(NSDictionary *)extraInfo;
-- (instancetype)initWithAccessToken:(NSString *)accessToken;
+@optional
+- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
 
 @end

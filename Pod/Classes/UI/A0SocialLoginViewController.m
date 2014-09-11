@@ -23,7 +23,7 @@
 #import "A0SocialLoginViewController.h"
 #import "A0Application.h"
 #import "A0Strategy.h"
-#import "A0SocialAuthenticator.h"
+#import "A0IdentityProviderAuthenticator.h"
 #import "UIButton+A0SolidButton.h"
 #import "A0ServiceTableViewCell.h"
 #import "A0APIClient.h"
@@ -92,7 +92,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     self.selectedService = sender.tag;
     [self setInProgress:YES];
     A0Strategy *strategy = self.application.availableSocialStrategies[sender.tag];
-    [[A0SocialAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(A0SocialCredentials *socialCredentials) {
+    [[A0IdentityProviderAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(A0IdentityProviderCredentials *socialCredentials) {
         [[A0APIClient sharedClient] authenticateWithSocialStrategy:strategy
                                                  socialCredentials:socialCredentials
                                                            success:successBlock

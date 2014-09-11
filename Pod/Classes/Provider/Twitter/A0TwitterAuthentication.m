@@ -39,7 +39,7 @@
 @property (strong, nonatomic) ACAccountStore *accountStore;
 @property (strong, nonatomic) ACAccountType *accountType;
 
-@property (copy, nonatomic) void(^successBlock)(A0SocialCredentials *socialCredentials);
+@property (copy, nonatomic) void(^successBlock)(A0IdentityProviderCredentials *socialCredentials);
 @property (copy, nonatomic) void(^failureBlock)(NSError *);
 
 @end
@@ -96,7 +96,7 @@
     return handled;
 }
 
-- (void)authenticateWithSuccess:(void(^)(A0SocialCredentials *socialCredentials))success failure:(void(^)(NSError *))failure {
+- (void)authenticateWithSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *))failure {
     self.successBlock = success;
     self.failureBlock = failure;
     self.accountStore = [[ACAccountStore alloc] init];
@@ -206,7 +206,7 @@
                                             A0StrategySocialTokenSecretParameter: oauthTokenSecret,
                                             A0StrategySocialUserIdParameter: userId,
                                             };
-                A0SocialCredentials *credentials = [[A0SocialCredentials alloc] initWithAccessToken:response[@"oauth_token"] extraInfo:extraInfo];
+                A0IdentityProviderCredentials *credentials = [[A0IdentityProviderCredentials alloc] initWithAccessToken:response[@"oauth_token"] extraInfo:extraInfo];
                 Auth0LogDebug(@"Successful Twitter auth with credentials %@", credentials);
                 [self executeSuccessWithCredentials:credentials];
             } else {
@@ -256,7 +256,7 @@
 
 #pragma mark - Block handling
 
-- (void)executeSuccessWithCredentials:(A0SocialCredentials *)credentials {
+- (void)executeSuccessWithCredentials:(A0IdentityProviderCredentials *)credentials {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.successBlock) {
             self.successBlock(credentials);

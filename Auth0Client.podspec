@@ -37,28 +37,28 @@ Auth0.iOS is a client-side library for [Auth0](http://auth0.com). It allows you 
   s.subspec 'UI' do |ui|
     ui.public_header_files = 'Pod/Classes/{UI,Utils}/*.h'
     ui.source_files = 'Pod/Classes/{UI,Utils}/*.{h,m}'
-    ui.dependency 'Auth0Client/Social'
+    ui.dependency 'Auth0Client/Provider'
     ui.resources = 'Pod/Assets/*.xib'
     ui.resource_bundles = { 'Auth0' => ['Pod/Assets/Images/*.png', 'Pod/Assets/*.plist', 'Pod/Assets/connections.ttf']}
   end
 
-  s.subspec 'Social' do |social|
-    social.public_header_files = 'Pod/Classes/Social/*.h'
-    social.source_files = 'Pod/Classes/Social/*.{h,m}'
-    social.dependency 'Auth0Client/Core'
+  s.subspec 'Provider' do |provider|
+    provider.public_header_files = 'Pod/Classes/Provider/*.h'
+    provider.source_files = 'Pod/Classes/Provider/*.{h,m}'
+    provider.dependency 'Auth0Client/Core'
   end
 
   s.subspec 'Facebook' do |facebook|
-    facebook.public_header_files = 'Pod/Classes/Facebook/*.h'
-    facebook.source_files = 'Pod/Classes/Social/Facebook/*.{h,m}'
-    facebook.dependency 'Auth0Client/Social'
+    facebook.public_header_files = 'Pod/Classes/Provider/Facebook/*.h'
+    facebook.source_files = 'Pod/Classes/Provider/Facebook/*.{h,m}'
+    facebook.dependency 'Auth0Client/Provider'
     facebook.dependency 'Facebook-iOS-SDK', '~> 3.15'
   end
 
   s.subspec 'Twitter' do |twitter|
     twitter.public_header_files = 'Pod/Classes/Twitter/*.h'
-    twitter.source_files = 'Pod/Classes/Social/Twitter/*.{h,m}'
-    twitter.dependency 'Auth0Client/Social'
+    twitter.source_files = 'Pod/Classes/Provider/Twitter/*.{h,m}'
+    twitter.dependency 'Auth0Client/Provider'
     twitter.dependency 'BDBOAuth1Manager', '~> 1.3'
     twitter.dependency 'TWReverseAuth', '~> 0.1.0'
     twitter.dependency 'PSAlertView', '~> 2.0'

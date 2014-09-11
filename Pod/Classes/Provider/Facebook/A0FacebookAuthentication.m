@@ -78,13 +78,13 @@
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
 }
 
-- (void)authenticateWithSuccess:(void(^)(A0SocialCredentials *socialCredentials))success failure:(void(^)(NSError *))failure {
+- (void)authenticateWithSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *))failure {
     Auth0LogVerbose(@"Starting Facebook authentication...");
     FBSession *active = [FBSession activeSession];
     if (active.state == FBSessionStateOpen || active.state == FBSessionStateOpenTokenExtended) {
         Auth0LogDebug(@"Found FB Active Session");
         if (success) {
-            success([[A0SocialCredentials alloc] initWithAccessToken:active.accessTokenData.accessToken]);
+            success([[A0IdentityProviderCredentials alloc] initWithAccessToken:active.accessTokenData.accessToken]);
         }
     } else {
         [FBSession openActiveSessionWithReadPermissions:self.permissions allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
@@ -99,7 +99,7 @@
                     case FBSessionStateOpen:
                         Auth0LogDebug(@"Successfully opened FB Session");
                         if (success) {
-                            success([[A0SocialCredentials alloc] initWithAccessToken:session.accessTokenData.accessToken]);
+                            success([[A0IdentityProviderCredentials alloc] initWithAccessToken:session.accessTokenData.accessToken]);
                         }
                         break;
                     case FBSessionStateClosedLoginFailed:

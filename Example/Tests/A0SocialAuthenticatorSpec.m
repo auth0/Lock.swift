@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import <Specta/Specta.h>
-#import "A0SocialAuthenticator.h"
+#import "A0IdentityProviderAuthenticator.h"
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "A0Errors.h"
@@ -35,7 +35,7 @@
 #define kFBProviderId @"facebook"
 #define kTwitterProviderId @"twitter"
 
-@interface A0SocialAuthenticator (TestAPI)
+@interface A0IdentityProviderAuthenticator (TestAPI)
 
 @property (strong, nonatomic) NSMutableDictionary *registeredAuthenticators;
 @property (strong, nonatomic) NSMutableDictionary *authenticators;
@@ -46,10 +46,10 @@ SpecBegin(A0SocialAuthenticator)
 
 describe(@"A0SocialAuthenticator", ^{
 
-    __block A0SocialAuthenticator *authenticator;
+    __block A0IdentityProviderAuthenticator *authenticator;
 
     beforeEach(^{
-        authenticator = [[A0SocialAuthenticator alloc] init];
+        authenticator = [[A0IdentityProviderAuthenticator alloc] init];
     });
 
     describe(@"provider registration", ^{
@@ -162,7 +162,7 @@ describe(@"A0SocialAuthenticator", ^{
 
         __block A0Strategy *strategy;
         __block id<A0SocialAuthenticationProvider> provider;
-        void(^successBlock)(A0SocialCredentials *) = ^(A0SocialCredentials *credentials) {};
+        void(^successBlock)(A0IdentityProviderCredentials *) = ^(A0IdentityProviderCredentials *credentials) {};
 
         beforeEach(^{
             provider = mockProtocol(@protocol(A0SocialAuthenticationProvider));

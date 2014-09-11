@@ -1,4 +1,4 @@
-// A0FacebookAuthentication.h
+// A0SocialCredentials.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,11 +21,14 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0SocialProviderAuth.h"
 
-@interface A0FacebookAuthentication : NSObject<A0SocialAuthenticationProvider>
+@interface A0IdentityProviderCredentials : NSObject
 
-+ (A0FacebookAuthentication *)newAuthenticationWithPermissions:(NSArray *)permissions;
-+ (A0FacebookAuthentication *)newAuthenticationWithDefaultPermissions;
+@property (readonly, nonatomic) NSString *accessToken;
+
+@property (readonly, nonatomic) NSDictionary *extraInfo;
+
+- (instancetype)initWithAccessToken:(NSString *)accessToken extraInfo:(NSDictionary *)extraInfo;
+- (instancetype)initWithAccessToken:(NSString *)accessToken;
 
 @end

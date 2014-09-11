@@ -1,4 +1,4 @@
-// A0SocialCredentials.m
+// A0IdentityProviderCredentials.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0SocialCredentials.h"
+#import "A0IdentityProviderCredentials.h"
 
-@implementation A0SocialCredentials
+@implementation A0IdentityProviderCredentials
 
 - (instancetype)initWithAccessToken:(NSString *)accessToken extraInfo:(NSDictionary *)extraInfo {
     self = [super init];
