@@ -39,8 +39,8 @@ typedef void(^A0RefreshFailureBlock)(NSError *error);
 
 - (BOOL)isExpired;
 
-- (void)renewWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure;
 - (void)refreshWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure;
+- (void)refreshIfExpiredWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure;
 - (void)renewUserProfileWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure;
 
 - (void)clear;

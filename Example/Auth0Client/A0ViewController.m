@@ -52,7 +52,7 @@
 
     self.session = [A0Session newDefaultSession];
     @weakify(self);
-    [self.session refreshWithSuccess:^(A0UserProfile *profile, A0Token *token) {
+    [self.session refreshIfExpiredWithSuccess:^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);
         [self loadSessionInfoWithToken:token];
     } failure:^(NSError *error) {
@@ -86,7 +86,7 @@
 
 - (IBAction)refreshSession:(id)sender {
     @weakify(self);
-    [self.session renewWithSuccess:^(A0UserProfile *profile, A0Token *token) {
+    [self.session refreshWithSuccess:^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);
         [self loadSessionInfoWithToken:token];
     } failure:^(NSError *error) {

@@ -47,7 +47,7 @@
     return expired;
 }
 
-- (void)refreshWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
+- (void)refreshIfExpiredWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
     Auth0LogVerbose(@"Refreshing Auth0 session...");
     A0Token *token = self.token;
     if (!token) {
@@ -69,7 +69,7 @@
     }
 }
 
-- (void)renewWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
+- (void)refreshWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
     Auth0LogVerbose(@"Forcing refresh Auth0 session...");
     A0Token *token = self.token;
     NSError *error;
