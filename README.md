@@ -21,7 +21,7 @@ Then in your project's `Info.plist` file add the following entries:
 
 For example:
 
-[![Auth0 plist](https://cloudup.com/cdHr2oMAN7d)](http://auth0.com)
+[![Auth0 plist](https://cloudup.com/cdHr2oMAN7d+)](http://auth0.com)
 
 ## Usage
 
@@ -69,6 +69,7 @@ A0AuthenticationViewController *controller = [[A0AuthenticationViewController al
 controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
     @strongify(self);
     // Do something with token & profile. e.g.: save them.
+    // And dismiss the ViewController
     [self dismissViewControllerAnimated:YES completion:nil];
 };
 [self presentViewController:controller animated:YES completion:nil];
@@ -106,7 +107,7 @@ Register a custom URL Type with the format `fb<FacebookAppId>`. For more informa
 
 Here's an example of how the entries should look like:
 
-[![FB plist](https://cloudup.com/cYOWHbPp8K4)](http://auth0.com)
+[![FB plist](https://cloudup.com/cYOWHbPp8K4+)](http://auth0.com)
 
 Finally, you need to register Auth0 Facebook Provider somewhere in your application. You can do that in the `AppDelegate.m` file, for example:
 
