@@ -218,7 +218,7 @@ controller.signupDisclaimerView = view;
 
 ###A0Session
 
-`A0Session` objective is to handle expiration and refresh of Session information without the need to call [Auth0 Delegation API](https://docs.auth0.com/auth-api#delegated) and delegates storage handling of Token & User's profile to an instance of `A0SessionDataSource`. Auth0.iOS comes with a basic class called `A0SessionDataSource` that stores the User's token in iOS Keychain and the User's profile in `NSUserDefaults`, but you can write your own `A0SessionDataSource` class and supply it to your `A0Session` instance.
+`A0Session` objective is to handle expiration and refresh of Session information (Tokens) without the need to **manually** call the  [Auth0 Delegation API](https://docs.auth0.com/auth-api#delegated). It delegates storage handling of Token & User's profile to an instance of `A0SessionDataSource`. Auth0.iOS comes with a basic class called `A0SessionDataSource` that stores the **User's token in iOS Keychain** and the **User's profile in `NSUserDefaults`**, but you can write your own `A0SessionDataSource` class and supply it to your `A0Session` instance.
 
 ####A0Session#newDefaultSession
 ```objc
