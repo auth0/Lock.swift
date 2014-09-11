@@ -29,8 +29,8 @@
 
 + (A0IdentityProviderAuthenticator *)sharedInstance;
 
-- (void)registerSocialAuthenticatorProviders:(NSArray *)socialAuthenticatorProviders;
-- (void)registerSocialAuthenticatorProvider:(id<A0AuthenticationProvider>)socialAuthenticatorProvider;
+- (void)registerAuthenticatorProviders:(NSArray *)authenticatorProviders;
+- (void)registerAuthenticatorProvider:(id<A0AuthenticationProvider>)authenticatorProvider;
 - (void)configureForApplication:(A0Application *)application;
 - (void)authenticateForStrategy:(A0Strategy *)strategy withSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *error))failure;
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application;

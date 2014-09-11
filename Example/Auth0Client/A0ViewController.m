@@ -45,7 +45,7 @@
                                                                                andSecret:@"v04WbftIrRJENoTFAr91eCEgLmVCDcaEm5brZlLJtS0ccJjHIz"
                                                                              callbackURL:[NSURL URLWithString:@"com.auth0.Auth0Client://twitter-auth"]];
     A0FacebookAuthentication *facebook = [A0FacebookAuthentication newAuthenticationWithDefaultPermissions];
-    [[A0IdentityProviderAuthenticator sharedInstance] registerSocialAuthenticatorProviders:@[
+    [[A0IdentityProviderAuthenticator sharedInstance] registerAuthenticatorProviders:@[
                                                                                    twitter,
                                                                                    facebook,
                                                                                    ]];

@@ -51,16 +51,16 @@
     return self;
 }
 
-- (void)registerSocialAuthenticatorProviders:(NSArray *)socialAuthenticatorProviders {
-    [socialAuthenticatorProviders enumerateObjectsUsingBlock:^(id<A0AuthenticationProvider> provider, NSUInteger idx, BOOL *stop) {
-        [self registerSocialAuthenticatorProvider:provider];
+- (void)registerAuthenticatorProviders:(NSArray *)authenticatorProviders {
+    [authenticatorProviders enumerateObjectsUsingBlock:^(id<A0AuthenticationProvider> provider, NSUInteger idx, BOOL *stop) {
+        [self registerAuthenticatorProvider:provider];
     }];
 }
 
-- (void)registerSocialAuthenticatorProvider:(id<A0AuthenticationProvider>)socialProviderAuth {
-    NSAssert(socialProviderAuth != nil, @"Must supply a non-nil profile");
-    NSAssert(socialProviderAuth.identifier != nil, @"Provider must have a valid indentifier");
-    self.registeredAuthenticators[socialProviderAuth.identifier] = socialProviderAuth;
+- (void)registerAuthenticatorProvider:(id<A0AuthenticationProvider>)authenticatorProvider {
+    NSAssert(authenticatorProvider != nil, @"Must supply a non-nil profile");
+    NSAssert(authenticatorProvider.identifier != nil, @"Provider must have a valid indentifier");
+    self.registeredAuthenticators[authenticatorProvider.identifier] = authenticatorProvider;
 }
 
 - (void)configureForApplication:(A0Application *)application {

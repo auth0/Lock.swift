@@ -56,7 +56,7 @@ describe(@"A0SocialAuthenticator", ^{
 
         sharedExamplesFor(@"registered provider", ^(NSDictionary *data) {
 
-            id<A0SocialAuthenticationProvider> provider = data[@"provider"];
+            id<A0AuthenticationProvider> provider = data[@"provider"];
 
             it(@"should store the provider under it's identifier", ^{
                 expect(authenticator.registeredAuthenticators[provider.identifier]).to.equal(provider);
@@ -65,24 +65,24 @@ describe(@"A0SocialAuthenticator", ^{
 
         it(@"should fail with nil provider", ^{
             expect(^{
-                [authenticator registerSocialAuthenticatorProvider:nil];
+                [authenticator registerAuthenticatorProvider:nil];
             }).to.raiseWithReason(NSInternalInconsistencyException, @"Must supply a non-nil profile");
         });
 
         it(@"should fail with provider with no identifier", ^{
             expect(^{
-                [authenticator registerSocialAuthenticatorProvider:mockProtocol(@protocol(A0SocialAuthenticationProvider))];
+                [authenticator registerAuthenticatorProvider:mockProtocol(@protocol(A0AuthenticationProvider))];
             }).to.raiseWithReason(NSInternalInconsistencyException, @"Provider must have a valid indentifier");
         });
 
         context(@"when registering a single provider", ^{
 
-            __block id<A0SocialAuthenticationProvider> facebookProvider;
+            __block id<A0AuthenticationProvider> facebookProvider;
 
             beforeEach(^{
-                facebookProvider = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+                facebookProvider = mockProtocol(@protocol(A0AuthenticationProvider));
                 [given([facebookProvider identifier]) willReturn:kFBProviderId];
-                [authenticator registerSocialAuthenticatorProvider:facebookProvider];
+                [authenticator registerAuthenticatorProvider:facebookProvider];
             });
 
             itBehavesLike(@"registered provider", ^{ return @{ @"provider": facebookProvider }; });
@@ -90,16 +90,16 @@ describe(@"A0SocialAuthenticator", ^{
 
         context(@"when registering providers as array", ^{
 
-            __block id<A0SocialAuthenticationProvider> facebookProvider;
-            __block id<A0SocialAuthenticationProvider> twitterProvider;
+            __block id<A0AuthenticationProvider> facebookProvider;
+            __block id<A0AuthenticationProvider> twitterProvider;
 
             beforeEach(^{
-                facebookProvider = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+                facebookProvider = mockProtocol(@protocol(A0AuthenticationProvider));
                 [given([facebookProvider identifier]) willReturn:kFBProviderId];
-                twitterProvider = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+                twitterProvider = mockProtocol(@protocol(A0AuthenticationProvider));
                 [given([twitterProvider identifier]) willReturn:kTwitterProviderId];
 
-                [authenticator registerSocialAuthenticatorProviders:@[facebookProvider, twitterProvider]];
+                [authenticator registerAuthenticatorProviders:@[facebookProvider, twitterProvider]];
             });
             
             itBehavesLike(@"registered provider", ^{ return @{ @"provider": facebookProvider }; });
@@ -112,18 +112,18 @@ describe(@"A0SocialAuthenticator", ^{
 
         __block A0Application *application;
         __block A0Strategy *facebookStrategy;
-        __block id<A0SocialAuthenticationProvider> facebookProvider;
-        __block id<A0SocialAuthenticationProvider> twitterProvider;
+        __block id<A0AuthenticationProvider> facebookProvider;
+        __block id<A0AuthenticationProvider> twitterProvider;
 
         beforeEach(^{
-            facebookProvider = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+            facebookProvider = mockProtocol(@protocol(A0AuthenticationProvider));
             [given([facebookProvider identifier]) willReturn:kFBProviderId];
-            twitterProvider = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+            twitterProvider = mockProtocol(@protocol(A0AuthenticationProvider));
             [given([twitterProvider identifier]) willReturn:kTwitterProviderId];
             application = mock(A0Application.class);
             facebookStrategy = mock(A0Strategy.class);
             [given([facebookStrategy name]) willReturn:kFBProviderId];
-            [authenticator registerSocialAuthenticatorProviders:@[facebookProvider, twitterProvider]];
+            [authenticator registerAuthenticatorProviders:@[facebookProvider, twitterProvider]];
         });
 
         context(@"has declared a registered provider", ^{
@@ -161,11 +161,11 @@ describe(@"A0SocialAuthenticator", ^{
     describe(@"Authentication", ^{
 
         __block A0Strategy *strategy;
-        __block id<A0SocialAuthenticationProvider> provider;
+        __block id<A0AuthenticationProvider> provider;
         void(^successBlock)(A0IdentityProviderCredentials *) = ^(A0IdentityProviderCredentials *credentials) {};
 
         beforeEach(^{
-            provider = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+            provider = mockProtocol(@protocol(A0AuthenticationProvider));
             [given([provider identifier]) willReturn:@"provider"];
             strategy = mock(A0Strategy.class);
             [given([strategy name]) willReturn:@"provider"];
@@ -212,14 +212,14 @@ describe(@"A0SocialAuthenticator", ^{
 
     describe(@"Handle URL", ^{
 
-        __block id<A0SocialAuthenticationProvider> facebook;
-        __block id<A0SocialAuthenticationProvider> twitter;
+        __block id<A0AuthenticationProvider> facebook;
+        __block id<A0AuthenticationProvider> twitter;
         NSURL *facebookURL = [NSURL URLWithString:@"fb12345678://handler"];
         NSURL *twitterURL = [NSURL URLWithString:@"twitter://handler"];
 
         beforeEach(^{
-            facebook = mockProtocol(@protocol(A0SocialAuthenticationProvider));
-            twitter = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+            facebook = mockProtocol(@protocol(A0AuthenticationProvider));
+            twitter = mockProtocol(@protocol(A0AuthenticationProvider));
             [given([facebook handleURL:facebookURL sourceApplication:nil]) willReturnBool:YES];
             [given([twitter handleURL:twitterURL sourceApplication:nil]) willReturnBool:YES];
             authenticator.authenticators = [@{ @"facebook": facebook, @"twitter": twitter } mutableCopy];
@@ -282,12 +282,12 @@ describe(@"A0SocialAuthenticator", ^{
 
     describe(@"Clear sessions", ^{
 
-        __block id<A0SocialAuthenticationProvider> facebook;
-        __block id<A0SocialAuthenticationProvider> twitter;
+        __block id<A0AuthenticationProvider> facebook;
+        __block id<A0AuthenticationProvider> twitter;
 
         beforeEach(^{
-            facebook = mockProtocol(@protocol(A0SocialAuthenticationProvider));
-            twitter = mockProtocol(@protocol(A0SocialAuthenticationProvider));
+            facebook = mockProtocol(@protocol(A0AuthenticationProvider));
+            twitter = mockProtocol(@protocol(A0AuthenticationProvider));
             authenticator.authenticators = [@{ @"facebook": facebook, @"twitter": twitter } mutableCopy];
         });
 
