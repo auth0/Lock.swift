@@ -27,14 +27,45 @@
 
 typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
+/**
+ `A0AuthenticationViewController` displays Auth0's native widget and configures itself with your app's configuration and it allows further customization using it's properties or `A0Theme`. 
+  It should be presented in screen as a modal view controller calling in any of your controllers `[self presentViewController:authController animated:YES completion:nil]`
+ */
 @interface A0AuthenticationViewController : UIViewController
 
+/**
+ Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.
+ */
 @property (copy, nonatomic) A0AuthenticationBlock onAuthenticationBlock;
+
+/**
+ Block that is called on when the user dismisses the Login screen. Only when closable property is YES.
+ */
 @property (copy, nonatomic) void(^onUserDismissBlock)();
+
+/**
+ Enable the username to be treated as an email (and validated as one too) in all Auth0 screens. Default is YES
+ */
 @property (assign, nonatomic) BOOL usesEmail;
+
+/**
+ Allows the A0AuthenticationViewController to be dismissed by adding a button. Default is NO
+ */
 @property (assign, nonatomic) BOOL closable;
+
+/**
+ After a successful Signup, `A0AuthenticationViewController` will attempt to login the user if this property is YES otherwise will call onAuthenticationBlock with both parameters nil. Default value is YES
+ */
 @property (assign, nonatomic) BOOL loginAfterSignUp;
+
+/**
+ List of scopes used when authenticating against Auth0 REST API. By default the values are: scope & offline_access but you can use `A0APIClientScopeOpenId`, `A0APIClientScopeOfflineAccess` constants instead.
+*/
 @property (assign, nonatomic) NSArray *defaultScopes;
+
+/**
+ View that will appear in the bottom of Signup screen. It should be used to show Terms & Conditions of your app.
+ */
 @property (strong, nonatomic) UIView *signUpDisclaimerView;
 
 @end
