@@ -22,8 +22,8 @@
 
 #import "A0UserProfileViewController.h"
 
-#import <Auth0Client/A0UserProfile.h>
-#import <Auth0Client/A0UserIdentity.h>
+#import <Auth0.iOS/A0UserProfile.h>
+#import <Auth0.iOS/A0UserIdentity.h>
 
 @interface A0UserProfileViewController ()
 @property (strong, nonatomic) NSDictionary *basicInfo;

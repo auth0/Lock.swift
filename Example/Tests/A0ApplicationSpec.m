@@ -21,8 +21,8 @@
 // THE SOFTWARE.
 
 #import "Specta.h"
-#import <Auth0Client/A0Application.h>
-#import <Auth0Client/A0Strategy.h>
+#import "A0Application.h"
+#import "A0Strategy.h"
 
 #define kAppDataKey @"app"
 #define kAppIdentifier @"A VALID IDENTIFIER"

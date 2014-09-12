@@ -23,11 +23,11 @@
 #import "A0ViewController.h"
 
 #import "A0UserProfileViewController.h"
-#import <Auth0Client/A0AuthenticationViewController.h>
-#import <Auth0Client/A0FacebookAuthentication.h>
-#import <Auth0Client/A0TwitterAuthentication.h>
-#import <Auth0Client/A0IdentityProviderAuthenticator.h>
-#import <Auth0Client/A0AuthCore.h>
+#import <Auth0.iOS/A0AuthenticationViewController.h>
+#import <Auth0.iOS/A0FacebookAuthentication.h>
+#import <Auth0.iOS/A0TwitterAuthentication.h>
+#import <Auth0.iOS/A0IdentityProviderAuthenticator.h>
+#import <Auth0.iOS/A0AuthCore.h>
 #import <libextobjc/EXTScope.h>
 
 @interface A0ViewController ()

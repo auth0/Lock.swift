@@ -20,36 +20,36 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Auth0Client (0.1.0):
-    - Auth0Client/Facebook
-    - Auth0Client/Twitter
-    - Auth0Client/UI
+  - Auth0.iOS (1.0.0-beta):
+    - Auth0.iOS/Facebook
+    - Auth0.iOS/Twitter
+    - Auth0.iOS/UI
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
-  - Auth0Client/Core (0.1.0):
+  - Auth0.iOS/Core (1.0.0-beta):
     - AFNetworking (~> 2.3)
     - CocoaLumberjack (~> 1.9)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
     - UICKeyChainStore (~> 1.0.5)
-  - Auth0Client/Facebook (0.1.0):
-    - Auth0Client/Provider
+  - Auth0.iOS/Facebook (1.0.0-beta):
+    - Auth0.iOS/Provider
     - CocoaLumberjack (~> 1.9)
     - Facebook-iOS-SDK (~> 3.15)
     - libextobjc (~> 0.4)
-  - Auth0Client/Provider (0.1.0):
-    - Auth0Client/Core
+  - Auth0.iOS/Provider (1.0.0-beta):
+    - Auth0.iOS/Core
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
-  - Auth0Client/Twitter (0.1.0):
-    - Auth0Client/Provider
+  - Auth0.iOS/Twitter (1.0.0-beta):
+    - Auth0.iOS/Provider
     - BDBOAuth1Manager (~> 1.3)
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Auth0Client/UI (0.1.0):
-    - Auth0Client/Provider
+  - Auth0.iOS/UI (1.0.0-beta):
+    - Auth0.iOS/Provider
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
   - BDBOAuth1Manager (1.4.0):
@@ -117,18 +117,18 @@ PODS:
   - UICKeyChainStore (1.0.5)
 
 DEPENDENCIES:
-  - Auth0Client (from `../`)
+  - Auth0.iOS (from `../`)
   - Expecta
   - OCMockito
   - Specta (~> 0.2.1)
 
 EXTERNAL SOURCES:
-  Auth0Client:
+  Auth0.iOS:
     :path: ../
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  Auth0Client: 638b27e7eb3dbdb6ed2680a05131a44fbecaf67e
+  Auth0.iOS: 820c672df2b49c5a54edbfbfd3cd4503f4ca88cf
   BDBOAuth1Manager: 4f0967110286edd4c7961cf48a4eb242c64137a1
   Bolts: 2635e8698a630774689441047f3465d78c48d485
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817

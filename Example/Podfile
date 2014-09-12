@@ -1,9 +1,9 @@
 target 'Auth0Client', :exclusive => true do
-  pod "Auth0Client", :path => "../"
+  pod "Auth0.iOS", :path => "../"
 end
 
 target 'Tests', :exclusive => true do
-  pod "Auth0Client", :path => "../"
+  pod "Auth0.iOS", :path => "../"
 
   pod 'Specta', '~> 0.2.1'
   pod 'Expecta'

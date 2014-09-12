@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name             = "Auth0Client"
+  s.name             = "Auth0.iOS"
   s.version          = "1.0.0-beta"
   s.summary          = "A library that uses Auth0 for Authentication with Native Look & Feel"
   s.description      = <<-DESC
@@ -35,7 +35,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.subspec 'UI' do |ui|
     ui.public_header_files = 'Pod/Classes/{UI,Utils}/*.h'
     ui.source_files = 'Pod/Classes/{UI,Utils}/*.{h,m}'
-    ui.dependency 'Auth0Client/Provider'
+    ui.dependency 'Auth0.iOS/Provider'
     ui.resources = 'Pod/Assets/*.xib'
     ui.resource_bundles = { 'Auth0' => ['Pod/Assets/Images/*.png', 'Pod/Assets/*.plist', 'Pod/Assets/connections.ttf']}
   end
@@ -43,20 +43,20 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.subspec 'Provider' do |provider|
     provider.public_header_files = 'Pod/Classes/Provider/*.h'
     provider.source_files = 'Pod/Classes/Provider/*.{h,m}'
-    provider.dependency 'Auth0Client/Core'
+    provider.dependency 'Auth0.iOS/Core'
   end
 
   s.subspec 'Facebook' do |facebook|
     facebook.public_header_files = 'Pod/Classes/Provider/Facebook/*.h'
     facebook.source_files = 'Pod/Classes/Provider/Facebook/*.{h,m}'
-    facebook.dependency 'Auth0Client/Provider'
+    facebook.dependency 'Auth0.iOS/Provider'
     facebook.dependency 'Facebook-iOS-SDK', '~> 3.15'
   end
 
   s.subspec 'Twitter' do |twitter|
     twitter.public_header_files = 'Pod/Classes/Twitter/*.h'
     twitter.source_files = 'Pod/Classes/Provider/Twitter/*.{h,m}'
-    twitter.dependency 'Auth0Client/Provider'
+    twitter.dependency 'Auth0.iOS/Provider'
     twitter.dependency 'BDBOAuth1Manager', '~> 1.3'
     twitter.dependency 'TWReverseAuth', '~> 0.1.0'
     twitter.dependency 'PSAlertView', '~> 2.0'
