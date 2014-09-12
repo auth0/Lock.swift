@@ -212,8 +212,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 #pragma mark - Social Authentication
 
-- (void)authenticateWithSocialStrategy:(A0Strategy *)strategy
-                     socialCredentials:(A0IdentityProviderCredentials *)socialCredentials
+- (void)authenticateWithStrategy:(A0Strategy *)strategy
+                     credentials:(A0IdentityProviderCredentials *)socialCredentials
                                success:(A0APIClientAuthenticationSuccess)success
                                failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{

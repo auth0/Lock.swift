@@ -23,9 +23,25 @@
 #import <Foundation/Foundation.h>
 #import "A0AuthenticationProvider.h"
 
+/**
+ *  `A0FacebookAuthentication` performs Facebook authentication of a user using Facebook iOS SDK.
+ */
 @interface A0FacebookAuthentication : NSObject<A0AuthenticationProvider>
 
+/**
+ *  Creates a new instance
+ *
+ *  @param permissions list of permissions to ask the user when authenticating application
+ *
+ *  @return a new instance
+ */
 + (A0FacebookAuthentication *)newAuthenticationWithPermissions:(NSArray *)permissions;
+
+/**
+ *  Creates a new instance with the default permissions ("public_profile").
+ *
+ *  @return a new instance
+ */
 + (A0FacebookAuthentication *)newAuthenticationWithDefaultPermissions;
 
 @end

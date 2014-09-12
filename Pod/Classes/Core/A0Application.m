@@ -74,7 +74,7 @@
     return strategy;
 }
 
-- (BOOL)hasSocialStrategies {
+- (BOOL)hasSocialOrEnterpriseStrategies {
     NSInteger index = [self.strategies indexOfObjectPassingTest:^BOOL(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
         BOOL hasSocial = [strategy.name isEqualToString:@"facebook"] || [strategy.name isEqualToString:@"twitter"];
         *stop = hasSocial;
@@ -83,7 +83,7 @@
     return index != NSNotFound;
 }
 
-- (NSArray *)availableSocialStrategies {
+- (NSArray *)availableSocialOrEnterpriseStrategies {
     NSArray *filtered = [self.strategies filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(A0Strategy *strategy, NSDictionary *bindings) {
         return [strategy.name isEqualToString:@"facebook"] || [strategy.name isEqualToString:@"twitter"];
     }]];

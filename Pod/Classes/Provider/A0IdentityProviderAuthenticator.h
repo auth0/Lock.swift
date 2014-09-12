@@ -25,15 +25,61 @@
 
 @class A0Application, A0Strategy;
 
+/**
+ *  `A0IdentityProviderAuthenticator` provides a single interface to handle all interactions with different identity providers. Each identity provider (a class that conforms with the protocol `A0AuthenticationProvider`) to be used must be registered with this object.
+ */
 @interface A0IdentityProviderAuthenticator : NSObject
 
+/**
+ *  Returns a shared instance of `A0IdentityProviderAuthenticator`
+ *
+ *  @return shared instance
+ */
 + (A0IdentityProviderAuthenticator *)sharedInstance;
 
+/**
+ *  Register an array of identity providers.
+ *
+ *  @param authenticatorProviders array of object that conforms `A0AuthenticationProvider` protocol
+ *  @see -registerAuthenticatorProvider:
+ */
 - (void)registerAuthenticatorProviders:(NSArray *)authenticatorProviders;
+
+/**
+ *  Register an identity provider using it's identifier, so if a provider was already registered with the same identifier, it will be replaced
+ *
+ *  @param authenticatorProvider object that conforms `A0AuthenticationProvider` protocol
+ */
 - (void)registerAuthenticatorProvider:(id<A0AuthenticationProvider>)authenticatorProvider;
+
+/**
+ *  Configures the authentication with the enabled identity providers in Auth0's application
+ *
+ *  @param application Auth0 application with the identity provider configuration
+ */
 - (void)configureForApplication:(A0Application *)application;
+
+/**
+ *  Authenticates a user using an identity provider specified by `A0Strategy`
+ *
+ *  @param strategy object that represent an authentication strategy with an identity provider.
+ *  @param success  block called on successful authentication with user's token info and profile
+ *  @param failure  block called on error with the reason as a parameter
+ */
 - (void)authenticateForStrategy:(A0Strategy *)strategy withSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *error))failure;
+
+/**
+ *  Method to handle authentication performed by a third party native application e.g. Facebook App. It must be called from your app's AppDelegate `-application:openURL:sourceApplication:annotation:` method.
+ *
+ *  @param url         url with authentication result
+ *  @param application application that performed the authentication
+ *  @return if the URL could be handled by the application
+ */
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application;
+
+/**
+ *  Clear all identity provider session information.
+ */
 - (void)clearSessions;
 
 @end

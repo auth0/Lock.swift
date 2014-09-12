@@ -24,17 +24,57 @@
 
 @class A0Token;
 
+/**
+ *  `A0UserProfile` has User's information obtained from Auth0.
+ */
 @interface A0UserProfile : NSObject<NSCoding>
 
+/**
+ *  User's id in Auth0
+ */
 @property (readonly, nonatomic) NSString *userId;
+/**
+ *  User's name
+ */
 @property (readonly, nonatomic) NSString *name;
+/**
+ *  User's nickname
+ */
 @property (readonly, nonatomic) NSString *nickname;
+/**
+ *  User's email. Can be nil
+ */
 @property (readonly, nonatomic) NSString *email;
+/**
+ *  User's avatar picture URL.
+ */
 @property (readonly, nonatomic) NSURL *picture;
+/**
+ *  User creation date
+ */
 @property (readonly, nonatomic) NSDate *createdAt;
+/**
+ *  Extra user information stored in Auth0.
+ */
 @property (readonly, nonatomic) NSDictionary *extraInfo;
+/**
+ *  User's identities from other identity providers, e.g.: Facebook
+ */
 @property (strong, nonatomic) NSArray *identities;
 
+
+/**
+ *  Initialise a new profile
+ *
+ *  @param userId    user identifier
+ *  @param name      user's name
+ *  @param nickname  user's nickname
+ *  @param email     user's email
+ *  @param picture   user's avatar URL
+ *  @param createdAt user's created date
+ *
+ *  @return a new instance
+ */
 - (instancetype)initWithUserId:(NSString *)userId
                           name:(NSString *)name
                       nickname:(NSString *)nickname
@@ -42,6 +82,13 @@
                        picture:(NSURL *)picture
                      createdAt:(NSDate *)createdAt;
 
+/**
+ *  Initialise form a JSON dictionary
+ *
+ *  @param dictionary JSON dictionary
+ *
+ *  @return a new instance
+ */
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

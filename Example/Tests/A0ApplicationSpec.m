@@ -182,15 +182,15 @@ describe(@"A0Application", ^{
             });
 
             it(@"should indicate that it has no strategy", ^{
-                expect(application.hasSocialStrategies).to.beTruthy();
+                expect(application.hasSocialOrEnterpriseStrategies).to.beTruthy();
             });
 
             it(@"should return social strategies", ^{
-                expect(application.availableSocialStrategies).to.haveCountOf(1);
+                expect(application.availableSocialOrEnterpriseStrategies).to.haveCountOf(1);
             });
 
             it(@"should have only twitter", ^{
-                expect([application.availableSocialStrategies.firstObject name]).to.equal(@"twitter");
+                expect([application.availableSocialOrEnterpriseStrategies.firstObject name]).to.equal(@"twitter");
             });
         });
 
@@ -207,11 +207,11 @@ describe(@"A0Application", ^{
             });
 
             it(@"should indicate that it has no strategy", ^{
-                expect(application.hasSocialStrategies).toNot.beTruthy();
+                expect(application.hasSocialOrEnterpriseStrategies).toNot.beTruthy();
             });
 
             it(@"should return no social strategies", ^{
-                expect(application.availableSocialStrategies).to.beEmpty();
+                expect(application.availableSocialOrEnterpriseStrategies).to.beEmpty();
             });
 
         });
@@ -225,11 +225,11 @@ describe(@"A0Application", ^{
             });
 
             it(@"should indicate that it has no strategy", ^{
-                expect(application.hasSocialStrategies).toNot.beTruthy();
+                expect(application.hasSocialOrEnterpriseStrategies).toNot.beTruthy();
             });
 
             it(@"should return no social strategies", ^{
-                expect(application.availableSocialStrategies).to.beEmpty();
+                expect(application.availableSocialOrEnterpriseStrategies).to.beEmpty();
             });
         });
         

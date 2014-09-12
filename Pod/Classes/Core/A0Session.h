@@ -49,12 +49,33 @@ typedef void(^A0RefreshFailureBlock)(NSError *error);
  */
 @property (readonly, nonatomic) A0UserProfile *profile;
 
+///--------------------
+/// @name Create Instances
+///--------------------
+
+/**
+ Returns a new `A0Session` instance with the default DataSource `A0UserSessionDataSource`.
+ @return new `A0Session` instance
+ */
++ (instancetype)newDefaultSession;
+
+/**
+ Returns a new `A0Session` instance.
+ @param dataSource session DataSource for the new `A0Session` instance.
+ @return new `A0Session` instance
+ */
++ (instancetype)newSessionWithDataSource:(id<A0SessionDataSource>)dataSource;
+
 /**
  Initialise the session with info from the dataSource. You can implement your own or use Auth0's `A0UserSessionDataSource` protocol.
  @param sessionDataSource session information DataSource.
  @return new `A0Session` instance
  */
 - (instancetype)initWithSessionDataSource:(id<A0SessionDataSource>)sessionDataSource;
+
+///----------------------------------------
+/// @name Sesion Refresh & Expiration
+///----------------------------------------
 
 /**
  Returns YES if the *id_token* is expired
@@ -86,18 +107,5 @@ typedef void(^A0RefreshFailureBlock)(NSError *error);
  Removes all session information & clears the DataSource calling it's clearAll method.
  */
 - (void)clear;
-
-/**
- Returns a new `A0Session` instance with the default DataSource `A0UserSessionDataSource`.
- @return new `A0Session` instance
- */
-+ (instancetype)newDefaultSession;
-
-/**
- Returns a new `A0Session` instance.
- @param dataSource session DataSource for the new `A0Session` instance.
- @return new `A0Session` instance
- */
-+ (instancetype)newSessionWithDataSource:(id<A0SessionDataSource>)dataSource;
 
 @end

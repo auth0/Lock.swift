@@ -40,7 +40,7 @@
             [perms addObject:@"public_profile"];
             self.permissions = [perms allObjects];
         } else {
-            self.permissions = @[@"public_profile", @"email"];
+            self.permissions = @[@"public_profile"];
         }
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationActiveNotification:) name:UIApplicationDidBecomeActiveNotification object:nil];
     }

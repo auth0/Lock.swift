@@ -129,7 +129,7 @@ describe(@"A0SocialAuthenticator", ^{
         context(@"has declared a registered provider", ^{
 
             beforeEach(^{
-                [given([application availableSocialStrategies]) willReturn:@[facebookStrategy]];
+                [given([application availableSocialOrEnterpriseStrategies]) willReturn:@[facebookStrategy]];
                 [authenticator configureForApplication:application];
             });
 
@@ -146,7 +146,7 @@ describe(@"A0SocialAuthenticator", ^{
         context(@"has declared only an unknown provider", ^{
 
             beforeEach(^{
-                [given([application availableSocialStrategies]) willReturn:@[mock(A0Strategy.class)]];
+                [given([application availableSocialOrEnterpriseStrategies]) willReturn:@[mock(A0Strategy.class)]];
                 [authenticator configureForApplication:application];
             });
 

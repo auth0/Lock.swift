@@ -24,15 +24,52 @@
 
 @class A0Token, A0UserProfile;
 
+/**
+ *  Protocol to obtain and store user's tokens and profile
+ */
 @protocol A0SessionDataSource <NSObject>
 
 @required
+
+/**
+ *  Stores both the token and user profile
+ *
+ *  @param token       token info to store
+ *  @param userProfile profile to store
+ */
 - (void)storeToken:(A0Token *)token andUserProfile:(A0UserProfile *)userProfile;
+
+/**
+ *  Store user's token
+ *
+ *  @param token token to store
+ */
 - (void)storeToken:(A0Token *)token;
+
+/**
+ *  Store user's profile
+ *
+ *  @param userProfile profile to store
+ */
 - (void)storeUserProfile:(A0UserProfile *)userProfile;
 
+/**
+ *  Returns the stored token
+ *
+ *  @return stored token or nil
+ */
 - (A0Token *)currentToken;
+
+/**
+ *  Returns the stored profile
+ *
+ *  @return user's profile or nil
+ */
 - (A0UserProfile *)currentUserProfile;
 
+
+/**
+ *  Removes both token and profile from its store
+ */
 - (void)clearAll;
 @end

@@ -23,8 +23,25 @@
 #import <Foundation/Foundation.h>
 #import "A0SessionDataSource.h"
 
+/**
+ *  `A0UserSessionDataSource` is a default implementation of `A0SessionDataSource`. It stores all token information from `A0Token` and from `A0UserProfile` idenitities in iOS keychain. The rest of `A0UserProfile` information is stored in `NSUserDefaults`. It can be configured to store in iOS Keychain under an accessGroup to allow keychain sharing between apps.
+ */
 @interface A0UserSessionDataSource : NSObject<A0SessionDataSource>
 
+/**
+ *  Initialise a new instance with no access group for Keychain storage
+ *
+ *  @return a new instance
+ */
+- (instancetype)init;
+
+/**
+ *  Initialise a new instance specifying an access group to allow keychain sharing. The access group must be declared in your apps entitlements file and should match with the NSString supplied as a parameter. (Must include your Team Prefix)
+ *
+ *  @param accessGroup string with the access group identifier
+ *
+ *  @return a new instance
+ */
 - (instancetype)initWithAccessGroup:(NSString *)accessGroup;
 
 @end

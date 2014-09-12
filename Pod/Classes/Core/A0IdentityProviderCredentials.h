@@ -21,14 +21,37 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-
+/**
+ *  `A0IdentityProviderCredentials` wraps the access_token and extra information from an identity provider like Facebook or Twitter.
+ */
 @interface A0IdentityProviderCredentials : NSObject
-
+/**
+ *  User's acceess token from the identity provider
+ */
 @property (readonly, nonatomic) NSString *accessToken;
 
+/**
+ *  User's extra information from the identity provider.
+ */
 @property (readonly, nonatomic) NSDictionary *extraInfo;
 
+/**
+ *  Initialise credentials with access_token and extra info
+ *
+ *  @param accessToken user's access_token
+ *  @param extraInfo   user's extra information
+ *
+ *  @return a new instance of `A0IdentityProviderCredentials`
+ */
 - (instancetype)initWithAccessToken:(NSString *)accessToken extraInfo:(NSDictionary *)extraInfo;
+
+/**
+ *  Initialise credentials with access_token
+ *
+ *  @param accessToken user's access_token
+ *
+ *  @return a new instance of `A0IdentityProviderCredentials`
+ */
 - (instancetype)initWithAccessToken:(NSString *)accessToken;
 
 @end

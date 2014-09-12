@@ -22,18 +22,51 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Twitter Identity provider strategy identifier
+ */
 FOUNDATION_EXPORT NSString * const A0TwitterAuthenticationName;
+/**
+ *  Facebook Identity provider strategy identifier
+ */
 FOUNDATION_EXPORT NSString * const A0FacebookAuthenticationName;
 
+/**
+ *  Social Authentication token parameter
+ */
 FOUNDATION_EXPORT NSString * const A0StrategySocialTokenParameter;
+/**
+ *  Social Authentication token secret parameter
+ */
 FOUNDATION_EXPORT NSString * const A0StrategySocialTokenSecretParameter;
+/**
+ *  Social Authentication user id parameter
+ */
 FOUNDATION_EXPORT NSString * const A0StrategySocialUserIdParameter;
 
+/**
+ *  `A0Strategy` represents an enabled connection in your Auth0 application
+ */
 @interface A0Strategy : NSObject
 
+/**
+ *  Strategy name
+ */
 @property (strong, nonatomic, readonly) NSString *name;
+
+/**
+ *  Connection information
+ */
 @property (strong, nonatomic, readonly) NSDictionary *connection;
 
+
+/**
+ *  Initialise with a JSON dictionary
+ *
+ *  @param JSONDictionary JSON dictionary
+ *
+ *  @return a new instance
+ */
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDictionary;
 
 @end

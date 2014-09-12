@@ -22,19 +22,54 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  `A0Token` holds all token information for a user.
+ */
 @interface A0Token : NSObject
 
+/**
+ *  User's accessToken for Auth0 API
+ */
 @property (readonly, nonatomic) NSString *accessToken;
+/**
+ *  User's JWT token
+ */
 @property (readonly, nonatomic) NSString *idToken;
+/**
+ *  Type of token return by Auth0 API
+ */
 @property (readonly, nonatomic) NSString *tokenType;
+/**
+ *  Refresh token used to obtain new JWT tokens. Can be nil if no offline access was requested
+ */
 @property (readonly, nonatomic) NSString *refreshToken;
+/**
+ *  Expiration date of JWT token
+ */
 @property (readonly, nonatomic) NSDate *expiresAt;
 
+/**
+ *  Initialise a token
+ *
+ *  @param accessToken  user's access token
+ *  @param idToken      user's JWT token
+ *  @param tokenType    type of token
+ *  @param refreshToken token used to refresh id_token. Can be nil
+ *
+ *  @return new instance
+ */
 - (instancetype)initWithAccessToken:(NSString *)accessToken
                             idToken:(NSString *)idToken
                           tokenType:(NSString *)tokenType
                        refreshToken:(NSString *)refreshToken;
 
+/**
+ *  Initialise a token from a JSON dictionary
+ *
+ *  @param dictionary JSON dictionary
+ *
+ *  @return a new instance
+ */
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

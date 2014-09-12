@@ -66,7 +66,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     UINib *cellNib = [UINib nibWithNibName:@"A0ServiceCollectionViewCell" bundle:nil];
     [self.serviceCollectionView registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
     self.services = [A0FullLoginViewController servicesDictionary];
-    self.activeServices = self.application.availableSocialStrategies;
+    self.activeServices = self.application.availableSocialOrEnterpriseStrategies;
     A0Theme *theme = [A0Theme sharedInstance];
     self.orLabel.font = [theme fontForKey:A0ThemeTextFieldFont defaultFont:self.orLabel.font];
     self.orLabel.textColor = [theme colorForKey:A0ThemeTextFieldTextColor defaultColor:self.orLabel.textColor];
@@ -84,10 +84,10 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     };
 
     [self setInProgress:YES];
-    A0Strategy *strategy = self.application.availableSocialStrategies[sender.tag];
+    A0Strategy *strategy = self.application.availableSocialOrEnterpriseStrategies[sender.tag];
     [[A0IdentityProviderAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(A0IdentityProviderCredentials *socialCredentials) {
-        [[A0APIClient sharedClient] authenticateWithSocialStrategy:strategy
-                                                 socialCredentials:socialCredentials
+        [[A0APIClient sharedClient] authenticateWithStrategy:strategy
+                                                 credentials:socialCredentials
                                                            success:successBlock
                                                            failure:^(NSError *error) {
                                                                @strongify(self);

@@ -75,7 +75,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:kCellIdentifier];
     self.services = [A0SocialLoginViewController servicesDictionary];
-    self.activeServices = self.application.availableSocialStrategies;
+    self.activeServices = self.application.availableSocialOrEnterpriseStrategies;
     self.selectedService = NSNotFound;
 }
 
@@ -91,10 +91,10 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
     self.selectedService = sender.tag;
     [self setInProgress:YES];
-    A0Strategy *strategy = self.application.availableSocialStrategies[sender.tag];
+    A0Strategy *strategy = self.application.availableSocialOrEnterpriseStrategies[sender.tag];
     [[A0IdentityProviderAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(A0IdentityProviderCredentials *socialCredentials) {
-        [[A0APIClient sharedClient] authenticateWithSocialStrategy:strategy
-                                                 socialCredentials:socialCredentials
+        [[A0APIClient sharedClient] authenticateWithStrategy:strategy
+                                                 credentials:socialCredentials
                                                            success:successBlock
                                                            failure:^(NSError *error) {
                                                                @strongify(self);

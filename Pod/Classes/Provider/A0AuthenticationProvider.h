@@ -23,14 +23,43 @@
 #import <Foundation/Foundation.h>
 #import "A0IdentityProviderCredentials.h"
 
+/**
+ *  Protocol for all Identity Providers
+ */
 @protocol A0AuthenticationProvider <NSObject>
 
 @required
+
+/**
+ *  Identity provider identifier. Must be equal to your app's strategy name
+ *
+ *  @return provider identifier
+ */
 - (NSString *)identifier;
+
+/**
+ *  Authenticates the user with this identity provider
+ *
+ *  @param success block called on successful authentication with user's credentials
+ *  @param failure block called on error with reason as a parameter
+ */
 - (void)authenticateWithSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *))failure;
+
+/**
+ *  Clear all active sessions of this identity provider
+ */
 - (void)clearSessions;
 
 @optional
+
+/**
+ *  Handles an URL when authenticating with a third party app.
+ *
+ *  @param url               url with authentication information
+ *  @param sourceApplication application that performed the authentication
+ *
+ *  @return if the URL is valid
+ */
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
 
 @end

@@ -68,7 +68,7 @@
     controller.closable = YES;
     controller.loginAfterSignUp = YES;
     controller.usesEmail = YES;
-    controller.defaultScopes = @[A0APIClientScopeOpenId];
+    controller.defaultScopes = @[A0APIClientScopeOpenId, A0APIClientScopeOfflineAccess];
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);

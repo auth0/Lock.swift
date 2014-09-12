@@ -24,19 +24,72 @@
 
 @class A0Strategy;
 
+/**
+ *  `A0Application` contains your Auth0 application information
+ */
 @interface A0Application : NSObject
 
+/**
+ *  Application id
+ */
 @property (strong, nonatomic, readonly) NSString *identifier;
+
+/**
+ *  Tenant name
+ */
 @property (strong, nonatomic, readonly) NSString *tenant;
+
+/**
+ *  authorize URL
+ */
 @property (strong, nonatomic, readonly) NSURL *authorizeURL;
+
+/**
+ *  Callback URL
+ */
 @property (strong, nonatomic, readonly) NSURL *callbackURL;
+
+/**
+ *  Enabled authentication strategies
+ */
 @property (strong, nonatomic, readonly) NSArray *strategies;
 
+
+/**
+ *  Initialise the applcation from a JSON dictionary
+ *
+ *  @param JSONDict JSON response form the server
+ *
+ *  @return a new instance
+ */
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict;
 
+/**
+ *  Checks whether the app has a Database strategy enabled
+ *
+ *  @return if the app has a database strategy
+ */
 - (BOOL)hasDatabaseConnection;
-- (BOOL)hasSocialStrategies;
+
+/**
+ *  Checks whether the app has at least one non-database strategy
+ *
+ *  @return if the app has at least one non-database strategy
+ */
+- (BOOL)hasSocialOrEnterpriseStrategies;
+
+/**
+ *  Returns the databse strategy
+ *
+ *  @return a database stretegy
+ */
 - (A0Strategy *)databaseStrategy;
-- (NSArray *)availableSocialStrategies;
+
+/**
+ *  Returns all non-database strategies
+ *
+ *  @return a list with non-database strategies
+ */
+- (NSArray *)availableSocialOrEnterpriseStrategies;
 
 @end

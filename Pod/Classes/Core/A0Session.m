@@ -50,11 +50,19 @@
 - (void)refreshIfExpiredWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
     Auth0LogVerbose(@"Refreshing Auth0 session...");
     A0Token *token = self.token;
+    NSError *error;
     if (!token) {
         Auth0LogWarn(@"No session information found in session data source %@", self.dataSource);
+        error = [A0Errors noSessionFound];
+    } else if (self.isExpired && !token.refreshToken) {
+        Auth0LogWarn(@"No refresh_token found to refresh expired id_token");
+        error = [A0Errors noRefreshTokenFound];
+    }
+
+    if (error) {
         [self clear];
         if (failure) {
-            failure([A0Errors noSessionFound]);
+            failure(error);
         }
         return;
     }
