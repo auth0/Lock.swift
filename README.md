@@ -339,6 +339,32 @@ Returns the current profile from the DataSource or nil.
 A0UserProfile *profile = session.profile;
 ```
 
+## Logging
+
+Auth0.iOS logs serveral useful debugging information using [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack). By default all log messages are disabled but you can enable them following these steps:
+
+Go to `A0Logging.h` and change the `auth0LogLevel` variable with the Log Level you'll want to see. for example:
+```objc
+static const int auth0LogLevel = LOG_LEVEL_ALL;
+```
+
+And then you'll need to configure CocoaLumberjack (if you haven't done it for your app). You need to do it once so we recommend doing it in your `AppDelegate`:
+
+```objc
+#import <CocoaLumberjack/DDASLLogger.h>
+#import <CocoaLumberjack/DDTTYLogger.h>
+#import <CocoaLumberjack/DDLog.h>
+
+@implementation A0AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    return YES;
+}
+
+@end
+```
 ## What is Auth0?
 
 Auth0 helps you to:

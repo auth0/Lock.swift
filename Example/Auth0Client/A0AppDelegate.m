@@ -25,7 +25,6 @@
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 #import <CocoaLumberjack/DDLog.h>
-#import <Auth0Client/A0Logging.h>
 
 @implementation A0AppDelegate
 
