@@ -16,8 +16,6 @@
 * **Tokens lifecycle (Expiration, Refreshing, etc.)** is managed automatically for you.
 * Provides the ability to do **SSO** with 2 or more mobile apps similar to Facebook and Messenger apps.
 
-![How it looks](https://cloudup.com/cTBGLVJtupc+)
-
 ## Install
 
 The Auth0.iOS pod is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
@@ -85,10 +83,6 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 };
 [self presentViewController:controller animated:YES completion:nil];
 ```
-
-![How it looks](https://cloudup.com/cTBGLVJtupc+)
-![Reset password how it looks](https://cloudup.com/cza4oBVV_kb+)
-![Signup how it looks](https://cloudup.com/c3Ij3UXoQZ6+)
 
 ### Identity Provider Authentication
 
