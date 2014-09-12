@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Auth0Client"
-  s.version          = "0.1.0"
+  s.version          = "1.0.0"
   s.summary          = "A library to connect with Auth0 services"
   s.description      = <<-DESC
 [![Auth0](https://i.cloudup.com/1vaSVATKTL.png)](http://auth0.com)
