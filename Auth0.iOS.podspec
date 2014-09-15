@@ -25,8 +25,8 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     #define A0LocalizedString(key) NSLocalizedStringFromTable(key, @"Auth0", nil)
   EOS
   s.subspec 'Core' do |core|
-    core.public_header_files = 'Pod/Classes/Core/*.h'
-    core.source_files = 'Pod/Classes/Core/*.{h,m}'
+    core.public_header_files = ['Pod/Classes/Core/*.h', 'Pod/Classes/Provider/*.h']
+    core.source_files = ['Pod/Classes/Core/*.{h,m}', 'Pod/Classes/Provider/*.{h,m}']
     core.dependency 'AFNetworking', '~> 2.3'
     core.dependency 'ISO8601DateFormatter', '~> 0.7'
     core.dependency 'UICKeyChainStore', '~> 1.0.5'
@@ -35,28 +35,22 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.subspec 'UI' do |ui|
     ui.public_header_files = 'Pod/Classes/{UI,Utils}/*.h'
     ui.source_files = 'Pod/Classes/{UI,Utils}/*.{h,m}'
-    ui.dependency 'Auth0.iOS/Provider'
+    ui.dependency 'Auth0.iOS/Core'
     ui.resources = 'Pod/Assets/*.xib'
     ui.resource_bundles = { 'Auth0' => ['Pod/Assets/Images/*.png', 'Pod/Assets/*.plist', 'Pod/Assets/connections.ttf']}
-  end
-
-  s.subspec 'Provider' do |provider|
-    provider.public_header_files = 'Pod/Classes/Provider/*.h'
-    provider.source_files = 'Pod/Classes/Provider/*.{h,m}'
-    provider.dependency 'Auth0.iOS/Core'
   end
 
   s.subspec 'Facebook' do |facebook|
     facebook.public_header_files = 'Pod/Classes/Provider/Facebook/*.h'
     facebook.source_files = 'Pod/Classes/Provider/Facebook/*.{h,m}'
-    facebook.dependency 'Auth0.iOS/Provider'
+    facebook.dependency 'Auth0.iOS/Core'
     facebook.dependency 'Facebook-iOS-SDK', '~> 3.15'
   end
 
   s.subspec 'Twitter' do |twitter|
     twitter.public_header_files = 'Pod/Classes/Twitter/*.h'
     twitter.source_files = 'Pod/Classes/Provider/Twitter/*.{h,m}'
-    twitter.dependency 'Auth0.iOS/Provider'
+    twitter.dependency 'Auth0.iOS/Core'
     twitter.dependency 'BDBOAuth1Manager', '~> 1.3'
     twitter.dependency 'TWReverseAuth', '~> 0.1.0'
     twitter.dependency 'PSAlertView', '~> 2.0'

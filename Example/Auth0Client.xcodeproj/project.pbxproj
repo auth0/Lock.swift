@@ -82,7 +82,7 @@
 		77F27E12879146B986D43383 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		BD9DE0F8BCE04F059EE4B037 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		CA013CB7EB274077A70C87DC /* Pods-Auth0Client.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Client.xcconfig"; path = "Pods/Pods-Auth0Client.xcconfig"; sourceTree = "<group>"; };
-		D2DE0EF3C4E54828BE63976E /* Auth0Client.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Auth0Client.podspec; path = ../Auth0Client.podspec; sourceTree = "<group>"; };
+		D2DE0EF3C4E54828BE63976E /* Auth0.iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Auth0.iOS.podspec; path = ../Auth0.iOS.podspec; sourceTree = "<group>"; };
 		D8BB77CC67D644FB8F85C8EE /* libPods-Auth0Client.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Auth0Client.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -205,7 +205,7 @@
 		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				D2DE0EF3C4E54828BE63976E /* Auth0Client.podspec */,
+				D2DE0EF3C4E54828BE63976E /* Auth0.iOS.podspec */,
 				77F27E12879146B986D43383 /* README.md */,
 				BD9DE0F8BCE04F059EE4B037 /* LICENSE */,
 			);
