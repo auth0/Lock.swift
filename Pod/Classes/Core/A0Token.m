@@ -77,7 +77,7 @@
             Auth0LogWarn(@"Invalid id_token claims part. Failed to decode base64");
         }
     } else {
-        Auth0LogWarn(@"Invalid id_token. Not enough parts (Required 3 parts obtained %ul)", parts.count);
+        Auth0LogWarn(@"Invalid id_token. Not enough parts (Required 3 parts obtained %lu)", (unsigned long)parts.count);
     }
     return expiresAt;
 }
