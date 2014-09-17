@@ -24,6 +24,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     #import "A0Logging.h"
     #define A0LocalizedString(key) NSLocalizedStringFromTable(key, @"Auth0", nil)
   EOS
+  
   s.subspec 'Core' do |core|
     core.public_header_files = ['Pod/Classes/Core/*.h', 'Pod/Classes/Provider/*.h']
     core.source_files = ['Pod/Classes/Core/*.{h,m}', 'Pod/Classes/Provider/*.{h,m}']
