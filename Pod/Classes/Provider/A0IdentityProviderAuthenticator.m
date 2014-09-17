@@ -24,6 +24,7 @@
 #import "A0Strategy.h"
 #import "A0Application.h"
 #import "A0Errors.h"
+#import "A0WebAuthentication.h"
 
 @interface A0IdentityProviderAuthenticator ()
 
@@ -68,6 +69,8 @@
     [application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
         if (self.registeredAuthenticators[strategy.name]) {
             self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
+        } else {
+            self.authenticators[strategy.name] = [A0WebAuthentication newWebAuthenticationForStrategy:strategy ofApplication:application];
         }
     }];
 }

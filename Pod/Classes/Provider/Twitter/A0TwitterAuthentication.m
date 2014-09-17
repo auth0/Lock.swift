@@ -73,7 +73,7 @@
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     BOOL handled = NO;
-    Auth0LogDebug(@"Received url %@ from source application %@", url, sourceApplication);
+    Auth0LogVerbose(@"Received url %@ from source application %@", url, sourceApplication);
     if ([url.scheme.lowercaseString isEqualToString:self.callbackURL.scheme.lowercaseString] && [url.host isEqualToString:self.callbackURL.host]) {
         handled = YES;
         NSDictionary *parameters = [NSURL ab_parseURLQueryString:url.query];
