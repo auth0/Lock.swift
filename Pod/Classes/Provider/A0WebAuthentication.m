@@ -24,15 +24,18 @@
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "NSDictionary+A0QueryParameters.h"
+#import "A0UserProfile.h"
+#import "A0Token.h"
+#import "A0APIClient.h"
 
-#define kCallbackURLString @"a0%@://authorize/%@"
+#define kCallbackURLString @"a0%@://%@.auth.com/authorize"
 
 @interface A0WebAuthentication ()
 
-@property (strong, nonatomic) NSString *connectionName;
+@property (strong, nonatomic) A0Strategy *strategy;
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (strong, nonatomic) NSString *redirectURI;
-@property (copy, nonatomic) void(^successBlock)(A0IdentityProviderCredentials *);
+@property (copy, nonatomic) void(^successBlock)(A0UserProfile *, A0Token *);
 @property (copy, nonatomic) void(^failureBlock)(NSError *);
 
 @end
@@ -42,26 +45,30 @@
 + (instancetype)newWebAuthenticationForStrategy:(A0Strategy *)strategy
                                   ofApplication:(A0Application *)application {
     A0WebAuthentication *auth = [[A0WebAuthentication alloc] init];
-    auth.connectionName = strategy.name;
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
     NSString *connectionName = strategy.connection[@"name"];
     NSString *redirectURI = [NSString stringWithFormat:kCallbackURLString, application.identifier, connectionName].lowercaseString;
     NSDictionary *parameters = @{
-                                 @"scope": @"openid",
+                                 @"scope": [[A0APIClient sharedClient] defaultScopeValue],
                                  @"response_type": @"token",
                                  @"connection": connectionName,
                                  @"client_id": application.identifier,
                                  @"redirect_uri": redirectURI,
                                  };
+    if ([[[A0APIClient sharedClient] defaultScopes] containsObject:A0APIClientScopeOfflineAccess]) {
+        NSMutableDictionary *dict = [parameters mutableCopy];
+        dict[@"device"] = [[UIDevice currentDevice] name];
+        parameters = dict;
+    }
     components.query = parameters.queryString;
-    auth.connectionName = connectionName;
+    auth.strategy = strategy;
     auth.authorizeURL = components.URL;
     auth.redirectURI = redirectURI;
     return auth;
 }
 
 - (NSString *)identifier {
-    return self.connectionName;
+    return self.strategy.name;
 }
 
 - (void)clearSessions {
@@ -82,25 +89,29 @@
             }
         } else {
             NSString *accessToken = params[@"access_token"];
-            if (accessToken) {
-                NSMutableDictionary *extraInfo = [params mutableCopy];
-                [extraInfo removeObjectForKey:@"access_token"];
-                A0IdentityProviderCredentials *credentials = [[A0IdentityProviderCredentials alloc] initWithAccessToken:accessToken extraInfo:params];
-                if (self.successBlock) {
-                    self.successBlock(credentials);
-                }
+            NSString *idToken = params[@"id_token"];
+            NSString *tokenType = params[@"token_type"];
+            NSString *refreshToken = params[@"refresh_token"];
+            if (idToken) {
+                A0Token *token = [[A0Token alloc] initWithAccessToken:accessToken idToken:idToken tokenType:tokenType refreshToken:refreshToken];
+                void(^success)(A0UserProfile *, A0Token *) = self.successBlock;
+                [[A0APIClient sharedClient] fetchUserProfileWithIdToken:idToken success:^(A0UserProfile *profile) {
+                    if (success) {
+                        success(profile, token);
+                    }
+                } failure:self.failureBlock];
             } else {
                 if (self.failureBlock) {
                     self.failureBlock(nil);
                 }
             }
+            [self clearBlocks];
         }
-        [self clearBlocks];
     }
     return handled;
 }
 
-- (void)authenticateWithSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success
+- (void)authenticateWithSuccess:(void(^)(A0UserProfile *, A0Token *))success
                         failure:(void(^)(NSError *))failure {
     self.successBlock = success;
     self.failureBlock = failure;

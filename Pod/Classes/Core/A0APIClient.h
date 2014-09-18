@@ -70,6 +70,11 @@ typedef void(^A0APIClientError)(NSError *error);
  */
 @property (strong, nonatomic) NSArray *defaultScopes;
 
+/**
+ *  Default scopes as a NSString value.
+ */
+@property (readonly, nonatomic) NSString *defaultScopeValue;
+
 ///----------------------------------------
 /// @name Initialization
 ///----------------------------------------
