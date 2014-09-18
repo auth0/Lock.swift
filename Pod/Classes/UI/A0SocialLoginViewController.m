@@ -89,19 +89,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         }
     };
 
-    self.selectedService = sender.tag;
-    [self setInProgress:YES];
-    A0Strategy *strategy = self.application.availableSocialOrEnterpriseStrategies[sender.tag];
-    [[A0IdentityProviderAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(A0IdentityProviderCredentials *socialCredentials) {
-        [[A0APIClient sharedClient] authenticateWithStrategy:strategy
-                                                 credentials:socialCredentials
-                                                           success:successBlock
-                                                           failure:^(NSError *error) {
-                                                               @strongify(self);
-                                                               [self setInProgress:NO];
-                                                               showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
-                                                           }];
-    } failure:^(NSError *error) {
+    void(^failureBlock)(NSError *) = ^(NSError *error) {
         @strongify(self);
         [self setInProgress:NO];
         if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled) {
@@ -116,7 +104,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                     break;
             }
         }
-    }];
+    };
+    self.selectedService = sender.tag;
+    [self setInProgress:YES];
+    A0Strategy *strategy = self.application.availableSocialOrEnterpriseStrategies[sender.tag];
+    [[A0IdentityProviderAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:successBlock failure:failureBlock];
 }
 
 - (CGRect)rectToKeepVisibleInView:(UIView *)view {

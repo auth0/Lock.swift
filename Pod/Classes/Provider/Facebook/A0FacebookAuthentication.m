@@ -23,8 +23,11 @@
 #import "A0FacebookAuthentication.h"
 #import "A0Errors.h"
 #import "A0Strategy.h"
+#import "A0Application.h"
+#import "A0APIClient.h"
 
 #import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
+#import <libextobjc/EXTScope.h>
 
 @interface A0FacebookAuthentication ()
 @property (strong, nonatomic) NSArray *permissions;
@@ -78,15 +81,14 @@
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
 }
 
-- (void)authenticateWithSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *))failure {
+- (void)authenticateWithSuccess:(void(^)(A0UserProfile *, A0Token *))success failure:(void(^)(NSError *))failure {
     Auth0LogVerbose(@"Starting Facebook authentication...");
     FBSession *active = [FBSession activeSession];
     if (active.state == FBSessionStateOpen || active.state == FBSessionStateOpenTokenExtended) {
         Auth0LogDebug(@"Found FB Active Session");
-        if (success) {
-            success([[A0IdentityProviderCredentials alloc] initWithAccessToken:active.accessTokenData.accessToken]);
-        }
+        [self executeAuthenticationWithCredentials:[[A0IdentityProviderCredentials alloc] initWithAccessToken:active.accessTokenData.accessToken] success:success failure:failure];
     } else {
+        @weakify(self);
         [FBSession openActiveSessionWithReadPermissions:self.permissions allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
             if (error) {
                 if (failure) {
@@ -96,12 +98,12 @@
                 }
             } else {
                 switch (status) {
-                    case FBSessionStateOpen:
+                    case FBSessionStateOpen: {
                         Auth0LogDebug(@"Successfully opened FB Session");
-                        if (success) {
-                            success([[A0IdentityProviderCredentials alloc] initWithAccessToken:session.accessTokenData.accessToken]);
-                        }
+                        @strongify(self);
+                        [self executeAuthenticationWithCredentials:[[A0IdentityProviderCredentials alloc] initWithAccessToken:session.accessTokenData.accessToken] success:success failure:failure];
                         break;
+                    }
                     case FBSessionStateClosedLoginFailed:
                         Auth0LogError(@"User cancelled FB Login");
                         if (failure) {
@@ -113,6 +115,26 @@
             }
         }];
     }
+}
+
+#pragma mark - Utility methods
+
+- (void)executeAuthenticationWithCredentials:(A0IdentityProviderCredentials *)credentials
+                                     success:(void(^)(A0UserProfile *, A0Token *))success
+                                     failure:(void(^)(NSError *))failure {
+    A0APIClient *client = [A0APIClient sharedClient];
+    A0Application *application = client.application;
+    __block A0Strategy *facebook;
+    [application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
+        if ([strategy.name isEqualToString:self.identifier]) {
+            facebook = strategy;
+            *stop = YES;
+        }
+    }];
+    [client authenticateWithStrategy:facebook
+                         credentials:credentials
+                             success:success
+                             failure:failure];
 }
 
 @end

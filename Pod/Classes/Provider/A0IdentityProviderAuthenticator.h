@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 #import "A0AuthenticationProvider.h"
 
-@class A0Application, A0Strategy;
+@class A0Application, A0Strategy, A0UserProfile, A0Token;
 
 /**
  *  `A0IdentityProviderAuthenticator` provides a single interface to handle all interactions with different identity providers. Each identity provider (a class that conforms with the protocol `A0AuthenticationProvider`) to be used must be registered with this object.
@@ -66,7 +66,7 @@
  *  @param success  block called on successful authentication with user's token info and profile
  *  @param failure  block called on error with the reason as a parameter
  */
-- (void)authenticateForStrategy:(A0Strategy *)strategy withSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *error))failure;
+- (void)authenticateForStrategy:(A0Strategy *)strategy withSuccess:(void(^)(A0UserProfile *profile, A0Token *token))success failure:(void(^)(NSError *error))failure;
 
 /**
  *  Method to handle authentication performed by a third party native application e.g. Facebook App. It must be called from your app's AppDelegate `-application:openURL:sourceApplication:annotation:` method.

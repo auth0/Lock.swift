@@ -76,7 +76,7 @@
 }
 
 - (void)authenticateForStrategy:(A0Strategy *)strategy
-                    withSuccess:(void (^)(A0IdentityProviderCredentials *))success
+                    withSuccess:(void(^)(A0UserProfile *profile, A0Token *token))success
                         failure:(void (^)(NSError *))failure {
     id<A0AuthenticationProvider> authenticator = self.authenticators[strategy.name];
     if (authenticator) {

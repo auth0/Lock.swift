@@ -23,6 +23,8 @@
 #import <Foundation/Foundation.h>
 #import "A0IdentityProviderCredentials.h"
 
+@class A0UserProfile, A0Token;
+
 /**
  *  Protocol for all Identity Providers
  */
@@ -43,7 +45,7 @@
  *  @param success block called on successful authentication with user's credentials
  *  @param failure block called on error with reason as a parameter
  */
-- (void)authenticateWithSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *))failure;
+- (void)authenticateWithSuccess:(void(^)(A0UserProfile *profile, A0Token *token))success failure:(void(^)(NSError *))failure;
 
 /**
  *  Clear all active sessions of this identity provider

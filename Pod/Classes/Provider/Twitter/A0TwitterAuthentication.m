@@ -23,6 +23,8 @@
 #import "A0TwitterAuthentication.h"
 #import "A0Errors.h"
 #import "A0Strategy.h"
+#import "A0APIClient.h"
+#import "A0Application.h"
 
 #import <Accounts/Accounts.h>
 #import <Twitter/Twitter.h>
@@ -39,7 +41,7 @@
 @property (strong, nonatomic) ACAccountStore *accountStore;
 @property (strong, nonatomic) ACAccountType *accountType;
 
-@property (copy, nonatomic) void(^successBlock)(A0IdentityProviderCredentials *socialCredentials);
+@property (copy, nonatomic) void(^successBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^failureBlock)(NSError *);
 
 @end
@@ -96,7 +98,7 @@
     return handled;
 }
 
-- (void)authenticateWithSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *))failure {
+- (void)authenticateWithSuccess:(void(^)(A0UserProfile *, A0Token *))success failure:(void(^)(NSError *))failure {
     self.successBlock = success;
     self.failureBlock = failure;
     self.accountStore = [[ACAccountStore alloc] init];
@@ -257,15 +259,23 @@
 #pragma mark - Block handling
 
 - (void)executeSuccessWithCredentials:(A0IdentityProviderCredentials *)credentials {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.successBlock) {
-            self.successBlock(credentials);
+    A0APIClient *client = [A0APIClient sharedClient];
+    A0Application *application = client.application;
+    __block A0Strategy *twitter;
+    [application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
+        if ([strategy.name isEqualToString:self.identifier]) {
+            twitter = strategy;
+            *stop = YES;
         }
-        self.successBlock = nil;
-        self.failureBlock = nil;
-        self.accountStore = nil;
-        self.accountType = nil;
-    });
+    }];
+    [client authenticateWithStrategy:twitter
+                         credentials:credentials
+                             success:self.successBlock
+                             failure:self.failureBlock];
+    self.successBlock = nil;
+    self.failureBlock = nil;
+    self.accountStore = nil;
+    self.accountType = nil;
 }
 
 - (void)executeFailureWithError:(NSError *)error {
