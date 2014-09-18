@@ -179,6 +179,24 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:A0LocalizedString(@"The twitter account seems to be invalid. Please check it in Settings > Twitter and re-enter them.")];
 }
 
++ (NSError *)auth0Cancelled {
+    return [self errorWithCode:A0ErrorCodeAuth0Cancelled
+                   description:A0LocalizedString(@"There was an error contacting Auth0")
+                 failureReason:A0LocalizedString(@"User cancelled the login operation. Try again")];
+}
+
++ (NSError *)auth0NotAuthorized {
+    return [self errorWithCode:A0ErrorCodeAuth0Cancelled
+                   description:A0LocalizedString(@"There was an error contacting Auth0")
+                 failureReason:A0LocalizedString(@"User didn't authorize the application. Try again")];
+}
+
++ (NSError *)auth0InvalidConfigurationForStrategy:(NSString *)strategyName {
+    return [self errorWithCode:A0ErrorCodeAuth0Cancelled
+                   description:A0LocalizedString(@"There was an error contacting Auth0")
+                 failureReason:[NSString stringWithFormat:A0LocalizedString(@"The application is not configured properly for %@. Please check your Auth0's app"), strategyName]];
+}
+
 #pragma mark - Refresh Session
 
 + (NSError *)noSessionFound {

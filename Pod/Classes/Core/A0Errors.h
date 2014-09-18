@@ -36,6 +36,9 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
     A0ErrorCodeUknownProviderForStrategy,
     A0ErrorCodeNoSessionFound,
     A0ErrorCodeNoRefreshTokenFound,
+    A0ErrorCodeAuth0Cancelled,
+    A0ErrorCodeAuth0NotAuthorized,
+    A0ErrorCodeAuth0InvalidConfiguration,
 };
 
 FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
@@ -62,7 +65,7 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 + (NSError *)invalidChangePasswordRepeatPassword;
 + (NSError *)invalidChangePasswordRepeatPasswordAndPassword;
 
-#pragma mark - Social Errors
+#pragma mark - Enterprise & Social Errors
 
 + (NSError *)unkownProviderForStrategy:(NSString *)strategyName;
 + (NSError *)facebookCancelled;
@@ -71,6 +74,9 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 + (NSError *)twitterCancelled;
 + (NSError *)twitterNotConfigured;
 + (NSError *)twitterInvalidAccount;
++ (NSError *)auth0Cancelled;
++ (NSError *)auth0NotAuthorized;
++ (NSError *)auth0InvalidConfigurationForStrategy:(NSString *)strategyName;
 
 #pragma mark - Refresh Session
 

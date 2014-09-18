@@ -27,6 +27,7 @@
 #import "A0UserProfile.h"
 #import "A0Token.h"
 #import "A0APIClient.h"
+#import "A0Errors.h"
 
 #define kCallbackURLString @"a0%@://%@.auth.com/authorize"
 
@@ -41,6 +42,25 @@
 @end
 
 @implementation A0WebAuthentication
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationActiveNotification:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)applicationActiveNotification:(NSNotification *)notification {
+    if (self.failureBlock) {
+        self.failureBlock([A0Errors auth0Cancelled]);
+    }
+    [self clearBlocks];
+}
 
 + (instancetype)newWebAuthenticationForStrategy:(A0Strategy *)strategy
                                   ofApplication:(A0Application *)application {
@@ -82,10 +102,11 @@
         NSString *queryString = url.query ?: url.fragment;
         NSDictionary *params = [NSDictionary fromQueryString:queryString];
         Auth0LogDebug(@"Received params %@ from URL %@", params, url);
-        NSString *error = params[@"error"];
-        if (error) {
+        NSString *errorMessage = params[@"error"];
+        if (errorMessage) {
+            NSError *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorized] : [A0Errors auth0InvalidConfigurationForStrategy:self.strategy.name];
             if (self.failureBlock) {
-                self.failureBlock(nil);
+                self.failureBlock(error);
             }
         } else {
             NSString *accessToken = params[@"access_token"];
@@ -101,12 +122,13 @@
                     }
                 } failure:self.failureBlock];
             } else {
+                Auth0LogError(@"Failed to obtain id_token from URL %@", url);
                 if (self.failureBlock) {
-                    self.failureBlock(nil);
+                    self.failureBlock([A0Errors auth0NotAuthorized]);
                 }
             }
-            [self clearBlocks];
         }
+        [self clearBlocks];
     }
     return handled;
 }
