@@ -74,8 +74,8 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 + (NSError *)twitterCancelled;
 + (NSError *)twitterNotConfigured;
 + (NSError *)twitterInvalidAccount;
-+ (NSError *)auth0Cancelled;
-+ (NSError *)auth0NotAuthorized;
++ (NSError *)auth0CancelledForStrategy:(NSString *)strategyName;
++ (NSError *)auth0NotAuthorizedForStrategy:(NSString *)strategyName;
 + (NSError *)auth0InvalidConfigurationForStrategy:(NSString *)strategyName;
 
 #pragma mark - Refresh Session

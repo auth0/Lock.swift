@@ -1,4 +1,4 @@
-//  A0SocialAuthenticatorSpec.m
+//  A0IdentityProviderAuthenticator.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -25,6 +25,7 @@
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "A0Errors.h"
+#import "A0WebAuthentication.h"
 
 #define HC_SHORTHAND
 #import <OCHamcrest/OCHamcrest.h>
@@ -42,7 +43,7 @@
 
 @end
 
-SpecBegin(A0SocialAuthenticator)
+SpecBegin(A0IdentityProviderAuthenticator)
 
 describe(@"A0SocialAuthenticator", ^{
 
@@ -143,26 +144,13 @@ describe(@"A0SocialAuthenticator", ^{
 
         });
 
-        context(@"has declared only an unknown provider", ^{
-
-            beforeEach(^{
-                [given([application availableSocialOrEnterpriseStrategies]) willReturn:@[mock(A0Strategy.class)]];
-                [authenticator configureForApplication:application];
-            });
-
-            it(@"should have application's strategy providers", ^{
-                expect(authenticator.authenticators).to.beEmpty();
-            });
-
-        });
-
     });
 
     describe(@"Authentication", ^{
 
         __block A0Strategy *strategy;
         __block id<A0AuthenticationProvider> provider;
-        void(^successBlock)(A0IdentityProviderCredentials *) = ^(A0IdentityProviderCredentials *credentials) {};
+        void(^successBlock)(A0UserProfile *, A0Token *) = ^(A0UserProfile *profile, A0Token *token) {};
 
         beforeEach(^{
             provider = mockProtocol(@protocol(A0AuthenticationProvider));

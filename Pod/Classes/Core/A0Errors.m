@@ -179,22 +179,26 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:A0LocalizedString(@"The twitter account seems to be invalid. Please check it in Settings > Twitter and re-enter them.")];
 }
 
-+ (NSError *)auth0Cancelled {
++ (NSError *)auth0CancelledForStrategy:(NSString *)strategyName {
+    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", strategyName];
     return [self errorWithCode:A0ErrorCodeAuth0Cancelled
-                   description:A0LocalizedString(@"There was an error contacting Auth0")
+                   description:A0LocalizedString(description)
                  failureReason:A0LocalizedString(@"User cancelled the login operation. Try again")];
 }
 
-+ (NSError *)auth0NotAuthorized {
++ (NSError *)auth0NotAuthorizedForStrategy:(NSString *)strategyName {
+    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", strategyName];
     return [self errorWithCode:A0ErrorCodeAuth0Cancelled
-                   description:A0LocalizedString(@"There was an error contacting Auth0")
-                 failureReason:A0LocalizedString(@"User didn't authorize the application. Try again")];
+                   description:A0LocalizedString(description)
+                 failureReason:A0LocalizedString(@"Permissions were not granted. Try again")];
 }
 
 + (NSError *)auth0InvalidConfigurationForStrategy:(NSString *)strategyName {
+    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", strategyName];
+    NSString *failureReason = [NSString stringWithFormat:@"The application isn't configured properly for %@. Please check your Auth0's application configuration", strategyName];
     return [self errorWithCode:A0ErrorCodeAuth0Cancelled
-                   description:A0LocalizedString(@"There was an error contacting Auth0")
-                 failureReason:[NSString stringWithFormat:A0LocalizedString(@"The application is not configured properly for %@. Please check your Auth0's app"), strategyName]];
+                   description:A0LocalizedString(description)
+                 failureReason:A0LocalizedString(failureReason)];
 }
 
 #pragma mark - Refresh Session

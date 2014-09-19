@@ -57,7 +57,7 @@
 
 - (void)applicationActiveNotification:(NSNotification *)notification {
     if (self.failureBlock) {
-        self.failureBlock([A0Errors auth0Cancelled]);
+        self.failureBlock([A0Errors auth0CancelledForStrategy:self.strategy.name]);
     }
     [self clearBlocks];
 }
@@ -104,7 +104,7 @@
         Auth0LogDebug(@"Received params %@ from URL %@", params, url);
         NSString *errorMessage = params[@"error"];
         if (errorMessage) {
-            NSError *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorized] : [A0Errors auth0InvalidConfigurationForStrategy:self.strategy.name];
+            NSError *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorizedForStrategy:self.strategy.name] : [A0Errors auth0InvalidConfigurationForStrategy:self.strategy.name];
             if (self.failureBlock) {
                 self.failureBlock(error);
             }
@@ -124,7 +124,7 @@
             } else {
                 Auth0LogError(@"Failed to obtain id_token from URL %@", url);
                 if (self.failureBlock) {
-                    self.failureBlock([A0Errors auth0NotAuthorized]);
+                    self.failureBlock([A0Errors auth0NotAuthorizedForStrategy:self.strategy.name]);
                 }
             }
         }

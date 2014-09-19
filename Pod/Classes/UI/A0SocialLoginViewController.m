@@ -97,6 +97,9 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
                 case A0ErrorCodeTwitterInvalidAccount:
                 case A0ErrorCodeTwitterNotConfigured:
+                case A0ErrorCodeAuth0Cancelled:
+                case A0ErrorCodeAuth0NotAuthorized:
+                case A0ErrorCodeAuth0InvalidConfiguration:
                     showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                     break;
                 default:
