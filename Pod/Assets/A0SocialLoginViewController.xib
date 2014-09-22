@@ -19,9 +19,6 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="350"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="350" id="qcr-Zv-Btt"/>
-                    </constraints>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="ezC-zN-ZRy"/>
                         <outlet property="delegate" destination="-1" id="7x0-ed-Xf1"/>

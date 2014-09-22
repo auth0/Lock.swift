@@ -88,12 +88,9 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="EQ5-97-4tm">
-                    <rect key="frame" x="20" y="160" width="280" height="350"/>
+                    <rect key="frame" x="20" y="160" width="280" height="393"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="350" id="NKt-zC-H1d"/>
-                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -103,7 +100,7 @@
                 <constraint firstAttribute="trailing" secondItem="EQ5-97-4tm" secondAttribute="trailing" constant="20" id="HMR-PP-Fvi"/>
                 <constraint firstItem="uS7-Fm-CsT" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" constant="20" id="I6c-dG-gHs"/>
                 <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="800" constant="50" id="ODE-kX-6It"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="EQ5-97-4tm" secondAttribute="bottom" id="Qbj-50-A9g"/>
+                <constraint firstAttribute="bottom" secondItem="EQ5-97-4tm" secondAttribute="bottom" constant="15" id="Qbj-50-A9g"/>
                 <constraint firstItem="EQ5-97-4tm" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" constant="20" id="Vh8-O0-tDf"/>
                 <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="500" constant="30" id="YPc-hg-aIa"/>
                 <constraint firstItem="EQ5-97-4tm" firstAttribute="top" secondItem="jhJ-OZ-OpH" secondAttribute="bottom" id="oAC-or-EVy"/>

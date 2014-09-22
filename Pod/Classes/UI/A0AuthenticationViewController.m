@@ -181,6 +181,7 @@
                                                                constant:0.0f]];
     NSDictionary *views = NSDictionaryOfVariableBindings(authView);
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[authView]|" options:0 metrics:nil views:views]];
 }
 
 - (void)animateFromViewController:(UIViewController *)from toViewController:(UIViewController *)to {
