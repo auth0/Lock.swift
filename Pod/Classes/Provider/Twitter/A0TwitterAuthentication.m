@@ -61,8 +61,21 @@
         [_manager deauthorize];
         [TWAPIManager registerTwitterAppKey:key andAppSecret:secret];
         _callbackURL = callbackURL;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationActiveNotification:) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)applicationActiveNotification:(NSNotification *)notification {
+    if (self.failureBlock) {
+        self.failureBlock([A0Errors twitterCancelled]);
+    }
+    self.successBlock = nil;
+    self.failureBlock = nil;
 }
 
 #pragma mark - A0SocialProviderAuth
@@ -71,7 +84,10 @@
     return A0TwitterAuthenticationName;
 }
 
-- (void)clearSessions { }
+- (void)clearSessions {
+    self.successBlock = nil;
+    self.failureBlock = nil;
+}
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     BOOL handled = NO;

@@ -51,6 +51,35 @@
     return self;
 }
 
+- (instancetype)initWithStrategy:(A0Strategy *)strategy
+                     application:(A0Application *)application
+                           scope:(NSString *)scope
+                   offlineAccess:(BOOL)offlineAccess {
+    self = [self init];
+    if (self) {
+        NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
+        NSString *connectionName = strategy.connection[@"name"];
+        NSString *redirectURI = [NSString stringWithFormat:kCallbackURLString, application.identifier, connectionName].lowercaseString;
+        NSDictionary *parameters = @{
+                                     @"scope": scope,
+                                     @"response_type": @"token",
+                                     @"connection": connectionName,
+                                     @"client_id": application.identifier,
+                                     @"redirect_uri": redirectURI,
+                                     };
+        if (offlineAccess) {
+            NSMutableDictionary *dict = [parameters mutableCopy];
+            dict[@"device"] = [[UIDevice currentDevice] name];
+            parameters = dict;
+        }
+        components.query = parameters.queryString;
+        _strategy = strategy;
+        _authorizeURL = components.URL;
+        _redirectURI = redirectURI;
+    }
+    return self;
+}
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -64,27 +93,12 @@
 
 + (instancetype)newWebAuthenticationForStrategy:(A0Strategy *)strategy
                                   ofApplication:(A0Application *)application {
-    A0WebAuthentication *auth = [[A0WebAuthentication alloc] init];
-    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
-    NSString *connectionName = strategy.connection[@"name"];
-    NSString *redirectURI = [NSString stringWithFormat:kCallbackURLString, application.identifier, connectionName].lowercaseString;
-    NSDictionary *parameters = @{
-                                 @"scope": [[A0APIClient sharedClient] defaultScopeValue],
-                                 @"response_type": @"token",
-                                 @"connection": connectionName,
-                                 @"client_id": application.identifier,
-                                 @"redirect_uri": redirectURI,
-                                 };
-    if ([[[A0APIClient sharedClient] defaultScopes] containsObject:A0APIClientScopeOfflineAccess]) {
-        NSMutableDictionary *dict = [parameters mutableCopy];
-        dict[@"device"] = [[UIDevice currentDevice] name];
-        parameters = dict;
-    }
-    components.query = parameters.queryString;
-    auth.strategy = strategy;
-    auth.authorizeURL = components.URL;
-    auth.redirectURI = redirectURI;
-    return auth;
+    A0APIClient *client = [A0APIClient sharedClient];
+    BOOL offlineAccess = [[client defaultScopes] containsObject:A0APIClientScopeOfflineAccess];
+    return [[A0WebAuthentication alloc] initWithStrategy:strategy
+                                             application:application
+                                                   scope:client.defaultScopeValue
+                                           offlineAccess:offlineAccess];
 }
 
 - (NSString *)identifier {
