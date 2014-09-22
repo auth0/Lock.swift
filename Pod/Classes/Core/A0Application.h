@@ -32,27 +32,27 @@
 /**
  *  Application id
  */
-@property (strong, nonatomic, readonly) NSString *identifier;
+@property (readonly, nonatomic) NSString *identifier;
 
 /**
  *  Tenant name
  */
-@property (strong, nonatomic, readonly) NSString *tenant;
+@property (readonly, nonatomic) NSString *tenant;
 
 /**
  *  authorize URL
  */
-@property (strong, nonatomic, readonly) NSURL *authorizeURL;
+@property (readonly, nonatomic) NSURL *authorizeURL;
 
 /**
  *  Callback URL
  */
-@property (strong, nonatomic, readonly) NSURL *callbackURL;
+@property (readonly, nonatomic) NSURL *callbackURL;
 
 /**
  *  Enabled authentication strategies
  */
-@property (strong, nonatomic, readonly) NSArray *strategies;
+@property (readonly, nonatomic) NSArray *strategies;
 
 
 /**

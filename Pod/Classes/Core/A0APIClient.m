@@ -76,6 +76,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 @interface A0APIClient ()
 
 @property (strong, nonatomic) NSString *clientId;
+@property (strong, nonatomic) NSString *tenant;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
 @property (strong, nonatomic) A0Application *application;
 
@@ -89,6 +90,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
         NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
         _clientId = [clientId copy];
+        _tenant = [tenant copy];
         _defaultScopes = @[A0APIClientScopeOpenId, A0APIClientScopeOfflineAccess];
         NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, tenant];
         NSURL *baseURL = [NSURL URLWithString:URLString];
@@ -178,7 +180,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                  kEmailParamName: username,
                                                                  kPasswordParamName: password,
-                                                                 kTenantParamName: self.application.tenant,
+                                                                 kTenantParamName: self.tenant,
                                                                  kRedirectUriParamName: self.application.callbackURL.absoluteString,
                                                                  }];
     Auth0LogVerbose(@"Starting Signup with username & password %@", params);
@@ -200,7 +202,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                   kEmailParamName: username,
                                                                   kPasswordParamName: newPassword,
-                                                                  kTenantParamName: self.application.tenant,
+                                                                  kTenantParamName: self.tenant,
                                                                   }];
     Auth0LogVerbose(@"Chaning password with params %@", params);
     [self.manager POST:kChangePasswordPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
