@@ -87,7 +87,7 @@
                         <constraint firstAttribute="centerX" secondItem="ZbU-sd-IPu" secondAttribute="centerX" id="ySO-ei-jyv"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQ5-97-4tm">
+                <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="EQ5-97-4tm">
                     <rect key="frame" x="20" y="160" width="280" height="350"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

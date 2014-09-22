@@ -1,4 +1,4 @@
-// A0ServiceTableViewCell.h
+//  A0ServicesTheme.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,18 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@class  A0ProgressButton;
+@class A0Strategy;
 
-@interface A0ServiceTableViewCell : UITableViewCell
+@interface A0ServicesTheme : NSObject
 
-@property (weak, nonatomic) IBOutlet A0ProgressButton *button;
-
-- (void)configureWithBackground:(UIColor *)background
-                    highlighted:(UIColor *)highlighted
-                     foreground:(UIColor *)foreground
-                         symbol:(NSString *)symbol
-                           name:(NSString *)name;
+- (UIColor *)selectedBackgroundColorForServiceWithName:(NSString *)name;
+- (UIColor *)backgroundColorForServiceWithName:(NSString *)name;
+- (UIColor *)foregroundColorForServiceWithName:(NSString *)name;
+- (NSString *)iconCharacterForServiceWithName:(NSString *)name;
+- (NSString *)titleForServiceWithName:(NSString *)name;
 
 @end

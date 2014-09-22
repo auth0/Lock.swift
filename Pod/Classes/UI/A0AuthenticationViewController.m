@@ -270,11 +270,11 @@
 #pragma mark - Icon Font loading
 
 + (void)loadIconFont {
-    UIFont *iconFont = [UIFont fontWithName:@"connections" size:14.0f];
+    UIFont *iconFont = [UIFont fontWithName:@"social-icons" size:14.0f];
     if (!iconFont) {
         NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0" ofType:@"bundle"];
         NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-        NSString *fontPath = [resourceBundle pathForResource:@"connections" ofType:@"ttf"];
+        NSString *fontPath = [resourceBundle pathForResource:@"social-icons" ofType:@"ttf"];
         CFErrorRef error;
         CGDataProviderRef provider = CGDataProviderCreateWithFilename([fontPath UTF8String]);
         CGFontRef font = CGFontCreateWithDataProvider(provider);

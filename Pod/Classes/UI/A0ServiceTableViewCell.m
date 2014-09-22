@@ -39,7 +39,7 @@
     UILabel *label = [[UILabel alloc] init];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont fontWithName:@"connections" size:14.0f];
+    label.font = [UIFont fontWithName:@"social-icons" size:14.0f];
     [self.button addSubview:label];
     label.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary *views = NSDictionaryOfVariableBindings(label);
@@ -61,11 +61,13 @@
     [self.button removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)configureWithBackground:(UIColor *)background highlighted:(UIColor *)highlighted symbol:(NSString *)symbol name:(NSString *)name {
+- (void)configureWithBackground:(UIColor *)background highlighted:(UIColor *)highlighted foreground:(UIColor *)foreground symbol:(NSString *)symbol name:(NSString *)name {
     [self.button setBackgroundColor:background forState:UIControlStateNormal];
     [self.button setBackgroundColor:highlighted forState:UIControlStateHighlighted];
+    [self.button setTitleColor:foreground forState:UIControlStateNormal];
     self.label.backgroundColor = highlighted;
     self.label.text = symbol;
+    self.label.textColor = foreground;
     NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), name];
     [self.button setTitle:title.uppercaseString forState:UIControlStateNormal];
 }

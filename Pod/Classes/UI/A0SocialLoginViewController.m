@@ -29,15 +29,9 @@
 #import "A0APIClient.h"
 #import "A0Errors.h"
 #import "A0ProgressButton.h"
+#import "A0ServicesTheme.h"
 
 #import <libextobjc/EXTScope.h>
-
-#define UIColorFromRGBA(rgbValue, alphaValue) ([UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
-green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0 \
-blue:((float)(rgbValue & 0xFF)) / 255.0 \
-alpha:alphaValue])
-
-#define UIColorFromRGB(rgbValue) (UIColorFromRGBA((rgbValue), 1.0))
 
 #define kCellIdentifier @"ServiceCell"
 
@@ -54,7 +48,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
-@property (strong, nonatomic) NSDictionary *services;
+@property (strong, nonatomic) A0ServicesTheme *services;
 @property (strong, nonatomic) NSArray *activeServices;
 @property (assign, nonatomic) NSInteger selectedService;
 
@@ -74,7 +68,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [super viewDidLoad];
     UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:kCellIdentifier];
-    self.services = [A0SocialLoginViewController servicesDictionary];
+    self.services = [[A0ServicesTheme alloc] init];
     self.activeServices = self.application.availableSocialOrEnterpriseStrategies;
     self.selectedService = NSNotFound;
 }
@@ -128,11 +122,15 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *serviceName = [self.activeServices[indexPath.row] name];
-    NSDictionary *serviceInfo = self.services[serviceName];
-    UIColor *background = [A0SocialLoginViewController colorFromString:serviceInfo[@"background_color"]];
-    UIColor *selectedBackground = [A0SocialLoginViewController colorFromString:serviceInfo[@"selected_background_color"]];
+    UIColor *background = [self.services backgroundColorForServiceWithName:serviceName];
+    UIColor *selectedBackground = [self.services selectedBackgroundColorForServiceWithName:serviceName];
+    UIColor *foreground = [self.services foregroundColorForServiceWithName:serviceName];
     A0ServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
-    [cell configureWithBackground:background highlighted:selectedBackground symbol:serviceInfo[@"icon_character"] name:serviceName];
+    [cell configureWithBackground:background
+                      highlighted:selectedBackground
+                       foreground:foreground
+                           symbol:[self.services iconCharacterForServiceWithName:serviceName]
+                             name:[self.services titleForServiceWithName:serviceName]];
     [cell.button addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];
     cell.button.tag = indexPath.row;
     [cell.button setInProgress:self.selectedService == indexPath.row];
@@ -147,29 +145,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     if (!inProgress) {
         self.selectedService = NSNotFound;
     }
-}
-
-+ (UIColor *)colorFromString:(NSString *)hexString {
-    NSScanner *scanner = [NSScanner scannerWithString:hexString];
-    unsigned hex;
-    BOOL success = [scanner scanHexInt:&hex];
-
-    if (!success) return nil;
-    if ([hexString length] <= 6) {
-        return UIColorFromRGB(hex);
-    } else {
-        unsigned color = (hex & 0xFFFFFF00) >> 8;
-        CGFloat alpha = 1.0 * (hex & 0xFF) / 255.0;
-        return UIColorFromRGBA(color, alpha);
-    }
-}
-
-+ (NSDictionary *)servicesDictionary {
-    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0" ofType:@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-    NSString *plistPath = [resourceBundle pathForResource:@"Services" ofType:@"plist"];
-    NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-    return dictionary;
 }
 
 @end
