@@ -194,28 +194,6 @@ describe(@"A0Application", ^{
             });
         });
 
-        context(@"when it has only not yet supported social strategy", ^{
-
-            beforeEach(^{
-                NSMutableDictionary *dict = [jsonDict mutableCopy];
-                dict[@"strategies"] = @[
-                                        @{@"name": @"auth0"},
-                                        @{@"name": @"paypal"},
-                                        @{@"name": @"weibo"},
-                                      ];
-                application = [[A0Application alloc] initWithJSONDictionary:dict];
-            });
-
-            it(@"should indicate that it has no strategy", ^{
-                expect(application.hasSocialOrEnterpriseStrategies).toNot.beTruthy();
-            });
-
-            it(@"should return no social strategies", ^{
-                expect(application.availableSocialOrEnterpriseStrategies).to.beEmpty();
-            });
-
-        });
-
         context(@"when it has no social strategy", ^{
 
             beforeEach(^{

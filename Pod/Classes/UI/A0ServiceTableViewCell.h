@@ -28,6 +28,10 @@
 
 @property (weak, nonatomic) IBOutlet A0ProgressButton *button;
 
-- (void)configureWithBackground:(UIColor *)background highlighted:(UIColor *)highlighted symbol:(NSString *)symbol name:(NSString *)name;
+- (void)configureWithBackground:(UIColor *)background
+                    highlighted:(UIColor *)highlighted
+                     foreground:(UIColor *)foreground
+                         symbol:(NSString *)symbol
+                           name:(NSString *)name;
 
 @end

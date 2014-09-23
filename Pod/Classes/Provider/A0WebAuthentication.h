@@ -1,4 +1,4 @@
-// A0Logging.h
+//  A0WebAuthentication.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <CocoaLumberjack/DDLog.h>
+#import <Foundation/Foundation.h>
+#import "A0AuthenticationProvider.h"
 
-static const int auth0LogLevel = LOG_LEVEL_ALL;
+@class A0Strategy, A0Application;
 
-#define AUTH0_LOG_CONTEXT 58205
+@interface A0WebAuthentication : NSObject
 
-#define Auth0LogError(frmt, ...)     SYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_ERROR,   AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogWarn(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_WARN,    AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogInfo(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_INFO,    AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogDebug(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_DEBUG,  AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogVerbose(frmt, ...)  ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_VERBOSE, AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
++ (instancetype)newWebAuthenticationForStrategy:(A0Strategy *)strategy
+                                  ofApplication:(A0Application *)application;
+
+@end

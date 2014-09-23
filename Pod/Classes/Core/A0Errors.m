@@ -137,6 +137,12 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 
 #pragma mark - Social Errors
 
++ (NSError *)urlSchemeNotRegistered {
+    return [self errorWithCode:A0ErrorCodeAuth0NoURLSchemeFound
+                   description:A0LocalizedString(@"Couldn't start authentication using Safari")
+                 failureReason:A0LocalizedString(@"You need to configure your auth0 scheme in CFBundleURLTypes in your app's Info.plist file")];
+}
+
 + (NSError *)unkownProviderForStrategy:(NSString *)strategyName {
     return [self errorWithCode:A0ErrorCodeUknownProviderForStrategy
                    description:A0LocalizedString(@"Couldn't found authentication method for unknown strategy")
@@ -177,6 +183,28 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     return [self errorWithCode:A0ErrorCodeTwitterInvalidAccount
                    description:A0LocalizedString(@"There was an error contacting Twitter")
                  failureReason:A0LocalizedString(@"The twitter account seems to be invalid. Please check it in Settings > Twitter and re-enter them.")];
+}
+
++ (NSError *)auth0CancelledForStrategy:(NSString *)strategyName {
+    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", strategyName];
+    return [self errorWithCode:A0ErrorCodeAuth0Cancelled
+                   description:A0LocalizedString(description)
+                 failureReason:A0LocalizedString(@"User cancelled the login operation. Try again")];
+}
+
++ (NSError *)auth0NotAuthorizedForStrategy:(NSString *)strategyName {
+    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", strategyName];
+    return [self errorWithCode:A0ErrorCodeAuth0Cancelled
+                   description:A0LocalizedString(description)
+                 failureReason:A0LocalizedString(@"Permissions were not granted. Try again")];
+}
+
++ (NSError *)auth0InvalidConfigurationForStrategy:(NSString *)strategyName {
+    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", strategyName];
+    NSString *failureReason = [NSString stringWithFormat:@"The application isn't configured properly for %@. Please check your Auth0's application configuration", strategyName];
+    return [self errorWithCode:A0ErrorCodeAuth0Cancelled
+                   description:A0LocalizedString(description)
+                 failureReason:A0LocalizedString(failureReason)];
 }
 
 #pragma mark - Refresh Session

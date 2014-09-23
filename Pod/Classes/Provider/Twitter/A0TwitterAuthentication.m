@@ -23,6 +23,8 @@
 #import "A0TwitterAuthentication.h"
 #import "A0Errors.h"
 #import "A0Strategy.h"
+#import "A0APIClient.h"
+#import "A0Application.h"
 
 #import <Accounts/Accounts.h>
 #import <Twitter/Twitter.h>
@@ -39,7 +41,7 @@
 @property (strong, nonatomic) ACAccountStore *accountStore;
 @property (strong, nonatomic) ACAccountType *accountType;
 
-@property (copy, nonatomic) void(^successBlock)(A0IdentityProviderCredentials *socialCredentials);
+@property (copy, nonatomic) void(^successBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^failureBlock)(NSError *);
 
 @end
@@ -59,8 +61,21 @@
         [_manager deauthorize];
         [TWAPIManager registerTwitterAppKey:key andAppSecret:secret];
         _callbackURL = callbackURL;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationActiveNotification:) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)applicationActiveNotification:(NSNotification *)notification {
+    if (self.failureBlock) {
+        self.failureBlock([A0Errors twitterCancelled]);
+    }
+    self.successBlock = nil;
+    self.failureBlock = nil;
 }
 
 #pragma mark - A0SocialProviderAuth
@@ -69,11 +84,14 @@
     return A0TwitterAuthenticationName;
 }
 
-- (void)clearSessions { }
+- (void)clearSessions {
+    self.successBlock = nil;
+    self.failureBlock = nil;
+}
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     BOOL handled = NO;
-    Auth0LogDebug(@"Received url %@ from source application %@", url, sourceApplication);
+    Auth0LogVerbose(@"Received url %@ from source application %@", url, sourceApplication);
     if ([url.scheme.lowercaseString isEqualToString:self.callbackURL.scheme.lowercaseString] && [url.host isEqualToString:self.callbackURL.host]) {
         handled = YES;
         NSDictionary *parameters = [NSURL ab_parseURLQueryString:url.query];
@@ -96,7 +114,7 @@
     return handled;
 }
 
-- (void)authenticateWithSuccess:(void(^)(A0IdentityProviderCredentials *socialCredentials))success failure:(void(^)(NSError *))failure {
+- (void)authenticateWithSuccess:(void(^)(A0UserProfile *, A0Token *))success failure:(void(^)(NSError *))failure {
     self.successBlock = success;
     self.failureBlock = failure;
     self.accountStore = [[ACAccountStore alloc] init];
@@ -257,15 +275,23 @@
 #pragma mark - Block handling
 
 - (void)executeSuccessWithCredentials:(A0IdentityProviderCredentials *)credentials {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.successBlock) {
-            self.successBlock(credentials);
+    A0APIClient *client = [A0APIClient sharedClient];
+    A0Application *application = client.application;
+    __block A0Strategy *twitter;
+    [application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
+        if ([strategy.name isEqualToString:self.identifier]) {
+            twitter = strategy;
+            *stop = YES;
         }
-        self.successBlock = nil;
-        self.failureBlock = nil;
-        self.accountStore = nil;
-        self.accountType = nil;
-    });
+    }];
+    [client authenticateWithStrategy:twitter
+                         credentials:credentials
+                             success:self.successBlock
+                             failure:self.failureBlock];
+    self.successBlock = nil;
+    self.failureBlock = nil;
+    self.accountStore = nil;
+    self.accountType = nil;
 }
 
 - (void)executeFailureWithError:(NSError *)error {

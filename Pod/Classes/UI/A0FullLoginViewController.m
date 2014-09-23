@@ -29,15 +29,9 @@
 #import "A0APIClient.h"
 #import "A0Errors.h"
 #import "A0Theme.h"
+#import "A0ServicesTheme.h"
 
 #import <libextobjc/EXTScope.h>
-
-#define UIColorFromRGBA(rgbValue, alphaValue) ([UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
-green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0 \
-blue:((float)(rgbValue & 0xFF)) / 255.0 \
-alpha:alphaValue])
-
-#define UIColorFromRGB(rgbValue) (UIColorFromRGBA((rgbValue), 1.0))
 
 #define kCellIdentifier @"ServiceCell"
 
@@ -54,7 +48,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
 @property (weak, nonatomic) IBOutlet UILabel *orLabel;
-@property (strong, nonatomic) NSDictionary *services;
+@property (strong, nonatomic) A0ServicesTheme *services;
 @property (strong, nonatomic) NSArray *activeServices;
 
 @end
@@ -65,8 +59,9 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [super viewDidLoad];
     UINib *cellNib = [UINib nibWithNibName:@"A0ServiceCollectionViewCell" bundle:nil];
     [self.serviceCollectionView registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
-    self.services = [A0FullLoginViewController servicesDictionary];
+    self.services = [[A0ServicesTheme alloc] init];
     self.activeServices = self.application.availableSocialOrEnterpriseStrategies;
+    self.serviceCollectionView.scrollEnabled = self.activeServices.count > 5;
     A0Theme *theme = [A0Theme sharedInstance];
     self.orLabel.font = [theme fontForKey:A0ThemeTextFieldFont defaultFont:self.orLabel.font];
     self.orLabel.textColor = [theme colorForKey:A0ThemeTextFieldTextColor defaultColor:self.orLabel.textColor];
@@ -83,25 +78,19 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         }
     };
 
-    [self setInProgress:YES];
-    A0Strategy *strategy = self.application.availableSocialOrEnterpriseStrategies[sender.tag];
-    [[A0IdentityProviderAuthenticator sharedInstance] authenticateForStrategy:strategy withSuccess:^(A0IdentityProviderCredentials *socialCredentials) {
-        [[A0APIClient sharedClient] authenticateWithStrategy:strategy
-                                                 credentials:socialCredentials
-                                                           success:successBlock
-                                                           failure:^(NSError *error) {
-                                                               @strongify(self);
-                                                               [self setInProgress:NO];
-                                                               showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
-                                                           }];
-    } failure:^(NSError *error) {
+    void(^failureBlock)(NSError *error) = ^(NSError *error) {
         @strongify(self);
         [self setInProgress:NO];
-        if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled) {
+        if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled && error.code != A0ErrorCodeAuth0Cancelled) {
             switch (error.code) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
                 case A0ErrorCodeTwitterInvalidAccount:
                 case A0ErrorCodeTwitterNotConfigured:
+                case A0ErrorCodeFacebookCancelled:
+                case A0ErrorCodeAuth0Cancelled:
+                case A0ErrorCodeAuth0NotAuthorized:
+                case A0ErrorCodeAuth0InvalidConfiguration:
+                case A0ErrorCodeAuth0NoURLSchemeFound:
                     showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                     break;
                 default:
@@ -109,7 +98,12 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                     break;
             }
         }
-    }];
+    };
+    [self setInProgress:YES];
+    A0Strategy *strategy = self.application.availableSocialOrEnterpriseStrategies[sender.tag];
+    [[A0IdentityProviderAuthenticator sharedInstance] authenticateForStrategy:strategy
+                                                                  withSuccess:successBlock
+                                                                      failure:failureBlock];
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -121,13 +115,21 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout*)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section {
     NSInteger numberOfCells = self.activeServices.count;
-    CGFloat cellsWidth = (numberOfCells * 40) + MAX(0, (numberOfCells - 1) * 10);
+    UIEdgeInsets insets;
+    if (numberOfCells > 5) {
+        insets = UIEdgeInsetsZero;
+    } else {
+        CGFloat cellsWidth = (numberOfCells * 40) + MAX(0, (numberOfCells - 1) * 10);
 
-    NSInteger edgeInsets = (self.view.frame.size.width - cellsWidth) / 2;
+        NSInteger edgeInsets = (self.view.frame.size.width - cellsWidth) / 2;
 
-    return UIEdgeInsetsMake(0, edgeInsets, 0, edgeInsets);
+        insets = UIEdgeInsetsMake(0, edgeInsets, 0, edgeInsets);
+    }
+    return insets;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -139,12 +141,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     A0ServiceCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
     NSString *serviceName = [self.activeServices[indexPath.item] name];
-    NSDictionary *serviceInfo = self.services[serviceName];
-    UIColor *background = [A0FullLoginViewController colorFromString:serviceInfo[@"background_color"]];
-    UIColor *selectedBackground = [A0FullLoginViewController colorFromString:serviceInfo[@"selected_background_color"]];
-    cell.serviceButton.titleLabel.font = [UIFont fontWithName:@"connections" size:14.0f];
-    cell.serviceButton.titleLabel.tintColor = [UIColor whiteColor];
-    [cell.serviceButton setTitle:serviceInfo[@"icon_character"] forState:UIControlStateNormal];
+    UIColor *background = [self.services backgroundColorForServiceWithName:serviceName];
+    UIColor *selectedBackground = [self.services selectedBackgroundColorForServiceWithName:serviceName];
+    cell.serviceButton.titleLabel.font = [UIFont fontWithName:@"zocial" size:14.0f];
+    [cell.serviceButton setTitleColor:[self.services foregroundColorForServiceWithName:serviceName] forState:UIControlStateNormal];
+    [cell.serviceButton setTitle:[self.services iconCharacterForServiceWithName:serviceName] forState:UIControlStateNormal];
     [cell.serviceButton setBackgroundColor:background forState:UIControlStateNormal];
     [cell.serviceButton setBackgroundColor:selectedBackground forState:UIControlStateHighlighted];
     [cell.serviceButton addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];
@@ -170,29 +171,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
             [self.view sendSubviewToBack:self.loadingView];
         }];
     }
-}
-
-+ (UIColor *)colorFromString:(NSString *)hexString {
-    NSScanner *scanner = [NSScanner scannerWithString:hexString];
-    unsigned hex;
-    BOOL success = [scanner scanHexInt:&hex];
-
-    if (!success) return nil;
-    if ([hexString length] <= 6) {
-        return UIColorFromRGB(hex);
-    } else {
-        unsigned color = (hex & 0xFFFFFF00) >> 8;
-        CGFloat alpha = 1.0 * (hex & 0xFF) / 255.0;
-        return UIColorFromRGBA(color, alpha);
-    }
-}
-
-+ (NSDictionary *)servicesDictionary {
-    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0" ofType:@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-    NSString *plistPath = [resourceBundle pathForResource:@"Services" ofType:@"plist"];
-    NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-    return dictionary;
 }
 
 @end

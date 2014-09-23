@@ -1,4 +1,4 @@
-// A0Logging.h
+//  A0ServicesTheme.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,14 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <CocoaLumberjack/DDLog.h>
+#import <Foundation/Foundation.h>
 
-static const int auth0LogLevel = LOG_LEVEL_ALL;
+@class A0Strategy;
 
-#define AUTH0_LOG_CONTEXT 58205
+@interface A0ServicesTheme : NSObject
 
-#define Auth0LogError(frmt, ...)     SYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_ERROR,   AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogWarn(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_WARN,    AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogInfo(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_INFO,    AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogDebug(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_DEBUG,  AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogVerbose(frmt, ...)  ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_VERBOSE, AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
+- (UIColor *)selectedBackgroundColorForServiceWithName:(NSString *)name;
+- (UIColor *)backgroundColorForServiceWithName:(NSString *)name;
+- (UIColor *)foregroundColorForServiceWithName:(NSString *)name;
+- (NSString *)iconCharacterForServiceWithName:(NSString *)name;
+- (NSString *)titleForServiceWithName:(NSString *)name;
+
+@end

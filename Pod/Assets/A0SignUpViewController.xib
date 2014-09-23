@@ -54,6 +54,9 @@
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your email and password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gL1-Ds-LKT">
                     <rect key="frame" x="26" y="10" width="229" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="16" id="4m8-GP-aJF"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -162,7 +165,6 @@
             </subviews>
             <constraints>
                 <constraint firstItem="IhG-Wj-xDi" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" id="0fG-hx-uLg"/>
-                <constraint firstAttribute="bottom" secondItem="IhG-Wj-xDi" secondAttribute="bottom" id="2KQ-oe-5hH"/>
                 <constraint firstAttribute="trailing" secondItem="cls-os-Kzf" secondAttribute="trailing" constant="1" id="8N6-Dz-kxc"/>
                 <constraint firstItem="BV3-3N-All" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" constant="1" id="McZ-QV-Rmd"/>
                 <constraint firstItem="1zr-3b-fiH" firstAttribute="top" secondItem="BV3-3N-All" secondAttribute="bottom" constant="16" id="Tcr-Xf-VWc"/>

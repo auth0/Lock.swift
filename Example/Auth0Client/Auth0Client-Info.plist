@@ -27,6 +27,10 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>facebook</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb507756515938786</string>
@@ -34,10 +38,22 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>twitter</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.auth0.Auth0Client</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>auth0-web</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>a0${AUTH0_CLIENT_ID}</string>
 			</array>
 		</dict>
 	</array>

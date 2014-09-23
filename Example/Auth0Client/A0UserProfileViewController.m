@@ -42,7 +42,7 @@
                        @"Username": self.authInfo.name,
                        @"UserId": self.authInfo.userId,
                        @"Nickname": self.authInfo.nickname,
-                       @"Email": self.authInfo.email,
+                       @"Email": self.authInfo.email ?: @"",
                        @"CreatedAt": [formatter stringFromDate:self.authInfo.createdAt],
                        @"PictureURL": self.authInfo.picture.absoluteString,
                        };

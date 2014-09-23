@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Auth0.iOS"
-  s.version          = "1.0.0-beta"
+  s.version          = "1.0.0-beta2"
   s.summary          = "A library that uses Auth0 for Authentication with Native Look & Feel"
   s.description      = <<-DESC
 [![Auth0](https://i.cloudup.com/1vaSVATKTL.png)](http://auth0.com)
@@ -10,7 +10,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.homepage         = "https://github.com/auth0/Auth0.iOS"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
-  s.authors          = { "Martin Gontovnikas" => "gonto@auth0.com" }, { "Hernan Zalazar" => "hernan.zalazar@gmail.com" }
+  s.authors          = { "Martin Gontovnikas" => "gonto@auth0.com" }, { "Hernan Zalazar" => "hernan@auth0.com" }
   s.source           = { :git => "https://github.com/auth0/Auth0.iOS.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/authzero'
 
@@ -24,6 +24,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     #import "A0Logging.h"
     #define A0LocalizedString(key) NSLocalizedStringFromTable(key, @"Auth0", nil)
   EOS
+  
   s.subspec 'Core' do |core|
     core.public_header_files = ['Pod/Classes/Core/*.h', 'Pod/Classes/Provider/*.h']
     core.source_files = ['Pod/Classes/Core/*.{h,m}', 'Pod/Classes/Provider/*.{h,m}']
@@ -37,7 +38,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     ui.source_files = 'Pod/Classes/{UI,Utils}/*.{h,m}'
     ui.dependency 'Auth0.iOS/Core'
     ui.resources = 'Pod/Assets/*.xib'
-    ui.resource_bundles = { 'Auth0' => ['Pod/Assets/Images/*.png', 'Pod/Assets/*.plist', 'Pod/Assets/connections.ttf']}
+    ui.resource_bundles = { 'Auth0' => ['Pod/Assets/Images/*.png', 'Pod/Assets/*.plist', 'Pod/Assets/*.ttf']}
   end
 
   s.subspec 'Facebook' do |facebook|

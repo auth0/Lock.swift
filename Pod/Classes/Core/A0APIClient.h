@@ -70,6 +70,11 @@ typedef void(^A0APIClientError)(NSError *error);
  */
 @property (strong, nonatomic) NSArray *defaultScopes;
 
+/**
+ *  Default scopes as a NSString value.
+ */
+@property (readonly, nonatomic) NSString *defaultScopeValue;
+
 ///----------------------------------------
 /// @name Initialization
 ///----------------------------------------
@@ -98,10 +103,9 @@ typedef void(^A0APIClientError)(NSError *error);
 ///----------------------------------------
 
 /**
- Configure `A0APIClient` instance with Auth0's application information.
- @param application Auth0 application information to configure API client.
+ *  Auth0 application information after a call to fetchAppInfoWithSuccess:failure:. Default nil.
  */
-- (void)configureForApplication:(A0Application *)application;
+@property (readonly, nonatomic) A0Application *application;
 
 /**
  Fetches Auth0 application info from Auth0 and configure itself.

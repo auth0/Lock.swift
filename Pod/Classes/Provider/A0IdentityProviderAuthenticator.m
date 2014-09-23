@@ -24,6 +24,7 @@
 #import "A0Strategy.h"
 #import "A0Application.h"
 #import "A0Errors.h"
+#import "A0WebAuthentication.h"
 
 @interface A0IdentityProviderAuthenticator ()
 
@@ -68,12 +69,14 @@
     [application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
         if (self.registeredAuthenticators[strategy.name]) {
             self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
+        } else {
+            self.authenticators[strategy.name] = [A0WebAuthentication newWebAuthenticationForStrategy:strategy ofApplication:application];
         }
     }];
 }
 
 - (void)authenticateForStrategy:(A0Strategy *)strategy
-                    withSuccess:(void (^)(A0IdentityProviderCredentials *))success
+                    withSuccess:(void(^)(A0UserProfile *profile, A0Token *token))success
                         failure:(void (^)(NSError *))failure {
     id<A0AuthenticationProvider> authenticator = self.authenticators[strategy.name];
     if (authenticator) {

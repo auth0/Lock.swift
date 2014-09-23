@@ -41,6 +41,7 @@
 #define kLoginPath @"/oauth/ro"
 #define kSignUpPath @"/dbconnections/signup"
 #define kUserInfoPath @"/userinfo"
+#define kTokenInfoPath @"/tokeninfo"
 #define kChangePasswordPath @"/dbconnections/change_password"
 #define kSocialAuthPath @"/oauth/access_token"
 #define kDelegationAuthPath @"/delegation"
@@ -75,6 +76,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 @interface A0APIClient ()
 
 @property (strong, nonatomic) NSString *clientId;
+@property (strong, nonatomic) NSString *tenant;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
 @property (strong, nonatomic) A0Application *application;
 
@@ -88,6 +90,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
         NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
         _clientId = [clientId copy];
+        _tenant = [tenant copy];
         _defaultScopes = @[A0APIClientScopeOpenId, A0APIClientScopeOfflineAccess];
         NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, tenant];
         NSURL *baseURL = [NSURL URLWithString:URLString];
@@ -159,7 +162,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                                                  kUsernameParamName: username,
                                                                  kPasswordParamName: password,
                                                                  kGrantTypeParamName: @"password",
-                                                                 kScopeParamName: [self defaultScopeString],
+                                                                 kScopeParamName: [self defaultScopeValue],
                                                                  }];
     Auth0LogVerbose(@"Starting Login with username & password %@", params);
     @weakify(self);
@@ -177,7 +180,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                  kEmailParamName: username,
                                                                  kPasswordParamName: password,
-                                                                 kTenantParamName: self.application.tenant,
+                                                                 kTenantParamName: self.tenant,
                                                                  kRedirectUriParamName: self.application.callbackURL.absoluteString,
                                                                  }];
     Auth0LogVerbose(@"Starting Signup with username & password %@", params);
@@ -199,7 +202,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
                                                                   kEmailParamName: username,
                                                                   kPasswordParamName: newPassword,
-                                                                  kTenantParamName: self.application.tenant,
+                                                                  kTenantParamName: self.tenant,
                                                                   }];
     Auth0LogVerbose(@"Chaning password with params %@", params);
     [self.manager POST:kChangePasswordPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -217,7 +220,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                success:(A0APIClientAuthenticationSuccess)success
                                failure:(A0APIClientError)failure {
     NSDictionary *params = [self buildBasicParamsWithDictionary:@{
-                                                                  kScopeParamName: [self defaultScopeString],
+                                                                  kScopeParamName: [self defaultScopeValue],
                                                                   }
                                                        strategy:strategy
                                                     credentials:socialCredentials];
@@ -252,7 +255,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     NSMutableDictionary *params = [@{
                                      kClientIdParamName: self.clientId,
                                      kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
-                                     kScopeParamName: [self defaultScopeString],
+                                     kScopeParamName: [self defaultScopeValue],
                                      } mutableCopy];
     [params addEntriesFromDictionary:options];
     Auth0LogVerbose(@"Calling delegate authentication with params %@", params);
@@ -270,7 +273,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                             success:(A0APIClientUserProfileSuccess)success
                             failure:(A0APIClientError)failure {
     Auth0LogVerbose(@"Fetching User Profile from id token %@", idToken);
-    [self.manager POST:kUserInfoPath parameters:@{
+    [self.manager POST:kTokenInfoPath parameters:@{
                                                   kIdTokenParamName: idToken,
                                                   }
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -367,7 +370,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 #pragma mark - API Scope methods
 
-- (NSString *)defaultScopeString {
+- (NSString *)defaultScopeValue {
     NSMutableArray *scopes = [[NSMutableArray alloc] init];
     if (self.defaultScopes) {
         [scopes addObjectsFromArray:self.defaultScopes];

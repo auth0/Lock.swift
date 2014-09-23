@@ -181,6 +181,7 @@
                                                                constant:0.0f]];
     NSDictionary *views = NSDictionaryOfVariableBindings(authView);
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[authView]|" options:0 metrics:nil views:views]];
 }
 
 - (void)animateFromViewController:(UIViewController *)from toViewController:(UIViewController *)to {
@@ -270,11 +271,11 @@
 #pragma mark - Icon Font loading
 
 + (void)loadIconFont {
-    UIFont *iconFont = [UIFont fontWithName:@"connections" size:14.0f];
+    UIFont *iconFont = [UIFont fontWithName:@"zocial" size:14.0f];
     if (!iconFont) {
         NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0" ofType:@"bundle"];
         NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-        NSString *fontPath = [resourceBundle pathForResource:@"connections" ofType:@"ttf"];
+        NSString *fontPath = [resourceBundle pathForResource:@"z-social" ofType:@"ttf"];
         CFErrorRef error;
         CGDataProviderRef provider = CGDataProviderCreateWithFilename([fontPath UTF8String]);
         CGFontRef font = CGFontCreateWithDataProvider(provider);
