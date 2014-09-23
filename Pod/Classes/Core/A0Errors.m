@@ -137,6 +137,12 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 
 #pragma mark - Social Errors
 
++ (NSError *)urlSchemeNotRegistered {
+    return [self errorWithCode:A0ErrorCodeAuth0NoURLSchemeFound
+                   description:A0LocalizedString(@"Couldn't start authentication using Safari")
+                 failureReason:A0LocalizedString(@"You need to configure your auth0 scheme in CFBundleURLTypes in your app's Info.plist file")];
+}
+
 + (NSError *)unkownProviderForStrategy:(NSString *)strategyName {
     return [self errorWithCode:A0ErrorCodeUknownProviderForStrategy
                    description:A0LocalizedString(@"Couldn't found authentication method for unknown strategy")

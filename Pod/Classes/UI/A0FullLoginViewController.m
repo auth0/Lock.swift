@@ -81,14 +81,16 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     void(^failureBlock)(NSError *error) = ^(NSError *error) {
         @strongify(self);
         [self setInProgress:NO];
-        if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled) {
+        if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled && error.code != A0ErrorCodeAuth0Cancelled) {
             switch (error.code) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
                 case A0ErrorCodeTwitterInvalidAccount:
                 case A0ErrorCodeTwitterNotConfigured:
+                case A0ErrorCodeFacebookCancelled:
                 case A0ErrorCodeAuth0Cancelled:
                 case A0ErrorCodeAuth0NotAuthorized:
                 case A0ErrorCodeAuth0InvalidConfiguration:
+                case A0ErrorCodeAuth0NoURLSchemeFound:
                     showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                     break;
                 default:

@@ -35,7 +35,7 @@
 
 @property (strong, nonatomic) A0Strategy *strategy;
 @property (strong, nonatomic) NSURL *authorizeURL;
-@property (strong, nonatomic) NSString *redirectURI;
+@property (strong, nonatomic) NSURL *redirectURL;
 @property (copy, nonatomic) void(^successBlock)(A0UserProfile *, A0Token *);
 @property (copy, nonatomic) void(^failureBlock)(NSError *);
 
@@ -75,7 +75,7 @@
         components.query = parameters.queryString;
         _strategy = strategy;
         _authorizeURL = components.URL;
-        _redirectURI = redirectURI;
+        _redirectURL = [NSURL URLWithString:redirectURI];
     }
     return self;
 }
@@ -111,7 +111,7 @@
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     Auth0LogVerbose(@"Received url %@ from source application %@", url, sourceApplication);
-    BOOL handled = [url.absoluteString.lowercaseString hasPrefix:self.redirectURI];
+    BOOL handled = [url.scheme isEqualToString:self.redirectURL.scheme] && [url.host isEqualToString:self.redirectURL.host];
     if (handled) {
         NSString *queryString = url.query ?: url.fragment;
         NSDictionary *params = [NSDictionary fromQueryString:queryString];
@@ -149,13 +149,32 @@
 
 - (void)authenticateWithSuccess:(void(^)(A0UserProfile *, A0Token *))success
                         failure:(void(^)(NSError *))failure {
-    self.successBlock = success;
-    self.failureBlock = failure;
-    Auth0LogDebug(@"Opening web authentication wit URL %@", self.authorizeURL);
-    [[UIApplication sharedApplication] openURL:self.authorizeURL];
+    if ([self hasAuth0Scheme]) {
+        self.successBlock = success;
+        self.failureBlock = failure;
+        Auth0LogDebug(@"Opening web authentication wit URL %@", self.authorizeURL);
+        [[UIApplication sharedApplication] openURL:self.authorizeURL];
+    } else {
+        Auth0LogError(@"Scheme %@ not configured in CFBundleURLTypes", self.redirectURL.scheme);
+        failure([A0Errors urlSchemeNotRegistered]);
+    }
 }
 
 #pragma mark - Utility methods
+
+- (BOOL)hasAuth0Scheme {
+    __block BOOL hasScheme = NO;
+    NSDictionary *bundleInfo = [[NSBundle mainBundle] infoDictionary];
+    NSArray *urlTypes = bundleInfo[@"CFBundleURLTypes"];
+    [urlTypes enumerateObjectsUsingBlock:^(NSDictionary *urlType, NSUInteger idx, BOOL *stop) {
+        NSArray *schemes = urlType[@"CFBundleURLSchemes"];
+        for (NSString *scheme in schemes) {
+            hasScheme = [scheme.lowercaseString isEqualToString:self.redirectURL.scheme];
+            *stop = hasScheme;
+        }
+    }];
+    return hasScheme;
+}
 
 - (void)clearBlocks {
     self.successBlock = nil;

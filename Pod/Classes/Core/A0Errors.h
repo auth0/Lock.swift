@@ -39,6 +39,7 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
     A0ErrorCodeAuth0Cancelled,
     A0ErrorCodeAuth0NotAuthorized,
     A0ErrorCodeAuth0InvalidConfiguration,
+    A0ErrorCodeAuth0NoURLSchemeFound,
 };
 
 FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
@@ -67,6 +68,7 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 
 #pragma mark - Enterprise & Social Errors
 
++ (NSError *)urlSchemeNotRegistered;
 + (NSError *)unkownProviderForStrategy:(NSString *)strategyName;
 + (NSError *)facebookCancelled;
 + (NSError *)twitterAppNotAuthorized;
