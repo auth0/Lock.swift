@@ -9,7 +9,7 @@
 		<key>title</key>
 		<string>yahoo!</string>
 		<key>icon_character</key>
-		<string>3</string>
+		<string>Y</string>
 		<key>background_color</key>
 		<string>a200c2</string>
 		<key>selected_background_color</key>
@@ -22,7 +22,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>-</string>
+		<string>L</string>
 		<key>background_color</key>
 		<string>0083a8</string>
 		<key>selected_background_color</key>
@@ -35,7 +35,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>)</string>
+		<string>+</string>
 		<key>background_color</key>
 		<string>dd4b39</string>
 		<key>selected_background_color</key>
@@ -48,7 +48,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>0</string>
+		<string>T</string>
 		<key>background_color</key>
 		<string>46c0fb</string>
 		<key>selected_background_color</key>
@@ -61,7 +61,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>8</string>
+		<string>f</string>
 		<key>background_color</key>
 		<string>4863AE</string>
 		<key>selected_background_color</key>
@@ -74,7 +74,7 @@
 		<key>foreground_color</key>
 		<string>000000</string>
 		<key>icon_character</key>
-		<string>4</string>
+		<string>a</string>
 		<key>background_color</key>
 		<string>ffad1d</string>
 		<key>selected_background_color</key>
@@ -87,7 +87,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>;</string>
+		<string>l</string>
 		<key>background_color</key>
 		<string>355FA7</string>
 		<key>selected_background_color</key>
@@ -100,7 +100,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>E</string>
+		<string>x</string>
 		<key>background_color</key>
 		<string>4A79B5</string>
 		<key>selected_background_color</key>
@@ -113,7 +113,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>9</string>
+		<string>n</string>
 		<key>background_color</key>
 		<string>82B137</string>
 		<key>selected_background_color</key>
@@ -126,7 +126,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>9</string>
+		<string>n</string>
 		<key>background_color</key>
 		<string>82B137</string>
 		<key>selected_background_color</key>
@@ -139,7 +139,7 @@
 		<key>foreground_color</key>
 		<string>000000</string>
 		<key>icon_character</key>
-		<string>F</string>
+		<string>è</string>
 		<key>background_color</key>
 		<string>EDEDED</string>
 		<key>selected_background_color</key>
@@ -152,7 +152,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>H</string>
+		<string>i</string>
 		<key>background_color</key>
 		<string>38537A</string>
 		<key>selected_background_color</key>
@@ -163,9 +163,9 @@
 		<key>title</key>
 		<string>miiCard</string>
 		<key>foreground_color</key>
-		<string>ffffff</string>
+		<string>000000</string>
 		<key>icon_character</key>
-		<string>&lt;</string>
+		<string>m</string>
 		<key>background_color</key>
 		<string>D0E9FF</string>
 		<key>selected_background_color</key>
@@ -178,7 +178,7 @@
 		<key>foreground_color</key>
 		<string>32689A</string>
 		<key>icon_character</key>
-		<string>&amp;</string>
+		<string>$</string>
 		<key>background_color</key>
 		<string>EDEDED</string>
 		<key>selected_background_color</key>
@@ -191,7 +191,7 @@
 		<key>foreground_color</key>
 		<string>F00000</string>
 		<key>icon_character</key>
-		<string>(</string>
+		<string>*</string>
 		<key>background_color</key>
 		<string>EDEDED</string>
 		<key>selected_background_color</key>
@@ -204,7 +204,7 @@
 		<key>foreground_color</key>
 		<string>F00000</string>
 		<key>icon_character</key>
-		<string>(</string>
+		<string>*</string>
 		<key>background_color</key>
 		<string>EDEDED</string>
 		<key>selected_background_color</key>
@@ -217,7 +217,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>B</string>
+		<string>t</string>
 		<key>background_color</key>
 		<string>B23900</string>
 		<key>selected_background_color</key>
@@ -230,7 +230,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>2</string>
+		<string>W</string>
 		<key>background_color</key>
 		<string>446EEB</string>
 		<key>selected_background_color</key>
@@ -243,7 +243,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>#</string>
+		<string>!</string>
 		<key>background_color</key>
 		<string>3C6FC5</string>
 		<key>selected_background_color</key>
@@ -256,7 +256,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>C</string>
+		<string>u</string>
 		<key>background_color</key>
 		<string>2A2AE0</string>
 		<key>selected_background_color</key>
@@ -269,7 +269,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>%</string>
+		<string>#</string>
 		<key>background_color</key>
 		<string>77C1C5</string>
 		<key>selected_background_color</key>
@@ -282,7 +282,7 @@
 		<key>foreground_color</key>
 		<string>D1D1D1</string>
 		<key>icon_character</key>
-		<string>!</string>
+		<string>y</string>
 		<key>background_color</key>
 		<string>4F4F4F</string>
 		<key>selected_background_color</key>
@@ -295,7 +295,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>@</string>
+		<string>r</string>
 		<key>background_color</key>
 		<string>2D54B4</string>
 		<key>selected_background_color</key>
@@ -308,7 +308,7 @@
 		<key>foreground_color</key>
 		<string>D1D1D1</string>
 		<key>icon_character</key>
-		<string>!</string>
+		<string>c</string>
 		<key>background_color</key>
 		<string>757470</string>
 		<key>selected_background_color</key>
@@ -321,7 +321,7 @@
 		<key>foreground_color</key>
 		<string>D1D1D1</string>
 		<key>icon_character</key>
-		<string>!</string>
+		<string>c</string>
 		<key>background_color</key>
 		<string>757470</string>
 		<key>selected_background_color</key>
@@ -334,7 +334,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>.</string>
+		<string>N</string>
 		<key>background_color</key>
 		<string>51678D</string>
 		<key>selected_background_color</key>
@@ -347,7 +347,7 @@
 		<key>foreground_color</key>
 		<string>F00000</string>
 		<key>icon_character</key>
-		<string>/</string>
+		<string>S</string>
 		<key>background_color</key>
 		<string>F9F6F1</string>
 		<key>selected_background_color</key>
@@ -360,7 +360,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>D</string>
+		<string>w</string>
 		<key>background_color</key>
 		<string>508ABD</string>
 		<key>selected_background_color</key>
@@ -373,7 +373,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>&apos;</string>
+		<string>&amp;</string>
 		<key>background_color</key>
 		<string>B00000</string>
 		<key>selected_background_color</key>
@@ -386,7 +386,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>A</string>
+		<string>s</string>
 		<key>background_color</key>
 		<string>82B137</string>
 		<key>selected_background_color</key>
@@ -399,7 +399,7 @@
 		<key>foreground_color</key>
 		<string>ffffff</string>
 		<key>icon_character</key>
-		<string>,</string>
+		<string>D</string>
 		<key>background_color</key>
 		<string>DE881A</string>
 		<key>selected_background_color</key>

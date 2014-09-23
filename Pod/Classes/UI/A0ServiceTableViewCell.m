@@ -39,7 +39,7 @@
     UILabel *label = [[UILabel alloc] init];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont fontWithName:@"social-icons" size:14.0f];
+    label.font = [UIFont fontWithName:@"zocial" size:14.0f];
     [self.button addSubview:label];
     label.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary *views = NSDictionaryOfVariableBindings(label);
