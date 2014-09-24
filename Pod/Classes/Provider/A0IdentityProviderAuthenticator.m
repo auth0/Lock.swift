@@ -69,10 +69,15 @@
     [application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
         if (self.registeredAuthenticators[strategy.name]) {
             self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
-        } else {
+        } else if (self.useWebAsDefault) {
             self.authenticators[strategy.name] = [A0WebAuthentication newWebAuthenticationForStrategy:strategy ofApplication:application];
         }
     }];
+}
+
+- (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy {
+    id<A0AuthenticationProvider> authenticator = self.authenticators[strategy.name];
+    return authenticator != nil;
 }
 
 - (void)authenticateForStrategy:(A0Strategy *)strategy

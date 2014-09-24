@@ -171,16 +171,22 @@ describe(@"A0SocialAuthenticator", ^{
                 [MKTVerify(provider) authenticateWithSuccess:successBlock failure:failureBlock];
             });
 
+            it(@"should tell it can authenticate", ^{
+                expect([authenticator canAuthenticateStrategy:strategy]).to.beTruthy();
+            });
+
         });
 
         context(@"authenticate with unknown strategy", ^{
 
+            __block A0Strategy *unknown;
             __block NSError *failureError;
             void(^failureBlock)(NSError *) = ^(NSError *error) { failureError = error; };
 
             beforeEach(^{
+                unknown = mock(A0Strategy.class);
                 failureError = nil;
-                [authenticator authenticateForStrategy:mock(A0Strategy.class) withSuccess:successBlock failure:failureBlock];
+                [authenticator authenticateForStrategy:unknown withSuccess:successBlock failure:failureBlock];
             });
 
             it(@"should not call any provider", ^{
@@ -194,6 +200,11 @@ describe(@"A0SocialAuthenticator", ^{
             specify(@"unkown strategy error", ^{
                 expect(failureError.code).to.equal(@(A0ErrorCodeUknownProviderForStrategy));
             });
+
+            it(@"should tell it can authenticate", ^{
+                expect([authenticator canAuthenticateStrategy:unknown]).to.beFalsy();
+            });
+
         });
 
     });
