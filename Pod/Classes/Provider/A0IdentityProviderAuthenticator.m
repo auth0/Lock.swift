@@ -48,6 +48,7 @@
     self = [super init];
     if (self) {
         _registeredAuthenticators = [@{} mutableCopy];
+        _useWebAsDefault = YES;
     }
     return self;
 }

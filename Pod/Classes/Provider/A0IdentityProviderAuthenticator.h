@@ -33,7 +33,7 @@
 /**
  *  Tells the instance to default to Safari Web Authentication when no provider was registered for a given strategy.
  */
-@property (assign, nonatomic) BOOL *useWebAsDefault;
+@property (assign, nonatomic) BOOL useWebAsDefault;
 
 /**
  *  Returns a shared instance of `A0IdentityProviderAuthenticator`

@@ -68,4 +68,9 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  */
 @property (strong, nonatomic) UIView *signUpDisclaimerView;
 
+/**
+ *  When authenticating with a social connection, it will use an embedded webView instead of Safari. Default is NO.
+ */
+@property (assign, nonatomic) BOOL useWebView;
+
 @end
