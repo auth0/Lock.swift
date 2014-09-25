@@ -20,6 +20,7 @@
 
 @interface A0WebViewController () <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 @property (strong, nonatomic) A0Strategy *strategy;
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (strong, nonatomic) NSURL *redirectURL;
@@ -111,12 +112,18 @@
         }
         self.onAuthentication = nil;
         self.onFailure = nil;
+        [self.activityView stopAnimating];
+    }
+    if (shouldStart) {
+        [self.activityView startAnimating];
+        self.activityView.hidden = NO;
     }
     return shouldStart;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     Auth0LogVerbose(@"Loaded URL %@", webView.request);
+    [self.activityView stopAnimating];
 }
 
 @end

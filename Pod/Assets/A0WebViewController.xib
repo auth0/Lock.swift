@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0WebViewController">
             <connections>
+                <outlet property="activityView" destination="Du8-pa-oeZ" id="G6i-zq-Uig"/>
                 <outlet property="view" destination="iN0-l3-epB" id="aRp-8N-9wr"/>
                 <outlet property="webview" destination="KPw-uk-hu8" id="VY0-pz-YNo"/>
             </connections>
@@ -31,6 +32,7 @@
                             <rect key="frame" x="10" y="25" width="48" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Cancel">
+                                <color key="titleColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -42,7 +44,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="Du8-pa-oeZ" secondAttribute="trailing" constant="10" id="GeW-bf-AY8"/>
                         <constraint firstItem="88Q-G1-SXn" firstAttribute="leading" secondItem="Gua-bi-8rw" secondAttribute="leading" constant="10" id="MUV-wY-PK3"/>
