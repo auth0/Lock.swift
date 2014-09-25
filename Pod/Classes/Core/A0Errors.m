@@ -194,7 +194,7 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 
 + (NSError *)auth0NotAuthorizedForStrategy:(NSString *)strategyName {
     NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", strategyName];
-    return [self errorWithCode:A0ErrorCodeAuth0Cancelled
+    return [self errorWithCode:A0ErrorCodeAuth0NotAuthorized
                    description:A0LocalizedString(description)
                  failureReason:A0LocalizedString(@"Permissions were not granted. Try again")];
 }
@@ -202,7 +202,7 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 + (NSError *)auth0InvalidConfigurationForStrategy:(NSString *)strategyName {
     NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", strategyName];
     NSString *failureReason = [NSString stringWithFormat:@"The application isn't configured properly for %@. Please check your Auth0's application configuration", strategyName];
-    return [self errorWithCode:A0ErrorCodeAuth0Cancelled
+    return [self errorWithCode:A0ErrorCodeAuth0InvalidConfiguration
                    description:A0LocalizedString(description)
                  failureReason:A0LocalizedString(failureReason)];
 }

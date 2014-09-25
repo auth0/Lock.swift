@@ -1,4 +1,4 @@
-// A0FacebookAuthentication.m
+// A0FacebookAuthenticator.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0FacebookAuthentication.h"
+#import "A0FacebookAuthenticator.h"
 #import "A0Errors.h"
 #import "A0Strategy.h"
 #import "A0Application.h"
@@ -29,11 +29,11 @@
 #import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
 #import <libextobjc/EXTScope.h>
 
-@interface A0FacebookAuthentication ()
+@interface A0FacebookAuthenticator ()
 @property (strong, nonatomic) NSArray *permissions;
 @end
 
-@implementation A0FacebookAuthentication
+@implementation A0FacebookAuthenticator
 
 - (instancetype)initWithPermissions:(NSArray *)permissions {
     self = [super init];
@@ -58,12 +58,12 @@
     [FBAppCall handleDidBecomeActive];
 }
 
-+ (A0FacebookAuthentication *)newAuthenticationWithPermissions:(NSArray *)permissions {
-    return [[A0FacebookAuthentication alloc] initWithPermissions:permissions];
++ (A0FacebookAuthenticator *)newAuthenticatorWithPermissions:(NSArray *)permissions {
+    return [[A0FacebookAuthenticator alloc] initWithPermissions:permissions];
 }
 
-+ (A0FacebookAuthentication *)newAuthenticationWithDefaultPermissions {
-    return [self newAuthenticationWithPermissions:nil];
++ (A0FacebookAuthenticator *)newAuthenticatorWithDefaultPermissions {
+    return [self newAuthenticatorWithPermissions:nil];
 }
 
 #pragma mark - A0SocialProviderAuth

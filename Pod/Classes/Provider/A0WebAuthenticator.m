@@ -1,4 +1,4 @@
-//  A0WebAuthentication.m
+//  A0WebAuthenticator.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0WebAuthentication.h"
+#import "A0WebAuthenticator.h"
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "NSDictionary+A0QueryParameters.h"
@@ -28,20 +28,19 @@
 #import "A0Token.h"
 #import "A0APIClient.h"
 #import "A0Errors.h"
+#import "A0WebAuthentication.h"
 
-#define kCallbackURLString @"a0%@://%@.auth.com/authorize"
-
-@interface A0WebAuthentication ()
+@interface A0WebAuthenticator ()
 
 @property (strong, nonatomic) A0Strategy *strategy;
 @property (strong, nonatomic) NSURL *authorizeURL;
-@property (strong, nonatomic) NSURL *redirectURL;
+@property (strong, nonatomic) A0WebAuthentication *authentication;
 @property (copy, nonatomic) void(^successBlock)(A0UserProfile *, A0Token *);
 @property (copy, nonatomic) void(^failureBlock)(NSError *);
 
 @end
 
-@implementation A0WebAuthentication
+@implementation A0WebAuthenticator
 
 - (id)init {
     self = [super init];
@@ -57,15 +56,15 @@
                    offlineAccess:(BOOL)offlineAccess {
     self = [self init];
     if (self) {
+        _authentication = [[A0WebAuthentication alloc] initWithApplication:application strategy:strategy];
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
         NSString *connectionName = strategy.connection[@"name"];
-        NSString *redirectURI = [NSString stringWithFormat:kCallbackURLString, application.identifier, connectionName].lowercaseString;
         NSDictionary *parameters = @{
                                      @"scope": scope,
                                      @"response_type": @"token",
                                      @"connection": connectionName,
                                      @"client_id": application.identifier,
-                                     @"redirect_uri": redirectURI,
+                                     @"redirect_uri": _authentication.callbackURL.absoluteString,
                                      };
         if (offlineAccess) {
             NSMutableDictionary *dict = [parameters mutableCopy];
@@ -75,7 +74,6 @@
         components.query = parameters.queryString;
         _strategy = strategy;
         _authorizeURL = components.URL;
-        _redirectURL = [NSURL URLWithString:redirectURI];
     }
     return self;
 }
@@ -95,7 +93,7 @@
                                   ofApplication:(A0Application *)application {
     A0APIClient *client = [A0APIClient sharedClient];
     BOOL offlineAccess = [[client defaultScopes] containsObject:A0APIClientScopeOfflineAccess];
-    return [[A0WebAuthentication alloc] initWithStrategy:strategy
+    return [[A0WebAuthenticator alloc] initWithStrategy:strategy
                                              application:application
                                                    scope:client.defaultScopeValue
                                            offlineAccess:offlineAccess];
@@ -111,35 +109,20 @@
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     Auth0LogVerbose(@"Received url %@ from source application %@", url, sourceApplication);
-    BOOL handled = [url.scheme isEqualToString:self.redirectURL.scheme] && [url.host isEqualToString:self.redirectURL.host];
+    BOOL handled = [self.authentication validateURL:url];
     if (handled) {
-        NSString *queryString = url.query ?: url.fragment;
-        NSDictionary *params = [NSDictionary fromQueryString:queryString];
-        Auth0LogDebug(@"Received params %@ from URL %@", params, url);
-        NSString *errorMessage = params[@"error"];
-        if (errorMessage) {
-            NSError *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorizedForStrategy:self.strategy.name] : [A0Errors auth0InvalidConfigurationForStrategy:self.strategy.name];
+        NSError *error;
+        A0Token *token = [self.authentication tokenFromURL:url error:&error];
+        if (token) {
+            void(^success)(A0UserProfile *, A0Token *) = self.successBlock;
+            [[A0APIClient sharedClient] fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
+                if (success) {
+                    success(profile, token);
+                }
+            } failure:self.failureBlock];
+        } else {
             if (self.failureBlock) {
                 self.failureBlock(error);
-            }
-        } else {
-            NSString *accessToken = params[@"access_token"];
-            NSString *idToken = params[@"id_token"];
-            NSString *tokenType = params[@"token_type"];
-            NSString *refreshToken = params[@"refresh_token"];
-            if (idToken) {
-                A0Token *token = [[A0Token alloc] initWithAccessToken:accessToken idToken:idToken tokenType:tokenType refreshToken:refreshToken];
-                void(^success)(A0UserProfile *, A0Token *) = self.successBlock;
-                [[A0APIClient sharedClient] fetchUserProfileWithIdToken:idToken success:^(A0UserProfile *profile) {
-                    if (success) {
-                        success(profile, token);
-                    }
-                } failure:self.failureBlock];
-            } else {
-                Auth0LogError(@"Failed to obtain id_token from URL %@", url);
-                if (self.failureBlock) {
-                    self.failureBlock([A0Errors auth0NotAuthorizedForStrategy:self.strategy.name]);
-                }
             }
         }
         [self clearBlocks];
@@ -155,7 +138,7 @@
         Auth0LogDebug(@"Opening web authentication wit URL %@", self.authorizeURL);
         [[UIApplication sharedApplication] openURL:self.authorizeURL];
     } else {
-        Auth0LogError(@"Scheme %@ not configured in CFBundleURLTypes", self.redirectURL.scheme);
+        Auth0LogError(@"Scheme %@ not configured in CFBundleURLTypes", self.authentication.callbackURL.scheme);
         failure([A0Errors urlSchemeNotRegistered]);
     }
 }
@@ -169,7 +152,7 @@
     [urlTypes enumerateObjectsUsingBlock:^(NSDictionary *urlType, NSUInteger idx, BOOL *stop) {
         NSArray *schemes = urlType[@"CFBundleURLSchemes"];
         for (NSString *scheme in schemes) {
-            hasScheme = [scheme.lowercaseString isEqualToString:self.redirectURL.scheme];
+            hasScheme = [scheme.lowercaseString isEqualToString:self.authentication.callbackURL.scheme];
             *stop = hasScheme;
         }
     }];

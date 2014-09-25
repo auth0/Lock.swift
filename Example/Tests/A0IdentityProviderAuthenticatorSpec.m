@@ -25,7 +25,7 @@
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "A0Errors.h"
-#import "A0WebAuthentication.h"
+#import "A0WebAuthenticator.h"
 
 #define HC_SHORTHAND
 #import <OCHamcrest/OCHamcrest.h>

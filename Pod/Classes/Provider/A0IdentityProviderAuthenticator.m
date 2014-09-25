@@ -24,7 +24,7 @@
 #import "A0Strategy.h"
 #import "A0Application.h"
 #import "A0Errors.h"
-#import "A0WebAuthentication.h"
+#import "A0WebAuthenticator.h"
 
 @interface A0IdentityProviderAuthenticator ()
 
@@ -71,7 +71,7 @@
         if (self.registeredAuthenticators[strategy.name]) {
             self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
         } else if (self.useWebAsDefault) {
-            self.authenticators[strategy.name] = [A0WebAuthentication newWebAuthenticationForStrategy:strategy ofApplication:application];
+            self.authenticators[strategy.name] = [A0WebAuthenticator newWebAuthenticationForStrategy:strategy ofApplication:application];
         }
     }];
 }

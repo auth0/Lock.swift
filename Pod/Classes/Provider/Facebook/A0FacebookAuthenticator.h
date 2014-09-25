@@ -1,4 +1,4 @@
-// A0FacebookAuthentication.h
+// A0FacebookAuthenticator.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -26,7 +26,7 @@
 /**
  *  `A0FacebookAuthentication` performs Facebook authentication of a user using Facebook iOS SDK.
  */
-@interface A0FacebookAuthentication : NSObject<A0AuthenticationProvider>
+@interface A0FacebookAuthenticator : NSObject<A0AuthenticationProvider>
 
 /**
  *  Creates a new instance
@@ -35,13 +35,13 @@
  *
  *  @return a new instance
  */
-+ (A0FacebookAuthentication *)newAuthenticationWithPermissions:(NSArray *)permissions;
++ (A0FacebookAuthenticator *)newAuthenticatorWithPermissions:(NSArray *)permissions;
 
 /**
  *  Creates a new instance with the default permissions ("public_profile").
  *
  *  @return a new instance
  */
-+ (A0FacebookAuthentication *)newAuthenticationWithDefaultPermissions;
++ (A0FacebookAuthenticator *)newAuthenticatorWithDefaultPermissions;
 
 @end

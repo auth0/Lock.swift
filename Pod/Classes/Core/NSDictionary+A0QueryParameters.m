@@ -35,6 +35,9 @@
 @implementation NSDictionary (A0QueryParameters)
 
 + (NSDictionary *)fromQueryString:(NSString *)queryString {
+    if (queryString.length == 0) {
+        return @{};
+    }
     NSMutableDictionary *dict = [@{} mutableCopy];
     NSArray *parts = [queryString componentsSeparatedByString:@"&"];
     [parts enumerateObjectsUsingBlock:^(NSString *part, NSUInteger idx, BOOL *stop) {

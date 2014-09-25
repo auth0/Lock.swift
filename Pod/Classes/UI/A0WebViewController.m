@@ -1,29 +1,42 @@
-//
 //  A0WebViewController.m
-//  Pods
 //
-//  Created by Hernan Zalazar on 9/24/14.
+// Copyright (c) 2014 Auth0 (http://auth0.com)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #import "A0WebViewController.h"
 #import "A0Errors.h"
 #import "A0Application.h"
 #import "A0Strategy.h"
-#import "NSDictionary+A0QueryParameters.h"
 #import "A0APIClient.h"
 #import "A0Token.h"
+#import "A0WebAuthentication.h"
+#import "NSDictionary+A0QueryParameters.h"
 
 #import <libextobjc/EXTScope.h>
-
-#define kCallbackURLString @"a0%@://%@.auth.com/authorize"
 
 @interface A0WebViewController () <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
-@property (strong, nonatomic) A0Strategy *strategy;
 @property (strong, nonatomic) NSURL *authorizeURL;
-@property (strong, nonatomic) NSURL *redirectURL;
+@property (strong, nonatomic) A0WebAuthentication *authentication;
+@property (strong, nonatomic) NSString *strategyName;
 
 - (IBAction)cancel:(id)sender;
 
@@ -34,15 +47,15 @@
 - (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy {
     self = [super init];
     if (self) {
+        _authentication = [[A0WebAuthentication alloc] initWithApplication:application strategy:strategy];
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
         NSString *connectionName = strategy.connection[@"name"];
-        NSString *redirectURI = [NSString stringWithFormat:kCallbackURLString, application.identifier, connectionName].lowercaseString;
         NSDictionary *parameters = @{
                                      @"scope": [[A0APIClient sharedClient] defaultScopeValue],
                                      @"response_type": @"token",
                                      @"connection": connectionName,
                                      @"client_id": application.identifier,
-                                     @"redirect_uri": redirectURI,
+                                     @"redirect_uri": _authentication.callbackURL.absoluteString,
                                      };
         if ([[[A0APIClient sharedClient] defaultScopes] containsObject:A0APIClientScopeOfflineAccess]) {
             NSMutableDictionary *dict = [parameters mutableCopy];
@@ -50,9 +63,8 @@
             parameters = dict;
         }
         components.query = parameters.queryString;
-        _strategy = strategy;
         _authorizeURL = components.URL;
-        _redirectURL = [NSURL URLWithString:redirectURI];
+        _strategyName = strategy.name;
     }
     return self;
 }
@@ -66,7 +78,7 @@
 - (void)cancel:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     if (self.onFailure) {
-        self.onFailure([A0Errors auth0CancelledForStrategy:self.strategy.name]);
+        self.onFailure([A0Errors auth0CancelledForStrategy:self.strategyName]);
     }
     self.onFailure = nil;
     self.onAuthentication = nil;
@@ -74,51 +86,32 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     Auth0LogVerbose(@"About to load URL %@", request);
-    BOOL shouldStart = YES;
-    if ([request.URL.scheme isEqualToString:self.redirectURL.scheme] && [request.URL.host isEqualToString:self.redirectURL.host]) {
-        shouldStart = NO;
-        NSURL *url = request.URL;
-        NSString *queryString = url.query ?: url.fragment;
-        NSDictionary *params = [NSDictionary fromQueryString:queryString];
-        Auth0LogDebug(@"Received params %@ from URL %@", params, url);
-        NSString *errorMessage = params[@"error"];
-        if (errorMessage) {
-            NSError *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorizedForStrategy:self.strategy.name] : [A0Errors auth0InvalidConfigurationForStrategy:self.strategy.name];
+    BOOL isCallback = [self.authentication validateURL:request.URL];
+    if (isCallback) {
+        NSError *error;
+        A0Token *token = [self.authentication tokenFromURL:request.URL error:&error];
+        if (token) {
+            void(^success)(A0UserProfile *, A0Token *) = self.onAuthentication;
+            @weakify(self);
+            [[A0APIClient sharedClient] fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
+                @strongify(self);
+                self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                if (success) {
+                    success(profile, token);
+                }
+            } failure:self.onFailure];
+            [self.activityView startAnimating];
+            self.activityView.hidden = NO;
+        } else {
             if (self.onFailure) {
                 self.onFailure(error);
             }
-        } else {
-            NSString *accessToken = params[@"access_token"];
-            NSString *idToken = params[@"id_token"];
-            NSString *tokenType = params[@"token_type"];
-            NSString *refreshToken = params[@"refresh_token"];
-            if (idToken) {
-                A0Token *token = [[A0Token alloc] initWithAccessToken:accessToken idToken:idToken tokenType:tokenType refreshToken:refreshToken];
-                void(^success)(A0UserProfile *, A0Token *) = self.onAuthentication;
-                @weakify(self);
-                [[A0APIClient sharedClient] fetchUserProfileWithIdToken:idToken success:^(A0UserProfile *profile) {
-                    @strongify(self);
-                    self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-                    if (success) {
-                        success(profile, token);
-                    }
-                } failure:self.onFailure];
-            } else {
-                Auth0LogError(@"Failed to obtain id_token from URL %@", url);
-                if (self.onFailure) {
-                    self.onFailure([A0Errors auth0NotAuthorizedForStrategy:self.strategy.name]);
-                }
-            }
+            [self.activityView stopAnimating];
         }
         self.onAuthentication = nil;
         self.onFailure = nil;
-        [self.activityView stopAnimating];
     }
-    if (shouldStart) {
-        [self.activityView startAnimating];
-        self.activityView.hidden = NO;
-    }
-    return shouldStart;
+    return !isCallback;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {

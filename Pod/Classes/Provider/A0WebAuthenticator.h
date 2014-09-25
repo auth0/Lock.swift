@@ -1,4 +1,4 @@
-//  A0WebAuthentication.h
+//  A0WebAuthenticator.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -25,7 +25,7 @@
 
 @class A0Strategy, A0Application;
 
-@interface A0WebAuthentication : NSObject
+@interface A0WebAuthenticator : NSObject<A0AuthenticationProvider>
 
 + (instancetype)newWebAuthenticationForStrategy:(A0Strategy *)strategy
                                   ofApplication:(A0Application *)application;
