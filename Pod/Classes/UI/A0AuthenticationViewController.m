@@ -37,6 +37,7 @@
 #import "A0SocialLoginViewController.h"
 #import "A0Theme.h"
 #import "A0Strategy.h"
+#import "A0KeyboardEnabledView.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>

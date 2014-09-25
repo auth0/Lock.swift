@@ -21,7 +21,6 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "A0KeyboardEnabledView.h"
 
 @class A0AuthenticationViewController, A0UserProfile, A0Token;
 
