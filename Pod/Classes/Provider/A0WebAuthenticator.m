@@ -29,6 +29,7 @@
 #import "A0APIClient.h"
 #import "A0Errors.h"
 #import "A0WebAuthentication.h"
+#import "A0AuthParameters.h"
 
 @interface A0WebAuthenticator ()
 
@@ -92,7 +93,7 @@
 + (instancetype)newWebAuthenticationForStrategy:(A0Strategy *)strategy
                                   ofApplication:(A0Application *)application {
     A0APIClient *client = [A0APIClient sharedClient];
-    BOOL offlineAccess = [[client defaultScopes] containsObject:A0APIClientScopeOfflineAccess];
+    BOOL offlineAccess = [[client defaultScopes] containsObject:A0ScopeOfflineAccess];
     return [[A0WebAuthenticator alloc] initWithStrategy:strategy
                                              application:application
                                                    scope:client.defaultScopeValue

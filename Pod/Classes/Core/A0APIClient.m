@@ -29,6 +29,7 @@
 #import "A0UserProfile.h"
 #import "A0Token.h"
 #import "A0IdentityProviderAuthenticator.h"
+#import "A0AuthParameters.h"
 
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
@@ -65,12 +66,6 @@
 #define kDeviceNameParamName @"device"
 #define kRefreshTokenParamName @"refresh_token"
 
-NSString * const A0APIClientDelegationAPIType = @"api_type";
-NSString * const A0APIClientDelegationTarget = @"target";
-NSString * const A0APIClientScopeOpenId = @"openid";
-NSString * const A0APIClientScopeOfflineAccess = @"offline_access";
-NSString * const A0APIClientScopeProfile = @"profile";
-
 typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 @interface A0APIClient ()
@@ -91,7 +86,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
         _clientId = [clientId copy];
         _tenant = [tenant copy];
-        _defaultScopes = @[A0APIClientScopeOpenId, A0APIClientScopeOfflineAccess];
+        _defaultScopes = @[A0ScopeOpenId, A0ScopeOfflineAccess];
         NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, tenant];
         NSURL *baseURL = [NSURL URLWithString:URLString];
         Auth0LogInfo(@"Base URL of API Endpoint is %@", baseURL);
@@ -375,8 +370,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     if (self.defaultScopes) {
         [scopes addObjectsFromArray:self.defaultScopes];
     }
-    if (![scopes containsObject:A0APIClientScopeOpenId]) {
-        [scopes addObject:A0APIClientScopeOpenId];
+    if (![scopes containsObject:A0ScopeOpenId]) {
+        [scopes addObject:A0ScopeOpenId];
     }
     return [scopes componentsJoinedByString:@" "];
 }

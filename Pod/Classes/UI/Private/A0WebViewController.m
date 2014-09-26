@@ -28,6 +28,7 @@
 #import "A0Token.h"
 #import "A0WebAuthentication.h"
 #import "NSDictionary+A0QueryParameters.h"
+#import "A0AuthParameters.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -57,7 +58,7 @@
                                      @"client_id": application.identifier,
                                      @"redirect_uri": _authentication.callbackURL.absoluteString,
                                      };
-        if ([[[A0APIClient sharedClient] defaultScopes] containsObject:A0APIClientScopeOfflineAccess]) {
+        if ([[[A0APIClient sharedClient] defaultScopes] containsObject:A0ScopeOfflineAccess]) {
             NSMutableDictionary *dict = [parameters mutableCopy];
             dict[@"device"] = [[UIDevice currentDevice] name];
             parameters = dict;

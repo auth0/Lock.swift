@@ -22,36 +22,6 @@
 
 #import <Foundation/Foundation.h>
 
-///----------------------------------------
-/// @name Delegation API option Keys
-///----------------------------------------
-
-/**
- 'api_type' delegation API parameter
- */
-FOUNDATION_EXTERN NSString * const A0APIClientDelegationAPIType;
-/**
- 'target' delegation API parameter
- */
-FOUNDATION_EXTERN NSString * const A0APIClientDelegationTarget;
-
-///----------------------------------------
-/// @name Auth0 API Scopes
-///----------------------------------------
-
-/**
- 'openid' scope
- */
-FOUNDATION_EXPORT NSString * const A0APIClientScopeOpenId;
-/**
- 'offilen_access' scope
- */
-FOUNDATION_EXPORT NSString * const A0APIClientScopeOfflineAccess;
-/**
- 'profile' scope
- */
-FOUNDATION_EXPORT NSString * const A0APIClientScopeProfile;
-
 @class A0Application, A0Strategy, A0IdentityProviderCredentials, A0UserProfile, A0Token;
 
 typedef void(^A0APIClientFetchAppInfoSuccess)(A0Application* application);
