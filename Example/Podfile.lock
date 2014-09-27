@@ -114,7 +114,9 @@ PODS:
 
 DEPENDENCIES:
   - Auth0.iOS (from `../`)
+  - BDBOAuth1Manager
   - Expecta
+  - libextobjc
   - OCMockito
   - Specta (~> 0.2.1)
 
@@ -143,4 +145,4 @@ SPEC CHECKSUMS:
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
   UICKeyChainStore: 4f9719600cc70025064e26f28f1210bcfc3b0c35
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.34.1

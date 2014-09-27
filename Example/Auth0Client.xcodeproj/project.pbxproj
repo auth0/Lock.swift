@@ -48,7 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		53AF3CC00256439C9D74C03F /* Pods-Tests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.xcconfig"; path = "Pods/Pods-Tests.xcconfig"; sourceTree = "<group>"; };
+		4B3E2AA40772AD103B90D301 /* Pods-Auth0Client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Client.release.xcconfig"; path = "Pods/Target Support Files/Pods-Auth0Client/Pods-Auth0Client.release.xcconfig"; sourceTree = "<group>"; };
 		5BF31EC09B324BBC8AA2239A /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F017F0119B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FacebookAuthenticatorSpec.m; sourceTree = "<group>"; };
 		5F017F0319B102D70003F8E4 /* A0JSONResponseSerializerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0JSONResponseSerializerSpec.m; sourceTree = "<group>"; };
@@ -84,10 +84,12 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		77F27E12879146B986D43383 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		A2A3DDCE99B0D5CAF6748B62 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		B57D66D23F1E191D2C2DFDED /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BD9DE0F8BCE04F059EE4B037 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		CA013CB7EB274077A70C87DC /* Pods-Auth0Client.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Client.xcconfig"; path = "Pods/Pods-Auth0Client.xcconfig"; sourceTree = "<group>"; };
 		D2DE0EF3C4E54828BE63976E /* Auth0.iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Auth0.iOS.podspec; path = ../Auth0.iOS.podspec; sourceTree = "<group>"; };
 		D8BB77CC67D644FB8F85C8EE /* libPods-Auth0Client.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Auth0Client.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD4274928003C0C86F4BA6DB /* Pods-Auth0Client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Client.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Auth0Client/Pods-Auth0Client.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2EA23D0E26852E4577F12318 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DD4274928003C0C86F4BA6DB /* Pods-Auth0Client.debug.xcconfig */,
+				4B3E2AA40772AD103B90D301 /* Pods-Auth0Client.release.xcconfig */,
+				A2A3DDCE99B0D5CAF6748B62 /* Pods-Tests.debug.xcconfig */,
+				B57D66D23F1E191D2C2DFDED /* Pods-Tests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -124,8 +137,7 @@
 				6003F5B5195388D20070C39A /* Tests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
-				CA013CB7EB274077A70C87DC /* Pods-Auth0Client.xcconfig */,
-				53AF3CC00256439C9D74C03F /* Pods-Tests.xcconfig */,
+				2EA23D0E26852E4577F12318 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -347,7 +359,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-Tests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests/Pods-Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		609C3EA6B5ED4A1C901D6815 /* Copy Pods Resources */ = {
@@ -362,7 +374,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-Auth0Client-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Auth0Client/Pods-Auth0Client-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		60EDC0B2DC5D4DAF8746CC07 /* Check Pods Manifest.lock */ = {
@@ -532,7 +544,7 @@
 		};
 		6003F5C0195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA013CB7EB274077A70C87DC /* Pods-Auth0Client.xcconfig */;
+			baseConfigurationReference = DD4274928003C0C86F4BA6DB /* Pods-Auth0Client.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -549,7 +561,7 @@
 		};
 		6003F5C1195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA013CB7EB274077A70C87DC /* Pods-Auth0Client.xcconfig */;
+			baseConfigurationReference = 4B3E2AA40772AD103B90D301 /* Pods-Auth0Client.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -566,7 +578,7 @@
 		};
 		6003F5C3195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53AF3CC00256439C9D74C03F /* Pods-Tests.xcconfig */;
+			baseConfigurationReference = A2A3DDCE99B0D5CAF6748B62 /* Pods-Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Auth0Client.app/Auth0Client";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -589,7 +601,7 @@
 		};
 		6003F5C4195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53AF3CC00256439C9D74C03F /* Pods-Tests.xcconfig */;
+			baseConfigurationReference = B57D66D23F1E191D2C2DFDED /* Pods-Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Auth0Client.app/Auth0Client";
 				FRAMEWORK_SEARCH_PATHS = (
