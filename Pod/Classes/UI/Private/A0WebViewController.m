@@ -45,19 +45,20 @@
 
 @implementation A0WebViewController
 
-- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy {
+- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy parameters:(A0AuthParameters *)parameters {
     self = [super init];
     if (self) {
         _authentication = [[A0WebAuthentication alloc] initWithApplication:application strategy:strategy];
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
         NSString *connectionName = strategy.connection[@"name"];
-        A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{
-                                                                             @"response_type": @"token",
-                                                                             @"connection": connectionName,
-                                                                             @"client_id": application.identifier,
-                                                                             @"redirect_uri": _authentication.callbackURL.absoluteString,
-                                                                             }];
-        components.query = parameters.dictionary.queryString;
+        A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
+                                                                                    @"response_type": @"token",
+                                                                                    @"connection": connectionName,
+                                                                                    @"client_id": application.identifier,
+                                                                                    @"redirect_uri": _authentication.callbackURL.absoluteString,
+                                                                                    }];
+        [defaultParameters addValuesFromParameters:parameters];
+        components.query = defaultParameters.dictionary.queryString;
         _authorizeURL = components.URL;
         _strategyName = strategy.name;
     }

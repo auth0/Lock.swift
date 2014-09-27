@@ -30,6 +30,7 @@
 #import "A0Errors.h"
 #import "A0Theme.h"
 #import "A0ServicesTheme.h"
+#import "A0WebViewController.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -100,10 +101,21 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         }
     };
     [self setInProgress:YES];
+
     A0Strategy *strategy = self.application.availableSocialOrEnterpriseStrategies[sender.tag];
-    [[A0IdentityProviderAuthenticator sharedInstance] authenticateForStrategy:strategy
-                                                                  withSuccess:successBlock
-                                                                      failure:failureBlock];
+    A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
+    if ([authenticator canAuthenticateStrategy:strategy]) {
+        Auth0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
+        [authenticator authenticateForStrategy:strategy parameters:self.parameters success:successBlock failure:failureBlock];
+    } else {
+        Auth0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
+        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.application strategy:strategy parameters:self.parameters];
+        controller.modalPresentationStyle = UIModalPresentationCurrentContext;
+        controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        controller.onAuthentication = successBlock;
+        controller.onFailure = failureBlock;
+        [self presentViewController:controller animated:YES completion:nil];
+    }
 }
 
 #pragma mark - UICollectionViewDelegate

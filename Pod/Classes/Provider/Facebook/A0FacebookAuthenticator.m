@@ -81,12 +81,12 @@
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
 }
 
-- (void)authenticateWithSuccess:(void(^)(A0UserProfile *, A0Token *))success failure:(void(^)(NSError *))failure {
+-(void)authenticateWithParameters:(A0AuthParameters *)parameters success:(void (^)(A0UserProfile *, A0Token *))success failure:(void (^)(NSError *))failure {
     Auth0LogVerbose(@"Starting Facebook authentication...");
     FBSession *active = [FBSession activeSession];
     if (active.state == FBSessionStateOpen || active.state == FBSessionStateOpenTokenExtended) {
         Auth0LogDebug(@"Found FB Active Session");
-        [self executeAuthenticationWithCredentials:[[A0IdentityProviderCredentials alloc] initWithAccessToken:active.accessTokenData.accessToken] success:success failure:failure];
+        [self executeAuthenticationWithCredentials:[[A0IdentityProviderCredentials alloc] initWithAccessToken:active.accessTokenData.accessToken] parameters:parameters success:success failure:failure];
     } else {
         @weakify(self);
         [FBSession openActiveSessionWithReadPermissions:self.permissions allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
@@ -101,7 +101,7 @@
                     case FBSessionStateOpen: {
                         Auth0LogDebug(@"Successfully opened FB Session");
                         @strongify(self);
-                        [self executeAuthenticationWithCredentials:[[A0IdentityProviderCredentials alloc] initWithAccessToken:session.accessTokenData.accessToken] success:success failure:failure];
+                        [self executeAuthenticationWithCredentials:[[A0IdentityProviderCredentials alloc] initWithAccessToken:session.accessTokenData.accessToken] parameters:parameters success:success failure:failure];
                         break;
                     }
                     case FBSessionStateClosedLoginFailed:
@@ -120,6 +120,7 @@
 #pragma mark - Utility methods
 
 - (void)executeAuthenticationWithCredentials:(A0IdentityProviderCredentials *)credentials
+                                  parameters:(A0AuthParameters *)parameters
                                      success:(void(^)(A0UserProfile *, A0Token *))success
                                      failure:(void(^)(NSError *))failure {
     A0APIClient *client = [A0APIClient sharedClient];
@@ -133,7 +134,7 @@
     }];
     [client authenticateWithStrategy:facebook
                          credentials:credentials
-                          parameters:nil
+                          parameters:parameters
                              success:success
                              failure:failure];
 }

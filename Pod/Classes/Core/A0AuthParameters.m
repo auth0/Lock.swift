@@ -159,4 +159,12 @@ NSString *ScopeValueFromNSArray(NSArray *scopes) {
     return [NSString stringWithFormat:@"<%@ values: %@>", NSStringFromClass(self.class), self.params];
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    A0AuthParameters *parameters = [[A0AuthParameters alloc] init];
+    parameters.params = self.params;
+    return parameters;
+}
+
 @end

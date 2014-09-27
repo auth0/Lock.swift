@@ -69,7 +69,7 @@ FOUNDATION_EXTERN NSString * const A0DelegationTarget;
 /**
  *  `A0AuthParameters` handles optional parameters for all Auth0 API calls and it's default values. It can be used with `A0APIClient` methods or as global parameters when using `A0AuthenticationViewController` to handle the authentication UI for you.
  */
-@interface A0AuthParameters : NSObject
+@interface A0AuthParameters : NSObject<NSCopying>
 
 /**
  *  Scope values to send to the API, it can't be nil so if nil it's stored it will reset to default values.

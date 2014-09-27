@@ -164,11 +164,11 @@ describe(@"A0SocialAuthenticator", ^{
 
             void(^failureBlock)(NSError *) = ^(NSError *error) {};
             beforeEach(^{
-                [authenticator authenticateForStrategy:strategy withSuccess:successBlock failure:failureBlock];
+                [authenticator authenticateForStrategy:strategy parameters:nil success:successBlock failure:failureBlock];
             });
 
             it(@"should call the correct provider", ^{
-                [MKTVerify(provider) authenticateWithSuccess:successBlock failure:failureBlock];
+                [MKTVerify(provider) authenticateWithParameters:nil success:successBlock failure:failureBlock];
             });
 
             it(@"should tell it can authenticate", ^{
@@ -186,11 +186,11 @@ describe(@"A0SocialAuthenticator", ^{
             beforeEach(^{
                 unknown = mock(A0Strategy.class);
                 failureError = nil;
-                [authenticator authenticateForStrategy:unknown withSuccess:successBlock failure:failureBlock];
+                [authenticator authenticateForStrategy:unknown parameters:nil success:successBlock failure:failureBlock];
             });
 
             it(@"should not call any provider", ^{
-                [verifyCount(provider, never()) authenticateWithSuccess:successBlock failure:failureBlock];
+                [verifyCount(provider, never()) authenticateWithParameters:nil success:successBlock failure:failureBlock];
             });
 
             it(@"should call failure block", ^{

@@ -109,10 +109,10 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         Auth0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
-        [authenticator authenticateForStrategy:strategy withSuccess:successBlock failure:failureBlock];
+        [authenticator authenticateForStrategy:strategy parameters:self.parameters success:successBlock failure:failureBlock];
     } else {
         Auth0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
-        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.application strategy:strategy];
+        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.application strategy:strategy parameters:self.parameters];
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         controller.onAuthentication = successBlock;

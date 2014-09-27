@@ -22,13 +22,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class A0Token, A0UserProfile, A0Application, A0Strategy;
+@class A0Token, A0UserProfile, A0Application, A0Strategy, A0AuthParameters;
 
 @interface A0WebViewController : UIViewController
 
 @property (copy, nonatomic) void(^onAuthentication)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onFailure)(NSError *error);
 
-- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy;
+- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy parameters:(A0AuthParameters *)parameters;
 
 @end

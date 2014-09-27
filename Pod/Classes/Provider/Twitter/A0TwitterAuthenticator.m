@@ -36,6 +36,7 @@
 
 @interface A0TwitterAuthenticator ()
 
+@property (strong, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) BDBOAuth1RequestOperationManager *manager;
 @property (strong, nonatomic) NSURL *callbackURL;
 @property (strong, nonatomic) ACAccountStore *accountStore;
@@ -114,12 +115,12 @@
     return handled;
 }
 
-- (void)authenticateWithSuccess:(void(^)(A0UserProfile *, A0Token *))success failure:(void(^)(NSError *))failure {
+- (void)authenticateWithParameters:(A0AuthParameters *)parameters success:(void (^)(A0UserProfile *, A0Token *))success failure:(void (^)(NSError *))failure {
     self.successBlock = success;
     self.failureBlock = failure;
     self.accountStore = [[ACAccountStore alloc] init];
     self.accountType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-
+    self.parameters = parameters;
     Auth0LogVerbose(@"Starting Twitter authentication...");
     @weakify(self);
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
@@ -226,7 +227,7 @@
                                             };
                 A0IdentityProviderCredentials *credentials = [[A0IdentityProviderCredentials alloc] initWithAccessToken:response[@"oauth_token"] extraInfo:extraInfo];
                 Auth0LogDebug(@"Successful Twitter auth with credentials %@", credentials);
-                [self executeSuccessWithCredentials:credentials];
+                [self executeSuccessWithCredentials:credentials parameters:self.parameters];
             } else {
                 [self executeFailureWithError:payloadError];
             }
@@ -274,7 +275,7 @@
 
 #pragma mark - Block handling
 
-- (void)executeSuccessWithCredentials:(A0IdentityProviderCredentials *)credentials {
+- (void)executeSuccessWithCredentials:(A0IdentityProviderCredentials *)credentials parameters:(A0AuthParameters *)parameters {
     A0APIClient *client = [A0APIClient sharedClient];
     A0Application *application = client.application;
     __block A0Strategy *twitter;
@@ -286,7 +287,7 @@
     }];
     [client authenticateWithStrategy:twitter
                          credentials:credentials
-                          parameters:nil
+                          parameters:parameters
                              success:self.successBlock
                              failure:self.failureBlock];
     self.successBlock = nil;
