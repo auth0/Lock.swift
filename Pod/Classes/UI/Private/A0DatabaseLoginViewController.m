@@ -105,7 +105,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
             [self.accessButton setInProgress:NO];
             showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForLoginError:error]);
         };
-        [[A0APIClient sharedClient] loginWithUsername:username password:password parameters:nil success:success failure:failure];
+        [[A0APIClient sharedClient] loginWithUsername:username password:password parameters:self.parameters success:success failure:failure];
     } else {
         [self.accessButton setInProgress:NO];
         showAlertErrorView(error.localizedDescription, error.localizedFailureReason);

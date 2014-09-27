@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class A0AuthenticationViewController, A0UserProfile, A0Token;
+@class A0AuthenticationViewController, A0UserProfile, A0Token, A0AuthParameters;
 
 typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
@@ -66,5 +66,11 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  *  When authenticating with a social connection, it will use an embedded webView instead of Safari. Default is NO.
  */
 @property (assign, nonatomic) BOOL useWebView;
+
+/**
+ *  Parameters to be sent to all Authentication request to Auth0 API.
+ *  @see A0AuthParameters
+ */
+@property (strong, nonatomic) A0AuthParameters *authenticationParameters;
 
 @end

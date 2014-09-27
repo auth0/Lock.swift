@@ -23,19 +23,14 @@
 #import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
-@class A0ChangePasswordCredentialValidator, A0ProgressButton, A0CredentialFieldView;
+@class A0ChangePasswordCredentialValidator, A0ProgressButton, A0CredentialFieldView, A0AuthParameters;
 
 @interface A0ChangePasswordViewController : UIViewController<A0KeyboardEnabledView>
 
 @property (copy, nonatomic) void(^onChangePasswordBlock)();
 @property (copy, nonatomic) void(^onCancelBlock)();
 
+@property (strong, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;
-
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *repeatPasswordField;
-@property (weak, nonatomic) IBOutlet A0ProgressButton *recoverButton;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 @end

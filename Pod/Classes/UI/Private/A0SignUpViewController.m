@@ -104,7 +104,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         [[A0APIClient sharedClient] signUpWithUsername:username
                                               password:password
                                         loginOnSuccess:self.shouldLoginUser
-                                            parameters:nil
+                                            parameters:self.parameters
                                                success:success failure:failure];
     } else {
         [self.signUpButton setInProgress:NO];
