@@ -51,19 +51,13 @@
         _authentication = [[A0WebAuthentication alloc] initWithApplication:application strategy:strategy];
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
         NSString *connectionName = strategy.connection[@"name"];
-        NSDictionary *parameters = @{
-                                     @"scope": [[A0APIClient sharedClient] defaultScopeValue],
-                                     @"response_type": @"token",
-                                     @"connection": connectionName,
-                                     @"client_id": application.identifier,
-                                     @"redirect_uri": _authentication.callbackURL.absoluteString,
-                                     };
-        if ([[[A0APIClient sharedClient] defaultScopes] containsObject:A0ScopeOfflineAccess]) {
-            NSMutableDictionary *dict = [parameters mutableCopy];
-            dict[@"device"] = [[UIDevice currentDevice] name];
-            parameters = dict;
-        }
-        components.query = parameters.queryString;
+        A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{
+                                                                             @"response_type": @"token",
+                                                                             @"connection": connectionName,
+                                                                             @"client_id": application.identifier,
+                                                                             @"redirect_uri": _authentication.callbackURL.absoluteString,
+                                                                             }];
+        components.query = parameters.dictionary.queryString;
         _authorizeURL = components.URL;
         _strategyName = strategy.name;
     }

@@ -58,11 +58,6 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 @property (assign, nonatomic) BOOL loginAfterSignUp;
 
 /**
- List of scopes used when authenticating against Auth0 REST API. By default the values are: scope & offline_access but you can use `A0APIClientScopeOpenId`, `A0APIClientScopeOfflineAccess` constants instead.
-*/
-@property (assign, nonatomic) NSArray *defaultScopes;
-
-/**
  View that will appear in the bottom of Signup screen. It should be used to show Terms & Conditions of your app.
  */
 @property (strong, nonatomic) UIView *signUpDisclaimerView;

@@ -143,4 +143,18 @@ FOUNDATION_EXTERN NSString * const A0DelegationTarget;
  */
 - (NSDictionary *)dictionary;
 
+/**
+ *  Add the values from the dictionary to the parameters.
+ *
+ *  @param dictionary values to add as parameters.
+ */
+- (void)addValuesFromDictionary:(NSDictionary *)dictionary;
+
+/**
+ *  Add the values from another parameter object
+ *
+ *  @param parameters values to add as parameters.
+ */
+- (void)addValuesFromParameters:(A0AuthParameters *)parameters;
+
 @end

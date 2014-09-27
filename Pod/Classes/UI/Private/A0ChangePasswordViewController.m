@@ -101,7 +101,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
             [self.recoverButton setInProgress:NO];
             showAlertErrorView(A0LocalizedString(@"Couldn't change your password"), [A0Errors localizedStringForChangePasswordError:error]);
         };
-        [[A0APIClient sharedClient] changePassword:password forUsername:username success:success failure:failure];
+        [[A0APIClient sharedClient] changePassword:password forUsername:username parameters:nil success:success failure:failure];
 
     } else {
         [self.recoverButton setInProgress:NO];

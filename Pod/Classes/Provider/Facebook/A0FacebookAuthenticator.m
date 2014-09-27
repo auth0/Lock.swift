@@ -133,6 +133,7 @@
     }];
     [client authenticateWithStrategy:facebook
                          credentials:credentials
+                          parameters:nil
                              success:success
                              failure:failure];
 }

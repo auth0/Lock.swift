@@ -53,26 +53,20 @@
 
 - (instancetype)initWithStrategy:(A0Strategy *)strategy
                      application:(A0Application *)application
-                           scope:(NSString *)scope
-                   offlineAccess:(BOOL)offlineAccess {
+                      parameters:(A0AuthParameters *)parameters {
     self = [self init];
     if (self) {
         _authentication = [[A0WebAuthentication alloc] initWithApplication:application strategy:strategy];
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
         NSString *connectionName = strategy.connection[@"name"];
-        NSDictionary *parameters = @{
-                                     @"scope": scope,
-                                     @"response_type": @"token",
-                                     @"connection": connectionName,
-                                     @"client_id": application.identifier,
-                                     @"redirect_uri": _authentication.callbackURL.absoluteString,
-                                     };
-        if (offlineAccess) {
-            NSMutableDictionary *dict = [parameters mutableCopy];
-            dict[@"device"] = [[UIDevice currentDevice] name];
-            parameters = dict;
-        }
-        components.query = parameters.queryString;
+        A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
+                                                                                    @"response_type": @"token",
+                                                                                    @"connection": connectionName,
+                                                                                    @"client_id": application.identifier,
+                                                                                    @"redirect_uri": _authentication.callbackURL.absoluteString,
+                                                                                    }];
+        [defaultParameters addValuesFromParameters:parameters];
+        components.query = defaultParameters.dictionary.queryString;
         _strategy = strategy;
         _authorizeURL = components.URL;
     }
@@ -92,12 +86,9 @@
 
 + (instancetype)newWebAuthenticationForStrategy:(A0Strategy *)strategy
                                   ofApplication:(A0Application *)application {
-    A0APIClient *client = [A0APIClient sharedClient];
-    BOOL offlineAccess = [[client defaultScopes] containsObject:A0ScopeOfflineAccess];
     return [[A0WebAuthenticator alloc] initWithStrategy:strategy
                                              application:application
-                                                   scope:client.defaultScopeValue
-                                           offlineAccess:offlineAccess];
+                                             parameters:nil];
 }
 
 - (NSString *)identifier {

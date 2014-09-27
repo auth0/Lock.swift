@@ -104,4 +104,34 @@ NSString *ScopeValueFromNSArray(NSArray *scopes) {
     return [NSDictionary dictionaryWithDictionary:params];
 }
 
+- (void)addValuesFromDictionary:(NSDictionary *)dictionary {
+    NSArray *scopes = ScopeArrayFromNSString(dictionary[A0APIScope]);
+    if (scopes.count > 0) {
+        self.scopes = scopes;
+    }
+    if ([scopes containsObject:A0ScopeOfflineAccess]) {
+        NSString *deviceName = dictionary[A0APIDevice];
+        self.device = deviceName ?: [[UIDevice currentDevice] name];
+    }
+    NSMutableDictionary *params = [dictionary mutableCopy];
+    [params removeObjectsForKeys:@[A0APIScope, A0APIDevice]];
+    NSMutableDictionary *extraParams = self.extraParams.mutableCopy;
+    [extraParams addEntriesFromDictionary:params];
+    self.extraParams = [NSDictionary dictionaryWithDictionary:extraParams];
+
+}
+
+- (void)addValuesFromParameters:(A0AuthParameters *)parameters {
+    if (parameters.scopes) {
+        self.scopes = parameters.scopes;
+    }
+    if (parameters.device) {
+        self.device = parameters.device;
+    }
+    if (parameters.extraParams.count > 0) {
+        NSMutableDictionary *params = self.extraParams.mutableCopy;
+        [params addEntriesFromDictionary:parameters.extraParams];
+        self.extraParams = [NSDictionary dictionaryWithDictionary:params];
+    }
+}
 @end

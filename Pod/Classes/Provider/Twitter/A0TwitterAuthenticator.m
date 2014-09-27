@@ -286,6 +286,7 @@
     }];
     [client authenticateWithStrategy:twitter
                          credentials:credentials
+                          parameters:nil
                              success:self.successBlock
                              failure:self.failureBlock];
     self.successBlock = nil;

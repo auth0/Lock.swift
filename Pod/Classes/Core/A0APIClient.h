@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class A0Application, A0Strategy, A0IdentityProviderCredentials, A0UserProfile, A0Token;
+@class A0Application, A0Strategy, A0IdentityProviderCredentials, A0UserProfile, A0Token, A0AuthParameters;
 
 typedef void(^A0APIClientFetchAppInfoSuccess)(A0Application* application);
 typedef void(^A0APIClientAuthenticationSuccess)(A0UserProfile *profile, A0Token *tokenInfo);
@@ -34,16 +34,6 @@ typedef void(^A0APIClientError)(NSError *error);
  `A0APIClient` is a class with convenience methods for Auth0 REST API.
  */
 @interface A0APIClient : NSObject
-
-/**
- Default scopes used for all request made by this instance.
- */
-@property (strong, nonatomic) NSArray *defaultScopes;
-
-/**
- *  Default scopes as a NSString value.
- */
-@property (readonly, nonatomic) NSString *defaultScopeValue;
 
 ///----------------------------------------
 /// @name Initialization
@@ -99,6 +89,7 @@ typedef void(^A0APIClientError)(NSError *error);
  */
 - (void)loginWithUsername:(NSString *)username
                  password:(NSString *)password
+               parameters:(A0AuthParameters *)parameters
                   success:(A0APIClientAuthenticationSuccess)success
                   failure:(A0APIClientError)failure;
 
@@ -114,11 +105,13 @@ typedef void(^A0APIClientError)(NSError *error);
 - (void)signUpWithUsername:(NSString *)username
                   password:(NSString *)password
             loginOnSuccess:(BOOL)loginOnSuccess
+                parameters:(A0AuthParameters *)parameters
                    success:(A0APIClientAuthenticationSuccess)success
                    failure:(A0APIClientError)failure;
 
 - (void)changePassword:(NSString *)newPassword
            forUsername:(NSString *)username
+            parameters:(A0AuthParameters *)parameters
                success:(void(^)())success
                failure:(A0APIClientError)failure;
 
@@ -136,8 +129,9 @@ typedef void(^A0APIClientError)(NSError *error);
  */
 - (void)authenticateWithStrategy:(A0Strategy *)strategy
                      credentials:(A0IdentityProviderCredentials *)socialCredentials
-                               success:(A0APIClientAuthenticationSuccess)success
-                               failure:(A0APIClientError)failure;
+                      parameters:(A0AuthParameters *)parameters
+                         success:(A0APIClientAuthenticationSuccess)success
+                         failure:(A0APIClientError)failure;
 
 
 ///----------------------------------------
@@ -153,7 +147,7 @@ typedef void(^A0APIClientError)(NSError *error);
  *  @param failure      block called on failure with the reason as a parameter
  */
 - (void)delegationWithRefreshToken:(NSString *)refreshToken
-                           options:(NSDictionary *)options
+                        parameters:(A0AuthParameters *)parameters
                            success:(A0APIClientDelegationSuccess)success
                            failure:(A0APIClientError)failure;
 
@@ -166,9 +160,9 @@ typedef void(^A0APIClientError)(NSError *error);
  *  @param failure      block called on failure with the reason as a parameter
  */
 - (void)delegationWithIdToken:(NSString *)idToken
-                           options:(NSDictionary *)options
-                           success:(A0APIClientDelegationSuccess)success
-                           failure:(A0APIClientError)failure;
+                   parameters:(A0AuthParameters *)parameters
+                      success:(A0APIClientDelegationSuccess)success
+                      failure:(A0APIClientError)failure;
 
 ///----------------------------------------
 /// @name User Profile
