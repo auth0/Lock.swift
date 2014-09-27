@@ -83,7 +83,7 @@ describe(@"A0AuthParameters", ^{
         itShouldBehaveLike(@"valid parameter with scope", ^{
             return @{
                      @"params": [[A0AuthParameters alloc] initWithDictionary:@{
-                                                                               A0APIScope: @"openid offline_access profile",
+                                                                               A0APIScope: @[@"openid", @"offline_access", @"profile"],
                                                                                }],
                      @"scopes": @[A0ScopeOpenId, A0ScopeOfflineAccess, A0ScopeProfile],
                      };
@@ -92,7 +92,7 @@ describe(@"A0AuthParameters", ^{
         itShouldBehaveLike(@"offline access parameter", ^{
             return @{
                      @"params": [A0AuthParameters newWithDictionary:@{
-                                                                      A0APIScope: @"openid offline_access profile",
+                                                                      A0APIScope: @[@"openid", @"offline_access", @"profile"],
                                                                       }],
                      @"scopes": @[A0ScopeOpenId, A0ScopeOfflineAccess, A0ScopeProfile],
                      };
@@ -106,9 +106,27 @@ describe(@"A0AuthParameters", ^{
                                                                         }];
             });
 
-            it(@"should have extra values in extraParams", ^{
-                expect(params.extraParams).to.equal(@{@"key": @"value"});
+            it(@"should have extra values", ^{
+                expect([params valueForKey:@"key"]).to.equal(@"value");
             });
+        });
+
+    });
+
+    describe(@"add values", ^{
+
+        beforeEach(^{
+            params = [A0AuthParameters newDefaultParams];
+        });
+
+        it(@"should add value to extra parameters", ^{
+            [params setValue:@"value" forKey:@"key"];
+            expect([params valueForKey:@"key"]).to.equal(@"value");
+        });
+
+        it(@"should replace scope", ^{
+            [params setValue:@"scope" forKey:@"scope"];
+            expect(params.scopes).to.equal(@[@"scope"]);
         });
     });
 });

@@ -32,14 +32,6 @@ NSString * const A0ScopeProfile = @"profile";
 NSString * const A0DelegationAPIType = @"api_type";
 NSString * const A0DelegationTarget = @"target";
 
-NSArray *ScopeArrayFromNSString(NSString *scope) {
-    NSString *trimmedScope = [scope stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if (trimmedScope.length == 0) {
-        return @[];
-    }
-    return [trimmedScope componentsSeparatedByString:@" "];
-}
-
 NSString *ScopeValueFromNSArray(NSArray *scopes) {
     NSArray *array = scopes;
     if (array.count == 0) {
@@ -47,6 +39,10 @@ NSString *ScopeValueFromNSArray(NSArray *scopes) {
     }
     return [array componentsJoinedByString:@" "];
 }
+
+@interface A0AuthParameters ()
+@property (strong, nonatomic) NSMutableDictionary *params;
+@end
 
 @implementation A0AuthParameters
 
@@ -57,17 +53,18 @@ NSString *ScopeValueFromNSArray(NSArray *scopes) {
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [self init];
     if (self) {
-        NSArray *scopes = ScopeArrayFromNSString(dictionary[A0APIScope]);
-        if (scopes.count > 0) {
-            _scopes = scopes;
+        _params = [@{} mutableCopy];
+        NSArray *scopes = dictionary[A0APIScope];
+        if (scopes.count == 0) {
+            _params[A0APIScope] = @[A0ScopeOfflineAccess, A0ScopeOpenId];
         }
         if ([scopes containsObject:A0ScopeOfflineAccess]) {
             NSString *deviceName = dictionary[A0APIDevice];
-            _device = deviceName ?: [[UIDevice currentDevice] name];
+            _params[A0APIDevice] = deviceName ?: [[UIDevice currentDevice] name];
         }
         NSMutableDictionary *params = [dictionary mutableCopy];
-        [params removeObjectsForKeys:@[A0APIScope, A0APIDevice]];
-        _extraParams = [NSDictionary dictionaryWithDictionary:params];
+        [params removeObjectsForKeys:@[A0APIDevice]];
+        [_params addEntriesFromDictionary:params];
     }
     return self;
 }
@@ -75,9 +72,10 @@ NSString *ScopeValueFromNSArray(NSArray *scopes) {
 - (instancetype)initWithScopes:(NSArray *)scopes {
     self = [super init];
     if (self) {
-        _scopes = [scopes copy];
+        _params = [@{} mutableCopy];
+        _params[A0APIScope] = [scopes copy];
         if ([scopes containsObject:A0ScopeOfflineAccess]) {
-            _device = [[UIDevice currentDevice] name];
+            _params[A0APIDevice] = [[UIDevice currentDevice] name];
         }
     }
     return self;
@@ -95,43 +93,70 @@ NSString *ScopeValueFromNSArray(NSArray *scopes) {
     return [[A0AuthParameters alloc] initWithScopes:scopes];
 }
 
+- (NSDictionary *)extraParams {
+    return [NSDictionary dictionaryWithDictionary:self.params];
+}
+
 - (NSDictionary *)dictionary {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:self.extraParams];
-    params[A0APIScope] = ScopeValueFromNSArray(self.scopes);
-    if (self.device && [self.scopes containsObject:A0ScopeOfflineAccess]) {
-        params[A0APIDevice] = self.device;
-    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:self.params];
+    params[A0APIScope] = ScopeValueFromNSArray(self.params[A0APIScope]);
     return [NSDictionary dictionaryWithDictionary:params];
 }
 
+- (NSArray *)scopes {
+    return self.params[A0APIScope];
+}
+
+- (NSString *)device {
+    return self.params[A0APIDevice];
+}
+
+- (void)setScopes:(NSArray *)scopes {
+    NSAssert(scopes.count > 0, @"Must have at least one scope");
+    self.params[A0APIScope] = scopes;
+    if ([scopes containsObject:A0ScopeOfflineAccess]) {
+        self.params[A0APIDevice] = [[UIDevice currentDevice] name];
+    } else {
+        self.params[A0APIDevice] = nil;
+    }
+}
+
+- (NSString *)valueForKey:(NSString *)key {
+    return self.params[key];
+}
+
+- (void)setValue:(NSString *)value forKey:(NSString *)key {
+    if ([key isEqualToString:A0APIScope]) {
+        self.params[A0APIScope] = @[value];
+    } else {
+        self.params[key] = value;
+    }
+}
+
 - (void)addValuesFromDictionary:(NSDictionary *)dictionary {
-    NSArray *scopes = ScopeArrayFromNSString(dictionary[A0APIScope]);
+    NSArray *scopes = dictionary[A0APIScope];
     if (scopes.count > 0) {
-        self.scopes = scopes;
+        self.params[A0APIScope] = scopes;
     }
     if ([scopes containsObject:A0ScopeOfflineAccess]) {
         NSString *deviceName = dictionary[A0APIDevice];
-        self.device = deviceName ?: [[UIDevice currentDevice] name];
+        self.params[A0APIDevice] = deviceName ?: [[UIDevice currentDevice] name];
     }
     NSMutableDictionary *params = [dictionary mutableCopy];
     [params removeObjectsForKeys:@[A0APIScope, A0APIDevice]];
-    NSMutableDictionary *extraParams = self.extraParams.mutableCopy;
-    [extraParams addEntriesFromDictionary:params];
-    self.extraParams = [NSDictionary dictionaryWithDictionary:extraParams];
+    [self.params addEntriesFromDictionary:params];
 
 }
 
 - (void)addValuesFromParameters:(A0AuthParameters *)parameters {
-    if (parameters.scopes) {
-        self.scopes = parameters.scopes;
-    }
-    if (parameters.device) {
-        self.device = parameters.device;
-    }
-    if (parameters.extraParams.count > 0) {
-        NSMutableDictionary *params = self.extraParams.mutableCopy;
-        [params addEntriesFromDictionary:parameters.extraParams];
-        self.extraParams = [NSDictionary dictionaryWithDictionary:params];
+    [self.params addEntriesFromDictionary:parameters.params];
+    if (!self.params[A0APIDevice] && [self.params[A0APIScope] containsObject:A0ScopeOfflineAccess]) {
+        self.params[A0APIDevice] = [[UIDevice currentDevice] name];
     }
 }
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ values: %@>", NSStringFromClass(self.class), self.params];
+}
+
 @end

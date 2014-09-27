@@ -226,18 +226,18 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                       parameters:(A0AuthParameters *)parameters
                          success:(A0APIClientAuthenticationSuccess)success
                          failure:(A0APIClientError)failure {
-    NSMutableDictionary *params = [@{
-                                     kAccessTokenParamName: credentials.accessToken,
-                                     kClientIdParamName: self.clientId,
-                                     kConnectionParamName: strategy.connection[@"name"],
-                                     } mutableCopy];
+    NSDictionary *params = @{
+                             kAccessTokenParamName: credentials.accessToken,
+                             kClientIdParamName: self.clientId,
+                             kConnectionParamName: strategy.connection[@"name"],
+                             };
+    A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:params];
     if (credentials.extraInfo[A0StrategySocialTokenSecretParameter]) {
-        params[kAccessTokenSecretParamName] = credentials.extraInfo[A0StrategySocialTokenSecretParameter];
+        [defaultParameters setValue:kAccessTokenSecretParamName forKey:credentials.extraInfo[A0StrategySocialTokenSecretParameter]];
     }
     if (credentials.extraInfo[A0StrategySocialUserIdParameter]) {
-        params[kSocialUserIdParamName] = credentials.extraInfo[A0StrategySocialUserIdParameter];
+        [defaultParameters setValue:kSocialUserIdParamName forKey:credentials.extraInfo[A0StrategySocialUserIdParameter]];
     }
-    A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:params];
     [defaultParameters addValuesFromParameters:parameters];
 
     Auth0LogVerbose(@"Authenticating with social strategy %@", defaultParameters.dictionary);

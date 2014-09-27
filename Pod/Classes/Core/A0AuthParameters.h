@@ -72,19 +72,15 @@ FOUNDATION_EXTERN NSString * const A0DelegationTarget;
 @interface A0AuthParameters : NSObject
 
 /**
- *  Scope values to send to the API. Default are 'openid' and 'offline_access'
+ *  Scope values to send to the API, it can't be nil so if nil it's stored it will reset to default values.
+ *  Default are 'openid' and 'offline_access'.
  */
 @property (copy, nonatomic) NSArray *scopes;
 
 /**
- *  Device name, it will only be set when 'offline_access' is on of the scopes. By default is the name returned by [[UIDevice currentDevice] name]
+ *  Device name, it will only be set when 'offline_access' is one of the scopes. By default is the name returned by [[UIDevice currentDevice] name]
  */
-@property (copy, nonatomic) NSString *device;
-
-/**
- *  Extra parameters you need to send beyond 'scope' and 'device'.
- */
-@property (copy, nonatomic) NSDictionary *extraParams;
+@property (readonly, nonatomic) NSString *device;
 
 /**
  *  Initialise the parameters with default values.
@@ -144,6 +140,14 @@ FOUNDATION_EXTERN NSString * const A0DelegationTarget;
 - (NSDictionary *)dictionary;
 
 /**
+ *  Adds a new value to the parameters list.
+ *
+ *  @param value a value to add
+ *  @param key   key for the value.
+ */
+- (void)setValue:(NSString *)value forKey:(NSString *)key;
+
+/**
  *  Add the values from the dictionary to the parameters.
  *
  *  @param dictionary values to add as parameters.
@@ -156,5 +160,14 @@ FOUNDATION_EXTERN NSString * const A0DelegationTarget;
  *  @param parameters values to add as parameters.
  */
 - (void)addValuesFromParameters:(A0AuthParameters *)parameters;
+
+/**
+ *  Returns a value stored using the given key
+ *
+ *  @param key a key to retrieve it's value
+ *
+ *  @return a value or nil if it's not stored.
+ */
+- (NSString *)valueForKey:(NSString *)key;
 
 @end
