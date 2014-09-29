@@ -39,10 +39,7 @@ You can use Auth0.iOS with our native widget to handle authentication for you. I
 To get started, import these files in your `AppDelegate.m` file.
 
 ```objc
-#import <Auth0.iOS/A0FacebookAuthenticator.h>
-#import <Auth0.iOS/A0TwitterAuthenticator.h>
-#import <Auth0.iOS/A0IdentityProviderAuthenticator.h>
-#import <Auth0.iOS/A0AuthCore.h>
+#import <Auth0.iOS/Auth0.h>
 ```
 
 And add the following methods:
@@ -65,8 +62,7 @@ For more information on how to configure Facebook & Twitter go to [Identity Prov
 Import the following header files in the class where you want to display our native widget:
 
 ```objc
-#import <Auth0.iOS/A0AuthenticationViewController.h>
-#import <Auth0.iOS/A0AuthCore.h>
+#import <Auth0.iOS/Auth0.h>
 #import <libextobjc/EXTScope.h>
 ```
 
