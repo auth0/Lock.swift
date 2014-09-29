@@ -38,6 +38,7 @@
 #import "A0Theme.h"
 #import "A0Strategy.h"
 #import "A0KeyboardEnabledView.h"
+#import "A0AuthParameters.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
@@ -68,6 +69,7 @@
         }
         _usesEmail = YES;
         _loginAfterSignUp = YES;
+        _authenticationParameters = [A0AuthParameters newDefaultParams];
         [A0AuthenticationViewController loadIconFont];
     }
     return self;
