@@ -210,7 +210,7 @@ controller.loginAfterSignup = NO;
 ```objc
 @property (assign, nonatomic) A0AuthParameters *authenticationParameters;
 ```
-List of optional parameters that will be used for every authentication request with Auth0 API. By default it only has  'openid' and 'offline_access' scope values.
+List of optional parameters that will be used for every authentication request with Auth0 API. By default it only has  'openid' and 'offline_access' scope values. For more information check out our [Wiki](https://github.com/auth0/Auth0.iOS/wiki/Sending-authentication-parameters)
 ```objc
 controller.authenticationParameters.scopes = @[A0ScopeOpenId, A0ScopeOfflineAccess, A0ScopeProfile];
 ```
