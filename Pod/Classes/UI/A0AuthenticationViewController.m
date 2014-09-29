@@ -70,7 +70,6 @@
         _usesEmail = YES;
         _loginAfterSignUp = YES;
         _authenticationParameters = [A0AuthParameters newDefaultParams];
-        [A0AuthenticationViewController loadIconFont];
     }
     return self;
 }
@@ -272,28 +271,6 @@
     controller.onCancelBlock = block;
     controller.onChangePasswordBlock = block;
     return controller;
-}
-
-#pragma mark - Icon Font loading
-
-+ (void)loadIconFont {
-    UIFont *iconFont = [UIFont fontWithName:@"zocial" size:14.0f];
-    if (!iconFont) {
-        NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0" ofType:@"bundle"];
-        NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-        NSString *fontPath = [resourceBundle pathForResource:@"z-social" ofType:@"ttf"];
-        CFErrorRef error;
-        CGDataProviderRef provider = CGDataProviderCreateWithFilename([fontPath UTF8String]);
-        CGFontRef font = CGFontCreateWithDataProvider(provider);
-        if (! CTFontManagerRegisterGraphicsFont(font, &error)) {
-            CFStringRef errorDescription = CFErrorCopyDescription(error);
-            NSLog(@"Failed to load font: %@", errorDescription);
-            CFRelease(errorDescription);
-            CFRelease(error);
-        }
-        CFRelease(font);
-        CFRelease(provider);
-    }
 }
 
 @end

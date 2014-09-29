@@ -31,6 +31,7 @@
 #import "A0Theme.h"
 #import "A0ServicesTheme.h"
 #import "A0WebViewController.h"
+#import "UIFont+A0Social.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -155,7 +156,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     NSString *serviceName = [self.activeServices[indexPath.item] name];
     UIColor *background = [self.services backgroundColorForServiceWithName:serviceName];
     UIColor *selectedBackground = [self.services selectedBackgroundColorForServiceWithName:serviceName];
-    cell.serviceButton.titleLabel.font = [UIFont fontWithName:@"zocial" size:14.0f];
+    cell.serviceButton.titleLabel.font = [UIFont zocialFontOfSize:14.0f];
     [cell.serviceButton setTitleColor:[self.services foregroundColorForServiceWithName:serviceName] forState:UIControlStateNormal];
     [cell.serviceButton setTitle:[self.services iconCharacterForServiceWithName:serviceName] forState:UIControlStateNormal];
     [cell.serviceButton setBackgroundColor:background forState:UIControlStateNormal];
