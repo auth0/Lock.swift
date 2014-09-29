@@ -30,6 +30,7 @@
 #import "A0Token.h"
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0AuthParameters.h"
+#import "A0Errors.h"
 
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
@@ -221,11 +222,25 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 #pragma mark - Social Authentication
 
-- (void)authenticateWithStrategy:(A0Strategy *)strategy
+- (void)authenticateWithStrategy:(NSString *)strategyName
                      credentials:(A0IdentityProviderCredentials *)credentials
                       parameters:(A0AuthParameters *)parameters
                          success:(A0APIClientAuthenticationSuccess)success
                          failure:(A0APIClientError)failure {
+    __block A0Strategy *strategy;
+    [self.application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *str, NSUInteger idx, BOOL *stop) {
+        if ([str.name isEqualToString:strategyName]) {
+            strategy = str;
+            *stop = YES;
+        }
+    }];
+    if (!strategy) {
+        Auth0LogError(@"Invalid strategy name %@", strategyName);
+        if (failure) {
+            failure([A0Errors unkownStrategyWithName:strategyName]);
+        }
+        return;
+    }
     NSDictionary *params = @{
                              kAccessTokenParamName: credentials.accessToken,
                              kClientIdParamName: self.clientId,

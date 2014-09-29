@@ -41,10 +41,10 @@
                                                                                andSecret:@"v04WbftIrRJENoTFAr91eCEgLmVCDcaEm5brZlLJtS0ccJjHIz"
                                                                              callbackURL:[NSURL URLWithString:@"com.auth0.Auth0Client://twitter-auth"]];
     A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
-    [[A0IdentityProviderAuthenticator sharedInstance] registerAuthenticatorProviders:@[
-                                                                                   twitter,
-                                                                                   facebook,
-                                                                                   ]];
+    [[A0IdentityProviderAuthenticator sharedInstance] registerAuthenticationProviders:@[
+                                                                                        twitter,
+                                                                                        facebook,
+                                                                                        ]];
 
     self.session = [A0Session newDefaultSession];
     @weakify(self);

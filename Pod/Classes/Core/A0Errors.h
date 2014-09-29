@@ -40,11 +40,14 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
     A0ErrorCodeAuth0NotAuthorized,
     A0ErrorCodeAuth0InvalidConfiguration,
     A0ErrorCodeAuth0NoURLSchemeFound,
+    A0ErrorCodeInvalidStrategy,
 };
 
 FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 
 @interface A0Errors : NSObject
+
++ (NSError *)unkownStrategyWithName:(NSString *)name;
 
 #pragma mark - Login Errors
 

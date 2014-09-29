@@ -66,13 +66,13 @@ describe(@"A0SocialAuthenticator", ^{
 
         it(@"should fail with nil provider", ^{
             expect(^{
-                [authenticator registerAuthenticatorProvider:nil];
+                [authenticator registerAuthenticationProvider:nil];
             }).to.raiseWithReason(NSInternalInconsistencyException, @"Must supply a non-nil profile");
         });
 
         it(@"should fail with provider with no identifier", ^{
             expect(^{
-                [authenticator registerAuthenticatorProvider:mockProtocol(@protocol(A0AuthenticationProvider))];
+                [authenticator registerAuthenticationProvider:mockProtocol(@protocol(A0AuthenticationProvider))];
             }).to.raiseWithReason(NSInternalInconsistencyException, @"Provider must have a valid indentifier");
         });
 
@@ -83,7 +83,7 @@ describe(@"A0SocialAuthenticator", ^{
             beforeEach(^{
                 facebookProvider = mockProtocol(@protocol(A0AuthenticationProvider));
                 [given([facebookProvider identifier]) willReturn:kFBProviderId];
-                [authenticator registerAuthenticatorProvider:facebookProvider];
+                [authenticator registerAuthenticationProvider:facebookProvider];
             });
 
             itBehavesLike(@"registered provider", ^{ return @{ @"provider": facebookProvider }; });
@@ -100,7 +100,7 @@ describe(@"A0SocialAuthenticator", ^{
                 twitterProvider = mockProtocol(@protocol(A0AuthenticationProvider));
                 [given([twitterProvider identifier]) willReturn:kTwitterProviderId];
 
-                [authenticator registerAuthenticatorProviders:@[facebookProvider, twitterProvider]];
+                [authenticator registerAuthenticationProviders:@[facebookProvider, twitterProvider]];
             });
             
             itBehavesLike(@"registered provider", ^{ return @{ @"provider": facebookProvider }; });
@@ -124,7 +124,7 @@ describe(@"A0SocialAuthenticator", ^{
             application = mock(A0Application.class);
             facebookStrategy = mock(A0Strategy.class);
             [given([facebookStrategy name]) willReturn:kFBProviderId];
-            [authenticator registerAuthenticatorProviders:@[facebookProvider, twitterProvider]];
+            [authenticator registerAuthenticationProviders:@[facebookProvider, twitterProvider]];
         });
 
         context(@"has declared a registered provider", ^{

@@ -277,15 +277,7 @@
 
 - (void)executeSuccessWithCredentials:(A0IdentityProviderCredentials *)credentials parameters:(A0AuthParameters *)parameters {
     A0APIClient *client = [A0APIClient sharedClient];
-    A0Application *application = client.application;
-    __block A0Strategy *twitter;
-    [application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
-        if ([strategy.name isEqualToString:self.identifier]) {
-            twitter = strategy;
-            *stop = YES;
-        }
-    }];
-    [client authenticateWithStrategy:twitter
+    [client authenticateWithStrategy:self.identifier
                          credentials:credentials
                           parameters:parameters
                              success:self.successBlock
