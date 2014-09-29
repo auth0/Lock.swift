@@ -1,4 +1,4 @@
-// A0AppDelegate.m
+//  UI.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,26 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0AppDelegate.h"
-#import <Auth0.iOS/Auth0.h>
-#import <CocoaLumberjack/DDASLLogger.h>
-#import <CocoaLumberjack/DDTTYLogger.h>
-#import <CocoaLumberjack/DDLog.h>
+#ifndef _AUTH0_IOS_SDK_UI_
+#define _AUTH0_IOS_SDK_UI_
 
-@implementation A0AppDelegate
+#import "A0Theme.h"
+#import "A0AuthenticationViewController.h"
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
-#if DEBUG
-    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
-    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.400 green:0.800 blue:1.000 alpha:1.000] backgroundColor:nil forFlag:LOG_FLAG_INFO];
-    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.400 green:1.000 blue:0.400 alpha:1.000] backgroundColor:nil forFlag:LOG_FLAG_DEBUG];
 #endif
-    return YES;
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [[A0IdentityProviderAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
-}
-@end

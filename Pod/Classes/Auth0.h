@@ -1,4 +1,4 @@
-//  A0AuthCore.h
+//  Auth0.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,15 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef Auth0Client_A0AuthCore_h
-#define Auth0Client_A0AuthCore_h
+#ifndef _AUTH0_IOS_SDK_
+#define _AUTH0_IOS_SDK_
 
-#import "A0APIClient.h"
-#import "A0Application.h"
-#import "A0Errors.h"
-#import "A0Session.h"
-#import "A0Token.h"
-#import "A0UserProfile.h"
-#import "A0UserSessionDataSource.h"
-
+#if __has_include("Core.h")
+#import "Core.h"
 #endif
+
+#if __has_include("UI.h")
+#import "UI.h"
+#endif
+
+#if __has_include("A0FacebookAuthenticator.h")
+#import "A0FacebookAuthenticator.h"
+#endif
+
+#if __has_include("A0TwitterAuthenticator.h")
+#import "A0TwitterAuthenticator.h"
+#endif
+
+#endif /* _AUTH0_IOS_SDK_ */
