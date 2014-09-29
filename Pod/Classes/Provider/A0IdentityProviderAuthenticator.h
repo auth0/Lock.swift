@@ -31,6 +31,11 @@
 @interface A0IdentityProviderAuthenticator : NSObject
 
 /**
+ *  Tells the instance to default to Safari Web Authentication when no provider was registered for a given strategy.
+ */
+@property (assign, nonatomic) BOOL useWebAsDefault;
+
+/**
  *  Returns a shared instance of `A0IdentityProviderAuthenticator`
  *
  *  @return shared instance
@@ -67,6 +72,15 @@
  *  @param failure  block called on error with the reason as a parameter
  */
 - (void)authenticateForStrategy:(A0Strategy *)strategy withSuccess:(void(^)(A0UserProfile *profile, A0Token *token))success failure:(void(^)(NSError *error))failure;
+
+/**
+ *  Checks if there is a registered identity provider authenticator the given strategy
+ *
+ *  @param strategy an Auth0 strategy
+ *
+ *  @return if the authenticator can authenticate with the strategy
+ */
+- (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy;
 
 /**
  *  Method to handle authentication performed by a third party native application e.g. Facebook App. It must be called from your app's AppDelegate `-application:openURL:sourceApplication:annotation:` method.

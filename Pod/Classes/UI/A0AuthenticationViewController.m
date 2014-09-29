@@ -90,6 +90,8 @@
     }
     self.dismissButton.hidden = !self.closable;
 
+    [[A0IdentityProviderAuthenticator sharedInstance] setUseWebAsDefault:!self.useWebView];
+    
     @weakify(self);
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);

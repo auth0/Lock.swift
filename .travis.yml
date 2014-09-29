@@ -6,3 +6,6 @@ cache:
 podfile: Example/Podfile
 script:
   - xctool test -workspace Example/Auth0Client.xcworkspace -scheme Auth0Client -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+
+branches:
+  - master

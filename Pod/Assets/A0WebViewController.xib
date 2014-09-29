@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0WebViewController">
+            <connections>
+                <outlet property="activityView" destination="Du8-pa-oeZ" id="G6i-zq-Uig"/>
+                <outlet property="view" destination="iN0-l3-epB" id="aRp-8N-9wr"/>
+                <outlet property="webview" destination="KPw-uk-hu8" id="VY0-pz-YNo"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KPw-uk-hu8">
+                    <rect key="frame" x="0.0" y="60" width="320" height="508"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="dpa-Un-Txe"/>
+                    </connections>
+                </webView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gua-bi-8rw">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="88Q-G1-SXn">
+                            <rect key="frame" x="10" y="25" width="48" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Cancel">
+                                <color key="titleColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="cancel:" destination="-1" eventType="touchUpInside" id="frR-Q4-fbc"/>
+                            </connections>
+                        </button>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Du8-pa-oeZ">
+                            <rect key="frame" x="290" y="30" width="20" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Du8-pa-oeZ" secondAttribute="trailing" constant="10" id="GeW-bf-AY8"/>
+                        <constraint firstItem="88Q-G1-SXn" firstAttribute="leading" secondItem="Gua-bi-8rw" secondAttribute="leading" constant="10" id="MUV-wY-PK3"/>
+                        <constraint firstAttribute="bottom" secondItem="88Q-G1-SXn" secondAttribute="bottom" constant="5" id="Stz-e9-N7z"/>
+                        <constraint firstAttribute="height" constant="60" id="hDA-cl-f2t"/>
+                        <constraint firstAttribute="bottom" secondItem="Du8-pa-oeZ" secondAttribute="bottom" constant="10" id="vFH-X1-KyA"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Gua-bi-8rw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="0K5-Ya-hOz"/>
+                <constraint firstAttribute="trailing" secondItem="KPw-uk-hu8" secondAttribute="trailing" id="PMl-nD-JBL"/>
+                <constraint firstItem="Gua-bi-8rw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="QSD-bb-6ND"/>
+                <constraint firstAttribute="bottom" secondItem="KPw-uk-hu8" secondAttribute="bottom" id="Rlm-pa-b7Q"/>
+                <constraint firstAttribute="trailing" secondItem="Gua-bi-8rw" secondAttribute="trailing" id="VNb-li-pdI"/>
+                <constraint firstItem="KPw-uk-hu8" firstAttribute="top" secondItem="Gua-bi-8rw" secondAttribute="bottom" id="dfo-py-glQ"/>
+                <constraint firstItem="KPw-uk-hu8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="urb-zL-HuJ"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+</document>

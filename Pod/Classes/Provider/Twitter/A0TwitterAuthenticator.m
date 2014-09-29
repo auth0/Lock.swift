@@ -1,4 +1,4 @@
-// A0TwitterAuthentication.m
+// A0TwitterAuthenticator.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0TwitterAuthentication.h"
+#import "A0TwitterAuthenticator.h"
 #import "A0Errors.h"
 #import "A0Strategy.h"
 #import "A0APIClient.h"
@@ -34,7 +34,7 @@
 #import <libextobjc/EXTScope.h>
 #import <PSAlertView/PSPDFActionSheet.h>
 
-@interface A0TwitterAuthentication ()
+@interface A0TwitterAuthenticator ()
 
 @property (strong, nonatomic) BDBOAuth1RequestOperationManager *manager;
 @property (strong, nonatomic) NSURL *callbackURL;
@@ -46,10 +46,10 @@
 
 @end
 
-@implementation A0TwitterAuthentication
+@implementation A0TwitterAuthenticator
 
-+ (A0TwitterAuthentication *)newAuthenticationWithKey:(NSString *)key andSecret:(NSString *)secret callbackURL:(NSURL *)callbackURL {
-    return [[A0TwitterAuthentication alloc] initWithKey:key andSecret:secret callbackURL:callbackURL];
++ (A0TwitterAuthenticator *)newAuthenticatorWithKey:(NSString *)key andSecret:(NSString *)secret callbackURL:(NSURL *)callbackURL {
+    return [[A0TwitterAuthenticator alloc] initWithKey:key andSecret:secret callbackURL:callbackURL];
 }
 
 - (instancetype)initWithKey:(NSString *)key andSecret:(NSString *)secret callbackURL:(NSURL *)callbackURL {
@@ -213,7 +213,7 @@
             [self executeFailureWithError:error];
         } else {
             NSError *payloadError;
-            NSDictionary *response = [A0TwitterAuthentication payloadFromResponseData:responseData error:&payloadError];
+            NSDictionary *response = [A0TwitterAuthenticator payloadFromResponseData:responseData error:&payloadError];
             if (!payloadError) {
                 Auth0LogDebug(@"Reverse Auth successful. Received payload %@", response);
                 NSString *oauthToken = response[@"oauth_token"];

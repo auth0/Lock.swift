@@ -39,8 +39,8 @@ You can use Auth0.iOS with our native widget to handle authentication for you. I
 To get started, import these files in your `AppDelegate.m` file.
 
 ```objc
-#import <Auth0.iOS/A0FacebookAuthentication.h>
-#import <Auth0.iOS/A0TwitterAuthentication.h>
+#import <Auth0.iOS/A0FacebookAuthenticator.h>
+#import <Auth0.iOS/A0TwitterAuthenticator.h>
 #import <Auth0.iOS/A0IdentityProviderAuthenticator.h>
 #import <Auth0.iOS/A0AuthCore.h>
 ```
@@ -49,8 +49,8 @@ And add the following methods:
 
 ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  A0TwitterAuthentication *twitter = [A0TwitterAuthentication newAuthenticationWithKey:@"???" andSecret:@"????" callbackURL:[NSURL URLWithString:@"com.auth0.Auth0.iOS://twitter"]];
-  A0FacebookAuthentication *facebook = [A0FacebookAuthentication newAuthenticationWithDefaultPermissions];
+  A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:@"???" andSecret:@"????" callbackURL:[NSURL URLWithString:@"com.auth0.Auth0.iOS://twitter"]];
+  A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticationWithDefaultPermissions];
   [[A0IdentityProviderAuthenticator sharedInstance] registerSocialAuthenticatorProviders:@[twitter, facebook]];
   return YES;
 }
@@ -122,7 +122,7 @@ Finally, you need to register Auth0 Facebook Provider somewhere in your applicat
 
 ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  A0FacebookAuthentication *facebook = [A0FacebookAuthentication newAuthenticationWithDefaultPermissions];
+  A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticationWithDefaultPermissions];
   [[A0SocialAuthenticator sharedInstance] registerSocialAuthenticatorProvider:facebook];
 }
 ```
@@ -137,7 +137,7 @@ To support Twitter authentication you need to configure the Twitter authenticati
 NSString *twitterApiKey = ... //Remember to obfuscate your api key
 NSString *twitterApiSecret = ... //Remember to obfuscate your api secret
 NSURL *callbackURL = ... //URL that the app handles after going to Safari.
-A0TwitterAuthentication *twitter = [A0TwitterAuthentication newAuthenticationWithKey:twitterApiKey                                                                            andSecret:twitterApiSecret callbackURL:callbackURL];
+A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:twitterApiKey                                                                            andSecret:twitterApiSecret callbackURL:callbackURL];
 [[A0SocialAuthenticator sharedInstance] registerSocialAuthenticatorProvider:twitter];
 ```
 
@@ -223,6 +223,14 @@ View that will appear in the bottom of Signup screen. It should be used to show 
 ```objc
 UIView *view = //..
 controller.signupDisclaimerView = view;
+```
+####A0AuthenticationViewController#useWebView
+```objc
+@property (assign, nonatomic) BOOL useWebView;
+```
+When the authentication requires to open a web login, for example Linkedin, it will use an embedded UIWebView instead of Safari if it's `YES`. We recommend using Safari for Authentication since it will always save the User session. This means that if he's already signed in, for example in Linkedin, and he clicks in the Linkedin button, it will just work. Default values is `NO`
+```objc
+controller.useWebView = YES
 ```
 
 ###A0Session

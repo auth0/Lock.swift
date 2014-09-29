@@ -1,4 +1,4 @@
-// A0Logging.h
+//  A0WebViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,14 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <CocoaLumberjack/DDLog.h>
+#import <UIKit/UIKit.h>
 
-static const int auth0LogLevel = LOG_LEVEL_OFF;
+@class A0Token, A0UserProfile, A0Application, A0Strategy;
 
-#define AUTH0_LOG_CONTEXT 58205
+@interface A0WebViewController : UIViewController
 
-#define Auth0LogError(frmt, ...)     SYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_ERROR,   AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogWarn(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_WARN,    AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogInfo(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_INFO,    AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogDebug(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_DEBUG,  AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogVerbose(frmt, ...)  ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_VERBOSE, AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
+@property (copy, nonatomic) void(^onAuthentication)(A0UserProfile *profile, A0Token *token);
+@property (copy, nonatomic) void(^onFailure)(NSError *error);
+
+- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy;
+
+@end

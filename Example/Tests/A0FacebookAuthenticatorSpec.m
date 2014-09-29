@@ -1,4 +1,4 @@
-//  A0FacebookAuthenticationSpec.m
+//  A0FacebookAuthenticatorSpec.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,17 +21,17 @@
 // THE SOFTWARE.
 
 #import "Specta.h"
-#import "A0FacebookAuthentication.h"
+#import "A0FacebookAuthenticator.h"
 
-@interface A0FacebookAuthentication (TestAPI)
+@interface A0FacebookAuthenticator (TestAPI)
 @property (strong, nonatomic) NSArray *permissions;
 @end
 
-SpecBegin(A0FacebookAuthentication)
+SpecBegin(A0FacebookAuthenticator)
 
-describe(@"A0FacebookAuthentication", ^{
+describe(@"A0FacebookAuthenticator", ^{
 
-    __block A0FacebookAuthentication *facebook;
+    __block A0FacebookAuthenticator *facebook;
 
     describe(@"creating facebook authentication", ^{
 
@@ -41,7 +41,7 @@ describe(@"A0FacebookAuthentication", ^{
 
             beforeEach(^{
                 permissions = data[@"permissions"] ?: @[];
-                facebook = [A0FacebookAuthentication newAuthenticationWithPermissions:permissions];
+                facebook = [A0FacebookAuthenticator newAuthenticatorWithPermissions:permissions];
             });
 
             specify(@"has public_profile permissions", ^{

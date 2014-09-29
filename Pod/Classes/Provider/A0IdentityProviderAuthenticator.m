@@ -24,7 +24,7 @@
 #import "A0Strategy.h"
 #import "A0Application.h"
 #import "A0Errors.h"
-#import "A0WebAuthentication.h"
+#import "A0WebAuthenticator.h"
 
 @interface A0IdentityProviderAuthenticator ()
 
@@ -48,6 +48,7 @@
     self = [super init];
     if (self) {
         _registeredAuthenticators = [@{} mutableCopy];
+        _useWebAsDefault = YES;
     }
     return self;
 }
@@ -69,10 +70,15 @@
     [application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
         if (self.registeredAuthenticators[strategy.name]) {
             self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
-        } else {
-            self.authenticators[strategy.name] = [A0WebAuthentication newWebAuthenticationForStrategy:strategy ofApplication:application];
+        } else if (self.useWebAsDefault) {
+            self.authenticators[strategy.name] = [A0WebAuthenticator newWebAuthenticationForStrategy:strategy ofApplication:application];
         }
     }];
+}
+
+- (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy {
+    id<A0AuthenticationProvider> authenticator = self.authenticators[strategy.name];
+    return authenticator != nil;
 }
 
 - (void)authenticateForStrategy:(A0Strategy *)strategy
