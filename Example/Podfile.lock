@@ -58,8 +58,8 @@ PODS:
   - CocoaLumberjack/Extensions (1.9.2):
     - CocoaLumberjack/Core
   - Expecta (0.3.1)
-  - Facebook-iOS-SDK (3.18.0):
-    - Bolts
+  - Facebook-iOS-SDK (3.18.2):
+    - Bolts (~> 1.0)
   - ISO8601DateFormatter (0.7)
   - libextobjc (0.4):
     - libextobjc/EXTADT
@@ -131,7 +131,7 @@ SPEC CHECKSUMS:
   Bolts: 2635e8698a630774689441047f3465d78c48d485
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   Expecta: 03aabd0a89d8dea843baecb19a7fd7466a69a31d
-  Facebook-iOS-SDK: fa12c51cc57bfb6f92e47793c9d4d2c65bc92741
+  Facebook-iOS-SDK: 1193bafaca986a31d37c3e6fa845b99d6eaadaf8
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   libextobjc: ba42e4111f433273a886cd54f0ddaddb7f62f82f
   LUKeychainAccess: 4365689e03b1a019ce40a86058aae6e31e9adcea

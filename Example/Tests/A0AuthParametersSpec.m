@@ -97,18 +97,18 @@ describe(@"A0AuthParameters", ^{
         itShouldBehaveLike(@"valid parameter with scope", ^{
             return @{
                      @"params": [[A0AuthParameters alloc] initWithDictionary:@{
-                                                                               A0APIScope: @[@"openid", @"offline_access", @"profile"],
+                                                                               A0ParameterScope: @[@"openid profile", @"offline_access"],
                                                                                }],
-                     @"scopes": @[A0ScopeOpenId, A0ScopeOfflineAccess, A0ScopeProfile],
+                     @"scopes": @[A0ScopeProfile, A0ScopeOfflineAccess],
                      };
         });
 
         itShouldBehaveLike(@"offline access parameter", ^{
             return @{
                      @"params": [A0AuthParameters newWithDictionary:@{
-                                                                      A0APIScope: @[@"openid", @"offline_access", @"profile"],
+                                                                      A0ParameterScope: @[@"offline_access", @"openid profile"],
                                                                       }],
-                     @"scopes": @[A0ScopeOpenId, A0ScopeOfflineAccess, A0ScopeProfile],
+                     @"scopes": @[A0ScopeOfflineAccess, A0ScopeProfile],
                      };
         });
 
@@ -125,6 +125,22 @@ describe(@"A0AuthParameters", ^{
             });
         });
 
+        context(@"Connection scopes", ^{
+
+            beforeEach(^{
+                params = [[A0AuthParameters alloc] init];
+                params.connectionScopes = @{
+                                            @"facebook": @[@"email", @"friends"],
+                                            };
+            });
+
+            it(@"should have extra values", ^{
+                expect([params valueForKey:A0ParameterConnectionScopes]).to.equal(@{
+                                                                                    @"facebook": @[@"email", @"friends"],
+                                                                                    });
+            });
+
+        });
     });
 
     describe(@"add values", ^{
@@ -138,10 +154,66 @@ describe(@"A0AuthParameters", ^{
             expect([params valueForKey:@"key"]).to.equal(@"value");
         });
 
-        it(@"should replace scope", ^{
-            [params setValue:@"scope" forKey:@"scope"];
-            expect(params.scopes).to.equal(@[@"scope"]);
+        it(@"should not allow replace scope", ^{
+            expect(^{
+                [params setValue:@"scope" forKey:@"scope"];
+            }).to.raise(NSInternalInconsistencyException);
         });
+
+        it(@"should not allow replace connection scopes", ^{
+            expect(^{
+                [params setValue:@"scope" forKey:@"connection_scopes"];
+            }).to.raise(NSInternalInconsistencyException);
+        });
+
+    });
+
+    describe(@"as API dictionary", ^{
+
+        __block NSDictionary *dict;
+
+        beforeEach(^{
+            params = [A0AuthParameters newDefaultParams];
+            params.scopes = @[A0ScopeProfile, A0ScopeOfflineAccess];
+            params.connectionScopes =@{
+                                       @"facebook": @[@"email", @"friends"],
+                                       @"google": @[],
+                                       @"linkedin": @[@"public_profile"],
+                                       };
+            params.state = @"TEST";
+            params.device = @"Specta Test";
+            [params setValue:@"bar" forKey:@"foo"];
+            dict = params.dictionary;
+        });
+
+        it(@"should coalesce scopes in a NSString", ^{
+            expect(dict[A0ParameterScope]).to.equal(@"openid profile offline_access");
+        });
+
+        it(@"should coalesce connection_scopes for FB in a NSString", ^{
+            expect(dict[A0ParameterConnectionScopes][@"facebook"]).to.equal(@"email,friends");
+        });
+
+        it(@"should coalesce connection_scopes for linkedin in a NSString", ^{
+            expect(dict[A0ParameterConnectionScopes][@"linkedin"]).to.equal(@"public_profile");
+        });
+
+        it(@"should skip connection_scopes for twitter", ^{
+            expect(dict[A0ParameterConnectionScopes][@"twitter"]).to.beNil();
+        });
+
+        it(@"should have state", ^{
+            expect(dict[A0ParameterState]).to.equal(@"TEST");
+        });
+
+        it(@"should have device", ^{
+            expect(dict[A0ParameterDevice]).to.equal(@"Specta Test");
+        });
+
+        it(@"should have custom parameter", ^{
+            expect(dict[@"foo"]).to.equal(@"bar");
+        });
+
     });
 });
 

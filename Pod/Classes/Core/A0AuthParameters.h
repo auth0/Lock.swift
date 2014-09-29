@@ -29,12 +29,42 @@
 /**
  *  'scope' option key
  */
-FOUNDATION_EXPORT NSString * const A0APIScope;
+FOUNDATION_EXPORT NSString * const A0ParameterScope;
 
 /**
  *  'device' option key. Used only when scope has 'offline_access'.
  */
-FOUNDATION_EXPORT NSString * const A0APIDevice;
+FOUNDATION_EXPORT NSString * const A0ParameterDevice;
+
+/**
+ *  'protocol' option key
+ */
+FOUNDATION_EXPORT NSString * const A0ParameterProtocol;
+
+/**
+ *  'state' option key
+ */
+FOUNDATION_EXPORT NSString * const A0ParameterState;
+
+/**
+ *  'nonce' option key
+ */
+FOUNDATION_EXPORT NSString * const A0ParameterNonce;
+
+/**
+ *  'offline_mode' option key
+ */
+FOUNDATION_EXPORT NSString * const A0ParameterOfflineMode;
+
+/**
+ *  'connection_scopes' option key
+ */
+FOUNDATION_EXPORT NSString * const A0ParameterConnectionScopes;
+
+/**
+ *  'access_token' option key
+ */
+FOUNDATION_EXPORT NSString * const A0ParameterAccessToken;
 
 ///----------------------------------------
 /// @name Auth0 API Scope values
@@ -45,11 +75,11 @@ FOUNDATION_EXPORT NSString * const A0APIDevice;
  */
 FOUNDATION_EXPORT NSString * const A0ScopeOpenId;
 /**
- 'offilne_access' scope
+ 'offline_access' scope
  */
 FOUNDATION_EXPORT NSString * const A0ScopeOfflineAccess;
 /**
- 'profile' scope
+ 'openid profile' scope
  */
 FOUNDATION_EXPORT NSString * const A0ScopeProfile;
 
@@ -60,11 +90,11 @@ FOUNDATION_EXPORT NSString * const A0ScopeProfile;
 /**
  'api_type' delegation API parameter
  */
-FOUNDATION_EXTERN NSString * const A0DelegationAPIType;
+FOUNDATION_EXTERN NSString * const A0ParameterAPIType;
 /**
  'target' delegation API parameter
  */
-FOUNDATION_EXTERN NSString * const A0DelegationTarget;
+FOUNDATION_EXTERN NSString * const A0ParameterTarget;
 
 /**
  *  `A0AuthParameters` handles optional parameters for all Auth0 API calls and it's default values. It can be used with `A0APIClient` methods or as global parameters when using `A0AuthenticationViewController` to handle the authentication UI for you.
@@ -80,7 +110,37 @@ FOUNDATION_EXTERN NSString * const A0DelegationTarget;
 /**
  *  Device name, it will only be set when 'offline_access' is one of the scopes. By default is the name returned by [[UIDevice currentDevice] name]
  */
-@property (readonly, nonatomic) NSString *device;
+@property (copy, nonatomic) NSString *device;
+
+/**
+ *  Access token used when linking an account with an existing one. By default is nil
+ */
+@property (copy, nonatomic) NSString *accessToken;
+
+/**
+ *  Protocol used for authentication. By default is nil (the same as using `oauth2`).
+ */
+@property (copy, nonatomic) NSString *protocol;
+
+/**
+ *  Value used to avoid a replay attack that is part of _OpenID_ protocol. By default is nil
+ */
+@property (copy, nonatomic) NSString *nonce;
+
+/**
+ *  Offline mode for authentication. By default is nil
+ */
+@property (copy, nonatomic) NSString *offlineMode;
+
+/**
+ *  Value that will be received with the authentication response. By default is nil
+ */
+@property (copy, nonatomic) NSString *state;
+
+/**
+ *  Specify scopes for connections. e.g. ask facebook for user's email. By default is nil
+ */
+@property (copy, nonatomic) NSDictionary *connectionScopes;
 
 /**
  *  Initialise the parameters with default values.
