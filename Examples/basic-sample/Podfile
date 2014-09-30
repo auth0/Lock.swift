@@ -4,7 +4,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 target "basic-sample" do
-  pod "Auth0.iOS", "~> 1.0.0-beta"
+    pod "Auth0.iOS", :path => "../../"
 end
 
 target "basic-sampleTests" do
