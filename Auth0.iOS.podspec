@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Auth0.iOS"
-  s.version          = "1.0.0-beta2"
+  s.version          = "1.0.0-rc1"
   s.summary          = "A library that uses Auth0 for Authentication with Native Look & Feel"
   s.description      = <<-DESC
 [![Auth0](https://i.cloudup.com/1vaSVATKTL.png)](http://auth0.com)
@@ -25,7 +25,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     #import "A0Logging.h"
     #define A0LocalizedString(key) NSLocalizedStringFromTable(key, @"Auth0", nil)
   EOS
-  
+
   s.subspec 'Core' do |core|
     core.public_header_files = ['Pod/Classes/Core/*.h', 'Pod/Classes/Provider/*.h']
     core.source_files = ['Pod/Classes/Core/*.{h,m}', 'Pod/Classes/Provider/*.{h,m}']
