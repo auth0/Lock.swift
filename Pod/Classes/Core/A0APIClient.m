@@ -248,10 +248,10 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                              };
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:params];
     if (credentials.extraInfo[A0StrategySocialTokenSecretParameter]) {
-        [defaultParameters setValue:kAccessTokenSecretParamName forKey:credentials.extraInfo[A0StrategySocialTokenSecretParameter]];
+        [defaultParameters setValue:credentials.extraInfo[A0StrategySocialTokenSecretParameter] forKey:kAccessTokenSecretParamName];
     }
     if (credentials.extraInfo[A0StrategySocialUserIdParameter]) {
-        [defaultParameters setValue:kSocialUserIdParamName forKey:credentials.extraInfo[A0StrategySocialUserIdParameter]];
+        [defaultParameters setValue:credentials.extraInfo[A0StrategySocialUserIdParameter] forKey:kSocialUserIdParamName];
     }
     [defaultParameters addValuesFromParameters:parameters];
 

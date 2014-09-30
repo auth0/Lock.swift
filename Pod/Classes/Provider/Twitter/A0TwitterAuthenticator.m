@@ -34,6 +34,8 @@
 #import <libextobjc/EXTScope.h>
 #import <PSAlertView/PSPDFActionSheet.h>
 
+#define kCallbackURLString @"a0%@://%@.auth0.com/authorize"
+
 @interface A0TwitterAuthenticator ()
 
 @property (strong, nonatomic) A0AuthParameters *parameters;
@@ -41,6 +43,7 @@
 @property (strong, nonatomic) NSURL *callbackURL;
 @property (strong, nonatomic) ACAccountStore *accountStore;
 @property (strong, nonatomic) ACAccountType *accountType;
+@property (assign, atomic) BOOL authenticating;
 
 @property (copy, nonatomic) void(^successBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^failureBlock)(NSError *);
@@ -49,19 +52,23 @@
 
 @implementation A0TwitterAuthenticator
 
-+ (A0TwitterAuthenticator *)newAuthenticatorWithKey:(NSString *)key andSecret:(NSString *)secret callbackURL:(NSURL *)callbackURL {
-    return [[A0TwitterAuthenticator alloc] initWithKey:key andSecret:secret callbackURL:callbackURL];
++ (A0TwitterAuthenticator *)newAuthenticatorWithKey:(NSString *)key andSecret:(NSString *)secret {
+    return [[A0TwitterAuthenticator alloc] initWithKey:key andSecret:secret];
 }
 
-- (instancetype)initWithKey:(NSString *)key andSecret:(NSString *)secret callbackURL:(NSURL *)callbackURL {
+- (instancetype)initWithKey:(NSString *)key andSecret:(NSString *)secret {
     self = [super init];
     if (self) {
+        _authenticating = NO;
         _manager = [[BDBOAuth1RequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.twitter.com/"]
                                                                  consumerKey:key
                                                               consumerSecret:secret];
         [_manager deauthorize];
         [TWAPIManager registerTwitterAppKey:key andAppSecret:secret];
-        _callbackURL = callbackURL;
+        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+        NSString *clientId = info[@"Auth0ClientId"];
+        NSString *callbackURLString = [NSString stringWithFormat:kCallbackURLString, clientId, @"twitter"].lowercaseString;
+        _callbackURL = [NSURL URLWithString:callbackURLString];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationActiveNotification:) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
     return self;
@@ -72,11 +79,13 @@
 }
 
 - (void)applicationActiveNotification:(NSNotification *)notification {
-    if (self.failureBlock) {
-        self.failureBlock([A0Errors twitterCancelled]);
+    if (!self.authenticating) {
+        if (self.failureBlock) {
+            self.failureBlock([A0Errors twitterCancelled]);
+        }
+        self.successBlock = nil;
+        self.failureBlock = nil;
     }
-    self.successBlock = nil;
-    self.failureBlock = nil;
 }
 
 #pragma mark - A0SocialProviderAuth
@@ -95,6 +104,7 @@
     Auth0LogVerbose(@"Received url %@ from source application %@", url, sourceApplication);
     if ([url.scheme.lowercaseString isEqualToString:self.callbackURL.scheme.lowercaseString] && [url.host isEqualToString:self.callbackURL.host]) {
         handled = YES;
+        self.authenticating = YES;
         NSDictionary *parameters = [NSURL ab_parseURLQueryString:url.query];
         @weakify(self);
         if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"]) {
@@ -282,6 +292,7 @@
                           parameters:parameters
                              success:self.successBlock
                              failure:self.failureBlock];
+    self.authenticating = NO;
     self.successBlock = nil;
     self.failureBlock = nil;
     self.accountStore = nil;
@@ -293,6 +304,7 @@
         if (self.failureBlock) {
             self.failureBlock(error);
         }
+        self.authenticating = NO;
         self.successBlock = nil;
         self.failureBlock = nil;
         self.accountStore = nil;

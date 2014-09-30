@@ -33,12 +33,10 @@
  *
  *  @param key         twitter app' API key.
  *  @param secret      twitter app' API secret.
- *  @param callbackURL URL to be used as callback during OAuth web flow. URL's scheme must be declared in URL types entry of your app's Info plist file.
  *
  *  @return a new instance.
  */
 + (A0TwitterAuthenticator *)newAuthenticatorWithKey:(NSString *)key
-                                            andSecret:(NSString *)secret
-                                          callbackURL:(NSURL *)callbackURL;
+                                            andSecret:(NSString *)secret;
 
 @end
