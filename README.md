@@ -80,6 +80,78 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 [self presentViewController:controller animated:YES completion:nil];
 ```
 
+After a successful authentication we recommend storing user's token and profile in `A0UserSessionDataSource` and refresh user's token with `A0Session`. You can instantiate them and keep them in a Global object so you can access them everywhere, for example an object called `MyApplication`.
+
+```objc
+#import <Auth0.iOS/Auth0.h>
+
+@interface MyApplication: NSObject
+
++ (MyApplication *)sharedInstance;
+
+- (A0Session *)session;
+
+@end
+
+@implementation MyApplication
+
++ (MyApplication *)sharedInstance {
+    static MyApplication *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[MyApplication alloc] init];
+    });
+    return instance;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+      _session = [A0Session newDefaultSession];
+    }
+    return self;
+}
+
+@end
+
+```
+
+This example creates a new `A0Session` and initialise itself with a new instance of `A0UserSessionDataSource` so there is no need to create it yourself. You can access the DataSource with the following code:
+
+```objc
+[MyApplication sharedInstance].session.dataSource;
+```
+
+Then after a successful authentication you can save both the token and user's profile using the DataSource.
+
+```objc
+A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
+@weakify(self);
+controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
+    @strongify(self);
+    // Here we save A0UserProfile and A0Token
+    A0Session *session = [MyApplication sharedInstance].session;
+    [session.dataSource storeToken:token andUserProfile:profile];
+    // And dismiss the ViewController
+    [self dismissViewControllerAnimated:YES completion:nil];
+};
+[self presentViewController:controller animated:YES completion:nil];
+```
+
+With the token stored in the DataSource, `A0Session` allows you to check the expiration of the *id_token* and request a new one using a the *id_token*, if not expired, or using the *refresh_token*. Remember to have `A0ScopeOfflineAccess` as one of the scopes when performing authentication in order to get the user's *refresh_token*, by default Auth0.iOS includes it in the list of scopes.
+
+Here is how you can renew your *id_token*:
+
+```objc
+A0Session *session = [MyApplication sharedInstance].session;
+[session refreshWithSuccess:^(A0UserProfile *profile, A0Token *token) {
+  NSLog(@"Token renewed %@", token);
+} failure:^(NSError *error) {
+  NSLog(@"Failed to renew token %@", error);
+}];
+```
+
+
 ### Identity Provider Authentication
 
 Before using authentication from other identity providers, e.g. Twitter or Facebook, you'll need to follow some steps.
@@ -206,7 +278,7 @@ controller.loginAfterSignup = NO;
 ```
 List of optional parameters that will be used for every authentication request with Auth0 API. By default it only has  'openid' and 'offline_access' scope values. For more information check out our [Wiki](https://github.com/auth0/Auth0.iOS/wiki/Sending-authentication-parameters)
 ```objc
-controller.authenticationParameters.scopes = @[A0ScopeOpenId, A0ScopeOfflineAccess, A0ScopeProfile];
+controller.authenticationParameters.scopes = @[A0ScopeOfflineAccess, A0ScopeProfile];
 ```
 
 ###A0AuthenticationViewController#signupDisclaimerView
@@ -333,6 +405,86 @@ A0Token *token = session.token;
 Returns the current profile from the DataSource or nil.
 ```objc
 A0UserProfile *profile = session.profile;
+```
+
+###A0UserSessionDataSource
+
+`A0UserSessionDataSource` stores/retrieves user's token information from iOS Keychain and user's profile from NSUserDefaults. It implements `A0SessionDataSource` protocol
+
+####A0UserSessionDataSource#init
+```objc
+- (instancetype)init;
+```
+Initialise a default instance with no special configuration.
+```objc
+[[A0UserSessionDataSource alloc] init];
+```
+
+####A0UserSessionDataSource#initWithAccessGroup:
+```objc
+- (instancetype)initWithAccessGroup:(NSString *)accessGroup;
+```
+Initialise an instance to allow iOS Keychain sharing using the accessGroup string passed as a paramter.
+```objc
+[[A0UserSessionDataSource alloc] initWithAccessGroup:@"HH3H3.com.mygroup.app"];
+```
+
+###A0SessionDataSource
+
+`A0UserSessionDataSource` stores/retrieves user's token information from iOS Keychain and user's profile from NSUserDefaults.
+
+####A0SessionDataSource#storeToken:andUserProfile
+```objc
+- (void)storeToken:(A0Token *)token andUserProfile:(A0UserProfile *)userProfile;
+```
+Stores both the user's profile and token.
+```objc
+[dataSource storeToken:token andUserProfile:profile];
+```
+
+####A0SessionDataSource#storeToken
+```objc
+- (void)storeToken:(A0Token *)token;
+```
+Stores the user's token.
+```objc
+[dataSource storeToken:token];
+```
+
+####A0SessionDataSource#storeUserProfile
+```objc
+- (void)storeUserProfile:(A0UserProfile *)userProfile;
+```
+Stores the user's profile.
+```objc
+[dataSource storeUserProfile:profile];
+```
+
+####A0SessionDataSource#clearAll
+```objc
+- (void)clearAll;
+```
+Removes all information of the session
+```objc
+[dataSource clearAll];
+```
+
+####A0SessionDataSource#currentToken
+```objc
+- (A0Token *)currentToken;
+```
+Returns the current token stored or nil.
+```objc
+[dataSource currentToken];
+```
+
+####A0SessionDataSource#currentUserProfile
+```objc
+- (A0UserProfile *)currentUserProfile;
+```
+Returns the current user's profile or nil
+```objc
+[dataSource currentUserProfile];
 ```
 
 ## Logging
