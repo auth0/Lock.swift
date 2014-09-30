@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "Application.h"
 #import <Auth0.iOS/Auth0.h>
 #import <libextobjc/EXTScope.h>
 
@@ -27,12 +28,15 @@
 }
 - (IBAction)showSignIn:(id)sender {
     A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
+    controller.closable = false;
     @weakify(self);
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);
-        // Do something with token & profile. e.g.: save them.
-        // And dismiss the ViewController
+        
+        
+        [[Application sharedInstance].session.dataSource storeToken:token andUserProfile:profile];
         [self dismissViewControllerAnimated:YES completion:nil];
+        [self performSegueWithIdentifier:@"showProfile" sender:self];
     };
     [self presentViewController:controller animated:YES completion:nil];
 }

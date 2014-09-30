@@ -5,6 +5,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target "basic-sample" do
     pod "Auth0.iOS", :path => "../../"
+    pod "SDWebImage", "~> 3.7.1"
 end
 
 target "basic-sampleTests" do

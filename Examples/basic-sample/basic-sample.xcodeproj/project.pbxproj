@@ -15,6 +15,8 @@
 		9A18CB1619DB18FC00DF8091 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A18CB1519DB18FC00DF8091 /* Images.xcassets */; };
 		9A18CB1919DB18FC00DF8091 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A18CB1719DB18FC00DF8091 /* LaunchScreen.xib */; };
 		9A18CB2519DB18FC00DF8091 /* basic_sampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A18CB2419DB18FC00DF8091 /* basic_sampleTests.m */; };
+		9A18CB3019DB3AAE00DF8091 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A18CB2F19DB3AAE00DF8091 /* ProfileViewController.m */; };
+		9A18CB3219DB40B700DF8091 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A18CB3119DB40B700DF8091 /* Application.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +43,10 @@
 		9A18CB1E19DB18FC00DF8091 /* basic-sampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "basic-sampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A18CB2319DB18FC00DF8091 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A18CB2419DB18FC00DF8091 /* basic_sampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = basic_sampleTests.m; sourceTree = "<group>"; };
+		9A18CB2E19DB3AAE00DF8091 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileViewController.h; path = Images.xcassets/ProfileViewController.h; sourceTree = "<group>"; };
+		9A18CB2F19DB3AAE00DF8091 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileViewController.m; path = Images.xcassets/ProfileViewController.m; sourceTree = "<group>"; };
+		9A18CB3119DB40B700DF8091 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
+		9A18CB3319DB40C700DF8091 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		A73D71B20313E2ACD97BE8C6 /* libPods-basic-sample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-basic-sample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE76F316DE0D2DD20A34840B /* Pods-basic-sample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-basic-sample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-basic-sample/Pods-basic-sample.debug.xcconfig"; sourceTree = "<group>"; };
 		FCDCFBF96F97C2BB94662100 /* Pods-basic-sample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-basic-sample.release.xcconfig"; path = "Pods/Target Support Files/Pods-basic-sample/Pods-basic-sample.release.xcconfig"; sourceTree = "<group>"; };
@@ -105,6 +111,10 @@
 				9A18CB1519DB18FC00DF8091 /* Images.xcassets */,
 				9A18CB1719DB18FC00DF8091 /* LaunchScreen.xib */,
 				9A18CB0819DB18FC00DF8091 /* Supporting Files */,
+				9A18CB2E19DB3AAE00DF8091 /* ProfileViewController.h */,
+				9A18CB2F19DB3AAE00DF8091 /* ProfileViewController.m */,
+				9A18CB3119DB40B700DF8091 /* Application.m */,
+				9A18CB3319DB40C700DF8091 /* Application.h */,
 			);
 			path = "basic-sample";
 			sourceTree = "<group>";
@@ -280,6 +290,8 @@
 			files = (
 				9A18CB1119DB18FC00DF8091 /* ViewController.m in Sources */,
 				9A18CB0E19DB18FC00DF8091 /* AppDelegate.m in Sources */,
+				9A18CB3019DB3AAE00DF8091 /* ProfileViewController.m in Sources */,
+				9A18CB3219DB40B700DF8091 /* Application.m in Sources */,
 				9A18CB0B19DB18FC00DF8091 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

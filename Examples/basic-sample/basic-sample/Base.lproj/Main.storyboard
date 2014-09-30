@@ -69,10 +69,61 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Welcome to Auth0" id="cqM-JR-v0Q"/>
+                    <connections>
+                        <segue destination="PuK-vS-oEf" kind="show" identifier="showProfile" id="5Lg-NR-hd7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="951" y="136"/>
+        </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="yaa-hg-FK1">
+            <objects>
+                <viewController id="PuK-vS-oEf" customClass="ProfileViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PMA-OQ-wLj"/>
+                        <viewControllerLayoutGuide type="bottom" id="35P-dk-6PC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sYz-mx-ksm">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="badge" translatesAutoresizingMaskIntoConstraints="NO" id="ZK3-YR-V2C">
+                                <rect key="frame" x="224" y="35" width="152" height="168"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome John Doe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VgX-qm-lIU">
+                                <rect key="frame" x="103" y="368" width="394" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="s1U-KK-IJh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-3V-78C">
+                                <rect key="frame" x="180" y="237" width="240" height="128"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.086274509799999996" green="0.12941176469999999" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="N7C-3V-78C" secondAttribute="centerX" id="0Mt-hb-PfV"/>
+                            <constraint firstItem="VgX-qm-lIU" firstAttribute="leading" secondItem="sYz-mx-ksm" secondAttribute="leadingMargin" constant="87" id="I4V-TF-ehy"/>
+                            <constraint firstItem="35P-dk-6PC" firstAttribute="top" secondItem="VgX-qm-lIU" secondAttribute="bottom" constant="48" id="M9F-43-ePK"/>
+                            <constraint firstItem="ZK3-YR-V2C" firstAttribute="top" secondItem="PMA-OQ-wLj" secondAttribute="bottom" constant="35" id="NeE-Up-kTR"/>
+                            <constraint firstAttribute="centerX" secondItem="ZK3-YR-V2C" secondAttribute="centerX" id="koY-ST-Pxf"/>
+                            <constraint firstAttribute="centerX" secondItem="VgX-qm-lIU" secondAttribute="centerX" id="raA-Hb-ebc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="VgX-qm-lIU" secondAttribute="trailing" constant="87" id="wOW-J5-lbK"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="profileImage" destination="N7C-3V-78C" id="Whf-S2-FiJ"/>
+                        <outlet property="welcomeLabel" destination="VgX-qm-lIU" id="WlR-jC-fkU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bdY-AB-VWk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1648" y="136"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mkf-ut-xvV">
