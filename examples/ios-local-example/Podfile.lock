@@ -48,7 +48,7 @@ PODS:
     - Auth0.iOS/Core
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
-  - BDBOAuth1Manager (1.4.0):
+  - BDBOAuth1Manager (1.4.1):
     - AFNetworking/NSURLConnection (~> 2.4.0)
     - AFNetworking/NSURLSession (~> 2.4.0)
   - Bolts (1.1.2)
@@ -101,19 +101,17 @@ PODS:
   - OAuthCore (0.0.1):
     - NSData+Base64
   - OCHamcrest (4.0.1)
-  - OCMockito (1.3.0):
+  - OCMockito (1.3.1):
     - OCHamcrest (~> 4.0)
-    - TPWeakProxy (~> 1.0)
   - PSAlertView (2.0.3)
   - Specta (0.2.1)
-  - TPWeakProxy (1.0.1)
   - TWReverseAuth (0.1.1):
     - LUKeychainAccess
     - OAuthCore
   - UICKeyChainStore (1.0.5)
 
 DEPENDENCIES:
-  - Auth0.iOS (from `../`)
+  - Auth0.iOS (from `../../`)
   - BDBOAuth1Manager
   - Expecta
   - libextobjc
@@ -122,12 +120,12 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   Auth0.iOS:
-    :path: ../
+    :path: ../../
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   Auth0.iOS: cea8d2a8f76779e8378e371ee4b122cfa4009106
-  BDBOAuth1Manager: 4f0967110286edd4c7961cf48a4eb242c64137a1
+  BDBOAuth1Manager: 0625ba20bd7d36461bbf6dc3d29276b5932b7409
   Bolts: 2635e8698a630774689441047f3465d78c48d485
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   Expecta: 03aabd0a89d8dea843baecb19a7fd7466a69a31d
@@ -138,10 +136,9 @@ SPEC CHECKSUMS:
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
   OCHamcrest: b464725bbb48d0f1cd9c6f4ec3cb35fe0c4f2b94
-  OCMockito: eca2670b3ce4a457d316b046a36d6f2b980a4da7
+  OCMockito: 57b8c4bb54ff3a4a14eb2174f9e57faf9f56efb6
   PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
-  TPWeakProxy: da4177b6ae5eff685642c1cd9698f71ef7060ea5
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
   UICKeyChainStore: 4f9719600cc70025064e26f28f1210bcfc3b0c35
 
