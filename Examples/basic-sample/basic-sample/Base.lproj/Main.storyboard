@@ -43,7 +43,7 @@
                                     <constraint firstAttribute="height" constant="61" id="TJm-St-Pur"/>
                                 </constraints>
                                 <state key="normal" title="Sign In" backgroundImage="silver-button-normal">
-                                    <color key="titleColor" red="0.92156862750000001" green="0.3294117647" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted" backgroundImage="silver-button-pressed"/>
                                 <variation key="default">
