@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="W8Y-0D-WES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Welcome to Auth0-->
@@ -13,44 +14,53 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="badge" translatesAutoresizingMaskIntoConstraints="NO" id="ISn-gA-jk0">
-                                <rect key="frame" x="224" y="88" width="152" height="168"/>
+                                <rect key="frame" x="224" y="24" width="152" height="168"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="168" id="9z5-lb-bST"/>
                                     <constraint firstAttribute="width" constant="152" id="d1d-hl-0PA"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auth0 Example" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2V2-D7-dyh">
-                                <rect key="frame" x="242" y="264" width="116.5" height="20.5"/>
+                                <rect key="frame" x="242" y="200" width="116.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zero friction identity infrastructure, built for developers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="887-Pp-nmw">
-                                <rect key="frame" x="92" y="288" width="416.5" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zero friction identity infrastructure, built for developers" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="887-Pp-nmw">
+                                <rect key="frame" x="92" y="224.5" width="416.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xyp-4U-yEZ">
-                                <rect key="frame" x="103" y="407" width="395" height="61"/>
+                                <rect key="frame" x="92" y="343" width="417" height="61"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="395" id="1EN-nC-Ixs"/>
                                     <constraint firstAttribute="height" constant="61" id="TJm-St-Pur"/>
                                 </constraints>
-                                <state key="normal" title="Sign In" backgroundImage="silver-button-normal.png">
+                                <state key="normal" title="Sign In" backgroundImage="silver-button-normal">
                                     <color key="titleColor" red="0.92156862750000001" green="0.3294117647" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <state key="highlighted" backgroundImage="silver-button-pressed"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="1EN-nC-Ixs"/>
+                                    </mask>
+                                </variation>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.086274509803921567" green="0.12941176470588237" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="ISn-gA-jk0" secondAttribute="centerX" id="K9B-H6-z3B"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="887-Pp-nmw" secondAttribute="trailing" constant="20" id="MfT-q6-Qb5"/>
+                            <constraint firstItem="887-Pp-nmw" firstAttribute="leading" secondItem="Xyp-4U-yEZ" secondAttribute="leading" id="Wde-fY-ouX"/>
                             <constraint firstItem="ISn-gA-jk0" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="24" id="gRE-ct-5oW"/>
                             <constraint firstAttribute="centerX" secondItem="887-Pp-nmw" secondAttribute="centerX" id="kJp-9A-dDM"/>
+                            <constraint firstItem="887-Pp-nmw" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="20" id="mev-I9-qcq"/>
                             <constraint firstAttribute="centerX" secondItem="Xyp-4U-yEZ" secondAttribute="centerX" id="sMh-cG-RgG"/>
                             <constraint firstItem="2V2-D7-dyh" firstAttribute="top" secondItem="ISn-gA-jk0" secondAttribute="bottom" constant="8" id="wyD-eh-kXg"/>
                             <constraint firstAttribute="centerX" secondItem="2V2-D7-dyh" secondAttribute="centerX" id="y3R-bK-0LD"/>
@@ -68,8 +78,9 @@
         <scene sceneID="mkf-ut-xvV">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="W8Y-0D-WES" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vJ5-hH-IXO">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="vJ5-hH-IXO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -85,6 +96,7 @@
     </scenes>
     <resources>
         <image name="badge" width="152" height="168"/>
-        <image name="silver-button-normal.png" width="307" height="48"/>
+        <image name="silver-button-normal" width="307" height="48"/>
+        <image name="silver-button-pressed" width="307" height="48"/>
     </resources>
 </document>
