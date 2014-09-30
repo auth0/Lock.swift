@@ -37,9 +37,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@"o8HFHDVB1yEVXSvxSO5F1WuKP"
-                                                                               andSecret:@"v04WbftIrRJENoTFAr91eCEgLmVCDcaEm5brZlLJtS0ccJjHIz"
-                                                                             callbackURL:[NSURL URLWithString:@"com.auth0.Auth0Client://twitter-auth"]];
+    A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
+                                                                            andSecret:@""];
     A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
     [[A0IdentityProviderAuthenticator sharedInstance] registerAuthenticationProviders:@[
                                                                                         twitter,

@@ -36,7 +36,7 @@ For example:
 
 You can use Auth0.iOS with our native widget to handle authentication for you. It fetches your Auth0 app configuration and configures itself accordingly.
 
-To get started, import these files in your `AppDelegate.m` file.
+To get started, import this file in your `AppDelegate.m` file.
 
 ```objc
 #import <Auth0.iOS/Auth0.h>
@@ -90,7 +90,7 @@ First in your `AppDelegate.m`, add the following method:
     return [[A0SocialAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
 }
 ```
-This will allow Auth0.iOS to handle a successful login from Facebook, Twitter and any other Identity Providers.
+This will allow Auth0.iOS to handle a successful login from Facebook, Twitter and any other Identity Providers. And finally you need to define a new URL Type for Auth0 that has a Custom Scheme with the following format: `a0${AUTH0_CLIENT_ID}`, you can do it in your app's target inside Xcode (Under the _Info_ section) or directly in your application's info plist file. This custom scheme is used by *Auth0.iOS* to handle all authentication that requires the use a web browser (Safari or UIWebView).
 
 By default Auth0.iOS includes Twitter & Facebook integration (and its dependencies) but you can discard what you don't need . If you only want Facebook auth just add this to your Podfile:
 
