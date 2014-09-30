@@ -20,7 +20,7 @@
 
 The Auth0.iOS pod is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 ```ruby
-pod "Auth0.iOS", "~> 1.0"
+pod "Auth0.iOS", "~> 1.0.0-rc"
 ```
 
 Then in your project's `Info.plist` file add the following entries:
