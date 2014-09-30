@@ -46,7 +46,7 @@ And add the following methods:
 
 ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:@"???" andSecret:@"????" callbackURL:[NSURL URLWithString:@"com.auth0.Auth0.iOS://twitter"]];
+  A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:@"???" andSecret:@"????"];
   A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticationWithDefaultPermissions];
   [[A0IdentityProviderAuthenticator sharedInstance] registerSocialAuthenticatorProviders:@[twitter, facebook]];
   return YES;
@@ -132,13 +132,11 @@ To support Twitter authentication you need to configure the Twitter authenticati
 ```objc
 NSString *twitterApiKey = ... //Remember to obfuscate your api key
 NSString *twitterApiSecret = ... //Remember to obfuscate your api secret
-NSURL *callbackURL = ... //URL that the app handles after going to Safari.
-A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:twitterApiKey                                                                            andSecret:twitterApiSecret callbackURL:callbackURL];
+A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:twitterApiKey                                                                            andSecret:twitterApiSecret];
 [[A0SocialAuthenticator sharedInstance] registerSocialAuthenticatorProvider:twitter];
 ```
 
 We need your twitter app's key & secret in order to sign the reverse auth request. For more info please read the Twitter documentation related to [Authorizing Requests](https://dev.twitter.com/docs/auth/authorizing-request) and [Reverse Auth](https://dev.twitter.com/docs/ios/using-reverse-auth).
-The callback URL is used when authenticating with OAuth Web Flow in order to identify the correct call to `application:openURL:sourceApplication:annotation:` and extract the results of OAuth Web Flow. We recommend using a URL with a custom scheme that matches your app's Bundle Indentifier, e.g. _com.auth0.Example://twitter_
 
 ##API
 
