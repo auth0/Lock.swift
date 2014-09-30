@@ -45,6 +45,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *repeatPasswordField;
+@property (weak, nonatomic) IBOutlet A0ProgressButton *recoverButton;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 
 - (IBAction)recover:(id)sender;
@@ -101,7 +106,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
             [self.recoverButton setInProgress:NO];
             showAlertErrorView(A0LocalizedString(@"Couldn't change your password"), [A0Errors localizedStringForChangePasswordError:error]);
         };
-        [[A0APIClient sharedClient] changePassword:password forUsername:username success:success failure:failure];
+        [[A0APIClient sharedClient] changePassword:password
+                                       forUsername:username
+                                        parameters:self.parameters
+                                           success:success
+                                           failure:failure];
 
     } else {
         [self.recoverButton setInProgress:NO];

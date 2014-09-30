@@ -140,7 +140,7 @@
 - (void)refreshWithRefreshToken:(A0Token *)token success:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
     Auth0LogDebug(@"Session already expired. Requesting new id_token from API...");
     @weakify(self);
-    [[A0APIClient sharedClient] delegationWithRefreshToken:token.refreshToken options:nil success:^(A0Token *tokenInfo) {
+    [[A0APIClient sharedClient] delegationWithRefreshToken:token.refreshToken parameters:nil success:^(A0Token *tokenInfo) {
         @strongify(self);
         A0Token *refreshedToken = [[A0Token alloc] initWithAccessToken:tokenInfo.accessToken idToken:tokenInfo.idToken tokenType:tokenInfo.tokenType refreshToken:token.refreshToken];
         [self.dataSource storeToken:refreshedToken];
@@ -154,7 +154,7 @@
 - (void)refreshWithIdToken:(A0Token *)token success:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure {
     Auth0LogDebug(@"Session not expired. Requesting new id_token from API using id_token...");
     @weakify(self);
-    [[A0APIClient sharedClient] delegationWithIdToken:token.idToken options:nil success:^(A0Token *tokenInfo) {
+    [[A0APIClient sharedClient] delegationWithIdToken:token.idToken parameters:nil success:^(A0Token *tokenInfo) {
         @strongify(self);
         A0Token *refreshedToken = [[A0Token alloc] initWithAccessToken:tokenInfo.accessToken idToken:tokenInfo.idToken tokenType:tokenInfo.tokenType refreshToken:token.refreshToken];
         [self.dataSource storeToken:refreshedToken];

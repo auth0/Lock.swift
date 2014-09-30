@@ -29,11 +29,13 @@
 #import "A0APIClient.h"
 #import "A0Errors.h"
 #import "A0WebAuthentication.h"
+#import "A0AuthParameters.h"
 
 @interface A0WebAuthenticator ()
 
+@property (strong, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0Strategy *strategy;
-@property (strong, nonatomic) NSURL *authorizeURL;
+@property (strong, nonatomic) NSURLComponents *components;
 @property (strong, nonatomic) A0WebAuthentication *authentication;
 @property (copy, nonatomic) void(^successBlock)(A0UserProfile *, A0Token *);
 @property (copy, nonatomic) void(^failureBlock)(NSError *);
@@ -51,29 +53,21 @@
 }
 
 - (instancetype)initWithStrategy:(A0Strategy *)strategy
-                     application:(A0Application *)application
-                           scope:(NSString *)scope
-                   offlineAccess:(BOOL)offlineAccess {
+                     application:(A0Application *)application {
     self = [self init];
     if (self) {
         _authentication = [[A0WebAuthentication alloc] initWithApplication:application strategy:strategy];
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
         NSString *connectionName = strategy.connection[@"name"];
-        NSDictionary *parameters = @{
-                                     @"scope": scope,
-                                     @"response_type": @"token",
-                                     @"connection": connectionName,
-                                     @"client_id": application.identifier,
-                                     @"redirect_uri": _authentication.callbackURL.absoluteString,
-                                     };
-        if (offlineAccess) {
-            NSMutableDictionary *dict = [parameters mutableCopy];
-            dict[@"device"] = [[UIDevice currentDevice] name];
-            parameters = dict;
-        }
-        components.query = parameters.queryString;
+        A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{
+                                                                             @"response_type": @"token",
+                                                                             @"connection": connectionName,
+                                                                             @"client_id": application.identifier,
+                                                                             @"redirect_uri": _authentication.callbackURL.absoluteString,
+                                                                             }];
+        _parameters = parameters;
         _strategy = strategy;
-        _authorizeURL = components.URL;
+        _components = components;
     }
     return self;
 }
@@ -91,12 +85,8 @@
 
 + (instancetype)newWebAuthenticationForStrategy:(A0Strategy *)strategy
                                   ofApplication:(A0Application *)application {
-    A0APIClient *client = [A0APIClient sharedClient];
-    BOOL offlineAccess = [[client defaultScopes] containsObject:A0APIClientScopeOfflineAccess];
     return [[A0WebAuthenticator alloc] initWithStrategy:strategy
-                                             application:application
-                                                   scope:client.defaultScopeValue
-                                           offlineAccess:offlineAccess];
+                                             application:application];
 }
 
 - (NSString *)identifier {
@@ -130,13 +120,18 @@
     return handled;
 }
 
-- (void)authenticateWithSuccess:(void(^)(A0UserProfile *, A0Token *))success
-                        failure:(void(^)(NSError *))failure {
+- (void)authenticateWithParameters:(A0AuthParameters *)parameters
+                           success:(void (^)(A0UserProfile *, A0Token *))success
+                           failure:(void (^)(NSError *))failure {
     if ([self hasAuth0Scheme]) {
         self.successBlock = success;
         self.failureBlock = failure;
-        Auth0LogDebug(@"Opening web authentication wit URL %@", self.authorizeURL);
-        [[UIApplication sharedApplication] openURL:self.authorizeURL];
+        A0AuthParameters *defaultParameters = self.parameters.copy;
+        [defaultParameters addValuesFromParameters:parameters];
+        self.components.query = defaultParameters.dictionary.queryString;
+        NSURL *authorizeURL = self.components.URL;
+        Auth0LogDebug(@"Opening web authentication wit URL %@", authorizeURL);
+        [[UIApplication sharedApplication] openURL:authorizeURL];
     } else {
         Auth0LogError(@"Scheme %@ not configured in CFBundleURLTypes", self.authentication.callbackURL.scheme);
         failure([A0Errors urlSchemeNotRegistered]);

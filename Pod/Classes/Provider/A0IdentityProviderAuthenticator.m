@@ -82,11 +82,12 @@
 }
 
 - (void)authenticateForStrategy:(A0Strategy *)strategy
-                    withSuccess:(void(^)(A0UserProfile *profile, A0Token *token))success
-                        failure:(void (^)(NSError *))failure {
+                     parameters:(A0AuthParameters *)parameters
+                        success:(void(^)(A0UserProfile *profile, A0Token *token))success
+                        failure:(void(^)(NSError *error))failure {
     id<A0AuthenticationProvider> authenticator = self.authenticators[strategy.name];
     if (authenticator) {
-        [authenticator authenticateWithSuccess:success failure:failure];
+        [authenticator authenticateWithParameters:parameters success:success failure:failure];
     } else {
         Auth0LogWarn(@"No known provider for strategy %@", strategy.name);
         if (failure) {

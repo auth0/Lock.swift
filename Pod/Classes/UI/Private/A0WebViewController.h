@@ -1,4 +1,4 @@
-//  A0ChangePasswordViewController.h
+//  A0WebViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,21 +21,14 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "A0KeyboardEnabledView.h"
 
-@class A0ChangePasswordCredentialValidator, A0ProgressButton, A0CredentialFieldView;
+@class A0Token, A0UserProfile, A0Application, A0Strategy, A0AuthParameters;
 
-@interface A0ChangePasswordViewController : UIViewController<A0KeyboardEnabledView>
+@interface A0WebViewController : UIViewController
 
-@property (copy, nonatomic) void(^onChangePasswordBlock)();
-@property (copy, nonatomic) void(^onCancelBlock)();
+@property (copy, nonatomic) void(^onAuthentication)(A0UserProfile *profile, A0Token *token);
+@property (copy, nonatomic) void(^onFailure)(NSError *error);
 
-@property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;
-
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *repeatPasswordField;
-@property (weak, nonatomic) IBOutlet A0ProgressButton *recoverButton;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy parameters:(A0AuthParameters *)parameters;
 
 @end

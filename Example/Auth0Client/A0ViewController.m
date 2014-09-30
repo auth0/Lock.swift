@@ -28,6 +28,7 @@
 #import <Auth0.iOS/A0TwitterAuthenticator.h>
 #import <Auth0.iOS/A0IdentityProviderAuthenticator.h>
 #import <Auth0.iOS/A0AuthCore.h>
+#import <Auth0.iOS/A0AuthParameters.h>
 #import <libextobjc/EXTScope.h>
 
 @interface A0ViewController ()
@@ -68,7 +69,6 @@
     controller.closable = YES;
     controller.loginAfterSignUp = YES;
     controller.usesEmail = YES;
-    controller.defaultScopes = @[A0APIClientScopeOpenId, A0APIClientScopeOfflineAccess];
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);

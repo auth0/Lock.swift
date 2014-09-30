@@ -21,9 +21,8 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "A0KeyboardEnabledView.h"
 
-@class A0AuthenticationViewController, A0UserProfile, A0Token;
+@class A0AuthenticationViewController, A0UserProfile, A0Token, A0AuthParameters;
 
 typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
@@ -59,11 +58,6 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 @property (assign, nonatomic) BOOL loginAfterSignUp;
 
 /**
- List of scopes used when authenticating against Auth0 REST API. By default the values are: scope & offline_access but you can use `A0APIClientScopeOpenId`, `A0APIClientScopeOfflineAccess` constants instead.
-*/
-@property (assign, nonatomic) NSArray *defaultScopes;
-
-/**
  View that will appear in the bottom of Signup screen. It should be used to show Terms & Conditions of your app.
  */
 @property (strong, nonatomic) UIView *signUpDisclaimerView;
@@ -72,5 +66,11 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  *  When authenticating with a social connection, it will use an embedded webView instead of Safari. Default is NO.
  */
 @property (assign, nonatomic) BOOL useWebView;
+
+/**
+ *  Parameters to be sent to all Authentication request to Auth0 API.
+ *  @see A0AuthParameters
+ */
+@property (strong, nonatomic) A0AuthParameters *authenticationParameters;
 
 @end

@@ -206,13 +206,13 @@ After a successful Signup, `A0AuthenticationViewController` will attempt to logi
 controller.loginAfterSignup = NO;
 ```
 
-####A0AuthenticationViewController#defaultScopes
+####A0AuthenticationViewController#authenticationParameters
 ```objc
-@property (assign, nonatomic) NSArray *defaultScopes;
+@property (assign, nonatomic) A0AuthParameters *authenticationParameters;
 ```
-List of scopes used when authenticating against Auth0 REST API. By default the values are: `scope` & `offline_access` but you can use `A0APIClientScopeOpenId`, `A0APIClientScopeOfflineAccess` constants instead.
+List of optional parameters that will be used for every authentication request with Auth0 API. By default it only has  'openid' and 'offline_access' scope values. For more information check out our [Wiki](https://github.com/auth0/Auth0.iOS/wiki/Sending-authentication-parameters)
 ```objc
-controller.defaultScopes = @[A0APIClientScopeOpenId, A0APIClientScopeOfflineAccess];
+controller.authenticationParameters.scopes = @[A0ScopeOpenId, A0ScopeOfflineAccess, A0ScopeProfile];
 ```
 
 ###A0AuthenticationViewController#signupDisclaimerView

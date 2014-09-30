@@ -1,4 +1,4 @@
-//  A0SocialTableViewController.m
+//  A0FullLoginViewController.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,15 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0SocialLoginViewController.h"
+#import "A0FullLoginViewController.h"
 #import "A0Application.h"
 #import "A0Strategy.h"
+#import "A0ServiceCollectionViewCell.h"
 #import "A0IdentityProviderAuthenticator.h"
 #import "UIButton+A0SolidButton.h"
-#import "A0ServiceTableViewCell.h"
 #import "A0APIClient.h"
 #import "A0Errors.h"
-#import "A0ProgressButton.h"
+#import "A0Theme.h"
 #import "A0ServicesTheme.h"
 #import "A0WebViewController.h"
 
@@ -45,33 +45,28 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [alert show];
 }
 
-@interface A0SocialLoginViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface A0FullLoginViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
+@property (weak, nonatomic) IBOutlet UILabel *orLabel;
 @property (strong, nonatomic) A0ServicesTheme *services;
 @property (strong, nonatomic) NSArray *activeServices;
-@property (assign, nonatomic) NSInteger selectedService;
 
 @end
 
-@implementation A0SocialLoginViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.title = A0LocalizedString(@"Login");
-    }
-    return self;
-}
+@implementation A0FullLoginViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:nil];
-    [self.tableView registerNib:cellNib forCellReuseIdentifier:kCellIdentifier];
+    UINib *cellNib = [UINib nibWithNibName:@"A0ServiceCollectionViewCell" bundle:nil];
+    [self.serviceCollectionView registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
     self.services = [[A0ServicesTheme alloc] init];
     self.activeServices = self.application.availableSocialOrEnterpriseStrategies;
-    self.selectedService = NSNotFound;
+    self.serviceCollectionView.scrollEnabled = self.activeServices.count > 5;
+    A0Theme *theme = [A0Theme sharedInstance];
+    self.orLabel.font = [theme fontForKey:A0ThemeTextFieldFont defaultFont:self.orLabel.font];
+    self.orLabel.textColor = [theme colorForKey:A0ThemeTextFieldTextColor defaultColor:self.orLabel.textColor];
+
 }
 
 - (void)triggerAuth:(UIButton *)sender {
@@ -84,7 +79,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         }
     };
 
-    void(^failureBlock)(NSError *) = ^(NSError *error) {
+    void(^failureBlock)(NSError *error) = ^(NSError *error) {
         @strongify(self);
         [self setInProgress:NO];
         if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled && error.code != A0ErrorCodeAuth0Cancelled) {
@@ -92,6 +87,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
                 case A0ErrorCodeTwitterInvalidAccount:
                 case A0ErrorCodeTwitterNotConfigured:
+                case A0ErrorCodeFacebookCancelled:
+                case A0ErrorCodeAuth0Cancelled:
                 case A0ErrorCodeAuth0NotAuthorized:
                 case A0ErrorCodeAuth0InvalidConfiguration:
                 case A0ErrorCodeAuth0NoURLSchemeFound:
@@ -103,16 +100,16 @@ static void showAlertErrorView(NSString *title, NSString *message) {
             }
         }
     };
-    self.selectedService = sender.tag;
     [self setInProgress:YES];
+
     A0Strategy *strategy = self.application.availableSocialOrEnterpriseStrategies[sender.tag];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         Auth0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
-        [authenticator authenticateForStrategy:strategy withSuccess:successBlock failure:failureBlock];
+        [authenticator authenticateForStrategy:strategy parameters:self.parameters success:successBlock failure:failureBlock];
     } else {
         Auth0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
-        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.application strategy:strategy];
+        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.application strategy:strategy parameters:self.parameters];
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         controller.onAuthentication = successBlock;
@@ -121,42 +118,70 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     }
 }
 
-- (CGRect)rectToKeepVisibleInView:(UIView *)view {
-    return CGRectZero;
+#pragma mark - UICollectionViewDelegate
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
 }
 
-- (void)hideKeyboard {}
 
-#pragma mark - UITableViewDataSource
+#pragma mark - UICollectionViewDelegateFlowLayout
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout*)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section {
+    NSInteger numberOfCells = self.activeServices.count;
+    UIEdgeInsets insets;
+    if (numberOfCells > 5) {
+        insets = UIEdgeInsetsZero;
+    } else {
+        CGFloat cellsWidth = (numberOfCells * 40) + MAX(0, (numberOfCells - 1) * 10);
+
+        NSInteger edgeInsets = (self.view.frame.size.width - cellsWidth) / 2;
+
+        insets = UIEdgeInsetsMake(0, edgeInsets, 0, edgeInsets);
+    }
+    return insets;
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.activeServices.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *serviceName = [self.activeServices[indexPath.row] name];
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    A0ServiceCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
+    NSString *serviceName = [self.activeServices[indexPath.item] name];
     UIColor *background = [self.services backgroundColorForServiceWithName:serviceName];
     UIColor *selectedBackground = [self.services selectedBackgroundColorForServiceWithName:serviceName];
-    UIColor *foreground = [self.services foregroundColorForServiceWithName:serviceName];
-    A0ServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
-    [cell configureWithBackground:background
-                      highlighted:selectedBackground
-                       foreground:foreground
-                           symbol:[self.services iconCharacterForServiceWithName:serviceName]
-                             name:[self.services titleForServiceWithName:serviceName]];
-    [cell.button addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];
-    cell.button.tag = indexPath.row;
-    [cell.button setInProgress:self.selectedService == indexPath.row];
+    cell.serviceButton.titleLabel.font = [UIFont fontWithName:@"zocial" size:14.0f];
+    [cell.serviceButton setTitleColor:[self.services foregroundColorForServiceWithName:serviceName] forState:UIControlStateNormal];
+    [cell.serviceButton setTitle:[self.services iconCharacterForServiceWithName:serviceName] forState:UIControlStateNormal];
+    [cell.serviceButton setBackgroundColor:background forState:UIControlStateNormal];
+    [cell.serviceButton setBackgroundColor:selectedBackground forState:UIControlStateHighlighted];
+    [cell.serviceButton addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];
+    cell.serviceButton.tag = indexPath.item;
     return cell;
 }
 
 #pragma mark - Utility methods
 
 - (void)setInProgress:(BOOL)inProgress {
-    self.view.userInteractionEnabled = !inProgress;
-    [self.tableView reloadData];
-    if (!inProgress) {
-        self.selectedService = NSNotFound;
+    if (inProgress) {
+        self.loadingView.alpha = 0.0f;
+        self.loadingView.hidden = NO;
+        [self.view bringSubviewToFront:self.loadingView];
+        [UIView animateWithDuration:0.5f animations:^{
+            self.loadingView.alpha = 1.0f;
+        }];
+    } else {
+        [UIView animateWithDuration:0.5f animations:^{
+            self.loadingView.alpha = 0.0f;
+        } completion:^(BOOL finished) {
+            self.loadingView.hidden = YES;
+            [self.view sendSubviewToBack:self.loadingView];
+        }];
     }
 }
 

@@ -1,4 +1,4 @@
-//  A0SocialTableViewController.h
+//  A0SignUpViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,13 +21,20 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+
 #import "A0KeyboardEnabledView.h"
 
-@class A0Application, A0UserProfile, A0Token;
+@class A0SignUpCredentialValidator, A0ProgressButton, A0UserProfile, A0Token, A0CredentialFieldView, A0AuthParameters;
 
-@interface A0SocialLoginViewController : UIViewController<A0KeyboardEnabledView>
+@interface A0SignUpViewController : UIViewController<A0KeyboardEnabledView>
 
-@property (strong, nonatomic) A0Application *application;
-@property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
+@property (copy, nonatomic) void(^onSignUpBlock)(A0UserProfile *profile, A0Token *token);
+@property (copy, nonatomic) void(^onCancelBlock)();
+
+@property (strong, nonatomic) A0AuthParameters *parameters;
+@property (strong, nonatomic) A0SignUpCredentialValidator *validator;
+@property (assign, nonatomic, getter = shouldLoginUser) BOOL loginUser;
+
+- (void)addDisclaimerSubview:(UIView *)view;
 
 @end

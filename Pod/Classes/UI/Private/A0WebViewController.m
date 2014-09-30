@@ -28,6 +28,7 @@
 #import "A0Token.h"
 #import "A0WebAuthentication.h"
 #import "NSDictionary+A0QueryParameters.h"
+#import "A0AuthParameters.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -44,25 +45,20 @@
 
 @implementation A0WebViewController
 
-- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy {
+- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy parameters:(A0AuthParameters *)parameters {
     self = [super init];
     if (self) {
         _authentication = [[A0WebAuthentication alloc] initWithApplication:application strategy:strategy];
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
         NSString *connectionName = strategy.connection[@"name"];
-        NSDictionary *parameters = @{
-                                     @"scope": [[A0APIClient sharedClient] defaultScopeValue],
-                                     @"response_type": @"token",
-                                     @"connection": connectionName,
-                                     @"client_id": application.identifier,
-                                     @"redirect_uri": _authentication.callbackURL.absoluteString,
-                                     };
-        if ([[[A0APIClient sharedClient] defaultScopes] containsObject:A0APIClientScopeOfflineAccess]) {
-            NSMutableDictionary *dict = [parameters mutableCopy];
-            dict[@"device"] = [[UIDevice currentDevice] name];
-            parameters = dict;
-        }
-        components.query = parameters.queryString;
+        A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
+                                                                                    @"response_type": @"token",
+                                                                                    @"connection": connectionName,
+                                                                                    @"client_id": application.identifier,
+                                                                                    @"redirect_uri": _authentication.callbackURL.absoluteString,
+                                                                                    }];
+        [defaultParameters addValuesFromParameters:parameters];
+        components.query = defaultParameters.dictionary.queryString;
         _authorizeURL = components.URL;
         _strategyName = strategy.name;
     }

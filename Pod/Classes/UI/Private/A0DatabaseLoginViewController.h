@@ -23,10 +23,11 @@
 #import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
-@class A0ProgressButton, A0UserProfile, A0DatabaseLoginCredentialValidator, A0Token, A0CredentialFieldView;
+@class A0ProgressButton, A0UserProfile, A0DatabaseLoginCredentialValidator, A0Token, A0CredentialFieldView, A0AuthParameters;
 
 @interface A0DatabaseLoginViewController : UIViewController<A0KeyboardEnabledView>
 
+@property (strong, nonatomic) A0AuthParameters *parameters;
 @property (assign, nonatomic) BOOL showSignUp;
 @property (assign, nonatomic) BOOL showResetPassword;
 @property (strong, nonatomic) A0DatabaseLoginCredentialValidator *validator;

@@ -37,6 +37,8 @@
 #import "A0SocialLoginViewController.h"
 #import "A0Theme.h"
 #import "A0Strategy.h"
+#import "A0KeyboardEnabledView.h"
+#import "A0AuthParameters.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
@@ -67,6 +69,7 @@
         }
         _usesEmail = YES;
         _loginAfterSignUp = YES;
+        _authenticationParameters = [A0AuthParameters newDefaultParams];
         [A0AuthenticationViewController loadIconFont];
     }
     return self;
@@ -85,9 +88,6 @@
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
     self.current = [self layoutController:[[A0LoadingViewController alloc] init] inContainer:self.containerView];
 
-    if (self.defaultScopes.count > 0) {
-        [A0APIClient sharedClient].defaultScopes = [self.defaultScopes copy];
-    }
     self.dismissButton.hidden = !self.closable;
 
     [[A0IdentityProviderAuthenticator sharedInstance] setUseWebAsDefault:!self.useWebView];
@@ -141,11 +141,13 @@
         controller.application = application;
         controller.showResetPassword = [strategy.connection[@"showForgot"] boolValue];
         controller.showSignUp = [strategy.connection[@"showSignup"] boolValue];
+        controller.parameters = self.authenticationParameters;
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if ([application hasDatabaseConnection]) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
         controller.showResetPassword = [strategy.connection[@"showForgot"] boolValue];
         controller.showSignUp = [strategy.connection[@"showSignup"] boolValue];
+        controller.parameters = self.authenticationParameters;
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if ([application hasSocialOrEnterpriseStrategies]) {
         A0SocialLoginViewController *controller = [self newSocialLoginViewController:onAuthSuccessBlock];
@@ -245,6 +247,7 @@
     A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
     controller.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
     controller.loginUser = self.loginAfterSignUp;
+    controller.parameters = self.authenticationParameters;
     @weakify(self);
     if (self.signUpDisclaimerView) {
         [controller addDisclaimerSubview:self.signUpDisclaimerView];
@@ -260,6 +263,7 @@
 - (A0ChangePasswordViewController *)newChangePasswordViewController {
     A0ChangePasswordViewController *controller = [[A0ChangePasswordViewController alloc] init];
     controller.validator = [[A0ChangePasswordCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+    controller.parameters = self.authenticationParameters;
     @weakify(self);
     void(^block)() = ^{
         @strongify(self);

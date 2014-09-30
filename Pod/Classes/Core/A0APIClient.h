@@ -22,37 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-///----------------------------------------
-/// @name Delegation API option Keys
-///----------------------------------------
-
-/**
- 'api_type' delegation API parameter
- */
-FOUNDATION_EXTERN NSString * const A0APIClientDelegationAPIType;
-/**
- 'target' delegation API parameter
- */
-FOUNDATION_EXTERN NSString * const A0APIClientDelegationTarget;
-
-///----------------------------------------
-/// @name Auth0 API Scopes
-///----------------------------------------
-
-/**
- 'openid' scope
- */
-FOUNDATION_EXPORT NSString * const A0APIClientScopeOpenId;
-/**
- 'offilen_access' scope
- */
-FOUNDATION_EXPORT NSString * const A0APIClientScopeOfflineAccess;
-/**
- 'profile' scope
- */
-FOUNDATION_EXPORT NSString * const A0APIClientScopeProfile;
-
-@class A0Application, A0Strategy, A0IdentityProviderCredentials, A0UserProfile, A0Token;
+@class A0Application, A0Strategy, A0IdentityProviderCredentials, A0UserProfile, A0Token, A0AuthParameters;
 
 typedef void(^A0APIClientFetchAppInfoSuccess)(A0Application* application);
 typedef void(^A0APIClientAuthenticationSuccess)(A0UserProfile *profile, A0Token *tokenInfo);
@@ -64,16 +34,6 @@ typedef void(^A0APIClientError)(NSError *error);
  `A0APIClient` is a class with convenience methods for Auth0 REST API.
  */
 @interface A0APIClient : NSObject
-
-/**
- Default scopes used for all request made by this instance.
- */
-@property (strong, nonatomic) NSArray *defaultScopes;
-
-/**
- *  Default scopes as a NSString value.
- */
-@property (readonly, nonatomic) NSString *defaultScopeValue;
 
 ///----------------------------------------
 /// @name Initialization
@@ -103,7 +63,7 @@ typedef void(^A0APIClientError)(NSError *error);
 ///----------------------------------------
 
 /**
- *  Auth0 application information after a call to fetchAppInfoWithSuccess:failure:. Default nil.
+ *  Auth0 application information after a call to fetchAppInfoWithSuccess:failure:. Default is nil.
  */
 @property (readonly, nonatomic) A0Application *application;
 
@@ -122,33 +82,47 @@ typedef void(^A0APIClientError)(NSError *error);
 /**
  *  Perform login of a user with username & password. The selected strategy is obtained from the application configured on the client.
  *
- *  @param username username or email of the user to login
- *  @param password password of the user to login
- *  @param success  block called on successful login with it's token info and profile
- *  @param failure  block called on failure with the reason as a parameter
+ *  @param username     username or email of the user to login
+ *  @param password     password of the user to login
+ *  @param parameters   optional parameters for Auth0 API. It can be nil
+ *  @param success      block called on successful login with it's token info and profile
+ *  @param failure      block called on failure with the reason as a parameter
  */
 - (void)loginWithUsername:(NSString *)username
                  password:(NSString *)password
+               parameters:(A0AuthParameters *)parameters
                   success:(A0APIClientAuthenticationSuccess)success
                   failure:(A0APIClientError)failure;
 
 /**
- *  Perform a signup a new user in the application database configured in Auth0. It can auto login the user after a signup.
+ *  Perform signup for a new user in the application database. It can login the user after a succesful signup.
  *
  *  @param username       username or email of the new user
  *  @param password       password of the new user
  *  @param loginOnSuccess if after the signup the user should be automatically logged in
+ *  @param parameters     optional parameters for Auth0 API. It can be nil
  *  @param success        block called on successful signup or login. If the user is not logged in both parameters are nil.
  *  @param failure        block called on failure with the reason as a parameter
  */
 - (void)signUpWithUsername:(NSString *)username
                   password:(NSString *)password
             loginOnSuccess:(BOOL)loginOnSuccess
+                parameters:(A0AuthParameters *)parameters
                    success:(A0APIClientAuthenticationSuccess)success
                    failure:(A0APIClientError)failure;
 
+/**
+ *  Change the password for a user.
+ *
+ *  @param newPassword new password for the user
+ *  @param username    username to change its password. It can be an email or a username
+ *  @param parameters  optional parameters for Auth0 API. It can be nil
+ *  @param success     block called on success
+ *  @param failure     block called on failure with the reason as a parameter
+ */
 - (void)changePassword:(NSString *)newPassword
            forUsername:(NSString *)username
+            parameters:(A0AuthParameters *)parameters
                success:(void(^)())success
                failure:(A0APIClientError)failure;
 
@@ -159,15 +133,17 @@ typedef void(^A0APIClientError)(NSError *error);
 /**
  *  Authenticate a user using credentials from an identity provider like Facebook or Twitter
  *
- *  @param strategy          strategy that represents the identity provider of the credentials. This object is found in your Auth0 app's info wrapped as an instance of `A0Application`.
- *  @param socialCredentials credentials obtained from the identity provider. e.g. Facebook accessToken
- *  @param success           block called on successful authentication with user's token and profile
- *  @param failure           block called on failure with the reason as a parameter
+ *  @param strategy             strategy that represents the identity provider of the credentials. This object is found in your Auth0 app's info wrapped as an instance of `A0Application`.
+ *  @param socialCredentials    credentials obtained from the identity provider. e.g. Facebook accessToken
+ *  @param parameters           optional parameters for Auth0 API. It can be nil
+ *  @param success              block called on successful authentication with user's token and profile
+ *  @param failure              block called on failure with the reason as a parameter
  */
 - (void)authenticateWithStrategy:(A0Strategy *)strategy
                      credentials:(A0IdentityProviderCredentials *)socialCredentials
-                               success:(A0APIClientAuthenticationSuccess)success
-                               failure:(A0APIClientError)failure;
+                      parameters:(A0AuthParameters *)parameters
+                         success:(A0APIClientAuthenticationSuccess)success
+                         failure:(A0APIClientError)failure;
 
 
 ///----------------------------------------
@@ -178,27 +154,27 @@ typedef void(^A0APIClientError)(NSError *error);
  *  Calls Auth0 delegation API with the refresh_token to obtain a new id_token.
  *
  *  @param refreshToken user's refresh token
- *  @param options      delegation API options
+ *  @param parameters   optional parameters for Auth0 API. It can be nil
  *  @param success      block called on successful request with new token information.
  *  @param failure      block called on failure with the reason as a parameter
  */
 - (void)delegationWithRefreshToken:(NSString *)refreshToken
-                           options:(NSDictionary *)options
+                        parameters:(A0AuthParameters *)parameters
                            success:(A0APIClientDelegationSuccess)success
                            failure:(A0APIClientError)failure;
 
 /**
  *  Calls Auth0 delegation API with the id_token to obtain a new id_token.
  *
- *  @param idToken user's id token
- *  @param options      delegation API options
- *  @param success      block called on successful request with new token information.
- *  @param failure      block called on failure with the reason as a parameter
+ *  @param idToken          user's id token
+ *  @param parameters       optional parameters for Auth0 API. It can be nil
+ *  @param success          block called on successful request with new token information.
+ *  @param failure          block called on failure with the reason as a parameter
  */
 - (void)delegationWithIdToken:(NSString *)idToken
-                           options:(NSDictionary *)options
-                           success:(A0APIClientDelegationSuccess)success
-                           failure:(A0APIClientError)failure;
+                   parameters:(A0AuthParameters *)parameters
+                      success:(A0APIClientDelegationSuccess)success
+                      failure:(A0APIClientError)failure;
 
 ///----------------------------------------
 /// @name User Profile

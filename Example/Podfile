@@ -1,11 +1,17 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
 target 'Auth0Client', :exclusive => true do
   pod "Auth0.iOS", :path => "../"
+  pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib
+  pod "BDBOAuth1Manager", :inhibit_warnings => true #Ignore warnings for this lib
 end
 
 target 'Tests', :exclusive => true do
   pod "Auth0.iOS", :path => "../"
+  pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib
+  pod "BDBOAuth1Manager", :inhibit_warnings => true #Ignore warnings for this lib
 
-  pod 'Specta', '~> 0.2.1'
+  pod 'Specta', '~> 0.2.1', :inhibit_warnings => true
   pod 'Expecta'
   pod 'OCMockito'
 end

@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 #import "A0AuthenticationProvider.h"
 
-@class A0Application, A0Strategy, A0UserProfile, A0Token;
+@class A0Application, A0Strategy, A0UserProfile, A0Token, A0AuthParameters;
 
 /**
  *  `A0IdentityProviderAuthenticator` provides a single interface to handle all interactions with different identity providers. Each identity provider (a class that conforms with the protocol `A0AuthenticationProvider`) to be used must be registered with this object.
@@ -67,11 +67,12 @@
 /**
  *  Authenticates a user using an identity provider specified by `A0Strategy`
  *
- *  @param strategy object that represent an authentication strategy with an identity provider.
- *  @param success  block called on successful authentication with user's token info and profile
- *  @param failure  block called on error with the reason as a parameter
+ *  @param strategy   object that represent an authentication strategy with an identity provider.
+ *  @param parameter  authentication parameters for Auth0 API.
+ *  @param success    block called on successful authentication with user's token info and profile
+ *  @param failure    block called on error with the reason as a parameter
  */
-- (void)authenticateForStrategy:(A0Strategy *)strategy withSuccess:(void(^)(A0UserProfile *profile, A0Token *token))success failure:(void(^)(NSError *error))failure;
+- (void)authenticateForStrategy:(A0Strategy *)strategy parameters:(A0AuthParameters *)parameters success:(void(^)(A0UserProfile *profile, A0Token *token))success failure:(void(^)(NSError *error))failure;
 
 /**
  *  Checks if there is a registered identity provider authenticator the given strategy
