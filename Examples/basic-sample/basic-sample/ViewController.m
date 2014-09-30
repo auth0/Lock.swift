@@ -28,7 +28,7 @@
 }
 - (IBAction)showSignIn:(id)sender {
     A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
-    controller.closable = false;
+    controller.closable = true;
     @weakify(self);
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);

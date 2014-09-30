@@ -74,11 +74,14 @@ A0AuthenticationViewController *controller = [[A0AuthenticationViewController al
 controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
     @strongify(self);
     // Do something with token & profile. e.g.: save them.
+    // This SDK can save the Token and the profile for you. Read below
     // And dismiss the ViewController
     [self dismissViewControllerAnimated:YES completion:nil];
 };
 [self presentViewController:controller animated:YES completion:nil];
 ```
+
+> **Note**: If you want the SDK to save and handle the Token and Profile automatically for you, please read [this guide]() to learn how.
 
 ### Identity Provider Authentication
 
