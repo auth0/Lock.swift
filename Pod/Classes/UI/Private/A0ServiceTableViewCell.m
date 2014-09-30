@@ -23,6 +23,7 @@
 #import "A0ServiceTableViewCell.h"
 #import "UIButton+A0SolidButton.h"
 #import "A0ProgressButton.h"
+#import "UIFont+A0Social.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 
@@ -39,7 +40,7 @@
     UILabel *label = [[UILabel alloc] init];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont fontWithName:@"zocial" size:14.0f];
+    label.font = [UIFont zocialFontOfSize:14.0f];
     [self.button addSubview:label];
     label.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary *views = NSDictionaryOfVariableBindings(label);

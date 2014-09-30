@@ -1,4 +1,4 @@
-// A0TwitterAuthenticator.h
+//  UI.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,23 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import "A0AuthenticationProvider.h"
+#ifndef _AUTH0_IOS_SDK_UI_
+#define _AUTH0_IOS_SDK_UI_
 
-/**
- *  `A0TwitterAuthentication` handles the authentication using Twitter as an indentity provider. In order to obtain a valid token to send to Auth0 API, it uses reverse authentication with the user's login information obtained form iOS Twitter integration or from OAuth Web Flow performed in Safari
- */
-@interface A0TwitterAuthenticator : NSObject<A0AuthenticationProvider>
+#import "A0Theme.h"
+#import "A0AuthenticationViewController.h"
 
-/**
- *  Returns a new instance with your Twitter's app key & secret. Also sepcifies the callback used to go back from Safari after Oauth Web Flow.
- *
- *  @param key         twitter app' API key.
- *  @param secret      twitter app' API secret.
- *
- *  @return a new instance.
- */
-+ (A0TwitterAuthenticator *)newAuthenticatorWithKey:(NSString *)key
-                                            andSecret:(NSString *)secret;
-
-@end
+#endif

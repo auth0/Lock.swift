@@ -45,17 +45,17 @@
 /**
  *  Register an array of identity providers.
  *
- *  @param authenticatorProviders array of object that conforms `A0AuthenticationProvider` protocol
- *  @see -registerAuthenticatorProvider:
+ *  @param authenticationProviders array of object that conforms `A0AuthenticationProvider` protocol
+ *  @see -registerAuthenticationProvider:
  */
-- (void)registerAuthenticatorProviders:(NSArray *)authenticatorProviders;
+- (void)registerAuthenticationProviders:(NSArray *)authenticationProviders;
 
 /**
  *  Register an identity provider using it's identifier, so if a provider was already registered with the same identifier, it will be replaced
  *
- *  @param authenticatorProvider object that conforms `A0AuthenticationProvider` protocol
+ *  @param authenticationProvider object that conforms `A0AuthenticationProvider` protocol
  */
-- (void)registerAuthenticatorProvider:(id<A0AuthenticationProvider>)authenticatorProvider;
+- (void)registerAuthenticationProvider:(id<A0AuthenticationProvider>)authenticationProvider;
 
 /**
  *  Configures the authentication with the enabled identity providers in Auth0's application

@@ -133,13 +133,13 @@ typedef void(^A0APIClientError)(NSError *error);
 /**
  *  Authenticate a user using credentials from an identity provider like Facebook or Twitter
  *
- *  @param strategy             strategy that represents the identity provider of the credentials. This object is found in your Auth0 app's info wrapped as an instance of `A0Application`.
+ *  @param strategyName         name that represents the identity provider of the credentials. For example 'facebook', 'linkedin', etc.
  *  @param socialCredentials    credentials obtained from the identity provider. e.g. Facebook accessToken
  *  @param parameters           optional parameters for Auth0 API. It can be nil
  *  @param success              block called on successful authentication with user's token and profile
  *  @param failure              block called on failure with the reason as a parameter
  */
-- (void)authenticateWithStrategy:(A0Strategy *)strategy
+- (void)authenticateWithStrategy:(NSString *)strategyName
                      credentials:(A0IdentityProviderCredentials *)socialCredentials
                       parameters:(A0AuthParameters *)parameters
                          success:(A0APIClientAuthenticationSuccess)success

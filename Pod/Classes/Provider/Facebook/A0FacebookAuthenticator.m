@@ -124,15 +124,7 @@
                                      success:(void(^)(A0UserProfile *, A0Token *))success
                                      failure:(void(^)(NSError *))failure {
     A0APIClient *client = [A0APIClient sharedClient];
-    A0Application *application = client.application;
-    __block A0Strategy *facebook;
-    [application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
-        if ([strategy.name isEqualToString:self.identifier]) {
-            facebook = strategy;
-            *stop = YES;
-        }
-    }];
-    [client authenticateWithStrategy:facebook
+    [client authenticateWithStrategy:self.identifier
                          credentials:credentials
                           parameters:parameters
                              success:success

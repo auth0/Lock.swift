@@ -17,6 +17,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
+  s.public_header_files = 'Pod/Classes/Auth0.h'
   s.dependency 'libextobjc', '~> 0.4'
   s.dependency 'CocoaLumberjack', '~> 1.9'
   s.default_subspecs = 'UI', 'Facebook', 'Twitter'

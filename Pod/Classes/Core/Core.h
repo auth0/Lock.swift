@@ -1,4 +1,4 @@
-//  A0AuthCore.h
+//  Core.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef Auth0Client_A0AuthCore_h
-#define Auth0Client_A0AuthCore_h
+#ifndef _AUTH0_IOS_SDK_CORE_
+#define _AUTH0_IOS_SDK_CORE_
 
 #import "A0APIClient.h"
 #import "A0Application.h"
@@ -30,5 +30,7 @@
 #import "A0Token.h"
 #import "A0UserProfile.h"
 #import "A0UserSessionDataSource.h"
+#import "A0IdentityProviderAuthenticator.h"
+#import "A0AuthParameters.h"
 
 #endif

@@ -36,20 +36,17 @@ For example:
 
 You can use Auth0.iOS with our native widget to handle authentication for you. It fetches your Auth0 app configuration and configures itself accordingly.
 
-To get started, import these files in your `AppDelegate.m` file.
+To get started, import this file in your `AppDelegate.m` file.
 
 ```objc
-#import <Auth0.iOS/A0FacebookAuthenticator.h>
-#import <Auth0.iOS/A0TwitterAuthenticator.h>
-#import <Auth0.iOS/A0IdentityProviderAuthenticator.h>
-#import <Auth0.iOS/A0AuthCore.h>
+#import <Auth0.iOS/Auth0.h>
 ```
 
 And add the following methods:
 
 ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:@"???" andSecret:@"????" callbackURL:[NSURL URLWithString:@"com.auth0.Auth0.iOS://twitter"]];
+  A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:@"???" andSecret:@"????"];
   A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticationWithDefaultPermissions];
   [[A0IdentityProviderAuthenticator sharedInstance] registerSocialAuthenticatorProviders:@[twitter, facebook]];
   return YES;
@@ -65,8 +62,7 @@ For more information on how to configure Facebook & Twitter go to [Identity Prov
 Import the following header files in the class where you want to display our native widget:
 
 ```objc
-#import <Auth0.iOS/A0AuthenticationViewController.h>
-#import <Auth0.iOS/A0AuthCore.h>
+#import <Auth0.iOS/Auth0.h>
 #import <libextobjc/EXTScope.h>
 ```
 
@@ -94,7 +90,7 @@ First in your `AppDelegate.m`, add the following method:
     return [[A0SocialAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
 }
 ```
-This will allow Auth0.iOS to handle a successful login from Facebook, Twitter and any other Identity Providers.
+This will allow Auth0.iOS to handle a successful login from Facebook, Twitter and any other Identity Providers. And finally you need to define a new URL Type for Auth0 that has a Custom Scheme with the following format: `a0${AUTH0_CLIENT_ID}`, you can do it in your app's target inside Xcode (Under the _Info_ section) or directly in your application's info plist file. This custom scheme is used by *Auth0.iOS* to handle all authentication that requires the use a web browser (Safari or UIWebView).
 
 By default Auth0.iOS includes Twitter & Facebook integration (and its dependencies) but you can discard what you don't need . If you only want Facebook auth just add this to your Podfile:
 
@@ -136,13 +132,11 @@ To support Twitter authentication you need to configure the Twitter authenticati
 ```objc
 NSString *twitterApiKey = ... //Remember to obfuscate your api key
 NSString *twitterApiSecret = ... //Remember to obfuscate your api secret
-NSURL *callbackURL = ... //URL that the app handles after going to Safari.
-A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:twitterApiKey                                                                            andSecret:twitterApiSecret callbackURL:callbackURL];
+A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:twitterApiKey                                                                            andSecret:twitterApiSecret];
 [[A0SocialAuthenticator sharedInstance] registerSocialAuthenticatorProvider:twitter];
 ```
 
 We need your twitter app's key & secret in order to sign the reverse auth request. For more info please read the Twitter documentation related to [Authorizing Requests](https://dev.twitter.com/docs/auth/authorizing-request) and [Reverse Auth](https://dev.twitter.com/docs/ios/using-reverse-auth).
-The callback URL is used when authenticating with OAuth Web Flow in order to identify the correct call to `application:openURL:sourceApplication:annotation:` and extract the results of OAuth Web Flow. We recommend using a URL with a custom scheme that matches your app's Bundle Indentifier, e.g. _com.auth0.Example://twitter_
 
 ##API
 

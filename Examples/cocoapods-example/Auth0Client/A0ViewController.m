@@ -23,12 +23,7 @@
 #import "A0ViewController.h"
 
 #import "A0UserProfileViewController.h"
-#import <Auth0.iOS/A0AuthenticationViewController.h>
-#import <Auth0.iOS/A0FacebookAuthenticator.h>
-#import <Auth0.iOS/A0TwitterAuthenticator.h>
-#import <Auth0.iOS/A0IdentityProviderAuthenticator.h>
-#import <Auth0.iOS/A0AuthCore.h>
-#import <Auth0.iOS/A0AuthParameters.h>
+#import <Auth0.iOS/Auth0.h>
 #import <libextobjc/EXTScope.h>
 
 @interface A0ViewController ()
@@ -42,14 +37,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@"o8HFHDVB1yEVXSvxSO5F1WuKP"
-                                                                               andSecret:@"v04WbftIrRJENoTFAr91eCEgLmVCDcaEm5brZlLJtS0ccJjHIz"
-                                                                             callbackURL:[NSURL URLWithString:@"com.auth0.Auth0Client://twitter-auth"]];
+    A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
+                                                                            andSecret:@""];
     A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
-    [[A0IdentityProviderAuthenticator sharedInstance] registerAuthenticatorProviders:@[
-                                                                                   twitter,
-                                                                                   facebook,
-                                                                                   ]];
+    [[A0IdentityProviderAuthenticator sharedInstance] registerAuthenticationProviders:@[
+                                                                                        twitter,
+                                                                                        facebook,
+                                                                                        ]];
 
     self.session = [A0Session newDefaultSession];
     @weakify(self);
