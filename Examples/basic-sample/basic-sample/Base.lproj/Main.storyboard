@@ -51,6 +51,9 @@
                                         <exclude reference="1EN-nC-Ixs"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <action selector="showSignIn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ogP-Bf-a4H"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.086274509803921567" green="0.12941176470588237" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
@@ -90,30 +93,49 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="badge" translatesAutoresizingMaskIntoConstraints="NO" id="ZK3-YR-V2C">
-                                <rect key="frame" x="224" y="35" width="152" height="168"/>
+                                <rect key="frame" x="224" y="8" width="152" height="168"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome John Doe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VgX-qm-lIU">
-                                <rect key="frame" x="103" y="368" width="394" height="120"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="s1U-KK-IJh"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Welcome John Doe" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VgX-qm-lIU">
+                                <rect key="frame" x="183" y="354" width="235" height="35"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-3V-78C">
-                                <rect key="frame" x="180" y="237" width="240" height="128"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-3V-78C">
+                                <rect key="frame" x="180" y="190" width="240" height="128"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="diY-8p-aOl">
+                                <rect key="frame" x="147" y="424" width="307" height="61.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="395" id="2Re-5A-X1M"/>
+                                    <constraint firstAttribute="height" constant="61" id="N2X-NZ-dJJ"/>
+                                </constraints>
+                                <state key="normal" title="Call API" backgroundImage="silver-button-normal">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="silver-button-pressed"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="2Re-5A-X1M"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="showSignIn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="dfr-we-flr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.086274509799999996" green="0.12941176469999999" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="N7C-3V-78C" secondAttribute="centerX" id="0Mt-hb-PfV"/>
-                            <constraint firstItem="VgX-qm-lIU" firstAttribute="leading" secondItem="sYz-mx-ksm" secondAttribute="leadingMargin" constant="87" id="I4V-TF-ehy"/>
-                            <constraint firstItem="35P-dk-6PC" firstAttribute="top" secondItem="VgX-qm-lIU" secondAttribute="bottom" constant="48" id="M9F-43-ePK"/>
-                            <constraint firstItem="ZK3-YR-V2C" firstAttribute="top" secondItem="PMA-OQ-wLj" secondAttribute="bottom" constant="35" id="NeE-Up-kTR"/>
-                            <constraint firstAttribute="centerX" secondItem="ZK3-YR-V2C" secondAttribute="centerX" id="koY-ST-Pxf"/>
-                            <constraint firstAttribute="centerX" secondItem="VgX-qm-lIU" secondAttribute="centerX" id="raA-Hb-ebc"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="VgX-qm-lIU" secondAttribute="trailing" constant="87" id="wOW-J5-lbK"/>
+                            <constraint firstAttribute="centerX" secondItem="N7C-3V-78C" secondAttribute="centerX" id="Boa-oI-lOQ"/>
+                            <constraint firstItem="35P-dk-6PC" firstAttribute="top" secondItem="diY-8p-aOl" secondAttribute="bottom" constant="50" id="F7Z-gs-FnR"/>
+                            <constraint firstItem="diY-8p-aOl" firstAttribute="top" secondItem="VgX-qm-lIU" secondAttribute="bottom" constant="35" id="Mf2-Yg-lxk"/>
+                            <constraint firstItem="VgX-qm-lIU" firstAttribute="leading" secondItem="sYz-mx-ksm" secondAttribute="leadingMargin" constant="20" id="NDs-S1-d3k"/>
+                            <constraint firstAttribute="centerX" secondItem="ZK3-YR-V2C" secondAttribute="centerX" id="Ube-AT-bWn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="VgX-qm-lIU" secondAttribute="trailing" constant="20" id="Zcf-zn-ICA"/>
+                            <constraint firstItem="ZK3-YR-V2C" firstAttribute="top" secondItem="PMA-OQ-wLj" secondAttribute="bottom" constant="8" id="gM3-GB-971"/>
+                            <constraint firstItem="N7C-3V-78C" firstAttribute="top" secondItem="ZK3-YR-V2C" secondAttribute="bottom" constant="14" id="qm3-gL-M0m"/>
+                            <constraint firstAttribute="centerX" secondItem="diY-8p-aOl" secondAttribute="centerX" id="t6D-ct-RXS"/>
+                            <constraint firstAttribute="centerX" secondItem="VgX-qm-lIU" secondAttribute="centerX" id="yvE-g8-A9Y"/>
                         </constraints>
                     </view>
                     <connections>
