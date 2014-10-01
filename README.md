@@ -79,6 +79,8 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 [self presentViewController:controller animated:YES completion:nil];
 ```
 
+If you need to save and refresh the user's JWT token, please read the [following guide](https://github.com/auth0/Auth0.iOS/wiki/How-to-save-and-refresh-JWT-token) in our Wiki
+
 ### Identity Provider Authentication
 
 Before using authentication from other identity providers, e.g. Twitter or Facebook, you'll need to follow some steps.
