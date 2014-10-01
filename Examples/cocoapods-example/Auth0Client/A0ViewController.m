@@ -25,11 +25,12 @@
 #import "A0UserProfileViewController.h"
 #import <Auth0.iOS/Auth0.h>
 #import <libextobjc/EXTScope.h>
+#import <UICKeyChainStore/UICKeyChainStore.h>
 
 @interface A0ViewController ()
 
 @property (strong, nonatomic) A0UserProfile *authInfo;
-@property (strong, nonatomic) A0Session *session;
+@property (strong, nonatomic) UICKeyChainStore *store;
 
 @end
 
@@ -45,15 +46,23 @@
                                                                                         facebook,
                                                                                         ]];
 
-    self.session = [A0Session newDefaultSession];
+
+    self.store = [UICKeyChainStore keyChainStoreWithService:@"Auth0"];
     @weakify(self);
-    [self.session refreshIfExpiredWithSuccess:^(A0UserProfile *profile, A0Token *token) {
-        @strongify(self);
-        [self loadSessionInfoWithToken:token];
-    } failure:^(NSError *error) {
-        @strongify(self);
-        [self clearSessionInfo];
-    }];
+    NSString* refreshToken = [self.store stringForKey: @"refresh_token"];
+    if (refreshToken) {
+        [[A0APIClient sharedClient] delegationWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
+            @strongify(self);
+            [self.store setString:token.idToken forKey:@"id_token"];
+            [self.store synchronize];
+            [self loadSessionInfoWithToken:[[A0Token alloc] initWithAccessToken:token.accessToken idToken:token.idToken tokenType:token.tokenType refreshToken:refreshToken]];
+        } failure:^(NSError *error) {
+            @strongify(self);
+            [self.store removeAllItems];
+            [self.store synchronize];
+            [self clearSessionInfo];
+        }];
+    }
 }
 
 - (void)signIn:(id)sender {
@@ -67,7 +76,10 @@
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);
         self.authInfo = profile;
-        [self.session.dataSource storeToken:token andUserProfile:profile];
+        [self.store setString:token.idToken forKey:@"id_token"];
+        [self.store setString:token.refreshToken forKey:@"refresh_token"];
+        [self.store setData:[NSKeyedArchiver archivedDataWithRootObject:profile] forKey:@"profile"];
+        [self.store synchronize];
         [self loadSessionInfoWithToken:token];
         [self dismissViewControllerAnimated:YES completion:nil];
     };
@@ -80,17 +92,23 @@
 
 - (IBAction)refreshSession:(id)sender {
     @weakify(self);
-    [self.session refreshWithSuccess:^(A0UserProfile *profile, A0Token *token) {
+    NSString* refreshToken = [self.store stringForKey: @"refresh_token"];
+    [[A0APIClient sharedClient] delegationWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
         @strongify(self);
-        [self loadSessionInfoWithToken:token];
+        [self.store setString:token.idToken forKey:@"id_token"];
+        [self.store synchronize];
+        [self loadSessionInfoWithToken:[[A0Token alloc] initWithAccessToken:token.accessToken idToken:token.idToken tokenType:token.tokenType refreshToken:refreshToken]];
     } failure:^(NSError *error) {
         @strongify(self);
+        [self.store removeAllItems];
+        [self.store synchronize];
         [self clearSessionInfo];
     }];
 }
 
 - (IBAction)clearSession:(id)sender {
-    [self.session clear];
+    [self.store removeAllItems];
+    [self.store synchronize];
     [self clearSessionInfo];
 }
 
@@ -112,7 +130,7 @@
 }
 
 - (void)loadSessionInfoWithToken:(A0Token *)token {
-    A0UserProfile *profile = self.session.profile;
+    A0UserProfile *profile = [NSKeyedUnarchiver unarchiveObjectWithData:[self.store dataForKey:@"profile"]];;
     self.authInfo = profile;
     self.refreshButton.enabled = YES;
     self.showProfileButton.enabled = YES;
@@ -120,7 +138,6 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateStyle = NSDateFormatterShortStyle;
     formatter.timeStyle = NSDateFormatterShortStyle;
-    self.expiresLabel.text = [formatter stringFromDate:token.expiresAt];
     self.refreshTokenLabel.text = token.refreshToken;
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", profile.name];
     self.signInButton.enabled = NO;
