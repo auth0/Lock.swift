@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Auth0.iOS"
-  s.version          = "1.0.0-rc1"
+  s.version          = "1.0.0-rc2"
   s.summary          = "A library that uses Auth0 for Authentication with Native Look & Feel"
   s.description      = <<-DESC
 [![Auth0](https://i.cloudup.com/1vaSVATKTL.png)](http://auth0.com)
@@ -8,7 +8,6 @@ Pod::Spec.new do |s|
 Auth0 is a SaaS that helps you with Authentication and Authorization. You can use Social Providers (Like Facebook, Google, Twitter, etc.), Enterprise Providers (Active Directory, LDap, Windows Azure AD, SAML, etc.) and a Username/Password store which can be saved either by us or by you. We have SDKs for the most common platforms (Ruby, Node, iOS, Angular, etc.) so that with a couple lines of code, you can get the Authentication for your app implemented. Let us worry about Authentication so that you can focus on the core of your business.
                        DESC
   s.homepage         = "https://github.com/auth0/Auth0.iOS"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.authors          = { "Martin Gontovnikas" => "gonto@auth0.com" }, { "Hernan Zalazar" => "hernan@auth0.com" }
   s.source           = { :git => "https://github.com/auth0/Auth0.iOS.git", :tag => s.version.to_s }
