@@ -7,13 +7,13 @@
 //
 
 #import "Application.h"
+
 #import <Auth0.iOS/Auth0.h>
+#import <UICKeyChainStore/UICKeyChainStore.h>
 
 @implementation Application
 
-@synthesize session;
-
-#pragma mark Singleton Methods
+#pragma mark Singleton Method
 
 + (Application*)sharedInstance {
     static Application *sharedApplication = nil;
@@ -25,14 +25,11 @@
 }
 
 - (id)init {
-    if (self = [super init]) {
-        session = [A0Session newDefaultSession];
+    self = [super init];
+    if (self) {
+        _store = [[UICKeyChainStore alloc] initWithService:@"Auth0"];
     }
     return self;
-}
-
-- (void)dealloc {
-    // Should never be called, but just here for clarity really.
 }
 
 @end

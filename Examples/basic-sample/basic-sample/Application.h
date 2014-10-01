@@ -7,14 +7,13 @@
 //
 
 #import <foundation/Foundation.h>
-#import <Auth0.iOS/Auth0.h>
 
-@interface Application : NSObject {
-    A0Session *session;
-}
+@class UICKeyChainStore;
 
-@property (nonatomic, retain) A0Session *session;
+@interface Application : NSObject
 
-+ (Application*)sharedInstance;
+@property (strong, nonatomic) UICKeyChainStore *store;
+
++ (Application *)sharedInstance;
 
 @end

@@ -10,42 +10,23 @@
 #import "Application.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Auth0.iOS/Auth0.h>
+#import <UICKeyChainStore/UICKeyChainStore.h>
 
 @interface ProfileViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
-@property (weak, nonatomic) A0Session *session;
 
 @end
 
 @implementation ProfileViewController
 
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.session = [Application sharedInstance].session;
+    UICKeyChainStore *store = [[Application sharedInstance] store];
+    A0UserProfile *profile = [NSKeyedUnarchiver unarchiveObjectWithData:[store dataForKey:@"profile"]];
+    [self.profileImage sd_setImageWithURL:profile.picture];
+    self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", profile.name];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [self.profileImage sd_setImageWithURL: self.session.profile.picture];
-    self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", self.session.profile.name];
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
