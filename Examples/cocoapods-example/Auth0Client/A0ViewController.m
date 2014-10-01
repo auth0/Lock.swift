@@ -138,7 +138,6 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateStyle = NSDateFormatterShortStyle;
     formatter.timeStyle = NSDateFormatterShortStyle;
-    self.expiresLabel.text = [formatter stringFromDate:token.expiresAt];
     self.refreshTokenLabel.text = token.refreshToken;
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", profile.name];
     self.signInButton.enabled = NO;
