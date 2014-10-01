@@ -1,13 +1,20 @@
 reference: http://www.objc.io/issue-6/travis-ci.html
+
 language: objective-c
+
 cache:
   - bundler
   - cocoapods
+
 podfile: Examples/cocoapods-example/Podfile
+
 before_install:
   - gem install cocoapods --no-ri --no-rdoc
+  - gem install xcpretty --no-ri --no-rdoc
+
 script:
-  - xctool test -workspace Examples/cocoapods-example/Auth0Client.xcworkspace -scheme Auth0Client -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+  - xcodebuild -workspace Examples/cocoapods-example/Auth0Client.xcworkspace -scheme Auth0Client -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO test | xcpretty -c ; exit ${PIPESTATUS[0]}
 
 branches:
-  - master
+  only:
+    - master

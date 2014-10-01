@@ -43,10 +43,6 @@
  *  Refresh token used to obtain new JWT tokens. Can be nil if no offline access was requested
  */
 @property (readonly, nonatomic) NSString *refreshToken;
-/**
- *  Expiration date of JWT token
- */
-@property (readonly, nonatomic) NSDate *expiresAt;
 
 /**
  *  Initialise a token

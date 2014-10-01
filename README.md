@@ -12,15 +12,14 @@
 * **Integrates** your iOS app with **Auth0**
 * Provides a **beautiful native UI** to log your users in
 * Provides support for **Social Providers** (Facebook, Twitter, etc.), **Enterprise Providers** (AD, LDAP, etc.) and **Username & Password**
-* Provides **Tokens and User information management tools** for you. You don't have to worry about saving any information if you don't want to!
-* **Tokens lifecycle (Expiration, Refreshing, etc.)** is managed automatically for you.
 * Provides the ability to do **SSO** with 2 or more mobile apps similar to Facebook and Messenger apps.
 
 ## Install
 
 The Auth0.iOS pod is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
+
 ```ruby
-pod "Auth0.iOS", "~> 1.0.0-rc"
+pod "Auth0.iOS", "~> 1.0"
 ```
 
 Then in your project's `Info.plist` file add the following entries:
@@ -81,13 +80,14 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 [self presentViewController:controller animated:YES completion:nil];
 ```
 
-> **Note**: If you want the SDK to save and handle the Token and Profile automatically for you, please read [this guide]() to learn how.
+If you need to save and refresh the user's JWT token, please read the [following guide](https://github.com/auth0/Auth0.iOS/wiki/How-to-save-and-refresh-JWT-token) in our Wiki
 
 ### Identity Provider Authentication
 
 Before using authentication from other identity providers, e.g. Twitter or Facebook, you'll need to follow some steps.
 
 First in your `AppDelegate.m`, add the following method:
+
 ```objc
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     return [[A0SocialAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
@@ -209,7 +209,7 @@ controller.loginAfterSignup = NO;
 ```
 List of optional parameters that will be used for every authentication request with Auth0 API. By default it only has  'openid' and 'offline_access' scope values. For more information check out our [Wiki](https://github.com/auth0/Auth0.iOS/wiki/Sending-authentication-parameters)
 ```objc
-controller.authenticationParameters.scopes = @[A0ScopeOpenId, A0ScopeOfflineAccess, A0ScopeProfile];
+controller.authenticationParameters.scopes = @[A0ScopeOfflineAccess, A0ScopeProfile];
 ```
 
 ###A0AuthenticationViewController#signupDisclaimerView
@@ -228,114 +228,6 @@ controller.signupDisclaimerView = view;
 When the authentication requires to open a web login, for example Linkedin, it will use an embedded UIWebView instead of Safari if it's `YES`. We recommend using Safari for Authentication since it will always save the User session. This means that if he's already signed in, for example in Linkedin, and he clicks in the Linkedin button, it will just work. Default values is `NO`
 ```objc
 controller.useWebView = YES
-```
-
-###A0Session
-
-`A0Session` objective is to handle expiration and refresh of Session information (Tokens) without the need to **manually** call the  [Auth0 Delegation API](https://docs.auth0.com/auth-api#delegated). It delegates storage handling of Token & User's profile to an instance of `A0SessionDataSource`. Auth0.iOS comes with a basic class called `A0SessionDataSource` that stores the **User's token in iOS Keychain** and the **User's profile in `NSUserDefaults`**, but you can write your own `A0SessionDataSource` class and supply it to your `A0Session` instance.
-
-####A0Session#newDefaultSession
-```objc
-+ (instancetype)newDefaultSession;
-```
-Returns a new `A0Session` instance with the default DataSource `A0UserSessionDataSource`.
-```objc
-A0Session *session = [A0Session newDefaultSession];
-```
-
-####A0Session#newSessionWithDataSource:
-```objc
-+ (instancetype)newSessionWithDataSource:(id<A0SessionDataSource>)dataSource;
-```
-Returns a new `A0Session` instance that uses dataSource parameter.
-```objc
-A0Session *session = [A0Session newDefaultSessionWithDataSource:dataSource];
-```
-
-####A0Session#initWithSessionDataSource:
-```objc
-- (instancetype)initWithSessionDataSource:(id<A0SessionDataSource>)sessionDataSource;
-```
-Initialise the session with info from the `dataSource`. You can implement your own or use Auth0's `A0UserSessionDataSource`.
-```objc
-id<A0SessionDataSource> dataSource = //...
-A0Session *session = [[A0Session alloc] initWithSessionDataSource:dataSource];
-```
-
-####A0Session#isExpired
-```objc
-- (BOOL)isExpired;
-```
-Returns `YES` if the id_token is expired
-```objc
-BOOL expired = session.isExpired;
-```
-
-####A0Session#refreshWithSuccess:failure
-```objc
-- (void)refreshWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure;
-```
-Checks whether the id_token is expired.
-If it is, it will request a new one using the stored refresh_token. Otherwise it will request a new id_token using the old id_token. On success, it will update the stored id_token.
-```objc
-[session refreshWithSuccess:^(A0UserProfile *profile, A0Token *token) {
-  NSLog(@"Token renewed %@", token);
-} failure:^(NSError *error) {
-  NSLog(@"Failed to renew token %@", error);
-}];
-```
-
-####A0Session#refreshIfExpiredWithSuccess:failure
-```objc
-- (void)refreshIfExpiredWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure;
-```
-It will only request a new id_token using the stored refresh_token if it's expired. On successful request of a new id_token it will update it in the DataSource. If the token is not expired, it will be returned as a paramater in the success block.
-```objc
-[session refreshIfExpiredWithSuccess:^(A0UserProfile *profile, A0Token *token) {
-  NSLog(@"Token %@", token);
-} failure:^(NSError *error) {
-  NSLog(@"Failed to refresh token %@", error);
-}];
-```
-
-####A0Session#renewUserProfileWithSuccess:failure
-```objc
-- (void)renewUserProfileWithSuccess:(A0RefreshBlock)success failure:(A0RefreshFailureBlock)failure;
-```
-Tries to refresh User's profile using the stored id_token. On success returns both the stored token and updated profile, and updates the DataSource with the new one.
-```objc
-[session renewUserProfileWithSuccess:^(A0UserProfile *profile, A0Token *token) {
-  NSLog(@"Profile updated %@", token);
-} failure:^(NSError *error) {
-  NSLog(@"Failed to update profile %@", error);
-}];
-```
-
-####A0Session#clear
-```objc
-- (void)clear;
-```
-Removes all session information & clears the DataSource calling it's `clearAll` method.
-```objc
-[session clear];
-```
-
-####A0Session#token
-```objc
-@property (readonly, nonatomic) A0Token *token;
-```
-Returns the current token from the DataSource or nil.
-```objc
-A0Token *token = session.token;
-```
-
-####A0Session#profile
-```objc
-@property (readonly, nonatomic) A0UserProfile *profile;
-```
-Returns the current profile from the DataSource or nil.
-```objc
-A0UserProfile *profile = session.profile;
 ```
 
 ## Logging
@@ -386,4 +278,4 @@ Auth0
 
 ## License
 
-Auth0.iOS is available under the MIT license. See the LICENSE file for more info.
+Auth0.iOS is available under the MIT license. See the [LICENSE file](LICENSE) for more info.

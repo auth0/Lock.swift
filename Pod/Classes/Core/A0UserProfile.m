@@ -79,6 +79,7 @@
                       createdAt:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(createdAt))]];
     if (self) {
         _extraInfo = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(extraInfo))];
+        _identities = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(identities))];
     }
     return self;
 }
@@ -102,6 +103,9 @@
     }
     if (self.extraInfo) {
         [aCoder encodeObject:self.extraInfo forKey:NSStringFromSelector(@selector(extraInfo))];
+    }
+    if (self.identities) {
+        [aCoder encodeObject:self.identities forKey:NSStringFromSelector(@selector(identities))];
     }
 }
 
