@@ -17,8 +17,9 @@
 ## Install
 
 The Auth0.iOS pod is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
+
 ```ruby
-pod "Auth0.iOS", "~> 1.0.0-rc1"
+pod "Auth0.iOS", "~> 1.0"
 ```
 
 Then in your project's `Info.plist` file add the following entries:
@@ -83,6 +84,7 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 Before using authentication from other identity providers, e.g. Twitter or Facebook, you'll need to follow some steps.
 
 First in your `AppDelegate.m`, add the following method:
+
 ```objc
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     return [[A0SocialAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
@@ -273,4 +275,4 @@ Auth0
 
 ## License
 
-Auth0.iOS is available under the MIT license. See the LICENSE file for more info.
+Auth0.iOS is available under the MIT license. See the [LICENSE file](LICENSE) for more info.
