@@ -13,7 +13,7 @@ before_install:
   - gem install xcpretty --no-ri --no-rdoc
 
 script:
-  - xcodebuild -workspace Examples/cocoapods-example/Auth0Client.xcworkspace -scheme Auth0Client -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO test | xcpretty -tc && exit ${PIPESTATUS[0]}
+  - xcodebuild -workspace Examples/cocoapods-example/Auth0Client.xcworkspace -scheme Auth0Client -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO test | xcpretty -c ; exit ${PIPESTATUS[0]}
 
 branches:
   only:
