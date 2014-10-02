@@ -19,7 +19,7 @@
 The Auth0.iOS pod is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Auth0.iOS", "~> 1.0"
+pod "Auth0.iOS", "~> 1.0.0-rc3"
 ```
 
 Then in your project's `Info.plist` file add the following entries:
@@ -98,7 +98,7 @@ This will allow Auth0.iOS to handle a successful login from Facebook, Twitter an
 By default Auth0.iOS includes Twitter & Facebook integration (and its dependencies) but you can discard what you don't need . If you only want Facebook auth just add this to your Podfile:
 
 ```ruby
-pod "Auth0.iOS/Core", "~> 1.0"
+pod "Auth0.iOS/Core", "~> 1.0.0-rc3"
 pod "Auth0.iOS/Facebook"
 pod "Auth0.iOS/UI"
 ```

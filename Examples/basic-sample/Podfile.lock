@@ -20,31 +20,31 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Auth0.iOS (1.0.0-rc2):
+  - Auth0.iOS (1.0.0-rc3):
     - Auth0.iOS/Facebook
     - Auth0.iOS/Twitter
     - Auth0.iOS/UI
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
-  - Auth0.iOS/Core (1.0.0-rc2):
+  - Auth0.iOS/Core (1.0.0-rc3):
     - AFNetworking (~> 2.3)
     - CocoaLumberjack (~> 1.9)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
     - UICKeyChainStore (~> 1.0.5)
-  - Auth0.iOS/Facebook (1.0.0-rc2):
+  - Auth0.iOS/Facebook (1.0.0-rc3):
     - Auth0.iOS/Core
     - CocoaLumberjack (~> 1.9)
     - Facebook-iOS-SDK (~> 3.15)
     - libextobjc (~> 0.4)
-  - Auth0.iOS/Twitter (1.0.0-rc2):
+  - Auth0.iOS/Twitter (1.0.0-rc3):
     - Auth0.iOS/Core
     - BDBOAuth1Manager (~> 1.3)
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Auth0.iOS/UI (1.0.0-rc2):
+  - Auth0.iOS/UI (1.0.0-rc3):
     - Auth0.iOS/Core
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
@@ -97,6 +97,7 @@ PODS:
   - libextobjc/RuntimeExtensions (0.4)
   - libextobjc/UmbrellaHeader (0.4)
   - LUKeychainAccess (1.2.2)
+  - MBProgressHUD (0.9)
   - NSData+Base64 (1.0.0)
   - OAuthCore (0.0.1):
     - NSData+Base64
@@ -110,17 +111,14 @@ PODS:
   - UICKeyChainStore (1.0.5)
 
 DEPENDENCIES:
-  - Auth0.iOS (from `../../`)
-  - JWTDecode
+  - Auth0.iOS (~> 1.0.0-rc3)
+  - JWTDecode (~> 0.1)
+  - MBProgressHUD (~> 0.8)
   - SDWebImage (~> 3.7.1)
-
-EXTERNAL SOURCES:
-  Auth0.iOS:
-    :path: ../../
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  Auth0.iOS: aac1b5a2b2ebf50b2594134d6887a747f6207489
+  Auth0.iOS: f28ba56794851f2d892d01d039682a4201179396
   BDBOAuth1Manager: 0625ba20bd7d36461bbf6dc3d29276b5932b7409
   Bolts: 2635e8698a630774689441047f3465d78c48d485
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
@@ -129,6 +127,7 @@ SPEC CHECKSUMS:
   JWTDecode: b4dc0719ba8867e415fa8a3ae90a84ae0f8e25fd
   libextobjc: ba42e4111f433273a886cd54f0ddaddb7f62f82f
   LUKeychainAccess: 4365689e03b1a019ce40a86058aae6e31e9adcea
+  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
   PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c

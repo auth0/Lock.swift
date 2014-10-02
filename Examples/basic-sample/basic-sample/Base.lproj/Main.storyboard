@@ -124,6 +124,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
+                                    <action selector="callAPI:" destination="PuK-vS-oEf" eventType="touchUpInside" id="tPG-1c-jF6"/>
                                     <action selector="showSignIn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="dfr-we-flr"/>
                                 </connections>
                             </button>

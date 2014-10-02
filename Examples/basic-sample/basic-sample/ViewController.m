@@ -13,6 +13,7 @@
 #import <libextobjc/EXTScope.h>
 #import <UICKeyChainStore/UICKeyChainStore.h>
 #import <JWTDecode/A0JWTDecoder.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface ViewController ()
 
@@ -28,14 +29,18 @@
         if ([[A0JWTDecoder expireDateOfJWT:idToken error:nil] compare:[NSDate date]] == NSOrderedAscending) {
             NSString *refreshToken = [store stringForKey:@"refresh_token"];
             @weakify(self);
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [[A0APIClient sharedClient] delegationWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
                 @strongify(self);
                 [store setString:token.idToken forKey:@"id_token"];
                 [store synchronize];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [self performSegueWithIdentifier:@"showProfile" sender:self];
             } failure:^(NSError *error) {
+                @strongify(self);
                 [store removeAllItems];
                 [store synchronize];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
             }];
         } else {
             [self performSegueWithIdentifier:@"showProfile" sender:self];
