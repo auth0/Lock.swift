@@ -34,7 +34,8 @@
 }
 
 - (void)callAPI:(id)sender {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@""]];
+    NSString *baseURLString = [[NSBundle mainBundle] infoDictionary][@"SampleAPIBaseURL"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:baseURLString]];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     @weakify(self);
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {

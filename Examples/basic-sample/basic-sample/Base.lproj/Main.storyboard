@@ -37,7 +37,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xyp-4U-yEZ">
-                                <rect key="frame" x="147" y="343" width="307" height="61"/>
+                                <rect key="frame" x="147" y="455" width="307" height="61"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="395" id="1EN-nC-Ixs"/>
                                     <constraint firstAttribute="height" constant="61" id="TJm-St-Pur"/>
@@ -67,7 +67,7 @@
                             <constraint firstAttribute="centerX" secondItem="Xyp-4U-yEZ" secondAttribute="centerX" id="sMh-cG-RgG"/>
                             <constraint firstItem="2V2-D7-dyh" firstAttribute="top" secondItem="ISn-gA-jk0" secondAttribute="bottom" constant="8" id="wyD-eh-kXg"/>
                             <constraint firstAttribute="centerX" secondItem="2V2-D7-dyh" secondAttribute="centerX" id="y3R-bK-0LD"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Xyp-4U-yEZ" secondAttribute="bottom" constant="132" id="yEy-gP-OSb"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Xyp-4U-yEZ" secondAttribute="bottom" constant="20" id="yEy-gP-OSb"/>
                             <constraint firstItem="887-Pp-nmw" firstAttribute="top" secondItem="2V2-D7-dyh" secondAttribute="bottom" constant="4" id="zqC-Oi-b3g"/>
                         </constraints>
                     </view>
@@ -109,7 +109,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="diY-8p-aOl">
-                                <rect key="frame" x="147" y="424" width="307" height="61.5"/>
+                                <rect key="frame" x="147" y="454.5" width="307" height="61.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="395" id="2Re-5A-X1M"/>
                                     <constraint firstAttribute="height" constant="61" id="N2X-NZ-dJJ"/>
@@ -132,7 +132,7 @@
                         <color key="backgroundColor" red="0.086274509799999996" green="0.12941176469999999" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="N7C-3V-78C" secondAttribute="centerX" id="Boa-oI-lOQ"/>
-                            <constraint firstItem="35P-dk-6PC" firstAttribute="top" secondItem="diY-8p-aOl" secondAttribute="bottom" constant="50" id="F7Z-gs-FnR"/>
+                            <constraint firstItem="35P-dk-6PC" firstAttribute="top" secondItem="diY-8p-aOl" secondAttribute="bottom" constant="20" id="F7Z-gs-FnR"/>
                             <constraint firstItem="VgX-qm-lIU" firstAttribute="top" secondItem="N7C-3V-78C" secondAttribute="bottom" constant="40" id="H5m-AL-Ook"/>
                             <constraint firstItem="diY-8p-aOl" firstAttribute="top" relation="greaterThanOrEqual" secondItem="VgX-qm-lIU" secondAttribute="bottom" constant="5" id="Mf2-Yg-lxk"/>
                             <constraint firstItem="VgX-qm-lIU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="sYz-mx-ksm" secondAttribute="leadingMargin" constant="20" id="NDs-S1-d3k"/>
