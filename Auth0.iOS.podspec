@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Auth0.iOS"
-  s.version          = "1.0.0-rc2"
+  s.version          = "1.0.0-rc3"
   s.summary          = "A library that uses Auth0 for Authentication with Native Look & Feel"
   s.description      = <<-DESC
 [![Auth0](https://i.cloudup.com/1vaSVATKTL.png)](http://auth0.com)
@@ -17,6 +17,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.requires_arc = true
 
   s.public_header_files = 'Pod/Classes/Auth0.h'
+  s.source_files = 'Pod/Classes/Auth0.h'
   s.dependency 'libextobjc', '~> 0.4'
   s.dependency 'CocoaLumberjack', '~> 1.9'
   s.default_subspecs = 'UI', 'Facebook', 'Twitter'
