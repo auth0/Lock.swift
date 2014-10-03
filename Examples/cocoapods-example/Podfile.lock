@@ -20,31 +20,31 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Auth0.iOS (1.0.0-rc3):
+  - Auth0.iOS (1.0.0-rc.4):
     - Auth0.iOS/Facebook
     - Auth0.iOS/Twitter
     - Auth0.iOS/UI
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
-  - Auth0.iOS/Core (1.0.0-rc3):
+  - Auth0.iOS/Core (1.0.0-rc.4):
     - AFNetworking (~> 2.3)
     - CocoaLumberjack (~> 1.9)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
     - UICKeyChainStore (~> 1.0.5)
-  - Auth0.iOS/Facebook (1.0.0-rc3):
+  - Auth0.iOS/Facebook (1.0.0-rc.4):
     - Auth0.iOS/Core
     - CocoaLumberjack (~> 1.9)
     - Facebook-iOS-SDK (~> 3.15)
     - libextobjc (~> 0.4)
-  - Auth0.iOS/Twitter (1.0.0-rc3):
+  - Auth0.iOS/Twitter (1.0.0-rc.4):
     - Auth0.iOS/Core
     - BDBOAuth1Manager (~> 1.3)
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Auth0.iOS/UI (1.0.0-rc3):
+  - Auth0.iOS/UI (1.0.0-rc.4):
     - Auth0.iOS/Core
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
@@ -58,7 +58,7 @@ PODS:
   - CocoaLumberjack/Extensions (1.9.2):
     - CocoaLumberjack/Core
   - Expecta (0.3.1)
-  - Facebook-iOS-SDK (3.18.2):
+  - Facebook-iOS-SDK (3.19.0):
     - Bolts (~> 1.0)
   - ISO8601DateFormatter (0.7)
   - libextobjc (0.4):
@@ -124,12 +124,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  Auth0.iOS: 158b87775307661291112a094341c92d560f8428
+  Auth0.iOS: 0ff8a93453fe79c6735485956eac5b412afdc878
   BDBOAuth1Manager: 0625ba20bd7d36461bbf6dc3d29276b5932b7409
   Bolts: 2635e8698a630774689441047f3465d78c48d485
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   Expecta: 03aabd0a89d8dea843baecb19a7fd7466a69a31d
-  Facebook-iOS-SDK: 1193bafaca986a31d37c3e6fa845b99d6eaadaf8
+  Facebook-iOS-SDK: cb7d74759d0b1ba546e6e6f1dde407b0d4e448d6
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   libextobjc: ba42e4111f433273a886cd54f0ddaddb7f62f82f
   LUKeychainAccess: 4365689e03b1a019ce40a86058aae6e31e9adcea
