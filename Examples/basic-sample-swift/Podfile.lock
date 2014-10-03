@@ -60,7 +60,7 @@ PODS:
   - Facebook-iOS-SDK (3.19.0):
     - Bolts (~> 1.0)
   - ISO8601DateFormatter (0.7)
-  - JWTDecode (0.1.0)
+  - JWTDecode (0.2.0)
   - libextobjc (0.4):
     - libextobjc/EXTADT
     - libextobjc/EXTConcreteProtocol
@@ -112,7 +112,7 @@ PODS:
 
 DEPENDENCIES:
   - Auth0.iOS (~> 1.0.0-rc3)
-  - JWTDecode (~> 0.1)
+  - JWTDecode (~> 0.2)
   - MBProgressHUD (~> 0.8)
   - SDWebImage (~> 3.7.1)
 
@@ -124,7 +124,7 @@ SPEC CHECKSUMS:
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   Facebook-iOS-SDK: cb7d74759d0b1ba546e6e6f1dde407b0d4e448d6
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
-  JWTDecode: b4dc0719ba8867e415fa8a3ae90a84ae0f8e25fd
+  JWTDecode: e8fcad5a85eb7d1143fd9c33655e8cfb9aa998c8
   libextobjc: ba42e4111f433273a886cd54f0ddaddb7f62f82f
   LUKeychainAccess: 4365689e03b1a019ce40a86058aae6e31e9adcea
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8

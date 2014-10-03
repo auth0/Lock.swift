@@ -15,8 +15,7 @@ class HomeViewController: UIViewController {
         let store = MyApplication.sharedInstance.store
         let idToken = store.stringForKey("id_token")
         if (idToken != nil) {
-            let tokenExpireDate = A0JWTDecoder.expireDateOfJWT(idToken, error: nil)
-            if (tokenExpireDate.compare(NSDate()) == NSComparisonResult.OrderedAscending) {
+            if (A0JWTDecoder.isJWTExpired(idToken)) {
                 let refreshToken = store.stringForKey("refresh_token")
                 MBProgressHUD.showHUDAddedTo(self.view, animated: true)
                 let success = {(token:A0Token!) -> () in

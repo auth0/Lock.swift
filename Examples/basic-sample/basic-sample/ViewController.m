@@ -26,7 +26,7 @@
     UICKeyChainStore *store = [Application sharedInstance].store;
     NSString *idToken = [store stringForKey:@"id_token"];
     if (idToken) {
-        if ([[A0JWTDecoder expireDateOfJWT:idToken error:nil] compare:[NSDate date]] == NSOrderedAscending) {
+        if ([A0JWTDecoder isJWTExpired:idToken]) {
             NSString *refreshToken = [store stringForKey:@"refresh_token"];
             @weakify(self);
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];

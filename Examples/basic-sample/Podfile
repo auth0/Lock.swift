@@ -5,7 +5,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 target "basic-sample" do
     pod "Auth0.iOS", "~> 1.0.0-rc3", :inhibit_warnings => true
     pod "SDWebImage", "~> 3.7.1"
-    pod "JWTDecode", "~> 0.1"
+    pod "JWTDecode", "~> 0.2"
     pod "MBProgressHUD", "~> 0.8"
 end
 
