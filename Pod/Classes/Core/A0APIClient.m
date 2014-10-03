@@ -47,6 +47,7 @@
 #define kChangePasswordPath @"/dbconnections/change_password"
 #define kSocialAuthPath @"/oauth/access_token"
 #define kDelegationAuthPath @"/delegation"
+#define kUnlinkAccountPath @"/unlink"
 
 #define kAuthorizationHeaderName @"Authorization"
 #define kAuthorizationHeaderValueFormatString @"Bearer %@"
@@ -344,6 +345,29 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         }
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
     [operation start];
+}
+
+#pragma mark - Account Linking
+
+- (void)unlinkAccountWithUserId:(NSString *)userId
+                    accessToken:(NSString *)accessToken
+                        success:(void (^)())success
+                        failure:(A0APIClientError)failure {
+    A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{
+                                                                         kClientIdParamName: self.clientId,
+                                                                         kAccessTokenParamName: accessToken,
+                                                                         kSocialUserIdParamName: userId,
+                                                                         }];
+    Auth0LogVerbose(@"Unlinking account with id %@", userId);
+    [self.manager POST:kUnlinkAccountPath
+            parameters:[parameters asAPIPayload]
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (success) {
+                       success();
+                   }
+                   Auth0LogDebug(@"Account with id %@ unlinked successfully", userId);
+               }
+               failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
 #pragma mark - Internal API calls

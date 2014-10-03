@@ -201,4 +201,21 @@ typedef void(^A0APIClientError)(NSError *error);
 - (void)fetchUserProfileWithAccessToken:(NSString *)accessToken
                                 success:(A0APIClientUserProfileSuccess)success
                                 failure:(A0APIClientError)failure;
+
+///----------------------------------------
+/// @name User Profile
+///----------------------------------------
+
+/**
+ *  Unlink a specific account
+ *
+ *  @param userId      id of the account to unlink
+ *  @param accessToken Auth0 acces token for the user
+ *  @param success     block called on successful unlink request
+ *  @param failure     block called on failure with the reason as a parameter
+ */
+- (void)unlinkAccountWithUserId:(NSString *)userId
+                    accessToken:(NSString *)accessToken
+                        success:(void(^)())success
+                        failure:(A0APIClientError)failure;
 @end
