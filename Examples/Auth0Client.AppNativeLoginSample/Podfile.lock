@@ -1,20 +1,20 @@
 PODS:
-  - Auth0Client (0.0.10)
-  - Bolts (1.1.0)
+  - Auth0Client (0.0.11)
+  - Bolts (1.1.2)
   - Facebook-iOS-SDK (3.15.0):
     - Bolts
 
 DEPENDENCIES:
-  - Auth0Client (from `../`)
+  - Auth0Client (from `../../`)
   - Facebook-iOS-SDK (= 3.15.0)
 
 EXTERNAL SOURCES:
   Auth0Client:
-    :path: ../
+    :path: ../../
 
 SPEC CHECKSUMS:
-  Auth0Client: a2e7aec872849a9c3837f1fff7f983140db07bc3
-  Bolts: 91c2af8eae1d44e1dd75946a5b0ae04a43ea43e4
+  Auth0Client: 953b339e2a34131cc6f35b15017e309b4a24241d
+  Bolts: 2635e8698a630774689441047f3465d78c48d485
   Facebook-iOS-SDK: d67a9aa373f28b581e00cefdfd5a1ab8f883ac14
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.34.1

@@ -12,20 +12,24 @@
 	<dict>
 		<key>24DE5F5A-7F1C-4FEC-AD9A-55CA9BA8E93E</key>
 		<string>ssh://github.com/auth0/Auth0.iOS.git</string>
+		<key>95B28F939F337BCE8D954C1DDFBDC932F6C65B6F</key>
+		<string>github.com:auth0/Auth0.iOS.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Example/Auth0Client.AppNativeLoginSample.xcworkspace</string>
+	<string>Examples/Auth0Client.AppNativeLoginSample/Auth0Client.AppNativeLoginSample.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>24DE5F5A-7F1C-4FEC-AD9A-55CA9BA8E93E</key>
-		<string>../..</string>
+		<string>../../../../Auth0</string>
+		<key>95B28F939F337BCE8D954C1DDFBDC932F6C65B6F</key>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/auth0/Auth0.iOS.git</string>
+	<string>github.com:auth0/Auth0.iOS.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>24DE5F5A-7F1C-4FEC-AD9A-55CA9BA8E93E</string>
+	<string>95B28F939F337BCE8D954C1DDFBDC932F6C65B6F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -35,6 +39,14 @@
 			<string>24DE5F5A-7F1C-4FEC-AD9A-55CA9BA8E93E</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Auth0</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>95B28F939F337BCE8D954C1DDFBDC932F6C65B6F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Auth0.iOS.Old</string>
 		</dict>
 	</array>
 </dict>

@@ -22,7 +22,7 @@ Auth0Client *auth0Client;
     [super viewDidLoad];
 	
     // Auth0 client
-    auth0Client = [Auth0Client auth0Client:auth0_domain clientId:auth0_clientId];
+    auth0Client = [Auth0Client auth0Client:auth0_domain clientId:auth0_clientId offlineAccess:YES];
     
     // Add Facebook Login button
     FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions: @[@"public_profile", @"email", @"user_friends"]];

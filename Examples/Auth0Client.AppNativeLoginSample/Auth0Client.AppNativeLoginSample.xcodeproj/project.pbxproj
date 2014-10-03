@@ -32,7 +32,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		421C338B7A14558CE09E6477 /* Pods-Auth0Client.AppNativeLoginSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Client.AppNativeLoginSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-Auth0Client.AppNativeLoginSample/Pods-Auth0Client.AppNativeLoginSample.release.xcconfig"; sourceTree = "<group>"; };
 		A32CD468CFD24E9FA5583879 /* libPods-Auth0Client.AppNativeLoginSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Auth0Client.AppNativeLoginSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEDB91744993DFF69689AF6A /* Pods-Auth0Client.AppNativeLoginSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Client.AppNativeLoginSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Auth0Client.AppNativeLoginSample/Pods-Auth0Client.AppNativeLoginSample.debug.xcconfig"; sourceTree = "<group>"; };
 		B7F395D5191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Auth0Client.AppNativeLoginSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7F395D8191EF1EC0082D792 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B7F395DA191EF1EC0082D792 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -48,7 +50,6 @@
 		B7F395EE191EF1EC0082D792 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		B7F395F6191EF1EC0082D792 /* Auth0Client.AppNativeLoginSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Auth0Client.AppNativeLoginSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7F395F7191EF1EC0082D792 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		D72003D1AB764C23B688890E /* Pods-Auth0Client.AppNativeLoginSample.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Client.AppNativeLoginSample.xcconfig"; path = "Pods/Pods-Auth0Client.AppNativeLoginSample.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +83,7 @@
 				B7F395DE191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample */,
 				B7F395D7191EF1EC0082D792 /* Frameworks */,
 				B7F395D6191EF1EC0082D792 /* Products */,
-				D72003D1AB764C23B688890E /* Pods-Auth0Client.AppNativeLoginSample.xcconfig */,
+				E60F76A65D93DF611F4E4CC7 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,6 +130,15 @@
 				B7F395E6191EF1EC0082D792 /* Auth0Client.AppNativeLoginSample-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E60F76A65D93DF611F4E4CC7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AEDB91744993DFF69689AF6A /* Pods-Auth0Client.AppNativeLoginSample.debug.xcconfig */,
+				421C338B7A14558CE09E6477 /* Pods-Auth0Client.AppNativeLoginSample.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,7 +261,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-Auth0Client.AppNativeLoginSample-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Auth0Client.AppNativeLoginSample/Pods-Auth0Client.AppNativeLoginSample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -376,7 +386,7 @@
 		};
 		B7F39608191EF1EC0082D792 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D72003D1AB764C23B688890E /* Pods-Auth0Client.AppNativeLoginSample.xcconfig */;
+			baseConfigurationReference = AEDB91744993DFF69689AF6A /* Pods-Auth0Client.AppNativeLoginSample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -387,6 +397,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Auth0Client.AppNativeLoginSample/Auth0Client.AppNativeLoginSample-Prefix.pch";
 				INFOPLIST_FILE = "Auth0Client.AppNativeLoginSample/Auth0Client.AppNativeLoginSample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -394,7 +405,7 @@
 		};
 		B7F39609191EF1EC0082D792 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D72003D1AB764C23B688890E /* Pods-Auth0Client.AppNativeLoginSample.xcconfig */;
+			baseConfigurationReference = 421C338B7A14558CE09E6477 /* Pods-Auth0Client.AppNativeLoginSample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -405,6 +416,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Auth0Client.AppNativeLoginSample/Auth0Client.AppNativeLoginSample-Prefix.pch";
 				INFOPLIST_FILE = "Auth0Client.AppNativeLoginSample/Auth0Client.AppNativeLoginSample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
