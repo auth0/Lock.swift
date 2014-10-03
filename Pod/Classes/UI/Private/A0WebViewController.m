@@ -58,7 +58,8 @@
                                                                                     @"redirect_uri": _authentication.callbackURL.absoluteString,
                                                                                     }];
         [defaultParameters addValuesFromParameters:parameters];
-        components.query = defaultParameters.dictionary.queryString;
+        NSDictionary *payload = [defaultParameters asAPIPayload];
+        components.query = payload.queryString;
         _authorizeURL = components.URL;
         _strategyName = strategy.name;
     }

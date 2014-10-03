@@ -128,7 +128,8 @@
         self.failureBlock = failure;
         A0AuthParameters *defaultParameters = self.parameters.copy;
         [defaultParameters addValuesFromParameters:parameters];
-        self.components.query = defaultParameters.dictionary.queryString;
+        NSDictionary *payload = [defaultParameters asAPIPayload];
+        self.components.query = payload.queryString;
         NSURL *authorizeURL = self.components.URL;
         Auth0LogDebug(@"Opening web authentication wit URL %@", authorizeURL);
         [[UIApplication sharedApplication] openURL:authorizeURL];

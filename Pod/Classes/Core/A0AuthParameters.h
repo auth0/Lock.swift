@@ -66,6 +66,11 @@ FOUNDATION_EXPORT NSString * const A0ParameterConnectionScopes;
  */
 FOUNDATION_EXPORT NSString * const A0ParameterAccessToken;
 
+/**
+ *  'main_access_token' option key
+ */
+FOUNDATION_EXPORT NSString * const A0ParameterMainAccessToken;
+
 ///----------------------------------------
 /// @name Auth0 API Scope values
 ///----------------------------------------
@@ -197,7 +202,7 @@ FOUNDATION_EXTERN NSString * const A0ParameterTarget;
  *
  *  @return a dictionary with all values using valid key names to send to Auth0 API.
  */
-- (NSDictionary *)dictionary;
+- (NSDictionary *)asAPIPayload;
 
 /**
  *  Adds a new value to the parameters list.
