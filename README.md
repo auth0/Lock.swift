@@ -14,12 +14,16 @@
 * Provides support for **Social Providers** (Facebook, Twitter, etc.), **Enterprise Providers** (AD, LDAP, etc.) and **Username & Password**
 * Provides the ability to do **SSO** with 2 or more mobile apps similar to Facebook and Messenger apps.
 
+## Requierements
+
+iOS 7+. If you need to use our SDK in an earlier version please use our previous SDK pod `Auth0Client` or check the branch [old-sdk](https://github.com/auth0/Auth0.iOS/tree/old-sdk) of this repo.
+
 ## Install
 
 The Auth0.iOS pod is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Auth0.iOS", "~> 1.0.0-rc3"
+pod "Auth0.iOS", "~> 1.0.0-rc.4"
 ```
 
 Then in your project's `Info.plist` file add the following entries:
@@ -80,7 +84,9 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 [self presentViewController:controller animated:YES completion:nil];
 ```
 
-If you need to save and refresh the user's JWT token, please read the [following guide](https://github.com/auth0/Auth0.iOS/wiki/How-to-save-and-refresh-JWT-token) in our Wiki
+If you need to save and refresh the user's JWT token, please read the [following guide](https://github.com/auth0/Auth0.iOS/wiki/How-to-save-and-refresh-JWT-token) in our Wiki.
+
+Also you can check our [Swift](https://github.com/auth0/Auth0.iOS/tree/master/Examples/basic-sample-swift) and [Objective-C](https://github.com/auth0/Auth0.iOS/tree/master/Examples/basic-sample) example apps. For more information on how to use **Auth0.iOS** with Swift please check [this guide](https://github.com/auth0/Auth0.iOS/wiki/Auth0.iOS-&-Swift)
 
 ### Identity Provider Authentication
 
@@ -98,7 +104,7 @@ This will allow Auth0.iOS to handle a successful login from Facebook, Twitter an
 By default Auth0.iOS includes Twitter & Facebook integration (and its dependencies) but you can discard what you don't need . If you only want Facebook auth just add this to your Podfile:
 
 ```ruby
-pod "Auth0.iOS/Core", "~> 1.0.0-rc3"
+pod "Auth0.iOS/Core"
 pod "Auth0.iOS/Facebook"
 pod "Auth0.iOS/UI"
 ```
