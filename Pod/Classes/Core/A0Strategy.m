@@ -34,14 +34,14 @@ NSString * const A0StrategySocialUserIdParameter = @"user_id";
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDictionary {
     self = [super init];
     if (self) {
-        _name = JSONDictionary[@"name"];
-        _connection = [JSONDictionary[@"connections"] firstObject];
+        _name = [JSONDictionary[@"name"] copy];
+        _connections = [JSONDictionary[@"connections"] copy];
     }
     return self;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<A0Strategy name = '%@' connection = %@>", self.name, self.connection];
+    return [NSString stringWithFormat:@"<A0Strategy name = '%@' connections = %@>", self.name, self.connections];
 }
 
 @end

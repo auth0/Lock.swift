@@ -135,17 +135,18 @@
         }
     };
     A0Strategy *strategy = [application databaseStrategy];
+    NSDictionary *connection = strategy.connections.firstObject;
     if ([application hasDatabaseConnection] && [application hasSocialOrEnterpriseStrategies]) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.application = application;
-        controller.showResetPassword = [strategy.connection[@"showForgot"] boolValue];
-        controller.showSignUp = [strategy.connection[@"showSignup"] boolValue];
+        controller.showResetPassword = [connection[@"showForgot"] boolValue];
+        controller.showSignUp = [connection[@"showSignup"] boolValue];
         controller.parameters = self.authenticationParameters;
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if ([application hasDatabaseConnection]) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
-        controller.showResetPassword = [strategy.connection[@"showForgot"] boolValue];
-        controller.showSignUp = [strategy.connection[@"showSignup"] boolValue];
+        controller.showResetPassword = [connection[@"showForgot"] boolValue];
+        controller.showSignUp = [connection[@"showSignup"] boolValue];
         controller.parameters = self.authenticationParameters;
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if ([application hasSocialOrEnterpriseStrategies]) {

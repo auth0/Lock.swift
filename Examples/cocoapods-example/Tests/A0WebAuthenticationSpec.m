@@ -66,7 +66,7 @@ describe(@"A0WebAuthentication", ^{
         application = mock(A0Application.class);
         strategy = mock(A0Strategy.class);
         [given(application.identifier) willReturn:kAppIdentifier];
-        [given(strategy.connection) willReturn:@{@"name": kConnectionName}];
+        [given(strategy.connections) willReturn:@[@{@"name": kConnectionName}]];
         [given(strategy.name) willReturn:kConnectionName];
     });
 
@@ -114,7 +114,7 @@ describe(@"A0WebAuthentication", ^{
             return @{@"app": application, @"strategy": strategy};
         });
         itShouldBehaveLike(@"init failure", ^{
-            [given(strategy.connection) willReturn:nil];
+            [given(strategy.connections) willReturn:nil];
             return @{@"app": application, @"strategy": strategy};
         });
 

@@ -40,8 +40,8 @@
     self = [super init];
     if (self) {
         NSAssert(application != nil && application.identifier, @"You must supply a valid A0Application");
-        NSAssert(strategy != nil && strategy.connection[@"name"] != nil, @"You must supply a valid strategy with at least 1 connection");
-        NSString *connectionName = strategy.connection[@"name"];
+        NSAssert(strategy != nil && strategy.connections.firstObject[@"name"] != nil, @"You must supply a valid strategy with at least 1 connection");
+        NSString *connectionName = strategy.connections.firstObject[@"name"];
         NSString *callbackURLString = [NSString stringWithFormat:kCallbackURLString, application.identifier, connectionName].lowercaseString;
         _callbackURL = [NSURL URLWithString:callbackURLString];
         _strategyName = strategy.name;

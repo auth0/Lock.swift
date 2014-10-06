@@ -52,12 +52,12 @@ FOUNDATION_EXPORT NSString * const A0StrategySocialUserIdParameter;
 /**
  *  Strategy name
  */
-@property (strong, nonatomic, readonly) NSString *name;
+@property (readonly, nonatomic) NSString *name;
 
 /**
- *  Connection information
+ *  Array of connection information
  */
-@property (strong, nonatomic, readonly) NSDictionary *connection;
+@property (readonly, nonatomic) NSArray *connections;
 
 
 /**
