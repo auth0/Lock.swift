@@ -75,6 +75,14 @@
 @property (readonly, nonatomic) NSArray *socialStrategies;
 
 /**
+ *  List of enterprise strategies enabled for the application. e.g: Active Directory, IP, Sharepoint, etc.
+ *
+ *  @see A0Strategy
+ *  @see A0Connection
+ */
+@property (readonly, nonatomic) NSArray *enterpriseStrategies;
+
+/**
  *  Initialise the applcation from a JSON dictionary
  *
  *  @param JSONDict JSON response form the server

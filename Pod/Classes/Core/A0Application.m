@@ -26,6 +26,7 @@
 @interface A0Application ()
 @property (strong, nonatomic) A0Strategy *databaseStrategy;
 @property (strong, nonatomic) NSArray *socialStrategies;
+@property (strong, nonatomic) NSArray *enterpriseStrategies;
 @end
 
 @implementation A0Application
@@ -41,7 +42,11 @@
         NSArray *array = JSONDict[@"strategies"];
         NSMutableArray *strategies = [@[] mutableCopy];
         [array enumerateObjectsUsingBlock:^(NSDictionary *strategyDict, NSUInteger idx, BOOL *stop) {
-            [strategies addObject:[[A0Strategy alloc] initWithJSONDictionary:strategyDict]];
+            A0Strategy *strategy = [[A0Strategy alloc] initWithJSONDictionary:strategyDict];
+            [strategies addObject:strategy];
+            if (strategy.type == A0StrategyTypeDatabase) {
+                _databaseStrategy = strategy;
+            }
         }];
         NSAssert(identifier.length > 0, @"Must have a valid name");
         NSAssert(tenant.length > 0, @"Must have a valid tenant");
@@ -53,24 +58,13 @@
         _authorizeURL = [NSURL URLWithString:authorize];
         _callbackURL = [NSURL URLWithString:callback];
         _strategies = [NSArray arrayWithArray:strategies];
-        NSInteger index = [_strategies indexOfObjectPassingTest:^BOOL(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
-            BOOL isAuth0Strategy = [strategy.name isEqualToString:@"auth0"];
-            *stop = isAuth0Strategy;
-            return isAuth0Strategy;
-        }];
-        if (index != NSNotFound) {
-            _databaseStrategy = _strategies[index];
-        }
-        NSArray *filtered = [self.strategies filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(A0Strategy *strategy, NSDictionary *bindings) {
-            return ![strategy.name isEqualToString:@"auth0"];
-        }]];
-        _socialStrategies = filtered;
-
+        _socialStrategies = [self.strategies filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@", @(A0StrategyTypeSocial)]];
+        _enterpriseStrategies = [self.strategies filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@", @(A0StrategyTypeEnterprise)]];
     }
     return self;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<A0Application id = '%@'; tenant = '%@' strategies = %@>", self.identifier, self.tenant, self.strategies];
+    return [NSString stringWithFormat:@"<A0Application id = '%@'; tenant = '%@' database = %@ enterprise = %@ social = %@>", self.identifier, self.tenant, self.databaseStrategy, self.enterpriseStrategies, self.socialStrategies];
 }
 @end
