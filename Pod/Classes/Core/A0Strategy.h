@@ -55,7 +55,8 @@ FOUNDATION_EXPORT NSString * const A0StrategySocialUserIdParameter;
 @property (readonly, nonatomic) NSString *name;
 
 /**
- *  Array of connection information
+ *  List of connections associated to this strategy.
+ *  @see A0Connection
  */
 @property (readonly, nonatomic) NSArray *connections;
 

@@ -28,7 +28,6 @@
 #import "A0DatabaseLoginCredentialValidator.h"
 #import "A0SignUpCredentialValidator.h"
 #import "A0ChangePasswordCredentialValidator.h"
-
 #import "A0LoadingViewController.h"
 #import "A0DatabaseLoginViewController.h"
 #import "A0SignUpViewController.h"
@@ -39,6 +38,7 @@
 #import "A0Strategy.h"
 #import "A0KeyboardEnabledView.h"
 #import "A0AuthParameters.h"
+#import "A0Connection.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
@@ -135,18 +135,18 @@
         }
     };
     A0Strategy *strategy = [application databaseStrategy];
-    NSDictionary *connection = strategy.connections.firstObject;
+    A0Connection *connection = strategy.connections.firstObject;
     if ([application hasDatabaseConnection] && [application hasSocialOrEnterpriseStrategies]) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.application = application;
-        controller.showResetPassword = [connection[@"showForgot"] boolValue];
-        controller.showSignUp = [connection[@"showSignup"] boolValue];
+        controller.showResetPassword = [connection.values[@"showForgot"] boolValue];
+        controller.showSignUp = [connection.values[@"showSignup"] boolValue];
         controller.parameters = self.authenticationParameters;
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if ([application hasDatabaseConnection]) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
-        controller.showResetPassword = [connection[@"showForgot"] boolValue];
-        controller.showSignUp = [connection[@"showSignup"] boolValue];
+        controller.showResetPassword = [connection.values[@"showForgot"] boolValue];
+        controller.showSignUp = [connection.values[@"showSignup"] boolValue];
         controller.parameters = self.authenticationParameters;
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if ([application hasSocialOrEnterpriseStrategies]) {

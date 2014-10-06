@@ -26,6 +26,7 @@
 #import "A0Strategy.h"
 #import "NSDictionary+A0QueryParameters.h"
 #import "A0Errors.h"
+#import "A0Connection.h"
 
 #define HC_SHORTHAND
 #import <OCHamcrest/OCHamcrest.h>
@@ -61,13 +62,16 @@ describe(@"A0WebAuthentication", ^{
     __block A0WebAuthentication *authentication;
     __block A0Application *application;
     __block A0Strategy *strategy;
+    __block A0Connection *connection;
 
     beforeEach(^{
         application = mock(A0Application.class);
         strategy = mock(A0Strategy.class);
+        connection = mock(A0Connection.class);
         [given(application.identifier) willReturn:kAppIdentifier];
-        [given(strategy.connections) willReturn:@[@{@"name": kConnectionName}]];
+        [given(strategy.connections) willReturn:@[connection]];
         [given(strategy.name) willReturn:kConnectionName];
+        [given(connection.name) willReturn:kConnectionName];
     });
 
     describe(@"initialization", ^{

@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0Strategy.h"
+#import "A0Connection.h"
 
 NSString * const A0TwitterAuthenticationName = @"twitter";
 NSString * const A0FacebookAuthenticationName = @"facebook";
@@ -35,7 +36,12 @@ NSString * const A0StrategySocialUserIdParameter = @"user_id";
     self = [super init];
     if (self) {
         _name = [JSONDictionary[@"name"] copy];
-        _connections = [JSONDictionary[@"connections"] copy];
+        NSArray *connectionsJSON = JSONDictionary[@"connections"];
+        NSMutableArray *connections = [@[] mutableCopy];
+        for (NSDictionary *connectionJSON in connectionsJSON) {
+            [connections addObject:[[A0Connection alloc] initWithJSONDictionary:connectionJSON]];
+        }
+        _connections = [NSArray arrayWithArray:connections];
     }
     return self;
 }

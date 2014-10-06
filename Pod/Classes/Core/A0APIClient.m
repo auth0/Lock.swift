@@ -31,6 +31,7 @@
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0AuthParameters.h"
 #import "A0Errors.h"
+#import "A0Connection.h"
 
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
@@ -155,13 +156,13 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                parameters:(A0AuthParameters *)parameters
                   success:(A0APIClientAuthenticationSuccess)success
                   failure:(A0APIClientError)failure {
-    NSDictionary *connection = self.application.databaseStrategy.connections.firstObject;
+    A0Connection *connection = self.application.databaseStrategy.connections.firstObject;
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
                                                                                 kUsernameParamName: username,
                                                                                 kPasswordParamName: password,
                                                                                 kGrantTypeParamName: @"password",
                                                                                 kClientIdParamName: self.clientId,
-                                                                                kConnectionParamName: connection[@"name"],
+                                                                                kConnectionParamName: connection.name,
                                                                                 }];
     [defaultParameters addValuesFromParameters:parameters];
     Auth0LogVerbose(@"Starting Login with username & password %@", defaultParameters);
@@ -180,14 +181,14 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                 parameters:(A0AuthParameters *)parameters
                    success:(A0APIClientAuthenticationSuccess)success
                    failure:(A0APIClientError)failure {
-    NSDictionary *connection = self.application.databaseStrategy.connections.firstObject;
+    A0Connection *connection = self.application.databaseStrategy.connections.firstObject;
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
                                                                                 kEmailParamName: username,
                                                                                 kPasswordParamName: password,
                                                                                 kTenantParamName: self.tenant,
                                                                                 kRedirectUriParamName: self.application.callbackURL.absoluteString,
                                                                                 kClientIdParamName: self.clientId,
-                                                                                kConnectionParamName: connection[@"name"],
+                                                                                kConnectionParamName: connection.name,
                                                                                 }];
     [defaultParameters addValuesFromParameters:parameters];
     Auth0LogVerbose(@"Starting Signup with username & password %@", defaultParameters);
@@ -207,13 +208,13 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 }
 
 - (void)changePassword:(NSString *)newPassword forUsername:(NSString *)username parameters:(A0AuthParameters *)parameters success:(void(^)())success failure:(A0APIClientError)failure {
-    NSDictionary *connection = self.application.databaseStrategy.connections.firstObject;
+    A0Connection *connection = self.application.databaseStrategy.connections.firstObject;
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
                                                                                 kEmailParamName: username,
                                                                                 kPasswordParamName: newPassword,
                                                                                 kTenantParamName: self.tenant,
                                                                                 kClientIdParamName: self.clientId,
-                                                                                kConnectionParamName: connection[@"name"],
+                                                                                kConnectionParamName: connection.name,
                                                                                 }];
     [defaultParameters addValuesFromParameters:parameters];
     Auth0LogVerbose(@"Chaning password with params %@", defaultParameters);
@@ -247,9 +248,10 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         }
         return;
     }
+    A0Connection *connection = strategy.connections.firstObject;
     NSDictionary *params = @{
                              kClientIdParamName: self.clientId,
-                             kConnectionParamName: strategy.connections.firstObject[@"name"],
+                             kConnectionParamName: connection.name,
                              };
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:params];
     if (credentials.extraInfo[A0StrategySocialTokenSecretParameter]) {
