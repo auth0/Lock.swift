@@ -26,6 +26,7 @@
 #import <Auth0.iOS/Auth0.h>
 #import <libextobjc/EXTScope.h>
 #import <UICKeyChainStore/UICKeyChainStore.h>
+#import <JWTDecode/A0JWTDecoder.h>
 
 @interface A0ViewController ()
 
@@ -138,6 +139,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateStyle = NSDateFormatterShortStyle;
     formatter.timeStyle = NSDateFormatterShortStyle;
+    self.expiresLabel.text = [formatter stringFromDate:[A0JWTDecoder expireDateOfJWT:token.idToken error:nil]];
     self.refreshTokenLabel.text = token.refreshToken;
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", profile.name];
     self.signInButton.enabled = NO;
