@@ -70,7 +70,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:kCellIdentifier];
     self.services = [[A0ServicesTheme alloc] init];
-    self.activeServices = self.application.availableSocialOrEnterpriseStrategies;
+    self.activeServices = self.application.socialStrategies;
     self.selectedService = NSNotFound;
 }
 
@@ -105,7 +105,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     };
     self.selectedService = sender.tag;
     [self setInProgress:YES];
-    A0Strategy *strategy = self.application.availableSocialOrEnterpriseStrategies[sender.tag];
+    A0Strategy *strategy = self.application.socialStrategies[sender.tag];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         Auth0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);

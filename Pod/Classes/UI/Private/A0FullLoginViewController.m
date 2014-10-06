@@ -62,7 +62,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     UINib *cellNib = [UINib nibWithNibName:@"A0ServiceCollectionViewCell" bundle:nil];
     [self.serviceCollectionView registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
     self.services = [[A0ServicesTheme alloc] init];
-    self.activeServices = self.application.availableSocialOrEnterpriseStrategies;
+    self.activeServices = self.application.socialStrategies;
     self.serviceCollectionView.scrollEnabled = self.activeServices.count > 5;
     A0Theme *theme = [A0Theme sharedInstance];
     self.orLabel.font = [theme fontForKey:A0ThemeTextFieldFont defaultFont:self.orLabel.font];
@@ -103,7 +103,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     };
     [self setInProgress:YES];
 
-    A0Strategy *strategy = self.application.availableSocialOrEnterpriseStrategies[sender.tag];
+    A0Strategy *strategy = self.application.socialStrategies[sender.tag];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         Auth0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);

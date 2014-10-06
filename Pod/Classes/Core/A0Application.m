@@ -23,6 +23,11 @@
 #import "A0Application.h"
 #import "A0Strategy.h"
 
+@interface A0Application ()
+@property (strong, nonatomic) A0Strategy *databaseStrategy;
+@property (strong, nonatomic) NSArray *socialStrategies;
+@end
+
 @implementation A0Application
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict {
@@ -48,46 +53,21 @@
         _authorizeURL = [NSURL URLWithString:authorize];
         _callbackURL = [NSURL URLWithString:callback];
         _strategies = [NSArray arrayWithArray:strategies];
+        NSInteger index = [_strategies indexOfObjectPassingTest:^BOOL(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
+            BOOL isAuth0Strategy = [strategy.name isEqualToString:@"auth0"];
+            *stop = isAuth0Strategy;
+            return isAuth0Strategy;
+        }];
+        if (index != NSNotFound) {
+            _databaseStrategy = _strategies[index];
+        }
+        NSArray *filtered = [self.strategies filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(A0Strategy *strategy, NSDictionary *bindings) {
+            return ![strategy.name isEqualToString:@"auth0"];
+        }]];
+        _socialStrategies = filtered;
+
     }
     return self;
-}
-
-- (BOOL)hasDatabaseConnection {
-    NSInteger index = [self.strategies indexOfObjectPassingTest:^BOOL(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
-        BOOL isAuth0Strategy = [strategy.name isEqualToString:@"auth0"];
-        *stop = isAuth0Strategy;
-        return isAuth0Strategy;
-    }];
-    return index != NSNotFound;
-}
-
-- (A0Strategy *)databaseStrategy {
-    NSInteger index = [self.strategies indexOfObjectPassingTest:^BOOL(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
-        BOOL isAuth0Strategy = [strategy.name isEqualToString:@"auth0"];
-        *stop = isAuth0Strategy;
-        return isAuth0Strategy;
-    }];
-    A0Strategy *strategy;
-    if (index != NSNotFound) {
-        strategy = self.strategies[index];
-    }
-    return strategy;
-}
-
-- (BOOL)hasSocialOrEnterpriseStrategies {
-    NSInteger index = [self.strategies indexOfObjectPassingTest:^BOOL(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
-        BOOL hasSocial = ![strategy.name isEqualToString:@"auth0"];
-        *stop = hasSocial;
-        return hasSocial;
-    }];
-    return index != NSNotFound;
-}
-
-- (NSArray *)availableSocialOrEnterpriseStrategies {
-    NSArray *filtered = [self.strategies filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(A0Strategy *strategy, NSDictionary *bindings) {
-        return ![strategy.name isEqualToString:@"auth0"];
-    }]];
-    return filtered;
 }
 
 - (NSString *)description {

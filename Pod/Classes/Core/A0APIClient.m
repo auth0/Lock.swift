@@ -235,7 +235,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                          success:(A0APIClientAuthenticationSuccess)success
                          failure:(A0APIClientError)failure {
     __block A0Strategy *strategy;
-    [self.application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *str, NSUInteger idx, BOOL *stop) {
+    [self.application.socialStrategies enumerateObjectsUsingBlock:^(A0Strategy *str, NSUInteger idx, BOOL *stop) {
         if ([str.name isEqualToString:strategyName]) {
             strategy = str;
             *stop = YES;
