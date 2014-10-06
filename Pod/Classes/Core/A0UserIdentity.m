@@ -28,7 +28,8 @@
                       provider:(NSString *)provider
                     connection:(NSString *)connection
                         social:(NSNumber *)social
-                   accessToken:(NSString *)accessToken {
+                   accessToken:(NSString *)accessToken
+             accessTokenSecret:(NSString *)accessTokenSecret {
     self = [super init];
     if (self) {
         _userId = userId;
@@ -36,6 +37,7 @@
         _connection = connection;
         _social = social.boolValue;
         _accessToken = accessToken;
+        _accessTokenSecret = accessTokenSecret;
     }
     return self;
 }
@@ -45,7 +47,12 @@
                        provider:JSONDict[@"provider"]
                      connection:JSONDict[@"connection"]
                          social:JSONDict[@"isSocial"]
-                    accessToken:JSONDict[@"access_token"]];
+                    accessToken:JSONDict[@"access_token"]
+              accessTokenSecret:JSONDict[@"access_token_secret"]];
+}
+
+- (NSString *)identityId {
+    return [NSString stringWithFormat:@"%@|%@", self.provider, self.userId];
 }
 
 #pragma mark - NSCoding
@@ -55,7 +62,8 @@
                        provider:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(provider))]
                      connection:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(connection))]
                          social:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(isSocial))]
-                    accessToken:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(accessToken))]];
+                    accessToken:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(accessToken))]
+              accessTokenSecret:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(accessTokenSecret))]];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -70,6 +78,9 @@
     }
     if (self.accessToken) {
         [aCoder encodeObject:self.accessToken forKey:NSStringFromSelector(@selector(accessToken))];
+    }
+    if (self.accessTokenSecret) {
+        [aCoder encodeObject:self.accessTokenSecret forKey:NSStringFromSelector(@selector(accessTokenSecret))];
     }
     [aCoder encodeObject:@(self.isSocial) forKey:NSStringFromSelector(@selector(isSocial))];
 }

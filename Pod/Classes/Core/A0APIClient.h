@@ -209,7 +209,7 @@ typedef void(^A0APIClientError)(NSError *error);
 /**
  *  Unlink a specific account
  *
- *  @param userId      id of the account to unlink
+ *  @param userId      id of the account to unlink with the format `provider|identity_user_id`, e.g: `facebook|123456678`. You can use `A0UserIdentity`'s `identityId` method.
  *  @param accessToken Auth0 acces token for the user
  *  @param success     block called on successful unlink request
  *  @param failure     block called on failure with the reason as a parameter
