@@ -42,6 +42,30 @@ describe(@"A0Strategy", ^{
             expect(strategy.name).to.equal(kName);
         });
     });
+
+    context(@"types", ^{
+
+        specify(@"database type", ^{
+            strategy = [[A0Strategy alloc] initWithJSONDictionary:@{ @"name": @"auth0" }];
+            expect(strategy.type).to.equal(A0StrategyTypeDatabase);
+        });
+
+        specify(@"enterprise type", ^{
+            strategy = [[A0Strategy alloc] initWithJSONDictionary:@{ @"name": @"ad" }];
+            expect(strategy.type).to.equal(A0StrategyTypeEnterprise);
+        });
+
+        specify(@"social type", ^{
+            strategy = [[A0Strategy alloc] initWithJSONDictionary:@{ @"name": @"twitter" }];
+            expect(strategy.type).to.equal(A0StrategyTypeSocial);
+        });
+
+        specify(@"unkown type", ^{
+            strategy = [[A0Strategy alloc] initWithJSONDictionary:@{ @"name": @"no known name" }];
+            expect(strategy.type).to.equal(A0StrategyTypeSocial);
+        });
+
+    });
 });
 
 SpecEnd

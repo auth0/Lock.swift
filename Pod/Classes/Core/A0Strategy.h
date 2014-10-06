@@ -45,6 +45,24 @@ FOUNDATION_EXPORT NSString * const A0StrategySocialTokenSecretParameter;
 FOUNDATION_EXPORT NSString * const A0StrategySocialUserIdParameter;
 
 /**
+ *  Types of Strategy.
+ */
+typedef NS_ENUM(NSUInteger, A0StrategyType) {
+    /**
+     *  Twitter, Facebook, Linkedin, Google+, Weibo, etc.
+     */
+    A0StrategyTypeSocial = 0,
+    /**
+     *  Username and Password
+     */
+    A0StrategyTypeDatabase,
+    /**
+     *  LDAP, Sharepoint, IP, etc.
+     */
+    A0StrategyTypeEnterprise
+};
+
+/**
  *  `A0Strategy` represents an enabled connection in your Auth0 application
  */
 @interface A0Strategy : NSObject
@@ -60,6 +78,10 @@ FOUNDATION_EXPORT NSString * const A0StrategySocialUserIdParameter;
  */
 @property (readonly, nonatomic) NSArray *connections;
 
+/**
+ *  Type of the strategy
+ */
+@property (readonly, nonatomic) A0StrategyType type;
 
 /**
  *  Initialise with a JSON dictionary
