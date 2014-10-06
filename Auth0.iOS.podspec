@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Auth0.iOS"
-  s.version          = "1.0.0-rc.4"
+  s.version          = "1.0.0"
   s.summary          = "A library that uses Auth0 for Authentication with Native Look & Feel"
   s.description      = <<-DESC
 [![Auth0](https://i.cloudup.com/1vaSVATKTL.png)](http://auth0.com)
