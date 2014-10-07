@@ -81,12 +81,15 @@ typedef void(^A0APIClientError)(NSError *error);
 
 /**
  *  Perform login of a user with username & password. The selected strategy is obtained from the application configured on the client.
+ *  By default it will use the first database connection name found in `application` property. If it's nil a *connection_name* must be set in parameters.
  *
  *  @param username     username or email of the user to login
  *  @param password     password of the user to login
  *  @param parameters   optional parameters for Auth0 API. It can be nil
  *  @param success      block called on successful login with it's token info and profile
  *  @param failure      block called on failure with the reason as a parameter
+ *  
+ *  @see A0AuthParameters
  */
 - (void)loginWithUsername:(NSString *)username
                  password:(NSString *)password
@@ -96,6 +99,7 @@ typedef void(^A0APIClientError)(NSError *error);
 
 /**
  *  Perform signup for a new user in the application database. It can login the user after a succesful signup.
+ *  By default it will use the first database connection name found in `application` property. If it's nil a *connection_name* must be set in parameters.
  *
  *  @param username       username or email of the new user
  *  @param password       password of the new user
@@ -113,6 +117,7 @@ typedef void(^A0APIClientError)(NSError *error);
 
 /**
  *  Change the password for a user.
+ *  By default it will use the first database connection name found in `application` property. If it's nil a *connection_name* must be set in parameters.
  *
  *  @param newPassword new password for the user
  *  @param username    username to change its password. It can be an email or a username

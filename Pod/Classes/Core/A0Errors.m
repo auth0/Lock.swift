@@ -27,11 +27,10 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 
 @implementation A0Errors
 
-+ (NSError *)unkownStrategyWithName:(NSString *)name {
-    NSString *reason = [NSString stringWithFormat:@"Strategy %@ was not found in Auth0 application", name];
-    return [self errorWithCode:A0ErrorCodeInvalidStrategy
-                   description:A0LocalizedString(@"Invalid strategy used to authenticate")
-                 failureReason:A0LocalizedString(reason)];
++ (NSError *)noConnectionNameFound {
+    return [self errorWithCode:A0ErrorCodeNoConnectionNameFound
+                   description:A0LocalizedString(@"Authentication failed")
+                 failureReason:A0LocalizedString(@"Can't find connection name to use for authentication")];
 }
 
 #pragma mark - Login errors
