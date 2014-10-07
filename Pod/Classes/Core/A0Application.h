@@ -51,9 +51,36 @@
 
 /**
  *  Enabled authentication strategies
+ *
+ *  @see A0Strategy
+ *  @see A0Connection
  */
 @property (readonly, nonatomic) NSArray *strategies;
 
+/**
+ *  Database authentication strategy for this Application.
+ *  It will return nil if no Database connection was configured in Auth0 Dashboard
+ *
+ *  @see A0Strategy
+ *  @see A0Connection
+ */
+@property (readonly, nonatomic) A0Strategy *databaseStrategy;
+
+/**
+ *  List of social strategies enabled for the application. e.g: Facebook, Twitter, Linkedin.
+ *
+ *  @see A0Strategy
+ *  @see A0Connection
+ */
+@property (readonly, nonatomic) NSArray *socialStrategies;
+
+/**
+ *  List of enterprise strategies enabled for the application. e.g: Active Directory, IP, Sharepoint, etc.
+ *
+ *  @see A0Strategy
+ *  @see A0Connection
+ */
+@property (readonly, nonatomic) NSArray *enterpriseStrategies;
 
 /**
  *  Initialise the applcation from a JSON dictionary
@@ -65,31 +92,12 @@
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict;
 
 /**
- *  Checks whether the app has a Database strategy enabled
+ *  Returns an available strategy by its name.
  *
- *  @return if the app has a database strategy
- */
-- (BOOL)hasDatabaseConnection;
-
-/**
- *  Checks whether the app has at least one non-database strategy
+ *  @param name strategy name.
  *
- *  @return if the app has at least one non-database strategy
+ *  @return an available strategy or nil
  */
-- (BOOL)hasSocialOrEnterpriseStrategies;
-
-/**
- *  Returns the databse strategy
- *
- *  @return a database stretegy
- */
-- (A0Strategy *)databaseStrategy;
-
-/**
- *  Returns all non-database strategies
- *
- *  @return a list with non-database strategies
- */
-- (NSArray *)availableSocialOrEnterpriseStrategies;
+- (A0Strategy *)strategyByName:(NSString *)name;
 
 @end

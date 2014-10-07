@@ -28,7 +28,6 @@
 #import "A0DatabaseLoginCredentialValidator.h"
 #import "A0SignUpCredentialValidator.h"
 #import "A0ChangePasswordCredentialValidator.h"
-
 #import "A0LoadingViewController.h"
 #import "A0DatabaseLoginViewController.h"
 #import "A0SignUpViewController.h"
@@ -39,6 +38,7 @@
 #import "A0Strategy.h"
 #import "A0KeyboardEnabledView.h"
 #import "A0AuthParameters.h"
+#import "A0Connection.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
@@ -135,20 +135,21 @@
         }
     };
     A0Strategy *strategy = [application databaseStrategy];
-    if ([application hasDatabaseConnection] && [application hasSocialOrEnterpriseStrategies]) {
+    A0Connection *connection = strategy.connections.firstObject;
+    if (application.databaseStrategy && application.socialStrategies.count > 0) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.application = application;
-        controller.showResetPassword = [strategy.connection[@"showForgot"] boolValue];
-        controller.showSignUp = [strategy.connection[@"showSignup"] boolValue];
+        controller.showResetPassword = [connection.values[@"showForgot"] boolValue];
+        controller.showSignUp = [connection.values[@"showSignup"] boolValue];
         controller.parameters = self.authenticationParameters;
         self.current = [self layoutController:controller inContainer:self.containerView];
-    } else if ([application hasDatabaseConnection]) {
+    } else if (application.databaseStrategy) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
-        controller.showResetPassword = [strategy.connection[@"showForgot"] boolValue];
-        controller.showSignUp = [strategy.connection[@"showSignup"] boolValue];
+        controller.showResetPassword = [connection.values[@"showForgot"] boolValue];
+        controller.showSignUp = [connection.values[@"showSignup"] boolValue];
         controller.parameters = self.authenticationParameters;
         self.current = [self layoutController:controller inContainer:self.containerView];
-    } else if ([application hasSocialOrEnterpriseStrategies]) {
+    } else if (application.socialStrategies.count > 0) {
         A0SocialLoginViewController *controller = [self newSocialLoginViewController:onAuthSuccessBlock];
         controller.application = application;
         self.current = [self layoutController:controller inContainer:self.containerView];

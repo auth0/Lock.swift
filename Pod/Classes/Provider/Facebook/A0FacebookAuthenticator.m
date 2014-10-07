@@ -124,11 +124,11 @@
                                      success:(void(^)(A0UserProfile *, A0Token *))success
                                      failure:(void(^)(NSError *))failure {
     A0APIClient *client = [A0APIClient sharedClient];
-    [client authenticateWithStrategy:self.identifier
-                         credentials:credentials
-                          parameters:parameters
-                             success:success
-                             failure:failure];
+    [client authenticateWithSocialConnectionName:self.identifier
+                                     credentials:credentials
+                                      parameters:parameters
+                                         success:success
+                                         failure:failure];
 }
 
 @end

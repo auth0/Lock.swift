@@ -67,7 +67,7 @@
 
 - (void)configureForApplication:(A0Application *)application {
     self.authenticators = [@{} mutableCopy];
-    [application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
+    [application.socialStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
         if (self.registeredAuthenticators[strategy.name]) {
             self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
         } else if (self.useWebAsDefault) {

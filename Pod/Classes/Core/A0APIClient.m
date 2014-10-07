@@ -31,6 +31,7 @@
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0AuthParameters.h"
 #import "A0Errors.h"
+#import "A0Connection.h"
 
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
@@ -160,17 +161,19 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                                                                 kPasswordParamName: password,
                                                                                 kGrantTypeParamName: @"password",
                                                                                 kClientIdParamName: self.clientId,
-                                                                                kConnectionParamName: self.application.databaseStrategy.connection[@"name"],
                                                                                 }];
+    [self addDatabaseConnectionNameToParams:defaultParameters];
     [defaultParameters addValuesFromParameters:parameters];
     Auth0LogVerbose(@"Starting Login with username & password %@", defaultParameters);
-    @weakify(self);
-    NSDictionary *payload = [defaultParameters asAPIPayload];
-    [self.manager POST:kLoginPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        @strongify(self);
-        Auth0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
-        [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
-    } failure:[A0APIClient sanitizeFailureBlock:failure]];
+    if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
+        @weakify(self);
+        NSDictionary *payload = [defaultParameters asAPIPayload];
+        [self.manager POST:kLoginPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            @strongify(self);
+            Auth0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
+            [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
+        } failure:[A0APIClient sanitizeFailureBlock:failure]];
+    }
 }
 
 - (void)signUpWithUsername:(NSString *)username
@@ -179,30 +182,30 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                 parameters:(A0AuthParameters *)parameters
                    success:(A0APIClientAuthenticationSuccess)success
                    failure:(A0APIClientError)failure {
-
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
                                                                                 kEmailParamName: username,
                                                                                 kPasswordParamName: password,
                                                                                 kTenantParamName: self.tenant,
-                                                                                kRedirectUriParamName: self.application.callbackURL.absoluteString,
                                                                                 kClientIdParamName: self.clientId,
-                                                                                kConnectionParamName: self.application.databaseStrategy.connection[@"name"],
                                                                                 }];
+    [self addDatabaseConnectionNameToParams:defaultParameters];
     [defaultParameters addValuesFromParameters:parameters];
     Auth0LogVerbose(@"Starting Signup with username & password %@", defaultParameters);
-    NSDictionary *payload = [defaultParameters asAPIPayload];
-    @weakify(self);
-    [self.manager POST:kSignUpPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        @strongify(self);
-        Auth0LogDebug(@"Created user successfully %@", responseObject);
-        if (loginOnSuccess) {
-            [self loginWithUsername:username password:password parameters:parameters success:success failure:failure];
-        } else {
-            if (success) {
-                success(nil, nil);
+    if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
+        NSDictionary *payload = [defaultParameters asAPIPayload];
+        @weakify(self);
+        [self.manager POST:kSignUpPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            @strongify(self);
+            Auth0LogDebug(@"Created user successfully %@", responseObject);
+            if (loginOnSuccess) {
+                [self loginWithUsername:username password:password parameters:parameters success:success failure:failure];
+            } else {
+                if (success) {
+                    success(nil, nil);
+                }
             }
-        }
-    } failure:[A0APIClient sanitizeFailureBlock:failure]];
+        } failure:[A0APIClient sanitizeFailureBlock:failure]];
+    }
 }
 
 - (void)changePassword:(NSString *)newPassword forUsername:(NSString *)username parameters:(A0AuthParameters *)parameters success:(void(^)())success failure:(A0APIClientError)failure {
@@ -211,43 +214,31 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                                                                 kPasswordParamName: newPassword,
                                                                                 kTenantParamName: self.tenant,
                                                                                 kClientIdParamName: self.clientId,
-                                                                                kConnectionParamName: self.application.databaseStrategy.connection[@"name"],
                                                                                 }];
+    [self addDatabaseConnectionNameToParams:defaultParameters];
     [defaultParameters addValuesFromParameters:parameters];
     Auth0LogVerbose(@"Chaning password with params %@", defaultParameters);
-    NSDictionary *payload = [defaultParameters asAPIPayload];
-    [self.manager POST:kChangePasswordPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        Auth0LogDebug(@"Changed password for user %@. Response %@", username, responseObject);
-        if (success) {
-            success();
-        }
-    } failure:[A0APIClient sanitizeFailureBlock:failure]];
+    if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
+        NSDictionary *payload = [defaultParameters asAPIPayload];
+        [self.manager POST:kChangePasswordPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            Auth0LogDebug(@"Changed password for user %@. Response %@", username, responseObject);
+            if (success) {
+                success();
+            }
+        } failure:[A0APIClient sanitizeFailureBlock:failure]];
+    }
 }
 
 #pragma mark - Social Authentication
 
-- (void)authenticateWithStrategy:(NSString *)strategyName
-                     credentials:(A0IdentityProviderCredentials *)credentials
-                      parameters:(A0AuthParameters *)parameters
-                         success:(A0APIClientAuthenticationSuccess)success
-                         failure:(A0APIClientError)failure {
-    __block A0Strategy *strategy;
-    [self.application.availableSocialOrEnterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *str, NSUInteger idx, BOOL *stop) {
-        if ([str.name isEqualToString:strategyName]) {
-            strategy = str;
-            *stop = YES;
-        }
-    }];
-    if (!strategy) {
-        Auth0LogError(@"Invalid strategy name %@", strategyName);
-        if (failure) {
-            failure([A0Errors unkownStrategyWithName:strategyName]);
-        }
-        return;
-    }
+- (void)authenticateWithSocialConnectionName:(NSString *)connectionName
+                                 credentials:(A0IdentityProviderCredentials *)credentials
+                                  parameters:(A0AuthParameters *)parameters
+                                     success:(A0APIClientAuthenticationSuccess)success
+                                     failure:(A0APIClientError)failure {
     NSDictionary *params = @{
                              kClientIdParamName: self.clientId,
-                             kConnectionParamName: strategy.connection[@"name"],
+                             kConnectionParamName: connectionName,
                              };
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:params];
     if (credentials.extraInfo[A0StrategySocialTokenSecretParameter]) {
@@ -259,15 +250,15 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     [defaultParameters addValuesFromParameters:parameters];
     if (defaultParameters.accessToken) {
         [defaultParameters setValue:defaultParameters.accessToken forKey:A0ParameterMainAccessToken];
-        defaultParameters.accessToken = credentials.accessToken;
     }
+    defaultParameters.accessToken = credentials.accessToken;
 
     NSDictionary *payload = [defaultParameters asAPIPayload];
-    Auth0LogVerbose(@"Authenticating with social strategy %@", payload);
+    Auth0LogVerbose(@"Authenticating with social strategy %@ and payload %@", connectionName, payload);
     @weakify(self);
     [self.manager POST:kSocialAuthPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
-        Auth0LogDebug(@"Authenticated successfuly with social strategy %@", strategy);
+        Auth0LogDebug(@"Authenticated successfuly with social connection %@", connectionName);
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
 
@@ -382,6 +373,24 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 }
 
 #pragma mark - Utility methods
+
+- (void)addDatabaseConnectionNameToParams:(A0AuthParameters *)parameters {
+    A0Connection *connection = self.application.databaseStrategy.connections.firstObject;
+    if (connection.name) {
+        [parameters setValue:connection.name forKey:kConnectionParamName];
+    }
+}
+
+- (BOOL)checkForDatabaseConnectionIn:(A0AuthParameters *)parameters failure:(A0APIClientError)failure {
+    BOOL hasConnectionName = [parameters valueForKey:kConnectionParamName];
+    if (!hasConnectionName) {
+        Auth0LogError(@"Parameters for DB auth MUST have a connection name!");
+        if (failure) {
+            failure([A0Errors noConnectionNameFound]);
+        }
+    }
+    return hasConnectionName;
+}
 
 + (AFFailureBlock) sanitizeFailureBlock:(A0APIClientError)failureBlock {
     AFFailureBlock sanitized = ^(AFHTTPRequestOperation *operation, NSError *error) {

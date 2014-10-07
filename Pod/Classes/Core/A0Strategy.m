@@ -21,7 +21,9 @@
 // THE SOFTWARE.
 
 #import "A0Strategy.h"
+#import "A0Connection.h"
 
+NSString * const A0Auth0AuthenticationName = @"auth0";
 NSString * const A0TwitterAuthenticationName = @"twitter";
 NSString * const A0FacebookAuthenticationName = @"facebook";
 
@@ -34,14 +36,45 @@ NSString * const A0StrategySocialUserIdParameter = @"user_id";
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDictionary {
     self = [super init];
     if (self) {
-        _name = JSONDictionary[@"name"];
-        _connection = [JSONDictionary[@"connections"] firstObject];
+        _name = [JSONDictionary[@"name"] copy];
+        NSArray *connectionsJSON = JSONDictionary[@"connections"];
+        NSMutableArray *connections = [@[] mutableCopy];
+        for (NSDictionary *connectionJSON in connectionsJSON) {
+            [connections addObject:[[A0Connection alloc] initWithJSONDictionary:connectionJSON]];
+        }
+        _connections = [NSArray arrayWithArray:connections];
+        if ([_name isEqualToString:A0Auth0AuthenticationName]) {
+            _type = A0StrategyTypeDatabase;
+        } else if ([[A0Strategy enterpriseNames] containsObject:_name]) {
+            _type = A0StrategyTypeEnterprise;
+        } else {
+            _type = A0StrategyTypeSocial;
+        }
     }
     return self;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<A0Strategy name = '%@' connection = %@>", self.name, self.connection];
+    return [NSString stringWithFormat:@"<A0Strategy name = '%@' connections = %@>", self.name, self.connections];
 }
 
++ (NSSet *)enterpriseNames {
+    static NSSet *enterpriseNames;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *names = @[@"google-apps",
+                           @"office365",
+                           @"waad",
+                           @"adfs",
+                           @"samlp",
+                           @"pingfederate",
+                           @"ip",
+                           @"mscrm",
+                           @"ad",
+                           @"custom",
+                           @"sharepoint"];
+        enterpriseNames = [NSSet setWithArray:names];
+    });
+    return enterpriseNames;
+}
 @end

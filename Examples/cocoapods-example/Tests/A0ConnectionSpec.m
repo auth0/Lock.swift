@@ -1,4 +1,4 @@
-//  A0StrategySpec.m
+//  A0ConnectionSpec.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,51 +21,51 @@
 // THE SOFTWARE.
 
 #import "Specta.h"
-#import "A0Strategy.h"
+#import "A0Connection.h"
 
 
-#define kName @"facebook"
+SpecBegin(A0Connection)
 
-SpecBegin(A0Strategy)
+describe(@"A0Connection", ^{
 
-describe(@"A0Strategy", ^{
+    __block A0Connection *connection;
 
-    __block A0Strategy *strategy;
+    __block NSDictionary *JSON = @{
+                                   @"name": @"facebook",
+                                   @"extra_key": @"extra_value",
+                                   };
 
-    context(@"creating from JSON", ^{
+    sharedExamplesFor(@"valid connection", ^(NSDictionary *data) {
 
         beforeEach(^{
-            strategy = [[A0Strategy alloc] initWithJSONDictionary:@{ @"name": kName }];
+            connection = [[A0Connection alloc] initWithJSONDictionary:data];
         });
 
         specify(@"valid name", ^{
-            expect(strategy.name).to.equal(kName);
-        });
-    });
-
-    context(@"types", ^{
-
-        specify(@"database type", ^{
-            strategy = [[A0Strategy alloc] initWithJSONDictionary:@{ @"name": @"auth0" }];
-            expect(strategy.type).to.equal(A0StrategyTypeDatabase);
+            expect(connection.name).to.equal(data[@"name"]);
         });
 
-        specify(@"enterprise type", ^{
-            strategy = [[A0Strategy alloc] initWithJSONDictionary:@{ @"name": @"ad" }];
-            expect(strategy.type).to.equal(A0StrategyTypeEnterprise);
-        });
-
-        specify(@"social type", ^{
-            strategy = [[A0Strategy alloc] initWithJSONDictionary:@{ @"name": @"twitter" }];
-            expect(strategy.type).to.equal(A0StrategyTypeSocial);
-        });
-
-        specify(@"unkown type", ^{
-            strategy = [[A0Strategy alloc] initWithJSONDictionary:@{ @"name": @"no known name" }];
-            expect(strategy.type).to.equal(A0StrategyTypeSocial);
+        specify(@"valid values", ^{
+            expect(connection.values).to.equal(data);
         });
 
     });
+
+    sharedExamplesFor(@"invalid connection", ^(NSDictionary *data) {
+
+        it(@"should raise exception on init", ^{
+            expect(^{
+                connection = [[A0Connection alloc] initWithJSONDictionary:data];
+            }).to.raise(NSInternalInconsistencyException);
+        });
+
+    });
+
+    itBehavesLike(@"valid connection", JSON);
+    itBehavesLike(@"invalid connection", nil);
+    itBehavesLike(@"invalid connection", @{});
+    itBehavesLike(@"invalid connection", @{@"key": @"value"});
+    
 });
 
 SpecEnd

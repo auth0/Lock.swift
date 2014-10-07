@@ -27,11 +27,10 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 
 @implementation A0Errors
 
-+ (NSError *)unkownStrategyWithName:(NSString *)name {
-    NSString *reason = [NSString stringWithFormat:@"Strategy %@ was not found in Auth0 application", name];
-    return [self errorWithCode:A0ErrorCodeInvalidStrategy
-                   description:A0LocalizedString(@"Invalid strategy used to authenticate")
-                 failureReason:A0LocalizedString(reason)];
++ (NSError *)noConnectionNameFound {
+    return [self errorWithCode:A0ErrorCodeNoConnectionNameFound
+                   description:A0LocalizedString(@"Authentication failed")
+                 failureReason:A0LocalizedString(@"Can't find connection name to use for authentication")];
 }
 
 #pragma mark - Login errors
@@ -212,20 +211,6 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     return [self errorWithCode:A0ErrorCodeAuth0InvalidConfiguration
                    description:A0LocalizedString(description)
                  failureReason:A0LocalizedString(failureReason)];
-}
-
-#pragma mark - Refresh Session
-
-+ (NSError *)noSessionFound {
-    return [self errorWithCode:A0ErrorCodeNoSessionFound
-                   description:A0LocalizedString(@"There was an error refreshing session")
-                 failureReason:A0LocalizedString(@"No id_token or refresh_token was found for current session")];
-}
-
-+ (NSError *)noRefreshTokenFound {
-    return [self errorWithCode:A0ErrorCodeNoRefreshTokenFound
-                   description:A0LocalizedString(@"There was an error refreshing session")
-                 failureReason:A0LocalizedString(@"No refresh_token was found for current session. Make sure you're requesting offline access on login.")];
 }
 
 #pragma mark - Localized error messages

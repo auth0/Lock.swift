@@ -144,7 +144,7 @@ describe(@"A0Application", ^{
             });
 
             it(@"should indicate that it has a Database Connection", ^{
-                expect(application.hasDatabaseConnection).to.beTruthy();
+                expect(application.databaseStrategy).toNot.beNil();
             });
 
             it(@"should return database connection", ^{
@@ -161,7 +161,7 @@ describe(@"A0Application", ^{
             });
 
             it(@"should indicate that it has no Database Connection", ^{
-                expect(application.hasDatabaseConnection).toNot.beTruthy();
+                expect(application.databaseStrategy).to.beNil();
             });
             
         });
@@ -181,16 +181,12 @@ describe(@"A0Application", ^{
                 application = [[A0Application alloc] initWithJSONDictionary:dict];
             });
 
-            it(@"should indicate that it has no strategy", ^{
-                expect(application.hasSocialOrEnterpriseStrategies).to.beTruthy();
-            });
-
             it(@"should return social strategies", ^{
-                expect(application.availableSocialOrEnterpriseStrategies).to.haveCountOf(1);
+                expect(application.socialStrategies).to.haveCountOf(1);
             });
 
             it(@"should have only twitter", ^{
-                expect([application.availableSocialOrEnterpriseStrategies.firstObject name]).to.equal(@"twitter");
+                expect([application.socialStrategies.firstObject name]).to.equal(@"twitter");
             });
         });
 
@@ -202,12 +198,8 @@ describe(@"A0Application", ^{
                 application = [[A0Application alloc] initWithJSONDictionary:dict];
             });
 
-            it(@"should indicate that it has no strategy", ^{
-                expect(application.hasSocialOrEnterpriseStrategies).toNot.beTruthy();
-            });
-
             it(@"should return no social strategies", ^{
-                expect(application.availableSocialOrEnterpriseStrategies).to.beEmpty();
+                expect(application.socialStrategies).to.beEmpty();
             });
         });
         

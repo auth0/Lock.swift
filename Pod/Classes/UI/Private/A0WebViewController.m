@@ -50,7 +50,7 @@
     if (self) {
         _authentication = [[A0WebAuthentication alloc] initWithApplication:application strategy:strategy];
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
-        NSString *connectionName = strategy.connection[@"name"];
+        NSString *connectionName = [strategy.connections.firstObject name];
         A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
                                                                                     @"response_type": @"token",
                                                                                     @"connection": connectionName,

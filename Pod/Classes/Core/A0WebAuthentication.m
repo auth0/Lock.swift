@@ -26,6 +26,7 @@
 #import "A0Token.h"
 #import "A0Errors.h"
 #import "NSDictionary+A0QueryParameters.h"
+#import "A0Connection.h"
 
 #define kCallbackURLString @"a0%@://%@.auth0.com/authorize"
 
@@ -39,9 +40,10 @@
 - (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy {
     self = [super init];
     if (self) {
+        A0Connection *connection = strategy.connections.firstObject;
         NSAssert(application != nil && application.identifier, @"You must supply a valid A0Application");
-        NSAssert(strategy != nil && strategy.connection[@"name"] != nil, @"You must supply a valid strategy with at least 1 connection");
-        NSString *connectionName = strategy.connection[@"name"];
+        NSAssert(strategy != nil && connection.name != nil, @"You must supply a valid strategy with at least 1 connection");
+        NSString *connectionName = connection.name;
         NSString *callbackURLString = [NSString stringWithFormat:kCallbackURLString, application.identifier, connectionName].lowercaseString;
         _callbackURL = [NSURL URLWithString:callbackURLString];
         _strategyName = strategy.name;

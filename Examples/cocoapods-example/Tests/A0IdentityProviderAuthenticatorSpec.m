@@ -130,7 +130,7 @@ describe(@"A0SocialAuthenticator", ^{
         context(@"has declared a registered provider", ^{
 
             beforeEach(^{
-                [given([application availableSocialOrEnterpriseStrategies]) willReturn:@[facebookStrategy]];
+                [given([application socialStrategies]) willReturn:@[facebookStrategy]];
                 [authenticator configureForApplication:application];
             });
 
