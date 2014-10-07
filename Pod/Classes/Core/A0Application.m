@@ -27,6 +27,7 @@
 @property (strong, nonatomic) A0Strategy *databaseStrategy;
 @property (strong, nonatomic) NSArray *socialStrategies;
 @property (strong, nonatomic) NSArray *enterpriseStrategies;
+@property (strong, nonatomic) NSDictionary *strategyDictionary;
 @end
 
 @implementation A0Application
@@ -40,10 +41,10 @@
         NSString *authorize = JSONDict[@"authorize"];
         NSString *callback = JSONDict[@"callback"];
         NSArray *array = JSONDict[@"strategies"];
-        NSMutableArray *strategies = [@[] mutableCopy];
+        NSMutableDictionary *strategies = [@{} mutableCopy];
         [array enumerateObjectsUsingBlock:^(NSDictionary *strategyDict, NSUInteger idx, BOOL *stop) {
             A0Strategy *strategy = [[A0Strategy alloc] initWithJSONDictionary:strategyDict];
-            [strategies addObject:strategy];
+            [strategies setObject:strategy forKey:strategy.name];
             if (strategy.type == A0StrategyTypeDatabase) {
                 _databaseStrategy = strategy;
             }
@@ -57,14 +58,23 @@
         _tenant = tenant;
         _authorizeURL = [NSURL URLWithString:authorize];
         _callbackURL = [NSURL URLWithString:callback];
-        _strategies = [NSArray arrayWithArray:strategies];
-        _socialStrategies = [self.strategies filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@", @(A0StrategyTypeSocial)]];
-        _enterpriseStrategies = [self.strategies filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@", @(A0StrategyTypeEnterprise)]];
+        _strategyDictionary = strategies;
+        _socialStrategies = [strategies.allValues filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@", @(A0StrategyTypeSocial)]];
+        _enterpriseStrategies = [strategies.allValues filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@", @(A0StrategyTypeEnterprise)]];
     }
     return self;
+}
+
+-(NSArray *)strategies {
+    return self.strategyDictionary.allValues;
 }
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<A0Application id = '%@'; tenant = '%@' database = %@ enterprise = %@ social = %@>", self.identifier, self.tenant, self.databaseStrategy, self.enterpriseStrategies, self.socialStrategies];
 }
+
+- (A0Strategy *)strategyByName:(NSString *)name {
+    return self.strategyDictionary[name];
+}
+
 @end

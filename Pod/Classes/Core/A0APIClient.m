@@ -234,13 +234,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                       parameters:(A0AuthParameters *)parameters
                          success:(A0APIClientAuthenticationSuccess)success
                          failure:(A0APIClientError)failure {
-    __block A0Strategy *strategy;
-    [self.application.socialStrategies enumerateObjectsUsingBlock:^(A0Strategy *str, NSUInteger idx, BOOL *stop) {
-        if ([str.name isEqualToString:strategyName]) {
-            strategy = str;
-            *stop = YES;
-        }
-    }];
+    __block A0Strategy *strategy = [self.application strategyByName:strategyName];
     if (!strategy) {
         Auth0LogError(@"Invalid strategy name %@", strategyName);
         if (failure) {

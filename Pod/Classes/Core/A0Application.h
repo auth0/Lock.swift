@@ -91,4 +91,13 @@
  */
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict;
 
+/**
+ *  Returns an available strategy by its name.
+ *
+ *  @param name strategy name.
+ *
+ *  @return an available strategy or nil
+ */
+- (A0Strategy *)strategyByName:(NSString *)name;
+
 @end
