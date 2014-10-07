@@ -287,11 +287,11 @@
 
 - (void)executeSuccessWithCredentials:(A0IdentityProviderCredentials *)credentials parameters:(A0AuthParameters *)parameters {
     A0APIClient *client = [A0APIClient sharedClient];
-    [client authenticateWithStrategy:self.identifier
-                         credentials:credentials
-                          parameters:parameters
-                             success:self.successBlock
-                             failure:self.failureBlock];
+    [client authenticateWithSocialConnectionName:self.identifier
+                                     credentials:credentials
+                                      parameters:parameters
+                                         success:self.successBlock
+                                         failure:self.failureBlock];
     self.authenticating = NO;
     self.successBlock = nil;
     self.failureBlock = nil;
