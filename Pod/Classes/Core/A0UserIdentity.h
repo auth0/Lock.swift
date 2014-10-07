@@ -22,14 +22,56 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  User's linked accounts identities.
+ */
 @interface A0UserIdentity : NSObject<NSCoding>
 
+/**
+ *  Name of the connection used to link this account
+ */
 @property (readonly, nonatomic) NSString *connection;
+
+/**
+ *  Name of the identity provider
+ */
 @property (readonly, nonatomic) NSString *provider;
+
+/**
+ *  User Id in the identity provider
+ */
 @property (readonly, nonatomic) NSString *userId;
+
+/**
+ *  Flag that indicates if the identity is `Social`. e.g: Facebook
+ */
 @property (readonly, nonatomic, getter = isSocial) BOOL social;
+
+/**
+ *  If the identity provider is OAuth2, you will find the access_token that can be used to call the provider API
+ *  and obtain more information from the user (e.g: Facebook friends, Google contacts, LinkedIn contacts, etc.).
+ */
 @property (readonly, nonatomic) NSString *accessToken;
 
+/**
+ *  Identity id for Auth0 api. It has the format `provider|userId`
+ */
+@property (readonly, nonatomic) NSString *identityId;
+
+/**
+ *  If the identity provider is OAuth 1.0a, an access_token_secret property will be present 
+ *  and can be used to call the provider API and obtain more information from the user.
+ *  Currently only for twitter.
+ */
+@property (readonly, nonatomic) NSString *accessTokenSecret;
+
+/**
+ *  Initialises an instance from a JSON dictionary
+ *
+ *  @param JSONDict dictionary with JSON values
+ *
+ *  @return an initialised instance
+ */
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDict;
 
 @end

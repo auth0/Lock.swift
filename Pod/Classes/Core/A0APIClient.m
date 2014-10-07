@@ -47,6 +47,7 @@
 #define kChangePasswordPath @"/dbconnections/change_password"
 #define kSocialAuthPath @"/oauth/access_token"
 #define kDelegationAuthPath @"/delegation"
+#define kUnlinkAccountPath @"/unlink"
 
 #define kAuthorizationHeaderName @"Authorization"
 #define kAuthorizationHeaderValueFormatString @"Bearer %@"
@@ -164,7 +165,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     [defaultParameters addValuesFromParameters:parameters];
     Auth0LogVerbose(@"Starting Login with username & password %@", defaultParameters);
     @weakify(self);
-    [self.manager POST:kLoginPath parameters:defaultParameters.dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSDictionary *payload = [defaultParameters asAPIPayload];
+    [self.manager POST:kLoginPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
         Auth0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
@@ -188,8 +190,9 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                                                                 }];
     [defaultParameters addValuesFromParameters:parameters];
     Auth0LogVerbose(@"Starting Signup with username & password %@", defaultParameters);
+    NSDictionary *payload = [defaultParameters asAPIPayload];
     @weakify(self);
-    [self.manager POST:kSignUpPath parameters:defaultParameters.dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager POST:kSignUpPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
         Auth0LogDebug(@"Created user successfully %@", responseObject);
         if (loginOnSuccess) {
@@ -212,7 +215,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                                                                 }];
     [defaultParameters addValuesFromParameters:parameters];
     Auth0LogVerbose(@"Chaning password with params %@", defaultParameters);
-    [self.manager POST:kChangePasswordPath parameters:defaultParameters.dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSDictionary *payload = [defaultParameters asAPIPayload];
+    [self.manager POST:kChangePasswordPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Changed password for user %@. Response %@", username, responseObject);
         if (success) {
             success();
@@ -242,7 +246,6 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         return;
     }
     NSDictionary *params = @{
-                             kAccessTokenParamName: credentials.accessToken,
                              kClientIdParamName: self.clientId,
                              kConnectionParamName: strategy.connection[@"name"],
                              };
@@ -254,10 +257,15 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         [defaultParameters setValue:credentials.extraInfo[A0StrategySocialUserIdParameter] forKey:kSocialUserIdParamName];
     }
     [defaultParameters addValuesFromParameters:parameters];
+    if (defaultParameters.accessToken) {
+        [defaultParameters setValue:defaultParameters.accessToken forKey:A0ParameterMainAccessToken];
+        defaultParameters.accessToken = credentials.accessToken;
+    }
 
-    Auth0LogVerbose(@"Authenticating with social strategy %@", defaultParameters.dictionary);
+    NSDictionary *payload = [defaultParameters asAPIPayload];
+    Auth0LogVerbose(@"Authenticating with social strategy %@", payload);
     @weakify(self);
-    [self.manager POST:kSocialAuthPath parameters:defaultParameters.dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager POST:kSocialAuthPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
         Auth0LogDebug(@"Authenticated successfuly with social strategy %@", strategy);
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
@@ -291,8 +299,9 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 }
 
 - (void)delegationWithParameters:(A0AuthParameters *)parameters success:(A0APIClientDelegationSuccess)success failure:(A0APIClientError)failure {
+    NSDictionary *payload = [parameters asAPIPayload];
     Auth0LogVerbose(@"Calling delegate authentication with params %@", parameters);
-    [self.manager POST:kDelegationAuthPath parameters:parameters.dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager POST:kDelegationAuthPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Delegation successful params %@", parameters);
         if (success) {
             success([[A0Token alloc] initWithDictionary:responseObject]);
@@ -336,6 +345,29 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         }
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
     [operation start];
+}
+
+#pragma mark - Account Linking
+
+- (void)unlinkAccountWithUserId:(NSString *)userId
+                    accessToken:(NSString *)accessToken
+                        success:(void (^)())success
+                        failure:(A0APIClientError)failure {
+    A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{
+                                                                         kClientIdParamName: self.clientId,
+                                                                         kAccessTokenParamName: accessToken,
+                                                                         kSocialUserIdParamName: userId,
+                                                                         }];
+    Auth0LogVerbose(@"Unlinking account with id %@", userId);
+    [self.manager POST:kUnlinkAccountPath
+            parameters:[parameters asAPIPayload]
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (success) {
+                       success();
+                   }
+                   Auth0LogDebug(@"Account with id %@ unlinked successfully", userId);
+               }
+               failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
 #pragma mark - Internal API calls

@@ -183,7 +183,7 @@ describe(@"A0AuthParameters", ^{
             params.state = @"TEST";
             params.device = @"Specta Test";
             [params setValue:@"bar" forKey:@"foo"];
-            dict = params.dictionary;
+            dict = params.asAPIPayload;
         });
 
         it(@"should coalesce scopes in a NSString", ^{

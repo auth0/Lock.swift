@@ -30,6 +30,7 @@ NSString * const A0ParameterNonce = @"nonce";
 NSString * const A0ParameterOfflineMode = @"offline_mode";
 NSString * const A0ParameterConnectionScopes = @"connection_scopes";
 NSString * const A0ParameterAccessToken = @"access_token";
+NSString * const A0ParameterMainAccessToken = @"main_access_token";
 
 NSString * const A0ScopeOpenId = @"openid";
 NSString * const A0ScopeOfflineAccess = @"offline_access";
@@ -111,7 +112,7 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
     return [[A0AuthParameters alloc] initWithScopes:scopes];
 }
 
-- (NSDictionary *)dictionary {
+- (NSDictionary *)asAPIPayload {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:self.params];
     params[A0ParameterScope] = ScopeValueFromNSArray(self.params[A0ParameterScope]);
     NSDictionary *connectionScopes = self.params[A0ParameterConnectionScopes];
