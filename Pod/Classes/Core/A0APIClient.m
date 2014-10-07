@@ -186,7 +186,6 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                                                                 kEmailParamName: username,
                                                                                 kPasswordParamName: password,
                                                                                 kTenantParamName: self.tenant,
-                                                                                kRedirectUriParamName: self.application.callbackURL.absoluteString,
                                                                                 kClientIdParamName: self.clientId,
                                                                                 kConnectionParamName: connection.name,
                                                                                 }];
