@@ -14,6 +14,8 @@
 * Provides support for **Social Providers** (Facebook, Twitter, etc.), **Enterprise Providers** (AD, LDAP, etc.) and **Username & Password**
 * Provides the ability to do **SSO** with 2 or more mobile apps similar to Facebook and Messenger apps.
 
+![iOS Gif](https://cloudup.com/cnccuUlFiYI+)
+
 ## Requierements
 
 iOS 7+. If you need to use our SDK in an earlier version please use our previous SDK pod `Auth0Client` or check the branch [old-sdk](https://github.com/auth0/Auth0.iOS/tree/old-sdk) of this repo.
