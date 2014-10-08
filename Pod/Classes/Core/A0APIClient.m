@@ -382,7 +382,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 }
 
 - (BOOL)checkForDatabaseConnectionIn:(A0AuthParameters *)parameters failure:(A0APIClientError)failure {
-    BOOL hasConnectionName = [parameters valueForKey:kConnectionParamName];
+    BOOL hasConnectionName = [parameters valueForKey:kConnectionParamName] != nil;
     if (!hasConnectionName) {
         Auth0LogError(@"Parameters for DB auth MUST have a connection name!");
         if (failure) {
