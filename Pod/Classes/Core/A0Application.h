@@ -100,4 +100,13 @@
  */
 - (A0Strategy *)strategyByName:(NSString *)name;
 
+/**
+ *  Find the enterprise `A0Strategy` that has a connection
+ *
+ *  @param connectionName name of the connection
+ *
+ *  @return an enterprise strategy or nil if not found
+ */
+- (A0Strategy *)enterpriseStrategyWithConnection:(NSString *)connectionName;
+
 @end

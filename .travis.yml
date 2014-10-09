@@ -11,9 +11,6 @@ before_install:
 
 script:
 	- xctool -workspace Examples/cocoapods-example/Auth0Client.xcworkspace -scheme Auth0Client -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO clean test
-branches:
-  only:
-  	- master
 
 notifications:
   slack:
