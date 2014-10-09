@@ -32,6 +32,9 @@
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "A0Connection.h"
+#import "A0IdentityProviderAuthenticator.h"
+#import "A0WebViewController.h"
+#import "A0AuthParameters.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
@@ -111,7 +114,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                 self.onShowEnterpriseLogin(self.matchedConnection);
             }
         } else {
-            //Perform Safari Authentication
+            [self loginUserWithConnection:self.matchedConnection];
         }
         return;
     }
@@ -172,6 +175,60 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     }
     self.matchedConnection = connection;
     self.singleSignOnView.hidden = connection == nil;
+}
+
+#pragma mark - Enterprise login
+
+- (void)loginUserWithConnection:(A0Connection *)connection {
+    @weakify(self);
+    [self.accessButton setInProgress:YES];
+    A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
+        @strongify(self);
+        [self.accessButton setInProgress:NO];
+        if (self.onLoginBlock) {
+            self.onLoginBlock(profile, token);
+        }
+    };
+
+    void(^failureBlock)(NSError *error) = ^(NSError *error) {
+        @strongify(self);
+        [self.accessButton setInProgress:NO];
+        if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled && error.code != A0ErrorCodeAuth0Cancelled) {
+            switch (error.code) {
+                case A0ErrorCodeTwitterAppNotAuthorized:
+                case A0ErrorCodeTwitterInvalidAccount:
+                case A0ErrorCodeTwitterNotConfigured:
+                case A0ErrorCodeFacebookCancelled:
+                case A0ErrorCodeAuth0Cancelled:
+                case A0ErrorCodeAuth0NotAuthorized:
+                case A0ErrorCodeAuth0InvalidConfiguration:
+                case A0ErrorCodeAuth0NoURLSchemeFound:
+                    showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+                    break;
+                default:
+                    showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
+                    break;
+            }
+        }
+    };
+
+    A0Application *application = [A0APIClient sharedClient].application;
+    A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
+    A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
+    A0AuthParameters *parameters = self.parameters.copy;
+    [parameters setValue:connection.name forKey:@"connection"];
+    if ([authenticator canAuthenticateStrategy:strategy]) {
+        Auth0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
+        [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];
+    } else {
+        Auth0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
+        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:application strategy:strategy parameters:parameters];
+        controller.modalPresentationStyle = UIModalPresentationCurrentContext;
+        controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        controller.onAuthentication = successBlock;
+        controller.onFailure = failureBlock;
+        [self presentViewController:controller animated:YES completion:nil];
+    }
 }
 
 #pragma mark - A0KeyboardEnabledView

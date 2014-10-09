@@ -67,13 +67,15 @@
 
 - (void)configureForApplication:(A0Application *)application {
     self.authenticators = [@{} mutableCopy];
-    [application.socialStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
+    void (^registerBlock)(id obj, NSUInteger idx, BOOL *stop) = ^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
         if (self.registeredAuthenticators[strategy.name]) {
             self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
         } else if (self.useWebAsDefault) {
             self.authenticators[strategy.name] = [A0WebAuthenticator newWebAuthenticationForStrategy:strategy ofApplication:application];
         }
-    }];
+    };
+    [application.socialStrategies enumerateObjectsUsingBlock:registerBlock];
+    [application.enterpriseStrategies enumerateObjectsUsingBlock:registerBlock];
 }
 
 - (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy {
