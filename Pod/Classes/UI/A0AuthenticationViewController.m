@@ -142,13 +142,13 @@
         controller.application = application;
         controller.showResetPassword = [connection.values[@"showForgot"] boolValue];
         controller.showSignUp = [connection.values[@"showSignup"] boolValue];
-        controller.parameters = self.authenticationParameters.copy;
+        controller.parameters = [self copyAuthenticationParameters];
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if (application.databaseStrategy) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
         controller.showResetPassword = [connection.values[@"showForgot"] boolValue];
         controller.showSignUp = [connection.values[@"showSignup"] boolValue];
-        controller.parameters = self.authenticationParameters.copy;
+        controller.parameters = [self copyAuthenticationParameters];
         self.current = [self layoutController:controller inContainer:self.containerView];
     } else if (application.socialStrategies.count > 0) {
         A0SocialLoginViewController *controller = [self newSocialLoginViewController:onAuthSuccessBlock];
@@ -212,7 +212,7 @@
     @weakify(self);
     A0FullLoginViewController *controller = [[A0FullLoginViewController alloc] init];
     controller.onLoginBlock = success;
-    controller.parameters = self.authenticationParameters.copy;
+    controller.parameters = [self copyAuthenticationParameters];
     controller.onShowSignUp = ^ {
         @strongify(self);
         A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
@@ -236,7 +236,7 @@
     @weakify(self);
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.onLoginBlock = success;
-    controller.parameters = self.authenticationParameters.copy;
+    controller.parameters = [self copyAuthenticationParameters];
     controller.onShowSignUp = ^ {
         @strongify(self);
         A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
@@ -262,7 +262,7 @@
     A0EnterpriseLoginViewController *controller = [[A0EnterpriseLoginViewController alloc] init];
     controller.onLoginBlock = success;
     controller.connection = connection;
-    controller.parameters = self.authenticationParameters.copy;
+    controller.parameters = [self copyAuthenticationParameters];
     controller.onShowForgotPassword = ^ {
         @strongify(self);
         A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
@@ -280,7 +280,7 @@
     A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
     controller.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
     controller.loginUser = self.loginAfterSignUp;
-    controller.parameters = self.authenticationParameters.copy;
+    controller.parameters = [self copyAuthenticationParameters];
     @weakify(self);
     if (self.signUpDisclaimerView) {
         [controller addDisclaimerSubview:self.signUpDisclaimerView];
@@ -296,7 +296,7 @@
 - (A0ChangePasswordViewController *)newChangePasswordViewController {
     A0ChangePasswordViewController *controller = [[A0ChangePasswordViewController alloc] init];
     controller.validator = [[A0ChangePasswordCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
-    controller.parameters = self.authenticationParameters.copy;
+    controller.parameters = [self copyAuthenticationParameters];
     @weakify(self);
     void(^block)() = ^{
         @strongify(self);
@@ -305,6 +305,13 @@
     controller.onCancelBlock = block;
     controller.onChangePasswordBlock = block;
     return controller;
+}
+
+#pragma mark - Utility methods 
+
+- (A0AuthParameters *)copyAuthenticationParameters {
+    A0AuthParameters *parameters = self.authenticationParameters ?: [A0AuthParameters newDefaultParams];
+    return parameters.copy;
 }
 
 @end
