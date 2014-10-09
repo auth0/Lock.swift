@@ -69,7 +69,7 @@
 #pragma mark - A0SocialProviderAuth
 
 - (NSString *)identifier {
-    return A0FacebookAuthenticationName;
+    return A0StrategyNameFacebook;
 }
 
 - (void)clearSessions {

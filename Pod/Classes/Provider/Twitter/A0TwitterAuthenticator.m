@@ -91,7 +91,7 @@
 #pragma mark - A0SocialProviderAuth
 
 - (NSString *)identifier {
-    return A0TwitterAuthenticationName;
+    return A0StrategyNameTwitter;
 }
 
 - (void)clearSessions {
