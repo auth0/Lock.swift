@@ -28,6 +28,10 @@
 #import "A0APIClient.h"
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
+#import "A0ConnectionDomainMatcher.h"
+#import "A0Application.h"
+#import "A0Strategy.h"
+#import "A0Connection.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
@@ -49,6 +53,10 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 @property (weak, nonatomic) IBOutlet UIView *credentialsBoxView;
+@property (weak, nonatomic) IBOutlet UIImageView *singleSignOnIcon;
+@property (weak, nonatomic) IBOutlet UIView *singleSignOnView;
+
+@property (strong, nonatomic) A0ConnectionDomainMatcher *domainMatcher;
 
 - (IBAction)access:(id)sender;
 - (IBAction)goToPasswordField:(id)sender;
@@ -83,6 +91,14 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configureTextField:self.passwordField.textField];
     self.signUpButton.hidden = !self.showSignUp;
     self.forgotPasswordButton.hidden = !self.showResetPassword;
+    A0Application *application = [[A0APIClient sharedClient] application];
+    self.domainMatcher = [[A0ConnectionDomainMatcher alloc] initWithStrategies:application.enterpriseStrategies];
+    [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
+    self.singleSignOnIcon.image = [self.singleSignOnIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
+- (void)dealloc {
+    [self.userField.textField removeTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
 }
 
 - (void)access:(id)sender {
@@ -127,6 +143,20 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     if (self.onShowForgotPassword) {
         self.onShowForgotPassword();
     }
+}
+
+#pragma mark - Domain Matching
+
+- (void)matchDomainInTextField:(UITextField *)textField {
+    A0Connection *connection = [self.domainMatcher connectionForEmail:textField.text];
+    if (connection) {
+        Auth0LogVerbose(@"Matched %@ with connection %@", textField.text, connection);
+        NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection.values[@"domain"]];
+        [self.accessButton setTitle:title.uppercaseString forState:UIControlStateNormal];
+    } else {
+        [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
+    }
+    self.singleSignOnView.hidden = connection == nil;
 }
 
 #pragma mark - A0KeyboardEnabledView

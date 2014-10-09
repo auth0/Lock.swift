@@ -42,4 +42,7 @@
     return self.values[@"name"];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<A0Connection name = %@; values %@>", self.values[@"name"], self.values];
+}
 @end
