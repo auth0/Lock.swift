@@ -40,13 +40,13 @@
         NSMutableDictionary *domains = [@{} mutableCopy];
         for (A0Strategy *strategy in strategies) {
             NSArray *filtered = [strategy.connections select:^BOOL(A0Connection *connection) {
-                return [connection valueForKey:@"domain"] != nil;
+                return connection.values[@"domain"] != nil;
             }];
             [filtered each:^(A0Connection *connection) {
                 connections[connection.name] = connection;
                 NSMutableArray *connectionDomains = [@[] mutableCopy];
-                [connectionDomains addObject:[connection valueForKey:@"domain"]];
-                NSArray *aliases = [connection valueForKey:@"domain_aliases"];
+                [connectionDomains addObject:connection.values[@"domain"]];
+                NSArray *aliases = connection.values[@"domain_aliases"];
                 if (aliases.count > 0) {
                     [connectionDomains addObjectsFromArray:aliases];
                 }
@@ -70,7 +70,7 @@
         __block NSString *connectionNameMatch;
         [connectionDomains enumerateObjectsUsingBlock:^(NSString *domain, NSUInteger idx, BOOL *stop) {
             *stop = [email hasSuffix:domain];
-            connectionNameMatch = connectionName;
+            connectionNameMatch = *stop ? connectionName : nil;
         }];
         if (connectionNameMatch) {
             connection = self.connections[connectionNameMatch];
