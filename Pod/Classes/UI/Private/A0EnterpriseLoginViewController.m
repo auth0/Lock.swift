@@ -1,4 +1,4 @@
-//  A0DatabaseLoginViewController.h
+//  A0EnterpriseLoginViewController.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,20 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
-#import "A0KeyboardEnabledView.h"
+#import "A0Connection.h"
 
-@class A0ProgressButton, A0UserProfile, A0DatabaseLoginCredentialValidator, A0Token, A0CredentialFieldView, A0AuthParameters,A0Connection;
+#import "A0EnterpriseLoginViewController.h"
+#import "A0AuthParameters.h"
 
-@interface A0DatabaseLoginViewController : UIViewController<A0KeyboardEnabledView>
+@interface A0EnterpriseLoginViewController ()
 
-@property (strong, nonatomic) A0AuthParameters *parameters;
-@property (assign, nonatomic) BOOL showSignUp;
-@property (assign, nonatomic) BOOL showResetPassword;
-@property (strong, nonatomic) A0DatabaseLoginCredentialValidator *validator;
-@property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
-@property (copy, nonatomic) void(^onShowSignUp)();
-@property (copy, nonatomic) void(^onShowForgotPassword)();
-@property (copy, nonatomic) void(^onShowEnterpriseLogin)(A0Connection *connection);
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+
+- (IBAction)cancel:(id)sender;
+
+@end
+
+@implementation A0EnterpriseLoginViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    NSMutableAttributedString *message = self.messageLabel.attributedText.mutableCopy;
+    [message appendAttributedString:[[NSAttributedString alloc] initWithString:self.connection.values[@"domain"]]];
+    self.messageLabel.attributedText = message;
+    [self.parameters setValue:self.connection.name forKey:@"connection"];
+}
+
+- (void)cancel:(id)sender {
+    if (self.onCancel) {
+        self.onCancel();
+    }
+}
 
 @end

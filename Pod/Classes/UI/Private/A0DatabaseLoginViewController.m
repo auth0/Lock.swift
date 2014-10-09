@@ -57,6 +57,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 @property (weak, nonatomic) IBOutlet UIView *singleSignOnView;
 
 @property (strong, nonatomic) A0ConnectionDomainMatcher *domainMatcher;
+@property (strong, nonatomic) A0Connection *matchedConnection;
 
 - (IBAction)access:(id)sender;
 - (IBAction)goToPasswordField:(id)sender;
@@ -102,6 +103,19 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 }
 
 - (void)access:(id)sender {
+    if (self.matchedConnection) {
+        A0Application *application = [[A0APIClient sharedClient] application];
+        A0Strategy *strategy = [application enterpriseStrategyWithConnection:self.matchedConnection.name];
+        if ([strategy.name isEqualToString:A0StrategyNameActiveDirectory]) {
+            if (self.onShowEnterpriseLogin) {
+                self.onShowEnterpriseLogin(self.matchedConnection);
+            }
+        } else {
+            //Perform Safari Authentication
+        }
+        return;
+    }
+
     [self.accessButton setInProgress:YES];
     NSError *error;
     [self.validator setUsername:self.userField.textField.text password:self.passwordField.textField.text];
@@ -156,6 +170,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     } else {
         [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
     }
+    self.matchedConnection = connection;
     self.singleSignOnView.hidden = connection == nil;
 }
 

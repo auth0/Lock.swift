@@ -1,4 +1,4 @@
-//  A0DatabaseLoginViewController.h
+//  A0EnterpriseLoginViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,20 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
-#import "A0KeyboardEnabledView.h"
+#import "A0DatabaseLoginViewController.h"
 
-@class A0ProgressButton, A0UserProfile, A0DatabaseLoginCredentialValidator, A0Token, A0CredentialFieldView, A0AuthParameters,A0Connection;
+@class A0Connection;
 
-@interface A0DatabaseLoginViewController : UIViewController<A0KeyboardEnabledView>
+@interface A0EnterpriseLoginViewController : A0DatabaseLoginViewController
 
-@property (strong, nonatomic) A0AuthParameters *parameters;
-@property (assign, nonatomic) BOOL showSignUp;
-@property (assign, nonatomic) BOOL showResetPassword;
-@property (strong, nonatomic) A0DatabaseLoginCredentialValidator *validator;
-@property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
-@property (copy, nonatomic) void(^onShowSignUp)();
-@property (copy, nonatomic) void(^onShowForgotPassword)();
-@property (copy, nonatomic) void(^onShowEnterpriseLogin)(A0Connection *connection);
+@property (strong, nonatomic) A0Connection *connection;
+@property (copy, nonatomic) void(^onCancel)();
 
 @end
