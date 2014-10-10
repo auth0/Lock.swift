@@ -112,7 +112,7 @@
                                 <constraint firstAttribute="trailing" secondItem="E2O-P0-lwl" secondAttribute="trailing" id="z3h-Nb-RnD"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nhJ-26-61R">
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nhJ-26-61R">
                             <rect key="frame" x="0.0" y="61" width="280" height="50"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="ec3-1b-IHU">
@@ -124,7 +124,7 @@
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SINGLE SIGN-ON ENABLED" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cNK-4p-hP2">
-                                    <rect key="frame" x="73" y="18.5" width="134" height="12"/>
+                                    <rect key="frame" x="73" y="19" width="134" height="12"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -155,7 +155,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VjF-IX-phX">
-                            <rect key="frame" x="19" y="201" width="45" height="24"/>
+                            <rect key="frame" x="19" y="201" width="45" height="25"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
                             <state key="normal" title="SIGN UP">
                                 <color key="titleColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -178,7 +178,6 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="VjF-IX-phX" secondAttribute="bottom" constant="7" id="1MF-Ct-e8i"/>
                         <constraint firstItem="VjF-IX-phX" firstAttribute="leading" secondItem="kzf-IP-iIm" secondAttribute="leading" constant="19" id="4UI-dy-4mI"/>
                         <constraint firstItem="vgb-q9-92f" firstAttribute="top" secondItem="CDN-kF-M6Z" secondAttribute="bottom" constant="16" id="Jcs-Ye-DD9"/>
                         <constraint firstItem="imv-tB-KW9" firstAttribute="top" secondItem="kzf-IP-iIm" secondAttribute="top" constant="10" id="KcL-CF-dwf"/>

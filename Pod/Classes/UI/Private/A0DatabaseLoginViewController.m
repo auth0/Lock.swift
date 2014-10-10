@@ -96,6 +96,10 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     self.forgotPasswordButton.hidden = !self.showResetPassword;
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
     self.singleSignOnIcon.image = [self.singleSignOnIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    if (self.defaultConnection) {
+        [self.parameters setValue:self.defaultConnection.name forKey:@"connection"];
+    }
+    self.userField.textField.placeholder = self.validator.usesEmail ? A0LocalizedString(@"Email") : A0LocalizedString(@"Username");
 }
 
 - (void)dealloc {

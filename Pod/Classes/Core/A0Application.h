@@ -83,6 +83,14 @@
 @property (readonly, nonatomic) NSArray *enterpriseStrategies;
 
 /**
+ *  Active Directory strategy for this application (if configured).
+ *
+ *  @see A0Strategy
+ *  @see A0Connection
+ */
+@property (readonly, nonatomic) A0Strategy *activeDirectoryStrategy;
+
+/**
  *  Initialise the applcation from a JSON dictionary
  *
  *  @param JSONDict JSON response form the server

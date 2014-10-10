@@ -68,6 +68,10 @@
     return self;
 }
 
+- (A0Strategy *)activeDirectoryStrategy {
+    return [self strategyByName:A0StrategyNameActiveDirectory];
+}
+
 -(NSArray *)strategies {
     return self.strategyDictionary.allValues;
 }
