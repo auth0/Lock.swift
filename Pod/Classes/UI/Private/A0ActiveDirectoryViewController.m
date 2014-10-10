@@ -1,4 +1,4 @@
-//  A0DatabaseLoginViewController.m
+//  A0ActiveDirectoryViewController.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#import "A0ActiveDirectoryViewController.h"
 #import "A0DatabaseLoginViewController.h"
 #import "A0ProgressButton.h"
 #import "UIButton+A0SolidButton.h"
@@ -48,13 +49,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [alert show];
 }
 
-@interface A0DatabaseLoginViewController ()
+@interface A0ActiveDirectoryViewController ()
 
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *accessButton;
-@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 @property (weak, nonatomic) IBOutlet UIView *credentialsBoxView;
 @property (weak, nonatomic) IBOutlet UIImageView *singleSignOnIcon;
 @property (weak, nonatomic) IBOutlet UIView *singleSignOnView;
@@ -63,19 +62,15 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 - (IBAction)access:(id)sender;
 - (IBAction)goToPasswordField:(id)sender;
-- (IBAction)showSignUp:(id)sender;
-- (IBAction)showForgotPassword:(id)sender;
 
 @end
 
-@implementation A0DatabaseLoginViewController
+@implementation A0ActiveDirectoryViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = A0LocalizedString(@"Login");
-        self.showSignUp = YES;
-        self.showResetPassword = YES;
     }
     return self;
 }
@@ -88,18 +83,13 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.accessButton];
-    [theme configureSecondaryButton:self.signUpButton];
-    [theme configureSecondaryButton:self.forgotPasswordButton];
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
-    self.signUpButton.hidden = !self.showSignUp;
-    self.forgotPasswordButton.hidden = !self.showResetPassword;
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
     self.singleSignOnIcon.image = [self.singleSignOnIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     if (self.defaultConnection) {
         [self.parameters setValue:self.defaultConnection.name forKey:@"connection"];
     }
-    self.userField.textField.placeholder = self.validator.usesEmail ? A0LocalizedString(@"Email") : A0LocalizedString(@"Username");
 }
 
 - (void)dealloc {
@@ -110,72 +100,61 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     if (self.matchedConnection) {
         A0Application *application = [[A0APIClient sharedClient] application];
         A0Strategy *strategy = [application enterpriseStrategyWithConnection:self.matchedConnection.name];
-        if ([strategy.name isEqualToString:A0StrategyNameActiveDirectory]) {
-            if (self.onShowEnterpriseLogin) {
-                self.onShowEnterpriseLogin(self.matchedConnection);
-            }
-        } else {
+        if (![strategy.name isEqualToString:A0StrategyNameActiveDirectory]) {
             [self loginUserWithConnection:self.matchedConnection];
-        }
-        return;
-    }
-
-    [self.accessButton setInProgress:YES];
-    NSError *error;
-    [self.validator setUsername:self.userField.textField.text password:self.passwordField.textField.text];
-    if ([self.validator validateCredential:&error]) {
-        [self hideKeyboard];
-        NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        NSString *password = self.passwordField.textField.text;
-        @weakify(self);
-        A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
-            @strongify(self);
-            [self.accessButton setInProgress:NO];
-            if (self.onLoginBlock) {
-                self.onLoginBlock(profile, token);
+        } else {
+            [self.accessButton setInProgress:YES];
+            NSError *error;
+            [self.validator setUsername:self.userField.textField.text password:self.passwordField.textField.text];
+            if ([self.validator validateCredential:&error]) {
+                [self hideKeyboard];
+                NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                NSString *password = self.passwordField.textField.text;
+                @weakify(self);
+                A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
+                    @strongify(self);
+                    [self.accessButton setInProgress:NO];
+                    if (self.onLoginBlock) {
+                        self.onLoginBlock(profile, token);
+                    }
+                };
+                A0APIClientError failure = ^(NSError *error) {
+                    [self.accessButton setInProgress:NO];
+                    showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForLoginError:error]);
+                };
+                A0AuthParameters *parameters = self.parameters.copy;
+                [parameters setValue:self.matchedConnection.name forKey:@"connection"];
+                [[A0APIClient sharedClient] loginWithUsername:username password:password parameters:parameters success:success failure:failure];
+            } else {
+                [self.accessButton setInProgress:NO];
+                showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
             }
-        };
-        A0APIClientError failure = ^(NSError *error) {
-            [self.accessButton setInProgress:NO];
-            showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForLoginError:error]);
-        };
-        [[A0APIClient sharedClient] loginWithUsername:username password:password parameters:self.parameters success:success failure:failure];
+            [self updateUIWithError:error];
+        }
     } else {
-        [self.accessButton setInProgress:NO];
-        showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+        showAlertErrorView(A0LocalizedString(@"There was an error logging in"), A0LocalizedString(@"There was no connection configured for the domain"));
     }
-    [self updateUIWithError:error];
 }
 
 - (void)goToPasswordField:(id)sender {
     [self.passwordField.textField becomeFirstResponder];
 }
 
-- (void)showSignUp:(id)sender {
-    if (self.onShowSignUp) {
-        self.onShowSignUp();
-    }
-}
-
-- (void)showForgotPassword:(id)sender {
-    if (self.onShowForgotPassword) {
-        self.onShowForgotPassword();
-    }
-}
-
 #pragma mark - Domain Matching
 
 - (void)matchDomainInTextField:(UITextField *)textField {
     A0Connection *connection = [self.domainMatcher connectionForEmail:textField.text];
-    if (connection) {
+    A0Strategy *adStrategy = [A0APIClient sharedClient].application.activeDirectoryStrategy;
+    BOOL showSingleSignOn = connection && ![adStrategy.connections containsObject:connection];
+    if (showSingleSignOn) {
         NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection.values[@"domain"]];
-        Auth0LogVerbose(@"Matched %@ with connection %@", textField.text, connection);
         [self.accessButton setTitle:title.uppercaseString forState:UIControlStateNormal];
     } else {
         [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
     }
+    Auth0LogVerbose(@"Matched %@ with connection %@", textField.text, connection);
     self.matchedConnection = connection;
-    self.singleSignOnView.hidden = connection == nil;
+    self.singleSignOnView.hidden = !showSingleSignOn;
 }
 
 #pragma mark - Enterprise login

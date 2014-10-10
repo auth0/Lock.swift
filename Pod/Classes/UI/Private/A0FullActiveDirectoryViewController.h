@@ -1,4 +1,4 @@
-//  A0ChangePasswordViewController.h
+//  A0FullActiveDirectoryViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,16 +21,13 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "A0AuthenticationUIComponent.h"
+#import "A0ActiveDirectoryViewController.h"
 
-@class A0ChangePasswordCredentialValidator, A0ProgressButton, A0CredentialFieldView, A0AuthParameters;
+@class A0Application;
 
-@interface A0ChangePasswordViewController : UIViewController<A0AuthenticationUIComponent>
+@interface A0FullActiveDirectoryViewController : A0ActiveDirectoryViewController
 
-@property (copy, nonatomic) void(^onChangePasswordBlock)();
-@property (copy, nonatomic) void(^onCancelBlock)();
-
-@property (strong, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;
+@property (strong, nonatomic) A0Application *application;
+@property (weak, nonatomic) IBOutlet UICollectionView *serviceCollectionView;
 
 @end

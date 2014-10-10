@@ -21,17 +21,18 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "A0KeyboardEnabledView.h"
+#import "A0AuthenticationUIComponent.h"
 #import "A0ConnectionDomainMatcher.h"
 
 @class A0ProgressButton, A0UserProfile, A0DatabaseLoginCredentialValidator, A0Token, A0CredentialFieldView, A0AuthParameters,A0Connection;
 
-@interface A0DatabaseLoginViewController : UIViewController<A0KeyboardEnabledView>
+@interface A0DatabaseLoginViewController : UIViewController<A0AuthenticationUIComponent>
 
 @property (strong, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0Connection *defaultConnection;
 @property (assign, nonatomic) BOOL showSignUp;
 @property (assign, nonatomic) BOOL showResetPassword;
+
 @property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onShowSignUp)();
 @property (copy, nonatomic) void(^onShowForgotPassword)();

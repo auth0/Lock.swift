@@ -41,7 +41,9 @@
 #import "A0Connection.h"
 #import "A0EnterpriseLoginViewController.h"
 #import "A0SimpleConnectionDomainMatcher.h"
-#import "A0FilteredConnectionDomainMatcher.h"
+#import "A0AuthenticationUIComponent.h"
+#import "A0ActiveDirectoryViewController.h"
+#import "A0FullActiveDirectoryViewController.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
@@ -137,67 +139,59 @@
             self.onAuthenticationBlock(profile, token);
         }
     };
+    UIViewController<A0AuthenticationUIComponent> *rootController;
     A0Strategy *database = application.databaseStrategy;
     A0Strategy *ad = application.activeDirectoryStrategy;
     A0Connection *connection = database.connections.firstObject;
-    if (application.databaseStrategy && application.socialStrategies.count > 0) {
+    if (database != nil && application.socialStrategies.count > 0) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.application = application;
         controller.showResetPassword = [connection.values[@"showForgot"] boolValue];
         controller.showSignUp = [connection.values[@"showSignup"] boolValue];
-        controller.parameters = [self copyAuthenticationParameters];
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
-        self.current = [self layoutController:controller inContainer:self.containerView];
-    } else if (application.databaseStrategy) {
+        rootController = controller;
+    } else if (database != nil) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
         controller.showResetPassword = [connection.values[@"showForgot"] boolValue];
         controller.showSignUp = [connection.values[@"showSignup"] boolValue];
-        controller.parameters = [self copyAuthenticationParameters];
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
-        self.current = [self layoutController:controller inContainer:self.containerView];
+        rootController = controller;
     } else if (application.socialStrategies.count > 0 && application.enterpriseStrategies.count == 0) {
         A0SocialLoginViewController *controller = [self newSocialLoginViewController:onAuthSuccessBlock];
         controller.application = application;
-        self.current = [self layoutController:controller inContainer:self.containerView];
+        rootController = controller;
     } else if(application.socialStrategies.count == 0 && ad != nil) {
-        A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
-        controller.showResetPassword = NO;
-        controller.showSignUp = NO;
-        controller.parameters = [self copyAuthenticationParameters];
+        A0ActiveDirectoryViewController *controller = [self newADLoginViewController:onAuthSuccessBlock];;
         controller.defaultConnection = ad.connections.firstObject;
-        controller.domainMatcher = [[A0FilteredConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies filter:@[A0StrategyNameActiveDirectory]];
+        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:NO];
-        self.current = [self layoutController:controller inContainer:self.containerView];
+        rootController = controller;
     } else if(application.socialStrategies.count > 0 && ad != nil) {
-        A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
+        A0FullActiveDirectoryViewController *controller = [self newFullADLoginViewController:onAuthSuccessBlock];
         controller.application = application;
-        controller.showResetPassword = NO;
-        controller.showSignUp = NO;
-        controller.parameters = [self copyAuthenticationParameters];
         controller.defaultConnection = ad.connections.firstObject;
-        controller.domainMatcher = [[A0FilteredConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies filter:@[A0StrategyNameActiveDirectory]];
+        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:NO];
-        self.current = [self layoutController:controller inContainer:self.containerView];
+        rootController = controller;
     } else if(application.socialStrategies.count == 0 && application.enterpriseStrategies.count > 0) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
         controller.showResetPassword = NO;
         controller.showSignUp = NO;
-        controller.parameters = [self copyAuthenticationParameters];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
-        controller.domainMatcher = [[A0FilteredConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies filter:@[A0StrategyNameActiveDirectory]];
-        self.current = [self layoutController:controller inContainer:self.containerView];
+        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];        rootController = controller;
     } else if(application.socialStrategies.count > 0 && application.enterpriseStrategies.count > 0) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.application = application;
         controller.showResetPassword = NO;
         controller.showSignUp = NO;
-        controller.parameters = [self copyAuthenticationParameters];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
-        self.current = [self layoutController:controller inContainer:self.containerView];
+        rootController = controller;
     }
+    rootController.parameters = [self copyAuthenticationParameters];
+    self.current = [self layoutController:rootController inContainer:self.containerView];
 }
 
 - (UIViewController<A0KeyboardEnabledView> *)layoutController:(UIViewController<A0KeyboardEnabledView> *)controller inContainer:(UIView *)containerView {
@@ -274,6 +268,13 @@
     return controller;
 }
 
+- (A0FullActiveDirectoryViewController *)newFullADLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
+    A0FullActiveDirectoryViewController *controller = [[A0FullActiveDirectoryViewController alloc] init];
+    controller.onLoginBlock = success;
+    controller.parameters = [self copyAuthenticationParameters];
+    return controller;
+}
+
 - (A0DatabaseLoginViewController *)newDatabaseLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
     @weakify(self);
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
@@ -294,6 +295,13 @@
         A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection];
         self.current = [self layoutController:controller inContainer:self.containerView];
     };
+    return controller;
+}
+
+- (A0ActiveDirectoryViewController *)newADLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
+    A0ActiveDirectoryViewController *controller = [[A0ActiveDirectoryViewController alloc] init];
+    controller.onLoginBlock = success;
+    controller.parameters = [self copyAuthenticationParameters];
     return controller;
 }
 
