@@ -28,7 +28,7 @@
 #import "A0APIClient.h"
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
-#import "A0ConnectionDomainMatcher.h"
+#import "A0SimpleConnectionDomainMatcher.h"
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "A0Connection.h"
@@ -59,7 +59,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 @property (weak, nonatomic) IBOutlet UIImageView *singleSignOnIcon;
 @property (weak, nonatomic) IBOutlet UIView *singleSignOnView;
 
-@property (strong, nonatomic) A0ConnectionDomainMatcher *domainMatcher;
 @property (strong, nonatomic) A0Connection *matchedConnection;
 
 - (IBAction)access:(id)sender;
@@ -95,8 +94,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configureTextField:self.passwordField.textField];
     self.signUpButton.hidden = !self.showSignUp;
     self.forgotPasswordButton.hidden = !self.showResetPassword;
-    A0Application *application = [[A0APIClient sharedClient] application];
-    self.domainMatcher = [[A0ConnectionDomainMatcher alloc] initWithStrategies:application.enterpriseStrategies];
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
     self.singleSignOnIcon.image = [self.singleSignOnIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
@@ -218,7 +215,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     A0AuthParameters *parameters = self.parameters.copy;
     [parameters setValue:connection.name forKey:@"connection"];
     if ([authenticator canAuthenticateStrategy:strategy]) {
-        Auth0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
+        Auth0LogVerbose(@"Authenticating using Safari for strategy %@ and connection %@", strategy.name, connection.name);
         [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];
     } else {
         Auth0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);

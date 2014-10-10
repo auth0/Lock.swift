@@ -1,4 +1,4 @@
-//  A0ConnectionDomainMatcherSpec.m
+//  A0SimpleConnectionDomainMatcherSpec.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import "Specta.h"
-#import "A0ConnectionDomainMatcher.h"
+#import "A0SimpleConnectionDomainMatcher.h"
 #import "A0Strategy.h"
 #import "A0Connection.h"
 
@@ -31,11 +31,11 @@
 #define MOCKITO_SHORTHAND
 #import <OCMockito/OCMockito.h>
 
-SpecBegin(A0ConnectionDomainMatcher)
+SpecBegin(A0SimpleConnectionDomainMatcherSpec)
 
-describe(@"A0ConnectionDomainMatcher", ^{
+describe(@"A0SimpleConnectionDomainMatcherSpec", ^{
 
-    __block A0ConnectionDomainMatcher *matcher;
+    __block A0SimpleConnectionDomainMatcher *matcher;
 
     __block A0Strategy *strategy;
     __block A0Connection *connection;
@@ -50,20 +50,20 @@ describe(@"A0ConnectionDomainMatcher", ^{
     describe(NSStringFromSelector(@selector(initWithStrategies:)), ^{
 
         it(@"should instantiate with at least one strategy", ^{
-            matcher = [[A0ConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
+            matcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
             expect(matcher).toNot.beNil();
         });
 
         it(@"should pick connection with domain", ^{
             [given(connection.values) willReturn:@{@"domain": @"mydomain.com"}];
-            matcher = [[A0ConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
+            matcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
             expect([matcher valueForKeyPath:@"connections"]).toNot.beEmpty();
             expect([matcher valueForKeyPath:@"domains"]).toNot.beEmpty();
         });
 
         it(@"should not pick connection without domain", ^{
             [given(connection.values) willReturn:@{}];
-            matcher = [[A0ConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
+            matcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
             expect([matcher valueForKeyPath:@"connections"]).to.beEmpty();
             expect([matcher valueForKeyPath:@"domains"]).to.beEmpty();
         });
@@ -77,28 +77,28 @@ describe(@"A0ConnectionDomainMatcher", ^{
         });
 
         it(@"should return nil for empty strategy list", ^{
-            matcher = [[A0ConnectionDomainMatcher alloc] initWithStrategies:@[]];
+            matcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:@[]];
             expect([matcher connectionForEmail:@"p@p.xom"]).to.beNil();
         });
 
         it(@"should match connection with main domain", ^{
-            matcher = [[A0ConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
+            matcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
             expect([matcher connectionForEmail:@"pepe@mydomain.com"]).to.equal(connection);
         });
 
         it(@"should return nil for empty email", ^{
-            matcher = [[A0ConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
+            matcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
             expect([matcher connectionForEmail:@""]).to.beNil();
         });
 
         it(@"should return nil for nil email", ^{
-            matcher = [[A0ConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
+            matcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
             expect([matcher connectionForEmail:@""]).to.beNil();
         });
 
         it(@"should match connection with alias domain", ^{
             [given(connection.values) willReturn:@{@"domain": @"mydomain.com", @"domain_aliases": @[@"anotherdomain.com"]}];
-            matcher = [[A0ConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
+            matcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
             expect([matcher connectionForEmail:@"pepe@anotherdomain.com"]).to.equal(connection);
         });
 

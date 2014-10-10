@@ -40,6 +40,7 @@
 #import "A0AuthParameters.h"
 #import "A0Connection.h"
 #import "A0EnterpriseLoginViewController.h"
+#import "A0SimpleConnectionDomainMatcher.h"
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
@@ -228,6 +229,7 @@
         A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection];
         self.current = [self layoutController:controller inContainer:self.containerView];
     };
+    controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
     controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
     return controller;
 }
@@ -252,6 +254,7 @@
         A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection];
         self.current = [self layoutController:controller inContainer:self.containerView];
     };
+    controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
     controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
     return controller;
 }

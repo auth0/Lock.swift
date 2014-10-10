@@ -1,4 +1,4 @@
-//  A0ConnectionDomainMatcher.h
+//  A0FilteredConnectionDomainMatcher.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,24 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import "A0SimpleConnectionDomainMatcher.h"
 
-@class A0Connection;
-
-/**
- *  Protocol for object that can match an email with a connection domain.
- */
-@protocol A0ConnectionDomainMatcher <NSObject>
-
-@required
+@interface A0FilteredConnectionDomainMatcher : A0SimpleConnectionDomainMatcher
 
 /**
- *  Returns the connection that has at least one of the declared domain match with the email's domain part.
+ *  Initialise the domain matcher with the given strategies but skips the ones whose names are to be filtered.
  *
- *  @param email user's email to match
+ *  @param strategies            list of auth0 strategies
+ *  @param strategyNamesToFilter list of names of strategies to filter
  *
- *  @return connection that matches the email's domain part or nil if none exits.
+ *  @return an initialised instance
  */
-- (A0Connection *)connectionForEmail:(NSString *)email;
+- (instancetype)initWithStrategies:(NSArray *)strategies filter:(NSArray *)strategyNamesToFilter;
 
 @end

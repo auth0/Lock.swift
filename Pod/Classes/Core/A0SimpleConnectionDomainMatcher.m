@@ -1,4 +1,4 @@
-//  A0ConnectionDomainMatcher.m
+//  A0SimpleConnectionDomainMatcher.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,18 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0ConnectionDomainMatcher.h"
+#import "A0SimpleConnectionDomainMatcher.h"
 #import "A0Strategy.h"
 #import "A0Connection.h"
 
 #import <ObjectiveSugar/ObjectiveSugar.h>
 
-@interface A0ConnectionDomainMatcher ()
+@interface A0SimpleConnectionDomainMatcher ()
 @property (strong, nonatomic) NSDictionary *connections;
 @property (strong, nonatomic) NSDictionary *domains;
 @end
 
-@implementation A0ConnectionDomainMatcher
+@implementation A0SimpleConnectionDomainMatcher
 
 - (instancetype)initWithStrategies:(NSArray *)strategies {
     self = [super init];
@@ -51,7 +51,7 @@
                     [connectionDomains addObjectsFromArray:aliases];
                 }
                 domains[connection.name] = [connectionDomains map:^id(NSString *domain) {
-                    return [A0ConnectionDomainMatcher emailDomainPartFromDomain:domain];
+                    return [A0SimpleConnectionDomainMatcher emailDomainPartFromDomain:domain];
                 }];
             }];
         }
