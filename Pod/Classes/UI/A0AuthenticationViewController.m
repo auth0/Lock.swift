@@ -75,6 +75,7 @@
         _usesEmail = YES;
         _loginAfterSignUp = YES;
         _authenticationParameters = [A0AuthParameters newDefaultParams];
+        _defaultADUsernameFromEmailPrefix = YES;
     }
     return self;
 }
@@ -260,9 +261,9 @@
         A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
         self.current = [self layoutController:controller inContainer:self.containerView];
     };
-    controller.onShowEnterpriseLogin = ^(A0Connection *connection) {
+    controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
         @strongify(self);
-        A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection];
+        A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
         self.current = [self layoutController:controller inContainer:self.containerView];
     };
     return controller;
@@ -290,9 +291,9 @@
         A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
         self.current = [self layoutController:controller inContainer:self.containerView];
     };
-    controller.onShowEnterpriseLogin = ^(A0Connection *connection) {
+    controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
         @strongify(self);
-        A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection];
+        A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
         self.current = [self layoutController:controller inContainer:self.containerView];
     };
     return controller;
@@ -306,9 +307,15 @@
 }
 
 - (A0EnterpriseLoginViewController *)newEnterpriseLoginViewController:(void(^)(A0UserProfile *, A0Token *))success
-                                                      forConnection:(A0Connection *)connection {
+                                                        forConnection:(A0Connection *)connection
+                                                            withEmail:(NSString *)email {
     @weakify(self);
-    A0EnterpriseLoginViewController *controller = [[A0EnterpriseLoginViewController alloc] init];
+    A0EnterpriseLoginViewController *controller;
+    if (self.defaultADUsernameFromEmailPrefix) {
+        controller = [[A0EnterpriseLoginViewController alloc] initWithEmail:email];
+    } else {
+        controller = [[A0EnterpriseLoginViewController alloc] init];
+    }
     controller.onLoginBlock = success;
     controller.connection = connection;
     controller.parameters = [self copyAuthenticationParameters];

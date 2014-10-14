@@ -50,8 +50,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @interface A0DatabaseLoginViewController ()
 
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *accessButton;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
@@ -112,7 +110,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         A0Strategy *strategy = [application enterpriseStrategyWithConnection:self.matchedConnection.name];
         if ([strategy.name isEqualToString:A0StrategyNameActiveDirectory]) {
             if (self.onShowEnterpriseLogin) {
-                self.onShowEnterpriseLogin(self.matchedConnection);
+                self.onShowEnterpriseLogin(self.matchedConnection, self.userField.textField.text);
             }
         } else {
             [self loginUserWithConnection:self.matchedConnection];

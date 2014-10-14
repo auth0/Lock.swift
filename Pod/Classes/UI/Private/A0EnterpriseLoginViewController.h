@@ -29,4 +29,7 @@
 @property (strong, nonatomic) A0Connection *connection;
 @property (copy, nonatomic) void(^onCancel)();
 
+- (instancetype)init;
+- (instancetype)initWithEmail:(NSString *)email;
+
 @end

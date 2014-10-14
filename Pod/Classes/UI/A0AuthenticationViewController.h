@@ -58,6 +58,13 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 @property (assign, nonatomic) BOOL loginAfterSignUp;
 
 /**
+ *  When an email matches an Active Directory connection domain, it will use the email's local part as the username in the AD login form. 
+ *  For example: when entering 'user@auth0.com' the username field will have 'user'.
+ *  Default is YES.
+ */
+@property (assign, nonatomic) BOOL defaultADUsernameFromEmailPrefix;
+
+/**
  View that will appear in the bottom of Signup screen. It should be used to show Terms & Conditions of your app.
  */
 @property (strong, nonatomic) UIView *signUpDisclaimerView;

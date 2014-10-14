@@ -24,10 +24,12 @@
 
 #import "A0EnterpriseLoginViewController.h"
 #import "A0AuthParameters.h"
+#import "A0CredentialFieldView.h"
 
 @interface A0EnterpriseLoginViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (strong, nonatomic) NSString *defaultUsername;
 
 - (IBAction)cancel:(id)sender;
 
@@ -35,11 +37,26 @@
 
 @implementation A0EnterpriseLoginViewController
 
+- (instancetype)init {
+    return [super init];
+}
+
+- (instancetype)initWithEmail:(NSString *)email {
+    self = [self init];
+    if (self) {
+        NSArray *parts = [email componentsSeparatedByString:@"@"];
+        NSString *localPart = [parts firstObject];
+        _defaultUsername = [localPart copy];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSMutableAttributedString *message = self.messageLabel.attributedText.mutableCopy;
     [message appendAttributedString:[[NSAttributedString alloc] initWithString:self.connection.values[@"domain"]]];
     self.messageLabel.attributedText = message;
+    self.userField.textField.text = self.defaultUsername;
     [self.parameters setValue:self.connection.name forKey:@"connection"];
 }
 
