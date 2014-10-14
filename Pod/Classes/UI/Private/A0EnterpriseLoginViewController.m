@@ -25,6 +25,7 @@
 #import "A0EnterpriseLoginViewController.h"
 #import "A0AuthParameters.h"
 #import "A0CredentialFieldView.h"
+#import "A0DatabaseLoginCredentialValidator.h"
 
 @interface A0EnterpriseLoginViewController ()
 
@@ -38,7 +39,11 @@
 @implementation A0EnterpriseLoginViewController
 
 - (instancetype)init {
-    return [super init];
+    self =  [super init];
+    if (self) {
+        self.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:NO];
+    }
+    return self;
 }
 
 - (instancetype)initWithEmail:(NSString *)email {

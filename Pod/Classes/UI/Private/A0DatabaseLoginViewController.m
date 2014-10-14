@@ -140,13 +140,22 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         [[A0APIClient sharedClient] loginWithUsername:username password:password parameters:self.parameters success:success failure:failure];
     } else {
         [self.accessButton setInProgress:NO];
-        showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+        if (error) {
+            showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+        } else {
+            showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [
+                                                                                     A0Errors localizedStringForLoginError:error]);
+        }
     }
     [self updateUIWithError:error];
 }
 
 - (void)goToPasswordField:(id)sender {
-    [self.passwordField.textField becomeFirstResponder];
+    if (self.passwordField.textField.enabled) {
+        [self.passwordField.textField becomeFirstResponder];
+    } else {
+        [self access:sender];
+    }
 }
 
 - (void)showSignUp:(id)sender {
@@ -174,6 +183,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     }
     self.matchedConnection = connection;
     self.singleSignOnView.hidden = connection == nil;
+    self.passwordField.textField.enabled = connection == nil;
+    self.userField.textField.returnKeyType = connection == nil ? UIReturnKeyNext : UIReturnKeyGo;
 }
 
 #pragma mark - Enterprise login

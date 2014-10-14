@@ -5,12 +5,12 @@ language: objective-c
 podfile: Examples/cocoapods-example/Podfile
 
 before_install:
-	- brew update
-	- if brew outdated | grep -qx xctool; then brew upgrade xctool; fi
-	- gem install cocoapods --no-ri --no-rdoc
+  - brew update
+  - if brew outdated | grep -qx xctool; then brew upgrade xctool; fi
+  - gem install cocoapods --no-ri --no-rdoc
 
 script:
-	- xctool -workspace Examples/cocoapods-example/Auth0Client.xcworkspace -scheme Auth0Client -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO clean test
+  - xctool -workspace Examples/cocoapods-example/Auth0Client.xcworkspace -scheme Auth0Client -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO clean test
 
 notifications:
   slack:

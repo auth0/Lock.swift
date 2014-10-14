@@ -97,11 +97,12 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 }
 
 - (void)access:(id)sender {
-    if (self.matchedConnection) {
+    if (self.matchedConnection || self.defaultConnection) {
+        A0Connection *connection = self.matchedConnection ?: self.defaultConnection;
         A0Application *application = [[A0APIClient sharedClient] application];
-        A0Strategy *strategy = [application enterpriseStrategyWithConnection:self.matchedConnection.name];
+        A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
         if (![strategy.name isEqualToString:A0StrategyNameActiveDirectory]) {
-            [self loginUserWithConnection:self.matchedConnection];
+            [self loginUserWithConnection:connection];
         } else {
             [self.accessButton setInProgress:YES];
             NSError *error;
@@ -123,7 +124,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                     showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForLoginError:error]);
                 };
                 A0AuthParameters *parameters = self.parameters.copy;
-                [parameters setValue:self.matchedConnection.name forKey:@"connection"];
+                [parameters setValue:connection.name forKey:@"connection"];
                 [[A0APIClient sharedClient] loginWithUsername:username password:password parameters:parameters success:success failure:failure];
             } else {
                 [self.accessButton setInProgress:NO];
