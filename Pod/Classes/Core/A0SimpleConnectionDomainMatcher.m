@@ -40,7 +40,7 @@
         NSMutableDictionary *domains = [@{} mutableCopy];
         for (A0Strategy *strategy in strategies) {
             NSArray *filtered = [strategy.connections select:^BOOL(A0Connection *connection) {
-                return connection.values[@"domain"] != nil;
+                return connection.values[@"domain"] != nil && connection.values[@"domain"] != [NSNull null];
             }];
             [filtered each:^(A0Connection *connection) {
                 connections[connection.name] = connection;

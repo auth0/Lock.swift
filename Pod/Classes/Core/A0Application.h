@@ -45,11 +45,6 @@
 @property (readonly, nonatomic) NSURL *authorizeURL;
 
 /**
- *  Callback URL
- */
-@property (readonly, nonatomic) NSURL *callbackURL;
-
-/**
  *  Enabled authentication strategies
  *
  *  @see A0Strategy

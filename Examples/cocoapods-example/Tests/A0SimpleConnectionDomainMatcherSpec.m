@@ -68,6 +68,13 @@ describe(@"A0SimpleConnectionDomainMatcherSpec", ^{
             expect([matcher valueForKeyPath:@"domains"]).to.beEmpty();
         });
 
+        it(@"should not pick connection with domain as null", ^{
+            [given(connection.values) willReturn:@{@"domain": [NSNull null]}];
+            matcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
+            expect([matcher valueForKeyPath:@"connections"]).to.beEmpty();
+            expect([matcher valueForKeyPath:@"domains"]).to.beEmpty();
+        });
+
     });
 
     describe(NSStringFromSelector(@selector(connectionForEmail:)), ^{

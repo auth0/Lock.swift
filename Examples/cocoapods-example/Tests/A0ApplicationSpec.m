@@ -66,10 +66,6 @@ describe(@"A0Application", ^{
             expect(application.authorizeURL).to.equal([NSURL URLWithString:kAuthorizeURL]);
         });
 
-        specify(@"valid callback URL", ^{
-            expect(application.callbackURL).to.equal([NSURL URLWithString:kCallbackURL]);
-        });
-
         specify(@"valid strategies", ^{
             expect(application.strategies).to.haveCountOf(3);
         });

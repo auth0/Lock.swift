@@ -42,7 +42,6 @@
         NSString *identifier = JSONDict[@"id"];
         NSString *tenant = JSONDict[@"tenant"];
         NSString *authorize = JSONDict[@"authorize"];
-        NSString *callback = JSONDict[@"callback"];
         NSArray *array = JSONDict[@"strategies"];
         NSMutableDictionary *strategies = [@{} mutableCopy];
         [array each:^(NSDictionary *strategyDict) {
@@ -55,12 +54,10 @@
         NSAssert(identifier.length > 0, @"Must have a valid name");
         NSAssert(tenant.length > 0, @"Must have a valid tenant");
         NSAssert(authorize.length > 0, @"Must have a valid auhorize URL");
-        NSAssert(callback, @"Must have a valid callback URL");
         NSAssert(strategies.count > 0, @"Must have at least 1 strategy");
         _identifier = identifier;
         _tenant = tenant;
         _authorizeURL = [NSURL URLWithString:authorize];
-        _callbackURL = [NSURL URLWithString:callback];
         _strategyDictionary = strategies;
         _socialStrategies = [strategies.allValues filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@", @(A0StrategyTypeSocial)]];
         _enterpriseStrategies = [strategies.allValues filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@", @(A0StrategyTypeEnterprise)]];
