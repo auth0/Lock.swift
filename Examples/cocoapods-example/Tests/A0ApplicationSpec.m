@@ -66,10 +66,6 @@ describe(@"A0Application", ^{
             expect(application.authorizeURL).to.equal([NSURL URLWithString:kAuthorizeURL]);
         });
 
-        specify(@"valid callback URL", ^{
-            expect(application.callbackURL).to.equal([NSURL URLWithString:kCallbackURL]);
-        });
-
         specify(@"valid strategies", ^{
             expect(application.strategies).to.haveCountOf(3);
         });
@@ -175,8 +171,8 @@ describe(@"A0Application", ^{
             beforeEach(^{
                 NSMutableDictionary *dict = [jsonDict mutableCopy];
                 dict[@"strategies"] = @[
-                                        @{@"name": @"auth0"},
-                                        @{@"name": @"twitter"},
+                                        @{@"name": A0StrategyNameAuth0},
+                                        @{@"name": A0StrategyNameTwitter},
                                       ];
                 application = [[A0Application alloc] initWithJSONDictionary:dict];
             });
@@ -194,7 +190,9 @@ describe(@"A0Application", ^{
 
             beforeEach(^{
                 NSMutableDictionary *dict = [jsonDict mutableCopy];
-                dict[@"strategies"] = @[ @{ @"name": @"auth0" } ];
+                dict[@"strategies"] = @[
+                                        @{ @"name": A0StrategyNameAuth0 }
+                                        ];
                 application = [[A0Application alloc] initWithJSONDictionary:dict];
             });
 
@@ -203,6 +201,78 @@ describe(@"A0Application", ^{
             });
         });
         
+    });
+
+    describe(@"Enterprise strategy handling", ^{
+
+        context(@"when it has an enterprise strategy", ^{
+
+            beforeEach(^{
+                NSMutableDictionary *dict = [jsonDict mutableCopy];
+                dict[@"strategies"] = @[
+                                        @{@"name": A0StrategyNameAuth0},
+                                        @{@"name": A0StrategyNameTwitter},
+                                        @{@"name": A0StrategyNameActiveDirectory},
+                                        ];
+                application = [[A0Application alloc] initWithJSONDictionary:dict];
+            });
+
+            it(@"should return enterprise strategies", ^{
+                expect(application.enterpriseStrategies).to.haveCountOf(1);
+            });
+
+            it(@"should have only have ad", ^{
+                expect([application.enterpriseStrategies.firstObject name]).to.equal(@"ad");
+            });
+        });
+
+        context(@"when it has no enterprise strategy", ^{
+
+            beforeEach(^{
+                NSMutableDictionary *dict = [jsonDict mutableCopy];
+                dict[@"strategies"] = @[
+                                        @{@"name": A0StrategyNameAuth0},
+                                        @{@"name": A0StrategyNameTwitter},
+                                        ];
+                application = [[A0Application alloc] initWithJSONDictionary:dict];
+            });
+
+            it(@"should return no enterprise strategies", ^{
+                expect(application.enterpriseStrategies).to.beEmpty();
+            });
+        });
+
+        describe(NSStringFromSelector(@selector(enterpriseStrategyWithConnection:)), ^{
+
+            beforeEach(^{
+                NSMutableDictionary *dict = [jsonDict mutableCopy];
+                dict[@"strategies"] = @[
+                                        @{
+                                            @"name": A0StrategyNameActiveDirectory,
+                                            @"connections": @[@{@"name": @"myAD"}],
+                                        },
+                                        @{
+                                            @"name": A0StrategyNameADFS,
+                                            @"connections": @[@{@"name": @"myADFS"}],
+                                        },
+                                    ];
+                application = [[A0Application alloc] initWithJSONDictionary:dict];
+            });
+
+            it(@"should return a strategy", ^{
+                expect([application enterpriseStrategyWithConnection:@"myADFS"]).toNot.beNil();
+            });
+
+            it(@"should return ADFS strategy", ^{
+                A0Strategy *strategy = [application enterpriseStrategyWithConnection:@"myADFS"];
+                expect(strategy.name).to.equal(A0StrategyNameADFS);
+            });
+
+            it(@"should return nil with unkown connection name", ^{
+                expect([application enterpriseStrategyWithConnection:@"otherADFS"]).to.beNil();
+            });
+
+        });
     });
 
 });

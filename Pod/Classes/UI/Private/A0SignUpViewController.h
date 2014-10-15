@@ -22,11 +22,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "A0KeyboardEnabledView.h"
+#import "A0AuthenticationUIComponent.h"
 
 @class A0SignUpCredentialValidator, A0ProgressButton, A0UserProfile, A0Token, A0CredentialFieldView, A0AuthParameters;
 
-@interface A0SignUpViewController : UIViewController<A0KeyboardEnabledView>
+@interface A0SignUpViewController : UIViewController<A0AuthenticationUIComponent>
 
 @property (copy, nonatomic) void(^onSignUpBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onCancelBlock)();

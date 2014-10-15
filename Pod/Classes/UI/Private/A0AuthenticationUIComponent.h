@@ -1,4 +1,4 @@
-//  A0ChangePasswordViewController.h
+//  A0AuthenticationUIComponent.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,17 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
-#import "A0AuthenticationUIComponent.h"
+#import <Foundation/Foundation.h>
 
-@class A0ChangePasswordCredentialValidator, A0ProgressButton, A0CredentialFieldView, A0AuthParameters;
+#import "A0KeyboardEnabledView.h"
 
-@interface A0ChangePasswordViewController : UIViewController<A0AuthenticationUIComponent>
+@class A0AuthParameters;
 
-@property (copy, nonatomic) void(^onChangePasswordBlock)();
-@property (copy, nonatomic) void(^onCancelBlock)();
+/**
+ *  Protocol for all UIViewControllers that are part of the native iOS widget.
+ */
+@protocol A0AuthenticationUIComponent <A0KeyboardEnabledView>
 
-@property (strong, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;
+- (void)setParameters:(A0AuthParameters *)parameters;
 
 @end

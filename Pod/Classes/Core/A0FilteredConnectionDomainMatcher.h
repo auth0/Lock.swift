@@ -1,4 +1,4 @@
-//  A0ChangePasswordViewController.h
+//  A0FilteredConnectionDomainMatcher.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,17 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
-#import "A0AuthenticationUIComponent.h"
+#import "A0SimpleConnectionDomainMatcher.h"
 
-@class A0ChangePasswordCredentialValidator, A0ProgressButton, A0CredentialFieldView, A0AuthParameters;
+@interface A0FilteredConnectionDomainMatcher : A0SimpleConnectionDomainMatcher
 
-@interface A0ChangePasswordViewController : UIViewController<A0AuthenticationUIComponent>
-
-@property (copy, nonatomic) void(^onChangePasswordBlock)();
-@property (copy, nonatomic) void(^onCancelBlock)();
-
-@property (strong, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;
+/**
+ *  Initialise the domain matcher with the given strategies but skips the ones whose names are to be filtered.
+ *
+ *  @param strategies            list of auth0 strategies
+ *  @param strategyNamesToFilter list of names of strategies to filter
+ *
+ *  @return an initialised instance
+ */
+- (instancetype)initWithStrategies:(NSArray *)strategies filter:(NSArray *)strategyNamesToFilter;
 
 @end

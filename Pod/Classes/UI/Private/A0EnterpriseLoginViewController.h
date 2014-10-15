@@ -1,4 +1,4 @@
-//  A0ChangePasswordViewController.h
+//  A0EnterpriseLoginViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,17 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
-#import "A0AuthenticationUIComponent.h"
+#import "A0DatabaseLoginViewController.h"
 
-@class A0ChangePasswordCredentialValidator, A0ProgressButton, A0CredentialFieldView, A0AuthParameters;
+@class A0Connection;
 
-@interface A0ChangePasswordViewController : UIViewController<A0AuthenticationUIComponent>
+@interface A0EnterpriseLoginViewController : A0DatabaseLoginViewController
 
-@property (copy, nonatomic) void(^onChangePasswordBlock)();
-@property (copy, nonatomic) void(^onCancelBlock)();
+@property (strong, nonatomic) A0Connection *connection;
+@property (copy, nonatomic) void(^onCancel)();
 
-@property (strong, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;
+- (instancetype)init;
+- (instancetype)initWithEmail:(NSString *)email;
 
 @end

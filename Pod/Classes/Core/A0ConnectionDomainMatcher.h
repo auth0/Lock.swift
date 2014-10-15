@@ -1,4 +1,4 @@
-//  A0ChangePasswordViewController.h
+//  A0ConnectionDomainMatcher.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,17 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
-#import "A0AuthenticationUIComponent.h"
+#import <Foundation/Foundation.h>
 
-@class A0ChangePasswordCredentialValidator, A0ProgressButton, A0CredentialFieldView, A0AuthParameters;
+@class A0Connection;
 
-@interface A0ChangePasswordViewController : UIViewController<A0AuthenticationUIComponent>
+/**
+ *  Protocol for object that can match an email with a connection domain.
+ */
+@protocol A0ConnectionDomainMatcher <NSObject>
 
-@property (copy, nonatomic) void(^onChangePasswordBlock)();
-@property (copy, nonatomic) void(^onCancelBlock)();
+@required
 
-@property (strong, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;
+/**
+ *  Returns the connection that has at least one of the declared domain match with the email's domain part.
+ *
+ *  @param email user's email to match
+ *
+ *  @return connection that matches the email's domain part or nil if none exits.
+ */
+- (A0Connection *)connectionForEmail:(NSString *)email;
 
 @end

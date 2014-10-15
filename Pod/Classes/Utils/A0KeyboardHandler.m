@@ -68,7 +68,7 @@
     NSUInteger animationCurve = [notification keyboardAnimationCurve];
     CGRect buttonFrame = [self.view rectToKeepVisibleInView:self.containerView];
     CGRect frame = self.containerView.frame;
-    CGFloat newY = keyboardFrame.origin.y - (buttonFrame.origin.y + buttonFrame.size.height);
+    CGFloat newY = (frame.size.height - keyboardFrame.size.height) - (buttonFrame.origin.y + buttonFrame.size.height);
     frame.origin.y = MIN(newY, 0);
     [UIView animateWithDuration:animationDuration delay:0.0f options:animationCurve animations:^{
         self.containerView.frame = frame;

@@ -31,7 +31,7 @@
 @interface A0IdentityProviderAuthenticator : NSObject
 
 /**
- *  Tells the instance to default to Safari Web Authentication when no provider was registered for a given strategy.
+ *  When no specific authentication provider is registered it will fallback to Safari Web Flow otherwise it will raise an error. Default is YES.
  */
 @property (assign, nonatomic) BOOL useWebAsDefault;
 
@@ -51,31 +51,36 @@
 - (void)registerAuthenticationProviders:(NSArray *)authenticationProviders;
 
 /**
- *  Register an identity provider using it's identifier, so if a provider was already registered with the same identifier, it will be replaced
+ *  Register an identity provider using it's identifier, so if a provider was already registered with the same identifier, it will be replaced.
  *
  *  @param authenticationProvider object that conforms `A0AuthenticationProvider` protocol
  */
 - (void)registerAuthenticationProvider:(id<A0AuthenticationProvider>)authenticationProvider;
 
 /**
- *  Configures the authentication with the enabled identity providers in Auth0's application
+ *  Configures the authentication with the enabled identity providers in Auth0's application. Must be called at least once before trying to authenticate with any connection.
  *
  *  @param application Auth0 application with the identity provider configuration
  */
 - (void)configureForApplication:(A0Application *)application;
 
 /**
- *  Authenticates a user using an identity provider specified by `A0Strategy`
+ *  Authenticates a user using an identity provider specified by `A0Strategy` and the registered method (Safari or Native). 
+ *  For the connection name it will use the first one by default.
+ *  You can override the default connection name setting in parameters the key `connection` with the name of the connection that should be used instead.
  *
  *  @param strategy   object that represent an authentication strategy with an identity provider.
- *  @param parameter  authentication parameters for Auth0 API.
+ *  @param parameters  authentication parameters for Auth0 API.
  *  @param success    block called on successful authentication with user's token info and profile
  *  @param failure    block called on error with the reason as a parameter
  */
-- (void)authenticateForStrategy:(A0Strategy *)strategy parameters:(A0AuthParameters *)parameters success:(void(^)(A0UserProfile *profile, A0Token *token))success failure:(void(^)(NSError *error))failure;
+- (void)authenticateForStrategy:(A0Strategy *)strategy
+                     parameters:(A0AuthParameters *)parameters
+                        success:(void(^)(A0UserProfile *profile, A0Token *token))success
+                        failure:(void(^)(NSError *error))failure;
 
 /**
- *  Checks if there is a registered identity provider authenticator the given strategy
+ *  Checks if the given startegy has a registered authenticator (either Native or Safari).
  *
  *  @param strategy an Auth0 strategy
  *

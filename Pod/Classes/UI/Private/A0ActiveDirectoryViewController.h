@@ -1,4 +1,4 @@
-//  A0ChangePasswordViewController.h
+//  A0ActiveDirectoryViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -22,15 +22,18 @@
 
 #import <UIKit/UIKit.h>
 #import "A0AuthenticationUIComponent.h"
+#import "A0ConnectionDomainMatcher.h"
 
-@class A0ChangePasswordCredentialValidator, A0ProgressButton, A0CredentialFieldView, A0AuthParameters;
+@class A0ProgressButton, A0UserProfile, A0DatabaseLoginCredentialValidator, A0Token, A0CredentialFieldView, A0AuthParameters,A0Connection;
 
-@interface A0ChangePasswordViewController : UIViewController<A0AuthenticationUIComponent>
-
-@property (copy, nonatomic) void(^onChangePasswordBlock)();
-@property (copy, nonatomic) void(^onCancelBlock)();
+@interface A0ActiveDirectoryViewController : UIViewController <A0AuthenticationUIComponent>
 
 @property (strong, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;
+@property (strong, nonatomic) A0Connection *defaultConnection;
+
+@property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
+
+@property (strong, nonatomic) A0DatabaseLoginCredentialValidator *validator;
+@property (strong, nonatomic) id<A0ConnectionDomainMatcher> domainMatcher;
 
 @end

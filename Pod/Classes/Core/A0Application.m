@@ -22,6 +22,9 @@
 
 #import "A0Application.h"
 #import "A0Strategy.h"
+#import "A0Connection.h"
+
+#import <ObjectiveSugar/ObjectiveSugar.h>
 
 @interface A0Application ()
 @property (strong, nonatomic) A0Strategy *databaseStrategy;
@@ -39,10 +42,9 @@
         NSString *identifier = JSONDict[@"id"];
         NSString *tenant = JSONDict[@"tenant"];
         NSString *authorize = JSONDict[@"authorize"];
-        NSString *callback = JSONDict[@"callback"];
         NSArray *array = JSONDict[@"strategies"];
         NSMutableDictionary *strategies = [@{} mutableCopy];
-        [array enumerateObjectsUsingBlock:^(NSDictionary *strategyDict, NSUInteger idx, BOOL *stop) {
+        [array each:^(NSDictionary *strategyDict) {
             A0Strategy *strategy = [[A0Strategy alloc] initWithJSONDictionary:strategyDict];
             [strategies setObject:strategy forKey:strategy.name];
             if (strategy.type == A0StrategyTypeDatabase) {
@@ -52,17 +54,19 @@
         NSAssert(identifier.length > 0, @"Must have a valid name");
         NSAssert(tenant.length > 0, @"Must have a valid tenant");
         NSAssert(authorize.length > 0, @"Must have a valid auhorize URL");
-        NSAssert(callback, @"Must have a valid callback URL");
         NSAssert(strategies.count > 0, @"Must have at least 1 strategy");
         _identifier = identifier;
         _tenant = tenant;
         _authorizeURL = [NSURL URLWithString:authorize];
-        _callbackURL = [NSURL URLWithString:callback];
         _strategyDictionary = strategies;
         _socialStrategies = [strategies.allValues filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@", @(A0StrategyTypeSocial)]];
         _enterpriseStrategies = [strategies.allValues filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@", @(A0StrategyTypeEnterprise)]];
     }
     return self;
+}
+
+- (A0Strategy *)activeDirectoryStrategy {
+    return [self strategyByName:A0StrategyNameActiveDirectory];
 }
 
 -(NSArray *)strategies {
@@ -75,6 +79,14 @@
 
 - (A0Strategy *)strategyByName:(NSString *)name {
     return self.strategyDictionary[name];
+}
+
+- (A0Strategy *)enterpriseStrategyWithConnection:(NSString *)connectionName {
+    return [self.enterpriseStrategies select:^BOOL(A0Strategy *strategy) {
+        return [strategy.connections indexOfObjectPassingTest:^BOOL(A0Connection *connection, NSUInteger idx, BOOL *stop) {
+            return [connection.name isEqualToString:connectionName];
+        }] != NSNotFound;
+    }].firstObject;
 }
 
 @end

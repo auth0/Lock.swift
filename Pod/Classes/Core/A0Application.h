@@ -45,11 +45,6 @@
 @property (readonly, nonatomic) NSURL *authorizeURL;
 
 /**
- *  Callback URL
- */
-@property (readonly, nonatomic) NSURL *callbackURL;
-
-/**
  *  Enabled authentication strategies
  *
  *  @see A0Strategy
@@ -83,6 +78,14 @@
 @property (readonly, nonatomic) NSArray *enterpriseStrategies;
 
 /**
+ *  Active Directory strategy for this application (if configured).
+ *
+ *  @see A0Strategy
+ *  @see A0Connection
+ */
+@property (readonly, nonatomic) A0Strategy *activeDirectoryStrategy;
+
+/**
  *  Initialise the applcation from a JSON dictionary
  *
  *  @param JSONDict JSON response form the server
@@ -99,5 +102,14 @@
  *  @return an available strategy or nil
  */
 - (A0Strategy *)strategyByName:(NSString *)name;
+
+/**
+ *  Find the enterprise `A0Strategy` that has a connection
+ *
+ *  @param connectionName name of the connection
+ *
+ *  @return an enterprise strategy or nil if not found
+ */
+- (A0Strategy *)enterpriseStrategyWithConnection:(NSString *)connectionName;
 
 @end

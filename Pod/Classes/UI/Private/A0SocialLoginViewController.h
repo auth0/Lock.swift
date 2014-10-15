@@ -21,11 +21,11 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "A0KeyboardEnabledView.h"
+#import "A0AuthenticationUIComponent.h"
 
 @class A0Application, A0UserProfile, A0Token, A0AuthParameters;
 
-@interface A0SocialLoginViewController : UIViewController<A0KeyboardEnabledView>
+@interface A0SocialLoginViewController : UIViewController<A0AuthenticationUIComponent>
 
 @property (strong, nonatomic) A0Application *application;
 @property (strong, nonatomic) A0AuthParameters *parameters;

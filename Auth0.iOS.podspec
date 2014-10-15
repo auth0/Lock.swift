@@ -20,6 +20,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.source_files = 'Pod/Classes/Auth0.h'
   s.dependency 'libextobjc', '~> 0.4'
   s.dependency 'CocoaLumberjack', '~> 1.9'
+  s.dependency 'ObjectiveSugar', '~> 1.1'
   s.default_subspecs = 'UI', 'Facebook', 'Twitter'
   s.prefix_header_contents = <<-EOS
     #import "A0Logging.h"
