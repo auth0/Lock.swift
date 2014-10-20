@@ -101,6 +101,7 @@
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         self.application = application;
+        [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
         [self layoutRootControllerForApplication:application];
     } failure:nil];
 }

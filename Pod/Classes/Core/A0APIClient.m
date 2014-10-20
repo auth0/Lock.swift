@@ -28,7 +28,6 @@
 #import "A0IdentityProviderCredentials.h"
 #import "A0UserProfile.h"
 #import "A0Token.h"
-#import "A0IdentityProviderAuthenticator.h"
 #import "A0AuthParameters.h"
 #import "A0Errors.h"
 #import "A0Connection.h"
@@ -100,7 +99,6 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 }
 
 - (void)logout {
-    [[A0IdentityProviderAuthenticator sharedInstance] clearSessions];
 }
 
 + (instancetype)sharedClient {
@@ -136,7 +134,6 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
             Auth0LogDebug(@"Application parsed form JSONP %@", application);
             if (!error) {
                 [self configureForApplication:application];
-                [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
                 success(application);
             } else {
                 Auth0LogError(@"Failed to parse JSONP with error %@", error);
