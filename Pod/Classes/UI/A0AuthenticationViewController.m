@@ -142,10 +142,15 @@
         }
     };
     UIViewController<A0AuthenticationUIComponent> *rootController;
+    BOOL hasSocial = application.socialStrategies.count > 0;
+    BOOL hasAD = application.activeDirectoryStrategy != nil;
+    BOOL hasEnterprise = application.enterpriseStrategies.count > 0;
+    BOOL hasDB = application.databaseStrategy != nil;
+
     A0Strategy *database = application.databaseStrategy;
     A0Strategy *ad = application.activeDirectoryStrategy;
     A0Connection *connection = database.connections.firstObject;
-    if (database != nil && application.socialStrategies.count > 0) {
+    if ((hasDB && hasSocial) || (hasSocial && hasEnterprise && !hasAD)) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.application = application;
         controller.showResetPassword = [connection.values[@"showForgot"] boolValue];
@@ -153,43 +158,33 @@
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
         rootController = controller;
-    } else if (database != nil) {
+    }
+    if ((hasDB & !hasSocial) || (hasEnterprise && !hasDB && !hasSocial && !hasAD)) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
         controller.showResetPassword = [connection.values[@"showForgot"] boolValue];
         controller.showSignUp = [connection.values[@"showSignup"] boolValue];
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
         rootController = controller;
-    } else if (application.socialStrategies.count > 0 && application.enterpriseStrategies.count == 0) {
+    }
+    if (hasSocial && !hasAD && !hasDB && !hasEnterprise) {
         A0SocialLoginViewController *controller = [self newSocialLoginViewController:onAuthSuccessBlock];
         controller.application = application;
         rootController = controller;
-    } else if(application.socialStrategies.count == 0 && ad != nil) {
-        A0ActiveDirectoryViewController *controller = [self newADLoginViewController:onAuthSuccessBlock];;
-        controller.defaultConnection = ad.connections.firstObject;
-        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
-        controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:NO];
-        rootController = controller;
-    } else if(application.socialStrategies.count > 0 && ad != nil) {
+    }
+    if (hasSocial && hasAD && !hasDB) {
         A0FullActiveDirectoryViewController *controller = [self newFullADLoginViewController:onAuthSuccessBlock];
         controller.application = application;
         controller.defaultConnection = ad.connections.firstObject;
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:NO];
         rootController = controller;
-    } else if(application.socialStrategies.count == 0 && application.enterpriseStrategies.count > 0) {
-        A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
-        controller.showResetPassword = NO;
-        controller.showSignUp = NO;
-        controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
-        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];        rootController = controller;
-    } else if(application.socialStrategies.count > 0 && application.enterpriseStrategies.count > 0) {
-        A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
-        controller.application = application;
-        controller.showResetPassword = NO;
-        controller.showSignUp = NO;
-        controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+    }
+    if (hasAD && !hasDB && !hasSocial) {
+        A0ActiveDirectoryViewController *controller = [self newADLoginViewController:onAuthSuccessBlock];;
+        controller.defaultConnection = ad.connections.firstObject;
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
+        controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:NO];
         rootController = controller;
     }
     rootController.parameters = [self copyAuthenticationParameters];
