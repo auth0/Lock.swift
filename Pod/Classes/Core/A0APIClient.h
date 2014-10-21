@@ -22,11 +22,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class A0Application, A0Strategy, A0IdentityProviderCredentials, A0UserProfile, A0Token, A0AuthParameters;
+@class A0Application, A0Strategy, A0IdentityProviderCredentials, A0UserProfile, A0Token, A0AuthParameters, A0DelegationCredentials;
 
 typedef void(^A0APIClientFetchAppInfoSuccess)(A0Application* application);
 typedef void(^A0APIClientAuthenticationSuccess)(A0UserProfile *profile, A0Token *tokenInfo);
-typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
+typedef void(^A0APIClientDelegationSuccess)(A0DelegationCredentials *tokenInfo);
 typedef void(^A0APIClientUserProfileSuccess)(A0UserProfile *profile);
 typedef void(^A0APIClientError)(NSError *error);
 
