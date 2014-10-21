@@ -39,6 +39,12 @@ PODS:
     - Facebook-iOS-SDK (~> 3.15)
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
+  - Auth0.iOS/TouchID (1.2.0):
+    - Auth0.iOS/UI
+    - CocoaLumberjack (~> 1.9)
+    - libextobjc (~> 0.4)
+    - ObjectiveSugar (~> 1.1)
+    - SimpleKeychain (~> 0.1)
   - Auth0.iOS/Twitter (1.2.0):
     - Auth0.iOS/Core
     - BDBOAuth1Manager (~> 1.3)
@@ -62,7 +68,7 @@ PODS:
   - CocoaLumberjack/Extensions (1.9.2):
     - CocoaLumberjack/Core
   - Expecta (0.3.1)
-  - Facebook-iOS-SDK (3.19.0):
+  - Facebook-iOS-SDK (3.20.0):
     - Bolts (~> 1.0)
   - ISO8601DateFormatter (0.7)
   - JWTDecode (0.2.1)
@@ -110,7 +116,7 @@ PODS:
   - OCMockito (1.3.1):
     - OCHamcrest (~> 4.0)
   - PSAlertView (2.0.3)
-  - SimpleKeychain (0.1.0)
+  - SimpleKeychain (0.2.0)
   - Specta (0.2.1)
   - TWReverseAuth (0.1.1):
     - LUKeychainAccess
@@ -118,6 +124,7 @@ PODS:
 
 DEPENDENCIES:
   - Auth0.iOS (from `../../`)
+  - Auth0.iOS/TouchID (from `../../`)
   - BDBOAuth1Manager
   - Expecta
   - JWTDecode
@@ -132,12 +139,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  Auth0.iOS: b0110b42e890ee912e746a06b245da7ad4dc03cc
+  Auth0.iOS: b280ce104065ac2c8e685a13a30ed1760f311907
   BDBOAuth1Manager: 0625ba20bd7d36461bbf6dc3d29276b5932b7409
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   Expecta: 03aabd0a89d8dea843baecb19a7fd7466a69a31d
-  Facebook-iOS-SDK: cb7d74759d0b1ba546e6e6f1dde407b0d4e448d6
+  Facebook-iOS-SDK: 5854404b4b651f612a8ef79ca06d766858f4cb8e
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JWTDecode: 72e3393caf14dc762eba51d29f15bd86f608aba3
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
@@ -148,7 +155,7 @@ SPEC CHECKSUMS:
   OCHamcrest: b464725bbb48d0f1cd9c6f4ec3cb35fe0c4f2b94
   OCMockito: 57b8c4bb54ff3a4a14eb2174f9e57faf9f56efb6
   PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
-  SimpleKeychain: 6e3b82ea55b1a5cb2be114fac9ec3976c8cfe687
+  SimpleKeychain: f7c55140169037f7540c949b25da53096036b231
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
 

@@ -59,4 +59,12 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     twitter.dependency 'PSAlertView', '~> 2.0'
     twitter.frameworks  = 'Social', 'Accounts', 'Twitter'
   end
+
+  s.subspec 'TouchID' do |touchid|
+    touchid.public_header_files = 'Pod/Classes/TouchID/*.h'
+    touchid.source_files = 'Pod/Classes/TouchID/*.{h,m}'
+    touchid.resources = 'Pod/Assets/TouchID/*.xib'
+    touchid.dependency 'Auth0.iOS/UI'
+    touchid.dependency 'SimpleKeychain', '~> 0.1'
+  end
 end
