@@ -1,10 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 1.1.0 - TBD
+## master
+
+## 1.1.0 - 2014-10-22
 ### Added
 - Enterprise connection support
 - iOS 8 Keyboard issue fix
+- New methods to Refresh JWT token or obtain delegation token
+
+### Changed
+- Deprecated old delegation methods in `A0APIClient`
 
 ## 1.0.0 - 2014-10-06
 ### Added
