@@ -192,7 +192,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 /**
  *  Performs delegated authentication against Auth0 API and returns a new token to call for example another API.
  *
- *  @param parameters delegation API parameters
+ *  @param parameters delegation API parameters. Must not be nil
  *  @param success    block called on successful request with the token information
  *  @param failure    block called on failure with the reason of failure
  */
@@ -227,7 +227,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
                                 failure:(A0APIClientError)failure;
 
 ///----------------------------------------
-/// @name User Profile
+/// @name Link Account
 ///----------------------------------------
 
 /**

@@ -57,15 +57,12 @@
 #define kPasswordParamName @"password"
 #define kGrantTypeParamName @"grant_type"
 #define kTenantParamName @"tenant"
-#define kRedirectUriParamName @"redirect_uri"
-#define kScopeParamName @"scope"
 #define kConnectionParamName @"connection"
 #define kIdTokenParamName @"id_token"
 #define kEmailParamName @"email"
 #define kAccessTokenParamName @"access_token"
 #define kAccessTokenSecretParamName @"access_token_secret"
 #define kSocialUserIdParamName @"user_id"
-#define kDeviceNameParamName @"device"
 #define kRefreshTokenParamName @"refresh_token"
 
 typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
@@ -300,6 +297,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 - (void)fetchDelegationTokenWithParameters:(A0AuthParameters *)parameters
                                    success:(A0APIClientNewDelegationTokenSuccess)success
                                    failure:(A0APIClientError)failure {
+    NSAssert(parameters != nil, @"Delegated Authentication parameters must be non-nil!");
     NSDictionary *payload = [parameters asAPIPayload];
     Auth0LogVerbose(@"Calling delegate authentication with params %@", parameters);
     [self.manager POST:kDelegationAuthPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
