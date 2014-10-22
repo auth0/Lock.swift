@@ -33,7 +33,6 @@ PODS:
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
-    - UICKeyChainStore (~> 1.0.5)
   - Auth0.iOS/Facebook (1.0.0):
     - Auth0.iOS/Core
     - CocoaLumberjack (~> 1.9)
@@ -111,11 +110,11 @@ PODS:
   - OCMockito (1.3.1):
     - OCHamcrest (~> 4.0)
   - PSAlertView (2.0.3)
+  - SimpleKeychain (0.1.0)
   - Specta (0.2.1)
   - TWReverseAuth (0.1.1):
     - LUKeychainAccess
     - OAuthCore
-  - UICKeyChainStore (1.0.5)
 
 DEPENDENCIES:
   - Auth0.iOS (from `../../`)
@@ -124,6 +123,7 @@ DEPENDENCIES:
   - JWTDecode
   - libextobjc
   - OCMockito
+  - SimpleKeychain
   - Specta (~> 0.2.1)
 
 EXTERNAL SOURCES:
@@ -132,7 +132,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  Auth0.iOS: bcc9d7f428645797b2bfca21a170fee40963d100
+  Auth0.iOS: d50bf84eb69be9911b87d3269f0b6740f6801309
   BDBOAuth1Manager: 0625ba20bd7d36461bbf6dc3d29276b5932b7409
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
@@ -148,8 +148,8 @@ SPEC CHECKSUMS:
   OCHamcrest: b464725bbb48d0f1cd9c6f4ec3cb35fe0c4f2b94
   OCMockito: 57b8c4bb54ff3a4a14eb2174f9e57faf9f56efb6
   PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
+  SimpleKeychain: 6e3b82ea55b1a5cb2be114fac9ec3976c8cfe687
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
-  UICKeyChainStore: 4f9719600cc70025064e26f28f1210bcfc3b0c35
 
 COCOAPODS: 0.34.1

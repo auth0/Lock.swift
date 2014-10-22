@@ -5,6 +5,7 @@ target 'Auth0Client', :exclusive => true do
   pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib
   pod "BDBOAuth1Manager", :inhibit_warnings => true #Ignore warnings for this lib
   pod "JWTDecode"
+  pod "SimpleKeychain"
 end
 
 target 'Tests', :exclusive => true do

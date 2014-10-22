@@ -25,13 +25,13 @@
 #import "A0UserProfileViewController.h"
 #import <Auth0.iOS/Auth0.h>
 #import <libextobjc/EXTScope.h>
-#import <UICKeyChainStore/UICKeyChainStore.h>
+#import <SimpleKeychain/A0SimpleKeychain.h>
 #import <JWTDecode/A0JWTDecoder.h>
 
 @interface A0ViewController ()
 
 @property (strong, nonatomic) A0UserProfile *authInfo;
-@property (strong, nonatomic) UICKeyChainStore *store;
+@property (strong, nonatomic) A0SimpleKeychain *keychain;
 
 @end
 
@@ -48,19 +48,17 @@
                                                                                         ]];
 
 
-    self.store = [UICKeyChainStore keyChainStoreWithService:@"Auth0"];
+    self.keychain = [A0SimpleKeychain keychainWithService:@"Auth0"];
     @weakify(self);
-    NSString* refreshToken = [self.store stringForKey: @"refresh_token"];
+    NSString* refreshToken = [self.keychain stringForKey: @"refresh_token"];
     if (refreshToken) {
         [[A0APIClient sharedClient] delegationWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
             @strongify(self);
-            [self.store setString:token.idToken forKey:@"id_token"];
-            [self.store synchronize];
+            [self.keychain setString:token.idToken forKey:@"id_token"];
             [self loadSessionInfoWithToken:[[A0Token alloc] initWithAccessToken:token.accessToken idToken:token.idToken tokenType:token.tokenType refreshToken:refreshToken]];
         } failure:^(NSError *error) {
             @strongify(self);
-            [self.store removeAllItems];
-            [self.store synchronize];
+            [self.keychain clearAll];
             [self clearSessionInfo];
         }];
     }
@@ -77,10 +75,9 @@
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);
         self.authInfo = profile;
-        [self.store setString:token.idToken forKey:@"id_token"];
-        [self.store setString:token.refreshToken forKey:@"refresh_token"];
-        [self.store setData:[NSKeyedArchiver archivedDataWithRootObject:profile] forKey:@"profile"];
-        [self.store synchronize];
+        [self.keychain setString:token.idToken forKey:@"id_token"];
+        [self.keychain setString:token.refreshToken forKey:@"refresh_token"];
+        [self.keychain setData:[NSKeyedArchiver archivedDataWithRootObject:profile] forKey:@"profile"];
         [self loadSessionInfoWithToken:token];
         [self dismissViewControllerAnimated:YES completion:nil];
     };
@@ -93,23 +90,20 @@
 
 - (IBAction)refreshSession:(id)sender {
     @weakify(self);
-    NSString* refreshToken = [self.store stringForKey: @"refresh_token"];
+    NSString* refreshToken = [self.keychain stringForKey: @"refresh_token"];
     [[A0APIClient sharedClient] delegationWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
         @strongify(self);
-        [self.store setString:token.idToken forKey:@"id_token"];
-        [self.store synchronize];
+        [self.keychain setString:token.idToken forKey:@"id_token"];
         [self loadSessionInfoWithToken:[[A0Token alloc] initWithAccessToken:token.accessToken idToken:token.idToken tokenType:token.tokenType refreshToken:refreshToken]];
     } failure:^(NSError *error) {
         @strongify(self);
-        [self.store removeAllItems];
-        [self.store synchronize];
+        [self.keychain clearAll];
         [self clearSessionInfo];
     }];
 }
 
 - (IBAction)clearSession:(id)sender {
-    [self.store removeAllItems];
-    [self.store synchronize];
+    [self.keychain clearAll];
     [self clearSessionInfo];
 }
 
@@ -131,7 +125,7 @@
 }
 
 - (void)loadSessionInfoWithToken:(A0Token *)token {
-    A0UserProfile *profile = [NSKeyedUnarchiver unarchiveObjectWithData:[self.store dataForKey:@"profile"]];;
+    A0UserProfile *profile = [NSKeyedUnarchiver unarchiveObjectWithData:[self.keychain dataForKey:@"profile"]];;
     self.authInfo = profile;
     self.refreshButton.enabled = YES;
     self.showProfileButton.enabled = YES;
