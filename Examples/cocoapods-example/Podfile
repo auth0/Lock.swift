@@ -1,6 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'Auth0Client', :exclusive => true do
+  pod "TouchIDAuth", :path => "/Users/hernan/Projects/Auth0/TouchIDAuth"
   pod "Auth0.iOS", :path => "../../"
   pod "Auth0.iOS/TouchID", :path => "../../"
   pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib
@@ -10,6 +11,7 @@ target 'Auth0Client', :exclusive => true do
 end
 
 target 'Tests', :exclusive => true do
+  pod "TouchIDAuth", :path => "/Users/hernan/Projects/Auth0/TouchIDAuth"
   pod "Auth0.iOS", :path => "../../"
   pod "Auth0.iOS/TouchID", :path => "../../"
   pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib

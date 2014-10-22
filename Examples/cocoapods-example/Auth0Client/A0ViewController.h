@@ -31,10 +31,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *refreshButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearButton;
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
+@property (weak, nonatomic) IBOutlet UIButton *touchIDButton;
 
 - (IBAction)signIn:(id)sender;
 - (IBAction)showProfileInfo:(id)sender;
 - (IBAction)refreshSession:(id)sender;
 - (IBAction)clearSession:(id)sender;
+- (IBAction)touchID:(id)sender;
 
 @end

@@ -22,6 +22,24 @@
 
 #import <UIKit/UIKit.h>
 
+@class A0UserProfile, A0Token;
+
 @interface A0TouchIDAuthenticationViewController : UIViewController
+
+/**
+ Allows the A0AuthenticationViewController to be dismissed by adding a button. Default is NO
+ */
+@property (assign, nonatomic) BOOL closable;
+
+/**
+ Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.
+ */
+@property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
+
+/**
+ Block that is called on when the user dismisses the Login screen. Only when closable property is YES.
+ */
+@property (copy, nonatomic) void(^onUserDismissBlock)();
+
 
 @end

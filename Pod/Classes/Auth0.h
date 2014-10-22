@@ -39,4 +39,8 @@
 #import "A0TwitterAuthenticator.h"
 #endif
 
+#if __has_include("A0TouchIDAuthenticationViewController.h")
+#import "A0TouchIDAuthenticationViewController.h"
+#endif
+
 #endif /* _AUTH0_IOS_SDK_ */

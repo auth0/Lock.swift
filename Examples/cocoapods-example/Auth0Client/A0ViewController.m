@@ -84,6 +84,24 @@
     [self presentViewController:controller animated:YES completion:nil];
 }
 
+- (void)touchID:(id)sender {
+    [self clearSession:nil];
+    A0TouchIDAuthenticationViewController *controller = [[A0TouchIDAuthenticationViewController alloc] init];
+    controller.closable = YES;
+    @weakify(self);
+    controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
+        NSLog(@"SUCCESS %@", profile);
+        @strongify(self);
+        self.authInfo = profile;
+        [self.keychain setString:token.idToken forKey:@"id_token"];
+        [self.keychain setString:token.refreshToken forKey:@"refresh_token"];
+        [self.keychain setData:[NSKeyedArchiver archivedDataWithRootObject:profile] forKey:@"profile"];
+        [self loadSessionInfoWithToken:token];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    };
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
 - (IBAction)showProfileInfo:(id)sender {
     [self performSegueWithIdentifier:@"ShowInfo" sender:self];
 }
@@ -116,6 +134,7 @@
 
 - (void)clearSessionInfo {
     self.signInButton.enabled = YES;
+    self.touchIDButton.enabled = YES;
     self.refreshButton.enabled = NO;
     self.showProfileButton.enabled = NO;
     self.idTokenLabel.text = nil;
@@ -137,6 +156,7 @@
     self.refreshTokenLabel.text = token.refreshToken;
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", profile.name];
     self.signInButton.enabled = NO;
+    self.touchIDButton.enabled = NO;
 }
 
 @end

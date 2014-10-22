@@ -22,7 +22,15 @@
 
 #import "A0TouchIDAuthenticationViewController.h"
 
+#import <SimpleKeychain/A0SimpleKeychain+KeyPair.h>
+#import <TouchIDAuth/A0TouchIDAuthentication.h>
+#import <libextobjc/EXTScope.h>
+
 @interface A0TouchIDAuthenticationViewController ()
+
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
+
+@property (strong, nonatomic) A0TouchIDAuthentication *authentication;
 
 @end
 
@@ -30,6 +38,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.closeButton.enabled = self.closable;
+    self.closeButton.hidden = !self.closable;
+    self.authentication = [[A0TouchIDAuthentication alloc] init];
+    self.authentication.onError = ^(NSError *error) {
+        Auth0LogError(@"Failed to perform TouchID authentication with error %@", error);
+    };
+    self.authentication.registerPublicKey = ^(NSData *pubKey, A0RegisterCompletionBlock completion, A0ErrorBlock error) {
+        completion();
+    };
+    self.authentication.jwtPayload = ^{
+        return @{};
+    };
+
+    self.authentication.authenticate = ^(NSString *jwt, A0ErrorBlock error) {
+        Auth0LogVerbose(@"Authenticating with signed JWT %@", jwt);
+    };
 }
 
+- (void)close:(id)sender {
+    if (self.onUserDismissBlock) {
+        self.onUserDismissBlock();
+    }
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+- (void)checkTouchID:(id)sender {
+    [self.authentication start];
+}
 @end

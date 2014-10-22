@@ -94,6 +94,15 @@
                                     <action selector="clearSession:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="R4C-Xx-ZrU"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qmh-wQ-uKD">
+                                <rect key="frame" x="20" y="412" width="280" height="30"/>
+                                <state key="normal" title="TouchID">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchID:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="BC2-L2-3O7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -111,6 +120,7 @@
                         <outlet property="refreshTokenLabel" destination="lfZ-bb-UII" id="13K-Z8-pCT"/>
                         <outlet property="showProfileButton" destination="MVB-vT-kHu" id="C4F-2x-COA"/>
                         <outlet property="signInButton" destination="jVf-bp-Bt8" id="4v1-fD-0eP"/>
+                        <outlet property="touchIDButton" destination="Qmh-wQ-uKD" id="X1H-Pv-suu"/>
                         <outlet property="welcomeLabel" destination="Jj8-FK-GzH" id="u5z-pe-vKq"/>
                         <segue destination="bNc-RQ-xPX" kind="push" identifier="ShowInfo" id="Y2N-a6-6j1"/>
                     </connections>
