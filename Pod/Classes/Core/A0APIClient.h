@@ -26,9 +26,13 @@
 
 typedef void(^A0APIClientFetchAppInfoSuccess)(A0Application* application);
 typedef void(^A0APIClientAuthenticationSuccess)(A0UserProfile *profile, A0Token *tokenInfo);
-typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 typedef void(^A0APIClientUserProfileSuccess)(A0UserProfile *profile);
 typedef void(^A0APIClientError)(NSError *error);
+
+typedef void(^A0APIClientNewIdTokenSuccess)(A0Token *token);
+typedef void(^A0APIClientNewDelegationTokenSuccess)(NSDictionary *delegationToken);
+
+typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 
 /**
  `A0APIClient` is a class with convenience methods for Auth0 REST API.
@@ -152,34 +156,49 @@ typedef void(^A0APIClientError)(NSError *error);
 
 
 ///----------------------------------------
-/// @name Delegation
+/// @name Refresh Tokens
 ///----------------------------------------
 
 /**
- *  Calls Auth0 delegation API with the refresh_token to obtain a new id_token.
+ *  Ask Auth0 API to return a new `id_token` for the user using their `refresh_token`
  *
  *  @param refreshToken user's refresh token
  *  @param parameters   optional parameters for Auth0 API. It can be nil
  *  @param success      block called on successful request with new token information.
  *  @param failure      block called on failure with the reason as a parameter
  */
-- (void)delegationWithRefreshToken:(NSString *)refreshToken
-                        parameters:(A0AuthParameters *)parameters
-                           success:(A0APIClientDelegationSuccess)success
-                           failure:(A0APIClientError)failure;
+- (void)fetchNewIdTokenWithRefreshToken:(NSString *)refreshToken
+                             parameters:(A0AuthParameters *)parameters
+                                success:(A0APIClientNewIdTokenSuccess)success
+                                failure:(A0APIClientError)failure;
 
 /**
- *  Calls Auth0 delegation API with the id_token to obtain a new id_token.
+ *  Ask Auth0 API to return a new `id_token` for the user using a currently valid `id_token`
  *
- *  @param idToken          user's id token
+ *  @param idToken          user's JWT token
  *  @param parameters       optional parameters for Auth0 API. It can be nil
- *  @param success          block called on successful request with new token information.
+ *  @param success          block called on successful request with new token information
  *  @param failure          block called on failure with the reason as a parameter
  */
-- (void)delegationWithIdToken:(NSString *)idToken
-                   parameters:(A0AuthParameters *)parameters
-                      success:(A0APIClientDelegationSuccess)success
-                      failure:(A0APIClientError)failure;
+- (void)fetchNewIdTokenWithIdToken:(NSString *)idToken
+                        parameters:(A0AuthParameters *)parameters
+                           success:(A0APIClientNewIdTokenSuccess)success
+                           failure:(A0APIClientError)failure;
+
+///----------------------------------------
+/// @name Delegation API
+///----------------------------------------
+
+/**
+ *  Performs delegated authentication against Auth0 API and returns a new token to call for example another API.
+ *
+ *  @param parameters delegation API parameters
+ *  @param success    block called on successful request with the token information
+ *  @param failure    block called on failure with the reason of failure
+ */
+- (void)fetchDelegationTokenWithParameters:(A0AuthParameters *)parameters
+                                   success:(A0APIClientNewDelegationTokenSuccess)success
+                                   failure:(A0APIClientError)failure;
 
 ///----------------------------------------
 /// @name User Profile
@@ -223,4 +242,42 @@ typedef void(^A0APIClientError)(NSError *error);
                     accessToken:(NSString *)accessToken
                         success:(void(^)())success
                         failure:(A0APIClientError)failure;
+@end
+
+@interface A0APIClient (Deprecated)
+
+/**
+ *  Calls Auth0 delegation API with the refresh_token to obtain a new id_token.
+ *
+ *  This method is deprecated please use `fetchNewIdTokenWithIdToken:parameters:success:failure:` or `fetchNewIdTokenWithRefreshToken:parameters:success:failure:` to get a new `id_token` or `fetchDelegationTokenWithParameters:success:failure:` to get a delegation token for another API.
+
+ *  @param refreshToken user's refresh token
+ *  @param parameters   optional parameters for Auth0 API. It can be nil
+ *  @param success      block called on successful request with new token information.
+ *  @param failure      block called on failure with the reason as a parameter
+ *
+ *  @deprecated 1.1.0
+ */
+- (void)delegationWithRefreshToken:(NSString *)refreshToken
+                        parameters:(A0AuthParameters *)parameters
+                           success:(A0APIClientDelegationSuccess)success
+                           failure:(A0APIClientError)failure __attribute__((deprecated));
+
+/**
+ *  Calls Auth0 delegation API with the id_token to obtain a new id_token.
+ *
+ *  This method is deprecated please use `fetchNewIdTokenWithIdToken:parameters:success:failure:` or `fetchNewIdTokenWithRefreshToken:parameters:success:failure:` to get a new `id_token` or `fetchDelegationTokenWithParameters:success:failure:` to get a delegation token for another API.
+ *
+ *  @param idToken          user's id token
+ *  @param parameters       optional parameters for Auth0 API. It can be nil
+ *  @param success          block called on successful request with new token information.
+ *  @param failure          block called on failure with the reason as a parameter
+ *
+ *  @deprecated 1.1.0
+ */
+- (void)delegationWithIdToken:(NSString *)idToken
+                   parameters:(A0AuthParameters *)parameters
+                      success:(A0APIClientDelegationSuccess)success
+                      failure:(A0APIClientError)failure __attribute__((deprecated));
+
 @end
