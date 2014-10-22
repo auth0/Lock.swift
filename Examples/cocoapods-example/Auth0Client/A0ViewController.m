@@ -52,7 +52,7 @@
     @weakify(self);
     NSString* refreshToken = [self.keychain stringForKey: @"refresh_token"];
     if (refreshToken) {
-        [[A0APIClient sharedClient] delegationWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
+        [[A0APIClient sharedClient] fetchNewIdTokenWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
             @strongify(self);
             [self.keychain setString:token.idToken forKey:@"id_token"];
             [self loadSessionInfoWithToken:[[A0Token alloc] initWithAccessToken:token.accessToken idToken:token.idToken tokenType:token.tokenType refreshToken:refreshToken]];
@@ -91,7 +91,7 @@
 - (IBAction)refreshSession:(id)sender {
     @weakify(self);
     NSString* refreshToken = [self.keychain stringForKey: @"refresh_token"];
-    [[A0APIClient sharedClient] delegationWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
+    [[A0APIClient sharedClient] fetchNewIdTokenWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
         @strongify(self);
         [self.keychain setString:token.idToken forKey:@"id_token"];
         [self loadSessionInfoWithToken:[[A0Token alloc] initWithAccessToken:token.accessToken idToken:token.idToken tokenType:token.tokenType refreshToken:refreshToken]];

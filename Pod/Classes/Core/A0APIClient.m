@@ -57,15 +57,12 @@
 #define kPasswordParamName @"password"
 #define kGrantTypeParamName @"grant_type"
 #define kTenantParamName @"tenant"
-#define kRedirectUriParamName @"redirect_uri"
-#define kScopeParamName @"scope"
 #define kConnectionParamName @"connection"
 #define kIdTokenParamName @"id_token"
 #define kEmailParamName @"email"
 #define kAccessTokenParamName @"access_token"
 #define kAccessTokenSecretParamName @"access_token_secret"
 #define kSocialUserIdParamName @"user_id"
-#define kDeviceNameParamName @"device"
 #define kRefreshTokenParamName @"refresh_token"
 
 typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
@@ -263,36 +260,50 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 #pragma mark - Delegation Authentication
 
-- (void)delegationWithRefreshToken:(NSString *)refreshToken
+- (void)fetchNewIdTokenWithIdToken:(NSString *)idToken
                         parameters:(A0AuthParameters *)parameters
-                           success:(A0APIClientDelegationSuccess)success
+                           success:(A0APIClientNewIdTokenSuccess)success
                            failure:(A0APIClientError)failure {
-    A0AuthParameters *defaultParamters = [A0AuthParameters newWithDictionary:@{
-                                                                         kClientIdParamName: self.clientId,
-                                                                         kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
-                                                                         kRefreshTokenParamName: refreshToken,
-                                                                         }];
-    [defaultParamters addValuesFromParameters:parameters];
-    [self delegationWithParameters:defaultParamters success:success failure:failure];
-}
-
-- (void)delegationWithIdToken:(NSString *)idToken parameters:(A0AuthParameters *)parameters success:(A0APIClientDelegationSuccess)success failure:(A0APIClientError)failure {
     A0AuthParameters *defaultParamters = [A0AuthParameters newWithDictionary:@{
                                                                                kClientIdParamName: self.clientId,
                                                                                kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
                                                                                kIdTokenParamName: idToken,
                                                                                }];
     [defaultParamters addValuesFromParameters:parameters];
-    [self delegationWithParameters:defaultParamters success:success failure:failure];
+    [self fetchDelegationTokenWithParameters:defaultParamters success:^(NSDictionary *tokenInfo) {
+        if (success) {
+            success([[A0Token alloc] initWithDictionary:tokenInfo]);
+        }
+    } failure:failure];
 }
 
-- (void)delegationWithParameters:(A0AuthParameters *)parameters success:(A0APIClientDelegationSuccess)success failure:(A0APIClientError)failure {
+- (void)fetchNewIdTokenWithRefreshToken:(NSString *)refreshToken
+                             parameters:(A0AuthParameters *)parameters
+                                success:(A0APIClientNewIdTokenSuccess)success
+                                failure:(A0APIClientError)failure {
+    A0AuthParameters *defaultParamters = [A0AuthParameters newWithDictionary:@{
+                                                                               kClientIdParamName: self.clientId,
+                                                                               kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                               kRefreshTokenParamName: refreshToken,
+                                                                               }];
+    [defaultParamters addValuesFromParameters:parameters];
+    [self fetchDelegationTokenWithParameters:defaultParamters success:^(NSDictionary *tokenInfo) {
+        if (success) {
+            success([[A0Token alloc] initWithDictionary:tokenInfo]);
+        }
+    } failure:failure];
+}
+
+- (void)fetchDelegationTokenWithParameters:(A0AuthParameters *)parameters
+                                   success:(A0APIClientNewDelegationTokenSuccess)success
+                                   failure:(A0APIClientError)failure {
+    NSAssert(parameters != nil, @"Delegated Authentication parameters must be non-nil!");
     NSDictionary *payload = [parameters asAPIPayload];
     Auth0LogVerbose(@"Calling delegate authentication with params %@", parameters);
     [self.manager POST:kDelegationAuthPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Delegation successful params %@", parameters);
         if (success) {
-            success([[A0Token alloc] initWithDictionary:responseObject]);
+            success(responseObject);
         }
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
@@ -412,6 +423,41 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     NSDictionary *auth0AppInfo = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:error];
     A0Application *application = [[A0Application alloc] initWithJSONDictionary:auth0AppInfo];
     return application;
+}
+
+@end
+
+@implementation A0APIClient (Deprecated)
+
+- (void)delegationWithRefreshToken:(NSString *)refreshToken
+                        parameters:(A0AuthParameters *)parameters
+                           success:(A0APIClientDelegationSuccess)success
+                           failure:(A0APIClientError)failure {
+    A0AuthParameters *defaultParamters = [A0AuthParameters newWithDictionary:@{
+                                                                               kClientIdParamName: self.clientId,
+                                                                               kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                               kRefreshTokenParamName: refreshToken,
+                                                                               }];
+    [defaultParamters addValuesFromParameters:parameters];
+    [self fetchDelegationTokenWithParameters:defaultParamters success:^(NSDictionary *tokenInfo) {
+        if (success) {
+            success([[A0Token alloc] initWithDictionary:tokenInfo]);
+        }
+    } failure:failure];
+}
+
+- (void)delegationWithIdToken:(NSString *)idToken parameters:(A0AuthParameters *)parameters success:(A0APIClientDelegationSuccess)success failure:(A0APIClientError)failure {
+    A0AuthParameters *defaultParamters = [A0AuthParameters newWithDictionary:@{
+                                                                               kClientIdParamName: self.clientId,
+                                                                               kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                               kIdTokenParamName: idToken,
+                                                                               }];
+    [defaultParamters addValuesFromParameters:parameters];
+    [self fetchDelegationTokenWithParameters:defaultParamters success:^(NSDictionary *tokenInfo) {
+        if (success) {
+            success([[A0Token alloc] initWithDictionary:tokenInfo]);
+        }
+    } failure:failure];
 }
 
 @end
