@@ -28,6 +28,7 @@
 #import "A0IdentityProviderCredentials.h"
 #import "A0UserProfile.h"
 #import "A0Token.h"
+#import "A0DelegationCredentials.h"
 #import "A0AuthParameters.h"
 #import "A0Errors.h"
 #import "A0Connection.h"
@@ -292,7 +293,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     [self.manager POST:kDelegationAuthPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Delegation successful params %@", parameters);
         if (success) {
-            success([[A0Token alloc] initWithDictionary:responseObject]);
+            NSDictionary *credentialsDictionary = [responseObject objectForKey:@"Credentials"];
+            success([[A0DelegationCredentials alloc] initWithDictionary:credentialsDictionary]);
         }
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }

@@ -27,6 +27,7 @@
 #import "A0Application.h"
 #import "A0Errors.h"
 #import "A0Token.h"
+#import "A0DelegationCredentials.h"
 #import "A0UserProfile.h"
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0AuthParameters.h"
