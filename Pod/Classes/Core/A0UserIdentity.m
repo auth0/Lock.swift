@@ -29,7 +29,8 @@
                     connection:(NSString *)connection
                         social:(NSNumber *)social
                    accessToken:(NSString *)accessToken
-             accessTokenSecret:(NSString *)accessTokenSecret {
+             accessTokenSecret:(NSString *)accessTokenSecret
+                   profileData:(NSDictionary *)profileData {
     self = [super init];
     if (self) {
         _userId = userId;
@@ -38,6 +39,7 @@
         _social = social.boolValue;
         _accessToken = accessToken;
         _accessTokenSecret = accessTokenSecret;
+        _profileData = profileData;
     }
     return self;
 }
@@ -48,7 +50,8 @@
                      connection:JSONDict[@"connection"]
                          social:JSONDict[@"isSocial"]
                     accessToken:JSONDict[@"access_token"]
-              accessTokenSecret:JSONDict[@"access_token_secret"]];
+              accessTokenSecret:JSONDict[@"access_token_secret"]
+                    profileData:JSONDict[@"profileData"]];
 }
 
 - (NSString *)identityId {
@@ -63,7 +66,8 @@
                      connection:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(connection))]
                          social:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(isSocial))]
                     accessToken:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(accessToken))]
-              accessTokenSecret:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(accessTokenSecret))]];
+              accessTokenSecret:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(accessTokenSecret))]
+                    profileData:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(profileData))]];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -81,6 +85,9 @@
     }
     if (self.accessTokenSecret) {
         [aCoder encodeObject:self.accessTokenSecret forKey:NSStringFromSelector(@selector(accessTokenSecret))];
+    }
+    if (self.profileData) {
+        [aCoder encodeObject:self.profileData forKey:NSStringFromSelector(@selector(profileData))];
     }
     [aCoder encodeObject:@(self.isSocial) forKey:NSStringFromSelector(@selector(isSocial))];
 }

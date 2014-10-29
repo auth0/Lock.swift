@@ -66,6 +66,11 @@
 @property (readonly, nonatomic) NSString *accessTokenSecret;
 
 /**
+ *  User's profile data in the Identity Provider
+ */
+@property (readonly, nonatomic) NSDictionary *profileData;
+
+/**
  *  Initialises an instance from a JSON dictionary
  *
  *  @param JSONDict dictionary with JSON values
