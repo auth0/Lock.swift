@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## master
 
+## 1.2.0 - 2014-10-29
+###Added 
+- `A0UserIdentity` now has a property `profileData` with profile info of the user in that Identity Provider.
+
 ## 1.1.0 - 2014-10-22
 ### Added
 - Enterprise connection support

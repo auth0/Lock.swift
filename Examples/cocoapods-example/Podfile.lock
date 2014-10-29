@@ -20,26 +20,26 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Auth0.iOS (1.1.0):
+  - Auth0.iOS (1.2.0):
     - Auth0.iOS/Facebook
     - Auth0.iOS/Twitter
     - Auth0.iOS/UI
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
-  - Auth0.iOS/Core (1.1.0):
+  - Auth0.iOS/Core (1.2.0):
     - AFNetworking (~> 2.3)
     - CocoaLumberjack (~> 1.9)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
-  - Auth0.iOS/Facebook (1.1.0):
+  - Auth0.iOS/Facebook (1.2.0):
     - Auth0.iOS/Core
     - CocoaLumberjack (~> 1.9)
     - Facebook-iOS-SDK (~> 3.15)
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
-  - Auth0.iOS/Twitter (1.1.0):
+  - Auth0.iOS/Twitter (1.2.0):
     - Auth0.iOS/Core
     - BDBOAuth1Manager (~> 1.3)
     - CocoaLumberjack (~> 1.9)
@@ -47,7 +47,7 @@ PODS:
     - ObjectiveSugar (~> 1.1)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Auth0.iOS/UI (1.1.0):
+  - Auth0.iOS/UI (1.2.0):
     - Auth0.iOS/Core
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
@@ -132,7 +132,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  Auth0.iOS: 78ca630f1feba91c5bc24a2976a2770b460439c4
+  Auth0.iOS: b0110b42e890ee912e746a06b245da7ad4dc03cc
   BDBOAuth1Manager: 0625ba20bd7d36461bbf6dc3d29276b5932b7409
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
@@ -152,4 +152,4 @@ SPEC CHECKSUMS:
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
 
-COCOAPODS: 0.34.1
+COCOAPODS: 0.34.4
