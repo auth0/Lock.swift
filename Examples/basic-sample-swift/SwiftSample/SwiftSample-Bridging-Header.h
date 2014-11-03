@@ -5,6 +5,6 @@
 #import <Auth0.iOS/Auth0.h>
 #import <JWTDecode/A0JWTDecoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <UICKeyChainStore/UICKeyChainStore.h>
+#import <SimpleKeychain/A0SimpleKeychain.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <AFNetworking/AFHTTPRequestOperation.h>

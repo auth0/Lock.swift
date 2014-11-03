@@ -15,17 +15,17 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let store = MyApplication.sharedInstance.store
-        let profileData:NSData! = store.dataForKey("profile")
+        let keychain = MyApplication.sharedInstance.keychain
+        let profileData:NSData! = keychain.dataForKey("profile")
         let profile:A0UserProfile = NSKeyedUnarchiver.unarchiveObjectWithData(profileData) as A0UserProfile
         self.profileImage?.sd_setImageWithURL(profile.picture)
         self.welcomeLabel?.text = "Welcome \(profile.name)!"
     }
 
     @IBAction func callAPI(sender: AnyObject) {
-        let info = NSBundle.mainBundle().infoDictionary
+        let info = NSBundle.mainBundle().infoDictionary!
         let urlString = info["SampleAPIBaseURL"] as NSString
-        let request = NSURLRequest(URL: NSURL(string: urlString))
+        let request = NSURLRequest(URL: NSURL(string: urlString)!)
         let operation = AFHTTPRequestOperation(request: request)
         operation.setCompletionBlockWithSuccess({ (operation, responseObject) -> Void in
             self.showMessage("We got the secured data successfully")

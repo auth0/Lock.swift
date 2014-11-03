@@ -10,7 +10,7 @@
 #import "Application.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Auth0.iOS/Auth0.h>
-#import <UICKeyChainStore/UICKeyChainStore.h>
+#import <SimpleKeychain/A0SimpleKeychain.h>
 #import <AFNetworking/AFHTTPRequestOperation.h>
 #import <libextobjc/EXTScope.h>
 
@@ -27,8 +27,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UICKeyChainStore *store = [[Application sharedInstance] store];
-    A0UserProfile *profile = [NSKeyedUnarchiver unarchiveObjectWithData:[store dataForKey:@"profile"]];
+    A0SimpleKeychain *keychain = [[Application sharedInstance] store];
+    A0UserProfile *profile = [NSKeyedUnarchiver unarchiveObjectWithData:[keychain dataForKey:@"profile"]];
     [self.profileImage sd_setImageWithURL:profile.picture];
     self.welcomeLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Welcome %@!", nil), profile.name];
 }

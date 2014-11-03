@@ -16,9 +16,9 @@ class MyApplication: NSObject {
         return Singleton.instance
     }
 
-    let store: UICKeyChainStore
+    let keychain: A0SimpleKeychain
 
     private override init() {
-        store = UICKeyChainStore(service: "Auth0")
+        keychain = A0SimpleKeychain(service: "Auth0")
     }
 }

@@ -11,9 +11,9 @@
 
 #import <Auth0.iOS/Auth0.h>
 #import <libextobjc/EXTScope.h>
-#import <UICKeyChainStore/UICKeyChainStore.h>
 #import <JWTDecode/A0JWTDecoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <SimpleKeychain/A0SimpleKeychain.h>
 
 @interface ViewController ()
 
@@ -23,23 +23,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UICKeyChainStore *store = [Application sharedInstance].store;
+    A0SimpleKeychain *store = [Application sharedInstance].store;
     NSString *idToken = [store stringForKey:@"id_token"];
     if (idToken) {
         if ([A0JWTDecoder isJWTExpired:idToken]) {
             NSString *refreshToken = [store stringForKey:@"refresh_token"];
             @weakify(self);
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            [[A0APIClient sharedClient] delegationWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
+            [[A0APIClient sharedClient] fetchNewIdTokenWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
                 @strongify(self);
                 [store setString:token.idToken forKey:@"id_token"];
-                [store synchronize];
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [self performSegueWithIdentifier:@"showProfile" sender:self];
             } failure:^(NSError *error) {
                 @strongify(self);
-                [store removeAllItems];
-                [store synchronize];
+                [store clearAll];
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
             }];
         } else {
@@ -55,11 +53,10 @@
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);
         
-        UICKeyChainStore *store = [Application sharedInstance].store;
-        [store setString:token.idToken forKey:@"id_token"];
-        [store setString:token.refreshToken forKey:@"refresh_token"];
-        [store setData:[NSKeyedArchiver archivedDataWithRootObject:profile] forKey:@"profile"];
-        [store synchronize];
+        A0SimpleKeychain *keychain = [Application sharedInstance].store;
+        [keychain setString:token.idToken forKey:@"id_token"];
+        [keychain setString:token.refreshToken forKey:@"refresh_token"];
+        [keychain setData:[NSKeyedArchiver archivedDataWithRootObject:profile] forKey:@"profile"];
         [self dismissViewControllerAnimated:YES completion:nil];
         [self performSegueWithIdentifier:@"showProfile" sender:self];
     };

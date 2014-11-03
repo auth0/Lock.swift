@@ -8,11 +8,11 @@
 
 #import <foundation/Foundation.h>
 
-@class UICKeyChainStore;
+@class A0SimpleKeychain;
 
 @interface Application : NSObject
 
-@property (strong, nonatomic) UICKeyChainStore *store;
+@property (strong, nonatomic) A0SimpleKeychain *store;
 
 + (Application *)sharedInstance;
 

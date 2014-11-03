@@ -9,7 +9,7 @@
 #import "Application.h"
 
 #import <Auth0.iOS/Auth0.h>
-#import <UICKeyChainStore/UICKeyChainStore.h>
+#import <SimpleKeychain/A0SimpleKeychain.h>
 
 @implementation Application
 
@@ -27,7 +27,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        _store = [[UICKeyChainStore alloc] initWithService:@"Auth0"];
+        _store = [A0SimpleKeychain keychainWithService:@"Auth0"];
     }
     return self;
 }

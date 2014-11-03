@@ -12,24 +12,22 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let store = MyApplication.sharedInstance.store
-        let idToken = store.stringForKey("id_token")
+        let keychain = MyApplication.sharedInstance.keychain
+        let idToken = keychain.stringForKey("id_token")
         if (idToken != nil) {
             if (A0JWTDecoder.isJWTExpired(idToken)) {
-                let refreshToken = store.stringForKey("refresh_token")
+                let refreshToken = keychain.stringForKey("refresh_token")
                 MBProgressHUD.showHUDAddedTo(self.view, animated: true)
                 let success = {(token:A0Token!) -> () in
-                    store.setString(token.idToken, forKey: "id_token")
-                    store.synchronize()
+                    keychain.setString(token.idToken, forKey: "id_token")
                     MBProgressHUD.hideHUDForView(self.view, animated: true)
                     self.performSegueWithIdentifier("showProfile", sender: self)
                 }
                 let failure = {(error:NSError!) -> () in
-                    store.removeAllItems()
-                    store.synchronize()
+                    keychain.clearAll()
                     MBProgressHUD.hideHUDForView(self.view, animated: true)
                 }
-                A0APIClient.sharedClient().delegationWithRefreshToken(refreshToken, parameters:nil, success:success, failure:failure)
+                A0APIClient.sharedClient().fetchNewIdTokenWithRefreshToken(refreshToken, parameters: nil, success: success, failure: failure)
             } else {
                 self.performSegueWithIdentifier("showProfile", sender: self)
             }
@@ -40,11 +38,10 @@ class HomeViewController: UIViewController {
         let authController = A0AuthenticationViewController()
         authController.closable = true
         authController.onAuthenticationBlock = {(profile:A0UserProfile!, token:A0Token!) -> () in
-            let store = MyApplication.sharedInstance.store
-            store.setString(token.idToken, forKey: "id_token")
-            store.setString(token.refreshToken, forKey: "refresh_token")
-            store.setData(NSKeyedArchiver.archivedDataWithRootObject(profile), forKey: "profile")
-            store.synchronize()
+            let keychain = MyApplication.sharedInstance.keychain
+            keychain.setString(token.idToken, forKey: "id_token")
+            keychain.setString(token.refreshToken, forKey: "refresh_token")
+            keychain.setData(NSKeyedArchiver.archivedDataWithRootObject(profile), forKey: "profile")
             self.dismissViewControllerAnimated(true, completion: nil)
             self.performSegueWithIdentifier("showProfile", sender: self)
         }
