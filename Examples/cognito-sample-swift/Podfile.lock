@@ -1,0 +1,294 @@
+PODS:
+  - AFNetworking (2.4.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+    - AFNetworking/UIKit
+  - AFNetworking/NSURLConnection (2.4.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.4.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.4.1)
+  - AFNetworking/Security (2.4.1)
+  - AFNetworking/Serialization (2.4.1)
+  - AFNetworking/UIKit (2.4.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - Auth0.iOS (1.2.0):
+    - Auth0.iOS/Facebook
+    - Auth0.iOS/Twitter
+    - Auth0.iOS/UI
+    - CocoaLumberjack (~> 1.9)
+    - libextobjc (~> 0.4)
+    - ObjectiveSugar (~> 1.1)
+  - Auth0.iOS/Core (1.2.0):
+    - AFNetworking (~> 2.3)
+    - CocoaLumberjack (~> 1.9)
+    - ISO8601DateFormatter (~> 0.7)
+    - libextobjc (~> 0.4)
+    - ObjectiveSugar (~> 1.1)
+  - Auth0.iOS/Facebook (1.2.0):
+    - Auth0.iOS/Core
+    - CocoaLumberjack (~> 1.9)
+    - Facebook-iOS-SDK (~> 3.15)
+    - libextobjc (~> 0.4)
+    - ObjectiveSugar (~> 1.1)
+  - Auth0.iOS/Twitter (1.2.0):
+    - Auth0.iOS/Core
+    - BDBOAuth1Manager (~> 1.3)
+    - CocoaLumberjack (~> 1.9)
+    - libextobjc (~> 0.4)
+    - ObjectiveSugar (~> 1.1)
+    - PSAlertView (~> 2.0)
+    - TWReverseAuth (~> 0.1.0)
+  - Auth0.iOS/UI (1.2.0):
+    - Auth0.iOS/Core
+    - CocoaLumberjack (~> 1.9)
+    - libextobjc (~> 0.4)
+    - ObjectiveSugar (~> 1.1)
+  - AWSCognitoSync (1.0.5):
+    - AWSCognitoSync/Cognito
+    - AWSiOSSDKv2
+  - AWSCognitoSync/Cognito (1.0.5):
+    - AWSiOSSDKv2
+  - AWSiOSSDKv2 (2.0.11):
+    - AWSiOSSDKv2/AutoScaling
+    - AWSiOSSDKv2/AWSCore
+    - AWSiOSSDKv2/CloudWatch
+    - AWSiOSSDKv2/DynamoDB
+    - AWSiOSSDKv2/EC2
+    - AWSiOSSDKv2/ElasticLoadBalancing
+    - AWSiOSSDKv2/Kinesis
+    - AWSiOSSDKv2/S3
+    - AWSiOSSDKv2/SES
+    - AWSiOSSDKv2/SimpleDB
+    - AWSiOSSDKv2/SNS
+    - AWSiOSSDKv2/SQS
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/AutoScaling (2.0.11):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/AWSCore (2.0.11):
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/CloudWatch (2.0.11):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/DynamoDB (2.0.11):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/EC2 (2.0.11):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/ElasticLoadBalancing (2.0.11):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/Kinesis (2.0.11):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/S3 (2.0.11):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/SES (2.0.11):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/SimpleDB (2.0.11):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/SNS (2.0.11):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/SQS (2.0.11):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4.1)
+    - Reachability (~> 3.1.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (~> 1.0.5)
+    - XMLDictionary (~> 1.4.0)
+  - BDBOAuth1Manager (1.4.1):
+    - AFNetworking/NSURLConnection (~> 2.4.0)
+    - AFNetworking/NSURLSession (~> 2.4.0)
+  - Bolts (1.1.3)
+  - CocoaLumberjack (1.9.2):
+    - CocoaLumberjack/Extensions
+  - CocoaLumberjack/Core (1.9.2)
+  - CocoaLumberjack/Extensions (1.9.2):
+    - CocoaLumberjack/Core
+  - Facebook-iOS-SDK (3.20.0):
+    - Bolts (~> 1.0)
+  - GZIP (1.0.3)
+  - ISO8601DateFormatter (0.7)
+  - JWTDecode (0.2.0)
+  - libextobjc (0.4.1):
+    - libextobjc/EXTADT
+    - libextobjc/EXTConcreteProtocol
+    - libextobjc/EXTKeyPathCoding
+    - libextobjc/EXTNil
+    - libextobjc/EXTSafeCategory
+    - libextobjc/EXTScope
+    - libextobjc/EXTSelectorChecking
+    - libextobjc/EXTSynthesize
+    - libextobjc/NSInvocation+EXT
+    - libextobjc/NSMethodSignature+EXT
+    - libextobjc/RuntimeExtensions
+    - libextobjc/UmbrellaHeader
+  - libextobjc/EXTADT (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTConcreteProtocol (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTKeyPathCoding (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTNil (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTSafeCategory (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTScope (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTSelectorChecking (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTSynthesize (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/NSInvocation+EXT (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/NSMethodSignature+EXT (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/RuntimeExtensions (0.4.1)
+  - libextobjc/UmbrellaHeader (0.4.1)
+  - LUKeychainAccess (1.2.2)
+  - Mantle (1.4.1):
+    - Mantle/extobjc
+  - Mantle/extobjc (1.4.1)
+  - MBProgressHUD (0.9)
+  - NSData+Base64 (1.0.0)
+  - OAuthCore (0.0.1):
+    - NSData+Base64
+  - ObjectiveSugar (1.1.0)
+  - PSAlertView (2.0.3)
+  - Reachability (3.1.1)
+  - SDWebImage (3.7.1):
+    - SDWebImage/Core
+  - SDWebImage/Core (3.7.1)
+  - SimpleKeychain (0.2.0)
+  - TMCache (1.2.2)
+  - TWReverseAuth (0.1.1):
+    - LUKeychainAccess
+    - OAuthCore
+  - UICKeyChainStore (1.0.5)
+  - XMLDictionary (1.4)
+
+DEPENDENCIES:
+  - Auth0.iOS (~> 1.2)
+  - AWSCognitoSync
+  - JWTDecode (~> 0.2)
+  - MBProgressHUD (~> 0.8)
+  - SDWebImage (~> 3.7.1)
+  - SimpleKeychain (~> 0.2)
+
+SPEC CHECKSUMS:
+  AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
+  Auth0.iOS: 73fbb480a37454c85501035f5dd3b0d2523fc48f
+  AWSCognitoSync: 65ec9d97379b9f8dfa1791d4169c3b5c6476a834
+  AWSiOSSDKv2: da3f88b7dd49ec12d918eb7c94bb4df5303374ee
+  BDBOAuth1Manager: 0625ba20bd7d36461bbf6dc3d29276b5932b7409
+  Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
+  CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
+  Facebook-iOS-SDK: 5854404b4b651f612a8ef79ca06d766858f4cb8e
+  GZIP: f27c434ffee5e9a9b34f4e9c19e91350fa8bbde1
+  ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
+  JWTDecode: e8fcad5a85eb7d1143fd9c33655e8cfb9aa998c8
+  libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
+  LUKeychainAccess: 4365689e03b1a019ce40a86058aae6e31e9adcea
+  Mantle: 1ca9c0fa84d3d3fc98524e7229f30489b6dd44e5
+  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
+  OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
+  ObjectiveSugar: f48793f5902c77cfc02a4ce46d2e8ecddcad4dc2
+  PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
+  Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7
+  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
+  SimpleKeychain: f7c55140169037f7540c949b25da53096036b231
+  TMCache: e2c9225de7a107b529d1d04baa58eb5eab3051f3
+  TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
+  UICKeyChainStore: 4f9719600cc70025064e26f28f1210bcfc3b0c35
+  XMLDictionary: 735e81b9a043e220b0d24e9d4f16719606f2e0fc
+
+COCOAPODS: 0.34.4

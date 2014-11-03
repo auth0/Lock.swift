@@ -1,0 +1,17 @@
+platform :ios, "7.0"
+
+source 'https://github.com/CocoaPods/Specs.git'
+
+target "SwiftSample" do
+	pod "Auth0.iOS", "~> 1.2", :inhibit_warnings => true
+    pod "SDWebImage", "~> 3.7.1"
+    pod "JWTDecode", "~> 0.2"
+    pod "SimpleKeychain", "~> 0.2"
+    pod "MBProgressHUD", "~> 0.8"
+    pod 'AWSCognitoSync'
+end
+
+target "SwiftSampleTests" do
+
+end
+
