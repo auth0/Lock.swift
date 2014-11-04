@@ -1,4 +1,4 @@
-//  A0TouchIDAuthenticationViewController.h
+// A0TouchIDRegisterViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -22,29 +22,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class A0UserProfile, A0Token, A0AuthParameters;
+@interface A0TouchIDRegisterViewController : UIViewController
 
-@interface A0TouchIDAuthenticationViewController : UIViewController
-
-/**
- Allows the A0AuthenticationViewController to be dismissed by adding a button. Default is NO
- */
-@property (assign, nonatomic) BOOL closable;
-
-/**
- Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.
- */
-@property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
-
-/**
- Block that is called on when the user dismisses the Login screen. Only when closable property is YES.
- */
-@property (copy, nonatomic) void(^onUserDismissBlock)();
-
-/**
- *  Parameters to be sent to all Authentication request to Auth0 API.
- *  @see A0AuthParameters
- */
-@property (strong, nonatomic) A0AuthParameters *authenticationParameters;
+@property (copy, nonatomic) void(^onRegisterBlock)(NSString *email, NSString *password);
+@property (copy, nonatomic) void(^onCancelBlock)();
 
 @end

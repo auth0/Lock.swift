@@ -25,6 +25,9 @@
 #import <SimpleKeychain/A0SimpleKeychain+KeyPair.h>
 #import <TouchIDAuth/A0TouchIDAuthentication.h>
 #import <libextobjc/EXTScope.h>
+#import "A0TouchIDRegisterViewController.h"
+#import "A0APIClient.h"
+#import "A0AuthParameters.h"
 
 @interface A0TouchIDAuthenticationViewController ()
 
@@ -36,16 +39,48 @@
 
 @implementation A0TouchIDAuthenticationViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            self.modalPresentationStyle = UIModalPresentationFormSheet;
+        }
+        _authenticationParameters = [A0AuthParameters newDefaultParams];
+        [_authenticationParameters setValue:@"Username-Password-Authentication" forKey:@"connection"];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    @weakify(self);
+
+    self.navigationController.navigationBarHidden = YES;
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
     self.authentication = [[A0TouchIDAuthentication alloc] init];
+    [self.authentication reset];
     self.authentication.onError = ^(NSError *error) {
         Auth0LogError(@"Failed to perform TouchID authentication with error %@", error);
     };
-    self.authentication.registerPublicKey = ^(NSData *pubKey, A0RegisterCompletionBlock completion, A0ErrorBlock error) {
-        completion();
+    self.authentication.registerPublicKey = ^(NSData *pubKey, A0RegisterCompletionBlock completionBlock, A0ErrorBlock errorBlock) {
+        @strongify(self);
+        A0TouchIDRegisterViewController *controller = [[A0TouchIDRegisterViewController alloc] init];
+        controller.onCancelBlock = ^ {
+            @strongify(self);
+            [self.authentication reset];
+        };
+        controller.onRegisterBlock = ^(NSString *email, NSString *password) {
+            @strongify(self);
+            Auth0LogDebug(@"Registering user with email %@ for TouchID", email);
+            A0APIClient *client = [A0APIClient sharedClient];
+            [client signUpWithUsername:email password:password loginOnSuccess:YES parameters:self.authenticationParameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                completionBlock();
+            } failure:^(NSError *error) {
+                errorBlock(error);
+            }];
+        };
+        [self.navigationController pushViewController:controller animated:YES];
     };
     self.authentication.jwtPayload = ^{
         return @{};

@@ -99,7 +99,8 @@
         [self loadSessionInfoWithToken:token];
         [self dismissViewControllerAnimated:YES completion:nil];
     };
-    [self presentViewController:controller animated:YES completion:nil];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 - (IBAction)showProfileInfo:(id)sender {
