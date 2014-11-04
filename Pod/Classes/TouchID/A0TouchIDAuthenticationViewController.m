@@ -25,6 +25,7 @@
 #import <SimpleKeychain/A0SimpleKeychain+KeyPair.h>
 #import <TouchIDAuth/A0TouchIDAuthentication.h>
 #import <libextobjc/EXTScope.h>
+#import <SimpleKeychain/A0SimpleKeychain.h>
 #import "A0TouchIDRegisterViewController.h"
 #import "A0APIClient.h"
 #import "A0AuthParameters.h"
@@ -36,7 +37,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 @property (strong, nonatomic) A0TouchIDAuthentication *authentication;
-@property (strong, nonatomic) NSString *currentUserId;
 
 @end
 
@@ -61,11 +61,19 @@
     self.navigationController.navigationBarHidden = YES;
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
+
     self.authentication = [[A0TouchIDAuthentication alloc] init];
-    [self.authentication reset];
     self.authentication.onError = ^(NSError *error) {
         Auth0LogError(@"Failed to perform TouchID authentication with error %@", error);
     };
+
+    NSString *userId = [[A0SimpleKeychain keychainWithService:@"TouchID"] stringForKey:@"auth0-userid"];
+    if (!userId) {
+        [self.authentication reset];
+        Auth0LogDebug(@"Cleaning up key pairs of unknown user");
+    }
+
+    A0SimpleKeychain *keychain = [A0SimpleKeychain keychainWithService:@"TouchID"];
     self.authentication.registerPublicKey = ^(NSData *pubKey, A0RegisterCompletionBlock completionBlock, A0ErrorBlock errorBlock) {
         @strongify(self);
         A0TouchIDRegisterViewController *controller = [[A0TouchIDRegisterViewController alloc] init];
@@ -83,11 +91,12 @@
                             parameters:self.authenticationParameters
                                success:^(A0UserProfile *profile, A0Token *tokenInfo) {
                                    @strongify(self);
-                                   self.currentUserId = profile.userId;
+                                   Auth0LogDebug(@"User %@ registered. Uploading public key...", profile.userId);
+                                   [keychain setString:profile.userId forKey:@"auth0-userid"];
                                    NSString *deviceName = [self deviceName];
                                    [client registerPublicKey:pubKey
                                                       device:deviceName
-                                                     forUser:self.currentUserId
+                                                     forUser:profile.userId
                                                      idToken:tokenInfo.idToken
                                                      success:completionBlock
                                                      failure:errorBlock];
@@ -96,18 +105,26 @@
         [self.navigationController pushViewController:controller animated:YES];
     };
     self.authentication.jwtPayload = ^{
-        @strongify(self);
+        NSString *userId = [keychain stringForKey:@"auth0-userid"];
         return @{
-                 @"iss": self.currentUserId,
+                 @"iss": userId,
                  };
     };
 
-    self.authentication.authenticate = ^(NSString *jwt, A0ErrorBlock error) {
+    self.authentication.authenticate = ^(NSString *jwt, A0ErrorBlock errorBlock) {
+        @strongify(self);
         Auth0LogVerbose(@"Authenticating with signed JWT %@", jwt);
+        A0APIClient *client = [A0APIClient sharedClient];
+        [client loginWithIdToken:jwt
+                      deviceName:[self deviceName]
+                      parameters:self.authenticationParameters
+                         success:self.onAuthenticationBlock
+                         failure:errorBlock];
     };
 }
 
 - (void)close:(id)sender {
+    Auth0LogVerbose(@"Dismissing TouchID view controller on user's request.");
     if (self.onUserDismissBlock) {
         self.onUserDismissBlock();
     }
@@ -125,7 +142,10 @@
 #pragma mark - Utility methods
 
 - (NSString *)deviceName {
-    return [[[UIDevice currentDevice] name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *deviceName = [[UIDevice currentDevice] name];
+    NSCharacterSet *setToFilter = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
+    deviceName = [[deviceName componentsSeparatedByCharactersInSet:setToFilter] componentsJoinedByString:@""];
+    return deviceName;
 }
 
 @end

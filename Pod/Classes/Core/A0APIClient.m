@@ -224,6 +224,27 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     }
 }
 
+- (void)loginWithIdToken:(NSString *)idToken deviceName:(NSString *)deviceName parameters:(A0AuthParameters *)parameters success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
+    A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
+                                                                                kIdTokenParamName: idToken,
+                                                                                kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                                kClientIdParamName: self.clientId,
+                                                                                }];
+    [self addDatabaseConnectionNameToParams:defaultParameters];
+    [defaultParameters addValuesFromParameters:parameters];
+    defaultParameters.device = deviceName;
+    Auth0LogVerbose(@"Starting Login with JWT %@", defaultParameters);
+    if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
+        @weakify(self);
+        NSDictionary *payload = [defaultParameters asAPIPayload];
+        [self.manager POST:kLoginPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            @strongify(self);
+            Auth0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
+            [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
+        } failure:[A0APIClient sanitizeFailureBlock:failure]];
+    }
+}
+
 #pragma mark - Social Authentication
 
 - (void)authenticateWithSocialConnectionName:(NSString *)connectionName

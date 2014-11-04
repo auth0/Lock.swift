@@ -135,6 +135,23 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
                success:(void(^)())success
                failure:(A0APIClientError)failure;
 
+
+/**
+ *  Authenticates with a Database Connection using a signed JWT token.
+ *  In order to use this method, a valid PublicKey must be registered for a user.
+ *
+ *  @param idToken    signed JWT token
+ *  @param deviceName name of the device that signed the JWT. Must be URL safe and non nil.
+ *  @param parameters optional parameters for Auth0 API. It can be nil
+ *  @param success    block called on successful login with it's token info and profile
+ *  @param failure    block called on failure with the reason as a parameter
+ */
+- (void)loginWithIdToken:(NSString *)idToken
+              deviceName:(NSString *)deviceName
+              parameters:(A0AuthParameters *)parameters
+                 success:(A0APIClientAuthenticationSuccess)success
+                 failure:(A0APIClientError)failure;
+
 ///----------------------------------------
 /// @name Social Authentication
 ///----------------------------------------
