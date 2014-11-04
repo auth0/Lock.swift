@@ -28,12 +28,15 @@
 #import "A0TouchIDRegisterViewController.h"
 #import "A0APIClient.h"
 #import "A0AuthParameters.h"
+#import "A0UserProfile.h"
+#import "A0Token.h"
 
 @interface A0TouchIDAuthenticationViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 @property (strong, nonatomic) A0TouchIDAuthentication *authentication;
+@property (strong, nonatomic) NSString *currentUserId;
 
 @end
 
@@ -74,16 +77,29 @@
             @strongify(self);
             Auth0LogDebug(@"Registering user with email %@ for TouchID", email);
             A0APIClient *client = [A0APIClient sharedClient];
-            [client signUpWithUsername:email password:password loginOnSuccess:YES parameters:self.authenticationParameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                completionBlock();
-            } failure:^(NSError *error) {
-                errorBlock(error);
-            }];
+            [client signUpWithUsername:email
+                              password:password
+                        loginOnSuccess:YES
+                            parameters:self.authenticationParameters
+                               success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                                   @strongify(self);
+                                   self.currentUserId = profile.userId;
+                                   NSString *deviceName = [self deviceName];
+                                   [client registerPublicKey:pubKey
+                                                      device:deviceName
+                                                     forUser:self.currentUserId
+                                                     idToken:tokenInfo.idToken
+                                                     success:completionBlock
+                                                     failure:errorBlock];
+                               } failure:errorBlock];
         };
         [self.navigationController pushViewController:controller animated:YES];
     };
     self.authentication.jwtPayload = ^{
-        return @{};
+        @strongify(self);
+        return @{
+                 @"iss": self.currentUserId,
+                 };
     };
 
     self.authentication.authenticate = ^(NSString *jwt, A0ErrorBlock error) {
@@ -105,4 +121,11 @@
 - (void)checkTouchID:(id)sender {
     [self.authentication start];
 }
+
+#pragma mark - Utility methods
+
+- (NSString *)deviceName {
+    return [[[UIDevice currentDevice] name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
 @end

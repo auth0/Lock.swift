@@ -227,6 +227,27 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
                                 failure:(A0APIClientError)failure;
 
 ///----------------------------------------
+/// @name Public Key
+///----------------------------------------
+
+/**
+ *  Registers a RSA Public Key for the user. The key will be used to validate signed JWTs when authenticating.
+ *
+ *  @param pubKey           public key data to upload
+ *  @param device           name of the device
+ *  @param userId           id of the user
+ *  @param idToken          user's id token
+ *  @param success block    called on successful request
+ *  @param failure block    called on failure with the reason as a parameter
+ */
+- (void)registerPublicKey:(NSData *)pubKey
+                   device:(NSString *)deviceName
+                  forUser:(NSString *)userId
+                  idToken:(NSString *)idToken
+                  success:(void(^)())success
+                  failure:(A0APIClientError)failure;
+
+///----------------------------------------
 /// @name Link Account
 ///----------------------------------------
 

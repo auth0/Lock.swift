@@ -48,6 +48,7 @@
 #define kSocialAuthPath @"/oauth/access_token"
 #define kDelegationAuthPath @"/delegation"
 #define kUnlinkAccountPath @"/unlink"
+#define kUserPublicKeyPath @"/api/users/%@/publickey"
 
 #define kAuthorizationHeaderName @"Authorization"
 #define kAuthorizationHeaderValueFormatString @"Bearer %@"
@@ -341,6 +342,36 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         if (success) {
             A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
             success(profile);
+        }
+    } failure:[A0APIClient sanitizeFailureBlock:failure]];
+    [operation start];
+}
+
+#pragma mark - Public Key
+
+- (void)registerPublicKey:(NSData *)pubKey
+                   device:(NSString *)deviceName
+                  forUser:(NSString *)userId
+                  idToken:(NSString *)idToken
+                  success:(void (^)())success
+                  failure:(A0APIClientError)failure {
+    NSString *pubKeyPath = [[NSString stringWithFormat:kUserPublicKeyPath, userId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *registerPubKeyURL = [NSURL URLWithString:pubKeyPath relativeToURL:self.manager.baseURL];
+    NSDictionary *parameters = @{
+                                 @"public_key": [[NSString alloc] initWithData:pubKey encoding:NSUTF8StringEncoding],
+                                 A0ParameterDevice: deviceName,
+                                 };
+    AFJSONRequestSerializer *serializer = [AFJSONRequestSerializer serializer];
+    NSMutableURLRequest *request = [serializer requestWithMethod:@"POST" URLString:[registerPubKeyURL absoluteString] parameters:parameters error:nil];
+    NSString *authorizationHeader = [NSString stringWithFormat:kAuthorizationHeaderValueFormatString, idToken];
+    [request setValue:authorizationHeader forHTTPHeaderField:kAuthorizationHeaderName];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    operation.responseSerializer = [AFJSONResponseSerializer serializer];
+    Auth0LogVerbose(@"Registering pub key from access token %@", idToken);
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        Auth0LogDebug(@"Registered public key %@", responseObject);
+        if (success) {
+            success();
         }
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
     [operation start];
