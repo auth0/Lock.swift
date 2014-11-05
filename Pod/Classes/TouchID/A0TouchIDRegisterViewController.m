@@ -34,9 +34,11 @@
 #import <libextobjc/EXTScope.h>
 #import "A0ChangePasswordViewController.h"
 #import "A0ChangePasswordCredentialValidator.h"
+#import "A0AuthParameters.h"
 
 @interface A0TouchIDRegisterViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 
 @property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
@@ -90,12 +92,19 @@
     [self.keyboardHandler handleForView:controller inView:self.view];
     [controller didMoveToParentViewController:self];
     [from removeFromParentViewController];
+    self.titleLabel.text = controller.title;
 }
 
 - (UIViewController<A0KeyboardEnabledView> *)buildSignUp {
+    @weakify(self);
     A0TouchIDSignUpViewController *signUpController = [[A0TouchIDSignUpViewController alloc] init];
     signUpController.onCancelBlock = self.onCancelBlock;
     signUpController.onRegisterBlock = self.onRegisterBlock;
+    signUpController.authenticationParameters = self.authenticationParameters;
+    signUpController.onLoginBlock = ^{
+        @strongify(self);
+        [self addAuthController:[self buildLogin] margin:20];
+    };
     return signUpController;
 }
 
@@ -105,6 +114,7 @@
     controller.showSignUp = YES;
     controller.showResetPassword = YES;
     controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:YES];
+    controller.parameters = self.authenticationParameters;
     controller.onShowSignUp = ^{
         @strongify(self);
         [self addAuthController:[self buildSignUp] margin:0];
@@ -119,13 +129,14 @@
 - (UIViewController<A0KeyboardEnabledView> *)buildChangePassword {
     @weakify(self);
     A0ChangePasswordViewController *controller = [[A0ChangePasswordViewController alloc] init];
+    controller.parameters = self.authenticationParameters;
     controller.onCancelBlock = ^{
         @strongify(self);
-        [self addAuthController:[self buildSignUp] margin:0];
+        [self addAuthController:[self buildLogin] margin:20];
     };
     controller.onChangePasswordBlock = ^{
         @strongify(self);
-        [self addAuthController:[self buildSignUp] margin:0];
+        [self addAuthController:[self buildLogin] margin:20];
     };
     controller.validator = [[A0ChangePasswordCredentialValidator alloc] init];
     return controller;

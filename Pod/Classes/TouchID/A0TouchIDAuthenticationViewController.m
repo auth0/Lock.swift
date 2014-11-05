@@ -118,6 +118,7 @@
                                                      failure:errorBlock];
                                } failure:errorBlock];
         };
+        controller.authenticationParameters = self.authenticationParameters;
         [self.navigationController pushViewController:controller animated:YES];
     };
     self.authentication.jwtPayload = ^{

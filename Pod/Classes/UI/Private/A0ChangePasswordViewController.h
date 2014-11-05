@@ -30,7 +30,7 @@
 @property (copy, nonatomic) void(^onChangePasswordBlock)();
 @property (copy, nonatomic) void(^onCancelBlock)();
 
-@property (strong, nonatomic) A0AuthParameters *parameters;
+@property (copy, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;
 
 @end

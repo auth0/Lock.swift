@@ -43,12 +43,13 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *emailField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
 
-
 - (IBAction)cancel:(id)sender;
 - (IBAction)signUp:(id)sender;
+- (IBAction)login:(id)sender;
 
 @property (strong, nonatomic) A0SignUpCredentialValidator *validator;
 
@@ -65,9 +66,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.signUpButton];
     [theme configureSecondaryButton:self.cancelButton];
+    [theme configureSecondaryButton:self.loginButton];
     [theme configureTextField:self.emailField.textField];
     [theme configureLabel:self.messageLabel];
     self.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:YES];
+    self.title = A0LocalizedString(@"Register");
 }
 
 - (void)cancel:(id)sender {
@@ -95,6 +98,12 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
     }
     [self updateUIWithError:error];
+}
+
+- (void)login:(id)sender {
+    if (self.onLoginBlock) {
+        self.onLoginBlock();
+    }
 }
 
 #pragma mark - A0KeyboardEnabledView

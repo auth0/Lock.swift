@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0TouchIDRegisterViewController">
             <connections>
                 <outlet property="containerView" destination="AAC-yd-wLY" id="BFm-D2-cY6"/>
+                <outlet property="titleLabel" destination="v3q-1e-SgJ" id="OjJ-eN-yGp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
