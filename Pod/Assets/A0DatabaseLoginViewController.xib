@@ -191,6 +191,7 @@
                         <constraint firstAttribute="trailing" secondItem="imv-tB-KW9" secondAttribute="trailing" constant="1" id="k1B-J9-dF3"/>
                         <constraint firstItem="nhJ-26-61R" firstAttribute="bottom" secondItem="imv-tB-KW9" secondAttribute="bottom" id="ofJ-Fw-f3n"/>
                         <constraint firstAttribute="trailing" secondItem="vgb-q9-92f" secondAttribute="trailing" constant="10" id="tnQ-Yj-E4A"/>
+                        <constraint firstAttribute="bottom" secondItem="CDN-kF-M6Z" secondAttribute="bottom" constant="47" id="yvz-gC-NIs"/>
                     </constraints>
                 </view>
             </subviews>
@@ -203,6 +204,7 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="225" y="329"/>
         </view>
     </objects>
     <resources>

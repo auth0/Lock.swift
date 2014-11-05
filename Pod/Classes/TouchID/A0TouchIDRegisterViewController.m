@@ -25,10 +25,15 @@
 #import "A0CredentialFieldView.h"
 #import "A0ProgressButton.h"
 #import "A0SignUpCredentialValidator.h"
-
-#import <ObjectiveSugar/ObjectiveSugar.h>
 #import "A0KeyboardHandler.h"
 #import "A0TouchIDSignUpViewController.h"
+#import "A0DatabaseLoginViewController.h"
+#import "A0DatabaseLoginCredentialValidator.h"
+
+#import <ObjectiveSugar/ObjectiveSugar.h>
+#import <libextobjc/EXTScope.h>
+#import "A0ChangePasswordViewController.h"
+#import "A0ChangePasswordCredentialValidator.h"
 
 @interface A0TouchIDRegisterViewController ()
 
@@ -43,17 +48,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
-    A0TouchIDSignUpViewController *signUpController = [[A0TouchIDSignUpViewController alloc] init];
-    signUpController.onCancelBlock = self.onCancelBlock;
-    signUpController.onRegisterBlock = self.onRegisterBlock;
 
-    [signUpController willMoveToParentViewController:self];
-    [self addChildViewController:signUpController];
-    [self.containerView addSubview:signUpController.view];
-    signUpController.view.translatesAutoresizingMaskIntoConstraints = NO;
-    [self layoutAuthView:signUpController.view centeredInContainerView:self.containerView];
-    [self.keyboardHandler handleForView:signUpController inView:signUpController.view];
-    [signUpController didMoveToParentViewController:self];
+    [self addAuthController:[self buildSignUp] margin:0];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -66,7 +62,7 @@
     [self.keyboardHandler stop];
 }
 
-- (void)layoutAuthView:(UIView *)authView centeredInContainerView:(UIView *)containerView {
+- (void)layoutAuthView:(UIView *)authView centeredInContainerView:(UIView *)containerView margin:(NSUInteger)margin {
     containerView.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:authView];
     [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView
@@ -75,9 +71,63 @@
                                                                  toItem:authView
                                                               attribute:NSLayoutAttributeCenterY
                                                              multiplier:1.0f
-                                                               constant:20.0f]];
+                                                               constant:0.0f]];
     NSDictionary *views = NSDictionaryOfVariableBindings(authView);
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[authView]-(margin)-|" options:0 metrics:@{@"margin": @(margin)} views:views]];
 }
 
+#pragma mark - Child UIViewController
+
+- (void)addAuthController:(UIViewController<A0KeyboardEnabledView> *)controller margin:(NSUInteger)margin {
+    UIViewController *from = self.childViewControllers.firstObject;
+    [from willMoveToParentViewController:nil];
+    [controller willMoveToParentViewController:self];
+    [self addChildViewController:controller];
+    [from.view removeFromSuperview];
+    [self.containerView addSubview:controller.view];
+    controller.view.translatesAutoresizingMaskIntoConstraints = NO;
+    [self layoutAuthView:controller.view centeredInContainerView:self.containerView margin:margin];
+    [self.keyboardHandler handleForView:controller inView:self.view];
+    [controller didMoveToParentViewController:self];
+    [from removeFromParentViewController];
+}
+
+- (UIViewController<A0KeyboardEnabledView> *)buildSignUp {
+    A0TouchIDSignUpViewController *signUpController = [[A0TouchIDSignUpViewController alloc] init];
+    signUpController.onCancelBlock = self.onCancelBlock;
+    signUpController.onRegisterBlock = self.onRegisterBlock;
+    return signUpController;
+}
+
+- (UIViewController<A0KeyboardEnabledView> *)buildLogin {
+    @weakify(self);
+    A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
+    controller.showSignUp = YES;
+    controller.showResetPassword = YES;
+    controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:YES];
+    controller.onShowSignUp = ^{
+        @strongify(self);
+        [self addAuthController:[self buildSignUp] margin:0];
+    };
+    controller.onShowForgotPassword = ^{
+        @strongify(self);
+        [self addAuthController:[self buildChangePassword] margin:20];
+    };
+    return controller;
+}
+
+- (UIViewController<A0KeyboardEnabledView> *)buildChangePassword {
+    @weakify(self);
+    A0ChangePasswordViewController *controller = [[A0ChangePasswordViewController alloc] init];
+    controller.onCancelBlock = ^{
+        @strongify(self);
+        [self addAuthController:[self buildSignUp] margin:0];
+    };
+    controller.onChangePasswordBlock = ^{
+        @strongify(self);
+        [self addAuthController:[self buildSignUp] margin:0];
+    };
+    controller.validator = [[A0ChangePasswordCredentialValidator alloc] init];
+    return controller;
+}
 @end
