@@ -107,7 +107,7 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
-  - LUKeychainAccess (1.2.2)
+  - LUKeychainAccess (1.2.3)
   - NSData+Base64 (1.0.0)
   - OAuthCore (0.0.1):
     - NSData+Base64
@@ -155,7 +155,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JWTDecode: 72e3393caf14dc762eba51d29f15bd86f608aba3
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  LUKeychainAccess: 4365689e03b1a019ce40a86058aae6e31e9adcea
+  LUKeychainAccess: 8d45b6c894c0d808786b1740c057b5e776313d88
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
   ObjectiveSugar: f48793f5902c77cfc02a4ce46d2e8ecddcad4dc2

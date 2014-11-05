@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0TouchIDSignupViewController.h"
+#import "A0TouchIDSignUpViewController.h"
 
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
@@ -38,7 +38,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [alert show];
 }
 
-@interface A0TouchIDSignupViewController ()
+@interface A0TouchIDSignUpViewController ()
 
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *emailField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
@@ -54,7 +54,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @end
 
-@implementation A0TouchIDSignupViewController
+@implementation A0TouchIDSignUpViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0TouchIDSignupViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0TouchIDSignUpViewController">
             <connections>
                 <outlet property="cancelButton" destination="nor-4R-DpI" id="Mta-yI-SKS"/>
                 <outlet property="credentialBoxView" destination="gpA-dC-FZ5" id="aLI-NX-7rJ"/>

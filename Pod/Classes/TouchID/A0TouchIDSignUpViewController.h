@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
-@interface A0TouchIDSignupViewController : UIViewController<A0KeyboardEnabledView>
+@interface A0TouchIDSignUpViewController : UIViewController<A0KeyboardEnabledView>
 
 @property (copy, nonatomic) void(^onRegisterBlock)(NSString *email, NSString *password);
 @property (copy, nonatomic) void(^onCancelBlock)();

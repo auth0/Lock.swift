@@ -28,14 +28,13 @@
 
 #import <ObjectiveSugar/ObjectiveSugar.h>
 #import "A0KeyboardHandler.h"
-#import "A0TouchIDSignupViewController.h"
+#import "A0TouchIDSignUpViewController.h"
 
 @interface A0TouchIDRegisterViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 
 @property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
-@property (strong, nonatomic) A0TouchIDSignupViewController *signUpController;
 
 @end
 
@@ -44,17 +43,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
-    self.signUpController = [[A0TouchIDSignupViewController alloc] init];
-    self.signUpController.onCancelBlock = self.onCancelBlock;
-    self.signUpController.onRegisterBlock = self.onRegisterBlock;
+    A0TouchIDSignUpViewController *signUpController = [[A0TouchIDSignUpViewController alloc] init];
+    signUpController.onCancelBlock = self.onCancelBlock;
+    signUpController.onRegisterBlock = self.onRegisterBlock;
 
-    [self.containerView addSubview:self.signUpController.view];
-    self.signUpController.view.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.signUpController willMoveToParentViewController:self];
-    [self addChildViewController:self.signUpController];
-    [self layoutAuthView:self.signUpController.view centeredInContainerView:self.containerView];
-    [self.keyboardHandler handleForView:self.signUpController inView:self.signUpController.view];
-    [self.signUpController didMoveToParentViewController:self];
+    [signUpController willMoveToParentViewController:self];
+    [self addChildViewController:signUpController];
+    [self.containerView addSubview:signUpController.view];
+    signUpController.view.translatesAutoresizingMaskIntoConstraints = NO;
+    [self layoutAuthView:signUpController.view centeredInContainerView:self.containerView];
+    [self.keyboardHandler handleForView:signUpController inView:signUpController.view];
+    [signUpController didMoveToParentViewController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
