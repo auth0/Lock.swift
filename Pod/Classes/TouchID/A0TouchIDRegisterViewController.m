@@ -50,7 +50,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
-
     [self addAuthController:[self buildSignUp] margin:0];
 }
 
@@ -123,6 +122,7 @@
         @strongify(self);
         [self addAuthController:[self buildChangePassword] margin:20];
     };
+    controller.onLoginBlock = self.onRegisterBlock;
     return controller;
 }
 

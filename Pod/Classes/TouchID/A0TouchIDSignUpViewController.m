@@ -26,7 +26,10 @@
 #import "A0CredentialFieldView.h"
 #import "A0ProgressButton.h"
 #import "A0SignUpCredentialValidator.h"
+#import "A0APIClient.h"
+#import "A0Errors.h"
 
+#import <libextobjc/EXTScope.h>
 #import <ObjectiveSugar/ObjectiveSugar.h>
 
 static void showAlertErrorView(NSString *title, NSString *message) {
@@ -88,11 +91,24 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     NSString *password = [self randomStringWithLength:14];
     [self.validator setUsername:self.emailField.textField.text password:password];
     if ([self.validator validateCredential:&error]) {
-        if (self.onRegisterBlock) {
-            self.onRegisterBlock(username, password);
-            [self.signUpButton setInProgress:NO];
-            [self.navigationController popViewControllerAnimated:YES];
-        }
+        @weakify(self);
+        Auth0LogDebug(@"Registering user with email %@ for TouchID", username);
+        A0APIClient *client = [A0APIClient sharedClient];
+        [client signUpWithUsername:username
+                          password:password
+                    loginOnSuccess:YES
+                        parameters:self.authenticationParameters
+                           success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                               @strongify(self);
+                               if (self.onRegisterBlock) {
+                                   self.onRegisterBlock(profile, tokenInfo);
+                                   [self.signUpButton setInProgress:NO];
+                               }
+                           } failure:^(NSError *error){
+                               @strongify(self);
+                               [self.signUpButton setInProgress:NO];
+                               showAlertErrorView(A0LocalizedString(@"There was an error signing up"), [A0Errors localizedStringForLoginError:error]);
+                           }];
     } else {
         [self.signUpButton setInProgress:NO];
         showAlertErrorView(error.localizedDescription, error.localizedFailureReason);

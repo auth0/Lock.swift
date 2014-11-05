@@ -97,26 +97,19 @@
             @strongify(self);
             [self.authentication reset];
         };
-        controller.onRegisterBlock = ^(NSString *email, NSString *password) {
+        controller.onRegisterBlock = ^(A0UserProfile *profile, A0Token *token) {
             @strongify(self);
-            Auth0LogDebug(@"Registering user with email %@ for TouchID", email);
+            [self.navigationController popViewControllerAnimated:YES];
             A0APIClient *client = [A0APIClient sharedClient];
-            [client signUpWithUsername:email
-                              password:password
-                        loginOnSuccess:YES
-                            parameters:self.authenticationParameters
-                               success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                                   @strongify(self);
-                                   Auth0LogDebug(@"User %@ registered. Uploading public key...", profile.userId);
-                                   [keychain setString:profile.userId forKey:@"auth0-userid"];
-                                   NSString *deviceName = [self deviceName];
-                                   [client registerPublicKey:pubKey
-                                                      device:deviceName
-                                                     forUser:profile.userId
-                                                     idToken:tokenInfo.idToken
-                                                     success:completionBlock
-                                                     failure:errorBlock];
-                               } failure:errorBlock];
+            Auth0LogDebug(@"User %@ registered. Uploading public key...", profile.userId);
+            [keychain setString:profile.userId forKey:@"auth0-userid"];
+            NSString *deviceName = [self deviceName];
+            [client registerPublicKey:pubKey
+                               device:deviceName
+                              forUser:profile.userId
+                              idToken:token.idToken
+                              success:completionBlock
+                              failure:errorBlock];
         };
         controller.authenticationParameters = self.authenticationParameters;
         [self.navigationController pushViewController:controller animated:YES];

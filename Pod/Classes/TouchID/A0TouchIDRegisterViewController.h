@@ -22,11 +22,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class A0AuthParameters;
+@class A0AuthParameters, A0UserProfile, A0Token;
 
 @interface A0TouchIDRegisterViewController : UIViewController
 
-@property (copy, nonatomic) void(^onRegisterBlock)(NSString *email, NSString *password);
+@property (copy, nonatomic) void(^onRegisterBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onCancelBlock)();
 
 @property (copy, nonatomic) A0AuthParameters *authenticationParameters;
