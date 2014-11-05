@@ -65,6 +65,22 @@
     self.authentication = [[A0TouchIDAuthentication alloc] init];
     self.authentication.onError = ^(NSError *error) {
         Auth0LogError(@"Failed to perform TouchID authentication with error %@", error);
+        NSString *message;
+        switch (error.code) {
+            case A0TouchIDAuthenticationErrorTouchIDFailed:
+            case A0TouchIDAuthenticationErrorTouchIDNotAvailable:
+                message = error.localizedDescription;
+                break;
+            default:
+                message = A0LocalizedString(@"Couldn't authenticate with TouchID. Please try again later!.");
+                break;
+        }
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:A0LocalizedString(@"There was an error logging in")
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:A0LocalizedString(@"OK")
+                                              otherButtonTitles:nil];
+        [alert show];
     };
 
     NSString *userId = [[A0SimpleKeychain keychainWithService:@"TouchID"] stringForKey:@"auth0-userid"];
