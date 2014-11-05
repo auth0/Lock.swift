@@ -28,29 +28,14 @@
 
 #import <ObjectiveSugar/ObjectiveSugar.h>
 #import "A0KeyboardHandler.h"
+#import "A0TouchIDSignupViewController.h"
 
-static void showAlertErrorView(NSString *title, NSString *message) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:A0LocalizedString(@"OK")
-                                          otherButtonTitles:nil];
-    [alert show];
-}
+@interface A0TouchIDRegisterViewController ()
 
-@interface A0TouchIDRegisterViewController () <A0KeyboardEnabledView>
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *emailField;
-@property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
-@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
-@property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
-
-- (IBAction)cancel:(id)sender;
-- (IBAction)signUp:(id)sender;
-
-@property (strong, nonatomic) A0SignUpCredentialValidator *validator;
 @property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
+@property (strong, nonatomic) A0TouchIDSignupViewController *signUpController;
 
 @end
 
@@ -58,18 +43,18 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.credentialBoxView.layer.borderWidth = 1.0f;
-    self.credentialBoxView.layer.borderColor = [[UIColor colorWithWhite:0.600 alpha:1.000] CGColor];
-    self.credentialBoxView.layer.cornerRadius = 3.0f;
-
-    A0Theme *theme = [A0Theme sharedInstance];
-    [theme configurePrimaryButton:self.signUpButton];
-    [theme configureSecondaryButton:self.cancelButton];
-    [theme configureTextField:self.emailField.textField];
-    [theme configureLabel:self.messageLabel];
-    self.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:YES];
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
-    [self.keyboardHandler handleForView:self inView:self.view];
+    self.signUpController = [[A0TouchIDSignupViewController alloc] init];
+    self.signUpController.onCancelBlock = self.onCancelBlock;
+    self.signUpController.onRegisterBlock = self.onRegisterBlock;
+
+    [self.containerView addSubview:self.signUpController.view];
+    self.signUpController.view.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.signUpController willMoveToParentViewController:self];
+    [self addChildViewController:self.signUpController];
+    [self layoutAuthView:self.signUpController.view centeredInContainerView:self.containerView];
+    [self.keyboardHandler handleForView:self.signUpController inView:self.signUpController.view];
+    [self.signUpController didMoveToParentViewController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -82,62 +67,18 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [self.keyboardHandler stop];
 }
 
-- (void)cancel:(id)sender {
-    if (self.onCancelBlock) {
-        self.onCancelBlock();
-    }
-    [self.navigationController popViewControllerAnimated:YES];
+- (void)layoutAuthView:(UIView *)authView centeredInContainerView:(UIView *)containerView {
+    containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [containerView addSubview:authView];
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView
+                                                              attribute:NSLayoutAttributeCenterY
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:authView
+                                                              attribute:NSLayoutAttributeCenterY
+                                                             multiplier:1.0f
+                                                               constant:20.0f]];
+    NSDictionary *views = NSDictionaryOfVariableBindings(authView);
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
 }
 
-- (void)signUp:(id)sender {
-    NSError *error;
-    [self.signUpButton setInProgress:YES];
-    [self hideKeyboard];
-    NSString *username = [self.emailField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSString *password = [self randomStringWithLength:14];
-    [self.validator setUsername:self.emailField.textField.text password:password];
-    if ([self.validator validateCredential:&error]) {
-        if (self.onRegisterBlock) {
-            self.onRegisterBlock(username, password);
-            [self.signUpButton setInProgress:NO];
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-    } else {
-        [self.signUpButton setInProgress:NO];
-        showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
-    }
-    [self updateUIWithError:error];
-}
-
-#pragma mark - A0KeyboardEnabledView
-
-- (void)hideKeyboard {
-    [self.emailField.textField resignFirstResponder];
-}
-
-- (CGRect)rectToKeepVisibleInView:(UIView *)view {
-    CGRect rect = [view convertRect:self.signUpButton.frame fromView:self.signUpButton.superview];
-    return rect;
-}
-
-#pragma mark - Error Handling
-
-- (void)updateUIWithError:(NSError *)error {
-    self.emailField.invalid = NO;
-    if (error) {
-        self.emailField.invalid = YES;
-    }
-}
-
-#pragma mark - Utility methods
-
-- (NSString *) randomStringWithLength:(NSUInteger)len {
-    static NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    NSMutableString *randomString = [NSMutableString stringWithCapacity:len];
-    [@(len) times:^{
-        [randomString appendFormat: @"%C", [letters characterAtIndex:arc4random_uniform((u_int32_t)[letters length])]];
-    }];
-
-    return randomString;
-}
 @end
