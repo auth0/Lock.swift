@@ -32,13 +32,19 @@
 #import "A0UserProfile.h"
 #import "A0Token.h"
 #import "A0UserAPIClient.h"
+#import <CoreGraphics/CoreGraphics.h>
 
 @interface A0TouchIDAuthenticationViewController ()
 
+@property (weak, nonatomic) IBOutlet UIView *loadingView;
+@property (weak, nonatomic) IBOutlet UIView *touchIDView;
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
+@property (weak, nonatomic) IBOutlet UIButton *touchIDButton;
 
 @property (strong, nonatomic) A0TouchIDAuthentication *authentication;
 @property (strong, nonatomic) A0UserAPIClient *userClient;
+
+- (IBAction)checkTouchID:(id)sender;
 
 @end
 
@@ -63,9 +69,11 @@
     self.navigationController.navigationBarHidden = YES;
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
+    self.touchIDButton.tintColor = [UIColor blackColor];
 
     self.authentication = [[A0TouchIDAuthentication alloc] init];
     self.authentication.onError = ^(NSError *error) {
+        @strongify(self);
         Auth0LogError(@"Failed to perform TouchID authentication with error %@", error);
         NSString *message;
         switch (error.code) {
@@ -83,6 +91,8 @@
                                               cancelButtonTitle:A0LocalizedString(@"OK")
                                               otherButtonTitles:nil];
         [alert show];
+        self.touchIDView.hidden = NO;
+        self.loadingView.hidden = YES;
     };
 
     NSString *userId = [[A0SimpleKeychain keychainWithService:@"TouchID"] stringForKey:@"auth0-userid"];
@@ -151,6 +161,8 @@
 }
 
 - (void)checkTouchID:(id)sender {
+    self.touchIDView.hidden = YES;
+    self.loadingView.hidden = NO;
     [self.authentication start];
 }
 

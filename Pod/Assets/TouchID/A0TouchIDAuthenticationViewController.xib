@@ -7,6 +7,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0TouchIDAuthenticationViewController">
             <connections>
                 <outlet property="closeButton" destination="cvj-On-Dtc" id="IAc-7I-SiD"/>
+                <outlet property="loadingView" destination="JUM-s6-89B" id="pxR-I1-y5W"/>
+                <outlet property="touchIDButton" destination="OPV-4k-Yhd" id="CMz-6o-Lut"/>
+                <outlet property="touchIDView" destination="40u-FA-4Nw" id="qWp-Qm-4b7"/>
                 <outlet property="view" destination="iN0-l3-epB" id="XvE-4E-i9A"/>
             </connections>
         </placeholder>
@@ -18,8 +21,8 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mLe-q3-wEZ">
                     <rect key="frame" x="190" y="55" width="220" height="110"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e54-RU-yIs">
-                            <rect key="frame" x="83" y="75" width="54" height="28.5"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login with TouchID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e54-RU-yIs">
+                            <rect key="frame" x="16" y="75" width="187.5" height="28.5"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
                             <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -80,21 +83,64 @@
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="40u-FA-4Nw">
                     <rect key="frame" x="50" y="215" width="500" height="335"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OPV-4k-Yhd">
+                            <rect key="frame" x="200" y="97.5" width="100" height="100"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="100" id="KYq-Ds-DQ5"/>
+                                <constraint firstAttribute="width" constant="100" id="xrV-kF-5SP"/>
+                            </constraints>
+                            <state key="normal" image="Auth0.bundle/touchid"/>
+                            <state key="highlighted" image="Auth0.bundle/touchid_selected"/>
+                            <connections>
+                                <action selector="checkTouchID:" destination="-1" eventType="touchUpInside" id="aaE-cq-br7"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap above to get started" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ZQ-b2-BUM">
+                            <rect key="frame" x="171" y="217.5" width="157.5" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.29803921568627451" green="0.29803921568627451" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" constant="300" id="5pU-8O-jY1"/>
+                        <constraint firstItem="2ZQ-b2-BUM" firstAttribute="top" secondItem="OPV-4k-Yhd" secondAttribute="bottom" constant="20" id="BcF-3r-fa3"/>
+                        <constraint firstAttribute="centerX" secondItem="2ZQ-b2-BUM" secondAttribute="centerX" id="S4p-Tx-aEN"/>
+                        <constraint firstAttribute="centerY" secondItem="OPV-4k-Yhd" secondAttribute="centerY" constant="20" id="bXu-aT-Kvu"/>
+                        <constraint firstAttribute="centerX" secondItem="OPV-4k-Yhd" secondAttribute="centerX" id="d9s-sg-3QZ"/>
                         <constraint firstAttribute="height" constant="300" id="g46-vT-5Og"/>
+                        <constraint firstAttribute="centerX" secondItem="2ZQ-b2-BUM" secondAttribute="centerX" id="yCK-DW-U8G"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                     <variation key="default">
                         <mask key="constraints">
                             <exclude reference="5pU-8O-jY1"/>
                             <exclude reference="g46-vT-5Og"/>
                         </mask>
                     </variation>
-                    <connections>
-                        <outletCollection property="gestureRecognizers" destination="KL5-R1-NcP" appends="YES" id="g3s-zU-jEI"/>
-                    </connections>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUM-s6-89B">
+                    <rect key="frame" x="150" y="233" width="300" height="300"/>
+                    <subviews>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Mn7-UT-WeL">
+                            <rect key="frame" x="131" y="132" width="37" height="37"/>
+                            <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="300" id="9vE-ff-zYp"/>
+                        <constraint firstAttribute="centerX" secondItem="Mn7-UT-WeL" secondAttribute="centerX" id="FGH-Ij-gC4"/>
+                        <constraint firstAttribute="centerY" secondItem="Mn7-UT-WeL" secondAttribute="centerY" id="Ikc-c3-nvZ"/>
+                        <constraint firstAttribute="width" constant="300" id="XhN-RM-hY1"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -103,20 +149,19 @@
                 <constraint firstAttribute="bottom" secondItem="40u-FA-4Nw" secondAttribute="bottom" constant="50" id="0Pa-jA-8db"/>
                 <constraint firstAttribute="trailing" secondItem="40u-FA-4Nw" secondAttribute="trailing" constant="50" id="16R-gj-iz4"/>
                 <constraint firstItem="mLe-q3-wEZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="55" id="Aak-Vr-vp5"/>
+                <constraint firstItem="40u-FA-4Nw" firstAttribute="centerY" secondItem="JUM-s6-89B" secondAttribute="centerY" id="Frs-bY-xap"/>
                 <constraint firstItem="40u-FA-4Nw" firstAttribute="top" secondItem="mLe-q3-wEZ" secondAttribute="bottom" constant="50" id="S28-Rw-tYY"/>
                 <constraint firstAttribute="trailing" secondItem="cvj-On-Dtc" secondAttribute="trailing" constant="15" id="aqk-mA-N3Z"/>
                 <constraint firstItem="40u-FA-4Nw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="50" id="nK6-55-6EQ"/>
                 <constraint firstAttribute="centerX" secondItem="mLe-q3-wEZ" secondAttribute="centerX" id="sIW-ra-JSp"/>
+                <constraint firstItem="40u-FA-4Nw" firstAttribute="centerX" secondItem="JUM-s6-89B" secondAttribute="centerX" id="wBb-lv-8EF"/>
             </constraints>
         </view>
-        <tapGestureRecognizer id="KL5-R1-NcP">
-            <connections>
-                <action selector="checkTouchID:" destination="-1" id="8wl-jg-HT0"/>
-            </connections>
-        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="Auth0.bundle/close" width="16" height="16"/>
         <image name="Auth0.bundle/people" width="16" height="16"/>
+        <image name="Auth0.bundle/touchid" width="16" height="16"/>
+        <image name="Auth0.bundle/touchid_selected" width="16" height="16"/>
     </resources>
 </document>
