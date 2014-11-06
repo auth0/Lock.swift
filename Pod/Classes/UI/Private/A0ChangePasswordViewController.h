@@ -28,7 +28,6 @@
 @interface A0ChangePasswordViewController : UIViewController<A0AuthenticationUIComponent>
 
 @property (copy, nonatomic) void(^onChangePasswordBlock)();
-@property (copy, nonatomic) void(^onCancelBlock)();
 
 @property (copy, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;

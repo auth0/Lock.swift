@@ -28,8 +28,6 @@
 @interface A0TouchIDSignUpViewController : UIViewController<A0KeyboardEnabledView>
 
 @property (copy, nonatomic) void(^onRegisterBlock)(A0UserProfile *profile, A0Token *token);
-@property (copy, nonatomic) void(^onCancelBlock)();
-@property (copy, nonatomic) void(^onLoginBlock)();
 
 @property (copy, nonatomic) A0AuthParameters *authenticationParameters;
 

@@ -50,9 +50,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
 
-- (IBAction)cancel:(id)sender;
 - (IBAction)signUp:(id)sender;
-- (IBAction)login:(id)sender;
 
 @property (strong, nonatomic) A0SignUpCredentialValidator *validator;
 
@@ -74,13 +72,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configureLabel:self.messageLabel];
     self.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:YES];
     self.title = A0LocalizedString(@"Register");
-}
-
-- (void)cancel:(id)sender {
-    if (self.onCancelBlock) {
-        self.onCancelBlock();
-    }
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)signUp:(id)sender {
@@ -114,12 +105,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
     }
     [self updateUIWithError:error];
-}
-
-- (void)login:(id)sender {
-    if (self.onLoginBlock) {
-        self.onLoginBlock();
-    }
 }
 
 #pragma mark - A0KeyboardEnabledView

@@ -51,10 +51,10 @@
 - (UIViewController<A0KeyboardEnabledView> *)buildSignUp {
     @weakify(self);
     A0TouchIDSignUpViewController *signUpController = [[A0TouchIDSignUpViewController alloc] init];
-    signUpController.onCancelBlock = self.onCancelBlock;
     signUpController.onRegisterBlock = self.onRegisterBlock;
     signUpController.authenticationParameters = self.authenticationParameters;
     [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:self.onCancelBlock];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE AN ACCOUNT?") actionBlock:^{
         @strongify(self);
         [self displayController:[self buildLogin]];

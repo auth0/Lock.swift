@@ -61,8 +61,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 - (IBAction)access:(id)sender;
 - (IBAction)goToPasswordField:(id)sender;
-- (IBAction)showSignUp:(id)sender;
-- (IBAction)showForgotPassword:(id)sender;
 
 @end
 
@@ -155,18 +153,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         [self.passwordField.textField becomeFirstResponder];
     } else {
         [self access:sender];
-    }
-}
-
-- (void)showSignUp:(id)sender {
-    if (self.onShowSignUp) {
-        self.onShowSignUp();
-    }
-}
-
-- (void)showForgotPassword:(id)sender {
-    if (self.onShowForgotPassword) {
-        self.onShowForgotPassword();
     }
 }
 

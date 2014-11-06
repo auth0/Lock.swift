@@ -32,8 +32,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (strong, nonatomic) NSString *defaultUsername;
 
-- (IBAction)cancel:(id)sender;
-
 @end
 
 @implementation A0EnterpriseLoginViewController
@@ -63,12 +61,6 @@
     self.messageLabel.attributedText = message;
     self.userField.textField.text = self.defaultUsername;
     [self.parameters setValue:self.connection.name forKey:@"connection"];
-}
-
-- (void)cancel:(id)sender {
-    if (self.onCancel) {
-        self.onCancel();
-    }
 }
 
 @end

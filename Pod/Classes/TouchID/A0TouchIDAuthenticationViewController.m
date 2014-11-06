@@ -96,6 +96,7 @@
         controller.onCancelBlock = ^ {
             @strongify(self);
             [self.authentication reset];
+            [self.navigationController popViewControllerAnimated:YES];
         };
         controller.onRegisterBlock = ^(A0UserProfile *profile, A0Token *token) {
             @strongify(self);

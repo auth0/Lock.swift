@@ -36,8 +36,6 @@
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
 
 @property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
-@property (copy, nonatomic) void(^onShowSignUp)();
-@property (copy, nonatomic) void(^onShowForgotPassword)();
 @property (copy, nonatomic) void(^onShowEnterpriseLogin)(A0Connection *connection, NSString *email);
 
 @property (strong, nonatomic) A0DatabaseLoginCredentialValidator *validator;
