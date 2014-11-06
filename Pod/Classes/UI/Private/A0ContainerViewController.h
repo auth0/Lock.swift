@@ -1,4 +1,4 @@
-// A0TouchIDRegisterViewController.h
+// A0ContainerViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,15 +21,14 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "A0ContainerViewController.h"
+#import "A0KeyboardEnabledView.h"
 
-@class A0AuthParameters, A0UserProfile, A0Token;
+@class A0NavigationView;
 
-@interface A0TouchIDRegisterViewController : A0ContainerViewController
+@interface A0ContainerViewController : UIViewController
 
-@property (copy, nonatomic) void(^onRegisterBlock)(A0UserProfile *profile, A0Token *token);
-@property (copy, nonatomic) void(^onCancelBlock)();
+- (A0NavigationView *)navigationView;
 
-@property (copy, nonatomic) A0AuthParameters *authenticationParameters;
+- (void)displayController:(UIViewController<A0KeyboardEnabledView> *)controller;
 
 @end

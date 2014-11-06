@@ -38,60 +38,13 @@
 
 @interface A0TouchIDRegisterViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIView *containerView;
-
-@property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
-
 @end
 
 @implementation A0TouchIDRegisterViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.keyboardHandler = [[A0KeyboardHandler alloc] init];
-    [self addAuthController:[self buildSignUp] margin:0];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.keyboardHandler start];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [self.keyboardHandler stop];
-}
-
-- (void)layoutAuthView:(UIView *)authView centeredInContainerView:(UIView *)containerView margin:(NSUInteger)margin {
-    containerView.translatesAutoresizingMaskIntoConstraints = NO;
-    [containerView addSubview:authView];
-    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView
-                                                              attribute:NSLayoutAttributeCenterY
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:authView
-                                                              attribute:NSLayoutAttributeCenterY
-                                                             multiplier:1.0f
-                                                               constant:0.0f]];
-    NSDictionary *views = NSDictionaryOfVariableBindings(authView);
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[authView]-(margin)-|" options:0 metrics:@{@"margin": @(margin)} views:views]];
-}
-
-#pragma mark - Child UIViewController
-
-- (void)addAuthController:(UIViewController<A0KeyboardEnabledView> *)controller margin:(NSUInteger)margin {
-    UIViewController *from = self.childViewControllers.firstObject;
-    [from willMoveToParentViewController:nil];
-    [controller willMoveToParentViewController:self];
-    [self addChildViewController:controller];
-    [from.view removeFromSuperview];
-    [self.containerView addSubview:controller.view];
-    controller.view.translatesAutoresizingMaskIntoConstraints = NO;
-    [self layoutAuthView:controller.view centeredInContainerView:self.containerView margin:margin];
-    [self.keyboardHandler handleForView:controller inView:self.view];
-    [controller didMoveToParentViewController:self];
-    [from removeFromParentViewController];
-    self.titleLabel.text = controller.title;
+    [self displayController:[self buildSignUp]];
 }
 
 - (UIViewController<A0KeyboardEnabledView> *)buildSignUp {
@@ -102,7 +55,7 @@
     signUpController.authenticationParameters = self.authenticationParameters;
     signUpController.onLoginBlock = ^{
         @strongify(self);
-        [self addAuthController:[self buildLogin] margin:20];
+        [self displayController:[self buildLogin]];
     };
     return signUpController;
 }
@@ -116,11 +69,11 @@
     controller.parameters = self.authenticationParameters;
     controller.onShowSignUp = ^{
         @strongify(self);
-        [self addAuthController:[self buildSignUp] margin:0];
+        [self displayController:[self buildSignUp]];
     };
     controller.onShowForgotPassword = ^{
         @strongify(self);
-        [self addAuthController:[self buildChangePassword] margin:20];
+        [self displayController:[self buildChangePassword]];
     };
     controller.onLoginBlock = self.onRegisterBlock;
     return controller;
@@ -132,11 +85,11 @@
     controller.parameters = self.authenticationParameters;
     controller.onCancelBlock = ^{
         @strongify(self);
-        [self addAuthController:[self buildLogin] margin:20];
+        [self displayController:[self buildLogin]];
     };
     controller.onChangePasswordBlock = ^{
         @strongify(self);
-        [self addAuthController:[self buildLogin] margin:20];
+        [self displayController:[self buildLogin]];
     };
     controller.validator = [[A0ChangePasswordCredentialValidator alloc] init];
     return controller;
