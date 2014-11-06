@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "A0ContainerViewController.h"
 
 @class A0AuthenticationViewController, A0UserProfile, A0Token, A0AuthParameters;
 
@@ -30,7 +31,7 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  `A0AuthenticationViewController` displays Auth0's native widget and configures itself with your app's configuration and it allows further customization using it's properties or `A0Theme`. 
   It should be presented in screen as a modal view controller calling in any of your controllers `[self presentViewController:authController animated:YES completion:nil]`
  */
-@interface A0AuthenticationViewController : UIViewController
+@interface A0AuthenticationViewController : A0ContainerViewController
 
 /**
  Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.
