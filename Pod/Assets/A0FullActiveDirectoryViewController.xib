@@ -20,14 +20,14 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="jbN-2h-QfK">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="274"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="263"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rCb-Gm-7le">
-                    <rect key="frame" x="20" y="0.0" width="280" height="274"/>
+                    <rect key="frame" x="20" y="0.0" width="280" height="263"/>
                     <subviews>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Ugz-4v-uZC">
-                            <rect key="frame" x="122" y="118" width="37" height="37"/>
+                            <rect key="frame" x="122" y="112.5" width="37" height="37"/>
                             <color key="color" red="0.1333333333" green="0.18039215689999999" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                         </activityIndicatorView>
                     </subviews>
@@ -78,7 +78,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="C3Q-cC-kJ9">
-                    <rect key="frame" x="20" y="78" width="280" height="196"/>
+                    <rect key="frame" x="20" y="78" width="280" height="185"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v34-YZ-u27">
                             <rect key="frame" x="1" y="10" width="278" height="101"/>
@@ -218,10 +218,10 @@
                         <constraint firstItem="NCj-M2-bxy" firstAttribute="leading" secondItem="C3Q-cC-kJ9" secondAttribute="leading" constant="1" id="N46-lQ-1kB"/>
                         <constraint firstAttribute="trailing" secondItem="v34-YZ-u27" secondAttribute="trailing" constant="1" id="Qk7-OJ-fQR"/>
                         <constraint firstItem="v34-YZ-u27" firstAttribute="top" secondItem="C3Q-cC-kJ9" secondAttribute="top" constant="10" id="Uvb-y0-edh"/>
+                        <constraint firstAttribute="bottom" secondItem="NCj-M2-bxy" secondAttribute="bottom" id="bpb-RR-897"/>
                         <constraint firstItem="NCj-M2-bxy" firstAttribute="top" secondItem="v34-YZ-u27" secondAttribute="bottom" constant="19" id="dlf-mL-2Bz"/>
                         <constraint firstItem="v34-YZ-u27" firstAttribute="leading" secondItem="C3Q-cC-kJ9" secondAttribute="leading" constant="1" id="k6w-Wz-5gA"/>
                         <constraint firstAttribute="trailing" secondItem="3R0-bX-xR5" secondAttribute="trailing" id="mwf-wf-NUC"/>
-                        <constraint firstAttribute="bottom" secondItem="NCj-M2-bxy" secondAttribute="bottom" constant="11" id="xL6-SR-VZJ"/>
                     </constraints>
                 </view>
             </subviews>

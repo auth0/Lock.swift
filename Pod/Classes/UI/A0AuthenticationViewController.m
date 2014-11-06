@@ -47,6 +47,7 @@
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
+#import "A0NavigationView.h"
 
 @interface A0AuthenticationViewController ()
 
@@ -137,6 +138,7 @@
     A0Strategy *database = application.databaseStrategy;
     A0Strategy *ad = application.activeDirectoryStrategy;
     A0Connection *connection = database.connections.firstObject;
+    [self.navigationView removeAll];
     if ((hasDB && hasSocial) || (hasSocial && hasEnterprise && !hasAD)) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.application = application;
@@ -181,6 +183,7 @@
 - (A0SocialLoginViewController *)newSocialLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
     A0SocialLoginViewController *controller = [[A0SocialLoginViewController alloc] init];
     controller.onLoginBlock = success;
+    [self.navigationView removeAll];
     return controller;
 }
 
@@ -189,21 +192,22 @@
     A0FullLoginViewController *controller = [[A0FullLoginViewController alloc] init];
     controller.onLoginBlock = success;
     controller.parameters = [self copyAuthenticationParameters];
-    controller.onShowSignUp = ^ {
-        @strongify(self);
-        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
-        [self displayController:controller];
-    };
-    controller.onShowForgotPassword = ^ {
-        @strongify(self);
-        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
-        [self displayController:controller];
-    };
     controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
         @strongify(self);
         A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
         [self displayController:controller];
     };
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:^{
+        @strongify(self);
+        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
+        [self displayController:controller];
+    }];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
+        @strongify(self);
+        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
+        [self displayController:controller];
+    }];
     return controller;
 }
 
@@ -211,6 +215,7 @@
     A0FullActiveDirectoryViewController *controller = [[A0FullActiveDirectoryViewController alloc] init];
     controller.onLoginBlock = success;
     controller.parameters = [self copyAuthenticationParameters];
+    [self.navigationView removeAll];
     return controller;
 }
 
@@ -219,21 +224,22 @@
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.onLoginBlock = success;
     controller.parameters = [self copyAuthenticationParameters];
-    controller.onShowSignUp = ^ {
-        @strongify(self);
-        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
-        [self displayController:controller];
-    };
-    controller.onShowForgotPassword = ^ {
-        @strongify(self);
-        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
-        [self displayController:controller];
-    };
     controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
         @strongify(self);
         A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
         [self displayController:controller];
     };
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:^{
+        @strongify(self);
+        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
+        [self displayController:controller];
+    }];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
+        @strongify(self);
+        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
+        [self displayController:controller];
+    }];
     return controller;
 }
 
@@ -241,6 +247,7 @@
     A0ActiveDirectoryViewController *controller = [[A0ActiveDirectoryViewController alloc] init];
     controller.onLoginBlock = success;
     controller.parameters = [self copyAuthenticationParameters];
+    [self.navigationView removeAll];
     return controller;
 }
 
@@ -257,15 +264,16 @@
     controller.onLoginBlock = success;
     controller.connection = connection;
     controller.parameters = [self copyAuthenticationParameters];
-    controller.onShowForgotPassword = ^ {
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
+        @strongify(self);
+        [self layoutRootControllerForApplication:self.application];
+    }];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
         @strongify(self);
         A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
         [self displayController:controller];
-    };
-    controller.onCancel= ^{
-        @strongify(self);
-        [self layoutRootControllerForApplication:self.application];
-    };
+    }];
     return controller;
 }
 
@@ -278,11 +286,12 @@
     if (self.signUpDisclaimerView) {
         [controller addDisclaimerSubview:self.signUpDisclaimerView];
     }
-    controller.onCancelBlock = ^{
+    controller.onSignUpBlock = success;
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         @strongify(self);
         [self layoutRootControllerForApplication:self.application];
-    };
-    controller.onSignUpBlock = success;
+    }];
     return controller;
 }
 
@@ -295,8 +304,9 @@
         @strongify(self);
         [self layoutRootControllerForApplication:self.application];
     };
-    controller.onCancelBlock = block;
     controller.onChangePasswordBlock = block;
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:block];
     return controller;
 }
 

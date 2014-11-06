@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0TouchIDRegisterViewController">
             <connections>
                 <outlet property="containerView" destination="AAC-yd-wLY" id="BFm-D2-cY6"/>
+                <outlet property="navigationView" destination="HFZ-ZN-GwE" id="FYB-wB-F9x"/>
                 <outlet property="titleLabel" destination="v3q-1e-SgJ" id="OjJ-eN-yGp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -67,19 +68,35 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AAC-yd-wLY">
-                    <rect key="frame" x="0.0" y="165" width="600" height="435"/>
+                    <rect key="frame" x="0.0" y="165" width="600" height="387"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HFZ-ZN-GwE" customClass="A0NavigationView">
+                    <rect key="frame" x="20" y="552" width="560" height="48"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="tB5-26-5za"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="HFZ-ZN-GwE" secondAttribute="bottom" id="7Hq-aJ-NCS"/>
                 <constraint firstAttribute="centerX" secondItem="MIe-Zc-7nB" secondAttribute="centerX" id="B1r-RC-Yno"/>
                 <constraint firstItem="AAC-yd-wLY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="DUO-zX-hg4"/>
                 <constraint firstItem="AAC-yd-wLY" firstAttribute="top" secondItem="MIe-Zc-7nB" secondAttribute="bottom" id="MRN-Bh-sv3"/>
                 <constraint firstAttribute="bottom" secondItem="AAC-yd-wLY" secondAttribute="bottom" id="RDt-m1-qY3"/>
+                <constraint firstAttribute="trailing" secondItem="HFZ-ZN-GwE" secondAttribute="trailing" constant="20" id="fAH-zm-aZn"/>
+                <constraint firstItem="HFZ-ZN-GwE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="ha9-6Y-3Eh"/>
+                <constraint firstItem="HFZ-ZN-GwE" firstAttribute="top" secondItem="AAC-yd-wLY" secondAttribute="bottom" id="ttX-8R-L0T"/>
                 <constraint firstAttribute="trailing" secondItem="AAC-yd-wLY" secondAttribute="trailing" id="u9c-mG-MPw"/>
                 <constraint firstItem="MIe-Zc-7nB" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="55" id="xfR-D3-0Xf"/>
             </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="RDt-m1-qY3"/>
+                </mask>
+            </variation>
         </view>
     </objects>
     <resources>

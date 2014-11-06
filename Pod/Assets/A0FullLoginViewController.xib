@@ -8,12 +8,10 @@
             <connections>
                 <outlet property="accessButton" destination="XYO-zd-sKu" id="IFS-Ku-3Wf"/>
                 <outlet property="credentialsBoxView" destination="wGI-hJ-Zry" id="ibo-bJ-Wfo"/>
-                <outlet property="forgotPasswordButton" destination="2yR-hB-ufD" id="mLf-Nn-fGi"/>
                 <outlet property="loadingView" destination="fCB-wy-jDg" id="7Ei-Ik-7rB"/>
                 <outlet property="orLabel" destination="sFo-mK-7If" id="cc5-nE-pgk"/>
                 <outlet property="passwordField" destination="T9N-fd-MMV" id="5qC-yS-Q4M"/>
                 <outlet property="serviceCollectionView" destination="ynd-lY-AHE" id="EgX-0x-4VM"/>
-                <outlet property="signUpButton" destination="Vzp-TO-GQH" id="cZI-tV-LxI"/>
                 <outlet property="singleSignOnIcon" destination="6SJ-p3-ZXA" id="rhf-ws-oyx"/>
                 <outlet property="singleSignOnView" destination="QuK-0G-veP" id="tab-70-J1G"/>
                 <outlet property="userField" destination="d5T-jc-U5F" id="MSC-Td-9Mi"/>
@@ -22,14 +20,14 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="311"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="263"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fCB-wy-jDg">
-                    <rect key="frame" x="20" y="0.0" width="280" height="311"/>
+                    <rect key="frame" x="20" y="0.0" width="280" height="263"/>
                     <subviews>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="s6B-ti-XIO">
-                            <rect key="frame" x="122" y="137" width="37" height="37"/>
+                            <rect key="frame" x="122" y="113" width="37" height="37"/>
                             <color key="color" red="0.13333333333333333" green="0.1803921568627451" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
                         </activityIndicatorView>
                     </subviews>
@@ -80,7 +78,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="r9V-aE-Dje">
-                    <rect key="frame" x="20" y="78" width="280" height="233"/>
+                    <rect key="frame" x="20" y="78" width="280" height="185"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wGI-hJ-Zry">
                             <rect key="frame" x="1" y="10" width="278" height="101"/>
@@ -211,50 +209,17 @@
                                 <action selector="access:" destination="-1" eventType="touchUpInside" id="Xdi-MW-Slf"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vzp-TO-GQH">
-                            <rect key="frame" x="19" y="201" width="50" height="25"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="50" id="9pL-3T-YcC"/>
-                                <constraint firstAttribute="height" constant="25" id="l2L-rG-MQr"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                            <state key="normal" title="SIGN UP">
-                                <color key="titleColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                            <connections>
-                                <action selector="showSignUp:" destination="-1" eventType="touchUpInside" id="8VM-US-kdn"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2yR-hB-ufD">
-                            <rect key="frame" x="167" y="201" width="103" height="26"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="103" id="99Y-ec-fKM"/>
-                                <constraint firstAttribute="height" constant="26" id="gvN-7t-JDo"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                            <state key="normal" title="RESET PASSWORD">
-                                <color key="titleColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="showForgotPassword:" destination="-1" eventType="touchUpInside" id="5SD-aw-8XI"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="Vzp-TO-GQH" firstAttribute="leading" secondItem="r9V-aE-Dje" secondAttribute="leading" constant="19" id="07w-5b-xlb"/>
                         <constraint firstAttribute="trailing" secondItem="wGI-hJ-Zry" secondAttribute="trailing" constant="1" id="4RO-7A-Y6w"/>
                         <constraint firstItem="XYO-zd-sKu" firstAttribute="leading" secondItem="r9V-aE-Dje" secondAttribute="leading" constant="1" id="BMG-7g-F6A"/>
                         <constraint firstItem="QuK-0G-veP" firstAttribute="bottom" secondItem="wGI-hJ-Zry" secondAttribute="bottom" id="Cfd-6r-cpy"/>
-                        <constraint firstItem="2yR-hB-ufD" firstAttribute="top" secondItem="XYO-zd-sKu" secondAttribute="bottom" constant="16" id="Fsa-6u-Xw5"/>
                         <constraint firstAttribute="trailing" secondItem="QuK-0G-veP" secondAttribute="trailing" id="S2X-9Q-ckk"/>
-                        <constraint firstItem="Vzp-TO-GQH" firstAttribute="top" secondItem="XYO-zd-sKu" secondAttribute="bottom" constant="16" id="X7x-GU-5Mp"/>
-                        <constraint firstAttribute="trailing" secondItem="2yR-hB-ufD" secondAttribute="trailing" constant="10" id="aJ1-uN-8QK"/>
                         <constraint firstItem="wGI-hJ-Zry" firstAttribute="top" secondItem="r9V-aE-Dje" secondAttribute="top" constant="10" id="atY-Ee-8bM"/>
+                        <constraint firstAttribute="bottom" secondItem="XYO-zd-sKu" secondAttribute="bottom" id="cCR-sF-vG8"/>
                         <constraint firstItem="wGI-hJ-Zry" firstAttribute="leading" secondItem="r9V-aE-Dje" secondAttribute="leading" constant="1" id="cu2-VU-3Ya"/>
                         <constraint firstItem="QuK-0G-veP" firstAttribute="leading" secondItem="r9V-aE-Dje" secondAttribute="leading" id="ixX-us-pog"/>
-                        <constraint firstAttribute="bottom" secondItem="XYO-zd-sKu" secondAttribute="bottom" constant="48" id="lo1-Rr-MiB"/>
                         <constraint firstAttribute="trailing" secondItem="XYO-zd-sKu" secondAttribute="trailing" constant="1" id="qYO-UX-gIF"/>
                         <constraint firstItem="XYO-zd-sKu" firstAttribute="top" secondItem="wGI-hJ-Zry" secondAttribute="bottom" constant="19" id="uEa-my-NL8"/>
                     </constraints>
@@ -276,6 +241,7 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="418" y="366.5"/>
         </view>
     </objects>
     <resources>

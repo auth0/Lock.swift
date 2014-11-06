@@ -10,6 +10,7 @@
                 <outlet property="dismissButton" destination="uS7-Fm-CsT" id="ZKV-3K-e2r"/>
                 <outlet property="iconContainerView" destination="kvp-f2-bVw" id="qAd-jE-aWa"/>
                 <outlet property="iconImageView" destination="1g1-6A-sZJ" id="WhI-qs-kWL"/>
+                <outlet property="navigationView" destination="9jw-bX-VgA" id="XMU-n2-48r"/>
                 <outlet property="titleLabel" destination="ZbU-sd-IPu" id="Aes-JI-fao"/>
                 <outlet property="view" destination="jWq-Pm-WRM" id="BkF-zK-3nw"/>
             </connections>
@@ -83,21 +84,31 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="EQ5-97-4tm">
-                    <rect key="frame" x="0.0" y="160" width="320" height="393"/>
+                    <rect key="frame" x="0.0" y="160" width="320" height="360"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9jw-bX-VgA" customClass="A0NavigationView">
+                    <rect key="frame" x="20" y="520" width="280" height="48"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="hAM-R5-XXD"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="jhJ-OZ-OpH" secondAttribute="centerX" id="5AR-AO-74a"/>
+                <constraint firstAttribute="bottom" secondItem="9jw-bX-VgA" secondAttribute="bottom" id="8TK-tq-uBT"/>
                 <constraint firstAttribute="trailing" secondItem="EQ5-97-4tm" secondAttribute="trailing" id="HMR-PP-Fvi"/>
                 <constraint firstItem="uS7-Fm-CsT" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" constant="20" id="I6c-dG-gHs"/>
                 <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="800" constant="50" id="ODE-kX-6It"/>
-                <constraint firstAttribute="bottom" secondItem="EQ5-97-4tm" secondAttribute="bottom" constant="15" id="Qbj-50-A9g"/>
                 <constraint firstItem="EQ5-97-4tm" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" id="Vh8-O0-tDf"/>
                 <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="500" constant="30" id="YPc-hg-aIa"/>
+                <constraint firstAttribute="trailing" secondItem="9jw-bX-VgA" secondAttribute="trailing" constant="20" id="cyw-5Y-YGH"/>
+                <constraint firstItem="9jw-bX-VgA" firstAttribute="top" secondItem="EQ5-97-4tm" secondAttribute="bottom" id="jET-dc-OHo"/>
                 <constraint firstItem="EQ5-97-4tm" firstAttribute="top" secondItem="jhJ-OZ-OpH" secondAttribute="bottom" id="oAC-or-EVy"/>
+                <constraint firstItem="9jw-bX-VgA" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" constant="20" id="s4q-Y3-Tc7"/>
                 <constraint firstAttribute="trailing" secondItem="uS7-Fm-CsT" secondAttribute="trailing" constant="10" id="sg9-jX-Vri"/>
             </constraints>
             <connections>

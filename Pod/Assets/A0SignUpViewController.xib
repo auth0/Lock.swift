@@ -6,7 +6,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SignUpViewController">
             <connections>
-                <outlet property="cancelButton" destination="1zr-3b-fiH" id="oCC-B0-FUa"/>
                 <outlet property="credentialBoxView" destination="cls-os-Kzf" id="tl0-Bu-bbt"/>
                 <outlet property="disclaimerView" destination="IhG-Wj-xDi" id="XYm-wL-70m"/>
                 <outlet property="messageLabel" destination="gL1-Ds-LKT" id="5Rp-gY-oak"/>
@@ -18,7 +17,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" id="gRZ-Jn-ZYC">
-            <rect key="frame" x="0.0" y="0.0" width="280" height="311"/>
+            <rect key="frame" x="0.0" y="0.0" width="280" height="260"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BV3-3N-All" customClass="A0ProgressButton">
@@ -34,19 +33,6 @@
                     <state key="disabled" title=" "/>
                     <connections>
                         <action selector="signUp:" destination="-1" eventType="touchUpInside" id="TpT-VF-lx1"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zr-3b-fiH">
-                    <rect key="frame" x="118" y="226" width="44" height="25"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="25" id="5x5-rp-NtX"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
-                    <state key="normal" title="CANCEL">
-                        <color key="titleColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="cancel:" destination="-1" eventType="touchUpInside" id="Zf6-FP-HRM"/>
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your email and password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gL1-Ds-LKT">
@@ -146,7 +132,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IhG-Wj-xDi">
-                    <rect key="frame" x="0.0" y="261" width="280" height="50"/>
+                    <rect key="frame" x="0.0" y="210" width="280" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="yQf-aO-1nk"/>
                     </constraints>
@@ -154,14 +140,12 @@
             </subviews>
             <constraints>
                 <constraint firstItem="IhG-Wj-xDi" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" id="0fG-hx-uLg"/>
+                <constraint firstItem="IhG-Wj-xDi" firstAttribute="top" secondItem="BV3-3N-All" secondAttribute="bottom" id="7x8-Vn-3E8"/>
                 <constraint firstAttribute="trailing" secondItem="cls-os-Kzf" secondAttribute="trailing" constant="21" id="8N6-Dz-kxc"/>
                 <constraint firstItem="BV3-3N-All" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" constant="21" id="McZ-QV-Rmd"/>
-                <constraint firstItem="1zr-3b-fiH" firstAttribute="top" secondItem="BV3-3N-All" secondAttribute="bottom" constant="16" id="Tcr-Xf-VWc"/>
                 <constraint firstAttribute="bottom" secondItem="IhG-Wj-xDi" secondAttribute="bottom" id="YKi-am-Q1b"/>
                 <constraint firstItem="BV3-3N-All" firstAttribute="top" secondItem="cls-os-Kzf" secondAttribute="bottom" constant="18" id="YNm-fO-oh2"/>
                 <constraint firstItem="gL1-Ds-LKT" firstAttribute="top" secondItem="gRZ-Jn-ZYC" secondAttribute="top" constant="10" id="YbM-fA-lZC"/>
-                <constraint firstItem="IhG-Wj-xDi" firstAttribute="top" secondItem="1zr-3b-fiH" secondAttribute="bottom" constant="10" id="b6e-Aw-EHp"/>
-                <constraint firstAttribute="centerX" secondItem="1zr-3b-fiH" secondAttribute="centerX" id="icL-f2-TUW"/>
                 <constraint firstItem="cls-os-Kzf" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" constant="21" id="mTO-9Q-NJr"/>
                 <constraint firstAttribute="trailing" secondItem="IhG-Wj-xDi" secondAttribute="trailing" id="q2s-X5-Vh7"/>
                 <constraint firstAttribute="trailing" secondItem="BV3-3N-All" secondAttribute="trailing" constant="21" id="u9A-9x-E2r"/>

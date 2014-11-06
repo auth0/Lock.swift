@@ -35,6 +35,7 @@
 #import "A0ChangePasswordViewController.h"
 #import "A0ChangePasswordCredentialValidator.h"
 #import "A0AuthParameters.h"
+#import "A0NavigationView.h"
 
 @interface A0TouchIDRegisterViewController ()
 
@@ -53,10 +54,11 @@
     signUpController.onCancelBlock = self.onCancelBlock;
     signUpController.onRegisterBlock = self.onRegisterBlock;
     signUpController.authenticationParameters = self.authenticationParameters;
-    signUpController.onLoginBlock = ^{
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE AN ACCOUNT?") actionBlock:^{
         @strongify(self);
         [self displayController:[self buildLogin]];
-    };
+    }];
     return signUpController;
 }
 
@@ -67,15 +69,16 @@
     controller.showResetPassword = YES;
     controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:YES];
     controller.parameters = self.authenticationParameters;
-    controller.onShowSignUp = ^{
+    controller.onLoginBlock = self.onRegisterBlock;
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         @strongify(self);
         [self displayController:[self buildSignUp]];
-    };
-    controller.onShowForgotPassword = ^{
+    }];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
         @strongify(self);
         [self displayController:[self buildChangePassword]];
-    };
-    controller.onLoginBlock = self.onRegisterBlock;
+    }];
     return controller;
 }
 
@@ -83,15 +86,16 @@
     @weakify(self);
     A0ChangePasswordViewController *controller = [[A0ChangePasswordViewController alloc] init];
     controller.parameters = self.authenticationParameters;
-    controller.onCancelBlock = ^{
-        @strongify(self);
-        [self displayController:[self buildLogin]];
-    };
+    controller.validator = [[A0ChangePasswordCredentialValidator alloc] init];
     controller.onChangePasswordBlock = ^{
         @strongify(self);
         [self displayController:[self buildLogin]];
     };
-    controller.validator = [[A0ChangePasswordCredentialValidator alloc] init];
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
+        @strongify(self);
+        [self displayController:[self buildLogin]];
+    }];
     return controller;
 }
 @end
