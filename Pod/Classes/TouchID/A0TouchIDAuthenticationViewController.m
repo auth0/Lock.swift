@@ -107,7 +107,14 @@
             [keychain setString:profile.userId forKey:@"auth0-userid"];
             NSString *deviceName = [self deviceName];
             self.userClient = [A0UserAPIClient clientWithIdToken:token.idToken];
-            [self.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
+            [self.userClient removePublicKeyOfDevice:deviceName user:profile.userId success:^{
+                @strongify(self);
+                [self.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
+            } failure:^(NSError *error) {
+                @strongify(self);
+                Auth0LogWarn(@"Failed to remove public key. Please check that the user has only one Public key registered.");
+                [self.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
+            }];
         };
         controller.authenticationParameters = self.authenticationParameters;
         [self.navigationController pushViewController:controller animated:YES];

@@ -126,9 +126,26 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                  @"public_key": [[NSString alloc] initWithData:pubKey encoding:NSUTF8StringEncoding],
                                  A0ParameterDevice: deviceName,
                                  };
-    Auth0LogVerbose(@"Registering public key for user %@", userId);
+    Auth0LogVerbose(@"Registering public key for user %@ and device %@", userId, deviceName);
     [self.manager POST:pubKeyPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Registered public key %@", responseObject);
+        if (success) {
+            success();
+        }
+    } failure:[A0UserAPIClient sanitizeFailureBlock:failure]];
+}
+
+- (void)removePublicKeyOfDevice:(NSString *)deviceName
+                           user:(NSString *)userId
+                        success:(void (^)())success
+                        failure:(A0UserAPIClientError)failure {
+    NSString *pubKeyPath = [[NSString stringWithFormat:kUserPublicKeyPath, userId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *parameters = @{
+                                 A0ParameterDevice: deviceName,
+                                 };
+    Auth0LogVerbose(@"Removing public key for user %@ and device %@", userId, deviceName);
+    [self.manager DELETE:pubKeyPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        Auth0LogDebug(@"Removed public key with response %@", responseObject);
         if (success) {
             success();
         }

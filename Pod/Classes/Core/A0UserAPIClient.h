@@ -27,6 +27,9 @@
 typedef void(^A0UserAPIClientUserProfileSuccess)(A0UserProfile *profile);
 typedef void(^A0UserAPIClientError)(NSError *error);
 
+/**
+ `A0UserAPIClient` is a class with convenience methods for Auth0 REST API that needs to be authenticated with a user's accessToken or JWT token.
+ */
 @interface A0UserAPIClient : NSObject
 
 - (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant accessToken:(NSString *)accessToken;
@@ -66,5 +69,18 @@ typedef void(^A0UserAPIClientError)(NSError *error);
                      user:(NSString *)userId
                   success:(void(^)())success
                   failure:(A0UserAPIClientError)failure;
+
+/**
+ *  Removes a RSA public key associated to the user and a specific device.
+ *
+ *  @param deviceName name of the device
+ *  @param userId     id of the user
+ *  @param success    called on successful request
+ *  @param failure    called on failure with the reason as a parameter
+ */
+- (void)removePublicKeyOfDevice:(NSString *)deviceName
+                           user:(NSString *)userId
+                        success:(void(^)())success
+                        failure:(A0UserAPIClientError)failure;
 
 @end
