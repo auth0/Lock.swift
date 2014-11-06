@@ -45,7 +45,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *repeatPasswordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *recoverButton;
@@ -80,6 +79,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
     [theme configureTextField:self.repeatPasswordField.textField];
+    self.userField.textField.text = self.defaultEmail;
 }
 
 - (IBAction)recover:(id)sender {

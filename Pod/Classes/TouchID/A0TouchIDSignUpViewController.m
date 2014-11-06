@@ -43,7 +43,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @interface A0TouchIDSignUpViewController ()
 
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *emailField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -98,7 +97,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                            } failure:^(NSError *error){
                                @strongify(self);
                                [self.signUpButton setInProgress:NO];
-                               showAlertErrorView(A0LocalizedString(@"There was an error signing up"), [A0Errors localizedStringForLoginError:error]);
+                               showAlertErrorView(A0LocalizedString(@"There was an error signing up"), [A0Errors localizedStringForSignUpError:error]);
                            }];
     } else {
         [self.signUpButton setInProgress:NO];

@@ -57,12 +57,14 @@
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:self.onCancelBlock];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE AN ACCOUNT?") actionBlock:^{
         @strongify(self);
-        [self displayController:[self buildLogin]];
+        A0DatabaseLoginViewController *controller = [self buildLogin];
+        controller.defaultUsername = signUpController.emailField.textField.text;
+        [self displayController:controller];
     }];
     return signUpController;
 }
 
-- (UIViewController<A0KeyboardEnabledView> *)buildLogin {
+- (A0DatabaseLoginViewController *)buildLogin {
     @weakify(self);
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.showSignUp = YES;
@@ -77,12 +79,14 @@
     }];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
         @strongify(self);
-        [self displayController:[self buildChangePassword]];
+        A0ChangePasswordViewController *resetController = [self buildChangePassword];
+        resetController.defaultEmail = controller.userField.textField.text;
+        [self displayController:resetController];
     }];
     return controller;
 }
 
-- (UIViewController<A0KeyboardEnabledView> *)buildChangePassword {
+- (A0ChangePasswordViewController *)buildChangePassword {
     @weakify(self);
     A0ChangePasswordViewController *controller = [[A0ChangePasswordViewController alloc] init];
     controller.parameters = self.authenticationParameters;
@@ -94,7 +98,9 @@
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         @strongify(self);
-        [self displayController:[self buildLogin]];
+        A0DatabaseLoginViewController *loginController = [self buildLogin];
+        loginController.defaultUsername = controller.userField.textField.text;
+        [self displayController:loginController];
     }];
     return controller;
 }

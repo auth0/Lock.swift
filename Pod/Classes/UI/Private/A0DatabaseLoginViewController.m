@@ -50,6 +50,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @interface A0DatabaseLoginViewController ()
 
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *accessButton;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
@@ -96,6 +97,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         [self.parameters setValue:self.defaultConnection.name forKey:@"connection"];
     }
     self.userField.textField.placeholder = self.validator.usesEmail ? A0LocalizedString(@"Email") : A0LocalizedString(@"Username");
+    self.userField.textField.text = self.defaultUsername;
 }
 
 - (void)dealloc {

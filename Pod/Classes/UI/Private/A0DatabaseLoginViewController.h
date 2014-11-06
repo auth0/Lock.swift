@@ -28,12 +28,13 @@
 
 @interface A0DatabaseLoginViewController : UIViewController<A0AuthenticationUIComponent>
 
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
+
 @property (copy, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0Connection *defaultConnection;
 @property (assign, nonatomic) BOOL showSignUp;
 @property (assign, nonatomic) BOOL showResetPassword;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
+@property (copy, nonatomic) NSString *defaultUsername;
 
 @property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onShowEnterpriseLogin)(A0Connection *connection, NSString *email);

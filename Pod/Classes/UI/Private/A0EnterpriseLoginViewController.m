@@ -30,7 +30,6 @@
 @interface A0EnterpriseLoginViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
-@property (strong, nonatomic) NSString *defaultUsername;
 
 @end
 
@@ -49,7 +48,7 @@
     if (self) {
         NSArray *parts = [email componentsSeparatedByString:@"@"];
         NSString *localPart = [parts firstObject];
-        _defaultUsername = [localPart copy];
+        self.defaultUsername = [localPart copy];
     }
     return self;
 }
