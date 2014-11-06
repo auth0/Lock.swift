@@ -36,7 +36,7 @@
                     <rect key="frame" x="50" y="50" width="220" height="110"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZbU-sd-IPu">
-                            <rect key="frame" x="83" y="75" width="54" height="29"/>
+                            <rect key="frame" x="83" y="75" width="54" height="28.5"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
                             <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -83,7 +83,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="EQ5-97-4tm">
-                    <rect key="frame" x="20" y="160" width="280" height="393"/>
+                    <rect key="frame" x="0.0" y="160" width="320" height="393"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
@@ -91,11 +91,11 @@
             <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="jhJ-OZ-OpH" secondAttribute="centerX" id="5AR-AO-74a"/>
-                <constraint firstAttribute="trailing" secondItem="EQ5-97-4tm" secondAttribute="trailing" constant="20" id="HMR-PP-Fvi"/>
+                <constraint firstAttribute="trailing" secondItem="EQ5-97-4tm" secondAttribute="trailing" id="HMR-PP-Fvi"/>
                 <constraint firstItem="uS7-Fm-CsT" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" constant="20" id="I6c-dG-gHs"/>
                 <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="800" constant="50" id="ODE-kX-6It"/>
                 <constraint firstAttribute="bottom" secondItem="EQ5-97-4tm" secondAttribute="bottom" constant="15" id="Qbj-50-A9g"/>
-                <constraint firstItem="EQ5-97-4tm" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" constant="20" id="Vh8-O0-tDf"/>
+                <constraint firstItem="EQ5-97-4tm" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" id="Vh8-O0-tDf"/>
                 <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="500" constant="30" id="YPc-hg-aIa"/>
                 <constraint firstItem="EQ5-97-4tm" firstAttribute="top" secondItem="jhJ-OZ-OpH" secondAttribute="bottom" id="oAC-or-EVy"/>
                 <constraint firstAttribute="trailing" secondItem="uS7-Fm-CsT" secondAttribute="trailing" constant="10" id="sg9-jX-Vri"/>

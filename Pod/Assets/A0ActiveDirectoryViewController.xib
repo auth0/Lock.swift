@@ -21,16 +21,16 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="tBH-ah-ruv">
-                    <rect key="frame" x="0.0" y="0.0" width="280" height="198"/>
+                    <rect key="frame" x="20" y="0.0" width="240" height="198"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QwR-a5-XHl">
-                            <rect key="frame" x="1" y="10" width="278" height="101"/>
+                            <rect key="frame" x="1" y="10" width="238" height="101"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xhc-hr-e8e" customClass="A0CredentialFieldView">
-                                    <rect key="frame" x="0.0" y="0.0" width="278" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="238" height="50"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="daj-TK-3fr">
-                                            <rect key="frame" x="42" y="10" width="229" height="30"/>
+                                            <rect key="frame" x="42" y="10" width="189" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                             <connections>
@@ -63,10 +63,10 @@
                                     </connections>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K2g-v6-Djv" customClass="A0CredentialFieldView">
-                                    <rect key="frame" x="0.0" y="51" width="278" height="50"/>
+                                    <rect key="frame" x="0.0" y="51" width="238" height="50"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="chi-h0-T7Q">
-                                            <rect key="frame" x="42" y="10" width="229" height="30"/>
+                                            <rect key="frame" x="42" y="10" width="189" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                             <connections>
@@ -111,10 +111,10 @@
                             </constraints>
                         </view>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NB8-2G-PUO">
-                            <rect key="frame" x="0.0" y="61" width="280" height="50"/>
+                            <rect key="frame" x="0.0" y="61" width="240" height="50"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="lwR-PC-Crw">
-                                    <rect key="frame" x="51" y="18" width="14" height="14"/>
+                                    <rect key="frame" x="31" y="18" width="14" height="14"/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="14" id="ZS2-ZA-UCF"/>
@@ -122,7 +122,7 @@
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SINGLE SIGN-ON ENABLED" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FCS-dZ-MsR">
-                                    <rect key="frame" x="73" y="19" width="134" height="12"/>
+                                    <rect key="frame" x="53" y="19" width="134" height="12"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -138,7 +138,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7TG-l6-EYk" customClass="A0ProgressButton">
-                            <rect key="frame" x="1" y="130" width="278" height="55"/>
+                            <rect key="frame" x="1" y="130" width="238" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="4hF-ca-rgc"/>
                             </constraints>
@@ -171,8 +171,8 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="tBH-ah-ruv" firstAttribute="top" secondItem="fBM-TE-f4G" secondAttribute="top" id="X8F-MW-eQI"/>
-                <constraint firstItem="tBH-ah-ruv" firstAttribute="leading" secondItem="fBM-TE-f4G" secondAttribute="leading" id="ck8-bo-wCX"/>
-                <constraint firstAttribute="trailing" secondItem="tBH-ah-ruv" secondAttribute="trailing" id="hmX-Qh-FEF"/>
+                <constraint firstItem="tBH-ah-ruv" firstAttribute="leading" secondItem="fBM-TE-f4G" secondAttribute="leading" constant="20" id="ck8-bo-wCX"/>
+                <constraint firstAttribute="trailing" secondItem="tBH-ah-ruv" secondAttribute="trailing" constant="20" id="hmX-Qh-FEF"/>
                 <constraint firstAttribute="bottom" secondItem="tBH-ah-ruv" secondAttribute="bottom" id="kEW-oW-dSb"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

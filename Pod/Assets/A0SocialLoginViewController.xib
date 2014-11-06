@@ -16,7 +16,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="HI8-Yt-8Ez">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="350"/>
+                    <rect key="frame" x="20" y="0.0" width="280" height="350"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="ezC-zN-ZRy"/>
@@ -27,8 +27,8 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="HI8-Yt-8Ez" firstAttribute="top" secondItem="C9R-dC-ggy" secondAttribute="top" id="1OI-tv-mOE"/>
-                <constraint firstItem="HI8-Yt-8Ez" firstAttribute="leading" secondItem="C9R-dC-ggy" secondAttribute="leading" id="5J6-ms-1wu"/>
-                <constraint firstAttribute="trailing" secondItem="HI8-Yt-8Ez" secondAttribute="trailing" id="dmq-BE-eve"/>
+                <constraint firstItem="HI8-Yt-8Ez" firstAttribute="leading" secondItem="C9R-dC-ggy" secondAttribute="leading" constant="20" id="5J6-ms-1wu"/>
+                <constraint firstAttribute="trailing" secondItem="HI8-Yt-8Ez" secondAttribute="trailing" constant="20" id="dmq-BE-eve"/>
                 <constraint firstAttribute="bottom" secondItem="HI8-Yt-8Ez" secondAttribute="bottom" id="mdO-ld-EOi"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

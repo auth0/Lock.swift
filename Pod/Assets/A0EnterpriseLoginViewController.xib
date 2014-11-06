@@ -20,16 +20,16 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="236-6Y-uJi">
-                    <rect key="frame" x="0.0" y="0.0" width="280" height="302"/>
+                    <rect key="frame" x="20" y="0.0" width="240" height="302"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wjg-2h-hGz">
-                            <rect key="frame" x="1" y="80" width="278" height="101"/>
+                            <rect key="frame" x="1" y="80" width="238" height="101"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BAY-A3-Jzh" customClass="A0CredentialFieldView">
-                                    <rect key="frame" x="0.0" y="0.0" width="278" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="238" height="50"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gnH-SJ-vuK">
-                                            <rect key="frame" x="42" y="10" width="229" height="30"/>
+                                            <rect key="frame" x="42" y="10" width="189" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                             <connections>
@@ -62,10 +62,10 @@
                                     </connections>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fk8-vm-zOL" customClass="A0CredentialFieldView">
-                                    <rect key="frame" x="0.0" y="51" width="278" height="50"/>
+                                    <rect key="frame" x="0.0" y="51" width="238" height="50"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8qb-ja-Yno">
-                                            <rect key="frame" x="42" y="10" width="229" height="30"/>
+                                            <rect key="frame" x="42" y="10" width="189" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                             <connections>
@@ -110,7 +110,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PmP-V7-sFo" customClass="A0ProgressButton">
-                            <rect key="frame" x="1" y="200" width="278" height="55"/>
+                            <rect key="frame" x="1" y="200" width="238" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="whs-cW-fd3"/>
                             </constraints>
@@ -125,7 +125,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HoW-W8-QTn">
-                            <rect key="frame" x="118" y="271" width="44" height="25"/>
+                            <rect key="frame" x="98" y="271" width="44" height="25"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
                             <state key="normal" title="CANCEL">
                                 <color key="titleColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -135,7 +135,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ar9-GH-byP">
-                            <rect key="frame" x="0.0" y="8" width="280" height="53.5"/>
+                            <rect key="frame" x="0.0" y="8" width="240" height="53.5"/>
                             <attributedString key="attributedText">
                                 <fragment content="Please enter your ">
                                     <attributes>
@@ -184,9 +184,9 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="236-6Y-uJi" secondAttribute="trailing" id="96n-bl-dNd"/>
+                <constraint firstAttribute="trailing" secondItem="236-6Y-uJi" secondAttribute="trailing" constant="20" id="96n-bl-dNd"/>
                 <constraint firstAttribute="bottom" secondItem="236-6Y-uJi" secondAttribute="bottom" id="abc-ZF-Vyy"/>
-                <constraint firstItem="236-6Y-uJi" firstAttribute="leading" secondItem="J5x-aU-ieo" secondAttribute="leading" id="blq-4g-5cH"/>
+                <constraint firstItem="236-6Y-uJi" firstAttribute="leading" secondItem="J5x-aU-ieo" secondAttribute="leading" constant="20" id="blq-4g-5cH"/>
                 <constraint firstItem="236-6Y-uJi" firstAttribute="top" secondItem="J5x-aU-ieo" secondAttribute="top" id="oNd-vJ-nUz"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

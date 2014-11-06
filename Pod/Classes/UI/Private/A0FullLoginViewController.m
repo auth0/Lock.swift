@@ -136,7 +136,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     } else {
         CGFloat cellsWidth = (numberOfCells * 40) + MAX(0, (numberOfCells - 1) * 10);
 
-        NSInteger edgeInsets = (self.view.frame.size.width - cellsWidth) / 2;
+        NSInteger edgeInsets = (self.serviceCollectionView.frame.size.width - cellsWidth) / 2;
 
         insets = UIEdgeInsetsMake(0, edgeInsets, 0, edgeInsets);
     }

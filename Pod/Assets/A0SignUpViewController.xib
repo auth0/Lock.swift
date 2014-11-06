@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BV3-3N-All" customClass="A0ProgressButton">
-                    <rect key="frame" x="1" y="155" width="278" height="55"/>
+                    <rect key="frame" x="21" y="155" width="238" height="55"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="55" id="1Pb-dt-8u6"/>
                     </constraints>
@@ -59,13 +59,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cls-os-Kzf">
-                    <rect key="frame" x="1" y="36" width="278" height="101"/>
+                    <rect key="frame" x="21" y="36" width="238" height="101"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uPM-Ir-6l4" customClass="A0CredentialFieldView">
-                            <rect key="frame" x="0.0" y="0.0" width="278" height="50"/>
+                            <rect key="frame" x="0.0" y="0.0" width="238" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tIl-xc-rd0">
-                                    <rect key="frame" x="42" y="10" width="229" height="30"/>
+                                    <rect key="frame" x="42" y="10" width="189" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                     <connections>
@@ -98,10 +98,10 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R6f-hv-Q3N" customClass="A0CredentialFieldView">
-                            <rect key="frame" x="0.0" y="51" width="278" height="50"/>
+                            <rect key="frame" x="0.0" y="51" width="238" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zve-FO-K8J">
-                                    <rect key="frame" x="42" y="10" width="229" height="30"/>
+                                    <rect key="frame" x="42" y="10" width="189" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                     <connections>
@@ -154,17 +154,17 @@
             </subviews>
             <constraints>
                 <constraint firstItem="IhG-Wj-xDi" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" id="0fG-hx-uLg"/>
-                <constraint firstAttribute="trailing" secondItem="cls-os-Kzf" secondAttribute="trailing" constant="1" id="8N6-Dz-kxc"/>
-                <constraint firstItem="BV3-3N-All" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" constant="1" id="McZ-QV-Rmd"/>
+                <constraint firstAttribute="trailing" secondItem="cls-os-Kzf" secondAttribute="trailing" constant="21" id="8N6-Dz-kxc"/>
+                <constraint firstItem="BV3-3N-All" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" constant="21" id="McZ-QV-Rmd"/>
                 <constraint firstItem="1zr-3b-fiH" firstAttribute="top" secondItem="BV3-3N-All" secondAttribute="bottom" constant="16" id="Tcr-Xf-VWc"/>
                 <constraint firstAttribute="bottom" secondItem="IhG-Wj-xDi" secondAttribute="bottom" id="YKi-am-Q1b"/>
                 <constraint firstItem="BV3-3N-All" firstAttribute="top" secondItem="cls-os-Kzf" secondAttribute="bottom" constant="18" id="YNm-fO-oh2"/>
                 <constraint firstItem="gL1-Ds-LKT" firstAttribute="top" secondItem="gRZ-Jn-ZYC" secondAttribute="top" constant="10" id="YbM-fA-lZC"/>
                 <constraint firstItem="IhG-Wj-xDi" firstAttribute="top" secondItem="1zr-3b-fiH" secondAttribute="bottom" constant="10" id="b6e-Aw-EHp"/>
                 <constraint firstAttribute="centerX" secondItem="1zr-3b-fiH" secondAttribute="centerX" id="icL-f2-TUW"/>
-                <constraint firstItem="cls-os-Kzf" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" constant="1" id="mTO-9Q-NJr"/>
+                <constraint firstItem="cls-os-Kzf" firstAttribute="leading" secondItem="gRZ-Jn-ZYC" secondAttribute="leading" constant="21" id="mTO-9Q-NJr"/>
                 <constraint firstAttribute="trailing" secondItem="IhG-Wj-xDi" secondAttribute="trailing" id="q2s-X5-Vh7"/>
-                <constraint firstAttribute="trailing" secondItem="BV3-3N-All" secondAttribute="trailing" constant="1" id="u9A-9x-E2r"/>
+                <constraint firstAttribute="trailing" secondItem="BV3-3N-All" secondAttribute="trailing" constant="21" id="u9A-9x-E2r"/>
                 <constraint firstItem="cls-os-Kzf" firstAttribute="top" secondItem="gL1-Ds-LKT" secondAttribute="bottom" constant="10" id="yxU-7f-ngJ"/>
                 <constraint firstAttribute="centerX" secondItem="gL1-Ds-LKT" secondAttribute="centerX" id="zMt-cX-ZAA"/>
             </constraints>
