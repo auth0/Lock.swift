@@ -31,12 +31,14 @@
 #import "A0AuthParameters.h"
 #import "A0UserProfile.h"
 #import "A0Token.h"
+#import "A0UserAPIClient.h"
 
 @interface A0TouchIDAuthenticationViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 @property (strong, nonatomic) A0TouchIDAuthentication *authentication;
+@property (strong, nonatomic) A0UserAPIClient *userClient;
 
 @end
 
@@ -101,16 +103,11 @@
         controller.onRegisterBlock = ^(A0UserProfile *profile, A0Token *token) {
             @strongify(self);
             [self.navigationController popViewControllerAnimated:YES];
-            A0APIClient *client = [A0APIClient sharedClient];
             Auth0LogDebug(@"User %@ registered. Uploading public key...", profile.userId);
             [keychain setString:profile.userId forKey:@"auth0-userid"];
             NSString *deviceName = [self deviceName];
-            [client registerPublicKey:pubKey
-                               device:deviceName
-                              forUser:profile.userId
-                              idToken:token.idToken
-                              success:completionBlock
-                              failure:errorBlock];
+            self.userClient = [A0UserAPIClient clientWithIdToken:token.idToken];
+            [self.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
         };
         controller.authenticationParameters = self.authenticationParameters;
         [self.navigationController pushViewController:controller animated:YES];
