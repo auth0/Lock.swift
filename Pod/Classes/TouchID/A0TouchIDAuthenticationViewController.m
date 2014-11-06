@@ -66,6 +66,7 @@
     [super viewDidLoad];
     @weakify(self);
 
+    NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
     self.navigationController.navigationBarHidden = YES;
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;

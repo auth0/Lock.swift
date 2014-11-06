@@ -24,6 +24,10 @@
 
 @class A0UserProfile, A0Token, A0AuthParameters;
 
+/**
+ *  Controller used to start passwordless authentication with TouchID.
+ *  Must be displayed inside a UINavigationController.
+ */
 @interface A0TouchIDAuthenticationViewController : UIViewController
 
 /**
