@@ -7,6 +7,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0TouchIDAuthenticationViewController">
             <connections>
                 <outlet property="closeButton" destination="cvj-On-Dtc" id="IAc-7I-SiD"/>
+                <outlet property="iconContainerView" destination="SSv-RX-3gR" id="s6s-L1-jp8"/>
+                <outlet property="iconImageView" destination="UO4-bD-OQ4" id="efM-zr-o6a"/>
                 <outlet property="loadingView" destination="JUM-s6-89B" id="pxR-I1-y5W"/>
                 <outlet property="touchIDButton" destination="OPV-4k-Yhd" id="CMz-6o-Lut"/>
                 <outlet property="touchIDView" destination="40u-FA-4Nw" id="qWp-Qm-4b7"/>
@@ -68,14 +70,15 @@
                         <constraint firstAttribute="centerY" secondItem="SSv-RX-3gR" secondAttribute="centerY" constant="20" id="maT-m2-D6V"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-On-Dtc">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-On-Dtc">
                     <rect key="frame" x="555" y="25" width="30" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="DW4-7E-jzo"/>
                         <constraint firstAttribute="width" constant="30" id="XUV-3u-1mP"/>
                     </constraints>
+                    <color key="tintColor" red="0.29803921568627451" green="0.29803921568627451" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" image="Auth0.bundle/close">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.81568627450980391" green="0.82352941176470584" blue="0.82745098039215681" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="close:" destination="-1" eventType="touchUpInside" id="bhG-12-ZJY"/>
@@ -85,7 +88,7 @@
                     <rect key="frame" x="50" y="215" width="500" height="335"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OPV-4k-Yhd">
-                            <rect key="frame" x="200" y="97.5" width="100" height="100"/>
+                            <rect key="frame" x="200" y="97" width="100" height="100"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="100" id="KYq-Ds-DQ5"/>
                                 <constraint firstAttribute="width" constant="100" id="xrV-kF-5SP"/>
@@ -97,7 +100,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap above to get started" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ZQ-b2-BUM">
-                            <rect key="frame" x="171" y="217.5" width="157.5" height="17"/>
+                            <rect key="frame" x="171" y="217" width="157.5" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.29803921568627451" green="0.29803921568627451" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>

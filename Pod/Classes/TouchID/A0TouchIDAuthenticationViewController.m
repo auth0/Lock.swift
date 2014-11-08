@@ -32,10 +32,12 @@
 #import "A0UserProfile.h"
 #import "A0Token.h"
 #import "A0UserAPIClient.h"
-#import <CoreGraphics/CoreGraphics.h>
+#import "A0Theme.h"
 
 @interface A0TouchIDAuthenticationViewController ()
 
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+@property (weak, nonatomic) IBOutlet UIView *iconContainerView;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
 @property (weak, nonatomic) IBOutlet UIView *touchIDView;
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
@@ -68,9 +70,12 @@
 
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
     self.navigationController.navigationBarHidden = YES;
+    A0Theme *theme = [A0Theme sharedInstance];
+    self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor defaultColor:self.view.backgroundColor];
+    self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor defaultColor:self.iconContainerView.backgroundColor];
+    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName defaultImage:self.iconImageView.image];
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
-    self.touchIDButton.tintColor = [UIColor blackColor];
 
     self.authentication = [[A0TouchIDAuthentication alloc] init];
     self.authentication.onError = ^(NSError *error) {
