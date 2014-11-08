@@ -44,7 +44,7 @@ PODS:
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
-    - TouchIDAuth
+    - TouchIDAuth (~> 0.1)
   - Auth0.iOS/Twitter (1.2.0):
     - Auth0.iOS/Core
     - BDBOAuth1Manager (~> 1.3)
@@ -136,17 +136,14 @@ DEPENDENCIES:
   - OCMockito
   - SimpleKeychain
   - Specta (~> 0.2.1)
-  - TouchIDAuth (from `/Users/hernan/Projects/Auth0/TouchIDAuth`)
 
 EXTERNAL SOURCES:
   Auth0.iOS:
     :path: ../../
-  TouchIDAuth:
-    :path: /Users/hernan/Projects/Auth0/TouchIDAuth
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  Auth0.iOS: 42303ed183d99b52b0732d38f215b0b59342d7d6
+  Auth0.iOS: 99711c8003f2639a8b3fb524874b8e21563dbb42
   BDBOAuth1Manager: 0625ba20bd7d36461bbf6dc3d29276b5932b7409
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
@@ -164,7 +161,7 @@ SPEC CHECKSUMS:
   PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
   SimpleKeychain: f7c55140169037f7540c949b25da53096036b231
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
-  TouchIDAuth: 664bb22ed3d1eb1367f086cdf9696c9caf35cb82
+  TouchIDAuth: 4a104cd6a614e63c23fad6e6446bf79b6cc6f429
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
 
 COCOAPODS: 0.34.4
