@@ -1,4 +1,4 @@
-// A0ViewController.h
+// A0HomeViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,16 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@interface A0ViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *idTokenLabel;
-@property (weak, nonatomic) IBOutlet UILabel *refreshTokenLabel;
-@property (weak, nonatomic) IBOutlet UILabel *expiresLabel;
-@property (weak, nonatomic) IBOutlet UIButton *refreshButton;
+@interface A0HomeViewController : UIViewController
 
-- (IBAction)refreshSession:(id)sender;
-- (IBAction)clearSession:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
+@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
+
+- (IBAction)loginNative:(id)sender;
+- (IBAction)loginTouchID:(id)sender;
 
 @end

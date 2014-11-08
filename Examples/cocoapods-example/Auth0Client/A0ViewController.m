@@ -30,7 +30,6 @@
 
 @interface A0ViewController ()
 
-@property (strong, nonatomic) A0UserProfile *authInfo;
 @property (strong, nonatomic) A0SimpleKeychain *keychain;
 
 @end
@@ -39,72 +38,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
-                                                                            andSecret:@""];
-    A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
-    [[A0IdentityProviderAuthenticator sharedInstance] registerAuthenticationProviders:@[
-                                                                                        twitter,
-                                                                                        facebook,
-                                                                                        ]];
-
-
     self.keychain = [A0SimpleKeychain keychainWithService:@"Auth0"];
-    @weakify(self);
-    NSString* refreshToken = [self.keychain stringForKey: @"refresh_token"];
-    if (refreshToken) {
-        [[A0APIClient sharedClient] fetchNewIdTokenWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
-            @strongify(self);
-            [self.keychain setString:token.idToken forKey:@"id_token"];
-            [self loadSessionInfoWithToken:[[A0Token alloc] initWithAccessToken:token.accessToken idToken:token.idToken tokenType:token.tokenType refreshToken:refreshToken]];
-        } failure:^(NSError *error) {
-            @strongify(self);
-            [self.keychain clearAll];
-            [self clearSessionInfo];
-        }];
-    }
-}
-
-- (void)signIn:(id)sender {
-    [self clearSession:nil];
-    A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
-    @weakify(self);
-    controller.closable = YES;
-    controller.loginAfterSignUp = YES;
-    controller.usesEmail = YES;
-    controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
-        NSLog(@"SUCCESS %@", profile);
-        @strongify(self);
-        self.authInfo = profile;
-        [self.keychain setString:token.idToken forKey:@"id_token"];
-        [self.keychain setString:token.refreshToken forKey:@"refresh_token"];
-        [self.keychain setData:[NSKeyedArchiver archivedDataWithRootObject:profile] forKey:@"profile"];
-        [self loadSessionInfoWithToken:token];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    };
-    [self presentViewController:controller animated:YES completion:nil];
-}
-
-- (void)touchID:(id)sender {
-    [self clearSession:nil];
-    A0TouchIDAuthenticationViewController *controller = [[A0TouchIDAuthenticationViewController alloc] init];
-    controller.closable = YES;
-    @weakify(self);
-    controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
-        NSLog(@"SUCCESS %@", profile);
-        @strongify(self);
-        self.authInfo = profile;
-        [self.keychain setString:token.idToken forKey:@"id_token"];
-        [self.keychain setString:token.refreshToken forKey:@"refresh_token"];
-        [self.keychain setData:[NSKeyedArchiver archivedDataWithRootObject:profile] forKey:@"profile"];
-        [self loadSessionInfoWithToken:token];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    };
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-    [self presentViewController:navController animated:YES completion:nil];
-}
-
-- (IBAction)showProfileInfo:(id)sender {
-    [self performSegueWithIdentifier:@"ShowInfo" sender:self];
+    NSString* token = [self.keychain stringForKey: @"id_token"];
+    [self loadSessionInfoWithToken:token];
 }
 
 - (IBAction)refreshSession:(id)sender {
@@ -113,51 +49,36 @@
     [[A0APIClient sharedClient] fetchNewIdTokenWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
         @strongify(self);
         [self.keychain setString:token.idToken forKey:@"id_token"];
-        [self loadSessionInfoWithToken:[[A0Token alloc] initWithAccessToken:token.accessToken idToken:token.idToken tokenType:token.tokenType refreshToken:refreshToken]];
+        [self loadSessionInfoWithToken:token.idToken];
     } failure:^(NSError *error) {
         @strongify(self);
         [self.keychain clearAll];
-        [self clearSessionInfo];
     }];
 }
 
 - (IBAction)clearSession:(id)sender {
     [self.keychain clearAll];
-    [self clearSessionInfo];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"ShowInfo"]) {
         A0UserProfileViewController *controller = segue.destinationViewController;
-        controller.authInfo = self.authInfo;
+        controller.authInfo = [NSKeyedUnarchiver unarchiveObjectWithData:[self.keychain dataForKey:@"profile"]];
     }
 }
 
-- (void)clearSessionInfo {
-    self.signInButton.enabled = YES;
-    self.touchIDButton.enabled = YES;
-    self.refreshButton.enabled = NO;
-    self.showProfileButton.enabled = NO;
-    self.idTokenLabel.text = nil;
-    self.expiresLabel.text = nil;
-    self.refreshTokenLabel.text = nil;
-    self.welcomeLabel.text = @"No Session found";
-}
-
-- (void)loadSessionInfoWithToken:(A0Token *)token {
-    A0UserProfile *profile = [NSKeyedUnarchiver unarchiveObjectWithData:[self.keychain dataForKey:@"profile"]];;
-    self.authInfo = profile;
+- (void)loadSessionInfoWithToken:(NSString *)token {
+    A0UserProfile *profile = [NSKeyedUnarchiver unarchiveObjectWithData:[self.keychain dataForKey:@"profile"]];
     self.refreshButton.enabled = YES;
-    self.showProfileButton.enabled = YES;
-    self.idTokenLabel.text = token.idToken;
+    NSString* refreshToken = [self.keychain stringForKey: @"refresh_token"];
+    self.idTokenLabel.text = token;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateStyle = NSDateFormatterShortStyle;
     formatter.timeStyle = NSDateFormatterShortStyle;
-    self.expiresLabel.text = [formatter stringFromDate:[A0JWTDecoder expireDateOfJWT:token.idToken error:nil]];
-    self.refreshTokenLabel.text = token.refreshToken;
-    self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", profile.name];
-    self.signInButton.enabled = NO;
-    self.touchIDButton.enabled = NO;
+    self.expiresLabel.text = [formatter stringFromDate:[A0JWTDecoder expireDateOfJWT:token error:nil]];
+    self.refreshTokenLabel.text = refreshToken;
+    self.welcomeLabel.text = profile.name;
 }
 
 @end

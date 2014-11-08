@@ -21,6 +21,7 @@
 		5F7112E519D5C18B001971BE /* A0AuthParametersSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */; };
 		5F91E66E19E32C48003150DF /* A0ConnectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */; };
 		5F92E92419D49F7400080CCE /* A0WebAuthenticationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F92E92319D49F7400080CCE /* A0WebAuthenticationSpec.m */; };
+		5F951A981A0EC7D600D128D0 /* A0HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */; };
 		5F9F5B6419AF8FBD0021068C /* A0UserProfileSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6319AF8FBD0021068C /* A0UserProfileSpec.m */; };
 		5F9F5B6619AF9A8D0021068C /* A0TokenSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6519AF9A8D0021068C /* A0TokenSpec.m */; };
 		5F9F5B6819AF9D8E0021068C /* A0StrategySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */; };
@@ -67,6 +68,8 @@
 		5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0AuthParametersSpec.m; sourceTree = "<group>"; };
 		5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ConnectionSpec.m; sourceTree = "<group>"; };
 		5F92E92319D49F7400080CCE /* A0WebAuthenticationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0WebAuthenticationSpec.m; sourceTree = "<group>"; };
+		5F951A961A0EC7D600D128D0 /* A0HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0HomeViewController.h; sourceTree = "<group>"; };
+		5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0HomeViewController.m; sourceTree = "<group>"; };
 		5F9F5B6319AF8FBD0021068C /* A0UserProfileSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileSpec.m; sourceTree = "<group>"; };
 		5F9F5B6519AF9A8D0021068C /* A0TokenSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0TokenSpec.m; sourceTree = "<group>"; };
 		5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0StrategySpec.m; sourceTree = "<group>"; };
@@ -188,6 +191,8 @@
 				6003F594195388D20070C39A /* Supporting Files */,
 				5F15815C196A3682003C4DD2 /* A0UserProfileViewController.h */,
 				5F15815D196A3682003C4DD2 /* A0UserProfileViewController.m */,
+				5F951A961A0EC7D600D128D0 /* A0HomeViewController.h */,
+				5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */,
 			);
 			path = Auth0Client;
 			sourceTree = "<group>";
@@ -432,6 +437,7 @@
 				6003F59E195388D20070C39A /* A0AppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* A0ViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				5F951A981A0EC7D600D128D0 /* A0HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
