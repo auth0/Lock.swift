@@ -318,7 +318,12 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                    success:(A0APIClientNewDelegationTokenSuccess)success
                                    failure:(A0APIClientError)failure {
     NSAssert(parameters != nil, @"Delegated Authentication parameters must be non-nil!");
-    NSDictionary *payload = [parameters asAPIPayload];
+    A0AuthParameters *defaultParamters = [A0AuthParameters newWithDictionary:@{
+                                                                               kClientIdParamName: self.clientId,
+                                                                               kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                               }];
+    [defaultParamters addValuesFromParameters:parameters];
+    NSDictionary *payload = [defaultParamters asAPIPayload];
     Auth0LogVerbose(@"Calling delegate authentication with params %@", parameters);
     [self.manager POST:kDelegationAuthPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Delegation successful params %@", parameters);
