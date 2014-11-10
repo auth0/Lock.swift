@@ -39,6 +39,9 @@
 
 @interface A0TouchIDRegisterViewController ()
 
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+@property (weak, nonatomic) IBOutlet UIView *iconContainerView;
+
 @end
 
 @implementation A0TouchIDRegisterViewController
@@ -46,6 +49,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self displayController:[self buildSignUp]];
+    A0Theme *theme = [A0Theme sharedInstance];
+    self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor defaultColor:self.view.backgroundColor];
+    self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor defaultColor:self.iconContainerView.backgroundColor];
+    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName defaultImage:self.iconImageView.image];
 }
 
 - (UIViewController<A0KeyboardEnabledView> *)buildSignUp {

@@ -296,7 +296,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r0L-ln-O2G">
                                         <rect key="frame" x="252" y="141.5" width="19" height="19"/>
-                                        <color key="tintColor" red="0.086274509799999996" green="0.12941176469999999" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="0.082352941176470587" green="0.12549019607843137" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" image="refresh-btn"/>
                                         <connections>
                                             <action selector="refreshSession:" destination="NZd-Ea-7s8" eventType="touchUpInside" id="4GY-0S-OgQ"/>

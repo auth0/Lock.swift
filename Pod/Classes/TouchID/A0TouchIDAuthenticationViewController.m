@@ -76,6 +76,12 @@
     self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName defaultImage:self.iconImageView.image];
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
+    if (self.touchIDImageName) {
+        [self.touchIDButton setImage:[UIImage imageNamed:self.touchIDImageName] forState:UIControlStateNormal];
+    }
+    if (self.touchIDImageHighlighted) {
+        [self.touchIDButton setImage:[UIImage imageNamed:self.touchIDImageHighlighted] forState:UIControlStateNormal];
+    }
 
     self.authentication = [[A0TouchIDAuthentication alloc] init];
     self.authentication.onError = ^(NSError *error) {
