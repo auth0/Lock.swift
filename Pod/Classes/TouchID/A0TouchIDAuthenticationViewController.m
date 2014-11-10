@@ -121,6 +121,8 @@
             @strongify(self);
             [self.authentication reset];
             [self.navigationController popViewControllerAnimated:YES];
+            self.touchIDView.hidden = NO;
+            self.loadingView.hidden = YES;
         };
         controller.onRegisterBlock = ^(A0UserProfile *profile, A0Token *token) {
             @strongify(self);
