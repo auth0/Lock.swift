@@ -45,15 +45,12 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *repeatPasswordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *recoverButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
-
 - (IBAction)recover:(id)sender;
-- (IBAction)cancel:(id)sender;
 - (IBAction)goToPasswordField:(id)sender;
 - (IBAction)goToRepeatPasswordField:(id)sender;
 
@@ -82,6 +79,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
     [theme configureTextField:self.repeatPasswordField.textField];
+    self.userField.textField.text = self.defaultEmail;
 }
 
 - (IBAction)recover:(id)sender {
@@ -117,12 +115,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
     }
     [self updateUIWithError:error];
-}
-
-- (IBAction)cancel:(id)sender {
-    if (self.onCancelBlock) {
-        self.onCancelBlock();
-    }
 }
 
 - (IBAction)goToPasswordField:(id)sender {

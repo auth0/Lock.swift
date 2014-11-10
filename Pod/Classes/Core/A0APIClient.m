@@ -34,6 +34,7 @@
 
 #import <AFNetworking/AFNetworking.h>
 #import <libextobjc/EXTScope.h>
+#import "A0UserAPIClient.h"
 
 #define kClientIdKey @"Auth0ClientId"
 #define kTenantKey @"Auth0Tenant"
@@ -42,15 +43,11 @@
 
 #define kLoginPath @"/oauth/ro"
 #define kSignUpPath @"/dbconnections/signup"
-#define kUserInfoPath @"/userinfo"
 #define kTokenInfoPath @"/tokeninfo"
 #define kChangePasswordPath @"/dbconnections/change_password"
 #define kSocialAuthPath @"/oauth/access_token"
 #define kDelegationAuthPath @"/delegation"
 #define kUnlinkAccountPath @"/unlink"
-
-#define kAuthorizationHeaderName @"Authorization"
-#define kAuthorizationHeaderValueFormatString @"Bearer %@"
 
 #define kClientIdParamName @"client_id"
 #define kUsernameParamName @"username"
@@ -73,6 +70,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 @property (strong, nonatomic) NSString *tenant;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
 @property (strong, nonatomic) A0Application *application;
+@property (strong, nonatomic) A0UserAPIClient *userClient;
 
 @end
 
@@ -96,6 +94,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 }
 
 - (void)logout {
+    self.userClient = nil;
 }
 
 + (instancetype)sharedClient {
@@ -223,6 +222,27 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     }
 }
 
+- (void)loginWithIdToken:(NSString *)idToken deviceName:(NSString *)deviceName parameters:(A0AuthParameters *)parameters success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
+    A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
+                                                                                kIdTokenParamName: idToken,
+                                                                                kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                                kClientIdParamName: self.clientId,
+                                                                                }];
+    [self addDatabaseConnectionNameToParams:defaultParameters];
+    [defaultParameters addValuesFromParameters:parameters];
+    defaultParameters.device = deviceName;
+    Auth0LogVerbose(@"Starting Login with JWT %@", defaultParameters);
+    if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
+        @weakify(self);
+        NSDictionary *payload = [defaultParameters asAPIPayload];
+        [self.manager POST:kLoginPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            @strongify(self);
+            Auth0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
+            [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
+        } failure:[A0APIClient sanitizeFailureBlock:failure]];
+    }
+}
+
 #pragma mark - Social Authentication
 
 - (void)authenticateWithSocialConnectionName:(NSString *)connectionName
@@ -326,26 +346,6 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
-- (void)fetchUserProfileWithAccessToken:(NSString *)accessToken
-                                success:(A0APIClientUserProfileSuccess)success
-                                failure:(A0APIClientError)failure {
-    NSURL *connectionURL = [NSURL URLWithString:kUserInfoPath relativeToURL:self.manager.baseURL];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:connectionURL];
-    NSString *authorizationHeader = [NSString stringWithFormat:kAuthorizationHeaderValueFormatString, accessToken];
-    [request setValue:authorizationHeader forHTTPHeaderField:kAuthorizationHeaderName];
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    operation.responseSerializer = [AFJSONResponseSerializer serializer];
-    Auth0LogVerbose(@"Fetching User Profile from access token %@", accessToken);
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        Auth0LogDebug(@"Obtained user profile %@", responseObject);
-        if (success) {
-            A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
-            success(profile);
-        }
-    } failure:[A0APIClient sanitizeFailureBlock:failure]];
-    [operation start];
-}
-
 #pragma mark - Account Linking
 
 - (void)unlinkAccountWithUserId:(NSString *)userId
@@ -373,7 +373,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 - (void)fetchUserInfoWithTokenInfo:(NSDictionary *)tokenInfo success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
     A0Token *token = [[A0Token alloc] initWithDictionary:tokenInfo];
-    [self fetchUserProfileWithAccessToken:token.accessToken success:^(A0UserProfile *profile) {
+    [self fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
         if (success) {
             success(profile, token);
         }
@@ -458,6 +458,14 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
             success([[A0Token alloc] initWithDictionary:tokenInfo]);
         }
     } failure:failure];
+}
+
+- (void)fetchUserProfileWithAccessToken:(NSString *)accessToken
+                                success:(A0APIClientUserProfileSuccess)success
+                                failure:(A0APIClientError)failure {
+    A0UserAPIClient *client = [A0UserAPIClient clientWithAccessToken:accessToken];
+    [client fetchUserProfileSuccess:success failure:failure];
+    self.userClient = client;
 }
 
 @end

@@ -24,6 +24,7 @@
 #define _AUTH0_IOS_SDK_CORE_
 
 #import "A0APIClient.h"
+#import "A0UserAPIClient.h"
 #import "A0Application.h"
 #import "A0Errors.h"
 #import "A0Token.h"

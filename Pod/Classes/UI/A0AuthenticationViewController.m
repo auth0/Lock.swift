@@ -47,17 +47,14 @@
 
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
+#import "A0NavigationView.h"
 
 @interface A0AuthenticationViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UIView *iconContainerView;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 
-@property (strong, nonatomic) UIViewController<A0KeyboardEnabledView> *current;
-@property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
 @property (strong, nonatomic) A0Application *application;
 
 - (IBAction)dismiss:(id)sender;
@@ -85,13 +82,10 @@
 
     A0Theme *theme = [A0Theme sharedInstance];
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor defaultColor:self.view.backgroundColor];
-    self.titleLabel.font = [theme fontForKey:A0ThemeTitleFont defaultFont:self.titleLabel.font];
-    self.titleLabel.textColor = [theme colorForKey:A0ThemeTitleTextColor defaultColor:self.titleLabel.textColor];
     self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor defaultColor:self.iconContainerView.backgroundColor];
     self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName defaultImage:self.iconImageView.image];
 
-    self.keyboardHandler = [[A0KeyboardHandler alloc] init];
-    self.current = [self layoutController:[[A0LoadingViewController alloc] init] inContainer:self.containerView];
+    [self displayController:[[A0LoadingViewController alloc] init]];
 
     self.dismissButton.hidden = !self.closable;
 
@@ -106,16 +100,6 @@
     } failure:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.keyboardHandler start];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [self.keyboardHandler stop];
-}
-
 - (BOOL)shouldAutorotate {
     return NO;
 }
@@ -128,7 +112,11 @@
 }
 
 - (IBAction)hideKeyboard:(id)sender {
-    [self.current hideKeyboard];
+    UIViewController *controller = self.childViewControllers.firstObject;
+    if ([controller conformsToProtocol:@protocol(A0KeyboardEnabledView)]) {
+        id<A0KeyboardEnabledView> current = (id<A0KeyboardEnabledView>)controller;
+        [current hideKeyboard];
+    }
 }
 
 #pragma mark - Container methods
@@ -150,6 +138,7 @@
     A0Strategy *database = application.databaseStrategy;
     A0Strategy *ad = application.activeDirectoryStrategy;
     A0Connection *connection = database.connections.firstObject;
+    [self.navigationView removeAll];
     if ((hasDB && hasSocial) || (hasSocial && hasEnterprise && !hasAD)) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.application = application;
@@ -188,57 +177,13 @@
         rootController = controller;
     }
     rootController.parameters = [self copyAuthenticationParameters];
-    self.current = [self layoutController:rootController inContainer:self.containerView];
-}
-
-- (UIViewController<A0KeyboardEnabledView> *)layoutController:(UIViewController<A0KeyboardEnabledView> *)controller inContainer:(UIView *)containerView {
-    controller.view.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.keyboardHandler handleForView:controller inView:self.view];
-    [self.current willMoveToParentViewController:nil];
-    [self addChildViewController:controller];
-    [self layoutAuthView:controller.view centeredInContainerView:containerView];
-    [self animateFromViewController:self.current toViewController:controller];
-    return controller;
-}
-
-- (void)layoutAuthView:(UIView *)authView centeredInContainerView:(UIView *)containerView {
-    containerView.translatesAutoresizingMaskIntoConstraints = NO;
-    [containerView addSubview:authView];
-    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView
-                                                              attribute:NSLayoutAttributeCenterX
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:authView
-                                                              attribute:NSLayoutAttributeCenterX
-                                                             multiplier:1.0f
-                                                               constant:0.0f]];
-    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView
-                                                              attribute:NSLayoutAttributeCenterY
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:authView
-                                                              attribute:NSLayoutAttributeCenterY
-                                                             multiplier:1.0f
-                                                               constant:0.0f]];
-    NSDictionary *views = NSDictionaryOfVariableBindings(authView);
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[authView]|" options:0 metrics:nil views:views]];
-}
-
-- (void)animateFromViewController:(UIViewController *)from toViewController:(UIViewController *)to {
-    to.view.alpha = 0.0f;
-    from.view.alpha = 0.0f;
-    [UIView animateWithDuration:0.3f animations:^{
-        to.view.alpha = 1.0f;
-        self.titleLabel.text = to.title;
-    } completion:^(BOOL finished) {
-        [from.view removeFromSuperview];
-        [from removeFromParentViewController];
-        [to didMoveToParentViewController:self];
-    }];
+    [self displayController:rootController];
 }
 
 - (A0SocialLoginViewController *)newSocialLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
     A0SocialLoginViewController *controller = [[A0SocialLoginViewController alloc] init];
     controller.onLoginBlock = success;
+    [self.navigationView removeAll];
     return controller;
 }
 
@@ -247,21 +192,22 @@
     A0FullLoginViewController *controller = [[A0FullLoginViewController alloc] init];
     controller.onLoginBlock = success;
     controller.parameters = [self copyAuthenticationParameters];
-    controller.onShowSignUp = ^ {
-        @strongify(self);
-        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
-        self.current = [self layoutController:controller inContainer:self.containerView];
-    };
-    controller.onShowForgotPassword = ^ {
-        @strongify(self);
-        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
-        self.current = [self layoutController:controller inContainer:self.containerView];
-    };
     controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
         @strongify(self);
         A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
-        self.current = [self layoutController:controller inContainer:self.containerView];
+        [self displayController:controller];
     };
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:^{
+        @strongify(self);
+        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
+        [self displayController:controller];
+    }];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
+        @strongify(self);
+        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
+        [self displayController:controller];
+    }];
     return controller;
 }
 
@@ -269,6 +215,7 @@
     A0FullActiveDirectoryViewController *controller = [[A0FullActiveDirectoryViewController alloc] init];
     controller.onLoginBlock = success;
     controller.parameters = [self copyAuthenticationParameters];
+    [self.navigationView removeAll];
     return controller;
 }
 
@@ -277,21 +224,22 @@
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.onLoginBlock = success;
     controller.parameters = [self copyAuthenticationParameters];
-    controller.onShowSignUp = ^ {
-        @strongify(self);
-        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
-        self.current = [self layoutController:controller inContainer:self.containerView];
-    };
-    controller.onShowForgotPassword = ^ {
-        @strongify(self);
-        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
-        self.current = [self layoutController:controller inContainer:self.containerView];
-    };
     controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
         @strongify(self);
         A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
-        self.current = [self layoutController:controller inContainer:self.containerView];
+        [self displayController:controller];
     };
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:^{
+        @strongify(self);
+        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
+        [self displayController:controller];
+    }];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
+        @strongify(self);
+        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
+        [self displayController:controller];
+    }];
     return controller;
 }
 
@@ -299,6 +247,7 @@
     A0ActiveDirectoryViewController *controller = [[A0ActiveDirectoryViewController alloc] init];
     controller.onLoginBlock = success;
     controller.parameters = [self copyAuthenticationParameters];
+    [self.navigationView removeAll];
     return controller;
 }
 
@@ -315,15 +264,16 @@
     controller.onLoginBlock = success;
     controller.connection = connection;
     controller.parameters = [self copyAuthenticationParameters];
-    controller.onShowForgotPassword = ^ {
-        @strongify(self);
-        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
-        self.current = [self layoutController:controller inContainer:self.containerView];
-    };
-    controller.onCancel= ^{
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         @strongify(self);
         [self layoutRootControllerForApplication:self.application];
-    };
+    }];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
+        @strongify(self);
+        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
+        [self displayController:controller];
+    }];
     return controller;
 }
 
@@ -336,11 +286,12 @@
     if (self.signUpDisclaimerView) {
         [controller addDisclaimerSubview:self.signUpDisclaimerView];
     }
-    controller.onCancelBlock = ^{
+    controller.onSignUpBlock = success;
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         @strongify(self);
         [self layoutRootControllerForApplication:self.application];
-    };
-    controller.onSignUpBlock = success;
+    }];
     return controller;
 }
 
@@ -353,8 +304,9 @@
         @strongify(self);
         [self layoutRootControllerForApplication:self.application];
     };
-    controller.onCancelBlock = block;
     controller.onChangePasswordBlock = block;
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:block];
     return controller;
 }
 

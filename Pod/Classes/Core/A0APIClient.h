@@ -135,6 +135,23 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
                success:(void(^)())success
                failure:(A0APIClientError)failure;
 
+
+/**
+ *  Authenticates with a Database Connection using a signed JWT token.
+ *  In order to use this method, a valid PublicKey must be registered for a user.
+ *
+ *  @param idToken    signed JWT token
+ *  @param deviceName name of the device that signed the JWT. Must be URL safe and non nil.
+ *  @param parameters optional parameters for Auth0 API. It can be nil
+ *  @param success    block called on successful login with it's token info and profile
+ *  @param failure    block called on failure with the reason as a parameter
+ */
+- (void)loginWithIdToken:(NSString *)idToken
+              deviceName:(NSString *)deviceName
+              parameters:(A0AuthParameters *)parameters
+                 success:(A0APIClientAuthenticationSuccess)success
+                 failure:(A0APIClientError)failure;
+
 ///----------------------------------------
 /// @name Social Authentication
 ///----------------------------------------
@@ -215,17 +232,6 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
                             success:(A0APIClientUserProfileSuccess)success
                             failure:(A0APIClientError)failure;
 
-/**
- *  Obtains the user's profile information from Auth0 using Auth0's API accessToken
- *
- *  @param accessToken user's access_token
- *  @param success     block called on successful request with user's profile
- *  @param failure     block called on failure with the reason as a parameter
- */
-- (void)fetchUserProfileWithAccessToken:(NSString *)accessToken
-                                success:(A0APIClientUserProfileSuccess)success
-                                failure:(A0APIClientError)failure;
-
 ///----------------------------------------
 /// @name Link Account
 ///----------------------------------------
@@ -279,5 +285,20 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
                    parameters:(A0AuthParameters *)parameters
                       success:(A0APIClientDelegationSuccess)success
                       failure:(A0APIClientError)failure __attribute__((deprecated));
+
+/**
+ *  Obtains the user's profile information from Auth0 using Auth0's API accessToken
+ *
+ *  This method is deprecated, please use `A0UserAPIClient` to perform user authenticated request either with accessToken or JWT token.
+ *  @param accessToken user's access_token
+ *  @param success     block called on successful request with user's profile
+ *  @param failure     block called on failure with the reason as a parameter
+ *
+ *  @see A0UserAPIClient
+ *  @deprecated 1.3.0
+ */
+- (void)fetchUserProfileWithAccessToken:(NSString *)accessToken
+                                success:(A0APIClientUserProfileSuccess)success
+                                failure:(A0APIClientError)failure __attribute__((deprecated));
 
 @end

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0AuthenticationViewController">
@@ -10,6 +10,7 @@
                 <outlet property="dismissButton" destination="uS7-Fm-CsT" id="ZKV-3K-e2r"/>
                 <outlet property="iconContainerView" destination="kvp-f2-bVw" id="qAd-jE-aWa"/>
                 <outlet property="iconImageView" destination="1g1-6A-sZJ" id="WhI-qs-kWL"/>
+                <outlet property="navigationView" destination="9jw-bX-VgA" id="XMU-n2-48r"/>
                 <outlet property="titleLabel" destination="ZbU-sd-IPu" id="Aes-JI-fao"/>
                 <outlet property="view" destination="jWq-Pm-WRM" id="BkF-zK-3nw"/>
             </connections>
@@ -21,7 +22,6 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uS7-Fm-CsT">
                     <rect key="frame" x="280" y="20" width="30" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="30" id="2o2-2E-p2i"/>
                         <constraint firstAttribute="height" constant="30" id="CK1-jy-hmh"/>
@@ -35,23 +35,19 @@
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhJ-OZ-OpH">
                     <rect key="frame" x="50" y="50" width="220" height="110"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZbU-sd-IPu">
-                            <rect key="frame" x="83" y="75" width="54" height="29"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <rect key="frame" x="83" y="75" width="54" height="28.5"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
                             <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kvp-f2-bVw">
                             <rect key="frame" x="80" y="5" width="60" height="60"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/people" translatesAutoresizingMaskIntoConstraints="NO" id="1g1-6A-sZJ">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/people" translatesAutoresizingMaskIntoConstraints="NO" id="1g1-6A-sZJ">
                                     <rect key="frame" x="15" y="15" width="30" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="30" id="RI8-Q1-TBs"/>
                                         <constraint firstAttribute="height" constant="30" id="ZDL-1R-0NL"/>
@@ -88,26 +84,33 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="EQ5-97-4tm">
-                    <rect key="frame" x="20" y="160" width="280" height="393"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="0.0" y="160" width="320" height="360"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9jw-bX-VgA" customClass="A0NavigationView">
+                    <rect key="frame" x="20" y="520" width="280" height="48"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="hAM-R5-XXD"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="jhJ-OZ-OpH" secondAttribute="centerX" id="5AR-AO-74a"/>
-                <constraint firstAttribute="trailing" secondItem="EQ5-97-4tm" secondAttribute="trailing" constant="20" id="HMR-PP-Fvi"/>
+                <constraint firstAttribute="bottom" secondItem="9jw-bX-VgA" secondAttribute="bottom" id="8TK-tq-uBT"/>
+                <constraint firstAttribute="trailing" secondItem="EQ5-97-4tm" secondAttribute="trailing" id="HMR-PP-Fvi"/>
                 <constraint firstItem="uS7-Fm-CsT" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" constant="20" id="I6c-dG-gHs"/>
                 <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="800" constant="50" id="ODE-kX-6It"/>
-                <constraint firstAttribute="bottom" secondItem="EQ5-97-4tm" secondAttribute="bottom" constant="15" id="Qbj-50-A9g"/>
-                <constraint firstItem="EQ5-97-4tm" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" constant="20" id="Vh8-O0-tDf"/>
+                <constraint firstItem="EQ5-97-4tm" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" id="Vh8-O0-tDf"/>
                 <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="500" constant="30" id="YPc-hg-aIa"/>
+                <constraint firstAttribute="trailing" secondItem="9jw-bX-VgA" secondAttribute="trailing" constant="20" id="cyw-5Y-YGH"/>
+                <constraint firstItem="9jw-bX-VgA" firstAttribute="top" secondItem="EQ5-97-4tm" secondAttribute="bottom" id="jET-dc-OHo"/>
                 <constraint firstItem="EQ5-97-4tm" firstAttribute="top" secondItem="jhJ-OZ-OpH" secondAttribute="bottom" id="oAC-or-EVy"/>
+                <constraint firstItem="9jw-bX-VgA" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" constant="20" id="s4q-Y3-Tc7"/>
                 <constraint firstAttribute="trailing" secondItem="uS7-Fm-CsT" secondAttribute="trailing" constant="10" id="sg9-jX-Vri"/>
             </constraints>
-            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <connections>
                 <outletCollection property="gestureRecognizers" destination="RMQ-Jj-fkQ" appends="YES" id="auN-Cs-zIn"/>
             </connections>
@@ -122,4 +125,9 @@
         <image name="Auth0.bundle/close" width="16" height="16"/>
         <image name="Auth0.bundle/people" width="16" height="16"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

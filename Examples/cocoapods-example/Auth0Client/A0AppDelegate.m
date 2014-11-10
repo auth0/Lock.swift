@@ -25,6 +25,10 @@
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 #import <CocoaLumberjack/DDLog.h>
+#if RELEASE
+    #import <Fabric/Fabric.h>
+    #import <Crashlytics/Crashlytics.h>
+#endif
 
 @implementation A0AppDelegate
 
@@ -35,6 +39,9 @@
     [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.400 green:0.800 blue:1.000 alpha:1.000] backgroundColor:nil forFlag:LOG_FLAG_INFO];
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.400 green:1.000 blue:0.400 alpha:1.000] backgroundColor:nil forFlag:LOG_FLAG_DEBUG];
+#endif
+#if RELEASE
+    [Fabric with:@[CrashlyticsKit]];
 #endif
     return YES;
 }
