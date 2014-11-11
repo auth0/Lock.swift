@@ -22,7 +22,7 @@
 
 #import "A0HomeViewController.h"
 
-#import <Auth0.iOS/Auth0.h>
+#import <Lock/Auth0.h>
 #import <libextobjc/EXTScope.h>
 #import <SimpleKeychain/A0SimpleKeychain.h>
 #import <JWTDecode/A0JWTDecoder.h>
@@ -73,7 +73,7 @@
 
 - (void)loginNative:(id)sender {
     [self.keychain clearAll];
-    A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
+    A0LockViewController *controller = [[A0LockViewController alloc] init];
     @weakify(self);
     controller.closable = YES;
     controller.loginAfterSignUp = YES;
