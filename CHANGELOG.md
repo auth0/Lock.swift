@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 
 ## master
 
+## 1.3.0 - 2014-11-10
+###Added
+- TouchID Authentication 
+- API Client for request using user's accessToken or idToken
+- Added example for how to localize native screens.
+
+###Changed
+- Deprecated fetch profiles methods in `A0APIClient`
+- Added missing Localized strings.
+
 ## 1.2.0 - 2014-10-29
 ###Added 
 - `A0UserIdentity` now has a property `profileData` with profile info of the user in that Identity Provider.

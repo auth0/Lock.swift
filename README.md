@@ -25,7 +25,7 @@ iOS 7+. If you need to use our SDK in an earlier version please use our previous
 The Auth0.iOS pod is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Auth0.iOS", "~> 1.1"
+pod "Auth0.iOS", "~> 1.3"
 ```
 
 Then in your project's `Info.plist` file add the following entries:
