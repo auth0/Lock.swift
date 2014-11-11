@@ -24,6 +24,6 @@
 #define _AUTH0_IOS_SDK_UI_
 
 #import "A0Theme.h"
-#import "A0AuthenticationViewController.h"
+#import "A0LockViewController.h"
 
 #endif
