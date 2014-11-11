@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import <Lock/Auth0.h>
+#import <Lock/Lock.h>
 
 @interface AppDelegate ()
 

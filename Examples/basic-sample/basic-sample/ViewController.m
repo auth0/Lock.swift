@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "Application.h"
 
-#import <Lock/Auth0.h>
+#import <Lock/Lock.h>
 #import <libextobjc/EXTScope.h>
 #import <JWTDecode/A0JWTDecoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
@@ -47,7 +47,7 @@
 }
 
 - (IBAction)showSignIn:(id)sender {
-    A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
+    A0LockViewController *controller = [[A0LockViewController alloc] init];
     controller.closable = true;
     @weakify(self);
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {

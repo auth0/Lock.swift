@@ -8,7 +8,7 @@
 
 #import "Application.h"
 
-#import <Lock/Auth0.h>
+#import <Lock/Lock.h>
 #import <SimpleKeychain/A0SimpleKeychain.h>
 
 @implementation Application

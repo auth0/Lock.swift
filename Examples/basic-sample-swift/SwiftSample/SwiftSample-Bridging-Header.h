@@ -2,7 +2,7 @@
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
 
-#import <Lock/Auth0.h>
+#import <Lock/Lock.h>
 #import <JWTDecode/A0JWTDecoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <SimpleKeychain/A0SimpleKeychain.h>

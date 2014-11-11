@@ -35,7 +35,7 @@ class HomeViewController: UIViewController {
     }
 
     @IBAction func showSignIn(sender: AnyObject) {
-        let authController = A0AuthenticationViewController()
+        let authController = A0LockViewController()
         authController.closable = true
         authController.onAuthenticationBlock = {(profile:A0UserProfile!, token:A0Token!) -> () in
             let keychain = MyApplication.sharedInstance.keychain
