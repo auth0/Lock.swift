@@ -44,7 +44,7 @@ You can use Lock with our native widget to handle authentication for you. It fet
 To get started, import this file in your `AppDelegate.m` file.
 
 ```objc
-#import <Lock/Auth0.h>
+#import <Lock/Lock.h>
 ```
 
 And add the following methods:
@@ -67,14 +67,14 @@ For more information on how to configure Facebook & Twitter go to [Identity Prov
 Import the following header files in the class where you want to display our native widget:
 
 ```objc
-#import <Lock/Auth0.h>
+#import <Lock/Lock.h>
 #import <libextobjc/EXTScope.h>
 ```
 
 And to present our widget as a modal view controller:
 
 ```objc
-A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
+A0LockViewController *controller = [[A0LockViewController alloc] init];
 @weakify(self);
 controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
     @strongify(self);
@@ -157,18 +157,18 @@ Read [this guide](https://github.com/auth0/Lock.iOS-OSX/wiki/SSO-on-Mobile-Apps)
 
 ##API
 
-###A0AuthenticationViewController
+###A0LockViewController
 
-####A0AuthenticationViewController#init
+####A0LockViewController#init
 ```objc
 - (instancetype)init;
 ```
-Initialise 'A0AuthenticationViewController' using `Auth0ClientId` & `Auth0Tenant` from info plist file.
+Initialise 'A0LockViewController' using `Auth0ClientId` & `Auth0Tenant` from info plist file.
 ```objc
-A0AuthenticationViewController *controller = [[A0AuthenticationViewController alloc] init];
+A0LockViewController *controller = [[A0LockViewController alloc] init];
 ```
 
-####A0AuthenticationViewController#onAuthenticationBlock
+####A0LockViewController#onAuthenticationBlock
 ```objc
 @property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 ```
@@ -179,7 +179,7 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 };
 ```
 
-####A0AuthenticationViewController#onUserDismissBlock
+####A0LockViewController#onUserDismissBlock
 ```objc
 @property (copy, nonatomic) void(^onUserDismissBlock)();
 ```
@@ -190,7 +190,7 @@ controller.onUserDismissBlock = ^() {
 };
 ```
 
-####A0AuthenticationViewController#usesEmail
+####A0LockViewController#usesEmail
 ```objc
 @property (assign, nonatomic) BOOL usesEmail;
 ```
@@ -199,25 +199,25 @@ Enable the username to be treated as an email (and validated as one too) in all 
 controller.usesEmail = NO;
 ```
 
-####A0AuthenticationViewController#closable
+####A0LockViewController#closable
 ```objc
 @property (assign, nonatomic) BOOL closable;
 ```
-Allows the `A0AuthenticationViewController` to be dismissed by adding a button. Default is `NO`
+Allows the `A0LockViewController` to be dismissed by adding a button. Default is `NO`
 ```objc
 controller.closable = YES;
 ```
 
-####A0AuthenticationViewController#loginAfterSignup
+####A0LockViewController#loginAfterSignup
 ```objc
 @property (assign, nonatomic) BOOL loginAfterSignUp;
 ```
-After a successful Signup, `A0AuthenticationViewController` will attempt to login the user if this property is `YES` otherwise will call `onAuthenticationBlock` with both parameters nil. Default value is `YES`
+After a successful Signup, `A0LockViewController` will attempt to login the user if this property is `YES` otherwise will call `onAuthenticationBlock` with both parameters nil. Default value is `YES`
 ```objc
 controller.loginAfterSignup = NO;
 ```
 
-####A0AuthenticationViewController#authenticationParameters
+####A0LockViewController#authenticationParameters
 ```objc
 @property (assign, nonatomic) A0AuthParameters *authenticationParameters;
 ```
@@ -226,7 +226,7 @@ List of optional parameters that will be used for every authentication request w
 controller.authenticationParameters.scopes = @[A0ScopeOfflineAccess, A0ScopeProfile];
 ```
 
-###A0AuthenticationViewController#signupDisclaimerView
+###A0LockViewController#signupDisclaimerView
 ```objc
 @property (strong, nonatomic) UIView *signUpDisclaimerView;
 ```
@@ -235,7 +235,7 @@ View that will appear in the bottom of Signup screen. It should be used to show 
 UIView *view = //..
 controller.signupDisclaimerView = view;
 ```
-####A0AuthenticationViewController#useWebView
+####A0LockViewController#useWebView
 ```objc
 @property (assign, nonatomic) BOOL useWebView;
 ```

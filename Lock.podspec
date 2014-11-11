@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Lock"
-  s.version          = "1.2.0"
+  s.version          = "1.4.0"
   s.summary          = "A library that uses Auth0 for Authentication with Native Look & Feel"
   s.description      = <<-DESC
 [![Auth0](https://i.cloudup.com/1vaSVATKTL.png)](http://auth0.com)
@@ -11,20 +11,20 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.license          = 'MIT'
   s.authors          = { "Martin Gontovnikas" => "gonto@auth0.com" }, { "Hernan Zalazar" => "hernan@auth0.com" }
   s.source           = { :git => "https://github.com/auth0/Lock.iOS-OSX.git", :tag => s.version.to_s }
-  s.social_media_url = 'https://twitter.com/authzero'
+  s.social_media_url = 'https://twitter.com/auth0'
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.public_header_files = 'Pod/Classes/Auth0.h'
-  s.source_files = 'Pod/Classes/Auth0.h'
+  s.public_header_files = 'Pod/Classes/Lock.h'
+  s.source_files = 'Pod/Classes/Lock.h'
   s.dependency 'libextobjc', '~> 0.4'
   s.dependency 'CocoaLumberjack', '~> 1.9'
   s.dependency 'ObjectiveSugar', '~> 1.1'
   s.default_subspecs = 'UI', 'Facebook', 'Twitter'
   s.prefix_header_contents = <<-EOS
     #import "A0Logging.h"
-    #define A0LocalizedString(key) NSLocalizedStringFromTable(key, @"Auth0", nil)
+    #define A0LocalizedString(key) NSLocalizedStringFromTable(key, @"Lock", nil)
   EOS
 
   s.subspec 'Core' do |core|

@@ -23,7 +23,7 @@
 #import "A0ViewController.h"
 
 #import "A0UserProfileViewController.h"
-#import <Lock/Auth0.h>
+#import <Lock/Lock.h>
 #import <libextobjc/EXTScope.h>
 #import <SimpleKeychain/A0SimpleKeychain.h>
 #import <JWTDecode/A0JWTDecoder.h>

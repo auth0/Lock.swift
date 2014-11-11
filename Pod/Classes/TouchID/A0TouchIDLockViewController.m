@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0TouchIDAuthenticationViewController.h"
+#import "A0TouchIDLockViewController.h"
 
 #import <SimpleKeychain/A0SimpleKeychain+KeyPair.h>
 #import <TouchIDAuth/A0TouchIDAuthentication.h>
@@ -34,7 +34,7 @@
 #import "A0UserAPIClient.h"
 #import "A0Theme.h"
 
-@interface A0TouchIDAuthenticationViewController ()
+@interface A0TouchIDLockViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
@@ -51,7 +51,7 @@
 
 @end
 
-@implementation A0TouchIDAuthenticationViewController
+@implementation A0TouchIDLockViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

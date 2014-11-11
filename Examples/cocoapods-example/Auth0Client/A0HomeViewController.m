@@ -22,7 +22,7 @@
 
 #import "A0HomeViewController.h"
 
-#import <Lock/Auth0.h>
+#import <Lock/Lock.h>
 #import <libextobjc/EXTScope.h>
 #import <SimpleKeychain/A0SimpleKeychain.h>
 #import <JWTDecode/A0JWTDecoder.h>
@@ -93,7 +93,7 @@
 
 - (void)loginTouchID:(id)sender {
     [self.keychain clearAll];
-    A0TouchIDAuthenticationViewController *controller = [[A0TouchIDAuthenticationViewController alloc] init];
+    A0TouchIDLockViewController *controller = [[A0TouchIDLockViewController alloc] init];
     controller.closable = YES;
     @weakify(self);
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
