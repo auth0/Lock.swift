@@ -72,6 +72,7 @@ PODS:
   - Lock (1.4.0):
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
+    - Lock/Core
     - Lock/Facebook
     - Lock/Twitter
     - Lock/UI
@@ -151,7 +152,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JWTDecode: 72e3393caf14dc762eba51d29f15bd86f608aba3
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  Lock: db47fe57224f04e1e8952a1f70c3aa391397c5cf
+  Lock: 30b3066264eb97703146fea71e1791aa4bc910a3
   LUKeychainAccess: 8d45b6c894c0d808786b1740c057b5e776313d88
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9

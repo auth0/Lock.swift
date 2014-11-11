@@ -13,7 +13,9 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.source           = { :git => "https://github.com/auth0/Lock.iOS-OSX.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/auth0'
 
-  s.platform     = :ios, '7.0'
+  s.ios.deployment_target = "7.0"
+  s.osx.deployment_target = "10.9"
+
   s.requires_arc = true
 
   s.public_header_files = 'Pod/Classes/Lock.h'
@@ -21,20 +23,25 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.dependency 'libextobjc', '~> 0.4'
   s.dependency 'CocoaLumberjack', '~> 1.9'
   s.dependency 'ObjectiveSugar', '~> 1.1'
-  s.default_subspecs = 'UI', 'Facebook', 'Twitter'
+  s.default_subspecs = 'UI', 'Facebook', 'Twitter', 'Core'
   s.prefix_header_contents = <<-EOS
     #import "A0Logging.h"
     #define A0LocalizedString(key) NSLocalizedStringFromTable(key, @"Lock", nil)
   EOS
 
   s.subspec 'Core' do |core|
-    core.public_header_files = ['Pod/Classes/Core/*.h', 'Pod/Classes/Provider/*.h']
-    core.source_files = ['Pod/Classes/Core/*.{h,m}', 'Pod/Classes/Provider/*.{h,m}']
+    core.public_header_files = ['Pod/Classes/Core/*.h']
+    core.source_files = ['Pod/Classes/Core/*.{h,m}']
+    core.ios.public_header_files = ['Pod/Classes/Core/iOS/*.h', 'Pod/Classes/Provider/*.h']
+    core.osx.public_header_files = ['Pod/Classes/Core/OSX/*.h']
+    core.ios.source_files = ['Pod/Classes/Core/iOS/*.{h,m}', 'Pod/Classes/Provider/*.{h,m}']
+    core.osx.source_files = ['Pod/Classes/Core/OSX/*.{h,m}']
     core.dependency 'AFNetworking', '~> 2.3'
     core.dependency 'ISO8601DateFormatter', '~> 0.7'
   end
 
   s.subspec 'UI' do |ui|
+    ui.platform = :ios
     ui.public_header_files = 'Pod/Classes/UI/*.h'
     ui.private_header_files = ['Pod/Classes/UI/Private/*.h', 'Pod/Classes/Utils/*.h']
     ui.source_files = ['Pod/Classes/{UI,Utils}/*.{h,m}', 'Pod/Classes/UI/Private/*.{h,m}']
@@ -44,6 +51,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   end
 
   s.subspec 'Facebook' do |facebook|
+    facebook.platform = :ios
     facebook.public_header_files = 'Pod/Classes/Provider/Facebook/*.h'
     facebook.source_files = 'Pod/Classes/Provider/Facebook/*.{h,m}'
     facebook.dependency 'Lock/Core'
@@ -51,6 +59,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   end
 
   s.subspec 'Twitter' do |twitter|
+    twitter.platform = :ios
     twitter.public_header_files = 'Pod/Classes/Twitter/*.h'
     twitter.source_files = 'Pod/Classes/Provider/Twitter/*.{h,m}'
     twitter.dependency 'Lock/Core'
@@ -61,6 +70,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   end
 
   s.subspec 'TouchID' do |touchid|
+    touchid.platform = :ios
     touchid.public_header_files = 'Pod/Classes/TouchID/*.h'
     touchid.source_files = 'Pod/Classes/TouchID/*.{h,m}'
     touchid.resources = 'Pod/Assets/TouchID/*.xib'

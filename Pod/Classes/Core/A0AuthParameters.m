@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0AuthParameters.h"
+#import "A0DeviceNameProvider.h"
 
 NSString * const A0ParameterScope = @"scope";
 NSString * const A0ParameterDevice = @"device";
@@ -79,7 +80,7 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
         }
         if ([scopes containsObject:A0ScopeOfflineAccess]) {
             NSString *deviceName = dictionary[A0ParameterDevice];
-            _params[A0ParameterDevice] = deviceName ?: [[UIDevice currentDevice] name];
+            _params[A0ParameterDevice] = deviceName ?: [A0DeviceNameProvider deviceName];
         }
         NSMutableDictionary *params = [dictionary mutableCopy];
         [params removeObjectsForKeys:@[A0ParameterDevice, A0ParameterScope]];
@@ -94,7 +95,7 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
         _params = [@{} mutableCopy];
         _params[A0ParameterScope] = [scopes copy];
         if ([scopes containsObject:A0ScopeOfflineAccess]) {
-            _params[A0ParameterDevice] = [[UIDevice currentDevice] name];
+            _params[A0ParameterDevice] = [A0DeviceNameProvider deviceName];
         }
     }
     return self;
@@ -158,7 +159,7 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
     NSAssert(scopes.count > 0, @"Must have at least one scope");
     self.params[A0ParameterScope] = [scopes copy];
     if ([scopes containsObject:A0ScopeOfflineAccess]) {
-        self.params[A0ParameterDevice] = [[UIDevice currentDevice] name];
+        self.params[A0ParameterDevice] = [A0DeviceNameProvider deviceName];
     } else {
         self.params[A0ParameterDevice] = nil;
     }
@@ -214,7 +215,7 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
     }
     if ([scopes containsObject:A0ScopeOfflineAccess]) {
         NSString *deviceName = dictionary[A0ParameterDevice];
-        self.params[A0ParameterDevice] = deviceName ?: [[UIDevice currentDevice] name];
+        self.params[A0ParameterDevice] = deviceName ?: [A0DeviceNameProvider deviceName];
     }
     NSMutableDictionary *params = [dictionary mutableCopy];
     [params removeObjectsForKeys:@[A0ParameterScope, A0ParameterDevice]];
@@ -225,7 +226,7 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
 - (void)addValuesFromParameters:(A0AuthParameters *)parameters {
     [self.params addEntriesFromDictionary:parameters.params];
     if (!self.params[A0ParameterDevice] && [self.params[A0ParameterScope] containsObject:A0ScopeOfflineAccess]) {
-        self.params[A0ParameterDevice] = [[UIDevice currentDevice] name];
+        self.params[A0ParameterDevice] = [A0DeviceNameProvider deviceName];
     }
 }
 
