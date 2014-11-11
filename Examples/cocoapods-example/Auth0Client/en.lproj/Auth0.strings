@@ -1,0 +1,93 @@
+// Auth0.strings
+//
+// Copyright (c) 2014 Auth0 (http://auth0.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+/* Field & Button texts */
+
+"ACCESS" = "ACCESS";
+"ALREADY HAVE AN ACCOUNT?" = "ALREADY HAVE AN ACCOUNT?";
+"CANCEL" = "CANCEL";
+"Cancel" = "Cancel";
+"Login with %@" = "Login with %@";
+"OK" = "OK";
+"RESET PASSWORD" = "RESET PASSWORD";
+"SEND" = "SEND";
+"SIGN UP" = "SIGN UP";
+
+"Confirm New Password" = "Confirm New Password";
+"Password" = "Password";
+"Email" = "Email";
+"Username" = "Username";
+"Please enter your email" = "Please enter your email";
+
+/* Screen Titles */
+"OR" = "OR";
+"Login" = "Login";
+"Register" = "Register";
+"Reset Password" = "Reset Password";
+"Sign Up" = "Sign Up";
+"Login with TouchID" = "Login with TouchID";
+
+/* Messages */
+
+"Please enter your corporate credentials at %@" = "Please enter your corporate credentials at %@";
+"Please enter your email and password" = "Please enter your email and password";
+"Please enter your email and the new password. We will send you an email to confirm the password change." = "Please enter your email and the new password. We will send you an email to confirm the password change.";
+"We've just sent you an email to reset your password." = "We've just sent you an email to reset your password.";
+
+/* User Input Error messages */
+
+"Invalid credentials" = "Invalid credentials";
+"Invalid login credentials" = "Invalid login credentials";
+"The email you entered is invalid. Please try again." = "The email you entered is invalid. Please try again.";
+"The password you entered is invalid. Please try again." = "The password you entered is invalid. Please try again.";
+"The passwords you entered must match. Please try again." = "The passwords you entered must match. Please try again.";
+"The email and password you entered are invalid. Please try again." = "The email and password you entered are invalid. Please try again.";
+"The username and password you entered are invalid. Please try again." = "The username and password you entered are invalid. Please try again.";
+"The username you entered is invalid. Please try again." = "The username you entered is invalid. Please try again.";
+
+/* Error messages */
+"Authentication failed" = "Authentication failed";
+"There was an error contacting Facebook" = "There was an error contacting Facebook";
+"There was an error contacting Twitter" = "There was an error contacting Twitter";
+"There was an error logging in" = "There was an error logging in";
+"There was an error processing the reset password." = "There was an error processing the reset password.";
+"There was an error processing the sign in." = "There was an error processing the sign in.";
+"There was an error processing the sign up." = "There was an error processing the sign up.";
+"There was an error signing up" = "There was an error signing up";
+"There was an error contacting %@" = "There was an error contacting %@";
+"Can't find connection name to use for authentication" = "Can't find connection name to use for authentication";
+"Couldn't authenticate with TouchID. Please try again later!." = "Couldn't authenticate with TouchID. Please try again later!.";
+"Couldn't change your password" = "Couldn't change your password";
+"Couldn't found authentication method for unknown strategy" = "Couldn't found authentication method for unknown strategy";
+"Couldn't start authentication using Safari" = "Couldn't start authentication using Safari";
+"Permissions were not granted. Please authorize the app in Settings > Twitter" = "Permissions were not granted. Please authorize the app in Settings > Twitter";
+"Permissions were not granted. Try again" = "Permissions were not granted. Try again";
+"The domain has not been setup for Twitter." = "The domain has not been setup for Twitter.";
+"The strategy %@ has no registered authentication provider" = "The strategy %@ has no registered authentication provider";
+"The twitter account seems to be invalid. Please check it in Settings > Twitter and re-enter them." = "The twitter account seems to be invalid. Please check it in Settings > Twitter and re-enter them.";
+"The user already exists." = "The user already exists.";
+"There was no connection configured for the domain" = "There was no connection configured for the domain";
+"User cancelled the login operation. Try again" = "User cancelled the login operation. Try again";
+"Wrong email or password." = "Wrong email or password.";
+"You need to authorize the application" = "You need to authorize the application";
+"You need to configure your auth0 scheme in CFBundleURLTypes in your app's Info.plist file" = "You need to configure your auth0 scheme in CFBundleURLTypes in your app's Info.plist file";
+"The application isn't configured properly for %@. Please check your Auth0's application configuration" = "The application isn't configured properly for %@. Please check your Auth0's application configuration";

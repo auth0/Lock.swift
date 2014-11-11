@@ -36,6 +36,7 @@
 
 @interface A0TouchIDAuthenticationViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UIView *iconContainerView;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
@@ -82,6 +83,7 @@
     if (self.touchIDImageHighlighted) {
         [self.touchIDButton setImage:[UIImage imageNamed:self.touchIDImageHighlighted] forState:UIControlStateNormal];
     }
+    self.titleLabel.text = A0LocalizedString(@"Login with TouchID");
 
     self.authentication = [[A0TouchIDAuthentication alloc] init];
     self.authentication.onError = ^(NSError *error) {

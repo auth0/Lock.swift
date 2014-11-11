@@ -67,7 +67,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     A0Theme *theme = [A0Theme sharedInstance];
     self.orLabel.font = [theme fontForKey:A0ThemeTextFieldFont defaultFont:self.orLabel.font];
     self.orLabel.textColor = [theme colorForKey:A0ThemeTextFieldTextColor defaultColor:self.orLabel.textColor];
-
+    self.orLabel.text = A0LocalizedString(@"OR");
 }
 
 - (void)triggerAuth:(UIButton *)sender {

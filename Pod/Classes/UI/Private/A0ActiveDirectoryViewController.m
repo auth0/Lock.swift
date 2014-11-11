@@ -90,6 +90,9 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     if (self.defaultConnection) {
         [self.parameters setValue:self.defaultConnection.name forKey:@"connection"];
     }
+    self.userField.textField.placeholder = A0LocalizedString(@"Username");
+    self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
+    [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
 }
 
 - (void)dealloc {
