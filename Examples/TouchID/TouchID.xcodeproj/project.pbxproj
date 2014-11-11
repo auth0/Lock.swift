@@ -16,6 +16,7 @@
 		5F951AEB1A124AD600D128D0 /* TouchIDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F951AEA1A124AD600D128D0 /* TouchIDTests.m */; };
 		5F951AF71A126F9B00D128D0 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F951AF51A126F9B00D128D0 /* Crashlytics.framework */; };
 		5F951AF81A126F9B00D128D0 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F951AF61A126F9B00D128D0 /* Fabric.framework */; };
+		5F951AFB1A12AB8200D128D0 /* iTunesArtwork@2x -1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F951AFA1A12AB8200D128D0 /* iTunesArtwork@2x -1024.png */; };
 		A0278D49E490F9A204A9FA35 /* libPods-TouchID.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BDD9DDEA405A0EC70219050 /* libPods-TouchID.a */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		5F951AEA1A124AD600D128D0 /* TouchIDTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TouchIDTests.m; sourceTree = "<group>"; };
 		5F951AF51A126F9B00D128D0 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		5F951AF61A126F9B00D128D0 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		5F951AFA1A12AB8200D128D0 /* iTunesArtwork@2x -1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x -1024.png"; sourceTree = "<group>"; };
 		7BDD9DDEA405A0EC70219050 /* libPods-TouchID.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TouchID.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A565EE2DBF4A78F58ED36768 /* Pods-TouchID.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TouchID.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TouchID/Pods-TouchID.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,6 +121,7 @@
 		5F951ACE1A124AD600D128D0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5F951AFA1A12AB8200D128D0 /* iTunesArtwork@2x -1024.png */,
 				5F951ACF1A124AD600D128D0 /* Info.plist */,
 				5F951AD01A124AD600D128D0 /* main.m */,
 			);
@@ -236,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F951ADA1A124AD600D128D0 /* Main.storyboard in Resources */,
+				5F951AFB1A12AB8200D128D0 /* iTunesArtwork@2x -1024.png in Resources */,
 				5F951ADF1A124AD600D128D0 /* LaunchScreen.xib in Resources */,
 				5F951ADC1A124AD600D128D0 /* Images.xcassets in Resources */,
 			);

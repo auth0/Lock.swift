@@ -1,6 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-target 'Auth0Client', :exclusive => true do
+target 'Lock', :exclusive => true do
   pod "Lock", :path => "../../"
   pod "Lock/TouchID", :path => "../../"
   pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib

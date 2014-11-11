@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0600"
+   LastUpgradeVersion = "0610"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6003F589195388D20070C39A"
-               BuildableName = "Auth0Client.app"
-               BlueprintName = "Auth0Client"
-               ReferencedContainer = "container:Auth0Client.xcodeproj">
+               BuildableName = "Lock.app"
+               BlueprintName = "Lock"
+               ReferencedContainer = "container:Lock.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "6003F5AD195388D20070C39A"
                BuildableName = "Tests.xctest"
                BlueprintName = "Tests"
-               ReferencedContainer = "container:Auth0Client.xcodeproj">
+               ReferencedContainer = "container:Lock.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6003F589195388D20070C39A"
-            BuildableName = "Auth0Client.app"
-            BlueprintName = "Auth0Client"
-            ReferencedContainer = "container:Auth0Client.xcodeproj">
+            BuildableName = "Lock.app"
+            BlueprintName = "Lock"
+            ReferencedContainer = "container:Lock.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6003F589195388D20070C39A"
-            BuildableName = "Auth0Client.app"
-            BlueprintName = "Auth0Client"
-            ReferencedContainer = "container:Auth0Client.xcodeproj">
+            BuildableName = "Lock.app"
+            BlueprintName = "Lock"
+            ReferencedContainer = "container:Lock.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -87,9 +87,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6003F589195388D20070C39A"
-            BuildableName = "Auth0Client.app"
-            BlueprintName = "Auth0Client"
-            ReferencedContainer = "container:Auth0Client.xcodeproj">
+            BuildableName = "Lock.app"
+            BlueprintName = "Lock"
+            ReferencedContainer = "container:Lock.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
