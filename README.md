@@ -1,6 +1,6 @@
 # Lock
 
-[![CI Status](http://img.shields.io/travis/auth0/Lock.svg?style=flat)](https://travis-ci.org/auth0/Lock-iOS-OSX)
+[![CI Status](http://img.shields.io/travis/auth0/Lock.svg?style=flat)](https://travis-ci.org/auth0/Lock.iOS-OSX)
 [![Version](https://img.shields.io/cocoapods/v/Lock.svg?style=flat)](http://cocoadocs.org/docsets/Lock)
 [![License](https://img.shields.io/cocoapods/l/Lock.svg?style=flat)](http://cocoadocs.org/docsets/Lock)
 [![Platform](https://img.shields.io/cocoapods/p/Lock.svg?style=flat)](http://cocoadocs.org/docsets/Lock)

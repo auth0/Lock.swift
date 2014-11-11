@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## master
 
+## 1.4.0 - 2014-11-11
+###Changed
+- Auth0.iOS is now Lock.
+- Renamed `Auth0.h` to `Lock.h`.
+- Renamed `A0TouchIDAuthenticationViewController` to `A0TouchIDLockViewController`.
+- Renamed `A0AuthenticationViewController` to `A0LockViewController`.
+
 ## 1.3.0 - 2014-11-10
 ###Added
 - TouchID Authentication 
