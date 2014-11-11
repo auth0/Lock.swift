@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import <Auth0.iOS/Auth0.h>
+#import <Lock/Auth0.h>
 
 @interface AppDelegate ()
 

@@ -9,7 +9,7 @@
 #import "ProfileViewController.h"
 #import "Application.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import <Auth0.iOS/Auth0.h>
+#import <Lock/Auth0.h>
 #import <SimpleKeychain/A0SimpleKeychain.h>
 #import <AFNetworking/AFHTTPRequestOperation.h>
 #import <libextobjc/EXTScope.h>

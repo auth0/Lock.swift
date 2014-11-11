@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "Application.h"
 
-#import <Auth0.iOS/Auth0.h>
+#import <Lock/Auth0.h>
 #import <libextobjc/EXTScope.h>
 #import <JWTDecode/A0JWTDecoder.h>
 #import <MBProgressHUD/MBProgressHUD.h>
