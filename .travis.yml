@@ -10,7 +10,7 @@ before_install:
   - gem install cocoapods --no-ri --no-rdoc
 
 script:
-  - xctool -workspace Examples/cocoapods-example/Auth0Client.xcworkspace -scheme Auth0Client -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO clean test
+  - xctool -workspace Examples/cocoapods-example/Lock.xcworkspace -scheme Lock -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO clean test
 
 notifications:
   slack:
