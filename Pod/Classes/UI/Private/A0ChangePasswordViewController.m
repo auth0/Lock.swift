@@ -80,6 +80,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configureTextField:self.passwordField.textField];
     [theme configureTextField:self.repeatPasswordField.textField];
     self.userField.textField.text = self.defaultEmail;
+    self.userField.textField.placeholder = A0LocalizedString(@"Email");
+    self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
+    self.repeatPasswordField.textField.placeholder = A0LocalizedString(@"Confirm New Password");
+    [self.recoverButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
+    self.messageLabel.text = A0LocalizedString(@"Please enter your email and the new password. We will send you an email to confirm the password change.");
 }
 
 - (IBAction)recover:(id)sender {

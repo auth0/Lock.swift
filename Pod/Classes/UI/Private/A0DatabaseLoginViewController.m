@@ -98,6 +98,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     }
     self.userField.textField.placeholder = self.validator.usesEmail ? A0LocalizedString(@"Email") : A0LocalizedString(@"Username");
     self.userField.textField.text = self.defaultUsername;
+    self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
+    [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
 }
 
 - (void)dealloc {

@@ -33,6 +33,7 @@
 #import <libextobjc/EXTScope.h>
 
 @interface A0WebViewController () <UIWebViewDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 @property (strong, nonatomic) NSURL *authorizeURL;
@@ -70,6 +71,7 @@
     [super viewDidLoad];
     NSURLRequest *request = [NSURLRequest requestWithURL:self.authorizeURL];
     [self.webview loadRequest:request];
+    [self.cancelButton setTitle:A0LocalizedString(@"CANCEL") forState:UIControlStateNormal];
 }
 
 - (void)cancel:(id)sender {

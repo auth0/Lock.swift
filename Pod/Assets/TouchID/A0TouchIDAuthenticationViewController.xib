@@ -10,6 +10,7 @@
                 <outlet property="iconContainerView" destination="SSv-RX-3gR" id="s6s-L1-jp8"/>
                 <outlet property="iconImageView" destination="UO4-bD-OQ4" id="efM-zr-o6a"/>
                 <outlet property="loadingView" destination="JUM-s6-89B" id="pxR-I1-y5W"/>
+                <outlet property="titleLabel" destination="e54-RU-yIs" id="GLp-f5-XNS"/>
                 <outlet property="touchIDButton" destination="OPV-4k-Yhd" id="CMz-6o-Lut"/>
                 <outlet property="touchIDView" destination="40u-FA-4Nw" id="qWp-Qm-4b7"/>
                 <outlet property="view" destination="iN0-l3-epB" id="XvE-4E-i9A"/>
