@@ -8,7 +8,7 @@
 
 #import "Application.h"
 
-#import <Auth0.iOS/Auth0.h>
+#import <Lock/Auth0.h>
 #import <SimpleKeychain/A0SimpleKeychain.h>
 
 @implementation Application

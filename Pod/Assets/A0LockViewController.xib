@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0AuthenticationViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0LockViewController">
             <connections>
                 <outlet property="containerView" destination="EQ5-97-4tm" id="pf7-J9-mQ3"/>
                 <outlet property="dismissButton" destination="uS7-Fm-CsT" id="ZKV-3K-e2r"/>

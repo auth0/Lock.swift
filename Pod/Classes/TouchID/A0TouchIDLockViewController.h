@@ -28,7 +28,7 @@
  *  Controller used to start passwordless authentication with TouchID.
  *  Must be displayed inside a UINavigationController.
  */
-@interface A0TouchIDAuthenticationViewController : UIViewController
+@interface A0TouchIDLockViewController : UIViewController
 
 /**
  Allows the A0AuthenticationViewController to be dismissed by adding a button. Default is NO

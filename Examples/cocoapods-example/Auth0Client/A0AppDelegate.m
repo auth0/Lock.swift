@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0AppDelegate.h"
-#import <Auth0.iOS/Auth0.h>
+#import <Lock/Lock.h>
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 #import <CocoaLumberjack/DDLog.h>

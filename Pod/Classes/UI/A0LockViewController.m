@@ -1,4 +1,4 @@
-//  A0AuthenticationViewController.m
+//  A0LockViewController.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0AuthenticationViewController.h"
+#import "A0LockViewController.h"
 #import "A0KeyboardHandler.h"
 #import "A0Application.h"
 #import "A0APIClient.h"
@@ -49,7 +49,7 @@
 #import <libextobjc/EXTScope.h>
 #import "A0NavigationView.h"
 
-@interface A0AuthenticationViewController ()
+@interface A0LockViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UIView *iconContainerView;
@@ -61,7 +61,7 @@
 
 @end
 
-@implementation A0AuthenticationViewController
+@implementation A0LockViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

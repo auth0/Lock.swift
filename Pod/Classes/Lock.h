@@ -1,4 +1,4 @@
-//  Auth0.h
+//  Lock.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef _AUTH0_IOS_SDK_
-#define _AUTH0_IOS_SDK_
+#ifndef _AUTH0_LOCK_
+#define _AUTH0_LOCK_
 
 #if __has_include("Core.h")
 #import "Core.h"
@@ -39,8 +39,8 @@
 #import "A0TwitterAuthenticator.h"
 #endif
 
-#if __has_include("A0TouchIDAuthenticationViewController.h")
-#import "A0TouchIDAuthenticationViewController.h"
+#if __has_include("A0TouchIDLockViewController.h")
+#import "A0TouchIDLockViewController.h"
 #endif
 
-#endif /* _AUTH0_IOS_SDK_ */
+#endif /* _AUTH0_LOCK_ */

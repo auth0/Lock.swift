@@ -1,8 +1,8 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'Auth0Client', :exclusive => true do
-  pod "Auth0.iOS", :path => "../../"
-  pod "Auth0.iOS/TouchID", :path => "../../"
+  pod "Lock", :path => "../../"
+  pod "Lock/TouchID", :path => "../../"
   pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib
   pod "BDBOAuth1Manager", :inhibit_warnings => true #Ignore warnings for this lib
   pod "JWTDecode"
@@ -10,8 +10,8 @@ target 'Auth0Client', :exclusive => true do
 end
 
 target 'Tests', :exclusive => true do
-  pod "Auth0.iOS", :path => "../../"
-  pod "Auth0.iOS/TouchID", :path => "../../"
+  pod "Lock", :path => "../../"
+  pod "Lock/TouchID", :path => "../../"
   pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib
   pod "BDBOAuth1Manager", :inhibit_warnings => true #Ignore warnings for this lib
 
