@@ -63,6 +63,8 @@
     self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor defaultColor:self.iconContainerView.backgroundColor];
     self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName defaultImage:self.iconImageView.image];
     [self displayController:[self buildSMSSendCode]];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
+    [self.view addGestureRecognizer:tapRecognizer];
 }
 
 - (void)close:(id)sender {
@@ -71,6 +73,11 @@
         self.onUserDismissBlock();
     }
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)hideKeyboard:(UIGestureRecognizer *)recognizer {
+    UIViewController<A0KeyboardEnabledView> *controller = self.childViewControllers.firstObject;
+    [controller hideKeyboard];
 }
 
 - (A0SMSSendCodeViewController *)buildSMSSendCode {
