@@ -23,6 +23,7 @@
 #import "A0SMSLockViewController.h"
 #import "A0Theme.h"
 #import "A0SMSRegisterViewController.h"
+#import "A0AuthParameters.h"
 
 
 @interface A0SMSLockViewController ()
@@ -37,6 +38,18 @@
 @end
 
 @implementation A0SMSLockViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            self.modalPresentationStyle = UIModalPresentationFormSheet;
+        }
+        _closable = NO;
+        _authenticationParameters = [A0AuthParameters newDefaultParams];
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
