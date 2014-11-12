@@ -1,4 +1,4 @@
-// A0SMSRegisterViewController.h
+// A0SMSSendCodeViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -23,6 +23,8 @@
 #import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
-@interface A0SMSRegisterViewController : UIViewController<A0KeyboardEnabledView>
+@interface A0SMSSendCodeViewController : UIViewController<A0KeyboardEnabledView>
+
+@property (copy, nonatomic) void(^onRegisterBlock)();
 
 @end

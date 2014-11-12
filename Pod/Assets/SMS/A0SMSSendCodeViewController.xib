@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SMSRegisterViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SMSSendCodeViewController">
             <connections>
                 <outlet property="credentialBoxView" destination="kMV-hb-KG2" id="Phj-n9-VxD"/>
                 <outlet property="messageLabel" destination="zr6-4y-aoT" id="fDB-Fb-XWI"/>

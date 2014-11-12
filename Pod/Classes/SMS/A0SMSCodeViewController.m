@@ -1,4 +1,4 @@
-// A0SMSRegisterViewController.m
+// A0SMSCodeViewController.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,48 +20,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0SMSRegisterViewController.h"
+#import "A0SMSCodeViewController.h"
 #import "A0CredentialFieldView.h"
-#import "A0Theme.h"
 #import "A0ProgressButton.h"
+#import "A0Theme.h"
 
-@interface A0SMSRegisterViewController ()
+@interface A0SMSCodeViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *phoneFieldView;
-@property (weak, nonatomic) IBOutlet A0ProgressButton *registerButton;
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *codeFieldView;
+@property (weak, nonatomic) IBOutlet A0ProgressButton *loginButton;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
-- (IBAction)registerSMS:(id)sender;
+- (IBAction)login:(id)sender;
 
 @end
 
-@implementation A0SMSRegisterViewController
+@implementation A0SMSCodeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = A0LocalizedString(@"Enter SMS code");
     self.credentialBoxView.layer.borderWidth = 1.0f;
     self.credentialBoxView.layer.borderColor = [[UIColor colorWithWhite:0.600 alpha:1.000] CGColor];
     self.credentialBoxView.layer.cornerRadius = 3.0f;
     A0Theme *theme = [A0Theme sharedInstance];
-    [theme configureTextField:self.phoneFieldView.textField];
-    [theme configurePrimaryButton:self.registerButton];
+    [theme configureTextField:self.codeFieldView.textField];
+    [theme configurePrimaryButton:self.loginButton];
     [theme configureLabel:self.messageLabel];
-    self.title = A0LocalizedString(@"Register with SMS");
+    [self.loginButton setTitle:A0LocalizedString(@"LOGIN") forState:UIControlStateNormal];
+    self.messageLabel.text = A0LocalizedString(@"Please check your phone, you’ve received a message from us with your passcode");
+    self.codeFieldView.textField.placeholder = A0LocalizedString(@"SMS Code");
 }
 
-- (void)registerSMS:(id)sender {
-    [self.phoneFieldView.textField resignFirstResponder];
+- (void)login:(id)sender {
+    [self.codeFieldView.textField resignFirstResponder];
 }
 
 #pragma mark - A0KeyboardEnabledView
 
 - (CGRect)rectToKeepVisibleInView:(UIView *)view {
-    CGRect rect = [view convertRect:self.registerButton.frame fromView:self.registerButton.superview];
+    CGRect rect = [view convertRect:self.loginButton.frame fromView:self.loginButton.superview];
     return rect;
 }
 
 - (void)hideKeyboard {
-    [self.phoneFieldView.textField resignFirstResponder];
+    [self.codeFieldView.textField resignFirstResponder];
 }
 @end

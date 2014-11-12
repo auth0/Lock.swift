@@ -22,8 +22,11 @@
 
 #import "A0SMSLockViewController.h"
 #import "A0Theme.h"
-#import "A0SMSRegisterViewController.h"
+#import "A0SMSSendCodeViewController.h"
 #import "A0AuthParameters.h"
+#import "A0SMSCodeViewController.h"
+#import <libextobjc/EXTScope.h>
+#import "A0NavigationView.h"
 
 
 @interface A0SMSLockViewController ()
@@ -59,7 +62,7 @@
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor defaultColor:self.view.backgroundColor];
     self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor defaultColor:self.iconContainerView.backgroundColor];
     self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName defaultImage:self.iconImageView.image];
-    [self displayController:[self buildSMSRegister]];
+    [self displayController:[self buildSMSSendCode]];
 }
 
 - (void)close:(id)sender {
@@ -70,8 +73,31 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (A0SMSRegisterViewController *)buildSMSRegister {
-    return [[A0SMSRegisterViewController alloc] init];
+- (A0SMSSendCodeViewController *)buildSMSSendCode {
+    A0SMSSendCodeViewController *controller = [[A0SMSSendCodeViewController alloc] init];
+    @weakify(self);
+    controller.onRegisterBlock = ^{
+        @strongify(self);
+        [self displayController:[self buildSMSCode]];
+    };
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
+        @strongify(self);
+        [self displayController:[self buildSMSCode]];
+    }];
+    return controller;
+}
+
+- (A0SMSCodeViewController *)buildSMSCode {
+    @weakify(self);
+    A0SMSCodeViewController *controller = [[A0SMSCodeViewController alloc] init];
+    void(^showRegister)() = ^{
+        @strongify(self);
+        [self displayController:[self buildSMSSendCode]];
+    };
+    [self.navigationView removeAll];
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"DIDN'T RECEIVE CODE?") actionBlock:showRegister];
+    return controller;
 }
 
 @end
