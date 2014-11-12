@@ -157,7 +157,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y7Z-gz-5sR">
-                                <rect key="frame" x="18" y="432" width="284" height="50"/>
+                                <rect key="frame" x="18" y="364" width="284" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="284" id="S8F-GE-UHP"/>
                                     <constraint firstAttribute="height" constant="50" id="xsR-Sx-YWh"/>
@@ -173,7 +173,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t5q-dp-EMd">
-                                <rect key="frame" x="18" y="500" width="284" height="50"/>
+                                <rect key="frame" x="18" y="432" width="284" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="284" id="6Dn-YO-vfN"/>
                                     <constraint firstAttribute="height" constant="50" id="Pz6-3h-YNy"/>
@@ -188,14 +188,32 @@
                                     <action selector="loginTouchID:" destination="oGW-Rt-sTl" eventType="touchUpInside" id="0nG-97-WQu"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7BJ-3S-prC">
+                                <rect key="frame" x="18" y="500" width="284" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="AOw-ta-whF"/>
+                                    <constraint firstAttribute="width" constant="284" id="D4S-H6-Sx7"/>
+                                </constraints>
+                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="Login with SMS" image="badge-small" backgroundImage="normal-button-background">
+                                    <color key="titleColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginSMS:" destination="oGW-Rt-sTl" eventType="touchUpInside" id="0EJ-im-OHU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="t5q-dp-EMd" firstAttribute="top" secondItem="y7Z-gz-5sR" secondAttribute="bottom" constant="18" id="2Cg-XY-lO8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="n9d-fm-LA3" secondAttribute="trailing" id="6bg-wf-Ixn"/>
                             <constraint firstAttribute="centerY" secondItem="n9d-fm-LA3" secondAttribute="bottom" id="9Hf-dP-xtO"/>
-                            <constraint firstItem="srR-25-Pje" firstAttribute="top" secondItem="t5q-dp-EMd" secondAttribute="bottom" constant="18" id="NFc-QL-whA"/>
                             <constraint firstItem="n9d-fm-LA3" firstAttribute="leading" secondItem="Hfg-bB-sMC" secondAttribute="leadingMargin" id="S8I-kz-8bn"/>
+                            <constraint firstItem="7BJ-3S-prC" firstAttribute="top" secondItem="t5q-dp-EMd" secondAttribute="bottom" constant="18" id="TKl-v9-NTT"/>
+                            <constraint firstItem="srR-25-Pje" firstAttribute="top" secondItem="7BJ-3S-prC" secondAttribute="bottom" constant="18" id="VXf-Ri-SX8"/>
+                            <constraint firstAttribute="centerX" secondItem="7BJ-3S-prC" secondAttribute="centerX" id="VuB-ny-ZCD"/>
                             <constraint firstAttribute="centerX" secondItem="y7Z-gz-5sR" secondAttribute="centerX" id="YRu-0I-vNG"/>
                             <constraint firstAttribute="centerX" secondItem="t5q-dp-EMd" secondAttribute="centerX" id="kMM-Rt-vm7"/>
                         </constraints>

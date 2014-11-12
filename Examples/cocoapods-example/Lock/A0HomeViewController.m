@@ -109,4 +109,22 @@
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navController animated:YES completion:nil];
 }
+
+- (void)loginSMS:(id)sender {
+    [self.keychain clearAll];
+    A0SMSLockViewController *controller = [[A0SMSLockViewController alloc] init];
+    controller.closable = YES;
+    @weakify(self);
+    controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
+        NSLog(@"SUCCESS %@", profile);
+        @strongify(self);
+        [self.keychain setString:token.idToken forKey:@"id_token"];
+        [self.keychain setString:token.refreshToken forKey:@"refresh_token"];
+        [self.keychain setData:[NSKeyedArchiver archivedDataWithRootObject:profile] forKey:@"profile"];
+        [self dismissViewControllerAnimated:YES completion:^(){
+            [self performSegueWithIdentifier:@"LoggedIn" sender:self];
+        }];
+    };
+    [self presentViewController:controller animated:YES completion:nil];
+}
 @end

@@ -1,4 +1,4 @@
-// A0HomeViewController.h
+// A0SMSLockViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,15 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "A0ContainerViewController.h"
 
-@interface A0HomeViewController : UIViewController
+@class A0AuthParameters, A0UserProfile, A0Token;
 
-@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
+@interface A0SMSLockViewController : A0ContainerViewController
 
-- (IBAction)loginNative:(id)sender;
-- (IBAction)loginTouchID:(id)sender;
-- (IBAction)loginSMS:(id)sender;
+/**
+ Allows the A0AuthenticationViewController to be dismissed by adding a button. Default is NO
+ */
+@property (assign, nonatomic) BOOL closable;
+
+/**
+ Block that is called on successful authentication. It has two parameters profile and token.
+ */
+@property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
+
+/**
+ Block that is called on when the user dismisses the Login screen. Only when closable property is `YES`.
+ */
+@property (copy, nonatomic) void(^onUserDismissBlock)();
+
+/**
+ *  Parameters to be sent to all Authentication request to Auth0 API.
+ *  @see A0AuthParameters
+ */
+@property (strong, nonatomic) A0AuthParameters *authenticationParameters;
 
 @end

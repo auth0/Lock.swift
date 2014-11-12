@@ -3,6 +3,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'Lock', :exclusive => true do
   pod "Lock", :path => "../../"
   pod "Lock/TouchID", :path => "../../"
+  pod "Lock/SMS", :path => "../../"
   pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib
   pod "BDBOAuth1Manager", :inhibit_warnings => true #Ignore warnings for this lib
   pod "JWTDecode"
@@ -12,6 +13,7 @@ end
 target 'Tests', :exclusive => true do
   pod "Lock", :path => "../../"
   pod "Lock/TouchID", :path => "../../"
+  pod "Lock/SMS", :path => "../../"
   pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib
   pod "BDBOAuth1Manager", :inhibit_warnings => true #Ignore warnings for this lib
 

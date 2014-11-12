@@ -46,13 +46,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIView *disclaimerView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
 
 - (IBAction)signUp:(id)sender;
-- (IBAction)cancel:(id)sender;
 - (IBAction)goToPasswordField:(id)sender;
 
 @end
@@ -72,7 +70,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.signUpButton];
-    [theme configureSecondaryButton:self.cancelButton];
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
     [theme configureLabel:self.messageLabel];
@@ -117,12 +114,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 - (void)goToPasswordField:(id)sender {
     [self.passwordField.textField becomeFirstResponder];
-}
-
-- (void)cancel:(id)sender {
-    if (self.onCancelBlock) {
-        self.onCancelBlock();
-    }
 }
 
 - (void)addDisclaimerSubview:(UIView *)view {
