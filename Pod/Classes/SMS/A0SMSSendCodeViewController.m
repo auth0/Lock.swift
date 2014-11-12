@@ -21,14 +21,14 @@
 // THE SOFTWARE.
 
 #import "A0SMSSendCodeViewController.h"
-#import "A0CredentialFieldView.h"
+#import "A0PhoneFieldView.h"
 #import "A0Theme.h"
 #import "A0ProgressButton.h"
 
 @interface A0SMSSendCodeViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *phoneFieldView;
+@property (weak, nonatomic) IBOutlet A0PhoneFieldView *phoneFieldView;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *registerButton;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
@@ -54,9 +54,14 @@
 }
 
 - (void)registerSMS:(id)sender {
-    [self.phoneFieldView.textField resignFirstResponder];
-    if (self.onRegisterBlock) {
-        self.onRegisterBlock();
+    if (self.phoneFieldView.phoneNumber.length > 0) {
+        [self.phoneFieldView setInvalid:NO];
+        [self.phoneFieldView.textField resignFirstResponder];
+        if (self.onRegisterBlock) {
+            self.onRegisterBlock();
+        }
+    } else {
+        [self.phoneFieldView setInvalid:YES];
     }
 }
 

@@ -35,11 +35,11 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kMV-hb-KG2">
                     <rect key="frame" x="21" y="41" width="558" height="50"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D74-nk-5ph" customClass="A0CredentialFieldView">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D74-nk-5ph" customClass="A0PhoneFieldView">
                             <rect key="frame" x="0.0" y="0.0" width="558" height="50"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pjx-u4-0k1">
-                                    <rect key="frame" x="42" y="10" width="509" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Pjx-u4-0k1">
+                                    <rect key="frame" x="92" y="10" width="459" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="go"/>
                                 </textField>
@@ -51,6 +51,17 @@
                                         <constraint firstAttribute="width" constant="14" id="bvU-np-Gqg"/>
                                     </constraints>
                                 </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5dP-Dj-WTV">
+                                    <rect key="frame" x="42" y="10.5" width="40" height="29"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="40" id="JSp-hi-cjy"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <state key="normal" title="+1">
+                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -59,11 +70,20 @@
                                 <constraint firstAttribute="bottom" secondItem="Pjx-u4-0k1" secondAttribute="bottom" constant="10" id="RHU-ZU-seu"/>
                                 <constraint firstItem="D7m-hQ-Wvp" firstAttribute="leading" secondItem="D74-nk-5ph" secondAttribute="leading" constant="18" id="Sdy-uW-JOP"/>
                                 <constraint firstItem="Pjx-u4-0k1" firstAttribute="top" secondItem="D74-nk-5ph" secondAttribute="top" constant="10" id="T0E-vg-uFZ"/>
+                                <constraint firstItem="5dP-Dj-WTV" firstAttribute="leading" secondItem="D7m-hQ-Wvp" secondAttribute="trailing" constant="10" id="eJh-xN-HmD"/>
                                 <constraint firstItem="Pjx-u4-0k1" firstAttribute="leading" secondItem="D7m-hQ-Wvp" secondAttribute="trailing" constant="10" id="nqa-al-6kk"/>
+                                <constraint firstAttribute="centerY" secondItem="5dP-Dj-WTV" secondAttribute="centerY" id="ohh-jf-xtH"/>
+                                <constraint firstItem="Pjx-u4-0k1" firstAttribute="leading" secondItem="5dP-Dj-WTV" secondAttribute="trailing" constant="10" id="u2c-SL-3xR"/>
                                 <constraint firstAttribute="trailing" secondItem="Pjx-u4-0k1" secondAttribute="trailing" constant="7" id="vsD-Qm-HP8"/>
                                 <constraint firstAttribute="height" constant="50" id="zXl-hs-6uC"/>
                             </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="nqa-al-6kk"/>
+                                </mask>
+                            </variation>
                             <connections>
+                                <outlet property="countryCodeButton" destination="5dP-Dj-WTV" id="l35-nS-jSm"/>
                                 <outlet property="iconImageView" destination="D7m-hQ-Wvp" id="H9V-c3-Kc3"/>
                                 <outlet property="textField" destination="Pjx-u4-0k1" id="u44-pu-bnC"/>
                             </connections>

@@ -81,7 +81,8 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.subspec 'SMS' do |sms|
     sms.platform = :ios
     sms.public_header_files = 'Pod/Classes/SMS/*.h'
-    sms.source_files = 'Pod/Classes/SMS/*.{h,m}'
+    sms.private_header_files = 'Pod/Classes/SMS/Private/*.h'
+    sms.source_files = ['Pod/Classes/SMS/*.{h,m}', 'Pod/Classes/SMS/Private/*.{h,m}']
     sms.resources = 'Pod/Assets/SMS/*.xib'
     sms.dependency 'Lock/UI'
   end
