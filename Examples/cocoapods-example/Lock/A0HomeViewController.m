@@ -128,6 +128,10 @@
             [self performSegueWithIdentifier:@"LoggedIn" sender:self];
         }];
     };
-    [self presentViewController:controller animated:YES completion:nil];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        navController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    [self presentViewController:navController animated:YES completion:nil];
 }
 @end

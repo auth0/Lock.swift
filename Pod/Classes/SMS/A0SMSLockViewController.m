@@ -56,6 +56,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
+    self.navigationController.navigationBarHidden = YES;
+
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
     A0Theme *theme = [A0Theme sharedInstance];

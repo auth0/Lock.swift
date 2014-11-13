@@ -24,6 +24,9 @@
 #import "A0PhoneFieldView.h"
 #import "A0Theme.h"
 #import "A0ProgressButton.h"
+#import "A0CountryCodeTableViewController.h"
+
+#import <libextobjc/EXTScope.h>
 
 @interface A0SMSSendCodeViewController ()
 
@@ -40,6 +43,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    @weakify(self);
+
     self.title = A0LocalizedString(@"Send Passcode");
     self.credentialBoxView.layer.borderWidth = 1.0f;
     self.credentialBoxView.layer.borderColor = [[UIColor colorWithWhite:0.600 alpha:1.000] CGColor];
@@ -51,6 +56,12 @@
     self.messageLabel.text = A0LocalizedString(@"Please enter your phone number");
     self.phoneFieldView.textField.placeholder = A0LocalizedString(@"Phone Number");
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
+
+    self.phoneFieldView.onCountryCodeTapped = ^(NSString *currentCode){
+        @strongify(self);
+        A0CountryCodeTableViewController *controller = [[A0CountryCodeTableViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+    };
 }
 
 - (void)registerSMS:(id)sender {
