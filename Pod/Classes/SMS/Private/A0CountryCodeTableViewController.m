@@ -22,28 +22,37 @@
 
 #import "A0CountryCodeTableViewController.h"
 
+#import <ObjectiveSugar/ObjectiveSugar.h>
+
 static NSString *CellIdentifier = @"CountryCell";
 
-@interface A0CountryCodeTableViewController ()
+@interface A0CountryCodeTableViewController () <UISearchDisplayDelegate>
 @property (strong, nonatomic) NSArray *countryCodes;
+@property (strong, nonatomic) NSArray *filteredCountryCodes;
 @end
 
 @implementation A0CountryCodeTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.hidesBackButton = YES;
     UINib *cellNib = [UINib nibWithNibName:@"A0CountryCodeTableViewCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
+    [self.searchDisplayController.searchResultsTableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
     NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0-SMS" ofType:@"bundle"];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
     NSString *plistPath = [resourceBundle pathForResource:@"CountryCodes" ofType:@"plist"];
     self.countryCodes = [NSArray arrayWithContentsOfFile:plistPath];
+    self.searchDisplayController.delegate = self;
+    self.searchDisplayController.searchResultsDataSource = self;
+    self.searchDisplayController.searchResultsDelegate = self;
+    self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    self.searchDisplayController.navigationItem.hidesBackButton = YES;
+    self.navigationItem.hidesBackButton = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -51,16 +60,32 @@ static NSString *CellIdentifier = @"CountryCell";
     self.navigationController.navigationBarHidden = YES;
 }
 
+#pragma mark - UISearchDisplayDelegate
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+    self.filteredCountryCodes = [self.countryCodes select:^BOOL(NSDictionary *country) {
+        NSRange nameRange = [country[@"Name"] rangeOfString:searchString options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch];
+        NSRange codeRange = [country[@"Code"] rangeOfString:searchString options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch];
+        return nameRange.location != NSNotFound || codeRange.location != NSNotFound;
+    }];
+    return YES;
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.countryCodes.count;
+    if (self.tableView == tableView) {
+        return self.countryCodes.count;
+    } else {
+        return self.filteredCountryCodes.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    cell.textLabel.text = self.countryCodes[indexPath.row][@"Name"];
-    cell.detailTextLabel.text = self.countryCodes[indexPath.row][@"DialCode"];
+    NSArray *codes = self.tableView == tableView ? self.countryCodes : self.filteredCountryCodes;
+    cell.textLabel.text = codes[indexPath.row][@"Name"];
+    cell.detailTextLabel.text = codes[indexPath.row][@"DialCode"];
     return cell;
 }
 

@@ -6,7 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0CountryCodeTableViewController">
             <connections>
-                <outlet property="searchDisplayController" destination="LbI-2c-7SF" id="18a-ds-FfA"/>
+                <outlet property="searchDisplayController" destination="9od-TM-MNZ" id="IgE-7w-SA4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -19,13 +19,24 @@
                 <outlet property="dataSource" destination="-1" id="Tng-2m-Rnh"/>
                 <outlet property="delegate" destination="-1" id="9aC-8N-iBw"/>
             </connections>
+            <point key="canvasLocation" x="364" y="378"/>
         </tableView>
-        <searchDisplayController id="LbI-2c-7SF">
+        <searchBar contentMode="redraw" id="3vg-PL-LKY">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+            <textInputTraits key="textInputTraits"/>
             <connections>
-                <outlet property="delegate" destination="-1" id="paI-Ce-G6I"/>
-                <outlet property="searchContentsController" destination="-1" id="8qM-Ml-T6M"/>
-                <outlet property="searchResultsDataSource" destination="-1" id="fpe-yr-Yvv"/>
-                <outlet property="searchResultsDelegate" destination="-1" id="3jJ-Rv-UXf"/>
+                <outlet property="delegate" destination="-1" id="5H9-fI-2Bx"/>
+            </connections>
+            <point key="canvasLocation" x="364" y="-1"/>
+        </searchBar>
+        <searchDisplayController id="9od-TM-MNZ">
+            <connections>
+                <outlet property="delegate" destination="-1" id="0i8-Yz-sup"/>
+                <outlet property="searchBar" destination="3vg-PL-LKY" id="8aH-79-POK"/>
+                <outlet property="searchContentsController" destination="-1" id="Lqh-DF-ZGn"/>
+                <outlet property="searchResultsDataSource" destination="-1" id="oId-Og-1Ig"/>
+                <outlet property="searchResultsDelegate" destination="-1" id="4k1-zF-NA5"/>
             </connections>
         </searchDisplayController>
     </objects>
