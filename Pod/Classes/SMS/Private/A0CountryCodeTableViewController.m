@@ -25,7 +25,7 @@
 static NSString *CellIdentifier = @"CountryCell";
 
 @interface A0CountryCodeTableViewController ()
-
+@property (strong, nonatomic) NSArray *countryCodes;
 @end
 
 @implementation A0CountryCodeTableViewController
@@ -33,7 +33,12 @@ static NSString *CellIdentifier = @"CountryCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
-    [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:CellIdentifier];
+    UINib *cellNib = [UINib nibWithNibName:@"A0CountryCodeTableViewCell" bundle:nil];
+    [self.tableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
+    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0-SMS" ofType:@"bundle"];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
+    NSString *plistPath = [resourceBundle pathForResource:@"CountryCodes" ofType:@"plist"];
+    self.countryCodes = [NSArray arrayWithContentsOfFile:plistPath];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -49,11 +54,13 @@ static NSString *CellIdentifier = @"CountryCell";
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.countryCodes.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    cell.textLabel.text = self.countryCodes[indexPath.row][@"Name"];
+    cell.detailTextLabel.text = self.countryCodes[indexPath.row][@"DialCode"];
     return cell;
 }
 
