@@ -59,6 +59,7 @@
     self.phoneFieldView.textField.placeholder = A0LocalizedString(@"Phone Number");
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
 
+    self.currentCountry = @"US";
     self.phoneFieldView.onCountryCodeTapped = ^(NSString *currentCode){
         @strongify(self);
         A0CountryCodeTableViewController *controller = [[A0CountryCodeTableViewController alloc] init];
