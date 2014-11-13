@@ -25,6 +25,9 @@
 #import <ObjectiveSugar/ObjectiveSugar.h>
 
 static NSString *CellIdentifier = @"CountryCell";
+static NSString *CountryCode = @"Code";
+static NSString *CountryDialCode = @"DialCode";
+static NSString *CountryName = @"Name";
 
 @interface A0CountryCodeTableViewController () <UISearchDisplayDelegate>
 @property (strong, nonatomic) NSArray *countryCodes;
@@ -36,16 +39,19 @@ static NSString *CellIdentifier = @"CountryCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0-SMS" ofType:@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-    NSString *plistPath = [resourceBundle pathForResource:@"CountryCodes" ofType:@"plist"];
-    self.countryCodes = [NSArray arrayWithContentsOfFile:plistPath];
+    self.countryCodes = [A0CountryCodeTableViewController loadCountryCodes];
     self.countryCodes = [self.countryCodes sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *left, NSDictionary *right) {
         NSComparisonResult order = NSOrderedAscending;
-        if ([self.defaultCountry isEqualToString:right[@"Code"]]) {
+        if ([self.defaultCountry isEqualToString:right[CountryCode]]) {
             order = NSOrderedDescending;
         }
         return order;
+    }];
+    NSLocale *locale = [NSLocale currentLocale];
+    self.countryCodes = [self.countryCodes map:^id(NSDictionary *country) {
+        NSMutableDictionary *countryWithName = [country mutableCopy];
+        countryWithName[CountryName] = [locale displayNameForKey:NSLocaleCountryCode value:country[CountryCode]];
+        return countryWithName;
     }];
 
     UINib *cellNib = [UINib nibWithNibName:@"A0CountryCodeTableViewCell" bundle:nil];
@@ -70,12 +76,20 @@ static NSString *CellIdentifier = @"CountryCell";
     self.navigationController.navigationBarHidden = YES;
 }
 
++ (NSString *)dialCodeForCountryWithCode:(NSString *)code {
+    NSArray *codes = [self loadCountryCodes];
+    NSDictionary *country = [codes find:^BOOL(NSDictionary *country) {
+        return [country[CountryCode] isEqualToString:code];
+    }];
+    return country[CountryDialCode];
+}
+
 #pragma mark - UISearchDisplayDelegate
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     self.filteredCountryCodes = [self.countryCodes select:^BOOL(NSDictionary *country) {
-        NSRange nameRange = [country[@"Name"] rangeOfString:searchString options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch];
-        NSRange codeRange = [country[@"Code"] rangeOfString:searchString options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch];
+        NSRange nameRange = [country[CountryName] rangeOfString:searchString options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch];
+        NSRange codeRange = [country[CountryCode] rangeOfString:searchString options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch];
         return nameRange.location != NSNotFound || codeRange.location != NSNotFound;
     }];
     return YES;
@@ -89,10 +103,11 @@ static NSString *CellIdentifier = @"CountryCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    NSArray *codes = [self countryCodesSourceForTableView:tableView];
-    cell.textLabel.text = NSLocalizedStringFromTable(codes[indexPath.row][@"Name"], @"Auth0.SMS.Countries", nil);
-    cell.detailTextLabel.text = codes[indexPath.row][@"DialCode"];
-    if ([self.defaultCountry isEqualToString:codes[indexPath.row][@"Code"]]) {
+    NSArray *countries = [self countryCodesSourceForTableView:tableView];
+    NSDictionary *country = countries[indexPath.row];
+    cell.textLabel.text = country[CountryName];
+    cell.detailTextLabel.text = country[CountryDialCode];
+    if ([self.defaultCountry isEqualToString:country[CountryCode]]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -104,18 +119,25 @@ static NSString *CellIdentifier = @"CountryCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.navigationController popViewControllerAnimated:YES];
-    NSArray *codes = [self countryCodesSourceForTableView:tableView];
-    NSDictionary *country = codes[indexPath.row];
+    NSArray *countries = [self countryCodesSourceForTableView:tableView];
+    NSDictionary *country = countries[indexPath.row];
     if (self.onCountrySelect) {
-        self.onCountrySelect(country[@"Code"], country[@"DialCode"]);
+        self.onCountrySelect(country[CountryCode], country[CountryDialCode]);
     }
 }
 
 #pragma mark - Utility methods
 
 - (NSArray *)countryCodesSourceForTableView:(UITableView *)tableView {
-    NSArray *codes = self.tableView == tableView ? self.countryCodes : self.filteredCountryCodes;
-    return codes;
+    NSArray *countries = self.tableView == tableView ? self.countryCodes : self.filteredCountryCodes;
+    return countries;
+}
+
++ (NSArray *)loadCountryCodes {
+    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0-SMS" ofType:@"bundle"];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
+    NSString *plistPath = [resourceBundle pathForResource:@"CountryCodes" ofType:@"plist"];
+    return [NSArray arrayWithContentsOfFile:plistPath];
 }
 
 @end

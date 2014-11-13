@@ -59,7 +59,9 @@
     self.phoneFieldView.textField.placeholder = A0LocalizedString(@"Phone Number");
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
 
-    self.currentCountry = @"US";
+    self.currentCountry = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+    self.phoneFieldView.countryCode = [A0CountryCodeTableViewController dialCodeForCountryWithCode:self.currentCountry];
+    
     self.phoneFieldView.onCountryCodeTapped = ^(NSString *currentCode){
         @strongify(self);
         A0CountryCodeTableViewController *controller = [[A0CountryCodeTableViewController alloc] init];
@@ -78,6 +80,7 @@
     if (self.phoneFieldView.phoneNumber.length > 0) {
         [self.phoneFieldView setInvalid:NO];
         [self.phoneFieldView.textField resignFirstResponder];
+        Auth0LogDebug(@"Registering phone number %@", self.phoneFieldView.fullPhoneNumber);
         if (self.onRegisterBlock) {
             self.onRegisterBlock();
         }

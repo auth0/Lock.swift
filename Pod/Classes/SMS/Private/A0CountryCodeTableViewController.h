@@ -28,4 +28,6 @@
 
 @property (copy, nonatomic) void(^onCountrySelect)(NSString *country, NSString *countryDialCode);
 
++ (NSString *)dialCodeForCountryWithCode:(NSString *)code;
+
 @end
