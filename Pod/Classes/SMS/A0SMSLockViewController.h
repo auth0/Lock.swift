@@ -48,4 +48,9 @@
  */
 @property (strong, nonatomic) A0AuthParameters *authenticationParameters;
 
+/**
+ *  Block that returns Auth0's app client secret. This secret is required to send SMS to users.
+ */
+@property (copy, nonatomic) NSString *(^clientSecretProvider)();
+
 @end

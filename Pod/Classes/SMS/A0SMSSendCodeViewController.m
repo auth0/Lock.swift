@@ -85,21 +85,29 @@
         Auth0LogDebug(@"Registering phone number %@", self.phoneFieldView.fullPhoneNumber);
         [self.registerButton setInProgress:YES];
         A0APIClient *client = [A0APIClient sharedClient];
-        NSString *secret = @"";
-        A0RequestAccessTokenOperation *operation = [[A0RequestAccessTokenOperation alloc] initWithBaseURL:client.baseURL
-                                                                                                 clientId:client.clientId
-                                                                                             clientSecret:secret];
-        [operation setSuccess:^(NSString *accessToken) {
-            [self.registerButton setInProgress:NO];
-            if (self.onRegisterBlock) {
-                self.onRegisterBlock();
-            }
-        } failure:^(NSError *error) {
-            Auth0LogError(@"Failed to send SMS code with error %@", error);
-            [self.registerButton setInProgress:NO];
-        }];
-        [operation start];
+        NSString *secret;
+        if (self.clientSecretProvider) {
+            secret = self.clientSecretProvider();
+        }
+        if (secret) {
+            A0RequestAccessTokenOperation *operation = [[A0RequestAccessTokenOperation alloc] initWithBaseURL:client.baseURL
+                                                                                                     clientId:client.clientId
+                                                                                                 clientSecret:secret];
+            [operation setSuccess:^(NSString *accessToken) {
+                [self.registerButton setInProgress:NO];
+                if (self.onRegisterBlock) {
+                    self.onRegisterBlock();
+                }
+            } failure:^(NSError *error) {
+                Auth0LogError(@"Failed to send SMS code with error %@", error);
+                [self.registerButton setInProgress:NO];
+            }];
+            [operation start];
+        } else {
+            Auth0LogError(@"No API Secret was configured to send SMS");
+        }
     } else {
+        Auth0LogError(@"No phone number provided");
         [self.phoneFieldView setInvalid:YES];
     }
 }

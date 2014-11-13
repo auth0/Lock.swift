@@ -118,6 +118,10 @@
     A0SMSLockViewController *controller = [[A0SMSLockViewController alloc] init];
     controller.closable = YES;
     @weakify(self);
+    controller.clientSecretProvider = ^{
+        return @"";
+    };
+
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);

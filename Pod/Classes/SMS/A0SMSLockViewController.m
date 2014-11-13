@@ -58,6 +58,8 @@
     [super viewDidLoad];
     
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
+    NSAssert(self.clientSecretProvider != nil, @"Must provide a client secret");
+
     self.navigationController.navigationBarHidden = YES;
 
     self.closeButton.enabled = self.closable;
@@ -91,6 +93,7 @@
         @strongify(self);
         [self displayController:[self buildSMSCode]];
     };
+    controller.clientSecretProvider = self.clientSecretProvider;
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
         @strongify(self);
