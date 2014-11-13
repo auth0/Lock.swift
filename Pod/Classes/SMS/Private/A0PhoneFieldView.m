@@ -82,6 +82,10 @@
     return [self.countryCodeButton titleForState:UIControlStateNormal];
 }
 
+- (void)setCountryCode:(NSString *)countryCode {
+    [self.countryCodeButton setTitle:[countryCode copy] forState:UIControlStateNormal];
+}
+
 - (void)countryCodeButtonTapped:(id)sender {
     if (self.onCountryCodeTapped) {
         self.onCountryCodeTapped(self.countryCode);

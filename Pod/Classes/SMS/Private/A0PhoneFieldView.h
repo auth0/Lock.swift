@@ -36,7 +36,7 @@
 /**
  *  Country code selected
  */
-@property (readonly, nonatomic) NSString *countryCode;
+@property (copy, nonatomic) NSString *countryCode;
 
 /**
  *  Phone number + country code.

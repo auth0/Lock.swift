@@ -60,6 +60,11 @@
     self.phoneFieldView.onCountryCodeTapped = ^(NSString *currentCode){
         @strongify(self);
         A0CountryCodeTableViewController *controller = [[A0CountryCodeTableViewController alloc] init];
+        controller.onCountrySelect = ^(NSString *country, NSString *dialCode) {
+            @strongify(self);
+            self.phoneFieldView.countryCode = dialCode;
+            Auth0LogDebug(@"Selected country %@ with dial code %@", country, dialCode);
+        };
         [self.navigationController pushViewController:controller animated:YES];
     };
 }

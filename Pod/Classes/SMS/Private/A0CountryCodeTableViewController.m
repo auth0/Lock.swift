@@ -46,6 +46,7 @@ static NSString *CellIdentifier = @"CountryCell";
     self.searchDisplayController.searchResultsDataSource = self;
     self.searchDisplayController.searchResultsDelegate = self;
     self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
+    self.searchDisplayController.searchBar.placeholder = NSLocalizedStringFromTable(@"Search", @"Auth0.SMS", @"Search Country Placeholder");
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -74,17 +75,13 @@ static NSString *CellIdentifier = @"CountryCell";
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.tableView == tableView) {
-        return self.countryCodes.count;
-    } else {
-        return self.filteredCountryCodes.count;
-    }
+    return [[self countryCodesSourceForTableView:tableView] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    NSArray *codes = self.tableView == tableView ? self.countryCodes : self.filteredCountryCodes;
-    cell.textLabel.text = codes[indexPath.row][@"Name"];
+    NSArray *codes = [self countryCodesSourceForTableView:tableView];
+    cell.textLabel.text = NSLocalizedStringFromTable(codes[indexPath.row][@"Name"], @"Auth0.SMS.Countries", nil);
     cell.detailTextLabel.text = codes[indexPath.row][@"DialCode"];
     return cell;
 }
@@ -93,6 +90,18 @@ static NSString *CellIdentifier = @"CountryCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.navigationController popViewControllerAnimated:YES];
+    NSArray *codes = [self countryCodesSourceForTableView:tableView];
+    NSDictionary *country = codes[indexPath.row];
+    if (self.onCountrySelect) {
+        self.onCountrySelect(country[@"Code"], country[@"DialCode"]);
+    }
+}
+
+#pragma mark - Utility methods
+
+- (NSArray *)countryCodesSourceForTableView:(UITableView *)tableView {
+    NSArray *codes = self.tableView == tableView ? self.countryCodes : self.filteredCountryCodes;
+    return codes;
 }
 
 @end
