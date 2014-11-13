@@ -35,13 +35,22 @@ static NSString *CellIdentifier = @"CountryCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UINib *cellNib = [UINib nibWithNibName:@"A0CountryCodeTableViewCell" bundle:nil];
-    [self.tableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
-    [self.searchDisplayController.searchResultsTableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
+
     NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0-SMS" ofType:@"bundle"];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
     NSString *plistPath = [resourceBundle pathForResource:@"CountryCodes" ofType:@"plist"];
     self.countryCodes = [NSArray arrayWithContentsOfFile:plistPath];
+    self.countryCodes = [self.countryCodes sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *left, NSDictionary *right) {
+        NSComparisonResult order = NSOrderedAscending;
+        if ([self.defaultCountry isEqualToString:right[@"Code"]]) {
+            order = NSOrderedDescending;
+        }
+        return order;
+    }];
+
+    UINib *cellNib = [UINib nibWithNibName:@"A0CountryCodeTableViewCell" bundle:nil];
+    [self.tableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
+    [self.searchDisplayController.searchResultsTableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
     self.searchDisplayController.delegate = self;
     self.searchDisplayController.searchResultsDataSource = self;
     self.searchDisplayController.searchResultsDelegate = self;
@@ -83,6 +92,11 @@ static NSString *CellIdentifier = @"CountryCell";
     NSArray *codes = [self countryCodesSourceForTableView:tableView];
     cell.textLabel.text = NSLocalizedStringFromTable(codes[indexPath.row][@"Name"], @"Auth0.SMS.Countries", nil);
     cell.detailTextLabel.text = codes[indexPath.row][@"DialCode"];
+    if ([self.defaultCountry isEqualToString:codes[indexPath.row][@"Code"]]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     return cell;
 }
 

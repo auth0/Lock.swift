@@ -35,6 +35,8 @@
 @property (weak, nonatomic) IBOutlet A0ProgressButton *registerButton;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
+@property (copy, nonatomic) NSString *currentCountry;
+
 - (IBAction)registerSMS:(id)sender;
 
 @end
@@ -60,8 +62,10 @@
     self.phoneFieldView.onCountryCodeTapped = ^(NSString *currentCode){
         @strongify(self);
         A0CountryCodeTableViewController *controller = [[A0CountryCodeTableViewController alloc] init];
+        controller.defaultCountry = self.currentCountry;
         controller.onCountrySelect = ^(NSString *country, NSString *dialCode) {
             @strongify(self);
+            self.currentCountry = country;
             self.phoneFieldView.countryCode = dialCode;
             Auth0LogDebug(@"Selected country %@ with dial code %@", country, dialCode);
         };

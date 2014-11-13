@@ -24,6 +24,8 @@
 
 @interface A0CountryCodeTableViewController : UITableViewController
 
+@property (copy, nonatomic) NSString *defaultCountry;
+
 @property (copy, nonatomic) void(^onCountrySelect)(NSString *country, NSString *countryDialCode);
 
 @end
