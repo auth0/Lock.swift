@@ -111,6 +111,10 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 #pragma mark - Client configuration
 
+- (NSURL *)baseURL {
+    return self.manager.baseURL;
+}
+
 - (void)configureForApplication:(A0Application *)application {
     Auth0LogDebug(@"Configuring APIClient for application %@", application);
     self.application = application;

@@ -67,6 +67,21 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 ///----------------------------------------
 
 /**
+ *  Auth0 app client id
+ */
+@property (readonly, nonatomic) NSString *clientId;
+
+/**
+ *  Auth0 app tenant name
+ */
+@property (readonly, nonatomic) NSString *tenant;
+
+/**
+ *  Auth0 app base URL
+ */
+@property (readonly, nonatomic) NSURL *baseURL;
+
+/**
  *  Auth0 application information after a call to fetchAppInfoWithSuccess:failure:. Default is nil.
  */
 @property (readonly, nonatomic) A0Application *application;

@@ -25,6 +25,8 @@
 #import "A0Theme.h"
 #import "A0ProgressButton.h"
 #import "A0CountryCodeTableViewController.h"
+#import "A0APIClient.h"
+#import "A0RequestAccessTokenOperation.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -81,9 +83,22 @@
         [self.phoneFieldView setInvalid:NO];
         [self.phoneFieldView.textField resignFirstResponder];
         Auth0LogDebug(@"Registering phone number %@", self.phoneFieldView.fullPhoneNumber);
-        if (self.onRegisterBlock) {
-            self.onRegisterBlock();
-        }
+        [self.registerButton setInProgress:YES];
+        A0APIClient *client = [A0APIClient sharedClient];
+        NSString *secret = @"";
+        A0RequestAccessTokenOperation *operation = [[A0RequestAccessTokenOperation alloc] initWithBaseURL:client.baseURL
+                                                                                                 clientId:client.clientId
+                                                                                             clientSecret:secret];
+        [operation setSuccess:^(NSString *accessToken) {
+            [self.registerButton setInProgress:NO];
+            if (self.onRegisterBlock) {
+                self.onRegisterBlock();
+            }
+        } failure:^(NSError *error) {
+            Auth0LogError(@"Failed to send SMS code with error %@", error);
+            [self.registerButton setInProgress:NO];
+        }];
+        [operation start];
     } else {
         [self.phoneFieldView setInvalid:YES];
     }
