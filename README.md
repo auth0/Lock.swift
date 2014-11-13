@@ -270,6 +270,11 @@ And then you'll need to configure CocoaLumberjack (if you haven't done it for yo
 
 @end
 ```
+
+## Issue Reporting
+
+If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
+
 ## What is Auth0?
 
 Auth0 helps you to:
