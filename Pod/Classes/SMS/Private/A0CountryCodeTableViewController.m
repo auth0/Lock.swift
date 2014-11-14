@@ -50,7 +50,13 @@ static NSString *CountryName = @"Name";
     NSLocale *locale = [NSLocale currentLocale];
     self.countryCodes = [self.countryCodes map:^id(NSDictionary *country) {
         NSMutableDictionary *countryWithName = [country mutableCopy];
-        countryWithName[CountryName] = [locale displayNameForKey:NSLocaleCountryCode value:country[CountryCode]];
+        NSString *name = [locale displayNameForKey:NSLocaleCountryCode value:country[CountryCode]];
+        if(name) {
+            countryWithName[CountryName] = name;
+        } else {
+            countryWithName[CountryName] = [[NSLocale localeWithLocaleIdentifier:@"en_US"] displayNameForKey:NSLocaleCountryCode value:country[CountryCode]];
+        }
+
         return countryWithName;
     }];
 
