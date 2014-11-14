@@ -24,6 +24,11 @@
 #import "A0CredentialFieldView.h"
 #import "A0ProgressButton.h"
 #import "A0Theme.h"
+#import "A0UIUtilities.h"
+#import "A0APIClient.h"
+#import "A0Errors.h"
+
+#import <libextobjc/EXTScope.h>
 
 @interface A0SMSCodeViewController ()
 
@@ -63,7 +68,24 @@
 }
 
 - (void)login:(id)sender {
+    Auth0LogVerbose(@"About to login with phone number %@", self.phoneNumber);
     [self.codeFieldView.textField resignFirstResponder];
+    NSString *passcode = [self.codeFieldView.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    BOOL valid = passcode.length > 0;
+    [self.codeFieldView setInvalid:!valid];
+    if (passcode.length > 0) {
+        void(^failureBlock)(NSError *) = ^(NSError *error) {
+            A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSMSLoginError:error]);
+        };
+        [[A0APIClient sharedClient] loginWithPhoneNumber:self.phoneNumber
+                                                passcode:passcode
+                                              parameters:self.parameters
+                                                 success:self.onAuthenticationBlock
+                                                 failure:failureBlock];
+    } else {
+        Auth0LogError(@"Must provide a non-empty passcode.");
+        A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), A0LocalizedString(@"You must enter a valid SMS code"));
+    }
 }
 
 #pragma mark - A0KeyboardEnabledView

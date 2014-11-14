@@ -227,6 +227,18 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     return localizedString;
 }
 
++ (NSString *)localizedStringForSMSLoginError:(NSError *)error {
+    NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
+    NSString *errorKey = apiErrorInfo[@"error"];
+    NSString *localizedString;
+    if ([errorKey isEqualToString:@"invalid_user_password"]) {
+        localizedString = A0LocalizedString(@"Wrong phone number or passcode.");
+    } else {
+        localizedString = A0LocalizedString(@"There was an error processing the sign in.");
+    }
+    return localizedString;
+}
+
 + (NSString *)localizedStringForSignUpError:(NSError *)error {
     NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
     NSString *errorKey = apiErrorInfo[@"code"];

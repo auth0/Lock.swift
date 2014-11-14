@@ -135,8 +135,7 @@
         if (error) {
             A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
         } else {
-            A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [
-                                                                                     A0Errors localizedStringForLoginError:error]);
+            A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForLoginError:error]);
         }
     }
     [self updateUIWithError:error];

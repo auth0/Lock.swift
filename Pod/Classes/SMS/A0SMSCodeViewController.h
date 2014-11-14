@@ -23,8 +23,12 @@
 #import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
+@class A0AuthParameters, A0UserProfile, A0Token;
+
 @interface A0SMSCodeViewController : UIViewController<A0KeyboardEnabledView>
 
 @property (copy, nonatomic) NSString *phoneNumber;
+@property (copy, nonatomic) A0AuthParameters *parameters;
+@property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
 @end

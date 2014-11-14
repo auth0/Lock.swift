@@ -113,6 +113,8 @@
     @weakify(self);
     A0SMSCodeViewController *controller = [[A0SMSCodeViewController alloc] init];
     controller.phoneNumber = phoneNumber;
+    controller.parameters = self.authenticationParameters;
+    controller.onAuthenticationBlock = self.onAuthenticationBlock;
     void(^showRegister)() = ^{
         @strongify(self);
         [self displayController:[self buildSMSSendCode]];

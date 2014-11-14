@@ -263,7 +263,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                                                                 }];
     A0Strategy *strategy = [self.application strategyByName:A0StrategyNameSMS];
     A0Connection *connection = strategy.connections.firstObject;
-    if (connection.name) {
+    if (!self.application || connection.name) {
         [defaultParameters addValuesFromParameters:parameters];
         Auth0LogVerbose(@"Starting Login with username & password %@", defaultParameters);
         if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {

@@ -143,6 +143,7 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 
 + (NSString *)localizedStringForSocialLoginError:(NSError *)error;
 + (NSString *)localizedStringForLoginError:(NSError *)error;
++ (NSString *)localizedStringForSMSLoginError:(NSError *)error;
 + (NSString *)localizedStringForSignUpError:(NSError *)error;
 + (NSString *)localizedStringForChangePasswordError:(NSError *)error;
 
