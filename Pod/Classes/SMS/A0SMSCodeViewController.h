@@ -25,4 +25,6 @@
 
 @interface A0SMSCodeViewController : UIViewController<A0KeyboardEnabledView>
 
+@property (copy, nonatomic) NSString *phoneNumber;
+
 @end

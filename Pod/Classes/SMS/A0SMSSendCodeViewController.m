@@ -102,12 +102,14 @@
                                                                                                      clientId:client.clientId
                                                                                                  clientSecret:secret];
             [operation setSuccess:^(NSString *accessToken) {
+                Auth0LogDebug(@"About to send SMS code to phone %@", phoneNumber);
                 A0SendSMSOperation *operation = [[A0SendSMSOperation alloc] initWithBaseURL:client.baseURL accessToken:accessToken phoneNumber:phoneNumber];
                 [operation setSuccess:^{
                     @strongify(self);
+                    Auth0LogDebug(@"SMS code sent to phone %@", phoneNumber);
                     [self.registerButton setInProgress:NO];
                     if (self.onRegisterBlock) {
-                        self.onRegisterBlock();
+                        self.onRegisterBlock(phoneNumber);
                     }
                 } failure:onFailure];
                 [operation start];

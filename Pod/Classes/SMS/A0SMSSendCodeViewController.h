@@ -25,7 +25,7 @@
 
 @interface A0SMSSendCodeViewController : UIViewController<A0KeyboardEnabledView>
 
-@property (copy, nonatomic) void(^onRegisterBlock)();
+@property (copy, nonatomic) void(^onRegisterBlock)(NSString *phoneNumber);
 
 /**
  *  Block that returns Auth0's app client secret. This secret is required to send SMS to users.

@@ -28,6 +28,7 @@
 #import <libextobjc/EXTScope.h>
 #import "A0NavigationView.h"
 
+#define kPhoneNumberKey @"auth0-lock-sms-phone"
 
 @interface A0SMSLockViewController ()
 
@@ -89,22 +90,29 @@
 - (A0SMSSendCodeViewController *)buildSMSSendCode {
     A0SMSSendCodeViewController *controller = [[A0SMSSendCodeViewController alloc] init];
     @weakify(self);
-    controller.onRegisterBlock = ^{
+    controller.onRegisterBlock = ^(NSString *phoneNumber){
         @strongify(self);
-        [self displayController:[self buildSMSCode]];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:phoneNumber forKey:kPhoneNumberKey];
+        [defaults synchronize];
+        [self displayController:[self buildSMSCodeWithNumber:phoneNumber]];
     };
     controller.clientSecretProvider = self.clientSecretProvider;
     [self.navigationView removeAll];
-    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
-        @strongify(self);
-        [self displayController:[self buildSMSCode]];
-    }];
+    NSString *phoneNumber = [[NSUserDefaults standardUserDefaults] stringForKey:kPhoneNumberKey];
+    if (phoneNumber) {
+        [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
+            @strongify(self);
+            [self displayController:[self buildSMSCodeWithNumber:phoneNumber]];
+        }];
+    }
     return controller;
 }
 
-- (A0SMSCodeViewController *)buildSMSCode {
+- (A0SMSCodeViewController *)buildSMSCodeWithNumber:(NSString *)phoneNumber {
     @weakify(self);
     A0SMSCodeViewController *controller = [[A0SMSCodeViewController alloc] init];
+    controller.phoneNumber = phoneNumber;
     void(^showRegister)() = ^{
         @strongify(self);
         [self displayController:[self buildSMSSendCode]];
