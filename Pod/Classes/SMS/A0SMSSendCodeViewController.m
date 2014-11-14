@@ -27,6 +27,7 @@
 #import "A0CountryCodeTableViewController.h"
 #import "A0APIClient.h"
 #import "A0RequestAccessTokenOperation.h"
+#import "A0SendSMSOperation.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -85,23 +86,32 @@
         Auth0LogDebug(@"Registering phone number %@", self.phoneFieldView.fullPhoneNumber);
         [self.registerButton setInProgress:YES];
         A0APIClient *client = [A0APIClient sharedClient];
+        NSString *phoneNumber = self.phoneFieldView.fullPhoneNumber;
         NSString *secret;
         if (self.clientSecretProvider) {
             secret = self.clientSecretProvider();
         }
         if (secret) {
+            @weakify(self);
+            void(^onFailure)(NSError *) = ^(NSError *error) {
+                @strongify(self);
+                Auth0LogError(@"Failed to send SMS code with error %@", error);
+                [self.registerButton setInProgress:NO];
+            };
             A0RequestAccessTokenOperation *operation = [[A0RequestAccessTokenOperation alloc] initWithBaseURL:client.baseURL
                                                                                                      clientId:client.clientId
                                                                                                  clientSecret:secret];
             [operation setSuccess:^(NSString *accessToken) {
-                [self.registerButton setInProgress:NO];
-                if (self.onRegisterBlock) {
-                    self.onRegisterBlock();
-                }
-            } failure:^(NSError *error) {
-                Auth0LogError(@"Failed to send SMS code with error %@", error);
-                [self.registerButton setInProgress:NO];
-            }];
+                A0SendSMSOperation *operation = [[A0SendSMSOperation alloc] initWithBaseURL:client.baseURL accessToken:accessToken phoneNumber:phoneNumber];
+                [operation setSuccess:^{
+                    @strongify(self);
+                    [self.registerButton setInProgress:NO];
+                    if (self.onRegisterBlock) {
+                        self.onRegisterBlock();
+                    }
+                } failure:onFailure];
+                [operation start];
+            } failure:onFailure];
             [operation start];
         } else {
             Auth0LogError(@"No API Secret was configured to send SMS");

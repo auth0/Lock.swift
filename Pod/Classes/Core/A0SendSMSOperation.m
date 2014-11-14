@@ -25,7 +25,7 @@
 @implementation A0SendSMSOperation
 
 - (instancetype)initWithBaseURL:(NSURL *)baseURL accessToken:(NSString *)accessToken phoneNumber:(NSString *)phoneNumber {
-    NSURL *sendSMSURL = [NSURL URLWithString:@"/api/users" relativeToURL:baseURL];
+    NSURL *sendSMSURL = [NSURL URLWithString:@"/api/users/" relativeToURL:baseURL];
     NSDictionary *parameters = @{
                                  @"phone_number": phoneNumber,
                                  @"connection": @"sms",
