@@ -28,18 +28,10 @@
 #import "A0APIClient.h"
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
+#import "A0UIUtilities.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
-
-static void showAlertErrorView(NSString *title, NSString *message) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:A0LocalizedString(@"OK")
-                                          otherButtonTitles:nil];
-    [alert show];
-}
 
 @interface A0SignUpViewController ()
 
@@ -98,7 +90,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         };
         A0APIClientError failure = ^(NSError *error) {
             [self.signUpButton setInProgress:NO];
-            showAlertErrorView(A0LocalizedString(@"There was an error signing up"), [A0Errors localizedStringForLoginError:error]);
+            A0ShowAlertErrorView(A0LocalizedString(@"There was an error signing up"), [A0Errors localizedStringForLoginError:error]);
         };
         [[A0APIClient sharedClient] signUpWithUsername:username
                                               password:password
@@ -107,7 +99,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                                                success:success failure:failure];
     } else {
         [self.signUpButton setInProgress:NO];
-        showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+        A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
     }
     [self updateUIWithError:error];
 }

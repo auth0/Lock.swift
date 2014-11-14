@@ -35,18 +35,10 @@
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0WebViewController.h"
 #import "A0AuthParameters.h"
+#import "A0UIUtilities.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
-
-static void showAlertErrorView(NSString *title, NSString *message) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:A0LocalizedString(@"OK")
-                                          otherButtonTitles:nil];
-    [alert show];
-}
 
 @interface A0DatabaseLoginViewController ()
 
@@ -135,15 +127,15 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         };
         A0APIClientError failure = ^(NSError *error) {
             [self.accessButton setInProgress:NO];
-            showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForLoginError:error]);
+            A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForLoginError:error]);
         };
         [[A0APIClient sharedClient] loginWithUsername:username password:password parameters:self.parameters success:success failure:failure];
     } else {
         [self.accessButton setInProgress:NO];
         if (error) {
-            showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+            A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
         } else {
-            showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [
+            A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [
                                                                                      A0Errors localizedStringForLoginError:error]);
         }
     }
@@ -199,10 +191,10 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                 case A0ErrorCodeAuth0NotAuthorized:
                 case A0ErrorCodeAuth0InvalidConfiguration:
                 case A0ErrorCodeAuth0NoURLSchemeFound:
-                    showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+                    A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                     break;
                 default:
-                    showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
+                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
                     break;
             }
         }
