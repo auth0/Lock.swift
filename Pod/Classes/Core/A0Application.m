@@ -47,7 +47,7 @@
         [array each:^(NSDictionary *strategyDict) {
             A0Strategy *strategy = [[A0Strategy alloc] initWithJSONDictionary:strategyDict];
             [strategies setObject:strategy forKey:strategy.name];
-            if (strategy.type == A0StrategyTypeDatabase) {
+            if ([strategy.name isEqualToString:A0StrategyNameAuth0]) {
                 _databaseStrategy = strategy;
             }
         }];
