@@ -134,7 +134,7 @@ static NSString *CountryName = @"Name";
 }
 
 + (NSArray *)loadCountryCodes {
-    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0-SMS" ofType:@"bundle"];
+    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0.SMS" ofType:@"bundle"];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
     NSString *plistPath = [resourceBundle pathForResource:@"CountryCodes" ofType:@"plist"];
     return [NSArray arrayWithContentsOfFile:plistPath];
