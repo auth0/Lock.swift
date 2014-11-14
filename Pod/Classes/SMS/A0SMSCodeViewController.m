@@ -49,7 +49,16 @@
     [theme configurePrimaryButton:self.loginButton];
     [theme configureLabel:self.messageLabel];
     [self.loginButton setTitle:A0LocalizedString(@"LOGIN") forState:UIControlStateNormal];
-    self.messageLabel.text = A0LocalizedString(@"Please check your phone, you’ve received a message from us with your passcode");
+    NSString *message = [NSString stringWithFormat:A0LocalizedString(@"Please check your phone %@.\nYou’ve received a message from us with your passcode"), self.phoneNumber];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:message];
+    if (self.phoneNumber) {
+        NSRange phoneRange = [message rangeOfString:self.phoneNumber];
+        [attrString setAttributes:@{
+                                    NSFontAttributeName: [UIFont boldSystemFontOfSize:self.messageLabel.font.pointSize],
+                                    }
+                            range:phoneRange];
+    }
+    self.messageLabel.attributedText = attrString;
     self.codeFieldView.textField.placeholder = A0LocalizedString(@"SMS Code");
 }
 
