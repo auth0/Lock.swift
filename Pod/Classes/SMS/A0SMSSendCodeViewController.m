@@ -28,6 +28,7 @@
 #import "A0APIClient.h"
 #import "A0RequestAccessTokenOperation.h"
 #import "A0SendSMSOperation.h"
+#import "A0UIUtilities.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -96,6 +97,7 @@
             void(^onFailure)(NSError *) = ^(NSError *error) {
                 @strongify(self);
                 Auth0LogError(@"Failed to send SMS code with error %@", error);
+                A0ShowAlertErrorView(A0LocalizedString(@"There was an error sending the SMS code"), A0LocalizedString(@"Couldn't send an SMS to your phone. Please try again later."));
                 [self.registerButton setInProgress:NO];
             };
             A0RequestAccessTokenOperation *operation = [[A0RequestAccessTokenOperation alloc] initWithBaseURL:client.baseURL
@@ -117,10 +119,12 @@
             [operation start];
         } else {
             Auth0LogError(@"No API Secret was configured to send SMS");
+            A0ShowAlertErrorView(A0LocalizedString(@"There was an error sending the SMS code"), A0LocalizedString(@"Auth0's API Secret wasn't found. Please set your app's API Secret before sending SMS."));
         }
     } else {
         Auth0LogError(@"No phone number provided");
         [self.phoneFieldView setInvalid:YES];
+        A0ShowAlertErrorView(A0LocalizedString(@"There was an error sending the SMS code"), A0LocalizedString(@"You must enter a valid phone number"));
     }
 }
 
