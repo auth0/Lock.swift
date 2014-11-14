@@ -75,7 +75,7 @@
 }
 
 - (NSString *)fullPhoneNumber {
-    return [self.countryCode stringByAppendingString:self.phoneNumber];
+    return [[self.countryCode stringByAppendingString:self.phoneNumber] stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
 
 - (NSString *)countryCode {
