@@ -50,9 +50,9 @@
     [super viewDidLoad];
     [self displayController:[self buildSignUp]];
     A0Theme *theme = [A0Theme sharedInstance];
-    self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor defaultColor:self.view.backgroundColor];
-    self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor defaultColor:self.iconContainerView.backgroundColor];
-    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName defaultImage:self.iconImageView.image];
+    self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
+    self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
+    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
 }
 
 - (UIViewController<A0KeyboardEnabledView> *)buildSignUp {

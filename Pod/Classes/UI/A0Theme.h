@@ -48,8 +48,11 @@ FOUNDATION_EXPORT NSString * const A0ThemeIconBackgroundColor;
 - (void)registerColor:(UIColor *)color forKey:(NSString *)key;
 - (void)registerImageWithName:(NSString *)name forKey:(NSString *)key;
 
+- (UIImage *)imageForKey:(NSString *)key;
 - (UIFont *)fontForKey:(NSString *)key defaultFont:(UIFont *)defaultFont;
+- (UIColor *)colorForKey:(NSString *)key;
 - (UIColor *)colorForKey:(NSString *)key defaultColor:(UIColor *)defaultColor;
+- (UIFont *)fontForKey:(NSString *)key;
 - (UIImage *)imageForKey:(NSString *)key defaultImage:(UIImage *)image;
 
 - (void)configurePrimaryButton:(UIButton *)button;

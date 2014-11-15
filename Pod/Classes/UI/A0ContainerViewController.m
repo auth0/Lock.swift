@@ -41,8 +41,8 @@
     [super viewDidLoad];
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
     A0Theme *theme = [A0Theme sharedInstance];
-    self.titleLabel.font = [theme fontForKey:A0ThemeTitleFont defaultFont:self.titleLabel.font];
-    self.titleLabel.textColor = [theme colorForKey:A0ThemeTitleTextColor defaultColor:self.titleLabel.textColor];
+    self.titleLabel.font = [theme fontForKey:A0ThemeTitleFont];
+    self.titleLabel.textColor = [theme colorForKey:A0ThemeTitleTextColor];
 
 }
 
