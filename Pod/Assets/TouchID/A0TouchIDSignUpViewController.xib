@@ -39,20 +39,26 @@
                             <rect key="frame" x="0.0" y="0.0" width="558" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Please enter your email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Cd-SC-Pyf">
-                                    <rect key="frame" x="42" y="10" width="509" height="30"/>
+                                    <rect key="frame" x="44" y="10" width="507" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" returnKeyType="go"/>
                                     <connections>
                                         <action selector="signUp:" destination="-1" eventType="editingDidEndOnExit" id="Ulu-Ee-qUj"/>
                                     </connections>
                                 </textField>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/person" translatesAutoresizingMaskIntoConstraints="NO" id="zVF-05-xGl">
-                                    <rect key="frame" x="18" y="18" width="14" height="14"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/mail" translatesAutoresizingMaskIntoConstraints="NO" id="zVF-05-xGl">
+                                    <rect key="frame" x="18" y="17" width="16" height="16"/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="14" id="NEp-fX-1go"/>
                                         <constraint firstAttribute="height" constant="14" id="itI-Lk-8vt"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="NEp-fX-1go"/>
+                                            <exclude reference="itI-Lk-8vt"/>
+                                        </mask>
+                                    </variation>
                                 </imageView>
                             </subviews>
                             <constraints>
@@ -93,6 +99,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Auth0.bundle/person" width="16" height="16"/>
+        <image name="Auth0.bundle/mail" width="16" height="16"/>
     </resources>
 </document>

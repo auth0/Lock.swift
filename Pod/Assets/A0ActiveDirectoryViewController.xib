@@ -30,7 +30,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="238" height="50"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="daj-TK-3fr">
-                                            <rect key="frame" x="42" y="10" width="189" height="30"/>
+                                            <rect key="frame" x="44" y="10" width="187" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                             <connections>
@@ -38,12 +38,8 @@
                                             </connections>
                                         </textField>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/person" translatesAutoresizingMaskIntoConstraints="NO" id="NAY-MX-Mcg">
-                                            <rect key="frame" x="18" y="18" width="14" height="14"/>
+                                            <rect key="frame" x="18" y="17" width="16" height="16"/>
                                             <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="14" id="Cwg-g0-e3n"/>
-                                                <constraint firstAttribute="height" constant="14" id="WJK-Uf-dha"/>
-                                            </constraints>
                                         </imageView>
                                     </subviews>
                                     <constraints>
@@ -68,7 +64,7 @@
                                     <rect key="frame" x="0.0" y="51" width="238" height="50"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="chi-h0-T7Q">
-                                            <rect key="frame" x="42" y="10" width="189" height="30"/>
+                                            <rect key="frame" x="44" y="10" width="187" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                             <connections>
@@ -76,12 +72,8 @@
                                             </connections>
                                         </textField>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="veA-84-hT0">
-                                            <rect key="frame" x="18" y="18" width="14" height="14"/>
+                                            <rect key="frame" x="18" y="17" width="16" height="16"/>
                                             <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="14" id="Yok-75-ke3"/>
-                                                <constraint firstAttribute="height" constant="14" id="nb0-IM-PyE"/>
-                                            </constraints>
                                         </imageView>
                                     </subviews>
                                     <constraints>

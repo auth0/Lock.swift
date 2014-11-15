@@ -87,20 +87,16 @@
                                     <rect key="frame" x="0.0" y="0.0" width="278" height="50"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hOQ-4G-Z1n">
-                                            <rect key="frame" x="42" y="10" width="229" height="30"/>
+                                            <rect key="frame" x="44" y="10" width="227" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                             <connections>
                                                 <action selector="goToPasswordField:" destination="-1" eventType="editingDidEndOnExit" id="RED-ZG-8XI"/>
                                             </connections>
                                         </textField>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/person" translatesAutoresizingMaskIntoConstraints="NO" id="rER-tX-470">
-                                            <rect key="frame" x="18" y="18" width="14" height="14"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/mail" translatesAutoresizingMaskIntoConstraints="NO" id="rER-tX-470">
+                                            <rect key="frame" x="18" y="17" width="16" height="16"/>
                                             <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="14" id="DoL-BV-qK4"/>
-                                                <constraint firstAttribute="width" constant="14" id="lKW-l8-Tzc"/>
-                                            </constraints>
                                         </imageView>
                                     </subviews>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -126,7 +122,7 @@
                                     <rect key="frame" x="0.0" y="51" width="278" height="50"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aw3-Nx-wH7">
-                                            <rect key="frame" x="42" y="10" width="229" height="30"/>
+                                            <rect key="frame" x="44" y="10" width="227" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                             <connections>
@@ -134,12 +130,8 @@
                                             </connections>
                                         </textField>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="nYW-cz-nC2">
-                                            <rect key="frame" x="18" y="18" width="14" height="14"/>
+                                            <rect key="frame" x="18" y="17" width="16" height="16"/>
                                             <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="14" id="bEC-je-FkZ"/>
-                                                <constraint firstAttribute="width" constant="14" id="qrT-EM-dg0"/>
-                                            </constraints>
                                         </imageView>
                                     </subviews>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -253,7 +245,7 @@
     </objects>
     <resources>
         <image name="Auth0.bundle/lock" width="16" height="16"/>
-        <image name="Auth0.bundle/person" width="16" height="16"/>
+        <image name="Auth0.bundle/mail" width="16" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
