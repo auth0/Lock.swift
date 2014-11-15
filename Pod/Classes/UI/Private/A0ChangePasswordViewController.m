@@ -76,7 +76,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
     [theme configureTextField:self.repeatPasswordField.textField];
-    [theme configureCredentialsBoxView:self.credentialBoxView];
     
     self.userField.textField.text = self.defaultEmail;
     self.userField.textField.placeholder = A0LocalizedString(@"Email");

@@ -82,7 +82,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configurePrimaryButton:self.accessButton];
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
-    [theme configureCredentialsBoxView:self.credentialsBoxView];
     
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
     self.singleSignOnIcon.image = [self.singleSignOnIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];

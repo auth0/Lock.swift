@@ -32,7 +32,7 @@
                         <action selector="signUp:" destination="-1" eventType="touchUpInside" id="K3n-Yl-xD9"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gpA-dC-FZ5">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gpA-dC-FZ5" customClass="A0RoundedBoxView">
                     <rect key="frame" x="21" y="10" width="558" height="50"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKL-Oy-0Cy" customClass="A0CredentialFieldView">
@@ -55,7 +55,6 @@
                                     </constraints>
                                 </imageView>
                             </subviews>
-                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstItem="2Cd-SC-Pyf" firstAttribute="top" secondItem="EKL-Oy-0Cy" secondAttribute="top" constant="10" id="VIG-uA-yzI"/>
@@ -72,7 +71,6 @@
                             </connections>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="EKL-Oy-0Cy" secondAttribute="trailing" id="0jh-Ns-O2b"/>
                         <constraint firstItem="EKL-Oy-0Cy" firstAttribute="leading" secondItem="gpA-dC-FZ5" secondAttribute="leading" id="OxL-b0-TZV"/>

@@ -62,6 +62,5 @@ FOUNDATION_EXPORT NSString * const A0ThemeCredentialBoxBorderColor;
 - (void)configureSecondaryButton:(UIButton *)button;
 - (void)configureTextField:(UITextField *)textField;
 - (void)configureLabel:(UILabel *)label;
-- (void)configureCredentialsBoxView:(UIView *)credentialsBoxView;
 
 @end

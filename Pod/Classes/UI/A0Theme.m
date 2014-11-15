@@ -165,11 +165,4 @@ NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderC
     label.textColor = [self colorForKey:A0ThemeDescriptionTextColor];
 }
 
-- (void)configureCredentialsBoxView:(UIView *)credentialsBoxView {
-    credentialsBoxView.layer.borderWidth = 1.0f;
-    credentialsBoxView.layer.borderColor = [[self colorForKey:A0ThemeCredentialBoxBorderColor] CGColor];
-    credentialsBoxView.layer.cornerRadius = 3.0f;
-    credentialsBoxView.backgroundColor = [self colorForKey:A0ThemeCredentialBoxBorderColor];
-}
-
 @end

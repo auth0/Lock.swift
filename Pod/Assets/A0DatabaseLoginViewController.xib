@@ -23,7 +23,7 @@
                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="kzf-IP-iIm">
                     <rect key="frame" x="20" y="0.0" width="240" height="185"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="imv-tB-KW9">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="imv-tB-KW9" customClass="A0RoundedBoxView">
                             <rect key="frame" x="1" y="10" width="238" height="101"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LRt-CG-Jii" customClass="A0CredentialFieldView">
@@ -46,7 +46,6 @@
                                             </constraints>
                                         </imageView>
                                     </subviews>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="BBb-h3-p5Y" firstAttribute="leading" secondItem="RRD-UR-JiT" secondAttribute="trailing" constant="10" id="Dcp-X1-gTA"/>
@@ -82,7 +81,6 @@
                                             </constraints>
                                         </imageView>
                                     </subviews>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="jiD-tp-0bD" firstAttribute="top" secondItem="E2O-P0-lwl" secondAttribute="top" constant="10" id="9gA-au-MSD"/>
@@ -97,18 +95,28 @@
                                         <outlet property="textField" destination="jiD-tp-0bD" id="BuF-99-gwe"/>
                                     </connections>
                                 </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mVK-Xa-ZrL">
+                                    <rect key="frame" x="0.0" y="50" width="238" height="1"/>
+                                    <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                </view>
                             </subviews>
-                            <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
+                                <constraint firstItem="mVK-Xa-ZrL" firstAttribute="top" secondItem="LRt-CG-Jii" secondAttribute="bottom" id="DKt-sI-09s"/>
+                                <constraint firstAttribute="trailing" secondItem="mVK-Xa-ZrL" secondAttribute="trailing" id="ILy-3Q-mlq"/>
                                 <constraint firstItem="LRt-CG-Jii" firstAttribute="leading" secondItem="imv-tB-KW9" secondAttribute="leading" id="M55-Pt-TxZ"/>
                                 <constraint firstItem="LRt-CG-Jii" firstAttribute="height" secondItem="E2O-P0-lwl" secondAttribute="height" id="bHH-Lx-iSv"/>
                                 <constraint firstAttribute="trailing" secondItem="LRt-CG-Jii" secondAttribute="trailing" id="bZK-Sq-2Ug"/>
                                 <constraint firstItem="E2O-P0-lwl" firstAttribute="leading" secondItem="imv-tB-KW9" secondAttribute="leading" id="c5v-T8-SPS"/>
+                                <constraint firstItem="mVK-Xa-ZrL" firstAttribute="leading" secondItem="imv-tB-KW9" secondAttribute="leading" id="eho-kA-X3X"/>
+                                <constraint firstItem="E2O-P0-lwl" firstAttribute="top" secondItem="mVK-Xa-ZrL" secondAttribute="bottom" id="gaj-HE-auc"/>
                                 <constraint firstAttribute="bottom" secondItem="E2O-P0-lwl" secondAttribute="bottom" id="o42-Bc-6Bg"/>
                                 <constraint firstItem="LRt-CG-Jii" firstAttribute="top" secondItem="imv-tB-KW9" secondAttribute="top" id="uuZ-oy-z8z"/>
                                 <constraint firstAttribute="height" constant="101" id="yla-Ic-Xti"/>
                                 <constraint firstAttribute="trailing" secondItem="E2O-P0-lwl" secondAttribute="trailing" id="z3h-Nb-RnD"/>
                             </constraints>
+                            <connections>
+                                <outletCollection property="separators" destination="mVK-Xa-ZrL" id="bWH-aY-ZZz"/>
+                            </connections>
                         </view>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nhJ-26-61R">
                             <rect key="frame" x="0.0" y="61" width="240" height="50"/>

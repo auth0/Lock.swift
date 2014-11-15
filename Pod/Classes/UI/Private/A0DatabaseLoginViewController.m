@@ -86,7 +86,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configureSecondaryButton:self.forgotPasswordButton];
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
-    [theme configureCredentialsBoxView:self.credentialsBoxView];
 
     self.signUpButton.hidden = !self.showSignUp;
     self.forgotPasswordButton.hidden = !self.showResetPassword;

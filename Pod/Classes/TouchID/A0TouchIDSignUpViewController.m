@@ -66,7 +66,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configureSecondaryButton:self.loginButton];
     [theme configureTextField:self.emailField.textField];
     [theme configureLabel:self.messageLabel];
-    [theme configureCredentialsBoxView:self.credentialBoxView];
     
     self.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:YES];
     self.title = A0LocalizedString(@"Register");
