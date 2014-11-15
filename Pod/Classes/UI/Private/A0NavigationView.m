@@ -51,11 +51,9 @@
         Auth0LogWarn(@"Already has 2 butttons which is the Max. Skipping last button with title %@", localizedTitle);
         return;
     }
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.translatesAutoresizingMaskIntoConstraints = NO;
     [button setTitle:localizedTitle forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor colorWithWhite:0.298 alpha:1.000] forState:UIControlStateNormal];
-    [button.titleLabel setFont:[UIFont systemFontOfSize:11.0f]];
     button.tag = self.buttons.count;
     [button addTarget:self action:@selector(onAction:) forControlEvents:UIControlEventTouchUpInside];
     A0Theme *theme = [A0Theme sharedInstance];
@@ -102,34 +100,33 @@
                                                      attribute:NSLayoutAttributeCenterX
                                                     multiplier:1.0f
                                                       constant:0.0f]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
-                                                     attribute:NSLayoutAttributeCenterY
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:button
-                                                     attribute:NSLayoutAttributeCenterY
-                                                    multiplier:1.0f
-                                                      constant:0.0f]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[button]"
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:NSDictionaryOfVariableBindings(button)]];
 }
 
 - (void)layoutLeftButton:(UIButton *)leftButton rightButton:(UIButton *)rightButton {
     NSDictionary *views = NSDictionaryOfVariableBindings(leftButton, rightButton);
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[leftButton]" options:0 metrics:nil views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[rightButton]|" options:0 metrics:nil views:views]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
-                                                     attribute:NSLayoutAttributeCenterY
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:leftButton
-                                                     attribute:NSLayoutAttributeCenterY
-                                                    multiplier:1.0f
-                                                      constant:0.0f]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
-                                                     attribute:NSLayoutAttributeCenterY
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:rightButton
-                                                     attribute:NSLayoutAttributeCenterY
-                                                    multiplier:1.0f
-                                                      constant:0.0f]];
-
+    NSDictionary *metrics = @{
+                              @"margin": @20,
+                              };
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(margin)-[leftButton]"
+                                                                 options:0
+                                                                 metrics:metrics
+                                                                   views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[rightButton]-(margin)-|"
+                                                                 options:0
+                                                                 metrics:metrics
+                                                                   views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[leftButton]"
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[rightButton]"
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:views]];
 }
 
 - (CGSize)intrinsicContentSize {
