@@ -67,7 +67,6 @@
                                     </constraints>
                                 </imageView>
                             </subviews>
-                            <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstItem="B4K-1n-dxc" firstAttribute="leading" secondItem="uPM-Ir-6l4" secondAttribute="leading" constant="18" id="0KR-4t-H1K"/>
                                 <constraint firstItem="B4K-1n-dxc" firstAttribute="centerY" secondItem="tIl-xc-rd0" secondAttribute="centerY" id="5yg-Uy-xzE"/>

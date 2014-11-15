@@ -31,6 +31,7 @@ FOUNDATION_EXPORT NSString * const A0ThemeSecondaryButtonFont;
 FOUNDATION_EXPORT NSString * const A0ThemeSecondaryButtonTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldFont;
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldTextColor;
+FOUNDATION_EXPORT NSString * const A0ThemeTextFieldIconColor;
 FOUNDATION_EXPORT NSString * const A0ThemeTitleFont;
 FOUNDATION_EXPORT NSString * const A0ThemeTitleTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeDescriptionFont;

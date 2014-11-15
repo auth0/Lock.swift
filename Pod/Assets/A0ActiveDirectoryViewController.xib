@@ -46,7 +46,6 @@
                                             </constraints>
                                         </imageView>
                                     </subviews>
-                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="daj-TK-3fr" secondAttribute="trailing" constant="7" id="ApT-Iy-Lnr"/>
                                         <constraint firstItem="NAY-MX-Mcg" firstAttribute="centerY" secondItem="daj-TK-3fr" secondAttribute="centerY" id="GxW-2Z-4gX"/>
@@ -85,7 +84,6 @@
                                             </constraints>
                                         </imageView>
                                     </subviews>
-                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="chi-h0-T7Q" firstAttribute="leading" secondItem="veA-84-hT0" secondAttribute="trailing" constant="10" id="EIY-gk-wHb"/>
                                         <constraint firstAttribute="trailing" secondItem="chi-h0-T7Q" secondAttribute="trailing" constant="7" id="FG4-SV-VwN"/>

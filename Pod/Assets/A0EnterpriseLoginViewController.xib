@@ -22,7 +22,7 @@
                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="236-6Y-uJi">
                     <rect key="frame" x="20" y="0.0" width="240" height="255"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wjg-2h-hGz">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wjg-2h-hGz" customClass="A0RoundedBoxView">
                             <rect key="frame" x="1" y="80" width="238" height="101"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BAY-A3-Jzh" customClass="A0CredentialFieldView">
@@ -45,8 +45,6 @@
                                             </constraints>
                                         </imageView>
                                     </subviews>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="gnH-SJ-vuK" firstAttribute="top" secondItem="BAY-A3-Jzh" secondAttribute="top" constant="10" id="72a-Ru-vhH"/>
                                         <constraint firstAttribute="bottom" secondItem="gnH-SJ-vuK" secondAttribute="bottom" constant="10" id="7bn-vS-R28"/>
@@ -60,6 +58,10 @@
                                         <outlet property="iconImageView" destination="STu-B7-Woq" id="0QY-K4-QDv"/>
                                         <outlet property="textField" destination="gnH-SJ-vuK" id="fh7-Ii-0FF"/>
                                     </connections>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PGh-Iv-zbA">
+                                    <rect key="frame" x="0.0" y="50" width="238" height="1"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fk8-vm-zOL" customClass="A0CredentialFieldView">
                                     <rect key="frame" x="0.0" y="51" width="238" height="50"/>
@@ -81,8 +83,6 @@
                                             </constraints>
                                         </imageView>
                                     </subviews>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="8qb-ja-Yno" firstAttribute="leading" secondItem="pw1-ya-2vf" secondAttribute="trailing" constant="10" id="Fde-Gz-xqi"/>
                                         <constraint firstItem="pw1-ya-2vf" firstAttribute="leading" secondItem="Fk8-vm-zOL" secondAttribute="leading" constant="18" id="H9Q-HQ-yfi"/>
@@ -97,17 +97,23 @@
                                     </connections>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
+                                <constraint firstItem="Fk8-vm-zOL" firstAttribute="top" secondItem="PGh-Iv-zbA" secondAttribute="bottom" id="3R6-vU-kyh"/>
                                 <constraint firstItem="Fk8-vm-zOL" firstAttribute="leading" secondItem="Wjg-2h-hGz" secondAttribute="leading" id="Aye-N5-8XQ"/>
+                                <constraint firstItem="PGh-Iv-zbA" firstAttribute="top" secondItem="BAY-A3-Jzh" secondAttribute="bottom" id="IPq-RC-Ohj"/>
                                 <constraint firstItem="BAY-A3-Jzh" firstAttribute="height" secondItem="Fk8-vm-zOL" secondAttribute="height" id="KNN-OS-sNl"/>
                                 <constraint firstAttribute="trailing" secondItem="Fk8-vm-zOL" secondAttribute="trailing" id="OJH-qI-zCG"/>
                                 <constraint firstItem="BAY-A3-Jzh" firstAttribute="top" secondItem="Wjg-2h-hGz" secondAttribute="top" id="UkR-eR-IcA"/>
                                 <constraint firstItem="BAY-A3-Jzh" firstAttribute="leading" secondItem="Wjg-2h-hGz" secondAttribute="leading" id="Wll-Pf-a0j"/>
+                                <constraint firstAttribute="trailing" secondItem="PGh-Iv-zbA" secondAttribute="trailing" id="ZdM-HT-wzS"/>
                                 <constraint firstAttribute="height" constant="101" id="fim-na-tOx"/>
+                                <constraint firstItem="PGh-Iv-zbA" firstAttribute="leading" secondItem="Wjg-2h-hGz" secondAttribute="leading" id="hT4-nm-ldx"/>
                                 <constraint firstAttribute="trailing" secondItem="BAY-A3-Jzh" secondAttribute="trailing" id="p4c-Iz-QSk"/>
                                 <constraint firstAttribute="bottom" secondItem="Fk8-vm-zOL" secondAttribute="bottom" id="uGZ-AX-VK2"/>
                             </constraints>
+                            <connections>
+                                <outletCollection property="separators" destination="PGh-Iv-zbA" id="7jh-uU-XEO"/>
+                            </connections>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PmP-V7-sFo" customClass="A0ProgressButton">
                             <rect key="frame" x="1" y="200" width="238" height="55"/>

@@ -46,7 +46,6 @@
                                             </constraints>
                                         </imageView>
                                     </subviews>
-                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="BBb-h3-p5Y" firstAttribute="leading" secondItem="RRD-UR-JiT" secondAttribute="trailing" constant="10" id="Dcp-X1-gTA"/>
                                         <constraint firstAttribute="bottom" secondItem="BBb-h3-p5Y" secondAttribute="bottom" constant="10" id="F9i-3W-buG"/>
@@ -81,7 +80,6 @@
                                             </constraints>
                                         </imageView>
                                     </subviews>
-                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="jiD-tp-0bD" firstAttribute="top" secondItem="E2O-P0-lwl" secondAttribute="top" constant="10" id="9gA-au-MSD"/>
                                         <constraint firstAttribute="bottom" secondItem="jiD-tp-0bD" secondAttribute="bottom" constant="10" id="9uC-qg-b5W"/>
