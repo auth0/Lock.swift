@@ -41,6 +41,9 @@ NSString * const A0ThemeDescriptionTextColor = @"A0ThemeDescriptionTextColor";
 NSString * const A0ThemeScreenBackgroundColor = @"A0ThemeScreenBackgroundColor";
 NSString * const A0ThemeIconImageName = @"A0ThemeIconImageName";
 NSString * const A0ThemeIconBackgroundColor = @"A0ThemeIconBackgroundColor";
+NSString * const A0ThemeSeparatorTextFont = @"A0ThemeSeparatorTextFont";
+NSString * const A0ThemeSeparatorTextColor = @"A0ThemeSeparatorTextColor";
+NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderColor";
 
 @interface A0Theme ()
 
@@ -69,17 +72,20 @@ NSString * const A0ThemeIconBackgroundColor = @"A0ThemeIconBackgroundColor";
                      A0ThemePrimaryButtonTextColor: [UIColor whiteColor],
                      A0ThemeSecondaryButtonNormalColor: [UIColor clearColor],
                      A0ThemeSecondaryButtonHighlightedColor: [UIColor clearColor],
-                     A0ThemeSecondaryButtonFont: [UIFont systemFontOfSize:11.0f],
-                     A0ThemeSecondaryButtonTextColor: [UIColor colorWithWhite:0.298 alpha:1.000],
-                     A0ThemeTextFieldFont: [UIFont systemFontOfSize:14.0f],
-                     A0ThemeTextFieldTextColor: [UIColor blackColor],
+                     A0ThemeSecondaryButtonFont: [UIFont boldSystemFontOfSize:10.0f],
+                     A0ThemeSecondaryButtonTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],
+                     A0ThemeTextFieldFont: [UIFont systemFontOfSize:13.0f],
+                     A0ThemeTextFieldTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],
                      A0ThemeDescriptionFont: [UIFont systemFontOfSize:13.0f],
-                     A0ThemeDescriptionTextColor: [UIColor colorWithWhite:0.298 alpha:1.000],
+                     A0ThemeDescriptionTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],
                      A0ThemeTitleFont: [UIFont fontWithName:@"HelveticaNeue-Thin" size:24.0f],
                      A0ThemeTitleTextColor: [UIColor colorWithWhite:0.298 alpha:1.000],
                      A0ThemeScreenBackgroundColor: [UIColor whiteColor],
                      A0ThemeIconBackgroundColor: [UIColor colorWithWhite:0.941 alpha:1.000],
                      A0ThemeIconImageName: @"Auth0.bundle/people",
+                     A0ThemeSeparatorTextColor: [UIColor colorWithWhite:0.600 alpha:1.000],
+                     A0ThemeSeparatorTextFont: [UIFont systemFontOfSize:12.0f],
+                     A0ThemeCredentialBoxBorderColor: [UIColor colorWithWhite:0.800 alpha:1.000],
                      } mutableCopy];
     }
     return self;
@@ -157,6 +163,13 @@ NSString * const A0ThemeIconBackgroundColor = @"A0ThemeIconBackgroundColor";
 - (void)configureLabel:(UILabel *)label {
     label.font = [self fontForKey:A0ThemeDescriptionFont];
     label.textColor = [self colorForKey:A0ThemeDescriptionTextColor];
+}
+
+- (void)configureCredentialsBoxView:(UIView *)credentialsBoxView {
+    credentialsBoxView.layer.borderWidth = 1.0f;
+    credentialsBoxView.layer.borderColor = [[self colorForKey:A0ThemeCredentialBoxBorderColor] CGColor];
+    credentialsBoxView.layer.cornerRadius = 3.0f;
+    credentialsBoxView.backgroundColor = [self colorForKey:A0ThemeCredentialBoxBorderColor];
 }
 
 @end

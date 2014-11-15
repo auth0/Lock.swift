@@ -65,8 +65,8 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     self.activeServices = self.application.socialStrategies;
     self.serviceCollectionView.scrollEnabled = self.activeServices.count > 5;
     A0Theme *theme = [A0Theme sharedInstance];
-    self.orLabel.font = [theme fontForKey:A0ThemeTextFieldFont];
-    self.orLabel.textColor = [theme colorForKey:A0ThemeTextFieldTextColor];
+    self.orLabel.font = [theme fontForKey:A0ThemeSeparatorTextFont];
+    self.orLabel.textColor = [theme colorForKey:A0ThemeSeparatorTextColor];
     self.orLabel.text = A0LocalizedString(@"OR");
 }
 

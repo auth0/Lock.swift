@@ -39,6 +39,9 @@ FOUNDATION_EXPORT NSString * const A0ThemeDescriptionTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeScreenBackgroundColor;
 FOUNDATION_EXPORT NSString * const A0ThemeIconImageName;
 FOUNDATION_EXPORT NSString * const A0ThemeIconBackgroundColor;
+FOUNDATION_EXPORT NSString * const A0ThemeSeparatorTextFont;
+FOUNDATION_EXPORT NSString * const A0ThemeSeparatorTextColor;
+FOUNDATION_EXPORT NSString * const A0ThemeCredentialBoxBorderColor;
 
 @interface A0Theme : NSObject
 
@@ -59,5 +62,6 @@ FOUNDATION_EXPORT NSString * const A0ThemeIconBackgroundColor;
 - (void)configureSecondaryButton:(UIButton *)button;
 - (void)configureTextField:(UITextField *)textField;
 - (void)configureLabel:(UILabel *)label;
+- (void)configureCredentialsBoxView:(UIView *)credentialsBoxView;
 
 @end
