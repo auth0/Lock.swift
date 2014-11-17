@@ -34,7 +34,6 @@
 
 @interface A0SMSSendCodeViewController ()
 
-@property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
 @property (weak, nonatomic) IBOutlet A0PhoneFieldView *phoneFieldView;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *registerButton;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
@@ -52,9 +51,6 @@
     @weakify(self);
 
     self.title = A0LocalizedString(@"Send Passcode");
-    self.credentialBoxView.layer.borderWidth = 1.0f;
-    self.credentialBoxView.layer.borderColor = [[UIColor colorWithWhite:0.600 alpha:1.000] CGColor];
-    self.credentialBoxView.layer.cornerRadius = 3.0f;
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configureTextField:self.phoneFieldView.textField];
     [theme configurePrimaryButton:self.registerButton];

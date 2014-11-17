@@ -21,24 +21,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wzd-pc-0b5">
-                    <rect key="frame" x="190" y="55" width="220" height="110"/>
+                    <rect key="frame" x="0.0" y="55" width="600" height="110"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login with SMS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FJ1-Mh-w1I">
-                            <rect key="frame" x="31" y="75" width="157" height="28.5"/>
+                            <rect key="frame" x="222" y="75" width="156.5" height="28.5"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
                             <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XOD-Vu-l64">
-                            <rect key="frame" x="80" y="5" width="60" height="60"/>
+                            <rect key="frame" x="270" y="5" width="60" height="60"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/people" translatesAutoresizingMaskIntoConstraints="NO" id="vpG-xn-AX2">
-                                    <rect key="frame" x="15" y="15" width="30" height="30"/>
+                                    <rect key="frame" x="22" y="22" width="16" height="16"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="30" id="5jj-NX-EkW"/>
-                                        <constraint firstAttribute="height" constant="30" id="o9b-E7-i3H"/>
-                                    </constraints>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                             <integer key="value" value="30"/>
@@ -69,6 +65,11 @@
                         <constraint firstAttribute="height" constant="110" id="TkB-5m-ORz"/>
                         <constraint firstAttribute="centerX" secondItem="XOD-Vu-l64" secondAttribute="centerX" id="YSh-Dr-tEk"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="D90-9r-0wA"/>
+                        </mask>
+                    </variation>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVp-Gk-Hz5">
                     <rect key="frame" x="0.0" y="165" width="600" height="387"/>
@@ -101,6 +102,8 @@
                 <constraint firstItem="qaM-cP-n67" firstAttribute="top" secondItem="RVp-Gk-Hz5" secondAttribute="bottom" id="0hQ-Bp-ic8"/>
                 <constraint firstItem="UEQ-iy-i4l" firstAttribute="top" secondItem="pjz-VA-gUK" secondAttribute="top" constant="25" id="4Yk-et-lZ5"/>
                 <constraint firstAttribute="bottom" secondItem="qaM-cP-n67" secondAttribute="bottom" id="A4b-lm-QIB"/>
+                <constraint firstItem="wzd-pc-0b5" firstAttribute="leading" secondItem="pjz-VA-gUK" secondAttribute="leading" id="MBa-Xi-2oS"/>
+                <constraint firstAttribute="trailing" secondItem="wzd-pc-0b5" secondAttribute="trailing" id="PiR-Hc-Hfx"/>
                 <constraint firstAttribute="trailing" secondItem="qaM-cP-n67" secondAttribute="trailing" constant="20" id="fXK-7c-JHJ"/>
                 <constraint firstAttribute="centerX" secondItem="wzd-pc-0b5" secondAttribute="centerX" id="gKG-Dh-wij"/>
                 <constraint firstItem="qaM-cP-n67" firstAttribute="leading" secondItem="pjz-VA-gUK" secondAttribute="leading" constant="20" id="jiv-ej-bCM"/>

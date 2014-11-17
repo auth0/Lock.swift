@@ -58,8 +58,10 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     A0Theme *theme = [A0Theme sharedInstance];
-    self.countryCodeButton.titleLabel.font = [theme fontForKey:A0ThemeTextFieldFont defaultFont:self.countryCodeButton.titleLabel.font];
+    self.countryCodeButton.titleLabel.font = [theme fontForKey:A0ThemeTextFieldFont];
+    [self.countryCodeButton setTitleColor:[theme colorForKey:A0ThemeTextFieldTextColor] forState:UIControlStateNormal];
     [self.countryCodeButton setTitle:self.defaultCountryCode forState:UIControlStateNormal];
     [self.countryCodeButton addTarget:self action:@selector(countryCodeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -94,7 +96,8 @@
 
 - (void)setInvalid:(BOOL)invalid {
     [super setInvalid:invalid];
-    UIColor *color = invalid ? [UIColor redColor] : self.textField.textColor;
+    A0Theme *theme = [A0Theme sharedInstance];
+    UIColor *color = invalid ? [UIColor redColor] : [theme colorForKey:A0ThemeTextFieldTextColor];
     [self.countryCodeButton setTitleColor:color forState:UIControlStateNormal];
 }
 

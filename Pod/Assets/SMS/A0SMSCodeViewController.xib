@@ -7,7 +7,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SMSCodeViewController">
             <connections>
                 <outlet property="codeFieldView" destination="esC-bu-ZPY" id="zIU-zE-8DU"/>
-                <outlet property="credentialBoxView" destination="5ub-pd-xuL" id="seX-fT-9Ra"/>
                 <outlet property="loginButton" destination="GlB-fC-sye" id="2B7-ev-g6d"/>
                 <outlet property="messageLabel" destination="d04-XJ-9xx" id="uaV-Jz-3uS"/>
                 <outlet property="view" destination="yrE-uH-HKO" id="ZQj-Ua-8fZ"/>
@@ -33,28 +32,23 @@
                         <action selector="login:" destination="-1" eventType="touchUpInside" id="Dtg-iW-2iu"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ub-pd-xuL">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ub-pd-xuL" customClass="A0RoundedBoxView">
                     <rect key="frame" x="21" y="69" width="558" height="50"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="esC-bu-ZPY" customClass="A0CredentialFieldView">
                             <rect key="frame" x="0.0" y="0.0" width="558" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="SMS Code" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="O1y-8u-u3e">
-                                    <rect key="frame" x="42" y="10" width="509" height="30"/>
+                                    <rect key="frame" x="44" y="10" width="507" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" returnKeyType="go"/>
                                 </textField>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="Ohf-Uq-zFi">
-                                    <rect key="frame" x="18" y="18" width="14" height="14"/>
+                                    <rect key="frame" x="18" y="17" width="16" height="16"/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="14" id="lSb-BJ-iEF"/>
-                                        <constraint firstAttribute="height" constant="14" id="scG-90-sZm"/>
-                                    </constraints>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstItem="Ohf-Uq-zFi" firstAttribute="centerY" secondItem="O1y-8u-u3e" secondAttribute="centerY" id="5kD-ZP-3jC"/>
                                 <constraint firstItem="Ohf-Uq-zFi" firstAttribute="leading" secondItem="esC-bu-ZPY" secondAttribute="leading" constant="18" id="DIa-lB-ifn"/>
@@ -70,7 +64,6 @@
                             </connections>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="esC-bu-ZPY" secondAttribute="trailing" id="5bu-kN-zp4"/>
                         <constraint firstItem="esC-bu-ZPY" firstAttribute="leading" secondItem="5ub-pd-xuL" secondAttribute="leading" id="7am-lk-nZd"/>
