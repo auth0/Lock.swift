@@ -84,6 +84,7 @@
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
     self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
     self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
+    self.dismissButton.tintColor = [theme colorForKey:A0ThemeSecondaryButtonTextColor];
 
     [self displayController:[[A0LoadingViewController alloc] init]];
 

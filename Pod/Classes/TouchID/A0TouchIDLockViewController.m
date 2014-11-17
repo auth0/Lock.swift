@@ -80,6 +80,7 @@ NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchID
     self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
+    self.closeButton.tintColor = [theme colorForKey:A0ThemeSecondaryButtonTextColor];
     UIImage *normalImage = [theme imageForKey:A0ThemeTouchIDLockButtonImageNormalName defaultImage:[self.touchIDButton imageForState:UIControlStateNormal]];
     [self.touchIDButton setImage:normalImage forState:UIControlStateNormal];
     UIImage *highlightedImage = [theme imageForKey:A0ThemeTouchIDLockButtonImageHighlightedName defaultImage:[self.touchIDButton imageForState:UIControlStateHighlighted]];
