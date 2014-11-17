@@ -83,12 +83,13 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UEQ-iy-i4l">
-                    <rect key="frame" x="555" y="25" width="30" height="30"/>
+                    <rect key="frame" x="560" y="10" width="40" height="40"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="30" id="5rk-5g-iuR"/>
-                        <constraint firstAttribute="height" constant="30" id="ubh-De-xy3"/>
+                        <constraint firstAttribute="width" constant="40" id="5rk-5g-iuR"/>
+                        <constraint firstAttribute="height" constant="40" id="ubh-De-xy3"/>
                     </constraints>
                     <color key="tintColor" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <inset key="contentEdgeInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                     <state key="normal" image="Auth0.bundle/close">
                         <color key="titleColor" red="0.81568627449999997" green="0.82352941180000006" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -100,7 +101,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="qaM-cP-n67" firstAttribute="top" secondItem="RVp-Gk-Hz5" secondAttribute="bottom" id="0hQ-Bp-ic8"/>
-                <constraint firstItem="UEQ-iy-i4l" firstAttribute="top" secondItem="pjz-VA-gUK" secondAttribute="top" constant="25" id="4Yk-et-lZ5"/>
+                <constraint firstItem="UEQ-iy-i4l" firstAttribute="top" secondItem="pjz-VA-gUK" secondAttribute="top" constant="10" id="4Yk-et-lZ5"/>
                 <constraint firstAttribute="bottom" secondItem="qaM-cP-n67" secondAttribute="bottom" id="A4b-lm-QIB"/>
                 <constraint firstItem="wzd-pc-0b5" firstAttribute="leading" secondItem="pjz-VA-gUK" secondAttribute="leading" id="MBa-Xi-2oS"/>
                 <constraint firstAttribute="trailing" secondItem="wzd-pc-0b5" secondAttribute="trailing" id="PiR-Hc-Hfx"/>
@@ -108,7 +109,7 @@
                 <constraint firstAttribute="centerX" secondItem="wzd-pc-0b5" secondAttribute="centerX" id="gKG-Dh-wij"/>
                 <constraint firstItem="qaM-cP-n67" firstAttribute="leading" secondItem="pjz-VA-gUK" secondAttribute="leading" constant="20" id="jiv-ej-bCM"/>
                 <constraint firstAttribute="trailing" secondItem="RVp-Gk-Hz5" secondAttribute="trailing" id="k2p-lG-gsf"/>
-                <constraint firstAttribute="trailing" secondItem="UEQ-iy-i4l" secondAttribute="trailing" constant="15" id="nrd-0e-hpR"/>
+                <constraint firstAttribute="trailing" secondItem="UEQ-iy-i4l" secondAttribute="trailing" id="nrd-0e-hpR"/>
                 <constraint firstItem="RVp-Gk-Hz5" firstAttribute="leading" secondItem="pjz-VA-gUK" secondAttribute="leading" id="s7d-VB-uY9"/>
                 <constraint firstAttribute="bottom" secondItem="RVp-Gk-Hz5" secondAttribute="bottom" id="wHr-pn-bCb"/>
                 <constraint firstItem="wzd-pc-0b5" firstAttribute="top" secondItem="pjz-VA-gUK" secondAttribute="top" constant="55" id="wK6-3K-pLr"/>
