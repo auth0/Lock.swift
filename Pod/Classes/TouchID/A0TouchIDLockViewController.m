@@ -34,6 +34,9 @@
 #import "A0UserAPIClient.h"
 #import "A0Theme.h"
 
+NSString * const A0ThemeTouchIDLockButtonImageNormalName = @"A0ThemeTouchIDLockButtonImageNormalName";
+NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchIDLockButtonImageHighlightedName";
+
 @interface A0TouchIDLockViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -77,12 +80,11 @@
     self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
-    if (self.touchIDImageName) {
-        [self.touchIDButton setImage:[UIImage imageNamed:self.touchIDImageName] forState:UIControlStateNormal];
-    }
-    if (self.touchIDImageHighlighted) {
-        [self.touchIDButton setImage:[UIImage imageNamed:self.touchIDImageHighlighted] forState:UIControlStateNormal];
-    }
+    UIImage *normalImage = [theme imageForKey:A0ThemeTouchIDLockButtonImageNormalName defaultImage:[self.touchIDButton imageForState:UIControlStateNormal]];
+    [self.touchIDButton setImage:normalImage forState:UIControlStateNormal];
+    UIImage *highlightedImage = [theme imageForKey:A0ThemeTouchIDLockButtonImageHighlightedName defaultImage:[self.touchIDButton imageForState:UIControlStateHighlighted]];
+    [self.touchIDButton setImage:highlightedImage forState:UIControlStateHighlighted];
+
     self.titleLabel.text = A0LocalizedString(@"Login with TouchID");
 
     self.authentication = [[A0TouchIDAuthentication alloc] init];
