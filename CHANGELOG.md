@@ -5,7 +5,6 @@ All notable changes to this project will be documented in this file.
 ###Added
 - SMS Authentication
 - OSX Support (Only Core classes no UI or Social integration).
-- 
 ###Changed
 - Fixed styles of native widget
 - Fixed issues and improved A0Theme
