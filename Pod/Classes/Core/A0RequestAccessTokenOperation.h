@@ -1,4 +1,4 @@
-// A0HomeViewController.h
+// A0RequestAccessTokenOperation.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,15 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <AFNetworking/AFNetworking.h>
 
-@interface A0HomeViewController : UIViewController
+/**
+ *  HTTP operation to request for Auth0 API access token using client credentials.
+ *  Please be careful with how you store and handle your application client secret.
+ */
+@interface A0RequestAccessTokenOperation : AFHTTPRequestOperation
 
-@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
+/**
+ *  Initialises the operation
+ *
+ *  @param baseURL      Auth0 endpoint base URL
+ *  @param clientId     Auth0's app client id
+ *  @param clientSecret Auth0's app client secret
+ *
+ *  @return an initialised instance.
+ */
+- (instancetype)initWithBaseURL:(NSURL *)baseURL clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret;
 
-- (IBAction)loginNative:(id)sender;
-- (IBAction)loginTouchID:(id)sender;
-- (IBAction)loginSMS:(id)sender;
+/**
+ *  Sets the operation success and failure callbacks
+ *
+ *  @param success block called on success with access token.
+ *  @param error   block called on error with reason.
+ */
+- (void)setSuccess:(void(^)(NSString *accessToken))success failure:(void(^)(NSError *error))error;
 
 @end

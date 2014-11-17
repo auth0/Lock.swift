@@ -67,6 +67,21 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 ///----------------------------------------
 
 /**
+ *  Auth0 app client id
+ */
+@property (readonly, nonatomic) NSString *clientId;
+
+/**
+ *  Auth0 app tenant name
+ */
+@property (readonly, nonatomic) NSString *tenant;
+
+/**
+ *  Auth0 app base URL
+ */
+@property (readonly, nonatomic) NSURL *baseURL;
+
+/**
  *  Auth0 application information after a call to fetchAppInfoWithSuccess:failure:. Default is nil.
  */
 @property (readonly, nonatomic) A0Application *application;
@@ -153,6 +168,28 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
                  failure:(A0APIClientError)failure;
 
 ///----------------------------------------
+/// @name SMS Authentication
+///----------------------------------------
+
+/**
+ *  Perform login of a user with phone number & SMS code using `SMS` connection.
+ *  If app info is available and it doesn't have a SMS connection, it will fail.
+ *
+ *  @param phoneNumber  phone number where the user received the code and previously registered with.
+ *  @param passcode     passcode received by SMS.
+ *  @param parameters   optional parameters for Auth0 API. It can be nil
+ *  @param success      block called on successful login with it's token info and profile
+ *  @param failure      block called on failure with the reason as a parameter
+ *
+ *  @see A0AuthParameters
+ */
+- (void)loginWithPhoneNumber:(NSString *)phoneNumber
+                    passcode:(NSString *)passcode
+                  parameters:(A0AuthParameters *)parameters
+                     success:(A0APIClientAuthenticationSuccess)success
+                     failure:(A0APIClientError)failure;
+
+///----------------------------------------
 /// @name Social Authentication
 ///----------------------------------------
 
@@ -170,7 +207,6 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
                                   parameters:(A0AuthParameters *)parameters
                                      success:(A0APIClientAuthenticationSuccess)success
                                      failure:(A0APIClientError)failure;
-
 
 ///----------------------------------------
 /// @name Refresh Tokens

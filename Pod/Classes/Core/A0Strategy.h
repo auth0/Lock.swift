@@ -73,6 +73,7 @@ FOUNDATION_EXPORT NSString * const A0StrategyNameInstagram;
 FOUNDATION_EXPORT NSString * const A0StrategyNameTheCity;
 FOUNDATION_EXPORT NSString * const A0StrategyNameTheCitySandbox;
 FOUNDATION_EXPORT NSString * const A0StrategyNamePlanningCenter;
+FOUNDATION_EXPORT NSString * const A0StrategyNameSMS;
 
 ///----------------------------------------
 /// @name Social Strategy parameter names

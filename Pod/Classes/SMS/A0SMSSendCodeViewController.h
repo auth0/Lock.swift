@@ -1,4 +1,4 @@
-// A0HomeViewController.h
+// A0SMSSendCodeViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,15 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "A0KeyboardEnabledView.h"
 
-@interface A0HomeViewController : UIViewController
+@interface A0SMSSendCodeViewController : UIViewController<A0KeyboardEnabledView>
 
-@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
+@property (copy, nonatomic) void(^onRegisterBlock)(NSString *phoneNumber);
 
-- (IBAction)loginNative:(id)sender;
-- (IBAction)loginTouchID:(id)sender;
-- (IBAction)loginSMS:(id)sender;
+/**
+ *  Block that returns Auth0's app client secret. This secret is required to send SMS to users.
+ */
+@property (copy, nonatomic) NSString *(^clientSecretProvider)();
 
 @end

@@ -1,4 +1,4 @@
-// A0HomeViewController.h
+// A0UIUtilities.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,15 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import "A0UIUtilities.h"
 
-@interface A0HomeViewController : UIViewController
-
-@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
-
-- (IBAction)loginNative:(id)sender;
-- (IBAction)loginTouchID:(id)sender;
-- (IBAction)loginSMS:(id)sender;
-
-@end
+void A0ShowAlertErrorView(NSString *title, NSString *message) {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                    message:message
+                                                   delegate:nil
+                                          cancelButtonTitle:A0LocalizedString(@"OK")
+                                          otherButtonTitles:nil];
+    [alert show];
+}

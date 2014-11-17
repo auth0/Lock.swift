@@ -1,0 +1,137 @@
+// A0SMSSendCodeViewController.m
+//
+// Copyright (c) 2014 Auth0 (http://auth0.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+#import "A0SMSSendCodeViewController.h"
+#import "A0PhoneFieldView.h"
+#import "A0Theme.h"
+#import "A0ProgressButton.h"
+#import "A0CountryCodeTableViewController.h"
+#import "A0APIClient.h"
+#import "A0RequestAccessTokenOperation.h"
+#import "A0SendSMSOperation.h"
+#import "A0UIUtilities.h"
+
+#import <libextobjc/EXTScope.h>
+
+@interface A0SMSSendCodeViewController ()
+
+@property (weak, nonatomic) IBOutlet A0PhoneFieldView *phoneFieldView;
+@property (weak, nonatomic) IBOutlet A0ProgressButton *registerButton;
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+
+@property (copy, nonatomic) NSString *currentCountry;
+
+- (IBAction)registerSMS:(id)sender;
+
+@end
+
+@implementation A0SMSSendCodeViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    @weakify(self);
+
+    self.title = A0LocalizedString(@"Send Passcode");
+    A0Theme *theme = [A0Theme sharedInstance];
+    [theme configureTextField:self.phoneFieldView.textField];
+    [theme configurePrimaryButton:self.registerButton];
+    [theme configureLabel:self.messageLabel];
+    self.messageLabel.text = A0LocalizedString(@"Please enter your phone number");
+    self.phoneFieldView.textField.placeholder = A0LocalizedString(@"Phone Number");
+    [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
+
+    self.currentCountry = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+    self.phoneFieldView.countryCode = [A0CountryCodeTableViewController dialCodeForCountryWithCode:self.currentCountry];
+    
+    self.phoneFieldView.onCountryCodeTapped = ^(NSString *currentCode){
+        @strongify(self);
+        A0CountryCodeTableViewController *controller = [[A0CountryCodeTableViewController alloc] init];
+        controller.defaultCountry = self.currentCountry;
+        controller.onCountrySelect = ^(NSString *country, NSString *dialCode) {
+            @strongify(self);
+            self.currentCountry = country;
+            self.phoneFieldView.countryCode = dialCode;
+            Auth0LogDebug(@"Selected country %@ with dial code %@", country, dialCode);
+        };
+        [self.navigationController pushViewController:controller animated:YES];
+    };
+}
+
+- (void)registerSMS:(id)sender {
+    if (self.phoneFieldView.phoneNumber.length > 0) {
+        [self.phoneFieldView setInvalid:NO];
+        [self.phoneFieldView.textField resignFirstResponder];
+        Auth0LogDebug(@"Registering phone number %@", self.phoneFieldView.fullPhoneNumber);
+        [self.registerButton setInProgress:YES];
+        A0APIClient *client = [A0APIClient sharedClient];
+        NSString *phoneNumber = self.phoneFieldView.fullPhoneNumber;
+        NSString *secret;
+        if (self.clientSecretProvider) {
+            secret = self.clientSecretProvider();
+        }
+        if (secret) {
+            @weakify(self);
+            void(^onFailure)(NSError *) = ^(NSError *error) {
+                @strongify(self);
+                Auth0LogError(@"Failed to send SMS code with error %@", error);
+                A0ShowAlertErrorView(A0LocalizedString(@"There was an error sending the SMS code"), A0LocalizedString(@"Couldn't send an SMS to your phone. Please try again later."));
+                [self.registerButton setInProgress:NO];
+            };
+            A0RequestAccessTokenOperation *operation = [[A0RequestAccessTokenOperation alloc] initWithBaseURL:client.baseURL
+                                                                                                     clientId:client.clientId
+                                                                                                 clientSecret:secret];
+            [operation setSuccess:^(NSString *accessToken) {
+                Auth0LogDebug(@"About to send SMS code to phone %@", phoneNumber);
+                A0SendSMSOperation *operation = [[A0SendSMSOperation alloc] initWithBaseURL:client.baseURL accessToken:accessToken phoneNumber:phoneNumber];
+                [operation setSuccess:^{
+                    @strongify(self);
+                    Auth0LogDebug(@"SMS code sent to phone %@", phoneNumber);
+                    [self.registerButton setInProgress:NO];
+                    if (self.onRegisterBlock) {
+                        self.onRegisterBlock(phoneNumber);
+                    }
+                } failure:onFailure];
+                [operation start];
+            } failure:onFailure];
+            [operation start];
+        } else {
+            Auth0LogError(@"No API Secret was configured to send SMS");
+            A0ShowAlertErrorView(A0LocalizedString(@"There was an error sending the SMS code"), A0LocalizedString(@"Auth0's API Secret wasn't found. Please set your app's API Secret before sending SMS."));
+        }
+    } else {
+        Auth0LogError(@"No phone number provided");
+        [self.phoneFieldView setInvalid:YES];
+        A0ShowAlertErrorView(A0LocalizedString(@"There was an error sending the SMS code"), A0LocalizedString(@"You must enter a valid phone number"));
+    }
+}
+
+#pragma mark - A0KeyboardEnabledView
+
+- (CGRect)rectToKeepVisibleInView:(UIView *)view {
+    CGRect rect = [view convertRect:self.registerButton.frame fromView:self.registerButton.superview];
+    return rect;
+}
+
+- (void)hideKeyboard {
+    [self.phoneFieldView.textField resignFirstResponder];
+}
+@end

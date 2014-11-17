@@ -111,6 +111,10 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 #pragma mark - Client configuration
 
+- (NSURL *)baseURL {
+    return self.manager.baseURL;
+}
+
 - (void)configureForApplication:(A0Application *)application {
     Auth0LogDebug(@"Configuring APIClient for application %@", application);
     self.application = application;
@@ -240,6 +244,42 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
             Auth0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
             [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
         } failure:[A0APIClient sanitizeFailureBlock:failure]];
+    }
+}
+
+#pragma mark - SMS Authentication
+
+- (void)loginWithPhoneNumber:(NSString *)phoneNumber
+                    passcode:(NSString *)passcode
+                  parameters:(A0AuthParameters *)parameters
+                     success:(A0APIClientAuthenticationSuccess)success
+                     failure:(A0APIClientError)failure {
+    A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
+                                                                                kUsernameParamName: phoneNumber,
+                                                                                kPasswordParamName: passcode,
+                                                                                kGrantTypeParamName: @"password",
+                                                                                kClientIdParamName: self.clientId,
+                                                                                kConnectionParamName: @"sms",
+                                                                                }];
+    A0Strategy *strategy = [self.application strategyByName:A0StrategyNameSMS];
+    A0Connection *connection = strategy.connections.firstObject;
+    if (!self.application || connection.name) {
+        [defaultParameters addValuesFromParameters:parameters];
+        Auth0LogVerbose(@"Starting Login with username & password %@", defaultParameters);
+        if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
+            @weakify(self);
+            NSDictionary *payload = [defaultParameters asAPIPayload];
+            [self.manager POST:kLoginPath parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                @strongify(self);
+                Auth0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
+                [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
+            } failure:[A0APIClient sanitizeFailureBlock:failure]];
+        }
+    } else {
+        Auth0LogError(@"No SMS connection found in Auth0 app.");
+        if (failure) {
+            failure([A0Errors noConnectionNameFound]);
+        }
     }
 }
 

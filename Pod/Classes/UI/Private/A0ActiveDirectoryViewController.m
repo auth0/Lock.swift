@@ -36,18 +36,10 @@
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0WebViewController.h"
 #import "A0AuthParameters.h"
+#import "A0UIUtilities.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
-
-static void showAlertErrorView(NSString *title, NSString *message) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:A0LocalizedString(@"OK")
-                                          otherButtonTitles:nil];
-    [alert show];
-}
 
 @interface A0ActiveDirectoryViewController ()
 
@@ -122,19 +114,19 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                 };
                 A0APIClientError failure = ^(NSError *error) {
                     [self.accessButton setInProgress:NO];
-                    showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForLoginError:error]);
+                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForLoginError:error]);
                 };
                 A0AuthParameters *parameters = self.parameters.copy;
                 [parameters setValue:connection.name forKey:@"connection"];
                 [[A0APIClient sharedClient] loginWithUsername:username password:password parameters:parameters success:success failure:failure];
             } else {
                 [self.accessButton setInProgress:NO];
-                showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+                A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
             }
             [self updateUIWithError:error];
         }
     } else {
-        showAlertErrorView(A0LocalizedString(@"There was an error logging in"), A0LocalizedString(@"There was no connection configured for the domain"));
+        A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), A0LocalizedString(@"There was no connection configured for the domain"));
     }
 }
 
@@ -183,10 +175,10 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                 case A0ErrorCodeAuth0NotAuthorized:
                 case A0ErrorCodeAuth0InvalidConfiguration:
                 case A0ErrorCodeAuth0NoURLSchemeFound:
-                    showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+                    A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                     break;
                 default:
-                    showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
+                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
                     break;
             }
         }

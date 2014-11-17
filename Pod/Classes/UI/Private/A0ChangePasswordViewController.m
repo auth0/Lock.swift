@@ -28,18 +28,10 @@
 #import "A0APIClient.h"
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
+#import "A0UIUtilities.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
-
-static void showAlertErrorView(NSString *title, NSString *message) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:A0LocalizedString(@"OK")
-                                          otherButtonTitles:nil];
-    [alert show];
-}
 
 @interface A0ChangePasswordViewController ()
 
@@ -97,7 +89,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         void(^success)() = ^ {
             @strongify(self);
             [self.recoverButton setInProgress:NO];
-            showAlertErrorView(A0LocalizedString(@"Reset Password"), A0LocalizedString(@"We've just sent you an email to reset your password."));
+            A0ShowAlertErrorView(A0LocalizedString(@"Reset Password"), A0LocalizedString(@"We've just sent you an email to reset your password."));
             if (self.onChangePasswordBlock) {
                 self.onChangePasswordBlock();
             }
@@ -105,7 +97,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         A0APIClientError failure = ^(NSError *error) {
             @strongify(self);
             [self.recoverButton setInProgress:NO];
-            showAlertErrorView(A0LocalizedString(@"Couldn't change your password"), [A0Errors localizedStringForChangePasswordError:error]);
+            A0ShowAlertErrorView(A0LocalizedString(@"Couldn't change your password"), [A0Errors localizedStringForChangePasswordError:error]);
         };
         [[A0APIClient sharedClient] changePassword:password
                                        forUsername:username
@@ -115,7 +107,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
     } else {
         [self.recoverButton setInProgress:NO];
-        showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+        A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
     }
     [self updateUIWithError:error];
 }

@@ -90,6 +90,7 @@
 - (void)animateFromViewController:(UIViewController *)from toViewController:(UIViewController *)to {
     to.view.alpha = 0.0f;
     from.view.alpha = 0.0f;
+    self.navigationView.userInteractionEnabled = NO;
     [UIView animateWithDuration:0.3f animations:^{
         to.view.alpha = 1.0f;
         self.titleLabel.text = to.title;
@@ -97,6 +98,7 @@
         [from.view removeFromSuperview];
         [from removeFromParentViewController];
         [to didMoveToParentViewController:self];
+        self.navigationView.userInteractionEnabled = YES;
     }];
 }
 

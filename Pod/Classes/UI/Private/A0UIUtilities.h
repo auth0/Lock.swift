@@ -1,4 +1,4 @@
-// A0HomeViewController.h
+// A0UIUtilities.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -22,13 +22,4 @@
 
 #import <Foundation/Foundation.h>
 
-@interface A0HomeViewController : UIViewController
-
-@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
-
-- (IBAction)loginNative:(id)sender;
-- (IBAction)loginTouchID:(id)sender;
-- (IBAction)loginSMS:(id)sender;
-
-@end
+void A0ShowAlertErrorView(NSString *title, NSString *message);

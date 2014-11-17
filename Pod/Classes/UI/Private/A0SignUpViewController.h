@@ -29,7 +29,6 @@
 @interface A0SignUpViewController : UIViewController<A0AuthenticationUIComponent>
 
 @property (copy, nonatomic) void(^onSignUpBlock)(A0UserProfile *profile, A0Token *token);
-@property (copy, nonatomic) void(^onCancelBlock)();
 
 @property (strong, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0SignUpCredentialValidator *validator;

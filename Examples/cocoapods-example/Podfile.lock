@@ -6,7 +6,18 @@ PODS:
     - AFNetworking/Security
     - AFNetworking/Serialization
     - AFNetworking/UIKit
+  - AFNetworking (2.5.0):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+    - AFNetworking/UIKit
   - AFNetworking/NSURLConnection (2.4.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLConnection (2.5.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
@@ -14,10 +25,20 @@ PODS:
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
   - AFNetworking/Reachability (2.4.1)
+  - AFNetworking/Reachability (2.5.0)
   - AFNetworking/Security (2.4.1)
+  - AFNetworking/Security (2.5.0)
   - AFNetworking/Serialization (2.4.1)
+  - AFNetworking/Serialization (2.5.0)
   - AFNetworking/UIKit (2.4.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - AFNetworking/UIKit (2.5.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - BDBOAuth1Manager (1.4.1):
@@ -89,6 +110,11 @@ PODS:
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
+  - Lock/SMS (1.4.0):
+    - CocoaLumberjack (~> 1.9)
+    - libextobjc (~> 0.4)
+    - Lock/UI
+    - ObjectiveSugar (~> 1.1)
   - Lock/TouchID (1.4.0):
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
@@ -133,6 +159,7 @@ DEPENDENCIES:
   - JWTDecode
   - libextobjc
   - Lock (from `../../`)
+  - Lock/SMS (from `../../`)
   - Lock/TouchID (from `../../`)
   - OCMockito
   - SimpleKeychain
@@ -152,7 +179,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JWTDecode: 72e3393caf14dc762eba51d29f15bd86f608aba3
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  Lock: 30b3066264eb97703146fea71e1791aa4bc910a3
+  Lock: ad97e8e0ac0ae1f6f4ad2eb1136fb2daa2372126
   LUKeychainAccess: 8d45b6c894c0d808786b1740c057b5e776313d88
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9

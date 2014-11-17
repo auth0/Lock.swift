@@ -28,18 +28,10 @@
 #import "A0SignUpCredentialValidator.h"
 #import "A0APIClient.h"
 #import "A0Errors.h"
+#import "A0UIUtilities.h"
 
 #import <libextobjc/EXTScope.h>
 #import <ObjectiveSugar/ObjectiveSugar.h>
-
-static void showAlertErrorView(NSString *title, NSString *message) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:A0LocalizedString(@"OK")
-                                          otherButtonTitles:nil];
-    [alert show];
-}
 
 @interface A0TouchIDSignUpViewController ()
 
@@ -95,11 +87,11 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                            } failure:^(NSError *error){
                                @strongify(self);
                                [self.signUpButton setInProgress:NO];
-                               showAlertErrorView(A0LocalizedString(@"There was an error signing up"), [A0Errors localizedStringForSignUpError:error]);
+                               A0ShowAlertErrorView(A0LocalizedString(@"There was an error signing up"), [A0Errors localizedStringForSignUpError:error]);
                            }];
     } else {
         [self.signUpButton setInProgress:NO];
-        showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+        A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
     }
     [self updateUIWithError:error];
 }

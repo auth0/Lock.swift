@@ -28,31 +28,21 @@
 #import "A0APIClient.h"
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
+#import "A0UIUtilities.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
-
-static void showAlertErrorView(NSString *title, NSString *message) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:A0LocalizedString(@"OK")
-                                          otherButtonTitles:nil];
-    [alert show];
-}
 
 @interface A0SignUpViewController ()
 
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIView *disclaimerView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
 
 - (IBAction)signUp:(id)sender;
-- (IBAction)cancel:(id)sender;
 - (IBAction)goToPasswordField:(id)sender;
 
 @end
@@ -72,7 +62,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.signUpButton];
-    [theme configureSecondaryButton:self.cancelButton];
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
     [theme configureLabel:self.messageLabel];
@@ -101,7 +90,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
         };
         A0APIClientError failure = ^(NSError *error) {
             [self.signUpButton setInProgress:NO];
-            showAlertErrorView(A0LocalizedString(@"There was an error signing up"), [A0Errors localizedStringForLoginError:error]);
+            A0ShowAlertErrorView(A0LocalizedString(@"There was an error signing up"), [A0Errors localizedStringForLoginError:error]);
         };
         [[A0APIClient sharedClient] signUpWithUsername:username
                                               password:password
@@ -110,19 +99,13 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                                                success:success failure:failure];
     } else {
         [self.signUpButton setInProgress:NO];
-        showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+        A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
     }
     [self updateUIWithError:error];
 }
 
 - (void)goToPasswordField:(id)sender {
     [self.passwordField.textField becomeFirstResponder];
-}
-
-- (void)cancel:(id)sender {
-    if (self.onCancelBlock) {
-        self.onCancelBlock();
-    }
 }
 
 - (void)addDisclaimerSubview:(UIView *)view {

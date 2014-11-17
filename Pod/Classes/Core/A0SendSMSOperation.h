@@ -1,4 +1,4 @@
-// A0HomeViewController.h
+// A0SendSMSOperation.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,15 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import "AFHTTPRequestOperation.h"
 
-@interface A0HomeViewController : UIViewController
+/**
+ *  Operation to send a SMS with an acess code to be used during login.
+ *  Must have a `SMS` connection available and configured in your Auth0's app.
+ */
+@interface A0SendSMSOperation : AFHTTPRequestOperation
 
-@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
+/**
+ *  Initialises the operation with an access token and phone number.
+ *
+ *  @param baseURL     api base URL.
+ *  @param accessToken api access token
+ *  @param phoneNumber user's phone number.
+ *
+ *  @return an initialised instance
+ */
+- (instancetype)initWithBaseURL:(NSURL *)baseURL accessToken:(NSString *)accessToken phoneNumber:(NSString *)phoneNumber;
 
-- (IBAction)loginNative:(id)sender;
-- (IBAction)loginTouchID:(id)sender;
-- (IBAction)loginSMS:(id)sender;
+/**
+ *  Sets the callback for success and failure of the operation
+ *
+ *  @param success block called on success.
+ *  @param failure block called on error with the reason.
+ */
+- (void)setSuccess:(void(^)())success failure:(void(^)(NSError *))failure;
 
 @end

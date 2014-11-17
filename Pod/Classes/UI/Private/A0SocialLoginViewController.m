@@ -31,19 +31,11 @@
 #import "A0ProgressButton.h"
 #import "A0ServicesTheme.h"
 #import "A0WebViewController.h"
+#import "A0UIUtilities.h"
 
 #import <libextobjc/EXTScope.h>
 
 #define kCellIdentifier @"ServiceCell"
-
-static void showAlertErrorView(NSString *title, NSString *message) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:A0LocalizedString(@"OK")
-                                          otherButtonTitles:nil];
-    [alert show];
-}
 
 @interface A0SocialLoginViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -95,10 +87,10 @@ static void showAlertErrorView(NSString *title, NSString *message) {
                 case A0ErrorCodeAuth0NotAuthorized:
                 case A0ErrorCodeAuth0InvalidConfiguration:
                 case A0ErrorCodeAuth0NoURLSchemeFound:
-                    showAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+                    A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                     break;
                 default:
-                    showAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
+                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
                     break;
             }
         }

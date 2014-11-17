@@ -1,4 +1,4 @@
-// A0HomeViewController.h
+// A0SMSCodeViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,15 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "A0KeyboardEnabledView.h"
 
-@interface A0HomeViewController : UIViewController
+@class A0AuthParameters, A0UserProfile, A0Token;
 
-@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
+@interface A0SMSCodeViewController : UIViewController<A0KeyboardEnabledView>
 
-- (IBAction)loginNative:(id)sender;
-- (IBAction)loginTouchID:(id)sender;
-- (IBAction)loginSMS:(id)sender;
+@property (copy, nonatomic) NSString *phoneNumber;
+@property (copy, nonatomic) A0AuthParameters *parameters;
+@property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
 @end

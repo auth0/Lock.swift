@@ -1,4 +1,4 @@
-// A0HomeViewController.h
+// A0CountryCodeTableViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,15 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface A0HomeViewController : UIViewController
+@interface A0CountryCodeTableViewController : UITableViewController
 
-@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
+@property (copy, nonatomic) NSString *defaultCountry;
 
-- (IBAction)loginNative:(id)sender;
-- (IBAction)loginTouchID:(id)sender;
-- (IBAction)loginSMS:(id)sender;
+@property (copy, nonatomic) void(^onCountrySelect)(NSString *country, NSString *countryDialCode);
+
++ (NSString *)dialCodeForCountryWithCode:(NSString *)code;
 
 @end
