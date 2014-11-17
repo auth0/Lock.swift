@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 ## master
+###Added
+- SMS Authentication
+- OSX Support (Only Core classes no UI or Social integration).
+- 
+###Changed
+- Fixed styles of native widget
+- Fixed issues and improved A0Theme
 
 ## 1.4.0 - 2014-11-11
 ###Changed
