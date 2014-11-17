@@ -87,7 +87,7 @@ static NSString *CountryName = @"Name";
     NSDictionary *country = [codes find:^BOOL(NSDictionary *country) {
         return [country[CountryCode] isEqualToString:code];
     }];
-    return country[CountryDialCode];
+    return [self dialCodeForCountry:country];
 }
 
 #pragma mark - UISearchDisplayDelegate
@@ -128,11 +128,19 @@ static NSString *CountryName = @"Name";
     NSArray *countries = [self countryCodesSourceForTableView:tableView];
     NSDictionary *country = countries[indexPath.row];
     if (self.onCountrySelect) {
-        self.onCountrySelect(country[CountryCode], country[CountryDialCode]);
+        self.onCountrySelect(country[CountryCode], [A0CountryCodeTableViewController dialCodeForCountry:country]);
     }
 }
 
 #pragma mark - Utility methods
+
++ (NSString *)dialCodeForCountry:(NSDictionary *)country {
+    if ([country[CountryCode] isEqualToString:@"AR"]) {
+        return [country[CountryDialCode] stringByAppendingString:@" 9 "];
+    } else {
+        return country[CountryDialCode];
+    }
+}
 
 - (NSArray *)countryCodesSourceForTableView:(UITableView *)tableView {
     NSArray *countries = self.tableView == tableView ? self.countryCodes : self.filteredCountryCodes;
