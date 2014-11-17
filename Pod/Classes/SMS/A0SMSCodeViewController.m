@@ -71,9 +71,13 @@
     BOOL valid = passcode.length > 0;
     [self.codeFieldView setInvalid:!valid];
     if (passcode.length > 0) {
+        @weakify(self);
         void(^failureBlock)(NSError *) = ^(NSError *error) {
+            @strongify(self);
+            [self.loginButton setInProgress:NO];
             A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSMSLoginError:error]);
         };
+        [self.loginButton setInProgress:YES];
         [[A0APIClient sharedClient] loginWithPhoneNumber:self.phoneNumber
                                                 passcode:passcode
                                               parameters:self.parameters
