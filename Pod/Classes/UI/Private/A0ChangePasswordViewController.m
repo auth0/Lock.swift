@@ -68,9 +68,6 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.credentialBoxView.layer.borderWidth = 1.0f;
-    self.credentialBoxView.layer.borderColor = [[UIColor colorWithWhite:0.600 alpha:1.000] CGColor];
-    self.credentialBoxView.layer.cornerRadius = 3.0f;
 
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.recoverButton];
@@ -79,6 +76,7 @@ static void showAlertErrorView(NSString *title, NSString *message) {
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
     [theme configureTextField:self.repeatPasswordField.textField];
+    
     self.userField.textField.text = self.defaultEmail;
     self.userField.textField.placeholder = A0LocalizedString(@"Email");
     self.passwordField.textField.placeholder = A0LocalizedString(@"Password");

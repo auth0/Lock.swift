@@ -77,14 +77,12 @@ static void showAlertErrorView(NSString *title, NSString *message) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.credentialsBoxView.layer.borderWidth = 1.0f;
-    self.credentialsBoxView.layer.borderColor = [[UIColor colorWithWhite:0.600 alpha:1.000] CGColor];
-    self.credentialsBoxView.layer.cornerRadius = 3.0f;
 
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.accessButton];
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
+    
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
     self.singleSignOnIcon.image = [self.singleSignOnIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     if (self.defaultConnection) {

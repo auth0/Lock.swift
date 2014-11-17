@@ -24,31 +24,38 @@
 #import "A0Theme.h"
 
 @interface A0CredentialFieldView ()
-@property (strong, nonatomic) UIColor *validTextColor;
+@property (copy, nonatomic) NSString *placeholderText;
 @end
 
 @implementation A0CredentialFieldView
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        _validTextColor = self.textField.textColor;
-    }
-    return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    A0Theme *theme = [A0Theme sharedInstance];
+    self.iconImageView.tintColor = [theme colorForKey:A0ThemeTextFieldIconColor];
+    self.textField.tintColor = [theme colorForKey:A0ThemeTextFieldTextColor];
     self.iconImageView.image = [self.iconImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.placeholderText = self.textField.placeholder;
 }
 
 - (void)setInvalid:(BOOL)invalid {
     [self willChangeValueForKey:@"invalid"];
     _invalid = invalid;
     [self didChangeValueForKey:@"invalid"];
-    self.iconImageView.tintColor = invalid ? [UIColor redColor] : nil;
-    self.textField.tintColor = invalid ? [UIColor redColor] : nil;
-    self.textField.textColor = invalid ? [UIColor redColor] : nil;
+    A0Theme *theme = [A0Theme sharedInstance];
+    self.iconImageView.tintColor = invalid ? [UIColor redColor] : [theme colorForKey:A0ThemeTextFieldIconColor];
+    self.textField.tintColor = invalid ? [UIColor redColor] : [theme colorForKey:A0ThemeTextFieldTextColor];
+    self.textField.textColor = invalid ? [UIColor redColor] : [theme colorForKey:A0ThemeTextFieldTextColor];
+    if (invalid) {
+        self.textField.placeholder = nil;
+        self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeholderText
+                                                                               attributes:@{
+                                                                                            NSForegroundColorAttributeName: [UIColor redColor],
+                                                                                            }];
+    } else {
+        self.textField.attributedPlaceholder = nil;
+        self.textField.placeholder = self.placeholderText;
+    }
 }
 
 @end

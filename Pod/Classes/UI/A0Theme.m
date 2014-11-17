@@ -28,12 +28,12 @@ NSString * const A0ThemePrimaryButtonNormalColor = @"A0ThemePrimaryButtonNormalC
 NSString * const A0ThemePrimaryButtonHighlightedColor = @"A0ThemePrimaryButtonHighlightedColor";
 NSString * const A0ThemePrimaryButtonFont = @"A0ThemePrimaryButtonFont";
 NSString * const A0ThemePrimaryButtonTextColor = @"A0ThemePrimaryButtonTextColor";
-NSString * const A0ThemeSecondaryButtonNormalColor = @"A0ThemeSecondaryButtonNormalColor";
-NSString * const A0ThemeSecondaryButtonHighlightedColor = @"A0ThemeSecondaryButtonHighlightedColor";
+NSString * const A0ThemeSecondaryButtonBackgroundColor = @"A0ThemeSecondaryButtonBackgroundColor";
 NSString * const A0ThemeSecondaryButtonFont = @"A0ThemeSecondaryButtonFont";
 NSString * const A0ThemeSecondaryButtonTextColor = @"A0ThemeSecondaryButtonTextColor";
 NSString * const A0ThemeTextFieldFont = @"A0ThemeTextFieldFont";
 NSString * const A0ThemeTextFieldTextColor = @"A0ThemeTextFieldTextColor";
+NSString * const A0ThemeTextFieldIconColor = @"A0ThemeTextFieldIconColor";
 NSString * const A0ThemeTitleFont = @"A0ThemeTitleFont";
 NSString * const A0ThemeTitleTextColor = @"A0ThemeTitleTextColor";
 NSString * const A0ThemeDescriptionFont = @"A0ThemeDescriptionFont";
@@ -41,6 +41,9 @@ NSString * const A0ThemeDescriptionTextColor = @"A0ThemeDescriptionTextColor";
 NSString * const A0ThemeScreenBackgroundColor = @"A0ThemeScreenBackgroundColor";
 NSString * const A0ThemeIconImageName = @"A0ThemeIconImageName";
 NSString * const A0ThemeIconBackgroundColor = @"A0ThemeIconBackgroundColor";
+NSString * const A0ThemeSeparatorTextFont = @"A0ThemeSeparatorTextFont";
+NSString * const A0ThemeSeparatorTextColor = @"A0ThemeSeparatorTextColor";
+NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderColor";
 
 @interface A0Theme ()
 
@@ -62,7 +65,34 @@ NSString * const A0ThemeIconBackgroundColor = @"A0ThemeIconBackgroundColor";
 - (id)init {
     self = [super init];
     if (self) {
-        _values = [@{} mutableCopy];
+        _values = [@{
+                     A0ThemePrimaryButtonNormalColor: [UIColor colorWithRed:0.086 green:0.129 blue:0.302 alpha:1.000],
+                     A0ThemePrimaryButtonHighlightedColor: [UIColor colorWithRed:0.043 green:0.063 blue:0.145 alpha:1.000],
+                     A0ThemePrimaryButtonFont: [UIFont fontWithName:@"HelveticaNeue-Medium" size:13.0f],
+                     A0ThemePrimaryButtonTextColor: [UIColor whiteColor],
+
+                     A0ThemeSecondaryButtonBackgroundColor: [UIColor colorWithWhite:0.945 alpha:1.000],
+                     A0ThemeSecondaryButtonFont: [UIFont boldSystemFontOfSize:10.0f],
+                     A0ThemeSecondaryButtonTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],
+
+                     A0ThemeTextFieldFont: [UIFont systemFontOfSize:13.0f],
+                     A0ThemeTextFieldTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],
+                     A0ThemeTextFieldIconColor: [UIColor colorWithWhite:0.600 alpha:1.000],
+
+                     A0ThemeDescriptionFont: [UIFont systemFontOfSize:13.0f],
+                     A0ThemeDescriptionTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],
+
+                     A0ThemeTitleFont: [UIFont fontWithName:@"HelveticaNeue-Thin" size:24.0f],
+                     A0ThemeTitleTextColor: [UIColor colorWithWhite:0.298 alpha:1.000],
+
+                     A0ThemeScreenBackgroundColor: [UIColor whiteColor],
+                     A0ThemeIconBackgroundColor: [UIColor colorWithWhite:0.941 alpha:1.000],
+                     A0ThemeIconImageName: @"Auth0.bundle/people",
+
+                     A0ThemeSeparatorTextColor: [UIColor colorWithWhite:0.600 alpha:1.000],
+                     A0ThemeSeparatorTextFont: [UIFont systemFontOfSize:12.0f],
+                     A0ThemeCredentialBoxBorderColor: [UIColor colorWithWhite:0.800 alpha:1.000],
+                     } mutableCopy];
     }
     return self;
 }
@@ -82,14 +112,26 @@ NSString * const A0ThemeIconBackgroundColor = @"A0ThemeIconBackgroundColor";
     self.values[key] = name;
 }
 
+- (UIFont *)fontForKey:(NSString *)key {
+    return [self fontForKey:key defaultFont:nil];
+}
+
 - (UIFont *)fontForKey:(NSString *)key defaultFont:(UIFont *)defaultFont {
     NSAssert(key != nil, @"Key must be non nil");
     return self.values[key] ?: defaultFont;
 }
 
+- (UIColor *)colorForKey:(NSString *)key {
+    return [self colorForKey:key defaultColor:nil];
+}
+
 - (UIColor *)colorForKey:(NSString *)key defaultColor:(UIColor *)defaultColor {
     NSAssert(key != nil, @"Key must be non nil");
     return self.values[key] ?: defaultColor;
+}
+
+- (UIImage *)imageForKey:(NSString *)key {
+    return [self imageForKey:key defaultImage:nil];
 }
 
 - (UIImage *)imageForKey:(NSString *)key defaultImage:(UIImage *)image {
@@ -98,39 +140,35 @@ NSString * const A0ThemeIconBackgroundColor = @"A0ThemeIconBackgroundColor";
 }
 
 - (void)configurePrimaryButton:(UIButton *)button {
-    [button setBackgroundColor:[self colorForKey:A0ThemePrimaryButtonNormalColor
-                                     defaultColor:[UIColor colorWithRed:0.086 green:0.129 blue:0.302 alpha:1.000]]
+    [button setBackgroundColor:[self colorForKey:A0ThemePrimaryButtonNormalColor]
                       forState:UIControlStateNormal];
-    [button setBackgroundColor:[self colorForKey:A0ThemePrimaryButtonHighlightedColor
-                                     defaultColor:[UIColor colorWithRed:0.043 green:0.063 blue:0.145 alpha:1.000]]
+    [button setBackgroundColor:[self colorForKey:A0ThemePrimaryButtonHighlightedColor]
                       forState:UIControlStateHighlighted];
     button.layer.cornerRadius = 5;
     button.clipsToBounds = YES;
-    button.titleLabel.font = [self fontForKey:A0ThemePrimaryButtonFont defaultFont:button.titleLabel.font];
-    button.titleLabel.textColor = [self colorForKey:A0ThemePrimaryButtonTextColor defaultColor:button.titleLabel.textColor];
+    button.titleLabel.font = [self fontForKey:A0ThemePrimaryButtonFont];
+    button.titleLabel.textColor = [self colorForKey:A0ThemePrimaryButtonTextColor];
 }
 
 - (void)configureSecondaryButton:(UIButton *)button {
-    [button setBackgroundColor:[self colorForKey:A0ThemeSecondaryButtonNormalColor
-                                     defaultColor:[UIColor clearColor]]
-                      forState:UIControlStateNormal];
-    [button setBackgroundColor:[self colorForKey:A0ThemeSecondaryButtonHighlightedColor
-                                     defaultColor:[UIColor clearColor]]
-                      forState:UIControlStateHighlighted];
-    button.layer.cornerRadius = 2;
-    button.clipsToBounds = YES;
-    button.titleLabel.font = [self fontForKey:A0ThemeSecondaryButtonFont defaultFont:button.titleLabel.font];
-    button.titleLabel.textColor = [self colorForKey:A0ThemeSecondaryButtonTextColor defaultColor:button.titleLabel.textColor];
+    UIImage *backgroundNormal = [[[UIImage imageNamed:@"Auth0.bundle/secondary_button_normal"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImage *backgroundHighlighted = [[[UIImage imageNamed:@"Auth0.bundle/secondary_button_highlighted"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [button setBackgroundImage:backgroundNormal forState:UIControlStateNormal];
+    [button setBackgroundImage:backgroundHighlighted forState:UIControlStateHighlighted];
+    button.tintColor = [self colorForKey:A0ThemeSecondaryButtonBackgroundColor];
+    [button setTitleColor:[self colorForKey:A0ThemeSecondaryButtonTextColor] forState:UIControlStateNormal];
+    button.titleLabel.font = [self fontForKey:A0ThemeSecondaryButtonFont];
+    button.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
 }
 
 - (void)configureTextField:(UITextField *)textField {
-    textField.font = [self fontForKey:A0ThemeTextFieldFont defaultFont:textField.font];
-    textField.textColor = [self colorForKey:A0ThemeTextFieldTextColor defaultColor:textField.textColor];
+    textField.font = [self fontForKey:A0ThemeTextFieldFont];
+    textField.textColor = [self colorForKey:A0ThemeTextFieldTextColor];
 }
 
 - (void)configureLabel:(UILabel *)label {
-    label.font = [self fontForKey:A0ThemeDescriptionFont defaultFont:label.font];
-    label.textColor = [self colorForKey:A0ThemeDescriptionTextColor defaultColor:label.textColor];
+    label.font = [self fontForKey:A0ThemeDescriptionFont];
+    label.textColor = [self colorForKey:A0ThemeDescriptionTextColor];
 }
 
 @end
