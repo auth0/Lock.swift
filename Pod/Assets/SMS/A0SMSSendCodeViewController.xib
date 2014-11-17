@@ -41,7 +41,10 @@
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Pjx-u4-0k1">
                                     <rect key="frame" x="94" y="10" width="457" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="go"/>
+                                    <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="send"/>
+                                    <connections>
+                                        <action selector="registerSMS:" destination="-1" eventType="editingDidEndOnExit" id="cNk-Kf-IIf"/>
+                                    </connections>
                                 </textField>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.SMS.bundle/cellphone" translatesAutoresizingMaskIntoConstraints="NO" id="D7m-hQ-Wvp">
                                     <rect key="frame" x="18" y="17" width="16" height="16"/>
