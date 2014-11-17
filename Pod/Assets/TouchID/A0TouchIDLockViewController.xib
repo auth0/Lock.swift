@@ -89,8 +89,8 @@
                                 <constraint firstAttribute="height" constant="100" id="KYq-Ds-DQ5"/>
                                 <constraint firstAttribute="width" constant="100" id="xrV-kF-5SP"/>
                             </constraints>
-                            <state key="normal" image="Auth0.bundle/touchid"/>
-                            <state key="highlighted" image="Auth0.bundle/touchid_selected"/>
+                            <state key="normal" image="Auth0.TouchID.bundle/touchid"/>
+                            <state key="highlighted" image="Auth0.TouchID.bundle/touchid_selected"/>
                             <connections>
                                 <action selector="checkTouchID:" destination="-1" eventType="touchUpInside" id="aaE-cq-br7"/>
                             </connections>
@@ -160,9 +160,9 @@
         </view>
     </objects>
     <resources>
+        <image name="Auth0.TouchID.bundle/touchid" width="16" height="16"/>
+        <image name="Auth0.TouchID.bundle/touchid_selected" width="16" height="16"/>
         <image name="Auth0.bundle/close" width="16" height="16"/>
         <image name="Auth0.bundle/people" width="16" height="16"/>
-        <image name="Auth0.bundle/touchid" width="16" height="16"/>
-        <image name="Auth0.bundle/touchid_selected" width="16" height="16"/>
     </resources>
 </document>

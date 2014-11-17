@@ -76,6 +76,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     touchid.resources = 'Pod/Assets/TouchID/*.xib'
     touchid.dependency 'Lock/UI'
     touchid.dependency 'TouchIDAuth', '~> 0.1'
+    touchid.resource_bundles = { 'Auth0.TouchID' => ['Pod/Assets/TouchID/Images/*.png'] }
   end
 
   s.subspec 'SMS' do |sms|
