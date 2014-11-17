@@ -22,7 +22,6 @@
 		5F92E92419D49F7400080CCE /* A0WebAuthenticationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F92E92319D49F7400080CCE /* A0WebAuthenticationSpec.m */; };
 		5F951A981A0EC7D600D128D0 /* A0HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */; };
 		5F951ABB1A1189A600D128D0 /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F951ABD1A1189A600D128D0 /* Lock.strings */; };
-		5F951AC01A11BE2F00D128D0 /* Lock.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 5F951ABF1A11BE2F00D128D0 /* Lock.podspec */; };
 		5F951AFD1A12ABAF00D128D0 /* iTunesArtwork@2x -1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F951AFC1A12ABAF00D128D0 /* iTunesArtwork@2x -1024.png */; };
 		5F9F5B6419AF8FBD0021068C /* A0UserProfileSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6319AF8FBD0021068C /* A0UserProfileSpec.m */; };
 		5F9F5B6619AF9A8D0021068C /* A0TokenSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6519AF9A8D0021068C /* A0TokenSpec.m */; };
@@ -61,6 +60,7 @@
 		5BF31EC09B324BBC8AA2239A /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F017F0119B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FacebookAuthenticatorSpec.m; sourceTree = "<group>"; };
 		5F017F0319B102D70003F8E4 /* A0JSONResponseSerializerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0JSONResponseSerializerSpec.m; sourceTree = "<group>"; };
+		5F0935471A1AB4A600144E67 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		5F0ADBBB19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SimpleConnectionDomainMatcherSpec.m; sourceTree = "<group>"; };
 		5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ApplicationSpec.m; sourceTree = "<group>"; };
 		5F15815C196A3682003C4DD2 /* A0UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0UserProfileViewController.h; sourceTree = "<group>"; };
@@ -75,7 +75,7 @@
 		5F951A961A0EC7D600D128D0 /* A0HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0HomeViewController.h; sourceTree = "<group>"; };
 		5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0HomeViewController.m; sourceTree = "<group>"; };
 		5F951ABC1A1189A600D128D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Lock.strings; sourceTree = "<group>"; };
-		5F951ABF1A11BE2F00D128D0 /* Lock.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Lock.podspec; path = ../../Lock.podspec; sourceTree = "<group>"; };
+		5F951ABF1A11BE2F00D128D0 /* Lock.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Lock.podspec; path = ../Lock.podspec; sourceTree = "<group>"; };
 		5F951AFC1A12ABAF00D128D0 /* iTunesArtwork@2x -1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x -1024.png"; sourceTree = "<group>"; };
 		5F9F5B6319AF8FBD0021068C /* A0UserProfileSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileSpec.m; sourceTree = "<group>"; };
 		5F9F5B6519AF9A8D0021068C /* A0TokenSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0TokenSpec.m; sourceTree = "<group>"; };
@@ -100,10 +100,10 @@
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
-		77F27E12879146B986D43383 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
+		77F27E12879146B986D43383 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		A2A3DDCE99B0D5CAF6748B62 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B57D66D23F1E191D2C2DFDED /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
-		BD9DE0F8BCE04F059EE4B037 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../../LICENSE; sourceTree = "<group>"; };
+		BD9DE0F8BCE04F059EE4B037 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		D048C73B1FF3FD6862091E46 /* libPods-Lock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Lock.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8BB77CC67D644FB8F85C8EE /* libPods-Auth0Client.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Auth0Client.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4274928003C0C86F4BA6DB /* Pods-Auth0Client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Client.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Auth0Client/Pods-Auth0Client.debug.xcconfig"; sourceTree = "<group>"; };
@@ -252,6 +252,7 @@
 		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				5F0935471A1AB4A600144E67 /* CHANGELOG.md */,
 				5F951ABF1A11BE2F00D128D0 /* Lock.podspec */,
 				77F27E12879146B986D43383 /* README.md */,
 				BD9DE0F8BCE04F059EE4B037 /* LICENSE */,
@@ -347,7 +348,6 @@
 				5F951ABB1A1189A600D128D0 /* Lock.strings in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				5F951AFD1A12ABAF00D128D0 /* iTunesArtwork@2x -1024.png in Resources */,
-				5F951AC01A11BE2F00D128D0 /* Lock.podspec in Resources */,
 				6003F5A1195388D20070C39A /* Main.storyboard in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);

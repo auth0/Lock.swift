@@ -158,16 +158,16 @@ DEPENDENCIES:
   - Expecta
   - JWTDecode
   - libextobjc
-  - Lock (from `../../`)
-  - Lock/SMS (from `../../`)
-  - Lock/TouchID (from `../../`)
+  - Lock (from `../`)
+  - Lock/SMS (from `../`)
+  - Lock/TouchID (from `../`)
   - OCMockito
   - SimpleKeychain
   - Specta (~> 0.2.1)
 
 EXTERNAL SOURCES:
   Lock:
-    :path: ../../
+    :path: ../
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab

@@ -24,6 +24,7 @@ DerivedData
 
 # CocoaPods
 examples/**/Pods/
+**/Pods/
 
 #Fabric
 .fabric_key
