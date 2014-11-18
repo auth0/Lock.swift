@@ -24,4 +24,17 @@
 
 @implementation A0PasswordManager
 
++ (instancetype)sharedInstance {
+    static dispatch_once_t onceToken;
+    static A0PasswordManager *instance = nil;
+    dispatch_once(&onceToken, ^{
+        instance = [[A0PasswordManager alloc] init];
+    });
+    return instance;
+}
+
++ (BOOL)hasPasswordManagerInstalled {
+    return [[OnePasswordExtension sharedExtension] isAppExtensionAvailable];
+}
+
 @end

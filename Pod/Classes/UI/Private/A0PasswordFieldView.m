@@ -32,31 +32,33 @@
 #ifdef AUTH0_1PASSWORD
 - (void)awakeFromNib {
     [super awakeFromNib];
-    UIButton *passwordManagerButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    passwordManagerButton.translatesAutoresizingMaskIntoConstraints = NO;
-    passwordManagerButton.tintColor = [[A0Theme sharedInstance] colorForKey:A0ThemeSecondaryButtonTextColor];
-    [passwordManagerButton setImage:[UIImage imageNamed:@"onepassword-button"] forState:UIControlStateNormal];
-    [self addSubview:passwordManagerButton];
-    self.passwordManagerButton = passwordManagerButton;
-    CGFloat marginRight = self.fieldTrailingSpace.constant;
-    [self removeConstraint:self.fieldTrailingSpace];
-    UITextField *field = self.textField;
-    NSDictionary *views = NSDictionaryOfVariableBindings(field, passwordManagerButton);
-    NSDictionary *metrics = @{
-                              @"marginLeft": @7,
-                              @"marginRight": @(marginRight)
-                              };
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[field]-(marginLeft)-[passwordManagerButton]-(marginRight)-|"
-                                                                 options:0
-                                                                 metrics:metrics
-                                                                   views:views]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:passwordManagerButton
-                                                     attribute:NSLayoutAttributeCenterY
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeCenterY
-                                                    multiplier:1
-                                                      constant:0]];
+    if ([A0PasswordManager hasPasswordManagerInstalled]) {
+        UIButton *passwordManagerButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        passwordManagerButton.translatesAutoresizingMaskIntoConstraints = NO;
+        passwordManagerButton.tintColor = [[A0Theme sharedInstance] colorForKey:A0ThemeSecondaryButtonTextColor];
+        [passwordManagerButton setImage:[UIImage imageNamed:@"onepassword-button"] forState:UIControlStateNormal];
+        [self addSubview:passwordManagerButton];
+        self.passwordManagerButton = passwordManagerButton;
+        CGFloat marginRight = self.fieldTrailingSpace.constant;
+        [self removeConstraint:self.fieldTrailingSpace];
+        UITextField *field = self.textField;
+        NSDictionary *views = NSDictionaryOfVariableBindings(field, passwordManagerButton);
+        NSDictionary *metrics = @{
+                                  @"marginLeft": @7,
+                                  @"marginRight": @(marginRight)
+                                  };
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[field]-(marginLeft)-[passwordManagerButton]-(marginRight)-|"
+                                                                     options:0
+                                                                     metrics:metrics
+                                                                       views:views]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:passwordManagerButton
+                                                         attribute:NSLayoutAttributeCenterY
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeCenterY
+                                                        multiplier:1
+                                                          constant:0]];
+    }
 }
 #endif
 
