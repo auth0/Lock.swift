@@ -23,8 +23,13 @@
 #import "A0PasswordFieldView.h"
 #import "A0Theme.h"
 
+#if __has_include("A0PasswordManager.h")
+#import "A0PasswordManager.h"
+#endif
+
 @implementation A0PasswordFieldView
 
+#ifdef AUTH0_1PASSWORD
 - (void)awakeFromNib {
     [super awakeFromNib];
     UIButton *passwordManagerButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -53,5 +58,6 @@
                                                     multiplier:1
                                                       constant:0]];
 }
+#endif
 
 @end

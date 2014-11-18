@@ -1,4 +1,4 @@
-//  Lock.h
+// A0PasswordManager.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,35 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef _AUTH0_LOCK_
-#define _AUTH0_LOCK_
-
-#if __has_include("Core.h")
-#import "Core.h"
-#endif
-
-#if __has_include("UI.h")
-#import "UI.h"
-#endif
-
-#if __has_include("A0FacebookAuthenticator.h")
-#import "A0FacebookAuthenticator.h"
-#endif
-
-#if __has_include("A0TwitterAuthenticator.h")
-#import "A0TwitterAuthenticator.h"
-#endif
-
-#if __has_include("A0TouchIDLockViewController.h")
-#import "A0TouchIDLockViewController.h"
-#endif
-
-#if __has_include("A0SMSLockViewController.h")
-#import "A0SMSLockViewController.h"
-#endif
-
-#if __has_include("A0PasswordManager.h")
 #import "A0PasswordManager.h"
-#endif
 
-#endif /* _AUTH0_LOCK_ */
+@implementation A0PasswordManager
+
+@end
