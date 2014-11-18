@@ -26,11 +26,22 @@
 #define AUTH0_1PASSWORD 1
 #endif
 
+typedef void(^A0LoginInfoBlock)(NSString *username, NSString *password);
+
 @interface A0PasswordManager : NSObject
 
 + (instancetype)sharedInstance;
 
 + (BOOL)hasPasswordManagerInstalled;
 
-- (void)fillLoginInformationForViewController:(UIViewController *)controller sender:(id)sender completion:(void(^)(NSString *username, NSString *password))completion;
+- (void)fillLoginInformationForViewController:(UIViewController *)controller
+                                       sender:(id)sender
+                                   completion:(A0LoginInfoBlock)completion;
+
+- (void)saveLoginInformationForUsername:(NSString *)username
+                               password:(NSString *)password
+                              loginInfo:(NSDictionary *)loginInfo
+                             controller:(UIViewController *)controller
+                                 sender:(id)sender
+                             completion:(A0LoginInfoBlock)completion;
 @end

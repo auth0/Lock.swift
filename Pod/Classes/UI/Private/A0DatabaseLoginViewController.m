@@ -112,6 +112,8 @@
                                                                        @strongify(self);
                                                                        self.userField.textField.text = username;
                                                                        self.passwordField.textField.text = password;
+                                                                       [self matchDomainInTextField:self.userField.textField];
+                                                                       [self access:sender];
                                                                    }];
 #endif
 }
