@@ -58,4 +58,43 @@
                                                            sender:sender
                                                        completion:onCompletion];
 }
+
+- (void)saveLoginInformationForUsername:(NSString *)username
+                               password:(NSString *)password
+                              loginInfo:(NSDictionary *)loginInfo
+                             controller:(UIViewController *)controller
+                                 sender:(id)sender
+                             completion:(A0LoginInfoBlock)completion {
+    void(^onCompletion)(NSDictionary *, NSError *) = ^(NSDictionary *loginDict, NSError *error) {
+        if (completion) {
+            if (!loginDict) {
+                if (error.code != AppExtensionErrorCodeCancelledByUser) {
+                    Auth0LogWarn(@"Error invoking 1Password App Extension for find login: %@", error);
+                }
+                return;
+            } else {
+                completion(loginDict[AppExtensionUsernameKey], loginDict[AppExtensionPasswordKey]);
+            }
+        }
+    };
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+    NSDictionary *loginDetails = @{
+                                   AppExtensionTitleKey: appName,
+                                   AppExtensionUsernameKey: username ?: @"",
+                                   AppExtensionPasswordKey: password ?: @"",
+                                   AppExtensionNotesKey: [NSString stringWithFormat:@"Saved with %@", appName],
+                                   AppExtensionTitleKey: appName,
+                                   AppExtensionFieldsKey: loginInfo ?: @{},
+                                   };
+    NSDictionary *passwordGeneration = @{
+                                         AppExtensionGeneratedPasswordMinLengthKey: @8,
+                                         AppExtensionGeneratedPasswordMaxLengthKey: @50,
+                                         };
+    [[OnePasswordExtension sharedExtension] changePasswordForLoginForURLString:[[NSBundle mainBundle] bundleIdentifier]
+                                                      loginDetails:loginDetails
+                                         passwordGenerationOptions:passwordGeneration
+                                                 forViewController:controller
+                                                            sender:sender
+                                                        completion:onCompletion];
+}
 @end
