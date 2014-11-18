@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0PasswordManager.h"
+#import <1PasswordExtension/OnePasswordExtension.h>
 
 @implementation A0PasswordManager
 
@@ -37,4 +38,24 @@
     return [[OnePasswordExtension sharedExtension] isAppExtensionAvailable];
 }
 
+- (void)fillLoginInformationForViewController:(UIViewController *)controller
+                                       sender:(id)sender
+                                   completion:(void (^)(NSString *, NSString *))completion {
+    void(^onCompletion)(NSDictionary *, NSError *) = ^(NSDictionary *loginDict, NSError *error) {
+        if (completion) {
+            if (!loginDict) {
+                if (error.code != AppExtensionErrorCodeCancelledByUser) {
+                    Auth0LogWarn(@"Error invoking 1Password App Extension for find login: %@", error);
+                }
+                return;
+            } else {
+                completion(loginDict[AppExtensionUsernameKey], loginDict[AppExtensionPasswordKey]);
+            }
+        }
+    };
+    [[OnePasswordExtension sharedExtension] findLoginForURLString:[[NSBundle mainBundle] bundleIdentifier]
+                                                forViewController:controller
+                                                           sender:sender
+                                                       completion:onCompletion];
+}
 @end

@@ -26,12 +26,11 @@
 #define AUTH0_1PASSWORD 1
 #endif
 
-#import <1PasswordExtension/OnePasswordExtension.h>
-
 @interface A0PasswordManager : NSObject
 
 + (instancetype)sharedInstance;
 
 + (BOOL)hasPasswordManagerInstalled;
 
+- (void)fillLoginInformationForViewController:(UIViewController *)controller sender:(id)sender completion:(void(^)(NSString *username, NSString *password))completion;
 @end
