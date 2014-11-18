@@ -30,6 +30,8 @@ typedef void(^A0LoginInfoBlock)(NSString *username, NSString *password);
 
 @interface A0PasswordManager : NSObject
 
+@property (copy, nonatomic) NSString *loginURLString;
+
 + (instancetype)sharedInstance;
 
 + (BOOL)hasPasswordManagerInstalled;

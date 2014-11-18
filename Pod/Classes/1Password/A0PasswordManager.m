@@ -53,7 +53,7 @@
             }
         }
     };
-    [[OnePasswordExtension sharedExtension] findLoginForURLString:[[NSBundle mainBundle] bundleIdentifier]
+    [[OnePasswordExtension sharedExtension] findLoginForURLString:[self loginURLString]
                                                 forViewController:controller
                                                            sender:sender
                                                        completion:onCompletion];
@@ -90,11 +90,18 @@
                                          AppExtensionGeneratedPasswordMinLengthKey: @8,
                                          AppExtensionGeneratedPasswordMaxLengthKey: @50,
                                          };
-    [[OnePasswordExtension sharedExtension] changePasswordForLoginForURLString:[[NSBundle mainBundle] bundleIdentifier]
+    [[OnePasswordExtension sharedExtension] changePasswordForLoginForURLString:[self loginURLString]
                                                       loginDetails:loginDetails
                                          passwordGenerationOptions:passwordGeneration
                                                  forViewController:controller
                                                             sender:sender
                                                         completion:onCompletion];
 }
+
+#pragma mark - Utility methods
+
+- (NSString *)loginInfoURLString {
+    return self.loginURLString ?: [[NSBundle mainBundle] bundleIdentifier];
+}
+
 @end
