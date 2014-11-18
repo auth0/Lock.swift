@@ -29,14 +29,18 @@
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
 #import "A0UIUtilities.h"
+#import "A0PasswordFieldView.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
+#if __has_include("A0PasswordManager.h")
+#import "A0PasswordManager.h"
+#endif
 
 @interface A0SignUpViewController ()
 
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
+@property (weak, nonatomic) IBOutlet A0PasswordFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIView *disclaimerView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
@@ -70,6 +74,29 @@
     self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
     [self.signUpButton setTitle:A0LocalizedString(@"SIGN UP") forState:UIControlStateNormal];
     self.messageLabel.text = A0LocalizedString(@"Please enter your email and password");
+
+    [self.passwordField.passwordManagerButton addTarget:self action:@selector(storeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)dealloc {
+    [self.passwordField.passwordManagerButton removeTarget:self action:@selector(storeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)storeLoginInfo:(id)sender {
+#ifdef AUTH0_1PASSWORD
+    @weakify(self);
+    [[A0PasswordManager sharedInstance] saveLoginInformationForUsername:self.userField.textField.text
+                                                               password:self.passwordField.textField.text
+                                                              loginInfo:nil
+                                                             controller:self
+                                                                 sender:sender
+                                                             completion:^(NSString *username, NSString *password) {
+                                                                 @strongify(self);
+                                                                 self.userField.textField.text = username;
+                                                                 self.passwordField.textField.text = password;
+                                                                 [self signUp:sender];
+                                                             }];
+#endif
 }
 
 - (void)signUp:(id)sender {

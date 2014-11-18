@@ -56,7 +56,7 @@
                                         <outlet property="textField" destination="BBb-h3-p5Y" id="bx9-va-8rw"/>
                                     </connections>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E2O-P0-lwl" customClass="A0CredentialFieldView">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E2O-P0-lwl" customClass="A0PasswordFieldView">
                                     <rect key="frame" x="0.0" y="51" width="238" height="50"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jiD-tp-0bD">
@@ -81,6 +81,7 @@
                                         <constraint firstItem="Ls7-Eu-ilY" firstAttribute="leading" secondItem="E2O-P0-lwl" secondAttribute="leading" constant="18" id="s6R-tG-TVF"/>
                                     </constraints>
                                     <connections>
+                                        <outlet property="fieldTrailingSpace" destination="qQF-D8-Vmj" id="KiU-li-Jzo"/>
                                         <outlet property="iconImageView" destination="Ls7-Eu-ilY" id="Y3d-Wk-rfe"/>
                                         <outlet property="textField" destination="jiD-tp-0bD" id="BuF-99-gwe"/>
                                     </connections>

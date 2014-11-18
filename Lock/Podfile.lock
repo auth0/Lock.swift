@@ -1,4 +1,5 @@
 PODS:
+  - 1PasswordExtension (1.1)
   - AFNetworking (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
@@ -98,8 +99,13 @@ PODS:
     - Lock/Twitter
     - Lock/UI
     - ObjectiveSugar (~> 1.1)
+  - Lock/1Password (1.4.0):
+    - 1PasswordExtension (~> 1.1)
+    - CocoaLumberjack (~> 1.9)
+    - libextobjc (~> 0.4)
+    - ObjectiveSugar (~> 1.1)
   - Lock/Core (1.4.0):
-    - AFNetworking (~> 2.3)
+    - AFNetworking (~> 2.4)
     - CocoaLumberjack (~> 1.9)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
@@ -159,6 +165,7 @@ DEPENDENCIES:
   - JWTDecode
   - libextobjc
   - Lock (from `../`)
+  - Lock/1Password (from `../`)
   - Lock/SMS (from `../`)
   - Lock/TouchID (from `../`)
   - OCMockito
@@ -170,6 +177,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
+  1PasswordExtension: 37d1488cf049b8bc0811beb7b52a19f8f803f7c8
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   BDBOAuth1Manager: 0625ba20bd7d36461bbf6dc3d29276b5932b7409
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
@@ -179,7 +187,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JWTDecode: 72e3393caf14dc762eba51d29f15bd86f608aba3
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  Lock: ad97e8e0ac0ae1f6f4ad2eb1136fb2daa2372126
+  Lock: 3ba8771da89885dd5f86ea13d72b5a1dd7b9f2b2
   LUKeychainAccess: 8d45b6c894c0d808786b1740c057b5e776313d88
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9

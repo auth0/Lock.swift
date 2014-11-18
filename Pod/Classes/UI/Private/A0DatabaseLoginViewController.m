@@ -36,13 +36,18 @@
 #import "A0WebViewController.h"
 #import "A0AuthParameters.h"
 #import "A0UIUtilities.h"
+#import "A0PasswordFieldView.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
 
+#if __has_include("A0PasswordManager.h")
+#import "A0PasswordManager.h"
+#endif
+
 @interface A0DatabaseLoginViewController ()
 
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
+@property (weak, nonatomic) IBOutlet A0PasswordFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *accessButton;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
@@ -90,10 +95,27 @@
     self.userField.textField.text = self.defaultUsername;
     self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
     [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
+    [self.passwordField.passwordManagerButton addTarget:self action:@selector(fillLogin:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)dealloc {
     [self.userField.textField removeTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
+    [self.passwordField.passwordManagerButton removeTarget:self action:@selector(fillLogin:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)fillLogin:(id)sender {
+#ifdef AUTH0_1PASSWORD
+    @weakify(self);
+    [[A0PasswordManager sharedInstance] fillLoginInformationForViewController:self
+                                                                       sender:sender
+                                                                   completion:^(NSString *username, NSString *password) {
+                                                                       @strongify(self);
+                                                                       self.userField.textField.text = username;
+                                                                       self.passwordField.textField.text = password;
+                                                                       [self matchDomainInTextField:self.userField.textField];
+                                                                       [self access:sender];
+                                                                   }];
+#endif
 }
 
 - (void)access:(id)sender {

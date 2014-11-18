@@ -29,15 +29,19 @@
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
 #import "A0UIUtilities.h"
+#import "A0PasswordFieldView.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
+#if __has_include("A0PasswordManager.h")
+#import "A0PasswordManager.h"
+#endif
 
 @interface A0ChangePasswordViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *passwordField;
+@property (weak, nonatomic) IBOutlet A0PasswordFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *repeatPasswordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *recoverButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
@@ -75,6 +79,29 @@
     self.repeatPasswordField.textField.placeholder = A0LocalizedString(@"Confirm New Password");
     [self.recoverButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
     self.messageLabel.text = A0LocalizedString(@"Please enter your email and the new password. We will send you an email to confirm the password change.");
+    [self.passwordField.passwordManagerButton addTarget:self action:@selector(changeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)dealloc {
+    [self.passwordField.passwordManagerButton removeTarget:self action:@selector(changeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (IBAction)changeLoginInfo:(id)sender {
+#ifdef AUTH0_1PASSWORD
+    @weakify(self);
+    [[A0PasswordManager sharedInstance] saveLoginInformationForUsername:self.userField.textField.text
+                                                               password:self.passwordField.textField.text
+                                                              loginInfo:nil
+                                                             controller:self
+                                                                 sender:sender
+                                                             completion:^(NSString *username, NSString *password) {
+                                                                 @strongify(self);
+                                                                 self.userField.textField.text = username;
+                                                                 self.passwordField.textField.text = password;
+                                                                 self.repeatPasswordField.textField.text = password;
+                                                                 [self recover:sender];
+                                                             }];
+#endif
 }
 
 - (IBAction)recover:(id)sender {

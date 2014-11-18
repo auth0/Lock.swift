@@ -118,7 +118,7 @@
                                     <rect key="frame" x="0.0" y="50" width="278" height="1"/>
                                     <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hpI-vo-2Q9" customClass="A0CredentialFieldView">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hpI-vo-2Q9" customClass="A0PasswordFieldView">
                                     <rect key="frame" x="0.0" y="51" width="278" height="50"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aw3-Nx-wH7">
@@ -144,6 +144,7 @@
                                         <constraint firstItem="nYW-cz-nC2" firstAttribute="leading" secondItem="hpI-vo-2Q9" secondAttribute="leading" constant="18" id="zv1-d6-BGk"/>
                                     </constraints>
                                     <connections>
+                                        <outlet property="fieldTrailingSpace" destination="ADL-Pb-gzc" id="zP6-DC-5du"/>
                                         <outlet property="iconImageView" destination="nYW-cz-nC2" id="8IN-L9-TrE"/>
                                         <outlet property="textField" destination="Aw3-Nx-wH7" id="3wy-MP-zll"/>
                                     </connections>
