@@ -28,18 +28,54 @@
 
 typedef void(^A0LoginInfoBlock)(NSString *username, NSString *password);
 
+/**
+ *  Class that handles the interaction with a Password Manager using iOS 8 extensions.
+ *  The only supported password manager is 1Password.
+ */
 @interface A0PasswordManager : NSObject
 
+/**
+ *  URL String associated with the login info stored/retrieved. 
+ *  It helps the user to locate their credentials.
+ *  By default is the Bundle Indentifier of the app.
+ */
 @property (copy, nonatomic) NSString *loginURLString;
 
+/**
+ *  Returns a shared instance
+ *
+ *  @return shared instance
+ */
 + (instancetype)sharedInstance;
 
+/**
+ *  Checks if a Password Manager extension is installed.
+ *
+ *  @return if the extension is available.
+ */
 + (BOOL)hasPasswordManagerInstalled;
 
+/**
+ *  Fetches the login information from the password manager.
+ *
+ *  @param controller the UIViewController where to display the login info
+ *  @param sender     action's trigger
+ *  @param completion block called with the credentials.
+ */
 - (void)fillLoginInformationForViewController:(UIViewController *)controller
                                        sender:(id)sender
                                    completion:(A0LoginInfoBlock)completion;
 
+/**
+ *  Saves the login information in the password manager.
+ *
+ *  @param username   username to store. It can be nil
+ *  @param password   password to store. It can be nil
+ *  @param loginInfo  extra login information.
+ *  @param controller the UIViewController where to display the login info
+ *  @param sender     action's trigger
+ *  @param completion block called with the credentials.
+ */
 - (void)saveLoginInformationForUsername:(NSString *)username
                                password:(NSString *)password
                               loginInfo:(NSDictionary *)loginInfo
