@@ -1,4 +1,5 @@
 PODS:
+  - 1PasswordExtension (1.1)
   - AFNetworking (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
@@ -98,6 +99,11 @@ PODS:
     - Lock/Twitter
     - Lock/UI
     - ObjectiveSugar (~> 1.1)
+  - Lock/1Password (1.4.0):
+    - 1PasswordExtension (~> 1.1)
+    - CocoaLumberjack (~> 1.9)
+    - libextobjc (~> 0.4)
+    - ObjectiveSugar (~> 1.1)
   - Lock/Core (1.4.0):
     - AFNetworking (~> 2.4)
     - CocoaLumberjack (~> 1.9)
@@ -159,6 +165,7 @@ DEPENDENCIES:
   - JWTDecode
   - libextobjc
   - Lock (from `../`)
+  - Lock/1Password (from `../`)
   - Lock/SMS (from `../`)
   - Lock/TouchID (from `../`)
   - OCMockito
@@ -170,6 +177,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
+  1PasswordExtension: 37d1488cf049b8bc0811beb7b52a19f8f803f7c8
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   BDBOAuth1Manager: 0625ba20bd7d36461bbf6dc3d29276b5932b7409
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
