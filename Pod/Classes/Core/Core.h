@@ -23,7 +23,12 @@
 #ifndef _AUTH0_IOS_SDK_CORE_
 #define _AUTH0_IOS_SDK_CORE_
 
+#if __has_include("A0APIClient+ReactiveCocoa.h")
+#import "A0APIClient+ReactiveCocoa.h"
+#else
 #import "A0APIClient.h"
+#endif
+
 #import "A0UserAPIClient.h"
 #import "A0Application.h"
 #import "A0Errors.h"
