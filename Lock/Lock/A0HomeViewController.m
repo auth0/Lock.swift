@@ -54,11 +54,11 @@
     NSString* refreshToken = [self.keychain stringForKey: @"refresh_token"];
     NSString* idToken = [self.keychain stringForKey: @"id_token"];
     if (refreshToken) {
-        [[A0APIClient sharedClient] fetchNewIdTokenWithRefreshToken:refreshToken parameters:nil success:^(A0Token *token) {
+        [[[A0APIClient sharedClient] fetchNewIdTokenWithRefreshToken:refreshToken parameters:nil] subscribeNext:^(A0Token *token) {
             @strongify(self);
             [self.keychain setString:token.idToken forKey:@"id_token"];
             [self performSegueWithIdentifier:@"LoggedIn" sender:self];
-        } failure:^(NSError *error) {
+        } error:^(NSError *error) {
             @strongify(self);
             [self.keychain clearAll];
         }];
