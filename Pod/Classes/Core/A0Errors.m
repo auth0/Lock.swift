@@ -50,6 +50,12 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     || error.code == A0ErrorCodeGooglePlusCancelled;
 }
 
++ (NSError *)invalidUsername {
+    return [self errorWithCode:A0ErrorCodeInvalidUsername
+                   description:A0LocalizedString(@"Invalid credentials")
+                 failureReason:A0LocalizedString(@"The username you entered is invalid. Please try again.")];
+}
+
 #pragma mark - Login errors
 
 + (NSError *)defaultLoginErrorFor:(NSError *)error {

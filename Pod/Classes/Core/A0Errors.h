@@ -114,6 +114,8 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 
 + (BOOL)isCancelledSocialAuthentication:(NSError *)error;
 
++ (NSError *)invalidUsername;
+
 ///----------------------------------------
 /// @name Login Errors
 ///----------------------------------------
