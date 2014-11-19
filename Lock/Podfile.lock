@@ -116,6 +116,12 @@ PODS:
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
+  - Lock/ReactiveCore (1.4.0):
+    - CocoaLumberjack (~> 1.9)
+    - libextobjc (~> 0.4)
+    - Lock/Core
+    - ObjectiveSugar (~> 1.1)
+    - ReactiveCocoa (~> 2.3)
   - Lock/SMS (1.4.0):
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
@@ -149,6 +155,13 @@ PODS:
   - OCMockito (1.3.1):
     - OCHamcrest (~> 4.0)
   - PSAlertView (2.0.3)
+  - ReactiveCocoa (2.3.1):
+    - ReactiveCocoa/UI
+  - ReactiveCocoa/Core (2.3.1):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.3.1)
+  - ReactiveCocoa/UI (2.3.1):
+    - ReactiveCocoa/Core
   - SimpleKeychain (0.2.0)
   - Specta (0.2.1)
   - TouchIDAuth (0.1.0):
@@ -166,6 +179,7 @@ DEPENDENCIES:
   - libextobjc
   - Lock (from `../`)
   - Lock/1Password (from `../`)
+  - Lock/ReactiveCore (from `../`)
   - Lock/SMS (from `../`)
   - Lock/TouchID (from `../`)
   - OCMockito
@@ -187,7 +201,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JWTDecode: 72e3393caf14dc762eba51d29f15bd86f608aba3
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  Lock: 3ba8771da89885dd5f86ea13d72b5a1dd7b9f2b2
+  Lock: 7466ef8d8ee5295f1d69676f391224d2d964e801
   LUKeychainAccess: 8d45b6c894c0d808786b1740c057b5e776313d88
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
@@ -195,6 +209,7 @@ SPEC CHECKSUMS:
   OCHamcrest: b464725bbb48d0f1cd9c6f4ec3cb35fe0c4f2b94
   OCMockito: 57b8c4bb54ff3a4a14eb2174f9e57faf9f56efb6
   PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
+  ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
   SimpleKeychain: f7c55140169037f7540c949b25da53096036b231
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
   TouchIDAuth: 4a104cd6a614e63c23fad6e6446bf79b6cc6f429

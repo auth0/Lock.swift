@@ -29,7 +29,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *expiresLabel;
 @property (weak, nonatomic) IBOutlet UIButton *refreshButton;
 
-- (IBAction)refreshSession:(id)sender;
 - (IBAction)clearSession:(id)sender;
 
 @end

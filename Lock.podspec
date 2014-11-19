@@ -40,6 +40,13 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     core.dependency 'ISO8601DateFormatter', '~> 0.7'
   end
 
+  s.subspec 'ReactiveCore' do |core|
+    core.public_header_files = ['Pod/Classes/ReactiveCore/*.h']
+    core.source_files = ['Pod/Classes/ReactiveCore/*.{h,m}']
+    core.dependency 'ReactiveCocoa', '~> 2.3'
+    core.dependency 'Lock/Core'
+  end
+
   s.subspec 'UI' do |ui|
     ui.platform = :ios
     ui.public_header_files = 'Pod/Classes/UI/*.h'
