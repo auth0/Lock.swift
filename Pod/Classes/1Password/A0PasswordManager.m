@@ -53,7 +53,7 @@
             }
         }
     };
-    [[OnePasswordExtension sharedExtension] findLoginForURLString:[self loginURLString]
+    [[OnePasswordExtension sharedExtension] findLoginForURLString:[self loginInfoURLString]
                                                 forViewController:controller
                                                            sender:sender
                                                        completion:onCompletion];
@@ -90,7 +90,7 @@
                                          AppExtensionGeneratedPasswordMinLengthKey: @8,
                                          AppExtensionGeneratedPasswordMaxLengthKey: @50,
                                          };
-    [[OnePasswordExtension sharedExtension] changePasswordForLoginForURLString:[self loginURLString]
+    [[OnePasswordExtension sharedExtension] changePasswordForLoginForURLString:[self loginInfoURLString]
                                                       loginDetails:loginDetails
                                          passwordGenerationOptions:passwordGeneration
                                                  forViewController:controller
