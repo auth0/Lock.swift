@@ -68,6 +68,12 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
 }
 
++ (NSError *)invalidRepeatPassword {
+    return [self errorWithCode:A0ErrorCodeInvalidRepeatPassword
+                   description:A0LocalizedString(@"Invalid credentials")
+                 failureReason:A0LocalizedString(@"The passwords you entered must match. Please try again.")];
+}
+
 #pragma mark - Login errors
 
 + (NSError *)defaultLoginErrorFor:(NSError *)error {

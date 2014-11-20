@@ -54,7 +54,7 @@ describe(@"A0PasswordValidator", ^{
             [given(field.text) willReturn:@"ultrasecretpasssword"];
         });
 
-        specify(@"should obtain value from field", ^{
+        specify(@"value from field", ^{
             [validator validate];
             [MKTVerify(field) text];
         });
