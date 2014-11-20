@@ -123,6 +123,8 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 
 + (NSError *)invalidEmail;
 
++ (NSError *)invalidPassword;
+
 ///----------------------------------------
 /// @name Login Errors
 ///----------------------------------------
