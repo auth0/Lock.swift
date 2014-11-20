@@ -22,6 +22,8 @@
 
 import UIKit
 
+let FirebaseURLString = "https://sizzling-heat-5516.firebaseio.com/"
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var firstStepLabel: UILabel!
@@ -67,7 +69,7 @@ class ViewController: UIViewController {
 
                 self.seconStepLabel.text = "Firebase JWT \(firebaseToken!)"
                 println("Obtained Firebase credentials \(credentials)")
-                let ref = Firebase(url: "https://sizzling-heat-5516.firebaseio.com/")
+                let ref = Firebase(url: FirebaseURLString)
                 ref.authWithCustomToken(firebaseToken, withCompletionBlock: { (error, data) -> () in
                     if error == nil {
                         self.thirdStepLabel.text = "\(data)"
