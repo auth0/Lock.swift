@@ -23,6 +23,8 @@
 #import <UIKit/UIKit.h>
 #import "A0FieldValidator.h"
 
+FOUNDATION_EXPORT NSString * const A0UsernameValidatorIdentifier;
+
 /**
  *  Object that validates a username from a UITextField.
  *  The UITextField is not retained.

@@ -1,4 +1,4 @@
-// A0FieldValidator.h
+// A0CredentialsValidator.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,12 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "A0FieldValidator.h"
 
-@protocol A0FieldValidator <NSObject>
+FOUNDATION_EXPORT NSString * const A0CredentialsValidatorErrorsKey;
 
-@property (readonly, nonatomic) NSString *identifier;
+@interface A0CredentialsValidator : NSObject<A0FieldValidator>
 
-- (NSError *)validate;
+@property (copy, nonatomic) NSError *(^flattenErrors)(NSDictionary *errors);
+
+- (instancetype)initWithValidators:(NSArray *)validators;
 
 @end

@@ -23,16 +23,21 @@
 #import "A0UsernameValidator.h"
 #import "A0Errors.h"
 
+NSString * const A0UsernameValidatorIdentifier = @"A0UsernameValidatorIdentifier";
+
 @interface A0UsernameValidator ()
 @property (weak, nonatomic) UITextField *field;
 @end
 
 @implementation A0UsernameValidator
 
+@synthesize identifier = _identifier;
+
 - (instancetype)initWithField:(UITextField *)field {
     NSAssert(field != nil, @"Must provide a UITextField instance");
     self = [super init];
     if (self) {
+        _identifier = A0UsernameValidatorIdentifier;
         _field = field;
     }
     return self;

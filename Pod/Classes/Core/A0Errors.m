@@ -27,6 +27,13 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 
 @implementation A0Errors
 
++ (NSError *)errorWithCode:(NSInteger)code userInfo:(NSDictionary *)userInfo {
+    NSError *error = [NSError errorWithDomain:A0ErrorDomain
+                                         code:code
+                                     userInfo:userInfo];
+    return error;
+}
+
 + (NSError *)noConnectionNameFound {
     return [self errorWithCode:A0ErrorCodeNoConnectionNameFound
                    description:A0LocalizedString(@"Authentication failed")

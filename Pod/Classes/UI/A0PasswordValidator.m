@@ -23,6 +23,8 @@
 #import "A0PasswordValidator.h"
 #import "A0Errors.h"
 
+NSString * const A0PasswordValidatorIdentifer = @"A0PasswordValidatorIdentifer";
+
 @interface A0PasswordValidator ()
 
 @property (weak, nonatomic) UITextField *field;
@@ -31,10 +33,13 @@
 
 @implementation A0PasswordValidator
 
+@synthesize identifier = _identifier;
+
 - (instancetype)initWithField:(UITextField *)field {
     NSAssert(field != nil, @"Must provide a UITextField instance");
     self = [super init];
     if (self) {
+        _identifier = A0PasswordValidatorIdentifer;
         _field = field;
     }
     return self;

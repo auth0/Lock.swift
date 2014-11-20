@@ -23,6 +23,8 @@
 #import <UIKit/UIKit.h>
 #import "A0FieldValidator.h"
 
+FOUNDATION_EXPORT NSString * const A0ConfirmPasswordValidatorIdentifer;
+
 @interface A0ConfirmPasswordValidator : NSObject<A0FieldValidator>
 
 - (instancetype)initWithField:(UITextField *)field passwordField:(UITextField *)passwordField;

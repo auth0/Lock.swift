@@ -23,6 +23,8 @@
 #import "A0ConfirmPasswordValidator.h"
 #import "A0Errors.h"
 
+NSString * const A0ConfirmPasswordValidatorIdentifer = @"A0ConfirmPasswordValidatorIdentifer";
+
 @interface A0ConfirmPasswordValidator ()
 @property (weak, nonatomic) UITextField *field;
 @property (weak, nonatomic) UITextField *passwordField;
@@ -30,10 +32,13 @@
 
 @implementation A0ConfirmPasswordValidator
 
+@synthesize identifier = _identifier;
+
 - (instancetype)initWithField:(UITextField *)field passwordField:(UITextField *)passwordField {
     NSAssert(field != nil && passwordField != nil, @"Both confirm and password field shoulb be non-nil");
     self = [super init];
     if (self) {
+        _identifier = @"Confirm Password";
         _field = field;
         _passwordField = passwordField;
     }

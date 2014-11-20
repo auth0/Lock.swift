@@ -23,12 +23,16 @@
 #import "A0EmailValidator.h"
 #import "A0Errors.h"
 
+NSString * const A0EmailValidatorIdentifer = @"A0EmailValidatorIdentifer";
+
 @interface A0EmailValidator ()
 @property (weak, nonatomic) UITextField *field;
 @property (strong, nonatomic) NSPredicate *emailPredicate;
 @end
 
 @implementation A0EmailValidator
+
+@synthesize identifier = _identifier;
 
 - (instancetype)initWithField:(UITextField *)field {
     NSAssert(field != nil, @"Must provide a UITextField instance");

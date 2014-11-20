@@ -23,6 +23,8 @@
 #import <UIKit/UIKit.h>
 #import "A0FieldValidator.h"
 
+FOUNDATION_EXPORT NSString * const A0EmailValidatorIdentifer;
+
 @interface A0EmailValidator : NSObject<A0FieldValidator>
 
 - (instancetype)initWithField:(UITextField *)field;
