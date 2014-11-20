@@ -56,6 +56,12 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:A0LocalizedString(@"The username you entered is invalid. Please try again.")];
 }
 
++ (NSError *)invalidEmail {
+    return [self errorWithCode:A0ErrorCodeInvalidEmail
+                   description:A0LocalizedString(@"Invalid credentials")
+                 failureReason:A0LocalizedString(@"The email you entered is invalid. Please try again.")];
+}
+
 #pragma mark - Login errors
 
 + (NSError *)defaultLoginErrorFor:(NSError *)error {
