@@ -101,7 +101,7 @@
 #pragma mark - Utility methods
 
 - (NSString *)loginInfoURLString {
-    return self.loginURLString ?: [[NSBundle mainBundle] bundleIdentifier];
+    return self.loginURLString ?: [@"app://" stringByAppendingString:[[NSBundle mainBundle] bundleIdentifier]];
 }
 
 @end
