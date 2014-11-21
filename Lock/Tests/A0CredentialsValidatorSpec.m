@@ -41,6 +41,8 @@ describe(@"A0CredentialsValidator", ^{
     beforeEach(^{
         firstValidator = mockProtocol(@protocol(A0FieldValidator));
         secondValidator = mockProtocol(@protocol(A0FieldValidator));
+        [given([firstValidator identifier]) willReturn:@"first"];
+        [given([secondValidator identifier]) willReturn:@"second"];
         validator = [[A0CredentialsValidator alloc] initWithValidators:@[firstValidator, secondValidator]];
     });
 
@@ -65,13 +67,92 @@ describe(@"A0CredentialsValidator", ^{
 
         it(@"should call all validators", ^{
             [validator validate];
-            MKTVerify([firstValidator validate]);
-            MKTVerify([secondValidator validate]);
+            [MKTVerify(firstValidator) validate];
+            [MKTVerify(secondValidator) validate];
         });
 
         it(@"should return no error", ^{
             expect([validator validate]).to.beNil();
         });
+
+    });
+
+    context(@"one failed validation", ^{
+
+        __block NSError *validatorError;
+
+        beforeEach(^{
+            validatorError = mock(NSError.class);
+            [given([firstValidator validate]) willReturn:validatorError];
+            [given([secondValidator validate]) willReturn:nil];
+        });
+
+        it(@"should call all validators", ^{
+            [validator validate];
+            [MKTVerify(firstValidator) validate];
+            [MKTVerify(secondValidator) validate];
+        });
+
+        it(@"should return error", ^{
+            expect([validator validate]).notTo.beNil();
+        });
+
+        it(@"should be error returned by first validator", ^{
+            [given([firstValidator validate]) willReturn:validatorError];
+            [given([secondValidator validate]) willReturn:nil];
+            expect([validator validate]).to.beIdenticalTo(validatorError);
+        });
+
+        it(@"should be error returned by second validator", ^{
+            [given([firstValidator validate]) willReturn:nil];
+            [given([secondValidator validate]) willReturn:validatorError];
+            expect([validator validate]).to.beIdenticalTo(validatorError);
+        });
+
+    });
+
+    context(@"2+ validation errors", ^{
+
+        __block NSError *firstError;
+        __block NSError *secondError;
+
+        beforeEach(^{
+            validator.flattenErrors = nil;
+            firstError = mock(NSError.class);
+            secondError = mock(NSError.class);
+            [given([firstValidator validate]) willReturn:firstError];
+            [given([secondValidator validate]) willReturn:secondError];
+        });
+
+        it(@"should call all validators", ^{
+            [validator validate];
+            [MKTVerify(firstValidator) validate];
+            [MKTVerify(secondValidator) validate];
+        });
+
+        it(@"should return error", ^{
+            expect([validator validate]).notTo.beNil();
+        });
+
+        it(@"should return invalid credentials code", ^{
+            expect([[validator validate] code]).to.equal(@(A0ErrorCodeInvalidCredentials));
+        });
+
+        it(@"should have errors embedded", ^{
+            NSDictionary *errors = [[validator validate] userInfo][A0CredentialsValidatorErrorsKey];
+            expect(errors).to.haveCountOf(2);
+            expect(errors[@"first"]).to.equal(firstError);
+            expect(errors[@"second"]).to.equal(secondError);
+        });
+
+        it(@"should call flattenErrors block", ^{
+            NSError *flattenedError = mock(NSError.class);
+            validator.flattenErrors = ^(NSDictionary *errors) {
+                return flattenedError;
+            };
+            expect([validator validate]).to.equal(flattenedError);
+        });
+
     });
 });
 
