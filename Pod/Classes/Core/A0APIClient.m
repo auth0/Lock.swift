@@ -39,7 +39,7 @@
 #define kClientIdKey @"Auth0ClientId"
 #define kTenantKey @"Auth0Tenant"
 #define kAppBaseURLFormatString @"https://%@.auth0.com/api/"
-#define kAppInfoEndpointURLFormatString @"https://s3.amazonaws.com/assets.auth0.com/client/%@.js"
+#define kAppInfoEndpointURLFormatString @"https://cdn.auth0.com/client/%@.js"
 
 #define kLoginPath @"/oauth/ro"
 #define kSignUpPath @"/dbconnections/signup"
