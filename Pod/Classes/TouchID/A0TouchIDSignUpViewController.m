@@ -25,12 +25,12 @@
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
 #import "A0ProgressButton.h"
-#import "A0SignUpCredentialValidator.h"
 #import "A0APIClient.h"
 #import "A0Errors.h"
 #import "A0UIUtilities.h"
 
 #import <libextobjc/EXTScope.h>
+#import "A0EmailValidator.h"
 
 @interface A0TouchIDSignUpViewController ()
 
@@ -42,7 +42,7 @@
 
 - (IBAction)signUp:(id)sender;
 
-@property (strong, nonatomic) A0SignUpCredentialValidator *validator;
+@property (strong, nonatomic) A0EmailValidator *validator;
 
 @end
 
@@ -64,18 +64,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [theme configureTextField:self.emailField.textField];
     [theme configureLabel:self.messageLabel];
     
-    self.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:YES];
+    self.validator = [[A0EmailValidator alloc] initWithField:self.emailField.textField];
     self.title = A0LocalizedString(@"Register");
 }
 
 - (void)signUp:(id)sender {
-    NSError *error;
     [self.signUpButton setInProgress:YES];
     [self hideKeyboard];
     NSString *username = [self.emailField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *password = [self randomStringWithLength:14];
-    [self.validator setUsername:self.emailField.textField.text password:password];
-    if ([self.validator validateCredential:&error]) {
+    NSError *error = [self.validator validate];
+    if (!error) {
         @weakify(self);
         A0LogDebug(@"Registering user with email %@ for TouchID", username);
         A0APIClient *client = [A0APIClient sharedClient];
