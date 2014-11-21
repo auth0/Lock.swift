@@ -39,13 +39,12 @@
         [passwordManagerButton setImage:[UIImage imageNamed:@"onepassword-button"] forState:UIControlStateNormal];
         [self addSubview:passwordManagerButton];
         self.passwordManagerButton = passwordManagerButton;
-        CGFloat marginRight = self.fieldTrailingSpace.constant;
         [self removeConstraint:self.fieldTrailingSpace];
         UITextField *field = self.textField;
         NSDictionary *views = NSDictionaryOfVariableBindings(field, passwordManagerButton);
         NSDictionary *metrics = @{
                                   @"marginLeft": @7,
-                                  @"marginRight": @(marginRight)
+                                  @"marginRight": @18
                                   };
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[field]-(marginLeft)-[passwordManagerButton]-(marginRight)-|"
                                                                      options:0
