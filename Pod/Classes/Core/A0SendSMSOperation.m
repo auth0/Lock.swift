@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0SendSMSOperation.h"
+#import "A0JSONResponseSerializer.h"
 
 @implementation A0SendSMSOperation
 
@@ -40,7 +41,7 @@
     [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
     self = [super initWithRequest:request];
     if (self) {
-        self.responseSerializer = [AFJSONResponseSerializer serializer];
+        self.responseSerializer = [A0JSONResponseSerializer serializer];
     }
     return self;
 }
