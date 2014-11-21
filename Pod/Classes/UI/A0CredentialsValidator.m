@@ -65,7 +65,7 @@ NSString * const A0CredentialsValidatorErrorsKey = @"A0CredentialsValidatorError
         error = [A0Errors errorWithCode:A0ErrorCodeInvalidCredentials
                                userInfo:@{
                                           NSLocalizedDescriptionKey: A0LocalizedString(@"Invalid credentials"),
-                                          NSLocalizedDescriptionKey: A0LocalizedString(@"The credentials you entered are invalid. Please try again"),
+                                          NSLocalizedFailureReasonErrorKey: A0LocalizedString(@"The credentials you entered are invalid. Please try again"),
                                           A0CredentialsValidatorErrorsKey: errors,
                                           }];
     }

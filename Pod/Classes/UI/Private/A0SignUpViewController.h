@@ -31,11 +31,14 @@
 @property (copy, nonatomic) void(^onSignUpBlock)(A0UserProfile *profile, A0Token *token);
 
 @property (strong, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0SignUpCredentialValidator *validator;
+@property (assign, nonatomic) BOOL forceUsername;
+@property (strong, nonatomic) A0CredentialsValidator *validator;
+
 @property (assign, nonatomic, getter = shouldLoginUser) BOOL loginUser;
 @property (copy, nonatomic) NSString *customMessage;
 @property (strong, nonatomic) A0Connection *defaultConnection;
 
 - (void)addDisclaimerSubview:(UIView *)view;
+- (void)updateUIWithError:(NSError *)error;
 
 @end
