@@ -14,6 +14,7 @@
 		5FFEF3BF1A1F88540004CB68 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FFEF3BE1A1F88540004CB68 /* Images.xcassets */; };
 		5FFEF3C21A1F88540004CB68 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FFEF3C01A1F88540004CB68 /* LaunchScreen.xib */; };
 		5FFEF3CE1A1F88540004CB68 /* AWSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFEF3CD1A1F88540004CB68 /* AWSTests.swift */; };
+		5FFEF3DA1A1FB5DF0004CB68 /* AWSInMemoryCredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFEF3D91A1FB5DF0004CB68 /* AWSInMemoryCredentialProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		5FFEF3CC1A1F88540004CB68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FFEF3CD1A1F88540004CB68 /* AWSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSTests.swift; sourceTree = "<group>"; };
 		5FFEF3D71A1F96300004CB68 /* AWS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AWS-Bridging-Header.h"; sourceTree = "<group>"; };
+		5FFEF3D91A1FB5DF0004CB68 /* AWSInMemoryCredentialProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSInMemoryCredentialProvider.swift; sourceTree = "<group>"; };
 		C0CD5502EFBBC8D46C4B74B9 /* Pods-AWS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWS.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWS/Pods-AWS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -92,6 +94,7 @@
 				5FFEF3C01A1F88540004CB68 /* LaunchScreen.xib */,
 				5FFEF3B51A1F88540004CB68 /* Supporting Files */,
 				5FFEF3D71A1F96300004CB68 /* AWS-Bridging-Header.h */,
+				5FFEF3D91A1FB5DF0004CB68 /* AWSInMemoryCredentialProvider.swift */,
 			);
 			path = AWS;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 			files = (
 				5FFEF3BA1A1F88540004CB68 /* ViewController.swift in Sources */,
 				5FFEF3B81A1F88540004CB68 /* AppDelegate.swift in Sources */,
+				5FFEF3DA1A1FB5DF0004CB68 /* AWSInMemoryCredentialProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

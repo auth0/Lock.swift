@@ -22,6 +22,11 @@
 
 import UIKit
 
+let RoleARN = "arn:aws:iam::442712471438:role/lock-sample"
+let PrincipalARN = "arn:aws:iam::442712471438:saml-provider/auth0-lock-sample"
+let BucketName = "auth0-aws-sample"
+let FileName = "greeting.json"
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var firstStepLabel: UILabel!
@@ -58,8 +63,8 @@ class ViewController: UIViewController {
         let parameters = A0AuthParameters.newWithDictionary([
             A0ParameterAPIType: "aws",
             "id_token": jwt,
-            "role":"arn:aws:iam::442712471438:role/lock-sample",
-            "principal":"arn:aws:iam::442712471438:saml-provider/auth0-lock-sample",
+            "role": RoleARN,
+            "principal": PrincipalARN,
             ])
 
         client.fetchDelegationTokenWithParameters(parameters,
@@ -69,7 +74,10 @@ class ViewController: UIViewController {
                 let accessKey = credentials["AccessKeyId"] as String
                 self.seconStepLabel.text = "AWS Creds with AccessKey \(accessKey)"
                 println("Obtained AWS Credentials \(credentials)")
-                self.setInProgress(false, button: button)
+                let credentialsProvider = AWSInMemoryCredentialProvider(credentials: credentials)
+                let serviceConfiguration = AWSServiceConfiguration(region: .USEast1, credentialsProvider: credentialsProvider)
+                AWSServiceManager.defaultServiceManager().setDefaultServiceConfiguration(serviceConfiguration)
+                self.downloadFromS3({self.setInProgress(false, button: button)})
             },
             failure: { (error) -> Void in
                 self.seconStepLabel.text = error.localizedDescription
@@ -101,6 +109,30 @@ class ViewController: UIViewController {
             return;
         }
         self.presentViewController(lock, animated: true, completion: nil)
+    }
+
+    func downloadFromS3(completion: () -> ()) {
+        let localPath = NSTemporaryDirectory() .stringByAppendingPathComponent("greeting.jsons")
+        let downloadURL = NSURL(fileURLWithPath: localPath)
+        let downloadRequest = AWSS3TransferManagerDownloadRequest()
+        downloadRequest.bucket = BucketName
+        downloadRequest.key = FileName
+        downloadRequest.downloadingFileURL = downloadURL
+        let transferManager = AWSS3TransferManager.defaultS3TransferManager()
+        transferManager.download(downloadRequest).continueWithBlock { (task) -> AnyObject! in
+            if task.error != nil {
+                println("Failed to download S3 with error \(task.error)")
+                self.thirdStepLabel.text = "Failed to download from S3 with error \(task.error)"
+            }
+
+            if task.result != nil {
+                let output = task.result as AWSS3TransferManagerDownloadOutput
+                self.thirdStepLabel.text = "Downloaded file \(downloadRequest.key) with size \(output.contentLength)"
+            }
+
+            completion()
+            return nil
+        }
     }
 }
 
