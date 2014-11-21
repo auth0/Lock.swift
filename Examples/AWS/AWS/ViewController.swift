@@ -56,15 +56,20 @@ class ViewController: UIViewController {
         let client = A0APIClient.sharedClient()
         let jwt = A0SimpleKeychain().stringForKey("id_token")
         let parameters = A0AuthParameters.newWithDictionary([
-            A0ParameterAPIType: "firebase",
-            "id_token": jwt
+            A0ParameterAPIType: "aws",
+            "id_token": jwt,
+            "role":"arn:aws:iam::442712471438:role/lock-sample",
+            "principal":"arn:aws:iam::442712471438:saml-provider/auth0-lock-sample",
             ])
 
         client.fetchDelegationTokenWithParameters(parameters,
             success: { (response) -> Void in
-                let credentials = response as Dictionary<String, AnyObject>
-                self.seconStepLabel.text = "AWS Creds \(credentials)"
-                println("Obtained AWS credentials \(credentials)")
+                let payload = response as Dictionary<String, AnyObject>
+                let credentials = payload["Credentials"] as Dictionary<String, AnyObject>
+                let accessKey = credentials["AccessKeyId"] as String
+                self.seconStepLabel.text = "AWS Creds with AccessKey \(accessKey)"
+                println("Obtained AWS Credentials \(credentials)")
+                self.setInProgress(false, button: button)
             },
             failure: { (error) -> Void in
                 self.seconStepLabel.text = error.localizedDescription
