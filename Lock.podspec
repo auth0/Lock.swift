@@ -18,8 +18,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
 
   s.requires_arc = true
 
-  s.public_header_files = 'Pod/Classes/Lock.h'
-  s.source_files = 'Pod/Classes/Lock.h'
   s.dependency 'libextobjc', '~> 0.4'
   s.dependency 'CocoaLumberjack', '~> 1.9'
   s.dependency 'ObjectiveSugar', '~> 1.1'
@@ -30,8 +28,8 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   EOS
 
   s.subspec 'Core' do |core|
-    core.public_header_files = ['Pod/Classes/Core/*.h']
-    core.source_files = ['Pod/Classes/Core/*.{h,m}']
+    core.public_header_files = ['Pod/Classes/Core/*.h', 'Pod/Classes/Lock.h']
+    core.source_files = ['Pod/Classes/Core/*.{h,m}', 'Pod/Classes/Lock.h']
     core.ios.public_header_files = ['Pod/Classes/Core/iOS/*.h', 'Pod/Classes/Provider/*.h']
     core.osx.public_header_files = ['Pod/Classes/Core/OSX/*.h']
     core.ios.source_files = ['Pod/Classes/Core/iOS/*.{h,m}', 'Pod/Classes/Provider/*.{h,m}']
