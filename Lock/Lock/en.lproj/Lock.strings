@@ -91,3 +91,5 @@
 "You need to authorize the application" = "You need to authorize the application";
 "You need to configure your auth0 scheme in CFBundleURLTypes in your app's Info.plist file" = "You need to configure your auth0 scheme in CFBundleURLTypes in your app's Info.plist file";
 "The application isn't configured properly for %@. Please check your Auth0's application configuration" = "The application isn't configured properly for %@. Please check your Auth0's application configuration";
+"The server could not be contacted" = "The server could not be contacted";
+"Make sure your network settings are correct and your network connection is active, or try again later." = "Make sure your network settings are correct and your network connection is active, or try again later.";
