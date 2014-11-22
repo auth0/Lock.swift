@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Lock"
-  s.version          = "1.4.0"
+  s.version          = "1.5.0"
   s.summary          = "A library that uses Auth0 for Authentication with Native Look & Feel"
   s.description      = <<-DESC
 [![Auth0](https://i.cloudup.com/1vaSVATKTL.png)](http://auth0.com)
@@ -68,7 +68,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     twitter.public_header_files = 'Pod/Classes/Twitter/*.h'
     twitter.source_files = 'Pod/Classes/Provider/Twitter/*.{h,m}'
     twitter.dependency 'Lock/Core'
-    twitter.dependency 'BDBOAuth1Manager', '~> 1.3'
+    twitter.dependency 'BDBOAuth1Manager', '~> 1.4'
     twitter.dependency 'TWReverseAuth', '~> 0.1.0'
     twitter.dependency 'PSAlertView', '~> 2.0'
     twitter.frameworks  = 'Social', 'Accounts', 'Twitter'
@@ -99,5 +99,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     onepassword.public_header_files = 'Pod/Classes/1Password/*.h'
     onepassword.source_files = 'Pod/Classes/1Password/*.{h,m}'
     onepassword.dependency '1PasswordExtension', '~> 1.1'
+    onepassword.dependency 'Lock/Core'
   end
+
 end
