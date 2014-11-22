@@ -22,6 +22,7 @@
 
 #import "A0SendSMSOperation.h"
 #import "A0JSONResponseSerializer.h"
+#import "A0Errors.h"
 
 @implementation A0SendSMSOperation
 
@@ -52,8 +53,9 @@
             success();
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSError *operationError = error.code == NSURLErrorNotConnectedToInternet ? [A0Errors notConnectedToInternetError] : error;
         if (failure) {
-            failure(error);
+            failure(operationError);
         }
     }];
 }

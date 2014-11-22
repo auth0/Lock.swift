@@ -117,7 +117,9 @@
         };
         A0APIClientError failure = ^(NSError *error) {
             [self.signUpButton setInProgress:NO];
-            A0ShowAlertErrorView(A0LocalizedString(@"There was an error signing up"), [A0Errors localizedStringForLoginError:error]);
+            NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
+            NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
+            A0ShowAlertErrorView(title, message);
         };
         [[A0APIClient sharedClient] signUpWithUsername:username
                                               password:password

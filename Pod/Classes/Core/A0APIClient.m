@@ -448,8 +448,9 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 + (AFFailureBlock) sanitizeFailureBlock:(A0APIClientError)failureBlock {
     AFFailureBlock sanitized = ^(AFHTTPRequestOperation *operation, NSError *error) {
         Auth0LogError(@"Request %@ %@ failed with error %@", operation.request.HTTPMethod, operation.request.URL, error);
+        NSError *operationError = error.code == NSURLErrorNotConnectedToInternet ? [A0Errors notConnectedToInternetError] : error;
         if (failureBlock) {
-            failureBlock(error);
+            failureBlock(operationError);
         }
     };
     return sanitized;

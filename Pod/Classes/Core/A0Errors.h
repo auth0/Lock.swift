@@ -87,6 +87,10 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
      *  Authentication parameters didn't contain a valid connection name.
      */
     A0ErrorCodeNoConnectionNameFound,
+    /**
+     *  When device is not connected to internet.
+     */
+    A0ErrorCodeNotConnectedToInternet,
 };
 
 FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
@@ -94,6 +98,10 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 @interface A0Errors : NSObject
 
 + (NSError *)noConnectionNameFound;
+
++ (NSError *)notConnectedToInternetError;
+
++ (BOOL)isAuth0Error:(NSError *)error withCode:(A0ErrorCode)code;
 
 ///----------------------------------------
 /// @name Login Errors
