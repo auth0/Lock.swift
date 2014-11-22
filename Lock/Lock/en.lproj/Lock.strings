@@ -31,6 +31,7 @@
 "RESET PASSWORD" = "RESET PASSWORD";
 "SEND" = "SEND";
 "SIGN UP" = "SIGN UP";
+"Retry" = "Retry";
 
 "Confirm New Password" = "Confirm New Password";
 "Password" = "Password";
@@ -93,3 +94,5 @@
 "The application isn't configured properly for %@. Please check your Auth0's application configuration" = "The application isn't configured properly for %@. Please check your Auth0's application configuration";
 "The server could not be contacted" = "The server could not be contacted";
 "Make sure your network settings are correct and your network connection is active, or try again later." = "Make sure your network settings are correct and your network connection is active, or try again later.";
+"Failed to display login" = "Failed to display login";
+"Couldnt get login screen configuration. Please try again." = "Couldnt get login screen configuration. Please try again.";
