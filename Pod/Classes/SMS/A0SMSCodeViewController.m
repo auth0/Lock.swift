@@ -75,7 +75,9 @@
         void(^failureBlock)(NSError *) = ^(NSError *error) {
             @strongify(self);
             [self.loginButton setInProgress:NO];
-            A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSMSLoginError:error]);
+            NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
+            NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSMSLoginError:error];
+            A0ShowAlertErrorView(title, message);
         };
         [self.loginButton setInProgress:YES];
         [[A0APIClient sharedClient] loginWithPhoneNumber:self.phoneNumber

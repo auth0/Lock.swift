@@ -48,8 +48,9 @@
 #import <CoreText/CoreText.h>
 #import <libextobjc/EXTScope.h>
 #import "A0NavigationView.h"
+#import "A0Errors.h"
 
-@interface A0LockViewController ()
+@interface A0LockViewController () <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UIView *iconContainerView;
@@ -91,14 +92,7 @@
     self.dismissButton.hidden = !self.closable;
 
     [[A0IdentityProviderAuthenticator sharedInstance] setUseWebAsDefault:!self.useWebView];
-    
-    @weakify(self);
-    [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
-        @strongify(self);
-        self.application = application;
-        [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
-        [self layoutRootControllerForApplication:application];
-    } failure:nil];
+    [self loadApplicationInfo];
 }
 
 - (BOOL)shouldAutorotate {
@@ -118,6 +112,32 @@
         id<A0KeyboardEnabledView> current = (id<A0KeyboardEnabledView>)controller;
         [current hideKeyboard];
     }
+}
+
+#pragma mark - App info fetch
+
+- (void)loadApplicationInfo {
+    @weakify(self);
+    [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
+        @strongify(self);
+        self.application = application;
+        [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
+        [self layoutRootControllerForApplication:application];
+    } failure:^(NSError *error) {
+        NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Failed to display login");
+        NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldnt get login screen configuration. Please try again.");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                        message:message
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:A0LocalizedString(@"Retry"), nil];
+        [alert show];
+    }];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    Auth0LogVerbose(@"Retrying fetch Auth0 app info...");
+    [self loadApplicationInfo];
 }
 
 #pragma mark - Container methods

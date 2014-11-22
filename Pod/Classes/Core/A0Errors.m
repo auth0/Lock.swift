@@ -33,6 +33,16 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:A0LocalizedString(@"Can't find connection name to use for authentication")];
 }
 
++ (NSError *)notConnectedToInternetError {
+    return [self errorWithCode:A0ErrorCodeNotConnectedToInternet
+                   description:A0LocalizedString(@"The server could not be contacted")
+                 failureReason:A0LocalizedString(@"Make sure your network settings are correct and your network connection is active, or try again later.")];
+}
+
++ (BOOL)isAuth0Error:(NSError *)error withCode:(A0ErrorCode)code {
+    return [error.domain isEqualToString:A0ErrorDomain] && error.code == code;
+}
+
 #pragma mark - Login errors
 
 + (NSError *)invalidLoginCredentialsUsingEmail:(BOOL)usesEmail {

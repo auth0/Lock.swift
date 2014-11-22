@@ -124,7 +124,9 @@
         A0APIClientError failure = ^(NSError *error) {
             @strongify(self);
             [self.recoverButton setInProgress:NO];
-            A0ShowAlertErrorView(A0LocalizedString(@"Couldn't change your password"), [A0Errors localizedStringForChangePasswordError:error]);
+            NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Couldn't change your password");
+            NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForChangePasswordError:error];
+            A0ShowAlertErrorView(title, message);
         };
         [[A0APIClient sharedClient] changePassword:password
                                        forUsername:username

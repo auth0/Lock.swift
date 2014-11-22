@@ -87,7 +87,9 @@
                            } failure:^(NSError *error){
                                @strongify(self);
                                [self.signUpButton setInProgress:NO];
-                               A0ShowAlertErrorView(A0LocalizedString(@"There was an error signing up"), [A0Errors localizedStringForSignUpError:error]);
+                               NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
+                               NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
+                               A0ShowAlertErrorView(title, message);
                            }];
     } else {
         [self.signUpButton setInProgress:NO];

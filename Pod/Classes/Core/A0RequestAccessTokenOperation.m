@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0RequestAccessTokenOperation.h"
+#import "A0Errors.h"
 
 @implementation A0RequestAccessTokenOperation
 
@@ -55,8 +56,9 @@
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         Auth0LogError(@"Failed to fetch access token with error %@", error);
+        NSError *operationError = error.code == NSURLErrorNotConnectedToInternet ? [A0Errors notConnectedToInternetError] : error;
         if (failure) {
-            failure(error);
+            failure(operationError);
         }
     }];
 }
