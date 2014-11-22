@@ -30,7 +30,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="238" height="50"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BBb-h3-p5Y">
-                                            <rect key="frame" x="48" y="10" width="183" height="30"/>
+                                            <rect key="frame" x="44" y="10" width="187" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                             <connections>
@@ -38,7 +38,7 @@
                                             </connections>
                                         </textField>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/mail" translatesAutoresizingMaskIntoConstraints="NO" id="RRD-UR-JiT">
-                                            <rect key="frame" x="18" y="15" width="20" height="20"/>
+                                            <rect key="frame" x="18" y="17" width="16" height="16"/>
                                             <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
                                     </subviews>
