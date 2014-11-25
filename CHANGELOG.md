@@ -1,14 +1,20 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## master
+##master
+
+## 1.5.0 - 2014-11-25
+
 ###Added
-- SMS Authentication
+- SMS Authentication (Beta).
 - OSX Support (Only Core classes no UI or Social integration).
+- 1Password extension support.
+- `A0APIClient` has support for [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) with the subspec `ReactiveCore`.
 
 ###Changed
 - Fixed styles of native widget
 - Fixed issues and improved A0Theme
+- Improved errors when network is unavailable.
 
 ## 1.4.0 - 2014-11-11
 ###Changed
@@ -19,7 +25,7 @@ All notable changes to this project will be documented in this file.
 
 ## 1.3.0 - 2014-11-10
 ###Added
-- TouchID Authentication 
+- TouchID Authentication
 - API Client for request using user's accessToken or idToken
 - Added example for how to localize native screens.
 
@@ -28,7 +34,7 @@ All notable changes to this project will be documented in this file.
 - Added missing Localized strings.
 
 ## 1.2.0 - 2014-10-29
-###Added 
+###Added
 - `A0UserIdentity` now has a property `profileData` with profile info of the user in that Identity Provider.
 
 ## 1.1.0 - 2014-10-22
