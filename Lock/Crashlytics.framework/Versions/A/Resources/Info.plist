@@ -11,9 +11,9 @@
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleVersion</key>
-	<string>41</string>
+	<string>42</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.6+kit</string>
+	<string>2.2.7+kit</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright 2014 Twitter Inc.</string>
 	<key>CFBundleDevelopmentRegion</key>

@@ -33,7 +33,7 @@
 			<string>facebook</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb507756515938786</string>
+				<string>fb${FACEBOOK_APP_ID}</string>
 			</array>
 		</dict>
 		<dict>
@@ -48,7 +48,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>6</string>
+	<string>4</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -64,9 +64,9 @@
 		</array>
 	</dict>
 	<key>FacebookAppID</key>
-	<string>507756515938786</string>
+	<string>${FACEBOOK_APP_ID}</string>
 	<key>FacebookDisplayName</key>
-	<string>Auth0</string>
+	<string>${FACEBOOK_APP_NAME}</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>
