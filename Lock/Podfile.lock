@@ -1,29 +1,29 @@
 PODS:
   - 1PasswordExtension (1.1)
-  - AFNetworking (2.4.1):
-    - AFNetworking/NSURLConnection (= 2.4.1)
-    - AFNetworking/NSURLSession (= 2.4.1)
-    - AFNetworking/Reachability (= 2.4.1)
-    - AFNetworking/Security (= 2.4.1)
-    - AFNetworking/Serialization (= 2.4.1)
-    - AFNetworking/UIKit (= 2.4.1)
-  - AFNetworking/NSURLConnection (2.4.1):
+  - AFNetworking (2.5.0):
+    - AFNetworking/NSURLConnection (= 2.5.0)
+    - AFNetworking/NSURLSession (= 2.5.0)
+    - AFNetworking/Reachability (= 2.5.0)
+    - AFNetworking/Security (= 2.5.0)
+    - AFNetworking/Serialization (= 2.5.0)
+    - AFNetworking/UIKit (= 2.5.0)
+  - AFNetworking/NSURLConnection (2.5.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.4.1):
+  - AFNetworking/NSURLSession (2.5.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.4.1)
-  - AFNetworking/Security (2.4.1)
-  - AFNetworking/Serialization (2.4.1)
-  - AFNetworking/UIKit (2.4.1):
+  - AFNetworking/Reachability (2.5.0)
+  - AFNetworking/Security (2.5.0)
+  - AFNetworking/Serialization (2.5.0)
+  - AFNetworking/UIKit (2.5.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - BDBOAuth1Manager (1.4.1):
-    - AFNetworking/NSURLConnection (~> 2.4.0)
-    - AFNetworking/NSURLSession (~> 2.4.0)
+  - BDBOAuth1Manager (1.5.0):
+    - AFNetworking/NSURLConnection (~> 2.5.0)
+    - AFNetworking/NSURLSession (~> 2.5.0)
   - Bolts (1.1.3)
   - CocoaLumberjack (1.9.2):
     - CocoaLumberjack/Extensions (= 1.9.2)
@@ -82,6 +82,7 @@ PODS:
     - 1PasswordExtension (~> 1.1)
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
+    - Lock/Core
     - ObjectiveSugar (~> 1.1)
   - Lock/Core (1.5.0):
     - AFNetworking (~> 2.4)
@@ -113,7 +114,7 @@ PODS:
     - ObjectiveSugar (~> 1.1)
     - TouchIDAuth (~> 0.1)
   - Lock/Twitter (1.5.0):
-    - BDBOAuth1Manager (~> 1.4)
+    - BDBOAuth1Manager (~> 1.5.0)
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
     - Lock/Core
@@ -171,8 +172,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   1PasswordExtension: 37d1488cf049b8bc0811beb7b52a19f8f803f7c8
-  AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  BDBOAuth1Manager: 0625ba20bd7d36461bbf6dc3d29276b5932b7409
+  AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
+  BDBOAuth1Manager: 274574557077abc873fc5688abe8b991e782749c
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   Expecta: 03aabd0a89d8dea843baecb19a7fd7466a69a31d
@@ -180,7 +181,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JWTDecode: 72e3393caf14dc762eba51d29f15bd86f608aba3
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  Lock: 9f4309b087b9d21b61c1f3b98af4d25088c34f61
+  Lock: e24fd493ae15fee950d6503dd57ca2b17053ef0e
   LUKeychainAccess: 8d45b6c894c0d808786b1740c057b5e776313d88
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
