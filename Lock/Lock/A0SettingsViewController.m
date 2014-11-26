@@ -24,11 +24,13 @@
 
 #import <SimpleKeychain/A0SimpleKeychain.h>
 #import <TouchIDAuth/A0TouchIDAuthentication.h>
+#import <Lock/Lock.h>
 
 @implementation A0SettingsViewController
 
 - (IBAction)clearKeychain:(id)sender {
     [[A0SimpleKeychain keychainWithService:@"Auth0"] clearAll];
+    [[A0IdentityProviderAuthenticator sharedInstance] clearSessions];
 }
 
 - (IBAction)clearTouchID:(id)sender {
