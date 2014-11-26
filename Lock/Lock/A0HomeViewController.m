@@ -118,8 +118,9 @@
     A0SMSLockViewController *controller = [[A0SMSLockViewController alloc] init];
     controller.closable = YES;
     @weakify(self);
-    controller.clientSecretProvider = ^{
-        return @"";
+    controller.auth0APIToken = ^{
+        NSString *v2APIToken = [[NSBundle mainBundle] infoDictionary][@"Auth0SendSMSAPIToken"];
+        return v2APIToken;
     };
 
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {

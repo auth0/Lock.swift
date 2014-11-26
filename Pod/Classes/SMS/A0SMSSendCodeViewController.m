@@ -33,6 +33,8 @@
 #import <libextobjc/EXTScope.h>
 #import "A0Errors.h"
 
+#define kAuth0APIV2Endpoint @"https://login.auth0.com"
+
 @interface A0SMSSendCodeViewController ()
 
 @property (weak, nonatomic) IBOutlet A0PhoneFieldView *phoneFieldView;
@@ -83,13 +85,12 @@
         [self.phoneFieldView.textField resignFirstResponder];
         Auth0LogDebug(@"Registering phone number %@", self.phoneFieldView.fullPhoneNumber);
         [self.registerButton setInProgress:YES];
-        A0APIClient *client = [A0APIClient sharedClient];
         NSString *phoneNumber = self.phoneFieldView.fullPhoneNumber;
-        NSString *secret;
-        if (self.clientSecretProvider) {
-            secret = self.clientSecretProvider();
+        NSString *apiToken;
+        if (self.auth0APIToken) {
+            apiToken = self.auth0APIToken();
         }
-        if (secret) {
+        if (apiToken) {
             @weakify(self);
             void(^onFailure)(NSError *) = ^(NSError *error) {
                 @strongify(self);
@@ -99,21 +100,16 @@
                 A0ShowAlertErrorView(title, message);
                 [self.registerButton setInProgress:NO];
             };
-            A0RequestAccessTokenOperation *operation = [[A0RequestAccessTokenOperation alloc] initWithBaseURL:client.baseURL
-                                                                                                     clientId:client.clientId
-                                                                                                 clientSecret:secret];
-            [operation setSuccess:^(NSString *accessToken) {
-                Auth0LogDebug(@"About to send SMS code to phone %@", phoneNumber);
-                A0SendSMSOperation *operation = [[A0SendSMSOperation alloc] initWithBaseURL:client.baseURL accessToken:accessToken phoneNumber:phoneNumber];
-                [operation setSuccess:^{
-                    @strongify(self);
-                    Auth0LogDebug(@"SMS code sent to phone %@", phoneNumber);
-                    [self.registerButton setInProgress:NO];
-                    if (self.onRegisterBlock) {
-                        self.onRegisterBlock(phoneNumber);
-                    }
-                } failure:onFailure];
-                [operation start];
+            Auth0LogDebug(@"About to send SMS code to phone %@", phoneNumber);
+            NSURL *baseURL = [NSURL URLWithString:kAuth0APIV2Endpoint];
+            A0SendSMSOperation *operation = [[A0SendSMSOperation alloc] initWithBaseURL:baseURL jwt:apiToken phoneNumber:phoneNumber];
+            [operation setSuccess:^{
+                @strongify(self);
+                Auth0LogDebug(@"SMS code sent to phone %@", phoneNumber);
+                [self.registerButton setInProgress:NO];
+                if (self.onRegisterBlock) {
+                    self.onRegisterBlock(phoneNumber);
+                }
             } failure:onFailure];
             [operation start];
         } else {

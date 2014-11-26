@@ -28,8 +28,8 @@
 @property (copy, nonatomic) void(^onRegisterBlock)(NSString *phoneNumber);
 
 /**
- *  Block that returns Auth0's app client secret. This secret is required to send SMS to users.
+ *  Block that returns Auth0's JWT API v2 token
  */
-@property (copy, nonatomic) NSString *(^clientSecretProvider)();
+@property (copy, nonatomic) NSString *(^auth0APIToken)();
 
 @end

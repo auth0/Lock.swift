@@ -4,16 +4,18 @@
 <dict>
 	<key>Auth0ClientId</key>
 	<string>${AUTH0_CLIENT_ID}</string>
+	<key>Auth0SendSMSAPIToken</key>
+	<string>%{Auth0SendSMSAPIToken}</string>
 	<key>Auth0Tenant</key>
 	<string>${AUTH0_TENANT}</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>${PRODUCT_NAME}${BUNDLE_SUFFIX}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.auth0.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.auth0.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_SUFFIX}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
