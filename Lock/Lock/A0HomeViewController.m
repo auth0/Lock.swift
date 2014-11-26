@@ -119,7 +119,8 @@
     controller.closable = YES;
     @weakify(self);
     controller.auth0APIToken = ^{
-        return @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiI4OVFJZTAzZk1nTm1MYmY1Y1FhWGh6bkZialRhUWJVNSIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImNyZWF0ZSJdfX0sImlhdCI6MTQxNzAyNDI0NywianRpIjoiZjljYmUxMDAzMTBhYzdiYmNlYmEyZDk3ZjBjMjY0MzAifQ.en12hD39P3LQ0JjRcbuk-KRqyXevLz5GSZEEeMyUD3Q";
+        NSString *v2APIToken = [[NSBundle mainBundle] infoDictionary][@"Auth0SendSMSAPIToken"];
+        return v2APIToken;
     };
 
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
