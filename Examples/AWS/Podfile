@@ -4,7 +4,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'AWS' do
 
-pod 'Lock'
+pod 'Lock', '~> 1.6'
 pod 'SimpleKeychain'
 pod 'AWSiOSSDKv2', '~> 2.0'
 pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib

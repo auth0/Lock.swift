@@ -68,35 +68,35 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
-  - Lock (1.5.0):
+  - Lock (1.6.0):
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
-    - Lock/Core (= 1.5.0)
-    - Lock/Facebook (= 1.5.0)
-    - Lock/Twitter (= 1.5.0)
-    - Lock/UI (= 1.5.0)
+    - Lock/Core (= 1.6.0)
+    - Lock/Facebook (= 1.6.0)
+    - Lock/Twitter (= 1.6.0)
+    - Lock/UI (= 1.6.0)
     - ObjectiveSugar (~> 1.1)
-  - Lock/Core (1.5.0):
+  - Lock/Core (1.6.0):
     - AFNetworking (~> 2.4)
     - CocoaLumberjack (~> 1.9)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
-  - Lock/Facebook (1.5.0):
+  - Lock/Facebook (1.6.0):
     - CocoaLumberjack (~> 1.9)
     - Facebook-iOS-SDK (~> 3.15)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
-  - Lock/Twitter (1.5.0):
-    - BDBOAuth1Manager (~> 1.4)
+  - Lock/Twitter (1.6.0):
+    - BDBOAuth1Manager (~> 1.5.0)
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Lock/UI (1.5.0):
+  - Lock/UI (1.6.0):
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
     - Lock/Core
@@ -118,7 +118,7 @@ PODS:
 
 DEPENDENCIES:
   - JWTDecode (~> 0.2)
-  - Lock (~> 1.5)
+  - Lock (~> 1.6)
   - MBProgressHUD (~> 0.8)
   - SDWebImage (~> 3.7.1)
   - SimpleKeychain (~> 0.2)
@@ -132,7 +132,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JWTDecode: e8fcad5a85eb7d1143fd9c33655e8cfb9aa998c8
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  Lock: 808e72421ba03c05c2bdbe08e17172b928c0f051
+  Lock: d3a02a5e7e8d0822045de992f6e83cf5841116dd
   LUKeychainAccess: 8d45b6c894c0d808786b1740c057b5e776313d88
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
