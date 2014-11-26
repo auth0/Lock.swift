@@ -36,7 +36,10 @@
 }
 
 - (IBAction)clearSMS:(id)sender {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"auth0-lock-sms-phone"];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"auth0-lock-sms-phone"];
+    [defaults removeObjectForKey:@"auth0-lock-sms-country-code"];
+    [defaults synchronize];
 }
 
 @end

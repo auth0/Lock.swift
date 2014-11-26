@@ -41,8 +41,6 @@
 @property (weak, nonatomic) IBOutlet A0ProgressButton *registerButton;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
-@property (copy, nonatomic) NSString *currentCountry;
-
 - (IBAction)registerSMS:(id)sender;
 
 @end
@@ -62,9 +60,14 @@
     self.phoneFieldView.textField.placeholder = A0LocalizedString(@"Phone Number");
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
 
-    self.currentCountry = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+    self.currentCountry = self.currentCountry ?: [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
     self.phoneFieldView.countryCode = [A0CountryCodeTableViewController dialCodeForCountryWithCode:self.currentCountry];
-    
+    if (self.currentPhoneNumber) {
+        NSString *countryDialCode = [self.phoneFieldView.countryCode stringByReplacingOccurrencesOfString:@" " withString:@""];
+        self.phoneFieldView.textField.text = [self.currentPhoneNumber stringByReplacingOccurrencesOfString:countryDialCode
+                                                                                                withString:@""];
+    }
+
     self.phoneFieldView.onCountryCodeTapped = ^(NSString *currentCode){
         @strongify(self);
         A0CountryCodeTableViewController *controller = [[A0CountryCodeTableViewController alloc] init];
@@ -108,7 +111,7 @@
                 Auth0LogDebug(@"SMS code sent to phone %@", phoneNumber);
                 [self.registerButton setInProgress:NO];
                 if (self.onRegisterBlock) {
-                    self.onRegisterBlock(phoneNumber);
+                    self.onRegisterBlock(self.currentCountry, self.phoneFieldView.fullPhoneNumber);
                 }
             } failure:onFailure];
             [operation start];

@@ -25,7 +25,10 @@
 
 @interface A0SMSSendCodeViewController : UIViewController<A0KeyboardEnabledView>
 
-@property (copy, nonatomic) void(^onRegisterBlock)(NSString *phoneNumber);
+@property (copy, nonatomic) NSString *currentCountry;
+@property (copy, nonatomic) NSString *currentPhoneNumber;
+
+@property (copy, nonatomic) void(^onRegisterBlock)(NSString *countryCode, NSString *phoneNumber);
 
 /**
  *  Block that returns Auth0's JWT API v2 token

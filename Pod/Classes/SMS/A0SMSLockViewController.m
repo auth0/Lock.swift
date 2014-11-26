@@ -28,6 +28,7 @@
 #import <libextobjc/EXTScope.h>
 #import "A0NavigationView.h"
 
+#define kCountryCodeKey @"auth0-lock-sms-country-code"
 #define kPhoneNumberKey @"auth0-lock-sms-phone"
 
 @interface A0SMSLockViewController ()
@@ -91,18 +92,23 @@
 }
 
 - (A0SMSSendCodeViewController *)buildSMSSendCode {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *phoneNumber = [defaults stringForKey:kPhoneNumberKey];
+    NSString *countryCode = [defaults stringForKey:kCountryCodeKey];
     A0SMSSendCodeViewController *controller = [[A0SMSSendCodeViewController alloc] init];
     @weakify(self);
-    controller.onRegisterBlock = ^(NSString *phoneNumber){
+    controller.onRegisterBlock = ^(NSString *countryCode, NSString *phoneNumber){
         @strongify(self);
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:countryCode forKey:kCountryCodeKey];
         [defaults setObject:phoneNumber forKey:kPhoneNumberKey];
         [defaults synchronize];
         [self displayController:[self buildSMSCodeWithNumber:phoneNumber]];
     };
     controller.auth0APIToken = self.auth0APIToken;
+    controller.currentPhoneNumber = phoneNumber;
+    controller.currentCountry = countryCode;
     [self.navigationView removeAll];
-    NSString *phoneNumber = [[NSUserDefaults standardUserDefaults] stringForKey:kPhoneNumberKey];
     if (phoneNumber) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
             @strongify(self);
