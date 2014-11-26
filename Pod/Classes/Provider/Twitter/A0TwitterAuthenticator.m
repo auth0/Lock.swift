@@ -109,7 +109,10 @@
         @weakify(self);
         if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"]) {
             Auth0LogVerbose(@"Requesting access token from twitter...");
-            [self.manager fetchAccessTokenWithPath:@"/oauth/access_token" method:@"POST" requestToken:[BDBOAuthToken tokenWithQueryString:url.query] success:^(BDBOAuthToken *accessToken) {
+            [self.manager fetchAccessTokenWithPath:@"/oauth/access_token"
+                                            method:@"POST"
+                                      requestToken:[BDBOAuth1Credential credentialWithQueryString:url.query]
+                                           success:^(BDBOAuth1Credential *accessToken) {
                 @strongify(self);
                 Auth0LogDebug(@"Received token %@ with userInfo %@", accessToken.token, accessToken.userInfo);
                 [self reverseAuthWithNewAccountWithInfo:accessToken];
@@ -168,7 +171,11 @@
     } else {
         Auth0LogVerbose(@"No account was found in iOS Twitter integration. Starting with OAuth web flow...");
         [self.manager deauthorize];
-        [self.manager fetchRequestTokenWithPath:@"/oauth/request_token" method:@"POST" callbackURL:self.callbackURL scope:nil success:^(BDBOAuthToken *requestToken) {
+        [self.manager fetchRequestTokenWithPath:@"/oauth/request_token"
+                                         method:@"POST"
+                                    callbackURL:self.callbackURL
+                                          scope:nil
+                                        success:^(BDBOAuth1Credential *requestToken) {
             Auth0LogDebug(@"Obtained request token %@ with user info %@", requestToken.token, requestToken.userInfo);
             NSString *authURL = [NSString stringWithFormat:@"https://api.twitter.com/oauth/authorize?oauth_token=%@", requestToken.token];
             Auth0LogVerbose(@"Opening in Safari URL: %@", authURL);
@@ -181,7 +188,7 @@
 }
 
 #pragma mark - Twitter Reverse Auth
-- (void)reverseAuthWithNewAccountWithInfo:(BDBOAuthToken *)info {
+- (void)reverseAuthWithNewAccountWithInfo:(BDBOAuth1Credential *)info {
     ACAccountCredential * credential = [[ACAccountCredential alloc] initWithOAuthToken:info.token tokenSecret:info.secret];
     ACAccount * account = [[ACAccount alloc] initWithAccountType:self.accountType];
     account.accountType = self.accountType;
