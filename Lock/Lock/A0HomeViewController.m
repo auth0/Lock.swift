@@ -118,8 +118,8 @@
     A0SMSLockViewController *controller = [[A0SMSLockViewController alloc] init];
     controller.closable = YES;
     @weakify(self);
-    controller.clientSecretProvider = ^{
-        return @"";
+    controller.auth0APIToken = ^{
+        return @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiI4OVFJZTAzZk1nTm1MYmY1Y1FhWGh6bkZialRhUWJVNSIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImNyZWF0ZSJdfX0sImlhdCI6MTQxNzAyNDI0NywianRpIjoiZjljYmUxMDAzMTBhYzdiYmNlYmEyZDk3ZjBjMjY0MzAifQ.en12hD39P3LQ0JjRcbuk-KRqyXevLz5GSZEEeMyUD3Q";
     };
 
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {

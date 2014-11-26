@@ -26,25 +26,35 @@
 
 @implementation A0SendSMSOperation
 
-- (instancetype)initWithBaseURL:(NSURL *)baseURL accessToken:(NSString *)accessToken phoneNumber:(NSString *)phoneNumber {
-    NSURL *sendSMSURL = [NSURL URLWithString:@"/api/users/" relativeToURL:baseURL];
+- (instancetype)initWithURL:(NSURL *)url authorizationHeader:(NSString *)authorizationHeader phoneNumber:(NSString *)phoneNumber {
     NSDictionary *parameters = @{
                                  @"phone_number": phoneNumber,
                                  @"connection": @"sms",
                                  @"email_verified": @NO,
                                  };
     NSError *error;
-    NSMutableURLRequest *request = [[AFJSONRequestSerializer serializer] requestWithMethod:@"POST" URLString:sendSMSURL.absoluteString parameters:parameters error:&error];
+    Auth0LogDebug(@"Requesting SMS code with parameters %@", parameters);
+    NSMutableURLRequest *request = [[AFJSONRequestSerializer serializer] requestWithMethod:@"POST" URLString:url.absoluteString parameters:parameters error:&error];
     if (error) {
         Auth0LogError(@"Failed to create operation with error %@", error);
         return nil;
     }
-    [request setValue:[@"Bearer " stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
+    [request setValue:authorizationHeader forHTTPHeaderField:@"Authorization"];
     self = [super initWithRequest:request];
     if (self) {
         self.responseSerializer = [A0JSONResponseSerializer serializer];
     }
     return self;
+}
+
+- (instancetype)initWithBaseURL:(NSURL *)baseURL accessToken:(NSString *)accessToken phoneNumber:(NSString *)phoneNumber {
+    NSURL *sendSMSURL = [NSURL URLWithString:@"/api/users/" relativeToURL:baseURL];
+    return [self initWithURL:sendSMSURL authorizationHeader:[@"Bearer " stringByAppendingString:accessToken] phoneNumber:phoneNumber];
+}
+
+- (instancetype)initWithBaseURL:(NSURL *)baseURL jwt:(NSString *)jwt phoneNumber:(NSString *)phoneNumber {
+    NSURL *sendSMSURL = [NSURL URLWithString:@"/api/v2/users" relativeToURL:baseURL];
+    return [self initWithURL:sendSMSURL authorizationHeader:[@"Bearer " stringByAppendingString:jwt] phoneNumber:phoneNumber];
 }
 
 - (void)setSuccess:(void (^)())success failure:(void (^)(NSError *))failure {

@@ -40,6 +40,18 @@
 - (instancetype)initWithBaseURL:(NSURL *)baseURL accessToken:(NSString *)accessToken phoneNumber:(NSString *)phoneNumber;
 
 /**
+ *  Initialises the operation for API v2 with a JWT and phone number.
+ *
+ *  @param baseURL     api base URL.
+ *  @param accessToken api access token
+ *  @param phoneNumber user's phone number.
+ *
+ *  @return an initialised instance
+ */
+- (instancetype)initWithBaseURL:(NSURL *)baseURL jwt:(NSString *)jwt phoneNumber:(NSString *)phoneNumber;
+
+
+/**
  *  Sets the callback for success and failure of the operation
  *
  *  @param success block called on success.

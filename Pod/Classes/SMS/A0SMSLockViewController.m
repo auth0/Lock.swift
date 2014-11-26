@@ -59,7 +59,7 @@
     [super viewDidLoad];
     
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
-    NSAssert(self.clientSecretProvider != nil, @"Must provide a client secret");
+    NSAssert(self.auth0APIToken != nil, @"Must provide an API Token for v2 API");
 
     self.navigationController.navigationBarHidden = YES;
 
@@ -100,7 +100,7 @@
         [defaults synchronize];
         [self displayController:[self buildSMSCodeWithNumber:phoneNumber]];
     };
-    controller.clientSecretProvider = self.clientSecretProvider;
+    controller.auth0APIToken = self.auth0APIToken;
     [self.navigationView removeAll];
     NSString *phoneNumber = [[NSUserDefaults standardUserDefaults] stringForKey:kPhoneNumberKey];
     if (phoneNumber) {

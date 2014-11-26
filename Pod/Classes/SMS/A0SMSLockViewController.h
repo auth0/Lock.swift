@@ -49,8 +49,9 @@
 @property (strong, nonatomic) A0AuthParameters *authenticationParameters;
 
 /**
- *  Block that returns Auth0's app client secret. This secret is required to send SMS to users.
+ *  Block that returns a signed JWT with `create:users` scope for API v2. It's required to send SMS code.
+ *  For more info: https://api.auth0.com/docs/api/v2
  */
-@property (copy, nonatomic) NSString *(^clientSecretProvider)();
+@property (copy, nonatomic) NSString *(^auth0APIToken)();
 
 @end
