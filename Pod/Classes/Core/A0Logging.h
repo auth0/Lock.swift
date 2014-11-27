@@ -22,7 +22,7 @@
 
 #import <CocoaLumberjack/DDLog.h>
 
-static const int auth0LogLevel = LOG_LEVEL_ALL;
+static const int auth0LogLevel = LOG_LEVEL_OFF;
 
 #define AUTH0_LOG_CONTEXT 58205
 
