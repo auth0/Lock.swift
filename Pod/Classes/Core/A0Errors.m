@@ -253,7 +253,7 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
     NSString *errorKey = apiErrorInfo[@"code"];
     NSString *localizedString;
-    if ([errorKey isEqualToString:@"user_exists"]) {
+    if ([errorKey isEqualToString:@"user_exists"] || [errorKey isEqualToString:@"username_exists"]) {
         localizedString = A0LocalizedString(@"The user already exists.");
     } else {
         localizedString = A0LocalizedString(@"There was an error processing the sign up.");
