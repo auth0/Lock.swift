@@ -127,7 +127,7 @@
     if (numberOfCells > 5) {
         insets = UIEdgeInsetsZero;
     } else {
-        CGFloat cellsWidth = (numberOfCells * 40) + MAX(0, (numberOfCells - 1) * 10);
+        CGFloat cellsWidth = (numberOfCells * 55) + MAX(0, (numberOfCells - 1) * 5);
 
         NSInteger edgeInsets = (self.serviceCollectionView.frame.size.width - cellsWidth) / 2;
 
@@ -147,7 +147,7 @@
     NSString *serviceName = [self.activeServices[indexPath.item] name];
     UIColor *background = [self.services backgroundColorForServiceWithName:serviceName];
     UIColor *selectedBackground = [self.services selectedBackgroundColorForServiceWithName:serviceName];
-    cell.serviceButton.titleLabel.font = [UIFont zocialFontOfSize:14.0f];
+    cell.serviceButton.titleLabel.font = [UIFont zocialFontOfSize:16.0f];
     [cell.serviceButton setTitleColor:[self.services foregroundColorForServiceWithName:serviceName] forState:UIControlStateNormal];
     [cell.serviceButton setTitle:[self.services iconCharacterForServiceWithName:serviceName] forState:UIControlStateNormal];
     [cell.serviceButton setBackgroundColor:background forState:UIControlStateNormal];
