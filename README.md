@@ -7,14 +7,23 @@
 
 [Auth0](https://auth0.com) is an authentication broker that supports social identity providers as well as enterprise identity providers such as Active Directory, LDAP, Google Apps and Salesforce.
 
-## Key features
+Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 
-* **Integrates** your iOS app with **Auth0**
-* Provides a **beautiful native UI** to log your users in
-* Provides support for **Social Providers** (Facebook, Twitter, etc.), **Enterprise Providers** (AD, LDAP, etc.) and **Username & Password**
-* Provides the ability to do **SSO** with 2 or more mobile apps similar to Facebook and Messenger apps.
+* Having a professional looking login dialog that displays well on any device.
+* Finding the right icons for popular social providers.
+* Solving the home realm discovery challenge with enterprise users (i.e.: asking the enterprise user the email, and redirecting to the right enterprise identity provider).
+* Implementing a standard sign in protocol (OpenID Connect / OAuth2 Login)
 
 ![iOS Gif](https://cloudup.com/cnccuUlFiYI+)
+
+## Key features
+
+* **Integrates** your iOS app with **Auth0** (OS X coming soon).
+* Provides a **beautiful native UI** to log your users in.
+* Provides support for **Social Providers** (Facebook, Twitter, etc.), **Enterprise Providers** (AD, LDAP, etc.) and **Username & Password**.
+* Provides the ability to do **SSO** with 2 or more mobile apps similar to Facebook and Messenger apps.
+* [1Password](https://agilebits.com/onepassword) integration using **iOS 8** [Extension](https://github.com/AgileBits/onepassword-app-extension).
+* Passwordless authentication using **TouchID** and **SMS**.
 
 ## Requierements
 
@@ -30,128 +39,161 @@ pod "Lock", "~> 1.6"
 
 Then in your project's `Info.plist` file add the following entries:
 
-* _Auth0ClientId_: `YOUR_AUTH0_APP_CLIENT_ID`
-* _Auth0Tenant_: `YOUR_AUTH0_TENANT_NAME`
+* __Auth0ClientId__: The client ID of your application in _Auth0_. You can find this value in your app's settings in [Auth0 dashboard](https://app.auth0.com/#/applications).
+* __Auth0Tenant__: The name of your account, if your account's domain in Auth0 is `myaccount.auth0.com`, your tenant name is `myaccount`.  
 
 For example:
 
 [![Auth0 plist](https://cloudup.com/cdHr2oMAN7d+)](http://auth0.com)
 
-## Usage
+Also you need to register a Custom URL type, it must have a custom scheme with the following format `a0<Your Client ID>`. For example if your Client ID is `Exe6ccNagokLH7mBmzFejP` then the custom scheme should be `a0Exe6ccNagokLH7mBmzFejP`.
 
-You can use Lock with our native widget to handle authentication for you. It fetches your Auth0 app configuration and configures itself accordingly.
-
-To get started, import this file in your `AppDelegate.m` file.
+Then you'll need to handle that custom scheme, so first import __Lock__ header in your `AppDelegate.m` if you are coding in __Objective-C__ or in your _Objective-C Bridging Header_ if you are coding in __Swift__.
 
 ```objc
 #import <Lock/Lock.h>
 ```
 
-And add the following methods:
+> If you need help creating the Objective-C Bridging Header, please check the [wiki](https://developer.apple.com/library/ios/documentation/swift/conceptual/buildingcocoaapps/MixandMatch.html)
+
+and override `-application:openURL:sourceApplication:annotation:` method, if you haven't done it before, and add the following line:
 
 ```objc
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:@"???" andSecret:@"????"];
-  A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticationWithDefaultPermissions];
-  [[A0IdentityProviderAuthenticator sharedInstance] registerSocialAuthenticatorProviders:@[twitter, facebook]];
-  return YES;
-}
-
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     return [[A0IdentityProviderAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
 }
 ```
-
-For more information on how to configure Facebook & Twitter go to [Identity Provider Authentication](#identity-provider-authentication)
-
-Import the following header files in the class where you want to display our native widget:
-
-```objc
-#import <Lock/Lock.h>
-#import <libextobjc/EXTScope.h>
+```swift
+func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    return A0IdentityProviderAuthenticator.sharedInstance().handleURL(url, sourceApplication: sourceApplication)
+}
 ```
 
-And to present our widget as a modal view controller:
+> This is required to be able to return back to your application when authenticating with Safari (or native integration with FB or Twitter if used). This call checks the URL and handles all that have the custom scheme defined before.
+
+## Usage
+
+### Email/Password, Enterprise & Social authentication
+
+`A0LockViewController` will handle Email/Password, Enterprise & Social authentication based on your Application's connections enabled in your Auth0's Dashboard.
+
+First instantiate `A0LockViewController` and register the authentication callback that will receive the authenticated user's credentials. Finally present it as a modal view controller:
 
 ```objc
 A0LockViewController *controller = [[A0LockViewController alloc] init];
-@weakify(self);
 controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
-    @strongify(self);
     // Do something with token & profile. e.g.: save them.
-    // Lock will not save the Token and the profile for you. Please read below
-    // And dismiss the ViewController
+    // Lock will not save the Token and the profile for you.
+    // And dismiss the UIViewController.
     [self dismissViewControllerAnimated:YES completion:nil];
 };
 [self presentViewController:controller animated:YES completion:nil];
 ```
+```swift
+let lock = A0LockViewController()
+lock.onAuthenticationBlock = {(profile: A0UserProfile!, token: A0Token!) -> () in
+    // Do something with token & profile. e.g.: save them.
+    // Lock will not save the Token and the profile for you.
+    // And dismiss the UIViewController.
+    self.dismissViewControllerAnimated(true, completion: nil)
+}
+self.presentViewController(lock, animated: true, completion: nil)
+```
+And you'll see our native login screen
 
-If you need to save and refresh the user's JWT token, please read the [following guide](https://github.com/auth0/Lock.iOS-OSX/wiki/How-to-save-and-refresh-JWT-token) in our Wiki.
+[![Lock.png](http://blog.auth0.com.s3.amazonaws.com/Lock-Widget-Screenshot.png)](https://auth0.com)
+
+> By default all social authentication will be done using Safari, if you want native integration please check this [wiki page](https://github.com/auth0/Lock.iOS-OSX/wiki/Native-Social-Authentication).
 
 Also you can check our [Swift](https://github.com/auth0/Lock.iOS-OSX/tree/master/Examples/basic-sample-swift) and [Objective-C](https://github.com/auth0/Lock.iOS-OSX/tree/master/Examples/basic-sample) example apps. For more information on how to use **Lock** with Swift please check [this guide](https://github.com/auth0/Lock.iOS-OSX/wiki/Lock-&-Swift)
 
-### Identity Provider Authentication
+### TouchID
 
-Before using authentication from other identity providers, e.g. Twitter or Facebook, you'll need to follow some steps.
+`A0TouchIDLockViewController` authenticates without using a password with TouchID. In order to be able to authenticate the user, your application must have a Database connection enabled.
 
-First in your `AppDelegate.m`, add the following method:
-
+First instantiate `A0TouchIDLockViewController` and register the authentication callback that will receive the authenticated user's credentials. Finally present it as a modal view controller embedded in a UINavigationController:
 ```objc
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [[A0SocialAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
+A0TouchIDLockViewController *controller = [[A0LockViewController alloc] init];
+controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
+    // Do something with token & profile. e.g.: save them.
+    // Lock will not save the Token and the profile for you.
+    // And dismiss the UIViewController.
+    [self dismissViewControllerAnimated:YES completion:nil];
+};
+UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    navController.modalPresentationStyle = UIModalPresentationFormSheet;
 }
+[self presentViewController:navController animated:YES completion:nil];
 ```
-This will allow Lock to handle a successful login from Facebook, Twitter and any other Identity Providers. And finally you need to define a new URL Type for Auth0 that has a Custom Scheme with the following format: `a0${AUTH0_CLIENT_ID}`, you can do it in your app's target inside Xcode (Under the _Info_ section) or directly in your application's info plist file. This custom scheme is used by *Lock* to handle all authentication that requires the use a web browser (Safari or UIWebView).
-
-By default Lock includes Twitter & Facebook integration (and its dependencies) but you can discard what you don't need . If you only want Facebook auth just add this to your Podfile:
-
-```ruby
-pod "Lock/Core"
-pod "Lock/Facebook"
-pod "Lock/UI"
-```
-
-####Facebook
-
-Lock uses Facebook iOS SDK to obtain user's access token so you'll need to configure it using your Facebook App info:
-
-First, add the following entries to the `Info.plist`:
-* _FacebookAppId_: `YOUR_FACEBOOK_APP_ID`
-* _FacebookDisplayName_: `YOUR_FACEBOOK_DISPLAY_NAME`
-
-Register a custom URL Type with the format `fb<FacebookAppId>`. For more information please check [Facebook Getting Started Guide](https://developers.facebook.com/docs/ios/getting-started).
-
-Here's an example of how the entries should look like:
-
-[![FB plist](https://cloudup.com/cYOWHbPp8K4+)](http://auth0.com)
-
-Finally, you need to register Auth0 Facebook Provider somewhere in your application. You can do that in the `AppDelegate.m` file, for example:
-
-```objc
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticationWithDefaultPermissions];
-  [[A0SocialAuthenticator sharedInstance] registerSocialAuthenticatorProvider:facebook];
+```swift
+let lock = A0TouchIDLockViewController()
+lock.onAuthenticationBlock = {(profile: A0UserProfile!, token: A0Token!) -> () in
+    // Do something with token & profile. e.g.: save them.
+    // Lock will not save the Token and the profile for you.
+    // And dismiss the UIViewController.
+    self.dismissViewControllerAnimated(true, completion: nil)
 }
+let controller = UINavigationController(rootViewController: lock)
+if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+    controller.modalPresentationStyle = .FormSheet
+}
+self.presentViewController(controller, animated: true, completion: nil)
 ```
+And you'll see TouchID login screen
 
-####Twitter
+[![Lock.png](http://blog.auth0.com.s3.amazonaws.com/Lock-TouchID-Screenshot.png)](https://auth0.com)
 
-Twitter authentication is done using [Reverse Auth](https://dev.twitter.com/docs/ios/using-reverse-auth) in order to obtain a valid access_token that can be sent to Auth0 Server and validate the user. By default we use iOS Twitter Integration but we support OAuth Web Flow (with Safari) as a fallback mechanism in case a user has no accounts configured in his/her Apple Device.
+> Because it uses a Database connection, the user can change it's password and authenticate using email/password whenever needed. For example when you change your device.
 
-To support Twitter authentication you need to configure the Twitter authentication provider:
+### SMS
 
+`A0SMSLockViewController` authenticates without using a password with SMS. In order to be able to authenticate the user, your application must have the SMS connection enabled and configured in your [dashboard](https://app.auth0.com/#/connections/passwordless).
+
+First instantiate `A0SMSLockViewController` and register the authentication callback that will receive the authenticated user's credentials.
+
+The next step is register a block to return an API Token used to register the  phone number and send the login code with SMS. This token can be generated in  [Auth0 API v2 page](https://docs.auth0.com/apiv2), just select the scope `create:users` and copy the generated API Token.
+
+Finally present it as a modal view controller embedded in a UINavigationController:
 ```objc
-NSString *twitterApiKey = ... //Remember to obfuscate your api key
-NSString *twitterApiSecret = ... //Remember to obfuscate your api secret
-A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticationWithKey:twitterApiKey                                                                            andSecret:twitterApiSecret];
-[[A0SocialAuthenticator sharedInstance] registerSocialAuthenticatorProvider:twitter];
+A0SMSLockViewController *controller = [[A0LockViewController alloc] init];
+controller.auth0APIToken = ^{
+    return @"Copy API v2 token here";
+};
+controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
+    // Do something with token & profile. e.g.: save them.
+    // Lock will not save the Token and the profile for you.
+    // And dismiss the UIViewController.
+    [self dismissViewControllerAnimated:YES completion:nil];
+};
+UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    navController.modalPresentationStyle = UIModalPresentationFormSheet;
+}
+[self presentViewController:navController animated:YES completion:nil];
 ```
+```swift
+let lock = A0SMSLockViewController()
+lock.auth0APIToken = {() -> String in return "Copy API v2 token here"}
+lock.onAuthenticationBlock = {(profile: A0UserProfile!, token: A0Token!) -> () in
+    // Do something with token & profile. e.g.: save them.
+    // Lock will not save the Token and the profile for you.
+    // And dismiss the UIViewController.
+    self.dismissViewControllerAnimated(true, completion: nil)
+}
+let controller = UINavigationController(rootViewController: lock)
+if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+    controller.modalPresentationStyle = .FormSheet
+}
+self.presentViewController(controller, animated: true, completion: nil)
+```
+And you'll see SMS login screen
 
-We need your twitter app's key & secret in order to sign the reverse auth request. For more info please read the Twitter documentation related to [Authorizing Requests](https://dev.twitter.com/docs/auth/authorizing-request) and [Reverse Auth](https://dev.twitter.com/docs/ios/using-reverse-auth).
+[![Lock.png](http://blog.auth0.com.s3.amazonaws.com/Lock-SMS-Screenshot.png)](https://auth0.com)
 
 ## SSO
 
-A very cool thing you can do with Lock is use SSO. Imagine you want to create 2 apps. However, you want that if the user is logged in in app A, he will be already logged in in app B as well. Something similar to what happens with Messenger and Facebook as well as Foursquare and Swarm. 
+A very cool thing you can do with Lock is use SSO. Imagine you want to create 2 apps. However, you want that if the user is logged in in app A, he will be already logged in in app B as well. Something similar to what happens with Messenger and Facebook as well as Foursquare and Swarm.
 
 Read [this guide](https://github.com/auth0/Lock.iOS-OSX/wiki/SSO-on-Mobile-Apps) to learn how to accomplish this with this library.
 
@@ -244,32 +286,7 @@ When the authentication requires to open a web login, for example Linkedin, it w
 controller.useWebView = YES
 ```
 
-## Logging
-
-Lock logs serveral useful debugging information using [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack). By default all log messages are disabled but you can enable them following these steps:
-
-Go to `A0Logging.h` and change the `auth0LogLevel` variable with the Log Level you'll want to see. for example:
-```objc
-static const int auth0LogLevel = LOG_LEVEL_ALL;
-```
-
-And then you'll need to configure CocoaLumberjack (if you haven't done it for your app). You need to do it once so we recommend doing it in your `AppDelegate`:
-
-```objc
-#import <CocoaLumberjack/DDASLLogger.h>
-#import <CocoaLumberjack/DDTTYLogger.h>
-#import <CocoaLumberjack/DDLog.h>
-
-@implementation A0AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
-    return YES;
-}
-
-@end
-```
+> For more information please check Lock's documentation in [CocoaDocs](http://cocoadocs.org/docsets/Lock).
 
 ## Issue Reporting
 
