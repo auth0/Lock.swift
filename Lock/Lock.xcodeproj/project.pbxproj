@@ -18,6 +18,7 @@
 		5F3A9C561A0D16FF00154DF2 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3A9C541A0D16FF00154DF2 /* Crashlytics.framework */; };
 		5F3A9C571A0D16FF00154DF2 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3A9C551A0D16FF00154DF2 /* Fabric.framework */; };
 		5F7112E519D5C18B001971BE /* A0AuthParametersSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */; };
+		5F75E4541A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */; };
 		5F91E66E19E32C48003150DF /* A0ConnectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */; };
 		5F92E92419D49F7400080CCE /* A0WebAuthenticationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F92E92319D49F7400080CCE /* A0WebAuthenticationSpec.m */; };
 		5F951A981A0EC7D600D128D0 /* A0HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */; };
@@ -71,6 +72,7 @@
 		5F3A9C541A0D16FF00154DF2 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		5F3A9C551A0D16FF00154DF2 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0AuthParametersSpec.m; sourceTree = "<group>"; };
+		5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0APIv1RouterSpec.m; sourceTree = "<group>"; };
 		5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ConnectionSpec.m; sourceTree = "<group>"; };
 		5F92E92319D49F7400080CCE /* A0WebAuthenticationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0WebAuthenticationSpec.m; sourceTree = "<group>"; };
 		5F951A961A0EC7D600D128D0 /* A0HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0HomeViewController.h; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */,
 				5F0ADBBB19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m */,
 				5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */,
+				5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 				5F92E92419D49F7400080CCE /* A0WebAuthenticationSpec.m in Sources */,
 				5F017F0419B102D70003F8E4 /* A0JSONResponseSerializerSpec.m in Sources */,
 				5F91E66E19E32C48003150DF /* A0ConnectionSpec.m in Sources */,
+				5F75E4541A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m in Sources */,
 				5F22B5D619E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m in Sources */,
 				5F0ADBBC19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m in Sources */,
 				5F017F0219B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m in Sources */,
@@ -614,8 +618,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Lock/Lock-Prefix.pch";
 				INFOPLIST_FILE = "Lock/Lock-Info.plist";
@@ -641,7 +645,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Lock/Lock-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -664,8 +668,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
-				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
