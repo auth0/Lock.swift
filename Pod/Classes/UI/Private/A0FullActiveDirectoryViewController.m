@@ -35,6 +35,7 @@
 #import "A0UIUtilities.h"
 
 #import <libextobjc/EXTScope.h>
+#import "A0ServiceCollectionViewLayoutDelegate.h"
 
 #define kCellIdentifier @"ServiceCell"
 
@@ -44,6 +45,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *orLabel;
 @property (strong, nonatomic) A0ServicesTheme *services;
 @property (strong, nonatomic) NSArray *activeServices;
+@property (strong, nonatomic) A0ServiceCollectionViewLayoutDelegate *layoutDelegate;
 
 @end
 
@@ -55,11 +57,13 @@
     [self.serviceCollectionView registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
     self.services = [[A0ServicesTheme alloc] init];
     self.activeServices = self.application.socialStrategies;
-    self.serviceCollectionView.scrollEnabled = self.activeServices.count > 5;
     A0Theme *theme = [A0Theme sharedInstance];
     self.orLabel.font = [theme fontForKey:A0ThemeSeparatorTextFont];
     self.orLabel.textColor = [theme colorForKey:A0ThemeSeparatorTextColor];
     self.orLabel.text = A0LocalizedString(@"OR");
+    self.layoutDelegate = [[A0ServiceCollectionViewLayoutDelegate alloc] initWithServiceCount:self.activeServices.count];
+    self.serviceCollectionView.delegate = self.layoutDelegate;
+    self.serviceCollectionView.scrollEnabled = self.layoutDelegate.shouldScroll;
 }
 
 - (void)triggerAuth:(UIButton *)sender {
@@ -108,31 +112,6 @@
         controller.onFailure = failureBlock;
         [self presentViewController:controller animated:YES completion:nil];
     }
-}
-
-#pragma mark - UICollectionViewDelegate
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-
-
-#pragma mark - UICollectionViewDelegateFlowLayout
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
-                        layout:(UICollectionViewLayout*)collectionViewLayout
-        insetForSectionAtIndex:(NSInteger)section {
-    NSInteger numberOfCells = self.activeServices.count;
-    UIEdgeInsets insets;
-    if (numberOfCells > 5) {
-        insets = UIEdgeInsetsZero;
-    } else {
-        UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)collectionViewLayout;
-        CGFloat cellsWidth = (numberOfCells * layout.itemSize.width) + MAX(0, (numberOfCells - 1) * 5);
-        NSInteger edgeInsets = (self.serviceCollectionView.frame.size.width - cellsWidth) / 2;
-        insets = UIEdgeInsetsMake(0, edgeInsets, 0, edgeInsets);
-    }
-    return insets;
 }
 
 #pragma mark - UICollectionViewDataSource

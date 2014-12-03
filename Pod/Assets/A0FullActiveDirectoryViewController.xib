@@ -55,7 +55,6 @@
                             <cells/>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="UWA-o7-JFa"/>
-                                <outlet property="delegate" destination="-1" id="Kkc-js-9hi"/>
                             </connections>
                         </collectionView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YPJ-Xa-qjB">
