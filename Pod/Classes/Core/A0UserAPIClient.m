@@ -26,20 +26,15 @@
 #import "A0AuthParameters.h"
 #import "A0JSONResponseSerializer.h"
 #import "A0UserProfile.h"
+#import "A0APIv1Router.h"
 
 #define kAuthorizationHeaderName @"Authorization"
 #define kAuthorizationHeaderValueFormatString @"Bearer %@"
 
-#define kClientIdKey @"Auth0ClientId"
-#define kTenantKey @"Auth0Tenant"
-#define kAppBaseURLFormatString @"https://%@.auth0.com/api/"
-
-#define kUserInfoPath @"/userinfo"
-#define kUserPublicKeyPath @"/api/users/%@/publickey"
-
 typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 @interface A0UserAPIClient ()
+@property (strong, nonatomic) id<A0APIRouter> router;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
 @property (strong, nonatomic) NSString *clientId;
 @property (strong, nonatomic) NSString *tenant;
@@ -47,25 +42,21 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 @implementation A0UserAPIClient
 
-- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant {
+- (instancetype)initWithRouter:(id<A0APIRouter>)router {
+    NSAssert(router, @"Must supply a non nil router");
     self = [super init];
     if (self) {
-        NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
-        NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
-        _clientId = [clientId copy];
-        _tenant = [tenant copy];
-        NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, tenant];
-        NSURL *baseURL = [NSURL URLWithString:URLString];
-        Auth0LogInfo(@"Base URL of API Endpoint is %@", baseURL);
-        _manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+        _router = router;
+        Auth0LogInfo(@"Base URL of API Endpoint is %@", router.endpointURL);
+        _manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:router.endpointURL];
         _manager.requestSerializer = [AFJSONRequestSerializer serializer];
         _manager.responseSerializer = [A0JSONResponseSerializer serializer];
     }
     return self;
 }
 
-- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant accessToken:(NSString *)accessToken {
-    self = [self initWithClientId:clientId andTenant:tenant];
+- (instancetype)initWithRouter:(id)router accessToken:(NSString *)accessToken {
+    self = [self initWithRouter:router];
     if (self) {
         NSAssert(accessToken.length > 0, @"Must supply a valid accessToken");
         NSString *authorizationHeader = [NSString stringWithFormat:kAuthorizationHeaderValueFormatString, accessToken];
@@ -74,8 +65,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     return self;
 }
 
-- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant idToken:(NSString *)idToken {
-    self = [self initWithClientId:clientId andTenant:tenant];
+- (instancetype)initWithRouter:(id)router idToken:(NSString *)idToken {
+    self = [self initWithRouter:router];
     if (self) {
         NSAssert(idToken.length > 0, @"Must supply a valid idToken");
         NSString *authorizationHeader = [NSString stringWithFormat:kAuthorizationHeaderValueFormatString, idToken];
@@ -84,19 +75,35 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     return self;
 }
 
+- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant accessToken:(NSString *)accessToken {
+    NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
+    NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
+    A0APIv1Router *router = [[A0APIv1Router alloc] init];
+    [router configureForTenant:tenant clientId:clientId];
+    return [self initWithRouter:router accessToken:accessToken];
+}
+
+- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant idToken:(NSString *)idToken {
+    NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
+    NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
+    A0APIv1Router *router = [[A0APIv1Router alloc] init];
+    [router configureForTenant:tenant clientId:clientId];
+    return [self initWithRouter:router idToken:idToken];
+}
+
 + (A0UserAPIClient *)clientWithAccessToken:(NSString *)accessToken {
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *clientId = info[kClientIdKey];
-    NSString *tenant = info[kTenantKey];
-    A0UserAPIClient *client = [[A0UserAPIClient alloc] initWithClientId:clientId tenant:tenant accessToken:accessToken];
+    A0APIv1Router *router = [[A0APIv1Router alloc] init];
+    [router configureWithBundleInfo:info];
+    A0UserAPIClient *client = [[A0UserAPIClient alloc] initWithRouter:router accessToken:accessToken];
     return client;
 }
 
 + (A0UserAPIClient *)clientWithIdToken:(NSString *)idToken {
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *clientId = info[kClientIdKey];
-    NSString *tenant = info[kTenantKey];
-    A0UserAPIClient *client = [[A0UserAPIClient alloc] initWithClientId:clientId tenant:tenant idToken:idToken];
+    A0APIv1Router *router = [[A0APIv1Router alloc] init];
+    [router configureWithBundleInfo:info];
+    A0UserAPIClient *client = [[A0UserAPIClient alloc] initWithRouter:router idToken:idToken];
     return client;
 }
 
@@ -105,7 +112,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 - (void)fetchUserProfileSuccess:(A0UserAPIClientUserProfileSuccess)success
                         failure:(A0UserAPIClientError)failure {
     Auth0LogVerbose(@"Fetching User Profile");
-    [self.manager GET:kUserInfoPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager GET:[self.router userInfoPath] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Obtained user profile %@", responseObject);
         if (success) {
             A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
@@ -121,13 +128,12 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                      user:(NSString *)userId
                   success:(void (^)())success
                   failure:(A0UserAPIClientError)failure {
-    NSString *pubKeyPath = [[NSString stringWithFormat:kUserPublicKeyPath, userId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *parameters = @{
                                  @"public_key": [[NSString alloc] initWithData:pubKey encoding:NSUTF8StringEncoding],
                                  A0ParameterDevice: deviceName,
                                  };
     Auth0LogVerbose(@"Registering public key for user %@ and device %@", userId, deviceName);
-    [self.manager POST:pubKeyPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager POST:[self.router userPublicKeyPathForUser:userId] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Registered public key %@", responseObject);
         if (success) {
             success();
@@ -139,12 +145,11 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                            user:(NSString *)userId
                         success:(void (^)())success
                         failure:(A0UserAPIClientError)failure {
-    NSString *pubKeyPath = [[NSString stringWithFormat:kUserPublicKeyPath, userId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *parameters = @{
                                  A0ParameterDevice: deviceName,
                                  };
     Auth0LogVerbose(@"Removing public key for user %@ and device %@", userId, deviceName);
-    [self.manager DELETE:pubKeyPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager DELETE:[self.router userPublicKeyPathForUser:userId] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Auth0LogDebug(@"Removed public key with response %@", responseObject);
         if (success) {
             success();

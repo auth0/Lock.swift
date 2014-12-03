@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import "A0APIRouter.h"
 
 @class A0UserProfile;
 
@@ -31,6 +32,9 @@ typedef void(^A0UserAPIClientError)(NSError *error);
  `A0UserAPIClient` is a class with convenience methods for Auth0 REST API that needs to be authenticated with a user's accessToken or JWT token.
  */
 @interface A0UserAPIClient : NSObject
+
+- (instancetype)initWithRouter:(id<A0APIRouter>)router accessToken:(NSString *)accessToken;
+- (instancetype)initWithRouter:(id<A0APIRouter>)router idToken:(NSString *)idToken;
 
 - (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant accessToken:(NSString *)accessToken;
 - (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant idToken:(NSString *)idToken;
