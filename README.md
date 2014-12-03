@@ -64,12 +64,6 @@ func application(application: UIApplication, openURL url: NSURL, sourceApplicati
 
 ## Usage
 
-If you are working in Objective-C, first import __Lock__ header:
-
-```objc
-#import <Lock/Lock.h>
-```
-
 ### Email/Password, Enterprise & Social authentication
 
 `A0LockViewController` will handle Email/Password, Enterprise & Social authentication based on your Application's connections enabled in your Auth0's Dashboard.
