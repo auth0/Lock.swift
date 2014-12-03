@@ -127,10 +127,9 @@
     if (numberOfCells > 5) {
         insets = UIEdgeInsetsZero;
     } else {
-        CGFloat cellsWidth = (numberOfCells * 55) + MAX(0, (numberOfCells - 1) * 5);
-
+        UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)collectionViewLayout;
+        CGFloat cellsWidth = (numberOfCells * layout.itemSize.width) + MAX(0, (numberOfCells - 1) * 5);
         NSInteger edgeInsets = (self.serviceCollectionView.frame.size.width - cellsWidth) / 2;
-
         insets = UIEdgeInsetsMake(0, edgeInsets, 0, edgeInsets);
     }
     return insets;
