@@ -7,14 +7,23 @@
 
 [Auth0](https://auth0.com) is an authentication broker that supports social identity providers as well as enterprise identity providers such as Active Directory, LDAP, Google Apps and Salesforce.
 
-## Key features
+Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 
-* **Integrates** your iOS app with **Auth0**
-* Provides a **beautiful native UI** to log your users in
-* Provides support for **Social Providers** (Facebook, Twitter, etc.), **Enterprise Providers** (AD, LDAP, etc.) and **Username & Password**
-* Provides the ability to do **SSO** with 2 or more mobile apps similar to Facebook and Messenger apps.
+* Having a professional looking login dialog that displays well on any device.
+* Finding the right icons for popular social providers.
+* Solving the home realm discovery challenge with enterprise users (i.e.: asking the enterprise user the email, and redirecting to the right enterprise identity provider).
+* Implementing a standard sign in protocol (OpenID Connect / OAuth2 Login)
 
 ![iOS Gif](https://cloudup.com/cnccuUlFiYI+)
+
+## Key features
+
+* **Integrates** your iOS app with **Auth0** (OS X coming soon).
+* Provides a **beautiful native UI** to log your users in.
+* Provides support for **Social Providers** (Facebook, Twitter, etc.), **Enterprise Providers** (AD, LDAP, etc.) and **Username & Password**.
+* Provides the ability to do **SSO** with 2 or more mobile apps similar to Facebook and Messenger apps.
+* [1Password](https://agilebits.com/onepassword) integration using **iOS 8** [Extension](https://github.com/AgileBits/onepassword-app-extension).
+* Passwordless authentication using **TouchID** and **SMS**.
 
 ## Requierements
 
