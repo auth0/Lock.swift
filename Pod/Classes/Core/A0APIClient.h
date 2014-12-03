@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import "A0APIRouter.h"
 
 @class A0Application, A0Strategy, A0IdentityProviderCredentials, A0UserProfile, A0Token, A0AuthParameters;
 
@@ -52,7 +53,15 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 - (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant;
 
 /**
- Returns a shared instance of `A0APIClient`. This instance is initialised with clientId and tenant from Info plist file entries. These entries are `Auth0ClientId` and `Auth0Tenant`.
+ Initialise the Client with a API router
+ @param router API routes handler
+ @return a new `A0APIClient` instance
+ */
+- (instancetype)initWithAPIRouter:(id<A0APIRouter>)router;
+
+/**
+ *  Returns a shared instance of `A0APIClient`. This instance is initialised with clientId and tenant from Info plist file entries. These entries are `Auth0ClientId` and `Auth0Tenant`.
+ *  It can also be instantiated with a custom domain instead of Auth0's.
  @return a shared `A0APIClient` instance.
  */
 + (instancetype)sharedClient;
@@ -65,6 +74,12 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 ///----------------------------------------
 /// @name Configuration for Auth0 App
 ///----------------------------------------
+
+
+/**
+ *  Object that provides all URLs and Paths of Auth0 API. By default a router for API v1 is used.
+ */
+@property (strong, nonatomic) id<A0APIRouter> router;
 
 /**
  *  Auth0 app client id

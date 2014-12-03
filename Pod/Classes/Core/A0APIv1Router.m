@@ -42,6 +42,8 @@
 #define kPublicKeyUserPath @"api/users/%@/publickey"
 
 @interface A0APIv1Router ()
+@property (copy, nonatomic) NSString *clientId;
+@property (copy, nonatomic) NSString *tenant;
 @property (strong, nonatomic) NSURL *endpointURL;
 @property (strong, nonatomic) NSURL *configurationURL;
 @end
@@ -80,12 +82,14 @@
     self.configurationURL = [NSURL URLWithString:clientPath relativeToURL:configurationURL];
     Auth0LogInfo(@"Base URL of API is %@", self.endpointURL);
     Auth0LogInfo(@"Configuration URL is %@", self.configurationURL);
+    self.clientId = clientId;
 }
 
 - (void)configureForTenant:(NSString *)tenant clientId:(NSString *)clientId {
     NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
     NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, tenant];
     [self configureForDomain:URLString configurationDomain:kCDNConfigurationURL clientId:clientId];
+    self.tenant = tenant;
 }
 
 - (NSString *)loginPath {
