@@ -72,6 +72,19 @@
 }
 
 - (void)loginNative:(id)sender {
+    A0Theme *theme = [A0Theme sharedInstance];
+    [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.300] forKey:A0ThemePrimaryButtonNormalColor];
+    [theme registerColor:[UIColor colorWithWhite:0.500 alpha:0.300] forKey:A0ThemePrimaryButtonHighlightedColor];
+    [theme registerColor:[UIColor clearColor] forKey:A0ThemeSecondaryButtonBackgroundColor];
+    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeSecondaryButtonTextColor];
+    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeTextFieldTextColor];
+    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeTitleTextColor];
+    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeSeparatorTextColor];
+    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeDescriptionTextColor];
+    [theme registerColor:[UIColor colorWithWhite:0.800 alpha:1.000] forKey:A0ThemeTextFieldIconColor];
+    [theme registerColor:[UIColor clearColor] forKey:A0ThemeIconBackgroundColor];
+    [theme registerImageWithName:@"mindjet-icon" forKey:A0ThemeIconImageName];
+
     [self.keychain clearAll];
     A0LockViewController *controller = [[A0LockViewController alloc] init];
     @weakify(self);
@@ -88,6 +101,9 @@
             [self performSegueWithIdentifier:@"LoggedIn" sender:self];
         }];
     };
+    UIImage *image = [UIImage imageNamed:@"mindjet-bg"];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    [controller.view insertSubview:imageView atIndex:0];
     [self presentViewController:controller animated:YES completion:nil];
 }
 
