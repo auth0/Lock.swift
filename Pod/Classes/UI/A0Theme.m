@@ -32,6 +32,7 @@ NSString * const A0ThemeSecondaryButtonBackgroundColor = @"A0ThemeSecondaryButto
 NSString * const A0ThemeSecondaryButtonFont = @"A0ThemeSecondaryButtonFont";
 NSString * const A0ThemeSecondaryButtonTextColor = @"A0ThemeSecondaryButtonTextColor";
 NSString * const A0ThemeTextFieldFont = @"A0ThemeTextFieldFont";
+NSString * const A0ThemeTextFieldPlaceholderTextColor = @"A0ThemeTextFieldPlaceholderTextColor";
 NSString * const A0ThemeTextFieldTextColor = @"A0ThemeTextFieldTextColor";
 NSString * const A0ThemeTextFieldIconColor = @"A0ThemeTextFieldIconColor";
 NSString * const A0ThemeTitleFont = @"A0ThemeTitleFont";
@@ -76,6 +77,7 @@ NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderC
                      A0ThemeSecondaryButtonTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],
 
                      A0ThemeTextFieldFont: [UIFont systemFontOfSize:13.0f],
+                     A0ThemeTextFieldPlaceholderTextColor: [UIColor colorWithRed:0.616 green:0.635 blue:0.675 alpha:1.000],
                      A0ThemeTextFieldTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],
                      A0ThemeTextFieldIconColor: [UIColor colorWithWhite:0.600 alpha:1.000],
 

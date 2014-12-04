@@ -36,6 +36,11 @@
     self.textField.tintColor = [theme colorForKey:A0ThemeTextFieldTextColor];
     self.iconImageView.image = [self.iconImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.placeholderText = self.textField.placeholder;
+    self.textField.placeholder = nil;
+    self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeholderText
+                                                                           attributes:@{
+                                                                                        NSForegroundColorAttributeName: [[A0Theme sharedInstance] colorForKey:A0ThemeTextFieldPlaceholderTextColor],
+                                                                                        }];
 }
 
 - (void)setInvalid:(BOOL)invalid {
@@ -47,14 +52,15 @@
     self.textField.tintColor = invalid ? [UIColor redColor] : [theme colorForKey:A0ThemeTextFieldTextColor];
     self.textField.textColor = invalid ? [UIColor redColor] : [theme colorForKey:A0ThemeTextFieldTextColor];
     if (invalid) {
-        self.textField.placeholder = nil;
         self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeholderText
                                                                                attributes:@{
                                                                                             NSForegroundColorAttributeName: [UIColor redColor],
                                                                                             }];
     } else {
-        self.textField.attributedPlaceholder = nil;
-        self.textField.placeholder = self.placeholderText;
+        self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeholderText
+                                                                               attributes:@{
+                                                                                            NSForegroundColorAttributeName: [[A0Theme sharedInstance] colorForKey:A0ThemeTextFieldPlaceholderTextColor],
+                                                                                            }];
     }
 }
 
