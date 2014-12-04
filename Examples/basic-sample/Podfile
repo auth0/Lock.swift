@@ -3,7 +3,7 @@ platform :ios, "7.0"
 source 'https://github.com/CocoaPods/Specs.git'
 
 target "basic-sample" do
-    pod "Lock", "~> 1.6"
+    pod "Lock", "~> 1.7"
     pod "SDWebImage", "~> 3.7.1"
     pod "JWTDecode", "~> 0.2"
     pod "SimpleKeychain", "~> 0.2"

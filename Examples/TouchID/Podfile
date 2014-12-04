@@ -4,8 +4,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'TouchID' do
 
-pod "Lock", "~> 1.6"
-pod "Lock/TouchID"
+pod "Lock", "~> 1.7"
+pod "Lock/TouchID", "~> 1.7"
 pod "SimpleKeychain", "~> 0.2"
 
 pod "Facebook-iOS-SDK", :inhibit_warnings => true #Ignore warnings for this lib

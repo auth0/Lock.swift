@@ -195,27 +195,27 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
-  - Lock (1.6.0):
+  - Lock (1.7.0):
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
-    - Lock/Core (= 1.6.0)
-    - Lock/Facebook (= 1.6.0)
-    - Lock/Twitter (= 1.6.0)
-    - Lock/UI (= 1.6.0)
+    - Lock/Core (= 1.7.0)
+    - Lock/Facebook (= 1.7.0)
+    - Lock/Twitter (= 1.7.0)
+    - Lock/UI (= 1.7.0)
     - ObjectiveSugar (~> 1.1)
-  - Lock/Core (1.6.0):
+  - Lock/Core (1.7.0):
     - AFNetworking (~> 2.4)
     - CocoaLumberjack (~> 1.9)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
-  - Lock/Facebook (1.6.0):
+  - Lock/Facebook (1.7.0):
     - CocoaLumberjack (~> 1.9)
     - Facebook-iOS-SDK (~> 3.15)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
-  - Lock/Twitter (1.6.0):
+  - Lock/Twitter (1.7.0):
     - BDBOAuth1Manager (~> 1.5.0)
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
@@ -223,7 +223,7 @@ PODS:
     - ObjectiveSugar (~> 1.1)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Lock/UI (1.6.0):
+  - Lock/UI (1.7.0):
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
     - Lock/Core
@@ -252,7 +252,7 @@ DEPENDENCIES:
   - Facebook-iOS-SDK
   - ISO8601DateFormatter
   - libextobjc
-  - Lock (~> 1.6)
+  - Lock (~> 1.7)
   - SimpleKeychain
 
 SPEC CHECKSUMS:
@@ -265,7 +265,7 @@ SPEC CHECKSUMS:
   GZIP: f27c434ffee5e9a9b34f4e9c19e91350fa8bbde1
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  Lock: d3a02a5e7e8d0822045de992f6e83cf5841116dd
+  Lock: 04e19fc4fec12ac61ebaa1f314781c737f90f9ef
   LUKeychainAccess: 8d45b6c894c0d808786b1740c057b5e776313d88
   Mantle: 1ca9c0fa84d3d3fc98524e7229f30489b6dd44e5
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548

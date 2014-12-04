@@ -67,33 +67,33 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
-  - Lock (1.6.0):
+  - Lock (1.7.0):
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
-    - Lock/Core (= 1.6.0)
-    - Lock/Facebook (= 1.6.0)
-    - Lock/Twitter (= 1.6.0)
-    - Lock/UI (= 1.6.0)
+    - Lock/Core (= 1.7.0)
+    - Lock/Facebook (= 1.7.0)
+    - Lock/Twitter (= 1.7.0)
+    - Lock/UI (= 1.7.0)
     - ObjectiveSugar (~> 1.1)
-  - Lock/Core (1.6.0):
+  - Lock/Core (1.7.0):
     - AFNetworking (~> 2.4)
     - CocoaLumberjack (~> 1.9)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
-  - Lock/Facebook (1.6.0):
+  - Lock/Facebook (1.7.0):
     - CocoaLumberjack (~> 1.9)
     - Facebook-iOS-SDK (~> 3.15)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
-  - Lock/TouchID (1.6.0):
+  - Lock/TouchID (1.7.0):
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
     - Lock/UI
     - ObjectiveSugar (~> 1.1)
     - TouchIDAuth (~> 0.1)
-  - Lock/Twitter (1.6.0):
+  - Lock/Twitter (1.7.0):
     - BDBOAuth1Manager (~> 1.5.0)
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
@@ -101,7 +101,7 @@ PODS:
     - ObjectiveSugar (~> 1.1)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Lock/UI (1.6.0):
+  - Lock/UI (1.7.0):
     - CocoaLumberjack (~> 1.9)
     - libextobjc (~> 0.4)
     - Lock/Core
@@ -112,7 +112,7 @@ PODS:
     - NSData+Base64
   - ObjectiveSugar (1.1.0)
   - PSAlertView (2.0.3)
-  - SimpleKeychain (0.2.0)
+  - SimpleKeychain (0.2.1)
   - TouchIDAuth (0.1.0):
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
@@ -126,8 +126,8 @@ DEPENDENCIES:
   - Facebook-iOS-SDK
   - ISO8601DateFormatter
   - libextobjc
-  - Lock (~> 1.6)
-  - Lock/TouchID
+  - Lock (~> 1.7)
+  - Lock/TouchID (~> 1.7)
   - SimpleKeychain (~> 0.2)
 
 SPEC CHECKSUMS:
@@ -138,13 +138,13 @@ SPEC CHECKSUMS:
   Facebook-iOS-SDK: 5854404b4b651f612a8ef79ca06d766858f4cb8e
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  Lock: d3a02a5e7e8d0822045de992f6e83cf5841116dd
+  Lock: 04e19fc4fec12ac61ebaa1f314781c737f90f9ef
   LUKeychainAccess: 8d45b6c894c0d808786b1740c057b5e776313d88
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
   ObjectiveSugar: f48793f5902c77cfc02a4ce46d2e8ecddcad4dc2
   PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
-  SimpleKeychain: f7c55140169037f7540c949b25da53096036b231
+  SimpleKeychain: ebcd1e41377d29f2bf3c29531acfdc35cf929d9f
   TouchIDAuth: 4a104cd6a614e63c23fad6e6446bf79b6cc6f429
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
 
