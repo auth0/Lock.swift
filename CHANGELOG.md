@@ -3,6 +3,28 @@ All notable changes to this project will be documented in this file.
 
 ##master
 
+## 1.7.0 - 2014-12-04
+
+###Added
+- On Premise API support.
+
+###Changed
+- UI improvements in UILockViewController.
+- Fixed Theme for SMS & TouchID
+
+## 1.6.1 - 2014-11-27
+
+###Changed
+- Show user already exists in TouchID login
+- Disable Logging by default.
+
+## 1.6.0 - 2014-11-26
+
+###Changed
+- Fixed issue with BDBOAuth1Manager pod
+- Improved SMS Login screen
+- Use Auth0 API v2 to send SMS code.
+
 ## 1.5.0 - 2014-11-25
 
 ###Added
