@@ -86,6 +86,7 @@
     [theme registerColor:[UIColor colorWithWhite:0.800 alpha:1.000] forKey:A0ThemeTextFieldIconColor];
     [theme registerColor:[UIColor clearColor] forKey:A0ThemeIconBackgroundColor];
     [theme registerImageWithName:@"mindjet-icon" forKey:A0ThemeIconImageName];
+    [theme registerImageWithName:@"mindjet-bg" forKey:A0ThemeScreenBackgroundImageName];
 
     [self.keychain clearAll];
     A0LockViewController *controller = [[A0LockViewController alloc] init];
@@ -103,9 +104,6 @@
             [self performSegueWithIdentifier:@"LoggedIn" sender:self];
         }];
     };
-    UIImage *image = [UIImage imageNamed:@"mindjet-bg"];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    [controller.view insertSubview:imageView atIndex:0];
     [self presentViewController:controller animated:YES completion:nil];
 }
 

@@ -40,6 +40,7 @@ NSString * const A0ThemeTitleTextColor = @"A0ThemeTitleTextColor";
 NSString * const A0ThemeDescriptionFont = @"A0ThemeDescriptionFont";
 NSString * const A0ThemeDescriptionTextColor = @"A0ThemeDescriptionTextColor";
 NSString * const A0ThemeScreenBackgroundColor = @"A0ThemeScreenBackgroundColor";
+NSString * const A0ThemeScreenBackgroundImageName = @"A0ThemeScreenBackgroundImageName";
 NSString * const A0ThemeIconImageName = @"A0ThemeIconImageName";
 NSString * const A0ThemeIconBackgroundColor = @"A0ThemeIconBackgroundColor";
 NSString * const A0ThemeSeparatorTextFont = @"A0ThemeSeparatorTextFont";

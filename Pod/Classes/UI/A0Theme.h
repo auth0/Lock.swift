@@ -38,6 +38,7 @@ FOUNDATION_EXPORT NSString * const A0ThemeTitleTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeDescriptionFont;
 FOUNDATION_EXPORT NSString * const A0ThemeDescriptionTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeScreenBackgroundColor;
+FOUNDATION_EXPORT NSString * const A0ThemeScreenBackgroundImageName;
 FOUNDATION_EXPORT NSString * const A0ThemeIconImageName;
 FOUNDATION_EXPORT NSString * const A0ThemeIconBackgroundColor;
 FOUNDATION_EXPORT NSString * const A0ThemeSeparatorTextFont;

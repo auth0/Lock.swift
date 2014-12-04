@@ -82,6 +82,11 @@
     [super viewDidLoad];
 
     A0Theme *theme = [A0Theme sharedInstance];
+    UIImage *image = [theme imageForKey:A0ThemeScreenBackgroundImageName];
+    if (image) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        [self.view insertSubview:imageView atIndex:0];
+    }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
     self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
     self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
