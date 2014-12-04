@@ -31,12 +31,14 @@ FOUNDATION_EXPORT NSString * const A0ThemeSecondaryButtonFont;
 FOUNDATION_EXPORT NSString * const A0ThemeSecondaryButtonTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldFont;
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldTextColor;
+FOUNDATION_EXPORT NSString * const A0ThemeTextFieldPlaceholderTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldIconColor;
 FOUNDATION_EXPORT NSString * const A0ThemeTitleFont;
 FOUNDATION_EXPORT NSString * const A0ThemeTitleTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeDescriptionFont;
 FOUNDATION_EXPORT NSString * const A0ThemeDescriptionTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeScreenBackgroundColor;
+FOUNDATION_EXPORT NSString * const A0ThemeScreenBackgroundImageName;
 FOUNDATION_EXPORT NSString * const A0ThemeIconImageName;
 FOUNDATION_EXPORT NSString * const A0ThemeIconBackgroundColor;
 FOUNDATION_EXPORT NSString * const A0ThemeSeparatorTextFont;
@@ -46,6 +48,8 @@ FOUNDATION_EXPORT NSString * const A0ThemeCredentialBoxBorderColor;
 @interface A0Theme : NSObject
 
 + (A0Theme *)sharedInstance;
+
+@property (assign, nonatomic) UIStatusBarStyle statusBarStyle;
 
 - (void)registerFont:(UIFont *)font forKey:(NSString *)key;
 - (void)registerColor:(UIColor *)color forKey:(NSString *)key;
@@ -62,5 +66,8 @@ FOUNDATION_EXPORT NSString * const A0ThemeCredentialBoxBorderColor;
 - (void)configureSecondaryButton:(UIButton *)button;
 - (void)configureTextField:(UITextField *)textField;
 - (void)configureLabel:(UILabel *)label;
+
+- (void)registerTheme:(A0Theme *)theme;
+- (void)registerDefaultTheme;
 
 @end

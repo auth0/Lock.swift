@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SMSCodeViewController">
@@ -39,7 +39,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="558" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="SMS Code" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="O1y-8u-u3e">
-                                    <rect key="frame" x="55" y="10" width="496" height="30"/>
+                                    <rect key="frame" x="44" y="10" width="507" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="send"/>
                                     <connections>
@@ -47,11 +47,10 @@
                                     </connections>
                                 </textField>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="Ohf-Uq-zFi">
-                                    <rect key="frame" x="18" y="10" width="27" height="30"/>
+                                    <rect key="frame" x="18" y="17" width="16" height="16"/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                 </imageView>
                             </subviews>
-                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstItem="Ohf-Uq-zFi" firstAttribute="centerY" secondItem="O1y-8u-u3e" secondAttribute="centerY" id="5kD-ZP-3jC"/>
                                 <constraint firstItem="Ohf-Uq-zFi" firstAttribute="leading" secondItem="esC-bu-ZPY" secondAttribute="leading" constant="18" id="DIa-lB-ifn"/>
@@ -75,7 +74,7 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="298" translatesAutoresizingMaskIntoConstraints="NO" id="d04-XJ-9xx">
-                    <rect key="frame" x="167" y="10" width="266.5" height="51"/>
+                    <rect key="frame" x="167" y="10" width="267" height="51"/>
                     <attributedString key="attributedText">
                         <fragment content="Please check your phone ">
                             <attributes>
@@ -102,7 +101,6 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="5ub-pd-xuL" secondAttribute="trailing" constant="21" id="0je-RV-V0Y"/>
                 <constraint firstAttribute="centerX" secondItem="d04-XJ-9xx" secondAttribute="centerX" id="7Bt-K1-d9o"/>

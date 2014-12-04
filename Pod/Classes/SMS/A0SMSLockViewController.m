@@ -68,6 +68,11 @@
     self.closeButton.hidden = !self.closable;
 
     A0Theme *theme = [A0Theme sharedInstance];
+    UIImage *image = [theme imageForKey:A0ThemeScreenBackgroundImageName];
+    if (image) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        [self.view insertSubview:imageView atIndex:0];
+    }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
     self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
     self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
@@ -89,6 +94,10 @@
 - (void)hideKeyboard:(UIGestureRecognizer *)recognizer {
     UIViewController<A0KeyboardEnabledView> *controller = self.childViewControllers.firstObject;
     [controller hideKeyboard];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [[A0Theme sharedInstance] statusBarStyle];
 }
 
 - (A0SMSSendCodeViewController *)buildSMSSendCode {

@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0LoadingViewController.h"
+#import "A0Theme.h"
 
 @interface A0LoadingViewController ()
 
@@ -34,6 +35,11 @@
         self.title = @"";
     }
     return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.activityIndicator.color = [[A0Theme sharedInstance] colorForKey:A0ThemeTitleTextColor];
 }
 
 #pragma mark - A0KeyboardEnabledView

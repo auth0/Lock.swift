@@ -36,6 +36,7 @@
 
 NSString * const A0ThemeTouchIDLockButtonImageNormalName = @"A0ThemeTouchIDLockButtonImageNormalName";
 NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchIDLockButtonImageHighlightedName";
+NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLockContainerBackgroundColor";
 
 @interface A0TouchIDLockViewController ()
 
@@ -46,6 +47,8 @@ NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchID
 @property (weak, nonatomic) IBOutlet UIView *touchIDView;
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 @property (weak, nonatomic) IBOutlet UIButton *touchIDButton;
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (strong, nonatomic) A0TouchIDAuthentication *authentication;
 @property (strong, nonatomic) A0UserAPIClient *userClient;
@@ -75,6 +78,11 @@ NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchID
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
     self.navigationController.navigationBarHidden = YES;
     A0Theme *theme = [A0Theme sharedInstance];
+    UIImage *image = [theme imageForKey:A0ThemeScreenBackgroundImageName];
+    if (image) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        [self.view insertSubview:imageView atIndex:0];
+    }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
     self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
     self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
@@ -85,8 +93,13 @@ NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchID
     [self.touchIDButton setImage:normalImage forState:UIControlStateNormal];
     UIImage *highlightedImage = [theme imageForKey:A0ThemeTouchIDLockButtonImageHighlightedName defaultImage:[self.touchIDButton imageForState:UIControlStateHighlighted]];
     [self.touchIDButton setImage:highlightedImage forState:UIControlStateHighlighted];
-
+    self.touchIDView.backgroundColor = [theme colorForKey:A0ThemeTouchIDLockContainerBackgroundColor defaultColor:self.touchIDView.backgroundColor];
+    self.messageLabel.font = [theme fontForKey:A0ThemeDescriptionFont];
+    self.messageLabel.textColor = [theme colorForKey:A0ThemeDescriptionTextColor];
+    self.activityIndicator.color = [theme colorForKey:A0ThemeTitleTextColor];
     self.titleLabel.text = A0LocalizedString(@"Login with TouchID");
+    self.titleLabel.font = [theme fontForKey:A0ThemeTitleFont];
+    self.titleLabel.textColor = [theme colorForKey:A0ThemeTitleTextColor];
 
     self.authentication = [[A0TouchIDAuthentication alloc] init];
     self.authentication.onError = ^(NSError *error) {
@@ -183,6 +196,10 @@ NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchID
     self.touchIDView.hidden = YES;
     self.loadingView.hidden = NO;
     [self.authentication start];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [[A0Theme sharedInstance] statusBarStyle];
 }
 
 #pragma mark - Utility methods

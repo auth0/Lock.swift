@@ -24,8 +24,11 @@
 
 @interface A0SettingsViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *themeControl;
+
 - (IBAction)clearKeychain:(id)sender;
 - (IBAction)clearTouchID:(id)sender;
 - (IBAction)clearSMS:(id)sender;
+- (IBAction)themeSelected:(id)sender;
 
 @end

@@ -32,6 +32,7 @@ NSString * const A0ThemeSecondaryButtonBackgroundColor = @"A0ThemeSecondaryButto
 NSString * const A0ThemeSecondaryButtonFont = @"A0ThemeSecondaryButtonFont";
 NSString * const A0ThemeSecondaryButtonTextColor = @"A0ThemeSecondaryButtonTextColor";
 NSString * const A0ThemeTextFieldFont = @"A0ThemeTextFieldFont";
+NSString * const A0ThemeTextFieldPlaceholderTextColor = @"A0ThemeTextFieldPlaceholderTextColor";
 NSString * const A0ThemeTextFieldTextColor = @"A0ThemeTextFieldTextColor";
 NSString * const A0ThemeTextFieldIconColor = @"A0ThemeTextFieldIconColor";
 NSString * const A0ThemeTitleFont = @"A0ThemeTitleFont";
@@ -39,6 +40,7 @@ NSString * const A0ThemeTitleTextColor = @"A0ThemeTitleTextColor";
 NSString * const A0ThemeDescriptionFont = @"A0ThemeDescriptionFont";
 NSString * const A0ThemeDescriptionTextColor = @"A0ThemeDescriptionTextColor";
 NSString * const A0ThemeScreenBackgroundColor = @"A0ThemeScreenBackgroundColor";
+NSString * const A0ThemeScreenBackgroundImageName = @"A0ThemeScreenBackgroundImageName";
 NSString * const A0ThemeIconImageName = @"A0ThemeIconImageName";
 NSString * const A0ThemeIconBackgroundColor = @"A0ThemeIconBackgroundColor";
 NSString * const A0ThemeSeparatorTextFont = @"A0ThemeSeparatorTextFont";
@@ -65,6 +67,7 @@ NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderC
 - (id)init {
     self = [super init];
     if (self) {
+        _statusBarStyle = UIStatusBarStyleDefault;
         _values = [@{
                      A0ThemePrimaryButtonNormalColor: [UIColor colorWithRed:0.086 green:0.129 blue:0.302 alpha:1.000],
                      A0ThemePrimaryButtonHighlightedColor: [UIColor colorWithRed:0.043 green:0.063 blue:0.145 alpha:1.000],
@@ -76,6 +79,7 @@ NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderC
                      A0ThemeSecondaryButtonTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],
 
                      A0ThemeTextFieldFont: [UIFont systemFontOfSize:13.0f],
+                     A0ThemeTextFieldPlaceholderTextColor: [UIColor colorWithRed:0.616 green:0.635 blue:0.675 alpha:1.000],
                      A0ThemeTextFieldTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],
                      A0ThemeTextFieldIconColor: [UIColor colorWithWhite:0.600 alpha:1.000],
 
@@ -95,6 +99,16 @@ NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderC
                      } mutableCopy];
     }
     return self;
+}
+
+- (void)registerTheme:(A0Theme *)theme {
+    self.statusBarStyle = theme.statusBarStyle;
+    [self.values addEntriesFromDictionary:theme.values];
+}
+
+- (void)registerDefaultTheme {
+    [self.values removeAllObjects];
+    [self registerTheme:[[A0Theme alloc] init]];
 }
 
 - (void)registerColor:(UIColor *)color forKey:(NSString *)key {

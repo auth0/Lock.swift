@@ -82,6 +82,11 @@
     [super viewDidLoad];
 
     A0Theme *theme = [A0Theme sharedInstance];
+    UIImage *image = [theme imageForKey:A0ThemeScreenBackgroundImageName];
+    if (image) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        [self.view insertSubview:imageView atIndex:0];
+    }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
     self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
     self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
@@ -112,6 +117,10 @@
         id<A0KeyboardEnabledView> current = (id<A0KeyboardEnabledView>)controller;
         [current hideKeyboard];
     }
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [[A0Theme sharedInstance] statusBarStyle];
 }
 
 #pragma mark - App info fetch

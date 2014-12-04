@@ -41,6 +41,7 @@
 
 @interface A0FullActiveDirectoryViewController ()
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
 @property (weak, nonatomic) IBOutlet UILabel *orLabel;
 @property (strong, nonatomic) A0ServicesTheme *services;
@@ -64,6 +65,7 @@
     self.layoutDelegate = [[A0ServiceCollectionViewLayoutDelegate alloc] initWithServiceCount:self.activeServices.count];
     self.serviceCollectionView.delegate = self.layoutDelegate;
     self.serviceCollectionView.scrollEnabled = self.layoutDelegate.shouldScroll;
+    self.activityIndicator.color = [[A0Theme sharedInstance] colorForKey:A0ThemeTitleTextColor];
 }
 
 - (void)triggerAuth:(UIButton *)sender {

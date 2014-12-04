@@ -25,4 +25,6 @@
 
 @interface A0LoadingViewController : UIViewController<A0KeyboardEnabledView>
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+
 @end
