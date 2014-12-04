@@ -114,6 +114,10 @@
     }
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [[A0Theme sharedInstance] statusBarStyle];
+}
+
 #pragma mark - App info fetch
 
 - (void)loadApplicationInfo {

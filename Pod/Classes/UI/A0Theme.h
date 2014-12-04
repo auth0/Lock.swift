@@ -48,6 +48,8 @@ FOUNDATION_EXPORT NSString * const A0ThemeCredentialBoxBorderColor;
 
 + (A0Theme *)sharedInstance;
 
+@property (assign, nonatomic) UIStatusBarStyle statusBarStyle;
+
 - (void)registerFont:(UIFont *)font forKey:(NSString *)key;
 - (void)registerColor:(UIColor *)color forKey:(NSString *)key;
 - (void)registerImageWithName:(NSString *)name forKey:(NSString *)key;

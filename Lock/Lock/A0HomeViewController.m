@@ -73,6 +73,7 @@
 
 - (void)loginNative:(id)sender {
     A0Theme *theme = [A0Theme sharedInstance];
+    theme.statusBarStyle = UIStatusBarStyleLightContent;
     [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.300] forKey:A0ThemePrimaryButtonNormalColor];
     [theme registerColor:[UIColor colorWithWhite:0.500 alpha:0.300] forKey:A0ThemePrimaryButtonHighlightedColor];
     [theme registerColor:[UIColor clearColor] forKey:A0ThemeSecondaryButtonBackgroundColor];
@@ -81,7 +82,7 @@
     [theme registerColor:[UIColor whiteColor] forKey:A0ThemeTitleTextColor];
     [theme registerColor:[UIColor whiteColor] forKey:A0ThemeSeparatorTextColor];
     [theme registerColor:[UIColor whiteColor] forKey:A0ThemeDescriptionTextColor];
-    [theme registerColor:[UIColor colorWithWhite:0.800 alpha:1.000] forKey:A0ThemeTextFieldPlaceholderTextColor];
+    [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.700] forKey:A0ThemeTextFieldPlaceholderTextColor];
     [theme registerColor:[UIColor colorWithWhite:0.800 alpha:1.000] forKey:A0ThemeTextFieldIconColor];
     [theme registerColor:[UIColor clearColor] forKey:A0ThemeIconBackgroundColor];
     [theme registerImageWithName:@"mindjet-icon" forKey:A0ThemeIconImageName];

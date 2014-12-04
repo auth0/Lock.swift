@@ -66,6 +66,7 @@ NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderC
 - (id)init {
     self = [super init];
     if (self) {
+        _statusBarStyle = UIStatusBarStyleDefault;
         _values = [@{
                      A0ThemePrimaryButtonNormalColor: [UIColor colorWithRed:0.086 green:0.129 blue:0.302 alpha:1.000],
                      A0ThemePrimaryButtonHighlightedColor: [UIColor colorWithRed:0.043 green:0.063 blue:0.145 alpha:1.000],
