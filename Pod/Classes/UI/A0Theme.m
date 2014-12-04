@@ -101,6 +101,16 @@ NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderC
     return self;
 }
 
+- (void)registerTheme:(A0Theme *)theme {
+    self.statusBarStyle = theme.statusBarStyle;
+    [self.values addEntriesFromDictionary:theme.values];
+}
+
+- (void)registerDefaultTheme {
+    [self.values removeAllObjects];
+    [self registerTheme:[[A0Theme alloc] init]];
+}
+
 - (void)registerColor:(UIColor *)color forKey:(NSString *)key {
     NSAssert(color != nil && key != nil, @"Color and Key must be non nil.");
     self.values[key] = color;

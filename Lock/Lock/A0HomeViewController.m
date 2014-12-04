@@ -69,23 +69,6 @@
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     self.clientIdLabel.text = info[kClientIdKey];
     self.tenantLabel.text = info[kTenantKey];
-
-    A0Theme *theme = [A0Theme sharedInstance];
-    theme.statusBarStyle = UIStatusBarStyleLightContent;
-    [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.300] forKey:A0ThemePrimaryButtonNormalColor];
-    [theme registerColor:[UIColor colorWithWhite:0.500 alpha:0.300] forKey:A0ThemePrimaryButtonHighlightedColor];
-    [theme registerColor:[UIColor clearColor] forKey:A0ThemeSecondaryButtonBackgroundColor];
-    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeSecondaryButtonTextColor];
-    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeTextFieldTextColor];
-    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeTitleTextColor];
-    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeSeparatorTextColor];
-    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeDescriptionTextColor];
-    [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.700] forKey:A0ThemeTextFieldPlaceholderTextColor];
-    [theme registerColor:[UIColor colorWithWhite:0.800 alpha:1.000] forKey:A0ThemeTextFieldIconColor];
-    [theme registerColor:[UIColor clearColor] forKey:A0ThemeIconBackgroundColor];
-    [theme registerImageWithName:@"mindjet-icon" forKey:A0ThemeIconImageName];
-    [theme registerImageWithName:@"mindjet-bg" forKey:A0ThemeScreenBackgroundImageName];
-    [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.300] forKey:A0ThemeTouchIDLockContainerBackgroundColor];
 }
 
 - (void)loginNative:(id)sender {

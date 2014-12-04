@@ -26,7 +26,38 @@
 #import <TouchIDAuth/A0TouchIDAuthentication.h>
 #import <Lock/Lock.h>
 
+@interface A0SettingsViewController ()
+
+@property (strong, nonatomic) A0Theme *mindjetTheme;
+
+@end
+
 @implementation A0SettingsViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    A0Theme *theme = [[A0Theme alloc] init];
+    theme.statusBarStyle = UIStatusBarStyleLightContent;
+    [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.300] forKey:A0ThemePrimaryButtonNormalColor];
+    [theme registerColor:[UIColor colorWithWhite:0.500 alpha:0.300] forKey:A0ThemePrimaryButtonHighlightedColor];
+    [theme registerColor:[UIColor clearColor] forKey:A0ThemeSecondaryButtonBackgroundColor];
+    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeSecondaryButtonTextColor];
+    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeTextFieldTextColor];
+    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeTitleTextColor];
+    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeSeparatorTextColor];
+    [theme registerColor:[UIColor whiteColor] forKey:A0ThemeDescriptionTextColor];
+    [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.700] forKey:A0ThemeTextFieldPlaceholderTextColor];
+    [theme registerColor:[UIColor colorWithWhite:0.800 alpha:1.000] forKey:A0ThemeTextFieldIconColor];
+    [theme registerColor:[UIColor clearColor] forKey:A0ThemeIconBackgroundColor];
+    [theme registerImageWithName:@"mindjet-icon" forKey:A0ThemeIconImageName];
+    [theme registerImageWithName:@"mindjet-bg" forKey:A0ThemeScreenBackgroundImageName];
+    [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.300] forKey:A0ThemeTouchIDLockContainerBackgroundColor];
+    self.mindjetTheme = theme;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSInteger index = [defaults integerForKey:@"selected-theme"];
+    self.themeControl.selectedSegmentIndex = index;
+    [self themeSelected:self.themeControl];
+}
 
 - (IBAction)clearKeychain:(id)sender {
     [[A0SimpleKeychain keychainWithService:@"Auth0"] clearAll];
@@ -41,6 +72,17 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"auth0-lock-sms-phone"];
     [defaults removeObjectForKey:@"auth0-lock-sms-country-code"];
+    [defaults synchronize];
+}
+
+- (void)themeSelected:(UISegmentedControl *)sender {
+    if (sender.selectedSegmentIndex == 1) {
+        [[A0Theme sharedInstance] registerTheme:self.mindjetTheme];
+    } else {
+        [[A0Theme sharedInstance] registerDefaultTheme];
+    }
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setInteger:sender.selectedSegmentIndex forKey:@"selected-theme"];
     [defaults synchronize];
 }
 

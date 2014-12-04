@@ -67,4 +67,7 @@ FOUNDATION_EXPORT NSString * const A0ThemeCredentialBoxBorderColor;
 - (void)configureTextField:(UITextField *)textField;
 - (void)configureLabel:(UILabel *)label;
 
+- (void)registerTheme:(A0Theme *)theme;
+- (void)registerDefaultTheme;
+
 @end
