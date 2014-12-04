@@ -69,9 +69,7 @@
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     self.clientIdLabel.text = info[kClientIdKey];
     self.tenantLabel.text = info[kTenantKey];
-}
 
-- (void)loginNative:(id)sender {
     A0Theme *theme = [A0Theme sharedInstance];
     theme.statusBarStyle = UIStatusBarStyleLightContent;
     [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.300] forKey:A0ThemePrimaryButtonNormalColor];
@@ -87,7 +85,10 @@
     [theme registerColor:[UIColor clearColor] forKey:A0ThemeIconBackgroundColor];
     [theme registerImageWithName:@"mindjet-icon" forKey:A0ThemeIconImageName];
     [theme registerImageWithName:@"mindjet-bg" forKey:A0ThemeScreenBackgroundImageName];
+    [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.300] forKey:A0ThemeTouchIDLockContainerBackgroundColor];
+}
 
+- (void)loginNative:(id)sender {
     [self.keychain clearAll];
     A0LockViewController *controller = [[A0LockViewController alloc] init];
     @weakify(self);

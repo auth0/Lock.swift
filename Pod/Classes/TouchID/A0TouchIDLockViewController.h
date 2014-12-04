@@ -26,6 +26,7 @@
 
 FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockButtonImageNormalName;
 FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockButtonImageHighlightedName;
+FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockContainerBackgroundColor;
 
 /**
  *  Controller used to start passwordless authentication with TouchID.
