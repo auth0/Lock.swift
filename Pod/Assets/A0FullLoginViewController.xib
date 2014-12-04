@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0FullLoginViewController">
             <connections>
                 <outlet property="accessButton" destination="XYO-zd-sKu" id="IFS-Ku-3Wf"/>
+                <outlet property="activityIndicator" destination="s6B-ti-XIO" id="zUc-VA-vIx"/>
                 <outlet property="credentialsBoxView" destination="wGI-hJ-Zry" id="ibo-bJ-Wfo"/>
                 <outlet property="loadingView" destination="fCB-wy-jDg" id="7Ei-Ik-7rB"/>
                 <outlet property="orLabel" destination="sFo-mK-7If" id="cc5-nE-pgk"/>
