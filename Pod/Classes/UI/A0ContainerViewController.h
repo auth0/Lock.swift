@@ -25,10 +25,16 @@
 
 @class A0NavigationView;
 
+typedef NS_ENUM(NSInteger, A0ContainerLayoutVertical) {
+    A0ContainerLayoutVerticalCenter = 0,
+    A0ContainerLayoutVerticalFill
+};
+
 @interface A0ContainerViewController : UIViewController
 
 - (A0NavigationView *)navigationView;
 
 - (void)displayController:(UIViewController<A0KeyboardEnabledView> *)controller;
+- (void)displayController:(UIViewController<A0KeyboardEnabledView> *)controller layout:(A0ContainerLayoutVertical)layout;
 
 @end

@@ -56,21 +56,37 @@
     [self.keyboardHandler stop];
 }
 
-- (void)displayController:(UIViewController<A0KeyboardEnabledView> *)controller {
-    [self layoutController:controller inContainer:self.containerView];
+- (void)displayController:(UIViewController<A0KeyboardEnabledView> *)controller layout:(A0ContainerLayoutVertical)layout {
+    [self layoutController:controller inContainer:self.containerView layout:layout];
 }
 
 #pragma mark - Container methods
 
-- (UIViewController<A0KeyboardEnabledView> *)layoutController:(UIViewController<A0KeyboardEnabledView> *)controller inContainer:(UIView *)containerView {
+- (void)displayController:(UIViewController<A0KeyboardEnabledView> *)controller {
+    [self displayController:controller layout:A0ContainerLayoutVerticalCenter];
+}
+
+- (UIViewController<A0KeyboardEnabledView> *)layoutController:(UIViewController<A0KeyboardEnabledView> *)controller inContainer:(UIView *)containerView layout:(A0ContainerLayoutVertical)layout {
     UIViewController *from = self.childViewControllers.firstObject;
     controller.view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.keyboardHandler handleForView:controller inView:self.view];
     [from willMoveToParentViewController:nil];
     [self addChildViewController:controller];
-    [self layoutAuthView:controller.view centeredInContainerView:containerView];
+    if (layout == A0ContainerLayoutVerticalFill) {
+        [self layoutAuthView:controller.view toFillInContainerView:containerView];
+    } else {
+        [self layoutAuthView:controller.view centeredInContainerView:containerView];
+    }
     [self animateFromViewController:from toViewController:controller];
     return controller;
+}
+
+- (void)layoutAuthView:(UIView *)authView toFillInContainerView:(UIView *)containerView {
+    containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [containerView addSubview:authView];
+    NSDictionary *views = NSDictionaryOfVariableBindings(authView);
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[authView]|" options:0 metrics:nil views:views]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
 }
 
 - (void)layoutAuthView:(UIView *)authView centeredInContainerView:(UIView *)containerView {
