@@ -25,12 +25,14 @@
                         </state>
                     </button>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="GgJ-cH-XPz" secondAttribute="trailing" id="YLp-RR-aak"/>
                     <constraint firstAttribute="centerY" secondItem="GgJ-cH-XPz" secondAttribute="centerY" id="ajy-C9-DVI"/>
                     <constraint firstItem="GgJ-cH-XPz" firstAttribute="leading" secondItem="Yyl-ni-OY9" secondAttribute="leading" id="byd-Qu-jw5"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="button" destination="GgJ-cH-XPz" id="1t5-wn-6zM"/>
             </connections>
