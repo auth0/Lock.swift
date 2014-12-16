@@ -169,6 +169,7 @@
     A0Strategy *ad = application.activeDirectoryStrategy;
     A0Connection *connection = database.connections.firstObject;
     [self.navigationView removeAll];
+    A0ContainerLayoutVertical layout = A0ContainerLayoutVerticalCenter;
     if ((hasDB && hasSocial) || (hasSocial && hasEnterprise && !hasAD)) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.application = application;
@@ -190,6 +191,7 @@
         A0SocialLoginViewController *controller = [self newSocialLoginViewController:onAuthSuccessBlock];
         controller.application = application;
         rootController = controller;
+        layout = A0ContainerLayoutVerticalFill;
     }
     if (hasSocial && hasAD && !hasDB) {
         A0FullActiveDirectoryViewController *controller = [self newFullADLoginViewController:onAuthSuccessBlock];
@@ -207,7 +209,7 @@
         rootController = controller;
     }
     rootController.parameters = [self copyAuthenticationParameters];
-    [self displayController:rootController];
+    [self displayController:rootController layout:layout];
 }
 
 - (A0SocialLoginViewController *)newSocialLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {

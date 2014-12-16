@@ -44,10 +44,10 @@
     [self.button addSubview:label];
     label.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary *views = NSDictionaryOfVariableBindings(label);
-    [self.button addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[label]-(0)-|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:views]];
+    [self.button addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[label(width)]"
+                                                                        options:0
+                                                                        metrics:@{ @"width": @(self.bounds.size.height) }
+                                                                          views:views]];
     [self.button addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[label]-(0)-|"
                                                                  options:0
                                                                  metrics:nil
