@@ -14,6 +14,8 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let keychain = MyApplication.sharedInstance.keychain
+        keychain.clearAll()
         
         MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         

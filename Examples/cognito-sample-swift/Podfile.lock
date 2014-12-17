@@ -257,7 +257,7 @@ PODS:
   - XMLDictionary (1.4)
 
 DEPENDENCIES:
-  - AWSCognitoSync
+  - AWSCognitoSync (~> 1.0)
   - JWTDecode (~> 0.2)
   - Lock (~> 1.7)
   - MBProgressHUD (~> 0.8)

@@ -8,7 +8,7 @@ target "SwiftSample" do
     pod "JWTDecode", "~> 0.2"
     pod "SimpleKeychain", "~> 0.2"
     pod "MBProgressHUD", "~> 0.8"
-    pod 'AWSCognitoSync'
+    pod 'AWSCognitoSync', "~> 1.0"
 end
 
 target "SwiftSampleTests" do
