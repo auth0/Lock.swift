@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import "UIFont+A0Social.h"
-
+#import "A0Connection.h"
 #import <CoreText/CoreText.h>
 
 @implementation UIFont (A0Social)
@@ -30,7 +30,7 @@
     static NSString *fontName = @"zocial";
     UIFont *zocialFont = [UIFont fontWithName:fontName size:size];
     if (!zocialFont) {
-        NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0" ofType:@"bundle"];
+        NSString *resourceBundlePath = [[NSBundle bundleForClass:A0Connection.class] pathForResource:@"Auth0" ofType:@"bundle"];
         NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
         NSString *fontPath = [resourceBundle pathForResource:@"z-social" ofType:@"ttf"];
         CFErrorRef error;
