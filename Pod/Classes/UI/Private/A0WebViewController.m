@@ -46,6 +46,10 @@
 
 @implementation A0WebViewController
 
+- (instancetype)init {
+    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+}
+
 - (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy parameters:(A0AuthParameters *)parameters {
     self = [super init];
     if (self) {

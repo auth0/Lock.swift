@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		05FA737ACAC942D19B9F7598 /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF31EC09B324BBC8AA2239A /* libPods-Tests.a */; };
 		5F017F0219B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F017F0119B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m */; };
-		5F017F0419B102D70003F8E4 /* A0JSONResponseSerializerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F017F0319B102D70003F8E4 /* A0JSONResponseSerializerSpec.m */; };
 		5F0ADBBC19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0ADBBB19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m */; };
 		5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */; };
 		5F15815E196A3682003C4DD2 /* A0UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F15815D196A3682003C4DD2 /* A0UserProfileViewController.m */; };
@@ -20,7 +19,6 @@
 		5F7112E519D5C18B001971BE /* A0AuthParametersSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */; };
 		5F75E4541A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */; };
 		5F91E66E19E32C48003150DF /* A0ConnectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */; };
-		5F92E92419D49F7400080CCE /* A0WebAuthenticationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F92E92319D49F7400080CCE /* A0WebAuthenticationSpec.m */; };
 		5F951A981A0EC7D600D128D0 /* A0HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */; };
 		5F951ABB1A1189A600D128D0 /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F951ABD1A1189A600D128D0 /* Lock.strings */; };
 		5F951AFD1A12ABAF00D128D0 /* iTunesArtwork@2x -1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F951AFC1A12ABAF00D128D0 /* iTunesArtwork@2x -1024.png */; };
@@ -469,8 +467,6 @@
 				5F9F5B6419AF8FBD0021068C /* A0UserProfileSpec.m in Sources */,
 				5F9F5B6619AF9A8D0021068C /* A0TokenSpec.m in Sources */,
 				5F9F5B6819AF9D8E0021068C /* A0StrategySpec.m in Sources */,
-				5F92E92419D49F7400080CCE /* A0WebAuthenticationSpec.m in Sources */,
-				5F017F0419B102D70003F8E4 /* A0JSONResponseSerializerSpec.m in Sources */,
 				5F91E66E19E32C48003150DF /* A0ConnectionSpec.m in Sources */,
 				5F75E4541A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m in Sources */,
 				5F22B5D619E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m in Sources */,

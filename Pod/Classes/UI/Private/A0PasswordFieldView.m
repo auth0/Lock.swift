@@ -36,7 +36,7 @@
         UIButton *passwordManagerButton = [UIButton buttonWithType:UIButtonTypeSystem];
         passwordManagerButton.translatesAutoresizingMaskIntoConstraints = NO;
         passwordManagerButton.tintColor = [[A0Theme sharedInstance] colorForKey:A0ThemeSecondaryButtonTextColor];
-        [passwordManagerButton setImage:[UIImage imageNamed:@"onepassword-button"] forState:UIControlStateNormal];
+        [passwordManagerButton setImage:[A0PasswordManager iconImage] forState:UIControlStateNormal];
         [self addSubview:passwordManagerButton];
         self.passwordManagerButton = passwordManagerButton;
         [self removeConstraint:self.fieldTrailingSpace];

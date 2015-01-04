@@ -23,9 +23,20 @@
 #ifndef _AUTH0_LOCK_
 #define _AUTH0_LOCK_
 
-#if __has_include("Core.h")
-#import "Core.h"
+#if __has_include("A0APIClient+ReactiveCocoa.h")
+#import "A0APIClient+ReactiveCocoa.h"
+#else
+#import "A0APIClient.h"
 #endif
+
+#import "A0UserAPIClient.h"
+#import "A0Application.h"
+#import "A0Errors.h"
+#import "A0Token.h"
+#import "A0UserProfile.h"
+#import "A0IdentityProviderAuthenticator.h"
+#import "A0AuthParameters.h"
+#import "A0UserIdentity.h"
 
 #if __has_include("UI.h")
 #import "UI.h"

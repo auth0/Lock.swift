@@ -52,9 +52,13 @@
 
 @implementation A0FullActiveDirectoryViewController
 
+- (instancetype)init {
+    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UINib *cellNib = [UINib nibWithNibName:@"A0ServiceCollectionViewCell" bundle:nil];
+    UINib *cellNib = [UINib nibWithNibName:@"A0ServiceCollectionViewCell" bundle:[NSBundle bundleForClass:[A0FullActiveDirectoryViewController class]]];
     [self.serviceCollectionView registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
     self.services = [[A0ServicesTheme alloc] init];
     self.activeServices = self.application.socialStrategies;

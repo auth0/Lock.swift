@@ -25,6 +25,7 @@
 #import "A0Strategy.h"
 #import "A0Application.h"
 #import "A0APIClient.h"
+#import "A0IdentityProviderCredentials.h"
 
 #import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
 #import <libextobjc/EXTScope.h>

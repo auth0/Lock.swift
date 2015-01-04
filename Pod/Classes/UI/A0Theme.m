@@ -47,6 +47,14 @@ NSString * const A0ThemeSeparatorTextFont = @"A0ThemeSeparatorTextFont";
 NSString * const A0ThemeSeparatorTextColor = @"A0ThemeSeparatorTextColor";
 NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderColor";
 
+@implementation UIImage (LockBundle)
+
++ (UIImage *)imageInLockNamed:(NSString *)imageName {
+    return [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[A0Theme class]] compatibleWithTraitCollection:nil];
+}
+
+@end
+
 @interface A0Theme ()
 
 @property (strong, nonatomic) NSMutableDictionary *values;
@@ -150,7 +158,7 @@ NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderC
 
 - (UIImage *)imageForKey:(NSString *)key defaultImage:(UIImage *)image {
     NSAssert(key != nil, @"Key must be non nil");
-    return self.values[key] ? [UIImage imageNamed:self.values[key]] : image;
+    return self.values[key] ? [UIImage imageInLockNamed:self.values[key]] : image;
 }
 
 - (void)configurePrimaryButton:(UIButton *)button {
@@ -165,8 +173,8 @@ NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderC
 }
 
 - (void)configureSecondaryButton:(UIButton *)button {
-    UIImage *backgroundNormal = [[[UIImage imageNamed:@"Auth0.bundle/secondary_button_normal"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    UIImage *backgroundHighlighted = [[[UIImage imageNamed:@"Auth0.bundle/secondary_button_highlighted"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImage *backgroundNormal = [[[UIImage imageInLockNamed:@"Auth0.bundle/secondary_button_normal"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImage *backgroundHighlighted = [[[UIImage imageInLockNamed:@"Auth0.bundle/secondary_button_highlighted"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [button setBackgroundImage:backgroundNormal forState:UIControlStateNormal];
     [button setBackgroundImage:backgroundHighlighted forState:UIControlStateHighlighted];
     button.tintColor = [self colorForKey:A0ThemeSecondaryButtonBackgroundColor];

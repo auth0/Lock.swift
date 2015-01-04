@@ -36,6 +36,10 @@ static NSString *CountryName = @"Name";
 
 @implementation A0CountryCodeTableViewController
 
+- (instancetype)init {
+    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 

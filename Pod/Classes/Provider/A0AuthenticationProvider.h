@@ -21,7 +21,6 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0IdentityProviderCredentials.h"
 
 @class A0UserProfile, A0Token, A0AuthParameters;
 

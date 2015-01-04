@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,7 +14,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f80-eO-boa">
-                        <rect key="frame" x="5" y="5" width="45" height="45"/>
+                        <rect key="frame" x="4" y="4" width="47" height="47"/>
                         <state key="normal">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -23,10 +23,10 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="f80-eO-boa" firstAttribute="top" secondItem="XyP-6m-ymY" secondAttribute="top" constant="5" id="YJD-4c-iEG"/>
-                <constraint firstAttribute="trailing" secondItem="f80-eO-boa" secondAttribute="trailing" constant="5" id="cgk-x1-Aqd"/>
-                <constraint firstItem="f80-eO-boa" firstAttribute="leading" secondItem="XyP-6m-ymY" secondAttribute="leading" constant="5" id="g5j-dV-aEQ"/>
-                <constraint firstAttribute="bottom" secondItem="f80-eO-boa" secondAttribute="bottom" constant="5" id="twE-A9-wZi"/>
+                <constraint firstItem="f80-eO-boa" firstAttribute="top" secondItem="XyP-6m-ymY" secondAttribute="top" constant="4" id="YJD-4c-iEG"/>
+                <constraint firstAttribute="trailing" secondItem="f80-eO-boa" secondAttribute="trailing" constant="4" id="cgk-x1-Aqd"/>
+                <constraint firstItem="f80-eO-boa" firstAttribute="leading" secondItem="XyP-6m-ymY" secondAttribute="leading" constant="4" id="g5j-dV-aEQ"/>
+                <constraint firstAttribute="bottom" secondItem="f80-eO-boa" secondAttribute="bottom" constant="4" id="twE-A9-wZi"/>
             </constraints>
             <connections>
                 <outlet property="serviceButton" destination="f80-eO-boa" id="Nye-ax-FTn"/>

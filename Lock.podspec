@@ -29,7 +29,8 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
 
   s.subspec 'Core' do |core|
     core.public_header_files = ['Pod/Classes/Core/*.h', 'Pod/Classes/Lock.h']
-    core.source_files = ['Pod/Classes/Core/*.{h,m}', 'Pod/Classes/Lock.h']
+    core.private_header_files = ['Pod/Classes/Core/Private/*.h']
+    core.source_files = ['Pod/Classes/Core/*.{h,m}', 'Pod/Classes/Core/Private/*.{h,m}', 'Pod/Classes/Lock.h']
     core.ios.public_header_files = ['Pod/Classes/Core/iOS/*.h', 'Pod/Classes/Provider/*.h']
     core.osx.public_header_files = ['Pod/Classes/Core/OSX/*.h']
     core.ios.source_files = ['Pod/Classes/Core/iOS/*.{h,m}', 'Pod/Classes/Provider/*.{h,m}']
