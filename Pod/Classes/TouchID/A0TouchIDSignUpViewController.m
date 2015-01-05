@@ -49,6 +49,10 @@
 
 @implementation A0TouchIDSignUpViewController
 
+- (instancetype)init {
+    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 

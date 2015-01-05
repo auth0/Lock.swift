@@ -22,8 +22,7 @@
 
 #import "A0UserProfileViewController.h"
 
-#import <Lock/A0UserProfile.h>
-#import <Lock/A0UserIdentity.h>
+#import <Lock/Lock.h>
 
 @interface A0UserProfileViewController ()
 @property (strong, nonatomic) NSDictionary *basicInfo;
@@ -96,11 +95,13 @@
             cell.textLabel.text = self.basicInfoKeys[indexPath.row];
             cell.detailTextLabel.text = self.basicInfo[self.basicInfoKeys[indexPath.row]];
             break;
-        case 1:
+        case 1: {
             cell = [tableView dequeueReusableCellWithIdentifier:IdentityCell forIndexPath:indexPath];
-            cell.textLabel.text = [self.authInfo.identities[indexPath.row] connection];
+            A0UserIdentity *identity = self.authInfo.identities[indexPath.row];
+            cell.textLabel.text = identity.connection;
             cell.detailTextLabel.text = [self.authInfo.identities[indexPath.row] accessToken];
             break;
+        }
         case 2: {
             cell = [tableView dequeueReusableCellWithIdentifier:PropertyCell forIndexPath:indexPath];
             cell.textLabel.text = self.extraInfoKeys[indexPath.row];

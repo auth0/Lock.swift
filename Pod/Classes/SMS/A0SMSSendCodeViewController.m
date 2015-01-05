@@ -47,6 +47,10 @@
 
 @implementation A0SMSSendCodeViewController
 
+- (instancetype)init {
+    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     @weakify(self);

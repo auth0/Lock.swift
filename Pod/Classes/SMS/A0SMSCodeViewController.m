@@ -43,6 +43,10 @@
 
 @implementation A0SMSCodeViewController
 
+- (instancetype)init {
+    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = A0LocalizedString(@"Enter SMS code");

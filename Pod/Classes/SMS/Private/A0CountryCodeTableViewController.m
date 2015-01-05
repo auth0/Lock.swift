@@ -36,6 +36,10 @@ static NSString *CountryName = @"Name";
 
 @implementation A0CountryCodeTableViewController
 
+- (instancetype)init {
+    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -148,7 +152,7 @@ static NSString *CountryName = @"Name";
 }
 
 + (NSArray *)loadCountryCodes {
-    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0.SMS" ofType:@"bundle"];
+    NSString *resourceBundlePath = [[NSBundle bundleForClass:A0CountryCodeTableViewController.class] pathForResource:@"Auth0.SMS" ofType:@"bundle"];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
     NSString *plistPath = [resourceBundle pathForResource:@"CountryCodes" ofType:@"plist"];
     return [NSArray arrayWithContentsOfFile:plistPath];

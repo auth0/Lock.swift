@@ -98,6 +98,10 @@
                                                         completion:onCompletion];
 }
 
++ (UIImage *)iconImage {
+    return [UIImage imageNamed:@"onepassword-button" inBundle:[NSBundle bundleForClass:[OnePasswordExtension class]] compatibleWithTraitCollection:nil];
+}
+
 #pragma mark - Utility methods
 
 - (NSString *)loginInfoURLString {

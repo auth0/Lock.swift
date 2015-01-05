@@ -47,7 +47,7 @@
         insetForSectionAtIndex:(NSInteger)section {
     NSInteger numberOfCells = self.serviceCount;
     UIEdgeInsets insets;
-    if (numberOfCells > 5) {
+    if (self.shouldScroll) {
         insets = UIEdgeInsetsZero;
     } else {
         UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)collectionViewLayout;

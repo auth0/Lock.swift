@@ -49,6 +49,10 @@
 
 @implementation A0SocialLoginViewController
 
+- (instancetype)init {
+    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -59,7 +63,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:nil];
+    UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:[NSBundle bundleForClass:self.class]];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:kCellIdentifier];
     self.services = [[A0ServicesTheme alloc] init];
     self.activeServices = self.application.socialStrategies;

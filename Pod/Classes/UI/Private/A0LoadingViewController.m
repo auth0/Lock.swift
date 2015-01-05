@@ -29,6 +29,10 @@
 
 @implementation A0LoadingViewController
 
+- (instancetype)init {
+    return [self initWithNibName:NSStringFromClass(A0LoadingViewController.class) bundle:[NSBundle bundleForClass:A0LoadingViewController.class]];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {

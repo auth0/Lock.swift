@@ -82,4 +82,7 @@ typedef void(^A0LoginInfoBlock)(NSString *username, NSString *password);
                              controller:(UIViewController *)controller
                                  sender:(id)sender
                              completion:(A0LoginInfoBlock)completion;
+
++ (UIImage *)iconImage;
+
 @end

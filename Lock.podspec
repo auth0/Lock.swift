@@ -29,7 +29,8 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
 
   s.subspec 'Core' do |core|
     core.public_header_files = ['Pod/Classes/Core/*.h', 'Pod/Classes/Lock.h']
-    core.source_files = ['Pod/Classes/Core/*.{h,m}', 'Pod/Classes/Lock.h']
+    core.private_header_files = ['Pod/Classes/Core/Private/*.h']
+    core.source_files = ['Pod/Classes/Core/*.{h,m}', 'Pod/Classes/Core/Private/*.{h,m}', 'Pod/Classes/Lock.h']
     core.ios.public_header_files = ['Pod/Classes/Core/iOS/*.h', 'Pod/Classes/Provider/*.h']
     core.osx.public_header_files = ['Pod/Classes/Core/OSX/*.h']
     core.ios.source_files = ['Pod/Classes/Core/iOS/*.{h,m}', 'Pod/Classes/Provider/*.{h,m}']
@@ -80,6 +81,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     touchid.source_files = 'Pod/Classes/TouchID/*.{h,m}'
     touchid.resources = 'Pod/Assets/TouchID/*.xib'
     touchid.dependency 'Lock/UI'
+    touchid.dependency 'SimpleKeychain', '~> 0.2'
     touchid.dependency 'TouchIDAuth', '~> 0.1'
     touchid.resource_bundles = { 'Auth0.TouchID' => ['Pod/Assets/TouchID/Images/*.png'] }
   end

@@ -112,6 +112,7 @@ PODS:
     - libextobjc (~> 0.4)
     - Lock/UI
     - ObjectiveSugar (~> 1.1)
+    - SimpleKeychain (~> 0.2)
     - TouchIDAuth (~> 0.1)
   - Lock/Twitter (1.7.1):
     - BDBOAuth1Manager (~> 1.5.0)
@@ -181,7 +182,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JWTDecode: 72e3393caf14dc762eba51d29f15bd86f608aba3
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  Lock: f9a0f1e6c94fc41302aa2181e718ba2eae594eb8
+  Lock: 3240e55c4ba331e02a785ceae69274613e090e05
   LUKeychainAccess: 8d45b6c894c0d808786b1740c057b5e776313d88
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9

@@ -38,7 +38,7 @@ alpha:alphaValue])
 - (id)init {
     self = [super init];
     if (self) {
-        NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"Auth0" ofType:@"bundle"];
+        NSString *resourceBundlePath = [[NSBundle bundleForClass:A0ServicesTheme.class] pathForResource:@"Auth0" ofType:@"bundle"];
         NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
         NSString *plistPath = [resourceBundle pathForResource:@"Services" ofType:@"plist"];
         _themeInfo = [NSDictionary dictionaryWithContentsOfFile:plistPath];
