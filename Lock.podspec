@@ -81,6 +81,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     touchid.source_files = 'Pod/Classes/TouchID/*.{h,m}'
     touchid.resources = 'Pod/Assets/TouchID/*.xib'
     touchid.dependency 'Lock/UI'
+    touchid.dependency 'SimpleKeychain', '~> 0.2'
     touchid.dependency 'TouchIDAuth', '~> 0.1'
     touchid.resource_bundles = { 'Auth0.TouchID' => ['Pod/Assets/TouchID/Images/*.png'] }
   end
