@@ -1,10 +1,8 @@
-# Auth0 + iOS + API Seed
+# Auth0 + iOS + Cognito Sample
 
-This is the seed project you need to use if you're going to create an app that will use Auth0, iOS with Swift and an API that you're going to be developing. That API can be in any language.
+This is a sample project of how you can use Cognito with Auth0 in iOS.
 
-## Configuring the example
-
-You must set your Auht0 `ClientId` and `Tenant` in this sample so that it works. For that, just open the `SwiftSample/Info.plist` file and replace the `{CLIENT_ID}` and `{TENANT}` fields with your account information.
+Read the [following documentation]() to learn how to configure your own AWS account to work with Cognito and AUth0.
 
 ## Running the example
 
