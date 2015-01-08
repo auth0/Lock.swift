@@ -1,6 +1,6 @@
 //
 //  LoginManager.swift
-//  SwiftSample
+//  Auth0Cognito
 //
 //  Created by Martin Gontovnikas on 3/11/14.
 //  Copyright (c) 2014 Auth0. All rights reserved.

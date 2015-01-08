@@ -7,48 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08BF5D058A1DBB2096CF46AC /* libPods-SwiftSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6692E27C8C51CDF3E97091 /* libPods-SwiftSample.a */; };
 		5F224D7F19DDDF3E00C10EF2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F224D7E19DDDF3E00C10EF2 /* ProfileViewController.swift */; };
 		5FEDAD2819DDCE4800ADDFBC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDAD2719DDCE4800ADDFBC /* AppDelegate.swift */; };
 		5FEDAD2D19DDCE4800ADDFBC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FEDAD2B19DDCE4800ADDFBC /* Main.storyboard */; };
 		5FEDAD2F19DDCE4800ADDFBC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FEDAD2E19DDCE4800ADDFBC /* Images.xcassets */; };
 		5FEDAD3219DDCE4800ADDFBC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FEDAD3019DDCE4800ADDFBC /* LaunchScreen.xib */; };
-		5FEDAD3E19DDCE4800ADDFBC /* SwiftSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDAD3D19DDCE4800ADDFBC /* SwiftSampleTests.swift */; };
 		5FEDAD4C19DDD28F00ADDFBC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDAD4B19DDD28F00ADDFBC /* HomeViewController.swift */; };
 		5FEDAD4E19DDD2F000ADDFBC /* MyApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDAD4D19DDD2F000ADDFBC /* MyApplication.swift */; };
+		6B2BF6E7F8BB2E7B47231297 /* libPods-Auth0Cognito.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54B69CDE989DDE50EFF5F9AA /* libPods-Auth0Cognito.a */; };
 		9A53A0951A0806A400178768 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53A0941A0806A400178768 /* Constants.swift */; };
 		9A53A0971A0807AA00178768 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53A0961A0807AA00178768 /* LoginManager.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		5FEDAD3819DDCE4800ADDFBC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5FEDAD1A19DDCE4800ADDFBC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5FEDAD2119DDCE4800ADDFBC;
-			remoteInfo = SwiftSample;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		4623AEA5F65EF8590582F95B /* Pods-SwiftSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftSample/Pods-SwiftSample.debug.xcconfig"; sourceTree = "<group>"; };
+		54B69CDE989DDE50EFF5F9AA /* libPods-Auth0Cognito.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Auth0Cognito.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F224D7E19DDDF3E00C10EF2 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		5FEDAD2219DDCE4800ADDFBC /* SwiftSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FEDAD2219DDCE4800ADDFBC /* Auth0Cognito.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Auth0Cognito.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FEDAD2619DDCE4800ADDFBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FEDAD2719DDCE4800ADDFBC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FEDAD2C19DDCE4800ADDFBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5FEDAD2E19DDCE4800ADDFBC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5FEDAD3119DDCE4800ADDFBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		5FEDAD3719DDCE4800ADDFBC /* SwiftSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FEDAD3C19DDCE4800ADDFBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FEDAD3D19DDCE4800ADDFBC /* SwiftSampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSampleTests.swift; sourceTree = "<group>"; };
-		5FEDAD4719DDD14400ADDFBC /* SwiftSample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftSample-Bridging-Header.h"; sourceTree = "<group>"; };
+		5FEDAD4719DDD14400ADDFBC /* Auth0Cognito-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Auth0Cognito-Bridging-Header.h"; sourceTree = "<group>"; };
 		5FEDAD4B19DDD28F00ADDFBC /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		5FEDAD4D19DDD2F000ADDFBC /* MyApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyApplication.swift; sourceTree = "<group>"; };
+		72FB11B4B41F802327FDE3B8 /* Pods-Auth0Cognito.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Cognito.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Auth0Cognito/Pods-Auth0Cognito.debug.xcconfig"; sourceTree = "<group>"; };
 		9A53A0941A0806A400178768 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9A53A0961A0807AA00178768 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
-		AC6692E27C8C51CDF3E97091 /* libPods-SwiftSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwiftSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		ADA6617D43CAE8422EE85FE0 /* Pods-SwiftSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftSample/Pods-SwiftSample.release.xcconfig"; sourceTree = "<group>"; };
+		D4A0C3347DC7287E18DAA23A /* Pods-Auth0Cognito.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Cognito.release.xcconfig"; path = "Pods/Target Support Files/Pods-Auth0Cognito/Pods-Auth0Cognito.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,14 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08BF5D058A1DBB2096CF46AC /* libPods-SwiftSample.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5FEDAD3419DDCE4800ADDFBC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				6B2BF6E7F8BB2E7B47231297 /* libPods-Auth0Cognito.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,8 +52,7 @@
 		5FEDAD1919DDCE4800ADDFBC = {
 			isa = PBXGroup;
 			children = (
-				5FEDAD2419DDCE4800ADDFBC /* SwiftSample */,
-				5FEDAD3A19DDCE4800ADDFBC /* SwiftSampleTests */,
+				5FEDAD2419DDCE4800ADDFBC /* Auth0Cognito */,
 				5FEDAD2319DDCE4800ADDFBC /* Products */,
 				AF8AC6A087EEF7AC179F374D /* Pods */,
 				96EE2FBE8BCD55FC1BCC1ABF /* Frameworks */,
@@ -84,13 +62,12 @@
 		5FEDAD2319DDCE4800ADDFBC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5FEDAD2219DDCE4800ADDFBC /* SwiftSample.app */,
-				5FEDAD3719DDCE4800ADDFBC /* SwiftSampleTests.xctest */,
+				5FEDAD2219DDCE4800ADDFBC /* Auth0Cognito.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5FEDAD2419DDCE4800ADDFBC /* SwiftSample */ = {
+		5FEDAD2419DDCE4800ADDFBC /* Auth0Cognito */ = {
 			isa = PBXGroup;
 			children = (
 				5FEDAD2719DDCE4800ADDFBC /* AppDelegate.swift */,
@@ -98,14 +75,14 @@
 				5FEDAD2E19DDCE4800ADDFBC /* Images.xcassets */,
 				5FEDAD3019DDCE4800ADDFBC /* LaunchScreen.xib */,
 				5FEDAD2519DDCE4800ADDFBC /* Supporting Files */,
-				5FEDAD4719DDD14400ADDFBC /* SwiftSample-Bridging-Header.h */,
+				5FEDAD4719DDD14400ADDFBC /* Auth0Cognito-Bridging-Header.h */,
 				5FEDAD4B19DDD28F00ADDFBC /* HomeViewController.swift */,
 				5FEDAD4D19DDD2F000ADDFBC /* MyApplication.swift */,
 				5F224D7E19DDDF3E00C10EF2 /* ProfileViewController.swift */,
 				9A53A0941A0806A400178768 /* Constants.swift */,
 				9A53A0961A0807AA00178768 /* LoginManager.swift */,
 			);
-			path = SwiftSample;
+			path = Auth0Cognito;
 			sourceTree = "<group>";
 		};
 		5FEDAD2519DDCE4800ADDFBC /* Supporting Files */ = {
@@ -116,27 +93,10 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		5FEDAD3A19DDCE4800ADDFBC /* SwiftSampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				5FEDAD3D19DDCE4800ADDFBC /* SwiftSampleTests.swift */,
-				5FEDAD3B19DDCE4800ADDFBC /* Supporting Files */,
-			);
-			path = SwiftSampleTests;
-			sourceTree = "<group>";
-		};
-		5FEDAD3B19DDCE4800ADDFBC /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				5FEDAD3C19DDCE4800ADDFBC /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		96EE2FBE8BCD55FC1BCC1ABF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AC6692E27C8C51CDF3E97091 /* libPods-SwiftSample.a */,
+				54B69CDE989DDE50EFF5F9AA /* libPods-Auth0Cognito.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -144,8 +104,8 @@
 		AF8AC6A087EEF7AC179F374D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4623AEA5F65EF8590582F95B /* Pods-SwiftSample.debug.xcconfig */,
-				ADA6617D43CAE8422EE85FE0 /* Pods-SwiftSample.release.xcconfig */,
+				72FB11B4B41F802327FDE3B8 /* Pods-Auth0Cognito.debug.xcconfig */,
+				D4A0C3347DC7287E18DAA23A /* Pods-Auth0Cognito.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -153,9 +113,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5FEDAD2119DDCE4800ADDFBC /* SwiftSample */ = {
+		5FEDAD2119DDCE4800ADDFBC /* Auth0Cognito */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5FEDAD4119DDCE4800ADDFBC /* Build configuration list for PBXNativeTarget "SwiftSample" */;
+			buildConfigurationList = 5FEDAD4119DDCE4800ADDFBC /* Build configuration list for PBXNativeTarget "Auth0Cognito" */;
 			buildPhases = (
 				31923CE9C19A520566AABF94 /* Check Pods Manifest.lock */,
 				5FEDAD1E19DDCE4800ADDFBC /* Sources */,
@@ -167,28 +127,10 @@
 			);
 			dependencies = (
 			);
-			name = SwiftSample;
+			name = Auth0Cognito;
 			productName = SwiftSample;
-			productReference = 5FEDAD2219DDCE4800ADDFBC /* SwiftSample.app */;
+			productReference = 5FEDAD2219DDCE4800ADDFBC /* Auth0Cognito.app */;
 			productType = "com.apple.product-type.application";
-		};
-		5FEDAD3619DDCE4800ADDFBC /* SwiftSampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5FEDAD4419DDCE4800ADDFBC /* Build configuration list for PBXNativeTarget "SwiftSampleTests" */;
-			buildPhases = (
-				5FEDAD3319DDCE4800ADDFBC /* Sources */,
-				5FEDAD3419DDCE4800ADDFBC /* Frameworks */,
-				5FEDAD3519DDCE4800ADDFBC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5FEDAD3919DDCE4800ADDFBC /* PBXTargetDependency */,
-			);
-			name = SwiftSampleTests;
-			productName = SwiftSampleTests;
-			productReference = 5FEDAD3719DDCE4800ADDFBC /* SwiftSampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -202,13 +144,9 @@
 					5FEDAD2119DDCE4800ADDFBC = {
 						CreatedOnToolsVersion = 6.0.1;
 					};
-					5FEDAD3619DDCE4800ADDFBC = {
-						CreatedOnToolsVersion = 6.0.1;
-						TestTargetID = 5FEDAD2119DDCE4800ADDFBC;
-					};
 				};
 			};
-			buildConfigurationList = 5FEDAD1D19DDCE4800ADDFBC /* Build configuration list for PBXProject "SwiftSample" */;
+			buildConfigurationList = 5FEDAD1D19DDCE4800ADDFBC /* Build configuration list for PBXProject "Auth0Cognito" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -221,8 +159,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5FEDAD2119DDCE4800ADDFBC /* SwiftSample */,
-				5FEDAD3619DDCE4800ADDFBC /* SwiftSampleTests */,
+				5FEDAD2119DDCE4800ADDFBC /* Auth0Cognito */,
 			);
 		};
 /* End PBXProject section */
@@ -235,13 +172,6 @@
 				5FEDAD2D19DDCE4800ADDFBC /* Main.storyboard in Resources */,
 				5FEDAD3219DDCE4800ADDFBC /* LaunchScreen.xib in Resources */,
 				5FEDAD2F19DDCE4800ADDFBC /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5FEDAD3519DDCE4800ADDFBC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,7 +205,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftSample/Pods-SwiftSample-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Auth0Cognito/Pods-Auth0Cognito-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -294,23 +224,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5FEDAD3319DDCE4800ADDFBC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FEDAD3E19DDCE4800ADDFBC /* SwiftSampleTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5FEDAD3919DDCE4800ADDFBC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5FEDAD2119DDCE4800ADDFBC /* SwiftSample */;
-			targetProxy = 5FEDAD3819DDCE4800ADDFBC /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5FEDAD2B19DDCE4800ADDFBC /* Main.storyboard */ = {
@@ -415,77 +329,39 @@
 		};
 		5FEDAD4219DDCE4800ADDFBC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4623AEA5F65EF8590582F95B /* Pods-SwiftSample.debug.xcconfig */;
+			baseConfigurationReference = 72FB11B4B41F802327FDE3B8 /* Pods-Auth0Cognito.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
-				INFOPLIST_FILE = SwiftSample/Info.plist;
+				INFOPLIST_FILE = Auth0Cognito/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "SwiftSample/SwiftSample-Bridging-Header.h";
+				PRODUCT_NAME = Auth0Cognito;
+				SWIFT_OBJC_BRIDGING_HEADER = "Auth0Cognito/Auth0Cognito-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		5FEDAD4319DDCE4800ADDFBC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ADA6617D43CAE8422EE85FE0 /* Pods-SwiftSample.release.xcconfig */;
+			baseConfigurationReference = D4A0C3347DC7287E18DAA23A /* Pods-Auth0Cognito.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
-				INFOPLIST_FILE = SwiftSample/Info.plist;
+				INFOPLIST_FILE = Auth0Cognito/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "SwiftSample/SwiftSample-Bridging-Header.h";
-			};
-			name = Release;
-		};
-		5FEDAD4519DDCE4800ADDFBC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = SwiftSampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftSample.app/SwiftSample";
-			};
-			name = Debug;
-		};
-		5FEDAD4619DDCE4800ADDFBC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
-				INFOPLIST_FILE = SwiftSampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftSample.app/SwiftSample";
+				PRODUCT_NAME = Auth0Cognito;
+				SWIFT_OBJC_BRIDGING_HEADER = "Auth0Cognito/Auth0Cognito-Bridging-Header.h";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5FEDAD1D19DDCE4800ADDFBC /* Build configuration list for PBXProject "SwiftSample" */ = {
+		5FEDAD1D19DDCE4800ADDFBC /* Build configuration list for PBXProject "Auth0Cognito" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5FEDAD3F19DDCE4800ADDFBC /* Debug */,
@@ -494,20 +370,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5FEDAD4119DDCE4800ADDFBC /* Build configuration list for PBXNativeTarget "SwiftSample" */ = {
+		5FEDAD4119DDCE4800ADDFBC /* Build configuration list for PBXNativeTarget "Auth0Cognito" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5FEDAD4219DDCE4800ADDFBC /* Debug */,
 				5FEDAD4319DDCE4800ADDFBC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5FEDAD4419DDCE4800ADDFBC /* Build configuration list for PBXNativeTarget "SwiftSampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5FEDAD4519DDCE4800ADDFBC /* Debug */,
-				5FEDAD4619DDCE4800ADDFBC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

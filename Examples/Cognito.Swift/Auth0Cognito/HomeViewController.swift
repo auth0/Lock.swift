@@ -1,6 +1,6 @@
 //
 //  HomeViewController.swift
-//  SwiftSample
+//  Auth0Cognito
 //
 //  Created by Hernan Zalazar on 10/2/14.
 //  Copyright (c) 2014 Auth0. All rights reserved.
