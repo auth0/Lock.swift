@@ -31,7 +31,7 @@ iOS 7+. If you need to use our SDK in an earlier version please use our previous
 
 ## Install
 
-The Lock pod is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
+The Lock is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
 pod "Lock", "~> 1.6"
