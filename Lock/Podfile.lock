@@ -31,7 +31,7 @@ PODS:
   - CocoaLumberjack/Extensions (1.9.2):
     - CocoaLumberjack/Core
   - Expecta (0.3.1)
-  - Facebook-iOS-SDK (3.21.1):
+  - Facebook-iOS-SDK (3.22.0):
     - Bolts (~> 1.0)
   - ISO8601DateFormatter (0.7)
   - JWTDecode (0.2.1)
@@ -132,18 +132,21 @@ PODS:
   - OAuthCore (0.0.1):
     - NSData+Base64
   - ObjectiveSugar (1.1.0)
-  - OCHamcrest (4.0.1)
-  - OCMockito (1.3.1):
+  - OCHamcrest (4.1.1)
+  - OCMockito (1.4.0):
     - OCHamcrest (~> 4.0)
+  - OHHTTPStubs (3.1.10):
+    - OHHTTPStubs/Core (= 3.1.10)
+  - OHHTTPStubs/Core (3.1.10)
   - PSAlertView (2.0.3)
-  - ReactiveCocoa (2.4.2):
-    - ReactiveCocoa/UI (= 2.4.2)
-  - ReactiveCocoa/Core (2.4.2):
+  - ReactiveCocoa (2.4.4):
+    - ReactiveCocoa/UI (= 2.4.4)
+  - ReactiveCocoa/Core (2.4.4):
     - ReactiveCocoa/no-arc
-  - ReactiveCocoa/no-arc (2.4.2)
-  - ReactiveCocoa/UI (2.4.2):
+  - ReactiveCocoa/no-arc (2.4.4)
+  - ReactiveCocoa/UI (2.4.4):
     - ReactiveCocoa/Core
-  - SimpleKeychain (0.2.1)
+  - SimpleKeychain (0.3.0)
   - Specta (0.2.1)
   - TouchIDAuth (0.1.0):
     - libextobjc (~> 0.4)
@@ -164,6 +167,7 @@ DEPENDENCIES:
   - Lock/SMS (from `../`)
   - Lock/TouchID (from `../`)
   - OCMockito
+  - OHHTTPStubs
   - SimpleKeychain
   - Specta (~> 0.2.1)
 
@@ -178,7 +182,7 @@ SPEC CHECKSUMS:
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   Expecta: 03aabd0a89d8dea843baecb19a7fd7466a69a31d
-  Facebook-iOS-SDK: 18c26e86ab25c17854a2ee2a8f60562099c6600f
+  Facebook-iOS-SDK: 0eda8ff7120aada0a9c5f98552f7625da6c3440a
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JWTDecode: 72e3393caf14dc762eba51d29f15bd86f608aba3
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
@@ -187,13 +191,14 @@ SPEC CHECKSUMS:
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
   ObjectiveSugar: f48793f5902c77cfc02a4ce46d2e8ecddcad4dc2
-  OCHamcrest: b464725bbb48d0f1cd9c6f4ec3cb35fe0c4f2b94
-  OCMockito: 57b8c4bb54ff3a4a14eb2174f9e57faf9f56efb6
+  OCHamcrest: af1c7c5ea345de69ea6c9c2958f65f3044e5c420
+  OCMockito: 991936bb775cc4c27f063d38f5e17b9161fbd21c
+  OHHTTPStubs: 2038e929b6abb94881000524c1cb4aba0a1bb4a2
   PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
-  ReactiveCocoa: 8418a82b67af2f1b7587baf29c329040a23c2063
-  SimpleKeychain: ebcd1e41377d29f2bf3c29531acfdc35cf929d9f
+  ReactiveCocoa: 31119068e3dde866bd257cf74e1f06b4023bf387
+  SimpleKeychain: 4758625a53ca89cfae98b4aca8c550d1193292f8
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
   TouchIDAuth: 4a104cd6a614e63c23fad6e6446bf79b6cc6f429
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.36.0.beta.1

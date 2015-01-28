@@ -1,25 +1,26 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'Lock', :exclusive => true do
-  pod "Lock", :path => "../"
-  pod "Lock/TouchID", :path => "../"
-  pod "Lock/SMS", :path => "../"
-  pod "Lock/1Password", :path => "../"
-  pod "Lock/ReactiveCore", :path => "../"
-  pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib
-  pod "BDBOAuth1Manager", :inhibit_warnings => true #Ignore warnings for this lib
-  pod "JWTDecode"
-  pod "SimpleKeychain"
+  pod 'Lock', :path => '../'
+  pod 'Lock/TouchID', :path => '../'
+  pod 'Lock/SMS', :path => '../'
+  pod 'Lock/1Password', :path => '../'
+  pod 'Lock/ReactiveCore', :path => '../'
+  pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
+  pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
+  pod 'JWTDecode'
+  pod 'SimpleKeychain'
 end
 
 target 'Tests', :exclusive => true do
-  pod "Lock", :path => "../"
-  pod "Lock/TouchID", :path => "../"
-  pod "Lock/SMS", :path => "../"
-  pod "libextobjc", :inhibit_warnings => true #Ignore warnings for this lib
-  pod "BDBOAuth1Manager", :inhibit_warnings => true #Ignore warnings for this lib
+  pod 'Lock', :path => '../'
+  pod 'Lock/TouchID', :path => '../'
+  pod 'Lock/SMS', :path => '../'
+  pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
+  pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
 
   pod 'Specta', '~> 0.2.1', :inhibit_warnings => true
   pod 'Expecta'
   pod 'OCMockito'
+  pod 'OHHTTPStubs'
 end

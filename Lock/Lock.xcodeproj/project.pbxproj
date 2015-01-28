@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		05FA737ACAC942D19B9F7598 /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF31EC09B324BBC8AA2239A /* libPods-Tests.a */; };
 		5F017F0219B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F017F0119B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m */; };
+		5F0AA5BF1A78308100073120 /* A0APIClientSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0AA5BE1A78308100073120 /* A0APIClientSpec.m */; };
 		5F0ADBBC19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0ADBBB19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m */; };
 		5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */; };
 		5F15815E196A3682003C4DD2 /* A0UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F15815D196A3682003C4DD2 /* A0UserProfileViewController.m */; };
@@ -61,6 +62,7 @@
 		5F017F0119B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FacebookAuthenticatorSpec.m; sourceTree = "<group>"; };
 		5F017F0319B102D70003F8E4 /* A0JSONResponseSerializerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0JSONResponseSerializerSpec.m; sourceTree = "<group>"; };
 		5F0935471A1AB4A600144E67 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
+		5F0AA5BE1A78308100073120 /* A0APIClientSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0APIClientSpec.m; sourceTree = "<group>"; };
 		5F0ADBBB19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SimpleConnectionDomainMatcherSpec.m; sourceTree = "<group>"; };
 		5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ApplicationSpec.m; sourceTree = "<group>"; };
 		5F15815C196A3682003C4DD2 /* A0UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0UserProfileViewController.h; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				5F0ADBBB19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m */,
 				5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */,
 				5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */,
+				5F0AA5BE1A78308100073120 /* A0APIClientSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -470,6 +473,7 @@
 				5F91E66E19E32C48003150DF /* A0ConnectionSpec.m in Sources */,
 				5F75E4541A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m in Sources */,
 				5F22B5D619E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m in Sources */,
+				5F0AA5BF1A78308100073120 /* A0APIClientSpec.m in Sources */,
 				5F0ADBBC19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m in Sources */,
 				5F017F0219B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m in Sources */,
 				5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */,
