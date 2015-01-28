@@ -464,8 +464,10 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         [json deleteCharactersInRange:range];
     }
     NSDictionary *auth0AppInfo = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:error];
-    A0Application *application = [[A0Application alloc] initWithJSONDictionary:auth0AppInfo];
-    return application;
+    if (*error) {
+        return nil;
+    }
+    return [[A0Application alloc] initWithJSONDictionary:auth0AppInfo];
 }
 
 @end

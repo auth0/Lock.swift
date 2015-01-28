@@ -30,6 +30,10 @@
 #define MOCKITO_SHORTHAND
 #import <OCMockito/OCMockito.h>
 
+#import "A0APIRouter.h"
+#import "A0Application.h"
+#import "A0Connection.h"
+
 #define AS_NSURL(urlString) [NSURL URLWithString:urlString]
 
 #define kValidClientExample @"valid API client"
@@ -37,9 +41,14 @@
 #define kClientIdArgument @"ClientId"
 #define kTenantArgument @"Tenant"
 
-static NSString * const CLIENT_ID = @"1234567890";
+static NSString * const CLIENT_ID = @"rU5HShUyQlEqbVWjZSTCBBLMUFAbJAS3";
 static NSString * const TENANT = @"samples";
 static NSString * const ENDPOINT = @"https://samples.auth0.com";
+static NSString * const DB_CONNECTION = @"DatabaseConnection";
+
+@interface A0APIClient (TestingOnly)
+- (void)configureForApplication:(A0Application *)application;
+@end
 
 SpecBegin(A0APIClient)
 
@@ -47,7 +56,7 @@ describe(@"A0APIClient", ^{
 
     __block A0APIClient *client;
 
-    describe(@"Initialisation", ^{
+    describe(@"initialise", ^{
 
         __block id<A0APIRouter> router;
 
@@ -91,6 +100,106 @@ describe(@"A0APIClient", ^{
                      kClientIdArgument: CLIENT_ID,
                      kTenantArgument: TENANT,
                      };
+        });
+    });
+
+    beforeEach(^{
+        client = [[A0APIClient alloc] initWithClientId:CLIENT_ID andTenant:TENANT];
+        [OHHTTPStubs onStubActivation:^(NSURLRequest *request, id<OHHTTPStubsDescriptor> stub) {
+            NSLog(@"%@ stubbed by %@", request.URL, stub.name);
+        }];
+
+    });
+
+    afterEach(^{
+        [OHHTTPStubs removeAllStubs];
+    });
+
+    describe(@"Auth0 application info", ^{
+
+        it(@"should fetch app info", ^{
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return [request.URL.absoluteString isEqualToString:[client.router configurationURL].absoluteString];
+            } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                return [OHHTTPStubsResponse responseNamed:@"GET-Application-Info" inBundle:nil];
+            }].name = @"Auth0 App CDN";
+            waitUntil(^(DoneCallback done) {
+                [client fetchAppInfoWithSuccess:^(A0Application *application) {
+                    expect(application).toNot.beNil();
+                    expect(application.tenant).to.equal(TENANT);
+                    expect(application.identifier).to.equal(CLIENT_ID);
+                    expect(application.databaseStrategy).to.beNil();
+                    expect(application.enterpriseStrategies).to.haveCountOf(0);
+                    expect(application.socialStrategies).to.haveCountOf(4);
+                    done();
+                } failure:^(NSError *error){
+                    expect(error).to.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should fail when app info is not found", ^{
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return [request.URL.absoluteString isEqualToString:[client.router configurationURL].absoluteString];
+            } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                NSDictionary *json = @{@"error" : @"not_found"};
+                return [OHHTTPStubsResponse responseWithJSONObject:json statusCode:404 headers:nil];
+            }].name = @"No Auth0 App in CDN";
+            waitUntil(^(DoneCallback done) {
+                [client fetchAppInfoWithSuccess:^(A0Application *application) {
+                    expect(application).to.beNil();
+                    done();
+                } failure:^(NSError *error){
+                    expect(error).toNot.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should fail when is not jsonp", ^{
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return [request.URL.absoluteString isEqualToString:[client.router configurationURL].absoluteString];
+            } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                NSData *data = [@"INVALID" dataUsingEncoding:NSUTF8StringEncoding];
+                return [OHHTTPStubsResponse responseWithData:data statusCode:200 headers:nil];
+            }].name = @"No Auth0 App in CDN";
+            waitUntil(^(DoneCallback done) {
+                [client fetchAppInfoWithSuccess:^(A0Application *application) {
+                    expect(application).to.beNil();
+                    done();
+                } failure:^(NSError *error){
+                    expect(error).toNot.beNil();
+                    done();
+                }];
+            });
+        });
+
+    });
+
+    context(@"Database connection", ^{
+
+        __block A0Application *application;
+        __block A0Connection *connection;
+
+        beforeEach(^{
+            application = mock(A0Application.class);
+            connection = mock(A0Connection.class);
+            [given(application.databaseStrategy) willReturn:connection];
+            [given(connection.name) willReturn:DB_CONNECTION];
+        });
+
+        it(@"should fail when no connection is specified", ^{
+            waitUntil(^(DoneCallback done) {
+                [client loginWithUsername:@"username" password:@"password" parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                    expect(tokenInfo).to.beNil;
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).notTo.beNil;
+                    expect(error.localizedFailureReason).to.equal(@"Can't find connection name to use for authentication");
+                    done();
+                }];
+            });
         });
     });
 });

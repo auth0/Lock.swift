@@ -147,7 +147,7 @@ PODS:
   - ReactiveCocoa/UI (2.4.4):
     - ReactiveCocoa/Core
   - SimpleKeychain (0.3.0)
-  - Specta (0.2.1)
+  - Specta (0.3.0.beta1)
   - TouchIDAuth (0.1.0):
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
@@ -169,11 +169,19 @@ DEPENDENCIES:
   - OCMockito
   - OHHTTPStubs
   - SimpleKeychain
-  - Specta (~> 0.2.1)
+  - Specta (from `https://github.com/specta/specta.git`, tag `v0.3.0.beta1`)
 
 EXTERNAL SOURCES:
   Lock:
     :path: ../
+  Specta:
+    :git: https://github.com/specta/specta.git
+    :tag: v0.3.0.beta1
+
+CHECKOUT OPTIONS:
+  Specta:
+    :git: https://github.com/specta/specta.git
+    :tag: v0.3.0.beta1
 
 SPEC CHECKSUMS:
   1PasswordExtension: 37d1488cf049b8bc0811beb7b52a19f8f803f7c8
@@ -197,7 +205,7 @@ SPEC CHECKSUMS:
   PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
   ReactiveCocoa: 31119068e3dde866bd257cf74e1f06b4023bf387
   SimpleKeychain: 4758625a53ca89cfae98b4aca8c550d1193292f8
-  Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
+  Specta: d2158a483ad179e5f8d3a29f75ff4fc0ff6fab16
   TouchIDAuth: 4a104cd6a614e63c23fad6e6446bf79b6cc6f429
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
 

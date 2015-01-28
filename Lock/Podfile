@@ -19,7 +19,7 @@ target 'Tests', :exclusive => true do
   pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
   pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
 
-  pod 'Specta', '~> 0.2.1', :inhibit_warnings => true
+  pod 'Specta', :git => 'https://github.com/specta/specta.git', :tag => 'v0.3.0.beta1', :inhibit_warnings => true
   pod 'Expecta'
   pod 'OCMockito'
   pod 'OHHTTPStubs'
