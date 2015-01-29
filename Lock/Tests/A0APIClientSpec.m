@@ -37,6 +37,7 @@
 #import "A0Token.h"
 #import "A0Strategy.h"
 #import "A0AuthParameters.h"
+#import "A0AnnotatedRequestSerializer.h"
 
 #define AS_NSURL(urlString) [NSURL URLWithString:urlString]
 
@@ -66,6 +67,7 @@ SpecBegin(A0APIClient)
 describe(@"A0APIClient", ^{
 
     __block A0APIClient *client;
+    A0HttpKeeper *keeper = [[A0HttpKeeper alloc] init];;
 
     describe(@"initialise", ^{
 
@@ -191,20 +193,13 @@ describe(@"A0APIClient", ^{
     describe(@"Database connection", ^{
 
         __block A0Connection *connection;
-        __block A0HTTPStubFilter *filter;
 
         before(^{
-            filter = [[A0HTTPStubFilter alloc] init];
             client.manager.requestSerializer = [A0AnnotatedRequestSerializer serializer];
-            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                return YES;
-            } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                NSError *error = [NSError errorWithDomain:@"com.auth0" code:-99999999 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%@ You shall not pass!", request.URL]}];
-                return [OHHTTPStubsResponse responseWithError:error];
-            }].name = @"YOU SHALL NOT PASS!";
+            [keeper failForAllRequests];
         });
 
-        it(@"should fail when no connection is specified", ^{
+        it(@"should fail login with user/pwd when no connection is specified", ^{
             waitUntil(^(DoneCallback done) {
                 [client loginWithUsername:@"username" password:@"password" parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
                     expect(tokenInfo).to.beNil;
@@ -217,9 +212,23 @@ describe(@"A0APIClient", ^{
             });
         });
 
-        fcontext(@"with application info", ^{
+        it(@"should fail signup when no connection is specified", ^{
+            waitUntil(^(DoneCallback done) {
+                [client signUpWithUsername:@"username" password:@"password" loginOnSuccess:YES parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                    expect(tokenInfo).to.beNil;
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).toNot.beNil;
+                    expect(error.localizedFailureReason).to.equal(@"Can't find connection name to use for authentication");
+                    done();
+                }];
+            });
+        });
+
+        context(@"with application info", ^{
 
             __block A0Application *application;
+            __block A0HTTPStubFilter *filter;
 
             before(^{
                 application = mock(A0Application.class);
@@ -230,74 +239,59 @@ describe(@"A0APIClient", ^{
                 [given(strategy.connections) willReturn:@[connection]];
                 [given(connection.name) willReturn:DB_CONNECTION];
                 [client configureForApplication:application];
-                filter.application = application;
+                filter = [[A0HTTPStubFilter alloc] initWithApplication:application];
             });
 
-            it(@"should login with email/password", ^{
-                [OHHTTPStubs stubRequestsPassingTest:[filter filterForResourceOwnerWithUsername:EMAIL password:PASSWORD]
-                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                                        return [OHHTTPStubsResponse responseNamed:@"POST-oauth-ro" inBundle:nil];
-                                    }].name = @"OAuth RO Endpoint Success";
-                [OHHTTPStubs stubRequestsPassingTest:[filter filterForTokenInfoWithJWT:JWT]
-                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                                        return [OHHTTPStubsResponse responseNamed:@"POST-tokeninfo" inBundle:nil];
-                                    }].name = @"JWT token info Success";
-                [client configureForApplication:application];
-                waitUntil(^(DoneCallback done) {
-                    [client loginWithUsername:EMAIL password:PASSWORD parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                        expect(tokenInfo).toNot.beNil;
-                        expect(tokenInfo.idToken).toNot.beNil;
-                        done();
-                    } failure:^(NSError *error) {
-                        expect(error.localizedDescription).to.beNil();
-                        done();
-                    }];
+            describe(@"login email/password", ^{
+
+                it(@"should login with email/password", ^{
+                    [keeper returnSuccessfulLoginWithFilter:[filter filterForResourceOwnerWithUsername:EMAIL password:PASSWORD]];
+                    [keeper returnProfileWithFilter:[filter filterForTokenInfoWithJWT:JWT]];
+                    [client configureForApplication:application];
+                    waitUntil(^(DoneCallback done) {
+                        [client loginWithUsername:EMAIL password:PASSWORD parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(tokenInfo).toNot.beNil;
+                            expect(tokenInfo.idToken).toNot.beNil;
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error.localizedDescription).to.beNil();
+                            done();
+                        }];
+                    });
                 });
-            });
 
-            it(@"should login with email/password with parameters", ^{
-                [OHHTTPStubs stubRequestsPassingTest:[filter filterForResourceOwnerWithUsername:EMAIL password:PASSWORD]
-                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                                        return [OHHTTPStubsResponse responseNamed:@"POST-oauth-ro" inBundle:nil];
-                                    }].name = @"OAuth RO Endpoint Success";
-                [OHHTTPStubs stubRequestsPassingTest:[filter filterForTokenInfoWithJWT:JWT]
-                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                                        return [OHHTTPStubsResponse responseNamed:@"POST-tokeninfo" inBundle:nil];
-                                    }].name = @"JWT token info Success";
-                [client configureForApplication:application];
-                waitUntil(^(DoneCallback done) {
-                    A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{@"param": @"value"}];
-                    [client loginWithUsername:EMAIL password:PASSWORD parameters:parameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                        expect(tokenInfo).toNot.beNil;
-                        expect(tokenInfo.idToken).toNot.beNil;
-                        done();
-                    } failure:^(NSError *error) {
-                        expect(error.localizedDescription).to.beNil();
-                        done();
-                    }];
+                it(@"should login with email/password with parameters", ^{
+                    [keeper returnSuccessfulLoginWithFilter:[filter filterForResourceOwnerWithUsername:EMAIL password:PASSWORD]];
+                    [keeper returnProfileWithFilter:[filter filterForTokenInfoWithJWT:JWT]];
+                    [client configureForApplication:application];
+                    waitUntil(^(DoneCallback done) {
+                        A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{@"param": @"value"}];
+                        [client loginWithUsername:EMAIL password:PASSWORD parameters:parameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(tokenInfo).toNot.beNil;
+                            expect(tokenInfo.idToken).toNot.beNil;
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error.localizedDescription).to.beNil();
+                            done();
+                        }];
+                    });
                 });
-            });
 
-            it(@"should login with email/password with overriding default parameters", ^{
-                [OHHTTPStubs stubRequestsPassingTest:[filter filterForResourceOwnerWithParameters:@{@"username": EMAIL, @"scope": @"openid"}]
-                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                                        return [OHHTTPStubsResponse responseNamed:@"POST-oauth-ro" inBundle:nil];
-                                    }].name = @"OAuth RO Endpoint Success";
-                [OHHTTPStubs stubRequestsPassingTest:[filter filterForTokenInfoWithJWT:JWT]
-                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                                        return [OHHTTPStubsResponse responseNamed:@"POST-tokeninfo" inBundle:nil];
-                                    }].name = @"JWT token info Success";
-                [client configureForApplication:application];
-                waitUntil(^(DoneCallback done) {
-                    A0AuthParameters *parameters = [A0AuthParameters newWithScopes:@[@"openid"]];
-                    [client loginWithUsername:EMAIL password:PASSWORD parameters:parameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                        expect(tokenInfo).toNot.beNil;
-                        expect(tokenInfo.idToken).toNot.beNil;
-                        done();
-                    } failure:^(NSError *error) {
-                        expect(error.localizedDescription).to.beNil();
-                        done();
-                    }];
+                it(@"should login with email/password with overriding default parameters", ^{
+                    [keeper returnSuccessfulLoginWithFilter:[filter filterForResourceOwnerWithParameters:@{@"username": EMAIL, @"scope": @"openid"}]];
+                    [keeper returnProfileWithFilter:[filter filterForTokenInfoWithJWT:JWT]];
+                    [client configureForApplication:application];
+                    waitUntil(^(DoneCallback done) {
+                        A0AuthParameters *parameters = [A0AuthParameters newWithScopes:@[@"openid"]];
+                        [client loginWithUsername:EMAIL password:PASSWORD parameters:parameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(tokenInfo).toNot.beNil;
+                            expect(tokenInfo.idToken).toNot.beNil;
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error.localizedDescription).to.beNil();
+                            done();
+                        }];
+                    });
                 });
             });
 

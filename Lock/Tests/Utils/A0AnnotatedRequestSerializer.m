@@ -1,4 +1,4 @@
-// A0AnnotatedRequestSerializer.swift
+// A0AnnotatedRequestSerializer.m
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,19 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+#import "A0AnnotatedRequestSerializer.h"
 
-class A0AnnotatedRequestSerializer: AFJSONRequestSerializer {
+@implementation A0AnnotatedRequestSerializer
 
-    override func requestWithMethod(method: String!, URLString: String!, parameters: AnyObject!, error: NSErrorPointer) -> NSMutableURLRequest! {
-        let request = super.requestWithMethod(method, URLString: URLString, parameters: parameters, error: error)
-
-        NSURLProtocol.setProperty(parameters, forKey: "parameters", inRequest: request)
-        if let body = request.HTTPBody {
-            NSURLProtocol.setProperty(body, forKey: "HTTPBody", inRequest: request)
-        }
-
-        return request;
-    }
-
+- (NSMutableURLRequest *)requestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(id)parameters error:(NSError *__autoreleasing *)error {
+    NSMutableURLRequest *request = [super requestWithMethod:method URLString:URLString parameters:parameters error:error];
+    [NSURLProtocol setProperty:parameters forKey:@"parameters" inRequest:request];
+    [NSURLProtocol setProperty:request.HTTPBody forKey:@"HTTPBody" inRequest:request];
+    return request;
 }
+@end

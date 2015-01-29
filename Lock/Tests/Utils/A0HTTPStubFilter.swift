@@ -24,7 +24,11 @@ import Foundation
 
 class A0HTTPStubFilter: NSObject {
 
-    var application: A0Application?
+    let application: A0Application
+
+    init(application: A0Application) {
+        self.application = application;
+    }
 
     func filterForResourceOwnerWithUsername(username: String, password: String) -> ((NSURLRequest) -> Bool) {
         return filterForResourceOwnerWithParameters([
@@ -32,8 +36,8 @@ class A0HTTPStubFilter: NSObject {
                 "password": password,
                 "scope": "openid offline_access",
                 "grant_type": "password",
-                "client_id": self.application!.identifier,
-                "connection": self.application!.databaseStrategy.connections.first!.name
+                "client_id": self.application.identifier,
+                "connection": self.application.databaseStrategy.connections.first!.name
             ])
     }
 
@@ -41,8 +45,10 @@ class A0HTTPStubFilter: NSObject {
         return { (request) in
             let dictionary = NSURLProtocol.propertyForKey("parameters", inRequest: request) as NSDictionary
             let keys = parameters.keys.array as [AnyObject]
-            return request.HTTPMethod! == "POST"
-                && request.URL.path! == "/oauth/ro"
+            let method = request.HTTPMethod!
+            let path = request.URL.path!
+            return method == "POST"
+                && path == "/oauth/ro"
                 && parameters == dictionary.dictionaryWithValuesForKeys(keys) as Dictionary<String, String>
         }
     }
