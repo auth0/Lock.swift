@@ -202,10 +202,10 @@ describe(@"A0APIClient", ^{
         it(@"should fail login with user/pwd when no connection is specified", ^{
             waitUntil(^(DoneCallback done) {
                 [client loginWithUsername:@"username" password:@"password" parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                    expect(tokenInfo).to.beNil;
+                    expect(tokenInfo).to.beNil();
                     done();
                 } failure:^(NSError *error) {
-                    expect(error).notTo.beNil;
+                    expect(error).notTo.beNil();
                     expect(error.localizedFailureReason).to.equal(@"Can't find connection name to use for authentication");
                     done();
                 }];
@@ -215,10 +215,10 @@ describe(@"A0APIClient", ^{
         it(@"should fail signup when no connection is specified", ^{
             waitUntil(^(DoneCallback done) {
                 [client signUpWithUsername:@"username" password:@"password" loginOnSuccess:YES parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                    expect(tokenInfo).to.beNil;
+                    expect(tokenInfo).to.beNil();
                     done();
                 } failure:^(NSError *error) {
-                    expect(error).toNot.beNil;
+                    expect(error).toNot.beNil();
                     expect(error.localizedFailureReason).to.equal(@"Can't find connection name to use for authentication");
                     done();
                 }];
@@ -250,8 +250,8 @@ describe(@"A0APIClient", ^{
                     [client configureForApplication:application];
                     waitUntil(^(DoneCallback done) {
                         [client loginWithUsername:EMAIL password:PASSWORD parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                            expect(tokenInfo).toNot.beNil;
-                            expect(tokenInfo.idToken).toNot.beNil;
+                            expect(tokenInfo).toNot.beNil();
+                            expect(tokenInfo.idToken).toNot.beNil();
                             done();
                         } failure:^(NSError *error) {
                             expect(error.localizedDescription).to.beNil();
@@ -267,8 +267,8 @@ describe(@"A0APIClient", ^{
                     waitUntil(^(DoneCallback done) {
                         A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{@"param": @"value"}];
                         [client loginWithUsername:EMAIL password:PASSWORD parameters:parameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                            expect(tokenInfo).toNot.beNil;
-                            expect(tokenInfo.idToken).toNot.beNil;
+                            expect(tokenInfo).toNot.beNil();
+                            expect(tokenInfo.idToken).toNot.beNil();
                             done();
                         } failure:^(NSError *error) {
                             expect(error.localizedDescription).to.beNil();
@@ -284,8 +284,8 @@ describe(@"A0APIClient", ^{
                     waitUntil(^(DoneCallback done) {
                         A0AuthParameters *parameters = [A0AuthParameters newWithScopes:@[@"openid"]];
                         [client loginWithUsername:EMAIL password:PASSWORD parameters:parameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                            expect(tokenInfo).toNot.beNil;
-                            expect(tokenInfo.idToken).toNot.beNil;
+                            expect(tokenInfo).notTo.beNil();
+                            expect(tokenInfo.idToken).toNot.beNil();
                             done();
                         } failure:^(NSError *error) {
                             expect(error.localizedDescription).to.beNil();
@@ -295,6 +295,84 @@ describe(@"A0APIClient", ^{
                 });
             });
 
+            describe(@"signup user/pwd", ^{
+
+                it(@"should create and login user", ^{
+                    [keeper returnSignUpWithFilter:[filter filterForSignUpWithParameters:@{
+                                                                                           @"email": EMAIL,
+                                                                                           @"password": PASSWORD,
+                                                                                           @"client_id": CLIENT_ID,
+                                                                                           @"connection": DB_CONNECTION,
+                                                                                           @"tenant": TENANT
+                                                                                           }]];
+                    [keeper returnSuccessfulLoginWithFilter:[filter filterForResourceOwnerWithUsername:EMAIL password:PASSWORD]];
+                    [keeper returnProfileWithFilter:[filter filterForTokenInfoWithJWT:JWT]];
+
+                    waitUntil(^(DoneCallback done) {
+                        [client signUpWithUsername:EMAIL password:PASSWORD loginOnSuccess:YES parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(tokenInfo).notTo.beNil();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).to.beNil();
+                            done();
+                        }];
+                    });
+                });
+
+                it(@"should only create the user", ^{
+                    [keeper returnSignUpWithFilter:[filter filterForSignUpWithParameters:@{
+                                                                                           @"email": EMAIL,
+                                                                                           @"password": PASSWORD,
+                                                                                           @"client_id": CLIENT_ID,
+                                                                                           @"connection": DB_CONNECTION,
+                                                                                           }]];
+                    waitUntil(^(DoneCallback done) {
+                        [client signUpWithUsername:EMAIL password:PASSWORD loginOnSuccess:NO parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(profile).to.beNil();
+                            expect(tokenInfo).to.beNil();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).to.beNil();
+                            done();
+                        }];
+                    });
+                });
+
+                it(@"should only create the user with parameters", ^{
+                    [keeper returnSignUpWithFilter:[filter filterForSignUpWithParameters:@{
+                                                                                           @"email": EMAIL,
+                                                                                           @"password": PASSWORD,
+                                                                                           @"client_id": CLIENT_ID,
+                                                                                           @"connection": DB_CONNECTION,
+                                                                                           @"parameter": @"value"
+                                                                                           }]];
+                    waitUntil(^(DoneCallback done) {
+                        A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{@"parameter": @"value"}];
+                        [client signUpWithUsername:EMAIL password:PASSWORD loginOnSuccess:NO parameters:parameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(profile).to.beNil();
+                            expect(tokenInfo).to.beNil();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).to.beNil();
+                            done();
+                        }];
+                    });
+                });
+
+                it(@"should call failure callback with error", ^{
+                    [keeper failWithFilter:[filter filterForSignUpWithParameters:@{@"email": EMAIL}] message:@"signup_failed"];
+                    waitUntil(^(DoneCallback done) {
+                        [client signUpWithUsername:EMAIL password:PASSWORD loginOnSuccess:NO parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(true).to.beFalsy();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).toNot.beNil();
+                            expect(error.localizedDescription).to.equal(@"signup_failed");
+                            done();
+                        }];
+                    });
+                });
+            });
         });
     });
 });

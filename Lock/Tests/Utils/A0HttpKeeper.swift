@@ -36,6 +36,13 @@ class A0HttpKeeper: NSObject {
         }.name = "JWT token info Success"
     }
 
+    func failWithFilter(filter: (NSURLRequest!) -> Bool, message: String) {
+        OHHTTPStubs.stubRequestsPassingTest(filter, withStubResponse: { (request) -> OHHTTPStubsResponse! in
+            let error = NSError(domain: "com.auth0", code: -9999999, userInfo: [NSLocalizedDescriptionKey: message])
+            return OHHTTPStubsResponse(error: error)
+        })
+    }
+
     func failForAllRequests() {
         OHHTTPStubs.stubRequestsPassingTest({ (request) -> Bool in
             return true;
@@ -45,5 +52,9 @@ class A0HttpKeeper: NSObject {
         }).name = "YOU SHALL NOT PASS!"
     }
 
-    
+    func returnSignUpWithFilter(filter: (NSURLRequest!) -> Bool) {
+        OHHTTPStubs.stubRequestsPassingTest(filter, withStubResponse: { (request) -> OHHTTPStubsResponse! in
+            return OHHTTPStubsResponse(named: "POST-dbconnections-signup", inBundle: nil)
+        }).name = "DB SignUp"
+    }
 }

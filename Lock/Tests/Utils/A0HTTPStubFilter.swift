@@ -42,23 +42,24 @@ class A0HTTPStubFilter: NSObject {
     }
 
     func filterForResourceOwnerWithParameters(parameters: Dictionary<String, String>) -> ((NSURLRequest) -> Bool) {
-        return { (request) in
-            let dictionary = NSURLProtocol.propertyForKey("parameters", inRequest: request) as NSDictionary
-            let keys = parameters.keys.array as [AnyObject]
-            let method = request.HTTPMethod!
-            let path = request.URL.path!
-            return method == "POST"
-                && path == "/oauth/ro"
-                && parameters == dictionary.dictionaryWithValuesForKeys(keys) as Dictionary<String, String>
-        }
+        return filter("/oauth/ro", method: "POST", parameters: parameters)
     }
 
     func filterForTokenInfoWithJWT(jwt: String) -> ((NSURLRequest) -> Bool) {
+        return filter("/tokeninfo", method: "POST", parameters: ["id_token": jwt])
+    }
+
+    func filterForSignUpWithParameters(parameters: Dictionary<String, String>) -> ((NSURLRequest) -> Bool) {
+        return filter("/dbconnections/signup", method: "POST", parameters: parameters)
+    }
+
+    private func filter(path: String, method: String, parameters: Dictionary<String, String>) -> ((NSURLRequest) -> Bool) {
         return { (request) in
-            let parameters = NSURLProtocol.propertyForKey("parameters", inRequest: request) as NSDictionary
-            return request.HTTPMethod! == "POST"
-                && request.URL.path! == "/tokeninfo"
-                && parameters["id_token"] as String == jwt
+            let dictionary = NSURLProtocol.propertyForKey("parameters", inRequest: request) as NSDictionary
+            let keys = parameters.keys.array as [AnyObject]
+            return request.HTTPMethod! == method
+                && request.URL.path! == path
+                && parameters as NSDictionary == dictionary.dictionaryWithValuesForKeys(keys)
         }
     }
 }

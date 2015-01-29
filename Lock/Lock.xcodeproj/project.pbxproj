@@ -19,6 +19,7 @@
 		5F35161619B8CBA500574C11 /* A0UserIdentitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */; };
 		5F3A9C561A0D16FF00154DF2 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3A9C541A0D16FF00154DF2 /* Crashlytics.framework */; };
 		5F3A9C571A0D16FF00154DF2 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3A9C551A0D16FF00154DF2 /* Fabric.framework */; };
+		5F48BBA41A7ACC2900D8E05B /* POST-dbconnections-signup.response in Resources */ = {isa = PBXBuildFile; fileRef = 5F48BBA31A7ACC2900D8E05B /* POST-dbconnections-signup.response */; };
 		5F7112E519D5C18B001971BE /* A0AuthParametersSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */; };
 		5F75E4541A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */; };
 		5F91E66E19E32C48003150DF /* A0ConnectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */; };
@@ -80,6 +81,7 @@
 		5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserIdentitySpec.m; sourceTree = "<group>"; };
 		5F3A9C541A0D16FF00154DF2 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		5F3A9C551A0D16FF00154DF2 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		5F48BBA31A7ACC2900D8E05B /* POST-dbconnections-signup.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-dbconnections-signup.response"; sourceTree = "<group>"; };
 		5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0AuthParametersSpec.m; sourceTree = "<group>"; };
 		5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0APIv1RouterSpec.m; sourceTree = "<group>"; };
 		5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ConnectionSpec.m; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 		5FC7EECD1A7957BE00C83B09 /* HttpResponses */ = {
 			isa = PBXGroup;
 			children = (
+				5F48BBA31A7ACC2900D8E05B /* POST-dbconnections-signup.response */,
 				5FC7EEF81A79942500C83B09 /* POST-tokeninfo.response */,
 				5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */,
 				5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */,
@@ -445,6 +448,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FC7EEF91A79942500C83B09 /* POST-tokeninfo.response in Resources */,
+				5F48BBA41A7ACC2900D8E05B /* POST-dbconnections-signup.response in Resources */,
 				5FC7EECF1A7957BE00C83B09 /* GET-Application-Info.response in Resources */,
 				5FC7EEF51A79850000C83B09 /* POST-oauth-ro.response in Resources */,
 				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,

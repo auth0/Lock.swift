@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Date: Thu, 29 Jan 2015 19:40:04 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 97
+Connection: keep-alive
+x-powered-by: Express
+set-cookie: auth0=E5xc2mOFHERmWRua8Kch8Q.4aVSx5ZbMhfGfMYYcuPYHiezc_Spdm-yGHWKgtA57xM.1422560404628.86400000.kxAptF6SUNtNkUjh66BcaW97EobqiFuNdga3ekxQkDM; path=/; secure; httponly
+
+{"_id":"54ca8c94a51703ae04c19a99","email_verified":false,"email":"console@x.xom","username":null}
