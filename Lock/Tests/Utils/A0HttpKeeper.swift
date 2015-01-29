@@ -57,4 +57,10 @@ class A0HttpKeeper: NSObject {
             return OHHTTPStubsResponse(named: "POST-dbconnections-signup", inBundle: nil)
         }).name = "DB SignUp"
     }
+
+    func returnChangePasswordWithFilter(filter: (NSURLRequest!) -> Bool) {
+        OHHTTPStubs.stubRequestsPassingTest(filter, withStubResponse: { (request) -> OHHTTPStubsResponse! in
+            return OHHTTPStubsResponse(named: "POST-dbconnections-change-password", inBundle: nil)
+        }).name = "DB Change Password"
+    }
 }

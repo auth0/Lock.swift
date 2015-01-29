@@ -53,6 +53,10 @@ class A0HTTPStubFilter: NSObject {
         return filter("/dbconnections/signup", method: "POST", parameters: parameters)
     }
 
+    func filterForChangePasswordWithParameters(parameters: Dictionary<String, String>) -> ((NSURLRequest) -> Bool) {
+        return filter("/dbconnections/change_password", method: "POST", parameters: parameters)
+    }
+
     private func filter(path: String, method: String, parameters: Dictionary<String, String>) -> ((NSURLRequest) -> Bool) {
         return { (request) in
             let dictionary = NSURLProtocol.propertyForKey("parameters", inRequest: request) as NSDictionary

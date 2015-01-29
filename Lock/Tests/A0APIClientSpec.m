@@ -53,6 +53,7 @@ static NSString * const DB_CONNECTION = @"DatabaseConnection";
 static NSString * const EMAIL = @"mail@mail.com";
 static NSString * const PASSWORD = @"password";
 static NSString * const JWT = @"HEADER.PAYLOAD.SIGNATURE";
+static NSString * const DEVICE = @"MyiPhone";
 
 @interface A0APIClient (TestingOnly)
 
@@ -212,10 +213,36 @@ describe(@"A0APIClient", ^{
             });
         });
 
+        it(@"should fail login with jwt when no connection is specified", ^{
+            waitUntil(^(DoneCallback done) {
+                [client loginWithIdToken:@"token" deviceName:@"device" parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                    expect(tokenInfo).to.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).notTo.beNil();
+                    expect(error.localizedFailureReason).to.equal(@"Can't find connection name to use for authentication");
+                    done();
+                }];
+            });
+        });
+
         it(@"should fail signup when no connection is specified", ^{
             waitUntil(^(DoneCallback done) {
                 [client signUpWithUsername:@"username" password:@"password" loginOnSuccess:YES parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
                     expect(tokenInfo).to.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).toNot.beNil();
+                    expect(error.localizedFailureReason).to.equal(@"Can't find connection name to use for authentication");
+                    done();
+                }];
+            });
+        });
+
+        it(@"should fail change password when no connection is specified", ^{
+            waitUntil(^(DoneCallback done) {
+                [client changePassword:@"password" forUsername:@"username" parameters:nil success:^() {
+                    expect(false).to.beTruthy();
                     done();
                 } failure:^(NSError *error) {
                     expect(error).toNot.beNil();
@@ -373,6 +400,154 @@ describe(@"A0APIClient", ^{
                     });
                 });
             });
+
+            describe(@"change password", ^{
+
+                it(@"should change password", ^{
+                    [keeper returnChangePasswordWithFilter:[filter filterForChangePasswordWithParameters:@{@"email": EMAIL, @"password": PASSWORD, @"connection": DB_CONNECTION}]];
+                    waitUntil(^(DoneCallback done) {
+                        [client changePassword:PASSWORD forUsername:EMAIL parameters:nil success:^{
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).to.beNil();
+                            done();
+                        }];
+                    });
+                });
+
+                it(@"should call failure callback with error", ^{
+                    [keeper failWithFilter:[filter filterForChangePasswordWithParameters:@{@"email": EMAIL, @"password": PASSWORD, @"connection": DB_CONNECTION}] message:@"change_password_failed"];
+                    waitUntil(^(DoneCallback done) {
+                        [client changePassword:PASSWORD forUsername:EMAIL parameters:nil success:^{
+                            expect(true).to.beFalsy();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).toNot.beNil();
+                            expect(error.localizedDescription).to.equal(@"change_password_failed");
+                            done();
+                        }];
+                    });
+                });
+
+            });
+
+            describe(@"login with JWT", ^{
+
+                it(@"should login with valid JWT", ^{
+                    NSString *idToken = @"id_token";
+                    [keeper returnSuccessfulLoginWithFilter:[filter filterForResourceOwnerWithParameters:@{
+                                                                                                           @"id_token": idToken,
+                                                                                                           @"device": DEVICE,
+                                                                                                           @"grant_type": @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                                                           @"client_id" :CLIENT_ID,
+                                                                                                           }]];
+                    [keeper returnProfileWithFilter:[filter filterForTokenInfoWithJWT:JWT]];
+                    waitUntil(^(DoneCallback done) {
+                        [client loginWithIdToken:idToken deviceName:DEVICE parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(tokenInfo).toNot.beNil();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).to.beNil();
+                            done();
+                        }];
+                    });
+                });
+
+                it(@"should call failure callback with error", ^{
+                    NSString *idToken = @"id_token";
+                    [keeper failWithFilter:[filter filterForResourceOwnerWithParameters:@{
+                                                                                          @"id_token": idToken,
+                                                                                          @"device": DEVICE,
+                                                                                          @"grant_type": @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                                          @"client_id" :CLIENT_ID,
+                                                                                          }]
+                                   message:@"jwt_login_failed"];
+                    waitUntil(^(DoneCallback done) {
+                        [client loginWithIdToken:idToken deviceName:DEVICE parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(tokenInfo).to.beNil();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).notTo.beNil();
+                            expect(error.localizedDescription).to.equal(@"jwt_login_failed");
+                            done();
+                        }];
+                    });
+                });
+            });
+
+            describe(@"login with SMS", ^{
+
+                NSString *phone = @"4444444444";
+                NSString *code = @"1234";
+
+                it(@"should fail change password when no sms connection is enabled", ^{
+                    waitUntil(^(DoneCallback done) {
+                        [client loginWithPhoneNumber:@"444444444" passcode:@"1234" parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(false).to.beTruthy();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).toNot.beNil();
+                            expect(error.localizedFailureReason).to.equal(@"Can't find connection name to use for authentication");
+                            done();
+                        }];
+                    });
+                });
+
+                context(@"with sms conneciton enabled", ^{
+                    __block A0Strategy *smsStrategy;
+                    __block A0Connection * smsConnection;
+
+                    before(^{
+                        smsStrategy = mock(A0Strategy.class);
+                        smsConnection = mock(A0Connection.class);
+                        [given([application strategyByName:A0StrategyNameSMS]) willReturn:smsStrategy];
+                        [given([smsStrategy connections]) willReturn:@[smsConnection]];
+                        [given(smsConnection.name) willReturn:@"sms"];
+                    });
+
+                    it(@"should login with valid SMS and code", ^{
+                        [keeper returnSuccessfulLoginWithFilter:[filter filterForResourceOwnerWithParameters:@{
+                                                                                                               @"username": phone,
+                                                                                                               @"password": code,
+                                                                                                               @"connection": @"sms",
+                                                                                                               @"grant_type": @"password",
+                                                                                                               @"client_id" :CLIENT_ID,
+                                                                                                               }]];
+                        [keeper returnProfileWithFilter:[filter filterForTokenInfoWithJWT:JWT]];
+                        waitUntil(^(DoneCallback done) {
+                            [client loginWithPhoneNumber:phone passcode:code parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                                expect(tokenInfo).toNot.beNil();
+                                done();
+                            } failure:^(NSError *error) {
+                                expect(error).to.beNil();
+                                done();
+                            }];
+                        });
+                    });
+
+                    it(@"should call failure callback with error", ^{
+                        [keeper failWithFilter:[filter filterForResourceOwnerWithParameters:@{
+                                                                                              @"username": phone,
+                                                                                              @"password": code,
+                                                                                              @"connection": @"sms",
+                                                                                              @"grant_type": @"password",
+                                                                                              @"client_id" :CLIENT_ID,
+                                                                                              }]
+                                       message:@"sms_login_failed"];
+                        waitUntil(^(DoneCallback done) {
+                            [client loginWithPhoneNumber:phone passcode:code parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                                expect(tokenInfo).to.beNil();
+                                done();
+                            } failure:^(NSError *error) {
+                                expect(error).notTo.beNil();
+                                expect(error.localizedDescription).to.equal(@"sms_login_failed");
+                                done();
+                            }];
+                        });
+                    });
+                });
+            });
+
         });
     });
 });
