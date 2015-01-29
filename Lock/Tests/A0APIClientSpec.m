@@ -33,6 +33,10 @@
 #import "A0APIRouter.h"
 #import "A0Application.h"
 #import "A0Connection.h"
+#import "Tests-Swift.h"
+#import "A0Token.h"
+#import "A0Strategy.h"
+#import "A0AuthParameters.h"
 
 #define AS_NSURL(urlString) [NSURL URLWithString:urlString]
 
@@ -45,9 +49,16 @@ static NSString * const CLIENT_ID = @"rU5HShUyQlEqbVWjZSTCBBLMUFAbJAS3";
 static NSString * const TENANT = @"samples";
 static NSString * const ENDPOINT = @"https://samples.auth0.com";
 static NSString * const DB_CONNECTION = @"DatabaseConnection";
+static NSString * const EMAIL = @"mail@mail.com";
+static NSString * const PASSWORD = @"password";
+static NSString * const JWT = @"HEADER.PAYLOAD.SIGNATURE";
 
 @interface A0APIClient (TestingOnly)
+
+@property (readonly, nonatomic) AFHTTPRequestOperationManager *manager;
+
 - (void)configureForApplication:(A0Application *)application;
+
 @end
 
 SpecBegin(A0APIClient)
@@ -103,7 +114,7 @@ describe(@"A0APIClient", ^{
         });
     });
 
-    beforeEach(^{
+    before(^{
         client = [[A0APIClient alloc] initWithClientId:CLIENT_ID andTenant:TENANT];
         [OHHTTPStubs onStubActivation:^(NSURLRequest *request, id<OHHTTPStubsDescriptor> stub) {
             NSLog(@"%@ stubbed by %@", request.URL, stub.name);
@@ -111,7 +122,7 @@ describe(@"A0APIClient", ^{
 
     });
 
-    afterEach(^{
+    after(^{
         [OHHTTPStubs removeAllStubs];
     });
 
@@ -177,16 +188,20 @@ describe(@"A0APIClient", ^{
 
     });
 
-    context(@"Database connection", ^{
+    describe(@"Database connection", ^{
 
-        __block A0Application *application;
         __block A0Connection *connection;
+        __block A0HTTPStubFilter *filter;
 
-        beforeEach(^{
-            application = mock(A0Application.class);
-            connection = mock(A0Connection.class);
-            [given(application.databaseStrategy) willReturn:connection];
-            [given(connection.name) willReturn:DB_CONNECTION];
+        before(^{
+            filter = [[A0HTTPStubFilter alloc] init];
+            client.manager.requestSerializer = [A0AnnotatedRequestSerializer serializer];
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return YES;
+            } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                NSError *error = [NSError errorWithDomain:@"com.auth0" code:-99999999 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%@ You shall not pass!", request.URL]}];
+                return [OHHTTPStubsResponse responseWithError:error];
+            }].name = @"YOU SHALL NOT PASS!";
         });
 
         it(@"should fail when no connection is specified", ^{
@@ -200,6 +215,92 @@ describe(@"A0APIClient", ^{
                     done();
                 }];
             });
+        });
+
+        fcontext(@"with application info", ^{
+
+            __block A0Application *application;
+
+            before(^{
+                application = mock(A0Application.class);
+                connection = mock(A0Connection.class);
+                A0Strategy *strategy = mock(A0Strategy.class);
+                [given(application.identifier) willReturn:CLIENT_ID];
+                [given(application.databaseStrategy) willReturn:strategy];
+                [given(strategy.connections) willReturn:@[connection]];
+                [given(connection.name) willReturn:DB_CONNECTION];
+                [client configureForApplication:application];
+                filter.application = application;
+            });
+
+            it(@"should login with email/password", ^{
+                [OHHTTPStubs stubRequestsPassingTest:[filter filterForResourceOwnerWithUsername:EMAIL password:PASSWORD]
+                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                                        return [OHHTTPStubsResponse responseNamed:@"POST-oauth-ro" inBundle:nil];
+                                    }].name = @"OAuth RO Endpoint Success";
+                [OHHTTPStubs stubRequestsPassingTest:[filter filterForTokenInfoWithJWT:JWT]
+                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                                        return [OHHTTPStubsResponse responseNamed:@"POST-tokeninfo" inBundle:nil];
+                                    }].name = @"JWT token info Success";
+                [client configureForApplication:application];
+                waitUntil(^(DoneCallback done) {
+                    [client loginWithUsername:EMAIL password:PASSWORD parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                        expect(tokenInfo).toNot.beNil;
+                        expect(tokenInfo.idToken).toNot.beNil;
+                        done();
+                    } failure:^(NSError *error) {
+                        expect(error.localizedDescription).to.beNil();
+                        done();
+                    }];
+                });
+            });
+
+            it(@"should login with email/password with parameters", ^{
+                [OHHTTPStubs stubRequestsPassingTest:[filter filterForResourceOwnerWithUsername:EMAIL password:PASSWORD]
+                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                                        return [OHHTTPStubsResponse responseNamed:@"POST-oauth-ro" inBundle:nil];
+                                    }].name = @"OAuth RO Endpoint Success";
+                [OHHTTPStubs stubRequestsPassingTest:[filter filterForTokenInfoWithJWT:JWT]
+                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                                        return [OHHTTPStubsResponse responseNamed:@"POST-tokeninfo" inBundle:nil];
+                                    }].name = @"JWT token info Success";
+                [client configureForApplication:application];
+                waitUntil(^(DoneCallback done) {
+                    A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{@"param": @"value"}];
+                    [client loginWithUsername:EMAIL password:PASSWORD parameters:parameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                        expect(tokenInfo).toNot.beNil;
+                        expect(tokenInfo.idToken).toNot.beNil;
+                        done();
+                    } failure:^(NSError *error) {
+                        expect(error.localizedDescription).to.beNil();
+                        done();
+                    }];
+                });
+            });
+
+            it(@"should login with email/password with overriding default parameters", ^{
+                [OHHTTPStubs stubRequestsPassingTest:[filter filterForResourceOwnerWithParameters:@{@"username": EMAIL, @"scope": @"openid"}]
+                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                                        return [OHHTTPStubsResponse responseNamed:@"POST-oauth-ro" inBundle:nil];
+                                    }].name = @"OAuth RO Endpoint Success";
+                [OHHTTPStubs stubRequestsPassingTest:[filter filterForTokenInfoWithJWT:JWT]
+                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                                        return [OHHTTPStubsResponse responseNamed:@"POST-tokeninfo" inBundle:nil];
+                                    }].name = @"JWT token info Success";
+                [client configureForApplication:application];
+                waitUntil(^(DoneCallback done) {
+                    A0AuthParameters *parameters = [A0AuthParameters newWithScopes:@[@"openid"]];
+                    [client loginWithUsername:EMAIL password:PASSWORD parameters:parameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                        expect(tokenInfo).toNot.beNil;
+                        expect(tokenInfo.idToken).toNot.beNil;
+                        done();
+                    } failure:^(NSError *error) {
+                        expect(error.localizedDescription).to.beNil();
+                        done();
+                    }];
+                });
+            });
+
         });
     });
 });
