@@ -61,6 +61,10 @@ class A0HTTPStubFilter: NSObject {
         return filter("/oauth/access_token", method: "POST", parameters: parameters)
     }
 
+    func filterForDelegationWithParameters(parameters: [String: String]) -> ((NSURLRequest) -> Bool) {
+        return filter("/delegation", method: "POST", parameters: parameters)
+    }
+
     private func filter(path: String, method: String, parameters: [String: String]) -> ((NSURLRequest) -> Bool) {
         return { (request) in
             let dictionary = NSURLProtocol.propertyForKey("parameters", inRequest: request) as NSDictionary

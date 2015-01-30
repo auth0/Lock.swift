@@ -40,7 +40,7 @@ class A0HttpKeeper: NSObject {
         OHHTTPStubs.stubRequestsPassingTest(filter, withStubResponse: { (request) -> OHHTTPStubsResponse! in
             let error = NSError(domain: "com.auth0", code: -9999999, userInfo: [NSLocalizedDescriptionKey: message])
             return OHHTTPStubsResponse(error: error)
-        })
+        }).name = "Kill it with fire!"
     }
 
     func failForAllRequests() {
@@ -64,4 +64,9 @@ class A0HttpKeeper: NSObject {
         }).name = "DB Change Password"
     }
 
+    func returnDelegationInfoWithFilter(filter: (NSURLRequest!) -> Bool) {
+        OHHTTPStubs.stubRequestsPassingTest(filter, withStubResponse: { (request) -> OHHTTPStubsResponse! in
+            return OHHTTPStubsResponse(named: "POST-delegation", inBundle: nil)
+        }).name = "Delegation"
+    }
 }

@@ -56,6 +56,7 @@ static NSString * const PASSWORD = @"password";
 static NSString * const JWT = @"HEADER.PAYLOAD.SIGNATURE";
 static NSString * const DEVICE = @"MyiPhone";
 static NSString * const SOCIAL_TOKEN = @"SOCIAL TOKEN";
+static NSString * const REFRESH_TOKEN = @"RefreshToken";
 
 @interface A0APIClient (TestingOnly)
 
@@ -643,6 +644,165 @@ describe(@"A0APIClient", ^{
         });
     });
 
+    describe(@"Delegation", ^{
+
+        before(^{
+            [keeper failForAllRequests];
+            client.manager.requestSerializer = [A0AnnotatedRequestSerializer serializer];
+        });
+
+        it(@"should return a new jwt with another jwt", ^{
+            [keeper returnDelegationInfoWithFilter:[filter filterForDelegationWithParameters:@{
+                                                                                               @"id_token": JWT,
+                                                                                               @"grant_type": @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                                               @"client_id": CLIENT_ID,
+                                                                                               @"scope": @"openid offline_access",
+                                                                                               }]];
+            waitUntil(^(DoneCallback done) {
+                [client fetchNewIdTokenWithIdToken:JWT parameters:nil success:^(A0Token *token) {
+                    expect(token).notTo.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).to.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should return a new jwt with refresh token", ^{
+            [keeper returnDelegationInfoWithFilter:[filter filterForDelegationWithParameters:@{
+                                                                                               @"refresh_token": REFRESH_TOKEN,
+                                                                                               @"grant_type": @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                                               @"client_id": CLIENT_ID,
+                                                                                               @"scope": @"openid offline_access",
+                                                                                               }]];
+
+            waitUntil(^(DoneCallback done) {
+                [client fetchNewIdTokenWithRefreshToken:REFRESH_TOKEN parameters:nil success:^(A0Token *token) {
+                    expect(token).notTo.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).to.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should return a new jwt with parameters", ^{
+            [keeper returnDelegationInfoWithFilter:[filter filterForDelegationWithParameters:@{
+                                                                                               @"id_token": JWT,
+                                                                                               @"grant_type": @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                                               @"client_id": CLIENT_ID,
+                                                                                               @"scope": @"openid offline_access",
+                                                                                               @"key": @"value",
+                                                                                               }]];
+            A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{@"key": @"value"}];
+            waitUntil(^(DoneCallback done) {
+                [client fetchNewIdTokenWithIdToken:JWT parameters:parameters success:^(A0Token *token) {
+                    expect(token).notTo.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).to.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should return a delegation info with parameters", ^{
+            [keeper returnDelegationInfoWithFilter:[filter filterForDelegationWithParameters:@{
+                                                                                               @"grant_type": @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                                               @"client_id": CLIENT_ID,
+                                                                                               @"scope": @"openid offline_access",
+                                                                                               @"key": @"value",
+                                                                                               }]];
+            A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{@"key": @"value"}];
+            waitUntil(^(DoneCallback done) {
+                [client fetchDelegationTokenWithParameters:parameters success:^(NSDictionary *info) {
+                    expect(info).notTo.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).to.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should call failure callback with error when using jwt", ^{
+            NSString *errorMessage = @"invalid_delegation";
+            [keeper failWithFilter:[filter filterForDelegationWithParameters:@{
+                                                                               @"id_token": JWT,
+                                                                               }]
+                           message:errorMessage];
+            waitUntil(^(DoneCallback done) {
+                [client fetchNewIdTokenWithIdToken:JWT parameters:nil success:^(A0Token *token) {
+                    expect(token).to.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).notTo.beNil();
+                    expect(error.localizedDescription).to.equal(errorMessage);
+                    done();
+                }];
+            });
+        });
+
+        it(@"should return a new jwt with refreshToken and parameters", ^{
+            [keeper returnDelegationInfoWithFilter:[filter filterForDelegationWithParameters:@{
+                                                                                               @"refresh_token": REFRESH_TOKEN,
+                                                                                               @"grant_type": @"urn:ietf:params:oauth:grant-type:jwt-bearer",
+                                                                                               @"client_id": CLIENT_ID,
+                                                                                               @"scope": @"openid offline_access",
+                                                                                               @"key": @"value",
+                                                                                               }]];
+            A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{@"key": @"value"}];
+            waitUntil(^(DoneCallback done) {
+                [client fetchNewIdTokenWithRefreshToken:REFRESH_TOKEN parameters:parameters success:^(A0Token *token) {
+                    expect(token).notTo.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).to.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should call failure callback with error when using refresh token", ^{
+            NSString *errorMessage = @"invalid_delegation";
+            [keeper failWithFilter:[filter filterForDelegationWithParameters:@{
+                                                                               @"refresh_token": REFRESH_TOKEN,
+                                                                               }]
+                           message:errorMessage];
+            waitUntil(^(DoneCallback done) {
+                [client fetchNewIdTokenWithRefreshToken:REFRESH_TOKEN parameters:nil success:^(A0Token *token) {
+                    expect(token).to.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).notTo.beNil();
+                    expect(error.localizedDescription).to.equal(errorMessage);
+                    done();
+                }];
+            });
+        });
+
+        it(@"should call failure callback with error", ^{
+            NSString *errorMessage = @"invalid_delegation";
+            [keeper failWithFilter:[filter filterForDelegationWithParameters:@{
+                                                                               @"key": @"value",
+                                                                               }]
+                           message:errorMessage];
+            A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{@"key": @"value"}];
+            waitUntil(^(DoneCallback done) {
+                [client fetchDelegationTokenWithParameters:parameters success:^(NSDictionary *info) {
+                    expect(info).to.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).notTo.beNil();
+                    expect(error.localizedDescription).to.equal(errorMessage);
+                    done();
+                }];
+            });
+        });
+
+    });
 });
 
 SpecEnd
