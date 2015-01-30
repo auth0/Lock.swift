@@ -38,6 +38,7 @@
 #import "A0Strategy.h"
 #import "A0AuthParameters.h"
 #import "A0AnnotatedRequestSerializer.h"
+#import "A0IdentityProviderCredentials.h"
 
 #define AS_NSURL(urlString) [NSURL URLWithString:urlString]
 
@@ -54,6 +55,7 @@ static NSString * const EMAIL = @"mail@mail.com";
 static NSString * const PASSWORD = @"password";
 static NSString * const JWT = @"HEADER.PAYLOAD.SIGNATURE";
 static NSString * const DEVICE = @"MyiPhone";
+static NSString * const SOCIAL_TOKEN = @"SOCIAL TOKEN";
 
 @interface A0APIClient (TestingOnly)
 
@@ -66,9 +68,6 @@ static NSString * const DEVICE = @"MyiPhone";
 SpecBegin(A0APIClient)
 
 describe(@"A0APIClient", ^{
-
-    __block A0APIClient *client;
-    A0HttpKeeper *keeper = [[A0HttpKeeper alloc] init];;
 
     describe(@"initialise", ^{
 
@@ -117,12 +116,19 @@ describe(@"A0APIClient", ^{
         });
     });
 
+    A0HttpKeeper *keeper = [[A0HttpKeeper alloc] init];
+
+    __block A0APIClient *client;
+    __block A0Application *application;
+    __block A0HTTPStubFilter *filter;
+
     before(^{
         client = [[A0APIClient alloc] initWithClientId:CLIENT_ID andTenant:TENANT];
         [OHHTTPStubs onStubActivation:^(NSURLRequest *request, id<OHHTTPStubsDescriptor> stub) {
             NSLog(@"%@ stubbed by %@", request.URL, stub.name);
         }];
-
+        application = mock(A0Application.class);
+        filter = [[A0HTTPStubFilter alloc] initWithApplication:application];
     });
 
     after(^{
@@ -254,11 +260,7 @@ describe(@"A0APIClient", ^{
 
         context(@"with application info", ^{
 
-            __block A0Application *application;
-            __block A0HTTPStubFilter *filter;
-
             before(^{
-                application = mock(A0Application.class);
                 connection = mock(A0Connection.class);
                 A0Strategy *strategy = mock(A0Strategy.class);
                 [given(application.identifier) willReturn:CLIENT_ID];
@@ -266,7 +268,6 @@ describe(@"A0APIClient", ^{
                 [given(strategy.connections) willReturn:@[connection]];
                 [given(connection.name) willReturn:DB_CONNECTION];
                 [client configureForApplication:application];
-                filter = [[A0HTTPStubFilter alloc] initWithApplication:application];
             });
 
             describe(@"login email/password", ^{
@@ -547,9 +548,101 @@ describe(@"A0APIClient", ^{
                     });
                 });
             });
-
         });
     });
+
+    describe(@"social authentication", ^{
+
+        __block A0IdentityProviderCredentials *credentials;
+
+        before(^{
+            [keeper failForAllRequests];
+            client.manager.requestSerializer = [A0AnnotatedRequestSerializer serializer];
+        });
+
+        it(@"should login with social credentials", ^{
+            [keeper returnSuccessfulLoginWithFilter:[filter filterForSocialAuthenticationWithParameters:@{
+                                                                                                          @"access_token": SOCIAL_TOKEN,
+                                                                                                          @"connection": @"facebook",
+                                                                                                          @"scope": @"openid offline_access"
+                                                                                                          }]];
+            [keeper returnProfileWithFilter:[filter filterForTokenInfoWithJWT:JWT]];
+            credentials = [[A0IdentityProviderCredentials alloc] initWithAccessToken:SOCIAL_TOKEN];
+            waitUntil(^(DoneCallback done) {
+                [client authenticateWithSocialConnectionName:A0StrategyNameFacebook credentials:credentials parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                    expect(tokenInfo).notTo.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).to.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should login with access token in parameters", ^{
+            credentials = [[A0IdentityProviderCredentials alloc] initWithAccessToken:SOCIAL_TOKEN];
+            A0AuthParameters *parameters = [A0AuthParameters newDefaultParams];
+            NSString *accessToken = @"AnotherToken";
+            [parameters setAccessToken:accessToken];
+            [keeper returnSuccessfulLoginWithFilter:[filter filterForSocialAuthenticationWithParameters:@{
+                                                                                                          @"access_token": SOCIAL_TOKEN,
+                                                                                                          @"connection": @"facebook",
+                                                                                                          @"scope": @"openid offline_access",
+                                                                                                          @"main_access_token": accessToken,
+                                                                                                          }]];
+            [keeper returnProfileWithFilter:[filter filterForTokenInfoWithJWT:JWT]];
+            waitUntil(^(DoneCallback done) {
+                [client authenticateWithSocialConnectionName:A0StrategyNameFacebook credentials:credentials parameters:parameters success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                    expect(tokenInfo).notTo.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).to.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should login with extra information", ^{
+            credentials = [[A0IdentityProviderCredentials alloc] initWithAccessToken:SOCIAL_TOKEN
+                                                                           extraInfo:@{
+                                                                                       A0StrategySocialTokenSecretParameter: @"SECRET",
+                                                                                       A0StrategySocialUserIdParameter: @"USERID",
+                                                                                       }];
+            [keeper returnSuccessfulLoginWithFilter:[filter filterForSocialAuthenticationWithParameters:@{
+                                                                                                          @"access_token": SOCIAL_TOKEN,
+                                                                                                          @"connection": @"twitter",
+                                                                                                          @"scope": @"openid offline_access",
+                                                                                                          @"access_token_secret": @"SECRET",
+                                                                                                          @"user_id": @"USERID",
+                                                                                                          }]];
+            [keeper returnProfileWithFilter:[filter filterForTokenInfoWithJWT:JWT]];
+            waitUntil(^(DoneCallback done) {
+                [client authenticateWithSocialConnectionName:A0StrategyNameTwitter credentials:credentials parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                    expect(tokenInfo).notTo.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).to.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should call callback on failure with error", ^{
+            credentials = [[A0IdentityProviderCredentials alloc] initWithAccessToken:SOCIAL_TOKEN];
+            [keeper failWithFilter:[filter filterForSocialAuthenticationWithParameters:@{@"access_token": SOCIAL_TOKEN}] message:@"invalid_social_login"];
+            waitUntil(^(DoneCallback done) {
+                [client authenticateWithSocialConnectionName:A0StrategyNameYahoo credentials:credentials parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                    expect(tokenInfo).to.beNil();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).notTo.beNil();
+                    expect(error.localizedDescription).to.equal(@"invalid_social_login");
+                    done();
+                }];
+            });
+        });
+    });
+
 });
 
 SpecEnd
