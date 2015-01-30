@@ -30,6 +30,14 @@
 #define kClientIdKey @"Auth0ClientId"
 #define kTenantKey @"Auth0Tenant"
 
+#ifdef DEBUG
+static BOOL isRunningTests(void) {
+    NSDictionary *environment = [[NSProcessInfo processInfo] environment];
+    NSString *injectBundle = environment[@"XCInjectBundle"];
+    return [[injectBundle pathExtension] isEqualToString:@"xctest"];
+}
+#endif
+
 @interface A0HomeViewController ()
 
 @property (strong, nonatomic) A0SimpleKeychain *keychain;
@@ -40,6 +48,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+#ifdef DEBUG
+    if (isRunningTests()) {
+        return;
+    }
+#endif
+
     A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
                                                                             andSecret:@""];
     A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
@@ -47,7 +62,6 @@
                                                                                         twitter,
                                                                                         facebook,
                                                                                         ]];
-
 
     self.keychain = [A0SimpleKeychain keychainWithService:@"Auth0"];
     @weakify(self);

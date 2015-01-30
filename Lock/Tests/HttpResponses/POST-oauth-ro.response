@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Date: Wed, 28 Jan 2015 21:01:35 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 91
+Connection: keep-alive
+Cache-Control: no-store
+Pragma: no-cache
+
+{"id_token":"HEADER.PAYLOAD.SIGNATURE","access_token":"ACCESS_TOKEN","token_type":"bearer"}
