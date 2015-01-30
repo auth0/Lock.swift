@@ -120,32 +120,34 @@ typedef void (^AFFailureBlock)(NSURLSessionDataTask *, NSError *);
 - (void)fetchAppInfoWithSuccess:(A0APIClientFetchAppInfoSuccess)success
                                       failure:(A0APIClientError)failure {
     NSURLRequest *request = [NSURLRequest requestWithURL:self.router.configurationURL];
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    Auth0LogVerbose(@"Fetching app info from URL %@", self.router.configurationURL);
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if (success) {
+    NSURLSessionDataTask *task = [self.manager.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if (!error && (httpResponse.statusCode == 200 || httpResponse.statusCode == 304)) {
             Auth0LogDebug(@"Obtained application info JSONP");
-            NSError *error;
-            A0Application *application = [self parseApplicationFromJSONP:responseObject error:&error];
-            Auth0LogDebug(@"Application parsed form JSONP %@", application);
-            if (!error) {
-                [self configureForApplication:application];
-                success(application);
-            } else {
-                Auth0LogError(@"Failed to parse JSONP with error %@", error);
-                if (failure) {
-                    failure(error);
+            if (success) {
+                NSError *parseError;
+                A0Application *application = [self parseApplicationFromJSONP:data error:&parseError];
+                Auth0LogDebug(@"Application parsed form JSONP %@", application);
+                if (!error) {
+                    [self configureForApplication:application];
+                    success(application);
+                } else {
+                    Auth0LogError(@"Failed to parse JSONP with error %@", error);
+                    if (failure) {
+                        failure(error);
+                    }
                 }
             }
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        Auth0LogError(@"Request %@ %@ failed with error %@", operation.request.HTTPMethod, operation.request.URL, error);
-        NSError *operationError = error.code == NSURLErrorNotConnectedToInternet ? [A0Errors notConnectedToInternetError] : error;
-        if (failure) {
-            failure(operationError);
+        } else {
+            Auth0LogError(@"Request to %@ failed with error %@", response.URL, error);
+            NSError *taskError = error.code == NSURLErrorNotConnectedToInternet ? [A0Errors notConnectedToInternetError] : error;
+            if (failure) {
+                failure(taskError);
+            }
         }
     }];
-    [operation start];
+    Auth0LogVerbose(@"Fetching app info from URL %@", self.router.configurationURL);
+    [task resume];
 }
 
 #pragma mark - Database Authentication
