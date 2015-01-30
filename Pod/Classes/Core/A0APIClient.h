@@ -106,8 +106,8 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  @param success block called on successful fetch of app info. Application information will be passed as a block parameter.
  @param failure block called when fetch of App information fails and reason of failure will be in error parameter
  */
-- (void)fetchAppInfoWithSuccess:(A0APIClientFetchAppInfoSuccess)success
-                        failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)fetchAppInfoWithSuccess:(A0APIClientFetchAppInfoSuccess)success
+                                          failure:(A0APIClientError)failure;
 
 ///----------------------------------------
 /// @name Database Authentication
@@ -125,11 +125,11 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  
  *  @see A0AuthParameters
  */
-- (void)loginWithUsername:(NSString *)username
-                 password:(NSString *)password
-               parameters:(A0AuthParameters *)parameters
-                  success:(A0APIClientAuthenticationSuccess)success
-                  failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)loginWithUsername:(NSString *)username
+                                   password:(NSString *)password
+                                 parameters:(A0AuthParameters *)parameters
+                                    success:(A0APIClientAuthenticationSuccess)success
+                                    failure:(A0APIClientError)failure;
 
 /**
  *  Perform signup for a new user in the application database. It can login the user after a succesful signup.
@@ -142,12 +142,12 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param success        block called on successful signup or login. If the user is not logged in both parameters are nil.
  *  @param failure        block called on failure with the reason as a parameter
  */
-- (void)signUpWithUsername:(NSString *)username
-                  password:(NSString *)password
-            loginOnSuccess:(BOOL)loginOnSuccess
-                parameters:(A0AuthParameters *)parameters
-                   success:(A0APIClientAuthenticationSuccess)success
-                   failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)signUpWithUsername:(NSString *)username
+                                    password:(NSString *)password
+                              loginOnSuccess:(BOOL)loginOnSuccess
+                                  parameters:(A0AuthParameters *)parameters
+                                     success:(A0APIClientAuthenticationSuccess)success
+                                     failure:(A0APIClientError)failure;
 
 /**
  *  Change the password for a user.
@@ -159,11 +159,11 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param success     block called on success
  *  @param failure     block called on failure with the reason as a parameter
  */
-- (void)changePassword:(NSString *)newPassword
-           forUsername:(NSString *)username
-            parameters:(A0AuthParameters *)parameters
-               success:(void(^)())success
-               failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)changePassword:(NSString *)newPassword
+                             forUsername:(NSString *)username
+                              parameters:(A0AuthParameters *)parameters
+                                 success:(void(^)())success
+                                 failure:(A0APIClientError)failure;
 
 
 /**
@@ -176,11 +176,11 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param success    block called on successful login with it's token info and profile
  *  @param failure    block called on failure with the reason as a parameter
  */
-- (void)loginWithIdToken:(NSString *)idToken
-              deviceName:(NSString *)deviceName
-              parameters:(A0AuthParameters *)parameters
-                 success:(A0APIClientAuthenticationSuccess)success
-                 failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)loginWithIdToken:(NSString *)idToken
+                                deviceName:(NSString *)deviceName
+                                parameters:(A0AuthParameters *)parameters
+                                   success:(A0APIClientAuthenticationSuccess)success
+                                   failure:(A0APIClientError)failure;
 
 ///----------------------------------------
 /// @name SMS Authentication
@@ -198,11 +198,11 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *
  *  @see A0AuthParameters
  */
-- (void)loginWithPhoneNumber:(NSString *)phoneNumber
-                    passcode:(NSString *)passcode
-                  parameters:(A0AuthParameters *)parameters
-                     success:(A0APIClientAuthenticationSuccess)success
-                     failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)loginWithPhoneNumber:(NSString *)phoneNumber
+                                      passcode:(NSString *)passcode
+                                    parameters:(A0AuthParameters *)parameters
+                                       success:(A0APIClientAuthenticationSuccess)success
+                                       failure:(A0APIClientError)failure;
 
 ///----------------------------------------
 /// @name Social Authentication
@@ -217,11 +217,11 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param success              block called on successful authentication with user's token and profile
  *  @param failure              block called on failure with the reason as a parameter
  */
-- (void)authenticateWithSocialConnectionName:(NSString *)connectionName
-                                 credentials:(A0IdentityProviderCredentials *)socialCredentials
-                                  parameters:(A0AuthParameters *)parameters
-                                     success:(A0APIClientAuthenticationSuccess)success
-                                     failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)authenticateWithSocialConnectionName:(NSString *)connectionName
+                                                   credentials:(A0IdentityProviderCredentials *)socialCredentials
+                                                    parameters:(A0AuthParameters *)parameters
+                                                       success:(A0APIClientAuthenticationSuccess)success
+                                                       failure:(A0APIClientError)failure;
 
 ///----------------------------------------
 /// @name Refresh Tokens
@@ -235,10 +235,10 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param success      block called on successful request with new token information.
  *  @param failure      block called on failure with the reason as a parameter
  */
-- (void)fetchNewIdTokenWithRefreshToken:(NSString *)refreshToken
-                             parameters:(A0AuthParameters *)parameters
-                                success:(A0APIClientNewIdTokenSuccess)success
-                                failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)fetchNewIdTokenWithRefreshToken:(NSString *)refreshToken
+                                               parameters:(A0AuthParameters *)parameters
+                                                  success:(A0APIClientNewIdTokenSuccess)success
+                                                  failure:(A0APIClientError)failure;
 
 /**
  *  Ask Auth0 API to return a new `id_token` for the user using a currently valid `id_token`
@@ -248,10 +248,10 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param success          block called on successful request with new token information
  *  @param failure          block called on failure with the reason as a parameter
  */
-- (void)fetchNewIdTokenWithIdToken:(NSString *)idToken
-                        parameters:(A0AuthParameters *)parameters
-                           success:(A0APIClientNewIdTokenSuccess)success
-                           failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)fetchNewIdTokenWithIdToken:(NSString *)idToken
+                                          parameters:(A0AuthParameters *)parameters
+                                             success:(A0APIClientNewIdTokenSuccess)success
+                                             failure:(A0APIClientError)failure;
 
 ///----------------------------------------
 /// @name Delegation API
@@ -264,9 +264,9 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param success    block called on successful request with the token information
  *  @param failure    block called on failure with the reason of failure
  */
-- (void)fetchDelegationTokenWithParameters:(A0AuthParameters *)parameters
-                                   success:(A0APIClientNewDelegationTokenSuccess)success
-                                   failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)fetchDelegationTokenWithParameters:(A0AuthParameters *)parameters
+                                                     success:(A0APIClientNewDelegationTokenSuccess)success
+                                                     failure:(A0APIClientError)failure;
 
 ///----------------------------------------
 /// @name User Profile
@@ -279,9 +279,9 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param success block called on successful request with user's profile
  *  @param failure block called on failure with the reason as a parameter
  */
-- (void)fetchUserProfileWithIdToken:(NSString *)idToken
-                            success:(A0APIClientUserProfileSuccess)success
-                            failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)fetchUserProfileWithIdToken:(NSString *)idToken
+                                              success:(A0APIClientUserProfileSuccess)success
+                                              failure:(A0APIClientError)failure;
 
 ///----------------------------------------
 /// @name Link Account
@@ -295,10 +295,10 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param success     block called on successful unlink request
  *  @param failure     block called on failure with the reason as a parameter
  */
-- (void)unlinkAccountWithUserId:(NSString *)userId
-                    accessToken:(NSString *)accessToken
-                        success:(void(^)())success
-                        failure:(A0APIClientError)failure;
+- (NSURLSessionDataTask *)unlinkAccountWithUserId:(NSString *)userId
+                                      accessToken:(NSString *)accessToken
+                                          success:(void(^)())success
+                                          failure:(A0APIClientError)failure;
 @end
 
 @interface A0APIClient (Deprecated)
