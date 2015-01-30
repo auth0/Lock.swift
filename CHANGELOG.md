@@ -2,9 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ##master
+
 ###Changed
 - Fixed project structure to support Dynamic Framework instead of static lib
-- 
+- Use NSURLSession instead of NSURLConnection for `A0APIClient` requests.
+ 
 ## 1.7.0 - 2014-12-04
 
 ###Added
