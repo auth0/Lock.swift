@@ -50,11 +50,11 @@
 #define kSocialUserIdParamName @"user_id"
 #define kRefreshTokenParamName @"refresh_token"
 
-typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
+typedef void (^AFFailureBlock)(NSURLSessionDataTask *, NSError *);
 
 @interface A0APIClient ()
 
-@property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
+@property (strong, nonatomic) AFHTTPSessionManager *manager;
 @property (strong, nonatomic) A0Application *application;
 @property (strong, nonatomic) A0UserAPIClient *userClient;
 
@@ -75,7 +75,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     self = [super init];
     if (self) {
         _router = router;
-        _manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[router endpointURL]];
+        _manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[router endpointURL]];
         _manager.requestSerializer = [AFJSONRequestSerializer serializer];
         _manager.responseSerializer = [A0JSONResponseSerializer serializer];
     }
@@ -138,7 +138,13 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                 }
             }
         }
-    } failure:[A0APIClient sanitizeFailureBlock:failure]];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        Auth0LogError(@"Request %@ %@ failed with error %@", operation.request.HTTPMethod, operation.request.URL, error);
+        NSError *operationError = error.code == NSURLErrorNotConnectedToInternet ? [A0Errors notConnectedToInternetError] : error;
+        if (failure) {
+            failure(operationError);
+        }
+    }];
     [operation start];
 }
 
@@ -161,7 +167,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
         @weakify(self);
         NSDictionary *payload = [defaultParameters asAPIPayload];
-        [self.manager POST:[self.router loginPath] parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
             @strongify(self);
             Auth0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
             [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
@@ -187,7 +193,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
         NSDictionary *payload = [defaultParameters asAPIPayload];
         @weakify(self);
-        [self.manager POST:[self.router signUpPath] parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self.manager POST:[self.router signUpPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
             @strongify(self);
             Auth0LogDebug(@"Created user successfully %@", responseObject);
             if (loginOnSuccess) {
@@ -213,7 +219,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     Auth0LogVerbose(@"Chaning password with params %@", defaultParameters);
     if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
         NSDictionary *payload = [defaultParameters asAPIPayload];
-        [self.manager POST:[self.router changePasswordPath] parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self.manager POST:[self.router changePasswordPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
             Auth0LogDebug(@"Changed password for user %@. Response %@", username, responseObject);
             if (success) {
                 success();
@@ -235,7 +241,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
         @weakify(self);
         NSDictionary *payload = [defaultParameters asAPIPayload];
-        [self.manager POST:[self.router loginPath] parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
             @strongify(self);
             Auth0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
             [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
@@ -265,7 +271,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
         if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
             @weakify(self);
             NSDictionary *payload = [defaultParameters asAPIPayload];
-            [self.manager POST:[self.router loginPath] parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
                 @strongify(self);
                 Auth0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
                 [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
@@ -306,7 +312,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     NSDictionary *payload = [defaultParameters asAPIPayload];
     Auth0LogVerbose(@"Authenticating with social strategy %@ and payload %@", connectionName, payload);
     @weakify(self);
-    [self.manager POST:[self.router socialLoginPath] parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager POST:[self.router socialLoginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
         @strongify(self);
         Auth0LogDebug(@"Authenticated successfuly with social connection %@", connectionName);
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
@@ -361,7 +367,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     [defaultParamters addValuesFromParameters:parameters];
     NSDictionary *payload = [defaultParamters asAPIPayload];
     Auth0LogVerbose(@"Calling delegate authentication with params %@", parameters);
-    [self.manager POST:[self.router delegationPath] parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager POST:[self.router delegationPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
         Auth0LogDebug(@"Delegation successful params %@", parameters);
         if (success) {
             success(responseObject);
@@ -379,7 +385,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
             parameters:@{
                          kIdTokenParamName: idToken,
                          }
-               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               success:^(NSURLSessionDataTask *operation, id responseObject) {
                    Auth0LogDebug(@"Obtained user profile %@", responseObject);
                    if (success) {
                        A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
@@ -402,7 +408,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     Auth0LogVerbose(@"Unlinking account with id %@", userId);
     [self.manager POST:[self.router unlinkPath]
             parameters:[parameters asAPIPayload]
-               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               success:^(NSURLSessionDataTask *operation, id responseObject) {
                    if (success) {
                        success();
                    }
@@ -443,8 +449,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 }
 
 + (AFFailureBlock) sanitizeFailureBlock:(A0APIClientError)failureBlock {
-    AFFailureBlock sanitized = ^(AFHTTPRequestOperation *operation, NSError *error) {
-        Auth0LogError(@"Request %@ %@ failed with error %@", operation.request.HTTPMethod, operation.request.URL, error);
+    AFFailureBlock sanitized = ^(NSURLSessionDataTask *operation, NSError *error) {
+        Auth0LogError(@"Request %@ %@ failed with error %@", operation.originalRequest.HTTPMethod, operation.originalRequest.URL, error);
         NSError *operationError = error.code == NSURLErrorNotConnectedToInternet ? [A0Errors notConnectedToInternetError] : error;
         if (failureBlock) {
             failureBlock(operationError);
