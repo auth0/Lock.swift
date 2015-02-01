@@ -26,6 +26,8 @@
 
 @interface A0LockConfiguration : NSObject
 
+@property (readonly, nonatomic) A0Application *application;
+
 - (instancetype)initWithApplication:(A0Application *)application filter:(NSArray *)connectionNames;
 
 - (NSArray *)socialStrategies;
