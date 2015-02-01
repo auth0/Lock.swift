@@ -13,6 +13,8 @@
 		5F0ADBBC19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0ADBBB19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m */; };
 		5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */; };
 		5F15815E196A3682003C4DD2 /* A0UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F15815D196A3682003C4DD2 /* A0UserProfileViewController.m */; };
+		5F1DA1AB1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1DA1AA1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m */; };
+		5F1DA1AD1A7C093500E7BA6D /* AppInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */; };
 		5F22B5D619E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */; };
 		5F3237321A7A7FE700B58994 /* A0HttpKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3237311A7A7FE700B58994 /* A0HttpKeeper.swift */; };
 		5F3237351A7A858E00B58994 /* A0AnnotatedRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3237341A7A858E00B58994 /* A0AnnotatedRequestSerializer.m */; };
@@ -76,6 +78,8 @@
 		5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ApplicationSpec.m; sourceTree = "<group>"; };
 		5F15815C196A3682003C4DD2 /* A0UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0UserProfileViewController.h; sourceTree = "<group>"; };
 		5F15815D196A3682003C4DD2 /* A0UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileViewController.m; sourceTree = "<group>"; };
+		5F1DA1AA1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockConfigurationSpec.m; sourceTree = "<group>"; };
+		5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppInfo.json; sourceTree = "<group>"; };
 		5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FilteredConnectionDomainMatcherSpec.m; sourceTree = "<group>"; };
 		5F3237311A7A7FE700B58994 /* A0HttpKeeper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = A0HttpKeeper.swift; path = Utils/A0HttpKeeper.swift; sourceTree = "<group>"; };
 		5F3237331A7A858E00B58994 /* A0AnnotatedRequestSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0AnnotatedRequestSerializer.h; path = Utils/A0AnnotatedRequestSerializer.h; sourceTree = "<group>"; };
@@ -101,10 +105,6 @@
 		5F9F5B6919AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0IdentityProviderAuthenticatorSpec.m; sourceTree = "<group>"; };
 		5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GET-Application-Info.response"; sourceTree = "<group>"; };
 		5FC7EED11A79788800C83B09 /* Tests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Bridging-Header.h"; sourceTree = "<group>"; };
-		5FC7EEDD1A797E4B00C83B09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FC7EEDE1A797E4B00C83B09 /* Lock_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Lock_Tests.m; sourceTree = "<group>"; };
-		5FC7EEEC1A797E6600C83B09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FC7EEED1A797E6600C83B09 /* Lock_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lock_Tests.swift; sourceTree = "<group>"; };
 		5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-oauth-ro.response"; sourceTree = "<group>"; };
 		5FC7EEF61A79880500C83B09 /* A0HTTPStubFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = A0HTTPStubFilter.swift; path = Utils/A0HTTPStubFilter.swift; sourceTree = "<group>"; };
 		5FC7EEF81A79942500C83B09 /* POST-tokeninfo.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-tokeninfo.response"; sourceTree = "<group>"; };
@@ -204,48 +204,12 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
-		5FC7EEDB1A797E4B00C83B09 /* Lock Tests */ = {
-			isa = PBXGroup;
-			children = (
-				5FC7EEDE1A797E4B00C83B09 /* Lock_Tests.m */,
-				5FC7EEDC1A797E4B00C83B09 /* Supporting Files */,
-			);
-			path = "Lock Tests";
-			sourceTree = "<group>";
-		};
-		5FC7EEDC1A797E4B00C83B09 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				5FC7EEDD1A797E4B00C83B09 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		5FC7EEEA1A797E6600C83B09 /* Lock Tests */ = {
-			isa = PBXGroup;
-			children = (
-				5FC7EEED1A797E6600C83B09 /* Lock_Tests.swift */,
-				5FC7EEEB1A797E6600C83B09 /* Supporting Files */,
-			);
-			path = "Lock Tests";
-			sourceTree = "<group>";
-		};
-		5FC7EEEB1A797E6600C83B09 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				5FC7EEEC1A797E6600C83B09 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* Lock */,
 				6003F5B5195388D20070C39A /* Tests */,
-				5FC7EEDB1A797E4B00C83B09 /* Lock Tests */,
-				5FC7EEEA1A797E6600C83B09 /* Lock Tests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				2EA23D0E26852E4577F12318 /* Pods */,
@@ -331,6 +295,8 @@
 				5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */,
 				5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */,
 				5F0AA5BE1A78308100073120 /* A0APIClientSpec.m */,
+				5F1DA1AA1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m */,
+				5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -410,7 +376,7 @@
 				ORGANIZATIONNAME = Auth0;
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
-						DevelopmentTeam = UUWS9Z463H;
+						DevelopmentTeam = 86WQXF56BC;
 					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
@@ -454,6 +420,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FC7EEF91A79942500C83B09 /* POST-tokeninfo.response in Resources */,
+				5F1DA1AD1A7C093500E7BA6D /* AppInfo.json in Resources */,
 				5F48BBA41A7ACC2900D8E05B /* POST-dbconnections-signup.response in Resources */,
 				5F48BBA81A7B151700D8E05B /* POST-delegation.response in Resources */,
 				5FC7EECF1A7957BE00C83B09 /* GET-Application-Info.response in Resources */,
@@ -569,6 +536,7 @@
 				5F0AA5BF1A78308100073120 /* A0APIClientSpec.m in Sources */,
 				5F0ADBBC19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m in Sources */,
 				5F017F0219B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m in Sources */,
+				5F1DA1AB1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m in Sources */,
 				5F3237321A7A7FE700B58994 /* A0HttpKeeper.swift in Sources */,
 				5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */,
 				5FC7EEF71A79880500C83B09 /* A0HTTPStubFilter.swift in Sources */,
@@ -708,6 +676,7 @@
 				Auth0SendSMSAPIToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiI4OVFJZTAzZk1nTm1MYmY1Y1FhWGh6bkZialRhUWJVNSIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImNyZWF0ZSJdfX0sImlhdCI6MTQxNzAyNDI0NywianRpIjoiZjljYmUxMDAzMTBhYzdiYmNlYmEyZDk3ZjBjMjY0MzAifQ.en12hD39P3LQ0JjRcbuk-KRqyXevLz5GSZEEeMyUD3Q";
 				BUNDLE_SUFFIX = "-Dev";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FACEBOOK_APP_ID = 507756515938786;
 				FACEBOOK_APP_NAME = Auth0;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -720,6 +689,7 @@
 				GCC_PREFIX_HEADER = "Lock/Lock-Prefix.pch";
 				INFOPLIST_FILE = "Lock/Lock-Info.plist";
 				PRODUCT_NAME = Lock;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -734,7 +704,8 @@
 				AUTH0_TENANT = samples;
 				Auth0SendSMSAPIToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIweUlxTXJpRHVnbU13SnR1VlJkaHVrVUxvYmUxZmhYMyIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImNyZWF0ZSJdfX0sImlhdCI6MTQxNzAyNzAxNCwianRpIjoiMjU5NjMzYjVlYjliNmM5MjZkMmRlOGZkZWM2YmZjYWIifQ.Ax_9faSw_oBE2PoZzG8EdPgxnG1wkGVAzCgw_Paqr-U";
 				BUNDLE_SUFFIX = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hernan Zalazar (UUWS9Z463H)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FACEBOOK_APP_ID = 696506353719958;
 				FACEBOOK_APP_NAME = "Auth0 Samples";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -750,6 +721,7 @@
 				);
 				INFOPLIST_FILE = "Lock/Lock-Info.plist";
 				PRODUCT_NAME = Lock;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

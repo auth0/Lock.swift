@@ -140,4 +140,33 @@ typedef NS_ENUM(NSUInteger, A0StrategyType) {
  */
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDictionary;
 
+/**
+ *  Initialise a new Strategy instance
+ *
+ *  @param name        name of the strategy
+ *  @param connections array of connections available for that strategy
+ *  @param type        type of the strategy
+ *
+ *  @return a new instance
+ */
+- (instancetype)initWithName:(NSString *)name connections:(NSArray *)connections type:(A0StrategyType)type;
+
+/**
+ *  Creates a new enterprise strategy
+ *
+ *  @param name        name of the strategy
+ *  @param connections array of enabled connections
+ *
+ *  @return a new instance
+ */
++ (instancetype)newEnterpriseStrategyWithName:(NSString *)name connections:(NSArray *)connections;
+
+/**
+ *  Creates a new database strategy
+ *
+ *  @param connections list of available database connections
+ *
+ *  @return a new instance
+ */
++ (instancetype)newDatabaseStrategyWithConnections:(NSArray *)connections;
 @end
