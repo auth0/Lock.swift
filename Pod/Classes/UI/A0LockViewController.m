@@ -79,6 +79,7 @@
         _loginAfterSignUp = YES;
         _authenticationParameters = [A0AuthParameters newDefaultParams];
         _defaultADUsernameFromEmailPrefix = YES;
+        _connections = @[];
     }
     return self;
 }
@@ -167,7 +168,7 @@
         }
     };
     UIViewController<A0AuthenticationUIComponent> *rootController;
-    A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:@[]];
+    A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
     BOOL hasSocial = configuration.socialStrategies.count > 0;
     BOOL hasAD = configuration.activeDirectoryStrategy != nil;
     BOOL hasEnterprise = configuration.enterpriseStrategies.count > 0;
@@ -197,13 +198,13 @@
     }
     if (hasSocial && !hasAD && !hasDB && !hasEnterprise) {
         A0SocialLoginViewController *controller = [self newSocialLoginViewController:onAuthSuccessBlock];
-        controller.application = application;
+        controller.configuration = configuration;
         rootController = controller;
         layout = A0ContainerLayoutVerticalFill;
     }
     if (hasSocial && hasAD && !hasDB) {
         A0FullActiveDirectoryViewController *controller = [self newFullADLoginViewController:onAuthSuccessBlock];
-        controller.application = application;
+        controller.configuration = configuration;
         controller.defaultConnection = ad;
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:NO];
