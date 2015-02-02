@@ -64,7 +64,7 @@ static NSString *CountryName = @"Name";
         return countryWithName;
     }];
 
-    UINib *cellNib = [UINib nibWithNibName:@"A0CountryCodeTableViewCell" bundle:nil];
+    UINib *cellNib = [UINib nibWithNibName:@"A0CountryCodeTableViewCell" bundle:[NSBundle bundleForClass:self.class]];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
     [self.searchDisplayController.searchResultsTableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
     self.searchDisplayController.delegate = self;

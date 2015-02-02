@@ -34,6 +34,7 @@
 		5F9F5B6619AF9A8D0021068C /* A0TokenSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6519AF9A8D0021068C /* A0TokenSpec.m */; };
 		5F9F5B6819AF9D8E0021068C /* A0StrategySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */; };
 		5F9F5B6A19AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6919AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m */; };
+		5FA2CAEB1A7FE673009178C0 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */; };
 		5FC7EECF1A7957BE00C83B09 /* GET-Application-Info.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */; };
 		5FC7EEF51A79850000C83B09 /* POST-oauth-ro.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */; };
 		5FC7EEF71A79880500C83B09 /* A0HTTPStubFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF61A79880500C83B09 /* A0HTTPStubFilter.swift */; };
@@ -103,6 +104,7 @@
 		5F9F5B6519AF9A8D0021068C /* A0TokenSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0TokenSpec.m; sourceTree = "<group>"; };
 		5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0StrategySpec.m; sourceTree = "<group>"; };
 		5F9F5B6919AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0IdentityProviderAuthenticatorSpec.m; sourceTree = "<group>"; };
+		5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GET-Application-Info.response"; sourceTree = "<group>"; };
 		5FC7EED11A79788800C83B09 /* Tests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 		5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-oauth-ro.response"; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				5F951ABD1A1189A600D128D0 /* Lock.strings */,
 				5FF3B5161A25439400BE84F9 /* A0SettingsViewController.h */,
 				5FF3B5171A25439400BE84F9 /* A0SettingsViewController.m */,
+				5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */,
 			);
 			path = Lock;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				5F951AFD1A12ABAF00D128D0 /* iTunesArtwork@2x -1024.png in Resources */,
 				6003F5A1195388D20070C39A /* Main.storyboard in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
+				5FA2CAEB1A7FE673009178C0 /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,7 +674,6 @@
 			baseConfigurationReference = 26AA405967D1A3B89FAD9B49 /* Pods-Lock.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				AUTH0_CLIENT_ID = U5MhUrbyQHSVWjlEqZSTCBUFABLbJAS3;
 				AUTH0_TENANT = overmind;
 				Auth0SendSMSAPIToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiI4OVFJZTAzZk1nTm1MYmY1Y1FhWGh6bkZialRhUWJVNSIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImNyZWF0ZSJdfX0sImlhdCI6MTQxNzAyNDI0NywianRpIjoiZjljYmUxMDAzMTBhYzdiYmNlYmEyZDk3ZjBjMjY0MzAifQ.en12hD39P3LQ0JjRcbuk-KRqyXevLz5GSZEEeMyUD3Q";
@@ -688,6 +691,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Lock/Lock-Prefix.pch";
 				INFOPLIST_FILE = "Lock/Lock-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = Lock;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -699,7 +703,6 @@
 			baseConfigurationReference = 4AB1168063DB527AB1BC16CF /* Pods-Lock.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				AUTH0_CLIENT_ID = uPW0Reav8UNYt3TGPdM4I8rIAIazDOgG;
 				AUTH0_TENANT = samples;
 				Auth0SendSMSAPIToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIweUlxTXJpRHVnbU13SnR1VlJkaHVrVUxvYmUxZmhYMyIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImNyZWF0ZSJdfX0sImlhdCI6MTQyMjg4ODM4MywianRpIjoiZTgxYjRkNjcxZmFkYjY4OTQ2MzUzZmNiNGRmMzAxOTEifQ.HcWrivdODASA1XQz1YsplUUC1jv2u_CqtbtZnxjRex0;
@@ -720,6 +723,7 @@
 					"RELEASE=1",
 				);
 				INFOPLIST_FILE = "Lock/Lock-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = Lock;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
