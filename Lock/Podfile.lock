@@ -84,7 +84,11 @@ PODS:
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
+<<<<<<< HEAD
   - Lock/Core (1.8.0):
+=======
+  - Lock/Core (1.7.1):
+>>>>>>> Changed Auth0 App for Release.
     - AFNetworking (~> 2.5)
     - CocoaLumberjack (~> 1.9)
     - ISO8601DateFormatter (~> 0.7)
