@@ -1,0 +1,14 @@
+platform :ios, '8.0'
+
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'Firebase.Objc' do
+    pod "Lock", "~> 1.7"
+    pod 'SimpleKeychain'
+    pod 'Firebase', '~> 2.0'
+    pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
+    pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
+    pod 'Facebook-iOS-SDK', :inhibit_warnings => true #Ignore warnings for this lib
+    pod 'ISO8601DateFormatter', :inhibit_warnings => true #Ignore warnings for this lib
+end
+

@@ -21,7 +21,7 @@ In order to run the project, you need to have `XCode` 6 installed.
 Once you have that, just clone the project and run the following:
 
 1. `pod install`
-2. `open Firebase.xcworkspace` 
+2. `open FirebaseExample.xcworkspace` 
 3.  press `⌘ + R`
 
 Enjoy your iOS app now :).
