@@ -161,7 +161,7 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
     if ([scopes containsObject:A0ScopeOfflineAccess]) {
         self.params[A0ParameterDevice] = [A0DeviceNameProvider deviceName];
     } else {
-        self.params[A0ParameterDevice] = nil;
+        [self.params removeObjectForKey:A0ParameterDevice];
     }
 }
 

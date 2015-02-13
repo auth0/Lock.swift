@@ -112,6 +112,12 @@ describe(@"A0AuthParameters", ^{
                      };
         });
 
+        it(@"should remove device parameter when `offline_access` is not present in scope", ^{
+            params = [A0AuthParameters newDefaultParams];
+            params.scopes = @[A0ScopeOpenId];
+            expect(params.device).to.beNil();
+        });
+
         context(@"extra parameters", ^{
 
             beforeEach(^{
