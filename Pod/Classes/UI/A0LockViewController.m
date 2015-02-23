@@ -217,8 +217,20 @@
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:NO];
         rootController = controller;
     }
-    rootController.parameters = [self copyAuthenticationParameters];
-    [self displayController:rootController layout:layout];
+    if (rootController) {
+        rootController.parameters = [self copyAuthenticationParameters];
+        [self displayController:rootController layout:layout];
+    } else {
+        NSString *title = A0LocalizedString(@"Failed to display login");
+        NSString *message = A0LocalizedString(@"You have no enabled connections for your application. Please check your configuration and try again");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                        message:message
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:A0LocalizedString(@"Retry"), nil];
+        [alert show];
+        Auth0LogError(@"Application has no enabled connections. Application Strategies: %@. Connections to filter %@.", self.application.strategies, self.connections);
+    }
 }
 
 - (A0SocialLoginViewController *)newSocialLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
