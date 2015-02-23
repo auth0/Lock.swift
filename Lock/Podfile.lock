@@ -1,5 +1,5 @@
 PODS:
-  - 1PasswordExtension (1.1)
+  - 1PasswordExtension (1.1.2)
   - AFNetworking (2.5.1):
     - AFNetworking/NSURLConnection (= 2.5.1)
     - AFNetworking/NSURLSession (= 2.5.1)
@@ -84,11 +84,7 @@ PODS:
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
-<<<<<<< HEAD
   - Lock/Core (1.8.0):
-=======
-  - Lock/Core (1.7.1):
->>>>>>> Changed Auth0 App for Release.
     - AFNetworking (~> 2.5)
     - CocoaLumberjack (~> 1.9)
     - ISO8601DateFormatter (~> 0.7)
@@ -143,12 +139,12 @@ PODS:
     - OHHTTPStubs/Core (= 3.1.10)
   - OHHTTPStubs/Core (3.1.10)
   - PSAlertView (2.0.3)
-  - ReactiveCocoa (2.4.4):
-    - ReactiveCocoa/UI (= 2.4.4)
-  - ReactiveCocoa/Core (2.4.4):
+  - ReactiveCocoa (2.4.7):
+    - ReactiveCocoa/UI (= 2.4.7)
+  - ReactiveCocoa/Core (2.4.7):
     - ReactiveCocoa/no-arc
-  - ReactiveCocoa/no-arc (2.4.4)
-  - ReactiveCocoa/UI (2.4.4):
+  - ReactiveCocoa/no-arc (2.4.7)
+  - ReactiveCocoa/UI (2.4.7):
     - ReactiveCocoa/Core
   - SimpleKeychain (0.3.0)
   - Specta (0.3.0.beta1)
@@ -188,7 +184,7 @@ CHECKOUT OPTIONS:
     :tag: v0.3.0.beta1
 
 SPEC CHECKSUMS:
-  1PasswordExtension: 37d1488cf049b8bc0811beb7b52a19f8f803f7c8
+  1PasswordExtension: 38b5be7dd6dbe786c98f15d51d50ad21150db60a
   AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
   BDBOAuth1Manager: 274574557077abc873fc5688abe8b991e782749c
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
@@ -207,7 +203,7 @@ SPEC CHECKSUMS:
   OCMockito: 991936bb775cc4c27f063d38f5e17b9161fbd21c
   OHHTTPStubs: 2038e929b6abb94881000524c1cb4aba0a1bb4a2
   PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
-  ReactiveCocoa: 31119068e3dde866bd257cf74e1f06b4023bf387
+  ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
   SimpleKeychain: 4758625a53ca89cfae98b4aca8c550d1193292f8
   Specta: 63e8ac8e07db6675c7096d37f77a266a1be4c02d
   TouchIDAuth: 4a104cd6a614e63c23fad6e6446bf79b6cc6f429
