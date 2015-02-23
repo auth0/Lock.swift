@@ -119,23 +119,32 @@ typedef void (^AFFailureBlock)(NSURLSessionDataTask *, NSError *);
 
 - (NSURLSessionDataTask *)fetchAppInfoWithSuccess:(A0APIClientFetchAppInfoSuccess)success
                                           failure:(A0APIClientError)failure {
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
     NSURLRequest *request = [NSURLRequest requestWithURL:self.router.configurationURL];
-    NSURLSessionDataTask *task = [self.manager.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        if (!error && (httpResponse.statusCode == 200 || httpResponse.statusCode == 304)) {
+    @weakify(self);
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        @strongify(self);
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSRange successRange = NSMakeRange(200, 100);
+        if (!error && NSLocationInRange(httpResponse.statusCode, successRange)) {
             Auth0LogDebug(@"Obtained application info JSONP");
             if (success) {
                 NSError *parseError;
                 A0Application *application = [self parseApplicationFromJSONP:data error:&parseError];
                 Auth0LogDebug(@"Application parsed form JSONP %@", application);
                 if (!error) {
-                    [self configureForApplication:application];
-                    success(application);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self configureForApplication:application];
+                        success(application);
+                    });
                 } else {
-                    Auth0LogError(@"Failed to parse JSONP with error %@", error);
-                    if (failure) {
-                        failure(error);
-                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        Auth0LogError(@"Failed to parse JSONP with error %@", error);
+                        if (failure) {
+                            failure(error);
+                        }
+                    });
                 }
             }
         } else {

@@ -104,6 +104,7 @@
 }
 
 - (void)animateFromViewController:(UIViewController *)from toViewController:(UIViewController *)to {
+    Auth0LogDebug(@"Starting animation to show %@", NSStringFromClass(to.class));
     to.view.alpha = 0.0f;
     from.view.alpha = 0.0f;
     self.navigationView.userInteractionEnabled = NO;

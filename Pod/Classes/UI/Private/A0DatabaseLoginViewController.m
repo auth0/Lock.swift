@@ -191,6 +191,7 @@
     self.matchedConnection = connection;
     self.singleSignOnView.hidden = connection == nil;
     self.passwordField.textField.enabled = connection == nil;
+    self.passwordField.hidden = connection != nil;
     self.userField.textField.returnKeyType = connection == nil ? UIReturnKeyNext : UIReturnKeyGo;
 }
 

@@ -23,11 +23,11 @@
 #import <UIKit/UIKit.h>
 #import "A0AuthenticationUIComponent.h"
 
-@class A0Application, A0UserProfile, A0Token, A0AuthParameters;
+@class A0LockConfiguration, A0UserProfile, A0Token, A0AuthParameters;
 
 @interface A0SocialLoginViewController : UIViewController<A0AuthenticationUIComponent>
 
-@property (strong, nonatomic) A0Application *application;
+@property (strong, nonatomic) A0LockConfiguration *configuration;
 @property (strong, nonatomic) A0AuthParameters *parameters;
 @property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
 

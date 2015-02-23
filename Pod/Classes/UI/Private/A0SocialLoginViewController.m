@@ -32,6 +32,7 @@
 #import "A0ServicesTheme.h"
 #import "A0WebViewController.h"
 #import "A0UIUtilities.h"
+#import "A0LockConfiguration.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -66,7 +67,7 @@
     UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:[NSBundle bundleForClass:self.class]];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:kCellIdentifier];
     self.services = [[A0ServicesTheme alloc] init];
-    self.activeServices = self.application.socialStrategies;
+    self.activeServices = self.configuration.socialStrategies;
     self.selectedService = NSNotFound;
 }
 
@@ -102,14 +103,14 @@
     };
     self.selectedService = sender.tag;
     [self setInProgress:YES];
-    A0Strategy *strategy = self.application.socialStrategies[sender.tag];
+    A0Strategy *strategy = self.activeServices[sender.tag];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         Auth0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
         [authenticator authenticateForStrategy:strategy parameters:self.parameters success:successBlock failure:failureBlock];
     } else {
         Auth0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
-        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.application strategy:strategy parameters:self.parameters];
+        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.configuration.application strategy:strategy parameters:self.parameters];
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         controller.onAuthentication = successBlock;

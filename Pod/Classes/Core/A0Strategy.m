@@ -78,6 +78,16 @@ NSString * const A0StrategySocialUserIdParameter = @"user_id";
 
 @implementation A0Strategy
 
+- (instancetype)initWithName:(NSString *)name connections:(NSArray *)connections type:(A0StrategyType)type {
+    self = [super init];
+    if (self) {
+        _name = name;
+        _connections = [connections copy];
+        _type = type;
+    }
+    return self;
+}
+
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSONDictionary {
     self = [super init];
     if (self) {
@@ -101,6 +111,14 @@ NSString * const A0StrategySocialUserIdParameter = @"user_id";
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<A0Strategy name = '%@' connections = %@>", self.name, self.connections];
+}
+
++ (instancetype)newEnterpriseStrategyWithName:(NSString *)name connections:(NSArray *)connections {
+    return [[A0Strategy alloc] initWithName:name connections:connections type:A0StrategyTypeEnterprise];
+}
+
++ (instancetype)newDatabaseStrategyWithConnections:(NSArray *)connections {
+    return [[A0Strategy alloc] initWithName:A0StrategyNameAuth0 connections:connections type:A0StrategyTypeDatabase];
 }
 
 + (NSSet *)enterpriseNames {

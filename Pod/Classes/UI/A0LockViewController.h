@@ -81,4 +81,9 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  */
 @property (strong, nonatomic) A0AuthParameters *authenticationParameters;
 
+/**
+ *  List of connections to be used by Lock. 
+ *  It can be used to filter connections already enabled in Auth0 dashboard. If a connection is not enabled in the dashboard it will be ignored.
+ */
+@property (strong, nonatomic) NSArray *connections;
 @end

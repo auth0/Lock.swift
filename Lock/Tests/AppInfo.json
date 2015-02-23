@@ -1,0 +1,89 @@
+{
+    "id": "CBBlULbbyQHSVWj5EqZSTMhUrJAS3UFA",
+    "tenant": "samples",
+    "subscription": "dev",
+    "authorize": "https://samples.auth0.com/authorize",
+    "callback": "http://localhost:3000/",
+    "hasAllowedOrigins": true,
+    "strategies": [{
+                   "name": "auth0",
+                   "connections": [{
+                                   "name": "Username-Password-Authentication",
+                                   "domain": null,
+                                   "forgot_password_url": "https://login.auth0.com/lo/forgot?wtrealm=urn:auth0:samples:Username-Password-Authentication",
+                                   "signup_url": "https://login.auth0.com/lo/signup?wtrealm=urn:auth0:samples:Username-Password-Authentication",
+                                   "showSignup": true,
+                                   "showForgot": true,
+                                   "requires_username": false
+                                   }, {
+                                   "name": "CustomDatabase",
+                                   "forgot_password_url": "https://login.auth0.com/lo/forgot?wtrealm=urn:auth0:samples:CustomDatabase",
+                                   "signup_url": "https://login.auth0.com/lo/signup?wtrealm=urn:auth0:samples:CustomDatabase",
+                                   "showSignup": true,
+                                   "showForgot": true,
+                                   "requires_username": false
+                                   }]
+                   }, {
+                   "name": "ad",
+                   "connections": [{
+                                   "name": "MyAD",
+                                   "domain": "pepe.com",
+                                   "domain_aliases": [
+                                                      "pepe.com",
+                                                      "pep.com"
+                                                      ]
+                                   }, {
+                                   "name": "mySeconAD",
+                                   "domain": "second.com",
+                                   "domain_aliases": [
+                                                      "second.com"
+                                                      ]
+                                   }]
+                   }, {
+                   "name": "google-apps",
+                   "connections": [{
+                                   "name": "auth0.com",
+                                   "domain": "auth0.com",
+                                   "domain_aliases": [
+                                                      "auth10.com"
+                                                      ],
+                                   "scope": [
+                                             "email",
+                                             "profile"
+                                             ]
+                                   }]
+                   }, {
+                   "name": "facebook",
+                   "connections": [{
+                                   "name": "facebook",
+                                   "scope": "public_profile"
+                                   }]
+                   }, {
+                   "name": "google-oauth2",
+                   "connections": [{
+                                   "name": "google-oauth2",
+                                   "scope": [
+                                             "email",
+                                             "profile"
+                                             ]
+                                   }]
+                   }, {
+                   "name": "instagram",
+                   "connections": [{
+                                   "name": "instagram",
+                                   "scope": [
+                                             "basic"
+                                             ]
+                                   }]
+                   }, {
+                   "name": "sms",
+                   "connections": [{
+                                   "name": "sms"
+                                   }]
+                   }, {
+                   "name": "twitter",
+                   "connections": [{
+                                   "name": "twitter"
+                                   }]
+                   }]
+}

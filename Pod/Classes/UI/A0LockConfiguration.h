@@ -1,6 +1,6 @@
-//  Lock.h
+// A0LockConfiguration.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,48 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef _AUTH0_LOCK_
-#define _AUTH0_LOCK_
+#import <Foundation/Foundation.h>
 
-#if __has_include("A0APIClient+ReactiveCocoa.h")
-#import "A0APIClient+ReactiveCocoa.h"
-#else
-#import "A0APIClient.h"
-#endif
+@class A0Application, A0Strategy, A0Connection;
 
-#import "A0UserAPIClient.h"
-#import "A0Application.h"
-#import "A0Strategy.h"
-#import "A0Connection.h"
-#import "A0Errors.h"
-#import "A0Token.h"
-#import "A0UserProfile.h"
-#import "A0IdentityProviderAuthenticator.h"
-#import "A0AuthParameters.h"
-#import "A0UserIdentity.h"
+@interface A0LockConfiguration : NSObject
 
-#if __has_include("UI.h")
-#import "UI.h"
-#endif
+@property (readonly, nonatomic) A0Application *application;
 
-#if __has_include("A0FacebookAuthenticator.h")
-#import "A0FacebookAuthenticator.h"
-#endif
+- (instancetype)initWithApplication:(A0Application *)application filter:(NSArray *)connectionNames;
 
-#if __has_include("A0TwitterAuthenticator.h")
-#import "A0TwitterAuthenticator.h"
-#endif
+- (NSArray *)socialStrategies;
 
-#if __has_include("A0TouchIDLockViewController.h")
-#import "A0TouchIDLockViewController.h"
-#endif
+- (NSArray *)enterpriseStrategies;
 
-#if __has_include("A0SMSLockViewController.h")
-#import "A0SMSLockViewController.h"
-#endif
+- (A0Strategy *)activeDirectoryStrategy;
 
-#if __has_include("A0PasswordManager.h")
-#import "A0PasswordManager.h"
-#endif
+- (A0Connection *)defaultDatabaseConnection;
 
-#endif /* _AUTH0_LOCK_ */
+- (A0Connection *)defaultActiveDirectoryConnection;
+
+@end
