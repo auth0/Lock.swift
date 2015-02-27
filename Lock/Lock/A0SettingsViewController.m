@@ -53,6 +53,7 @@
     [theme registerImageWithName:@"mindjet-icon" forKey:A0ThemeIconImageName];
     [theme registerImageWithName:@"mindjet-bg" forKey:A0ThemeScreenBackgroundImageName];
     [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.300] forKey:A0ThemeTouchIDLockContainerBackgroundColor];
+
     self.mindjetTheme = theme;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSInteger index = [defaults integerForKey:@"selected-theme"];

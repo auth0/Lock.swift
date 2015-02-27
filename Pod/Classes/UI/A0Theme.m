@@ -46,6 +46,8 @@ NSString * const A0ThemeIconBackgroundColor = @"A0ThemeIconBackgroundColor";
 NSString * const A0ThemeSeparatorTextFont = @"A0ThemeSeparatorTextFont";
 NSString * const A0ThemeSeparatorTextColor = @"A0ThemeSeparatorTextColor";
 NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderColor";
+NSString * const A0ThemeCredentialBoxSeparatorColor = @"A0ThemeCredentialBoxSeparatorColor";
+NSString * const A0ThemeCredentialBoxBackgroundColor = @"A0ThemeCredentialBoxBackgroundColor";
 NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
 
 @implementation UIImage (LockBundle)
@@ -104,7 +106,10 @@ NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
 
                      A0ThemeSeparatorTextColor: [UIColor colorWithWhite:0.600 alpha:1.000],
                      A0ThemeSeparatorTextFont: [UIFont systemFontOfSize:12.0f],
+
                      A0ThemeCredentialBoxBorderColor: [UIColor colorWithWhite:0.800 alpha:1.000],
+                     A0ThemeCredentialBoxSeparatorColor: [UIColor colorWithWhite:0.800 alpha:1.000],
+                     A0ThemeCredentialBoxBackgroundColor: [UIColor clearColor],
 
                      A0ThemeCloseButtonTintColor: [UIColor colorWithWhite:0.302 alpha:1.000],
                      } mutableCopy];
