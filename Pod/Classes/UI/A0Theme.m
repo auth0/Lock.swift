@@ -169,7 +169,7 @@ NSString * const A0ThemeCredentialBoxBorderColor = @"A0ThemeCredentialBoxBorderC
     button.layer.cornerRadius = 5;
     button.clipsToBounds = YES;
     button.titleLabel.font = [self fontForKey:A0ThemePrimaryButtonFont];
-    button.titleLabel.textColor = [self colorForKey:A0ThemePrimaryButtonTextColor];
+    [button setTitleColor:[self colorForKey:A0ThemePrimaryButtonTextColor] forState:UIControlStateNormal];
 }
 
 - (void)configureSecondaryButton:(UIButton *)button {
