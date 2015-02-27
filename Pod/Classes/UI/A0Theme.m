@@ -28,6 +28,8 @@ NSString * const A0ThemePrimaryButtonNormalColor = @"A0ThemePrimaryButtonNormalC
 NSString * const A0ThemePrimaryButtonHighlightedColor = @"A0ThemePrimaryButtonHighlightedColor";
 NSString * const A0ThemePrimaryButtonFont = @"A0ThemePrimaryButtonFont";
 NSString * const A0ThemePrimaryButtonTextColor = @"A0ThemePrimaryButtonTextColor";
+NSString * const A0ThemePrimaryButtonNormalImageName = @"A0ThemePrimaryButtonNormalImageName";
+NSString * const A0ThemePrimaryButtonHighlightedImageName = @"A0ThemePrimaryButtonHighlightedImageName";
 NSString * const A0ThemeSecondaryButtonBackgroundColor = @"A0ThemeSecondaryButtonBackgroundColor";
 NSString * const A0ThemeSecondaryButtonFont = @"A0ThemeSecondaryButtonFont";
 NSString * const A0ThemeSecondaryButtonTextColor = @"A0ThemeSecondaryButtonTextColor";
@@ -170,12 +172,20 @@ NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
 }
 
 - (void)configurePrimaryButton:(UIButton *)button {
-    [button setBackgroundColor:[self colorForKey:A0ThemePrimaryButtonNormalColor]
-                      forState:UIControlStateNormal];
-    [button setBackgroundColor:[self colorForKey:A0ThemePrimaryButtonHighlightedColor]
-                      forState:UIControlStateHighlighted];
-    button.layer.cornerRadius = 5;
-    button.clipsToBounds = YES;
+    UIImage *normalImage = [self imageForKey:A0ThemePrimaryButtonNormalImageName];
+    UIImage *highlightedImage = [self imageForKey:A0ThemePrimaryButtonHighlightedImageName];
+    if (normalImage && highlightedImage) {
+        [button setBackgroundImage:normalImage forState:UIControlStateNormal];
+        [button setBackgroundImage:highlightedImage forState:UIControlStateHighlighted];
+    } else {
+        [button setBackgroundColor:[self colorForKey:A0ThemePrimaryButtonNormalColor]
+                          forState:UIControlStateNormal];
+        [button setBackgroundColor:[self colorForKey:A0ThemePrimaryButtonHighlightedColor]
+                          forState:UIControlStateHighlighted];
+        button.layer.cornerRadius = 5;
+        button.clipsToBounds = YES;
+    }
+
     button.titleLabel.font = [self fontForKey:A0ThemePrimaryButtonFont];
     [button setTitleColor:[self colorForKey:A0ThemePrimaryButtonTextColor] forState:UIControlStateNormal];
 }
