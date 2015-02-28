@@ -31,6 +31,8 @@ NSString * const A0ThemePrimaryButtonTextColor = @"A0ThemePrimaryButtonTextColor
 NSString * const A0ThemePrimaryButtonNormalImageName = @"A0ThemePrimaryButtonNormalImageName";
 NSString * const A0ThemePrimaryButtonHighlightedImageName = @"A0ThemePrimaryButtonHighlightedImageName";
 NSString * const A0ThemeSecondaryButtonBackgroundColor = @"A0ThemeSecondaryButtonBackgroundColor";
+NSString * const A0ThemeSecondaryButtonNormalImageName = @"A0ThemeSecondaryButtonNormalImageName";
+NSString * const A0ThemeSecondaryButtonHighlightedImageName = @"A0ThemeSecondaryButtonHighlightedImageName";
 NSString * const A0ThemeSecondaryButtonFont = @"A0ThemeSecondaryButtonFont";
 NSString * const A0ThemeSecondaryButtonTextColor = @"A0ThemeSecondaryButtonTextColor";
 NSString * const A0ThemeTextFieldFont = @"A0ThemeTextFieldFont";
@@ -191,14 +193,18 @@ NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
 }
 
 - (void)configureSecondaryButton:(UIButton *)button {
-    UIImage *backgroundNormal = [[[UIImage imageInLockNamed:@"Auth0.bundle/secondary_button_normal"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    UIImage *backgroundHighlighted = [[[UIImage imageInLockNamed:@"Auth0.bundle/secondary_button_highlighted"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [button setBackgroundImage:backgroundNormal forState:UIControlStateNormal];
-    [button setBackgroundImage:backgroundHighlighted forState:UIControlStateHighlighted];
-    button.tintColor = [self colorForKey:A0ThemeSecondaryButtonBackgroundColor];
+    UIImage *normalImage = [self imageForKey:A0ThemeSecondaryButtonNormalImageName];
+    UIImage *highlightedImage = [self imageForKey:A0ThemeSecondaryButtonHighlightedImageName];
+    if (!normalImage || !highlightedImage) {
+        normalImage = [[[UIImage imageInLockNamed:@"Auth0.bundle/secondary_button_normal"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        highlightedImage = [[[UIImage imageInLockNamed:@"Auth0.bundle/secondary_button_highlighted"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        button.tintColor = [self colorForKey:A0ThemeSecondaryButtonBackgroundColor];
+        button.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
+    }
+    [button setBackgroundImage:normalImage forState:UIControlStateNormal];
+    [button setBackgroundImage:highlightedImage forState:UIControlStateHighlighted];
     [button setTitleColor:[self colorForKey:A0ThemeSecondaryButtonTextColor] forState:UIControlStateNormal];
     button.titleLabel.font = [self fontForKey:A0ThemeSecondaryButtonFont];
-    button.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
 }
 
 - (void)configureTextField:(UITextField *)textField {
