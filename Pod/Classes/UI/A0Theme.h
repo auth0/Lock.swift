@@ -24,26 +24,42 @@
 
 FOUNDATION_EXPORT NSString * const A0ThemePrimaryButtonNormalColor;
 FOUNDATION_EXPORT NSString * const A0ThemePrimaryButtonHighlightedColor;
+FOUNDATION_EXPORT NSString * const A0ThemePrimaryButtonNormalImageName;
+FOUNDATION_EXPORT NSString * const A0ThemePrimaryButtonHighlightedImageName;
 FOUNDATION_EXPORT NSString * const A0ThemePrimaryButtonFont;
 FOUNDATION_EXPORT NSString * const A0ThemePrimaryButtonTextColor;
+
 FOUNDATION_EXPORT NSString * const A0ThemeSecondaryButtonBackgroundColor;
+FOUNDATION_EXPORT NSString * const A0ThemeSecondaryButtonNormalImageName;
+FOUNDATION_EXPORT NSString * const A0ThemeSecondaryButtonHighlightedImageName;
 FOUNDATION_EXPORT NSString * const A0ThemeSecondaryButtonFont;
 FOUNDATION_EXPORT NSString * const A0ThemeSecondaryButtonTextColor;
+
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldFont;
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldPlaceholderTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldIconColor;
+
 FOUNDATION_EXPORT NSString * const A0ThemeTitleFont;
 FOUNDATION_EXPORT NSString * const A0ThemeTitleTextColor;
+
 FOUNDATION_EXPORT NSString * const A0ThemeDescriptionFont;
 FOUNDATION_EXPORT NSString * const A0ThemeDescriptionTextColor;
+
 FOUNDATION_EXPORT NSString * const A0ThemeScreenBackgroundColor;
 FOUNDATION_EXPORT NSString * const A0ThemeScreenBackgroundImageName;
+
 FOUNDATION_EXPORT NSString * const A0ThemeIconImageName;
 FOUNDATION_EXPORT NSString * const A0ThemeIconBackgroundColor;
+
 FOUNDATION_EXPORT NSString * const A0ThemeSeparatorTextFont;
 FOUNDATION_EXPORT NSString * const A0ThemeSeparatorTextColor;
+
 FOUNDATION_EXPORT NSString * const A0ThemeCredentialBoxBorderColor;
+FOUNDATION_EXPORT NSString * const A0ThemeCredentialBoxSeparatorColor;
+FOUNDATION_EXPORT NSString * const A0ThemeCredentialBoxBackgroundColor;
+
+FOUNDATION_EXPORT NSString * const A0ThemeCloseButtonTintColor;
 
 @interface A0Theme : NSObject
 

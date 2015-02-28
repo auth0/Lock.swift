@@ -32,12 +32,14 @@
     [super awakeFromNib];
     A0Theme *theme = [A0Theme sharedInstance];
     UIColor *borderColor = [theme colorForKey:A0ThemeCredentialBoxBorderColor];
+    UIColor *separatorColor = [theme colorForKey:A0ThemeCredentialBoxSeparatorColor];
+    self.backgroundColor = [theme colorForKey:A0ThemeCredentialBoxBackgroundColor];
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [borderColor CGColor];
     self.layer.cornerRadius = 3.0f;
 
     [self.separators each:^(UIView *separator) {
-        separator.backgroundColor = borderColor;
+        separator.backgroundColor = separatorColor;
     }];
 }
 

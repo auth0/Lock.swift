@@ -80,7 +80,7 @@
 		5F15815C196A3682003C4DD2 /* A0UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0UserProfileViewController.h; sourceTree = "<group>"; };
 		5F15815D196A3682003C4DD2 /* A0UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileViewController.m; sourceTree = "<group>"; };
 		5F1DA1AA1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockConfigurationSpec.m; sourceTree = "<group>"; };
-		5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppInfo.json; sourceTree = "<group>"; };
+		5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = AppInfo.json; path = ../AppInfo.json; sourceTree = "<group>"; };
 		5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FilteredConnectionDomainMatcherSpec.m; sourceTree = "<group>"; };
 		5F3237311A7A7FE700B58994 /* A0HttpKeeper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = A0HttpKeeper.swift; path = Utils/A0HttpKeeper.swift; sourceTree = "<group>"; };
 		5F3237331A7A858E00B58994 /* A0AnnotatedRequestSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0AnnotatedRequestSerializer.h; path = Utils/A0AnnotatedRequestSerializer.h; sourceTree = "<group>"; };
@@ -184,6 +184,7 @@
 		5FC7EECD1A7957BE00C83B09 /* HttpResponses */ = {
 			isa = PBXGroup;
 			children = (
+				5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */,
 				5F48BBA71A7B151700D8E05B /* POST-delegation.response */,
 				5F48BBA51A7AD3BB00D8E05B /* POST-dbconnections-change-password.response */,
 				5F48BBA31A7ACC2900D8E05B /* POST-dbconnections-signup.response */,
@@ -299,7 +300,6 @@
 				5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */,
 				5F0AA5BE1A78308100073120 /* A0APIClientSpec.m */,
 				5F1DA1AA1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m */,
-				5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
