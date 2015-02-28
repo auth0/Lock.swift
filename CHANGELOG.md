@@ -3,9 +3,19 @@ All notable changes to this project will be documented in this file.
 
 ##master
 
+## 1.9.0 - 2015-02-27
+
+###Added
+- Filter application connections that Lock will use in runtime.
+- Ability to customise primary and secondary buttons with images, and credential box background color.
+
+## 1.8.0 - 2015-02-13
+
 ###Changed
 - Fixed project structure to support Dynamic Framework instead of static lib
 - Use NSURLSession instead of NSURLConnection for `A0APIClient` requests.
+- Fix social connection small button sizes.
+- Avoid default enterprise connection to override selected social connection.
  
 ## 1.7.0 - 2014-12-04
 
