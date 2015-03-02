@@ -174,6 +174,7 @@
         controller.loginUser = self.loginAfterSignUp;
         controller.parameters = [self copyAuthenticationParameters];
         controller.onSignUpBlock = self.onAuthenticationBlock;
+        controller.customMessage = A0LocalizedString(@"Or please enter your email and password");
         [self displayController:controller];
     } failure:^(NSError *error) {
         Auth0LogError(@"Failed to fetch App info %@", error);
