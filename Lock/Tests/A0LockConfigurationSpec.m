@@ -40,6 +40,9 @@
 #define kActiveDirectoryExample @"active directory strategy and default connection"
 #define kDatabaseConnectionExample @"valid default active connection"
 
+#define kCustomDatabaseConnectionName @"CustomDatabase"
+#define kAuth0DatabaseConnectionName @"Username-Password-Authentication"
+
 SpecBegin(A0LockConfiguration)
 
 describe(@"A0LockConfiguration", ^{
@@ -199,21 +202,43 @@ describe(@"A0LockConfiguration", ^{
         itShouldBehaveLike(kDatabaseConnectionExample, ^id{
             return @{
                      kLockConfig: [[A0LockConfiguration alloc] initWithApplication:application filter:@[]],
-                     kDefaultDatabaseConnectionName: @"Username-Password-Authentication",
+                     kDefaultDatabaseConnectionName: kAuth0DatabaseConnectionName,
                      };
         });
 
         itShouldBehaveLike(kDatabaseConnectionExample, ^id{
             return @{
-                     kLockConfig: [[A0LockConfiguration alloc] initWithApplication:application filter:@[@"Username-Password-Authentication", @"MyAD", @"mySeconAD"]],
-                     kDefaultDatabaseConnectionName: @"Username-Password-Authentication",
+                     kLockConfig: [[A0LockConfiguration alloc] initWithApplication:application filter:@[kAuth0DatabaseConnectionName, @"MyAD", @"mySeconAD"]],
+                     kDefaultDatabaseConnectionName: kAuth0DatabaseConnectionName,
                      };
         });
 
         itShouldBehaveLike(kDatabaseConnectionExample, ^id{
             return @{
-                     kLockConfig: [[A0LockConfiguration alloc] initWithApplication:application filter:@[@"CustomDatabase", @"MyAD", @"mySeconAD"]],
-                     kDefaultDatabaseConnectionName: @"CustomDatabase",
+                     kLockConfig: [[A0LockConfiguration alloc] initWithApplication:application filter:@[kCustomDatabaseConnectionName, @"MyAD", @"mySeconAD"]],
+                     kDefaultDatabaseConnectionName: kCustomDatabaseConnectionName,
+                     };
+        });
+
+        itShouldBehaveLike(kDatabaseConnectionExample, ^id{
+            A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:@[]];
+            configuration.defaultDatabaseConnectionName = kCustomDatabaseConnectionName;
+            return @{
+                     kLockConfig: configuration,
+                     kDefaultDatabaseConnectionName: kCustomDatabaseConnectionName,
+                     };
+        });
+
+        itShouldBehaveLike(kDatabaseConnectionExample, ^id{
+            A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application
+                                                                                           filter:@[
+                                                                                                    kAuth0DatabaseConnectionName,
+                                                                                                    kCustomDatabaseConnectionName
+                                                                                                    ]];
+            configuration.defaultDatabaseConnectionName = kCustomDatabaseConnectionName;
+            return @{
+                     kLockConfig: configuration,
+                     kDefaultDatabaseConnectionName: kCustomDatabaseConnectionName,
                      };
         });
 

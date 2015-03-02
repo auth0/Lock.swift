@@ -90,7 +90,17 @@
 }
 
 - (A0Connection *)defaultDatabaseConnection {
-    return self.database.connections.firstObject;
+    NSArray *connections =  self.database.connections;
+    __block A0Connection *defaultConnection = connections.firstObject;
+    if (self.defaultDatabaseConnectionName) {
+        [connections enumerateObjectsUsingBlock:^(A0Connection *connection, NSUInteger idx, BOOL *stop) {
+            if ([connection.name isEqualToString:self.defaultDatabaseConnectionName]) {
+                defaultConnection = connection;
+                *stop = YES;
+            }
+        }];
+    }
+    return defaultConnection;
 }
 
 - (A0Connection *)defaultActiveDirectoryConnection {
