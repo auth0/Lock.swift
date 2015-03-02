@@ -168,6 +168,7 @@
         Auth0LogDebug(@"Obtained application info. Starting to build Lock UI for Sign Up...");
         [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
         A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
+        configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
         [self.serviceCollectionView showSocialServicesForConfiguration:configuration];
         A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
         controller.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:YES];

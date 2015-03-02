@@ -86,4 +86,10 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  *  It can be used to filter connections already enabled in Auth0 dashboard. If a connection is not enabled in the dashboard it will be ignored.
  */
 @property (strong, nonatomic) NSArray *connections;
+
+/**
+ *  Name of the DB connection that should be used by Lock. By default is nil, which means the first connection will be used.
+ */
+@property (copy, nonatomic) NSString *defaultDatabaseConnectionName;
+
 @end
