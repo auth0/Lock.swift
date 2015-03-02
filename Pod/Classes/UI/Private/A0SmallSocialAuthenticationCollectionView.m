@@ -67,6 +67,7 @@
     self.socialServices = [configuration socialStrategies];
     self.layoutDelegate.serviceCount = self.socialServices.count;
     self.scrollEnabled = self.layoutDelegate.shouldScroll;
+    [self reloadData];
 }
 
 - (void)triggerAuth:(UIButton *)sender {
