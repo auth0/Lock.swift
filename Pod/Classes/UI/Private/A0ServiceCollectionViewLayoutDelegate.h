@@ -24,7 +24,7 @@
 
 @interface A0ServiceCollectionViewLayoutDelegate : NSObject<UICollectionViewDelegateFlowLayout>
 
-@property (readonly, nonatomic) NSUInteger serviceCount;
+@property (assign, nonatomic) NSUInteger serviceCount;
 @property (readonly, nonatomic) BOOL shouldScroll;
 
 - (instancetype)initWithServiceCount:(NSUInteger)serviceCount;

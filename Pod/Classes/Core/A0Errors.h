@@ -23,10 +23,11 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, A0ErrorCode) {
+    A0AuthenticationFailed = 0,
     /**
      *  Both password and email/username are invalid
      */
-    A0ErrorCodeInvalidCredentials = 0,
+    A0ErrorCodeInvalidCredentials,
     /**
      *  Username/Email is invalid
      */
@@ -107,6 +108,7 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 /// @name Login Errors
 ///----------------------------------------
 
++ (NSError *)defaultLoginErrorFor:(NSError *)error;
 + (NSError *)invalidLoginCredentialsUsingEmail:(BOOL)usesEmail;
 + (NSError *)invalidLoginUsernameUsingEmail:(BOOL)usesEmail;
 + (NSError *)invalidLoginPassword;
