@@ -77,7 +77,7 @@
     self.userField.textField.placeholder = A0LocalizedString(@"Email");
     self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
     [self.signUpButton setTitle:A0LocalizedString(@"SIGN UP") forState:UIControlStateNormal];
-    self.messageLabel.text = A0LocalizedString(@"Please enter your email and password");
+    self.messageLabel.text = self.customMessage ?: A0LocalizedString(@"Please enter your email and password");
 
     [self.passwordField.passwordManagerButton addTarget:self action:@selector(storeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
 }

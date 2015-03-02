@@ -33,6 +33,7 @@
 @property (strong, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0SignUpCredentialValidator *validator;
 @property (assign, nonatomic, getter = shouldLoginUser) BOOL loginUser;
+@property (copy, nonatomic) NSString *customMessage;
 
 - (void)addDisclaimerSubview:(UIView *)view;
 

@@ -25,5 +25,6 @@
 
 #import "A0Theme.h"
 #import "A0LockViewController.h"
+#import "A0LockSignUpViewController.h"
 
 #endif
