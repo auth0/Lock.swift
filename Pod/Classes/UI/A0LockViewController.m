@@ -57,7 +57,7 @@
 @property (weak, nonatomic) IBOutlet UIView *iconContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 
-@property (strong, nonatomic) A0Application *application;
+@property (strong, nonatomic) A0LockConfiguration *configuration;
 
 - (IBAction)dismiss:(id)sender;
 
@@ -136,9 +136,10 @@
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         Auth0LogDebug(@"Obtained application info. Starting to build Lock UI...");
-        self.application = application;
         [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
-        [self layoutRootControllerForApplication:application];
+        self.configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
+        self.configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
+        [self layoutRootController];
     } failure:^(NSError *error) {
         Auth0LogError(@"Failed to fetch App info %@", error);
         NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Failed to display login");
@@ -159,7 +160,7 @@
 
 #pragma mark - Container methods
 
-- (void)layoutRootControllerForApplication:(A0Application *)application {
+- (void)layoutRootController {
     @weakify(self);
     void(^onAuthSuccessBlock)(A0UserProfile *, A0Token *) =  ^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);
@@ -168,22 +169,22 @@
         }
     };
     UIViewController<A0AuthenticationUIComponent> *rootController;
-    A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
-    BOOL hasSocial = configuration.socialStrategies.count > 0;
-    BOOL hasAD = configuration.activeDirectoryStrategy != nil;
-    BOOL hasEnterprise = configuration.enterpriseStrategies.count > 0;
-    BOOL hasDB = configuration.defaultDatabaseConnection != nil;
+    BOOL hasSocial = self.configuration.socialStrategies.count > 0;
+    BOOL hasAD = self.configuration.activeDirectoryStrategy != nil;
+    BOOL hasEnterprise = self.configuration.enterpriseStrategies.count > 0;
+    BOOL hasDB = self.configuration.defaultDatabaseConnection != nil;
 
-    A0Connection *database = configuration.defaultDatabaseConnection;
-    A0Connection *ad = configuration.defaultActiveDirectoryConnection;
+    A0Connection *database = self.configuration.defaultDatabaseConnection;
+    A0Connection *ad = self.configuration.defaultActiveDirectoryConnection;
+    A0Application *application = self.configuration.application;
     [self.navigationView removeAll];
     A0ContainerLayoutVertical layout = A0ContainerLayoutVerticalCenter;
     if ((hasDB && hasSocial) || (hasSocial && hasEnterprise && !hasAD)) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
-        controller.config = configuration;
+        controller.config = self.configuration;
         controller.showResetPassword = [database.values[@"showForgot"] boolValue];
         controller.showSignUp = [database.values[@"showSignup"] boolValue];
-        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
+        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
         rootController = controller;
     }
@@ -191,29 +192,29 @@
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
         controller.showResetPassword = [database.values[@"showForgot"] boolValue];
         controller.showSignUp = [database.values[@"showSignup"] boolValue];
-        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
+        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
         controller.defaultConnection = database;
         rootController = controller;
     }
     if (hasSocial && !hasAD && !hasDB && !hasEnterprise) {
         A0SocialLoginViewController *controller = [self newSocialLoginViewController:onAuthSuccessBlock];
-        controller.configuration = configuration;
+        controller.configuration = self.configuration;
         rootController = controller;
         layout = A0ContainerLayoutVerticalFill;
     }
     if (hasSocial && hasAD && !hasDB) {
         A0FullActiveDirectoryViewController *controller = [self newFullADLoginViewController:onAuthSuccessBlock];
-        controller.configuration = configuration;
+        controller.configuration = self.configuration;
         controller.defaultConnection = ad;
-        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
+        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:NO];
         rootController = controller;
     }
     if (hasAD && !hasDB && !hasSocial) {
         A0ActiveDirectoryViewController *controller = [self newADLoginViewController:onAuthSuccessBlock];;
         controller.defaultConnection = ad;
-        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.application.enterpriseStrategies];
+        controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:NO];
         rootController = controller;
     }
@@ -229,7 +230,7 @@
                                               cancelButtonTitle:nil
                                               otherButtonTitles:A0LocalizedString(@"Retry"), nil];
         [alert show];
-        Auth0LogError(@"Application has no enabled connections. Application Strategies: %@. Connections to filter %@.", self.application.strategies, self.connections);
+        Auth0LogError(@"Application has no enabled connections. Application Strategies: %@. Connections to filter %@.", application.strategies, self.connections);
     }
 }
 
@@ -320,7 +321,7 @@
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         @strongify(self);
-        [self layoutRootControllerForApplication:self.application];
+        [self layoutRootController];
     }];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
         @strongify(self);
@@ -343,7 +344,7 @@
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         @strongify(self);
-        [self layoutRootControllerForApplication:self.application];
+        [self layoutRootController];
     }];
     return controller;
 }
@@ -355,7 +356,7 @@
     @weakify(self);
     void(^block)() = ^{
         @strongify(self);
-        [self layoutRootControllerForApplication:self.application];
+        [self layoutRootController];
     };
     controller.onChangePasswordBlock = block;
     [self.navigationView removeAll];

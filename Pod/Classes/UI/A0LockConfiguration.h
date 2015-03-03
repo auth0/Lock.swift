@@ -28,6 +28,8 @@
 
 @property (readonly, nonatomic) A0Application *application;
 
+@property (copy, nonatomic) NSString *defaultDatabaseConnectionName;
+
 - (instancetype)initWithApplication:(A0Application *)application filter:(NSArray *)connectionNames;
 
 - (NSArray *)socialStrategies;
