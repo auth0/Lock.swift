@@ -26,6 +26,7 @@
 #import <googleplus-ios-sdk/GoogleOpenSource.h>
 #import "A0APIClient.h"
 #import "A0IdentityProviderCredentials.h"
+#import "A0Errors.h"
 
 @interface A0GooglePlusAuthenticator () <GPPSignInDelegate>
 @property (copy, nonatomic) void (^successBlock)(A0UserProfile *, A0Token *);
@@ -91,7 +92,7 @@
 - (void)finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error {
     if (error) {
         Auth0LogError(@"Failed to authenticate with Google+ with error %@", error);
-        self.failureBlock(error);
+        self.failureBlock([A0Errors googleplusFailed]);
     } else {
         Auth0LogVerbose(@"Authenticated with Google+");
         A0IdentityProviderCredentials *credentials = [[A0IdentityProviderCredentials alloc] initWithAccessToken:auth.accessToken];

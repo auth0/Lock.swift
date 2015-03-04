@@ -229,6 +229,12 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:A0LocalizedString(failureReason)];
 }
 
++ (NSError *)googleplusFailed {
+    return [self errorWithCode:A0ErrorCodeGooglePlusFailed
+                   description:A0LocalizedString(@"There was an error contacting Google+")
+                 failureReason:A0LocalizedString(@"Permissions were not granted. Try again")];
+}
+
 #pragma mark - Localized error messages
 
 + (NSString *)localizedStringForLoginError:(NSError *)error {

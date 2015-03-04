@@ -220,6 +220,7 @@
                 case A0ErrorCodeAuth0InvalidConfiguration:
                 case A0ErrorCodeAuth0NoURLSchemeFound:
                 case A0ErrorCodeNotConnectedToInternet:
+                case A0ErrorCodeGooglePlusFailed:
                     A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                     break;
                 default:

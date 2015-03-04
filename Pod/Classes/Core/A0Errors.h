@@ -92,6 +92,10 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
      *  When device is not connected to internet.
      */
     A0ErrorCodeNotConnectedToInternet,
+    /**
+     *  When Google+ authentication fails
+     */
+    A0ErrorCodeGooglePlusFailed,
 };
 
 FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
@@ -146,6 +150,7 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 + (NSError *)auth0CancelledForStrategy:(NSString *)strategyName;
 + (NSError *)auth0NotAuthorizedForStrategy:(NSString *)strategyName;
 + (NSError *)auth0InvalidConfigurationForStrategy:(NSString *)strategyName;
++ (NSError *)googleplusFailed;
 
 ///----------------------------------------
 /// @name Localized Messages
