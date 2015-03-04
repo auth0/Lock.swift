@@ -59,6 +59,14 @@
     return self;
 }
 
++ (instancetype)newAuthenticatorWithClientId:(NSString *)clientId {
+    return [[A0GooglePlusAuthenticator alloc] initWithClientId:clientId];
+}
+
++ (instancetype)newAuthenticatorWithClientId:(NSString *)clientId andScopes:(NSArray *)scopes {
+    return [[A0GooglePlusAuthenticator alloc] initWithClientId:clientId scopes:scopes];
+}
+
 - (NSString *)identifier {
     return A0StrategyNameGooglePlus;
 }
