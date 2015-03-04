@@ -91,6 +91,7 @@
                 case A0ErrorCodeAuth0InvalidConfiguration:
                 case A0ErrorCodeAuth0NoURLSchemeFound:
                 case A0ErrorCodeNotConnectedToInternet:
+                case A0ErrorCodeGooglePlusFailed:
                     authenticationError = error;
                     break;
                 default:

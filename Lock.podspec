@@ -75,6 +75,14 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     twitter.frameworks  = 'Social', 'Accounts', 'Twitter'
   end
 
+  s.subspec 'GooglePlus' do |gplus|
+    gplus.platform = :ios
+    gplus.public_header_files = 'Pod/Classes/Provider/GooglePlus/*.h'
+    gplus.source_files = 'Pod/Classes/Provider/GooglePlus/*.{h,m}'
+    gplus.dependency 'Lock/Core'
+    gplus.dependency 'googleplus-ios-sdk', '~> 1.7.1'
+  end
+
   s.subspec 'TouchID' do |touchid|
     touchid.platform = :ios
     touchid.public_header_files = 'Pod/Classes/TouchID/*.h'

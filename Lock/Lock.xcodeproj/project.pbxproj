@@ -690,6 +690,7 @@
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Lock/Lock-Prefix.pch";
+				GOOGLE_PLUS_CLIENT_ID = "856630117504-cman9rbv3t5diu2ksgkn4n3m4p0b84ti.apps.googleusercontent.com";
 				INFOPLIST_FILE = "Lock/Lock-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = Lock;
@@ -707,8 +708,8 @@
 				AUTH0_TENANT = samples;
 				Auth0SendSMSAPIToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIweUlxTXJpRHVnbU13SnR1VlJkaHVrVUxvYmUxZmhYMyIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImNyZWF0ZSJdfX0sImlhdCI6MTQyMjg4ODM4MywianRpIjoiZTgxYjRkNjcxZmFkYjY4OTQ2MzUzZmNiNGRmMzAxOTEifQ.HcWrivdODASA1XQz1YsplUUC1jv2u_CqtbtZnxjRex0;
 				BUNDLE_SUFFIX = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FACEBOOK_APP_ID = 696506353719958;
 				FACEBOOK_APP_NAME = "Auth0 Samples";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -722,6 +723,7 @@
 					"$(inherited)",
 					"RELEASE=1",
 				);
+				GOOGLE_PLUS_CLIENT_ID = "856630117504-sc8oovbfg7tl5fhqrbocee292inbuebq.apps.googleusercontent.com";
 				INFOPLIST_FILE = "Lock/Lock-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = Lock;

@@ -58,9 +58,12 @@ static BOOL isRunningTests(void) {
     A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
                                                                             andSecret:@""];
     A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
+    NSString *googlePlusClientId = [[NSBundle mainBundle] infoDictionary][@"GooglePlusClientId"];
+    A0GooglePlusAuthenticator *googleplus = [A0GooglePlusAuthenticator newAuthenticatorWithClientId:googlePlusClientId];
     [[A0IdentityProviderAuthenticator sharedInstance] registerAuthenticationProviders:@[
                                                                                         twitter,
                                                                                         facebook,
+                                                                                        googleplus,
                                                                                         ]];
 
     self.keychain = [A0SimpleKeychain keychainWithService:@"Auth0"];

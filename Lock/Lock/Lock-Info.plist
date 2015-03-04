@@ -15,7 +15,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.auth0.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_SUFFIX}</string>
+	<string>com.auth0.$(PRODUCT_NAME:rfc1034identifier)$(BUNDLE_SUFFIX)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -48,6 +48,16 @@
 				<string>a0${AUTH0_CLIENT_ID}</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>googleplus</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.auth0.Lock-Dev</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>9</string>
@@ -69,6 +79,8 @@
 	<string>${FACEBOOK_APP_ID}</string>
 	<key>FacebookDisplayName</key>
 	<string>${FACEBOOK_APP_NAME}</string>
+	<key>GooglePlusClientId</key>
+	<string>${GOOGLE_PLUS_CLIENT_ID}</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

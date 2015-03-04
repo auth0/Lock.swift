@@ -52,6 +52,10 @@
 #import "A0TwitterAuthenticator.h"
 #endif
 
+#if __has_include("A0GooglePlusAuthenticator.h")
+#import "A0GooglePlusAuthenticator.h"
+#endif
+
 #if __has_include("A0TouchIDLockViewController.h")
 #import "A0TouchIDLockViewController.h"
 #endif
