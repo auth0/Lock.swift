@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file.
 ###Added
 - A new `UIViewController` to display Sign Up screen only: `A0LockSignUpViewController`
 - Specify the Database connection that Lock should use by default.
-- Google+ native integration
+- Google+ native integration.
+- Enable/Disable dynamically Lock's logging using `A0LockLogger`.
 
 ## 1.9.0 - 2015-02-27
 

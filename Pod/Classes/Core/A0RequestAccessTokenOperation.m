@@ -25,6 +25,8 @@
 
 @implementation A0RequestAccessTokenOperation
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)initWithBaseURL:(NSURL *)baseURL clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret {
     NSURL *accessTokenURL = [NSURL URLWithString:@"/oauth/token" relativeToURL:baseURL];
     NSDictionary *parameters = @{
@@ -38,7 +40,7 @@
                                                                          parameters:parameters
                                                                               error:&error];
     if (error) {
-        Auth0LogError(@"Failed to create Request Access Token operation with error %@", error);
+        A0LogError(@"Failed to create Request Access Token operation with error %@", error);
         return nil;
     }
     self = [super initWithRequest:request];
@@ -50,12 +52,12 @@
 
 - (void)setSuccess:(void (^)(NSString *))success failure:(void (^)(NSError *))failure {
     [self setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        Auth0LogDebug(@"Obtained access token %@", responseObject);
+        A0LogDebug(@"Obtained access token %@", responseObject);
         if (success) {
             success(responseObject[@"access_token"]);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        Auth0LogError(@"Failed to fetch access token with error %@", error);
+        A0LogError(@"Failed to fetch access token with error %@", error);
         NSError *operationError = error.code == NSURLErrorNotConnectedToInternet ? [A0Errors notConnectedToInternetError] : error;
         if (failure) {
             failure(operationError);

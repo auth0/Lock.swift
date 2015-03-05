@@ -24,12 +24,15 @@ PODS:
   - BDBOAuth1Manager (1.5.0):
     - AFNetworking/NSURLConnection (~> 2.5.0)
     - AFNetworking/NSURLSession (~> 2.5.0)
-  - Bolts (1.1.3)
-  - CocoaLumberjack (1.9.2):
-    - CocoaLumberjack/Extensions (= 1.9.2)
-  - CocoaLumberjack/Core (1.9.2)
-  - CocoaLumberjack/Extensions (1.9.2):
+  - Bolts (1.1.4)
+  - CocoaLumberjack (2.0.0-rc2):
+    - CocoaLumberjack/Default (= 2.0.0-rc2)
+    - CocoaLumberjack/Extensions (= 2.0.0-rc2)
+  - CocoaLumberjack/Core (2.0.0-rc2)
+  - CocoaLumberjack/Default (2.0.0-rc2):
     - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.0.0-rc2):
+    - CocoaLumberjack/Default
   - Expecta (0.3.2)
   - Facebook-iOS-SDK (3.23.0):
     - Bolts (~> 1.0)
@@ -72,7 +75,7 @@ PODS:
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
   - Lock (1.9.0):
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core (= 1.9.0)
     - Lock/Facebook (= 1.9.0)
@@ -81,41 +84,41 @@ PODS:
     - ObjectiveSugar (~> 1.1)
   - Lock/1Password (1.9.0):
     - 1PasswordExtension (~> 1.1)
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
   - Lock/Core (1.9.0):
     - AFNetworking (~> 2.5)
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 2.0.0-rc)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
   - Lock/Facebook (1.9.0):
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 2.0.0-rc)
     - Facebook-iOS-SDK (~> 3.15)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
   - Lock/GooglePlus (1.9.0):
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 2.0.0-rc)
     - googleplus-ios-sdk (~> 1.7.1)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
   - Lock/ReactiveCore (1.9.0):
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
     - ReactiveCocoa (~> 2.3)
   - Lock/SMS (1.9.0):
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/UI
     - ObjectiveSugar (~> 1.1)
   - Lock/TouchID (1.9.0):
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/UI
     - ObjectiveSugar (~> 1.1)
@@ -123,14 +126,14 @@ PODS:
     - TouchIDAuth (~> 0.1)
   - Lock/Twitter (1.9.0):
     - BDBOAuth1Manager (~> 1.5.0)
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
   - Lock/UI (1.9.0):
-    - CocoaLumberjack (~> 1.9)
+    - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ObjectiveSugar (~> 1.1)
@@ -154,7 +157,7 @@ PODS:
   - ReactiveCocoa/UI (2.4.7):
     - ReactiveCocoa/Core
   - SimpleKeychain (0.3.0)
-  - Specta (0.3.0.beta1)
+  - Specta (0.3.2)
   - TouchIDAuth (0.1.0):
     - libextobjc (~> 0.4)
     - ObjectiveSugar (~> 1.1)
@@ -177,33 +180,25 @@ DEPENDENCIES:
   - OCMockito
   - OHHTTPStubs
   - SimpleKeychain
-  - Specta (from `https://github.com/specta/specta.git`, tag `v0.3.0.beta1`)
+  - Specta (~> 0.3.2)
 
 EXTERNAL SOURCES:
   Lock:
     :path: ../
-  Specta:
-    :git: https://github.com/specta/specta.git
-    :tag: v0.3.0.beta1
-
-CHECKOUT OPTIONS:
-  Specta:
-    :git: https://github.com/specta/specta.git
-    :tag: v0.3.0.beta1
 
 SPEC CHECKSUMS:
   1PasswordExtension: 38b5be7dd6dbe786c98f15d51d50ad21150db60a
   AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
   BDBOAuth1Manager: 274574557077abc873fc5688abe8b991e782749c
-  Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
-  CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
+  Bolts: dd9fb8433d67f5acc3b6b4d1379bbc5513d716c1
+  CocoaLumberjack: 6027cd9a0665203a7df456c526e137f02cd547e1
   Expecta: ee641011fe10aa1855d487b40e4976dac50ec342
   Facebook-iOS-SDK: 3d65f685348b789e46a9aacf92bfa85b60b63755
   googleplus-ios-sdk: b0f6cd8aa29c51d0048cace8dc3bd8f4ae0806bb
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JWTDecode: 72e3393caf14dc762eba51d29f15bd86f608aba3
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  Lock: 96b5926fae0ac2aef3eb0f79444b71f11820f33b
+  Lock: 366430578305545c55f02b423323908e118b9985
   LUKeychainAccess: 8d45b6c894c0d808786b1740c057b5e776313d88
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
@@ -214,7 +209,7 @@ SPEC CHECKSUMS:
   PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
   ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
   SimpleKeychain: 4758625a53ca89cfae98b4aca8c550d1193292f8
-  Specta: 63e8ac8e07db6675c7096d37f77a266a1be4c02d
+  Specta: 698a58ffa5ec948327d3b92eab50ca58d7f4fbe8
   TouchIDAuth: 4a104cd6a614e63c23fad6e6446bf79b6cc6f429
   TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
 

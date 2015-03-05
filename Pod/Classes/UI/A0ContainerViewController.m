@@ -37,6 +37,8 @@
 
 @implementation A0ContainerViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
@@ -104,7 +106,7 @@
 }
 
 - (void)animateFromViewController:(UIViewController *)from toViewController:(UIViewController *)to {
-    Auth0LogDebug(@"Starting animation to show %@", NSStringFromClass(to.class));
+    A0LogDebug(@"Starting animation to show %@", NSStringFromClass(to.class));
     to.view.alpha = 0.0f;
     from.view.alpha = 0.0f;
     self.navigationView.userInteractionEnabled = NO;

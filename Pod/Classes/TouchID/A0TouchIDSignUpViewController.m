@@ -49,6 +49,8 @@
 
 @implementation A0TouchIDSignUpViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
 }
@@ -76,7 +78,7 @@
     [self.validator setUsername:self.emailField.textField.text password:password];
     if ([self.validator validateCredential:&error]) {
         @weakify(self);
-        Auth0LogDebug(@"Registering user with email %@ for TouchID", username);
+        A0LogDebug(@"Registering user with email %@ for TouchID", username);
         A0APIClient *client = [A0APIClient sharedClient];
         [client signUpWithUsername:username
                           password:password

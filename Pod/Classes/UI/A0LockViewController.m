@@ -65,6 +65,8 @@
 
 @implementation A0LockViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
 }
@@ -135,13 +137,13 @@
     @weakify(self);
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
-        Auth0LogDebug(@"Obtained application info. Starting to build Lock UI...");
+        A0LogDebug(@"Obtained application info. Starting to build Lock UI...");
         [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
         self.configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
         self.configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
         [self layoutRootController];
     } failure:^(NSError *error) {
-        Auth0LogError(@"Failed to fetch App info %@", error);
+        A0LogError(@"Failed to fetch App info %@", error);
         NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Failed to display login");
         NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldnt get login screen configuration. Please try again.");
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
@@ -154,7 +156,7 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    Auth0LogVerbose(@"Retrying fetch Auth0 app info...");
+    A0LogVerbose(@"Retrying fetch Auth0 app info...");
     [self loadApplicationInfo];
 }
 
@@ -230,7 +232,7 @@
                                               cancelButtonTitle:nil
                                               otherButtonTitles:A0LocalizedString(@"Retry"), nil];
         [alert show];
-        Auth0LogError(@"Application has no enabled connections. Application Strategies: %@. Connections to filter %@.", application.strategies, self.connections);
+        A0LogError(@"Application has no enabled connections. Application Strategies: %@. Connections to filter %@.", application.strategies, self.connections);
     }
 }
 

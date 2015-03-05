@@ -37,6 +37,8 @@
 
 @implementation A0WebAuthentication
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy {
     self = [super init];
     if (self) {
@@ -58,11 +60,11 @@
 - (A0Token *)tokenFromURL:(NSURL *)url error:(NSError *__autoreleasing *)error {
     NSString *queryString = url.query ?: url.fragment;
     NSDictionary *params = [NSDictionary fromQueryString:queryString];
-    Auth0LogDebug(@"Received params %@ from URL %@", params, url);
+    A0LogDebug(@"Received params %@ from URL %@", params, url);
     NSString *errorMessage = params[@"error"];
     A0Token *token;
     if (errorMessage) {
-        Auth0LogError(@"URL contained error message %@", errorMessage);
+        A0LogError(@"URL contained error message %@", errorMessage);
         *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorizedForStrategy:self.strategyName] : [A0Errors auth0InvalidConfigurationForStrategy:self.strategyName];
     } else {
         NSString *accessToken = params[@"access_token"];
@@ -71,9 +73,9 @@
         NSString *refreshToken = params[@"refresh_token"];
         if (idToken) {
             token = [[A0Token alloc] initWithAccessToken:accessToken idToken:idToken tokenType:tokenType refreshToken:refreshToken];
-            Auth0LogVerbose(@"Obtained token from URL: %@", token);
+            A0LogVerbose(@"Obtained token from URL: %@", token);
         } else {
-            Auth0LogError(@"Failed to obtain id_token from URL %@", url);
+            A0LogError(@"Failed to obtain id_token from URL %@", url);
             *error = [A0Errors auth0NotAuthorizedForStrategy:self.strategyName];
         }
     }

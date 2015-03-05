@@ -50,6 +50,8 @@
 
 @implementation A0SocialLoginViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
 }
@@ -107,10 +109,10 @@
     A0Strategy *strategy = self.activeServices[sender.tag];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     if ([authenticator canAuthenticateStrategy:strategy]) {
-        Auth0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
+        A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
         [authenticator authenticateForStrategy:strategy parameters:self.parameters success:successBlock failure:failureBlock];
     } else {
-        Auth0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
+        A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
         A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.configuration.application strategy:strategy parameters:self.parameters];
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;

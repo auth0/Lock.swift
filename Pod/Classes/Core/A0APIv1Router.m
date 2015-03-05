@@ -50,6 +50,8 @@
 
 @implementation A0APIv1Router
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (void)configureWithBundleInfo:(NSDictionary *)bundleInfo {
     NSString *domain = bundleInfo[kDomainKey];
     NSString *configDomain = bundleInfo[kConfigurationDomainKey];
@@ -80,8 +82,8 @@
     self.endpointURL = domainURL;
     NSString *clientPath = [[@"client" stringByAppendingPathComponent:clientId] stringByAppendingPathExtension:@"js"];
     self.configurationURL = [NSURL URLWithString:clientPath relativeToURL:configurationURL];
-    Auth0LogInfo(@"Base URL of API is %@", self.endpointURL);
-    Auth0LogInfo(@"Configuration URL is %@", self.configurationURL);
+    A0LogInfo(@"Base URL of API is %@", self.endpointURL);
+    A0LogInfo(@"Configuration URL is %@", self.configurationURL);
     self.clientId = clientId;
 }
 

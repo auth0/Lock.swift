@@ -36,6 +36,8 @@
 
 @implementation A0GooglePlusAuthenticator
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)initWithClientId:(NSString *)clientId {
     return [self initWithClientId:clientId scopes:nil];
 }
@@ -53,7 +55,7 @@
         }
         signIn.scopes = [scopeSet allObjects];
         signIn.delegate = self;
-        Auth0LogDebug(@"Initialised Google+ authenticator with scopes %@", signIn.scopes);
+        A0LogDebug(@"Initialised Google+ authenticator with scopes %@", signIn.scopes);
         [self clearCallbacks];
     }
     return self;
@@ -81,14 +83,14 @@
     self.parameters = parameters;
     GPPSignIn *signIn = [GPPSignIn sharedInstance];
     [signIn authenticate];
-    Auth0LogVerbose(@"Starting Google+ Authentication...");
+    A0LogVerbose(@"Starting Google+ Authentication...");
 }
 
 - (void)clearSessions {
     self.parameters = nil;
     [self clearCallbacks];
     [[GPPSignIn sharedInstance] signOut];
-    Auth0LogVerbose(@"Cleared Google+ session");
+    A0LogVerbose(@"Cleared Google+ session");
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
@@ -99,10 +101,10 @@
 
 - (void)finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error {
     if (error) {
-        Auth0LogError(@"Failed to authenticate with Google+ with error %@", error);
+        A0LogError(@"Failed to authenticate with Google+ with error %@", error);
         self.failureBlock([A0Errors googleplusFailed]);
     } else {
-        Auth0LogVerbose(@"Authenticated with Google+");
+        A0LogVerbose(@"Authenticated with Google+");
         A0IdentityProviderCredentials *credentials = [[A0IdentityProviderCredentials alloc] initWithAccessToken:auth.accessToken];
         [[A0APIClient sharedClient] authenticateWithSocialConnectionName:A0StrategyNameGooglePlus
                                                              credentials:credentials

@@ -26,6 +26,8 @@
 
 @implementation A0SendSMSOperation
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)initWithURL:(NSURL *)url authorizationHeader:(NSString *)authorizationHeader phoneNumber:(NSString *)phoneNumber {
     NSDictionary *parameters = @{
                                  @"phone_number": phoneNumber,
@@ -33,10 +35,10 @@
                                  @"email_verified": @NO,
                                  };
     NSError *error;
-    Auth0LogDebug(@"Requesting SMS code with parameters %@", parameters);
+    A0LogDebug(@"Requesting SMS code with parameters %@", parameters);
     NSMutableURLRequest *request = [[AFJSONRequestSerializer serializer] requestWithMethod:@"POST" URLString:url.absoluteString parameters:parameters error:&error];
     if (error) {
-        Auth0LogError(@"Failed to create operation with error %@", error);
+        A0LogError(@"Failed to create operation with error %@", error);
         return nil;
     }
     [request setValue:authorizationHeader forHTTPHeaderField:@"Authorization"];

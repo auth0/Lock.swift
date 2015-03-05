@@ -47,6 +47,8 @@
 
 @implementation A0SMSSendCodeViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
 }
@@ -80,7 +82,7 @@
             @strongify(self);
             self.currentCountry = country;
             self.phoneFieldView.countryCode = dialCode;
-            Auth0LogDebug(@"Selected country %@ with dial code %@", country, dialCode);
+            A0LogDebug(@"Selected country %@ with dial code %@", country, dialCode);
         };
         [self.navigationController pushViewController:controller animated:YES];
     };
@@ -90,7 +92,7 @@
     if (self.phoneFieldView.phoneNumber.length > 0) {
         [self.phoneFieldView setInvalid:NO];
         [self.phoneFieldView.textField resignFirstResponder];
-        Auth0LogDebug(@"Registering phone number %@", self.phoneFieldView.fullPhoneNumber);
+        A0LogDebug(@"Registering phone number %@", self.phoneFieldView.fullPhoneNumber);
         [self.registerButton setInProgress:YES];
         NSString *phoneNumber = self.phoneFieldView.fullPhoneNumber;
         NSString *apiToken;
@@ -101,18 +103,18 @@
             @weakify(self);
             void(^onFailure)(NSError *) = ^(NSError *error) {
                 @strongify(self);
-                Auth0LogError(@"Failed to send SMS code with error %@", error);
+                A0LogError(@"Failed to send SMS code with error %@", error);
                 NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the SMS code");
                 NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send an SMS to your phone. Please try again later.");
                 A0ShowAlertErrorView(title, message);
                 [self.registerButton setInProgress:NO];
             };
-            Auth0LogDebug(@"About to send SMS code to phone %@", phoneNumber);
+            A0LogDebug(@"About to send SMS code to phone %@", phoneNumber);
             NSURL *baseURL = [NSURL URLWithString:kAuth0APIV2Endpoint];
             A0SendSMSOperation *operation = [[A0SendSMSOperation alloc] initWithBaseURL:baseURL jwt:apiToken phoneNumber:phoneNumber];
             [operation setSuccess:^{
                 @strongify(self);
-                Auth0LogDebug(@"SMS code sent to phone %@", phoneNumber);
+                A0LogDebug(@"SMS code sent to phone %@", phoneNumber);
                 [self.registerButton setInProgress:NO];
                 if (self.onRegisterBlock) {
                     self.onRegisterBlock(self.currentCountry, self.phoneFieldView.fullPhoneNumber);
@@ -120,11 +122,11 @@
             } failure:onFailure];
             [operation start];
         } else {
-            Auth0LogError(@"No API Secret was configured to send SMS");
+            A0LogError(@"No API Secret was configured to send SMS");
             A0ShowAlertErrorView(A0LocalizedString(@"There was an error sending the SMS code"), A0LocalizedString(@"Auth0's API Secret wasn't found. Please set your app's API Secret before sending SMS."));
         }
     } else {
-        Auth0LogError(@"No phone number provided");
+        A0LogError(@"No phone number provided");
         [self.phoneFieldView setInvalid:YES];
         A0ShowAlertErrorView(A0LocalizedString(@"There was an error sending the SMS code"), A0LocalizedString(@"You must enter a valid phone number"));
     }

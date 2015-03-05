@@ -1,6 +1,6 @@
-// A0Logging.h
+// A0LockLogger.m
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <CocoaLumberjack/DDLog.h>
+#import "A0LockLogger.h"
 
-static const int auth0LogLevel = LOG_LEVEL_OFF;
+@implementation A0LockLogger
 
-#define AUTH0_LOG_CONTEXT 58205
+- (instancetype)init {
+    [NSException raise:NSInternalInconsistencyException format:@"A0LockLogger cannot be instantiated"];
+    return nil;
+}
 
-#define Auth0LogError(frmt, ...)     SYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_ERROR,   AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogWarn(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_WARN,    AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogInfo(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_INFO,    AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogDebug(frmt, ...)     ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_DEBUG,  AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-#define Auth0LogVerbose(frmt, ...)  ASYNC_LOG_OBJC_MAYBE(auth0LogLevel, LOG_FLAG_VERBOSE, AUTH0_LOG_CONTEXT, frmt, ##__VA_ARGS__)
++ (void)logAll {
+    [self registerCocoaLumberjackLoggers];
+    [self logWithLevel:DDLogLevelAll];
+}
+
++ (void)logError {
+    [self registerCocoaLumberjackLoggers];
+    [self logWithLevel:DDLogLevelError];
+}
+
++ (void)logOff {
+    [self logWithLevel:DDLogLevelOff];
+}
+
++ (void)logWithLevel:(DDLogLevel)level {
+    for (Class clss in [DDLog registeredClasses]) {
+        [DDLog setLevel:level forClass:clss];
+    }
+}
+
++ (void)registerCocoaLumberjackLoggers {
+    NSArray * loggers = [DDLog allLoggers];
+    if (loggers.count == 0) {
+        [DDLog addLogger:[DDASLLogger sharedInstance]];
+        [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    }
+}
+
+@end

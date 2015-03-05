@@ -46,6 +46,8 @@
 
 @implementation A0WebViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
 }
@@ -88,7 +90,7 @@
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    Auth0LogVerbose(@"About to load URL %@", request);
+    A0LogVerbose(@"About to load URL %@", request);
     BOOL isCallback = [self.authentication validateURL:request.URL];
     if (isCallback) {
         NSError *error;
@@ -118,7 +120,7 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    Auth0LogVerbose(@"Loaded URL %@", webView.request);
+    A0LogVerbose(@"Loaded URL %@", webView.request);
     [self.activityView stopAnimating];
 }
 

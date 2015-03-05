@@ -44,6 +44,8 @@
 
 @implementation A0SMSLockViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
 }
@@ -88,7 +90,7 @@
 }
 
 - (void)close:(id)sender {
-    Auth0LogVerbose(@"Dismissing SMS view controller on user's request.");
+    A0LogVerbose(@"Dismissing SMS view controller on user's request.");
     if (self.onUserDismissBlock) {
         self.onUserDismissBlock();
     }

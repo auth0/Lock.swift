@@ -43,6 +43,8 @@
 
 @implementation A0SMSCodeViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
 }
@@ -69,7 +71,7 @@
 }
 
 - (void)login:(id)sender {
-    Auth0LogVerbose(@"About to login with phone number %@", self.phoneNumber);
+    A0LogVerbose(@"About to login with phone number %@", self.phoneNumber);
     [self.codeFieldView.textField resignFirstResponder];
     NSString *passcode = [self.codeFieldView.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     BOOL valid = passcode.length > 0;
@@ -90,7 +92,7 @@
                                                  success:self.onAuthenticationBlock
                                                  failure:failureBlock];
     } else {
-        Auth0LogError(@"Must provide a non-empty passcode.");
+        A0LogError(@"Must provide a non-empty passcode.");
         A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), A0LocalizedString(@"You must enter a valid SMS code"));
     }
 }

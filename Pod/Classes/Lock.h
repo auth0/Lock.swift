@@ -39,6 +39,7 @@
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0AuthParameters.h"
 #import "A0UserIdentity.h"
+#import "A0LockLogger.h"
 
 #if __has_include("UI.h")
 #import "UI.h"

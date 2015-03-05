@@ -25,6 +25,8 @@
 
 @implementation A0PasswordManager
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static A0PasswordManager *instance = nil;
@@ -45,7 +47,7 @@
         if (completion) {
             if (!loginDict) {
                 if (error.code != AppExtensionErrorCodeCancelledByUser) {
-                    Auth0LogWarn(@"Error invoking 1Password App Extension for find login: %@", error);
+                    A0LogWarn(@"Error invoking 1Password App Extension for find login: %@", error);
                 }
                 return;
             } else {
@@ -69,7 +71,7 @@
         if (completion) {
             if (!loginDict) {
                 if (error.code != AppExtensionErrorCodeCancelledByUser) {
-                    Auth0LogWarn(@"Error invoking 1Password App Extension for find login: %@", error);
+                    A0LogWarn(@"Error invoking 1Password App Extension for find login: %@", error);
                 }
                 return;
             } else {
