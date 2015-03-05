@@ -42,12 +42,14 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 @implementation A0UserAPIClient
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)initWithRouter:(id<A0APIRouter>)router {
     NSAssert(router, @"Must supply a non nil router");
     self = [super init];
     if (self) {
         _router = router;
-        Auth0LogInfo(@"Base URL of API Endpoint is %@", router.endpointURL);
+        A0LogInfo(@"Base URL of API Endpoint is %@", router.endpointURL);
         _manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:router.endpointURL];
         _manager.requestSerializer = [AFJSONRequestSerializer serializer];
         _manager.responseSerializer = [A0JSONResponseSerializer serializer];
@@ -111,9 +113,9 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 - (void)fetchUserProfileSuccess:(A0UserAPIClientUserProfileSuccess)success
                         failure:(A0UserAPIClientError)failure {
-    Auth0LogVerbose(@"Fetching User Profile");
+    A0LogVerbose(@"Fetching User Profile");
     [self.manager GET:[self.router userInfoPath] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        Auth0LogDebug(@"Obtained user profile %@", responseObject);
+        A0LogDebug(@"Obtained user profile %@", responseObject);
         if (success) {
             A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
             success(profile);
@@ -132,9 +134,9 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
                                  @"public_key": [[NSString alloc] initWithData:pubKey encoding:NSUTF8StringEncoding],
                                  A0ParameterDevice: deviceName,
                                  };
-    Auth0LogVerbose(@"Registering public key for user %@ and device %@", userId, deviceName);
+    A0LogVerbose(@"Registering public key for user %@ and device %@", userId, deviceName);
     [self.manager POST:[self.router userPublicKeyPathForUser:userId] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        Auth0LogDebug(@"Registered public key %@", responseObject);
+        A0LogDebug(@"Registered public key %@", responseObject);
         if (success) {
             success();
         }
@@ -148,9 +150,9 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
     NSDictionary *parameters = @{
                                  A0ParameterDevice: deviceName,
                                  };
-    Auth0LogVerbose(@"Removing public key for user %@ and device %@", userId, deviceName);
+    A0LogVerbose(@"Removing public key for user %@ and device %@", userId, deviceName);
     [self.manager DELETE:[self.router userPublicKeyPathForUser:userId] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        Auth0LogDebug(@"Removed public key with response %@", responseObject);
+        A0LogDebug(@"Removed public key with response %@", responseObject);
         if (success) {
             success();
         }
@@ -161,7 +163,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *, NSError *);
 
 + (AFFailureBlock) sanitizeFailureBlock:(A0UserAPIClientError)failureBlock {
     AFFailureBlock sanitized = ^(AFHTTPRequestOperation *operation, NSError *error) {
-        Auth0LogError(@"Request %@ %@ failed with error %@", operation.request.HTTPMethod, operation.request.URL, error);
+        A0LogError(@"Request %@ %@ failed with error %@", operation.request.HTTPMethod, operation.request.URL, error);
         if (failureBlock) {
             failureBlock(error);
         }

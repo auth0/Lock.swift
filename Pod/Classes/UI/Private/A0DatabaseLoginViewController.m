@@ -64,6 +64,8 @@
 
 @implementation A0DatabaseLoginViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
 }
@@ -183,7 +185,7 @@
     A0Connection *connection = [self.domainMatcher connectionForEmail:textField.text];
     if (connection) {
         NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection.values[@"domain"]];
-        Auth0LogVerbose(@"Matched %@ with connection %@", textField.text, connection);
+        A0LogVerbose(@"Matched %@ with connection %@", textField.text, connection);
         [self.accessButton setTitle:title.uppercaseString forState:UIControlStateNormal];
     } else {
         [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
@@ -236,10 +238,10 @@
     A0AuthParameters *parameters = self.parameters.copy;
     [parameters setValue:connection.name forKey:@"connection"];
     if ([authenticator canAuthenticateStrategy:strategy]) {
-        Auth0LogVerbose(@"Authenticating using Safari for strategy %@ and connection %@", strategy.name, connection.name);
+        A0LogVerbose(@"Authenticating using Safari for strategy %@ and connection %@", strategy.name, connection.name);
         [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];
     } else {
-        Auth0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
+        A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
         A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:application strategy:strategy parameters:parameters];
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;

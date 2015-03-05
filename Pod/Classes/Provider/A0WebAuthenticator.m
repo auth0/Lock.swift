@@ -44,6 +44,8 @@
 
 @implementation A0WebAuthenticator
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (id)init {
     self = [super init];
     if (self) {
@@ -98,7 +100,7 @@
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
-    Auth0LogVerbose(@"Received url %@ from source application %@", url, sourceApplication);
+    A0LogVerbose(@"Received url %@ from source application %@", url, sourceApplication);
     BOOL handled = [self.authentication validateURL:url];
     if (handled) {
         NSError *error;
@@ -131,10 +133,10 @@
         NSDictionary *payload = [defaultParameters asAPIPayload];
         self.components.query = payload.queryString;
         NSURL *authorizeURL = self.components.URL;
-        Auth0LogDebug(@"Opening web authentication wit URL %@", authorizeURL);
+        A0LogDebug(@"Opening web authentication wit URL %@", authorizeURL);
         [[UIApplication sharedApplication] openURL:authorizeURL];
     } else {
-        Auth0LogError(@"Scheme %@ not configured in CFBundleURLTypes", self.authentication.callbackURL.scheme);
+        A0LogError(@"Scheme %@ not configured in CFBundleURLTypes", self.authentication.callbackURL.scheme);
         failure([A0Errors urlSchemeNotRegistered]);
     }
 }

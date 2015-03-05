@@ -35,6 +35,8 @@
 
 @implementation A0IdentityProviderAuthenticator
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 + (A0IdentityProviderAuthenticator *)sharedInstance {
     static A0IdentityProviderAuthenticator *instance = nil;
     static dispatch_once_t onceToken;
@@ -91,7 +93,7 @@
     if (authenticator) {
         [authenticator authenticateWithParameters:parameters success:success failure:failure];
     } else {
-        Auth0LogWarn(@"No known provider for strategy %@", strategy.name);
+        A0LogWarn(@"No known provider for strategy %@", strategy.name);
         if (failure) {
             failure([A0Errors unkownProviderForStrategy:strategy.name]);
         }

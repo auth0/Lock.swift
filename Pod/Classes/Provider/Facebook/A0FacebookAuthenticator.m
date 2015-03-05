@@ -36,6 +36,8 @@
 
 @implementation A0FacebookAuthenticator
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)initWithPermissions:(NSArray *)permissions {
     self = [super init];
     if (self) {
@@ -78,35 +80,35 @@
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
-    Auth0LogVerbose(@"Received url %@ from source application %@", url, sourceApplication);
+    A0LogVerbose(@"Received url %@ from source application %@", url, sourceApplication);
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
 }
 
 -(void)authenticateWithParameters:(A0AuthParameters *)parameters success:(void (^)(A0UserProfile *, A0Token *))success failure:(void (^)(NSError *))failure {
-    Auth0LogVerbose(@"Starting Facebook authentication...");
+    A0LogVerbose(@"Starting Facebook authentication...");
     FBSession *active = [FBSession activeSession];
     if (active.state == FBSessionStateOpen || active.state == FBSessionStateOpenTokenExtended) {
-        Auth0LogDebug(@"Found FB Active Session");
+        A0LogDebug(@"Found FB Active Session");
         [self executeAuthenticationWithCredentials:[[A0IdentityProviderCredentials alloc] initWithAccessToken:active.accessTokenData.accessToken] parameters:parameters success:success failure:failure];
     } else {
         @weakify(self);
         [FBSession openActiveSessionWithReadPermissions:self.permissions allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
             if (error) {
                 if (failure) {
-                    Auth0LogError(@"Failed to open FB Session with error %@", error);
+                    A0LogError(@"Failed to open FB Session with error %@", error);
                     NSError *errorParam = [FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled ? [A0Errors facebookCancelled] : error;
                     failure(errorParam);
                 }
             } else {
                 switch (status) {
                     case FBSessionStateOpen: {
-                        Auth0LogDebug(@"Successfully opened FB Session");
+                        A0LogDebug(@"Successfully opened FB Session");
                         @strongify(self);
                         [self executeAuthenticationWithCredentials:[[A0IdentityProviderCredentials alloc] initWithAccessToken:session.accessTokenData.accessToken] parameters:parameters success:success failure:failure];
                         break;
                     }
                     case FBSessionStateClosedLoginFailed:
-                        Auth0LogError(@"User cancelled FB Login");
+                        A0LogError(@"User cancelled FB Login");
                         if (failure) {
                             failure([A0Errors facebookCancelled]);
                         }

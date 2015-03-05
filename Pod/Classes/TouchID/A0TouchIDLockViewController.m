@@ -59,6 +59,8 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
 
 @implementation A0TouchIDLockViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
 }
@@ -108,7 +110,7 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
     self.authentication = [[A0TouchIDAuthentication alloc] init];
     self.authentication.onError = ^(NSError *error) {
         @strongify(self);
-        Auth0LogError(@"Failed to perform TouchID authentication with error %@", error);
+        A0LogError(@"Failed to perform TouchID authentication with error %@", error);
         NSString *message;
         switch (error.code) {
             case A0TouchIDAuthenticationErrorTouchIDFailed:
@@ -132,7 +134,7 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
     NSString *userId = [[A0SimpleKeychain keychainWithService:@"TouchID"] stringForKey:@"auth0-userid"];
     if (!userId) {
         [self.authentication reset];
-        Auth0LogDebug(@"Cleaning up key pairs of unknown user");
+        A0LogDebug(@"Cleaning up key pairs of unknown user");
     }
 
     A0SimpleKeychain *keychain = [A0SimpleKeychain keychainWithService:@"TouchID"];
@@ -149,7 +151,7 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
         controller.onRegisterBlock = ^(A0UserProfile *profile, A0Token *token) {
             @strongify(self);
             [self.navigationController popViewControllerAnimated:YES];
-            Auth0LogDebug(@"User %@ registered. Uploading public key...", profile.userId);
+            A0LogDebug(@"User %@ registered. Uploading public key...", profile.userId);
             [keychain setString:profile.userId forKey:@"auth0-userid"];
             NSString *deviceName = [self deviceName];
             self.userClient = [A0UserAPIClient clientWithIdToken:token.idToken];
@@ -158,7 +160,7 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
                 [self.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
             } failure:^(NSError *error) {
                 @strongify(self);
-                Auth0LogWarn(@"Failed to remove public key. Please check that the user has only one Public key registered.");
+                A0LogWarn(@"Failed to remove public key. Please check that the user has only one Public key registered.");
                 [self.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
             }];
         };
@@ -174,7 +176,7 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
 
     self.authentication.authenticate = ^(NSString *jwt, A0ErrorBlock errorBlock) {
         @strongify(self);
-        Auth0LogVerbose(@"Authenticating with signed JWT %@", jwt);
+        A0LogVerbose(@"Authenticating with signed JWT %@", jwt);
         A0APIClient *client = [A0APIClient sharedClient];
         [client loginWithIdToken:jwt
                       deviceName:[self deviceName]
@@ -185,7 +187,7 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
 }
 
 - (void)close:(id)sender {
-    Auth0LogVerbose(@"Dismissing TouchID view controller on user's request.");
+    A0LogVerbose(@"Dismissing TouchID view controller on user's request.");
     if (self.onUserDismissBlock) {
         self.onUserDismissBlock();
     }

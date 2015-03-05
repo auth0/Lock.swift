@@ -1,6 +1,6 @@
-// A0Logging.h
+// A0LockLogger.m
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "A0LockLogger.h"
 
-static const DDLogLevel auth0LogLevel = DDLogLevelOff;
+@implementation A0LockLogger
 
-#define AUTH0_LOG_CONTEXT 28840 //Auth0
+- (instancetype)init {
+    [NSException raise:NSInternalInconsistencyException format:@"A0LockLogger cannot be instantiated"];
+    return nil;
+}
 
-#define Auth0LogError(frmt, ...)    LOG_MAYBE(NO, auth0LogLevel, DDLogFlagError, AUTH0_LOG_CONTEXT, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
-#define Auth0LogWarn(frmt, ...)     LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagWarning, AUTH0_LOG_CONTEXT, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
-#define Auth0LogInfo(frmt, ...)     LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagInfo, AUTH0_LOG_CONTEXT, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
-#define Auth0LogDebug(frmt, ...)    LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagDebug, AUTH0_LOG_CONTEXT, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
-#define Auth0LogVerbose(frmt, ...)  LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagVerbose, AUTH0_LOG_CONTEXT, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
++ (void)logAll {
+    [self logWithLevel:DDLogLevelAll];
+}
+
++ (void)logError {
+    [self logWithLevel:DDLogLevelError];
+}
+
++ (void)logOff {
+    [self logWithLevel:DDLogLevelOff];
+}
+
++ (void)logWithLevel:(DDLogLevel)level {
+    for (Class clss in [DDLog registeredClasses]) {
+        [DDLog setLevel:level forClass:clss];
+    }
+}
+@end

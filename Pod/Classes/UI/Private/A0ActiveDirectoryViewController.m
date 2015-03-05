@@ -59,6 +59,8 @@
 
 @implementation A0ActiveDirectoryViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -145,7 +147,7 @@
     } else {
         [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
     }
-    Auth0LogVerbose(@"Matched %@ with connection %@", textField.text, connection);
+    A0LogVerbose(@"Matched %@ with connection %@", textField.text, connection);
     self.matchedConnection = connection;
     self.singleSignOnView.hidden = !showSingleSignOn;
 }
@@ -191,10 +193,10 @@
     A0AuthParameters *parameters = self.parameters.copy;
     [parameters setValue:connection.name forKey:@"connection"];
     if ([authenticator canAuthenticateStrategy:strategy]) {
-        Auth0LogVerbose(@"Authenticating using Safari for strategy %@ and connection %@", strategy.name, connection.name);
+        A0LogVerbose(@"Authenticating using Safari for strategy %@ and connection %@", strategy.name, connection.name);
         [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];
     } else {
-        Auth0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
+        A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
         A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:application strategy:strategy parameters:parameters];
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;

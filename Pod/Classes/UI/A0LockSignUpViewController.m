@@ -50,6 +50,8 @@
 
 @implementation A0LockSignUpViewController
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
 }
@@ -165,7 +167,7 @@
     @weakify(self);
     [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
-        Auth0LogDebug(@"Obtained application info. Starting to build Lock UI for Sign Up...");
+        A0LogDebug(@"Obtained application info. Starting to build Lock UI for Sign Up...");
         [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
         A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
         configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
@@ -178,7 +180,7 @@
         controller.customMessage = A0LocalizedString(@"Or please enter your email and password");
         [self displayController:controller];
     } failure:^(NSError *error) {
-        Auth0LogError(@"Failed to fetch App info %@", error);
+        A0LogError(@"Failed to fetch App info %@", error);
         NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Failed to display Sign Up");
         NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldnt get Sign Up screen configuration. Please try again.");
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
@@ -191,7 +193,7 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    Auth0LogVerbose(@"Retrying fetch Auth0 app info...");
+    A0LogVerbose(@"Retrying fetch Auth0 app info...");
     [self loadApplicationInfo];
 }
 

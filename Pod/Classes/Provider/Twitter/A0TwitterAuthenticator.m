@@ -53,6 +53,8 @@
 
 @implementation A0TwitterAuthenticator
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 + (A0TwitterAuthenticator *)newAuthenticatorWithKey:(NSString *)key andSecret:(NSString *)secret {
     return [[A0TwitterAuthenticator alloc] initWithKey:key andSecret:secret];
 }
@@ -102,27 +104,27 @@
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     BOOL handled = NO;
-    Auth0LogVerbose(@"Received url %@ from source application %@", url, sourceApplication);
+    A0LogVerbose(@"Received url %@ from source application %@", url, sourceApplication);
     if ([url.scheme.lowercaseString isEqualToString:self.callbackURL.scheme.lowercaseString] && [url.host isEqualToString:self.callbackURL.host]) {
         handled = YES;
         self.authenticating = YES;
         NSDictionary *parameters = [NSURL ab_parseURLQueryString:url.query];
         @weakify(self);
         if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"]) {
-            Auth0LogVerbose(@"Requesting access token from twitter...");
+            A0LogVerbose(@"Requesting access token from twitter...");
             [self.manager fetchAccessTokenWithPath:@"/oauth/access_token"
                                             method:@"POST"
                                       requestToken:[BDBOAuth1Credential credentialWithQueryString:url.query]
                                            success:^(BDBOAuth1Credential *accessToken) {
                 @strongify(self);
-                Auth0LogDebug(@"Received token %@ with userInfo %@", accessToken.token, accessToken.userInfo);
+                A0LogDebug(@"Received token %@ with userInfo %@", accessToken.token, accessToken.userInfo);
                 [self reverseAuthWithNewAccountWithInfo:accessToken];
             } failure:^(NSError *error) {
-                Auth0LogError(@"Failed to request access token with error %@", error);
+                A0LogError(@"Failed to request access token with error %@", error);
                 [self executeFailureWithError:error];
             }];
         } else {
-            Auth0LogError(@"Twitter OAuth 1.1 flow was cancelled by the user");
+            A0LogError(@"Twitter OAuth 1.1 flow was cancelled by the user");
             [self executeFailureWithError:[A0Errors twitterCancelled]];
         }
     }
@@ -135,54 +137,54 @@
     self.accountStore = [[ACAccountStore alloc] init];
     self.accountType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
     self.parameters = parameters;
-    Auth0LogVerbose(@"Starting Twitter authentication...");
+    A0LogVerbose(@"Starting Twitter authentication...");
     @weakify(self);
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
-        Auth0LogVerbose(@"Requesting access to iOS Twitter integration for Accounts");
+        A0LogVerbose(@"Requesting access to iOS Twitter integration for Accounts");
         [self.accountStore requestAccessToAccountsWithType:self.accountType options:nil completion:^(BOOL granted, NSError *error) {
             @strongify(self);
             if (granted && !error) {
                 NSArray *accounts = [self.accountStore accountsWithAccountType:self.accountType];
-                Auth0LogDebug(@"Obtained %lu accounts from iOS Twitter integration", (unsigned long)accounts.count);
+                A0LogDebug(@"Obtained %lu accounts from iOS Twitter integration", (unsigned long)accounts.count);
                 if (accounts.count > 1) {
-                    Auth0LogVerbose(@"Asking the user to choose one account from the list...");
+                    A0LogVerbose(@"Asking the user to choose one account from the list...");
                     dispatch_async(dispatch_get_main_queue(), ^{
                         PSPDFActionSheet *sheet = [[PSPDFActionSheet alloc] initWithTitle:nil];
                         for (ACAccount *account in accounts) {
                             [sheet addButtonWithTitle:[@"@" stringByAppendingString:account.username] block:^(NSInteger buttonIndex) {
-                                Auth0LogDebug(@"User picked account with screen name @%@", account.username);
+                                A0LogDebug(@"User picked account with screen name @%@", account.username);
                                 [self reverseAuthForAccount:account];
                             }];
                         }
                         [sheet setCancelButtonWithTitle:A0LocalizedString(@"Cancel") block:^(NSInteger buttonIndex) {
-                            Auth0LogDebug(@"User did not pick an account");
+                            A0LogDebug(@"User did not pick an account");
                             [self executeFailureWithError:[A0Errors twitterCancelled]];
                         }];
                         [sheet showInView:[[UIApplication sharedApplication] keyWindow]];
                     });
                 } else {
-                    Auth0LogVerbose(@"Only one account found, no need for the user to pick one");
+                    A0LogVerbose(@"Only one account found, no need for the user to pick one");
                     [self reverseAuthForAccount:accounts.firstObject];
                 }
             } else {
-                Auth0LogError(@"Failed to obtain accounts from iOS Twitter integration with error %@", error);
+                A0LogError(@"Failed to obtain accounts from iOS Twitter integration with error %@", error);
                 [self executeFailureWithError:[A0Errors twitterAppNotAuthorized]];
             }
         }];
     } else {
-        Auth0LogVerbose(@"No account was found in iOS Twitter integration. Starting with OAuth web flow...");
+        A0LogVerbose(@"No account was found in iOS Twitter integration. Starting with OAuth web flow...");
         [self.manager deauthorize];
         [self.manager fetchRequestTokenWithPath:@"/oauth/request_token"
                                          method:@"POST"
                                     callbackURL:self.callbackURL
                                           scope:nil
                                         success:^(BDBOAuth1Credential *requestToken) {
-            Auth0LogDebug(@"Obtained request token %@ with user info %@", requestToken.token, requestToken.userInfo);
+            A0LogDebug(@"Obtained request token %@ with user info %@", requestToken.token, requestToken.userInfo);
             NSString *authURL = [NSString stringWithFormat:@"https://api.twitter.com/oauth/authorize?oauth_token=%@", requestToken.token];
-            Auth0LogVerbose(@"Opening in Safari URL: %@", authURL);
+            A0LogVerbose(@"Opening in Safari URL: %@", authURL);
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:authURL]];
         } failure:^(NSError *error) {
-            Auth0LogError(@"Failed to obtain request token with error %@", error);
+            A0LogError(@"Failed to obtain request token with error %@", error);
             [self executeFailureWithError:error];
         }];
     }
@@ -196,25 +198,25 @@
     account.credential = credential;
     account.username = [NSString stringWithFormat:@"@%@", info.userInfo[@"screen_name"]];
 
-    Auth0LogDebug(@"About to save Twitter account @%@ in iOS Twitter integration.", account.username);
+    A0LogDebug(@"About to save Twitter account @%@ in iOS Twitter integration.", account.username);
     @weakify(self);
     [self.accountStore requestAccessToAccountsWithType:self.accountType options:nil completion:^(BOOL granted, NSError *error) {
         if (granted) {
-            Auth0LogVerbose(@"Saving new twitter account in iOS...");
+            A0LogVerbose(@"Saving new twitter account in iOS...");
             [self.accountStore saveAccount:account withCompletionHandler:^(BOOL success, NSError *error) {
                 @strongify(self);
                 if (success && !error) {
                     ACAccount *account = [[self.accountStore accountsWithAccountType:self.accountType] firstObject];
-                    Auth0LogDebug(@"Saved twitter account @%@", account.username);
+                    A0LogDebug(@"Saved twitter account @%@", account.username);
                     [self reverseAuthForAccount:account];
                 } else {
-                    Auth0LogError(@"Failed to save twitter account with error %@", error);
+                    A0LogError(@"Failed to save twitter account with error %@", error);
                     [self executeFailureWithError:error];
                 }
             }];
         }
         else {
-            Auth0LogError(@"Failed to access iOS Twitter integration with error %@", error);
+            A0LogError(@"Failed to access iOS Twitter integration with error %@", error);
             [self executeFailureWithError:[A0Errors twitterAppNotAuthorized]];
         }
     }];
@@ -222,19 +224,19 @@
 
 - (void)reverseAuthForAccount:(ACAccount *)account {
     account.accountType = self.accountType;
-    Auth0LogVerbose(@"Starting reverse authentication with Twitter account @%@...", account.username);
+    A0LogVerbose(@"Starting reverse authentication with Twitter account @%@...", account.username);
 
     @weakify(self);
     [TWAPIManager performReverseAuthForAccount:account withHandler:^(NSData *responseData, NSError *error) {
         @strongify(self);
         if (error || !responseData) {
-            Auth0LogError(@"Failed to perform reverse auth with error %@", error);
+            A0LogError(@"Failed to perform reverse auth with error %@", error);
             [self executeFailureWithError:error];
         } else {
             NSError *payloadError;
             NSDictionary *response = [A0TwitterAuthenticator payloadFromResponseData:responseData error:&payloadError];
             if (!payloadError) {
-                Auth0LogDebug(@"Reverse Auth successful. Received payload %@", response);
+                A0LogDebug(@"Reverse Auth successful. Received payload %@", response);
                 NSString *oauthToken = response[@"oauth_token"];
                 NSString *oauthTokenSecret = response[@"oauth_token_secret"];
                 NSString *userId = response[@"user_id"];
@@ -244,7 +246,7 @@
                                             A0StrategySocialUserIdParameter: userId,
                                             };
                 A0IdentityProviderCredentials *credentials = [[A0IdentityProviderCredentials alloc] initWithAccessToken:response[@"oauth_token"] extraInfo:extraInfo];
-                Auth0LogDebug(@"Successful Twitter auth with credentials %@", credentials);
+                A0LogDebug(@"Successful Twitter auth with credentials %@", credentials);
                 [self executeSuccessWithCredentials:credentials parameters:self.parameters];
             } else {
                 [self executeFailureWithError:payloadError];
@@ -258,7 +260,7 @@
     BOOL failed = responseStr && [responseStr rangeOfString:@"<error code=\""].location != NSNotFound;
     NSDictionary *payload;
     if (failed) {
-        Auth0LogError(@"Failed reverse auth with payload %@", responseStr);
+        A0LogError(@"Failed reverse auth with payload %@", responseStr);
         // <?xml version="1.0" encoding="UTF-8"?>
         // <errors>
         //   <error code="87">Client is not permitted to perform this action</error>
@@ -271,11 +273,11 @@
         BOOL error89 = responseStr && [responseStr rangeOfString:@"<error code=\"89\">"].location != NSNotFound;
         *error = [A0Errors twitterAppNotAuthorized];
         if (error87) {
-            Auth0LogError(@"Twitter app not configured in Auth0");
+            A0LogError(@"Twitter app not configured in Auth0");
             *error = [A0Errors twitterNotConfigured];
         }
         if (error89) {
-            Auth0LogError(@"Twitter Account in iOS is invalid. Re-enter credentials in Settings > Twitter");
+            A0LogError(@"Twitter Account in iOS is invalid. Re-enter credentials in Settings > Twitter");
             *error = [A0Errors twitterInvalidAccount];
         }
     } else {
@@ -284,7 +286,7 @@
         NSString *oauthTokenSecret = payload[@"oauth_token_secret"];
         NSString *userId = payload[@"user_id"];
         if (!(oauthToken || oauthTokenSecret || userId)) {
-            Auth0LogError(@"Reverse auth didnt return all credential info (token, token_secret & user_id)");
+            A0LogError(@"Reverse auth didnt return all credential info (token, token_secret & user_id)");
             *error = [A0Errors twitterAppNotAuthorized];
         }
     }

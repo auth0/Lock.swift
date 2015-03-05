@@ -30,6 +30,8 @@
 
 @implementation A0NavigationView
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.actions = [@[] mutableCopy];
@@ -48,7 +50,7 @@
 
 - (void)addButtonWithLocalizedTitle:(NSString *)localizedTitle actionBlock:(A0NavigationViewActionBlock)actionBlock {
     if (self.buttons.count >= 2) {
-        Auth0LogWarn(@"Already has 2 butttons which is the Max. Skipping last button with title %@", localizedTitle);
+        A0LogWarn(@"Already has 2 butttons which is the Max. Skipping last button with title %@", localizedTitle);
         return;
     }
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];

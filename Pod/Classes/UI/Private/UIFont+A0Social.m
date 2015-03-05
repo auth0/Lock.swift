@@ -26,6 +26,8 @@
 
 @implementation UIFont (A0Social)
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 + (UIFont *)zocialFontOfSize:(CGFloat)size {
     static NSString *fontName = @"zocial";
     UIFont *zocialFont = [UIFont fontWithName:fontName size:size];
@@ -38,13 +40,14 @@
         CGFontRef font = CGFontCreateWithDataProvider(provider);
         if (! CTFontManagerRegisterGraphicsFont(font, &error)) {
             CFStringRef errorDescription = CFErrorCopyDescription(error);
-            Auth0LogError(@"Failed to load font from bundle %@. Error: %@", resourceBundle, errorDescription);
+            A0LogError(@"Failed to load font from bundle %@. Error: %@", resourceBundle, errorDescription);
             CFRelease(errorDescription);
             CFRelease(error);
         }
         CFRelease(font);
         CFRelease(provider);
         zocialFont = [UIFont fontWithName:fontName size:size];
+        A0LogVerbose(@"Loaded social icon fonts.");
     }
     return zocialFont;
 }
