@@ -22,12 +22,28 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Helper class to enable/disable logging of `Lock`.
+ *  By default log is disabled but it can be enabled to log all types of messages or only error messages.
+ *  Lock uses [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack) as the logging framework, 
+ *  but you dont need to initialise it because `A0LockLogger` will do it for you if you enable logging. 
+ *  However, if you already use `CocoaLumberjack` please enable `Lock`'s logs after initialising it in your App.
+ */
 @interface A0LockLogger : NSObject
 
+/**
+ *  Enable all Lock's messages
+ */
 + (void)logAll;
 
+/**
+ *  Enable only Lock's error messages
+ */
 + (void)logError;
 
+/**
+ *  Disables all Lock's messages
+ */
 + (void)logOff;
 
 @end

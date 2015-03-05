@@ -43,6 +43,7 @@
 #if RELEASE
     [Fabric with:@[CrashlyticsKit]];
 #endif
+    [A0LockLogger logError];
     return YES;
 }
 

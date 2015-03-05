@@ -30,10 +30,12 @@
 }
 
 + (void)logAll {
+    [self registerCocoaLumberjackLoggers];
     [self logWithLevel:DDLogLevelAll];
 }
 
 + (void)logError {
+    [self registerCocoaLumberjackLoggers];
     [self logWithLevel:DDLogLevelError];
 }
 
@@ -46,4 +48,13 @@
         [DDLog setLevel:level forClass:clss];
     }
 }
+
++ (void)registerCocoaLumberjackLoggers {
+    NSArray * loggers = [DDLog allLoggers];
+    if (loggers.count == 0) {
+        [DDLog addLogger:[DDASLLogger sharedInstance]];
+        [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    }
+}
+
 @end
