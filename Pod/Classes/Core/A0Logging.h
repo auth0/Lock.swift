@@ -24,10 +24,10 @@
 
 static const DDLogLevel auth0LogLevel = DDLogLevelOff;
 
-#define AUTH0_LOG_CONTEXT 58205
+#define AUTH0_LOG_CONTEXT 28840 //Auth0
 
-#define Auth0LogError(frmt, ...)     LOG_MAYBE(NO, auth0LogLevel, DDLogFlagError, 0, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
-#define Auth0LogWarn(frmt, ...)     LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagWarning, 0, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
-#define Auth0LogInfo(frmt, ...)     LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagInfo, 0, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
-#define Auth0LogDebug(frmt, ...)     LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagDebug,   0, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
-#define Auth0LogVerbose(frmt, ...)  LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagVerbose, 0, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define Auth0LogError(frmt, ...)    LOG_MAYBE(NO, auth0LogLevel, DDLogFlagError, AUTH0_LOG_CONTEXT, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define Auth0LogWarn(frmt, ...)     LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagWarning, AUTH0_LOG_CONTEXT, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define Auth0LogInfo(frmt, ...)     LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagInfo, AUTH0_LOG_CONTEXT, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define Auth0LogDebug(frmt, ...)    LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagDebug, AUTH0_LOG_CONTEXT, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define Auth0LogVerbose(frmt, ...)  LOG_MAYBE(LOG_ASYNC_ENABLED, auth0LogLevel, DDLogFlagVerbose, AUTH0_LOG_CONTEXT, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
