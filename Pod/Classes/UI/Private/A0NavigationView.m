@@ -67,8 +67,9 @@
     [self setNeedsUpdateConstraints];
 }
 
-- (void)onAction:(id)sender {
-    A0NavigationViewActionBlock action = self.actions[[sender tag]];
+- (void)onAction:(UIButton *)sender {
+    NSInteger tag = [sender tag];
+    A0NavigationViewActionBlock action = self.actions[tag];
     if (action) {
         action();
     }
