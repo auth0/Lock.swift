@@ -69,7 +69,7 @@ FOUNDATION_EXPORT NSString * const A0ThemeCloseButtonTintColor;
 
 - (void)registerFont:(UIFont *)font forKey:(NSString *)key;
 - (void)registerColor:(UIColor *)color forKey:(NSString *)key;
-- (void)registerImageWithName:(NSString *)name forKey:(NSString *)key;
+- (void)registerImageWithName:(NSString *)name bundle:(NSBundle *)bundle forKey:(NSString *)key;
 
 - (UIImage *)imageForKey:(NSString *)key;
 - (UIFont *)fontForKey:(NSString *)key defaultFont:(UIFont *)defaultFont;
@@ -87,3 +87,8 @@ FOUNDATION_EXPORT NSString * const A0ThemeCloseButtonTintColor;
 - (void)registerDefaultTheme;
 
 @end
+
+@interface A0Theme (Deprecated)
+- (void)registerImageWithName:(NSString *)name forKey:(NSString *)key __attribute__((deprecated));
+@end
+
