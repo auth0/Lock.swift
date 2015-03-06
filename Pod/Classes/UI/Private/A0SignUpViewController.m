@@ -36,6 +36,7 @@
 #if __has_include("A0PasswordManager.h")
 #import "A0PasswordManager.h"
 #endif
+#import "UIViewController+LockNotification.h"
 
 @interface A0SignUpViewController ()
 
@@ -114,12 +115,18 @@
         @weakify(self);
         A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
             @strongify(self);
+            [self postSignUpSuccessfulWithEmail:username];
+            if (token) {
+                [self postLoginSuccessfulWithUsername:username andParameters:self.parameters];
+            }
             [self.signUpButton setInProgress:NO];
             if (self.onSignUpBlock) {
                 self.onSignUpBlock(profile, token);
             }
         };
         A0APIClientError failure = ^(NSError *error) {
+            @strongify(self);
+            [self postSignUpErrorNotificationWithError:error];
             [self.signUpButton setInProgress:NO];
             NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
             NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
@@ -131,6 +138,7 @@
                                             parameters:self.parameters
                                                success:success failure:failure];
     } else {
+        [self postSignUpErrorNotificationWithError:error];
         [self.signUpButton setInProgress:NO];
         A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
     }

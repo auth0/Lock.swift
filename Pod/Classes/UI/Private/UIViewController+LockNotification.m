@@ -57,4 +57,20 @@
                                                                  }];
 }
 
+- (void)postSignUpSuccessfulWithEmail:(NSString *)email {
+    [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationSignUpSuccessful
+                                                        object:nil
+                                                      userInfo:@{
+                                                                 A0LockNotificationEmailParameterKey: email,
+                                                                 }];
+}
+
+- (void)postSignUpErrorNotificationWithError:(NSError *)error {
+    [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationSignUpFailed
+                                                        object:nil
+                                                      userInfo:@{
+                                                                 A0LockNotificationErrorParameterKey: error,
+                                                                 }];
+}
+
 @end

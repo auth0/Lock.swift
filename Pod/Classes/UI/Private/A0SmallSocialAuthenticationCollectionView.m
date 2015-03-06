@@ -35,6 +35,8 @@
 #import "A0Strategy.h"
 #import "A0WebViewController.h"
 #import "A0LockConfiguration.h"
+#import "A0LockNotification.h"
+#import "A0Connection.h"
 
 
 #define kCellIdentifier @"ServiceCell"
@@ -162,5 +164,5 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                       userInfo:@{
                                                                  A0LockNotificationConnectionParameterKey: connection.name,
                                                                  }];
-
+}
 @end

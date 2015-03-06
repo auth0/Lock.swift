@@ -32,4 +32,8 @@
 
 - (void)postLoginSuccessfulForConnection:(A0Connection *)connection;
 
+- (void)postSignUpSuccessfulWithEmail:(NSString *)email;
+
+- (void)postSignUpErrorNotificationWithError:(NSError *)error;
+
 @end
