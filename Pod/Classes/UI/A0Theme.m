@@ -62,6 +62,18 @@ NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
 
 @end
 
+@interface A0ImageTheme : NSObject
+
+@property (readonly, nonatomic) NSString *imageName;
+@property (readonly, nonatomic) NSString *bundleName;
+@property (readonly, nonatomic) UIImage *image;
+
+- (instancetype)initWithImageName:(NSString *)imageName bundle:(NSBundle *)bundle;
+
++ (instancetype)newImageWithName:(NSString *)name bundle:(NSBundle *)bundle;
+
+@end
+
 @interface A0Theme ()
 
 @property (strong, nonatomic) NSMutableDictionary *values;
@@ -106,7 +118,7 @@ NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
 
                      A0ThemeScreenBackgroundColor: [UIColor whiteColor],
                      A0ThemeIconBackgroundColor: [UIColor colorWithWhite:0.941 alpha:1.000],
-                     A0ThemeIconImageName: @"Auth0.bundle/people",
+                     A0ThemeIconImageName: [A0ImageTheme newImageWithName:@"Auth0.bundle/people" bundle:nil],
 
                      A0ThemeSeparatorTextColor: [UIColor colorWithWhite:0.600 alpha:1.000],
                      A0ThemeSeparatorTextFont: [UIFont systemFontOfSize:12.0f],
@@ -141,9 +153,13 @@ NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
     self.values[key] = font;
 }
 
-- (void)registerImageWithName:(NSString *)name forKey:(NSString *)key {
+- (void)registerImageWithName:(NSString *)name bundle:(NSBundle *)bundle forKey:(NSString *)key {
     NSAssert(name != nil && key != nil, @"Image name and Key must be non nil.");
-    self.values[key] = name;
+    self.values[key] = [A0ImageTheme newImageWithName:name bundle:bundle];
+}
+
+- (void)registerImageWithName:(NSString *)name forKey:(NSString *)key {
+    [self registerImageWithName:name bundle:nil forKey:key];
 }
 
 - (UIFont *)fontForKey:(NSString *)key {
@@ -170,7 +186,8 @@ NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
 
 - (UIImage *)imageForKey:(NSString *)key defaultImage:(UIImage *)image {
     NSAssert(key != nil, @"Key must be non nil");
-    return self.values[key] ? [UIImage imageInLockNamed:self.values[key]] : image;
+    A0ImageTheme *imageTheme = self.values[key];
+    return imageTheme.image ?: image;
 }
 
 - (void)configurePrimaryButton:(UIButton *)button {
@@ -218,3 +235,26 @@ NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
 }
 
 @end
+
+@implementation A0ImageTheme
+
+- (instancetype)initWithImageName:(NSString *)imageName bundle:(NSBundle *)bundle {
+    self = [super init];
+    if (self) {
+        _imageName = [imageName copy];
+        _bundleName = [bundle bundleIdentifier];
+    }
+    return self;
+}
+
++ (instancetype)newImageWithName:(NSString *)name bundle:(NSBundle *)bundle {
+    return [[A0ImageTheme alloc] initWithImageName:name bundle:bundle];
+}
+
+- (UIImage *)image {
+    NSBundle *bundle = self.bundleName ? [NSBundle bundleWithIdentifier:self.bundleName] : [NSBundle bundleForClass:self.class];
+    return [UIImage imageNamed:self.imageName inBundle:bundle compatibleWithTraitCollection:nil];
+}
+
+@end
+
