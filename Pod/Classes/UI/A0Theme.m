@@ -54,13 +54,7 @@ NSString * const A0ThemeCredentialBoxSeparatorColor = @"A0ThemeCredentialBoxSepa
 NSString * const A0ThemeCredentialBoxBackgroundColor = @"A0ThemeCredentialBoxBackgroundColor";
 NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
 
-@implementation UIImage (LockBundle)
-
-+ (UIImage *)imageInLockNamed:(NSString *)imageName {
-    return [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[A0Theme class]] compatibleWithTraitCollection:nil];
-}
-
-@end
+#define kSecondaryButtonImageInsets UIEdgeInsetsMake(0, 28, 0, 28)
 
 @interface A0ImageTheme : NSObject
 
@@ -213,8 +207,10 @@ NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
     UIImage *normalImage = [self imageForKey:A0ThemeSecondaryButtonNormalImageName];
     UIImage *highlightedImage = [self imageForKey:A0ThemeSecondaryButtonHighlightedImageName];
     if (!normalImage || !highlightedImage) {
-        normalImage = [[[UIImage imageInLockNamed:@"Auth0.bundle/secondary_button_normal"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        highlightedImage = [[[UIImage imageInLockNamed:@"Auth0.bundle/secondary_button_highlighted"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 28, 0, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        A0ImageTheme *normalThemeImage = [A0ImageTheme newImageWithName:@"Auth0.bundle/secondary_button_normal" bundle:nil];
+        normalImage = [[normalThemeImage.image resizableImageWithCapInsets:kSecondaryButtonImageInsets] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        A0ImageTheme *highlightedThemeImage = [A0ImageTheme newImageWithName:@"Auth0.bundle/secondary_button_highlighted" bundle:nil];
+        highlightedImage = [[highlightedThemeImage.image resizableImageWithCapInsets:kSecondaryButtonImageInsets] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         button.tintColor = [self colorForKey:A0ThemeSecondaryButtonBackgroundColor];
         button.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
     }
