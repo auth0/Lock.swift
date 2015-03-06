@@ -73,4 +73,19 @@
                                                                  }];
 }
 
+- (void)postChangePasswordSuccessfulWithEmail:(NSString *)email {
+    [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationChangePasswordSuccessful
+                                                        object:nil
+                                                      userInfo:@{
+                                                                 A0LockNotificationEmailParameterKey: email,
+                                                                 }];
+}
+
+- (void)postChangePasswordErrorNotificationWithError:(NSError *)error {
+    [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationChangePasswordFailed
+                                                        object:nil
+                                                      userInfo:@{
+                                                                 A0LockNotificationErrorParameterKey: error,
+                                                                 }];
+}
 @end

@@ -36,4 +36,8 @@
 
 - (void)postSignUpErrorNotificationWithError:(NSError *)error;
 
+- (void)postChangePasswordSuccessfulWithEmail:(NSString *)email;
+
+- (void)postChangePasswordErrorNotificationWithError:(NSError *)error;
+
 @end
