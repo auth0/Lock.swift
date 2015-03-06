@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 - Specify the Database connection that Lock should use by default.
 - Google+ native integration.
 - Enable/Disable dynamically Lock's logging using `A0LockLogger`.
+- UINotifications for Login, SignUp, Change Password and Dismiss events
+
+###Changed
+- Deprecated `- (void)registerImageWithName:(NSString *)name forKey:(NSString *)key` of `A0Theme` in favor of `- (void)registerImageWithName:(NSString *)name bundle:(NSBundle *)bundle forKey:(NSString *)key;` to fix issue with assets bundled in iOS 8 Framework.
 
 ## 1.9.0 - 2015-02-27
 
