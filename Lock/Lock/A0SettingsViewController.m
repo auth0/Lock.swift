@@ -50,8 +50,8 @@
     [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.700] forKey:A0ThemeTextFieldPlaceholderTextColor];
     [theme registerColor:[UIColor colorWithWhite:0.800 alpha:1.000] forKey:A0ThemeTextFieldIconColor];
     [theme registerColor:[UIColor clearColor] forKey:A0ThemeIconBackgroundColor];
-    [theme registerImageWithName:@"mindjet-icon" forKey:A0ThemeIconImageName];
-    [theme registerImageWithName:@"mindjet-bg" forKey:A0ThemeScreenBackgroundImageName];
+    [theme registerImageWithName:@"mindjet-icon" bundle:[NSBundle mainBundle] forKey:A0ThemeIconImageName];
+    [theme registerImageWithName:@"mindjet-bg" bundle:[NSBundle mainBundle] forKey:A0ThemeScreenBackgroundImageName];
     [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.300] forKey:A0ThemeTouchIDLockContainerBackgroundColor];
 
     self.mindjetTheme = theme;
