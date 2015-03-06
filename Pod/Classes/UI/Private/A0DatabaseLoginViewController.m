@@ -45,6 +45,8 @@
 #import "A0PasswordManager.h"
 #endif
 
+#import "UIViewController+LockNotification.h"
+
 @interface A0DatabaseLoginViewController ()
 
 @property (weak, nonatomic) IBOutlet A0PasswordFieldView *passwordField;
@@ -145,22 +147,27 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self hideKeyboard];
         NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSString *password = self.passwordField.textField.text;
+        A0APIClient *client = [A0APIClient sharedClient];
         @weakify(self);
         A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
             @strongify(self);
+            [self postLoginSuccessfulWithUsername:username andParameters:self.parameters];
             [self.accessButton setInProgress:NO];
             if (self.onLoginBlock) {
                 self.onLoginBlock(profile, token);
             }
         };
         A0APIClientError failure = ^(NSError *error) {
+            @strongify(self);
+            [self postLoginErrorNotificationWithError:error];
             [self.accessButton setInProgress:NO];
             NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
             NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
             A0ShowAlertErrorView(title, message);
         };
-        [[A0APIClient sharedClient] loginWithUsername:username password:password parameters:self.parameters success:success failure:failure];
+        [client loginWithUsername:username password:password parameters:self.parameters success:success failure:failure];
     } else {
+        [self postLoginErrorNotificationWithError:error];
         [self.accessButton setInProgress:NO];
         if (error) {
             A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
@@ -204,6 +211,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.accessButton setInProgress:YES];
     A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
         @strongify(self);
+        [self postLoginSuccessfulForConnection:connection];
         [self.accessButton setInProgress:NO];
         if (self.onLoginBlock) {
             self.onLoginBlock(profile, token);
@@ -212,6 +220,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     void(^failureBlock)(NSError *error) = ^(NSError *error) {
         @strongify(self);
+        [self postLoginErrorNotificationWithError:error];
         [self.accessButton setInProgress:NO];
         if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled && error.code != A0ErrorCodeAuth0Cancelled) {
             switch (error.code) {

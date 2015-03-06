@@ -35,6 +35,7 @@
 #import "A0LockConfiguration.h"
 
 #import <libextobjc/EXTScope.h>
+#import "UIViewController+LockNotification.h"
 
 #define kCellIdentifier @"ServiceCell"
 
@@ -75,8 +76,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)triggerAuth:(UIButton *)sender {
     @weakify(self);
+    self.selectedService = sender.tag;
+    A0Strategy *strategy = self.activeServices[sender.tag];
+
     A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
         @strongify(self);
+        [self postLoginSuccessfulForConnection:strategy.connections.firstObject];
         [self setInProgress:NO];
         if (self.onLoginBlock) {
             self.onLoginBlock(profile, token);
@@ -85,6 +90,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     void(^failureBlock)(NSError *) = ^(NSError *error) {
         @strongify(self);
+        [self postLoginErrorNotificationWithError:error];
         [self setInProgress:NO];
         if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled && error.code != A0ErrorCodeAuth0Cancelled) {
             switch (error.code) {
@@ -104,9 +110,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             }
         }
     };
-    self.selectedService = sender.tag;
     [self setInProgress:YES];
-    A0Strategy *strategy = self.activeServices[sender.tag];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);

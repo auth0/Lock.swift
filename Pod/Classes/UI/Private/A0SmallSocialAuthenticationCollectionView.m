@@ -35,6 +35,8 @@
 #import "A0Strategy.h"
 #import "A0WebViewController.h"
 #import "A0LockConfiguration.h"
+#import "A0LockNotification.h"
+#import "A0Connection.h"
 
 
 #define kCellIdentifier @"ServiceCell"
@@ -74,14 +76,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)triggerAuth:(UIButton *)sender {
     @weakify(self);
+    A0Strategy *strategy = self.socialServices[sender.tag];
     A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
         @strongify(self);
+        [self postLoginSuccessfulForConnection:strategy.connections.firstObject];
         [self.authenticationDelegate authenticationDidEndForSocialCollectionView:self];
         [self.authenticationDelegate socialAuthenticationCollectionView:self didAuthenticateUserWithProfile:profile token:token];
     };
 
     void(^failureBlock)(NSError *error) = ^(NSError *error) {
         @strongify(self);
+        [self postLoginErrorNotificationWithError:error];
         [self.authenticationDelegate authenticationDidEndForSocialCollectionView:self];
         NSError *authenticationError;
         if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled && error.code != A0ErrorCodeAuth0Cancelled) {
@@ -105,7 +110,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     };
     [self.authenticationDelegate authenticationDidStartForSocialCollectionView:self];
 
-    A0Strategy *strategy = self.socialServices[sender.tag];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
@@ -144,4 +148,21 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return cell;
 }
 
+#pragma mark - Lock notifications
+
+- (void)postLoginErrorNotificationWithError:(NSError *)error {
+    [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationLoginFailed
+                                                        object:nil
+                                                      userInfo:@{
+                                                                 A0LockNotificationErrorParameterKey: error,
+                                                                 }];
+}
+
+- (void)postLoginSuccessfulForConnection:(A0Connection *)connection {
+    [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationLoginSuccessful
+                                                        object:nil
+                                                      userInfo:@{
+                                                                 A0LockNotificationConnectionParameterKey: connection.name,
+                                                                 }];
+}
 @end

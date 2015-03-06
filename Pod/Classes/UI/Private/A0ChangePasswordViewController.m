@@ -36,6 +36,7 @@
 #if __has_include("A0PasswordManager.h")
 #import "A0PasswordManager.h"
 #endif
+#import "UIViewController+LockNotification.h"
 
 @interface A0ChangePasswordViewController ()
 
@@ -119,6 +120,7 @@
         @weakify(self);
         void(^success)() = ^ {
             @strongify(self);
+            [self postChangePasswordSuccessfulWithEmail:username];
             [self.recoverButton setInProgress:NO];
             A0ShowAlertErrorView(A0LocalizedString(@"Reset Password"), A0LocalizedString(@"We've just sent you an email to reset your password."));
             if (self.onChangePasswordBlock) {
@@ -127,6 +129,7 @@
         };
         A0APIClientError failure = ^(NSError *error) {
             @strongify(self);
+            [self postChangePasswordErrorNotificationWithError:error];
             [self.recoverButton setInProgress:NO];
             NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Couldn't change your password");
             NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForChangePasswordError:error];

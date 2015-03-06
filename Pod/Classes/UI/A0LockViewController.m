@@ -50,6 +50,7 @@
 #import "A0NavigationView.h"
 #import "A0Errors.h"
 #import "A0LockConfiguration.h"
+#import "A0LockNotification.h"
 
 @interface A0LockViewController () <UIAlertViewDelegate>
 
@@ -113,6 +114,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)dismiss:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationLockDismissed object:nil];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     if (self.onUserDismissBlock) {
         self.onUserDismissBlock();
