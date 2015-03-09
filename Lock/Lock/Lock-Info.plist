@@ -55,12 +55,12 @@
 			<string>googleplus</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.auth0.Lock-Dev</string>
+				<string>com.auth0.$(PRODUCT_NAME:rfc1034identifier)$(BUNDLE_SUFFIX)</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>9</string>
+	<string>12</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

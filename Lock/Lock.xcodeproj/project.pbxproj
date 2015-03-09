@@ -708,8 +708,8 @@
 				AUTH0_TENANT = samples;
 				Auth0SendSMSAPIToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIweUlxTXJpRHVnbU13SnR1VlJkaHVrVUxvYmUxZmhYMyIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImNyZWF0ZSJdfX0sImlhdCI6MTQyMjg4ODM4MywianRpIjoiZTgxYjRkNjcxZmFkYjY4OTQ2MzUzZmNiNGRmMzAxOTEifQ.HcWrivdODASA1XQz1YsplUUC1jv2u_CqtbtZnxjRex0;
 				BUNDLE_SUFFIX = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FACEBOOK_APP_ID = 696506353719958;
 				FACEBOOK_APP_NAME = "Auth0 Samples";
 				FRAMEWORK_SEARCH_PATHS = (
