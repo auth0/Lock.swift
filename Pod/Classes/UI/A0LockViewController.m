@@ -190,6 +190,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         controller.showSignUp = [database.values[@"showSignup"] boolValue];
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
+        controller.defaultConnection = database;
         rootController = controller;
     }
     if ((hasDB & !hasSocial) || (hasEnterprise && !hasDB && !hasSocial && !hasAD)) {
@@ -198,7 +199,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         controller.showSignUp = [database.values[@"showSignup"] boolValue];
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
-        controller.defaultConnection = database;
+        controller.defaultConnection = database ?: ad;
         rootController = controller;
     }
     if (hasSocial && !hasAD && !hasDB && !hasEnterprise) {
@@ -340,6 +341,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
     controller.loginUser = self.loginAfterSignUp;
     controller.parameters = [self copyAuthenticationParameters];
+    controller.defaultConnection = self.configuration.defaultDatabaseConnection;
     @weakify(self);
     if (self.signUpDisclaimerView) {
         [controller addDisclaimerSubview:self.signUpDisclaimerView];
@@ -357,6 +359,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0ChangePasswordViewController *controller = [[A0ChangePasswordViewController alloc] init];
     controller.validator = [[A0ChangePasswordCredentialValidator alloc] initWithUsesEmail:self.usesEmail];
     controller.parameters = [self copyAuthenticationParameters];
+    controller.defaultConnection = self.configuration.defaultDatabaseConnection;
     @weakify(self);
     void(^block)() = ^{
         @strongify(self);

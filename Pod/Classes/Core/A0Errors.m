@@ -274,7 +274,15 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 }
 
 + (NSString *)localizedStringForChangePasswordError:(NSError *)error {
-    return A0LocalizedString(@"There was an error processing the reset password.");
+    NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
+    NSString *errorKey = apiErrorInfo[@"code"];
+    NSString *localizedString;
+    if ([errorKey isEqualToString:@"invalid_user"]) {
+        localizedString = A0LocalizedString(@"The user does not exists. Please check the email and try again.");
+    } else {
+        localizedString = A0LocalizedString(@"There was an error processing the reset password.");
+    }
+    return localizedString;
 }
 
 + (NSString *)localizedStringForSocialLoginError:(NSError *)error {
