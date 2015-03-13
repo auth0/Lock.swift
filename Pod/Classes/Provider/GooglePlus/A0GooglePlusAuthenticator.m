@@ -137,7 +137,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)handleDidBecomeActive:(NSNotification *)notification {
     if (self.authenticating) {
         self.authenticating = NO;
-        self.failureBlock([A0Errors googleplusFailed]);
+        self.failureBlock([A0Errors googleplusCancelled]);
         [self clearCallbacks];
         self.parameters = nil;
     }

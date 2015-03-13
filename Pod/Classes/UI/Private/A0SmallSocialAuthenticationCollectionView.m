@@ -90,7 +90,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self postLoginErrorNotificationWithError:error];
         [self.authenticationDelegate authenticationDidEndForSocialCollectionView:self];
         NSError *authenticationError;
-        if (error.code != A0ErrorCodeFacebookCancelled && error.code != A0ErrorCodeTwitterCancelled && error.code != A0ErrorCodeAuth0Cancelled) {
+        if (![A0Errors isCancelledSocialAuthentication:error]) {
             switch (error.code) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
                 case A0ErrorCodeTwitterInvalidAccount:

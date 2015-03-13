@@ -43,6 +43,13 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     return [error.domain isEqualToString:A0ErrorDomain] && error.code == code;
 }
 
++ (BOOL)isCancelledSocialAuthentication:(NSError *)error {
+    return error.code == A0ErrorCodeFacebookCancelled
+    || error.code == A0ErrorCodeTwitterCancelled
+    || error.code == A0ErrorCodeAuth0Cancelled
+    || error.code == A0ErrorCodeGooglePlusCancelled;
+}
+
 #pragma mark - Login errors
 
 + (NSError *)defaultLoginErrorFor:(NSError *)error {
@@ -233,6 +240,12 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     return [self errorWithCode:A0ErrorCodeGooglePlusFailed
                    description:A0LocalizedString(@"There was an error contacting Google+")
                  failureReason:A0LocalizedString(@"Permissions were not granted. Try again")];
+}
+
++ (NSError *)googleplusCancelled {
+    return [self errorWithCode:A0ErrorCodeGooglePlusCancelled
+                   description:A0LocalizedString(@"There was an error contacting Google+")
+                 failureReason:A0LocalizedString(@"User cancelled the login operation. Try again")];
 }
 
 #pragma mark - Localized error messages
