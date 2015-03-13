@@ -27,15 +27,13 @@
 #import "A0SMSCodeViewController.h"
 #import <libextobjc/EXTScope.h>
 #import "A0NavigationView.h"
+#import "A0TitleView.h"
 
 #define kCountryCodeKey @"auth0-lock-sms-country-code"
 #define kPhoneNumberKey @"auth0-lock-sms-phone"
 
 @interface A0SMSLockViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-@property (weak, nonatomic) IBOutlet UIView *iconContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 - (IBAction)close:(id)sender;
@@ -80,8 +78,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self.view insertSubview:imageView atIndex:0];
     }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
-    self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
-    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
+    self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.closeButton.tintColor = [theme colorForKey:A0ThemeSecondaryButtonTextColor];
 
     [self displayController:[self buildSMSSendCode]];

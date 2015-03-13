@@ -34,12 +34,10 @@
 #import "A0SignUpViewController.h"
 #import "A0SignUpCredentialValidator.h"
 #import "A0UIUtilities.h"
+#import "A0TitleView.h"
 
 @interface A0LockSignUpViewController () <A0SmallSocialAuthenticationCollectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *bigIconImageView;
-@property (weak, nonatomic) IBOutlet UIView *iconContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
@@ -83,16 +81,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
-    UIImage *iconImage = [theme imageForKey:A0ThemeIconImageName];
-    if (iconImage.size.height > 60) {
-        self.iconContainerView.hidden = YES;
-        self.bigIconImageView.image = iconImage;
-        self.bigIconImageView.hidden = NO;
-    } else {
-        self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
-        self.iconImageView.image = iconImage;
-    }
-    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
+    self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.dismissButton.tintColor = [theme colorForKey:A0ThemeCloseButtonTintColor];
 
     [[A0IdentityProviderAuthenticator sharedInstance] setUseWebAsDefault:!self.useWebView];

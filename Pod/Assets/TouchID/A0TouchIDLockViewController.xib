@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0TouchIDLockViewController">
             <connections>
                 <outlet property="closeButton" destination="cvj-On-Dtc" id="IAc-7I-SiD"/>
-                <outlet property="iconContainerView" destination="SSv-RX-3gR" id="s6s-L1-jp8"/>
-                <outlet property="iconImageView" destination="UO4-bD-OQ4" id="efM-zr-o6a"/>
                 <outlet property="loadingView" destination="JUM-s6-89B" id="pxR-I1-y5W"/>
                 <outlet property="messageLabel" destination="2ZQ-b2-BUM" id="igd-0u-wxA"/>
-                <outlet property="titleLabel" destination="e54-RU-yIs" id="GLp-f5-XNS"/>
+                <outlet property="titleView" destination="mLe-q3-wEZ" id="rPS-id-zWw"/>
                 <outlet property="touchIDButton" destination="OPV-4k-Yhd" id="CMz-6o-Lut"/>
                 <outlet property="touchIDView" destination="40u-FA-4Nw" id="qWp-Qm-4b7"/>
                 <outlet property="view" destination="iN0-l3-epB" id="XvE-4E-i9A"/>
@@ -22,49 +20,11 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mLe-q3-wEZ">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mLe-q3-wEZ" customClass="A0TitleView">
                     <rect key="frame" x="10" y="55" width="580" height="110"/>
-                    <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login with TouchID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e54-RU-yIs">
-                            <rect key="frame" x="196" y="75" width="188" height="29"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
-                            <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SSv-RX-3gR">
-                            <rect key="frame" x="260" y="5" width="60" height="60"/>
-                            <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/people" translatesAutoresizingMaskIntoConstraints="NO" id="UO4-bD-OQ4">
-                                    <rect key="frame" x="22" y="22" width="16" height="16"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                            <integer key="value" value="30"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                </imageView>
-                            </subviews>
-                            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="centerY" secondItem="UO4-bD-OQ4" secondAttribute="centerY" id="7cA-av-FP2"/>
-                                <constraint firstAttribute="width" constant="60" id="Jlr-4a-BBr"/>
-                                <constraint firstAttribute="centerX" secondItem="UO4-bD-OQ4" secondAttribute="centerX" id="KtL-24-mj7"/>
-                                <constraint firstAttribute="height" constant="60" id="Th0-iM-XVc"/>
-                            </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="30"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </view>
-                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="centerX" secondItem="SSv-RX-3gR" secondAttribute="centerX" id="4FP-S5-ZDv"/>
-                        <constraint firstAttribute="centerX" secondItem="e54-RU-yIs" secondAttribute="centerX" id="HAE-nn-man"/>
-                        <constraint firstItem="e54-RU-yIs" firstAttribute="top" secondItem="SSv-RX-3gR" secondAttribute="bottom" constant="10" id="f3D-RO-Wxj"/>
                         <constraint firstAttribute="height" constant="110" id="laQ-Rm-sKZ"/>
-                        <constraint firstAttribute="centerY" secondItem="SSv-RX-3gR" secondAttribute="centerY" constant="20" id="maT-m2-D6V"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-On-Dtc">
@@ -164,6 +124,5 @@
         <image name="Auth0.TouchID.bundle/touchid" width="16" height="16"/>
         <image name="Auth0.TouchID.bundle/touchid_selected" width="16" height="16"/>
         <image name="Auth0.bundle/close" width="16" height="16"/>
-        <image name="Auth0.bundle/people" width="16" height="16"/>
     </resources>
 </document>
