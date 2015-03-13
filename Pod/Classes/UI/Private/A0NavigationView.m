@@ -23,6 +23,8 @@
 #import "A0NavigationView.h"
 #import "A0Theme.h"
 
+#define kTopMarginButton 5.0f
+
 @interface A0NavigationView ()
 @property (strong, nonatomic) NSMutableArray *actions;
 @property (strong, nonatomic) NSMutableArray *buttons;
@@ -103,13 +105,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                      attribute:NSLayoutAttributeCenterX
                                                     multiplier:1.0f
                                                       constant:0.0f]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
-                                                     attribute:NSLayoutAttributeCenterY
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:button
+                                                     attribute:NSLayoutAttributeTop
                                                      relatedBy:NSLayoutRelationEqual
-                                                        toItem:button
-                                                     attribute:NSLayoutAttributeCenterY
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeTop
                                                     multiplier:1.0f
-                                                      constant:0.0f]];
+                                                      constant:kTopMarginButton]];
 }
 
 - (void)layoutLeftButton:(UIButton *)leftButton rightButton:(UIButton *)rightButton {
@@ -125,20 +127,20 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                  options:0
                                                                  metrics:metrics
                                                                    views:views]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
-                                                     attribute:NSLayoutAttributeCenterY
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:leftButton
+                                                     attribute:NSLayoutAttributeTop
                                                      relatedBy:NSLayoutRelationEqual
-                                                        toItem:leftButton
-                                                     attribute:NSLayoutAttributeCenterY
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeTop
                                                     multiplier:1.0f
-                                                      constant:0.0f]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
-                                                     attribute:NSLayoutAttributeCenterY
+                                                      constant:kTopMarginButton]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:rightButton
+                                                     attribute:NSLayoutAttributeTop
                                                      relatedBy:NSLayoutRelationEqual
-                                                        toItem:rightButton
-                                                     attribute:NSLayoutAttributeCenterY
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeTop
                                                     multiplier:1.0f
-                                                      constant:0.0f]];
+                                                      constant:kTopMarginButton]];
 }
 
 - (CGSize)intrinsicContentSize {

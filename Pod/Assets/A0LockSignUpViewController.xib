@@ -20,6 +20,13 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SCM-ig-pmA" customClass="A0TitleView">
+                    <rect key="frame" x="10" y="50" width="300" height="110"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="110" id="aRs-Wu-E98"/>
+                    </constraints>
+                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oEq-K6-mRm">
                     <rect key="frame" x="280" y="10" width="40" height="40"/>
                     <constraints>
@@ -32,13 +39,6 @@
                         <action selector="dismiss:" destination="-1" eventType="touchUpInside" id="HBj-Pg-CJa"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SCM-ig-pmA" customClass="A0TitleView">
-                    <rect key="frame" x="10" y="50" width="300" height="110"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="110" id="aRs-Wu-E98"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Mxr-pm-PPe">
                     <rect key="frame" x="0.0" y="160" width="320" height="408"/>
                     <subviews>
@@ -115,7 +115,7 @@
                 <constraint firstAttribute="trailing" secondItem="oEq-K6-mRm" secondAttribute="trailing" id="XYl-Pr-KSD"/>
                 <constraint firstItem="Mxr-pm-PPe" firstAttribute="leading" secondItem="8YL-B6-5qt" secondAttribute="leading" id="Xdj-FY-sv4"/>
                 <constraint firstItem="oEq-K6-mRm" firstAttribute="top" secondItem="8YL-B6-5qt" secondAttribute="top" constant="10" id="YHl-P4-6yH"/>
-                <constraint firstItem="SCM-ig-pmA" firstAttribute="top" secondItem="8YL-B6-5qt" secondAttribute="top" priority="500" constant="30" id="bts-zd-6qH"/>
+                <constraint firstItem="SCM-ig-pmA" firstAttribute="top" secondItem="8YL-B6-5qt" secondAttribute="top" priority="500" constant="20" id="bts-zd-6qH"/>
                 <constraint firstItem="SCM-ig-pmA" firstAttribute="top" secondItem="8YL-B6-5qt" secondAttribute="top" priority="800" constant="50" id="gTj-CE-KRq"/>
                 <constraint firstItem="SCM-ig-pmA" firstAttribute="leading" secondItem="8YL-B6-5qt" secondAttribute="leading" constant="10" id="m5d-Rr-COE"/>
                 <constraint firstAttribute="trailing" secondItem="Mxr-pm-PPe" secondAttribute="trailing" id="ngB-xg-7WW"/>

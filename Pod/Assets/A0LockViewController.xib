@@ -18,6 +18,13 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhJ-OZ-OpH" customClass="A0TitleView">
+                    <rect key="frame" x="10" y="60" width="300" height="110"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="110" id="hHo-WR-fmO"/>
+                    </constraints>
+                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uS7-Fm-CsT">
                     <rect key="frame" x="280" y="10" width="40" height="40"/>
                     <constraints>
@@ -30,16 +37,12 @@
                         <action selector="dismiss:" destination="-1" eventType="touchUpInside" id="MiU-Hc-os7"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhJ-OZ-OpH" customClass="A0TitleView">
-                    <rect key="frame" x="10" y="60" width="300" height="110"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="110" id="hHo-WR-fmO"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="EQ5-97-4tm">
+                <view clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="EQ5-97-4tm">
                     <rect key="frame" x="0.0" y="170" width="320" height="350"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="284" id="B6b-Ve-zbF"/>
+                    </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9jw-bX-VgA" customClass="A0NavigationView">
                     <rect key="frame" x="20" y="520" width="280" height="48"/>
@@ -60,7 +63,7 @@
                 <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="800" constant="60" id="ODE-kX-6It"/>
                 <constraint firstItem="jhJ-OZ-OpH" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" constant="10" id="SM7-MQ-kCh"/>
                 <constraint firstItem="EQ5-97-4tm" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" id="Vh8-O0-tDf"/>
-                <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="500" constant="30" id="YPc-hg-aIa"/>
+                <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="500" constant="20" id="YPc-hg-aIa"/>
                 <constraint firstAttribute="trailing" secondItem="9jw-bX-VgA" secondAttribute="trailing" constant="20" id="cyw-5Y-YGH"/>
                 <constraint firstItem="9jw-bX-VgA" firstAttribute="top" secondItem="EQ5-97-4tm" secondAttribute="bottom" id="jET-dc-OHo"/>
                 <constraint firstItem="EQ5-97-4tm" firstAttribute="top" secondItem="jhJ-OZ-OpH" secondAttribute="bottom" id="oAC-or-EVy"/>
