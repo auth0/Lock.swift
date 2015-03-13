@@ -37,6 +37,7 @@
 #import "A0LockConfiguration.h"
 #import "A0LockNotification.h"
 #import "A0Connection.h"
+#import "A0AuthParameters.h"
 
 
 #define kCellIdentifier @"ServiceCell"
@@ -110,15 +111,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     };
     [self.authenticationDelegate authenticationDidStartForSocialCollectionView:self];
 
+    A0AuthParameters *parameters = [self.parameters copy];
+    [parameters setValue:strategy.name forKey:A0ParameterConnection];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
-        [authenticator authenticateForStrategy:strategy parameters:self.parameters success:successBlock failure:failureBlock];
+        [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];
     } else {
         A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
         A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.configuration.application
                                                                                   strategy:strategy
-                                                                                parameters:self.parameters];
+                                                                                parameters:parameters];
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         controller.onAuthentication = successBlock;
