@@ -55,6 +55,7 @@
 @interface A0LockViewController () <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *bigIconImageView;
 @property (weak, nonatomic) IBOutlet UIView *iconContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 
@@ -97,8 +98,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self.view insertSubview:imageView atIndex:0];
     }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
-    self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
-    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
+    UIImage *iconImage = [theme imageForKey:A0ThemeIconImageName];
+    if (iconImage.size.height > 60) {
+        self.iconContainerView.hidden = YES;
+        self.bigIconImageView.image = iconImage;
+        self.bigIconImageView.hidden = NO;
+    } else {
+        self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
+        self.iconImageView.image = iconImage;
+    }
+
     self.dismissButton.tintColor = [theme colorForKey:A0ThemeCloseButtonTintColor];
 
     [self displayController:[[A0LoadingViewController alloc] init]];

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0LockSignUpViewController">
@@ -38,7 +38,7 @@
                     <rect key="frame" x="10" y="50" width="300" height="110"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yfR-aZ-Ftj">
-                            <rect key="frame" x="109" y="75" width="81" height="28.5"/>
+                            <rect key="frame" x="109" y="75" width="81" height="29"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
                             <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -69,14 +69,23 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </view>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bha-Nd-R8e">
+                            <rect key="frame" x="75" y="10" width="150" height="55"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="150" placeholder="YES" id="kjK-Oy-utH"/>
+                                <constraint firstAttribute="height" constant="55" placeholder="YES" id="qyk-MF-Oby"/>
+                            </constraints>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="yfR-aZ-Ftj" firstAttribute="top" secondItem="bha-Nd-R8e" secondAttribute="bottom" constant="10" id="01N-c0-UAe"/>
                         <constraint firstItem="yfR-aZ-Ftj" firstAttribute="top" secondItem="LCN-YW-Z5k" secondAttribute="bottom" constant="10" id="Bww-QE-LfR"/>
                         <constraint firstAttribute="centerX" secondItem="yfR-aZ-Ftj" secondAttribute="centerX" id="J3Y-ci-zgi"/>
                         <constraint firstAttribute="centerY" secondItem="LCN-YW-Z5k" secondAttribute="centerY" constant="20" id="JBj-o0-YiV"/>
                         <constraint firstAttribute="centerX" secondItem="LCN-YW-Z5k" secondAttribute="centerX" id="XJg-bt-k4P"/>
                         <constraint firstAttribute="height" constant="110" id="aRs-Wu-E98"/>
+                        <constraint firstAttribute="centerX" secondItem="bha-Nd-R8e" secondAttribute="centerX" id="zdF-Mb-nzQ"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Mxr-pm-PPe">
@@ -86,7 +95,7 @@
                             <rect key="frame" x="0.0" y="68" width="320" height="273"/>
                             <subviews>
                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="4m6-e8-6Tk">
-                                    <rect key="frame" x="141.5" y="118" width="37" height="37"/>
+                                    <rect key="frame" x="142" y="118" width="37" height="37"/>
                                     <color key="color" red="0.1333333333" green="0.18039215689999999" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                 </activityIndicatorView>
                             </subviews>
