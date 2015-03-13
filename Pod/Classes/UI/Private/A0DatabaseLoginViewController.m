@@ -97,7 +97,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
     self.singleSignOnIcon.image = [self.singleSignOnIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     if (self.defaultConnection) {
-        [self.parameters setValue:self.defaultConnection.name forKey:@"connection"];
+        [self.parameters setValue:self.defaultConnection.name forKey:A0ParameterConnection];
     }
     self.userField.textField.placeholder = self.validator.usesEmail ? A0LocalizedString(@"Email") : A0LocalizedString(@"Username");
     self.userField.textField.text = self.defaultUsername;
@@ -244,8 +244,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0Application *application = [A0APIClient sharedClient].application;
     A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
-    A0AuthParameters *parameters = self.parameters.copy;
-    [parameters setValue:connection.name forKey:@"connection"];
+    A0AuthParameters *parameters = [self.parameters copy];
+    [parameters setValue:connection.name forKey:A0ParameterConnection];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         A0LogVerbose(@"Authenticating using Safari for strategy %@ and connection %@", strategy.name, connection.name);
         [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];

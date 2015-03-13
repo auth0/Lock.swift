@@ -32,6 +32,7 @@ NSString * const A0ParameterOfflineMode = @"offline_mode";
 NSString * const A0ParameterConnectionScopes = @"connection_scopes";
 NSString * const A0ParameterAccessToken = @"access_token";
 NSString * const A0ParameterMainAccessToken = @"main_access_token";
+NSString * const A0ParameterConnection = @"connection";
 
 NSString * const A0ScopeOpenId = @"openid";
 NSString * const A0ScopeOfflineAccess = @"offline_access";

@@ -71,6 +71,11 @@ FOUNDATION_EXPORT NSString * const A0ParameterAccessToken;
  */
 FOUNDATION_EXPORT NSString * const A0ParameterMainAccessToken;
 
+/**
+ *  'connection' option key
+ */
+FOUNDATION_EXPORT NSString * const A0ParameterConnection;
+
 ///----------------------------------------
 /// @name Auth0 API Scope values
 ///----------------------------------------

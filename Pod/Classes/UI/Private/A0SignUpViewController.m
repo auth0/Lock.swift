@@ -37,6 +37,8 @@
 #import "A0PasswordManager.h"
 #endif
 #import "UIViewController+LockNotification.h"
+#import "A0AuthParameters.h"
+#import "A0Connection.h"
 
 @interface A0SignUpViewController ()
 
@@ -79,8 +81,11 @@
     self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
     [self.signUpButton setTitle:A0LocalizedString(@"SIGN UP") forState:UIControlStateNormal];
     self.messageLabel.text = self.customMessage ?: A0LocalizedString(@"Please enter your email and password");
-
     [self.passwordField.passwordManagerButton addTarget:self action:@selector(storeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
+    if (self.defaultConnection) {
+        [self.parameters setValue:self.defaultConnection.name forKey:A0ParameterConnection];
+    }
+
 }
 
 - (void)dealloc {

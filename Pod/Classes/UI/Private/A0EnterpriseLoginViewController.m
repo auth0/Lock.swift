@@ -58,7 +58,7 @@
     NSString *message = A0LocalizedString(@"Please enter your corporate credentials at %@");
     self.messageLabel.text = [NSString stringWithFormat:message, self.connection.values[@"domain"]];
     self.userField.textField.text = self.defaultUsername;
-    [self.parameters setValue:self.connection.name forKey:@"connection"];
+    [self.parameters setValue:self.connection.name forKey:A0ParameterConnection];
 }
 
 @end
