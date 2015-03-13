@@ -208,6 +208,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [[A0Theme sharedInstance] statusBarStyle];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return [[A0Theme sharedInstance] statusBarHidden];
+}
+
 #pragma mark - Utility methods
 
 - (NSString *)deviceName {

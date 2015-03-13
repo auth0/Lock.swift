@@ -106,6 +106,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [[A0Theme sharedInstance] statusBarStyle];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return [[A0Theme sharedInstance] statusBarHidden];
+}
+
 - (A0SMSSendCodeViewController *)buildSMSSendCode {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *phoneNumber = [defaults stringForKey:kPhoneNumberKey];

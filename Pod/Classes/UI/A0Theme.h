@@ -66,6 +66,7 @@ FOUNDATION_EXPORT NSString * const A0ThemeCloseButtonTintColor;
 + (A0Theme *)sharedInstance;
 
 @property (assign, nonatomic) UIStatusBarStyle statusBarStyle;
+@property (assign, nonatomic) BOOL statusBarHidden;
 
 - (void)registerFont:(UIFont *)font forKey:(NSString *)key;
 - (void)registerColor:(UIColor *)color forKey:(NSString *)key;
