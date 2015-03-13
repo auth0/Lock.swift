@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0LockViewController">
             <connections>
                 <outlet property="containerView" destination="EQ5-97-4tm" id="pf7-J9-mQ3"/>
                 <outlet property="dismissButton" destination="uS7-Fm-CsT" id="ZKV-3K-e2r"/>
-                <outlet property="iconContainerView" destination="kvp-f2-bVw" id="qAd-jE-aWa"/>
-                <outlet property="iconImageView" destination="1g1-6A-sZJ" id="WhI-qs-kWL"/>
                 <outlet property="navigationView" destination="9jw-bX-VgA" id="XMU-n2-48r"/>
-                <outlet property="titleLabel" destination="ZbU-sd-IPu" id="Aes-JI-fao"/>
+                <outlet property="titleView" destination="jhJ-OZ-OpH" id="H8d-99-quC"/>
                 <outlet property="view" destination="jWq-Pm-WRM" id="BkF-zK-3nw"/>
             </connections>
         </placeholder>
@@ -20,6 +18,13 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhJ-OZ-OpH" customClass="A0TitleView">
+                    <rect key="frame" x="10" y="60" width="300" height="110"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="110" id="hHo-WR-fmO"/>
+                    </constraints>
+                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uS7-Fm-CsT">
                     <rect key="frame" x="280" y="10" width="40" height="40"/>
                     <constraints>
@@ -32,54 +37,12 @@
                         <action selector="dismiss:" destination="-1" eventType="touchUpInside" id="MiU-Hc-os7"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhJ-OZ-OpH">
-                    <rect key="frame" x="10" y="50" width="300" height="110"/>
-                    <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZbU-sd-IPu">
-                            <rect key="frame" x="123" y="75" width="54" height="28.5"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
-                            <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kvp-f2-bVw">
-                            <rect key="frame" x="120" y="5" width="60" height="60"/>
-                            <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/people" translatesAutoresizingMaskIntoConstraints="NO" id="1g1-6A-sZJ">
-                                    <rect key="frame" x="22" y="22" width="16" height="16"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                            <integer key="value" value="30"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                </imageView>
-                            </subviews>
-                            <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="60" id="EcN-Br-hIr"/>
-                                <constraint firstAttribute="width" constant="60" id="Ydh-aH-va0"/>
-                                <constraint firstAttribute="centerY" secondItem="1g1-6A-sZJ" secondAttribute="centerY" id="ZA0-oX-pTn"/>
-                                <constraint firstAttribute="centerX" secondItem="1g1-6A-sZJ" secondAttribute="centerX" id="hc2-cj-YG9"/>
-                            </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="30"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </view>
-                    </subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="EQ5-97-4tm">
+                    <rect key="frame" x="0.0" y="170" width="320" height="350"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="centerX" secondItem="kvp-f2-bVw" secondAttribute="centerX" id="1do-29-3ga"/>
-                        <constraint firstItem="ZbU-sd-IPu" firstAttribute="top" secondItem="kvp-f2-bVw" secondAttribute="bottom" constant="10" id="OQW-7c-H0X"/>
-                        <constraint firstAttribute="centerY" secondItem="kvp-f2-bVw" secondAttribute="centerY" constant="20" id="aiF-ko-ER9"/>
-                        <constraint firstAttribute="height" constant="110" id="hHo-WR-fmO"/>
-                        <constraint firstAttribute="centerX" secondItem="ZbU-sd-IPu" secondAttribute="centerX" id="ySO-ei-jyv"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="284" id="B6b-Ve-zbF"/>
                     </constraints>
-                </view>
-                <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="EQ5-97-4tm">
-                    <rect key="frame" x="0.0" y="160" width="320" height="360"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9jw-bX-VgA" customClass="A0NavigationView">
                     <rect key="frame" x="20" y="520" width="280" height="48"/>
@@ -97,10 +60,10 @@
                 <constraint firstAttribute="trailing" secondItem="jhJ-OZ-OpH" secondAttribute="trailing" constant="10" id="CZ1-xh-7nM"/>
                 <constraint firstAttribute="trailing" secondItem="EQ5-97-4tm" secondAttribute="trailing" id="HMR-PP-Fvi"/>
                 <constraint firstItem="uS7-Fm-CsT" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" constant="10" id="I6c-dG-gHs"/>
-                <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="800" constant="50" id="ODE-kX-6It"/>
+                <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="800" constant="60" id="ODE-kX-6It"/>
                 <constraint firstItem="jhJ-OZ-OpH" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" constant="10" id="SM7-MQ-kCh"/>
                 <constraint firstItem="EQ5-97-4tm" firstAttribute="leading" secondItem="jWq-Pm-WRM" secondAttribute="leading" id="Vh8-O0-tDf"/>
-                <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="500" constant="30" id="YPc-hg-aIa"/>
+                <constraint firstItem="jhJ-OZ-OpH" firstAttribute="top" secondItem="jWq-Pm-WRM" secondAttribute="top" priority="500" constant="20" id="YPc-hg-aIa"/>
                 <constraint firstAttribute="trailing" secondItem="9jw-bX-VgA" secondAttribute="trailing" constant="20" id="cyw-5Y-YGH"/>
                 <constraint firstItem="9jw-bX-VgA" firstAttribute="top" secondItem="EQ5-97-4tm" secondAttribute="bottom" id="jET-dc-OHo"/>
                 <constraint firstItem="EQ5-97-4tm" firstAttribute="top" secondItem="jhJ-OZ-OpH" secondAttribute="bottom" id="oAC-or-EVy"/>
@@ -119,7 +82,6 @@
     </objects>
     <resources>
         <image name="Auth0.bundle/close" width="16" height="16"/>
-        <image name="Auth0.bundle/people" width="16" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

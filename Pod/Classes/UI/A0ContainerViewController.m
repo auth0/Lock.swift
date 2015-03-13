@@ -24,10 +24,10 @@
 #import "A0NavigationView.h"
 #import "A0KeyboardHandler.h"
 #import "A0Theme.h"
+#import "A0TitleView.h"
 
 @interface A0ContainerViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet A0NavigationView *navigationView;
 
@@ -42,9 +42,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
-    A0Theme *theme = [A0Theme sharedInstance];
-    self.titleLabel.font = [theme fontForKey:A0ThemeTitleFont];
-    self.titleLabel.textColor = [theme colorForKey:A0ThemeTitleTextColor];
 
 }
 
@@ -112,7 +109,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.navigationView.userInteractionEnabled = NO;
     [UIView animateWithDuration:0.3f animations:^{
         to.view.alpha = 1.0f;
-        self.titleLabel.text = to.title;
+        self.titleView.title = to.title;
     } completion:^(BOOL finished) {
         [from.view removeFromSuperview];
         [from removeFromParentViewController];

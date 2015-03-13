@@ -36,11 +36,9 @@
 #import "A0ChangePasswordCredentialValidator.h"
 #import "A0AuthParameters.h"
 #import "A0NavigationView.h"
+#import "A0TitleView.h"
 
 @interface A0TouchIDRegisterViewController ()
-
-@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-@property (weak, nonatomic) IBOutlet UIView *iconContainerView;
 
 @end
 
@@ -56,8 +54,7 @@
         [self.view insertSubview:imageView atIndex:0];
     }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
-    self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
-    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
+    self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
 }
 
 - (UIViewController<A0KeyboardEnabledView> *)buildSignUp {

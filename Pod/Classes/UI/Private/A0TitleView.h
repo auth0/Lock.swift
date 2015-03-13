@@ -1,6 +1,6 @@
-// A0ContainerViewController.h
+// A0TitleView.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +21,10 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "A0KeyboardEnabledView.h"
 
-@class A0NavigationView, A0TitleView;
+@interface A0TitleView : UIView
 
-typedef NS_ENUM(NSInteger, A0ContainerLayoutVertical) {
-    A0ContainerLayoutVerticalCenter = 0,
-    A0ContainerLayoutVerticalFill
-};
-
-@interface A0ContainerViewController : UIViewController
-
-@property (weak, nonatomic) IBOutlet A0TitleView *titleView;
-
-- (A0NavigationView *)navigationView;
-
-- (void)displayController:(UIViewController<A0KeyboardEnabledView> *)controller;
-- (void)displayController:(UIViewController<A0KeyboardEnabledView> *)controller layout:(A0ContainerLayoutVertical)layout;
+@property (strong, nonatomic) UIImage *iconImage;
+@property (copy, nonatomic) NSString *title;
 
 @end

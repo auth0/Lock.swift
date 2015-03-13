@@ -34,11 +34,10 @@
 #import "A0SignUpViewController.h"
 #import "A0SignUpCredentialValidator.h"
 #import "A0UIUtilities.h"
+#import "A0TitleView.h"
 
 @interface A0LockSignUpViewController () <A0SmallSocialAuthenticationCollectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-@property (weak, nonatomic) IBOutlet UIView *iconContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
@@ -81,8 +80,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self.view insertSubview:imageView atIndex:0];
     }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
-    self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
-    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
+    self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
+    self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.dismissButton.tintColor = [theme colorForKey:A0ThemeCloseButtonTintColor];
 
     [[A0IdentityProviderAuthenticator sharedInstance] setUseWebAsDefault:!self.useWebView];
@@ -113,6 +112,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [[A0Theme sharedInstance] statusBarStyle];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return [[A0Theme sharedInstance] statusBarHidden];
 }
 
 #pragma mark - A0SmallSocialAuthenticationCollectionViewDelegate

@@ -33,6 +33,7 @@
 #import "A0Token.h"
 #import "A0UserAPIClient.h"
 #import "A0Theme.h"
+#import "A0TitleView.h"
 
 NSString * const A0ThemeTouchIDLockButtonImageNormalName = @"A0ThemeTouchIDLockButtonImageNormalName";
 NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchIDLockButtonImageHighlightedName";
@@ -40,9 +41,7 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
 
 @interface A0TouchIDLockViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-@property (weak, nonatomic) IBOutlet UIView *iconContainerView;
+@property (weak, nonatomic) IBOutlet A0TitleView *titleView;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
 @property (weak, nonatomic) IBOutlet UIView *touchIDView;
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
@@ -90,8 +89,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self.view insertSubview:imageView atIndex:0];
     }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
-    self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
-    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
     self.closeButton.tintColor = [theme colorForKey:A0ThemeSecondaryButtonTextColor];
@@ -103,10 +100,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.messageLabel.font = [theme fontForKey:A0ThemeDescriptionFont];
     self.messageLabel.textColor = [theme colorForKey:A0ThemeDescriptionTextColor];
     self.activityIndicator.color = [theme colorForKey:A0ThemeTitleTextColor];
-    self.titleLabel.text = A0LocalizedString(@"Login with TouchID");
-    self.titleLabel.font = [theme fontForKey:A0ThemeTitleFont];
-    self.titleLabel.textColor = [theme colorForKey:A0ThemeTitleTextColor];
 
+    self.titleView.title = A0LocalizedString(@"Login with TouchID");
+    self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.authentication = [[A0TouchIDAuthentication alloc] init];
     self.authentication.onError = ^(NSError *error) {
         @strongify(self);
@@ -206,6 +202,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [[A0Theme sharedInstance] statusBarStyle];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return [[A0Theme sharedInstance] statusBarHidden];
 }
 
 #pragma mark - Utility methods
