@@ -32,6 +32,7 @@
 @property (copy, nonatomic) void (^successBlock)(A0UserProfile *, A0Token *);
 @property (copy, nonatomic) void (^failureBlock)(NSError *);
 @property (strong, nonatomic) A0AuthParameters *parameters;
+@property (assign, nonatomic) BOOL authenticating;
 @end
 
 @implementation A0GooglePlusAuthenticator
@@ -57,8 +58,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         signIn.delegate = self;
         A0LogDebug(@"Initialised Google+ authenticator with scopes %@", signIn.scopes);
         [self clearCallbacks];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 + (instancetype)newAuthenticatorWithClientId:(NSString *)clientId {
@@ -82,12 +88,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.failureBlock = failure;
     self.parameters = parameters;
     GPPSignIn *signIn = [GPPSignIn sharedInstance];
+    self.authenticating = YES;
     [signIn authenticate];
     A0LogVerbose(@"Starting Google+ Authentication...");
 }
 
 - (void)clearSessions {
     self.parameters = nil;
+    self.authenticating = NO;
     [self clearCallbacks];
     [[GPPSignIn sharedInstance] signOut];
     A0LogVerbose(@"Cleared Google+ session");
@@ -100,6 +108,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 #pragma mark - GPPSignInDelegate
 
 - (void)finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.authenticating = NO;
+    });
     if (error) {
         A0LogError(@"Failed to authenticate with Google+ with error %@", error);
         self.failureBlock([A0Errors googleplusFailed]);
@@ -121,5 +132,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)clearCallbacks {
     self.failureBlock = ^(NSError *error) {};
     self.successBlock = ^(A0UserProfile* profile, A0Token *token) {};
+}
+
+- (void)handleDidBecomeActive:(NSNotification *)notification {
+    if (self.authenticating) {
+        self.authenticating = NO;
+        self.failureBlock([A0Errors googleplusCancelled]);
+        [self clearCallbacks];
+        self.parameters = nil;
+    }
+
 }
 @end

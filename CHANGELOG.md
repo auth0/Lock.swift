@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ##master
 
+###Added
+- Property to hide statusBar in `A0Theme`.
+
+###Changed
+- Fix issue when using big title icons that will hide the title text.
+- Properly set the default Database Connection in all modes.
+- Improved layout of `LockViewController`.
+- Fix issue when user comes back to the app from G+ application (or Safari) during authentication.
+
 ## 1.10.0 - 2015-03-06
 
 ###Added

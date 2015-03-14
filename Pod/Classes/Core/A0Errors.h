@@ -96,6 +96,10 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
      *  When Google+ authentication fails
      */
     A0ErrorCodeGooglePlusFailed,
+    /**
+     *  When Google+ authentication was cancelled by the user.
+     */
+    A0ErrorCodeGooglePlusCancelled
 };
 
 FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
@@ -107,6 +111,8 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 + (NSError *)notConnectedToInternetError;
 
 + (BOOL)isAuth0Error:(NSError *)error withCode:(A0ErrorCode)code;
+
++ (BOOL)isCancelledSocialAuthentication:(NSError *)error;
 
 ///----------------------------------------
 /// @name Login Errors
@@ -151,6 +157,7 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 + (NSError *)auth0NotAuthorizedForStrategy:(NSString *)strategyName;
 + (NSError *)auth0InvalidConfigurationForStrategy:(NSString *)strategyName;
 + (NSError *)googleplusFailed;
++ (NSError *)googleplusCancelled;
 
 ///----------------------------------------
 /// @name Localized Messages
