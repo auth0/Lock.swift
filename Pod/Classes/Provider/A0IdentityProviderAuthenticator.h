@@ -80,6 +80,21 @@
                         failure:(void(^)(NSError *error))failure;
 
 /**
+ *  Authenticates a user using an identity provider specified by `A0Strategy`'s name and the registered method (Safari or Native).
+ *  For the connection name it will use the first one by default.
+ *  You can override the default connection name setting in parameters the key `connection` with the name of the connection that should be used instead.
+ *
+ *  @param strategy   object that represent an authentication strategy with an identity provider.
+ *  @param parameters  authentication parameters for Auth0 API.
+ *  @param success    block called on successful authentication with user's token info and profile
+ *  @param failure    block called on error with the reason as a parameter
+ */
+- (void)authenticateForStrategyName:(NSString *)strategyName
+                         parameters:(A0AuthParameters *)parameters
+                            success:(void(^)(A0UserProfile *profile, A0Token *token))success
+                            failure:(void(^)(NSError *error))failure;
+
+/**
  *  Checks if the given startegy has a registered authenticator (either Native or Safari).
  *
  *  @param strategy an Auth0 strategy
