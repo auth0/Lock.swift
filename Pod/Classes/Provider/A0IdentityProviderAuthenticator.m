@@ -85,19 +85,26 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return authenticator != nil;
 }
 
+- (void)authenticateForStrategyName:(NSString *)strategyName
+                         parameters:(A0AuthParameters *)parameters
+                            success:(void (^)(A0UserProfile *, A0Token *))success
+                            failure:(void (^)(NSError *))failure {
+    id<A0AuthenticationProvider> authenticator = self.authenticators[strategyName];
+    if (authenticator) {
+        [authenticator authenticateWithParameters:parameters success:success failure:failure];
+    } else {
+        A0LogWarn(@"No known provider for strategy %@", strategyName);
+        if (failure) {
+            failure([A0Errors unkownProviderForStrategy:strategyName]);
+        }
+    }
+}
+
 - (void)authenticateForStrategy:(A0Strategy *)strategy
                      parameters:(A0AuthParameters *)parameters
                         success:(void(^)(A0UserProfile *profile, A0Token *token))success
                         failure:(void(^)(NSError *error))failure {
-    id<A0AuthenticationProvider> authenticator = self.authenticators[strategy.name];
-    if (authenticator) {
-        [authenticator authenticateWithParameters:parameters success:success failure:failure];
-    } else {
-        A0LogWarn(@"No known provider for strategy %@", strategy.name);
-        if (failure) {
-            failure([A0Errors unkownProviderForStrategy:strategy.name]);
-        }
-    }
+    [self authenticateForStrategyName:strategy.name parameters:parameters success:success failure:failure];
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application {
