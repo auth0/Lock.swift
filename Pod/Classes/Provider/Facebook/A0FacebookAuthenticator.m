@@ -26,6 +26,7 @@
 #import "A0Application.h"
 #import "A0APIClient.h"
 #import "A0IdentityProviderCredentials.h"
+#import "A0AuthParameters.h"
 
 #import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
 #import <libextobjc/EXTScope.h>
@@ -92,7 +93,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self executeAuthenticationWithCredentials:[[A0IdentityProviderCredentials alloc] initWithAccessToken:active.accessTokenData.accessToken] parameters:parameters success:success failure:failure];
     } else {
         @weakify(self);
-        [FBSession openActiveSessionWithReadPermissions:self.permissions allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+        NSArray *permissions = [self permissionsFromParameters:parameters];
+        [FBSession openActiveSessionWithReadPermissions:permissions allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
             if (error) {
                 if (failure) {
                     A0LogError(@"Failed to open FB Session with error %@", error);
@@ -122,6 +124,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 #pragma mark - Utility methods
 
+- (NSArray *)permissionsFromParameters:(A0AuthParameters *)parameters {
+    NSArray *connectionScopes = parameters.connectionScopes[A0StrategyNameFacebook];
+    NSArray *permissions = connectionScopes.count > 0 ? connectionScopes : self.permissions;
+    A0LogDebug(@"Facebook Permissions %@", permissions);
+    return permissions;
+}
 - (void)executeAuthenticationWithCredentials:(A0IdentityProviderCredentials *)credentials
                                   parameters:(A0AuthParameters *)parameters
                                      success:(void(^)(A0UserProfile *, A0Token *))success

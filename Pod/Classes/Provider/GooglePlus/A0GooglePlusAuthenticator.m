@@ -27,12 +27,14 @@
 #import "A0APIClient.h"
 #import "A0IdentityProviderCredentials.h"
 #import "A0Errors.h"
+#import "A0AuthParameters.h"
 
 @interface A0GooglePlusAuthenticator () <GPPSignInDelegate>
 @property (copy, nonatomic) void (^successBlock)(A0UserProfile *, A0Token *);
 @property (copy, nonatomic) void (^failureBlock)(NSError *);
 @property (strong, nonatomic) A0AuthParameters *parameters;
 @property (assign, nonatomic) BOOL authenticating;
+@property (strong, nonatomic) NSArray *scopes;
 @end
 
 @implementation A0GooglePlusAuthenticator
@@ -48,15 +50,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (self) {
         GPPSignIn *signIn = [GPPSignIn sharedInstance];
         signIn.clientID = clientId;
-        NSMutableSet *scopeSet = [[NSMutableSet alloc] init];
-        [scopeSet addObject:kGTLAuthScopePlusLogin];
-        [scopeSet addObject:kGTLAuthScopePlusUserinfoEmail];
-        if (scopes) {
-            [scopeSet addObjectsFromArray:scopes];
-        }
-        signIn.scopes = [scopeSet allObjects];
+        self.scopes = [scopes copy];
         signIn.delegate = self;
-        A0LogDebug(@"Initialised Google+ authenticator with scopes %@", signIn.scopes);
         [self clearCallbacks];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
@@ -88,6 +83,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.failureBlock = failure;
     self.parameters = parameters;
     GPPSignIn *signIn = [GPPSignIn sharedInstance];
+    signIn.scopes = [self scopesFromParameters:parameters];
     self.authenticating = YES;
     [signIn authenticate];
     A0LogVerbose(@"Starting Google+ Authentication...");
@@ -128,6 +124,19 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 #pragma mark - Utility methods
+
+- (NSArray *)scopesFromParameters:(A0AuthParameters *)parameters {
+    NSMutableSet *scopeSet = [[NSMutableSet alloc] init];
+    [scopeSet addObject:kGTLAuthScopePlusLogin];
+    [scopeSet addObject:kGTLAuthScopePlusUserinfoEmail];
+    NSArray *connectionScopes = parameters.connectionScopes[A0StrategyNameFacebook];
+    NSArray *scopes = connectionScopes.count > 0 ? connectionScopes : self.scopes;
+    if (scopes) {
+        [scopeSet addObjectsFromArray:scopes];
+    }
+    A0LogDebug(@"Google+ scopes %@", scopeSet);
+    return [scopeSet allObjects];
+}
 
 - (void)clearCallbacks {
     self.failureBlock = ^(NSError *error) {};

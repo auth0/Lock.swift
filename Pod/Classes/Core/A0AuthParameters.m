@@ -115,13 +115,16 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
 }
 
 - (NSDictionary *)asAPIPayload {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:self.params];
-    params[A0ParameterScope] = ScopeValueFromNSArray(self.params[A0ParameterScope]);
+    NSMutableDictionary *params = self.params.mutableCopy;
+    [params removeObjectsForKeys:@[A0ParameterScope, A0ParameterConnectionScopes]];
+    NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:params];
+    payload[A0ParameterScope] = ScopeValueFromNSArray(self.params[A0ParameterScope]);
     NSDictionary *connectionScopes = self.params[A0ParameterConnectionScopes];
-    if (connectionScopes.count > 0) {
-        params[A0ParameterConnectionScopes] = ConnectionScopeValuesFromNSDictionary(connectionScopes);
+    NSArray *connectionScope = connectionScopes[self.params[A0ParameterConnection]];
+    if (connectionScope) {
+        payload[@"connection_scope"] = [connectionScope componentsJoinedByString:@","];
     }
-    return [NSDictionary dictionaryWithDictionary:params];
+    return payload;
 }
 
 - (NSArray *)scopes {
