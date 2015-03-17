@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ##master
 
+## 1.10.0 - 2015-03-16
+
 ###Added
 - Property to hide statusBar in `A0Theme`.
 

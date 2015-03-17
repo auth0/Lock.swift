@@ -186,6 +186,7 @@ describe(@"A0AuthParameters", ^{
                                        @"google": @[],
                                        @"linkedin": @[@"public_profile"],
                                        };
+            [params setValue:@"facebook" forKey:A0ParameterConnection];
             params.state = @"TEST";
             params.device = @"Specta Test";
             [params setValue:@"bar" forKey:@"foo"];
@@ -196,16 +197,10 @@ describe(@"A0AuthParameters", ^{
             expect(dict[A0ParameterScope]).to.equal(@"openid profile offline_access");
         });
 
-        it(@"should coalesce connection_scopes for FB in a NSString", ^{
-            expect(dict[A0ParameterConnectionScopes][@"facebook"]).to.equal(@"email,friends");
-        });
-
-        it(@"should coalesce connection_scopes for linkedin in a NSString", ^{
-            expect(dict[A0ParameterConnectionScopes][@"linkedin"]).to.equal(@"public_profile");
-        });
-
-        it(@"should skip connection_scopes for twitter", ^{
-            expect(dict[A0ParameterConnectionScopes][@"twitter"]).to.beNil();
+        it(@"should include specified scopes for connection", ^{
+            NSDictionary *payload = [params asAPIPayload];
+            expect(payload.allKeys).to.contain(@"connection_scope");
+            expect(payload[@"connection_scope"]).to.equal(@"email,friends");
         });
 
         it(@"should have state", ^{
