@@ -66,18 +66,24 @@ static NSString *CountryName = @"Name";
 
     UINib *cellNib = [UINib nibWithNibName:@"A0CountryCodeTableViewCell" bundle:[NSBundle bundleForClass:self.class]];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated"
     [self.searchDisplayController.searchResultsTableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
     self.searchDisplayController.delegate = self;
     self.searchDisplayController.searchResultsDataSource = self;
     self.searchDisplayController.searchResultsDelegate = self;
     self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
     self.searchDisplayController.searchBar.placeholder = NSLocalizedStringFromTable(@"Search", @"Auth0.SMS", @"Search Country Placeholder");
+#pragma GCC diagnostic pop
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated"
     self.searchDisplayController.navigationItem.hidesBackButton = YES;
+#pragma GCC diagnostic pop
     self.navigationItem.hidesBackButton = YES;
 }
 
