@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, A0ErrorCode) {
-    A0AuthenticationFailed = 0,
+    A0ErrorCodeAuthenticationFailed = 0,
     /**
      *  Both password and email/username are invalid
      */

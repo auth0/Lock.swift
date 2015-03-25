@@ -26,6 +26,9 @@ GEM
       activesupport (>= 3.2.15)
       fuzzy_match (~> 2.0.4)
       nap (~> 0.8.0)
+    cocoapods-deintegrate (0.2.1)
+      cocoapods (~> 0.34)
+    cocoapods-dependencies (0.4.0)
     cocoapods-downloader (0.8.1)
     cocoapods-packager (1.1.1)
     cocoapods-plugins (0.4.1)
@@ -56,4 +59,6 @@ PLATFORMS
 
 DEPENDENCIES
   cocoapods (~> 0.36.0)
+  cocoapods-deintegrate
+  cocoapods-dependencies
   cocoapods-packager

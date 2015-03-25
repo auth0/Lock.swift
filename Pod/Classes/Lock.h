@@ -36,6 +36,7 @@
 #import "A0Errors.h"
 #import "A0Token.h"
 #import "A0UserProfile.h"
+#import "A0IdentityProviderCredentials.h"
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0AuthParameters.h"
 #import "A0UserIdentity.h"

@@ -53,7 +53,7 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 #pragma mark - Login errors
 
 + (NSError *)defaultLoginErrorFor:(NSError *)error {
-    return [self errorWithCode:A0AuthenticationFailed
+    return [self errorWithCode:A0ErrorCodeAuthenticationFailed
                    description:A0LocalizedString(@"There was an error logging in")
                  failureReason:[self localizedStringForLoginError:error]];
 }
