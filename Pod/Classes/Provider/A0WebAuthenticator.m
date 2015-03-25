@@ -31,6 +31,8 @@
 #import "A0WebAuthentication.h"
 #import "A0AuthParameters.h"
 
+#import <UIKit/UIKit.h>
+
 @interface A0WebAuthenticator ()
 
 @property (strong, nonatomic) A0AuthParameters *parameters;

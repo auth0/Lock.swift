@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0DeviceNameProvider.h"
+#import <UIKit/UIKit.h>
 
 @implementation A0DeviceNameProvider
 
