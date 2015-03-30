@@ -58,7 +58,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cocoapods (~> 0.36.0)
+  cocoapods (= 0.36.0)
   cocoapods-deintegrate
   cocoapods-dependencies
   cocoapods-packager

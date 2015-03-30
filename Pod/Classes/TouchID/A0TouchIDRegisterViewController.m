@@ -30,7 +30,6 @@
 #import "A0DatabaseLoginViewController.h"
 #import "A0DatabaseLoginCredentialValidator.h"
 
-#import <ObjectiveSugar/ObjectiveSugar.h>
 #import <libextobjc/EXTScope.h>
 #import "A0ChangePasswordViewController.h"
 #import "A0ChangePasswordCredentialValidator.h"

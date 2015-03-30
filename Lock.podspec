@@ -20,7 +20,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
 
   s.dependency 'libextobjc', '~> 0.4'
   s.dependency 'CocoaLumberjack', '~> 2.0.0-rc'
-  s.dependency 'ObjectiveSugar', '~> 1.1'
   s.default_subspecs = 'UI', 'Facebook', 'Twitter', 'Core'
   s.prefix_header_contents = <<-EOS
     #import "A0Logging.h"

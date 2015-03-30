@@ -22,7 +22,6 @@
 
 #import "A0LockConfiguration.h"
 #import "A0Application.h"
-#import <ObjectiveSugar/ObjectiveSugar.h>
 #import "A0Strategy.h"
 #import "A0Connection.h"
 
@@ -47,28 +46,24 @@
             _activeDirectory = application.activeDirectoryStrategy;
             _database = application.databaseStrategy;
         } else {
-            _social = [application.socialStrategies select:^BOOL(A0Strategy *strategy) {
-                A0Connection *connection = [strategy.connections detect:^BOOL(A0Connection *connection) {
-                    return [connectionNames containsObject:connection.name];
-                }];
-                return connection != nil;
+            _social = [self selectFromArray:application.socialStrategies passingTest:^BOOL(A0Strategy *strategy) {
+                A0Connection *connection = strategy.connections.firstObject;
+                return [connectionNames containsObject:connection.name];
             }];
 
-            _enterprise = [[application.enterpriseStrategies map:^id(A0Strategy *strategy) {
-                NSArray *connections = [strategy.connections select:^BOOL(A0Connection *connection) {
+            NSMutableArray *filtered = [@[] mutableCopy];
+            [application.enterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
+                NSArray *connections = [self selectFromArray:strategy.connections passingTest:^BOOL(A0Connection *connection) {
                     return [connectionNames containsObject:connection.name];
                 }];
-                if (connections.count == 0) {
-                    return [NSNull null];
+                if (connections.count > 0) {
+                    A0Strategy *newStrategy = [A0Strategy newEnterpriseStrategyWithName:strategy.name connections:connections];
+                    [filtered addObject:newStrategy];
                 }
-                return [A0Strategy newEnterpriseStrategyWithName:strategy.name connections:connections];
-            }] select:^BOOL(id object) {
-                return object != [NSNull null];
             }];
-            _activeDirectory = [_enterprise detect:^BOOL(A0Strategy *strategy) {
-                return [strategy.name isEqualToString:A0StrategyNameActiveDirectory];
-            }];
-            NSArray *dbConnections = [application.databaseStrategy.connections select:^BOOL(A0Connection *connection) {
+            _enterprise = [NSArray arrayWithArray:filtered];
+            _activeDirectory = [_enterprise filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", A0StrategyNameActiveDirectory]].firstObject;
+            NSArray *dbConnections = [self selectFromArray:application.databaseStrategy.connections passingTest:^BOOL(A0Connection *connection) {
                 return [connectionNames containsObject:connection.name];
             }];
             _database = [A0Strategy newDatabaseStrategyWithConnections:dbConnections];
@@ -105,5 +100,15 @@
 
 - (A0Connection *)defaultActiveDirectoryConnection {
     return self.activeDirectory.connections.firstObject;
+}
+
+- (NSArray *)selectFromArray:(NSArray *)array passingTest:(BOOL(^)(id element))test {
+    __block NSMutableArray *result = [@[] mutableCopy];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if (test(obj)) {
+            [result addObject:obj];
+        }
+    }];
+    return [NSArray arrayWithArray:result];
 }
 @end

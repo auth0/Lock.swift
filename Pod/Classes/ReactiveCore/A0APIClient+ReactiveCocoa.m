@@ -22,6 +22,8 @@
 
 #import "A0APIClient+ReactiveCocoa.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @implementation A0APIClient (ReactiveCocoa)
 
 - (RACSignal *)fetchAppInfo {

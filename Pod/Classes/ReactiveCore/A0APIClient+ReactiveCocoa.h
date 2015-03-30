@@ -22,7 +22,7 @@
 
 #import "A0APIClient.h"
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
+@class RACSignal;
 
 @interface A0APIClient (ReactiveCocoa)
 

@@ -24,8 +24,6 @@
 #import "A0Strategy.h"
 #import "A0Connection.h"
 
-#import <ObjectiveSugar/ObjectiveSugar.h>
-
 @interface A0Application ()
 @property (strong, nonatomic) A0Strategy *databaseStrategy;
 @property (strong, nonatomic) NSArray *socialStrategies;
@@ -44,8 +42,8 @@
         NSString *authorize = JSONDict[@"authorize"];
         NSArray *array = JSONDict[@"strategies"];
         NSMutableDictionary *strategies = [@{} mutableCopy];
-        [array each:^(NSDictionary *strategyDict) {
-            A0Strategy *strategy = [[A0Strategy alloc] initWithJSONDictionary:strategyDict];
+        [array enumerateObjectsUsingBlock:^(NSDictionary *strategyDictionary, NSUInteger idx, BOOL *stop) {
+            A0Strategy *strategy = [[A0Strategy alloc] initWithJSONDictionary:strategyDictionary];
             [strategies setObject:strategy forKey:strategy.name];
             if ([strategy.name isEqualToString:A0StrategyNameAuth0]) {
                 _databaseStrategy = strategy;
@@ -82,11 +80,9 @@
 }
 
 - (A0Strategy *)enterpriseStrategyWithConnection:(NSString *)connectionName {
-    return [self.enterpriseStrategies select:^BOOL(A0Strategy *strategy) {
-        return [strategy.connections indexOfObjectPassingTest:^BOOL(A0Connection *connection, NSUInteger idx, BOOL *stop) {
-            return [connection.name isEqualToString:connectionName];
-        }] != NSNotFound;
-    }].firstObject;
+    return [self.enterpriseStrategies filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(A0Strategy *strategy, NSDictionary *bindings) {
+        return [strategy hasConnectionWithName:connectionName];
+    }]].firstObject;
 }
 
 @end

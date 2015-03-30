@@ -22,8 +22,6 @@
 
 #import "A0CountryCodeTableViewController.h"
 
-#import <ObjectiveSugar/ObjectiveSugar.h>
-
 static NSString *CellIdentifier = @"CountryCell";
 static NSString *CountryCode = @"Code";
 static NSString *CountryDialCode = @"DialCode";
@@ -43,8 +41,8 @@ static NSString *CountryName = @"Name";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.countryCodes = [A0CountryCodeTableViewController loadCountryCodes];
-    self.countryCodes = [self.countryCodes sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *left, NSDictionary *right) {
+    NSArray *codes = [A0CountryCodeTableViewController loadCountryCodes];
+    codes = [self.countryCodes sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *left, NSDictionary *right) {
         NSComparisonResult order = NSOrderedAscending;
         if ([self.defaultCountry isEqualToString:right[CountryCode]]) {
             order = NSOrderedDescending;
@@ -52,7 +50,8 @@ static NSString *CountryName = @"Name";
         return order;
     }];
     NSLocale *locale = [NSLocale currentLocale];
-    self.countryCodes = [self.countryCodes map:^id(NSDictionary *country) {
+    NSMutableArray *countryCodes = [@[] mutableCopy];
+    [codes enumerateObjectsUsingBlock:^(NSDictionary *country, NSUInteger idx, BOOL *stop) {
         NSMutableDictionary *countryWithName = [country mutableCopy];
         NSString *name = [locale displayNameForKey:NSLocaleCountryCode value:country[CountryCode]];
         if(name) {
@@ -60,9 +59,9 @@ static NSString *CountryName = @"Name";
         } else {
             countryWithName[CountryName] = [[NSLocale localeWithLocaleIdentifier:@"en_US"] displayNameForKey:NSLocaleCountryCode value:country[CountryCode]];
         }
-
-        return countryWithName;
+        [countryCodes addObject:countryWithName];
     }];
+    self.countryCodes = countryCodes;
 
     UINib *cellNib = [UINib nibWithNibName:@"A0CountryCodeTableViewCell" bundle:[NSBundle bundleForClass:self.class]];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:CellIdentifier];
@@ -94,20 +93,24 @@ static NSString *CountryName = @"Name";
 
 + (NSString *)dialCodeForCountryWithCode:(NSString *)code {
     NSArray *codes = [self loadCountryCodes];
-    NSDictionary *country = [codes find:^BOOL(NSDictionary *country) {
-        return [country[CountryCode] isEqualToString:code];
+    __block NSDictionary *found;
+    [codes enumerateObjectsUsingBlock:^(NSDictionary *country, NSUInteger idx, BOOL *stop) {
+        *stop = [country[CountryCode] isEqualToString:code];
+        if (*stop) {
+            found = country;
+        }
     }];
-    return [self dialCodeForCountry:country];
+    return [self dialCodeForCountry:found];
 }
 
 #pragma mark - UISearchDisplayDelegate
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    self.filteredCountryCodes = [self.countryCodes select:^BOOL(NSDictionary *country) {
+    self.filteredCountryCodes = [self.countryCodes filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSDictionary *country, NSDictionary *bindings) {
         NSRange nameRange = [country[CountryName] rangeOfString:searchString options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch];
         NSRange codeRange = [country[CountryCode] rangeOfString:searchString options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch];
         return nameRange.location != NSNotFound || codeRange.location != NSNotFound;
-    }];
+    }]];
     return YES;
 }
 

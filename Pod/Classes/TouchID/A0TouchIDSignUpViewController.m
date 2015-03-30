@@ -31,7 +31,6 @@
 #import "A0UIUtilities.h"
 
 #import <libextobjc/EXTScope.h>
-#import <ObjectiveSugar/ObjectiveSugar.h>
 
 @interface A0TouchIDSignUpViewController ()
 
@@ -129,9 +128,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (NSString *) randomStringWithLength:(NSUInteger)len {
     static NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     NSMutableString *randomString = [NSMutableString stringWithCapacity:len];
-    [@(len) times:^{
+    for (NSUInteger i = 0; i < len; i++) {
         [randomString appendFormat: @"%C", [letters characterAtIndex:arc4random_uniform((u_int32_t)[letters length])]];
-    }];
+    }
 
     return randomString;
 }

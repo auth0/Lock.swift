@@ -23,7 +23,6 @@
 #import "A0RoundedBoxView.h"
 #import "A0Theme.h"
 
-#import <ObjectiveSugar/ObjectiveSugar.h>
 #import <CoreGraphics/CoreGraphics.h>
 
 @implementation A0RoundedBoxView
@@ -38,7 +37,7 @@
     self.layer.borderColor = [borderColor CGColor];
     self.layer.cornerRadius = 3.0f;
 
-    [self.separators each:^(UIView *separator) {
+    [self.separators enumerateObjectsUsingBlock:^(UIView *separator, NSUInteger idx, BOOL *stop) {
         separator.backgroundColor = separatorColor;
     }];
 }

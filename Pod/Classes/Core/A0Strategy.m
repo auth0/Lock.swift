@@ -109,6 +109,12 @@ NSString * const A0StrategySocialUserIdParameter = @"user_id";
     return self;
 }
 
+- (BOOL)hasConnectionWithName:(NSString *)name {
+    return [self.connections indexOfObjectPassingTest:^BOOL(A0Connection *connection, NSUInteger idx, BOOL *stop) {
+        return [connection.name isEqualToString:name];
+    }] != NSNotFound;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<A0Strategy name = '%@' connections = %@>", self.name, self.connections];
 }

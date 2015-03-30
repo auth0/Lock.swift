@@ -28,7 +28,6 @@
 #import <OCMockito/OCMockito.h>
 #import "A0Application.h"
 #import "A0Connection.h"
-#import <ObjectiveSugar/ObjectiveSugar.h>
 #import "A0Strategy.h"
 
 #define kLockConfig @"LockConfig"
@@ -89,8 +88,9 @@ describe(@"A0LockConfiguration", ^{
             });
 
             it(@"should have social connections", ^{
-                NSArray *names = [config.socialStrategies map:^id(A0Strategy *strategy) {
-                    return [strategy.connections.firstObject name];
+                __block NSMutableArray *names = [@[] mutableCopy];
+                [config.socialStrategies enumerateObjectsUsingBlock:^(A0Strategy *stragegy, NSUInteger idx, BOOL *stop) {
+                    [names addObject:stragegy.name];
                 }];
                 NSArray *expected = [data[kSocialConnectionNames] mutableCopy];
                 expect(names).to.beSupersetOf(expected);
@@ -98,11 +98,12 @@ describe(@"A0LockConfiguration", ^{
             });
 
             it(@"should have enterprise connections", ^{
-                NSArray *names = [[config.enterpriseStrategies map:^id(A0Strategy *strategy) {
-                    return [strategy.connections map:^id(A0Connection *connection) {
-                        return connection.name;
+                __block NSMutableArray *names = [@[] mutableCopy];
+                [config.enterpriseStrategies enumerateObjectsUsingBlock:^(A0Strategy *stragegy, NSUInteger idx, BOOL *stop) {
+                    [stragegy.connections enumerateObjectsUsingBlock:^(A0Connection *connection, NSUInteger idx, BOOL *stop) {
+                        [names addObject:connection.name];
                     }];
-                }] flatten];
+                }];
                 NSArray *expected = [data[kEnterpriseConnectionNames] mutableCopy];
                 expect(names).to.beSupersetOf(expected);
                 expect(names).to.haveCountOf(expected.count);

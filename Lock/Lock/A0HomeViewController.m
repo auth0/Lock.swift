@@ -26,6 +26,7 @@
 #import <libextobjc/EXTScope.h>
 #import <SimpleKeychain/A0SimpleKeychain.h>
 #import <JWTDecode/A0JWTDecoder.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 #define kClientIdKey @"Auth0ClientId"
 #define kTenantKey @"Auth0Tenant"

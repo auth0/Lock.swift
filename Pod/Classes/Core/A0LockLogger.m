@@ -22,6 +22,8 @@
 
 #import "A0LockLogger.h"
 
+#import <CocoaLumberjack/CocoaLumberjack.h>
+
 @implementation A0LockLogger
 
 - (instancetype)init {
@@ -44,8 +46,8 @@
 }
 
 + (void)logWithLevel:(DDLogLevel)level {
-    for (Class clss in [DDLog registeredClasses]) {
-        [DDLog setLevel:level forClass:clss];
+    for (Class clazz in [DDLog registeredClasses]) {
+        [DDLog setLevel:level forClass:clazz];
     }
 }
 

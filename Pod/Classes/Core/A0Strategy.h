@@ -152,6 +152,15 @@ typedef NS_ENUM(NSUInteger, A0StrategyType) {
 - (instancetype)initWithName:(NSString *)name connections:(NSArray *)connections type:(A0StrategyType)type;
 
 /**
+ *  Checks if the strategy contains a connection with a given name
+ *
+ *  @param name connection name
+ *
+ *  @return if the strategy has a connection with name or not.
+ */
+- (BOOL)hasConnectionWithName:(NSString *)name;
+
+/**
  *  Creates a new enterprise strategy
  *
  *  @param name        name of the strategy

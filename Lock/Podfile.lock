@@ -1,23 +1,23 @@
 PODS:
-  - AFNetworking (2.5.1):
-    - AFNetworking/NSURLConnection (= 2.5.1)
-    - AFNetworking/NSURLSession (= 2.5.1)
-    - AFNetworking/Reachability (= 2.5.1)
-    - AFNetworking/Security (= 2.5.1)
-    - AFNetworking/Serialization (= 2.5.1)
-    - AFNetworking/UIKit (= 2.5.1)
-  - AFNetworking/NSURLConnection (2.5.1):
+  - AFNetworking (2.5.2):
+    - AFNetworking/NSURLConnection (= 2.5.2)
+    - AFNetworking/NSURLSession (= 2.5.2)
+    - AFNetworking/Reachability (= 2.5.2)
+    - AFNetworking/Security (= 2.5.2)
+    - AFNetworking/Serialization (= 2.5.2)
+    - AFNetworking/UIKit (= 2.5.2)
+  - AFNetworking/NSURLConnection (2.5.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.5.1):
+  - AFNetworking/NSURLSession (2.5.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.5.1)
-  - AFNetworking/Security (2.5.1)
-  - AFNetworking/Serialization (2.5.1)
-  - AFNetworking/UIKit (2.5.1):
+  - AFNetworking/Reachability (2.5.2)
+  - AFNetworking/Security (2.5.2)
+  - AFNetworking/Serialization (2.5.2)
+  - AFNetworking/UIKit (2.5.2):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - BDBOAuth1Manager (1.5.0):
@@ -80,41 +80,34 @@ PODS:
     - Lock/Facebook (= 1.10.3.beta)
     - Lock/Twitter (= 1.10.3.beta)
     - Lock/UI (= 1.10.3.beta)
-    - ObjectiveSugar (~> 1.1)
   - Lock/Core (1.10.3.beta):
     - AFNetworking (~> 2.5)
     - CocoaLumberjack (~> 2.0.0-rc)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
-    - ObjectiveSugar (~> 1.1)
   - Lock/Facebook (1.10.3.beta):
     - CocoaLumberjack (~> 2.0.0-rc)
     - Facebook-iOS-SDK (~> 3.15)
     - libextobjc (~> 0.4)
     - Lock/Core
-    - ObjectiveSugar (~> 1.1)
   - Lock/GooglePlus (1.10.3.beta):
     - CocoaLumberjack (~> 2.0.0-rc)
     - googleplus-ios-sdk (~> 1.7.1)
     - libextobjc (~> 0.4)
     - Lock/Core
-    - ObjectiveSugar (~> 1.1)
   - Lock/ReactiveCore (1.10.3.beta):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
-    - ObjectiveSugar (~> 1.1)
     - ReactiveCocoa (~> 2.3)
   - Lock/SMS (1.10.3.beta):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/UI
-    - ObjectiveSugar (~> 1.1)
   - Lock/TouchID (1.10.3.beta):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/UI
-    - ObjectiveSugar (~> 1.1)
     - SimpleKeychain (~> 0.2)
     - TouchIDAuth (~> 0.1)
   - Lock/Twitter (1.10.3.beta):
@@ -122,19 +115,16 @@ PODS:
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
-    - ObjectiveSugar (~> 1.1)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
   - Lock/UI (1.10.3.beta):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
-    - ObjectiveSugar (~> 1.1)
   - LUKeychainAccess (1.2.4)
   - NSData+Base64 (1.0.0)
   - OAuthCore (0.0.1):
     - NSData+Base64
-  - ObjectiveSugar (1.1.0)
   - OCHamcrest (4.1.1)
   - OCMockito (1.4.0):
     - OCHamcrest (~> 4.0)
@@ -151,10 +141,9 @@ PODS:
     - ReactiveCocoa/Core
   - SimpleKeychain (0.3.0)
   - Specta (0.3.2)
-  - TouchIDAuth (0.1.0):
+  - TouchIDAuth (0.1.1):
     - libextobjc (~> 0.4)
-    - ObjectiveSugar (~> 1.1)
-    - SimpleKeychain (~> 0.2)
+    - SimpleKeychain (~> 0.3)
   - TWReverseAuth (0.1.1):
     - LUKeychainAccess
     - OAuthCore
@@ -176,32 +165,31 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   Lock:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
-  AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
-  BDBOAuth1Manager: 274574557077abc873fc5688abe8b991e782749c
-  Bolts: dd9fb8433d67f5acc3b6b4d1379bbc5513d716c1
-  CocoaLumberjack: fd2b1031c6c4e0f08b5ea928ef677fa0a5de517d
-  Expecta: ee641011fe10aa1855d487b40e4976dac50ec342
+  AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
+  BDBOAuth1Manager: 2e28773b58f880fb36b5cd3efcf0b1fefbc78a99
+  Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
+  CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
+  Expecta: 8c507baf13211207b1e9d0a741480600e6b4ed15
   Facebook-iOS-SDK: cd87f0b2f0c1d9574b44e8fa2baacc275524bac3
-  googleplus-ios-sdk: b0f6cd8aa29c51d0048cace8dc3bd8f4ae0806bb
-  ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
-  JWTDecode: 72e3393caf14dc762eba51d29f15bd86f608aba3
-  libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  Lock: 7335fd660115be1c73d3d01bf05cb40ed49dee91
+  googleplus-ios-sdk: 065d9135061a5f84c07656a68ced48336408fe35
+  ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
+  JWTDecode: bff190dc06ff9ee7a3a244c454dc8ef05962c994
+  libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
+  Lock: fe881f0612ffb3e28b8582548af68bfbce65d1e9
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
-  NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
-  OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
-  ObjectiveSugar: f48793f5902c77cfc02a4ce46d2e8ecddcad4dc2
-  OCHamcrest: af1c7c5ea345de69ea6c9c2958f65f3044e5c420
-  OCMockito: 991936bb775cc4c27f063d38f5e17b9161fbd21c
-  OHHTTPStubs: e6ecc3fd4fa11b2cfb5f4823421bddc95a82913d
-  PSAlertView: fa44c0b5dbdae9afa9c2ec5e0662f5d33fd1148c
-  ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
-  SimpleKeychain: 4758625a53ca89cfae98b4aca8c550d1193292f8
-  Specta: 698a58ffa5ec948327d3b92eab50ca58d7f4fbe8
-  TouchIDAuth: 4a104cd6a614e63c23fad6e6446bf79b6cc6f429
-  TWReverseAuth: da3ae5f14c3b26ebb503ddff25cb1cb0b9c1839b
+  NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
+  OAuthCore: 43dce261db846a1fe20234d95654257e00e78581
+  OCHamcrest: 6f03ffa81d12feab872638490a44ab0a6d3aca10
+  OCMockito: 4981140c9a9ec06c31af40f636e3c0f25f27e6b2
+  OHHTTPStubs: 5624a5d20d97d46d47e15a68ca8808b59ccf0512
+  PSAlertView: 16d35f5dba549418492cf68a750d4f0dca21f4a2
+  ReactiveCocoa: eb38dee0a0e698f73a9b25e5c1faea2bb4c79240
+  SimpleKeychain: 8de48eb1de10c6403911a6be52e127e5b5d31404
+  Specta: e5ad38f1b2227a23bc63d0b5a3b41c5e628f2851
+  TouchIDAuth: f63596baf1c23d85211ab7a3b4bea794d73f3e36
+  TWReverseAuth: d2deef3521fa6bee32eabab67f114c2c4a53d4f5
 
-COCOAPODS: 0.36.0
+COCOAPODS: 0.36.1

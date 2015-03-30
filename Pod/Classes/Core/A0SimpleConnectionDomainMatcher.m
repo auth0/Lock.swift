@@ -24,8 +24,6 @@
 #import "A0Strategy.h"
 #import "A0Connection.h"
 
-#import <ObjectiveSugar/ObjectiveSugar.h>
-
 @interface A0SimpleConnectionDomainMatcher ()
 @property (strong, nonatomic) NSDictionary *connections;
 @property (strong, nonatomic) NSDictionary *domains;
@@ -39,10 +37,10 @@
         NSMutableDictionary *connections = [@{} mutableCopy];
         NSMutableDictionary *domains = [@{} mutableCopy];
         for (A0Strategy *strategy in strategies) {
-            NSArray *filtered = [strategy.connections select:^BOOL(A0Connection *connection) {
+            NSArray *filtered = [strategy.connections filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(A0Connection *connection, NSDictionary *bindings) {
                 return connection.values[@"domain"] != nil && connection.values[@"domain"] != [NSNull null];
-            }];
-            [filtered each:^(A0Connection *connection) {
+            }]];
+            [filtered enumerateObjectsUsingBlock:^(A0Connection *connection, NSUInteger idx, BOOL *stop) {
                 connections[connection.name] = connection;
                 NSMutableArray *connectionDomains = [@[] mutableCopy];
                 [connectionDomains addObject:connection.values[@"domain"]];
@@ -50,9 +48,11 @@
                 if (aliases.count > 0) {
                     [connectionDomains addObjectsFromArray:aliases];
                 }
-                domains[connection.name] = [connectionDomains map:^id(NSString *domain) {
-                    return [A0SimpleConnectionDomainMatcher emailDomainPartFromDomain:domain];
+                NSMutableArray *result = [@[] mutableCopy];
+                [connectionDomains enumerateObjectsUsingBlock:^(NSString *domain, NSUInteger idx, BOOL *stop) {
+                    [result addObject:[A0SimpleConnectionDomainMatcher emailDomainPartFromDomain:domain]];
                 }];
+                domains[connection.name] = result;
             }];
         }
         _connections = connections;

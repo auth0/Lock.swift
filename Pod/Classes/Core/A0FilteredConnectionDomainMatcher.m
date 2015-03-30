@@ -25,14 +25,13 @@
 #import "A0Connection.h"
 #import "A0Strategy.h"
 
-#import <ObjectiveSugar/ObjectiveSugar.h>
-
 @implementation A0FilteredConnectionDomainMatcher
 
 - (instancetype)initWithStrategies:(NSArray *)strategies filter:(NSArray *)strategyNamesToFilter {
-    NSArray *filtered = [strategies select:^BOOL(A0Strategy *strategy) {
+    NSArray *filtered = [strategies filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(A0Strategy *strategy, NSDictionary *bindings) {
         return ![strategyNamesToFilter containsObject:strategy.name];
-    }];
+    }]];
+
     return [super initWithStrategies:filtered];
 }
 
