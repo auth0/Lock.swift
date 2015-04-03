@@ -332,7 +332,6 @@ describe(@"A0APIClient", ^{
                                                                                            @"password": PASSWORD,
                                                                                            @"client_id": CLIENT_ID,
                                                                                            @"connection": DB_CONNECTION,
-                                                                                           @"tenant": TENANT
                                                                                            }]];
                     [keeper returnSuccessfulLoginWithFilter:[filter filterForResourceOwnerWithUsername:EMAIL password:PASSWORD]];
                     [keeper returnProfileWithFilter:[filter filterForTokenInfoWithJWT:JWT]];

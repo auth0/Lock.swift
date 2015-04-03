@@ -199,7 +199,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
                                                                                 kEmailParamName: username,
                                                                                 kPasswordParamName: password,
-                                                                                kTenantParamName: self.tenant,
                                                                                 kClientIdParamName: self.clientId,
                                                                                 }];
     [self addDatabaseConnectionNameToParams:defaultParameters];
@@ -227,7 +226,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
                                                                                 kEmailParamName: username,
                                                                                 kPasswordParamName: newPassword,
-                                                                                kTenantParamName: self.tenant,
                                                                                 kClientIdParamName: self.clientId,
                                                                                 }];
     [self addDatabaseConnectionNameToParams:defaultParameters];
