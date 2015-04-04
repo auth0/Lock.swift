@@ -46,7 +46,7 @@ Then in your project's `Info.plist` file add the following entries:
 
 For example:
 
-[![Auth0 plist](https://assets.auth0.com/mobile-sdk-lock/example-plist.png)](http://auth0.com)
+[![Auth0 plist](http://assets.auth0.com/mobile-sdk-lock/example-plist.png)](http://auth0.com)
 
 Also you need to register a Custom URL type, it must have a custom scheme with the following format `a0<Your Client ID>`. For example if your Client ID is `Exe6ccNagokLH7mBmzFejP` then the custom scheme should be `a0Exe6ccNagokLH7mBmzFejP`.
 
