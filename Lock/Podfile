@@ -8,6 +8,7 @@ target 'Lock', :exclusive => true do
   pod 'Lock/SMS', :path => '../'
   pod 'Lock/ReactiveCore', :path => '../'
   pod 'Lock/GooglePlus', :path => '../'
+  pod 'Lock/1Password', :path => '../'
   pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
   pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
   pod 'JWTDecode'

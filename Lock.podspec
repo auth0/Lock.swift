@@ -107,7 +107,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     onepassword.platform = :ios
     onepassword.public_header_files = 'Pod/Classes/1Password/*.h'
     onepassword.source_files = 'Pod/Classes/1Password/*.{h,m}'
-    onepassword.dependency '1PasswordExtension', '~> 1.1'
+    onepassword.dependency '1PasswordExtension', '~> 1.2'
     onepassword.dependency 'Lock/Core'
   end
 

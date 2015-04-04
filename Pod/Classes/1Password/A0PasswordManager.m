@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0PasswordManager.h"
-#import <1PasswordExtension/OnePasswordExtension.h>
+#import <1PasswordExtension/OnePasswordExtension/OnePasswordExtension.h>
 
 @implementation A0PasswordManager
 
