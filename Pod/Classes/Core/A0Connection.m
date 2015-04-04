@@ -31,8 +31,7 @@
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSON {
     self = [super init];
     if (self) {
-        NSString *name = JSON[@"name"];
-        NSAssert(name.length > 0, @"Must have a valid name");
+        NSAssert([JSON[@"name"] length] > 0, @"Must have a valid name");
         _values = [NSDictionary dictionaryWithDictionary:JSON];
     }
     return self;
