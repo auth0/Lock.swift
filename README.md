@@ -39,12 +39,14 @@ pod "Lock", "~> 1.10"
 
 Then in your project's `Info.plist` file add the following entries:
 
-* __Auth0ClientId__: The client ID of your application in _Auth0_. You can find this value in your app's settings in [Auth0 dashboard](https://app.auth0.com/#/applications).
-* __Auth0Tenant__: The name of your account, if your account's domain in Auth0 is `myaccount.auth0.com`, your tenant name is `myaccount`.  
+* __Auth0ClientId__: The client ID of your application in __Auth0__.
+* __Auth0Domain__: Your account's domain in __Auth0__.
+
+> You can find these values in your app's settings in [Auth0 dashboard](https://app.auth0.com/#/applications).
 
 For example:
 
-[![Auth0 plist](https://cloudup.com/cdHr2oMAN7d+)](http://auth0.com)
+[![Auth0 plist](https://assets.auth0.com/mobile-sdk-lock/example-plist.png)](http://auth0.com)
 
 Also you need to register a Custom URL type, it must have a custom scheme with the following format `a0<Your Client ID>`. For example if your Client ID is `Exe6ccNagokLH7mBmzFejP` then the custom scheme should be `a0Exe6ccNagokLH7mBmzFejP`.
 
