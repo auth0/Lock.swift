@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ##master
 
+## 1.10.3 - 2015-04-03
+
+###Changed
+- Fixed issue when using clientId + Domain to configure Auth0 account.
+
 ## 1.10.2 - 2015-03-17
 
-##Changed
+###Changed
 - Fix how `connection_scopes` parameter was handled.
 
 ## 1.10.1 - 2015-03-16
