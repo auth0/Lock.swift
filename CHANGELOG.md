@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ##master
 
+## 1.10.4 - 2015-04-08
+
+###Changed
+- Fix issue with UI subspec assets not being bundled in Pod.
+- Allow to use domain without protocol, e.g.: `samples.auth0.com` (the protocol used in this case is `https`).
+
 ## 1.10.3 - 2015-04-03
 
 ###Changed
