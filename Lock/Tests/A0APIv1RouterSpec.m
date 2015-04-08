@@ -127,6 +127,22 @@ describe(@"A0APIv1Router", ^{
 
     });
 
+    context(@"configure with auth0 domain without protocol", ^{
+
+        beforeEach(^{
+            [router configureForDomain:@"overmind.auth0.com" clientId:kClientId];
+        });
+
+        it(@"should have correct endpoint URL", ^{
+            expect(router.endpointURL.absoluteString).to.equal(@"https://overmind.auth0.com");
+        });
+
+        it(@"should have correct config URL", ^{
+            expect(router.configurationURL.absoluteString).to.equal(@"https://cdn.auth0.com/client/1234567890.js");
+        });
+        
+    });
+
     context(@"configure with non auth0 domain only", ^{
 
         beforeEach(^{

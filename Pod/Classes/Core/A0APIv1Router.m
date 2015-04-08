@@ -67,14 +67,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)configureForDomain:(NSString *)domain clientId:(NSString *)clientId {
-    NSURL *domainURL = [NSURL URLWithString:domain];
+    NSURL *domainURL = [self createDomainURLFromString:domain];
     NSAssert(domainURL, @"You must supply a valid Auth0 domain.");
     NSString *configurationDomain = [domainURL.host hasSuffix:@".auth0.com"] ? kCDNConfigurationURL : domain;
     [self configureForDomain:domain configurationDomain:configurationDomain clientId:clientId];
 }
 
 - (void)configureForDomain:(NSString *)domain configurationDomain:(NSString *)configurationDomain clientId:(NSString *)clientId {
-    NSURL *domainURL = [NSURL URLWithString:domain];
+    NSURL *domainURL = [self createDomainURLFromString:domain];
     NSURL *configurationURL = [NSURL URLWithString:configurationDomain];
     NSAssert(domainURL, @"You must supply a valid Auth0 domain.");
     NSAssert(configurationURL, @"You must supply a valid Auth0 config domain.");
@@ -134,4 +134,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [[NSString stringWithFormat:kPublicKeyUserPath, userId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];;
 }
 
+- (NSURL *)createDomainURLFromString:(NSString *)string {
+    NSAssert(string, @"Must supply a non-nil domain");
+    NSURL *url = [string hasPrefix:@"http"] ? [NSURL URLWithString:string] : [NSURL URLWithString:[@"https://" stringByAppendingString:string]];
+    return url;
+}
 @end
