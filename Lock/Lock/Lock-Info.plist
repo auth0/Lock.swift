@@ -4,10 +4,10 @@
 <dict>
 	<key>Auth0ClientId</key>
 	<string>${AUTH0_CLIENT_ID}</string>
+	<key>Auth0Domain</key>
+	<string>${AUTH0_DOMAIN}</string>
 	<key>Auth0SendSMSAPIToken</key>
 	<string>${Auth0SendSMSAPIToken}</string>
-	<key>Auth0Tenant</key>
-	<string>${AUTH0_TENANT}</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
