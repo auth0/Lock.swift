@@ -51,8 +51,8 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     ui.private_header_files = ['Pod/Classes/UI/Private/*.h', 'Pod/Classes/Utils/*.h']
     ui.source_files = ['Pod/Classes/{UI,Utils}/*.{h,m}', 'Pod/Classes/UI/Private/*.{h,m}']
     ui.dependency 'Lock/Core'
-    ui.resources = 'Pod/Assets/*.xib'
-    ui.resource_bundles = { 'Auth0' => ['Pod/Assets/Images/*.png', 'Pod/Assets/*.plist', 'Pod/Assets/*.ttf']}
+    ui.resources = 'Pod/Assets/UI/*.xib'
+    ui.resource_bundles = { 'Auth0' => ['Pod/Assets/UI/Images/*.png', 'Pod/Assets/UI/*.plist', 'Pod/Assets/UI/*.ttf']}
   end
 
   s.subspec 'Facebook' do |facebook|
