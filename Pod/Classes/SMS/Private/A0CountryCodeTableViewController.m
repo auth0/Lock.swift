@@ -42,7 +42,7 @@ static NSString *CountryName = @"Name";
     [super viewDidLoad];
 
     NSArray *codes = [A0CountryCodeTableViewController loadCountryCodes];
-    codes = [self.countryCodes sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *left, NSDictionary *right) {
+    codes = [codes sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *left, NSDictionary *right) {
         NSComparisonResult order = NSOrderedAscending;
         if ([self.defaultCountry isEqualToString:right[CountryCode]]) {
             order = NSOrderedDescending;
