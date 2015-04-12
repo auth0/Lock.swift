@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Lock"
-  s.version          = "1.10.4"
+  s.version          = "1.10.5"
   s.summary          = "A library that uses Auth0 for Authentication with Native Look & Feel"
   s.description      = <<-DESC
 [![Auth0](https://i.cloudup.com/1vaSVATKTL.png)](http://auth0.com)
@@ -9,7 +9,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
                        DESC
   s.homepage         = "https://github.com/auth0/Lock.iOS-OSX"
   s.license          = 'MIT'
-  s.authors          = { "Martin Gontovnikas" => "gonto@auth0.com" }, { "Hernan Zalazar" => "hernan@auth0.com" }
+  s.authors          = { "Auth0" => "support@auth0.com" }, { "Hernan Zalazar" => "hernan@auth0.com" }, { "Martin Gontovnikas" => "gonto@auth0.com" }
   s.source           = { :git => "https://github.com/auth0/Lock.iOS-OSX.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/auth0'
 
