@@ -4,8 +4,8 @@
 <dict>
 	<key>Auth0ClientId</key>
 	<string>BUIJSW9x60sIHBw8Kd9EmCbj8eDIFxDC</string>
-	<key>Auth0Tenant</key>
-	<string>samples</string>
+	<key>Auth0Domain</key>
+	<string>samples.auth0.com</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

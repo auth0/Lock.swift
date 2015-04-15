@@ -38,7 +38,7 @@
 	</array>
 	<key>Auth0ClientId</key>
 	<string>jGMow0KO3WDJELW8XIxolqb1XIitjkYL</string>
-	<key>Auth0Tenant</key>
-	<string>panchaea</string>
+	<key>Auth0Domain</key>
+	<string>panchaea.auth0.com</string>
 </dict>
 </plist>

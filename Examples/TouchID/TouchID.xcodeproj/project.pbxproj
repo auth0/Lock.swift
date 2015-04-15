@@ -13,22 +13,11 @@
 		5F951ADA1A124AD600D128D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F951AD81A124AD600D128D0 /* Main.storyboard */; };
 		5F951ADC1A124AD600D128D0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F951ADB1A124AD600D128D0 /* Images.xcassets */; };
 		5F951ADF1A124AD600D128D0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F951ADD1A124AD600D128D0 /* LaunchScreen.xib */; };
-		5F951AEB1A124AD600D128D0 /* TouchIDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F951AEA1A124AD600D128D0 /* TouchIDTests.m */; };
 		5F951AF71A126F9B00D128D0 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F951AF51A126F9B00D128D0 /* Crashlytics.framework */; };
 		5F951AF81A126F9B00D128D0 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F951AF61A126F9B00D128D0 /* Fabric.framework */; };
 		5F951AFB1A12AB8200D128D0 /* iTunesArtwork@2x -1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F951AFA1A12AB8200D128D0 /* iTunesArtwork@2x -1024.png */; };
 		A0278D49E490F9A204A9FA35 /* libPods-TouchID.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BDD9DDEA405A0EC70219050 /* libPods-TouchID.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5F951AE51A124AD600D128D0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5F951AC31A124AD500D128D0 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5F951ACA1A124AD600D128D0;
-			remoteInfo = TouchID;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		17AC3D97D44D5386C4BBD8E8 /* Pods-TouchID.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TouchID.release.xcconfig"; path = "Pods/Target Support Files/Pods-TouchID/Pods-TouchID.release.xcconfig"; sourceTree = "<group>"; };
@@ -42,9 +31,6 @@
 		5F951AD91A124AD600D128D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5F951ADB1A124AD600D128D0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5F951ADE1A124AD600D128D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		5F951AE41A124AD600D128D0 /* TouchIDTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TouchIDTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5F951AE91A124AD600D128D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5F951AEA1A124AD600D128D0 /* TouchIDTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TouchIDTests.m; sourceTree = "<group>"; };
 		5F951AF51A126F9B00D128D0 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		5F951AF61A126F9B00D128D0 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		5F951AFA1A12AB8200D128D0 /* iTunesArtwork@2x -1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x -1024.png"; sourceTree = "<group>"; };
@@ -60,13 +46,6 @@
 				5F951AF71A126F9B00D128D0 /* Crashlytics.framework in Frameworks */,
 				A0278D49E490F9A204A9FA35 /* libPods-TouchID.a in Frameworks */,
 				5F951AF81A126F9B00D128D0 /* Fabric.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F951AE11A124AD600D128D0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,7 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				5F951ACD1A124AD600D128D0 /* TouchID */,
-				5F951AE71A124AD600D128D0 /* TouchIDTests */,
 				5F951ACC1A124AD600D128D0 /* Products */,
 				6A0F30F1CBE94E381EB01C46 /* Pods */,
 				4589F32EB722794E7EB82CD0 /* Frameworks */,
@@ -98,7 +76,6 @@
 			isa = PBXGroup;
 			children = (
 				5F951ACB1A124AD600D128D0 /* TouchID.app */,
-				5F951AE41A124AD600D128D0 /* TouchIDTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,23 +101,6 @@
 				5F951AFA1A12AB8200D128D0 /* iTunesArtwork@2x -1024.png */,
 				5F951ACF1A124AD600D128D0 /* Info.plist */,
 				5F951AD01A124AD600D128D0 /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		5F951AE71A124AD600D128D0 /* TouchIDTests */ = {
-			isa = PBXGroup;
-			children = (
-				5F951AEA1A124AD600D128D0 /* TouchIDTests.m */,
-				5F951AE81A124AD600D128D0 /* Supporting Files */,
-			);
-			path = TouchIDTests;
-			sourceTree = "<group>";
-		};
-		5F951AE81A124AD600D128D0 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				5F951AE91A124AD600D128D0 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -177,24 +137,6 @@
 			productReference = 5F951ACB1A124AD600D128D0 /* TouchID.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5F951AE31A124AD600D128D0 /* TouchIDTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5F951AF11A124AD600D128D0 /* Build configuration list for PBXNativeTarget "TouchIDTests" */;
-			buildPhases = (
-				5F951AE01A124AD600D128D0 /* Sources */,
-				5F951AE11A124AD600D128D0 /* Frameworks */,
-				5F951AE21A124AD600D128D0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5F951AE61A124AD600D128D0 /* PBXTargetDependency */,
-			);
-			name = TouchIDTests;
-			productName = TouchIDTests;
-			productReference = 5F951AE41A124AD600D128D0 /* TouchIDTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -207,10 +149,6 @@
 					5F951ACA1A124AD600D128D0 = {
 						CreatedOnToolsVersion = 6.1;
 						DevelopmentTeam = UUWS9Z463H;
-					};
-					5F951AE31A124AD600D128D0 = {
-						CreatedOnToolsVersion = 6.1;
-						TestTargetID = 5F951ACA1A124AD600D128D0;
 					};
 				};
 			};
@@ -228,7 +166,6 @@
 			projectRoot = "";
 			targets = (
 				5F951ACA1A124AD600D128D0 /* TouchID */,
-				5F951AE31A124AD600D128D0 /* TouchIDTests */,
 			);
 		};
 /* End PBXProject section */
@@ -242,13 +179,6 @@
 				5F951AFB1A12AB8200D128D0 /* iTunesArtwork@2x -1024.png in Resources */,
 				5F951ADF1A124AD600D128D0 /* LaunchScreen.xib in Resources */,
 				5F951ADC1A124AD600D128D0 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F951AE21A124AD600D128D0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,23 +242,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5F951AE01A124AD600D128D0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5F951AEB1A124AD600D128D0 /* TouchIDTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5F951AE61A124AD600D128D0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5F951ACA1A124AD600D128D0 /* TouchID */;
-			targetProxy = 5F951AE51A124AD600D128D0 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5F951AD81A124AD600D128D0 /* Main.storyboard */ = {
@@ -460,40 +374,6 @@
 			};
 			name = Release;
 		};
-		5F951AF21A124AD600D128D0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = TouchIDTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TouchID.app/TouchID";
-			};
-			name = Debug;
-		};
-		5F951AF31A124AD600D128D0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = TouchIDTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TouchID.app/TouchID";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -511,15 +391,6 @@
 			buildConfigurations = (
 				5F951AEF1A124AD600D128D0 /* Debug */,
 				5F951AF01A124AD600D128D0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5F951AF11A124AD600D128D0 /* Build configuration list for PBXNativeTarget "TouchIDTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5F951AF21A124AD600D128D0 /* Debug */,
-				5F951AF31A124AD600D128D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

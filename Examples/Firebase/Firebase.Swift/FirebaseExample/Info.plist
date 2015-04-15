@@ -4,8 +4,8 @@
 <dict>
 	<key>Auth0ClientId</key>
 	<string>U5MhUrbyQHSVWjlEqZSTCBUFABLbJAS3</string>
-	<key>Auth0Tenant</key>
-	<string>overmind</string>
+	<key>Auth0Domain</key>
+	<string>overmind.auth0.com</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

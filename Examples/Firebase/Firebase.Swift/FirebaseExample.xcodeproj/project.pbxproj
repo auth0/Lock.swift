@@ -12,19 +12,8 @@
 		5FEDA4D71A1E95B4009B1C2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FEDA4D51A1E95B4009B1C2F /* Main.storyboard */; };
 		5FEDA4D91A1E95B4009B1C2F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FEDA4D81A1E95B4009B1C2F /* Images.xcassets */; };
 		5FEDA4DC1A1E95B4009B1C2F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FEDA4DA1A1E95B4009B1C2F /* LaunchScreen.xib */; };
-		5FEDA4E81A1E95B4009B1C2F /* FirebaseExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA4E71A1E95B4009B1C2F /* FirebaseExampleTests.swift */; };
 		EBDB092269B2F876BD17304A /* libPods-FirebaseExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB47FF3643A990A313E8876 /* libPods-FirebaseExample.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5FEDA4E21A1E95B4009B1C2F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5FEDA4C41A1E95B4009B1C2F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5FEDA4CB1A1E95B4009B1C2F;
-			remoteInfo = FirebaseExample;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1C594443A095074973A5E10D /* Pods-FirebaseExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-FirebaseExample/Pods-FirebaseExample.release.xcconfig"; sourceTree = "<group>"; };
@@ -36,9 +25,6 @@
 		5FEDA4D61A1E95B4009B1C2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5FEDA4D81A1E95B4009B1C2F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5FEDA4DB1A1E95B4009B1C2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		5FEDA4E11A1E95B4009B1C2F /* FirebaseExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FirebaseExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FEDA4E61A1E95B4009B1C2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FEDA4E71A1E95B4009B1C2F /* FirebaseExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseExampleTests.swift; sourceTree = "<group>"; };
 		7CB47FF3643A990A313E8876 /* libPods-FirebaseExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FirebaseExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0B43BD7E3030780CB5B5CDC /* Pods-FirebaseExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FirebaseExample/Pods-FirebaseExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,13 +38,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5FEDA4DE1A1E95B4009B1C2F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -66,7 +45,6 @@
 			isa = PBXGroup;
 			children = (
 				5FEDA4CE1A1E95B4009B1C2F /* FirebaseExample */,
-				5FEDA4E41A1E95B4009B1C2F /* FirebaseExampleTests */,
 				5FEDA4CD1A1E95B4009B1C2F /* Products */,
 				E0229A921E7DCBDDE2E474B9 /* Pods */,
 				7635D47962BEEF74EAC793CA /* Frameworks */,
@@ -77,7 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				5FEDA4CC1A1E95B4009B1C2F /* FirebaseExample.app */,
-				5FEDA4E11A1E95B4009B1C2F /* FirebaseExampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,23 +77,6 @@
 			isa = PBXGroup;
 			children = (
 				5FEDA4D01A1E95B4009B1C2F /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		5FEDA4E41A1E95B4009B1C2F /* FirebaseExampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				5FEDA4E71A1E95B4009B1C2F /* FirebaseExampleTests.swift */,
-				5FEDA4E51A1E95B4009B1C2F /* Supporting Files */,
-			);
-			path = FirebaseExampleTests;
-			sourceTree = "<group>";
-		};
-		5FEDA4E51A1E95B4009B1C2F /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				5FEDA4E61A1E95B4009B1C2F /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -160,24 +120,6 @@
 			productReference = 5FEDA4CC1A1E95B4009B1C2F /* FirebaseExample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5FEDA4E01A1E95B4009B1C2F /* FirebaseExampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5FEDA4EE1A1E95B4009B1C2F /* Build configuration list for PBXNativeTarget "FirebaseExampleTests" */;
-			buildPhases = (
-				5FEDA4DD1A1E95B4009B1C2F /* Sources */,
-				5FEDA4DE1A1E95B4009B1C2F /* Frameworks */,
-				5FEDA4DF1A1E95B4009B1C2F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5FEDA4E31A1E95B4009B1C2F /* PBXTargetDependency */,
-			);
-			name = FirebaseExampleTests;
-			productName = FirebaseExampleTests;
-			productReference = 5FEDA4E11A1E95B4009B1C2F /* FirebaseExampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -190,10 +132,6 @@
 					5FEDA4CB1A1E95B4009B1C2F = {
 						CreatedOnToolsVersion = 6.1;
 						DevelopmentTeam = UUWS9Z463H;
-					};
-					5FEDA4E01A1E95B4009B1C2F = {
-						CreatedOnToolsVersion = 6.1;
-						TestTargetID = 5FEDA4CB1A1E95B4009B1C2F;
 					};
 				};
 			};
@@ -211,7 +149,6 @@
 			projectRoot = "";
 			targets = (
 				5FEDA4CB1A1E95B4009B1C2F /* FirebaseExample */,
-				5FEDA4E01A1E95B4009B1C2F /* FirebaseExampleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -224,13 +161,6 @@
 				5FEDA4D71A1E95B4009B1C2F /* Main.storyboard in Resources */,
 				5FEDA4DC1A1E95B4009B1C2F /* LaunchScreen.xib in Resources */,
 				5FEDA4D91A1E95B4009B1C2F /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5FEDA4DF1A1E95B4009B1C2F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,23 +209,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5FEDA4DD1A1E95B4009B1C2F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FEDA4E81A1E95B4009B1C2F /* FirebaseExampleTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5FEDA4E31A1E95B4009B1C2F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5FEDA4CB1A1E95B4009B1C2F /* FirebaseExample */;
-			targetProxy = 5FEDA4E21A1E95B4009B1C2F /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5FEDA4D51A1E95B4009B1C2F /* Main.storyboard */ = {
@@ -423,40 +337,6 @@
 			};
 			name = Release;
 		};
-		5FEDA4EF1A1E95B4009B1C2F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = FirebaseExampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FirebaseExample.app/FirebaseExample";
-			};
-			name = Debug;
-		};
-		5FEDA4F01A1E95B4009B1C2F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = FirebaseExampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FirebaseExample.app/FirebaseExample";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -474,15 +354,6 @@
 			buildConfigurations = (
 				5FEDA4EC1A1E95B4009B1C2F /* Debug */,
 				5FEDA4ED1A1E95B4009B1C2F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5FEDA4EE1A1E95B4009B1C2F /* Build configuration list for PBXNativeTarget "FirebaseExampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5FEDA4EF1A1E95B4009B1C2F /* Debug */,
-				5FEDA4F01A1E95B4009B1C2F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

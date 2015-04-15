@@ -1,15 +1,9 @@
 platform :ios, '8.0'
 
-source 'https://github.com/CocoaPods/Specs.git'
+inhibit_all_warnings!
 
 target 'AWS' do
-
-pod 'Lock', '~> 1.7'
-pod 'SimpleKeychain'
-pod 'AWSiOSSDKv2', '~> 2.0'
-pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
-pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
-pod 'Facebook-iOS-SDK', :inhibit_warnings => true #Ignore warnings for this lib
-pod 'ISO8601DateFormatter', :inhibit_warnings => true #Ignore warnings for this lib
-
+  pod 'Lock', '~> 1.10'
+  pod 'SimpleKeychain', '~> 0.3'
+  pod 'AWSiOSSDKv2', '~> 2.0'
 end

@@ -52,7 +52,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func fetchFromFirebase(sender: AnyObject) {
-        let button = sender as UIButton
+        let button = sender as! UIButton
         self.setInProgress(true, button: button)
 
         let client = A0APIClient.sharedClient()
@@ -64,7 +64,7 @@ class ViewController: UIViewController {
 
         client.fetchDelegationTokenWithParameters(parameters,
             success: { (response) -> Void in
-                let credentials = response as Dictionary<String, AnyObject>
+                let credentials = response as! Dictionary<String, AnyObject>
                 let firebaseToken = credentials["id_token"] as? String
 
                 self.seconStepLabel.text = "Firebase JWT \(firebaseToken!)"
