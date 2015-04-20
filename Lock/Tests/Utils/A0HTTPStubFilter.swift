@@ -67,16 +67,16 @@ class A0HTTPStubFilter: NSObject {
 
     private func filter(path: String, method: String, parameters: [String: String]) -> ((NSURLRequest) -> Bool) {
         return { (request) in
-            let dictionary = NSURLProtocol.propertyForKey("parameters", inRequest: request) as NSDictionary
+            let dictionary = (NSURLProtocol.propertyForKey("parameters", inRequest: request) as? NSDictionary)!
             let keys = parameters.keys.array as NSArray
             let filtered = NSMutableDictionary()
             keys.enumerateObjectsUsingBlock({ (key, index, stop) -> Void in
-                if let value:AnyObject = dictionary[key as String] {
-                    filtered[key as String] = value
+                if let value:AnyObject = dictionary[(key as? String)!] {
+                    filtered[(key as? String)!] = value
                 }
             })
             return request.HTTPMethod! == method
-                && request.URL.path! == path
+                && request.URL?.path! == path
                 && parameters as NSDictionary == filtered
         }
     }

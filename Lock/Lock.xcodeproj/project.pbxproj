@@ -39,12 +39,12 @@
 		5FC7EEF51A79850000C83B09 /* POST-oauth-ro.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */; };
 		5FC7EEF71A79880500C83B09 /* A0HTTPStubFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF61A79880500C83B09 /* A0HTTPStubFilter.swift */; };
 		5FC7EEF91A79942500C83B09 /* POST-tokeninfo.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF81A79942500C83B09 /* POST-tokeninfo.response */; };
-		5FF3B5181A25439400BE84F9 /* A0SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF3B5171A25439400BE84F9 /* A0SettingsViewController.m */; };
 		5FEDA4B31A1E4E73009B1C2F /* A0EmailValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA4B21A1E4E73009B1C2F /* A0EmailValidatorSpec.m */; };
 		5FEDA4B81A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA4B71A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m */; };
 		5FEDA4BD1A1E60F3009B1C2F /* A0ConfirmPasswordValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA4BC1A1E60F3009B1C2F /* A0ConfirmPasswordValidatorSpec.m */; };
 		5FEDA4C21A1E7589009B1C2F /* A0CredentialsValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA4C11A1E7589009B1C2F /* A0CredentialsValidatorSpec.m */; };
 		5FEDCF361A1D50520050C2C1 /* A0UsernameValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDCF351A1D50520050C2C1 /* A0UsernameValidatorSpec.m */; };
+		5FF3B5181A25439400BE84F9 /* A0SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF3B5171A25439400BE84F9 /* A0SettingsViewController.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -77,7 +77,6 @@
 		4B3E2AA40772AD103B90D301 /* Pods-Auth0Client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auth0Client.release.xcconfig"; path = "Pods/Target Support Files/Pods-Auth0Client/Pods-Auth0Client.release.xcconfig"; sourceTree = "<group>"; };
 		5BF31EC09B324BBC8AA2239A /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F017F0119B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FacebookAuthenticatorSpec.m; sourceTree = "<group>"; };
-		5F017F0319B102D70003F8E4 /* A0JSONResponseSerializerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0JSONResponseSerializerSpec.m; sourceTree = "<group>"; };
 		5F0935471A1AB4A600144E67 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		5F0AA5BE1A78308100073120 /* A0APIClientSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0APIClientSpec.m; sourceTree = "<group>"; };
 		5F0ADBBB19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SimpleConnectionDomainMatcherSpec.m; sourceTree = "<group>"; };
@@ -99,7 +98,6 @@
 		5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0AuthParametersSpec.m; sourceTree = "<group>"; };
 		5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0APIv1RouterSpec.m; sourceTree = "<group>"; };
 		5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ConnectionSpec.m; sourceTree = "<group>"; };
-		5F92E92319D49F7400080CCE /* A0WebAuthenticationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0WebAuthenticationSpec.m; sourceTree = "<group>"; };
 		5F951A961A0EC7D600D128D0 /* A0HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0HomeViewController.h; sourceTree = "<group>"; };
 		5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0HomeViewController.m; sourceTree = "<group>"; };
 		5F951ABC1A1189A600D128D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Lock.strings; sourceTree = "<group>"; };
@@ -115,13 +113,13 @@
 		5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-oauth-ro.response"; sourceTree = "<group>"; };
 		5FC7EEF61A79880500C83B09 /* A0HTTPStubFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = A0HTTPStubFilter.swift; path = Utils/A0HTTPStubFilter.swift; sourceTree = "<group>"; };
 		5FC7EEF81A79942500C83B09 /* POST-tokeninfo.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-tokeninfo.response"; sourceTree = "<group>"; };
-		5FF3B5161A25439400BE84F9 /* A0SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0SettingsViewController.h; sourceTree = "<group>"; };
-		5FF3B5171A25439400BE84F9 /* A0SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SettingsViewController.m; sourceTree = "<group>"; };
 		5FEDA4B21A1E4E73009B1C2F /* A0EmailValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0EmailValidatorSpec.m; sourceTree = "<group>"; };
 		5FEDA4B71A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0PasswordValidatorSpec.m; sourceTree = "<group>"; };
 		5FEDA4BC1A1E60F3009B1C2F /* A0ConfirmPasswordValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ConfirmPasswordValidatorSpec.m; sourceTree = "<group>"; };
 		5FEDA4C11A1E7589009B1C2F /* A0CredentialsValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0CredentialsValidatorSpec.m; sourceTree = "<group>"; };
 		5FEDCF351A1D50520050C2C1 /* A0UsernameValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UsernameValidatorSpec.m; sourceTree = "<group>"; };
+		5FF3B5161A25439400BE84F9 /* A0SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0SettingsViewController.h; sourceTree = "<group>"; };
+		5FF3B5171A25439400BE84F9 /* A0SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SettingsViewController.m; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* Lock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -300,9 +298,7 @@
 				5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */,
 				5F9F5B6919AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m */,
 				5F017F0119B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m */,
-				5F017F0319B102D70003F8E4 /* A0JSONResponseSerializerSpec.m */,
 				5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */,
-				5F92E92319D49F7400080CCE /* A0WebAuthenticationSpec.m */,
 				5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */,
 				5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */,
 				5F0ADBBB19E5FCB800EA7EAA /* A0SimpleConnectionDomainMatcherSpec.m */,
@@ -550,9 +546,7 @@
 				5F9F5B6419AF8FBD0021068C /* A0UserProfileSpec.m in Sources */,
 				5F9F5B6619AF9A8D0021068C /* A0TokenSpec.m in Sources */,
 				5F9F5B6819AF9D8E0021068C /* A0StrategySpec.m in Sources */,
-				5F92E92419D49F7400080CCE /* A0WebAuthenticationSpec.m in Sources */,
 				5FEDA4C21A1E7589009B1C2F /* A0CredentialsValidatorSpec.m in Sources */,
-				5F017F0419B102D70003F8E4 /* A0JSONResponseSerializerSpec.m in Sources */,
 				5F91E66E19E32C48003150DF /* A0ConnectionSpec.m in Sources */,
 				5F75E4541A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m in Sources */,
 				5F22B5D619E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m in Sources */,

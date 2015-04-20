@@ -21,7 +21,6 @@
 // THE SOFTWARE.
 
 #import "A0CredentialsValidator.h"
-#import <ObjectiveSugar/ObjectiveSugar.h>
 #import "A0Errors.h"
 
 NSString * const A0CredentialsValidatorErrorsKey = @"A0CredentialsValidatorErrorsKey";
@@ -45,7 +44,7 @@ NSString * const A0CredentialsValidatorErrorsKey = @"A0CredentialsValidatorError
 
 - (NSError *)validate {
     NSMutableDictionary *errors = [@{} mutableCopy];
-    [self.validators each:^(id<A0FieldValidator> validator) {
+    [self.validators enumerateObjectsUsingBlock:^(id<A0FieldValidator> validator, NSUInteger idx, BOOL *stop) {
         NSError *error = [validator validate];
         if (error) {
             errors[validator.identifier] = error;

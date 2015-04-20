@@ -24,7 +24,7 @@
 
 #import "A0AuthenticationUIComponent.h"
 
-@class A0SignUpCredentialValidator, A0UserProfile, A0Token, A0AuthParameters, A0Connection;
+@class A0CredentialsValidator, A0UserProfile, A0Token, A0AuthParameters, A0Connection;
 
 @interface A0SignUpViewController : UIViewController<A0AuthenticationUIComponent>
 
