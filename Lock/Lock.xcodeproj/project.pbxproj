@@ -35,9 +35,9 @@
 		5F9F5B6819AF9D8E0021068C /* A0StrategySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */; };
 		5F9F5B6A19AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6919AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m */; };
 		5FA2CAEB1A7FE673009178C0 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */; };
+		5FC45F8D1AE5942400427E31 /* A0HTTPStubber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC45F8C1AE5942400427E31 /* A0HTTPStubber.m */; };
 		5FC7EECF1A7957BE00C83B09 /* GET-Application-Info.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */; };
 		5FC7EEF51A79850000C83B09 /* POST-oauth-ro.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */; };
-		5FC7EEF71A79880500C83B09 /* A0HTTPStubFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF61A79880500C83B09 /* A0HTTPStubFilter.swift */; };
 		5FC7EEF91A79942500C83B09 /* POST-tokeninfo.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF81A79942500C83B09 /* POST-tokeninfo.response */; };
 		5FEDA4B31A1E4E73009B1C2F /* A0EmailValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA4B21A1E4E73009B1C2F /* A0EmailValidatorSpec.m */; };
 		5FEDA4B81A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA4B71A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m */; };
@@ -108,10 +108,11 @@
 		5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0StrategySpec.m; sourceTree = "<group>"; };
 		5F9F5B6919AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0IdentityProviderAuthenticatorSpec.m; sourceTree = "<group>"; };
 		5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		5FC45F8B1AE5942400427E31 /* A0HTTPStubber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0HTTPStubber.h; sourceTree = "<group>"; };
+		5FC45F8C1AE5942400427E31 /* A0HTTPStubber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0HTTPStubber.m; sourceTree = "<group>"; };
 		5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GET-Application-Info.response"; sourceTree = "<group>"; };
 		5FC7EED11A79788800C83B09 /* Tests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 		5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-oauth-ro.response"; sourceTree = "<group>"; };
-		5FC7EEF61A79880500C83B09 /* A0HTTPStubFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = A0HTTPStubFilter.swift; path = Utils/A0HTTPStubFilter.swift; sourceTree = "<group>"; };
 		5FC7EEF81A79942500C83B09 /* POST-tokeninfo.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-tokeninfo.response"; sourceTree = "<group>"; };
 		5FEDA4B21A1E4E73009B1C2F /* A0EmailValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0EmailValidatorSpec.m; sourceTree = "<group>"; };
 		5FEDA4B71A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0PasswordValidatorSpec.m; sourceTree = "<group>"; };
@@ -207,10 +208,11 @@
 			isa = PBXGroup;
 			children = (
 				5FC7EED11A79788800C83B09 /* Tests-Bridging-Header.h */,
-				5FC7EEF61A79880500C83B09 /* A0HTTPStubFilter.swift */,
 				5F3237311A7A7FE700B58994 /* A0HttpKeeper.swift */,
 				5F3237331A7A858E00B58994 /* A0AnnotatedRequestSerializer.h */,
 				5F3237341A7A858E00B58994 /* A0AnnotatedRequestSerializer.m */,
+				5FC45F8B1AE5942400427E31 /* A0HTTPStubber.h */,
+				5FC45F8C1AE5942400427E31 /* A0HTTPStubber.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -555,9 +557,9 @@
 				5FEDA4B81A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m in Sources */,
 				5F017F0219B0E3750003F8E4 /* A0FacebookAuthenticatorSpec.m in Sources */,
 				5F1DA1AB1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m in Sources */,
+				5FC45F8D1AE5942400427E31 /* A0HTTPStubber.m in Sources */,
 				5F3237321A7A7FE700B58994 /* A0HttpKeeper.swift in Sources */,
 				5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */,
-				5FC7EEF71A79880500C83B09 /* A0HTTPStubFilter.swift in Sources */,
 				5F7112E519D5C18B001971BE /* A0AuthParametersSpec.m in Sources */,
 				5FEDA4BD1A1E60F3009B1C2F /* A0ConfirmPasswordValidatorSpec.m in Sources */,
 				5F35161619B8CBA500574C11 /* A0UserIdentitySpec.m in Sources */,

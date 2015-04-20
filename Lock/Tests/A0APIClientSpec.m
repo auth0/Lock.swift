@@ -39,6 +39,7 @@
 #import "A0AuthParameters.h"
 #import "A0AnnotatedRequestSerializer.h"
 #import "A0IdentityProviderCredentials.h"
+#import "A0HTTPStubber.h"
 
 #define AS_NSURL(urlString) [NSURL URLWithString:urlString]
 
@@ -121,7 +122,7 @@ describe(@"A0APIClient", ^{
 
     __block A0APIClient *client;
     __block A0Application *application;
-    __block A0HTTPStubFilter *filter;
+    __block A0HTTPStubber *filter;
 
     before(^{
         client = [[A0APIClient alloc] initWithClientId:CLIENT_ID andTenant:TENANT];
@@ -129,7 +130,7 @@ describe(@"A0APIClient", ^{
             NSLog(@"%@ stubbed by %@", request.URL, stub.name);
         }];
         application = mock(A0Application.class);
-        filter = [[A0HTTPStubFilter alloc] initWithApplication:application];
+        filter = [[A0HTTPStubber alloc] initWithApplication:application];
     });
 
     after(^{
