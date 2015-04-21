@@ -22,8 +22,16 @@
 
 #import "A0Connection.h"
 
+NSString * const A0ConnectionRequiresUsername = @"requires_username";
+NSString * const A0ConnectionDomain = @"domain";
+NSString * const A0ConnectionDomainAliases = @"domain_aliases";
+NSString * const A0ConnectionShowForgot = @"showForgot";
+NSString * const A0ConnectionShowSignUp = @"showSignup";
+
 @interface A0Connection ()
+
 @property (strong, nonatomic) NSDictionary *values;
+
 @end
 
 @implementation A0Connection
@@ -39,6 +47,10 @@
 
 - (NSString *)name {
     return self.values[@"name"];
+}
+
+- (id)objectForKeyedSubscript:(NSString *)key {
+    return self.values[key];
 }
 
 - (NSString *)description {

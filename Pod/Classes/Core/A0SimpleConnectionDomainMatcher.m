@@ -38,13 +38,13 @@
         NSMutableDictionary *domains = [@{} mutableCopy];
         for (A0Strategy *strategy in strategies) {
             NSArray *filtered = [strategy.connections filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(A0Connection *connection, NSDictionary *bindings) {
-                return connection.values[@"domain"] != nil && connection.values[@"domain"] != [NSNull null];
+                return connection[A0ConnectionDomain] != nil && connection[A0ConnectionDomain] != [NSNull null];
             }]];
             [filtered enumerateObjectsUsingBlock:^(A0Connection *connection, NSUInteger idx, BOOL *stop) {
                 connections[connection.name] = connection;
                 NSMutableArray *connectionDomains = [@[] mutableCopy];
-                [connectionDomains addObject:connection.values[@"domain"]];
-                NSArray *aliases = connection.values[@"domain_aliases"];
+                [connectionDomains addObject:connection[A0ConnectionDomain]];
+                NSArray *aliases = connection[A0ConnectionDomainAliases];
                 if (aliases.count > 0) {
                     [connectionDomains addObjectsFromArray:aliases];
                 }

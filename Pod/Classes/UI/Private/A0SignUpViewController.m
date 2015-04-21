@@ -86,7 +86,7 @@
     [theme configureTextField:self.passwordField.textField];
     [theme configureLabel:self.messageLabel];
 
-    self.requiresUsername = [self.defaultConnection.values[@"requires_username"] boolValue];
+    self.requiresUsername = [self.defaultConnection[A0ConnectionRequiresUsername] boolValue];
     if (!self.requiresUsername) {
         [self.usernameField removeFromSuperview];
         [self.usernameSeparatorView removeFromSuperview];

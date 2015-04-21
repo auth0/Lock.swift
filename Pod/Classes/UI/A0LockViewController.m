@@ -185,8 +185,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if ((hasDB && hasSocial) || (hasSocial && hasEnterprise && !hasAD)) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.config = self.configuration;
-        controller.showResetPassword = [database.values[@"showForgot"] boolValue];
-        controller.showSignUp = [database.values[@"showSignup"] boolValue];
+        controller.showResetPassword = [database[A0ConnectionShowForgot] boolValue];
+        controller.showSignUp = [database[A0ConnectionShowSignUp] boolValue];
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.forceUsername = !self.usesEmail;
         controller.defaultConnection = database;
@@ -194,8 +194,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     if ((hasDB & !hasSocial) || (hasEnterprise && !hasDB && !hasSocial && !hasAD)) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
-        controller.showResetPassword = [database.values[@"showForgot"] boolValue];
-        controller.showSignUp = [database.values[@"showSignup"] boolValue];
+        controller.showResetPassword = [database[A0ConnectionShowForgot] boolValue];
+        controller.showSignUp = [database[A0ConnectionShowSignUp] boolValue];
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.forceUsername = !self.usesEmail;
         controller.defaultConnection = database ?: ad;

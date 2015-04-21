@@ -201,7 +201,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)matchDomainInTextField:(UITextField *)textField {
     A0Connection *connection = [self.domainMatcher connectionForEmail:textField.text];
     if (connection) {
-        NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection.values[@"domain"]];
+        NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection[A0ConnectionDomain]];
         A0LogVerbose(@"Matched %@ with connection %@", textField.text, connection);
         [self.accessButton setTitle:title.uppercaseString forState:UIControlStateNormal];
     } else {

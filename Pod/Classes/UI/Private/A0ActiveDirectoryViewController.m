@@ -152,7 +152,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0Strategy *adStrategy = [A0APIClient sharedClient].application.activeDirectoryStrategy;
     BOOL showSingleSignOn = connection && ![adStrategy.connections containsObject:connection];
     if (showSingleSignOn) {
-        NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection.values[@"domain"]];
+        NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection[A0ConnectionDomain]];
         [self.accessButton setTitle:title.uppercaseString forState:UIControlStateNormal];
     } else {
         [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
