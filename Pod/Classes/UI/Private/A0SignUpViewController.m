@@ -146,14 +146,15 @@
     NSError *error = [self.validator validate];
     if (!error) {
         [self hideKeyboard];
-        NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        NSString *email = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        NSString *username = [self.usernameField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSString *password = self.passwordField.textField.text;
         @weakify(self);
         A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
             @strongify(self);
-            [self postSignUpSuccessfulWithEmail:username];
+            [self postSignUpSuccessfulWithEmail:email];
             if (token) {
-                [self postLoginSuccessfulWithUsername:username andParameters:self.parameters];
+                [self postLoginSuccessfulWithUsername:email andParameters:self.parameters];
             }
             [self.signUpButton setInProgress:NO];
             if (self.onSignUpBlock) {
@@ -168,11 +169,12 @@
             NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
             A0ShowAlertErrorView(title, message);
         };
-        [[A0APIClient sharedClient] signUpWithUsername:username
-                                              password:password
-                                        loginOnSuccess:self.shouldLoginUser
-                                            parameters:self.parameters
-                                               success:success failure:failure];
+        [[A0APIClient sharedClient] signUpWithEmail:email
+                                           username:username
+                                           password:password
+                                     loginOnSuccess:self.shouldLoginUser
+                                         parameters:self.parameters
+                                            success:success failure:failure];
     } else {
         [self postSignUpErrorNotificationWithError:error];
         [self.signUpButton setInProgress:NO];
