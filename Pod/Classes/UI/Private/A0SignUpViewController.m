@@ -47,12 +47,16 @@
 
 @interface A0SignUpViewController ()
 
+@property (weak, nonatomic) IBOutlet A0CredentialFieldView *usernameField;
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
 @property (weak, nonatomic) IBOutlet A0PasswordFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIView *disclaimerView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
+@property (weak, nonatomic) IBOutlet UIView *usernameSeparatorView;
+
+@property (assign, nonatomic) BOOL requiresUsername;
 
 - (IBAction)signUp:(id)sender;
 - (IBAction)goToPasswordField:(id)sender;
@@ -82,18 +86,33 @@
     [theme configureTextField:self.passwordField.textField];
     [theme configureLabel:self.messageLabel];
 
-    self.userField.textField.placeholder = A0LocalizedString(@"Email");
+    self.requiresUsername = [self.defaultConnection.values[@"requires_username"] boolValue];
+    if (!self.requiresUsername) {
+        [self.usernameField removeFromSuperview];
+        [self.usernameSeparatorView removeFromSuperview];
+        [self.credentialBoxView addConstraint:[NSLayoutConstraint constraintWithItem:self.userField attribute:NSLayoutAttributeTop relatedBy: NSLayoutRelationEqual toItem:self.credentialBoxView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    }
+
+    self.userField.textField.placeholder = self.forceUsername && !self.requiresUsername ? A0LocalizedString(@"Username") : A0LocalizedString(@"Email");
     self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
     [self.signUpButton setTitle:A0LocalizedString(@"SIGN UP") forState:UIControlStateNormal];
-    self.messageLabel.text = self.customMessage ?: A0LocalizedString(@"Please enter your email and password");
+    self.messageLabel.text = self.forceUsername ? A0LocalizedString(@"Please enter your username and password") : A0LocalizedString(@"Please enter your email and password");
+    if (self.customMessage) {
+        self.messageLabel.text = self.customMessage;
+    }
+
     [self.passwordField.passwordManagerButton addTarget:self action:@selector(storeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
+
     if (self.defaultConnection) {
         [self.parameters setValue:self.defaultConnection.name forKey:A0ParameterConnection];
     }
     NSMutableArray *validators = [@[
                                     [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],
                                     ] mutableCopy];
-    if (self.forceUsername) {
+    if (self.requiresUsername) {
+        [validators addObject:[[A0EmailValidator alloc] initWithField:self.userField.textField]];
+        [validators addObject:[[A0UsernameValidator alloc] initWithField:self.usernameField.textField]];
+    } else if (self.forceUsername) {
         [validators addObject:[[A0UsernameValidator alloc] initWithField:self.userField.textField]];
     } else {
         [validators addObject:[[A0EmailValidator alloc] initWithField:self.userField.textField]];
@@ -162,7 +181,11 @@
     [self updateUIWithError:error];
 }
 
-- (void)goToPasswordField:(id)sender {
+- (IBAction)goToEmailField:(id)sender {
+    [self.userField.textField becomeFirstResponder];
+}
+
+- (IBAction)goToPasswordField:(id)sender {
     [self.passwordField.textField becomeFirstResponder];
 }
 
@@ -174,6 +197,7 @@
 #pragma mark - A0KeyboardEnabledView
 
 - (void)hideKeyboard {
+    [self.usernameField.textField resignFirstResponder];
     [self.userField.textField resignFirstResponder];
     [self.passwordField.textField resignFirstResponder];
 }
@@ -188,16 +212,24 @@
 - (void)updateUIWithError:(NSError *)error {
     self.userField.invalid = NO;
     self.passwordField.invalid = NO;
+    self.usernameField.invalid = NO;
     if (error) {
         switch (error.code) {
             case A0ErrorCodeInvalidCredentials:
                 self.userField.invalid = YES;
                 self.passwordField.invalid = YES;
+                self.usernameField.invalid = YES;
                 break;
             case A0ErrorCodeInvalidPassword:
                 self.passwordField.invalid = YES;
                 break;
             case A0ErrorCodeInvalidUsername:
+                if (self.requiresUsername) {
+                    self.usernameField.invalid = YES;
+                } else {
+                    self.userField.invalid = YES;
+                }
+                break;
             case A0ErrorCodeInvalidEmail:
                 self.userField.invalid = YES;
                 break;
