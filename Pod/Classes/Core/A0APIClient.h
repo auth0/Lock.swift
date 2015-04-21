@@ -132,15 +132,64 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
                                     failure:(A0APIClientError)failure;
 
 /**
- *  Perform signup for a new user in the application database. It can login the user after a succesful signup.
- *  By default it will use the first database connection name found in `application` property. If it's nil a *connection_name* must be set in parameters.
+ *  Perform signup for a new user in the application's database connection using email, username & password.
+ *  It can login the user after a succesful signup.
+ *  By default it will use the first database connection name found in `application` property, if it's nil a *connection_name* must be set in parameters.
  *
- *  @param username       username or email of the new user
+ *  @param email          email of the new user
+ *  @param username       username of the new user
  *  @param password       password of the new user
  *  @param loginOnSuccess if after the signup the user should be automatically logged in
  *  @param parameters     optional parameters for Auth0 API. It can be nil
  *  @param success        block called on successful signup or login. If the user is not logged in both parameters are nil.
  *  @param failure        block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
+ */
+- (NSURLSessionDataTask *)signUpWithEmail:(NSString *)email
+                                 username:(NSString *)username
+                                 password:(NSString *)password
+                           loginOnSuccess:(BOOL)loginOnSuccess
+                               parameters:(A0AuthParameters *)parameters
+                                  success:(A0APIClientAuthenticationSuccess)success
+                                  failure:(A0APIClientError)failure;
+
+/**
+ *  Perform signup for a new user in the application's database connection using email & password.
+ *  Only use this method if the Database connection does not require username.
+ *  It can login the user after a succesful signup.
+ *  By default it will use the first database connection name found in `application` property, if it's nil a *connection_name* must be set in parameters.
+ *
+ *  @param email          email of the new user
+ *  @param password       password of the new user
+ *  @param loginOnSuccess if after the signup the user should be automatically logged in
+ *  @param parameters     optional parameters for Auth0 API. It can be nil
+ *  @param success        block called on successful signup or login. If the user is not logged in both parameters are nil.
+ *  @param failure        block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
+ */
+- (NSURLSessionDataTask *)signUpWithEmail:(NSString *)email
+                                 password:(NSString *)password
+                           loginOnSuccess:(BOOL)loginOnSuccess
+                               parameters:(A0AuthParameters *)parameters
+                                  success:(A0APIClientAuthenticationSuccess)success
+                                  failure:(A0APIClientError)failure;
+
+/**
+ *  Perform signup for a new user in the application's database connection using username & password.
+ *  Only use this method if the Database connection uses a custom DB otherwise it will fail.
+ *  It can login the user after a succesful signup.
+ *  By default it will use the first database connection name found in `application` property, if it's nil a *connection_name* must be set in parameters.
+ *
+ *  @param username       username of the new user
+ *  @param password       password of the new user
+ *  @param loginOnSuccess if after the signup the user should be automatically logged in
+ *  @param parameters     optional parameters for Auth0 API. It can be nil
+ *  @param success        block called on successful signup or login. If the user is not logged in both parameters are nil.
+ *  @param failure        block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)signUpWithUsername:(NSString *)username
                                     password:(NSString *)password

@@ -190,14 +190,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
-- (NSURLSessionDataTask *)signUpWithUsername:(NSString *)username
-                                    password:(NSString *)password
-                              loginOnSuccess:(BOOL)loginOnSuccess
-                                  parameters:(A0AuthParameters *)parameters
-                                     success:(A0APIClientAuthenticationSuccess)success
-                                     failure:(A0APIClientError)failure {
+- (NSURLSessionDataTask *)signUpWithEmail:(NSString *)email
+                                 username:(NSString *)username
+                                 password:(NSString *)password
+                           loginOnSuccess:(BOOL)loginOnSuccess
+                               parameters:(A0AuthParameters *)parameters
+                                  success:(A0APIClientAuthenticationSuccess)success
+                                  failure:(A0APIClientError)failure {
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
-                                                                                kEmailParamName: username,
+                                                                                kEmailParamName: email,
+                                                                                kUsernameParamName: username ?: email,
                                                                                 kPasswordParamName: password,
                                                                                 kClientIdParamName: self.clientId,
                                                                                 }];
@@ -213,13 +215,32 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         @strongify(self);
         A0LogDebug(@"Created user successfully %@", responseObject);
         if (loginOnSuccess) {
-            [self loginWithUsername:username password:password parameters:parameters success:success failure:failure];
+            NSString *loginUsername = username ?: email;
+            [self loginWithUsername:loginUsername password:password parameters:parameters success:success failure:failure];
         } else {
             if (success) {
                 success(nil, nil);
             }
         }
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
+}
+
+- (NSURLSessionDataTask *)signUpWithUsername:(NSString *)username
+                                    password:(NSString *)password
+                              loginOnSuccess:(BOOL)loginOnSuccess
+                                  parameters:(A0AuthParameters *)parameters
+                                     success:(A0APIClientAuthenticationSuccess)success
+                                     failure:(A0APIClientError)failure {
+    return [self signUpWithEmail:username username:username password:password loginOnSuccess:loginOnSuccess parameters:parameters success:success failure:failure];
+}
+
+- (NSURLSessionDataTask *)signUpWithEmail:(NSString *)email
+                                 password:(NSString *)password
+                           loginOnSuccess:(BOOL)loginOnSuccess
+                               parameters:(A0AuthParameters *)parameters
+                                  success:(A0APIClientAuthenticationSuccess)success
+                                  failure:(A0APIClientError)failure {
+    return [self signUpWithEmail:email username:nil password:password loginOnSuccess:loginOnSuccess parameters:parameters success:success failure:failure];
 }
 
 - (NSURLSessionDataTask *)changePassword:(NSString *)newPassword forUsername:(NSString *)username parameters:(A0AuthParameters *)parameters success:(void(^)())success failure:(A0APIClientError)failure {
