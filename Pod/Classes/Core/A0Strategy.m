@@ -119,6 +119,16 @@ NSString * const A0StrategySocialUserIdParameter = @"user_id";
     return [NSString stringWithFormat:@"<A0Strategy name = '%@' connections = %@>", self.name, self.connections];
 }
 
+- (BOOL)useResourceOwnerEndpoint {
+    NSArray *strategies = @[
+                            A0StrategyNameActiveDirectory,
+                            A0StrategyNameADFS,
+                            A0StrategyNameWaad,
+                            A0StrategyNameAuth0,
+                            ];
+    return [strategies containsObject:self.name];
+}
+
 + (instancetype)newEnterpriseStrategyWithName:(NSString *)name connections:(NSArray *)connections {
     return [[A0Strategy alloc] initWithName:name connections:connections type:A0StrategyTypeEnterprise];
 }
@@ -131,17 +141,19 @@ NSString * const A0StrategySocialUserIdParameter = @"user_id";
     static NSSet *enterpriseNames;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSArray *names = @[@"google-apps",
-                           @"office365",
-                           @"waad",
-                           @"adfs",
-                           @"samlp",
-                           @"pingfederate",
-                           @"ip",
-                           @"mscrm",
-                           @"ad",
-                           @"custom",
-                           @"sharepoint"];
+        NSArray *names = @[
+                           A0StrategyNameGoogleApps,
+                           A0StrategyNameOffice365,
+                           A0StrategyNameWaad,
+                           A0StrategyNameADFS,
+                           A0StrategyNameSAMLP,
+                           A0StrategyNamePingFederate,
+                           A0StrategyNameIP,
+                           A0StrategyNameMSCRM,
+                           A0StrategyNameActiveDirectory,
+                           A0StrategyNameCustom,
+                           A0StrategyNameSharepoint,
+                           ];
         enterpriseNames = [NSSet setWithArray:names];
     });
     return enterpriseNames;
