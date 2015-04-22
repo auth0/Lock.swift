@@ -147,7 +147,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (self.matchedConnection) {
         A0Application *application = [[A0APIClient sharedClient] application];
         A0Strategy *strategy = [application enterpriseStrategyWithConnection:self.matchedConnection.name];
-        if ([strategy.name isEqualToString:A0StrategyNameActiveDirectory]) {
+        if (strategy.useResourceOwnerEndpoint) {
             if (self.onShowEnterpriseLogin) {
                 self.onShowEnterpriseLogin(self.matchedConnection, self.userField.textField.text);
             }
