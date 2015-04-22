@@ -27,6 +27,7 @@
 #define kClientId @"1234567890"
 #define kDomainURL @"https://domain.somewhere.co"
 #define kAuth0Domain @"https://overmind.auth0.com"
+#define kAuth0EUDomain @"https://overmind.eu.auth0.com"
 #define kConfigurationURL @"https://configuration.somewhere.co"
 
 #define kClientIdKey @"Auth0ClientId"
@@ -125,6 +126,22 @@ describe(@"A0APIv1Router", ^{
             expect(router.configurationURL.absoluteString).to.equal(@"https://cdn.auth0.com/client/1234567890.js");
         });
 
+    });
+
+    context(@"configure with auth0 EU domain only", ^{
+
+        beforeEach(^{
+            [router configureForDomain:kAuth0EUDomain clientId:kClientId];
+        });
+
+        it(@"should have correct endpoint URL", ^{
+            expect(router.endpointURL.absoluteString).to.equal(@"https://overmind.eu.auth0.com");
+        });
+
+        it(@"should have correct config URL", ^{
+            expect(router.configurationURL.absoluteString).to.equal(@"https://cdn.eu.auth0.com/client/1234567890.js");
+        });
+        
     });
 
     context(@"configure with auth0 domain without protocol", ^{
