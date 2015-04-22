@@ -179,6 +179,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         controller.parameters = [self copyAuthenticationParameters];
         controller.onSignUpBlock = self.onAuthenticationBlock;
         controller.customMessage = A0LocalizedString(@"Or please enter your email and password");
+        controller.defaultConnection = configuration.defaultDatabaseConnection;
         [self displayController:controller];
     } failure:^(NSError *error) {
         A0LogError(@"Failed to fetch App info %@", error);
