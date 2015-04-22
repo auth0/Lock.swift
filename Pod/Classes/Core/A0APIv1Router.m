@@ -24,6 +24,7 @@
 
 #define kAppBaseURLFormatString @"https://%@.auth0.com"
 #define kCDNConfigurationURL @"https://cdn.auth0.com"
+#define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
 
 #define kClientIdKey @"Auth0ClientId"
 #define kTenantKey @"Auth0Tenant"
@@ -69,7 +70,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)configureForDomain:(NSString *)domain clientId:(NSString *)clientId {
     NSURL *domainURL = [self createDomainURLFromString:domain];
     NSAssert(domainURL, @"You must supply a valid Auth0 domain.");
-    NSString *configurationDomain = [domainURL.host hasSuffix:@".auth0.com"] ? kCDNConfigurationURL : domain;
+    NSString *configurationDomain = domain;
+    if ([domainURL.host hasSuffix:@".auth0.com"]) {
+        configurationDomain = [domainURL.host hasSuffix:@".eu.auth0.com"] ? kEUCDNConfigurationURL : kCDNConfigurationURL;
+    }
     [self configureForDomain:domain configurationDomain:configurationDomain clientId:clientId];
 }
 
