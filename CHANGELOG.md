@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ###Added
 - Fetch `requires_username` flag of DB connections to allow Signing Up with email & username.
 - Use EU CDN when Auth0 domain is in EU region.
+- Use `/ro` for `waad` and `adfs` connections.
 
 ## 1.10.5 - 2015-04-11
 
