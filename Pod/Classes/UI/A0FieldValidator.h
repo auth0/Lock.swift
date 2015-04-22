@@ -1,4 +1,4 @@
-// A0DatabaseLoginCredentialValidator.m
+// A0FieldValidator.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,35 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0DatabaseLoginCredentialValidator.h"
-#import "A0Errors.h"
+#import <Foundation/Foundation.h>
 
-@interface A0DatabaseLoginCredentialValidator ()
+@protocol A0FieldValidator <NSObject>
 
-@property (copy, nonatomic) NSString *username;
-@property (copy, nonatomic) NSString *password;
-@end
+@property (readonly, nonatomic) NSString *identifier;
 
-@implementation A0DatabaseLoginCredentialValidator
-
-- (void)setUsername:(NSString *)username password:(NSString *)password {
-    self.username = username;
-    self.password = password;
-}
-
-- (BOOL)validateCredential:(NSError **)error {
-    BOOL validUsername = [self validateUsername:self.username];
-    BOOL validPassword = [self validatePassword:self.password];
-    if (!validUsername && !validPassword) {
-        *error = [A0Errors invalidLoginCredentialsUsingEmail:self.usesEmail];
-    }
-    if (validUsername && !validPassword) {
-        *error = [A0Errors invalidLoginPassword];
-    }
-    if (!validUsername && validPassword) {
-        *error = [A0Errors invalidLoginUsernameUsingEmail:self.usesEmail];
-    }
-    return validUsername && validPassword;
-}
+- (NSError *)validate;
 
 @end

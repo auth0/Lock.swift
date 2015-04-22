@@ -1,4 +1,4 @@
-//  A0Connection.m
+// A0ConfirmPasswordValidator.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,40 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0Connection.h"
+#import <UIKit/UIKit.h>
+#import "A0FieldValidator.h"
 
-NSString * const A0ConnectionRequiresUsername = @"requires_username";
-NSString * const A0ConnectionDomain = @"domain";
-NSString * const A0ConnectionDomainAliases = @"domain_aliases";
-NSString * const A0ConnectionShowForgot = @"showForgot";
-NSString * const A0ConnectionShowSignUp = @"showSignup";
+FOUNDATION_EXPORT NSString * const A0ConfirmPasswordValidatorIdentifer;
 
-@interface A0Connection ()
+@interface A0ConfirmPasswordValidator : NSObject<A0FieldValidator>
 
-@property (strong, nonatomic) NSDictionary *values;
+- (instancetype)initWithField:(UITextField *)field passwordField:(UITextField *)passwordField;
 
-@end
-
-@implementation A0Connection
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)JSON {
-    self = [super init];
-    if (self) {
-        NSAssert([JSON[@"name"] length] > 0, @"Must have a valid name");
-        _values = [NSDictionary dictionaryWithDictionary:JSON];
-    }
-    return self;
-}
-
-- (NSString *)name {
-    return self.values[@"name"];
-}
-
-- (id)objectForKeyedSubscript:(NSString *)key {
-    return self.values[key];
-}
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<A0Connection name = %@; values %@>", self.values[@"name"], self.values];
-}
 @end

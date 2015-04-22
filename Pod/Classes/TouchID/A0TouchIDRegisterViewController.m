@@ -24,15 +24,12 @@
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
 #import "A0ProgressButton.h"
-#import "A0SignUpCredentialValidator.h"
 #import "A0KeyboardHandler.h"
 #import "A0TouchIDSignUpViewController.h"
 #import "A0DatabaseLoginViewController.h"
-#import "A0DatabaseLoginCredentialValidator.h"
 
 #import <libextobjc/EXTScope.h>
 #import "A0ChangePasswordViewController.h"
-#import "A0ChangePasswordCredentialValidator.h"
 #import "A0AuthParameters.h"
 #import "A0NavigationView.h"
 #import "A0TitleView.h"
@@ -77,7 +74,6 @@
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.showSignUp = YES;
     controller.showResetPassword = YES;
-    controller.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:YES];
     controller.parameters = self.authenticationParameters;
     controller.onLoginBlock = self.onRegisterBlock;
     [self.navigationView removeAll];
@@ -98,7 +94,6 @@
     @weakify(self);
     A0ChangePasswordViewController *controller = [[A0ChangePasswordViewController alloc] init];
     controller.parameters = self.authenticationParameters;
-    controller.validator = [[A0ChangePasswordCredentialValidator alloc] init];
     controller.onChangePasswordBlock = ^{
         @strongify(self);
         [self displayController:[self buildLogin]];

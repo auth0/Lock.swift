@@ -23,7 +23,6 @@
 #import "A0DatabaseLoginViewController.h"
 #import "A0ProgressButton.h"
 #import "UIButton+A0SolidButton.h"
-#import "A0DatabaseLoginCredentialValidator.h"
 #import "A0Errors.h"
 #import "A0APIClient.h"
 #import "A0Theme.h"
@@ -43,13 +42,16 @@
 
 #if __has_include("A0PasswordManager.h")
 #import "A0PasswordManager.h"
+#import "A0PasswordValidator.h"
+#import "A0UsernameValidator.h"
+#import "A0EmailValidator.h"
+#import "A0CredentialsValidator.h"
 #endif
 
 #import "UIViewController+LockNotification.h"
 
 @interface A0DatabaseLoginViewController ()
 
-@property (weak, nonatomic) IBOutlet A0PasswordFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *accessButton;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
@@ -92,6 +94,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
 
+    BOOL requiresUsername = [self.defaultConnection[A0ConnectionRequiresUsername] boolValue];
     self.signUpButton.hidden = !self.showSignUp;
     self.forgotPasswordButton.hidden = !self.showResetPassword;
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
@@ -99,11 +102,25 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (self.defaultConnection) {
         [self.parameters setValue:self.defaultConnection.name forKey:A0ParameterConnection];
     }
-    self.userField.textField.placeholder = self.validator.usesEmail ? A0LocalizedString(@"Email") : A0LocalizedString(@"Username");
+    if (requiresUsername) {
+        self.userField.textField.placeholder = A0LocalizedString(@"Username/Email");
+    } else {
+        self.userField.textField.placeholder = self.forceUsername ? A0LocalizedString(@"Username") : A0LocalizedString(@"Email");
+    }
+
     self.userField.textField.text = self.defaultUsername;
     self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
     [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
     [self.passwordField.passwordManagerButton addTarget:self action:@selector(fillLogin:) forControlEvents:UIControlEventTouchUpInside];
+    NSMutableArray *validators = [@[
+                                    [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],
+                                    ] mutableCopy];
+    if (self.forceUsername || requiresUsername) {
+        [validators addObject:[[A0UsernameValidator alloc] initWithField:self.userField.textField]];
+    } else {
+        [validators addObject:[[A0EmailValidator alloc] initWithField:self.userField.textField]];
+    }
+    self.validator = [[A0CredentialsValidator alloc] initWithValidators:validators];
 }
 
 - (void)dealloc {
@@ -141,9 +158,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
 
     [self.accessButton setInProgress:YES];
-    NSError *error;
-    [self.validator setUsername:self.userField.textField.text password:self.passwordField.textField.text];
-    if ([self.validator validateCredential:&error]) {
+    NSError *error = [self.validator validate];
+    if (!error) {
         [self hideKeyboard];
         NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSString *password = self.passwordField.textField.text;
@@ -191,7 +207,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)matchDomainInTextField:(UITextField *)textField {
     A0Connection *connection = [self.domainMatcher connectionForEmail:textField.text];
     if (connection) {
-        NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection.values[@"domain"]];
+        NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection[A0ConnectionDomain]];
         A0LogVerbose(@"Matched %@ with connection %@", textField.text, connection);
         [self.accessButton setTitle:title.uppercaseString forState:UIControlStateNormal];
     } else {
@@ -287,6 +303,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 self.passwordField.invalid = YES;
                 break;
             case A0ErrorCodeInvalidUsername:
+            case A0ErrorCodeInvalidEmail:
                 self.userField.invalid = YES;
                 break;
         }

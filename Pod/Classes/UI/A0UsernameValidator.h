@@ -1,4 +1,4 @@
-// A0BasicValidator.m
+// A0UsernameValidator.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,37 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0BasicValidator.h"
+#import <UIKit/UIKit.h>
+#import "A0FieldValidator.h"
 
-@interface A0BasicValidator ()
+FOUNDATION_EXPORT NSString * const A0UsernameValidatorIdentifier;
 
-@property (strong, nonatomic) NSPredicate *emailPredicate;
-@property (assign, nonatomic) BOOL usesEmail;
+/**
+ *  Object that validates a username from a UITextField.
+ *  The UITextField is not retained.
+ */
+@interface A0UsernameValidator : NSObject<A0FieldValidator>
 
-@end
-
-@implementation A0BasicValidator
-
-- (instancetype)initWithUsesEmail:(BOOL)usesEmail {
-    self = [super init];
-    if (self) {
-        NSString *emailRegex = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
-        _emailPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
-        _usesEmail = usesEmail;
-    }
-    return self;
-}
-
-- (BOOL)validateUsername:(NSString *)username {
-    if (self.usesEmail) {
-        return [self.emailPredicate evaluateWithObject:username];
-    } else {
-        return username.length > 0;
-    }
-}
-
-- (BOOL)validatePassword:(NSString *)password {
-    return password.length > 0;
-}
+- (instancetype)initWithField:(UITextField *)field;
 
 @end

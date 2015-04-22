@@ -25,7 +25,10 @@
 #import "A0EnterpriseLoginViewController.h"
 #import "A0AuthParameters.h"
 #import "A0CredentialFieldView.h"
-#import "A0DatabaseLoginCredentialValidator.h"
+#import "A0CredentialsValidator.h"
+#import "A0UsernameValidator.h"
+#import "A0PasswordValidator.h"
+#import "A0PasswordFieldView.h"
 
 @interface A0EnterpriseLoginViewController ()
 
@@ -38,7 +41,10 @@
 - (instancetype)init {
     self =  [super init];
     if (self) {
-        self.validator = [[A0DatabaseLoginCredentialValidator alloc] initWithUsesEmail:NO];
+        self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
+                                                                              [[A0UsernameValidator alloc] initWithField:self.userField.textField],
+                                                                              [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],
+                                                                              ]];
     }
     return self;
 }
@@ -56,7 +62,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSString *message = A0LocalizedString(@"Please enter your corporate credentials at %@");
-    self.messageLabel.text = [NSString stringWithFormat:message, self.connection.values[@"domain"]];
+    self.messageLabel.text = [NSString stringWithFormat:message, self.connection[A0ConnectionDomain]];
     self.userField.textField.text = self.defaultUsername;
     [self.parameters setValue:self.connection.name forKey:A0ParameterConnection];
 }

@@ -1,4 +1,4 @@
-// A0CredentialValidator.h
+// A0PasswordValidator.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,12 +20,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import "A0PasswordValidator.h"
+#import "A0Errors.h"
 
-@protocol A0CredentialValidator <NSObject>
+NSString * const A0PasswordValidatorIdentifer = @"A0PasswordValidatorIdentifer";
 
-@required
+@interface A0PasswordValidator ()
 
-- (BOOL)validateCredential:(NSError **)error;
+@property (weak, nonatomic) UITextField *field;
+
+@end
+
+@implementation A0PasswordValidator
+
+@synthesize identifier = _identifier;
+
+- (instancetype)initWithField:(UITextField *)field {
+    NSAssert(field != nil, @"Must provide a UITextField instance");
+    self = [super init];
+    if (self) {
+        _identifier = A0PasswordValidatorIdentifer;
+        _field = field;
+    }
+    return self;
+}
+
+- (NSError *)validate {
+    BOOL valid = self.field.text.length > 0;
+    return valid ? nil : [A0Errors invalidPassword];
+}
 
 @end

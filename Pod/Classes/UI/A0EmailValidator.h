@@ -1,4 +1,4 @@
-// A0BasicValidator.h
+// A0EmailValidator.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,15 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "A0FieldValidator.h"
 
-@interface A0BasicValidator : NSObject
+FOUNDATION_EXPORT NSString * const A0EmailValidatorIdentifer;
 
-@property (readonly, nonatomic) BOOL usesEmail;
+@interface A0EmailValidator : NSObject<A0FieldValidator>
 
-- (instancetype)initWithUsesEmail:(BOOL)usesEmail;
-
-- (BOOL)validateUsername:(NSString *)username;
-- (BOOL)validatePassword:(NSString *)password;
+- (instancetype)initWithField:(UITextField *)field;
 
 @end

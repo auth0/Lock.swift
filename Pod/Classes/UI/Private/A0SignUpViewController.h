@@ -24,18 +24,21 @@
 
 #import "A0AuthenticationUIComponent.h"
 
-@class A0SignUpCredentialValidator, A0UserProfile, A0Token, A0AuthParameters, A0Connection;
+@class A0CredentialsValidator, A0UserProfile, A0Token, A0AuthParameters, A0Connection;
 
 @interface A0SignUpViewController : UIViewController<A0AuthenticationUIComponent>
 
 @property (copy, nonatomic) void(^onSignUpBlock)(A0UserProfile *profile, A0Token *token);
 
 @property (strong, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0SignUpCredentialValidator *validator;
+@property (assign, nonatomic) BOOL forceUsername;
+@property (strong, nonatomic) A0CredentialsValidator *validator;
+
 @property (assign, nonatomic, getter = shouldLoginUser) BOOL loginUser;
 @property (copy, nonatomic) NSString *customMessage;
 @property (strong, nonatomic) A0Connection *defaultConnection;
 
 - (void)addDisclaimerSubview:(UIView *)view;
+- (void)updateUIWithError:(NSError *)error;
 
 @end

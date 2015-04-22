@@ -23,7 +23,28 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  `A0Connection` represent a Auth0 connection configured for the Application.
+ *  Flag if the DB connection requires username
+ */
+FOUNDATION_EXPORT NSString * const A0ConnectionRequiresUsername;
+/**
+ *  Main domain for an enterprise connection
+ */
+FOUNDATION_EXPORT NSString * const A0ConnectionDomain;
+/**
+ *  List of domain aliases for an enterprise connection
+ */
+FOUNDATION_EXPORT NSString * const A0ConnectionDomainAliases;
+/**
+ *  Flag that tells if the DB connection allows forgot password
+ */
+FOUNDATION_EXPORT NSString * const A0ConnectionShowForgot;
+/**
+ *  Flag that tells if the DB connection allows signup
+ */
+FOUNDATION_EXPORT NSString * const A0ConnectionShowSignUp;
+
+/**
+ *  `A0Connection` represent an Auth0 connection configured for the Application.
  */
 @interface A0Connection : NSObject
 
@@ -46,5 +67,14 @@
  *  @return an initialised instance
  */
 - (instancetype)initWithJSONDictionary:(NSDictionary *)JSON;
+
+/**
+ *  Enables Objective-C subscripting of A0Connection object
+ *
+ *  @param key property value key
+ *
+ *  @return value of connection property
+ */
+- (id)objectForKeyedSubscript:(NSString *)key;
 
 @end

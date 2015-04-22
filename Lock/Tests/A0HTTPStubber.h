@@ -1,6 +1,6 @@
-// A0ChangePasswordCredentialValidator.h
+// A0HTTPStubber.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0BasicValidator.h"
-#import "A0CredentialValidator.h"
+#import <Foundation/Foundation.h>
 
-@interface A0ChangePasswordCredentialValidator : A0BasicValidator<A0CredentialValidator>
+@class A0Application;
 
-- (void)setUsername:(NSString *)username password:(NSString *)password repeatPassword:(NSString *)repeatPassword;
+typedef BOOL(^HTTPFilter)(NSURLRequest *request);
+
+@interface A0HTTPStubber : NSObject
+
+@property (readonly, nonatomic) A0Application *application;
+
+- (instancetype)initWithApplication:(A0Application *)application;
+
+- (HTTPFilter)filterForResourceOwnerWithUsername:(NSString *)username password:(NSString *)password;
+
+- (HTTPFilter)filterForResourceOwnerWithParameters:(NSDictionary *)parameters;
+
+- (HTTPFilter)filterForTokenInfoWithJWT:(NSString *)jwt;
+
+- (HTTPFilter)filterForSignUpWithParameters:(NSDictionary *)parameters;
+
+- (HTTPFilter)filterForChangePasswordWithParameters:(NSDictionary *)parameters;
+
+- (HTTPFilter)filterForSocialAuthenticationWithParameters:(NSDictionary *)parameters;
+
+- (HTTPFilter)filterForDelegationWithParameters:(NSDictionary *)parameters;
 
 @end

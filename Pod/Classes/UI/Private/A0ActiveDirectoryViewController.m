@@ -24,7 +24,6 @@
 #import "A0DatabaseLoginViewController.h"
 #import "A0ProgressButton.h"
 #import "UIButton+A0SolidButton.h"
-#import "A0DatabaseLoginCredentialValidator.h"
 #import "A0Errors.h"
 #import "A0APIClient.h"
 #import "A0Theme.h"
@@ -41,6 +40,9 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
 #import "UIViewController+LockNotification.h"
+#import "A0CredentialsValidator.h"
+#import "A0UsernameValidator.h"
+#import "A0PasswordValidator.h"
 
 @interface A0ActiveDirectoryViewController ()
 
@@ -83,6 +85,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.userField.textField.placeholder = A0LocalizedString(@"Username");
     self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
     [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
+    self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
+                                                                          [[A0UsernameValidator alloc] initWithField:self.userField.textField],
+                                                                          [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],
+                                                                          ]];
 }
 
 - (void)dealloc {
@@ -98,9 +104,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             [self loginUserWithConnection:connection];
         } else {
             [self.accessButton setInProgress:YES];
-            NSError *error;
-            [self.validator setUsername:self.userField.textField.text password:self.passwordField.textField.text];
-            if ([self.validator validateCredential:&error]) {
+            NSError *error = [self.validator validate];
+            if (!error) {
                 [self hideKeyboard];
                 NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
                 NSString *password = self.passwordField.textField.text;
@@ -147,7 +152,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0Strategy *adStrategy = [A0APIClient sharedClient].application.activeDirectoryStrategy;
     BOOL showSingleSignOn = connection && ![adStrategy.connections containsObject:connection];
     if (showSingleSignOn) {
-        NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection.values[@"domain"]];
+        NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection[A0ConnectionDomain]];
         [self.accessButton setTitle:title.uppercaseString forState:UIControlStateNormal];
     } else {
         [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];

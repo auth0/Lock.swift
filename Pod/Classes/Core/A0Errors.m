@@ -27,6 +27,13 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 
 @implementation A0Errors
 
++ (NSError *)errorWithCode:(NSInteger)code userInfo:(NSDictionary *)userInfo {
+    NSError *error = [NSError errorWithDomain:A0ErrorDomain
+                                         code:code
+                                     userInfo:userInfo];
+    return error;
+}
+
 + (NSError *)noConnectionNameFound {
     return [self errorWithCode:A0ErrorCodeNoConnectionNameFound
                    description:A0LocalizedString(@"Authentication failed")
@@ -48,6 +55,30 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     || error.code == A0ErrorCodeTwitterCancelled
     || error.code == A0ErrorCodeAuth0Cancelled
     || error.code == A0ErrorCodeGooglePlusCancelled;
+}
+
++ (NSError *)invalidUsername {
+    return [self errorWithCode:A0ErrorCodeInvalidUsername
+                   description:A0LocalizedString(@"Invalid credentials")
+                 failureReason:A0LocalizedString(@"The username you entered is invalid. Please try again.")];
+}
+
++ (NSError *)invalidEmail {
+    return [self errorWithCode:A0ErrorCodeInvalidEmail
+                   description:A0LocalizedString(@"Invalid credentials")
+                 failureReason:A0LocalizedString(@"The email you entered is invalid. Please try again.")];
+}
+
++ (NSError *)invalidPassword {
+    return [self errorWithCode:A0ErrorCodeInvalidPassword
+                   description:A0LocalizedString(@"Invalid credentials")
+                 failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
+}
+
++ (NSError *)invalidRepeatPassword {
+    return [self errorWithCode:A0ErrorCodeInvalidRepeatPassword
+                   description:A0LocalizedString(@"Invalid credentials")
+                 failureReason:A0LocalizedString(@"The passwords you entered must match. Please try again.")];
 }
 
 #pragma mark - Login errors

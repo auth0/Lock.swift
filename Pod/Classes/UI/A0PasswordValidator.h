@@ -1,4 +1,4 @@
-// A0SignUpCredentialValidator.m
+// A0PasswordValidator.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,36 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0SignUpCredentialValidator.h"
-#import "A0BasicValidator.h"
-#import "A0Errors.h"
+#import <UIKit/UIKit.h>
+#import "A0FieldValidator.h"
 
-@interface A0SignUpCredentialValidator ()
+FOUNDATION_EXPORT NSString * const A0PasswordValidatorIdentifer;
 
-@property (copy, nonatomic) NSString *username;
-@property (copy, nonatomic) NSString *password;
+@interface A0PasswordValidator : NSObject<A0FieldValidator>
 
-@end
+- (instancetype)initWithField:(UITextField *)field;
 
-@implementation A0SignUpCredentialValidator
-
-- (void)setUsername:(NSString *)username password:(NSString *)password {
-    self.username = username;
-    self.password = password;
-}
-
-- (BOOL)validateCredential:(NSError **)error {
-    BOOL validUsername = [self validateUsername:self.username];
-    BOOL validPassword = [self validatePassword:self.password];
-    if (!validUsername && !validPassword) {
-        *error = [A0Errors invalidSignUpCredentialsUsingEmail:self.usesEmail];
-    }
-    if (validUsername && !validPassword) {
-        *error = [A0Errors invalidSignUpPassword];
-    }
-    if (!validUsername && validPassword) {
-        *error = [A0Errors invalidSignUpUsernameUsingEmail:self.usesEmail];
-    }
-    return validUsername && validPassword;
-}
 @end

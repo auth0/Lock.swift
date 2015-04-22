@@ -1,4 +1,4 @@
-// A0SignUpCredentialValidator.h
+// A0EmailValidator.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,11 +20,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0BasicValidator.h"
-#import "A0CredentialValidator.h"
+#import "A0EmailValidator.h"
+#import "A0Errors.h"
 
-@interface A0SignUpCredentialValidator : A0BasicValidator<A0CredentialValidator>
+NSString * const A0EmailValidatorIdentifer = @"A0EmailValidatorIdentifer";
 
-- (void)setUsername:(NSString *)username password:(NSString *)password;
+@interface A0EmailValidator ()
+@property (weak, nonatomic) UITextField *field;
+@property (strong, nonatomic) NSPredicate *emailPredicate;
+@end
+
+@implementation A0EmailValidator
+
+@synthesize identifier = _identifier;
+
+- (instancetype)initWithField:(UITextField *)field {
+    NSAssert(field != nil, @"Must provide a UITextField instance");
+    self = [super init];
+    if (self) {
+        NSString *emailRegex = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
+        _emailPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+        _field = field;
+        _identifier = A0EmailValidatorIdentifer;
+    }
+    return self;
+}
+
+- (NSError *)validate {
+    NSString *trimmedEmail = [self.field.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    BOOL valid = [self.emailPredicate evaluateWithObject:trimmedEmail];
+    return valid ? nil : [A0Errors invalidEmail];
+}
 
 @end

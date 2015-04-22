@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ##master
 
+###Added
+- Fetch `requires_username` flag of DB connections to allow Signing Up with email & username.
+
+## 1.10.5 - 2015-04-11
+
+###Changed
+- Fix issue loading contry codes in SMS authentication.
+
 ## 1.10.4 - 2015-04-08
 
 ###Changed

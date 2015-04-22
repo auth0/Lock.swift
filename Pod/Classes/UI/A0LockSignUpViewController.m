@@ -32,7 +32,6 @@
 #import <libextobjc/EXTScope.h>
 #import "A0Errors.h"
 #import "A0SignUpViewController.h"
-#import "A0SignUpCredentialValidator.h"
 #import "A0UIUtilities.h"
 #import "A0TitleView.h"
 
@@ -176,11 +175,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
         [self.serviceCollectionView showSocialServicesForConfiguration:configuration];
         A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
-        controller.validator = [[A0SignUpCredentialValidator alloc] initWithUsesEmail:YES];
         controller.loginUser = self.loginAfterSignUp;
         controller.parameters = [self copyAuthenticationParameters];
         controller.onSignUpBlock = self.onAuthenticationBlock;
         controller.customMessage = A0LocalizedString(@"Or please enter your email and password");
+        controller.defaultConnection = configuration.defaultDatabaseConnection;
         [self displayController:controller];
     } failure:^(NSError *error) {
         A0LogError(@"Failed to fetch App info %@", error);

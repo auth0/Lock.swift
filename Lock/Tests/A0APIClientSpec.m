@@ -39,6 +39,7 @@
 #import "A0AuthParameters.h"
 #import "A0AnnotatedRequestSerializer.h"
 #import "A0IdentityProviderCredentials.h"
+#import "A0HTTPStubber.h"
 
 #define AS_NSURL(urlString) [NSURL URLWithString:urlString]
 
@@ -52,6 +53,7 @@ static NSString * const TENANT = @"samples";
 static NSString * const ENDPOINT = @"https://samples.auth0.com";
 static NSString * const DB_CONNECTION = @"DatabaseConnection";
 static NSString * const EMAIL = @"mail@mail.com";
+static NSString * const USERNAME = @"specta_test";
 static NSString * const PASSWORD = @"password";
 static NSString * const JWT = @"HEADER.PAYLOAD.SIGNATURE";
 static NSString * const DEVICE = @"MyiPhone";
@@ -121,7 +123,7 @@ describe(@"A0APIClient", ^{
 
     __block A0APIClient *client;
     __block A0Application *application;
-    __block A0HTTPStubFilter *filter;
+    __block A0HTTPStubber *filter;
 
     before(^{
         client = [[A0APIClient alloc] initWithClientId:CLIENT_ID andTenant:TENANT];
@@ -129,7 +131,7 @@ describe(@"A0APIClient", ^{
             NSLog(@"%@ stubbed by %@", request.URL, stub.name);
         }];
         application = mock(A0Application.class);
-        filter = [[A0HTTPStubFilter alloc] initWithApplication:application];
+        filter = [[A0HTTPStubber alloc] initWithApplication:application];
     });
 
     after(^{
@@ -329,6 +331,7 @@ describe(@"A0APIClient", ^{
                 it(@"should create and login user", ^{
                     [keeper returnSignUpWithFilter:[filter filterForSignUpWithParameters:@{
                                                                                            @"email": EMAIL,
+                                                                                           @"username": EMAIL,
                                                                                            @"password": PASSWORD,
                                                                                            @"client_id": CLIENT_ID,
                                                                                            @"connection": DB_CONNECTION,
@@ -337,7 +340,7 @@ describe(@"A0APIClient", ^{
                     [keeper returnProfileWithFilter:[filter filterForTokenInfoWithJWT:JWT]];
 
                     waitUntil(^(DoneCallback done) {
-                        [client signUpWithUsername:EMAIL password:PASSWORD loginOnSuccess:YES parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                        [client signUpWithEmail:EMAIL password:PASSWORD loginOnSuccess:YES parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
                             expect(tokenInfo).notTo.beNil();
                             done();
                         } failure:^(NSError *error) {
@@ -350,12 +353,53 @@ describe(@"A0APIClient", ^{
                 it(@"should only create the user", ^{
                     [keeper returnSignUpWithFilter:[filter filterForSignUpWithParameters:@{
                                                                                            @"email": EMAIL,
+                                                                                           @"username": EMAIL,
                                                                                            @"password": PASSWORD,
                                                                                            @"client_id": CLIENT_ID,
                                                                                            @"connection": DB_CONNECTION,
                                                                                            }]];
                     waitUntil(^(DoneCallback done) {
-                        [client signUpWithUsername:EMAIL password:PASSWORD loginOnSuccess:NO parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                        [client signUpWithEmail:EMAIL password:PASSWORD loginOnSuccess:NO parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(profile).to.beNil();
+                            expect(tokenInfo).to.beNil();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).to.beNil();
+                            done();
+                        }];
+                    });
+                });
+
+                it(@"should only create the user with email and username", ^{
+                    [keeper returnSignUpWithFilter:[filter filterForSignUpWithParameters:@{
+                                                                                           @"email": EMAIL,
+                                                                                           @"username": USERNAME,
+                                                                                           @"password": PASSWORD,
+                                                                                           @"client_id": CLIENT_ID,
+                                                                                           @"connection": DB_CONNECTION,
+                                                                                           }]];
+                    waitUntil(^(DoneCallback done) {
+                        [client signUpWithEmail:EMAIL username:USERNAME password:PASSWORD loginOnSuccess:NO parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                            expect(profile).to.beNil();
+                            expect(tokenInfo).to.beNil();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).to.beNil();
+                            done();
+                        }];
+                    });
+                });
+
+                it(@"should only create the user with username", ^{
+                    [keeper returnSignUpWithFilter:[filter filterForSignUpWithParameters:@{
+                                                                                           @"email": USERNAME,
+                                                                                           @"username": USERNAME,
+                                                                                           @"password": PASSWORD,
+                                                                                           @"client_id": CLIENT_ID,
+                                                                                           @"connection": DB_CONNECTION,
+                                                                                           }]];
+                    waitUntil(^(DoneCallback done) {
+                        [client signUpWithUsername:USERNAME password:PASSWORD loginOnSuccess:NO parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
                             expect(profile).to.beNil();
                             expect(tokenInfo).to.beNil();
                             done();

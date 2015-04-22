@@ -55,7 +55,7 @@ describe(@"A0SimpleConnectionDomainMatcherSpec", ^{
         });
 
         it(@"should pick connection with domain", ^{
-            [given(connection.values) willReturn:@{@"domain": @"mydomain.com"}];
+            [given([connection objectForKeyedSubscript:@"domain"]) willReturn:@"mydomain.com"];
             matcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
             expect([matcher valueForKeyPath:@"connections"]).toNot.beEmpty();
             expect([matcher valueForKeyPath:@"domains"]).toNot.beEmpty();
@@ -80,7 +80,7 @@ describe(@"A0SimpleConnectionDomainMatcherSpec", ^{
     describe(NSStringFromSelector(@selector(connectionForEmail:)), ^{
 
         beforeEach(^{
-            [given(connection.values) willReturn:@{@"domain": @"mydomain.com"}];
+            [given([connection objectForKeyedSubscript:@"domain"]) willReturn:@"mydomain.com"];
         });
 
         it(@"should return nil for empty strategy list", ^{
@@ -104,7 +104,7 @@ describe(@"A0SimpleConnectionDomainMatcherSpec", ^{
         });
 
         it(@"should match connection with alias domain", ^{
-            [given(connection.values) willReturn:@{@"domain": @"mydomain.com", @"domain_aliases": @[@"anotherdomain.com"]}];
+            [given([connection objectForKeyedSubscript:@"domain_aliases"]) willReturn:@[@"anotherdomain.com"]];
             matcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:@[strategy]];
             expect([matcher connectionForEmail:@"pepe@anotherdomain.com"]).to.equal(connection);
         });

@@ -1,4 +1,4 @@
-// A0DatabaseLoginCredentialValidator.h
+// A0ConfirmPasswordValidator.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,11 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0CredentialValidator.h"
-#import "A0BasicValidator.h"
+#import "A0ConfirmPasswordValidator.h"
+#import "A0Errors.h"
 
-@interface A0DatabaseLoginCredentialValidator : A0BasicValidator<A0CredentialValidator>
+NSString * const A0ConfirmPasswordValidatorIdentifer = @"A0ConfirmPasswordValidatorIdentifer";
 
-- (void)setUsername:(NSString *)username password:(NSString *)password;
+@interface A0ConfirmPasswordValidator ()
+@property (weak, nonatomic) UITextField *field;
+@property (weak, nonatomic) UITextField *passwordField;
+@end
 
+@implementation A0ConfirmPasswordValidator
+
+@synthesize identifier = _identifier;
+
+- (instancetype)initWithField:(UITextField *)field passwordField:(UITextField *)passwordField {
+    NSAssert(field != nil && passwordField != nil, @"Both confirm and password field shoulb be non-nil");
+    self = [super init];
+    if (self) {
+        _identifier = @"Confirm Password";
+        _field = field;
+        _passwordField = passwordField;
+    }
+    return self;
+}
+
+- (NSError *)validate {
+    BOOL valid = self.field.text.length > 0 && [self.field.text isEqualToString:self.passwordField.text];
+    return valid ? nil : [A0Errors invalidRepeatPassword];
+}
 @end

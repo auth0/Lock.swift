@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 typedef NS_ENUM(NSInteger, A0ErrorCode) {
     A0ErrorCodeAuthenticationFailed = 0,
     /**
@@ -29,9 +30,13 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
      */
     A0ErrorCodeInvalidCredentials,
     /**
-     *  Username/Email is invalid
+     *  Username is invalid
      */
     A0ErrorCodeInvalidUsername,
+    /**
+     *  Email is invalid.
+     */
+    A0ErrorCodeInvalidEmail,
     /**
      *  Password is invalid
      */
@@ -106,6 +111,8 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 
 @interface A0Errors : NSObject
 
++ (NSError *)errorWithCode:(NSInteger)code userInfo:(NSDictionary *)userInfo;
+
 + (NSError *)noConnectionNameFound;
 
 + (NSError *)notConnectedToInternetError;
@@ -113,6 +120,14 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 + (BOOL)isAuth0Error:(NSError *)error withCode:(A0ErrorCode)code;
 
 + (BOOL)isCancelledSocialAuthentication:(NSError *)error;
+
++ (NSError *)invalidUsername;
+
++ (NSError *)invalidEmail;
+
++ (NSError *)invalidPassword;
+
++ (NSError *)invalidRepeatPassword;
 
 ///----------------------------------------
 /// @name Login Errors

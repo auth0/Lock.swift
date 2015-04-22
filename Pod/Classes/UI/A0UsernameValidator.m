@@ -1,4 +1,4 @@
-//  A0Connection.m
+// A0UsernameValidator.m
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,40 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0Connection.h"
+#import "A0UsernameValidator.h"
+#import "A0Errors.h"
 
-NSString * const A0ConnectionRequiresUsername = @"requires_username";
-NSString * const A0ConnectionDomain = @"domain";
-NSString * const A0ConnectionDomainAliases = @"domain_aliases";
-NSString * const A0ConnectionShowForgot = @"showForgot";
-NSString * const A0ConnectionShowSignUp = @"showSignup";
+NSString * const A0UsernameValidatorIdentifier = @"A0UsernameValidatorIdentifier";
 
-@interface A0Connection ()
-
-@property (strong, nonatomic) NSDictionary *values;
-
+@interface A0UsernameValidator ()
+@property (weak, nonatomic) UITextField *field;
 @end
 
-@implementation A0Connection
+@implementation A0UsernameValidator
 
-- (instancetype)initWithJSONDictionary:(NSDictionary *)JSON {
+@synthesize identifier = _identifier;
+
+- (instancetype)initWithField:(UITextField *)field {
+    NSAssert(field != nil, @"Must provide a UITextField instance");
     self = [super init];
     if (self) {
-        NSAssert([JSON[@"name"] length] > 0, @"Must have a valid name");
-        _values = [NSDictionary dictionaryWithDictionary:JSON];
+        _identifier = A0UsernameValidatorIdentifier;
+        _field = field;
     }
     return self;
 }
 
-- (NSString *)name {
-    return self.values[@"name"];
+- (NSError *)validate {
+    NSString *trimmedText = [self.field.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    BOOL valid = trimmedText.length > 0;
+    return valid ? nil : [A0Errors invalidUsername];
 }
 
-- (id)objectForKeyedSubscript:(NSString *)key {
-    return self.values[key];
-}
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<A0Connection name = %@; values %@>", self.values[@"name"], self.values];
-}
 @end

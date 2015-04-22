@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 #import "A0AuthenticationUIComponent.h"
 
-@class A0ChangePasswordCredentialValidator, A0AuthParameters, A0CredentialFieldView, A0Connection;
+@class A0CredentialsValidator, A0AuthParameters, A0CredentialFieldView, A0Connection;
 
 @interface A0ChangePasswordViewController : UIViewController<A0AuthenticationUIComponent>
 
@@ -32,7 +32,8 @@
 @property (copy, nonatomic) void(^onChangePasswordBlock)();
 
 @property (copy, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0ChangePasswordCredentialValidator *validator;
+@property (assign, nonatomic) BOOL forceUsername;
+@property (strong, nonatomic) A0CredentialsValidator *validator;
 @property (copy, nonatomic) NSString *defaultEmail;
 @property (strong, nonatomic) A0Connection *defaultConnection;
 
