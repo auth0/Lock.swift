@@ -127,14 +127,17 @@
 - (void)storeLoginInfo:(id)sender {
 #ifdef AUTH0_1PASSWORD
     @weakify(self);
-    [[A0PasswordManager sharedInstance] saveLoginInformationForUsername:self.userField.textField.text
+    UITextField *userField = self.usernameField.textField ?: self.userField.textField;
+    [[A0PasswordManager sharedInstance] saveLoginInformationForUsername:userField.text
                                                                password:self.passwordField.textField.text
-                                                              loginInfo:nil
+                                                              loginInfo:@{
+                                                                          @"email": self.userField.textField,
+                                                                          }
                                                              controller:self
                                                                  sender:sender
                                                              completion:^(NSString *username, NSString *password) {
                                                                  @strongify(self);
-                                                                 self.userField.textField.text = username;
+                                                                 userField.text = username;
                                                                  self.passwordField.textField.text = password;
                                                                  [self signUp:sender];
                                                              }];
