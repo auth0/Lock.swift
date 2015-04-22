@@ -94,6 +94,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
 
+    BOOL requiresUsername = [self.defaultConnection[A0ConnectionRequiresUsername] boolValue];
     self.signUpButton.hidden = !self.showSignUp;
     self.forgotPasswordButton.hidden = !self.showResetPassword;
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
@@ -101,7 +102,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (self.defaultConnection) {
         [self.parameters setValue:self.defaultConnection.name forKey:A0ParameterConnection];
     }
-    self.userField.textField.placeholder = self.forceUsername ? A0LocalizedString(@"Username") : A0LocalizedString(@"Email");
+    if (requiresUsername) {
+        self.userField.textField.placeholder = A0LocalizedString(@"Username/Email");
+    } else {
+        self.userField.textField.placeholder = self.forceUsername ? A0LocalizedString(@"Username") : A0LocalizedString(@"Email");
+    }
+
     self.userField.textField.text = self.defaultUsername;
     self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
     [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
@@ -109,7 +115,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     NSMutableArray *validators = [@[
                                     [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],
                                     ] mutableCopy];
-    if (self.forceUsername) {
+    if (self.forceUsername || requiresUsername) {
         [validators addObject:[[A0UsernameValidator alloc] initWithField:self.userField.textField]];
     } else {
         [validators addObject:[[A0EmailValidator alloc] initWithField:self.userField.textField]];
