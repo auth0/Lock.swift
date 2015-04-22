@@ -38,19 +38,8 @@
 
 @implementation A0EnterpriseLoginViewController
 
-- (instancetype)init {
-    self =  [super init];
-    if (self) {
-        self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
-                                                                              [[A0UsernameValidator alloc] initWithField:self.userField.textField],
-                                                                              [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],
-                                                                              ]];
-    }
-    return self;
-}
-
 - (instancetype)initWithEmail:(NSString *)email {
-    self = [self init];
+    self = [super init];
     if (self) {
         NSArray *parts = [email componentsSeparatedByString:@"@"];
         NSString *localPart = [parts firstObject];
@@ -65,6 +54,10 @@
     self.messageLabel.text = [NSString stringWithFormat:message, self.connection[A0ConnectionDomain]];
     self.userField.textField.text = self.defaultUsername;
     [self.parameters setValue:self.connection.name forKey:A0ParameterConnection];
+    self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
+                                                                          [[A0UsernameValidator alloc] initWithField:self.userField.textField],
+                                                                          [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],
+                                                                          ]];
 }
 
 @end

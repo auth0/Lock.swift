@@ -100,7 +100,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0Connection *connection = self.matchedConnection ?: self.defaultConnection;
         A0Application *application = [[A0APIClient sharedClient] application];
         A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
-        if (![strategy.name isEqualToString:A0StrategyNameActiveDirectory]) {
+        if (!strategy.useResourceOwnerEndpoint) {
             [self loginUserWithConnection:connection];
         } else {
             [self.accessButton setInProgress:YES];

@@ -132,6 +132,11 @@ typedef NS_ENUM(NSUInteger, A0StrategyType) {
 @property (readonly, nonatomic) A0StrategyType type;
 
 /**
+ *  If the strategy should authenticate with the `/ro` endpoint.
+ */
+@property (readonly, nonatomic) BOOL useResourceOwnerEndpoint;
+
+/**
  *  Initialise with a JSON dictionary
  *
  *  @param JSONDictionary JSON dictionary
