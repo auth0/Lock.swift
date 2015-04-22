@@ -28,7 +28,6 @@
 
 @property (strong, nonatomic) A0Connection *connection;
 
-- (instancetype)init;
 - (instancetype)initWithEmail:(NSString *)email;
 
 @end
