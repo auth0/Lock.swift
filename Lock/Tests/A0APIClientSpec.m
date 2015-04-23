@@ -33,13 +33,13 @@
 #import "A0APIRouter.h"
 #import "A0Application.h"
 #import "A0Connection.h"
-#import "Tests-Swift.h"
 #import "A0Token.h"
 #import "A0Strategy.h"
 #import "A0AuthParameters.h"
 #import "A0AnnotatedRequestSerializer.h"
 #import "A0IdentityProviderCredentials.h"
 #import "A0HTTPStubber.h"
+#import "A0HttpKeeper.h"
 
 #define AS_NSURL(urlString) [NSURL URLWithString:urlString]
 
@@ -167,7 +167,7 @@ describe(@"A0APIClient", ^{
                 return [request.URL.absoluteString isEqualToString:[client.router configurationURL].absoluteString];
             } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                 NSDictionary *json = @{@"error" : @"not_found"};
-                return [OHHTTPStubsResponse responseWithJSONObject:json statusCode:404 headers:nil];
+                return [OHHTTPStubsResponse responseWithJSONObject:json statusCode:404 headers:@{@"Content-Type":@"application/json"}];
             }].name = @"No Auth0 App in CDN";
             waitUntil(^(DoneCallback done) {
                 [client fetchAppInfoWithSuccess:^(A0Application *application) {

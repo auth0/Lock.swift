@@ -1,8 +1,1 @@
-HTTP/1.1 200 OK
-Date: Fri, 30 Jan 2015 01:20:32 GMT
-Content-Type: application/json; charset=utf-8
-Content-Length: 464
-Connection: keep-alive
-set-cookie: auth0=tZyhbaMjgFZwV5d3f675Yg.AZCk6Y7VXzfP-5Ep2moBkeutQKMle5oMV6bYTjZoy7c.1422580832116.86400000.6tDCP1E_xWF6UdPdLHwArnIYk4vgW9nEtk2gurHcPi0; path=/; secure; httponly
-
 {"token_type":"Bearer","expires_in":36000,"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL292ZXJtaW5kLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1M2I5OTVmOGJjZTY4ZDlmYzkwMDA5OWMiLCJhdWQiOiJVNU1oVXJieVFIU1ZXamxFcVpTVENCVUZBQkxiSkFTMyIsImV4cCI6MTQyMjYxNjgzMiwiaWF0IjoxNDIyNTgwODMyLCJ2IjowLCJkIjp7ImZiX2lkIjoiYXV0aDB8NTNiOTk1ZjhiY2U2OGQ5ZmM5MDAwOTljIn0sImF6cCI6IlU1TWhVcmJ5UUhTVldqbEVxWlNUQ0JVRkFCTGJKQVMzIn0.6ELSIi1sbZpvlIkBDocmKD8IFsnm4sj3EXWjhmRS32k"}

@@ -152,6 +152,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         } else {
             A0LogError(@"Request to %@ failed with error %@", response.URL, error);
             NSError *taskError = error.code == NSURLErrorNotConnectedToInternet ? [A0Errors notConnectedToInternetError] : error;
+            if (!taskError) {
+                taskError = [A0Errors configurationLoadFailed];
+            }
             if (failure) {
                 failure(taskError);
             }

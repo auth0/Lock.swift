@@ -1,18 +1,1 @@
-HTTP/1.1 200 OK
-Date: Wed, 28 Jan 2015 17:45:21 GMT
-Content-Type: application/x-javascript
-Transfer-Encoding: chunked
-Connection: keep-alive
-x-amz-meta-surrogate-control: max-age=2592000
-Cache-Control: max-age=0
-Last-Modified: Tue, 27 Jan 2015 15:01:05 GMT
-ETag: W/"9481b689bef4c2bded0f750ba21dacfd"
-Age: 1630
-X-Cache: HIT
-Accept-Ranges: bytes
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Methods: GET, HEAD, OPTIONS
-Access-Control-Allow-Headers: *
-X-Frame-Options: DENY
-
 Auth0.setClient({"id":"rU5HShUyQlEqbVWjZSTCBBLMUFAbJAS3","tenant":"samples","subscription":"dev","authorize":"https://samples.auth0.com/authorize","callback":"http://localhost:3000/","hasAllowedOrigins":true,"strategies":[{"name":"facebook","connections":[{"name":"facebook","scope":"public_profile"}]},{"name":"google-oauth2","connections":[{"name":"google-oauth2","scope":["email","profile",null]}]},{"name":"instagram","connections":[{"name":"instagram","scope":["basic"]}]},{"name":"sms","connections":[{"name":"sms"}]},{"name":"twitter","connections":[{"name":"twitter"}]}]});

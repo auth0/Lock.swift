@@ -81,6 +81,12 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:A0LocalizedString(@"The passwords you entered must match. Please try again.")];
 }
 
++ (NSError *)configurationLoadFailed {
+    return [self errorWithCode:A0ErrorCodeConfigurationLoadFailed
+                   description:A0LocalizedString(@"Failed to load Auth0 configuration")
+                 failureReason:A0LocalizedString(@"Auth0 configuration for your app is not available. Please try again later.")];
+}
+
 #pragma mark - Login errors
 
 + (NSError *)defaultLoginErrorFor:(NSError *)error {

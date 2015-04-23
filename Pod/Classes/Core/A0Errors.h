@@ -104,7 +104,11 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
     /**
      *  When Google+ authentication was cancelled by the user.
      */
-    A0ErrorCodeGooglePlusCancelled
+    A0ErrorCodeGooglePlusCancelled,
+    /**
+     *  When Auth0 App information cannot be retrieved from configuration URL.
+     */
+    A0ErrorCodeConfigurationLoadFailed,
 };
 
 FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
@@ -128,6 +132,8 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 + (NSError *)invalidPassword;
 
 + (NSError *)invalidRepeatPassword;
+
++ (NSError *)configurationLoadFailed;
 
 ///----------------------------------------
 /// @name Login Errors
