@@ -36,16 +36,16 @@
 #import "A0AuthParameters.h"
 #import "A0UIUtilities.h"
 #import "A0PasswordFieldView.h"
+#import "A0PasswordValidator.h"
+#import "A0UsernameValidator.h"
+#import "A0EmailValidator.h"
+#import "A0CredentialsValidator.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
 
 #if __has_include("A0PasswordManager.h")
 #import "A0PasswordManager.h"
-#import "A0PasswordValidator.h"
-#import "A0UsernameValidator.h"
-#import "A0EmailValidator.h"
-#import "A0CredentialsValidator.h"
 #endif
 
 #import "UIViewController+LockNotification.h"
