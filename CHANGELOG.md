@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ##master
 
+## 1.11.0 - 2015-04-23
+
 ###Added
 - Fetch `requires_username` flag of DB connections to allow Signing Up with email & username.
 - Use EU CDN when Auth0 domain is in EU region.

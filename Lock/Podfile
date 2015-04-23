@@ -22,7 +22,7 @@ target 'Tests', :exclusive => true do
   pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
   pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
 
-  pod 'Specta', '~> 0.3.2'
+  pod 'Specta', '~> 0.5'
   pod 'Expecta'
   pod 'OCMockito'
   pod 'OHHTTPStubs'
