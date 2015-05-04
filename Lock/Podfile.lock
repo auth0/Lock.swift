@@ -79,56 +79,56 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
-  - Lock (1.11.0):
+  - Lock (1.11.1):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
-    - Lock/Core (= 1.11.0)
-    - Lock/Facebook (= 1.11.0)
-    - Lock/Twitter (= 1.11.0)
-    - Lock/UI (= 1.11.0)
-  - Lock/1Password (1.11.0):
+    - Lock/Core (= 1.11.1)
+    - Lock/Facebook (= 1.11.1)
+    - Lock/Twitter (= 1.11.1)
+    - Lock/UI (= 1.11.1)
+  - Lock/1Password (1.11.1):
     - 1PasswordExtension (~> 1.2)
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/Core (1.11.0):
+  - Lock/Core (1.11.1):
     - AFNetworking (~> 2.5)
     - CocoaLumberjack (~> 2.0.0-rc)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
-  - Lock/Facebook (1.11.0):
+  - Lock/Facebook (1.11.1):
     - CocoaLumberjack (~> 2.0.0-rc)
     - Facebook-iOS-SDK (~> 3.15)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/GooglePlus (1.11.0):
+  - Lock/GooglePlus (1.11.1):
     - CocoaLumberjack (~> 2.0.0-rc)
     - googleplus-ios-sdk (~> 1.7.1)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/ReactiveCore (1.11.0):
+  - Lock/ReactiveCore (1.11.1):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ReactiveCocoa (~> 2.3)
-  - Lock/SMS (1.11.0):
+  - Lock/SMS (1.11.1):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/UI
-  - Lock/TouchID (1.11.0):
+  - Lock/TouchID (1.11.1):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/UI
     - SimpleKeychain (~> 0.2)
     - TouchIDAuth (~> 0.1)
-  - Lock/Twitter (1.11.0):
+  - Lock/Twitter (1.11.1):
     - BDBOAuth1Manager (~> 1.5.0)
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Lock/UI (1.11.0):
+  - Lock/UI (1.11.1):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
@@ -139,7 +139,7 @@ PODS:
   - OCHamcrest (4.1.1)
   - OCMockito (1.4.0):
     - OCHamcrest (~> 4.0)
-  - OHHTTPStubs (4.0.0)
+  - OHHTTPStubs (4.0.1)
   - PSAlertView (2.0.3)
   - ReactiveCocoa (2.5):
     - ReactiveCocoa/UI (= 2.5)
@@ -171,7 +171,7 @@ DEPENDENCIES:
   - OCMockito
   - OHHTTPStubs
   - SimpleKeychain
-  - Specta (~> 0.3)
+  - Specta (~> 0.5)
 
 EXTERNAL SOURCES:
   Lock:
@@ -189,13 +189,13 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   JWTDecode: bff190dc06ff9ee7a3a244c454dc8ef05962c994
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  Lock: a148a88a70d7d4f6f9527afafea9a2b901063ac5
+  Lock: a506aad549fe42a8cac1b8653e8191c067722ad3
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
   OAuthCore: 43dce261db846a1fe20234d95654257e00e78581
   OCHamcrest: 6f03ffa81d12feab872638490a44ab0a6d3aca10
   OCMockito: 4981140c9a9ec06c31af40f636e3c0f25f27e6b2
-  OHHTTPStubs: 3d65d31dd8389a8adabcc086ff2cc99c02e49bcc
+  OHHTTPStubs: 69b1d48b7dfe838a355fdf48d8592d1042e3d85f
   PSAlertView: 16d35f5dba549418492cf68a750d4f0dca21f4a2
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   SimpleKeychain: 8de48eb1de10c6403911a6be52e127e5b5d31404
@@ -203,4 +203,4 @@ SPEC CHECKSUMS:
   TouchIDAuth: f63596baf1c23d85211ab7a3b4bea794d73f3e36
   TWReverseAuth: d2deef3521fa6bee32eabab67f114c2c4a53d4f5
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.37.0
