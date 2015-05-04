@@ -339,12 +339,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.loginUser = self.loginAfterSignUp;
     controller.parameters = [self copyAuthenticationParameters];
     controller.defaultConnection = self.configuration.defaultDatabaseConnection;
-    @weakify(self);
-    if (self.signUpDisclaimerView) {
-        [controller addDisclaimerSubview:self.signUpDisclaimerView];
-    }
     controller.onSignUpBlock = success;
+    [controller addDisclaimerSubview:self.signUpDisclaimerView];
     [self.navigationView removeAll];
+    @weakify(self);
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         @strongify(self);
         [self layoutRootController];
