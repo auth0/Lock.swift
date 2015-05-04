@@ -51,10 +51,11 @@
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
 @property (weak, nonatomic) IBOutlet A0PasswordFieldView *passwordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIView *disclaimerView;
+@property (weak, nonatomic) IBOutlet UIView *disclaimerContainerView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
 @property (weak, nonatomic) IBOutlet UIView *usernameSeparatorView;
+@property (weak, nonatomic) UIView *userDisclaimerView;
 
 @property (assign, nonatomic) BOOL requiresUsername;
 
@@ -118,6 +119,7 @@
         [validators addObject:[[A0EmailValidator alloc] initWithField:self.userField.textField]];
     }
     self.validator = [[A0CredentialsValidator alloc] initWithValidators:validators];
+    [self layoutDisclaimerView:self.userDisclaimerView];
 }
 
 - (void)dealloc {
@@ -195,8 +197,7 @@
 }
 
 - (void)addDisclaimerSubview:(UIView *)view {
-    [self.disclaimerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [self.disclaimerView addSubview:view];
+    self.userDisclaimerView = view;
 }
 
 #pragma mark - A0KeyboardEnabledView
@@ -242,4 +243,17 @@
     }
 }
 
+#pragma mark - Utility methods
+
+- (void)layoutDisclaimerView:(UIView *)disclaimerView {
+    [self.disclaimerContainerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    if (!disclaimerView) {
+        return;
+    }
+    [self.disclaimerContainerView addSubview:disclaimerView];
+    disclaimerView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSDictionary *views = NSDictionaryOfVariableBindings(disclaimerView);
+    [self.disclaimerContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[disclaimerView]-|" options:0 metrics:nil views:views]];
+    [self.disclaimerContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[disclaimerView]-|" options:0 metrics:nil views:views]];
+}
 @end

@@ -7,7 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SignUpViewController">
             <connections>
                 <outlet property="credentialBoxView" destination="cls-os-Kzf" id="tl0-Bu-bbt"/>
-                <outlet property="disclaimerView" destination="IhG-Wj-xDi" id="XYm-wL-70m"/>
+                <outlet property="disclaimerContainerView" destination="IhG-Wj-xDi" id="aaC-vX-ww2"/>
                 <outlet property="messageLabel" destination="gL1-Ds-LKT" id="5Rp-gY-oak"/>
                 <outlet property="passwordField" destination="R6f-hv-Q3N" id="qFe-lk-MvB"/>
                 <outlet property="signUpButton" destination="BV3-3N-All" id="0jt-Mt-c2t"/>
@@ -181,9 +181,6 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IhG-Wj-xDi">
                     <rect key="frame" x="0.0" y="261" width="280" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="yQf-aO-1nk"/>
-                    </constraints>
                 </view>
             </subviews>
             <constraints>
