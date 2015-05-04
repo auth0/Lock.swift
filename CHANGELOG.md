@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ##master
 
+###Changed
+- Cusotm disclaimer view layout in Sign Up screen.
+
 ## 1.11.0 - 2015-04-23
 
 ###Added
