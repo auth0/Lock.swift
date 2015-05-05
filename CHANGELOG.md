@@ -3,10 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ##master
 
+## 1.11.2 - 2015-05-05
+
+###Changed
+- A0WebViewController is now part of the public interface of Lock.
+
 ## 1.11.1 - 2015-05-04
 
 ###Changed
-- Cusotm disclaimer view layout in Sign Up screen.
+- Custom disclaimer view layout in Sign Up screen.
 
 ## 1.11.0 - 2015-04-23
 
