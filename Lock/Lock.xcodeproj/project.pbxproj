@@ -16,6 +16,7 @@
 		5F1DA1AB1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1DA1AA1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m */; };
 		5F1DA1AD1A7C093500E7BA6D /* AppInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */; };
 		5F22B5D619E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */; };
+		5F22E6ED1AFBC6E80037859D /* A0LockSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */; };
 		5F3237351A7A858E00B58994 /* A0AnnotatedRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3237341A7A858E00B58994 /* A0AnnotatedRequestSerializer.m */; };
 		5F35161619B8CBA500574C11 /* A0UserIdentitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */; };
 		5F3A9C561A0D16FF00154DF2 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3A9C541A0D16FF00154DF2 /* Crashlytics.framework */; };
@@ -86,6 +87,7 @@
 		5F1DA1AA1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockConfigurationSpec.m; sourceTree = "<group>"; };
 		5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = AppInfo.json; path = ../AppInfo.json; sourceTree = "<group>"; };
 		5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FilteredConnectionDomainMatcherSpec.m; sourceTree = "<group>"; };
+		5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockSpec.m; sourceTree = "<group>"; };
 		5F3237331A7A858E00B58994 /* A0AnnotatedRequestSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0AnnotatedRequestSerializer.h; path = Utils/A0AnnotatedRequestSerializer.h; sourceTree = "<group>"; };
 		5F3237341A7A858E00B58994 /* A0AnnotatedRequestSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = A0AnnotatedRequestSerializer.m; path = Utils/A0AnnotatedRequestSerializer.m; sourceTree = "<group>"; };
 		5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserIdentitySpec.m; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				5FEDA4B71A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m */,
 				5FEDA4BC1A1E60F3009B1C2F /* A0ConfirmPasswordValidatorSpec.m */,
 				5FEDA4C11A1E7589009B1C2F /* A0CredentialsValidatorSpec.m */,
+				5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -563,6 +566,7 @@
 				5FC45F8D1AE5942400427E31 /* A0HTTPStubber.m in Sources */,
 				5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */,
 				5F7112E519D5C18B001971BE /* A0AuthParametersSpec.m in Sources */,
+				5F22E6ED1AFBC6E80037859D /* A0LockSpec.m in Sources */,
 				5FEDA4BD1A1E60F3009B1C2F /* A0ConfirmPasswordValidatorSpec.m in Sources */,
 				5F35161619B8CBA500574C11 /* A0UserIdentitySpec.m in Sources */,
 				5F3237351A7A858E00B58994 /* A0AnnotatedRequestSerializer.m in Sources */,
