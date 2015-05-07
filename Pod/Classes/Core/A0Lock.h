@@ -21,11 +21,12 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import "A0APIClientProvider.h"
 
 /**
  *  Main interface with Auth0 Lock for iOS.
  */
-@interface A0Lock : NSObject
+@interface A0Lock : NSObject<A0APIClientProvider>
 
 /**
  *  Auth0 account's client identifier
@@ -42,6 +43,18 @@
 
 /**
  *  Initialise a new instance with values from NSBundle
+ *  The valid keys are the following:
+
+ *  ClientId: "Auth0ClientId"
+ *  Tenant: "Auth0Tenant"
+ *  Domain: "Auth0Domain"
+ *  Config Domain: "Auth0ConfigurationDomain"
+ *
+ *  It can be any of these configurations:
+ *  1. Domain + Domain Config + Client Id
+ *  2. Domain + Client Id
+ *  3. Tenant + Client Id
+ *  The order also determines the precende, so if (1) and (2) are found in the dictionary, the option (1) will be used instead of (2).
  *
  *  @return an instance of A0Lock
  */
@@ -89,7 +102,7 @@
  *  @param domain              account domain
  *  @param configurationDomain domain where the account configuration can be obtained. By default https://cdn.auth0.com for US or https://cdn.eu.auth0.com for EU
  *
- *  @return <#return value description#>
+ *  @return a new instance
  */
 + (instancetype)newLockWithClientId:(NSString *)clientId
                              domain:(NSString *)domain

@@ -37,8 +37,6 @@ SpecBegin(A0Lock)
 
 describe(@"A0Lock", ^{
 
-    __block A0Lock *lock;
-
     describe(@"initialization", ^{
 
         sharedExamplesFor(@"valid Lock", ^(NSDictionary *data) {
@@ -151,6 +149,56 @@ describe(@"A0Lock", ^{
                                             @"configurationDomain": [NSString stringWithFormat:@"https://%@/client/%@.js", kConfigurationDomain, kClientId],
                                             @"clientId": kClientId,
                                             });
+
+
+        it(@"should fail to create", ^{
+            expect(^{
+                [A0Lock newLockWithClientId:nil domain:nil];
+            }).to.raise(NSInternalInconsistencyException);
+        });
+
+        it(@"should fail to create", ^{
+            expect(^{
+                [A0Lock newLockWithClientId:kClientId domain:nil];
+            }).to.raise(NSInternalInconsistencyException);
+        });
+
+        it(@"should fail to create", ^{
+            expect(^{
+                [A0Lock newLockWithClientId:nil domain:kDomain];
+            }).to.raise(NSInternalInconsistencyException);
+        });
+
+        it(@"should fail to create", ^{
+            expect(^{
+                [A0Lock newLockWithClientId:nil domain:nil configurationDomain:nil];
+            }).to.raise(NSInternalInconsistencyException);
+        });
+
+        it(@"should fail to create", ^{
+            expect(^{
+                [A0Lock newLockWithClientId:kClientId domain:nil configurationDomain:nil];
+            }).to.raise(NSInternalInconsistencyException);
+        });
+
+        it(@"should fail to create", ^{
+            expect(^{
+                [A0Lock newLockWithClientId:nil domain:kDomain configurationDomain:nil];
+            }).to.raise(NSInternalInconsistencyException);
+            
+        });
+
+        it(@"should fail to create", ^{
+            expect(^{
+                [A0Lock newLockWithClientId:nil domain:nil configurationDomain:kConfigurationDomain];
+            }).to.raise(NSInternalInconsistencyException);
+        });
+
+        it(@"should fail to create", ^{
+            expect(^{
+                NSAssert([[A0Lock alloc] initWithBundleInfo:@{}], @"Non nil");
+            }).to.raise(NSInternalInconsistencyException);
+        });
 
     });
 

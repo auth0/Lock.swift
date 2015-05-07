@@ -53,6 +53,18 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
+- (instancetype)initWithClientId:(NSString *)clientId domainURL:(NSURL *)domainURL configurationURL:(NSURL *)configurationURL {
+    self = [super init];
+    if (self) {
+        _endpointURL = domainURL;
+        _configurationURL = configurationURL;
+        A0LogInfo(@"Base URL of API is %@", self.endpointURL);
+        A0LogInfo(@"Configuration URL is %@", self.configurationURL);
+        _clientId = clientId;
+    }
+    return self;
+}
+
 - (void)configureWithBundleInfo:(NSDictionary *)bundleInfo {
     NSString *domain = bundleInfo[kDomainKey];
     NSString *configDomain = bundleInfo[kConfigurationDomainKey];

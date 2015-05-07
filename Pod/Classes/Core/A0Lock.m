@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 
 #import "A0Lock.h"
+#import "A0APIv1Router.h"
+#import "A0APIClient.h"
 
 #define kCDNConfigurationURL @"https://cdn.auth0.com"
 #define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
@@ -47,6 +49,8 @@
 
 @implementation A0Lock
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)init {
     return [self initWithBundleInfo:[[NSBundle mainBundle] infoDictionary]];
 }
@@ -56,6 +60,7 @@
     NSString *clientId = info[kClientIdKey];
     NSString *domain = info[kDomainKey];
     NSString *configurationDomain = info[kConfigurationDomainKey];
+    A0LogVerbose(@"Loaded info from bundle %@", info);
     if (configurationDomain) {
         return [self initWithClientId:clientId domain:domain ?: [NSString stringWithFormat:@"https://%@.auth0.com", tenant] configurationDomain:configurationDomain];
     }
@@ -63,12 +68,17 @@
 }
 
 - (instancetype)initWithClientId:(NSString *)clientId domain:(NSString *)domain {
+    NSAssert(clientId.length > 0, @"Must supply a valid clientId");
+    NSAssert(domain.length > 0, @"Must supply a valid domain");
     NSURL *domainURL = [NSURL URLWithAuth0Domain:domain];
     NSURL *configurationURL = [domainURL.host hasSuffix:@".eu.auth0.com"] ? [NSURL URLWithString:kEUCDNConfigurationURL] : [NSURL URLWithString:kCDNConfigurationURL];
     return [self initWithClientId:clientId domain:domain configurationDomain:configurationURL.absoluteString];
 }
 
 - (instancetype)initWithClientId:(NSString *)clientId domain:(NSString *)domain configurationDomain:(NSString *)configurationDomain {
+    NSAssert(clientId.length > 0, @"Must supply a valid clientId");
+    NSAssert(domain.length > 0, @"Must supply a valid domain");
+    NSAssert(configurationDomain.length > 0, @"Must supply a valid configuration domain");
     self = [super init];
     if (self) {
         _clientId = clientId;
@@ -76,9 +86,15 @@
         NSString *clientPath = [[@"client" stringByAppendingPathComponent:clientId] stringByAppendingPathExtension:@"js"];
         NSURL *configurationURL = [NSURL URLWithAuth0Domain:configurationDomain];
         _configurationURL = [NSURL URLWithString:clientPath relativeToURL:configurationURL];
+        A0LogDebug(@"Auth0 Lock initialised with clientId: (%@) domainURL: (%@) configurationURL: (%@)", _clientId, _domainURL, _configurationURL);
     }
 
     return self;
+}
+
+- (A0APIClient *)apiClient {
+    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:self.clientId domainURL:self.domainURL configurationURL:self.configurationURL];
+    return [[A0APIClient alloc] initWithAPIRouter:router];
 }
 
 + (instancetype)newLockWithClientId:(NSString *)clientId domain:(NSString *)domain {
