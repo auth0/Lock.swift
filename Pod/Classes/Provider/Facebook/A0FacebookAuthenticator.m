@@ -21,15 +21,17 @@
 // THE SOFTWARE.
 
 #import "A0FacebookAuthenticator.h"
+
+#import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
+#import <libextobjc/EXTScope.h>
+
 #import "A0Errors.h"
 #import "A0Strategy.h"
 #import "A0Application.h"
 #import "A0APIClient.h"
 #import "A0IdentityProviderCredentials.h"
 #import "A0AuthParameters.h"
-
-#import <Facebook-iOS-SDK/FacebookSDK/Facebook.h>
-#import <libextobjc/EXTScope.h>
+#import "NSObject+A0APIClientProvider.h"
 
 @interface A0FacebookAuthenticator ()
 @property (strong, nonatomic) NSArray *permissions;
@@ -130,11 +132,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0LogDebug(@"Facebook Permissions %@", permissions);
     return permissions;
 }
+
 - (void)executeAuthenticationWithCredentials:(A0IdentityProviderCredentials *)credentials
                                   parameters:(A0AuthParameters *)parameters
                                      success:(void(^)(A0UserProfile *, A0Token *))success
                                      failure:(void(^)(NSError *))failure {
-    A0APIClient *client = [A0APIClient sharedClient];
+    A0APIClient *client = [self a0_apiClientFromProvider:self.clientProvider];
     [client authenticateWithSocialConnectionName:self.identifier
                                      credentials:credentials
                                       parameters:parameters

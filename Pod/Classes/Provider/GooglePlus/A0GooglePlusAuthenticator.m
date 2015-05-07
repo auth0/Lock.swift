@@ -28,6 +28,7 @@
 #import "A0IdentityProviderCredentials.h"
 #import "A0Errors.h"
 #import "A0AuthParameters.h"
+#import "NSObject+A0APIClientProvider.h"
 
 @interface A0GooglePlusAuthenticator () <GPPSignInDelegate>
 @property (copy, nonatomic) void (^successBlock)(A0UserProfile *, A0Token *);
@@ -113,7 +114,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     } else {
         A0LogVerbose(@"Authenticated with Google+");
         A0IdentityProviderCredentials *credentials = [[A0IdentityProviderCredentials alloc] initWithAccessToken:auth.accessToken];
-        [[A0APIClient sharedClient] authenticateWithSocialConnectionName:A0StrategyNameGooglePlus
+        A0APIClient *client = [self a0_apiClientFromProvider:self.clientProvider];
+        [client authenticateWithSocialConnectionName:A0StrategyNameGooglePlus
                                                              credentials:credentials
                                                               parameters:self.parameters
                                                                  success:self.successBlock

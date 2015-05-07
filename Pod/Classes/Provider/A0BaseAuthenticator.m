@@ -1,4 +1,4 @@
-// A0GooglePlusAuthenticator.h
+// A0BaseAuthenticator.m
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,30 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
 #import "A0BaseAuthenticator.h"
 
-/**
- * `A0GooglePlusAuthenticator` performs Google+ authentication using Google's official SDK.
- */
-@interface A0GooglePlusAuthenticator : A0BaseAuthenticator
+@implementation A0BaseAuthenticator
 
-/**
- *  Creates a new authenticator with default scopes (login and email) and a clientId.
- *
- *  @param clientId application clientId in Google+
- *
- *  @return a new instance
- */
-+ (instancetype)newAuthenticatorWithClientId:(NSString *)clientId;
+- (NSString *)identifier {
+    [self raiseNotImplementedException];
+    return nil;
+}
 
-/**
- *  Creates a new authenticator with a list of scopes and a clientId.
- *
- *  @param clientId application clientId in Google+
- *  @param scopes   list of scopes to send to Google+ API.
- *
- *  @return a new instance
- */
-+ (instancetype)newAuthenticatorWithClientId:(NSString *)clientId andScopes:(NSArray *)scopes;
+- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
+    [self raiseNotImplementedException];
+    return false;
+}
+
+- (void)authenticateWithParameters:(A0AuthParameters *)parameters success:(void (^)(A0UserProfile *, A0Token *))success failure:(void (^)(NSError *))failure {
+    [self raiseNotImplementedException];
+}
+
+- (void)clearSessions {
+    [self raiseNotImplementedException];
+}
+
+- (void)raiseNotImplementedException {
+    [NSException raise:NSInternalInconsistencyException format:@"Method %s is not implemented", __PRETTY_FUNCTION__];
+}
 @end

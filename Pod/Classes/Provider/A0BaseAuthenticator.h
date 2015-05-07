@@ -1,4 +1,4 @@
-// A0GooglePlusAuthenticator.h
+// A0BaseAuthenticator.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -21,29 +21,14 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0BaseAuthenticator.h"
+#import "A0APIClientProvider.h"
+#import "A0AuthenticationProvider.h"
+
+@interface A0BaseAuthenticator : NSObject<A0AuthenticationProvider>
 
 /**
- * `A0GooglePlusAuthenticator` performs Google+ authentication using Google's official SDK.
+ *  Object that will yield a configured Auth0 Auth API client.
  */
-@interface A0GooglePlusAuthenticator : A0BaseAuthenticator
+@property (weak, nonatomic) id<A0APIClientProvider> clientProvider;
 
-/**
- *  Creates a new authenticator with default scopes (login and email) and a clientId.
- *
- *  @param clientId application clientId in Google+
- *
- *  @return a new instance
- */
-+ (instancetype)newAuthenticatorWithClientId:(NSString *)clientId;
-
-/**
- *  Creates a new authenticator with a list of scopes and a clientId.
- *
- *  @param clientId application clientId in Google+
- *  @param scopes   list of scopes to send to Google+ API.
- *
- *  @return a new instance
- */
-+ (instancetype)newAuthenticatorWithClientId:(NSString *)clientId andScopes:(NSArray *)scopes;
 @end
