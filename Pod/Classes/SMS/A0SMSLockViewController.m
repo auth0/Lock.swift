@@ -28,6 +28,7 @@
 #import <libextobjc/EXTScope.h>
 #import "A0NavigationView.h"
 #import "A0TitleView.h"
+#import "A0Lock.h"
 
 #define kCountryCodeKey @"auth0-lock-sms-country-code"
 #define kPhoneNumberKey @"auth0-lock-sms-phone"
@@ -84,6 +85,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self displayController:[self buildSMSSendCode]];
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapRecognizer];
+
+    if (!self.lock) {
+        self.lock = [[A0Lock alloc] init];
+    }
+
 }
 
 - (void)close:(id)sender {
@@ -140,6 +146,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.phoneNumber = phoneNumber;
     controller.parameters = self.authenticationParameters;
     controller.onAuthenticationBlock = self.onAuthenticationBlock;
+    controller.lock = self.lock;
     void(^showRegister)() = ^{
         @strongify(self);
         [self displayController:[self buildSMSSendCode]];

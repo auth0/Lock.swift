@@ -26,7 +26,10 @@
 @implementation NSObject (A0APIClientProvider)
 
 - (A0APIClient *)a0_apiClientFromProvider:(id<A0APIClientProvider>)provider {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated"
     return [provider apiClient] ?: [A0APIClient sharedClient];
+#pragma GCC diagnostic pop
 }
 
 @end

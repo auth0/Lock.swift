@@ -23,13 +23,14 @@
 #import <UIKit/UIKit.h>
 #import "A0ContainerViewController.h"
 
-@class A0AuthParameters, A0UserProfile, A0Token;
+@class A0AuthParameters, A0UserProfile, A0Token, A0Lock;
 
 @interface A0TouchIDRegisterViewController : A0ContainerViewController
 
 @property (copy, nonatomic) void(^onRegisterBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onCancelBlock)();
 
-@property (copy, nonatomic) A0AuthParameters *authenticationParameters;
+@property (copy, nonatomic) A0AuthParameters *parameters;
+@property (strong, nonatomic) A0Lock *lock;
 
 @end

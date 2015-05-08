@@ -34,6 +34,7 @@
 #import "A0SignUpViewController.h"
 #import "A0UIUtilities.h"
 #import "A0TitleView.h"
+#import "A0Lock.h"
 
 @interface A0LockSignUpViewController () <A0SmallSocialAuthenticationCollectionViewDelegate>
 
@@ -167,12 +168,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)loadApplicationInfo {
     @weakify(self);
-    [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
+    [self.lock.apiClient fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         A0LogDebug(@"Obtained application info. Starting to build Lock UI for Sign Up...");
         [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
         A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
         configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
+        self.serviceCollectionView.lock = self.lock;
         [self.serviceCollectionView showSocialServicesForConfiguration:configuration];
         A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
         controller.loginUser = self.loginAfterSignUp;

@@ -43,6 +43,7 @@
 #import "A0CredentialsValidator.h"
 #import "A0UsernameValidator.h"
 #import "A0PasswordValidator.h"
+#import "A0Lock.h"
 
 @interface A0ActiveDirectoryViewController ()
 
@@ -98,7 +99,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)access:(id)sender {
     if (self.matchedConnection || self.defaultConnection) {
         A0Connection *connection = self.matchedConnection ?: self.defaultConnection;
-        A0Application *application = [[A0APIClient sharedClient] application];
+        A0Application *application = [self.lock.apiClient application];
         A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
         if (!strategy.useResourceOwnerEndpoint) {
             [self loginUserWithConnection:connection];
@@ -128,7 +129,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 };
                 A0AuthParameters *parameters = self.parameters.copy;
                 [parameters setValue:connection.name forKey:@"connection"];
-                [[A0APIClient sharedClient] loginWithUsername:username password:password parameters:parameters success:success failure:failure];
+                [self.lock.apiClient loginWithUsername:username password:password parameters:parameters success:success failure:failure];
             } else {
                 [self postLoginErrorNotificationWithError:error];
                 [self.accessButton setInProgress:NO];
@@ -149,7 +150,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)matchDomainInTextField:(UITextField *)textField {
     A0Connection *connection = [self.domainMatcher connectionForEmail:textField.text];
-    A0Strategy *adStrategy = [A0APIClient sharedClient].application.activeDirectoryStrategy;
+    A0APIClient *client = self.lock.apiClient;
+    A0Strategy *adStrategy = client.application.activeDirectoryStrategy;
     BOOL showSingleSignOn = connection && ![adStrategy.connections containsObject:connection];
     if (showSingleSignOn) {
         NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), connection[A0ConnectionDomain]];
@@ -199,7 +201,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         }
     };
 
-    A0Application *application = [A0APIClient sharedClient].application;
+    A0Application *application = [self.lock.apiClient application];
     A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     A0AuthParameters *parameters = self.parameters.copy;
@@ -214,6 +216,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         controller.onAuthentication = successBlock;
         controller.onFailure = failureBlock;
+        controller.lock = self.lock;
         [self presentViewController:controller animated:YES completion:nil];
     }
 }

@@ -52,21 +52,22 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 - (instancetype)initWithAPIRouter:(id<A0APIRouter>)router;
 
 /**
- *  Returns a shared instance of `A0APIClient`. This instance is initialised with clientId and tenant from Info plist file entries. These entries are `Auth0ClientId` and `Auth0Tenant`.
- *  It can also be instantiated with a custom domain instead of Auth0's.
- @return a shared `A0APIClient` instance.
- */
-+ (instancetype)sharedClient;
-
-/**
  Logout from Auth0 API
  */
 - (void)logout;
 
+/**
+ *  Returns a shared instance of `A0APIClient`. This instance is initialised with clientId and tenant from Info plist file entries. These entries are `Auth0ClientId` and `Auth0Tenant`.
+ *  It can also be instantiated with a custom domain instead of Auth0's.
+ *  We recommend keeping yourself the `A0APIClient` instead instead of relying in this singleton, for this reason this method is deprecated.
+ *  @deprecated 1.12.0
+ *  @return a shared `A0APIClient` instance.
+ */
++ (instancetype)sharedClient __attribute__((deprecated));
+
 ///----------------------------------------
 /// @name Configuration for Auth0 App
 ///----------------------------------------
-
 
 /**
  *  Object that provides all URLs and Paths of Auth0 API. By default a router for API v1 is used.

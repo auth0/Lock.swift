@@ -24,13 +24,14 @@
 
 #import "A0KeyboardEnabledView.h"
 
-@class A0AuthParameters;
+@class A0AuthParameters, A0Lock;
 
 /**
  *  Protocol for all UIViewControllers that are part of the native iOS widget.
  */
 @protocol A0AuthenticationUIComponent <A0KeyboardEnabledView>
 
-- (void)setParameters:(A0AuthParameters *)parameters;
+@property (copy, nonatomic) A0AuthParameters *parameters;
+@property (strong, nonatomic) A0Lock *lock;
 
 @end

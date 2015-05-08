@@ -126,6 +126,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         controller.onAuthentication = successBlock;
         controller.onFailure = failureBlock;
+        controller.lock = self.lock;
         [self.authenticationDelegate socialAuthenticationCollectionView:self presentAuthenticationViewController:controller];
     }
 }

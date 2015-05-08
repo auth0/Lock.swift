@@ -34,6 +34,7 @@
 #import "A0UserAPIClient.h"
 #import "A0Theme.h"
 #import "A0TitleView.h"
+#import "A0Lock.h"
 
 NSString * const A0ThemeTouchIDLockButtonImageNormalName = @"A0ThemeTouchIDLockButtonImageNormalName";
 NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchIDLockButtonImageHighlightedName";
@@ -160,7 +161,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 [self.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
             }];
         };
-        controller.authenticationParameters = self.authenticationParameters;
+        controller.parameters = self.authenticationParameters;
+        controller.lock = self.lock;
         [self.navigationController pushViewController:controller animated:YES];
     };
     self.authentication.jwtPayload = ^{
@@ -173,13 +175,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.authentication.authenticate = ^(NSString *jwt, A0ErrorBlock errorBlock) {
         @strongify(self);
         A0LogVerbose(@"Authenticating with signed JWT %@", jwt);
-        A0APIClient *client = [A0APIClient sharedClient];
+        A0APIClient *client = self.lock.apiClient;
         [client loginWithIdToken:jwt
                       deviceName:[self deviceName]
                       parameters:self.authenticationParameters
                          success:self.onAuthenticationBlock
                          failure:errorBlock];
     };
+    if (!self.lock) {
+        self.lock = [[A0Lock alloc] init];
+    }
+
 }
 
 - (void)close:(id)sender {

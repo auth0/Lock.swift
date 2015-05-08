@@ -28,6 +28,7 @@
 #import <SimpleKeychain/A0SimpleKeychain.h>
 #import <JWTDecode/A0JWTDecoder.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "A0LockApplication.h"
 
 @interface A0ViewController ()
 
@@ -46,7 +47,8 @@
     RACCommand *refreshCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
         @strongify(self);
         NSString* refreshToken = [self.keychain stringForKey: @"refresh_token"];
-        return [[A0APIClient sharedClient] fetchNewIdTokenWithRefreshToken:refreshToken parameters:nil];
+        A0APIClient *client = [[[A0LockApplication sharedInstance] lock] apiClient];
+        return [client fetchNewIdTokenWithRefreshToken:refreshToken parameters:nil];
     }];
     [[refreshCommand.executionSignals flatten] subscribeNext:^(A0Token *token) {
         @strongify(self);

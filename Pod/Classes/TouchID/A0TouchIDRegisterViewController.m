@@ -57,7 +57,8 @@
     @weakify(self);
     A0TouchIDSignUpViewController *signUpController = [[A0TouchIDSignUpViewController alloc] init];
     signUpController.onRegisterBlock = self.onRegisterBlock;
-    signUpController.authenticationParameters = self.authenticationParameters;
+    signUpController.parameters = self.parameters;
+    signUpController.lock = self.lock;
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:self.onCancelBlock];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE AN ACCOUNT?") actionBlock:^{
@@ -74,8 +75,9 @@
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.showSignUp = YES;
     controller.showResetPassword = YES;
-    controller.parameters = self.authenticationParameters;
+    controller.parameters = self.parameters;
     controller.onLoginBlock = self.onRegisterBlock;
+    controller.lock = self.lock;
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         @strongify(self);
@@ -93,7 +95,8 @@
 - (A0ChangePasswordViewController *)buildChangePassword {
     @weakify(self);
     A0ChangePasswordViewController *controller = [[A0ChangePasswordViewController alloc] init];
-    controller.parameters = self.authenticationParameters;
+    controller.parameters = self.parameters;
+    controller.lock = self.lock;
     controller.onChangePasswordBlock = ^{
         @strongify(self);
         [self displayController:[self buildLogin]];

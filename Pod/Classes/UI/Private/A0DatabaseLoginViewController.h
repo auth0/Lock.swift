@@ -24,7 +24,7 @@
 #import "A0AuthenticationUIComponent.h"
 #import "A0ConnectionDomainMatcher.h"
 
-@class A0ProgressButton, A0UserProfile, A0CredentialsValidator, A0Token, A0CredentialFieldView, A0AuthParameters,A0Connection, A0PasswordFieldView;
+@class A0UserProfile, A0CredentialsValidator, A0Token, A0CredentialFieldView, A0AuthParameters, A0Connection, A0PasswordFieldView, A0Lock;
 
 @interface A0DatabaseLoginViewController : UIViewController<A0AuthenticationUIComponent>
 
@@ -44,4 +44,5 @@
 @property (strong, nonatomic) A0CredentialsValidator *validator;
 @property (strong, nonatomic) id<A0ConnectionDomainMatcher> domainMatcher;
 
+@property (strong, nonatomic) A0Lock *lock;
 @end

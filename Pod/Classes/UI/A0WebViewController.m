@@ -31,6 +31,7 @@
 #import "A0AuthParameters.h"
 
 #import <libextobjc/EXTScope.h>
+#import "A0Lock.h"
 
 @interface A0WebViewController () <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
@@ -98,7 +99,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         if (token) {
             void(^success)(A0UserProfile *, A0Token *) = self.onAuthentication;
             @weakify(self);
-            [[A0APIClient sharedClient] fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
+            [self.lock.apiClient fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
                 @strongify(self);
                 self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
                 if (success) {

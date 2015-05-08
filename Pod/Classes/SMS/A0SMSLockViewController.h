@@ -23,9 +23,14 @@
 #import <UIKit/UIKit.h>
 #import "A0ContainerViewController.h"
 
-@class A0AuthParameters, A0UserProfile, A0Token;
+@class A0AuthParameters, A0UserProfile, A0Token, A0Lock;
 
 @interface A0SMSLockViewController : A0ContainerViewController
+
+/**
+ *  Instance of Lock with Auth0 account information. By default it will build this object with information from `Info.plist` if none is set.
+ */
+@property (strong, nonatomic) A0Lock *lock;
 
 /**
  Allows the A0AuthenticationViewController to be dismissed by adding a button. Default is NO
