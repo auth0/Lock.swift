@@ -23,6 +23,8 @@
 #import <Foundation/Foundation.h>
 #import "A0APIClientProvider.h"
 
+@class A0APIClient, A0UserAPIClient;
+
 /**
  *  Main interface with Auth0 Lock for iOS.
  */
@@ -107,5 +109,22 @@
 + (instancetype)newLockWithClientId:(NSString *)clientId
                              domain:(NSString *)domain
                 configurationDomain:(NSString *)configurationDomain;
+
+
+/**
+ *  Auth0 Authentication API client.
+ *
+ *  @return an API client
+ */
+- (A0APIClient *)apiClient;
+
+/**
+ *  API client to make request to Auth0 authorized by the id_token
+ *
+ *  @param idToken user's id_token
+ *
+ *  @return an new API client
+ */
+- (A0UserAPIClient *)newUserAPIClientWithIdToken:(NSString *)idToken;
 
 @end

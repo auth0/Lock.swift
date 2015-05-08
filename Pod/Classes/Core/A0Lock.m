@@ -23,6 +23,7 @@
 #import "A0Lock.h"
 #import "A0APIv1Router.h"
 #import "A0APIClient.h"
+#import "A0UserAPIClient.h"
 
 #define kCDNConfigurationURL @"https://cdn.auth0.com"
 #define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
@@ -99,6 +100,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (A0APIClient *)apiClient {
     return self.client;
+}
+
+- (A0UserAPIClient *)newUserAPIClientWithIdToken:(NSString *)idToken {
+    return [[A0UserAPIClient alloc] initWithRouter:self.router idToken:idToken];
 }
 
 - (NSString *)clientId {

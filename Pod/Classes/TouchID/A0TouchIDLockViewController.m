@@ -151,7 +151,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             A0LogDebug(@"User %@ registered. Uploading public key...", profile.userId);
             [keychain setString:profile.userId forKey:@"auth0-userid"];
             NSString *deviceName = [self deviceName];
-            self.userClient = [A0UserAPIClient clientWithIdToken:token.idToken];
+            self.userClient = [self.lock newUserAPIClientWithIdToken:token.idToken];
             [self.userClient removePublicKeyOfDevice:deviceName user:profile.userId success:^{
                 @strongify(self);
                 [self.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
