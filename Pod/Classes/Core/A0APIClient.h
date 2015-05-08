@@ -45,14 +45,6 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 ///----------------------------------------
 
 /**
- Initialise the Client with Auth0's app client ID and tenant name
- @param clientId app's client ID.
- @param tenant app's tenant name
- @return a new `A0APIClient` instance
- */
-- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant;
-
-/**
  Initialise the Client with a API router
  @param router API routes handler
  @return a new `A0APIClient` instance
@@ -351,6 +343,16 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 @end
 
 @interface A0APIClient (Deprecated)
+
+/**
+ *  Initialise the Client with Auth0's app client ID and tenant name
+ *  @param clientId app's client ID.
+ *  @param tenant app's tenant name
+ *
+ *  @deprecated 1.12.0
+ *  @return a new `A0APIClient` instance
+ */
+- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant;
 
 /**
  *  Calls Auth0 delegation API with the refresh_token to obtain a new id_token.

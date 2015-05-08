@@ -36,12 +36,6 @@ typedef void(^A0UserAPIClientError)(NSError *error);
 - (instancetype)initWithRouter:(id<A0APIRouter>)router accessToken:(NSString *)accessToken;
 - (instancetype)initWithRouter:(id<A0APIRouter>)router idToken:(NSString *)idToken;
 
-- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant accessToken:(NSString *)accessToken;
-- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant idToken:(NSString *)idToken;
-
-+ (A0UserAPIClient *)clientWithAccessToken:(NSString *)accessToken;
-+ (A0UserAPIClient *)clientWithIdToken:(NSString *)idToken;
-
 ///----------------------------------------
 /// @name User Profile
 ///----------------------------------------
@@ -86,5 +80,52 @@ typedef void(^A0UserAPIClientError)(NSError *error);
                            user:(NSString *)userId
                         success:(void(^)())success
                         failure:(A0UserAPIClientError)failure;
+
+@end
+
+@interface A0UserAPIClient (Deprecated)
+
+/**
+ *  Initialise a new User API Client
+ *
+ *  @param clientId    account client identifier
+ *  @param tenant      account tenant name
+ *  @param accessToken user's access token
+ *
+ *  @deprecated 1.12.0
+ *  @return a A0UserAPIClient instance
+ */
+- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant accessToken:(NSString *)accessToken __attribute__((deprecated));
+/**
+ *  Initialise a new User API Client
+ *
+ *  @param clientId    account client identifier
+ *  @param tenant      account tenant name
+ *  @param idToken     user's id token
+ *
+ *  @deprecated 1.12.0
+ *  @return a A0UserAPIClient instance
+ */
+- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant idToken:(NSString *)idToken __attribute__((deprecated));
+
+/**
+ *  Creates a new client with an access token
+ *
+ *  @param accessToken user's access token
+ *
+ *  @deprecated 1.12.0
+ *  @return a new instance
+ */
++ (A0UserAPIClient *)clientWithAccessToken:(NSString *)accessToken __attribute__((deprecated));
+
+/**
+ *  Creates a new client with a id token
+ *
+ *  @param idToken user's id token
+ *
+ *  @deprecated 1.12.0
+ *  @return a new instance
+ */
++ (A0UserAPIClient *)clientWithIdToken:(NSString *)idToken __attribute__((deprecated));
 
 @end

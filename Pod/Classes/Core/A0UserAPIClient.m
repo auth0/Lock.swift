@@ -78,36 +78,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return self;
 }
 
-- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant accessToken:(NSString *)accessToken {
-    NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
-    NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
-    A0Lock *lock = [A0Lock newLockWithClientId:clientId domain:[NSString stringWithFormat:@"https://%@.auth0.com", tenant]];
-    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:lock.clientId domainURL:lock.domainURL configurationURL:lock.configurationURL];
-    return [self initWithRouter:router accessToken:accessToken];
-}
-
-- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant idToken:(NSString *)idToken {
-    NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
-    NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
-    A0Lock *lock = [A0Lock newLockWithClientId:clientId domain:[NSString stringWithFormat:@"https://%@.auth0.com", tenant]];
-    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:lock.clientId domainURL:lock.domainURL configurationURL:lock.configurationURL];
-    return [self initWithRouter:router idToken:idToken];
-}
-
-+ (A0UserAPIClient *)clientWithAccessToken:(NSString *)accessToken {
-    A0Lock *lock = [A0Lock new];
-    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:lock.clientId domainURL:lock.domainURL configurationURL:lock.configurationURL];
-    A0UserAPIClient *client = [[A0UserAPIClient alloc] initWithRouter:router accessToken:accessToken];
-    return client;
-}
-
-+ (A0UserAPIClient *)clientWithIdToken:(NSString *)idToken {
-    A0Lock *lock = [A0Lock new];
-    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:lock.clientId domainURL:lock.domainURL configurationURL:lock.configurationURL];
-    A0UserAPIClient *client = [[A0UserAPIClient alloc] initWithRouter:router idToken:idToken];
-    return client;
-}
-
 #pragma mark - User Profile
 
 - (void)fetchUserProfileSuccess:(A0UserAPIClientUserProfileSuccess)success
@@ -171,3 +141,40 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 @end
+
+#pragma mark - Deprecated
+
+@implementation A0UserAPIClient (Deprecated)
+
+- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant accessToken:(NSString *)accessToken {
+    NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
+    NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
+    A0Lock *lock = [A0Lock newLockWithClientId:clientId domain:[NSString stringWithFormat:@"https://%@.auth0.com", tenant]];
+    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:lock.clientId domainURL:lock.domainURL configurationURL:lock.configurationURL];
+    return [self initWithRouter:router accessToken:accessToken];
+}
+
+- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant idToken:(NSString *)idToken {
+    NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
+    NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
+    A0Lock *lock = [A0Lock newLockWithClientId:clientId domain:[NSString stringWithFormat:@"https://%@.auth0.com", tenant]];
+    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:lock.clientId domainURL:lock.domainURL configurationURL:lock.configurationURL];
+    return [self initWithRouter:router idToken:idToken];
+}
+
++ (A0UserAPIClient *)clientWithAccessToken:(NSString *)accessToken {
+    A0Lock *lock = [A0Lock new];
+    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:lock.clientId domainURL:lock.domainURL configurationURL:lock.configurationURL];
+    A0UserAPIClient *client = [[A0UserAPIClient alloc] initWithRouter:router accessToken:accessToken];
+    return client;
+}
+
++ (A0UserAPIClient *)clientWithIdToken:(NSString *)idToken {
+    A0Lock *lock = [A0Lock new];
+    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:lock.clientId domainURL:lock.domainURL configurationURL:lock.configurationURL];
+    A0UserAPIClient *client = [[A0UserAPIClient alloc] initWithRouter:router idToken:idToken];
+    return client;
+}
+
+@end
+

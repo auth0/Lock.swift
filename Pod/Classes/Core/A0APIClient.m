@@ -65,14 +65,6 @@ typedef void (^AFFailureBlock)(NSURLSessionDataTask *, NSError *);
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant {
-    NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
-    NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
-    A0Lock *lock = [A0Lock newLockWithClientId:clientId domain:[NSString stringWithFormat:@"https://%@.auth0.com", tenant]];
-    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:lock.clientId domainURL:lock.domainURL configurationURL:lock.configurationURL];
-    return [self initWithAPIRouter:router];
-}
-
 - (instancetype)initWithAPIRouter:(id<A0APIRouter>)router {
     NSAssert(router, @"You must supply a valid API Router");
     self = [super init];
@@ -518,6 +510,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 @end
 
 @implementation A0APIClient (Deprecated)
+
+- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant {
+    NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
+    NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
+    A0Lock *lock = [A0Lock newLockWithClientId:clientId domain:[NSString stringWithFormat:@"https://%@.auth0.com", tenant]];
+    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:lock.clientId domainURL:lock.domainURL configurationURL:lock.configurationURL];
+    return [self initWithAPIRouter:router];
+}
 
 - (void)delegationWithRefreshToken:(NSString *)refreshToken
                         parameters:(A0AuthParameters *)parameters
