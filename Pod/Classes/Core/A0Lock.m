@@ -47,6 +47,11 @@
 
 @end
 
+@interface A0Lock ()
+@property (strong, nonatomic) id<A0APIRouter> router;
+@property (strong, nonatomic) A0APIClient *client;
+@end
+
 @implementation A0Lock
 
 AUTH0_DYNAMIC_LOGGER_METHODS
@@ -81,20 +86,31 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     NSAssert(configurationDomain.length > 0, @"Must supply a valid configuration domain");
     self = [super init];
     if (self) {
-        _clientId = clientId;
-        _domainURL = [NSURL URLWithAuth0Domain:domain];
+        NSURL *domainURL = [NSURL URLWithAuth0Domain:domain];
         NSString *clientPath = [[@"client" stringByAppendingPathComponent:clientId] stringByAppendingPathExtension:@"js"];
-        NSURL *configurationURL = [NSURL URLWithAuth0Domain:configurationDomain];
-        _configurationURL = [NSURL URLWithString:clientPath relativeToURL:configurationURL];
-        A0LogDebug(@"Auth0 Lock initialised with clientId: (%@) domainURL: (%@) configurationURL: (%@)", _clientId, _domainURL, _configurationURL);
+        NSURL *configurationURL = [NSURL URLWithString:clientPath relativeToURL:[NSURL URLWithAuth0Domain:configurationDomain]];
+        A0LogDebug(@"Auth0 Lock initialised with clientId: (%@) domainURL: (%@) configurationURL: (%@)", clientId, domainURL, configurationURL);
+        _router = [[A0APIv1Router alloc] initWithClientId:clientId domainURL:domainURL configurationURL:configurationURL];
+        _client = [[A0APIClient alloc] initWithAPIRouter:_router];
     }
 
     return self;
 }
 
 - (A0APIClient *)apiClient {
-    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:self.clientId domainURL:self.domainURL configurationURL:self.configurationURL];
-    return [[A0APIClient alloc] initWithAPIRouter:router];
+    return self.client;
+}
+
+- (NSString *)clientId {
+    return [self.router clientId];
+}
+
+- (NSURL *)configurationURL {
+    return [self.router configurationURL];
+}
+
+- (NSURL *)domainURL {
+    return [self.router endpointURL];
 }
 
 + (instancetype)newLockWithClientId:(NSString *)clientId domain:(NSString *)domain {

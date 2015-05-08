@@ -160,6 +160,8 @@ PODS:
 DEPENDENCIES:
   - BDBOAuth1Manager
   - Expecta
+  - Facebook-iOS-SDK
+  - ISO8601DateFormatter
   - JWTDecode
   - libextobjc
   - Lock (from `../`)
@@ -168,6 +170,7 @@ DEPENDENCIES:
   - Lock/ReactiveCore (from `../`)
   - Lock/SMS (from `../`)
   - Lock/TouchID (from `../`)
+  - OCHamcrest
   - OCMockito
   - OHHTTPStubs
   - SimpleKeychain
