@@ -72,7 +72,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             self.modalPresentationStyle = UIModalPresentationFormSheet;
         }
         _authenticationParameters = [A0AuthParameters newDefaultParams];
-        [_authenticationParameters setValue:@"Username-Password-Authentication" forKey:A0ParameterConnection];
+        _authenticationParameters[A0ParameterConnection] = @"Username-Password-Authentication";
     }
     return self;
 }

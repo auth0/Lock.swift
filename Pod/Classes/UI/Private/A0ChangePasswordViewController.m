@@ -93,7 +93,7 @@
     [self.passwordField.passwordManagerButton addTarget:self action:@selector(changeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
 
     if (self.defaultConnection) {
-        [self.parameters setValue:self.defaultConnection.name forKey:A0ParameterConnection];
+        self.parameters[A0ParameterConnection] = self.defaultConnection.name;
     }
 
     NSMutableArray *validators = [@[
