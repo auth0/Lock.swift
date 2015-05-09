@@ -174,6 +174,24 @@ describe(@"A0AuthParameters", ^{
 
     });
 
+    describe(@"NSCopying", ^{
+
+        beforeEach(^{
+            params = [A0AuthParameters newDefaultParams];
+        });
+
+        it(@"should make a copy", ^{
+            expect(params.copy).toNot.equal(params);
+        });
+
+        it(@"should be a deep copy", ^{
+            A0AuthParameters *copy = params.copy;
+            [params setValue:@"new value" forKey:@"key"];
+            expect([copy valueForKey:@"key"]).to.beNil();
+        });
+
+    });
+
     describe(@"as API dictionary", ^{
 
         __block NSDictionary *dict;

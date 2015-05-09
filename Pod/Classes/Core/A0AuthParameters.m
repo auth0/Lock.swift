@@ -242,7 +242,7 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
 
 - (id)copyWithZone:(NSZone *)zone {
     A0AuthParameters *parameters = [[A0AuthParameters alloc] init];
-    parameters.params = self.params;
+    parameters.params = [NSMutableDictionary dictionaryWithDictionary:self.params];
     return parameters;
 }
 
