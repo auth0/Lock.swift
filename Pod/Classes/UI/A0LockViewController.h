@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 #import "A0ContainerViewController.h"
 
-@class A0UserProfile, A0Token, A0AuthParameters;
+@class A0UserProfile, A0Token, A0AuthParameters, A0Lock;
 
 typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
@@ -32,6 +32,11 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
   It should be presented in screen as a modal view controller calling in any of your controllers `[self presentViewController:authController animated:YES completion:nil]`
  */
 @interface A0LockViewController : A0ContainerViewController
+
+/**
+ *  Instance of Lock with Auth0 account information. By default it will build this object with information from `Info.plist` if none is set.
+ */
+@property (strong, nonatomic) A0Lock *lock;
 
 /**
  Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.

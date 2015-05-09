@@ -36,6 +36,7 @@
 
 #import <libextobjc/EXTScope.h>
 #import "UIViewController+LockNotification.h"
+#import "A0Lock.h"
 
 #define kCellIdentifier @"ServiceCell"
 
@@ -122,6 +123,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         controller.onAuthentication = successBlock;
         controller.onFailure = failureBlock;
+        controller.lock = self.lock;
         [self presentViewController:controller animated:YES completion:nil];
     }
 }

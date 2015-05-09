@@ -42,6 +42,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
 #import "A0ConfirmPasswordValidator.h"
+#import "A0Lock.h"
 
 @interface A0ChangePasswordViewController ()
 
@@ -154,11 +155,11 @@
             NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForChangePasswordError:error];
             A0ShowAlertErrorView(title, message);
         };
-        [[A0APIClient sharedClient] changePassword:password
-                                       forUsername:username
-                                        parameters:self.parameters
-                                           success:success
-                                           failure:failure];
+        [self.lock.apiClient changePassword:password
+                                forUsername:username
+                                 parameters:self.parameters
+                                    success:success
+                                    failure:failure];
 
     } else {
         [self.recoverButton setInProgress:NO];

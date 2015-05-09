@@ -26,6 +26,7 @@
 #import "A0APIClient.h"
 #import "A0Application.h"
 #import "A0IdentityProviderCredentials.h"
+#import "NSObject+A0APIClientProvider.h"
 
 #import <Accounts/Accounts.h>
 #import <Twitter/Twitter.h>
@@ -296,7 +297,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 #pragma mark - Block handling
 
 - (void)executeSuccessWithCredentials:(A0IdentityProviderCredentials *)credentials parameters:(A0AuthParameters *)parameters {
-    A0APIClient *client = [A0APIClient sharedClient];
+    A0APIClient *client = [self a0_apiClientFromProvider:self.clientProvider];
     [client authenticateWithSocialConnectionName:self.identifier
                                      credentials:credentials
                                       parameters:parameters

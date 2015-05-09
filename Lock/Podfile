@@ -2,6 +2,13 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '8.0'
 
+def pod_with_warnings
+  pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
+  pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
+  pod 'Facebook-iOS-SDK', :inhibit_warnings => true #Ignore warnings for this lib
+  pod 'ISO8601DateFormatter', :inhibit_warnings => true #Ignore warnings for this lib
+end
+
 target 'Lock', :exclusive => true do
   pod 'Lock', :path => '../'
   pod 'Lock/TouchID', :path => '../'
@@ -9,8 +16,9 @@ target 'Lock', :exclusive => true do
   pod 'Lock/ReactiveCore', :path => '../'
   pod 'Lock/GooglePlus', :path => '../'
   pod 'Lock/1Password', :path => '../'
-  pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
-  pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
+
+  pod_with_warnings
+
   pod 'JWTDecode'
   pod 'SimpleKeychain'
 end
@@ -19,11 +27,12 @@ target 'Tests', :exclusive => true do
   pod 'Lock', :path => '../'
   pod 'Lock/TouchID', :path => '../'
   pod 'Lock/SMS', :path => '../'
-  pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
-  pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
+
+  pod_with_warnings
 
   pod 'Specta', '~> 0.5'
   pod 'Expecta'
   pod 'OCMockito'
   pod 'OHHTTPStubs'
+  pod 'OCHamcrest', :inhibit_warnings => true #Ignore warnings for this lib
 end

@@ -22,15 +22,6 @@
 
 #import "A0APIv1Router.h"
 
-#define kAppBaseURLFormatString @"https://%@.auth0.com"
-#define kCDNConfigurationURL @"https://cdn.auth0.com"
-#define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
-
-#define kClientIdKey @"Auth0ClientId"
-#define kTenantKey @"Auth0Tenant"
-#define kDomainKey @"Auth0Domain"
-#define kConfigurationDomainKey @"Auth0ConfigurationDomain"
-
 #define kLoginPath @"oauth/ro"
 #define kSignUpPath @"dbconnections/signup"
 #define kTokenInfoPath @"tokeninfo"
@@ -53,49 +44,26 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (void)configureWithBundleInfo:(NSDictionary *)bundleInfo {
-    NSString *domain = bundleInfo[kDomainKey];
-    NSString *configDomain = bundleInfo[kConfigurationDomainKey];
-    NSString *clientId = bundleInfo[kClientIdKey];
-    NSString *tenant = bundleInfo[kTenantKey];
-    if (domain && configDomain) {
-        [self configureForDomain:domain configurationDomain:configDomain clientId:clientId];
-    } else if(domain) {
-        [self configureForDomain:domain clientId:clientId];
-    } else {
-        [self configureForTenant:tenant clientId:clientId];
+- (instancetype)init {
+    [NSException raise:NSInternalInconsistencyException format:@"Please use %@ initializer", NSStringFromSelector(@selector(initWithClientId:domainURL:configurationURL:))];
+    return [super init];
+}
+
+- (instancetype)initWithClientId:(NSString *)clientId domainURL:(NSURL *)domainURL configurationURL:(NSURL *)configurationURL {
+    NSAssert(clientId.length > 0, @"Must supply a valid client id");
+    NSAssert(domainURL != nil, @"Must supply a non-nil domain URL");
+    NSAssert(configurationURL != nil, @"Must supply a non-nil configuration URL");
+    self = [super init];
+    if (self) {
+        _endpointURL = domainURL;
+        _configurationURL = configurationURL;
+        A0LogInfo(@"Base URL of API is %@", self.endpointURL);
+        A0LogInfo(@"Configuration URL is %@", self.configurationURL);
+        _clientId = clientId;
+        NSString *host = _endpointURL.host;
+        _tenant = [host hasSuffix:@".auth0.com"] ? [[host componentsSeparatedByString:@"."] firstObject] : host;
     }
-}
-
-- (void)configureForDomain:(NSString *)domain clientId:(NSString *)clientId {
-    NSURL *domainURL = [self createDomainURLFromString:domain];
-    NSAssert(domainURL, @"You must supply a valid Auth0 domain.");
-    NSString *configurationDomain = domain;
-    if ([domainURL.host hasSuffix:@".auth0.com"]) {
-        configurationDomain = [domainURL.host hasSuffix:@".eu.auth0.com"] ? kEUCDNConfigurationURL : kCDNConfigurationURL;
-    }
-    [self configureForDomain:domain configurationDomain:configurationDomain clientId:clientId];
-}
-
-- (void)configureForDomain:(NSString *)domain configurationDomain:(NSString *)configurationDomain clientId:(NSString *)clientId {
-    NSURL *domainURL = [self createDomainURLFromString:domain];
-    NSURL *configurationURL = [NSURL URLWithString:configurationDomain];
-    NSAssert(domainURL, @"You must supply a valid Auth0 domain.");
-    NSAssert(configurationURL, @"You must supply a valid Auth0 config domain.");
-    NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
-    self.endpointURL = domainURL;
-    NSString *clientPath = [[@"client" stringByAppendingPathComponent:clientId] stringByAppendingPathExtension:@"js"];
-    self.configurationURL = [NSURL URLWithString:clientPath relativeToURL:configurationURL];
-    A0LogInfo(@"Base URL of API is %@", self.endpointURL);
-    A0LogInfo(@"Configuration URL is %@", self.configurationURL);
-    self.clientId = clientId;
-}
-
-- (void)configureForTenant:(NSString *)tenant clientId:(NSString *)clientId {
-    NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
-    NSString *URLString = [NSString stringWithFormat:kAppBaseURLFormatString, tenant];
-    [self configureForDomain:URLString configurationDomain:kCDNConfigurationURL clientId:clientId];
-    self.tenant = tenant;
+    return self;
 }
 
 - (NSString *)loginPath {
@@ -138,9 +106,4 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [[NSString stringWithFormat:kPublicKeyUserPath, userId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];;
 }
 
-- (NSURL *)createDomainURLFromString:(NSString *)string {
-    NSAssert(string, @"Must supply a non-nil domain");
-    NSURL *url = [string hasPrefix:@"http"] ? [NSURL URLWithString:string] : [NSURL URLWithString:[@"https://" stringByAppendingString:string]];
-    return url;
-}
 @end

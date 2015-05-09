@@ -21,12 +21,13 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0AuthenticationProvider.h"
+#import "A0BaseAuthenticator.h"
 
 /**
  *  `A0FacebookAuthentication` performs Facebook authentication of a user using Facebook iOS SDK.
  */
-@interface A0FacebookAuthenticator : NSObject<A0AuthenticationProvider>
+@interface A0FacebookAuthenticator : A0BaseAuthenticator
+
 
 /**
  *  Creates a new instance

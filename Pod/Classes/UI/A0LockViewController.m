@@ -49,6 +49,7 @@
 #import "A0LockConfiguration.h"
 #import "A0LockNotification.h"
 #import "A0TitleView.h"
+#import "A0Lock.h"
 
 @interface A0LockViewController () <UIAlertViewDelegate>
 
@@ -100,6 +101,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     self.dismissButton.hidden = !self.closable;
 
+    if (!self.lock) {
+        self.lock = [[A0Lock alloc] init];
+    }
     [[A0IdentityProviderAuthenticator sharedInstance] setUseWebAsDefault:!self.useWebView];
     [self loadApplicationInfo];
 }
@@ -136,7 +140,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)loadApplicationInfo {
     @weakify(self);
-    [[A0APIClient sharedClient] fetchAppInfoWithSuccess:^(A0Application *application) {
+    [self.lock.apiClient fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         A0LogDebug(@"Obtained application info. Starting to build Lock UI...");
         [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
@@ -222,6 +226,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     if (rootController) {
         rootController.parameters = [self copyAuthenticationParameters];
+        rootController.lock = self.lock;
         [self displayController:rootController layout:layout];
     } else {
         NSString *title = A0LocalizedString(@"Failed to display login");
@@ -340,6 +345,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.parameters = [self copyAuthenticationParameters];
     controller.defaultConnection = self.configuration.defaultDatabaseConnection;
     controller.onSignUpBlock = success;
+    controller.lock = self.lock;
     [controller addDisclaimerSubview:self.signUpDisclaimerView];
     [self.navigationView removeAll];
     @weakify(self);
@@ -355,6 +361,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.forceUsername = !self.usesEmail;
     controller.parameters = [self copyAuthenticationParameters];
     controller.defaultConnection = self.configuration.defaultDatabaseConnection;
+    controller.lock = self.lock;
     @weakify(self);
     void(^block)() = ^{
         @strongify(self);

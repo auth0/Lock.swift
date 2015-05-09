@@ -24,12 +24,6 @@
 
 /**
  *  Class that handles base URL and paths of Auth0 APIs. 
- *  It can be configured in three ways:
- *  1. Tenant and Client Id
- *  2. Domain and Client Id
- *  3. Domain, Config Domain and Client Id.
- *
- *  Also it can obtain its configuration from NSBundle user information.
  */
 @protocol A0APIRouter <NSObject>
 
@@ -51,47 +45,6 @@
  *  Base URL where App condiguration is stored.
  */
 @property (readonly, nonatomic) NSURL *configurationURL;
-
-/**
- *  Configure router with values stored in bundle of app.
- *  The valid keys are the following:
-
- *  ClientId: "Auth0ClientId"
- *  Tenant: "Auth0Tenant"
- *  Domain: "Auth0Domain"
- *  Config Domain: "Auth0ConfigurationDomain"
- *
- *  It can be any of these configurations:
- *  1. Domain + Domain Config + Client Id
- *  2. Domain + Client Id
- *  3. Tenant + Client Id
- *  The order also determines the precende, so if (1) and (2) are found in the dictionary, the option (1) will be used instead of (2).
- *  @param bundleInfo info in main bundle
- */
-- (void)configureWithBundleInfo:(NSDictionary *)bundleInfo;
-
-/**
- *  Configure router with domain and client id
- *
- *  @param domain   domain url
- *  @param clientId id of the client
- */
-- (void)configureForDomain:(NSString *)domain clientId:(NSString *)clientId;
-/**
- *  Configure router with domain and domain config besides a client id.
- *
- *  @param domain              domain url
- *  @param configurationDomain config domain url
- *  @param clientId            id of the client
- */
-- (void)configureForDomain:(NSString *)domain configurationDomain:(NSString *)configurationDomain clientId:(NSString *)clientId;
-/**
- *  Configure router with tenant and client id
- *
- *  @param tenant   name of the tenant of the account owner of the app.
- *  @param clientId id of the client
- */
-- (void)configureForTenant:(NSString *)tenant clientId:(NSString *)clientId;
 
 /**
  *  `oauth/ro` path

@@ -45,14 +45,6 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 ///----------------------------------------
 
 /**
- Initialise the Client with Auth0's app client ID and tenant name
- @param clientId app's client ID.
- @param tenant app's tenant name
- @return a new `A0APIClient` instance
- */
-- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant;
-
-/**
  Initialise the Client with a API router
  @param router API routes handler
  @return a new `A0APIClient` instance
@@ -60,21 +52,22 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 - (instancetype)initWithAPIRouter:(id<A0APIRouter>)router;
 
 /**
- *  Returns a shared instance of `A0APIClient`. This instance is initialised with clientId and tenant from Info plist file entries. These entries are `Auth0ClientId` and `Auth0Tenant`.
- *  It can also be instantiated with a custom domain instead of Auth0's.
- @return a shared `A0APIClient` instance.
- */
-+ (instancetype)sharedClient;
-
-/**
  Logout from Auth0 API
  */
 - (void)logout;
 
+/**
+ *  Returns a shared instance of `A0APIClient`. This instance is initialised with clientId and tenant from Info plist file entries. These entries are `Auth0ClientId` and `Auth0Tenant`.
+ *  It can also be instantiated with a custom domain instead of Auth0's.
+ *  We recommend keeping yourself the `A0APIClient` instead instead of relying in this singleton, for this reason this method is deprecated.
+ *  @deprecated 1.12.0
+ *  @return a shared `A0APIClient` instance.
+ */
++ (instancetype)sharedClient __attribute__((deprecated));
+
 ///----------------------------------------
 /// @name Configuration for Auth0 App
 ///----------------------------------------
-
 
 /**
  *  Object that provides all URLs and Paths of Auth0 API. By default a router for API v1 is used.
@@ -351,6 +344,16 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 @end
 
 @interface A0APIClient (Deprecated)
+
+/**
+ *  Initialise the Client with Auth0's app client ID and tenant name
+ *  @param clientId app's client ID.
+ *  @param tenant app's tenant name
+ *
+ *  @deprecated 1.12.0
+ *  @return a new `A0APIClient` instance
+ */
+- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant;
 
 /**
  *  Calls Auth0 delegation API with the refresh_token to obtain a new id_token.

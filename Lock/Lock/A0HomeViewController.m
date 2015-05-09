@@ -27,6 +27,7 @@
 #import <SimpleKeychain/A0SimpleKeychain.h>
 #import <JWTDecode/A0JWTDecoder.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "A0LockApplication.h"
 
 #define kClientIdKey @"Auth0ClientId"
 #define kTenantKey @"Auth0Tenant"
@@ -42,7 +43,6 @@ static BOOL isRunningTests(void) {
 @interface A0HomeViewController ()
 
 @property (strong, nonatomic) A0SimpleKeychain *keychain;
-
 @end
 
 @implementation A0HomeViewController
@@ -56,23 +56,13 @@ static BOOL isRunningTests(void) {
     }
 #endif
 
-    A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
-                                                                            andSecret:@""];
-    A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
-    NSString *googlePlusClientId = [[NSBundle mainBundle] infoDictionary][@"GooglePlusClientId"];
-    A0GooglePlusAuthenticator *googleplus = [A0GooglePlusAuthenticator newAuthenticatorWithClientId:googlePlusClientId];
-    [[A0IdentityProviderAuthenticator sharedInstance] registerAuthenticationProviders:@[
-                                                                                        twitter,
-                                                                                        facebook,
-                                                                                        googleplus,
-                                                                                        ]];
-
     self.keychain = [A0SimpleKeychain keychainWithService:@"Auth0"];
     @weakify(self);
     NSString* refreshToken = [self.keychain stringForKey: @"refresh_token"];
     NSString* idToken = [self.keychain stringForKey: @"id_token"];
+    A0APIClient *client = [[[A0LockApplication sharedInstance] lock] apiClient];
     if (refreshToken) {
-        [[[A0APIClient sharedClient] fetchNewIdTokenWithRefreshToken:refreshToken parameters:nil] subscribeNext:^(A0Token *token) {
+        [[client fetchNewIdTokenWithRefreshToken:refreshToken parameters:nil] subscribeNext:^(A0Token *token) {
             @strongify(self);
             [self.keychain setString:token.idToken forKey:@"id_token"];
             [self performSegueWithIdentifier:@"LoggedIn" sender:self];
@@ -93,6 +83,7 @@ static BOOL isRunningTests(void) {
     [self.keychain clearAll];
     A0LockViewController *controller = [[A0LockViewController alloc] init];
     @weakify(self);
+    controller.lock = [[A0LockApplication sharedInstance] lock];
     controller.closable = YES;
     controller.loginAfterSignUp = YES;
     controller.usesEmail = YES;
@@ -113,6 +104,7 @@ static BOOL isRunningTests(void) {
     [self.keychain clearAll];
     A0TouchIDLockViewController *controller = [[A0TouchIDLockViewController alloc] init];
     controller.closable = YES;
+    controller.lock = [[A0LockApplication sharedInstance] lock];
     @weakify(self);
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
@@ -134,6 +126,7 @@ static BOOL isRunningTests(void) {
 - (void)loginSMS:(id)sender {
     [self.keychain clearAll];
     A0SMSLockViewController *controller = [[A0SMSLockViewController alloc] init];
+    controller.lock = [[A0LockApplication sharedInstance] lock];
     controller.closable = YES;
     @weakify(self);
     controller.auth0APIToken = ^{

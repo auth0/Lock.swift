@@ -25,4 +25,6 @@
 
 @interface A0APIv1Router : NSObject<A0APIRouter>
 
+- (instancetype)initWithClientId:(NSString *)clientId domainURL:(NSURL *)domainURL configurationURL:(NSURL *)configurationURL;
+
 @end

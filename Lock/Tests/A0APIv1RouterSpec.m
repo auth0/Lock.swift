@@ -23,249 +23,58 @@
 #import "Specta.h"
 #import "A0APIv1Router.h"
 
-#define kTenant @"overmind"
-#define kClientId @"1234567890"
-#define kDomainURL @"https://domain.somewhere.co"
-#define kAuth0Domain @"https://overmind.auth0.com"
-#define kAuth0EUDomain @"https://overmind.eu.auth0.com"
-#define kConfigurationURL @"https://configuration.somewhere.co"
-
-#define kClientIdKey @"Auth0ClientId"
-#define kTenantKey @"Auth0Tenant"
-#define kDomainKey @"Auth0Domain"
-#define kConfigurationDomainKey @"Auth0ConfigurationDomain"
-
 SpecBegin(A0APIv1Router)
 
 describe(@"A0APIv1Router", ^{
 
     __block A0APIv1Router *router;
 
+    specify(@"default initializer should fail", ^{
+        expect(^{
+            router = [[A0APIv1Router alloc] init];
+        }).to.raise(NSInternalInconsistencyException);
+    });
+
     beforeEach(^{
-        router = [[A0APIv1Router alloc] init];
+        router = [[A0APIv1Router alloc] initWithClientId:@"1234567890"
+                                               domainURL:[NSURL URLWithString:@"https://samples.auth0.com"]
+                                        configurationURL:[NSURL URLWithString:@"https://cdn.auth0.com/client/1234567890.js"]];
     });
 
-    specify(@"default initializer", ^{
-        router = [[A0APIv1Router alloc] init];
-        expect(router).notTo.beNil();
+    specify(@"client identifier", ^{
+        expect(router.clientId).to.equal(@"1234567890");
     });
 
-    context(@"configure with tenant and client id", ^{
-
-        beforeEach(^{
-            [router configureForTenant:kTenant clientId:kClientId];
-        });
-
-        it(@"should have correct endpoint URL", ^{
-            expect(router.endpointURL.absoluteString).to.equal(@"https://overmind.auth0.com");
-        });
-
-        it(@"should have correct config URL", ^{
-            expect(router.configurationURL.absoluteString).to.equal(@"https://cdn.auth0.com/client/1234567890.js");
-        });
-
-        it(@"should fail with nil tenant", ^{
-            expect(^{
-                [router configureForTenant:nil clientId:kClientId];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-
-        it(@"should fail with nil client id", ^{
-            expect(^{
-                [router configureForTenant:kTenant clientId:nil];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-
+    specify(@"domain URL", ^{
+        expect(router.endpointURL.absoluteString).equal(@"https://samples.auth0.com");
     });
 
-    context(@"configure with domain and config URL", ^{
-
-        beforeEach(^{
-            [router configureForDomain:kDomainURL configurationDomain:kConfigurationURL clientId:kClientId];
-        });
-
-        it(@"should have correct endpoint URL", ^{
-            expect(router.endpointURL.absoluteString).to.equal(@"https://domain.somewhere.co");
-        });
-
-        it(@"should have correct config URL", ^{
-            expect(router.configurationURL.absoluteString).to.equal(@"https://configuration.somewhere.co/client/1234567890.js");
-        });
-
-        it(@"should fail with nil domain", ^{
-            expect(^{
-                [router configureForDomain:nil configurationDomain:kConfigurationURL clientId:kClientId];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-
-        it(@"should fail with nil config", ^{
-            expect(^{
-                [router configureForDomain:kDomainURL configurationDomain:nil clientId:kClientId];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-
-        it(@"should fail with nil client id", ^{
-            expect(^{
-                [router configureForDomain:kDomainURL configurationDomain:kConfigurationURL clientId:nil];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-        
+    specify(@"configuration URL", ^{
+        expect(router.configurationURL.absoluteString).equal(@"https://cdn.auth0.com/client/1234567890.js");
     });
 
-    context(@"configure with auth0 domain only", ^{
-
-        beforeEach(^{
-            [router configureForDomain:kAuth0Domain clientId:kClientId];
-        });
-
-        it(@"should have correct endpoint URL", ^{
-            expect(router.endpointURL.absoluteString).to.equal(@"https://overmind.auth0.com");
-        });
-
-        it(@"should have correct config URL", ^{
-            expect(router.configurationURL.absoluteString).to.equal(@"https://cdn.auth0.com/client/1234567890.js");
-        });
-
+    specify(@"tenant", ^{
+        expect(router.tenant).to.equal(@"samples");
     });
 
-    context(@"configure with auth0 EU domain only", ^{
-
-        beforeEach(^{
-            [router configureForDomain:kAuth0EUDomain clientId:kClientId];
-        });
-
-        it(@"should have correct endpoint URL", ^{
-            expect(router.endpointURL.absoluteString).to.equal(@"https://overmind.eu.auth0.com");
-        });
-
-        it(@"should have correct config URL", ^{
-            expect(router.configurationURL.absoluteString).to.equal(@"https://cdn.eu.auth0.com/client/1234567890.js");
-        });
-        
+    specify(@"should fail with invalid client id", ^{
+        expect(^{
+            router = [[A0APIv1Router alloc] initWithClientId:nil domainURL:[NSURL URLWithString:@"https://samples.auth0.com"] configurationURL:[NSURL URLWithString:@"https://cdn.auth0.com/client/1234567890.js"]];
+        }).to.raise(NSInternalInconsistencyException);
     });
 
-    context(@"configure with auth0 domain without protocol", ^{
-
-        beforeEach(^{
-            [router configureForDomain:@"overmind.auth0.com" clientId:kClientId];
-        });
-
-        it(@"should have correct endpoint URL", ^{
-            expect(router.endpointURL.absoluteString).to.equal(@"https://overmind.auth0.com");
-        });
-
-        it(@"should have correct config URL", ^{
-            expect(router.configurationURL.absoluteString).to.equal(@"https://cdn.auth0.com/client/1234567890.js");
-        });
-        
-    });
-
-    context(@"configure with non auth0 domain only", ^{
-
-        beforeEach(^{
-            [router configureForDomain:kDomainURL clientId:kClientId];
-        });
-
-        it(@"should have correct endpoint URL", ^{
-            expect(router.endpointURL.absoluteString).to.equal(@"https://domain.somewhere.co");
-        });
-
-        it(@"should have correct config URL", ^{
-            expect(router.configurationURL.absoluteString).to.equal(@"https://domain.somewhere.co/client/1234567890.js");
-        });
-
-        it(@"should fail with nil domain", ^{
-            expect(^{
-                [router configureForDomain:nil clientId:kClientId];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-
-        it(@"should fail with nil client id", ^{
-            expect(^{
-                [router configureForDomain:kDomainURL clientId:nil];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-        
-    });
-
-    sharedExamplesFor(@"configured from bundle", ^(NSDictionary *data) {
-
-        beforeEach(^{
-            [router configureWithBundleInfo:data[@"info"]];
-        });
-
-        it(@"should have correct endpoint URL", ^{
-            expect(router.endpointURL.absoluteString).to.equal(data[@"endpoint"]);
-        });
-
-        it(@"should have correct config URL", ^{
-            expect(router.configurationURL.absoluteString).to.equal(data[@"config"]);
-        });
-
+    specify(@"should fail with invalid domain URL", ^{
+        expect(^{
+            router = [[A0APIv1Router alloc] initWithClientId:@"1234567890" domainURL:nil configurationURL:[NSURL URLWithString:@"https://cdn.auth0.com/client/1234567890.js"]];
+        }).to.raise(NSInternalInconsistencyException);
     });
 
 
-    itShouldBehaveLike(@"configured from bundle", @{
-                                                    @"info": @{
-                                                            kTenantKey: kTenant,
-                                                            kClientIdKey: kClientId,
-                                                            },
-                                                    @"endpoint": @"https://overmind.auth0.com",
-                                                    @"config": @"https://cdn.auth0.com/client/1234567890.js",
-                                                    });
-    itShouldBehaveLike(@"configured from bundle", @{
-                                                    @"info": @{
-                                                            kDomainKey: kDomainURL,
-                                                            kClientIdKey: kClientId,
-                                                            },
-                                                    @"endpoint": @"https://domain.somewhere.co",
-                                                    @"config": @"https://domain.somewhere.co/client/1234567890.js",
-                                                    });
-    itShouldBehaveLike(@"configured from bundle", @{
-                                                    @"info": @{
-                                                            kDomainKey: kAuth0Domain,
-                                                            kClientIdKey: kClientId,
-                                                            },
-                                                    @"endpoint": @"https://overmind.auth0.com",
-                                                    @"config": @"https://cdn.auth0.com/client/1234567890.js",
-                                                    });
-    itShouldBehaveLike(@"configured from bundle", @{
-                                                    @"info": @{
-                                                            kDomainKey: kDomainURL,
-                                                            kConfigurationDomainKey: kConfigurationURL,
-                                                            kClientIdKey: kClientId,
-                                                            },
-                                                    @"endpoint": @"https://domain.somewhere.co",
-                                                    @"config": @"https://configuration.somewhere.co/client/1234567890.js",
-                                                    });
-    itShouldBehaveLike(@"configured from bundle", @{
-                                                    @"info": @{
-                                                            kTenantKey: kTenant,
-                                                            kDomainKey: kDomainURL,
-                                                            kConfigurationDomainKey: kConfigurationURL,
-                                                            kClientIdKey: kClientId,
-                                                            },
-                                                    @"endpoint": @"https://domain.somewhere.co",
-                                                    @"config": @"https://configuration.somewhere.co/client/1234567890.js",
-                                                    });
-    itShouldBehaveLike(@"configured from bundle", @{
-                                                    @"info": @{
-                                                            kTenantKey: kTenant,
-                                                            kDomainKey: kDomainURL,
-                                                            kClientIdKey: kClientId,
-                                                            },
-                                                    @"endpoint": @"https://domain.somewhere.co",
-                                                    @"config": @"https://domain.somewhere.co/client/1234567890.js",
-                                                    });
-    itShouldBehaveLike(@"configured from bundle", @{
-                                                    @"info": @{
-                                                            kTenantKey: kTenant,
-                                                            kDomainKey: kAuth0Domain,
-                                                            kClientIdKey: kClientId,
-                                                            },
-                                                    @"endpoint": @"https://overmind.auth0.com",
-                                                    @"config": @"https://cdn.auth0.com/client/1234567890.js",
-                                                    });
+    specify(@"should fail with invalid configuration URL", ^{
+        expect(^{
+            router = [[A0APIv1Router alloc] initWithClientId:@"1234567890" domainURL:[NSURL URLWithString:@"https://samples.auth0.com"] configurationURL:nil];
+        }).to.raise(NSInternalInconsistencyException);
+    });
 
 });
 

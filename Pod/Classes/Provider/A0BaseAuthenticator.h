@@ -1,6 +1,6 @@
-//  A0SignUpViewController.h
+// A0BaseAuthenticator.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "A0APIClientProvider.h"
+#import "A0AuthenticationProvider.h"
 
-#import "A0AuthenticationUIComponent.h"
+@interface A0BaseAuthenticator : NSObject<A0AuthenticationProvider>
 
-@class A0CredentialsValidator, A0UserProfile, A0Token, A0AuthParameters, A0Connection;
-
-@interface A0SignUpViewController : UIViewController<A0AuthenticationUIComponent>
-
-@property (copy, nonatomic) void(^onSignUpBlock)(A0UserProfile *profile, A0Token *token);
-
-@property (copy, nonatomic) A0AuthParameters *parameters;
-@property (assign, nonatomic) BOOL forceUsername;
-@property (strong, nonatomic) A0CredentialsValidator *validator;
-
-@property (assign, nonatomic, getter = shouldLoginUser) BOOL loginUser;
-@property (copy, nonatomic) NSString *customMessage;
-@property (strong, nonatomic) A0Connection *defaultConnection;
-@property (strong, nonatomic) A0Lock *lock;
-
-- (void)addDisclaimerSubview:(UIView *)view;
-- (void)updateUIWithError:(NSError *)error;
+/**
+ *  Object that will yield a configured Auth0 Auth API client.
+ */
+@property (weak, nonatomic) id<A0APIClientProvider> clientProvider;
 
 @end

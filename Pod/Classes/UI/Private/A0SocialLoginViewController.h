@@ -28,7 +28,8 @@
 @interface A0SocialLoginViewController : UIViewController<A0AuthenticationUIComponent>
 
 @property (strong, nonatomic) A0LockConfiguration *configuration;
-@property (strong, nonatomic) A0AuthParameters *parameters;
+@property (copy, nonatomic) A0AuthParameters *parameters;
+@property (strong, nonatomic) A0Lock *lock;
 @property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
 
 @end

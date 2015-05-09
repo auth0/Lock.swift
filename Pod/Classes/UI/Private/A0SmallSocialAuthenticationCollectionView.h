@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class A0SmallSocialAuthenticationCollectionView, A0UserProfile, A0Token, A0LockConfiguration, A0AuthParameters;
+@class A0SmallSocialAuthenticationCollectionView, A0UserProfile, A0Token, A0LockConfiguration, A0AuthParameters, A0Lock;
 
 @protocol A0SmallSocialAuthenticationCollectionViewDelegate <NSObject>
 
@@ -46,6 +46,7 @@
 
 @property (weak, nonatomic) id<A0SmallSocialAuthenticationCollectionViewDelegate> authenticationDelegate;
 @property (strong, nonatomic) A0AuthParameters *parameters;
+@property (strong, nonatomic) A0Lock *lock;
 
 - (void)showSocialServicesForConfiguration:(A0LockConfiguration *)configuration;
 

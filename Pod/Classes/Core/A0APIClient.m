@@ -36,6 +36,7 @@
 #import <libextobjc/EXTScope.h>
 #import "A0UserAPIClient.h"
 #import "A0APIv1Router.h"
+#import "A0Lock.h"
 
 #define kClientIdParamName @"client_id"
 #define kUsernameParamName @"username"
@@ -64,14 +65,6 @@ typedef void (^AFFailureBlock)(NSURLSessionDataTask *, NSError *);
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant {
-    NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
-    NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
-    A0APIv1Router *router = [[A0APIv1Router alloc] init];
-    [router configureForTenant:tenant clientId:clientId];
-    return [self initWithAPIRouter:router];
-}
-
 - (instancetype)initWithAPIRouter:(id<A0APIRouter>)router {
     NSAssert(router, @"You must supply a valid API Router");
     self = [super init];
@@ -92,10 +85,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     static A0APIClient *client;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-        A0APIv1Router *router = [[A0APIv1Router alloc] init];
-        [router configureWithBundleInfo:info];
-        client = [[A0APIClient alloc] initWithAPIRouter:router];
+        client = [[A0Lock new] apiClient];
     });
     return client;
 }
@@ -520,6 +510,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 @end
 
 @implementation A0APIClient (Deprecated)
+
+- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant {
+    NSAssert(clientId, @"You must supply your Auth0 app's Client Id.");
+    NSAssert(tenant, @"You must supply your Auth0 app's Tenant.");
+    A0Lock *lock = [A0Lock newLockWithClientId:clientId domain:[NSString stringWithFormat:@"https://%@.auth0.com", tenant]];
+    A0APIv1Router *router = [[A0APIv1Router alloc] initWithClientId:lock.clientId domainURL:lock.domainURL configurationURL:lock.configurationURL];
+    return [self initWithAPIRouter:router];
+}
 
 - (void)delegationWithRefreshToken:(NSString *)refreshToken
                         parameters:(A0AuthParameters *)parameters

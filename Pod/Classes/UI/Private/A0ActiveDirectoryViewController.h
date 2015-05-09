@@ -24,11 +24,12 @@
 #import "A0AuthenticationUIComponent.h"
 #import "A0ConnectionDomainMatcher.h"
 
-@class A0ProgressButton, A0UserProfile, A0CredentialsValidator, A0Token, A0CredentialFieldView, A0AuthParameters,A0Connection;
+@class A0UserProfile, A0CredentialsValidator, A0Token, A0AuthParameters, A0Connection, A0Lock;
 
 @interface A0ActiveDirectoryViewController : UIViewController <A0AuthenticationUIComponent>
 
-@property (strong, nonatomic) A0AuthParameters *parameters;
+@property (copy, nonatomic) A0AuthParameters *parameters;
+@property (strong, nonatomic) A0Lock *lock;
 @property (strong, nonatomic) A0Connection *defaultConnection;
 
 @property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);

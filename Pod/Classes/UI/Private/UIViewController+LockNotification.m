@@ -27,6 +27,7 @@
 #import "A0Strategy.h"
 #import "A0Connection.h"
 #import "A0AuthParameters.h"
+#import "A0Lock.h"
 
 @implementation UIViewController (LockNotification)
 
@@ -39,8 +40,13 @@
 }
 
 - (void)postLoginSuccessfulWithUsername:(NSString *)username andParameters:(A0AuthParameters *)parameters {
-    A0APIClient *client = [A0APIClient sharedClient];
-    NSString *connectionName = [parameters valueForKey:@"connection"] ?: client.application.databaseStrategy.connections.firstObject;
+    NSString *connectionName;
+    if ([self respondsToSelector:@selector(lock)]) {
+        A0Lock *lock = [self performSelector:@selector(lock)];
+        A0APIClient *client = lock.apiClient;
+        connectionName = [parameters valueForKey:@"connection"] ?: client.application.databaseStrategy.connections.firstObject;
+    }
+
     [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationLoginSuccessful
                                                         object:nil
                                                       userInfo:@{

@@ -23,9 +23,14 @@
 #import <UIKit/UIKit.h>
 #import "A0ContainerViewController.h"
 
-@class A0AuthParameters, A0UserProfile, A0Token;
+@class A0AuthParameters, A0UserProfile, A0Token, A0Lock;
 
 @interface A0LockSignUpViewController : A0ContainerViewController
+
+/**
+ *  Instance of Lock with Auth0 account information.
+ */
+@property (strong, nonatomic) A0Lock *lock;
 
 /**
  Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.

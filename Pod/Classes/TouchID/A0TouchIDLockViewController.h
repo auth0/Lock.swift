@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class A0UserProfile, A0Token, A0AuthParameters;
+@class A0UserProfile, A0Token, A0AuthParameters, A0Lock;
 
 FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockButtonImageNormalName;
 FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockButtonImageHighlightedName;
@@ -33,6 +33,11 @@ FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockContainerBackgroundColor;
  *  Must be displayed inside a UINavigationController.
  */
 @interface A0TouchIDLockViewController : UIViewController
+
+/**
+ *  Instance of Lock with Auth0 account information. By default it will build this object with information from `Info.plist` if none is set.
+ */
+@property (strong, nonatomic) A0Lock *lock;
 
 /**
  Allows the A0AuthenticationViewController to be dismissed by adding a button. Default is NO

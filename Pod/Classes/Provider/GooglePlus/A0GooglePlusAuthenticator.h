@@ -21,12 +21,12 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0AuthenticationProvider.h"
+#import "A0BaseAuthenticator.h"
 
 /**
  * `A0GooglePlusAuthenticator` performs Google+ authentication using Google's official SDK.
  */
-@interface A0GooglePlusAuthenticator : NSObject<A0AuthenticationProvider>
+@interface A0GooglePlusAuthenticator : A0BaseAuthenticator
 
 /**
  *  Creates a new authenticator with default scopes (login and email) and a clientId.

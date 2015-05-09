@@ -1,4 +1,5 @@
-//  A0SignUpViewController.h
+
+// A0APIClientProvider.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,26 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-#import "A0AuthenticationUIComponent.h"
+@class A0APIClient;
 
-@class A0CredentialsValidator, A0UserProfile, A0Token, A0AuthParameters, A0Connection;
+@protocol A0APIClientProvider <NSObject>
 
-@interface A0SignUpViewController : UIViewController<A0AuthenticationUIComponent>
+@required
 
-@property (copy, nonatomic) void(^onSignUpBlock)(A0UserProfile *profile, A0Token *token);
-
-@property (copy, nonatomic) A0AuthParameters *parameters;
-@property (assign, nonatomic) BOOL forceUsername;
-@property (strong, nonatomic) A0CredentialsValidator *validator;
-
-@property (assign, nonatomic, getter = shouldLoginUser) BOOL loginUser;
-@property (copy, nonatomic) NSString *customMessage;
-@property (strong, nonatomic) A0Connection *defaultConnection;
-@property (strong, nonatomic) A0Lock *lock;
-
-- (void)addDisclaimerSubview:(UIView *)view;
-- (void)updateUIWithError:(NSError *)error;
+- (A0APIClient *)apiClient;
 
 @end

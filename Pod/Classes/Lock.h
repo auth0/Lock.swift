@@ -29,6 +29,7 @@
 #import "A0APIClient.h"
 #endif
 
+#import "A0Lock.h"
 #import "A0UserAPIClient.h"
 #import "A0Application.h"
 #import "A0Strategy.h"

@@ -16,6 +16,7 @@
 		5F1DA1AB1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1DA1AA1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m */; };
 		5F1DA1AD1A7C093500E7BA6D /* AppInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */; };
 		5F22B5D619E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */; };
+		5F22E6ED1AFBC6E80037859D /* A0LockSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */; };
 		5F3237351A7A858E00B58994 /* A0AnnotatedRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3237341A7A858E00B58994 /* A0AnnotatedRequestSerializer.m */; };
 		5F35161619B8CBA500574C11 /* A0UserIdentitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */; };
 		5F3A9C561A0D16FF00154DF2 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3A9C541A0D16FF00154DF2 /* Crashlytics.framework */; };
@@ -25,6 +26,7 @@
 		5F48BBA81A7B151700D8E05B /* POST-delegation.response in Resources */ = {isa = PBXBuildFile; fileRef = 5F48BBA71A7B151700D8E05B /* POST-delegation.response */; };
 		5F7112E519D5C18B001971BE /* A0AuthParametersSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */; };
 		5F75E4541A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */; };
+		5F8D5FD71AFD637B00E9BF55 /* A0LockApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8D5FD61AFD637B00E9BF55 /* A0LockApplication.m */; };
 		5F91E66E19E32C48003150DF /* A0ConnectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */; };
 		5F951A981A0EC7D600D128D0 /* A0HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */; };
 		5F951ABB1A1189A600D128D0 /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F951ABD1A1189A600D128D0 /* Lock.strings */; };
@@ -86,6 +88,7 @@
 		5F1DA1AA1A7BE0E000E7BA6D /* A0LockConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockConfigurationSpec.m; sourceTree = "<group>"; };
 		5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = AppInfo.json; path = ../AppInfo.json; sourceTree = "<group>"; };
 		5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FilteredConnectionDomainMatcherSpec.m; sourceTree = "<group>"; };
+		5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockSpec.m; sourceTree = "<group>"; };
 		5F3237331A7A858E00B58994 /* A0AnnotatedRequestSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0AnnotatedRequestSerializer.h; path = Utils/A0AnnotatedRequestSerializer.h; sourceTree = "<group>"; };
 		5F3237341A7A858E00B58994 /* A0AnnotatedRequestSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = A0AnnotatedRequestSerializer.m; path = Utils/A0AnnotatedRequestSerializer.m; sourceTree = "<group>"; };
 		5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserIdentitySpec.m; sourceTree = "<group>"; };
@@ -96,6 +99,8 @@
 		5F48BBA71A7B151700D8E05B /* POST-delegation.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-delegation.response"; sourceTree = "<group>"; };
 		5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0AuthParametersSpec.m; sourceTree = "<group>"; };
 		5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0APIv1RouterSpec.m; sourceTree = "<group>"; };
+		5F8D5FD51AFD637B00E9BF55 /* A0LockApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0LockApplication.h; sourceTree = "<group>"; };
+		5F8D5FD61AFD637B00E9BF55 /* A0LockApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockApplication.m; sourceTree = "<group>"; };
 		5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ConnectionSpec.m; sourceTree = "<group>"; };
 		5F951A961A0EC7D600D128D0 /* A0HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0HomeViewController.h; sourceTree = "<group>"; };
 		5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0HomeViewController.m; sourceTree = "<group>"; };
@@ -274,6 +279,8 @@
 				5FF3B5161A25439400BE84F9 /* A0SettingsViewController.h */,
 				5FF3B5171A25439400BE84F9 /* A0SettingsViewController.m */,
 				5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */,
+				5F8D5FD51AFD637B00E9BF55 /* A0LockApplication.h */,
+				5F8D5FD61AFD637B00E9BF55 /* A0LockApplication.m */,
 			);
 			path = Lock;
 			sourceTree = "<group>";
@@ -315,6 +322,7 @@
 				5FEDA4B71A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m */,
 				5FEDA4BC1A1E60F3009B1C2F /* A0ConfirmPasswordValidatorSpec.m */,
 				5FEDA4C11A1E7589009B1C2F /* A0CredentialsValidatorSpec.m */,
+				5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -538,6 +546,7 @@
 				6003F59E195388D20070C39A /* A0AppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* A0ViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				5F8D5FD71AFD637B00E9BF55 /* A0LockApplication.m in Sources */,
 				5F951A981A0EC7D600D128D0 /* A0HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -563,6 +572,7 @@
 				5FC45F8D1AE5942400427E31 /* A0HTTPStubber.m in Sources */,
 				5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */,
 				5F7112E519D5C18B001971BE /* A0AuthParametersSpec.m in Sources */,
+				5F22E6ED1AFBC6E80037859D /* A0LockSpec.m in Sources */,
 				5FEDA4BD1A1E60F3009B1C2F /* A0ConfirmPasswordValidatorSpec.m in Sources */,
 				5F35161619B8CBA500574C11 /* A0UserIdentitySpec.m in Sources */,
 				5F3237351A7A858E00B58994 /* A0AnnotatedRequestSerializer.m in Sources */,

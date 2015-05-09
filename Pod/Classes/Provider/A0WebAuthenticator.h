@@ -21,11 +21,11 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0AuthenticationProvider.h"
+#import "A0BaseAuthenticator.h"
 
 @class A0Strategy, A0Application;
 
-@interface A0WebAuthenticator : NSObject<A0AuthenticationProvider>
+@interface A0WebAuthenticator : A0BaseAuthenticator
 
 + (instancetype)newWebAuthenticationForStrategy:(A0Strategy *)strategy
                                   ofApplication:(A0Application *)application;

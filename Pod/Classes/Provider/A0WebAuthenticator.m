@@ -32,6 +32,7 @@
 #import "A0AuthParameters.h"
 
 #import <UIKit/UIKit.h>
+#import "NSObject+A0APIClientProvider.h"
 
 @interface A0WebAuthenticator ()
 
@@ -109,7 +110,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0Token *token = [self.authentication tokenFromURL:url error:&error];
         if (token) {
             void(^success)(A0UserProfile *, A0Token *) = self.successBlock;
-            [[A0APIClient sharedClient] fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
+            A0APIClient *client = [self a0_apiClientFromProvider:self.clientProvider];
+            [client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
                 if (success) {
                     success(profile, token);
                 }

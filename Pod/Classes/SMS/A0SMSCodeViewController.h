@@ -21,14 +21,15 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "A0KeyboardEnabledView.h"
+#import "A0AuthenticationUIComponent.h"
 
 @class A0AuthParameters, A0UserProfile, A0Token;
 
-@interface A0SMSCodeViewController : UIViewController<A0KeyboardEnabledView>
+@interface A0SMSCodeViewController : UIViewController<A0AuthenticationUIComponent>
 
 @property (copy, nonatomic) NSString *phoneNumber;
 @property (copy, nonatomic) A0AuthParameters *parameters;
+@property (strong, nonatomic) A0Lock *lock;
 @property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
 @end

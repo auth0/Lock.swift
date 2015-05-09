@@ -43,6 +43,7 @@
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <libextobjc/EXTScope.h>
+#import "A0Lock.h"
 
 
 @interface A0SignUpViewController ()
@@ -174,12 +175,12 @@
             NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
             A0ShowAlertErrorView(title, message);
         };
-        [[A0APIClient sharedClient] signUpWithEmail:email
-                                           username:username
-                                           password:password
-                                     loginOnSuccess:self.shouldLoginUser
-                                         parameters:self.parameters
-                                            success:success failure:failure];
+        [self.lock.apiClient signUpWithEmail:email
+                                    username:username
+                                    password:password
+                              loginOnSuccess:self.shouldLoginUser
+                                  parameters:self.parameters
+                                     success:success failure:failure];
     } else {
         [self postSignUpErrorNotificationWithError:error];
         [self.signUpButton setInProgress:NO];
