@@ -171,19 +171,19 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
 
 - (void)setDevice:(NSString *)device {
     NSAssert([self.scopes containsObject:A0ScopeOfflineAccess], @"Must have offline access to set device name");
-    [self setValue:device forKey:A0ParameterDevice];
+    self[A0ParameterDevice] = device;
 }
 
 - (void)setProtocol:(NSString *)protocol {
-    [self setValue:protocol forKey:A0ParameterProtocol];
+    self[A0ParameterProtocol] = protocol;
 }
 
 - (void)setState:(NSString *)state {
-    [self setValue:state forKey:A0ParameterState];
+    self[A0ParameterState] = state;
 }
 
 - (void)setNonce:(NSString *)nonce {
-    [self setValue:nonce forKey:A0ParameterNonce];
+    self[A0ParameterNonce] = nonce;
 }
 
 - (void)setConnectionScopes:(NSDictionary *)connectionScopes {
@@ -195,21 +195,7 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
 }
 
 - (void)setAccessToken:(NSString *)accessToken {
-    [self setValue:accessToken forKey:A0ParameterAccessToken];
-}
-
-- (NSString *)valueForKey:(NSString *)key {
-    return self.params[key];
-}
-
-- (void)setValue:(NSString *)value forKey:(NSString *)key {
-    NSAssert(![key isEqualToString:A0ParameterConnectionScopes] && ![key isEqualToString:A0ParameterScope], @"Set scope and connection_scopes using accessors");
-    NSAssert(key != nil, @"Must supply a valid non-nil key");
-    if (value) {
-        self.params[key] = value.copy;
-    } else {
-        [self.params removeObjectForKey:key];
-    }
+    self[A0ParameterAccessToken] = accessToken;
 }
 
 - (void)addValuesFromDictionary:(NSDictionary *)dictionary {
@@ -246,4 +232,35 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
     return parameters;
 }
 
+#pragma mark - Custom Keyed Subscript
+
+- (id)objectForKeyedSubscript:(NSString *)key {
+    return self.params[key];
+}
+
+- (void)setObject:(id)obj forKeyedSubscript:(NSString *)key {
+    NSAssert(![key isEqualToString:A0ParameterConnectionScopes] && ![key isEqualToString:A0ParameterScope], @"Set scope and connection_scopes using accessors");
+    NSAssert(key != nil, @"Must supply a valid non-nil key");
+    if (obj) {
+        self.params[key] = obj;
+    } else {
+        [self.params removeObjectForKey:key];
+    }
+}
+
 @end
+
+#pragma mark - Deprecated methods
+
+@implementation A0AuthParameters (Deprecated)
+
+- (NSString *)valueForKey:(NSString *)key {
+    return self[key];
+}
+
+- (void)setValue:(NSString *)value forKey:(NSString *)key {
+    self[key] = value;
+}
+
+@end
+

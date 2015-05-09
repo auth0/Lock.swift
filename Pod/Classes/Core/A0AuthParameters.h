@@ -210,14 +210,6 @@ FOUNDATION_EXTERN NSString * const A0ParameterTarget;
 - (NSDictionary *)asAPIPayload;
 
 /**
- *  Adds a new value to the parameters list.
- *
- *  @param value a value to add
- *  @param key   key for the value.
- */
-- (void)setValue:(NSString *)value forKey:(NSString *)key;
-
-/**
  *  Add the values from the dictionary to the parameters.
  *
  *  @param dictionary values to add as parameters.
@@ -231,13 +223,31 @@ FOUNDATION_EXTERN NSString * const A0ParameterTarget;
  */
 - (void)addValuesFromParameters:(A0AuthParameters *)parameters;
 
+- (id)objectForKeyedSubscript:(NSString *)key;
+- (void)setObject:(id)obj forKeyedSubscript:(NSString *)key;
+
+@end
+
+@interface A0AuthParameters (Deprecated)
+
+/**
+ *  Adds a new value to the parameters list.
+ *
+ *  @param value a value to add
+ *  @param key   key for the value.
+ *  @deprecated 1.12.0
+ */
+- (void)setValue:(NSString *)value forKey:(NSString *)key __attribute__((deprecated));
+
 /**
  *  Returns a value stored using the given key
  *
  *  @param key a key to retrieve it's value
+ *  @deprecated 1.12.0
  *
  *  @return a value or nil if it's not stored.
  */
-- (NSString *)valueForKey:(NSString *)key;
+- (NSString *)valueForKey:(NSString *)key __attribute__((deprecated));
 
 @end
+

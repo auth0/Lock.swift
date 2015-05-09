@@ -127,7 +127,7 @@ describe(@"A0AuthParameters", ^{
             });
 
             it(@"should have extra values", ^{
-                expect([params valueForKey:@"key"]).to.equal(@"value");
+                expect(params[@"key"]).to.equal(@"value");
             });
         });
 
@@ -141,9 +141,9 @@ describe(@"A0AuthParameters", ^{
             });
 
             it(@"should have extra values", ^{
-                expect([params valueForKey:A0ParameterConnectionScopes]).to.equal(@{
-                                                                                    @"facebook": @[@"email", @"friends"],
-                                                                                    });
+                expect(params[A0ParameterConnectionScopes]).to.equal(@{
+                                                                       @"facebook": @[@"email", @"friends"],
+                                                                       });
             });
 
         });
@@ -156,19 +156,19 @@ describe(@"A0AuthParameters", ^{
         });
 
         it(@"should add value to extra parameters", ^{
-            [params setValue:@"value" forKey:@"key"];
-            expect([params valueForKey:@"key"]).to.equal(@"value");
+            params[@"key"] = @"value";
+            expect(params[@"key"]).to.equal(@"value");
         });
 
         it(@"should not allow replace scope", ^{
             expect(^{
-                [params setValue:@"scope" forKey:@"scope"];
+                params[@"scope"] = @"scope";
             }).to.raise(NSInternalInconsistencyException);
         });
 
         it(@"should not allow replace connection scopes", ^{
             expect(^{
-                [params setValue:@"scope" forKey:@"connection_scopes"];
+                params[@"connection_scopes"] = @"scope";
             }).to.raise(NSInternalInconsistencyException);
         });
 
@@ -186,8 +186,8 @@ describe(@"A0AuthParameters", ^{
 
         it(@"should be a deep copy", ^{
             A0AuthParameters *copy = params.copy;
-            [params setValue:@"new value" forKey:@"key"];
-            expect([copy valueForKey:@"key"]).to.beNil();
+            params[@"key"] = @"new value";
+            expect(copy[@"key"]).to.beNil();
         });
 
     });
@@ -204,10 +204,10 @@ describe(@"A0AuthParameters", ^{
                                        @"google": @[],
                                        @"linkedin": @[@"public_profile"],
                                        };
-            [params setValue:@"facebook" forKey:A0ParameterConnection];
+            params[A0ParameterConnection] = @"facebook";
             params.state = @"TEST";
             params.device = @"Specta Test";
-            [params setValue:@"bar" forKey:@"foo"];
+            params[@"foo"] = @"bar";
             dict = params.asAPIPayload;
         });
 
