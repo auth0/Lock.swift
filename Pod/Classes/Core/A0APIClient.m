@@ -329,14 +329,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                              };
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:params];
     if (credentials.extraInfo[A0StrategySocialTokenSecretParameter]) {
-        [defaultParameters setValue:credentials.extraInfo[A0StrategySocialTokenSecretParameter] forKey:kAccessTokenSecretParamName];
+        defaultParameters[kAccessTokenSecretParamName] = credentials.extraInfo[A0StrategySocialTokenSecretParameter];
     }
     if (credentials.extraInfo[A0StrategySocialUserIdParameter]) {
-        [defaultParameters setValue:credentials.extraInfo[A0StrategySocialUserIdParameter] forKey:kSocialUserIdParamName];
+        defaultParameters[kSocialUserIdParamName] = credentials.extraInfo[A0StrategySocialUserIdParameter];
     }
     [defaultParameters addValuesFromParameters:parameters];
     if (defaultParameters.accessToken) {
-        [defaultParameters setValue:defaultParameters.accessToken forKey:A0ParameterMainAccessToken];
+        defaultParameters[A0ParameterMainAccessToken] = defaultParameters.accessToken;
     }
     defaultParameters.accessToken = credentials.accessToken;
 
@@ -464,12 +464,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)addDatabaseConnectionNameToParams:(A0AuthParameters *)parameters {
     A0Connection *connection = self.application.databaseStrategy.connections.firstObject;
     if (connection.name) {
-        [parameters setValue:connection.name forKey:kConnectionParamName];
+        parameters[kConnectionParamName] = connection.name;
     }
 }
 
 - (BOOL)checkForDatabaseConnectionIn:(A0AuthParameters *)parameters failure:(A0APIClientError)failure {
-    BOOL hasConnectionName = [parameters valueForKey:kConnectionParamName] != nil;
+    BOOL hasConnectionName = parameters[kConnectionParamName] != nil;
     if (!hasConnectionName) {
         A0LogError(@"Parameters for DB auth MUST have a connection name!");
         if (failure) {

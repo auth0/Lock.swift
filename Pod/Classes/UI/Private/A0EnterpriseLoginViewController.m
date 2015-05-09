@@ -53,7 +53,7 @@
     NSString *message = A0LocalizedString(@"Please enter your corporate credentials at %@");
     self.messageLabel.text = [NSString stringWithFormat:message, self.connection[A0ConnectionDomain]];
     self.userField.textField.text = self.defaultUsername;
-    [self.parameters setValue:self.connection.name forKey:A0ParameterConnection];
+    self.parameters[A0ParameterConnection] = self.connection.name;
     self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
                                                                           [[A0UsernameValidator alloc] initWithField:self.userField.textField],
                                                                           [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],

@@ -106,7 +106,7 @@
     [self.passwordField.passwordManagerButton addTarget:self action:@selector(storeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
 
     if (self.defaultConnection) {
-        [self.parameters setValue:self.defaultConnection.name forKey:A0ParameterConnection];
+        self.parameters[A0ParameterConnection] = self.defaultConnection.name;
     }
     NSMutableArray *validators = [@[
                                     [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],

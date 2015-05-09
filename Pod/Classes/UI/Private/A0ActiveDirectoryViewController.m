@@ -128,7 +128,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     A0ShowAlertErrorView(title, message);
                 };
                 A0AuthParameters *parameters = self.parameters.copy;
-                [parameters setValue:connection.name forKey:@"connection"];
+                parameters[A0ParameterConnection] = connection.name;
                 [self.lock.apiClient loginWithUsername:username password:password parameters:parameters success:success failure:failure];
             } else {
                 [self postLoginErrorNotificationWithError:error];
@@ -205,7 +205,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     A0AuthParameters *parameters = self.parameters.copy;
-    [parameters setValue:connection.name forKey:@"connection"];
+    parameters[A0ParameterConnection] = connection.name;
     if ([authenticator canAuthenticateStrategy:strategy]) {
         A0LogVerbose(@"Authenticating using Safari for strategy %@ and connection %@", strategy.name, connection.name);
         [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];

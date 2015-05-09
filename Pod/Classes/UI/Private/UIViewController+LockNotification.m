@@ -44,7 +44,7 @@
     if ([self respondsToSelector:@selector(lock)]) {
         A0Lock *lock = [self performSelector:@selector(lock)];
         A0APIClient *client = lock.apiClient;
-        connectionName = [parameters valueForKey:@"connection"] ?: client.application.databaseStrategy.connections.firstObject;
+        connectionName = parameters[@"connection"] ?: client.application.databaseStrategy.connections.firstObject;
     }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationLoginSuccessful

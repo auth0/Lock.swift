@@ -112,7 +112,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.authenticationDelegate authenticationDidStartForSocialCollectionView:self];
 
     A0AuthParameters *parameters = [self.parameters copy];
-    [parameters setValue:strategy.name forKey:A0ParameterConnection];
+    parameters[A0ParameterConnection] = strategy.name;
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
