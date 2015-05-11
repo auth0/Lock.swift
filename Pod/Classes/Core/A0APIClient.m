@@ -442,7 +442,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                         success:(void (^)())success
                         failure:(A0APIClientError)failure {
     A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{
-                                                                         kClientIdParamName: self.clientId,
+                                                                         @"clientID": self.clientId,
                                                                          kAccessTokenParamName: accessToken,
                                                                          kSocialUserIdParamName: userId,
                                                                          }];
