@@ -46,4 +46,6 @@ typedef BOOL(^HTTPFilter)(NSURLRequest *request);
 
 - (HTTPFilter)filterForDelegationWithParameters:(NSDictionary *)parameters;
 
+- (HTTPFilter)filterForUnlinkWithParameters:(NSDictionary *)parameters;
+
 @end

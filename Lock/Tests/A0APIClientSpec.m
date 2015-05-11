@@ -59,6 +59,7 @@ static NSString * const JWT = @"HEADER.PAYLOAD.SIGNATURE";
 static NSString * const DEVICE = @"MyiPhone";
 static NSString * const SOCIAL_TOKEN = @"SOCIAL TOKEN";
 static NSString * const REFRESH_TOKEN = @"RefreshToken";
+static NSString * const ACCESS_TOKEN = @"AccessToken";
 
 @interface A0APIClient (TestingOnly)
 
@@ -840,6 +841,48 @@ describe(@"A0APIClient", ^{
                 } failure:^(NSError *error) {
                     expect(error).notTo.beNil();
                     expect(error.localizedDescription).to.equal(errorMessage);
+                    done();
+                }];
+            });
+        });
+
+    });
+
+    describe(@"unlink account", ^{
+        before(^{
+            [keeper failForAllRequests];
+            client.manager.requestSerializer = [A0AnnotatedRequestSerializer serializer];
+        });
+
+        it(@"should unlink user", ^{
+            [keeper unlinkUserWithFilter:[filter filterForUnlinkWithParameters:@{
+                                                                                 @"clientID": CLIENT_ID,
+                                                                                 @"access_token": ACCESS_TOKEN,
+                                                                                 @"user_id": @"facebook|123456789",
+                                                                                 }]];
+            waitUntil(^(DoneCallback done) {
+                [client unlinkAccountWithUserId:@"facebook|123456789" accessToken:ACCESS_TOKEN success:^{
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).to.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should return error in failure callback", ^{
+            [keeper failWithFilter:[filter filterForUnlinkWithParameters:@{
+                                                                           @"clientID": CLIENT_ID,
+                                                                           @"access_token": ACCESS_TOKEN,
+                                                                           @"user_id": @"facebook|123456789",
+                                                                           }]
+                           message:@"Not Found"];
+            waitUntil(^(DoneCallback done) {
+                [client unlinkAccountWithUserId:@"facebook|123456789" accessToken:ACCESS_TOKEN success:^{
+                    expect(NO).to.beTruthy();
+                    done();
+                } failure:^(NSError *error) {
+                    expect(error).toNot.beNil();
                     done();
                 }];
             });
