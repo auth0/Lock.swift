@@ -32,5 +32,6 @@
 - (void)returnSignUpWithFilter:(HTTPFilter)filter;
 - (void)returnChangePasswordWithFilter:(HTTPFilter)filter;
 - (void)returnDelegationInfoWithFilter:(HTTPFilter)filter;
+- (void)unlinkUserWithFilter:(HTTPFilter)filter;
 
 @end
