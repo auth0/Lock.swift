@@ -69,4 +69,10 @@
     }].name = @"Delegation";
 }
 
+- (void)unlinkUserWithFilter:(HTTPFilter)filter {
+    [OHHTTPStubs stubRequestsPassingTest:filter withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [[OHHTTPStubsResponse alloc] initWithData:[@"OK" dataUsingEncoding:NSUTF8StringEncoding] statusCode:200 headers:@{@"Content-Type":@"test/plain"}];
+    }].name = @"Unlink account";
+}
+
 @end

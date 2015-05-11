@@ -70,6 +70,10 @@
     return [self filterWithPath:@"/delegation" method: @"POST" parameters: parameters];
 }
 
+- (HTTPFilter)filterForUnlinkWithParameters:(NSDictionary *)parameters {
+    return [self filterWithPath:@"/unlink" method:@"POST" parameters:parameters];
+}
+
 - (HTTPFilter)filterWithPath:(NSString *)path method:(NSString *)method parameters:(NSDictionary *)parameters {
     return ^BOOL(NSURLRequest *request) {
         NSDictionary *dictionary = [NSURLProtocol propertyForKey:@"parameters" inRequest:request];
