@@ -444,8 +444,18 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                        success();
                    }
                    A0LogDebug(@"Account with id %@ unlinked successfully", userId);
-               }
-               failure:[A0APIClient sanitizeFailureBlock:failure]];
+               } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                   if ([(NSHTTPURLResponse *)task.response statusCode] == 200) {
+                       //unlink returns text/plain and that's why it will fail
+                       if (success) {
+                           success();
+                       }
+                       A0LogDebug(@"Account with id %@ unlinked successfully", userId);
+                   } else {
+                       AFFailureBlock block = [A0APIClient sanitizeFailureBlock:failure];
+                       block(task, error);
+                   }
+               }];
 }
 
 #pragma mark - Internal API calls
