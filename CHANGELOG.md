@@ -1,5 +1,23 @@
 # Change Log
 
+## [1.11.3](https://github.com/auth0/Lock.iOS-OSX/tree/1.11.3) (2015-05-11)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.11.2...1.11.3)
+
+**Fixed bugs:**
+
+- A0AuthParameters does not implement NSCopying properly [\#104](https://github.com/auth0/Lock.iOS-OSX/issues/104)
+
+- SignUp disclaimer view is not displayed [\#99](https://github.com/auth0/Lock.iOS-OSX/issues/99)
+
+**Merged pull requests:**
+
+- Fix unlink account in A0APIClient [\#110](https://github.com/auth0/Lock.iOS-OSX/pull/110) ([hzalaz](https://github.com/hzalaz))
+
+- Fix issue with A0AuthParameter copy method [\#109](https://github.com/auth0/Lock.iOS-OSX/pull/109) ([hzalaz](https://github.com/hzalaz))
+
+- Introduce A0Lock class [\#107](https://github.com/auth0/Lock.iOS-OSX/pull/107) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.11.2](https://github.com/auth0/Lock.iOS-OSX/tree/1.11.2) (2015-05-05)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.11.1...1.11.2)
