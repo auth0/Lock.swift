@@ -272,15 +272,18 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         //   <error code="89">Error processing your OAuth request: invalid signature or token</error>
         // </errors>
         BOOL error89 = responseStr && [responseStr rangeOfString:@"<error code=\"89\">"].location != NSNotFound;
-        *error = [A0Errors twitterAppNotAuthorized];
-        if (error87) {
-            A0LogError(@"Twitter app not configured in Auth0");
-            *error = [A0Errors twitterNotConfigured];
+        if (error != NULL) {
+            *error = [A0Errors twitterAppNotAuthorized];
+            if (error87) {
+                A0LogError(@"Twitter app not configured in Auth0");
+                *error = [A0Errors twitterNotConfigured];
+            }
+            if (error89) {
+                A0LogError(@"Twitter Account in iOS is invalid. Re-enter credentials in Settings > Twitter");
+                *error = [A0Errors twitterInvalidAccount];
+            }
         }
-        if (error89) {
-            A0LogError(@"Twitter Account in iOS is invalid. Re-enter credentials in Settings > Twitter");
-            *error = [A0Errors twitterInvalidAccount];
-        }
+
     } else {
         payload = [NSURL ab_parseURLQueryString:responseStr];
         NSString *oauthToken = payload[@"oauth_token"];
@@ -288,7 +291,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         NSString *userId = payload[@"user_id"];
         if (!(oauthToken || oauthTokenSecret || userId)) {
             A0LogError(@"Reverse auth didnt return all credential info (token, token_secret & user_id)");
-            *error = [A0Errors twitterAppNotAuthorized];
+            if (error != NULL) {
+                *error = [A0Errors twitterAppNotAuthorized];
+            }
         }
     }
     return payload;
