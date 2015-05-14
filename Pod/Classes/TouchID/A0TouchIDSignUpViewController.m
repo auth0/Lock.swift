@@ -32,6 +32,7 @@
 #import <libextobjc/EXTScope.h>
 #import "A0EmailValidator.h"
 #import "A0Lock.h"
+#import "NSObject+A0APIClientProvider.h"
 
 @interface A0TouchIDSignUpViewController ()
 
@@ -78,7 +79,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (!error) {
         @weakify(self);
         A0LogDebug(@"Registering user with email %@ for TouchID", username);
-        A0APIClient *client = self.lock.apiClient;
+        A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
         [client signUpWithUsername:username
                           password:password
                     loginOnSuccess:YES

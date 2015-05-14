@@ -44,6 +44,7 @@
 #import "A0UsernameValidator.h"
 #import "A0PasswordValidator.h"
 #import "A0Lock.h"
+#import "NSObject+A0APIClientProvider.h"
 
 @interface A0ActiveDirectoryViewController ()
 
@@ -99,7 +100,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)access:(id)sender {
     if (self.matchedConnection || self.defaultConnection) {
         A0Connection *connection = self.matchedConnection ?: self.defaultConnection;
-        A0Application *application = [self.lock.apiClient application];
+        A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
+        A0Application *application = [client application];
         A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
         if (!strategy.useResourceOwnerEndpoint) {
             [self loginUserWithConnection:connection];
@@ -129,7 +131,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 };
                 A0AuthParameters *parameters = self.parameters.copy;
                 parameters[A0ParameterConnection] = connection.name;
-                [self.lock.apiClient loginWithUsername:username password:password parameters:parameters success:success failure:failure];
+                A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
+                [client loginWithUsername:username password:password parameters:parameters success:success failure:failure];
             } else {
                 [self postLoginErrorNotificationWithError:error];
                 [self.accessButton setInProgress:NO];
@@ -150,7 +153,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)matchDomainInTextField:(UITextField *)textField {
     A0Connection *connection = [self.domainMatcher connectionForEmail:textField.text];
-    A0APIClient *client = self.lock.apiClient;
+    A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
     A0Strategy *adStrategy = client.application.activeDirectoryStrategy;
     BOOL showSingleSignOn = connection && ![adStrategy.connections containsObject:connection];
     if (showSingleSignOn) {
@@ -201,7 +204,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         }
     };
 
-    A0Application *application = [self.lock.apiClient application];
+    A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
+    A0Application *application = [client application];
     A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
     A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
     A0AuthParameters *parameters = self.parameters.copy;

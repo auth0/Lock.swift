@@ -37,6 +37,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
+@property (strong, nonatomic) A0Lock *lock;
+
 - (IBAction)close:(id)sender;
 
 @end
@@ -44,6 +46,15 @@
 @implementation A0SMSLockViewController
 
 AUTH0_DYNAMIC_LOGGER_METHODS
+
+- (instancetype)initWithLock:(A0Lock *)lock {
+    NSAssert(lock != nil, @"Must have a non-nil Lock instance");
+    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    if (self) {
+        _lock = lock;
+    }
+    return self;
+}
 
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
@@ -85,11 +96,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self displayController:[self buildSMSSendCode]];
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapRecognizer];
-
-    if (!self.lock) {
-        self.lock = [[A0Lock alloc] init];
-    }
-
 }
 
 - (void)close:(id)sender {

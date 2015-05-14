@@ -35,6 +35,7 @@
 #import "A0UIUtilities.h"
 #import "A0TitleView.h"
 #import "A0Lock.h"
+#import "NSObject+A0APIClientProvider.h"
 
 @interface A0LockSignUpViewController () <A0SmallSocialAuthenticationCollectionViewDelegate>
 
@@ -44,12 +45,22 @@
 @property (weak, nonatomic) IBOutlet A0SmallSocialAuthenticationCollectionView *serviceCollectionView;
 
 @property (strong, nonatomic) A0LockConfiguration *configuration;
+@property (strong, nonatomic) A0Lock *lock;
 
 @end
 
 @implementation A0LockSignUpViewController
 
 AUTH0_DYNAMIC_LOGGER_METHODS
+
+- (instancetype)initWithLock:(A0Lock *)lock {
+    NSAssert(lock != nil, @"Must have a non-nil Lock instance");
+    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    if (self) {
+        _lock = lock;
+    }
+    return self;
+}
 
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
@@ -168,7 +179,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)loadApplicationInfo {
     @weakify(self);
-    [self.lock.apiClient fetchAppInfoWithSuccess:^(A0Application *application) {
+    A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
+    [client fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         A0LogDebug(@"Obtained application info. Starting to build Lock UI for Sign Up...");
         [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];

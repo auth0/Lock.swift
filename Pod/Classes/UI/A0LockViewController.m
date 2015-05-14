@@ -50,12 +50,14 @@
 #import "A0LockNotification.h"
 #import "A0TitleView.h"
 #import "A0Lock.h"
+#import "NSObject+A0APIClientProvider.h"
 
 @interface A0LockViewController () <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 
 @property (strong, nonatomic) A0LockConfiguration *configuration;
+@property (strong, nonatomic) A0Lock *lock;
 
 - (IBAction)dismiss:(id)sender;
 
@@ -64,6 +66,14 @@
 @implementation A0LockViewController
 
 AUTH0_DYNAMIC_LOGGER_METHODS
+
+- (instancetype)initWithLock:(A0Lock *)lock {
+    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    if (self) {
+        _lock = lock;
+    }
+    return self;
+}
 
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
@@ -101,9 +111,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     self.dismissButton.hidden = !self.closable;
 
-    if (!self.lock) {
-        self.lock = [[A0Lock alloc] init];
-    }
     [[A0IdentityProviderAuthenticator sharedInstance] setUseWebAsDefault:!self.useWebView];
     [self loadApplicationInfo];
 }
@@ -140,7 +147,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)loadApplicationInfo {
     @weakify(self);
-    [self.lock.apiClient fetchAppInfoWithSuccess:^(A0Application *application) {
+    A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
+    [client fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         A0LogDebug(@"Obtained application info. Starting to build Lock UI...");
         [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];

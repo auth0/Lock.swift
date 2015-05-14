@@ -28,9 +28,22 @@
 @interface A0LockSignUpViewController : A0ContainerViewController
 
 /**
- *  Instance of Lock with Auth0 account information.
+ *  Initialize a new instance of the ViewController
+ *
+ *  @param lock an instance of Lock configured for an Auth0 application
+ *  @return an initialized instance.
+ *  @see A0Lock
  */
-@property (strong, nonatomic) A0Lock *lock;
+- (instancetype)initWithLock:(A0Lock *)lock;
+
+/**
+ *  Initialize a new instance of the ViewController
+ *
+ *  @return an initialized instance.
+ *  @deprecated 1.12.0. Please use `initWithLock:` or create using an `A0Lock` instance
+ *  @see A0Lock
+ */
+- (instancetype)init __attribute__((deprecated));
 
 /**
  Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.
