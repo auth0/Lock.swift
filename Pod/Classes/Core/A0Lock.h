@@ -22,13 +22,14 @@
 
 #import <Foundation/Foundation.h>
 #import "A0APIClientProvider.h"
+#import "A0AuthenticatorProvider.h"
 
-@class A0APIClient, A0UserAPIClient;
+@class A0APIClient, A0UserAPIClient, A0IdentityProviderAuthenticator;
 
 /**
  *  Main interface with Auth0 Lock for iOS.
  */
-@interface A0Lock : NSObject<A0APIClientProvider>
+@interface A0Lock : NSObject<A0APIClientProvider, A0AuthenticatorProvider>
 
 /**
  *  Auth0 account's client identifier
@@ -126,5 +127,13 @@
  *  @return an new API client
  */
 - (A0UserAPIClient *)newUserAPIClientWithIdToken:(NSString *)idToken;
+
+/**
+ *  Auth0 IdP authenticator for Social & Enterprise connections.
+ *  This object handles either native integrations or Web-flow for authentication.
+ *
+ *  @return a IdP authenticator instance
+ */
+- (A0IdentityProviderAuthenticator *)identityProviderAuthenticator;
 
 @end

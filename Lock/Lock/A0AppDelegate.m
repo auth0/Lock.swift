@@ -29,6 +29,7 @@
     #import <Fabric/Fabric.h>
     #import <Crashlytics/Crashlytics.h>
 #endif
+#import "A0LockApplication.h"
 
 @implementation A0AppDelegate
 
@@ -48,6 +49,6 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [[A0IdentityProviderAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
+    return [[[[A0LockApplication sharedInstance] lock] identityProviderAuthenticator] handleURL:url sourceApplication:sourceApplication];
 }
 @end

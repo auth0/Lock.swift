@@ -32,17 +32,14 @@
         _lock = [A0Lock new];
         A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
                                                                                 andSecret:@""];
-        twitter.clientProvider = _lock;
         A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
-        facebook.clientProvider = _lock;
         NSString *googlePlusClientId = [[NSBundle mainBundle] infoDictionary][@"GooglePlusClientId"];
         A0GooglePlusAuthenticator *googleplus = [A0GooglePlusAuthenticator newAuthenticatorWithClientId:googlePlusClientId];
-        googleplus.clientProvider = _lock;
-        [[A0IdentityProviderAuthenticator sharedInstance] registerAuthenticationProviders:@[
-                                                                                            twitter,
-                                                                                            facebook,
-                                                                                            googleplus,
-                                                                                            ]];
+        [[_lock identityProviderAuthenticator] registerAuthenticationProviders:@[
+                                                                                twitter,
+                                                                                facebook,
+                                                                                googleplus,
+                                                                                ]];
     }
     return self;
 }

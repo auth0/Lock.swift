@@ -45,6 +45,7 @@
 #import "A0PasswordValidator.h"
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
+#import "NSObject+A0AuthenticatorProvider.h"
 
 @interface A0ActiveDirectoryViewController ()
 
@@ -207,7 +208,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
     A0Application *application = [client application];
     A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
-    A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
+    A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
     A0AuthParameters *parameters = self.parameters.copy;
     parameters[A0ParameterConnection] = connection.name;
     if ([authenticator canAuthenticateStrategy:strategy]) {

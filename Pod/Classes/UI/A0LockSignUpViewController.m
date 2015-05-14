@@ -36,6 +36,7 @@
 #import "A0TitleView.h"
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
+#import "NSObject+A0AuthenticatorProvider.h"
 
 @interface A0LockSignUpViewController () <A0SmallSocialAuthenticationCollectionViewDelegate>
 
@@ -95,7 +96,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.dismissButton.tintColor = [theme colorForKey:A0ThemeCloseButtonTintColor];
 
-    [[A0IdentityProviderAuthenticator sharedInstance] setUseWebAsDefault:!self.useWebView];
+    A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
+    [authenticator setUseWebAsDefault:!self.useWebView];
     [self displayController:[[A0LoadingViewController alloc] init]];
     [self loadApplicationInfo];
 
@@ -183,7 +185,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [client fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         A0LogDebug(@"Obtained application info. Starting to build Lock UI for Sign Up...");
-        [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
+        A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
+        [authenticator configureForApplication:application];
         A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
         configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
         self.serviceCollectionView.lock = self.lock;

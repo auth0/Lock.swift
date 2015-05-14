@@ -72,7 +72,7 @@ describe(@"A0SocialAuthenticator", ^{
 
         it(@"should fail with provider with no identifier", ^{
             expect(^{
-                [authenticator registerAuthenticationProvider:mockProtocol(@protocol(A0AuthenticationProvider))];
+                [authenticator registerAuthenticationProvider:mock(A0BaseAuthenticator.class)];
             }).to.raiseWithReason(NSInternalInconsistencyException, @"Provider must have a valid indentifier");
         });
 
@@ -81,7 +81,7 @@ describe(@"A0SocialAuthenticator", ^{
             __block id<A0AuthenticationProvider> facebookProvider;
 
             beforeEach(^{
-                facebookProvider = mockProtocol(@protocol(A0AuthenticationProvider));
+                facebookProvider = mock(A0BaseAuthenticator.class);
                 [given([facebookProvider identifier]) willReturn:kFBProviderId];
                 [authenticator registerAuthenticationProvider:facebookProvider];
             });
@@ -95,9 +95,9 @@ describe(@"A0SocialAuthenticator", ^{
             __block id<A0AuthenticationProvider> twitterProvider;
 
             beforeEach(^{
-                facebookProvider = mockProtocol(@protocol(A0AuthenticationProvider));
+                facebookProvider = mock(A0BaseAuthenticator.class);
                 [given([facebookProvider identifier]) willReturn:kFBProviderId];
-                twitterProvider = mockProtocol(@protocol(A0AuthenticationProvider));
+                twitterProvider = mock(A0BaseAuthenticator.class);
                 [given([twitterProvider identifier]) willReturn:kTwitterProviderId];
 
                 [authenticator registerAuthenticationProviders:@[facebookProvider, twitterProvider]];
@@ -117,9 +117,9 @@ describe(@"A0SocialAuthenticator", ^{
         __block id<A0AuthenticationProvider> twitterProvider;
 
         beforeEach(^{
-            facebookProvider = mockProtocol(@protocol(A0AuthenticationProvider));
+            facebookProvider = mock(A0BaseAuthenticator.class);
             [given([facebookProvider identifier]) willReturn:kFBProviderId];
-            twitterProvider = mockProtocol(@protocol(A0AuthenticationProvider));
+            twitterProvider = mock(A0BaseAuthenticator.class);
             [given([twitterProvider identifier]) willReturn:kTwitterProviderId];
             application = mock(A0Application.class);
             facebookStrategy = mock(A0Strategy.class);
@@ -153,7 +153,7 @@ describe(@"A0SocialAuthenticator", ^{
         void(^successBlock)(A0UserProfile *, A0Token *) = ^(A0UserProfile *profile, A0Token *token) {};
 
         beforeEach(^{
-            provider = mockProtocol(@protocol(A0AuthenticationProvider));
+            provider = mock(A0BaseAuthenticator.class);
             [given([provider identifier]) willReturn:@"provider"];
             strategy = mock(A0Strategy.class);
             [given([strategy name]) willReturn:@"provider"];
@@ -234,8 +234,8 @@ describe(@"A0SocialAuthenticator", ^{
         NSURL *twitterURL = [NSURL URLWithString:@"twitter://handler"];
 
         beforeEach(^{
-            facebook = mockProtocol(@protocol(A0AuthenticationProvider));
-            twitter = mockProtocol(@protocol(A0AuthenticationProvider));
+            facebook = mock(A0BaseAuthenticator.class);
+            twitter = mock(A0BaseAuthenticator.class);
             [given([facebook handleURL:facebookURL sourceApplication:nil]) willReturnBool:YES];
             [given([twitter handleURL:twitterURL sourceApplication:nil]) willReturnBool:YES];
             authenticator.authenticators = [@{ @"facebook": facebook, @"twitter": twitter } mutableCopy];
@@ -302,8 +302,8 @@ describe(@"A0SocialAuthenticator", ^{
         __block id<A0AuthenticationProvider> twitter;
 
         beforeEach(^{
-            facebook = mockProtocol(@protocol(A0AuthenticationProvider));
-            twitter = mockProtocol(@protocol(A0AuthenticationProvider));
+            facebook = mock(A0BaseAuthenticator.class);
+            twitter = mock(A0BaseAuthenticator.class);
             authenticator.authenticators = [@{ @"facebook": facebook, @"twitter": twitter } mutableCopy];
         });
 
