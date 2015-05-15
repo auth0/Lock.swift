@@ -125,6 +125,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [self.router endpointURL];
 }
 
++ (instancetype)newLock {
+    return [[A0Lock alloc] init];
+}
+
 + (instancetype)newLockWithClientId:(NSString *)clientId domain:(NSString *)domain {
     return [[A0Lock alloc] initWithClientId:clientId domain:domain];
 }

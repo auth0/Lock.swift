@@ -49,7 +49,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (instancetype)initWithLock:(A0Lock *)lock {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated"
     self = [self init];
+#pragma GCC diagnostic pop
     if (self) {
         _clientProvider = lock;
     }

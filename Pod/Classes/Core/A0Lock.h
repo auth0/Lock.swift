@@ -45,19 +45,7 @@
 @property (strong, readonly, nonatomic) NSURL *configurationURL;
 
 /**
- *  Initialise a new instance with values from NSBundle
- *  The valid keys are the following:
-
- *  ClientId: "Auth0ClientId"
- *  Tenant: "Auth0Tenant"
- *  Domain: "Auth0Domain"
- *  Config Domain: "Auth0ConfigurationDomain"
- *
- *  It can be any of these configurations:
- *  1. Domain + Domain Config + Client Id
- *  2. Domain + Client Id
- *  3. Tenant + Client Id
- *  The order also determines the precende, so if (1) and (2) are found in the dictionary, the option (1) will be used instead of (2).
+ *  Initialise a new instance with values from Info.plist
  *
  *  @return an instance of A0Lock
  */
@@ -111,6 +99,17 @@
                              domain:(NSString *)domain
                 configurationDomain:(NSString *)configurationDomain;
 
+
+/**
+ *  Creates a new instance of Lock using information stored in your Info.plist.
+ *  These are the the valid entries:
+ *      - Auth0ClientId: Your app's client identifier in Auth0.
+ *      - Auth0Domain: Your app's domain name or url in Auth0. e.g: samples.auth0.com or https://samples.auth0.com
+ *      - Auth0ConfigurationDomain: Your app's configuration domain name or url where we get yout app configuration. This value is optional and will default to Auth0 CDN.
+ *
+ *  @return a new instance
+ */
++ (instancetype)newLock;
 
 /**
  *  Auth0 Authentication API client.

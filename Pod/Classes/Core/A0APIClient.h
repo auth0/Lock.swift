@@ -59,8 +59,8 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 /**
  *  Returns a shared instance of `A0APIClient`. This instance is initialised with clientId and tenant from Info plist file entries. These entries are `Auth0ClientId` and `Auth0Tenant`.
  *  It can also be instantiated with a custom domain instead of Auth0's.
- *  We recommend keeping yourself the `A0APIClient` instead instead of relying in this singleton, for this reason this method is deprecated.
- *  @deprecated 1.12.0
+ *  We recommend keeping yourself the `A0APIClient` instead instead of relying in this singleton, for this reason this method is deprecated and we suggest using A0Lock class to obtain an instance of this class.
+ *  @deprecated 1.12.0. We recommend creating an instance of A0Lock and call its method `-apiClient` to obtain an instance of this object.
  *  @return a shared `A0APIClient` instance.
  */
 + (instancetype)sharedClient __attribute__((deprecated));
@@ -346,11 +346,13 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 @interface A0APIClient (Deprecated)
 
 /**
- *  Initialise the Client with Auth0's app client ID and tenant name
+ *  Initialise the Client with Auth0's app client ID and tenant name.
+ *
  *  @param clientId app's client ID.
  *  @param tenant app's tenant name
  *
- *  @deprecated 1.12.0
+ *  @deprecated 1.12.0. Use domain & clientId to build and instance of just use A0Lock class
+ *  @see A0Lock
  *  @return a new `A0APIClient` instance
  */
 - (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant;

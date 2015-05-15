@@ -39,7 +39,7 @@
  *  Returns a shared instance of `A0IdentityProviderAuthenticator`
  *
  *  @return shared instance
- *  @deprecated 1.12.0. Obtain an instance from A0Lock instead of this method.
+ *  @deprecated 1.12.0. We recommend creating an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
  *  @see A0Lock
  */
 + (A0IdentityProviderAuthenticator *)sharedInstance __attribute__((deprecated));
@@ -52,6 +52,14 @@
  *  @return an initialized instance
  */
 - (instancetype)initWithLock:(A0Lock *)lock;
+
+/**
+ *  Initialize IdP authenticator
+ *
+ *  @return an initialized instance.
+ *  @deprecated 1.12.0. Use `-initWithLock:` instead or create an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
+ */
+- (instancetype)init __attribute__((deprecated));
 
 /**
  *  Register an array of identity providers.
