@@ -125,6 +125,18 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [self.router endpointURL];
 }
 
+- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
+    return [self.authenticator handleURL:url sourceApplication:sourceApplication];
+}
+
+- (void)registerAuthenticators:(NSArray *)authenticators {
+    [self.identityProviderAuthenticator registerAuthenticationProviders:authenticators];
+}
+
+- (void)clearSessions {
+    [self.identityProviderAuthenticator clearSessions];
+}
+
 + (instancetype)newLock {
     return [[A0Lock alloc] init];
 }

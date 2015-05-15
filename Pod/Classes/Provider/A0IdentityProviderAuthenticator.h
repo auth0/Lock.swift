@@ -27,6 +27,8 @@
 
 /**
  *  `A0IdentityProviderAuthenticator` provides a single interface to handle all interactions with different identity providers. Each identity provider (a class that conforms with the protocol `A0AuthenticationProvider`) to be used must be registered with this object.
+ *  We recommend using `A0Lock` object instead of this object directly.
+ *  @see A0Lock
  */
 @interface A0IdentityProviderAuthenticator : NSObject
 

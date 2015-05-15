@@ -35,11 +35,11 @@
         A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
         NSString *googlePlusClientId = [[NSBundle mainBundle] infoDictionary][@"GooglePlusClientId"];
         A0GooglePlusAuthenticator *googleplus = [A0GooglePlusAuthenticator newAuthenticatorWithClientId:googlePlusClientId];
-        [[_lock identityProviderAuthenticator] registerAuthenticationProviders:@[
-                                                                                twitter,
-                                                                                facebook,
-                                                                                googleplus,
-                                                                                ]];
+        [_lock registerAuthenticators:@[
+                                        twitter,
+                                        facebook,
+                                        googleplus,
+                                        ]];
     }
     return self;
 }

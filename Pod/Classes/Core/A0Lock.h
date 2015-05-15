@@ -128,11 +128,30 @@
 - (A0UserAPIClient *)newUserAPIClientWithIdToken:(NSString *)idToken;
 
 /**
- *  Auth0 IdP authenticator for Social & Enterprise connections.
- *  This object handles either native integrations or Web-flow for authentication.
+ *  Handle URL received from AppDelegate when app is called from a third party app at the end of an authentication flow.
  *
- *  @return a IdP authenticator instance
+ *
+ *  @param url               url used by third party app to call the application
+ *  @param sourceApplication caller name
+ *
+ *  @return if we can handle the url or not.
  */
-- (A0IdentityProviderAuthenticator *)identityProviderAuthenticator;
+- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
+
+/**
+ *  Register IdP authenticator that will be used for Social & Enterprise connections.
+ *  By default all Social & Enterprise authentications are performed by using the web flow with Safari but you can plug 
+ *  your own authenticator for a connection. e.g.: you can register A0FacebookAuthenticator in order to login with FB native SDK.
+ *
+ *  @param authenticators list of authenticators to register. Must be subclasses of A0BaseAuthenticator
+ *  @see A0BaseAuthenticator
+ */
+- (void)registerAuthenticators:(NSArray *)authenticators;
+
+/**
+ *  Remove all stored sessions of any IdP in your application.
+ *  If the user logged in using Safari, those sessions will not be cleaned.
+ */
+- (void)clearSessions;
 
 @end
