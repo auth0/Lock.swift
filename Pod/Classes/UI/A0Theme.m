@@ -249,8 +249,12 @@ NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
 }
 
 - (UIImage *)image {
-    NSBundle *bundle = self.bundleName ? [NSBundle bundleWithIdentifier:self.bundleName] : [NSBundle bundleForClass:self.class];
-    return [UIImage imageNamed:self.imageName inBundle:bundle compatibleWithTraitCollection:nil];
+    if ([UIImage respondsToSelector:@selector(imageNamed:inBundle:compatibleWithTraitCollection:)]) {
+        NSBundle *bundle = self.bundleName ? [NSBundle bundleWithIdentifier:self.bundleName] : [NSBundle bundleForClass:self.class];
+        return [UIImage imageNamed:self.imageName inBundle:bundle compatibleWithTraitCollection:nil];
+    } else {
+        return [UIImage imageNamed:self.imageName];
+    }
 }
 
 @end
