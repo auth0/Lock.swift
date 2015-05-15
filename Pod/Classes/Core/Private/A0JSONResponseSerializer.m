@@ -50,7 +50,9 @@
         //FIXME: change password answer is not a valid JSON so we need this hack
         if (!responseObject && [response.URL.path isEqualToString:@"/dbconnections/change_password"]) {
             responseObject = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            *error = nil;
+            if (error != NULL) {
+                *error = nil;
+            }
         }
     }
     return responseObject;

@@ -24,6 +24,7 @@
 #import "A0APIv1Router.h"
 #import "A0APIClient.h"
 #import "A0UserAPIClient.h"
+#import "A0IdentityProviderAuthenticator.h"
 
 #define kCDNConfigurationURL @"https://cdn.auth0.com"
 #define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
@@ -51,6 +52,7 @@
 @interface A0Lock ()
 @property (strong, nonatomic) id<A0APIRouter> router;
 @property (strong, nonatomic) A0APIClient *client;
+@property (strong, nonatomic) A0IdentityProviderAuthenticator *authenticator;
 @end
 
 @implementation A0Lock
@@ -93,6 +95,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0LogDebug(@"Auth0 Lock initialised with clientId: (%@) domainURL: (%@) configurationURL: (%@)", clientId, domainURL, configurationURL);
         _router = [[A0APIv1Router alloc] initWithClientId:clientId domainURL:domainURL configurationURL:configurationURL];
         _client = [[A0APIClient alloc] initWithAPIRouter:_router];
+        _authenticator = [[A0IdentityProviderAuthenticator alloc] initWithLock:self];
     }
 
     return self;
@@ -100,6 +103,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (A0APIClient *)apiClient {
     return self.client;
+}
+
+- (A0IdentityProviderAuthenticator *)identityProviderAuthenticator {
+    return self.authenticator;
 }
 
 - (A0UserAPIClient *)newUserAPIClientWithIdToken:(NSString *)idToken {
@@ -116,6 +123,22 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (NSURL *)domainURL {
     return [self.router endpointURL];
+}
+
+- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
+    return [self.authenticator handleURL:url sourceApplication:sourceApplication];
+}
+
+- (void)registerAuthenticators:(NSArray *)authenticators {
+    [self.identityProviderAuthenticator registerAuthenticationProviders:authenticators];
+}
+
+- (void)clearSessions {
+    [self.identityProviderAuthenticator clearSessions];
+}
+
++ (instancetype)newLock {
+    return [[A0Lock alloc] init];
 }
 
 + (instancetype)newLockWithClientId:(NSString *)clientId domain:(NSString *)domain {

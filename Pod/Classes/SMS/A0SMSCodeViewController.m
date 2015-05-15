@@ -30,6 +30,7 @@
 
 #import <libextobjc/EXTScope.h>
 #import "A0Lock.h"
+#import "NSObject+A0APIClientProvider.h"
 
 @interface A0SMSCodeViewController ()
 
@@ -87,11 +88,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             A0ShowAlertErrorView(title, message);
         };
         [self.loginButton setInProgress:YES];
-        [self.lock.apiClient loginWithPhoneNumber:self.phoneNumber
-                                         passcode:passcode
-                                       parameters:self.parameters
-                                          success:self.onAuthenticationBlock
-                                          failure:failureBlock];
+        A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
+        [client loginWithPhoneNumber:self.phoneNumber
+                            passcode:passcode
+                          parameters:self.parameters
+                             success:self.onAuthenticationBlock
+                             failure:failureBlock];
     } else {
         A0LogError(@"Must provide a non-empty passcode.");
         A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), A0LocalizedString(@"You must enter a valid SMS code"));

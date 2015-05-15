@@ -21,12 +21,14 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0AuthenticationProvider.h"
+#import "A0BaseAuthenticator.h"
 
-@class A0Application, A0Strategy, A0UserProfile, A0Token, A0AuthParameters;
+@class A0Application, A0Strategy, A0UserProfile, A0Token, A0AuthParameters, A0Lock;
 
 /**
  *  `A0IdentityProviderAuthenticator` provides a single interface to handle all interactions with different identity providers. Each identity provider (a class that conforms with the protocol `A0AuthenticationProvider`) to be used must be registered with this object.
+ *  We recommend using `A0Lock` object instead of this object directly.
+ *  @see A0Lock
  */
 @interface A0IdentityProviderAuthenticator : NSObject
 
@@ -39,8 +41,27 @@
  *  Returns a shared instance of `A0IdentityProviderAuthenticator`
  *
  *  @return shared instance
+ *  @deprecated 1.12.0. We recommend creating an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
+ *  @see A0Lock
  */
-+ (A0IdentityProviderAuthenticator *)sharedInstance;
++ (A0IdentityProviderAuthenticator *)sharedInstance __attribute__((deprecated));
+
+/**
+ *  Initialize IdP authenticator with for a Lock instance.
+ *
+ *  @param lock instance of A0Lock that provides app configuration and Auth API client.
+ *
+ *  @return an initialized instance
+ */
+- (instancetype)initWithLock:(A0Lock *)lock;
+
+/**
+ *  Initialize IdP authenticator
+ *
+ *  @return an initialized instance.
+ *  @deprecated 1.12.0. Use `-initWithLock:` instead or create an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
+ */
+- (instancetype)init __attribute__((deprecated));
 
 /**
  *  Register an array of identity providers.
@@ -55,7 +76,7 @@
  *
  *  @param authenticationProvider object that conforms `A0AuthenticationProvider` protocol
  */
-- (void)registerAuthenticationProvider:(id<A0AuthenticationProvider>)authenticationProvider;
+- (void)registerAuthenticationProvider:(A0BaseAuthenticator *)authenticationProvider;
 
 /**
  *  Configures the authentication with the enabled identity providers in Auth0's application. Must be called at least once before trying to authenticate with any connection.

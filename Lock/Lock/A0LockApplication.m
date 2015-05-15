@@ -29,20 +29,17 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _lock = [A0Lock new];
+        _lock = [A0Lock newLock];
         A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
                                                                                 andSecret:@""];
-        twitter.clientProvider = _lock;
         A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
-        facebook.clientProvider = _lock;
         NSString *googlePlusClientId = [[NSBundle mainBundle] infoDictionary][@"GooglePlusClientId"];
         A0GooglePlusAuthenticator *googleplus = [A0GooglePlusAuthenticator newAuthenticatorWithClientId:googlePlusClientId];
-        googleplus.clientProvider = _lock;
-        [[A0IdentityProviderAuthenticator sharedInstance] registerAuthenticationProviders:@[
-                                                                                            twitter,
-                                                                                            facebook,
-                                                                                            googleplus,
-                                                                                            ]];
+        [_lock registerAuthenticators:@[
+                                        twitter,
+                                        facebook,
+                                        googleplus,
+                                        ]];
     }
     return self;
 }

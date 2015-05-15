@@ -50,12 +50,15 @@
 #import "A0LockNotification.h"
 #import "A0TitleView.h"
 #import "A0Lock.h"
+#import "NSObject+A0APIClientProvider.h"
+#import "NSObject+A0AuthenticatorProvider.h"
 
 @interface A0LockViewController () <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 
 @property (strong, nonatomic) A0LockConfiguration *configuration;
+@property (strong, nonatomic) A0Lock *lock;
 
 - (IBAction)dismiss:(id)sender;
 
@@ -64,6 +67,14 @@
 @implementation A0LockViewController
 
 AUTH0_DYNAMIC_LOGGER_METHODS
+
+- (instancetype)initWithLock:(A0Lock *)lock {
+    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    if (self) {
+        _lock = lock;
+    }
+    return self;
+}
 
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
@@ -101,10 +112,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     self.dismissButton.hidden = !self.closable;
 
-    if (!self.lock) {
-        self.lock = [[A0Lock alloc] init];
-    }
-    [[A0IdentityProviderAuthenticator sharedInstance] setUseWebAsDefault:!self.useWebView];
+    A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
+    [authenticator setUseWebAsDefault:!self.useWebView];
     [self loadApplicationInfo];
 }
 
@@ -140,10 +149,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)loadApplicationInfo {
     @weakify(self);
-    [self.lock.apiClient fetchAppInfoWithSuccess:^(A0Application *application) {
+    A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
+    [client fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         A0LogDebug(@"Obtained application info. Starting to build Lock UI...");
-        [[A0IdentityProviderAuthenticator sharedInstance] configureForApplication:application];
+        A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
+        [authenticator configureForApplication:application];
         self.configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
         self.configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
         [self layoutRootController];

@@ -1,6 +1,6 @@
-//  UI.h
+// A0Lock+A0SMSLockViewController.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef _AUTH0_IOS_SDK_UI_
-#define _AUTH0_IOS_SDK_UI_
+#import <UIKit/UIKit.h>
+#import "A0Lock.h"
 
-#import "A0Theme.h"
-#import "A0LockViewController.h"
-#import "A0LockSignUpViewController.h"
-#import "A0Lock+A0LockViewController.h"
+@class A0SMSLockViewController;
 
-#endif
+@interface A0Lock (A0SMSLockViewController)
+
+/**
+ *  Creates a new instance of `A0SMSLockViewController`
+ *
+ *  @return a new instance
+ */
+- (A0SMSLockViewController *)newSMSViewController;
+
+/**
+ *  Presents a `A0SMSLockViewController` from a UIViewController. This method takes care of embedding the `A0SMSLockViewController` inside a `UINavigationController`
+ *
+ *  @param smsController controller to present
+ *  @param controller        controller that will present the TouchID VC.
+ */
+- (void)presentSMSController:(A0SMSLockViewController *)smsController fromController:(UIViewController *)controller;
+
+@end

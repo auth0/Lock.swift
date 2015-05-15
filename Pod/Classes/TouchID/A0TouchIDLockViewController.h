@@ -35,9 +35,22 @@ FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockContainerBackgroundColor;
 @interface A0TouchIDLockViewController : UIViewController
 
 /**
- *  Instance of Lock with Auth0 account information. By default it will build this object with information from `Info.plist` if none is set.
+ *  Initialize a new instance of the ViewController
+ *
+ *  @param lock an instance of Lock configured for an Auth0 application
+ *  @return an initialized instance.
+ *  @see A0Lock
  */
-@property (strong, nonatomic) A0Lock *lock;
+- (instancetype)initWithLock:(A0Lock *)lock;
+
+/**
+ *  Initialize a new instance of the ViewController
+ *
+ *  @return an initialized instance.
+ *  @deprecated 1.12.0. Please use `initWithLock:` or create using an `A0Lock` instance
+ *  @see A0Lock
+ */
+- (instancetype)init __attribute__((deprecated));
 
 /**
  Allows the A0AuthenticationViewController to be dismissed by adding a button. Default is NO

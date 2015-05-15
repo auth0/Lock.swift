@@ -1,6 +1,6 @@
-//  UI.h
+// NSObject+A0AuthenticatorProvider.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef _AUTH0_IOS_SDK_UI_
-#define _AUTH0_IOS_SDK_UI_
+#import <Foundation/Foundation.h>
+#import "A0AuthenticatorProvider.h"
 
-#import "A0Theme.h"
-#import "A0LockViewController.h"
-#import "A0LockSignUpViewController.h"
-#import "A0Lock+A0LockViewController.h"
+@class A0IdentityProviderAuthenticator;
 
-#endif
+@interface NSObject (A0AuthenticatorProvider)
+
+- (A0IdentityProviderAuthenticator *)a0_identityAuthenticatorFromProvider:(id<A0AuthenticatorProvider>)provider;
+
+@end

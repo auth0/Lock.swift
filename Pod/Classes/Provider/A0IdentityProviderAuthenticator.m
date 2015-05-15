@@ -25,9 +25,11 @@
 #import "A0Application.h"
 #import "A0Errors.h"
 #import "A0WebAuthenticator.h"
+#import "A0Lock.h"
 
 @interface A0IdentityProviderAuthenticator ()
 
+@property (weak, nonatomic) id<A0APIClientProvider> clientProvider;
 @property (strong, nonatomic) NSMutableDictionary *registeredAuthenticators;
 @property (strong, nonatomic) NSMutableDictionary *authenticators;
 
@@ -46,11 +48,23 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return instance;
 }
 
+- (instancetype)initWithLock:(A0Lock *)lock {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated"
+    self = [self init];
+#pragma GCC diagnostic pop
+    if (self) {
+        _clientProvider = lock;
+    }
+    return self;
+}
+
 - (id)init {
     self = [super init];
     if (self) {
         _registeredAuthenticators = [@{} mutableCopy];
         _useWebAsDefault = YES;
+        _clientProvider = nil;
     }
     return self;
 }
@@ -61,9 +75,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }];
 }
 
-- (void)registerAuthenticationProvider:(id<A0AuthenticationProvider>)authenticationProvider {
+- (void)registerAuthenticationProvider:(A0BaseAuthenticator *)authenticationProvider {
     NSAssert(authenticationProvider != nil, @"Must supply a non-nil profile");
     NSAssert(authenticationProvider.identifier != nil, @"Provider must have a valid indentifier");
+    authenticationProvider.clientProvider = self.clientProvider;
     self.registeredAuthenticators[authenticationProvider.identifier] = authenticationProvider;
 }
 
@@ -73,7 +88,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         if (self.registeredAuthenticators[strategy.name]) {
             self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
         } else if (self.useWebAsDefault) {
-            self.authenticators[strategy.name] = [A0WebAuthenticator newWebAuthenticationForStrategy:strategy ofApplication:application];
+            A0WebAuthenticator *authenticator = [A0WebAuthenticator newWebAuthenticationForStrategy:strategy ofApplication:application];
+            authenticator.clientProvider = self.clientProvider;
+            self.authenticators[strategy.name] = authenticator;
         }
     };
     [application.socialStrategies enumerateObjectsUsingBlock:registerBlock];

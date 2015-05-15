@@ -35,6 +35,7 @@
 #import "A0Theme.h"
 #import "A0TitleView.h"
 #import "A0Lock.h"
+#import "NSObject+A0APIClientProvider.h"
 
 NSString * const A0ThemeTouchIDLockButtonImageNormalName = @"A0ThemeTouchIDLockButtonImageNormalName";
 NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchIDLockButtonImageHighlightedName";
@@ -52,6 +53,7 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
 
 @property (strong, nonatomic) A0TouchIDAuthentication *authentication;
 @property (strong, nonatomic) A0UserAPIClient *userClient;
+@property (strong, nonatomic) A0Lock *lock;
 
 - (IBAction)checkTouchID:(id)sender;
 
@@ -60,6 +62,15 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
 @implementation A0TouchIDLockViewController
 
 AUTH0_DYNAMIC_LOGGER_METHODS
+
+- (instancetype)initWithLock:(A0Lock *)lock {
+    NSAssert(lock != nil, @"Must have a non-nil Lock instance");
+    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];;
+    if (self) {
+        _lock = lock;
+    }
+    return self;
+}
 
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
@@ -175,17 +186,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.authentication.authenticate = ^(NSString *jwt, A0ErrorBlock errorBlock) {
         @strongify(self);
         A0LogVerbose(@"Authenticating with signed JWT %@", jwt);
-        A0APIClient *client = self.lock.apiClient;
+        A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
         [client loginWithIdToken:jwt
                       deviceName:[self deviceName]
                       parameters:self.authenticationParameters
                          success:self.onAuthenticationBlock
                          failure:errorBlock];
     };
-    if (!self.lock) {
-        self.lock = [[A0Lock alloc] init];
-    }
-
 }
 
 - (void)close:(id)sender {

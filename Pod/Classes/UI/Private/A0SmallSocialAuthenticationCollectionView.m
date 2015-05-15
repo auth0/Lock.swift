@@ -38,6 +38,8 @@
 #import "A0LockNotification.h"
 #import "A0Connection.h"
 #import "A0AuthParameters.h"
+#import "NSObject+A0AuthenticatorProvider.h"
+#import "A0Lock.h"
 
 
 #define kCellIdentifier @"ServiceCell"
@@ -113,7 +115,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     A0AuthParameters *parameters = [self.parameters copy];
     parameters[A0ParameterConnection] = strategy.name;
-    A0IdentityProviderAuthenticator *authenticator = [A0IdentityProviderAuthenticator sharedInstance];
+    A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
         [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];

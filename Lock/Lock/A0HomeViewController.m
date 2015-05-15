@@ -81,9 +81,8 @@ static BOOL isRunningTests(void) {
 
 - (void)loginNative:(id)sender {
     [self.keychain clearAll];
-    A0LockViewController *controller = [[A0LockViewController alloc] init];
+    A0LockViewController *controller = [[[A0LockApplication sharedInstance] lock] newLockViewController];
     @weakify(self);
-    controller.lock = [[A0LockApplication sharedInstance] lock];
     controller.closable = YES;
     controller.loginAfterSignUp = YES;
     controller.usesEmail = YES;
@@ -102,9 +101,9 @@ static BOOL isRunningTests(void) {
 
 - (void)loginTouchID:(id)sender {
     [self.keychain clearAll];
-    A0TouchIDLockViewController *controller = [[A0TouchIDLockViewController alloc] init];
+    A0Lock *lock = [[A0LockApplication sharedInstance] lock];
+    A0TouchIDLockViewController *controller = [lock newTouchIDViewController];
     controller.closable = YES;
-    controller.lock = [[A0LockApplication sharedInstance] lock];
     @weakify(self);
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
@@ -116,17 +115,13 @@ static BOOL isRunningTests(void) {
             [self performSegueWithIdentifier:@"LoggedIn" sender:self];
         }];
     };
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        navController.modalPresentationStyle = UIModalPresentationFormSheet;
-    }
-    [self presentViewController:navController animated:YES completion:nil];
+    [lock presentTouchIDController:controller fromController:self];
 }
 
 - (void)loginSMS:(id)sender {
     [self.keychain clearAll];
-    A0SMSLockViewController *controller = [[A0SMSLockViewController alloc] init];
-    controller.lock = [[A0LockApplication sharedInstance] lock];
+    A0Lock *lock = [[A0LockApplication sharedInstance] lock];
+    A0SMSLockViewController *controller = [lock newSMSViewController];
     controller.closable = YES;
     @weakify(self);
     controller.auth0APIToken = ^{
@@ -144,10 +139,6 @@ static BOOL isRunningTests(void) {
             [self performSegueWithIdentifier:@"LoggedIn" sender:self];
         }];
     };
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        navController.modalPresentationStyle = UIModalPresentationFormSheet;
-    }
-    [self presentViewController:navController animated:YES completion:nil];
+    [lock presentSMSController:controller fromController:self];
 }
 @end

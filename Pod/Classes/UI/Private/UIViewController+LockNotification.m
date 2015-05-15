@@ -28,6 +28,7 @@
 #import "A0Connection.h"
 #import "A0AuthParameters.h"
 #import "A0Lock.h"
+#import "NSObject+A0APIClientProvider.h"
 
 @implementation UIViewController (LockNotification)
 
@@ -43,7 +44,7 @@
     NSString *connectionName;
     if ([self respondsToSelector:@selector(lock)]) {
         A0Lock *lock = [self performSelector:@selector(lock)];
-        A0APIClient *client = lock.apiClient;
+        A0APIClient *client = [self a0_apiClientFromProvider:lock];
         connectionName = parameters[@"connection"] ?: client.application.databaseStrategy.connections.firstObject;
     }
 
