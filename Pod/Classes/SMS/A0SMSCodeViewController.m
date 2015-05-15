@@ -69,7 +69,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                             range:phoneRange];
     }
     self.messageLabel.attributedText = attrString;
-    self.codeFieldView.textField.placeholder = A0LocalizedString(@"SMS Code");
+    [self.codeFieldView setFieldPlaceholderText:A0LocalizedString(@"SMS Code")];
 }
 
 - (void)login:(id)sender {

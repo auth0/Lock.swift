@@ -63,7 +63,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [theme configurePrimaryButton:self.registerButton];
     [theme configureLabel:self.messageLabel];
     self.messageLabel.text = A0LocalizedString(@"Please enter your phone number");
-    self.phoneFieldView.textField.placeholder = A0LocalizedString(@"Phone Number");
+    [self.phoneFieldView setFieldPlaceholderText:A0LocalizedString(@"Phone Number")];
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
 
     self.currentCountry = self.currentCountry ?: [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];

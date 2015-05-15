@@ -37,10 +37,7 @@
     self.iconImageView.image = [self.iconImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.placeholderText = self.textField.placeholder;
     self.textField.placeholder = nil;
-    self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeholderText
-                                                                           attributes:@{
-                                                                                        NSForegroundColorAttributeName: [[A0Theme sharedInstance] colorForKey:A0ThemeTextFieldPlaceholderTextColor],
-                                                                                        }];
+    [self setFieldPlaceholderText:self.placeholderText];
 }
 
 - (void)setInvalid:(BOOL)invalid {
@@ -64,4 +61,11 @@
     }
 }
 
+- (void)setFieldPlaceholderText:(NSString *)placeholderText {
+    self.placeholderText = placeholderText;
+    self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholderText
+                                                                           attributes:@{
+                                                                                        NSForegroundColorAttributeName: [[A0Theme sharedInstance] colorForKey:A0ThemeTextFieldPlaceholderTextColor],
+                                                                                        }];
+}
 @end

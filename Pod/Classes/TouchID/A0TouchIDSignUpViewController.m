@@ -68,6 +68,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     
     self.validator = [[A0EmailValidator alloc] initWithField:self.emailField.textField];
     self.title = A0LocalizedString(@"Register");
+    [self.emailField setFieldPlaceholderText:A0LocalizedString(@"Email")];
 }
 
 - (void)signUp:(id)sender {
