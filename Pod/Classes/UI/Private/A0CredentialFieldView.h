@@ -28,4 +28,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (assign, nonatomic) BOOL invalid;
 
+- (void)setFieldPlaceholderText:(NSString *)placeholderText;
 @end

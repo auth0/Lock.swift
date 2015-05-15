@@ -105,14 +105,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (self.defaultConnection) {
         self.parameters[A0ParameterConnection] = self.defaultConnection.name;
     }
+    NSString *placeholderText;
     if (requiresUsername) {
-        self.userField.textField.placeholder = A0LocalizedString(@"Username/Email");
+        placeholderText = A0LocalizedString(@"Username/Email");
     } else {
-        self.userField.textField.placeholder = self.forceUsername ? A0LocalizedString(@"Username") : A0LocalizedString(@"Email");
+        placeholderText = self.forceUsername ? A0LocalizedString(@"Username") : A0LocalizedString(@"Email");
     }
+    [self.userField setFieldPlaceholderText:placeholderText];
 
     self.userField.textField.text = self.defaultUsername;
-    self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
+    [self.passwordField setFieldPlaceholderText:A0LocalizedString(@"Password")];
     [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
     [self.passwordField.passwordManagerButton addTarget:self action:@selector(fillLogin:) forControlEvents:UIControlEventTouchUpInside];
     NSMutableArray *validators = [@[

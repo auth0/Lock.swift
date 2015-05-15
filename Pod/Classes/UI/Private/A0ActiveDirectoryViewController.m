@@ -85,8 +85,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
     self.singleSignOnIcon.image = [self.singleSignOnIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    self.userField.textField.placeholder = A0LocalizedString(@"Username");
-    self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
+    [self.userField setFieldPlaceholderText:A0LocalizedString(@"Username")];
+    [self.passwordField setFieldPlaceholderText:A0LocalizedString(@"Password")];
     [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
     self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
                                                                           [[A0UsernameValidator alloc] initWithField:self.userField.textField],

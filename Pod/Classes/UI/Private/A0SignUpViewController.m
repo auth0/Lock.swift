@@ -95,9 +95,9 @@
         [self.usernameSeparatorView removeFromSuperview];
         [self.credentialBoxView addConstraint:[NSLayoutConstraint constraintWithItem:self.userField attribute:NSLayoutAttributeTop relatedBy: NSLayoutRelationEqual toItem:self.credentialBoxView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
     }
-
-    self.userField.textField.placeholder = self.forceUsername && !self.requiresUsername ? A0LocalizedString(@"Username") : A0LocalizedString(@"Email");
-    self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
+    [self.usernameField setFieldPlaceholderText:A0LocalizedString(@"Username")];
+    [self.userField setFieldPlaceholderText:self.forceUsername && !self.requiresUsername ? A0LocalizedString(@"Username") : A0LocalizedString(@"Email")];
+    [self.passwordField setFieldPlaceholderText:A0LocalizedString(@"Password")];
     [self.signUpButton setTitle:A0LocalizedString(@"SIGN UP") forState:UIControlStateNormal];
     self.messageLabel.text = self.forceUsername ? A0LocalizedString(@"Please enter your username and password") : A0LocalizedString(@"Please enter your email and password");
     if (self.customMessage) {

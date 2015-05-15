@@ -86,9 +86,9 @@
     [theme configureTextField:self.repeatPasswordField.textField];
     
     self.userField.textField.text = self.defaultEmail;
-    self.userField.textField.placeholder = A0LocalizedString(@"Email");
-    self.passwordField.textField.placeholder = A0LocalizedString(@"Password");
-    self.repeatPasswordField.textField.placeholder = A0LocalizedString(@"Confirm New Password");
+    [self.userField setFieldPlaceholderText:A0LocalizedString(@"Email")];
+    [self.passwordField setFieldPlaceholderText:A0LocalizedString(@"Password")];
+    [self.repeatPasswordField setFieldPlaceholderText:A0LocalizedString(@"Confirm New Password")];
     [self.recoverButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
     self.messageLabel.text = A0LocalizedString(@"Please enter your email and the new password. We will send you an email to confirm the password change.");
     [self.passwordField.passwordManagerButton addTarget:self action:@selector(changeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
