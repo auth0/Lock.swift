@@ -62,9 +62,11 @@
 
 #if __has_include("A0TouchIDLockViewController.h")
 #import "A0TouchIDLockViewController.h"
+#import "A0Lock+A0TouchIDLockViewController.h"
 #endif
 
 #if __has_include("A0SMSLockViewController.h")
+#import "A0Lock+A0SMSLockViewController.h"
 #import "A0SMSLockViewController.h"
 #endif
 

@@ -1,6 +1,6 @@
-//  UI.h
+// A0Lock+A0LockViewController.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef _AUTH0_IOS_SDK_UI_
-#define _AUTH0_IOS_SDK_UI_
+#import "A0Lock.h"
 
-#import "A0Theme.h"
-#import "A0LockViewController.h"
-#import "A0LockSignUpViewController.h"
-#import "A0Lock+A0LockViewController.h"
+@class A0LockViewController, A0LockSignUpViewController;
 
-#endif
+@interface A0Lock (A0LockViewController)
+
+/**
+ *  Creates a new `A0LockViewController` instance
+ *
+ *  @return a new Lock ViewController
+ */
+- (A0LockViewController *)newLockViewController;
+
+/**
+ *  Creates a new `A0LockSignUpViewController` instance
+ *
+ *  @return a new Lock SignUp ViewController
+ */
+- (A0LockSignUpViewController *)newSignUpViewController;
+
+@end

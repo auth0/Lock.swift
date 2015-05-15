@@ -1,6 +1,6 @@
-//  UI.h
+// A0Lock+A0TouchIDLockViewController.m
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef _AUTH0_IOS_SDK_UI_
-#define _AUTH0_IOS_SDK_UI_
+#import "A0Lock+A0TouchIDLockViewController.h"
+#import "A0TouchIDLockViewController.h"
 
-#import "A0Theme.h"
-#import "A0LockViewController.h"
-#import "A0LockSignUpViewController.h"
-#import "A0Lock+A0LockViewController.h"
+@implementation A0Lock (A0TouchIDLockViewController)
 
-#endif
+- (A0TouchIDLockViewController *)newTouchIDViewController {
+    return [[A0TouchIDLockViewController alloc] initWithLock:self];
+}
+
+- (void)presentTouchIDController:(A0TouchIDLockViewController *)touchIDController fromController:(UIViewController *)controller {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:touchIDController];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        navController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    [controller presentViewController:navController animated:YES completion:nil];
+}
+@end
