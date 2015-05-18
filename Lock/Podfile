@@ -16,6 +16,7 @@ target 'Lock', :exclusive => true do
   pod 'Lock/ReactiveCore', :path => '../'
   pod 'Lock/GooglePlus', :path => '../'
   pod 'Lock/1Password', :path => '../'
+  pod 'Lock/Facebook', :path => '../'
 
   pod_with_warnings
 
