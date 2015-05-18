@@ -25,7 +25,9 @@
 
 /**
  * `A0GooglePlusAuthenticator` performs Google+ authentication using Google's official SDK.
+ *  @deprecated 1.12.0. Moved G+ authenticator to an independent library called Lock-GooglePlus (https://github.com/auth0/Lock-GooglePlus.iOS)
  */
+__attribute__ ((deprecated("use A0GooglePlusAuthenticator from 'Lock-GooglePlus' library")))
 @interface A0GooglePlusAuthenticator : A0BaseAuthenticator
 
 /**
