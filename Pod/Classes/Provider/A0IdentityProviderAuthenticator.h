@@ -138,4 +138,11 @@
  */
 - (void)clearSessions;
 
+/**
+ *  Notifies all authenticator that application has been launched.
+ *
+ *  @param launchOptions dictionary with launch options
+ */
+- (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions;
+
 @end

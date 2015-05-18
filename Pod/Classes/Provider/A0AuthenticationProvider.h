@@ -52,8 +52,6 @@
  */
 - (void)clearSessions;
 
-@optional
-
 /**
  *  Handles an URL when authenticating with a third party app.
  *
@@ -63,5 +61,14 @@
  *  @return if the URL is valid
  */
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
+
+/**
+ *  Notifies the Authenticator that the application has been launched. 
+ *  This method should not perform any UI or action that will alter the normal flow of an application, 
+ *  its meant to be a way to initialize the authenticator itself on application launch.
+ *
+ *  @param launchOptions Options used to launch the application
+ */
+- (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions;
 
 @end

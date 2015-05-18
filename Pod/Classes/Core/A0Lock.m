@@ -137,6 +137,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.identityProviderAuthenticator clearSessions];
 }
 
+- (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions {
+    [self.identityProviderAuthenticator applicationLaunchedWithOptions:launchOptions];
+}
+
 + (instancetype)newLock {
     return [[A0Lock alloc] init];
 }

@@ -34,6 +34,9 @@
     return false;
 }
 
+- (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions {
+}
+
 - (void)authenticateWithParameters:(A0AuthParameters *)parameters success:(void (^)(A0UserProfile *, A0Token *))success failure:(void (^)(NSError *))failure {
     [self raiseNotImplementedException];
 }

@@ -154,4 +154,11 @@
  */
 - (void)clearSessions;
 
+/**
+ *  Handle application launched event.
+ *
+ *  @param launchOptions dictionary with launch options
+ */
+- (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions;
+
 @end
