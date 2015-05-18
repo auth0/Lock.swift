@@ -48,16 +48,16 @@
 #import "UI.h"
 #endif
 
-#if __has_include("A0FacebookAuthenticator.h")
-#import "A0FacebookAuthenticator.h"
+#if __has_include(<Lock/A0FacebookAuthenticator.h>)
+#import <Lock/A0FacebookAuthenticator.h>
 #endif
 
-#if __has_include("A0TwitterAuthenticator.h")
-#import "A0TwitterAuthenticator.h"
+#if __has_include(<Lock/A0TwitterAuthenticator.h>)
+#import <Lock/A0TwitterAuthenticator.h>
 #endif
 
-#if __has_include("A0GooglePlusAuthenticator.h")
-#import "A0GooglePlusAuthenticator.h"
+#if __has_include(<Lock/A0GooglePlusAuthenticator.h>)
+#import <Lock/A0GooglePlusAuthenticator.h>
 #endif
 
 #if __has_include("A0TouchIDLockViewController.h")
