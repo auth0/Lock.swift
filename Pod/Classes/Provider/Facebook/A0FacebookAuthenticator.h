@@ -24,10 +24,11 @@
 #import "A0BaseAuthenticator.h"
 
 /**
- *  `A0FacebookAuthentication` performs Facebook authentication of a user using Facebook iOS SDK.
+ *  `A0FacebookAuthentication` performs Facebook authentication of a user using Facebook iOS SDK v3.
+ *  @deprecated 1.12.0. Moved FB authenticator to a independent library called [Lock-Facebook](https://github.com/auth0/Lock-Facebook.iOS)
  */
+__attribute__ ((deprecated("use A0FacebookAuthenticator from 'Lock-Facebook' library")))
 @interface A0FacebookAuthenticator : A0BaseAuthenticator
-
 
 /**
  *  Creates a new instance
