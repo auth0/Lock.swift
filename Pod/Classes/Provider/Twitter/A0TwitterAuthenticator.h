@@ -24,8 +24,10 @@
 #import "A0BaseAuthenticator.h"
 
 /**
- *  `A0TwitterAuthentication` handles the authentication using Twitter as an indentity provider. In order to obtain a valid token to send to Auth0 API, it uses reverse authentication with the user's login information obtained form iOS Twitter integration or from OAuth Web Flow performed in Safari
+ *  `A0TwitterAuthentication` handles the authentication using Twitter as an indentity provider. In order to obtain a valid token to send to Auth0 API, it uses reverse authentication with the user's login information obtained form iOS Twitter integration or from OAuth Web Flow performed in Safari.
+ *  @deprecated 1.12.0. Moved Twitter authenticator to an independent library called Lock-Twitter (https://github.com/auth0/Lock-Twitter.iOS)
  */
+__attribute__ ((deprecated("use A0TwitterAuthenticator from 'Lock-Twitter' library")))
 @interface A0TwitterAuthenticator : A0BaseAuthenticator
 
 /**
