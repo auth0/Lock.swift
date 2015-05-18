@@ -83,9 +83,11 @@ PODS:
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core (= 1.11.3)
-    - Lock/Facebook (= 1.11.3)
     - Lock/Twitter (= 1.11.3)
     - Lock/UI (= 1.11.3)
+  - Lock-Facebook (1.0.0):
+    - Facebook-iOS-SDK (~> 3.15)
+    - Lock/Core (~> 1.11)
   - Lock/1Password (1.11.3):
     - 1PasswordExtension (~> 1.2)
     - CocoaLumberjack (~> 2.0.0-rc)
@@ -96,11 +98,6 @@ PODS:
     - CocoaLumberjack (~> 2.0.0-rc)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
-  - Lock/Facebook (1.11.3):
-    - CocoaLumberjack (~> 2.0.0-rc)
-    - Facebook-iOS-SDK (~> 3.15)
-    - libextobjc (~> 0.4)
-    - Lock/Core
   - Lock/GooglePlus (1.11.3):
     - CocoaLumberjack (~> 2.0.0-rc)
     - googleplus-ios-sdk (~> 1.7.1)
@@ -165,6 +162,7 @@ DEPENDENCIES:
   - JWTDecode
   - libextobjc
   - Lock (from `../`)
+  - Lock-Facebook (~> 1.0)
   - Lock/1Password (from `../`)
   - Lock/GooglePlus (from `../`)
   - Lock/ReactiveCore (from `../`)
@@ -192,7 +190,8 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   JWTDecode: bff190dc06ff9ee7a3a244c454dc8ef05962c994
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  Lock: 2ab38b864235867d45fd0d05ae4dfc7c24afa485
+  Lock: 3fcaff54991021e52d5ed47697c125fa9b704050
+  Lock-Facebook: fc83349f48dee2d41fe8a36013502fe64a0d77fc
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
   OAuthCore: 43dce261db846a1fe20234d95654257e00e78581

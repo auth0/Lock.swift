@@ -20,7 +20,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
 
   s.dependency 'libextobjc', '~> 0.4'
   s.dependency 'CocoaLumberjack', '~> 2.0.0-rc'
-  s.default_subspecs = 'UI', 'Facebook', 'Twitter', 'Core'
+  s.default_subspecs = 'UI', 'Twitter', 'Core'
   s.prefix_header_contents = <<-EOS
     #import "A0Logging.h"
     #define A0LocalizedString(key) NSLocalizedStringFromTable(key, @"Lock", nil)

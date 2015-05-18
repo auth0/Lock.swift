@@ -23,6 +23,7 @@
 #import "A0LockApplication.h"
 
 #import <Lock/Lock.h>
+#import <Lock-Facebook/A0FacebookAuthenticator.h>
 
 @implementation A0LockApplication
 

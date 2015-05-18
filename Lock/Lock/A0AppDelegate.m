@@ -45,6 +45,7 @@
     [Fabric with:@[CrashlyticsKit]];
 #endif
     [A0LockLogger logError];
+    [[[A0LockApplication sharedInstance] lock] applicationLaunchedWithOptions:launchOptions];
     return YES;
 }
 

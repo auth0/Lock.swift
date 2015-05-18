@@ -142,4 +142,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 }
 
+- (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions {
+    [self.registeredAuthenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0AuthenticationProvider> authenticator, BOOL *stop) {
+        [authenticator applicationLaunchedWithOptions:launchOptions];
+    }];
+}
+
 @end
