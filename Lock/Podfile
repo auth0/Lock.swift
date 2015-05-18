@@ -14,10 +14,10 @@ target 'Lock', :exclusive => true do
   pod 'Lock/TouchID', :path => '../'
   pod 'Lock/SMS', :path => '../'
   pod 'Lock/ReactiveCore', :path => '../'
-  pod 'Lock/GooglePlus', :path => '../'
   pod 'Lock/1Password', :path => '../'
   pod 'Lock-Facebook', '~> 1.0'
   pod 'Lock-Twitter', '~> 1.0'
+  pod 'Lock-GooglePlus', '~> 1.0'
 
   pod_with_warnings
 

@@ -25,6 +25,7 @@
 #import <Lock/Lock.h>
 #import <Lock-Facebook/A0FacebookAuthenticator.h>
 #import <Lock-Twitter/A0TwitterAuthenticator.h>
+#import <Lock-GooglePlus/A0GooglePlusAuthenticator.h>
 
 @implementation A0LockApplication
 
