@@ -1,5 +1,31 @@
 # Change Log
 
+## [1.12.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.12.0) (2015-05-19)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.11.3...1.12.0)
+
+**Implemented enhancements:**
+
+- Move social integrations to an independent pod [\#113](https://github.com/auth0/Lock.iOS-OSX/issues/113)
+
+**Fixed bugs:**
+
+- UITheme is using a iOS 8+ API [\#111](https://github.com/auth0/Lock.iOS-OSX/issues/111)
+
+**Closed issues:**
+
+- unlinkAccountWithUserId uses application client ID, but v1 /unlink API requires global\_client\_id [\#108](https://github.com/auth0/Lock.iOS-OSX/issues/108)
+
+**Merged pull requests:**
+
+- Deprecate social subspecs \(FB, G+ & Twitter\) [\#118](https://github.com/auth0/Lock.iOS-OSX/pull/118) ([hzalaz](https://github.com/hzalaz))
+
+- Move FB native auth to a independent library [\#117](https://github.com/auth0/Lock.iOS-OSX/pull/117) ([hzalaz](https://github.com/hzalaz))
+
+- Fix crash issue iOS 7 and placeholder text color [\#116](https://github.com/auth0/Lock.iOS-OSX/pull/116) ([hzalaz](https://github.com/hzalaz))
+
+- Deprecate A0APIClient & A0IdentityProviderAuthenticator singletons [\#115](https://github.com/auth0/Lock.iOS-OSX/pull/115) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.11.3](https://github.com/auth0/Lock.iOS-OSX/tree/1.11.3) (2015-05-11)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.11.2...1.11.3)
