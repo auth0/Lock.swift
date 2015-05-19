@@ -34,7 +34,7 @@ iOS 7+. If you need to use our SDK in an earlier version please use our previous
 The Lock is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Lock", "~> 1.11"
+pod "Lock", "~> 1.12"
 ```
 
 Then in your project's `Info.plist` file add the following entries:
@@ -50,28 +50,59 @@ For example:
 
 Also you need to register a Custom URL type, it must have a custom scheme with the following format `a0<Your Client ID>`. For example if your Client ID is `Exe6ccNagokLH7mBmzFejP` then the custom scheme should be `a0Exe6ccNagokLH7mBmzFejP`.
 
-Then you'll need to handle that custom scheme, so first import __Lock__ header in your `AppDelegate.m` if you are coding in __Objective-C__ or in your _Objective-C Bridging Header_ if you are coding in __Swift__.
+Before you start using Lock, we need to import Lock to your codebase, if you are still working in Objective-C you need to import this header when you need to use Lock's classes:
 
 ```objc
 #import <Lock/Lock.h>
 ```
 
+The same applies if you are working in Swift and Lock is included as a static library but the header must be included in your _Objective-C Bridging Header_.
+
 > If you need help creating the Objective-C Bridging Header, please check the [wiki](https://developer.apple.com/library/ios/documentation/swift/conceptual/buildingcocoaapps/MixandMatch.html)
 
-and override `-application:openURL:sourceApplication:annotation:` method, if you haven't done it before, and add the following line:
+If you are working in Swift with Lock included as an framework, just include in your swift files the module like this:
+
+```swift
+import Lock
+```
+
+Now it's time to initialize `A0Lock`, which will help you handle the authentication for you, and keep it in your AppDelegate as a **strong** property. We will create it inside `-application:didFinishLaunchingWithOptions:`
+
+> You can store `A0Lock` in another place if you prefer, as long as you keep it alive as long as you need it.
+
+```objc
+self.lock = [A0Lock newLock];
+```
+
+```swift
+self.lock = A0Lock()
+```
+
+Then call this method
+
+```objc
+[self.lock applicationLaunchedWithOptions:launchOptions];
+```
+
+```swift
+self.lock.applicationLaunchedWithOptions(launchOptions)
+```
+
+Finally you'll need to handle the already registered custom scheme in your AppDelegate, so override `-application:openURL:sourceApplication:annotation:` method and add the following line:
 
 ```objc
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [[A0IdentityProviderAuthenticator sharedInstance] handleURL:url sourceApplication:sourceApplication];
+    return [self.lock handleURL:url sourceApplication:sourceApplication];
 }
 ```
 ```swift
 func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-    return A0IdentityProviderAuthenticator.sharedInstance().handleURL(url, sourceApplication: sourceApplication)
+    return self.lock.handleURL(url, sourceApplication: sourceApplication)
 }
 ```
 
 > This is required to be able to return back to your application when authenticating with Safari (or native integration with FB or Twitter if used). This call checks the URL and handles all that have the custom scheme defined before.
+
 
 ## Usage
 
@@ -82,7 +113,8 @@ func application(application: UIApplication, openURL url: NSURL, sourceApplicati
 First instantiate `A0LockViewController` and register the authentication callback that will receive the authenticated user's credentials. Finally present it as a modal view controller:
 
 ```objc
-A0LockViewController *controller = [[A0LockViewController alloc] init];
+A0Lock *lock = ... //Fetch Lock from where its stored
+A0LockViewController *controller = [lock newLockViewController];
 controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
@@ -92,14 +124,15 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 [self presentViewController:controller animated:YES completion:nil];
 ```
 ```swift
-let lock = A0LockViewController()
-lock.onAuthenticationBlock = {(profile: A0UserProfile!, token: A0Token!) -> () in
+let lock = ... //Fetch Lock from where its stored
+let controller = lock.newLockViewController()
+controller.onAuthenticationBlock = {(profile: A0UserProfile!, token: A0Token!) -> () in
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
     // And dismiss the UIViewController.
     self.dismissViewControllerAnimated(true, completion: nil)
 }
-self.presentViewController(lock, animated: true, completion: nil)
+self.presentViewController(controller, animated: true, completion: nil)
 ```
 And you'll see our native login screen
 
@@ -113,34 +146,29 @@ Also you can check our [Swift](https://github.com/auth0/Lock.iOS-OSX/tree/master
 
 `A0TouchIDLockViewController` authenticates without using a password with TouchID. In order to be able to authenticate the user, your application must have a Database connection enabled.
 
-First instantiate `A0TouchIDLockViewController` and register the authentication callback that will receive the authenticated user's credentials. Finally present it as a modal view controller embedded in a UINavigationController:
+First instantiate `A0TouchIDLockViewController` and register the authentication callback that will receive the authenticated user's credentials. Finally present it to the user:
 ```objc
-A0TouchIDLockViewController *controller = [[A0LockViewController alloc] init];
+A0Lock *lock = ... //Fetch Lock from where its stored
+A0TouchIDLockViewController *controller = [lock newTouchIDViewController];
 controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
     // And dismiss the UIViewController.
     [self dismissViewControllerAnimated:YES completion:nil];
 };
-UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    navController.modalPresentationStyle = UIModalPresentationFormSheet;
-}
-[self presentViewController:navController animated:YES completion:nil];
+[lock presentTouchIDController:controller fromController:self];
 ```
+
 ```swift
-let lock = A0TouchIDLockViewController()
+let lock = ... //Fetch Lock from where its stored
+let controller = lock.newTouchIDViewController()
 lock.onAuthenticationBlock = {(profile: A0UserProfile!, token: A0Token!) -> () in
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
     // And dismiss the UIViewController.
     self.dismissViewControllerAnimated(true, completion: nil)
 }
-let controller = UINavigationController(rootViewController: lock)
-if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-    controller.modalPresentationStyle = .FormSheet
-}
-self.presentViewController(controller, animated: true, completion: nil)
+lock.presentTouchIDController(controller, fromController: self)
 ```
 And you'll see TouchID login screen
 
@@ -156,9 +184,10 @@ First instantiate `A0SMSLockViewController` and register the authentication call
 
 The next step is register a block to return an API Token used to register the  phone number and send the login code with SMS. This token can be generated in  [Auth0 API v2 page](https://docs.auth0.com/apiv2), just select the scope `create:users` and copy the generated API Token.
 
-Finally present it as a modal view controller embedded in a UINavigationController:
+Finally present it to the user:
 ```objc
-A0SMSLockViewController *controller = [[A0LockViewController alloc] init];
+A0Lock *lock = ... //Fetch Lock from where its stored
+A0SMSLockViewController *controller = [lock newSMSViewController];
 controller.auth0APIToken = ^{
     return @"Copy API v2 token here";
 };
@@ -168,14 +197,12 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
     // And dismiss the UIViewController.
     [self dismissViewControllerAnimated:YES completion:nil];
 };
-UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    navController.modalPresentationStyle = UIModalPresentationFormSheet;
-}
-[self presentViewController:navController animated:YES completion:nil];
+[lock presentSMSController:controller fromController:self];
 ```
+
 ```swift
-let lock = A0SMSLockViewController()
+let lock = ... //Fetch Lock from where its stored
+let controller = lock.newSMSViewController()
 lock.auth0APIToken = {() -> String in return "Copy API v2 token here"}
 lock.onAuthenticationBlock = {(profile: A0UserProfile!, token: A0Token!) -> () in
     // Do something with token & profile. e.g.: save them.
@@ -183,11 +210,7 @@ lock.onAuthenticationBlock = {(profile: A0UserProfile!, token: A0Token!) -> () i
     // And dismiss the UIViewController.
     self.dismissViewControllerAnimated(true, completion: nil)
 }
-let controller = UINavigationController(rootViewController: lock)
-if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-    controller.modalPresentationStyle = .FormSheet
-}
-self.presentViewController(controller, animated: true, completion: nil)
+lock.presentSMSController(controller, fromController: self)
 ```
 And you'll see SMS login screen
 
@@ -201,15 +224,98 @@ Read [this guide](https://github.com/auth0/Lock.iOS-OSX/wiki/SSO-on-Mobile-Apps)
 
 ##API
 
+###A0Lock
+
+####A0Lock#newLock
+```objc
++ (instancetype)newLock;
+```
+Creates a new `A0Lock` instance using account information from Info.plist file.
+```objc
+A0Lock *lock = [A0Lock newLock];
+```
+
+####A0Lock#newLockWithClientId:domain:
+```objc
++ (instancetype)newLockWithClientId:(NSString *)clientId domain:(NSString *)domain;
+```
+Creates a new `A0Lock` instance with Auth0 clientId and domain.
+```objc
+A0Lock *lock = [A0Lock newLockWithClientId:@"YOUR_CLIENT_ID" domain:@"YOUR_DOMAIN"];
+```
+
+####A0Lock#newLockWithClientId:domain:configurationDomain:
+```objc
++ (instancetype)newLockWithClientId:(NSString *)clientId domain:(NSString *)domain configurationDomain:(NSString *)configurationDomain;
+```
+Creates a new `A0Lock` instance with Auth0 clientId, domain and configurationDomain.
+```objc
+A0Lock *lock = [A0Lock newLockWithClientId:@"YOUR_CLIENT_ID" domain:@"YOUR_DOMAIN" configurationDomain:@"YOUR_CONFIG_DOMAIN"];
+```
+
+####A0Lock#apiClient
+```objc
+- (A0APIClient *)apiClient;
+```
+Returns an instance of the API client for Authentication API configured for your application.
+```objc
+A0APIClient *client = [lock apiClient];
+```
+
+####A0Lock#newUserAPIClientWithIdToken
+```objc
+- (A0UserAPIClient *)newUserAPIClientWithIdToken:(NSString *)idToken;
+```
+Returns a new instance of the API client for Auth0 API with the credentials of a authenticated user obtained from the **id_token**
+```objc
+A0UserAPIClient *client = [lock newUserAPIClientWithIdToken:@"AN ID TOKEN"];
+```
+
+####A0Lock#handleURL:sourceApplication:
+```objc
+- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
+```
+Handle URL received from AppDelegate when application is called from a third party at the end of an authentication flow.
+```objc
+[lock handleURL:URL sourceApplication:sourceApplication];
+```
+
+####A0Lock#registerAuthenticators
+```objc
+- (void)registerAuthenticators:(NSArray *)authenticators;
+```
+Register IdP authenticators that will be used for Social & Enterprise connections. By default all Social & Enterprise authentications are performed by using the web flow with Safari but you can plug your own authenticator for a connection. e.g.: you can register `A0FacebookAuthenticator` in order to login with FB native SDK.
+```objc
+[lock registerAuthenticators:@[facebook, twitter]];
+```
+
+####A0Lock#applicationLaunchedWithOptions
+```objc
+- (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions;
+```
+Handle application launched event.
+```objc
+[lock applicationLaunchedWithOptions:launchOptions];
+```
+
+####A0Lock#clearSessions
+```objc
+- (void)clearSessions;
+```
+Remove all stored sessions of any IdP in your application. If the user logged in using Safari, those sessions will not be cleaned.
+```objc
+[lock clearSessions];
+```
+
 ###A0LockViewController
 
 ####A0LockViewController#init
 ```objc
-- (instancetype)init;
+- (instancetype)initWithLock:(A0Lock *)lock;
 ```
-Initialise 'A0LockViewController' using `Auth0ClientId` & `Auth0Tenant` from info plist file.
+Initialise 'A0LockViewController' using a `A0Lock` instance.
 ```objc
-A0LockViewController *controller = [[A0LockViewController alloc] init];
+A0LockViewController *controller = [[A0LockViewController alloc] initWithLock:lock];
 ```
 
 ####A0LockViewController#onAuthenticationBlock
