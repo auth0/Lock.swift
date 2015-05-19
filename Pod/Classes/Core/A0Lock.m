@@ -23,8 +23,10 @@
 #import "A0Lock.h"
 #import "A0APIv1Router.h"
 #import "A0APIClient.h"
-#import "A0UserAPIClient.h"
+#if TARGET_OS_IPHONE
 #import "A0IdentityProviderAuthenticator.h"
+#endif
+#import "A0UserAPIClient.h"
 
 #define kCDNConfigurationURL @"https://cdn.auth0.com"
 #define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
@@ -52,7 +54,9 @@
 @interface A0Lock ()
 @property (strong, nonatomic) id<A0APIRouter> router;
 @property (strong, nonatomic) A0APIClient *client;
+#if TARGET_OS_IPHONE
 @property (strong, nonatomic) A0IdentityProviderAuthenticator *authenticator;
+#endif
 @end
 
 @implementation A0Lock
@@ -95,7 +99,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0LogDebug(@"Auth0 Lock initialised with clientId: (%@) domainURL: (%@) configurationURL: (%@)", clientId, domainURL, configurationURL);
         _router = [[A0APIv1Router alloc] initWithClientId:clientId domainURL:domainURL configurationURL:configurationURL];
         _client = [[A0APIClient alloc] initWithAPIRouter:_router];
+#if TARGET_OS_IPHONE
         _authenticator = [[A0IdentityProviderAuthenticator alloc] initWithLock:self];
+#endif
     }
 
     return self;
@@ -103,10 +109,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (A0APIClient *)apiClient {
     return self.client;
-}
-
-- (A0IdentityProviderAuthenticator *)identityProviderAuthenticator {
-    return self.authenticator;
 }
 
 - (A0UserAPIClient *)newUserAPIClientWithIdToken:(NSString *)idToken {
@@ -125,6 +127,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [self.router endpointURL];
 }
 
+#pragma mark - IdP methods iOS only
+
+#if TARGET_OS_IPHONE
+
+- (A0IdentityProviderAuthenticator *)identityProviderAuthenticator {
+    return self.authenticator;
+}
+
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     return [self.authenticator handleURL:url sourceApplication:sourceApplication];
 }
@@ -140,6 +150,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions {
     [self.identityProviderAuthenticator applicationLaunchedWithOptions:launchOptions];
 }
+
+#endif
+
+# pragma mark - Factory methods
 
 + (instancetype)newLock {
     return [[A0Lock alloc] init];

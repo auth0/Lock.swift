@@ -38,7 +38,7 @@
  *  Presents a `A0SMSLockViewController` from a UIViewController. This method takes care of embedding the `A0SMSLockViewController` inside a `UINavigationController`
  *
  *  @param smsController controller to present
- *  @param controller        controller that will present the TouchID VC.
+ *  @param controller        controller that will present the SMS VC.
  */
 - (void)presentSMSController:(A0SMSLockViewController *)smsController fromController:(UIViewController *)controller;
 

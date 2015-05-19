@@ -29,7 +29,11 @@
 /**
  *  Main interface with Auth0 Lock for iOS.
  */
+#if TARGET_OS_IPHONE
 @interface A0Lock : NSObject<A0APIClientProvider, A0AuthenticatorProvider>
+#else
+@interface A0Lock : NSObject<A0APIClientProvider>
+#endif
 
 /**
  *  Auth0 account's client identifier
@@ -127,6 +131,7 @@
  */
 - (A0UserAPIClient *)newUserAPIClientWithIdToken:(NSString *)idToken;
 
+#if TARGET_OS_IPHONE
 /**
  *  Handle URL received from AppDelegate when app is called from a third party app at the end of an authentication flow.
  *
@@ -140,7 +145,7 @@
 
 /**
  *  Register IdP authenticator that will be used for Social & Enterprise connections.
- *  By default all Social & Enterprise authentications are performed by using the web flow with Safari but you can plug 
+ *  By default all Social & Enterprise authentications are performed by using the web flow with Safari but you can plug
  *  your own authenticator for a connection. e.g.: you can register A0FacebookAuthenticator in order to login with FB native SDK.
  *
  *  @param authenticators list of authenticators to register. Must be subclasses of A0BaseAuthenticator
@@ -160,5 +165,6 @@
  *  @param launchOptions dictionary with launch options
  */
 - (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions;
+#endif
 
 @end
