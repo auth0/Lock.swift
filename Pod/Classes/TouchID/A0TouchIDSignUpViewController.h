@@ -21,10 +21,11 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "A0AuthenticationUIComponent.h"
 
 @class A0AuthParameters, A0UserProfile, A0Token, A0CredentialFieldView, A0Lock;
 
-@interface A0TouchIDSignUpViewController : UIViewController
+@interface A0TouchIDSignUpViewController : UIViewController<A0AuthenticationUIComponent>
 
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *emailField;
 

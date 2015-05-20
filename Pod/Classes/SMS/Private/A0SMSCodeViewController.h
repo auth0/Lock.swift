@@ -21,10 +21,11 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "A0AuthenticationUIComponent.h"
 
 @class A0AuthParameters, A0UserProfile, A0Token, A0Lock;
 
-@interface A0SMSCodeViewController : UIViewController
+@interface A0SMSCodeViewController : UIViewController<A0AuthenticationUIComponent>
 
 @property (copy, nonatomic) NSString *phoneNumber;
 @property (copy, nonatomic) A0AuthParameters *parameters;
