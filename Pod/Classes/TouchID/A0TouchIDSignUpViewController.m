@@ -33,8 +33,9 @@
 #import "A0EmailValidator.h"
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
+#import "A0AuthenticationUIComponent.h"
 
-@interface A0TouchIDSignUpViewController ()
+@interface A0TouchIDSignUpViewController () <A0AuthenticationUIComponent>
 
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;

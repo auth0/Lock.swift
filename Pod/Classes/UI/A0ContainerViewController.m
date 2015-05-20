@@ -42,7 +42,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.keyboardHandler = [[A0KeyboardHandler alloc] init];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {

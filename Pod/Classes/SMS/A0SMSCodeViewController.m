@@ -31,8 +31,9 @@
 #import <libextobjc/EXTScope.h>
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
+#import "A0AuthenticationUIComponent.h"
 
-@interface A0SMSCodeViewController ()
+@interface A0SMSCodeViewController () <A0AuthenticationUIComponent>
 
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *codeFieldView;
