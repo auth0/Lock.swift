@@ -1,5 +1,17 @@
 # Change Log
 
+## [Unreleased](https://github.com/auth0/Lock.iOS-OSX/tree/HEAD)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.12.0...HEAD)
+
+**Implemented enhancements:**
+
+- Update Facebook SDK [\#97](https://github.com/auth0/Lock.iOS-OSX/issues/97)
+
+**Merged pull requests:**
+
+- Fix issues when building as a Cocoa Touch Framework [\#121](https://github.com/auth0/Lock.iOS-OSX/pull/121) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.12.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.12.0) (2015-05-19)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.11.3...1.12.0)
