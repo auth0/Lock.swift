@@ -200,8 +200,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if ((hasDB && hasSocial) || (hasSocial && hasEnterprise && !hasAD)) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
         controller.config = self.configuration;
-        controller.showResetPassword = [database[A0ConnectionShowForgot] boolValue];
-        controller.showSignUp = [database[A0ConnectionShowSignUp] boolValue];
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.forceUsername = !self.usesEmail;
         controller.defaultConnection = database;
@@ -209,8 +207,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     if ((hasDB & !hasSocial) || (hasEnterprise && !hasDB && !hasSocial && !hasAD)) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
-        controller.showResetPassword = [database[A0ConnectionShowForgot] boolValue];
-        controller.showSignUp = [database[A0ConnectionShowSignUp] boolValue];
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.forceUsername = !self.usesEmail;
         controller.defaultConnection = database ?: ad;
@@ -270,16 +266,22 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self displayController:controller];
     };
     [self.navigationView removeAll];
-    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:^{
-        @strongify(self);
-        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
-        [self displayController:controller];
-    }];
-    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
-        @strongify(self);
-        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
-        [self displayController:controller];
-    }];
+    BOOL showResetPassword = ![self.configuration shouldDisableResetPassword:self.disableResetPassword];
+    BOOL showSignUp = ![self.configuration shouldDisableSignUp:self.disableSignUp];
+    if (showSignUp) {
+        [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:^{
+            @strongify(self);
+            A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
+            [self displayController:controller];
+        }];
+    }
+    if (showResetPassword) {
+        [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
+            @strongify(self);
+            A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
+            [self displayController:controller];
+        }];
+    }
     return controller;
 }
 
@@ -302,16 +304,22 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self displayController:controller];
     };
     [self.navigationView removeAll];
-    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:^{
-        @strongify(self);
-        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
-        [self displayController:controller];
-    }];
-    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
-        @strongify(self);
-        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
-        [self displayController:controller];
-    }];
+    BOOL showResetPassword = ![self.configuration shouldDisableResetPassword:self.disableResetPassword];
+    BOOL showSignUp = ![self.configuration shouldDisableSignUp:self.disableSignUp];
+    if (showSignUp) {
+        [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:^{
+            @strongify(self);
+            A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
+            [self displayController:controller];
+        }];
+    }
+    if (showResetPassword) {
+        [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
+            @strongify(self);
+            A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
+            [self displayController:controller];
+        }];
+    }
     return controller;
 }
 

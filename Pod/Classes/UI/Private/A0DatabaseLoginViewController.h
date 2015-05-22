@@ -33,8 +33,6 @@
 
 @property (copy, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0Connection *defaultConnection;
-@property (assign, nonatomic) BOOL showSignUp;
-@property (assign, nonatomic) BOOL showResetPassword;
 @property (copy, nonatomic) NSString *defaultUsername;
 
 @property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);

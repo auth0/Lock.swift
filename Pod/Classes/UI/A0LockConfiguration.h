@@ -42,4 +42,8 @@
 
 - (A0Connection *)defaultActiveDirectoryConnection;
 
+- (BOOL)shouldDisableSignUp:(BOOL)disableSignUp;
+
+- (BOOL)shouldDisableResetPassword:(BOOL)disableResetPassword;
+
 @end

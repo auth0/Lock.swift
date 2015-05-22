@@ -244,6 +244,67 @@ describe(@"A0LockConfiguration", ^{
         });
 
     });
+
+    describe(@"disable Sign Up & Reset Password", ^{
+
+        __block A0LockConfiguration *configuration;
+
+        before(^{
+            NSData *jsonData = [NSData dataWithContentsOfFile:[[NSBundle bundleForClass:self.class] pathForResource:@"AppInfo" ofType:@"json"]];
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+            application = [[A0Application alloc] initWithJSONDictionary:json];
+            configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:@[]];
+        });
+
+        context(@"when enabled in connection", ^{
+
+            beforeEach(^{
+                configuration.defaultDatabaseConnectionName = @"Username-PasswordAuthentication";
+            });
+
+            it(@"should disable Sign Up", ^{
+                expect([configuration shouldDisableSignUp:YES]).to.beTruthy();
+            });
+
+            it(@"should not disable Sign Up", ^{
+                expect([configuration shouldDisableSignUp:NO]).to.beFalsy();
+            });
+
+            it(@"should disable Reset Password", ^{
+                expect([configuration shouldDisableResetPassword:YES]).to.beTruthy();
+            });
+
+            it(@"should not disable Reset Password", ^{
+                expect([configuration shouldDisableResetPassword:NO]).to.beFalsy();
+            });
+
+        });
+
+        context(@"when disabled in connection", ^{
+
+            beforeEach(^{
+                configuration.defaultDatabaseConnectionName = @"LoginOnly";
+            });
+
+            it(@"should disable Sign Up", ^{
+                expect([configuration shouldDisableSignUp:YES]).to.beTruthy();
+            });
+
+            it(@"should not disable Sign Up", ^{
+                expect([configuration shouldDisableSignUp:NO]).to.beTruthy();
+            });
+
+            it(@"should disable Reset Password", ^{
+                expect([configuration shouldDisableResetPassword:YES]).to.beTruthy();
+            });
+
+            it(@"should not disable Reset Password", ^{
+                expect([configuration shouldDisableResetPassword:NO]).to.beTruthy();
+            });
+            
+        });
+
+    });
 });
 
 SpecEnd

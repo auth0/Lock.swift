@@ -81,8 +81,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = A0LocalizedString(@"Login");
-        self.showSignUp = YES;
-        self.showResetPassword = YES;
     }
     return self;
 }
@@ -98,8 +96,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [theme configureTextField:self.passwordField.textField];
 
     BOOL requiresUsername = [self.defaultConnection[A0ConnectionRequiresUsername] boolValue];
-    self.signUpButton.hidden = !self.showSignUp;
-    self.forgotPasswordButton.hidden = !self.showResetPassword;
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
     self.singleSignOnIcon.image = [self.singleSignOnIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     if (self.defaultConnection) {
