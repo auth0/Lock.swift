@@ -26,6 +26,7 @@
 #import "A0Strategy.h"
 #import "A0Errors.h"
 #import "A0WebAuthenticator.h"
+#import "A0Lock.h"
 
 #define HC_SHORTHAND
 #import <OCHamcrest/OCHamcrest.h>
@@ -48,9 +49,11 @@ SpecBegin(A0IdentityProviderAuthenticator)
 describe(@"A0SocialAuthenticator", ^{
 
     __block A0IdentityProviderAuthenticator *authenticator;
+    __block A0Lock *lock;
 
     beforeEach(^{
-        authenticator = [[A0IdentityProviderAuthenticator alloc] init];
+        lock = mock(A0Lock.class);
+        authenticator = [[A0IdentityProviderAuthenticator alloc] initWithLock:lock];
     });
 
     describe(@"provider registration", ^{
