@@ -49,24 +49,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (instancetype)initWithLock:(A0Lock *)lock {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated"
-    self = [self init];
-#pragma GCC diagnostic pop
+    self = [super init];
     if (self) {
+        _registeredAuthenticators = [@{} mutableCopy];
+        _useWebAsDefault = YES;
         _clientProvider = lock;
     }
     return self;
 }
 
 - (id)init {
-    self = [super init];
-    if (self) {
-        _registeredAuthenticators = [@{} mutableCopy];
-        _useWebAsDefault = YES;
-        _clientProvider = nil;
-    }
-    return self;
+    return [self initWithLock:nil];
 }
 
 - (void)registerAuthenticationProviders:(NSArray *)authenticationProviders {

@@ -39,8 +39,17 @@ PODS:
   - CocoaLumberjack/Extensions (2.0.0):
     - CocoaLumberjack/Default
   - Expecta (1.0.0)
-  - Facebook-iOS-SDK (3.23.2):
-    - Bolts (~> 1.0)
+  - FBSDKCoreKit (4.1.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc (= 4.1.0)
+    - FBSDKCoreKit/no-arc (= 4.1.0)
+  - FBSDKCoreKit/arc (4.1.0):
+    - Bolts (~> 1.1)
+  - FBSDKCoreKit/no-arc (4.1.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc
+  - FBSDKLoginKit (4.1.0):
+    - FBSDKCoreKit
   - googleplus-ios-sdk (1.7.1)
   - ISO8601DateFormatter (0.7)
   - JWTDecode (0.2.1)
@@ -84,8 +93,10 @@ PODS:
     - libextobjc (~> 0.4)
     - Lock/Core (= 1.12.1)
     - Lock/UI (= 1.12.1)
-  - Lock-Facebook (1.0.0):
-    - Facebook-iOS-SDK (~> 3.15)
+  - Lock-Facebook (2.0.1):
+    - CocoaLumberjack (~> 2.0)
+    - FBSDKCoreKit (~> 4.0)
+    - FBSDKLoginKit (~> 4.0)
     - Lock/Core (~> 1.11)
   - Lock-GooglePlus (1.0.1):
     - googleplus-ios-sdk (~> 1.7.1)
@@ -152,12 +163,11 @@ PODS:
 DEPENDENCIES:
   - BDBOAuth1Manager
   - Expecta
-  - Facebook-iOS-SDK
   - ISO8601DateFormatter
   - JWTDecode
   - libextobjc
   - Lock (from `../`)
-  - Lock-Facebook (~> 1.0)
+  - Lock-Facebook (~> 2.0)
   - Lock-GooglePlus (~> 1.0)
   - Lock-Twitter (~> 1.0)
   - Lock/1Password (from `../`)
@@ -181,13 +191,14 @@ SPEC CHECKSUMS:
   Bolts: aac24961496d504aa56fc267cde95162a71bac39
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   Expecta: 32604574add2c46a36f8d2f716b6c5736eb75024
-  Facebook-iOS-SDK: cd87f0b2f0c1d9574b44e8fa2baacc275524bac3
+  FBSDKCoreKit: 469ed167195f860dbd2b4c4bbaa33d2e90598db9
+  FBSDKLoginKit: ff6224762732e3698f30942e4544321b8c7a23e6
   googleplus-ios-sdk: 065d9135061a5f84c07656a68ced48336408fe35
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   JWTDecode: bff190dc06ff9ee7a3a244c454dc8ef05962c994
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   Lock: ea007a23242b55f95433b848f9223e297165739d
-  Lock-Facebook: fc83349f48dee2d41fe8a36013502fe64a0d77fc
+  Lock-Facebook: 02c315b7d15d6fed20c7a2ea8a5e5e27c072483a
   Lock-GooglePlus: 38ea73da70d3dd3d210dfb7716b5aeed5aaabca6
   Lock-Twitter: 61168e95f6614535167621794cbada2d6606d4c5
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714

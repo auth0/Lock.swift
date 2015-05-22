@@ -76,8 +76,6 @@
 - (A0DatabaseLoginViewController *)buildLogin {
     @weakify(self);
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
-    controller.showSignUp = YES;
-    controller.showResetPassword = YES;
     controller.parameters = self.parameters;
     controller.onLoginBlock = self.onRegisterBlock;
     controller.lock = self.lock;

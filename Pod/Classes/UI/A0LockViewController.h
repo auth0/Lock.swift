@@ -51,6 +51,10 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  */
 - (instancetype)init __attribute__((deprecated));
 
+///------------------------------------------------
+/// @name Callbacks
+///------------------------------------------------
+
 /**
  Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.
  */
@@ -61,6 +65,10 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  */
 @property (copy, nonatomic) void(^onUserDismissBlock)();
 
+///------------------------------------------------
+/// @name UI customization
+///------------------------------------------------
+
 /**
  Enable the username to be treated as an email (and validated as one too) in all Auth0 screens. Default is YES
  */
@@ -70,6 +78,25 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  Allows the A0AuthenticationViewController to be dismissed by adding a button. Default is NO
  */
 @property (assign, nonatomic) BOOL closable;
+
+/**
+ View that will appear in the bottom of Signup screen. It should be used to show Terms & Conditions of your app.
+ */
+@property (strong, nonatomic) UIView *signUpDisclaimerView;
+
+/**
+ * Hides the Sign Up button. By default is `false`.
+ */
+@property (assign, nonatomic) BOOL disableSignUp;
+
+/**
+ * Hides the Reset Password button. By default is `false`.
+ */
+@property (assign, nonatomic) BOOL disableResetPassword;
+
+///------------------------------------------------
+/// @name Authentication options
+///------------------------------------------------
 
 /**
  After a successful Signup, `A0AuthenticationViewController` will attempt to login the user if this property is YES otherwise will call onAuthenticationBlock with both parameters nil. Default value is YES
@@ -84,11 +111,6 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 @property (assign, nonatomic) BOOL defaultADUsernameFromEmailPrefix;
 
 /**
- View that will appear in the bottom of Signup screen. It should be used to show Terms & Conditions of your app.
- */
-@property (strong, nonatomic) UIView *signUpDisclaimerView;
-
-/**
  *  When authenticating with a social connection, it will use an embedded webView instead of Safari. Default is NO.
  */
 @property (assign, nonatomic) BOOL useWebView;
@@ -98,6 +120,10 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  *  @see A0AuthParameters
  */
 @property (strong, nonatomic) A0AuthParameters *authenticationParameters;
+
+///------------------------------------------------
+/// @name Connection filtering
+///------------------------------------------------
 
 /**
  *  List of connections to be used by Lock. 

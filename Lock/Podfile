@@ -5,7 +5,6 @@ platform :ios, '8.0'
 def pod_with_warnings
   pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
   pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
-  pod 'Facebook-iOS-SDK', :inhibit_warnings => true #Ignore warnings for this lib
   pod 'ISO8601DateFormatter', :inhibit_warnings => true #Ignore warnings for this lib
 end
 
@@ -15,7 +14,7 @@ target 'Lock', :exclusive => true do
   pod 'Lock/SMS', :path => '../'
   pod 'Lock/ReactiveCore', :path => '../'
   pod 'Lock/1Password', :path => '../'
-  pod 'Lock-Facebook', '~> 1.0'
+  pod 'Lock-Facebook', '~> 2.0'
   pod 'Lock-Twitter', '~> 1.0'
   pod 'Lock-GooglePlus', '~> 1.0'
 

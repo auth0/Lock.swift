@@ -111,4 +111,15 @@
     }];
     return [NSArray arrayWithArray:result];
 }
+
+- (BOOL)shouldDisableSignUp:(BOOL)disableSignUp {
+    A0Connection *database = self.defaultDatabaseConnection;
+    return ![database[A0ConnectionShowSignUp] boolValue] || disableSignUp;
+}
+
+- (BOOL)shouldDisableResetPassword:(BOOL)disableResetPassword {
+    A0Connection *database = self.defaultDatabaseConnection;
+    return ![database[A0ConnectionShowForgot] boolValue] || disableResetPassword;
+}
+
 @end
