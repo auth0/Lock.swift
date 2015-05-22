@@ -1,6 +1,8 @@
+LOCK_VERSION = File.read('Pod/version')
+
 Pod::Spec.new do |s|
   s.name             = "Lock"
-  s.version          = "1.12.1"
+  s.version          = "#{LOCK_VERSION}"
   s.summary          = "A library that uses Auth0 for Authentication with Native Look & Feel"
   s.description      = <<-DESC
 [![Auth0](https://i.cloudup.com/1vaSVATKTL.png)](http://auth0.com)
@@ -23,6 +25,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.default_subspecs = 'UI', 'Core'
   s.prefix_header_contents = <<-EOS
     #import "A0Logging.h"
+    #define A0CurrentLockVersion @"#{LOCK_VERSION}"
     #define A0LocalizedString(key) NSLocalizedStringFromTable(key, @"Lock", nil)
   EOS
 
