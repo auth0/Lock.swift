@@ -33,6 +33,7 @@
 #import <libextobjc/EXTScope.h>
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
+#import "A0Stats.h"
 
 @interface A0WebViewController () <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
@@ -66,6 +67,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                                     @"client_id": application.identifier,
                                                                                     @"redirect_uri": _authentication.callbackURL.absoluteString,
                                                                                     }];
+        if ([A0Stats shouldSendAuth0ClientHeader]) {
+            parameters[A0ClientInfoQueryParamName] = [A0Stats stringForAuth0ClientHeader];
+        }
         [defaultParameters addValuesFromParameters:parameters];
         NSDictionary *payload = [defaultParameters asAPIPayload];
         components.query = payload.queryString;

@@ -33,6 +33,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NSObject+A0APIClientProvider.h"
+#import "A0Stats.h"
 
 @interface A0WebAuthenticator ()
 
@@ -70,6 +71,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                              @"client_id": application.identifier,
                                                                              @"redirect_uri": _authentication.callbackURL.absoluteString,
                                                                              }];
+        if ([A0Stats shouldSendAuth0ClientHeader]) {
+            parameters[A0ClientInfoQueryParamName] = [A0Stats stringForAuth0ClientHeader];
+        }
         _parameters = parameters;
         _strategy = strategy;
         _components = components;
