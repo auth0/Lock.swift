@@ -1,8 +1,34 @@
 # Change Log
 
-## [Unreleased](https://github.com/auth0/Lock.iOS-OSX/tree/HEAD)
+## [1.13.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.13.0) (2015-05-26)
 
-[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.12.0...HEAD)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.12.1...1.13.0)
+
+**Implemented enhancements:**
+
+- Specify DB connection for TouchID [\#120](https://github.com/auth0/Lock.iOS-OSX/issues/120)
+
+- Support disableSignupAction and disableChangePassword [\#114](https://github.com/auth0/Lock.iOS-OSX/issues/114)
+
+- Add default headers with SDK version for API calls [\#102](https://github.com/auth0/Lock.iOS-OSX/issues/102)
+
+**Fixed bugs:**
+
+- Allow API v2 endpoint to be configurable [\#103](https://github.com/auth0/Lock.iOS-OSX/issues/103)
+
+**Merged pull requests:**
+
+- Use custom api domain instead of generic one [\#125](https://github.com/auth0/Lock.iOS-OSX/pull/125) ([hzalaz](https://github.com/hzalaz))
+
+- Set default DB connection for TouchID authentication [\#124](https://github.com/auth0/Lock.iOS-OSX/pull/124) ([hzalaz](https://github.com/hzalaz))
+
+- Auth0 client Header information [\#123](https://github.com/auth0/Lock.iOS-OSX/pull/123) ([hzalaz](https://github.com/hzalaz))
+
+- Feature hide SignUp & Reset Password buttons [\#122](https://github.com/auth0/Lock.iOS-OSX/pull/122) ([hzalaz](https://github.com/hzalaz))
+
+## [1.12.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.12.1) (2015-05-20)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.12.0...1.12.1)
 
 **Implemented enhancements:**
 
