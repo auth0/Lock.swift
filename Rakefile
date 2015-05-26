@@ -84,3 +84,6 @@ namespace :release do
   end
 
 end
+
+task :default => 'pod:sync'
+
