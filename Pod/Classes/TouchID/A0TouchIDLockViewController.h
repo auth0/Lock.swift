@@ -73,4 +73,9 @@ FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockContainerBackgroundColor;
  */
 @property (strong, nonatomic) A0AuthParameters *authenticationParameters;
 
+/**
+ *  Name of the DB connection that should be used by Lock. By default is nil, which means the first connection will be used.
+ */
+@property (copy, nonatomic) NSString *defaultDatabaseConnectionName;
+
 @end
