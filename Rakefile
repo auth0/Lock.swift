@@ -77,12 +77,6 @@ namespace :release do
     make_release :major
   end
 
-  task :push do
-    pusher = Pod::Command.parse(['trunk', 'push', '--use-libraries', '--allow-warnings'])
-    pusher.validate!
-    pusher.run()
-  end
-
 end
 
 task :default => 'pod:sync'

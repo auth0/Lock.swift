@@ -1,4 +1,6 @@
-LOCK_VERSION = File.read('Pod/version')
+if not defined? LOCK_VERSION
+  LOCK_VERSION = File.read('Pod/version')
+end
 
 Pod::Spec.new do |s|
   s.name             = "Lock"
