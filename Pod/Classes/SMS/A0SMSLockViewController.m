@@ -136,6 +136,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.auth0APIToken = self.auth0APIToken;
     controller.currentPhoneNumber = phoneNumber;
     controller.currentCountry = countryCode;
+    controller.lock = self.lock;
     [self.navigationView removeAll];
     if (phoneNumber) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{

@@ -32,8 +32,7 @@
 
 #import <libextobjc/EXTScope.h>
 #import "A0Errors.h"
-
-#define kAuth0APIV2Endpoint @"https://login.auth0.com"
+#import "A0Lock.h"
 
 @interface A0SMSSendCodeViewController ()
 
@@ -110,7 +109,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 [self.registerButton setInProgress:NO];
             };
             A0LogDebug(@"About to send SMS code to phone %@", phoneNumber);
-            NSURL *baseURL = [NSURL URLWithString:kAuth0APIV2Endpoint];
+            NSURL *baseURL = self.lock.domainURL;
             A0SendSMSOperation *operation = [[A0SendSMSOperation alloc] initWithBaseURL:baseURL jwt:apiToken phoneNumber:phoneNumber];
             [operation setSuccess:^{
                 @strongify(self);
