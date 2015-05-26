@@ -23,10 +23,13 @@
 #import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
+@class A0Lock;
+
 @interface A0SMSSendCodeViewController : UIViewController<A0KeyboardEnabledView>
 
 @property (copy, nonatomic) NSString *currentCountry;
 @property (copy, nonatomic) NSString *currentPhoneNumber;
+@property (strong, nonatomic) A0Lock *lock;
 
 @property (copy, nonatomic) void(^onRegisterBlock)(NSString *countryCode, NSString *phoneNumber);
 
