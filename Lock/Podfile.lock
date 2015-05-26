@@ -88,11 +88,11 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
-  - Lock (1.12.1):
+  - Lock (1.13.0):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
-    - Lock/Core (= 1.12.1)
-    - Lock/UI (= 1.12.1)
+    - Lock/Core (= 1.13.0)
+    - Lock/UI (= 1.13.0)
   - Lock-Facebook (2.0.1):
     - CocoaLumberjack (~> 2.0)
     - FBSDKCoreKit (~> 4.0)
@@ -106,32 +106,32 @@ PODS:
     - Lock/Core (~> 1.11)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Lock/1Password (1.12.1):
+  - Lock/1Password (1.13.0):
     - 1PasswordExtension (~> 1.2)
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/Core (1.12.1):
+  - Lock/Core (1.13.0):
     - AFNetworking (~> 2.5)
     - CocoaLumberjack (~> 2.0.0-rc)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
-  - Lock/ReactiveCore (1.12.1):
+  - Lock/ReactiveCore (1.13.0):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ReactiveCocoa (~> 2.3)
-  - Lock/SMS (1.12.1):
+  - Lock/SMS (1.13.0):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/UI
-  - Lock/TouchID (1.12.1):
+  - Lock/TouchID (1.13.0):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/UI
     - SimpleKeychain (~> 0.2)
     - TouchIDAuth (~> 0.1)
-  - Lock/UI (1.12.1):
+  - Lock/UI (1.13.0):
     - CocoaLumberjack (~> 2.0.0-rc)
     - libextobjc (~> 0.4)
     - Lock/Core
@@ -197,7 +197,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   JWTDecode: bff190dc06ff9ee7a3a244c454dc8ef05962c994
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  Lock: 4337a4a3972333ec73bb06855ae54173cab8d437
+  Lock: 79ac2d131f94f1b5eae89a205059aa4464369427
   Lock-Facebook: 02c315b7d15d6fed20c7a2ea8a5e5e27c072483a
   Lock-GooglePlus: 38ea73da70d3dd3d210dfb7716b5aeed5aaabca6
   Lock-Twitter: 61168e95f6614535167621794cbada2d6606d4c5
