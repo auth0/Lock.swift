@@ -30,7 +30,7 @@ NSString * const A0ClientInfoQueryParamName = @"auth0Client";
 + (BOOL)shouldSendAuth0ClientHeader {
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     NSNumber *optOut = info[@"Auth0SendSDKInfo"];
-    return optOut ?: @YES;
+    return optOut ? optOut.boolValue : YES;
 }
 
 + (NSString *)stringForAuth0ClientHeader {
