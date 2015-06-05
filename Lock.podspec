@@ -90,7 +90,8 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.subspec 'TouchID' do |touchid|
     touchid.platform = :ios
     touchid.public_header_files = 'Pod/Classes/TouchID/*.h'
-    touchid.source_files = 'Pod/Classes/TouchID/*.{h,m}'
+    touchid.private_header_files = 'Pod/Classes/TouchID/Private/*.h'
+    touchid.source_files = 'Pod/Classes/TouchID/**/*.{h,m}'
     touchid.resources = 'Pod/Assets/TouchID/*.xib'
     touchid.dependency 'Lock/UI'
     touchid.dependency 'SimpleKeychain', '~> 0.2'
