@@ -33,5 +33,6 @@
 - (void)returnChangePasswordWithFilter:(HTTPFilter)filter;
 - (void)returnDelegationInfoWithFilter:(HTTPFilter)filter;
 - (void)unlinkUserWithFilter:(HTTPFilter)filter;
+- (void)startPasswordlessWithFilter:(HTTPFilter)filter;
 
 @end

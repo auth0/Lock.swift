@@ -74,6 +74,15 @@
     return [self filterWithPath:@"/unlink" method:@"POST" parameters:parameters];
 }
 
+- (HTTPFilter)filterForPasswordlessStartWithPhoneNumber:(NSString *)phoneNumber {
+    return [self filterWithPath:@"/passwordless/start"
+                         method:@"POST"
+                     parameters:@{
+                                  @"phone_number": phoneNumber,
+                                  @"connection": @"sms"
+                                  }];
+}
+
 - (HTTPFilter)filterWithPath:(NSString *)path method:(NSString *)method parameters:(NSDictionary *)parameters {
     return ^BOOL(NSURLRequest *request) {
         NSDictionary *dictionary = [NSURLProtocol propertyForKey:@"parameters" inRequest:request];
