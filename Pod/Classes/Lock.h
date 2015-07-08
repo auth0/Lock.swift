@@ -42,7 +42,6 @@
 #import "A0AuthParameters.h"
 #import "A0UserIdentity.h"
 #import "A0LockLogger.h"
-#import "A0LockNotification.h"
 
 #if __has_include("UI.h")
 #import "UI.h"
