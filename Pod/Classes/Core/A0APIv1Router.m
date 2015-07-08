@@ -22,17 +22,6 @@
 
 #import "A0APIv1Router.h"
 
-#define kLoginPath @"oauth/ro"
-#define kSignUpPath @"dbconnections/signup"
-#define kTokenInfoPath @"tokeninfo"
-#define kChangePasswordPath @"dbconnections/change_password"
-#define kSocialAuthPath @"oauth/access_token"
-#define kDelegationAuthPath @"delegation"
-#define kUnlinkAccountPath @"unlink"
-#define kUserInfoPath @"userinfo"
-#define kUsersPath @"api/users"
-#define kPublicKeyUserPath @"api/users/%@/publickey"
-
 @interface A0APIv1Router ()
 @property (copy, nonatomic) NSString *clientId;
 @property (copy, nonatomic) NSString *tenant;
@@ -67,43 +56,46 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (NSString *)loginPath {
-    return kLoginPath;
+    return @"oauth/ro";
 }
 
 - (NSString *)signUpPath {
-    return kSignUpPath;
+    return @"dbconnections/signup";
 }
 
 - (NSString *)changePasswordPath {
-    return kChangePasswordPath;
+    return @"dbconnections/change_password";
 }
 
 - (NSString *)socialLoginPath {
-    return kSocialAuthPath;
+    return @"oauth/access_token";
 }
 
 - (NSString *)userInfoPath {
-    return kUserInfoPath;
+    return @"userinfo";
 }
 
 - (NSString *)tokenInfoPath {
-    return kTokenInfoPath;
+    return @"tokeninfo";
 }
 
 - (NSString *)delegationPath {
-    return kDelegationAuthPath;
+    return @"delegation";
 }
 
 - (NSString *)unlinkPath {
-    return kUnlinkAccountPath;
+    return @"unlink";
 }
 
 - (NSString *)usersPath {
-    return kUsersPath;
+    return @"api/users";
 }
 
 - (NSString *)userPublicKeyPathForUser:(NSString *)userId {
-    return [[NSString stringWithFormat:kPublicKeyUserPath, userId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];;
+    return [[NSString stringWithFormat:@"api/users/%@/publickey", userId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];;
 }
 
+- (NSString *)startPasswordless {
+    return @"passwordless/start";
+}
 @end

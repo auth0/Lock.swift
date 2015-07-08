@@ -593,6 +593,38 @@ describe(@"A0APIClient", ^{
                     });
                 });
             });
+
+            describe(@"start sms passwordless authentication", ^{
+
+                NSString *phoneNumber = @"1234567890";
+
+                it(@"should send sms", ^{
+                    [keeper startPasswordlessWithFilter:[filter filterForPasswordlessStartWithPhoneNumber:phoneNumber]];
+                    waitUntil(^(DoneCallback done) {
+                        [client startPasswordlessWithPhoneNumber:phoneNumber success:^{
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).to.beNil();
+                            done();
+                        }];
+                    });
+                });
+
+                it(@"should call failure callback with error", ^{
+                    [keeper failWithFilter:[filter filterForPasswordlessStartWithPhoneNumber:phoneNumber]
+                                   message:@"passwordless_start_failed"];
+                    waitUntil(^(DoneCallback done) {
+                        [client startPasswordlessWithPhoneNumber:phoneNumber success:^{
+                            expect(nil).toNot.beNil();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).notTo.beNil();
+                            expect(error.localizedDescription).to.equal(@"passwordless_start_failed");
+                            done();
+                        }];
+                    });
+                });
+            });
         });
     });
 

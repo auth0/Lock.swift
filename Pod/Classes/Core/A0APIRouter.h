@@ -118,4 +118,11 @@
  */
 - (NSString *)userPublicKeyPathForUser:(NSString *)userId;
 
+/**
+ *  `/passwordless/start` path
+ *
+ *  @return a path
+ */
+- (NSString *)startPasswordless;
+
 @end

@@ -124,11 +124,6 @@ static BOOL isRunningTests(void) {
     A0SMSLockViewController *controller = [lock newSMSViewController];
     controller.closable = YES;
     @weakify(self);
-    controller.auth0APIToken = ^{
-        NSString *v2APIToken = [[NSBundle mainBundle] infoDictionary][@"Auth0SendSMSAPIToken"];
-        return v2APIToken;
-    };
-
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
         @strongify(self);

@@ -25,7 +25,9 @@
 /**
  *  Operation to send a SMS with an acess code to be used during login.
  *  Must have a `SMS` connection available and configured in your Auth0's app.
+ *  @deprecated 1.14.0. Use `A0APIClient` passwordless methods
  */
+__attribute__ ((deprecated))
 @interface A0SendSMSOperation : AFHTTPRequestOperation
 
 /**

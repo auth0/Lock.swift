@@ -713,7 +713,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				AUTH0_CLIENT_ID = U5MhUrbyQHSVWjlEqZSTCBUFABLbJAS3;
 				AUTH0_DOMAIN = overmind.auth0.com;
-				Auth0SendSMSAPIToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiI4OVFJZTAzZk1nTm1MYmY1Y1FhWGh6bkZialRhUWJVNSIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImNyZWF0ZSJdfX0sImlhdCI6MTQxNzAyNDI0NywianRpIjoiZjljYmUxMDAzMTBhYzdiYmNlYmEyZDk3ZjBjMjY0MzAifQ.en12hD39P3LQ0JjRcbuk-KRqyXevLz5GSZEEeMyUD3Q";
 				BUNDLE_SUFFIX = "-Dev";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -743,7 +742,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				AUTH0_CLIENT_ID = uPW0Reav8UNYt3TGPdM4I8rIAIazDOgG;
 				AUTH0_DOMAIN = samples.auth0.com;
-				Auth0SendSMSAPIToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIweUlxTXJpRHVnbU13SnR1VlJkaHVrVUxvYmUxZmhYMyIsInNjb3BlcyI6eyJ1c2VycyI6eyJhY3Rpb25zIjpbImNyZWF0ZSJdfX0sImlhdCI6MTQyMjg4ODM4MywianRpIjoiZTgxYjRkNjcxZmFkYjY4OTQ2MzUzZmNiNGRmMzAxOTEifQ.HcWrivdODASA1XQz1YsplUUC1jv2u_CqtbtZnxjRex0;
 				BUNDLE_SUFFIX = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";

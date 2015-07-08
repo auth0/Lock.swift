@@ -462,6 +462,25 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                }];
 }
 
+#pragma mark - Passwordless Authentication
+
+- (NSURLSessionDataTask *)startPasswordlessWithPhoneNumber:(NSString *)phoneNumber
+                                                   success:(void(^)())success
+                                                   failure:(A0APIClientError)failure {
+    return [self.manager POST:[self.router startPasswordless]
+                   parameters:@{
+                                kClientIdParamName: self.clientId,
+                                @"phone_number": phoneNumber,
+                                kConnectionParamName: @"sms",
+                                }
+                      success:^(NSURLSessionDataTask *task, id responseObject) {
+                          if (success) {
+                              success();
+                          }
+                          A0LogDebug(@"SMS send with OTP to number %@", phoneNumber);
+                      } failure:[A0APIClient sanitizeFailureBlock:failure]];
+}
+
 #pragma mark - Internal API calls
 
 - (NSURLSessionDataTask *)fetchUserInfoWithTokenInfo:(NSDictionary *)tokenInfo success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {

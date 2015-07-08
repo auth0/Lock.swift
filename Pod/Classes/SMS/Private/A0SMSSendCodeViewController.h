@@ -33,9 +33,4 @@
 
 @property (copy, nonatomic) void(^onRegisterBlock)(NSString *countryCode, NSString *phoneNumber);
 
-/**
- *  Block that returns Auth0's JWT API v2 token
- */
-@property (copy, nonatomic) NSString *(^auth0APIToken)();
-
 @end

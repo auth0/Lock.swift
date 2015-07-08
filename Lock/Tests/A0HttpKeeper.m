@@ -75,4 +75,9 @@
     }].name = @"Unlink account";
 }
 
+- (void)startPasswordlessWithFilter:(HTTPFilter)filter {
+    [OHHTTPStubs stubRequestsPassingTest:filter withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithJSONObject:@{@"_id": [[NSUUID UUID] UUIDString]} statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }].name = @"Start Passwordless";
+}
 @end
