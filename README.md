@@ -182,15 +182,10 @@ And you'll see TouchID login screen
 
 First instantiate `A0SMSLockViewController` and register the authentication callback that will receive the authenticated user's credentials.
 
-The next step is register a block to return an API Token used to register the  phone number and send the login code with SMS. This token can be generated in  [Auth0 API v2 page](https://docs.auth0.com/apiv2), just select the scope `create:users` and copy the generated API Token.
-
 Finally present it to the user:
 ```objc
 A0Lock *lock = ... //Fetch Lock from where its stored
 A0SMSLockViewController *controller = [lock newSMSViewController];
-controller.auth0APIToken = ^{
-    return @"Copy API v2 token here";
-};
 controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
@@ -203,7 +198,6 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 ```swift
 let lock = ... //Fetch Lock from where its stored
 let controller = lock.newSMSViewController()
-lock.auth0APIToken = {() -> String in return "Copy API v2 token here"}
 lock.onAuthenticationBlock = {(profile: A0UserProfile!, token: A0Token!) -> () in
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
