@@ -293,6 +293,9 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     NSString *localizedString;
     if ([errorKey isEqualToString:@"invalid_user_password"]) {
         localizedString = A0LocalizedString(@"Wrong email or password.");
+    } if ([errorKey isEqualToString:@"unauthorized"]) {
+        NSString *description = apiErrorInfo[@"error_description"];
+        localizedString = description.length > 0 ? A0LocalizedString(description) : A0LocalizedString(@"There was an error processing the sign in.");
     } else {
         localizedString = A0LocalizedString(@"There was an error processing the sign in.");
     }
@@ -305,6 +308,9 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     NSString *localizedString;
     if ([errorKey isEqualToString:@"invalid_user_password"]) {
         localizedString = A0LocalizedString(@"Wrong phone number or passcode.");
+    } if ([errorKey isEqualToString:@"unauthorized"]) {
+        NSString *description = apiErrorInfo[@"error_description"];
+        localizedString = description.length > 0 ? A0LocalizedString(description) : A0LocalizedString(@"There was an error processing the sign in.");
     } else {
         localizedString = A0LocalizedString(@"There was an error processing the sign in.");
     }
@@ -336,7 +342,16 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 }
 
 + (NSString *)localizedStringForSocialLoginError:(NSError *)error {
-    return A0LocalizedString(@"There was an error processing the sign in.");
+    NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
+    NSString *errorKey = apiErrorInfo[@"error"];
+    NSString *localizedString;
+    if ([errorKey isEqualToString:@"unauthorized"]) {
+        NSString *description = apiErrorInfo[@"error_description"];
+        localizedString = description.length > 0 ? A0LocalizedString(description) : A0LocalizedString(@"There was an error processing the sign in.");
+    } else {
+        localizedString = A0LocalizedString(@"There was an error processing the sign in.");
+    }
+    return localizedString;
 }
 
 #pragma mark - Utility methods
