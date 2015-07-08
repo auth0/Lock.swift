@@ -116,6 +116,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param success      block called on successful login with it's token info and profile
  *  @param failure      block called on failure with the reason as a parameter
  *  
+ *  @return an instance of `NSURLSessionDataTask`
  *  @see A0AuthParameters
  */
 - (NSURLSessionDataTask *)loginWithUsername:(NSString *)username
@@ -200,6 +201,8 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param parameters  optional parameters for Auth0 API. It can be nil
  *  @param success     block called on success
  *  @param failure     block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)changePassword:(NSString *)newPassword
                              forUsername:(NSString *)username
@@ -217,6 +220,8 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param parameters optional parameters for Auth0 API. It can be nil
  *  @param success    block called on successful login with it's token info and profile
  *  @param failure    block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)loginWithIdToken:(NSString *)idToken
                                 deviceName:(NSString *)deviceName
@@ -238,6 +243,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param success      block called on successful login with it's token info and profile
  *  @param failure      block called on failure with the reason as a parameter
  *
+ *  @return an instance of `NSURLSessionDataTask`
  *  @see A0AuthParameters
  */
 - (NSURLSessionDataTask *)loginWithPhoneNumber:(NSString *)phoneNumber
@@ -258,6 +264,8 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param parameters           optional parameters for Auth0 API. It can be nil
  *  @param success              block called on successful authentication with user's token and profile
  *  @param failure              block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)authenticateWithSocialConnectionName:(NSString *)connectionName
                                                    credentials:(A0IdentityProviderCredentials *)socialCredentials
@@ -276,6 +284,8 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param parameters   optional parameters for Auth0 API. It can be nil
  *  @param success      block called on successful request with new token information.
  *  @param failure      block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)fetchNewIdTokenWithRefreshToken:(NSString *)refreshToken
                                                parameters:(A0AuthParameters *)parameters
@@ -289,6 +299,8 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param parameters       optional parameters for Auth0 API. It can be nil
  *  @param success          block called on successful request with new token information
  *  @param failure          block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)fetchNewIdTokenWithIdToken:(NSString *)idToken
                                           parameters:(A0AuthParameters *)parameters
@@ -305,6 +317,8 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param parameters delegation API parameters. Must not be nil
  *  @param success    block called on successful request with the token information
  *  @param failure    block called on failure with the reason of failure
+ *
+ *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)fetchDelegationTokenWithParameters:(A0AuthParameters *)parameters
                                                      success:(A0APIClientNewDelegationTokenSuccess)success
@@ -320,6 +334,8 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param idToken user's id_token
  *  @param success block called on successful request with user's profile
  *  @param failure block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)fetchUserProfileWithIdToken:(NSString *)idToken
                                               success:(A0APIClientUserProfileSuccess)success
@@ -336,11 +352,31 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @param accessToken Auth0 acces token for the user
  *  @param success     block called on successful unlink request
  *  @param failure     block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)unlinkAccountWithUserId:(NSString *)userId
                                       accessToken:(NSString *)accessToken
                                           success:(void(^)())success
                                           failure:(A0APIClientError)failure;
+
+///----------------------------------------
+/// @name Passwordless Authentication
+///----------------------------------------
+
+/**
+ *  Start passwordless authentication using SMS to send a One Time Password to the user
+ *
+ *  @param phoneNumber of the phone that will receive the OTP via SMS message
+ *  @param success     block called when the SMS was sent successfully
+ *  @param failure     block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
+ */
+- (NSURLSessionDataTask *)startPasswordlessWithPhoneNumber:(NSString *)phoneNumber
+                                                   success:(void(^)())success
+                                                   failure:(A0APIClientError)failure;
+
 @end
 
 @interface A0APIClient (Deprecated)
