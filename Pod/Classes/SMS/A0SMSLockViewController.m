@@ -76,7 +76,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [super viewDidLoad];
     
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
-    NSAssert(self.auth0APIToken != nil, @"Must provide an API Token for v2 API");
 
     self.navigationController.navigationBarHidden = YES;
 
@@ -133,7 +132,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [defaults synchronize];
         [self displayController:[self buildSMSCodeWithNumber:phoneNumber]];
     };
-    controller.auth0APIToken = self.auth0APIToken;
     controller.currentPhoneNumber = phoneNumber;
     controller.currentCountry = countryCode;
     controller.lock = self.lock;
