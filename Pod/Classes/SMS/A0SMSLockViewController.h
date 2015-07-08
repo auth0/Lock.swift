@@ -69,7 +69,8 @@
 /**
  *  Block that returns a signed JWT with `create:users` scope for API v2. It's required to send SMS code.
  *  For more info: https://api.auth0.com/docs/api/v2
+ *  @deprecated 1.14.0. Lock now use `/passwordless/start` endpoint instead of API v2.
  */
-@property (copy, nonatomic) NSString *(^auth0APIToken)();
+@property (copy, nonatomic) NSString *(^auth0APIToken)() __attribute__((deprecated));
 
 @end
