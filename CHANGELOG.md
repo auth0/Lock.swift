@@ -1,5 +1,29 @@
 # Change Log
 
+## [1.14.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.14.0) (2015-07-10)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.13.0...1.14.0)
+
+**Implemented enhancements:**
+
+- Show errors returned from Rules [\#119](https://github.com/auth0/Lock.iOS-OSX/issues/119)
+
+**Closed issues:**
+
+- Clean up warnings [\#127](https://github.com/auth0/Lock.iOS-OSX/issues/127)
+
+**Merged pull requests:**
+
+- Add nullability macros for better swift support [\#133](https://github.com/auth0/Lock.iOS-OSX/pull/133) ([hzalaz](https://github.com/hzalaz))
+
+- Add methods to return user & app metadata from A0UserProfile [\#132](https://github.com/auth0/Lock.iOS-OSX/pull/132) ([hzalaz](https://github.com/hzalaz))
+
+- Use passwordless endpoint [\#131](https://github.com/auth0/Lock.iOS-OSX/pull/131) ([hzalaz](https://github.com/hzalaz))
+
+- Display error returned by a Auth0 rule [\#130](https://github.com/auth0/Lock.iOS-OSX/pull/130) ([hzalaz](https://github.com/hzalaz))
+
+- Build issues & warnings [\#128](https://github.com/auth0/Lock.iOS-OSX/pull/128) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.13.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.13.0) (2015-05-26)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.12.1...1.13.0)
