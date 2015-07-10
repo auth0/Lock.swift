@@ -60,8 +60,16 @@
 /**
  *  User's identities from other identity providers, e.g.: Facebook
  */
-@property (strong, nonatomic) NSArray *identities;
-
+@property (readonly, nonatomic) NSArray *identities;
+/**
+ *  Values stored under `user_metadata`. 
+ *  These values can be modified using and `id_token` and calling PATCH `/users/:id` with API v2
+ */
+@property (readonly, nonatomic) NSDictionary *userMetadata;
+/**
+ *  Values stored under `app_metadata`
+ */
+@property (readonly, nonatomic) NSDictionary *appMetadata;
 
 /**
  *  Initialise a new profile
