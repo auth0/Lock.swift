@@ -68,6 +68,14 @@
     return self;
 }
 
+- (NSDictionary *)userMetadata {
+    return self.extraInfo[@"user_metadata"] ?: @{};
+}
+
+- (NSDictionary *)appMetadata {
+    return self.extraInfo[@"app_metadata"] ?: @{};
+}
+
 #pragma mark - NSCoding
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
