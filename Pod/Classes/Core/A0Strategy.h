@@ -22,6 +22,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 ///----------------------------------------
 /// @name Strategy Names
 ///----------------------------------------
@@ -184,3 +186,5 @@ typedef NS_ENUM(NSUInteger, A0StrategyType) {
  */
 + (instancetype)newDatabaseStrategyWithConnections:(NSArray *)connections;
 @end
+
+NS_ASSUME_NONNULL_END

@@ -25,6 +25,11 @@
 
 @class A0Application, A0Strategy, A0UserProfile, A0Token, A0AuthParameters, A0Lock;
 
+NS_ASSUME_NONNULL_BEGIN
+
+typedef void(^A0IdPAuthenticationBlock)(A0UserProfile* __nonnull profile, A0Token* __nonnull token);
+typedef void(^A0IdPAuthenticationErrorBlock)(NSError* __nonnull error);
+
 /**
  *  `A0IdentityProviderAuthenticator` provides a single interface to handle all interactions with different identity providers. Each identity provider (a class that conforms with the protocol `A0AuthenticationProvider`) to be used must be registered with this object.
  *  We recommend using `A0Lock` object instead of this object directly.
@@ -96,9 +101,9 @@
  *  @param failure    block called on error with the reason as a parameter
  */
 - (void)authenticateForStrategy:(A0Strategy *)strategy
-                     parameters:(A0AuthParameters *)parameters
-                        success:(void(^)(A0UserProfile *profile, A0Token *token))success
-                        failure:(void(^)(NSError *error))failure;
+                     parameters:(nullable A0AuthParameters *)parameters
+                        success:(A0IdPAuthenticationBlock)success
+                        failure:(A0IdPAuthenticationErrorBlock)failure;
 
 /**
  *  Authenticates a user using an identity provider specified by `A0Strategy`'s name and the registered method (Safari or Native).
@@ -112,8 +117,8 @@
  */
 - (void)authenticateForStrategyName:(NSString *)strategyName
                          parameters:(A0AuthParameters *)parameters
-                            success:(void(^)(A0UserProfile *profile, A0Token *token))success
-                            failure:(void(^)(NSError *error))failure;
+                            success:(A0IdPAuthenticationBlock)success
+                            failure:(A0IdPAuthenticationErrorBlock)failure;
 
 /**
  *  Checks if the given startegy has a registered authenticator (either Native or Safari).
@@ -131,7 +136,7 @@
  *  @param application application that performed the authentication
  *  @return if the URL could be handled by the application
  */
-- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application;
+- (BOOL)handleURL:(NSURL *)url sourceApplication:(nullable NSString *)application;
 
 /**
  *  Clear all identity provider session information.
@@ -143,6 +148,8 @@
  *
  *  @param launchOptions dictionary with launch options
  */
-- (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions;
+- (void)applicationLaunchedWithOptions:(nullable NSDictionary *)launchOptions;
 
 @end
+
+NS_ASSUME_NONNULL_END

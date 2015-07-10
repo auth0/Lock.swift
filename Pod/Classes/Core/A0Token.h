@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 /**
  *  `A0Token` holds all token information for a user.
  */
@@ -30,7 +31,7 @@
 /**
  *  User's accessToken for Auth0 API
  */
-@property (readonly, nonatomic) NSString *accessToken;
+@property (readonly, nullable, nonatomic) NSString *accessToken;
 /**
  *  User's JWT token
  */
@@ -42,7 +43,7 @@
 /**
  *  Refresh token used to obtain new JWT tokens. Can be nil if no offline access was requested
  */
-@property (readonly, nonatomic) NSString *refreshToken;
+@property (readonly, nullable, nonatomic) NSString *refreshToken;
 
 /**
  *  Initialise a token
@@ -54,10 +55,10 @@
  *
  *  @return new instance
  */
-- (instancetype)initWithAccessToken:(NSString *)accessToken
+- (instancetype)initWithAccessToken:(nullable NSString *)accessToken
                             idToken:(NSString *)idToken
                           tokenType:(NSString *)tokenType
-                       refreshToken:(NSString *)refreshToken;
+                       refreshToken:(nullable NSString *)refreshToken;
 
 /**
  *  Initialise a token from a JSON dictionary
@@ -69,3 +70,4 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
+NS_ASSUME_NONNULL_END

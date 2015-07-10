@@ -24,6 +24,8 @@
 
 @class A0Strategy;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  `A0Application` contains your Auth0 application information
  */
@@ -59,7 +61,7 @@
  *  @see A0Strategy
  *  @see A0Connection
  */
-@property (readonly, nonatomic) A0Strategy *databaseStrategy;
+@property (readonly, nullable, nonatomic) A0Strategy *databaseStrategy;
 
 /**
  *  List of social strategies enabled for the application. e.g: Facebook, Twitter, Linkedin.
@@ -83,7 +85,7 @@
  *  @see A0Strategy
  *  @see A0Connection
  */
-@property (readonly, nonatomic) A0Strategy *activeDirectoryStrategy;
+@property (readonly, nullable, nonatomic) A0Strategy *activeDirectoryStrategy;
 
 /**
  *  Initialise the applcation from a JSON dictionary
@@ -101,7 +103,7 @@
  *
  *  @return an available strategy or nil
  */
-- (A0Strategy *)strategyByName:(NSString *)name;
+- (nullable A0Strategy *)strategyByName:(NSString *)name;
 
 /**
  *  Find the enterprise `A0Strategy` that has a connection
@@ -110,6 +112,8 @@
  *
  *  @return an enterprise strategy or nil if not found
  */
-- (A0Strategy *)enterpriseStrategyWithConnection:(NSString *)connectionName;
+- (nullable A0Strategy *)enterpriseStrategyWithConnection:(NSString *)connectionName;
 
 @end
+
+NS_ASSUME_NONNULL_END

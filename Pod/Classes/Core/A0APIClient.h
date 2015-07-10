@@ -25,15 +25,18 @@
 
 @class A0Application, A0Strategy, A0IdentityProviderCredentials, A0UserProfile, A0Token, A0AuthParameters;
 
-typedef void(^A0APIClientFetchAppInfoSuccess)(A0Application* application);
-typedef void(^A0APIClientAuthenticationSuccess)(A0UserProfile *profile, A0Token *tokenInfo);
-typedef void(^A0APIClientUserProfileSuccess)(A0UserProfile *profile);
-typedef void(^A0APIClientError)(NSError *error);
+typedef void(^A0APIClientFetchAppInfoSuccess)(A0Application* __nonnull application);
+typedef void(^A0APIClientAuthenticationSuccess)(A0UserProfile* __nonnull profile, A0Token* __nonnull tokenInfo);
+typedef void(^A0APIClientSignUpSuccess)(A0UserProfile* __nullable profile, A0Token* __nullable tokenInfo);
+typedef void(^A0APIClientUserProfileSuccess)(A0UserProfile* __nonnull profile);
+typedef void(^A0APIClientError)(NSError* __nonnull error);
 
-typedef void(^A0APIClientNewIdTokenSuccess)(A0Token *token);
-typedef void(^A0APIClientNewDelegationTokenSuccess)(NSDictionary *delegationToken);
+typedef void(^A0APIClientNewIdTokenSuccess)(A0Token* __nonnull token);
+typedef void(^A0APIClientNewDelegationTokenSuccess)(NSDictionary* __nonnull delegationToken);
 
-typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
+typedef void(^A0APIClientDelegationSuccess)(A0Token* __nonnull tokenInfo);
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  `A0APIClient` is a class with convenience methods for Auth0 REST API.
@@ -92,7 +95,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 /**
  *  Auth0 application information after a call to fetchAppInfoWithSuccess:failure:. Default is nil.
  */
-@property (readonly, nonatomic) A0Application *application;
+@property (readonly, nullable, nonatomic) A0Application *application;
 
 /**
  Fetches Auth0 application info from Auth0 and configure itself.
@@ -121,7 +124,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  */
 - (NSURLSessionDataTask *)loginWithUsername:(NSString *)username
                                    password:(NSString *)password
-                                 parameters:(A0AuthParameters *)parameters
+                                 parameters:(nullable A0AuthParameters *)parameters
                                     success:(A0APIClientAuthenticationSuccess)success
                                     failure:(A0APIClientError)failure;
 
@@ -141,10 +144,10 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)signUpWithEmail:(NSString *)email
-                                 username:(NSString *)username
+                                 username:(nullable NSString *)username
                                  password:(NSString *)password
                            loginOnSuccess:(BOOL)loginOnSuccess
-                               parameters:(A0AuthParameters *)parameters
+                               parameters:(nullable A0AuthParameters *)parameters
                                   success:(A0APIClientAuthenticationSuccess)success
                                   failure:(A0APIClientError)failure;
 
@@ -166,8 +169,8 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 - (NSURLSessionDataTask *)signUpWithEmail:(NSString *)email
                                  password:(NSString *)password
                            loginOnSuccess:(BOOL)loginOnSuccess
-                               parameters:(A0AuthParameters *)parameters
-                                  success:(A0APIClientAuthenticationSuccess)success
+                               parameters:(nullable A0AuthParameters *)parameters
+                                  success:(A0APIClientSignUpSuccess)success
                                   failure:(A0APIClientError)failure;
 
 /**
@@ -188,8 +191,8 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
 - (NSURLSessionDataTask *)signUpWithUsername:(NSString *)username
                                     password:(NSString *)password
                               loginOnSuccess:(BOOL)loginOnSuccess
-                                  parameters:(A0AuthParameters *)parameters
-                                     success:(A0APIClientAuthenticationSuccess)success
+                                  parameters:(nullable A0AuthParameters *)parameters
+                                     success:(A0APIClientSignUpSuccess)success
                                      failure:(A0APIClientError)failure;
 
 /**
@@ -206,7 +209,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  */
 - (NSURLSessionDataTask *)changePassword:(NSString *)newPassword
                              forUsername:(NSString *)username
-                              parameters:(A0AuthParameters *)parameters
+                              parameters:(nullable A0AuthParameters *)parameters
                                  success:(void(^)())success
                                  failure:(A0APIClientError)failure;
 
@@ -225,7 +228,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  */
 - (NSURLSessionDataTask *)loginWithIdToken:(NSString *)idToken
                                 deviceName:(NSString *)deviceName
-                                parameters:(A0AuthParameters *)parameters
+                                parameters:(nullable A0AuthParameters *)parameters
                                    success:(A0APIClientAuthenticationSuccess)success
                                    failure:(A0APIClientError)failure;
 
@@ -248,7 +251,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  */
 - (NSURLSessionDataTask *)loginWithPhoneNumber:(NSString *)phoneNumber
                                       passcode:(NSString *)passcode
-                                    parameters:(A0AuthParameters *)parameters
+                                    parameters:(nullable A0AuthParameters *)parameters
                                        success:(A0APIClientAuthenticationSuccess)success
                                        failure:(A0APIClientError)failure;
 
@@ -269,7 +272,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  */
 - (NSURLSessionDataTask *)authenticateWithSocialConnectionName:(NSString *)connectionName
                                                    credentials:(A0IdentityProviderCredentials *)socialCredentials
-                                                    parameters:(A0AuthParameters *)parameters
+                                                    parameters:(nullable A0AuthParameters *)parameters
                                                        success:(A0APIClientAuthenticationSuccess)success
                                                        failure:(A0APIClientError)failure;
 
@@ -288,7 +291,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)fetchNewIdTokenWithRefreshToken:(NSString *)refreshToken
-                                               parameters:(A0AuthParameters *)parameters
+                                               parameters:(nullable A0AuthParameters *)parameters
                                                   success:(A0APIClientNewIdTokenSuccess)success
                                                   failure:(A0APIClientError)failure;
 
@@ -303,7 +306,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @return an instance of `NSURLSessionDataTask`
  */
 - (NSURLSessionDataTask *)fetchNewIdTokenWithIdToken:(NSString *)idToken
-                                          parameters:(A0AuthParameters *)parameters
+                                          parameters:(nullable A0AuthParameters *)parameters
                                              success:(A0APIClientNewIdTokenSuccess)success
                                              failure:(A0APIClientError)failure;
 
@@ -406,7 +409,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @deprecated 1.1.0
  */
 - (void)delegationWithRefreshToken:(NSString *)refreshToken
-                        parameters:(A0AuthParameters *)parameters
+                        parameters:(nullable A0AuthParameters *)parameters
                            success:(A0APIClientDelegationSuccess)success
                            failure:(A0APIClientError)failure __attribute__((deprecated));
 
@@ -423,7 +426,7 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
  *  @deprecated 1.1.0
  */
 - (void)delegationWithIdToken:(NSString *)idToken
-                   parameters:(A0AuthParameters *)parameters
+                   parameters:(nullable A0AuthParameters *)parameters
                       success:(A0APIClientDelegationSuccess)success
                       failure:(A0APIClientError)failure __attribute__((deprecated));
 
@@ -443,3 +446,5 @@ typedef void(^A0APIClientDelegationSuccess)(A0Token *tokenInfo);
                                 failure:(A0APIClientError)failure __attribute__((deprecated));
 
 @end
+
+NS_ASSUME_NONNULL_END

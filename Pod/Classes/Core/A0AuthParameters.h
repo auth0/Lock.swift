@@ -22,6 +22,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 ///----------------------------------------
 /// @name Auth0 API basic option keys
 ///----------------------------------------
@@ -120,37 +122,37 @@ FOUNDATION_EXTERN NSString * const A0ParameterTarget;
 /**
  *  Device name, it will only be set when 'offline_access' is one of the scopes. By default is the name returned by [[UIDevice currentDevice] name]
  */
-@property (copy, nonatomic) NSString *device;
+@property (copy, nullable, nonatomic) NSString *device;
 
 /**
  *  Access token used when linking an account with an existing one. By default is nil
  */
-@property (copy, nonatomic) NSString *accessToken;
+@property (copy, nullable, nonatomic) NSString *accessToken;
 
 /**
  *  Protocol used for authentication. By default is nil (the same as using `oauth2`).
  */
-@property (copy, nonatomic) NSString *protocol;
+@property (copy, nullable, nonatomic) NSString *protocol;
 
 /**
  *  Value used to avoid a replay attack that is part of _OpenID_ protocol. By default is nil
  */
-@property (copy, nonatomic) NSString *nonce;
+@property (copy, nullable, nonatomic) NSString *nonce;
 
 /**
  *  Offline mode for authentication. By default is nil
  */
-@property (copy, nonatomic) NSString *offlineMode;
+@property (copy, nullable, nonatomic) NSString *offlineMode;
 
 /**
  *  Value that will be received with the authentication response. By default is nil
  */
-@property (copy, nonatomic) NSString *state;
+@property (copy, nullable, nonatomic) NSString *state;
 
 /**
  *  Specify scopes for connections. e.g. ask facebook for user's email. By default is nil
  */
-@property (copy, nonatomic) NSDictionary *connectionScopes;
+@property (copy, nullable, nonatomic) NSDictionary *connectionScopes;
 
 /**
  *  Initialise the parameters with default values.
@@ -223,7 +225,7 @@ FOUNDATION_EXTERN NSString * const A0ParameterTarget;
  */
 - (void)addValuesFromParameters:(A0AuthParameters *)parameters;
 
-- (id)objectForKeyedSubscript:(NSString *)key;
+- (nullable id)objectForKeyedSubscript:(NSString *)key;
 - (void)setObject:(id)obj forKeyedSubscript:(NSString *)key;
 
 @end
@@ -247,7 +249,7 @@ FOUNDATION_EXTERN NSString * const A0ParameterTarget;
  *
  *  @return a value or nil if it's not stored.
  */
-- (NSString *)valueForKey:(NSString *)key __attribute__((deprecated));
+- (nullable NSString *)valueForKey:(NSString *)key __attribute__((deprecated));
 
 @end
-
+NS_ASSUME_NONNULL_END
