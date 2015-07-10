@@ -22,6 +22,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Flag if the DB connection requires username
  */
@@ -75,6 +77,8 @@ FOUNDATION_EXPORT NSString * const A0ConnectionShowSignUp;
  *
  *  @return value of connection property
  */
-- (id)objectForKeyedSubscript:(NSString *)key;
+- (nullable id)objectForKeyedSubscript:(NSString *)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

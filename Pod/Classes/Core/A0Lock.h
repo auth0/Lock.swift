@@ -26,6 +26,8 @@
 
 @class A0APIClient, A0UserAPIClient, A0IdentityProviderAuthenticator;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Main interface with Auth0 Lock for iOS.
  */
@@ -141,7 +143,7 @@
  *
  *  @return if we can handle the url or not.
  */
-- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
+- (BOOL)handleURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication;
 
 /**
  *  Register IdP authenticator that will be used for Social & Enterprise connections.
@@ -164,7 +166,9 @@
  *
  *  @param launchOptions dictionary with launch options
  */
-- (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions;
+- (void)applicationLaunchedWithOptions:(nullable NSDictionary *)launchOptions;
 #endif
 
 @end
+
+NS_ASSUME_NONNULL_END

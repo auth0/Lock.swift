@@ -25,8 +25,10 @@
 
 @class A0UserProfile;
 
-typedef void(^A0UserAPIClientUserProfileSuccess)(A0UserProfile *profile);
-typedef void(^A0UserAPIClientError)(NSError *error);
+NS_ASSUME_NONNULL_BEGIN
+
+typedef void(^A0UserAPIClientUserProfileSuccess)(A0UserProfile* __nonnull profile);
+typedef void(^A0UserAPIClientError)(NSError* __nonnull error);
 
 /**
  `A0UserAPIClient` is a class with convenience methods for Auth0 REST API that needs to be authenticated with a user's accessToken or JWT token.
@@ -129,3 +131,5 @@ typedef void(^A0UserAPIClientError)(NSError *error);
 + (A0UserAPIClient *)clientWithIdToken:(NSString *)idToken __attribute__((deprecated));
 
 @end
+
+NS_ASSUME_NONNULL_END

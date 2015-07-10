@@ -22,8 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class A0Token;
-
+NS_ASSUME_NONNULL_BEGIN
 /**
  *  `A0UserProfile` has User's information obtained from Auth0.
  */
@@ -44,7 +43,7 @@
 /**
  *  User's email. Can be nil
  */
-@property (readonly, nonatomic) NSString *email;
+@property (readonly, nullable, nonatomic) NSString *email;
 /**
  *  User's avatar picture URL.
  */
@@ -100,3 +99,4 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
+NS_ASSUME_NONNULL_END

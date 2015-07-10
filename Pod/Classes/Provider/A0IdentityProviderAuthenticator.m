@@ -49,17 +49,21 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (instancetype)initWithLock:(A0Lock *)lock {
+    return [self initWithClientProvider:lock];
+}
+
+- (id)init {
+    return [self initWithClientProvider:nil];
+}
+
+- (id)initWithClientProvider:(id<A0APIClientProvider>)clientProvider {
     self = [super init];
     if (self) {
         _registeredAuthenticators = [@{} mutableCopy];
         _useWebAsDefault = YES;
-        _clientProvider = lock;
+        _clientProvider = clientProvider;
     }
     return self;
-}
-
-- (id)init {
-    return [self initWithLock:nil];
 }
 
 - (void)registerAuthenticationProviders:(NSArray *)authenticationProviders {

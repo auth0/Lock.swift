@@ -49,7 +49,7 @@ NSString * const A0ConnectionShowSignUp = @"showSignup";
     return self.values[@"name"];
 }
 
-- (id)objectForKeyedSubscript:(NSString *)key {
+- (nullable id)objectForKeyedSubscript:(NSString *)key {
     return self.values[key];
 }
 

@@ -25,8 +25,9 @@
 
 @class A0UserProfile, A0Token, A0AuthParameters, A0Lock;
 
-typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
+typedef void(^A0AuthenticationBlock)(A0UserProfile * __nullable profile, A0Token * __nullable token);
 
+NS_ASSUME_NONNULL_BEGIN
 /**
  `A0LockViewController` displays Auth0's native widget and configures itself with your app's configuration and it allows further customization using it's properties or `A0Theme`.
   It should be presented in screen as a modal view controller calling in any of your controllers `[self presentViewController:authController animated:YES completion:nil]`
@@ -58,12 +59,12 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 /**
  Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.
  */
-@property (copy, nonatomic) A0AuthenticationBlock onAuthenticationBlock;
+@property (copy, nullable, nonatomic) A0AuthenticationBlock onAuthenticationBlock;
 
 /**
  Block that is called on when the user dismisses the Login screen. Only when closable property is YES.
  */
-@property (copy, nonatomic) void(^onUserDismissBlock)();
+@property (copy, nullable, nonatomic) void(^onUserDismissBlock)();
 
 ///------------------------------------------------
 /// @name UI customization
@@ -82,7 +83,7 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 /**
  View that will appear in the bottom of Signup screen. It should be used to show Terms & Conditions of your app.
  */
-@property (strong, nonatomic) UIView *signUpDisclaimerView;
+@property (strong, nullable, nonatomic) UIView *signUpDisclaimerView;
 
 /**
  * Hides the Sign Up button. By default is `false`.
@@ -119,7 +120,7 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  *  Parameters to be sent to all Authentication request to Auth0 API.
  *  @see A0AuthParameters
  */
-@property (strong, nonatomic) A0AuthParameters *authenticationParameters;
+@property (copy, nullable, nonatomic) A0AuthParameters *authenticationParameters;
 
 ///------------------------------------------------
 /// @name Connection filtering
@@ -129,11 +130,12 @@ typedef void(^A0AuthenticationBlock)(A0UserProfile *profile, A0Token *token);
  *  List of connections to be used by Lock. 
  *  It can be used to filter connections already enabled in Auth0 dashboard. If a connection is not enabled in the dashboard it will be ignored.
  */
-@property (strong, nonatomic) NSArray *connections;
+@property (copy, nullable, nonatomic) NSArray *connections;
 
 /**
  *  Name of the DB connection that should be used by Lock. By default is nil, which means the first connection will be used.
  */
-@property (copy, nonatomic) NSString *defaultDatabaseConnectionName;
+@property (copy, nullable, nonatomic) NSString *defaultDatabaseConnectionName;
 
 @end
+NS_ASSUME_NONNULL_END
