@@ -60,7 +60,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self = [super init];
     if (self) {
         _registeredAuthenticators = [@{} mutableCopy];
-        _useWebAsDefault = YES;
+        _useWebAsDefault = NO;
         _clientProvider = clientProvider;
     }
     return self;

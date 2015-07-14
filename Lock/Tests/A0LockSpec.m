@@ -153,49 +153,6 @@ describe(@"A0Lock", ^{
 
         it(@"should fail to create", ^{
             expect(^{
-                [A0Lock newLockWithClientId:nil domain:nil];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-
-        it(@"should fail to create", ^{
-            expect(^{
-                [A0Lock newLockWithClientId:kClientId domain:nil];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-
-        it(@"should fail to create", ^{
-            expect(^{
-                [A0Lock newLockWithClientId:nil domain:kDomain];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-
-        it(@"should fail to create", ^{
-            expect(^{
-                [A0Lock newLockWithClientId:nil domain:nil configurationDomain:nil];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-
-        it(@"should fail to create", ^{
-            expect(^{
-                [A0Lock newLockWithClientId:kClientId domain:nil configurationDomain:nil];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-
-        it(@"should fail to create", ^{
-            expect(^{
-                [A0Lock newLockWithClientId:nil domain:kDomain configurationDomain:nil];
-            }).to.raise(NSInternalInconsistencyException);
-            
-        });
-
-        it(@"should fail to create", ^{
-            expect(^{
-                [A0Lock newLockWithClientId:nil domain:nil configurationDomain:kConfigurationDomain];
-            }).to.raise(NSInternalInconsistencyException);
-        });
-
-        it(@"should fail to create", ^{
-            expect(^{
                 NSAssert([[A0Lock alloc] initWithBundleInfo:@{}], @"Non nil");
             }).to.raise(NSInternalInconsistencyException);
         });

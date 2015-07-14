@@ -91,6 +91,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         _authenticationParameters = [A0AuthParameters newDefaultParams];
         _defaultADUsernameFromEmailPrefix = YES;
         _connections = @[];
+        _useWebView = YES;
     }
     return self;
 }
