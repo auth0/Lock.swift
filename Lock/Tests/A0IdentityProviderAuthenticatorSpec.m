@@ -174,20 +174,6 @@ describe(@"A0SocialAuthenticator", ^{
 
         });
 
-        context(@"authenticate with known strategy name", ^{
-
-            void(^failureBlock)(NSError *) = ^(NSError *error) {};
-
-            it(@"should call the correct provider", ^{
-                [MKTVerify(provider) authenticateWithParameters:nil success:successBlock failure:failureBlock];
-            });
-
-            it(@"should tell it can authenticate", ^{
-                expect([authenticator canAuthenticateStrategy:strategy]).to.beTruthy();
-            });
-            
-        });
-
         context(@"authenticate with unknown strategy", ^{
 
             __block A0Strategy *unknown;
