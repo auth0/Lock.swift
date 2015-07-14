@@ -67,12 +67,6 @@ describe(@"A0SocialAuthenticator", ^{
             });
         });
 
-        it(@"should fail with nil provider", ^{
-            expect(^{
-                [authenticator registerAuthenticationProvider:nil];
-            }).to.raiseWithReason(NSInternalInconsistencyException, @"Must supply a non-nil profile");
-        });
-
         it(@"should fail with provider with no identifier", ^{
             expect(^{
                 [authenticator registerAuthenticationProvider:mock(A0BaseAuthenticator.class)];
@@ -178,23 +172,6 @@ describe(@"A0SocialAuthenticator", ^{
                 expect([authenticator canAuthenticateStrategy:strategy]).to.beTruthy();
             });
 
-        });
-
-        context(@"authenticate with known strategy name", ^{
-
-            void(^failureBlock)(NSError *) = ^(NSError *error) {};
-            beforeEach(^{
-                [authenticator authenticateForStrategyName:strategy.name parameters:nil success:successBlock failure:failureBlock];
-            });
-
-            it(@"should call the correct provider", ^{
-                [MKTVerify(provider) authenticateWithParameters:nil success:successBlock failure:failureBlock];
-            });
-
-            it(@"should tell it can authenticate", ^{
-                expect([authenticator canAuthenticateStrategy:strategy]).to.beTruthy();
-            });
-            
         });
 
         context(@"authenticate with unknown strategy", ^{

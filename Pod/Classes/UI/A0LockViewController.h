@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL defaultADUsernameFromEmailPrefix;
 
 /**
- *  When authenticating with a social connection, it will use an embedded webView instead of Safari. Default is NO.
+ *  When authenticating with a social connection, it will use an embedded webView instead of Safari. Default is YES.
  */
 @property (assign, nonatomic) BOOL useWebView;
 
