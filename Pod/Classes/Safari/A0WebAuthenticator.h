@@ -21,10 +21,11 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0BaseAuthenticator.h"
+#import <Lock/A0BaseAuthenticator.h>
 
 @class A0Strategy, A0Application;
 
+ __attribute__((deprecated("Please use WebView authentication due to Apple rejecting apps that authenticate with Safari")))
 @interface A0WebAuthenticator : A0BaseAuthenticator
 
 + (instancetype)newWebAuthenticationForStrategy:(A0Strategy *)strategy

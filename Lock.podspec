@@ -23,7 +23,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.requires_arc = true
 
   s.dependency 'libextobjc', '~> 0.4'
-  s.dependency 'CocoaLumberjack', '~> 2.0.0-rc'
+  s.dependency 'CocoaLumberjack', '~> 2.0'
   s.default_subspecs = 'UI', 'Core'
   s.prefix_header_contents = <<-EOS
     #import "A0Logging.h"
@@ -115,6 +115,13 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     onepassword.source_files = 'Pod/Classes/1Password/*.{h,m}'
     onepassword.dependency '1PasswordExtension', '~> 1.2'
     onepassword.dependency 'Lock/Core'
+  end
+
+  s.subspec 'Safari' do |safari|
+    safari.platform = :ios
+    safari.public_header_files = 'Pod/Classes/Safari/*.h'
+    safari.source_files = 'Pod/Classes/Safari/*.{h,m}'
+    safari.dependency 'Lock/Core'
   end
 
 end
