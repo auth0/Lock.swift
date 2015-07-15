@@ -24,7 +24,6 @@
 #import "A0Strategy.h"
 #import "A0Application.h"
 #import "A0Errors.h"
-#import "A0WebAuthenticator.h"
 #import "A0Lock.h"
 
 @interface A0IdentityProviderAuthenticator ()
@@ -84,10 +83,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     void (^registerBlock)(id obj, NSUInteger idx, BOOL *stop) = ^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
         if (self.registeredAuthenticators[strategy.name]) {
             self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
-        } else if (self.useWebAsDefault) {
-            A0WebAuthenticator *authenticator = [A0WebAuthenticator newWebAuthenticationForStrategy:strategy ofApplication:application];
-            authenticator.clientProvider = self.clientProvider;
-            self.authenticators[strategy.name] = authenticator;
         }
     };
     [application.socialStrategies enumerateObjectsUsingBlock:registerBlock];

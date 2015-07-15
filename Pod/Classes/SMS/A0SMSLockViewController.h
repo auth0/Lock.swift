@@ -43,7 +43,7 @@
  *  @deprecated 1.12.0. Please use `initWithLock:` or create using an `A0Lock` instance
  *  @see A0Lock
  */
-- (instancetype)init __attribute__((deprecated));
+- (instancetype)init DEPRECATED_ATTRIBUTE;
 
 /**
  Allows the A0AuthenticationViewController to be dismissed by adding a button. Default is NO
@@ -71,6 +71,6 @@
  *  For more info: https://api.auth0.com/docs/api/v2
  *  @deprecated 1.14.0. Lock now use `/passwordless/start` endpoint instead of API v2.
  */
-@property (copy, nonatomic) NSString *(^auth0APIToken)() __attribute__((deprecated));
+@property (copy, nonatomic) NSString *(^auth0APIToken)() DEPRECATED_MSG_ATTRIBUTE("a API v2 JWT is no longer necessary");
 
 @end

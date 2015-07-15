@@ -43,7 +43,7 @@
  *  @deprecated 1.12.0. Please use `initWithLock:` or create using an `A0Lock` instance
  *  @see A0Lock
  */
-- (instancetype)init __attribute__((deprecated));
+- (instancetype)init DEPRECATED_ATTRIBUTE;
 
 /**
  Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.

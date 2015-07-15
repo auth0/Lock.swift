@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @deprecated 1.12.0. Please use `initWithLock:` or create using an `A0Lock` instance
  *  @see A0Lock
  */
-- (instancetype)init __attribute__((deprecated));
+- (instancetype)init DEPRECATED_ATTRIBUTE;
 
 ///------------------------------------------------
 /// @name Callbacks

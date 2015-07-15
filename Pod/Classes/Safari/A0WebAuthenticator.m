@@ -20,20 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0WebAuthenticator.h"
-#import "A0Application.h"
-#import "A0Strategy.h"
-#import "NSDictionary+A0QueryParameters.h"
-#import "A0UserProfile.h"
-#import "A0Token.h"
-#import "A0APIClient.h"
-#import "A0Errors.h"
-#import "A0WebAuthentication.h"
-#import "A0AuthParameters.h"
-
 #import <UIKit/UIKit.h>
-#import "NSObject+A0APIClientProvider.h"
-#import "A0Stats.h"
+
+#import "A0WebAuthenticator.h"
+#import <Lock/A0Application.h>
+#import <Lock/A0Strategy.h>
+#import <Lock/NSDictionary+A0QueryParameters.h>
+#import <Lock/A0UserProfile.h>
+#import <Lock/A0Token.h>
+#import <Lock/A0APIClient.h>
+#import <Lock/A0Errors.h>
+#import <Lock/A0WebAuthentication.h>
+#import <Lock/A0AuthParameters.h>
+#import <Lock/NSObject+A0APIClientProvider.h>
+#import <Lock/A0Stats.h>
 
 @interface A0WebAuthenticator ()
 

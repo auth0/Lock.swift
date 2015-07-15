@@ -25,7 +25,6 @@
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "A0Errors.h"
-#import "A0WebAuthenticator.h"
 #import "A0Lock.h"
 
 #define HC_SHORTHAND

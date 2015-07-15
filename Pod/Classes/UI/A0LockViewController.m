@@ -113,8 +113,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     self.dismissButton.hidden = !self.closable;
 
-    A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
-    [authenticator setUseWebAsDefault:!self.useWebView];
     [self loadApplicationInfo];
 }
 

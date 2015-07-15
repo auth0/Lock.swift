@@ -90,6 +90,6 @@ FOUNDATION_EXPORT NSString * const A0ThemeCloseButtonTintColor;
 @end
 
 @interface A0Theme (Deprecated)
-- (void)registerImageWithName:(NSString *)name forKey:(NSString *)key __attribute__((deprecated));
+- (void)registerImageWithName:(NSString *)name forKey:(NSString *)key DEPRECATED_ATTRIBUTE;
 @end
 

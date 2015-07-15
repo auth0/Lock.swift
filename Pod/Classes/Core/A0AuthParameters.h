@@ -239,7 +239,7 @@ FOUNDATION_EXTERN NSString * const A0ParameterTarget;
  *  @param key   key for the value.
  *  @deprecated 1.12.0
  */
-- (void)setValue:(NSString *)value forKey:(NSString *)key __attribute__((deprecated));
+- (void)setValue:(NSString *)value forKey:(NSString *)key DEPRECATED_ATTRIBUTE;
 
 /**
  *  Returns a value stored using the given key
@@ -249,7 +249,7 @@ FOUNDATION_EXTERN NSString * const A0ParameterTarget;
  *
  *  @return a value or nil if it's not stored.
  */
-- (nullable NSString *)valueForKey:(NSString *)key __attribute__((deprecated));
+- (nullable NSString *)valueForKey:(NSString *)key DEPRECATED_ATTRIBUTE;
 
 @end
 NS_ASSUME_NONNULL_END
