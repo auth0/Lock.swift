@@ -50,7 +50,7 @@ FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockContainerBackgroundColor;
  *  @deprecated 1.12.0. Please use `initWithLock:` or create using an `A0Lock` instance
  *  @see A0Lock
  */
-- (instancetype)init __attribute__((deprecated));
+- (instancetype)init DEPRECATED_ATTRIBUTE;
 
 /**
  Allows the A0AuthenticationViewController to be dismissed by adding a button. Default is NO

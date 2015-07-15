@@ -97,7 +97,7 @@ typedef void(^A0UserAPIClientError)(NSError* __nonnull error);
  *  @deprecated 1.12.0
  *  @return a A0UserAPIClient instance
  */
-- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant accessToken:(NSString *)accessToken __attribute__((deprecated));
+- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant accessToken:(NSString *)accessToken DEPRECATED_ATTRIBUTE;
 /**
  *  Initialise a new User API Client
  *
@@ -108,7 +108,7 @@ typedef void(^A0UserAPIClientError)(NSError* __nonnull error);
  *  @deprecated 1.12.0
  *  @return a A0UserAPIClient instance
  */
-- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant idToken:(NSString *)idToken __attribute__((deprecated));
+- (instancetype)initWithClientId:(NSString *)clientId tenant:(NSString *)tenant idToken:(NSString *)idToken DEPRECATED_ATTRIBUTE;
 
 /**
  *  Creates a new client with an access token
@@ -118,7 +118,7 @@ typedef void(^A0UserAPIClientError)(NSError* __nonnull error);
  *  @deprecated 1.12.0
  *  @return a new instance
  */
-+ (A0UserAPIClient *)clientWithAccessToken:(NSString *)accessToken __attribute__((deprecated));
++ (A0UserAPIClient *)clientWithAccessToken:(NSString *)accessToken DEPRECATED_ATTRIBUTE;
 
 /**
  *  Creates a new client with a id token
@@ -128,7 +128,7 @@ typedef void(^A0UserAPIClientError)(NSError* __nonnull error);
  *  @deprecated 1.12.0
  *  @return a new instance
  */
-+ (A0UserAPIClient *)clientWithIdToken:(NSString *)idToken __attribute__((deprecated));
++ (A0UserAPIClient *)clientWithIdToken:(NSString *)idToken DEPRECATED_ATTRIBUTE;
 
 @end
 

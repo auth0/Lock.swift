@@ -96,8 +96,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.dismissButton.tintColor = [theme colorForKey:A0ThemeCloseButtonTintColor];
 
-    A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
-    [authenticator setUseWebAsDefault:!self.useWebView];
     [self displayController:[[A0LoadingViewController alloc] init]];
     [self loadApplicationInfo];
 

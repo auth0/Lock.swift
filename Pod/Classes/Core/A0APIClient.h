@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @deprecated 1.12.0. We recommend creating an instance of A0Lock and call its method `-apiClient` to obtain an instance of this object.
  *  @return a shared `A0APIClient` instance.
  */
-+ (instancetype)sharedClient __attribute__((deprecated));
++ (instancetype)sharedClient DEPRECATED_MSG_ATTRIBUTE("Call A0Lock -apiClient to get an instance");
 
 ///----------------------------------------
 /// @name Configuration for Auth0 App
@@ -394,7 +394,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @see A0Lock
  *  @return a new `A0APIClient` instance
  */
-- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant;
+- (instancetype)initWithClientId:(NSString *)clientId andTenant:(NSString *)tenant DEPRECATED_ATTRIBUTE;
 
 /**
  *  Calls Auth0 delegation API with the refresh_token to obtain a new id_token.
@@ -411,7 +411,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)delegationWithRefreshToken:(NSString *)refreshToken
                         parameters:(nullable A0AuthParameters *)parameters
                            success:(A0APIClientDelegationSuccess)success
-                           failure:(A0APIClientError)failure __attribute__((deprecated));
+                           failure:(A0APIClientError)failure DEPRECATED_ATTRIBUTE;
 
 /**
  *  Calls Auth0 delegation API with the id_token to obtain a new id_token.
@@ -428,7 +428,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)delegationWithIdToken:(NSString *)idToken
                    parameters:(nullable A0AuthParameters *)parameters
                       success:(A0APIClientDelegationSuccess)success
-                      failure:(A0APIClientError)failure __attribute__((deprecated));
+                      failure:(A0APIClientError)failure DEPRECATED_ATTRIBUTE;
 
 /**
  *  Obtains the user's profile information from Auth0 using Auth0's API accessToken
@@ -443,7 +443,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)fetchUserProfileWithAccessToken:(NSString *)accessToken
                                 success:(A0APIClientUserProfileSuccess)success
-                                failure:(A0APIClientError)failure __attribute__((deprecated));
+                                failure:(A0APIClientError)failure DEPRECATED_ATTRIBUTE;
 
 @end
 
