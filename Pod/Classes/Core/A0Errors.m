@@ -209,10 +209,10 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:A0LocalizedString(@"You need to configure your auth0 scheme in CFBundleURLTypes in your app's Info.plist file")];
 }
 
-+ (NSError *)unkownProviderForStrategy:(NSString *)strategyName {
++ (NSError *)unkownProviderForConnectionName:(NSString *)connectionName {
     return [self errorWithCode:A0ErrorCodeUknownProviderForStrategy
-                   description:A0LocalizedString(@"Couldn't found authentication method for unknown strategy")
-                 failureReason:[NSString stringWithFormat:A0LocalizedString(@"The strategy %@ has no registered authentication provider"), strategyName]];
+                   description:A0LocalizedString(@"Couldn't found authentication method for unknown connection")
+                 failureReason:[NSString stringWithFormat:A0LocalizedString(@"The connection %@ has no registered authentication provider"), connectionName]];
 }
 
 + (NSError *)facebookCancelled {
@@ -251,23 +251,23 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
                  failureReason:A0LocalizedString(@"The twitter account seems to be invalid. Please check it in Settings > Twitter and re-enter them.")];
 }
 
-+ (NSError *)auth0CancelledForStrategy:(NSString *)strategyName {
-    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", strategyName];
++ (NSError *)auth0CancelledForConnectionName:(NSString *)connectionName {
+    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", connectionName];
     return [self errorWithCode:A0ErrorCodeAuth0Cancelled
                    description:A0LocalizedString(description)
                  failureReason:A0LocalizedString(@"User cancelled the login operation. Try again")];
 }
 
-+ (NSError *)auth0NotAuthorizedForStrategy:(NSString *)strategyName {
-    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", strategyName];
++ (NSError *)auth0NotAuthorizedForConnectionName:(NSString *)connectionName {
+    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", connectionName];
     return [self errorWithCode:A0ErrorCodeAuth0NotAuthorized
                    description:A0LocalizedString(description)
                  failureReason:A0LocalizedString(@"Permissions were not granted. Try again")];
 }
 
-+ (NSError *)auth0InvalidConfigurationForStrategy:(NSString *)strategyName {
-    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", strategyName];
-    NSString *failureReason = [NSString stringWithFormat:@"The application isn't configured properly for %@. Please check your Auth0's application configuration", strategyName];
++ (NSError *)auth0InvalidConfigurationForConnectionName:(NSString *)connectionName {
+    NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", connectionName];
+    NSString *failureReason = [NSString stringWithFormat:@"The application isn't configured properly for %@. Please check your Auth0's application configuration", connectionName];
     return [self errorWithCode:A0ErrorCodeAuth0InvalidConfiguration
                    description:A0LocalizedString(description)
                  failureReason:A0LocalizedString(failureReason)];

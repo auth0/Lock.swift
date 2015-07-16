@@ -94,7 +94,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)cancel:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     if (self.onFailure) {
-        self.onFailure([A0Errors auth0CancelledForStrategy:self.connectionName]);
+        self.onFailure([A0Errors auth0CancelledForConnectionName:self.connectionName]);
     }
     self.onFailure = nil;
     self.onAuthentication = nil;

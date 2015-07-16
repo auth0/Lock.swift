@@ -62,7 +62,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (errorMessage) {
         A0LogError(@"URL contained error message %@", errorMessage);
         if (error != NULL) {
-            *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorizedForStrategy:self.connectionName] : [A0Errors auth0InvalidConfigurationForStrategy:self.connectionName];
+            *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorizedForConnectionName:self.connectionName] : [A0Errors auth0InvalidConfigurationForConnectionName:self.connectionName];
         }
     } else {
         NSString *accessToken = params[@"access_token"];
@@ -75,7 +75,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         } else {
             A0LogError(@"Failed to obtain id_token from URL %@", url);
             if (error != NULL) {
-                *error = [A0Errors auth0NotAuthorizedForStrategy:self.connectionName];
+                *error = [A0Errors auth0NotAuthorizedForConnectionName:self.connectionName];
             }
 
         }

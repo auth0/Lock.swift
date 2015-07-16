@@ -84,7 +84,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     } else {
         A0LogWarn(@"No known provider for connection %@", connectionName);
         if (failure) {
-            failure([A0Errors unkownProviderForStrategy:connectionName]);
+            failure([A0Errors unkownProviderForConnectionName:connectionName]);
         }
     }
 }

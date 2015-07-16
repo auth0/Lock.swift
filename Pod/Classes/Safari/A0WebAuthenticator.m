@@ -87,7 +87,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)applicationActiveNotification:(NSNotification *)notification {
     if (self.failureBlock) {
-        self.failureBlock([A0Errors auth0CancelledForStrategy:self.strategy.name]);
+        self.failureBlock([A0Errors auth0CancelledForConnectionName:self.strategy.name]);
     }
     [self clearBlocks];
 }
