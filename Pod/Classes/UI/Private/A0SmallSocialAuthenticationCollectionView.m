@@ -118,8 +118,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     NSString *connectionName = strategy.name;
     if ([authenticator canAuthenticateStrategy:strategy]) {
         A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
-        parameters[A0ParameterConnection] = connectionName;
-        [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];
+        [authenticator authenticateWithConnectionName:connectionName parameters:parameters success:successBlock failure:failureBlock];
     } else {
         A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
         A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.configuration.application

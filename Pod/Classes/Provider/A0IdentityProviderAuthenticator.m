@@ -25,6 +25,7 @@
 #import "A0Application.h"
 #import "A0Errors.h"
 #import "A0Lock.h"
+#import "A0AuthParameters.h"
 
 @interface A0IdentityProviderAuthenticator ()
 
@@ -70,26 +71,22 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return authenticator != nil;
 }
 
-- (void)authenticateForStrategyName:(NSString *)strategyName
-                         parameters:(A0AuthParameters *)parameters
-                            success:(void (^)(A0UserProfile *, A0Token *))success
-                            failure:(void (^)(NSError *))failure {
-    id<A0AuthenticationProvider> authenticator = self.authenticators[strategyName];
-    if (authenticator) {
-        [authenticator authenticateWithParameters:parameters success:success failure:failure];
+- (void)authenticateWithConnectionName:(NSString * __nonnull)connectionName
+                            parameters:(nullable A0AuthParameters *)parameters
+                               success:(A0IdPAuthenticationBlock __nonnull)success
+                               failure:(A0IdPAuthenticationErrorBlock __nonnull)failure {
+    id<A0AuthenticationProvider> idp = self.authenticators[connectionName];
+    //TODO: Once all IdP authenticators are changed remove this parameter dance.
+    A0AuthParameters *params = [parameters copy];
+    params[A0ParameterConnection] = connectionName;
+    if (idp) {
+        [idp authenticateWithParameters:params success:success failure:failure];
     } else {
-        A0LogWarn(@"No known provider for strategy %@", strategyName);
+        A0LogWarn(@"No known provider for connection %@", connectionName);
         if (failure) {
-            failure([A0Errors unkownProviderForStrategy:strategyName]);
+            failure([A0Errors unkownProviderForStrategy:connectionName]);
         }
     }
-}
-
-- (void)authenticateForStrategy:(A0Strategy *)strategy
-                     parameters:(A0AuthParameters *)parameters
-                        success:(void(^)(A0UserProfile *profile, A0Token *token))success
-                        failure:(void(^)(NSError *error))failure {
-    [self authenticateForStrategyName:strategy.name parameters:parameters success:success failure:failure];
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application {
@@ -135,6 +132,20 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)configureForApplication:(A0Application *)application {
     //NOOP
+}
+
+- (void)authenticateForStrategyName:(NSString *)strategyName
+                         parameters:(A0AuthParameters *)parameters
+                            success:(void (^)(A0UserProfile *, A0Token *))success
+                            failure:(void (^)(NSError *))failure {
+    [self authenticateWithConnectionName:strategyName parameters:parameters success:success failure:failure];
+}
+
+- (void)authenticateForStrategy:(A0Strategy *)strategy
+                     parameters:(A0AuthParameters *)parameters
+                        success:(void(^)(A0UserProfile *profile, A0Token *token))success
+                        failure:(void(^)(NSError *error))failure {
+    [self authenticateForStrategyName:strategy.name parameters:parameters success:success failure:failure];
 }
 
 @end

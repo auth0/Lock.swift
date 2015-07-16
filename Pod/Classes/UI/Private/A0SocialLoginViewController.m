@@ -116,7 +116,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
     if ([authenticator canAuthenticateStrategy:strategy]) {
         A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
-        [authenticator authenticateForStrategy:strategy parameters:self.parameters success:successBlock failure:failureBlock];
+        [authenticator authenticateWithConnectionName:strategy.name parameters:self.parameters success:successBlock failure:failureBlock];
     } else {
         A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
         A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.configuration.application connectionName:strategy.name parameters:self.parameters];
