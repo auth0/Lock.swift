@@ -31,6 +31,7 @@
 @property (weak, nonatomic) id<A0APIClientProvider> clientProvider;
 @property (strong, nonatomic) NSMutableDictionary *registeredAuthenticators;
 @property (strong, nonatomic) NSMutableDictionary *authenticators;
+@property (assign, nonatomic) BOOL useWebAsDefault;
 
 @end
 
@@ -38,29 +39,16 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-+ (A0IdentityProviderAuthenticator *)sharedInstance {
-    static A0IdentityProviderAuthenticator *instance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        instance = [[A0IdentityProviderAuthenticator alloc] init];
-    });
-    return instance;
-}
-
 - (instancetype)initWithLock:(A0Lock *)lock {
     return [self initWithClientProvider:lock];
-}
-
-- (id)init {
-    return [self initWithClientProvider:nil];
 }
 
 - (id)initWithClientProvider:(id<A0APIClientProvider>)clientProvider {
     self = [super init];
     if (self) {
         _registeredAuthenticators = [@{} mutableCopy];
-        _useWebAsDefault = NO;
         _clientProvider = clientProvider;
+        _useWebAsDefault = NO;
     }
     return self;
 }
@@ -138,6 +126,23 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.registeredAuthenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0AuthenticationProvider> authenticator, BOOL *stop) {
         [authenticator applicationLaunchedWithOptions:launchOptions];
     }];
+}
+
+@end
+
+@implementation A0IdentityProviderAuthenticator (Deprecated)
+
+- (id)init {
+    return [self initWithClientProvider:nil];
+}
+
++ (A0IdentityProviderAuthenticator *)sharedInstance {
+    static A0IdentityProviderAuthenticator *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[A0IdentityProviderAuthenticator alloc] init];
+    });
+    return instance;
 }
 
 @end

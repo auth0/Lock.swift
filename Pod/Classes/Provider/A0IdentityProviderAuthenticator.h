@@ -38,21 +38,6 @@ typedef void(^A0IdPAuthenticationErrorBlock)(NSError* __nonnull error);
 @interface A0IdentityProviderAuthenticator : NSObject
 
 /**
- *  When no specific authentication provider is registered it will fallback to Safari Web Flow otherwise it will raise an error. Default is YES.
- *  @deprecated 1.15.0. Since Apple does not allow Safari authentication by default we don't assume Safari
- */
-@property (assign, nonatomic) BOOL useWebAsDefault DEPRECATED_MSG_ATTRIBUTE("By default now it raises an error when no provider is registered");
-
-/**
- *  Returns a shared instance of `A0IdentityProviderAuthenticator`
- *
- *  @return shared instance
- *  @deprecated 1.12.0. We recommend creating an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
- *  @see A0Lock
- */
-+ (A0IdentityProviderAuthenticator *)sharedInstance DEPRECATED_MSG_ATTRIBUTE("Use A0Lock identityProviderAuthenticator to obtain an instance");
-
-/**
  *  Initialize IdP authenticator with for a Lock instance.
  *
  *  @param lock instance of A0Lock that provides app configuration and Auth API client.
@@ -60,14 +45,6 @@ typedef void(^A0IdPAuthenticationErrorBlock)(NSError* __nonnull error);
  *  @return an initialized instance
  */
 - (instancetype)initWithLock:(A0Lock *)lock;
-
-/**
- *  Initialize IdP authenticator
- *
- *  @return an initialized instance.
- *  @deprecated 1.12.0. Use `-initWithLock:` instead or create an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
- */
-- (instancetype)init DEPRECATED_MSG_ATTRIBUTE("Use -initWithLock: instead");
 
 /**
  *  Register an array of identity providers.
@@ -150,6 +127,33 @@ typedef void(^A0IdPAuthenticationErrorBlock)(NSError* __nonnull error);
  *  @param launchOptions dictionary with launch options
  */
 - (void)applicationLaunchedWithOptions:(nullable NSDictionary *)launchOptions;
+
+@end
+
+@interface A0IdentityProviderAuthenticator (Deprecated)
+
+/**
+ *  When no specific authentication provider is registered it will fallback to Safari Web Flow otherwise it will raise an error. Default is YES.
+ *  @deprecated 1.15.0. Since Apple does not allow Safari authentication by default we don't assume Safari
+ */
+@property (assign, nonatomic) BOOL useWebAsDefault DEPRECATED_MSG_ATTRIBUTE("By default now it raises an error when no provider is registered");
+
+/**
+ *  Initialize IdP authenticator
+ *
+ *  @return an initialized instance.
+ *  @deprecated 1.12.0. Use `-initWithLock:` instead or create an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
+ */
+- (instancetype)init DEPRECATED_MSG_ATTRIBUTE("Use -initWithLock: instead");
+
+/**
+ *  Returns a shared instance of `A0IdentityProviderAuthenticator`
+ *
+ *  @return shared instance
+ *  @deprecated 1.12.0. We recommend creating an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
+ *  @see A0Lock
+ */
++ (A0IdentityProviderAuthenticator *)sharedInstance DEPRECATED_MSG_ATTRIBUTE("Use A0Lock identityProviderAuthenticator to obtain an instance");
 
 @end
 
