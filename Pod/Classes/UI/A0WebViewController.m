@@ -30,7 +30,6 @@
 #import "NSDictionary+A0QueryParameters.h"
 #import "A0AuthParameters.h"
 #import "A0Lock.h"
-#import "NSObject+A0APIClientProvider.h"
 #import "A0Stats.h"
 #import <libextobjc/EXTScope.h>
 
@@ -41,6 +40,7 @@
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (strong, nonatomic) A0WebAuthentication *authentication;
 @property (copy, nonatomic) NSString *connectionName;
+@property (strong, nonatomic) A0APIClient *client;
 
 - (IBAction)cancel:(id)sender;
 
@@ -54,34 +54,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
 }
 
-- (instancetype)initWithApplication:(A0Application *)application
-                     connectionName:(NSString *)connectionName
-                         parameters:(A0AuthParameters *)parameters {
+- (instancetype)initWithAPIClient:(A0APIClient * __nonnull)client
+                   connectionName:(NSString * __nonnull)connectionName
+                       parameters:(nullable A0AuthParameters *)parameters {
     self = [self init];
     if (self) {
-        _authentication = [[A0WebAuthentication alloc] initWithClientId:application.identifier connectionName:connectionName];
-        NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
-        A0AuthParameters *authorizeParams = [A0AuthParameters newWithDictionary:@{
-                                                                                    @"response_type": @"token",
-                                                                                    @"client_id": application.identifier,
-                                                                                    @"redirect_uri": _authentication.callbackURL.absoluteString,
-                                                                                    }];
-        if ([A0Stats shouldSendAuth0ClientHeader]) {
-            parameters[A0ClientInfoQueryParamName] = [A0Stats stringForAuth0ClientHeader];
-        }
-        [authorizeParams addValuesFromParameters:parameters];
-        authorizeParams[A0ParameterConnection] = connectionName;
-        NSDictionary *payload = [authorizeParams asAPIPayload];
-        components.query = payload.queryString;
-        _authorizeURL = components.URL;
+        _authentication = [[A0WebAuthentication alloc] initWithClientId:client.clientId domainURL:client.baseURL connectionName:connectionName];
+        _authorizeURL = [_authentication authorizeURLWithParameters:[parameters asAPIPayload]];
         _connectionName = connectionName;
+        _client = client;
     }
     return self;
-}
-
-- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy parameters:(A0AuthParameters *)parameters {
-    NSString *connectionName = [strategy.connections.firstObject name];
-    return [self initWithApplication:application connectionName:connectionName parameters:parameters];
 }
 
 - (void)viewDidLoad {
@@ -109,8 +92,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         if (token) {
             void(^success)(A0UserProfile *, A0Token *) = self.onAuthentication;
             @weakify(self);
-            A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
-            [client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
+            [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
                 @strongify(self);
                 self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
                 if (success) {

@@ -27,24 +27,30 @@
 #import "A0Errors.h"
 #import "NSDictionary+A0QueryParameters.h"
 #import "A0Connection.h"
+#import "A0Stats.h"
+#import "A0AuthParameters.h"
 
 #define kCallbackURLString @"a0%@://%@.auth0.com/authorize"
 
 @interface A0WebAuthentication ()
 @property (strong, nonatomic) NSURL *callbackURL;
 @property (strong, nonatomic) NSString *connectionName;
+@property (strong, nonatomic) NSURL *domainURL;
+@property (copy, nonatomic) NSString *clientId;
 @end
 
 @implementation A0WebAuthentication
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)initWithClientId:(NSString *)clientId connectionName:(NSString *)connectionName {
+- (instancetype)initWithClientId:(NSString *)clientId domainURL:(NSURL *)domainURL connectionName:(NSString *)connectionName {
     self = [super init];
     if (self) {
         NSString *callbackURLString = [NSString stringWithFormat:kCallbackURLString, clientId, connectionName].lowercaseString;
         _callbackURL = [NSURL URLWithString:callbackURLString];
         _connectionName = connectionName;
+        _domainURL = domainURL;
+        _clientId = clientId;
     }
     return self;
 }
@@ -83,12 +89,21 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return token;
 }
 
-#pragma mark - Deprecated
-
-- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy {
-    NSAssert(application != nil && application.identifier, @"You must supply a valid A0Application");
-    A0Connection *connection = strategy.connections.firstObject;
-    return [self initWithClientId:application.identifier connectionName:[connection name]];
+- (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters {
+    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.domainURL.absoluteURL resolvingAgainstBaseURL:NO];
+    components.path = @"/authorize";
+    NSMutableDictionary *dictionary = parameters ? [parameters mutableCopy] : [[[A0AuthParameters newDefaultParams] asAPIPayload] mutableCopy];
+    [dictionary addEntriesFromDictionary:@{
+                                           @"response_type": @"token",
+                                           @"client_id": self.clientId,
+                                           @"redirect_uri": self.callbackURL.absoluteString,
+                                           @"connection": self.connectionName,
+                                           }];
+    if ([A0Stats shouldSendAuth0ClientHeader]) {
+        dictionary[A0ClientInfoQueryParamName] = [A0Stats stringForAuth0ClientHeader];
+    }
+    components.query = dictionary.queryString;
+    return components.URL;
 }
 
 @end

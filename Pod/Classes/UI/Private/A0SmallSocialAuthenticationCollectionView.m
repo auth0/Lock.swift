@@ -121,14 +121,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [authenticator authenticateWithConnectionName:connectionName parameters:parameters success:successBlock failure:failureBlock];
     } else {
         A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
-        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.configuration.application
+        A0WebViewController *controller = [[A0WebViewController alloc] initWithAPIClient:self.lock.apiClient
                                                                             connectionName:connectionName
                                                                                 parameters:parameters];
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         controller.onAuthentication = successBlock;
         controller.onFailure = failureBlock;
-        controller.lock = self.lock;
         [self.authenticationDelegate socialAuthenticationCollectionView:self presentAuthenticationViewController:controller];
     }
 }

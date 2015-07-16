@@ -40,23 +40,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Initialise an instance with Auth0's clientId and specific strategy (e.g. linkedin).
  *
- *  @param clientId assigned to your Auth0 Application
- *  @param connectionName of the Auth0 connection that will handle
+ *  @param clientId         assigned to your Auth0 Application
+ *  @param domainURL        of your Auth0 account
+ *  @param connectionName   of the Auth0 connection that will authenticate the user
  *
  *  @return instance of A0WebAuthentication.
  */
-- (instancetype)initWithClientId:(NSString *)clientId connectionName:(NSString *)connectionName;
-
-/**
- *  Initialise an instance with Auth0's information and for a specific strategy (e.g. linkedin).
- *
- *  @param application object with your Auth0 app information
- *  @param strategy    strategy that will be handled.
- *
- *  @return instance of A0WebAuthentication.
- *  @deprecated 1.15.0. Use `Use -initWithClientId:connectionName:` instead
- */
-- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy DEPRECATED_MSG_ATTRIBUTE("Use -initWithClientId:connectionName:");
+- (instancetype)initWithClientId:(NSString *)clientId domainURL:(NSURL *)domainURL connectionName:(NSString *)connectionName;
 
 /**
  *  Checks if the URL has the valid callback format and is for the strategy this object is configured.
@@ -76,6 +66,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return an instance of `A0Token` with the token information or nil if an error occurs.
  */
 - (nullable A0Token *)tokenFromURL:(NSURL *)url error:(NSError **)error;
+
+/**
+ *  Authorize endpoint URL with parameters
+ *
+ *  @param parameters to be sent to authorize endpoint
+ *
+ *  @return authorize URL
+ */
+- (nullable NSURL *)authorizeURLWithParameters:(nullable NSDictionary *)parameters;
 
 @end
 

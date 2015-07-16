@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class A0Token, A0UserProfile, A0Application, A0Strategy, A0AuthParameters, A0Lock;
+@class A0Token, A0UserProfile, A0Application, A0Strategy, A0AuthParameters, A0APIClient;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,10 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nullable, nonatomic) void(^onAuthentication)(A0UserProfile *profile, A0Token *token);
 @property (copy, nullable, nonatomic) void(^onFailure)(NSError *error);
-@property (strong, nullable, nonatomic) A0Lock *lock;
 
-- (instancetype)initWithApplication:(A0Application *)application connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters;
-- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy parameters:(nullable A0AuthParameters *)parameters DEPRECATED_ATTRIBUTE;
+- (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters;
 
 @end
 

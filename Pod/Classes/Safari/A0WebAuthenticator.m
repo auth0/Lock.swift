@@ -62,9 +62,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                      application:(A0Application *)application {
     self = [self init];
     if (self) {
-        _authentication = [[A0WebAuthentication alloc] initWithApplication:application strategy:strategy];
-        NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
         NSString *connectionName = [strategy.connections.firstObject name];
+        _authentication = [[A0WebAuthentication alloc] initWithClientId:application.identifier domainURL:application.authorizeURL connectionName:connectionName];
+        NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
         A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{
                                                                              @"response_type": @"token",
                                                                              @"connection": connectionName,
