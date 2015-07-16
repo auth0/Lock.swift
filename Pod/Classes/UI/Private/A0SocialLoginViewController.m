@@ -119,7 +119,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [authenticator authenticateForStrategy:strategy parameters:self.parameters success:successBlock failure:failureBlock];
     } else {
         A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
-        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.configuration.application strategy:strategy parameters:self.parameters];
+        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.configuration.application connectionName:strategy.name parameters:self.parameters];
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         controller.onAuthentication = successBlock;

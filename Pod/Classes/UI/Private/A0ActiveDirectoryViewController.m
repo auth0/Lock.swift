@@ -210,13 +210,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
     A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
     A0AuthParameters *parameters = self.parameters.copy;
-    parameters[A0ParameterConnection] = connection.name;
+    NSString *connectionName = connection.name;
     if ([authenticator canAuthenticateStrategy:strategy]) {
-        A0LogVerbose(@"Authenticating using Safari for strategy %@ and connection %@", strategy.name, connection.name);
+        A0LogVerbose(@"Authenticating using Safari for strategy %@ and connection %@", strategy.name, connectionName);
+        parameters[A0ParameterConnection] = connectionName;
         [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];
     } else {
         A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
-        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:application strategy:strategy parameters:parameters];
+        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:application connectionName:connectionName parameters:parameters];
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         controller.onAuthentication = successBlock;

@@ -114,15 +114,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.authenticationDelegate authenticationDidStartForSocialCollectionView:self];
 
     A0AuthParameters *parameters = [self.parameters copy];
-    parameters[A0ParameterConnection] = strategy.name;
     A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
+    NSString *connectionName = strategy.name;
     if ([authenticator canAuthenticateStrategy:strategy]) {
         A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
+        parameters[A0ParameterConnection] = connectionName;
         [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];
     } else {
         A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
         A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.configuration.application
-                                                                                  strategy:strategy
+                                                                            connectionName:connectionName
                                                                                 parameters:parameters];
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;

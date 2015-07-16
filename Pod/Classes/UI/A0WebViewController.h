@@ -24,13 +24,17 @@
 
 @class A0Token, A0UserProfile, A0Application, A0Strategy, A0AuthParameters, A0Lock;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface A0WebViewController : UIViewController
 
-@property (copy, nonatomic) void(^onAuthentication)(A0UserProfile *profile, A0Token *token);
-@property (copy, nonatomic) void(^onFailure)(NSError *error);
-@property (strong, nonatomic) A0Lock *lock;
+@property (copy, nullable, nonatomic) void(^onAuthentication)(A0UserProfile *profile, A0Token *token);
+@property (copy, nullable, nonatomic) void(^onFailure)(NSError *error);
+@property (strong, nullable, nonatomic) A0Lock *lock;
 
-
-- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy parameters:(A0AuthParameters *)parameters;
+- (instancetype)initWithApplication:(A0Application *)application connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters;
+- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy parameters:(nullable A0AuthParameters *)parameters DEPRECATED_ATTRIBUTE;
 
 @end
+
+NS_ASSUME_NONNULL_END

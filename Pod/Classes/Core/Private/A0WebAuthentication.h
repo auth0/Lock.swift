@@ -22,7 +22,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class A0UserProfile, A0Token, A0Application, A0Strategy;
+@class A0Token, A0Application, A0Strategy;
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Handle logic for Web Authentication using Auth0 backend.
@@ -36,14 +38,25 @@
 @property (readonly, nonatomic) NSURL *callbackURL;
 
 /**
+ *  Initialise an instance with Auth0's clientId and specific strategy (e.g. linkedin).
+ *
+ *  @param clientId assigned to your Auth0 Application
+ *  @param connectionName of the Auth0 connection that will handle
+ *
+ *  @return instance of A0WebAuthentication.
+ */
+- (instancetype)initWithClientId:(NSString *)clientId connectionName:(NSString *)connectionName;
+
+/**
  *  Initialise an instance with Auth0's information and for a specific strategy (e.g. linkedin).
  *
- *  @param application Auth0 Applicaiton information to initialise the object.
- *  @param strategy    strategy that will be handled by this object.
+ *  @param application object with your Auth0 app information
+ *  @param strategy    strategy that will be handled.
  *
- *  @return the instance initialised.
+ *  @return instance of A0WebAuthentication.
+ *  @deprecated 1.15.0. Use `Use -initWithClientId:connectionName:` instead
  */
-- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy;
+- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy DEPRECATED_MSG_ATTRIBUTE("Use -initWithClientId:connectionName:");
 
 /**
  *  Checks if the URL has the valid callback format and is for the strategy this object is configured.
@@ -54,7 +67,6 @@
  */
 - (BOOL)validateURL:(NSURL *)url;
 
-
 /**
  *  Returns the token information from the URL query parameters or fragment.
  *
@@ -63,6 +75,8 @@
  *
  *  @return an instance of `A0Token` with the token information or nil if an error occurs.
  */
-- (A0Token *)tokenFromURL:(NSURL *)url error:(NSError **)error;
+- (nullable A0Token *)tokenFromURL:(NSURL *)url error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

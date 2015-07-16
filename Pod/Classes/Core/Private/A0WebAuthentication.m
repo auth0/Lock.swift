@@ -32,23 +32,19 @@
 
 @interface A0WebAuthentication ()
 @property (strong, nonatomic) NSURL *callbackURL;
-@property (strong, nonatomic) NSString *strategyName;
+@property (strong, nonatomic) NSString *connectionName;
 @end
 
 @implementation A0WebAuthentication
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy {
+- (instancetype)initWithClientId:(NSString *)clientId connectionName:(NSString *)connectionName {
     self = [super init];
     if (self) {
-        A0Connection *connection = strategy.connections.firstObject;
-        NSAssert(application != nil && application.identifier, @"You must supply a valid A0Application");
-        NSAssert(strategy != nil && connection.name != nil, @"You must supply a valid strategy with at least 1 connection");
-        NSString *connectionName = connection.name;
-        NSString *callbackURLString = [NSString stringWithFormat:kCallbackURLString, application.identifier, connectionName].lowercaseString;
+        NSString *callbackURLString = [NSString stringWithFormat:kCallbackURLString, clientId, connectionName].lowercaseString;
         _callbackURL = [NSURL URLWithString:callbackURLString];
-        _strategyName = strategy.name;
+        _connectionName = connectionName;
     }
     return self;
 }
@@ -66,7 +62,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (errorMessage) {
         A0LogError(@"URL contained error message %@", errorMessage);
         if (error != NULL) {
-            *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorizedForStrategy:self.strategyName] : [A0Errors auth0InvalidConfigurationForStrategy:self.strategyName];
+            *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorizedForStrategy:self.connectionName] : [A0Errors auth0InvalidConfigurationForStrategy:self.connectionName];
         }
     } else {
         NSString *accessToken = params[@"access_token"];
@@ -79,12 +75,20 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         } else {
             A0LogError(@"Failed to obtain id_token from URL %@", url);
             if (error != NULL) {
-                *error = [A0Errors auth0NotAuthorizedForStrategy:self.strategyName];
+                *error = [A0Errors auth0NotAuthorizedForStrategy:self.connectionName];
             }
 
         }
     }
     return token;
+}
+
+#pragma mark - Deprecated
+
+- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy {
+    NSAssert(application != nil && application.identifier, @"You must supply a valid A0Application");
+    A0Connection *connection = strategy.connections.firstObject;
+    return [self initWithClientId:application.identifier connectionName:[connection name]];
 }
 
 @end
