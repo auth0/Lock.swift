@@ -186,7 +186,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         @strongify(self);
         [self postLoginErrorNotificationWithError:error];
         [self.accessButton setInProgress:NO];
-        if ([A0Errors isCancelledSocialAuthentication:error]) {
+        if (![A0Errors isCancelledSocialAuthentication:error]) {
             switch (error.code) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
                 case A0ErrorCodeTwitterInvalidAccount:
