@@ -62,13 +62,6 @@ typedef void(^A0IdPAuthenticationErrorBlock)(NSError* __nonnull error);
 - (void)registerAuthenticationProvider:(A0BaseAuthenticator *)authenticationProvider;
 
 /**
- *  Configures the authentication with the enabled identity providers in Auth0's application. Must be called at least once before trying to authenticate with any connection.
- *
- *  @param application Auth0 application with the identity provider configuration
- */
-- (void)configureForApplication:(A0Application *)application;
-
-/**
  *  Authenticates a user using an identity provider specified by `A0Strategy` and the registered method (Safari or Native). 
  *  For the connection name it will use the first one by default.
  *  You can override the default connection name setting in parameters the key `connection` with the name of the connection that should be used instead.
@@ -154,6 +147,14 @@ typedef void(^A0IdPAuthenticationErrorBlock)(NSError* __nonnull error);
  *  @see A0Lock
  */
 + (A0IdentityProviderAuthenticator *)sharedInstance DEPRECATED_MSG_ATTRIBUTE("Use A0Lock identityProviderAuthenticator to obtain an instance");
+
+/**
+ *  Configures the authentication with the enabled identity providers in Auth0's application. Must be called at least once before trying to authenticate with any connection.
+ *
+ *  @param application Auth0 application with the identity provider configuration
+ *  @deprecated 1.15.0. There is no need to call this method to configure this object with Auth0 account information.
+ */
+- (void)configureForApplication:(A0Application *)application DEPRECATED_MSG_ATTRIBUTE("Configuring IdP authenticator with Auth0 app is no longer necessary");
 
 @end
 

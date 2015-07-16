@@ -29,7 +29,6 @@
 @interface A0IdentityProviderAuthenticator ()
 
 @property (weak, nonatomic) id<A0APIClientProvider> clientProvider;
-@property (strong, nonatomic) NSMutableDictionary *registeredAuthenticators;
 @property (strong, nonatomic) NSMutableDictionary *authenticators;
 @property (assign, nonatomic) BOOL useWebAsDefault;
 
@@ -46,7 +45,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (id)initWithClientProvider:(id<A0APIClientProvider>)clientProvider {
     self = [super init];
     if (self) {
-        _registeredAuthenticators = [@{} mutableCopy];
+        _authenticators = [@{} mutableCopy];
         _clientProvider = clientProvider;
         _useWebAsDefault = NO;
     }
@@ -63,18 +62,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     NSAssert(authenticationProvider != nil, @"Must supply a non-nil profile");
     NSAssert(authenticationProvider.identifier != nil, @"Provider must have a valid indentifier");
     authenticationProvider.clientProvider = self.clientProvider;
-    self.registeredAuthenticators[authenticationProvider.identifier] = authenticationProvider;
-}
-
-- (void)configureForApplication:(A0Application *)application {
-    self.authenticators = [@{} mutableCopy];
-    void (^registerBlock)(id obj, NSUInteger idx, BOOL *stop) = ^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
-        if (self.registeredAuthenticators[strategy.name]) {
-            self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
-        }
-    };
-    [application.socialStrategies enumerateObjectsUsingBlock:registerBlock];
-    [application.enterpriseStrategies enumerateObjectsUsingBlock:registerBlock];
+    self.authenticators[authenticationProvider.identifier] = authenticationProvider;
 }
 
 - (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy {
@@ -123,7 +111,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions {
-    [self.registeredAuthenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0AuthenticationProvider> authenticator, BOOL *stop) {
+    [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0AuthenticationProvider> authenticator, BOOL *stop) {
         [authenticator applicationLaunchedWithOptions:launchOptions];
     }];
 }
@@ -143,6 +131,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         instance = [[A0IdentityProviderAuthenticator alloc] init];
     });
     return instance;
+}
+
+- (void)configureForApplication:(A0Application *)application {
+    //NOOP
 }
 
 @end
