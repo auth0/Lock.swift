@@ -88,6 +88,12 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
+  - Lock (1.14.0):
+    - CocoaLumberjack (~> 2.0)
+    - libextobjc (~> 0.4)
+    - Lock/Core (= 1.14.0)
+    - Lock/UI (= 1.14.0)
+    - Lock/WebView (= 1.14.0)
   - Lock-Facebook (2.0.1):
     - CocoaLumberjack (~> 2.0)
     - FBSDKCoreKit (~> 4.0)
@@ -134,6 +140,11 @@ PODS:
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
+  - Lock/WebView (1.14.0):
+    - CocoaLumberjack (~> 2.0)
+    - libextobjc (~> 0.4)
+    - Lock/Core
+    - Lock/UI
   - LUKeychainAccess (1.2.4)
   - NSData+Base64 (1.0.0)
   - OAuthCore (0.0.1):
@@ -165,6 +176,7 @@ DEPENDENCIES:
   - ISO8601DateFormatter
   - JWTDecode
   - libextobjc
+  - Lock (from `../`)
   - Lock-Facebook (~> 2.0)
   - Lock-GooglePlus (~> 1.0)
   - Lock-Twitter (~> 1.0)
@@ -173,6 +185,7 @@ DEPENDENCIES:
   - Lock/Safari (from `../`)
   - Lock/SMS (from `../`)
   - Lock/TouchID (from `../`)
+  - Lock/WebView (from `../`)
   - OCHamcrest
   - OCMockito
   - OHHTTPStubs
@@ -196,7 +209,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   JWTDecode: bff190dc06ff9ee7a3a244c454dc8ef05962c994
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  Lock: a80ea9c48f88b516a267c6a7422ae74ff36a8a3b
+  Lock: 0026bcf4504c7f5408ca40f51228e314d6aee8cc
   Lock-Facebook: 02c315b7d15d6fed20c7a2ea8a5e5e27c072483a
   Lock-GooglePlus: 38ea73da70d3dd3d210dfb7716b5aeed5aaabca6
   Lock-Twitter: 61168e95f6614535167621794cbada2d6606d4c5

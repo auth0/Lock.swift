@@ -26,8 +26,12 @@
 #import "A0Errors.h"
 #import "A0Lock.h"
 #import "A0AuthParameters.h"
-#import "A0WebViewAuthenticator.h"
 #import "NSObject+A0APIClientProvider.h"
+
+#if __has_include(<Lock/A0WebViewAuthenticator.h>)
+#define HAS_WEBVIEW_SUPPORT 1
+#import <Lock/A0WebViewAuthenticator.h>
+#endif
 
 @interface A0IdentityProviderAuthenticator ()
 
@@ -79,9 +83,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (idp) {
         [idp authenticateWithParameters:params success:success failure:failure];
     } else {
+#ifdef HAS_WEBVIEW_SUPPORT
         A0LogDebug(@"Authenticating %@ with WebView authenticator", connectionName);
         A0WebViewAuthenticator *authenticator = [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName client:[self a0_apiClientFromProvider:self.clientProvider]];
         [authenticator authenticateWithParameters:parameters success:success failure:failure];
+#else
+        A0LogWarn(@"No known provider for connection %@", connectionName);
+        if (failure) {
+            failure([A0Errors unkownProviderForConnectionName:connectionName]);
+        }
+#endif
     }
 }
 

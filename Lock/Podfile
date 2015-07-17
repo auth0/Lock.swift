@@ -9,7 +9,7 @@ def pod_with_warnings
 end
 
 target 'Lock', :exclusive => true do
-  pod 'Lock', :path => '../', :subspecs => ['TouchID', 'SMS', 'ReactiveCore', '1Password', 'Safari']
+  pod 'Lock', :path => '../', :subspecs => ['SMS', 'ReactiveCore', '1Password', 'Safari', 'WebView', 'TouchID']
   pod 'Lock-Facebook', '~> 2.0'
   pod 'Lock-Twitter', '~> 1.0'
   pod 'Lock-GooglePlus', '~> 1.0'
@@ -21,9 +21,7 @@ target 'Lock', :exclusive => true do
 end
 
 target 'Tests', :exclusive => true do
-  pod 'Lock', :path => '../', :subspecs => ['TouchID', 'SMS']
-  pod 'Lock/TouchID', :path => '../'
-  pod 'Lock/SMS', :path => '../'
+  pod 'Lock', :path => '../'
 
   pod_with_warnings
 

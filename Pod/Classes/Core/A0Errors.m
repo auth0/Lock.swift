@@ -212,7 +212,7 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 + (NSError *)unkownProviderForConnectionName:(NSString *)connectionName {
     return [self errorWithCode:A0ErrorCodeUknownProviderForStrategy
                    description:A0LocalizedString(@"Couldn't found authentication method for unknown connection")
-                 failureReason:[NSString stringWithFormat:A0LocalizedString(@"The connection %@ has no registered authentication provider"), connectionName]];
+                 failureReason:[NSString stringWithFormat:A0LocalizedString(@"The connection %@ has no registered authentication provider. Please register one or add 'Lock/WebView' subspec to use WebView by default."), connectionName]];
 }
 
 + (NSError *)facebookCancelled {

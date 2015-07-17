@@ -32,7 +32,6 @@
 #import "A0Strategy.h"
 #import "A0Connection.h"
 #import "A0IdentityProviderAuthenticator.h"
-#import "A0WebViewController.h"
 #import "A0AuthParameters.h"
 #import "A0UIUtilities.h"
 #import "A0PasswordFieldView.h"
