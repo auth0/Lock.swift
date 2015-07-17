@@ -26,6 +26,7 @@
 #import "A0Strategy.h"
 #import "A0Errors.h"
 #import "A0Lock.h"
+#import "A0AuthParameters.h"
 
 #define HC_SHORTHAND
 #import <OCHamcrest/OCHamcrest.h>
@@ -38,7 +39,6 @@
 
 @interface A0IdentityProviderAuthenticator (TestAPI)
 
-@property (strong, nonatomic) NSMutableDictionary *registeredAuthenticators;
 @property (strong, nonatomic) NSMutableDictionary *authenticators;
 
 @end
@@ -62,7 +62,7 @@ describe(@"A0SocialAuthenticator", ^{
             id<A0AuthenticationProvider> provider = data[@"provider"];
 
             it(@"should store the provider under it's identifier", ^{
-                expect(authenticator.registeredAuthenticators[provider.identifier]).to.equal(provider);
+                expect(authenticator.authenticators[provider.identifier]).to.equal(provider);
             });
         });
 
@@ -125,17 +125,12 @@ describe(@"A0SocialAuthenticator", ^{
 
         context(@"has declared a registered provider", ^{
 
-            beforeEach(^{
-                [given([application socialStrategies]) willReturn:@[facebookStrategy]];
-                [authenticator configureForApplication:application];
-            });
-
             it(@"should have application's strategy providers", ^{
                 expect(authenticator.authenticators[facebookProvider.identifier]).to.equal(facebookProvider);
             });
 
             it(@"should not have undeclared provider", ^{
-                expect(authenticator.authenticators[twitterProvider.identifier]).to.beNil();
+                expect(authenticator.authenticators[twitterProvider.identifier]).to.equal(twitterProvider);
             });
 
         });
@@ -146,25 +141,30 @@ describe(@"A0SocialAuthenticator", ^{
 
         __block A0Strategy *strategy;
         __block id<A0AuthenticationProvider> provider;
+        __block A0AuthParameters *parameters;
         void(^successBlock)(A0UserProfile *, A0Token *) = ^(A0UserProfile *profile, A0Token *token) {};
 
         beforeEach(^{
-            provider = mock(A0BaseAuthenticator.class);
-            [given([provider identifier]) willReturn:@"provider"];
             strategy = mock(A0Strategy.class);
+            provider = mock(A0BaseAuthenticator.class);
             [given([strategy name]) willReturn:@"provider"];
-            authenticator.authenticators = [@{ @"provider": provider } mutableCopy];
+            [given([provider identifier]) willReturn:@"provider"];
+            [authenticator registerAuthenticationProvider:provider];
+            parameters = [A0AuthParameters newDefaultParams];
         });
 
-        context(@"authenticate with known strategy", ^{
+        context(@"authenticate with known connection", ^{
 
             void(^failureBlock)(NSError *) = ^(NSError *error) {};
             beforeEach(^{
-                [authenticator authenticateForStrategy:strategy parameters:nil success:successBlock failure:failureBlock];
+                [authenticator authenticateWithConnectionName:@"provider" parameters:parameters success:successBlock failure:failureBlock];
             });
 
             it(@"should call the correct provider", ^{
-                [MKTVerify(provider) authenticateWithParameters:nil success:successBlock failure:failureBlock];
+                MKTArgumentCaptor *captor = [[MKTArgumentCaptor alloc] init];
+                [MKTVerify(provider) authenticateWithParameters:[captor capture] success:successBlock failure:failureBlock];
+                A0AuthParameters *params = captor.value;
+                expect(params[A0ParameterConnection]).to.equal(@"provider");
             });
 
             it(@"should tell it can authenticate", ^{
@@ -182,11 +182,11 @@ describe(@"A0SocialAuthenticator", ^{
             beforeEach(^{
                 unknown = mock(A0Strategy.class);
                 failureError = nil;
-                [authenticator authenticateForStrategy:unknown parameters:nil success:successBlock failure:failureBlock];
+                [authenticator authenticateWithConnectionName:@"unknown" parameters:parameters success:successBlock failure:failureBlock];
             });
 
             it(@"should not call any provider", ^{
-                [verifyCount(provider, never()) authenticateWithParameters:nil success:successBlock failure:failureBlock];
+                [verifyCount(provider, never()) authenticateWithParameters:anything() success:successBlock failure:failureBlock];
             });
 
             it(@"should call failure block", ^{
