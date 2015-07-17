@@ -29,6 +29,6 @@
 /**
  *  Object that will yield a configured Auth0 Auth API client.
  */
-@property (weak, nonatomic) id<A0APIClientProvider> clientProvider;
+@property (weak, nullable, nonatomic) id<A0APIClientProvider> clientProvider;
 
 @end

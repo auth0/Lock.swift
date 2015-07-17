@@ -27,30 +27,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^A0IdPAuthenticationBlock)(A0UserProfile* __nonnull profile, A0Token* __nonnull token);
-typedef void(^A0IdPAuthenticationErrorBlock)(NSError* __nonnull error);
-
 /**
  *  `A0IdentityProviderAuthenticator` provides a single interface to handle all interactions with different identity providers. Each identity provider (a class that conforms with the protocol `A0AuthenticationProvider`) to be used must be registered with this object.
  *  We recommend using `A0Lock` object instead of this object directly.
  *  @see A0Lock
  */
 @interface A0IdentityProviderAuthenticator : NSObject
-
-/**
- *  When no specific authentication provider is registered it will fallback to Safari Web Flow otherwise it will raise an error. Default is YES.
- *  @deprecated 1.15.0. Since Apple does not allow Safari authentication by default we don't assume Safari
- */
-@property (assign, nonatomic) BOOL useWebAsDefault DEPRECATED_MSG_ATTRIBUTE("By default now it raises an error when no provider is registered");
-
-/**
- *  Returns a shared instance of `A0IdentityProviderAuthenticator`
- *
- *  @return shared instance
- *  @deprecated 1.12.0. We recommend creating an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
- *  @see A0Lock
- */
-+ (A0IdentityProviderAuthenticator *)sharedInstance DEPRECATED_MSG_ATTRIBUTE("Use A0Lock identityProviderAuthenticator to obtain an instance");
 
 /**
  *  Initialize IdP authenticator with for a Lock instance.
@@ -60,14 +42,6 @@ typedef void(^A0IdPAuthenticationErrorBlock)(NSError* __nonnull error);
  *  @return an initialized instance
  */
 - (instancetype)initWithLock:(A0Lock *)lock;
-
-/**
- *  Initialize IdP authenticator
- *
- *  @return an initialized instance.
- *  @deprecated 1.12.0. Use `-initWithLock:` instead or create an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
- */
-- (instancetype)init DEPRECATED_MSG_ATTRIBUTE("Use -initWithLock: instead");
 
 /**
  *  Register an array of identity providers.
@@ -85,51 +59,17 @@ typedef void(^A0IdPAuthenticationErrorBlock)(NSError* __nonnull error);
 - (void)registerAuthenticationProvider:(A0BaseAuthenticator *)authenticationProvider;
 
 /**
- *  Configures the authentication with the enabled identity providers in Auth0's application. Must be called at least once before trying to authenticate with any connection.
+ *  Authenticate a user with a specific connection name using a registered IdP authenticator registered for the Auth0 connection.
  *
- *  @param application Auth0 application with the identity provider configuration
+ *  @param connectionName   that will be used to authenticate the user. It must be enabled in your Auth0 Application (via Dashboard).
+ *  @param parameters       authentication parameters for Auth0 API.
+ *  @param success          block called on successful authentication with user's token info and profile
+ *  @param failure          block called on error with the reason as a parameter
  */
-- (void)configureForApplication:(A0Application *)application;
-
-/**
- *  Authenticates a user using an identity provider specified by `A0Strategy` and the registered method (Safari or Native). 
- *  For the connection name it will use the first one by default.
- *  You can override the default connection name setting in parameters the key `connection` with the name of the connection that should be used instead.
- *
- *  @param strategy   object that represent an authentication strategy with an identity provider.
- *  @param parameters  authentication parameters for Auth0 API.
- *  @param success    block called on successful authentication with user's token info and profile
- *  @param failure    block called on error with the reason as a parameter
- */
-- (void)authenticateForStrategy:(A0Strategy *)strategy
-                     parameters:(nullable A0AuthParameters *)parameters
-                        success:(A0IdPAuthenticationBlock)success
-                        failure:(A0IdPAuthenticationErrorBlock)failure;
-
-/**
- *  Authenticates a user using an identity provider specified by `A0Strategy`'s name and the registered method (Safari or Native).
- *  For the connection name it will use the first one by default.
- *  You can override the default connection name setting in parameters the key `connection` with the name of the connection that should be used instead.
- *
- *  @param strategy   object that represent an authentication strategy with an identity provider.
- *  @param parameters  authentication parameters for Auth0 API.
- *  @param success    block called on successful authentication with user's token info and profile
- *  @param failure    block called on error with the reason as a parameter
- */
-- (void)authenticateForStrategyName:(NSString *)strategyName
-                         parameters:(A0AuthParameters *)parameters
-                            success:(A0IdPAuthenticationBlock)success
-                            failure:(A0IdPAuthenticationErrorBlock)failure;
-
-/**
- *  Checks if the given startegy has a registered authenticator (either Native or Safari).
- *
- *  @param strategy an Auth0 strategy
- *
- *  @return if the authenticator can authenticate with the strategy
- */
-- (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy;
-
+- (void)authenticateWithConnectionName:(NSString *)connectionName
+                            parameters:(nullable A0AuthParameters *)parameters
+                               success:(A0IdPAuthenticationBlock)success
+                               failure:(A0IdPAuthenticationErrorBlock)failure;
 /**
  *  Method to handle authentication performed by a third party native application e.g. Facebook App. It must be called from your app's AppDelegate `-application:openURL:sourceApplication:annotation:` method.
  *
@@ -150,6 +90,83 @@ typedef void(^A0IdPAuthenticationErrorBlock)(NSError* __nonnull error);
  *  @param launchOptions dictionary with launch options
  */
 - (void)applicationLaunchedWithOptions:(nullable NSDictionary *)launchOptions;
+
+@end
+
+@interface A0IdentityProviderAuthenticator (Deprecated)
+
+/**
+ *  When no specific authentication provider is registered it will fallback to Safari Web Flow otherwise it will raise an error. Default is YES.
+ *  @deprecated 1.15.0. Since Apple does not allow Safari authentication by default we don't assume Safari
+ */
+@property (assign, nonatomic) BOOL useWebAsDefault DEPRECATED_MSG_ATTRIBUTE("By default now it raises an error when no provider is registered");
+
+/**
+ *  Initialize IdP authenticator
+ *
+ *  @return an initialized instance.
+ *  @deprecated 1.12.0. Use `-initWithLock:` instead or create an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
+ */
+- (instancetype)init DEPRECATED_MSG_ATTRIBUTE("Use -initWithLock: instead");
+
+/**
+ *  Returns a shared instance of `A0IdentityProviderAuthenticator`
+ *
+ *  @return shared instance
+ *  @deprecated 1.12.0. We recommend creating an instance of A0Lock and call its method `-identityProviderAuthenticator` to obtain an instance of this object.
+ *  @see A0Lock
+ */
++ (A0IdentityProviderAuthenticator *)sharedInstance DEPRECATED_MSG_ATTRIBUTE("Use A0Lock identityProviderAuthenticator to obtain an instance");
+
+/**
+ *  Configures the authentication with the enabled identity providers in Auth0's application. Must be called at least once before trying to authenticate with any connection.
+ *
+ *  @param application Auth0 application with the identity provider configuration
+ *  @deprecated 1.15.0. There is no need to call this method to configure this object with Auth0 account information.
+ */
+- (void)configureForApplication:(A0Application *)application DEPRECATED_MSG_ATTRIBUTE("Configuring IdP authenticator with Auth0 app is no longer necessary");
+
+/**
+ *  Authenticates a user using an identity provider specified by `A0Strategy` and the registered method (Safari or Native).
+ *  For the connection name it will use the first one by default.
+ *  You can override the default connection name setting in parameters the key `connection` with the name of the connection that should be used instead.
+ *
+ *  @param strategy   object that represent an authentication strategy with an identity provider.
+ *  @param parameters  authentication parameters for Auth0 API.
+ *  @param success    block called on successful authentication with user's token info and profile
+ *  @param failure    block called on error with the reason as a parameter
+ *  @deprecated 1.15.0. Use `-authenticateWithConnectionName:parameters:success:failure:` instead
+ */
+- (void)authenticateForStrategy:(A0Strategy *)strategy
+                     parameters:(nullable A0AuthParameters *)parameters
+                        success:(A0IdPAuthenticationBlock)success
+                        failure:(A0IdPAuthenticationErrorBlock)failure DEPRECATED_MSG_ATTRIBUTE("Use -authenticateWithConnectionName:parameters:success:failure: instead");
+
+/**
+ *  Authenticates a user using an identity provider specified by `A0Strategy`'s name and the registered method (Safari or Native).
+ *  For the connection name it will use the first one by default.
+ *  You can override the default connection name setting in parameters the key `connection` with the name of the connection that should be used instead.
+ *
+ *  @param strategy   object that represent an authentication strategy with an identity provider.
+ *  @param parameters  authentication parameters for Auth0 API.
+ *  @param success    block called on successful authentication with user's token info and profile
+ *  @param failure    block called on error with the reason as a parameter
+ *  @deprecated 1.15.0. Use `-authenticateWithConnectionName:parameters:success:failure:` instead
+ */
+- (void)authenticateForStrategyName:(NSString *)strategyName
+                         parameters:(A0AuthParameters *)parameters
+                            success:(A0IdPAuthenticationBlock)success
+                            failure:(A0IdPAuthenticationErrorBlock)failure DEPRECATED_MSG_ATTRIBUTE("Use -authenticateWithConnectionName:parameters:success:failure: instead");
+
+/**
+ *  Checks if the given startegy has a registered authenticator (either Native or Safari).
+ *
+ *  @param strategy an Auth0 strategy
+ *
+ *  @return if the authenticator can authenticate with the strategy
+ *  @deprecated 1.15.0. If no IdP authenticator is registered a default will be used.
+ */
+- (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy DEPRECATED_ATTRIBUTE;
 
 @end
 

@@ -152,8 +152,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [client fetchAppInfoWithSuccess:^(A0Application *application) {
         @strongify(self);
         A0LogDebug(@"Obtained application info. Starting to build Lock UI...");
-        A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
-        [authenticator configureForApplication:application];
         self.configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
         self.configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
         [self layoutRootController];

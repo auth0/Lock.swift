@@ -27,28 +27,30 @@
 #import "A0Errors.h"
 #import "NSDictionary+A0QueryParameters.h"
 #import "A0Connection.h"
+#import "A0Stats.h"
+#import "A0AuthParameters.h"
 
 #define kCallbackURLString @"a0%@://%@.auth0.com/authorize"
 
 @interface A0WebAuthentication ()
 @property (strong, nonatomic) NSURL *callbackURL;
-@property (strong, nonatomic) NSString *strategyName;
+@property (strong, nonatomic) NSString *connectionName;
+@property (strong, nonatomic) NSURL *domainURL;
+@property (copy, nonatomic) NSString *clientId;
 @end
 
 @implementation A0WebAuthentication
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)initWithApplication:(A0Application *)application strategy:(A0Strategy *)strategy {
+- (instancetype)initWithClientId:(NSString *)clientId domainURL:(NSURL *)domainURL connectionName:(NSString *)connectionName {
     self = [super init];
     if (self) {
-        A0Connection *connection = strategy.connections.firstObject;
-        NSAssert(application != nil && application.identifier, @"You must supply a valid A0Application");
-        NSAssert(strategy != nil && connection.name != nil, @"You must supply a valid strategy with at least 1 connection");
-        NSString *connectionName = connection.name;
-        NSString *callbackURLString = [NSString stringWithFormat:kCallbackURLString, application.identifier, connectionName].lowercaseString;
+        NSString *callbackURLString = [NSString stringWithFormat:kCallbackURLString, clientId, connectionName].lowercaseString;
         _callbackURL = [NSURL URLWithString:callbackURLString];
-        _strategyName = strategy.name;
+        _connectionName = connectionName;
+        _domainURL = domainURL;
+        _clientId = clientId;
     }
     return self;
 }
@@ -66,7 +68,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (errorMessage) {
         A0LogError(@"URL contained error message %@", errorMessage);
         if (error != NULL) {
-            *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorizedForStrategy:self.strategyName] : [A0Errors auth0InvalidConfigurationForStrategy:self.strategyName];
+            *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorizedForConnectionName:self.connectionName] : [A0Errors auth0InvalidConfigurationForConnectionName:self.connectionName];
         }
     } else {
         NSString *accessToken = params[@"access_token"];
@@ -79,12 +81,29 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         } else {
             A0LogError(@"Failed to obtain id_token from URL %@", url);
             if (error != NULL) {
-                *error = [A0Errors auth0NotAuthorizedForStrategy:self.strategyName];
+                *error = [A0Errors auth0NotAuthorizedForConnectionName:self.connectionName];
             }
 
         }
     }
     return token;
+}
+
+- (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters {
+    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.domainURL.absoluteURL resolvingAgainstBaseURL:NO];
+    components.path = @"/authorize";
+    NSMutableDictionary *dictionary = parameters ? [parameters mutableCopy] : [[[A0AuthParameters newDefaultParams] asAPIPayload] mutableCopy];
+    [dictionary addEntriesFromDictionary:@{
+                                           @"response_type": @"token",
+                                           @"client_id": self.clientId,
+                                           @"redirect_uri": self.callbackURL.absoluteString,
+                                           @"connection": self.connectionName,
+                                           }];
+    if ([A0Stats shouldSendAuth0ClientHeader]) {
+        dictionary[A0ClientInfoQueryParamName] = [A0Stats stringForAuth0ClientHeader];
+    }
+    components.query = dictionary.queryString;
+    return components.URL;
 }
 
 @end

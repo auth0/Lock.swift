@@ -167,16 +167,16 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 ///----------------------------------------
 
 + (NSError *)urlSchemeNotRegistered;
-+ (NSError *)unkownProviderForStrategy:(NSString *)strategyName;
++ (NSError *)unkownProviderForConnectionName:(NSString *)connectionName;
 + (NSError *)facebookCancelled;
 + (NSError *)twitterAppNotAuthorized;
 + (NSError *)twitterAppOauthNotAuthorized;
 + (NSError *)twitterCancelled;
 + (NSError *)twitterNotConfigured;
 + (NSError *)twitterInvalidAccount;
-+ (NSError *)auth0CancelledForStrategy:(NSString *)strategyName;
-+ (NSError *)auth0NotAuthorizedForStrategy:(NSString *)strategyName;
-+ (NSError *)auth0InvalidConfigurationForStrategy:(NSString *)strategyName;
++ (NSError *)auth0CancelledForConnectionName:(NSString *)connectionName;
++ (NSError *)auth0NotAuthorizedForConnectionName:(NSString *)connectionName;
++ (NSError *)auth0InvalidConfigurationForConnectionName:(NSString *)connectionName;
 + (NSError *)googleplusFailed;
 + (NSError *)googleplusCancelled;
 

@@ -40,6 +40,7 @@
 #import "A0IdentityProviderCredentials.h"
 #import "A0HTTPStubber.h"
 #import "A0HttpKeeper.h"
+#import "A0APIv1Router.h"
 
 #define AS_NSURL(urlString) [NSURL URLWithString:urlString]
 
@@ -51,6 +52,7 @@
 static NSString * const CLIENT_ID = @"rU5HShUyQlEqbVWjZSTCBBLMUFAbJAS3";
 static NSString * const TENANT = @"samples";
 static NSString * const ENDPOINT = @"https://samples.auth0.com";
+static NSString * const CONFIG_ENDPOINT = @"https://cdn.auth0.com/client/rU5HShUyQlEqbVWjZSTCBBLMUFAbJAS3.js";
 static NSString * const DB_CONNECTION = @"DatabaseConnection";
 static NSString * const EMAIL = @"mail@mail.com";
 static NSString * const USERNAME = @"specta_test";
@@ -73,9 +75,9 @@ SpecBegin(A0APIClient)
 
 describe(@"A0APIClient", ^{
 
-    describe(@"initialise", ^{
+    __block id<A0APIRouter> router;
 
-        __block id<A0APIRouter> router;
+    describe(@"initialise", ^{
 
         beforeEach(^{
             router = mockProtocol(@protocol(A0APIRouter));
@@ -105,12 +107,6 @@ describe(@"A0APIClient", ^{
             });
         });
 
-        itShouldBehaveLike(kValidClientExample, @{
-                                                  kAPIClientArgument: [[A0APIClient alloc] initWithClientId:CLIENT_ID andTenant:TENANT],
-                                                  kClientIdArgument: CLIENT_ID,
-                                                  kTenantArgument: TENANT,
-                                                  });
-
         itBehavesLike(kValidClientExample, ^{
             return @{
                      kAPIClientArgument: [[A0APIClient alloc] initWithAPIRouter:router],
@@ -127,7 +123,8 @@ describe(@"A0APIClient", ^{
     __block A0HTTPStubber *filter;
 
     before(^{
-        client = [[A0APIClient alloc] initWithClientId:CLIENT_ID andTenant:TENANT];
+        router = [[A0APIv1Router alloc] initWithClientId:CLIENT_ID domainURL:AS_NSURL(ENDPOINT) configurationURL:AS_NSURL(CONFIG_ENDPOINT)];
+        client = [[A0APIClient alloc] initWithAPIRouter:router];
         [OHHTTPStubs onStubActivation:^(NSURLRequest *request, id<OHHTTPStubsDescriptor> stub) {
             NSLog(@"%@ stubbed by %@", request.URL, stub.name);
         }];

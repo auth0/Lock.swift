@@ -240,7 +240,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         @strongify(self);
         [self postLoginErrorNotificationWithError:error];
         [self.accessButton setInProgress:NO];
-        if ([A0Errors isCancelledSocialAuthentication:error]) {
+        if (![A0Errors isCancelledSocialAuthentication:error]) {
             switch (error.code) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
                 case A0ErrorCodeTwitterInvalidAccount:
@@ -259,25 +259,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         }
     };
 
-    A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
-    A0Application *application = [client application];
-    A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
     A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
     A0AuthParameters *parameters = [self.parameters copy];
-    parameters[A0ParameterConnection] = connection.name;
-    if ([authenticator canAuthenticateStrategy:strategy]) {
-        A0LogVerbose(@"Authenticating using Safari for strategy %@ and connection %@", strategy.name, connection.name);
-        [authenticator authenticateForStrategy:strategy parameters:parameters success:successBlock failure:failureBlock];
-    } else {
-        A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
-        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:application strategy:strategy parameters:parameters];
-        controller.modalPresentationStyle = UIModalPresentationCurrentContext;
-        controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        controller.onAuthentication = successBlock;
-        controller.onFailure = failureBlock;
-        controller.lock = self.lock;
-        [self presentViewController:controller animated:YES completion:nil];
-    }
+    NSString *connectionName = connection.name;
+    A0LogVerbose(@"Authenticating with connection %@", connectionName);
+    [authenticator authenticateWithConnectionName:connectionName parameters:parameters success:successBlock failure:failureBlock];
 }
 
 #pragma mark - A0KeyboardEnabledView

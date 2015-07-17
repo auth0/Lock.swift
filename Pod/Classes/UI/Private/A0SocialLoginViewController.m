@@ -94,7 +94,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         @strongify(self);
         [self postLoginErrorNotificationWithError:error];
         [self setInProgress:NO];
-        if ([A0Errors isCancelledSocialAuthentication:error]) {
+        if (![A0Errors isCancelledSocialAuthentication:error]) {
             switch (error.code) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
                 case A0ErrorCodeTwitterInvalidAccount:
@@ -114,19 +114,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     };
     [self setInProgress:YES];
     A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
-    if ([authenticator canAuthenticateStrategy:strategy]) {
-        A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
-        [authenticator authenticateForStrategy:strategy parameters:self.parameters success:successBlock failure:failureBlock];
-    } else {
-        A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
-        A0WebViewController *controller = [[A0WebViewController alloc] initWithApplication:self.configuration.application strategy:strategy parameters:self.parameters];
-        controller.modalPresentationStyle = UIModalPresentationCurrentContext;
-        controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        controller.onAuthentication = successBlock;
-        controller.onFailure = failureBlock;
-        controller.lock = self.lock;
-        [self presentViewController:controller animated:YES completion:nil];
-    }
+    A0LogVerbose(@"Authenticating with connection %@", strategy.name);
+    [authenticator authenticateWithConnectionName:strategy.name parameters:self.parameters success:successBlock failure:failureBlock];
 }
 
 - (CGRect)rectToKeepVisibleInView:(UIView *)view {

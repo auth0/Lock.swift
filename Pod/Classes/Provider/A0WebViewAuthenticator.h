@@ -1,6 +1,6 @@
-//  A0WebViewController.h
+// A0WebViewAuthenticator.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
-
-@class A0Token, A0UserProfile, A0Application, A0Strategy, A0AuthParameters, A0APIClient;
+#import <Foundation/Foundation.h>
+#import <Lock/A0BaseAuthenticator.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface A0WebViewController : UIViewController
+@interface A0WebViewAuthenticator : A0BaseAuthenticator
 
-@property (copy, nullable, nonatomic) void(^onAuthentication)(A0UserProfile *profile, A0Token *token);
-@property (copy, nullable, nonatomic) void(^onFailure)(NSError *error);
-
-- (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters;
+- (instancetype)initWithConnectionName:(NSString *)connectionName client:(A0APIClient *)client;
 
 @end
 

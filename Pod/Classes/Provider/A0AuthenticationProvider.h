@@ -24,6 +24,11 @@
 
 @class A0UserProfile, A0Token, A0AuthParameters;
 
+typedef void(^A0IdPAuthenticationBlock)(A0UserProfile* __nonnull profile, A0Token* __nonnull token);
+typedef void(^A0IdPAuthenticationErrorBlock)(NSError* __nonnull error);
+
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Protocol for all Identity Providers
  */
@@ -32,7 +37,7 @@
 @required
 
 /**
- *  Identity provider identifier. Must be equal to your app's strategy name
+ *  Identity provider identifier. Must be equal to your app's connection name
  *
  *  @return provider identifier
  */
@@ -45,7 +50,7 @@
  *  @param success block called on successful authentication with user's credentials
  *  @param failure block called on error with reason as a parameter
  */
-- (void)authenticateWithParameters:(A0AuthParameters *)parameters success:(void(^)(A0UserProfile *profile, A0Token *token))success failure:(void(^)(NSError *))failure;
+- (void)authenticateWithParameters:(A0AuthParameters *)parameters success:(A0IdPAuthenticationBlock)success failure:(A0IdPAuthenticationErrorBlock)failure;
 
 /**
  *  Clear all active sessions of this identity provider
@@ -60,7 +65,7 @@
  *
  *  @return if the URL is valid
  */
-- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
+- (BOOL)handleURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication;
 
 /**
  *  Notifies the Authenticator that the application has been launched. 
@@ -69,6 +74,8 @@
  *
  *  @param launchOptions Options used to launch the application
  */
-- (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions;
+- (void)applicationLaunchedWithOptions:(nullable NSDictionary *)launchOptions;
 
 @end
+
+NS_ASSUME_NONNULL_END

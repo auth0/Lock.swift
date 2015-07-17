@@ -25,12 +25,15 @@
 #import "A0Application.h"
 #import "A0Errors.h"
 #import "A0Lock.h"
+#import "A0AuthParameters.h"
+#import "A0WebViewAuthenticator.h"
+#import "NSObject+A0APIClientProvider.h"
 
 @interface A0IdentityProviderAuthenticator ()
 
 @property (weak, nonatomic) id<A0APIClientProvider> clientProvider;
-@property (strong, nonatomic) NSMutableDictionary *registeredAuthenticators;
 @property (strong, nonatomic) NSMutableDictionary *authenticators;
+@property (assign, nonatomic) BOOL useWebAsDefault;
 
 @end
 
@@ -38,29 +41,16 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-+ (A0IdentityProviderAuthenticator *)sharedInstance {
-    static A0IdentityProviderAuthenticator *instance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        instance = [[A0IdentityProviderAuthenticator alloc] init];
-    });
-    return instance;
-}
-
 - (instancetype)initWithLock:(A0Lock *)lock {
     return [self initWithClientProvider:lock];
-}
-
-- (id)init {
-    return [self initWithClientProvider:nil];
 }
 
 - (id)initWithClientProvider:(id<A0APIClientProvider>)clientProvider {
     self = [super init];
     if (self) {
-        _registeredAuthenticators = [@{} mutableCopy];
-        _useWebAsDefault = NO;
+        _authenticators = [@{} mutableCopy];
         _clientProvider = clientProvider;
+        _useWebAsDefault = NO;
     }
     return self;
 }
@@ -75,45 +65,24 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     NSAssert(authenticationProvider != nil, @"Must supply a non-nil profile");
     NSAssert(authenticationProvider.identifier != nil, @"Provider must have a valid indentifier");
     authenticationProvider.clientProvider = self.clientProvider;
-    self.registeredAuthenticators[authenticationProvider.identifier] = authenticationProvider;
+    self.authenticators[authenticationProvider.identifier] = authenticationProvider;
 }
 
-- (void)configureForApplication:(A0Application *)application {
-    self.authenticators = [@{} mutableCopy];
-    void (^registerBlock)(id obj, NSUInteger idx, BOOL *stop) = ^(A0Strategy *strategy, NSUInteger idx, BOOL *stop) {
-        if (self.registeredAuthenticators[strategy.name]) {
-            self.authenticators[strategy.name] = self.registeredAuthenticators[strategy.name];
-        }
-    };
-    [application.socialStrategies enumerateObjectsUsingBlock:registerBlock];
-    [application.enterpriseStrategies enumerateObjectsUsingBlock:registerBlock];
-}
-
-- (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy {
-    id<A0AuthenticationProvider> authenticator = self.authenticators[strategy.name];
-    return authenticator != nil;
-}
-
-- (void)authenticateForStrategyName:(NSString *)strategyName
-                         parameters:(A0AuthParameters *)parameters
-                            success:(void (^)(A0UserProfile *, A0Token *))success
-                            failure:(void (^)(NSError *))failure {
-    id<A0AuthenticationProvider> authenticator = self.authenticators[strategyName];
-    if (authenticator) {
-        [authenticator authenticateWithParameters:parameters success:success failure:failure];
+- (void)authenticateWithConnectionName:(NSString * __nonnull)connectionName
+                            parameters:(nullable A0AuthParameters *)parameters
+                               success:(A0IdPAuthenticationBlock __nonnull)success
+                               failure:(A0IdPAuthenticationErrorBlock __nonnull)failure {
+    id<A0AuthenticationProvider> idp = self.authenticators[connectionName];
+    //TODO: Once all IdP authenticators are changed remove this parameter dance.
+    A0AuthParameters *params = [parameters copy];
+    params[A0ParameterConnection] = connectionName;
+    if (idp) {
+        [idp authenticateWithParameters:params success:success failure:failure];
     } else {
-        A0LogWarn(@"No known provider for strategy %@", strategyName);
-        if (failure) {
-            failure([A0Errors unkownProviderForStrategy:strategyName]);
-        }
+        A0LogDebug(@"Authenticating %@ with WebView authenticator", connectionName);
+        A0WebViewAuthenticator *authenticator = [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName client:[self a0_apiClientFromProvider:self.clientProvider]];
+        [authenticator authenticateWithParameters:parameters success:success failure:failure];
     }
-}
-
-- (void)authenticateForStrategy:(A0Strategy *)strategy
-                     parameters:(A0AuthParameters *)parameters
-                        success:(void(^)(A0UserProfile *profile, A0Token *token))success
-                        failure:(void(^)(NSError *error))failure {
-    [self authenticateForStrategyName:strategy.name parameters:parameters success:success failure:failure];
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application {
@@ -135,9 +104,49 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions {
-    [self.registeredAuthenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0AuthenticationProvider> authenticator, BOOL *stop) {
+    [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0AuthenticationProvider> authenticator, BOOL *stop) {
         [authenticator applicationLaunchedWithOptions:launchOptions];
     }];
+}
+
+@end
+
+@implementation A0IdentityProviderAuthenticator (Deprecated)
+
+- (id)init {
+    return [self initWithClientProvider:nil];
+}
+
++ (A0IdentityProviderAuthenticator *)sharedInstance {
+    static A0IdentityProviderAuthenticator *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[A0IdentityProviderAuthenticator alloc] init];
+    });
+    return instance;
+}
+
+- (void)configureForApplication:(A0Application *)application {
+    //NOOP
+}
+
+- (void)authenticateForStrategyName:(NSString *)strategyName
+                         parameters:(A0AuthParameters *)parameters
+                            success:(void (^)(A0UserProfile *, A0Token *))success
+                            failure:(void (^)(NSError *))failure {
+    [self authenticateWithConnectionName:strategyName parameters:parameters success:success failure:failure];
+}
+
+- (void)authenticateForStrategy:(A0Strategy *)strategy
+                     parameters:(A0AuthParameters *)parameters
+                        success:(void(^)(A0UserProfile *profile, A0Token *token))success
+                        failure:(void(^)(NSError *error))failure {
+    [self authenticateForStrategyName:strategy.name parameters:parameters success:success failure:failure];
+}
+
+- (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy {
+    id<A0AuthenticationProvider> authenticator = self.authenticators[strategy.name];
+    return authenticator != nil;
 }
 
 @end
