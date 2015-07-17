@@ -114,18 +114,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     };
     [self setInProgress:YES];
     A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
-    if ([authenticator canAuthenticateStrategy:strategy]) {
-        A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
-        [authenticator authenticateWithConnectionName:strategy.name parameters:self.parameters success:successBlock failure:failureBlock];
-    } else {
-        A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
-        A0WebViewController *controller = [[A0WebViewController alloc] initWithAPIClient:self.lock.apiClient connectionName:strategy.name parameters:self.parameters];
-        controller.modalPresentationStyle = UIModalPresentationCurrentContext;
-        controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        controller.onAuthentication = successBlock;
-        controller.onFailure = failureBlock;
-        [self presentViewController:controller animated:YES completion:nil];
-    }
+    A0LogVerbose(@"Authenticating with connection %@", strategy.name);
+    [authenticator authenticateWithConnectionName:strategy.name parameters:self.parameters success:successBlock failure:failureBlock];
 }
 
 - (CGRect)rectToKeepVisibleInView:(UIView *)view {

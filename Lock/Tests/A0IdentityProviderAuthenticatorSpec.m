@@ -167,40 +167,6 @@ describe(@"A0SocialAuthenticator", ^{
                 expect(params[A0ParameterConnection]).to.equal(@"provider");
             });
 
-            it(@"should tell it can authenticate", ^{
-                expect([authenticator canAuthenticateStrategy:strategy]).to.beTruthy();
-            });
-
-        });
-
-        context(@"authenticate with unknown strategy", ^{
-
-            __block A0Strategy *unknown;
-            __block NSError *failureError;
-            void(^failureBlock)(NSError *) = ^(NSError *error) { failureError = error; };
-
-            beforeEach(^{
-                unknown = mock(A0Strategy.class);
-                failureError = nil;
-                [authenticator authenticateWithConnectionName:@"unknown" parameters:parameters success:successBlock failure:failureBlock];
-            });
-
-            it(@"should not call any provider", ^{
-                [verifyCount(provider, never()) authenticateWithParameters:anything() success:successBlock failure:failureBlock];
-            });
-
-            it(@"should call failure block", ^{
-                expect(failureError).toNot.beNil();
-            });
-
-            specify(@"unkown strategy error", ^{
-                expect(failureError.code).to.equal(@(A0ErrorCodeUknownProviderForStrategy));
-            });
-
-            it(@"should tell it can authenticate", ^{
-                expect([authenticator canAuthenticateStrategy:unknown]).to.beFalsy();
-            });
-
         });
 
     });

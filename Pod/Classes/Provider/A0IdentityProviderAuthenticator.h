@@ -70,16 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
                             parameters:(nullable A0AuthParameters *)parameters
                                success:(A0IdPAuthenticationBlock)success
                                failure:(A0IdPAuthenticationErrorBlock)failure;
-
-/**
- *  Checks if the given startegy has a registered authenticator (either Native or Safari).
- *
- *  @param strategy an Auth0 strategy
- *
- *  @return if the authenticator can authenticate with the strategy
- */
-- (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy;
-
 /**
  *  Method to handle authentication performed by a third party native application e.g. Facebook App. It must be called from your app's AppDelegate `-application:openURL:sourceApplication:annotation:` method.
  *
@@ -145,6 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param parameters  authentication parameters for Auth0 API.
  *  @param success    block called on successful authentication with user's token info and profile
  *  @param failure    block called on error with the reason as a parameter
+ *  @deprecated 1.15.0. Use `-authenticateWithConnectionName:parameters:success:failure:` instead
  */
 - (void)authenticateForStrategy:(A0Strategy *)strategy
                      parameters:(nullable A0AuthParameters *)parameters
@@ -160,11 +151,22 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param parameters  authentication parameters for Auth0 API.
  *  @param success    block called on successful authentication with user's token info and profile
  *  @param failure    block called on error with the reason as a parameter
+ *  @deprecated 1.15.0. Use `-authenticateWithConnectionName:parameters:success:failure:` instead
  */
 - (void)authenticateForStrategyName:(NSString *)strategyName
                          parameters:(A0AuthParameters *)parameters
                             success:(A0IdPAuthenticationBlock)success
                             failure:(A0IdPAuthenticationErrorBlock)failure DEPRECATED_MSG_ATTRIBUTE("Use -authenticateWithConnectionName:parameters:success:failure: instead");
+
+/**
+ *  Checks if the given startegy has a registered authenticator (either Native or Safari).
+ *
+ *  @param strategy an Auth0 strategy
+ *
+ *  @return if the authenticator can authenticate with the strategy
+ *  @deprecated 1.15.0. If no IdP authenticator is registered a default will be used.
+ */
+- (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy DEPRECATED_ATTRIBUTE;
 
 @end
 

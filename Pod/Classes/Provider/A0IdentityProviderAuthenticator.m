@@ -26,6 +26,8 @@
 #import "A0Errors.h"
 #import "A0Lock.h"
 #import "A0AuthParameters.h"
+#import "A0WebViewAuthenticator.h"
+#import "NSObject+A0APIClientProvider.h"
 
 @interface A0IdentityProviderAuthenticator ()
 
@@ -66,11 +68,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.authenticators[authenticationProvider.identifier] = authenticationProvider;
 }
 
-- (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy {
-    id<A0AuthenticationProvider> authenticator = self.authenticators[strategy.name];
-    return authenticator != nil;
-}
-
 - (void)authenticateWithConnectionName:(NSString * __nonnull)connectionName
                             parameters:(nullable A0AuthParameters *)parameters
                                success:(A0IdPAuthenticationBlock __nonnull)success
@@ -82,10 +79,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (idp) {
         [idp authenticateWithParameters:params success:success failure:failure];
     } else {
-        A0LogWarn(@"No known provider for connection %@", connectionName);
-        if (failure) {
-            failure([A0Errors unkownProviderForConnectionName:connectionName]);
-        }
+        A0LogDebug(@"Authenticating %@ with WebView authenticator", connectionName);
+        A0WebViewAuthenticator *authenticator = [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName client:[self a0_apiClientFromProvider:self.clientProvider]];
+        [authenticator authenticateWithParameters:parameters success:success failure:failure];
     }
 }
 
@@ -146,6 +142,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                         success:(void(^)(A0UserProfile *profile, A0Token *token))success
                         failure:(void(^)(NSError *error))failure {
     [self authenticateForStrategyName:strategy.name parameters:parameters success:success failure:failure];
+}
+
+- (BOOL)canAuthenticateStrategy:(A0Strategy *)strategy {
+    id<A0AuthenticationProvider> authenticator = self.authenticators[strategy.name];
+    return authenticator != nil;
 }
 
 @end

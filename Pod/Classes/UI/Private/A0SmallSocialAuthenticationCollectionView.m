@@ -40,6 +40,7 @@
 #import "A0AuthParameters.h"
 #import "NSObject+A0AuthenticatorProvider.h"
 #import "A0Lock.h"
+#import "A0WebViewAuthenticator.h"
 
 
 #define kCellIdentifier @"ServiceCell"
@@ -116,20 +117,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0AuthParameters *parameters = [self.parameters copy];
     A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
     NSString *connectionName = strategy.name;
-    if ([authenticator canAuthenticateStrategy:strategy]) {
-        A0LogVerbose(@"Authenticating using third party iOS application for strategy %@", strategy.name);
-        [authenticator authenticateWithConnectionName:connectionName parameters:parameters success:successBlock failure:failureBlock];
-    } else {
-        A0LogVerbose(@"Authenticating using embedded UIWebView for strategy %@", strategy.name);
-        A0WebViewController *controller = [[A0WebViewController alloc] initWithAPIClient:self.lock.apiClient
-                                                                            connectionName:connectionName
-                                                                                parameters:parameters];
-        controller.modalPresentationStyle = UIModalPresentationCurrentContext;
-        controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        controller.onAuthentication = successBlock;
-        controller.onFailure = failureBlock;
-        [self.authenticationDelegate socialAuthenticationCollectionView:self presentAuthenticationViewController:controller];
-    }
+    A0LogVerbose(@"Authenticating with connection %@", connectionName);
+    [authenticator authenticateWithConnectionName:connectionName parameters:parameters success:successBlock failure:failureBlock];
 }
 
 #pragma mark - UICollectionViewDataSource
