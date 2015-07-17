@@ -33,14 +33,12 @@
 #import "A0Errors.h"
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0Strategy.h"
-#import "A0WebViewController.h"
 #import "A0LockConfiguration.h"
 #import "A0LockNotification.h"
 #import "A0Connection.h"
 #import "A0AuthParameters.h"
 #import "NSObject+A0AuthenticatorProvider.h"
 #import "A0Lock.h"
-#import "A0WebViewAuthenticator.h"
 
 
 #define kCellIdentifier @"ServiceCell"

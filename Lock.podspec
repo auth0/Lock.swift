@@ -24,7 +24,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
 
   s.dependency 'libextobjc', '~> 0.4'
   s.dependency 'CocoaLumberjack', '~> 2.0'
-  s.default_subspecs = 'UI', 'Core'
+  s.default_subspecs = 'UI', 'Core', 'WebView'
   s.prefix_header_contents = <<-EOS
     #import "A0Logging.h"
     #define A0CurrentLockVersion @"#{LOCK_VERSION}"
@@ -124,4 +124,11 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     safari.dependency 'Lock/Core'
   end
 
+  s.subspec 'WebView' do |webview|
+    webview.platform = :ios
+    webview.public_header_files = 'Pod/Classes/WebView/*.h'
+    webview.source_files = 'Pod/Classes/WebView/*.{h,m}'
+    webview.dependency 'Lock/UI'
+    webview.dependency 'Lock/Core'
+  end
 end
