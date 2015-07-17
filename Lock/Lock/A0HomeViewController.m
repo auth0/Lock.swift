@@ -29,6 +29,10 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "A0LockApplication.h"
 
+#if __has_include(<TouchIDAuth/A0TouchIDAuthentication.h>)
+#define TOUCH_ID 1
+#endif
+
 #define kClientIdKey @"Auth0ClientId"
 #define kTenantKey @"Auth0Tenant"
 
@@ -101,7 +105,9 @@ static BOOL isRunningTests(void) {
 
 - (void)loginTouchID:(id)sender {
     [self.keychain clearAll];
+#ifdef TOUCHID
     A0Lock *lock = [[A0LockApplication sharedInstance] lock];
+
     A0TouchIDLockViewController *controller = [lock newTouchIDViewController];
     controller.closable = YES;
     @weakify(self);
@@ -116,6 +122,7 @@ static BOOL isRunningTests(void) {
         }];
     };
     [lock presentTouchIDController:controller fromController:self];
+#endif
 }
 
 - (void)loginSMS:(id)sender {
