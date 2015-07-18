@@ -1,5 +1,19 @@
 # Change Log
 
+## [1.15.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.15.0) (2015-07-17)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.14.0...1.15.0)
+
+**Merged pull requests:**
+
+- WebView subspec [\#138](https://github.com/auth0/Lock.iOS-OSX/pull/138) ([hzalaz](https://github.com/hzalaz))
+
+- WebView Authenticator for IdP [\#137](https://github.com/auth0/Lock.iOS-OSX/pull/137) ([hzalaz](https://github.com/hzalaz))
+
+- Move Safari based auth classes to a subpsec [\#136](https://github.com/auth0/Lock.iOS-OSX/pull/136) ([hzalaz](https://github.com/hzalaz))
+
+- Feature usewebview as default [\#135](https://github.com/auth0/Lock.iOS-OSX/pull/135) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.14.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.14.0) (2015-07-10)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.13.0...1.14.0)
