@@ -73,4 +73,8 @@
 #import "A0PasswordManager.h"
 #endif
 
+#if __has_include("A0WebViewAuthenticator.h")
+#import "A0WebViewAuthenticator.h"
+#endif
+
 #endif /* _AUTH0_LOCK_ */

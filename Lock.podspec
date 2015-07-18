@@ -128,7 +128,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     webview.platform = :ios
     webview.public_header_files = 'Pod/Classes/WebView/*.h'
     webview.source_files = 'Pod/Classes/WebView/*.{h,m}'
-    webview.dependency 'Lock/UI'
     webview.dependency 'Lock/Core'
   end
 end
