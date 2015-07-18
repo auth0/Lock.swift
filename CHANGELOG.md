@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.15.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.15.1) (2015-07-18)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.15.0...1.15.1)
+
 ## [1.15.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.15.0) (2015-07-17)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.14.0...1.15.0)
