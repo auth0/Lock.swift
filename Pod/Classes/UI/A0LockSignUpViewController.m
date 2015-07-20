@@ -99,6 +99,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self displayController:[[A0LoadingViewController alloc] init]];
     [self loadApplicationInfo];
 
+    //Force portrait orientation
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationPortrait] forKey:@"orientation"];
 }
 
 

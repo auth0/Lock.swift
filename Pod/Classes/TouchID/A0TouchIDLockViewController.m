@@ -198,6 +198,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                          success:self.onAuthenticationBlock
                          failure:errorBlock];
     };
+
+    //Force portrait orientation
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationPortrait] forKey:@"orientation"];
 }
 
 - (void)close:(id)sender {

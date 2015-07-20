@@ -114,6 +114,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.dismissButton.hidden = !self.closable;
 
     [self loadApplicationInfo];
+
+    //Force portrait orientation
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationPortrait] forKey:@"orientation"];
 }
 
 - (BOOL)shouldAutorotate {
