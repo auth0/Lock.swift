@@ -38,8 +38,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *titleView;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
-@property (weak, nonatomic) IBOutlet WKWebView *webview;
-@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 - (IBAction)cancel:(id)sender;
 
@@ -78,7 +77,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     webview.navigationDelegate = self;
     [webview loadRequest:[NSURLRequest requestWithURL:self.authorizeURL]];
-    self.webview = webview;
     [self.cancelButton setTitle:A0LocalizedString(@"Cancel") forState:UIControlStateNormal];
 }
 
@@ -95,10 +93,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     A0LogVerbose(@"Loaded page");
+    [self.activityIndicator stopAnimating];
 }
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     A0LogVerbose(@"Started to load page");
+    [self.activityIndicator startAnimating];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
@@ -121,20 +121,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 [self cleanCallbacks];
             } failure:^(NSError *error) {
                 @strongify(self);
-                if (self.onFailure) {
-                    self.onFailure(error);
-                }
-                decisionHandler(WKNavigationActionPolicyCancel);
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-                [self cleanCallbacks];
+                [self handleError:error decisionHandler:decisionHandler];
             }];
         } else {
-            if (self.onFailure) {
-                self.onFailure(error);
-            }
-            decisionHandler(WKNavigationActionPolicyCancel);
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-            [self cleanCallbacks];
+            [self handleError:error decisionHandler:decisionHandler];
         }
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
@@ -148,4 +138,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.onFailure = nil;
 }
 
+- (void)handleError:(NSError *)error decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    if (self.onFailure) {
+        self.onFailure(error);
+    }
+    decisionHandler(WKNavigationActionPolicyCancel);
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self cleanCallbacks];
+}
 @end

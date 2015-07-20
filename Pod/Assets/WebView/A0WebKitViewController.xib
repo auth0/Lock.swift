@@ -7,8 +7,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0WebKitViewController">
             <connections>
+                <outlet property="activityIndicator" destination="Jhf-Pg-mTB" id="9pI-em-Z4d"/>
                 <outlet property="cancelButton" destination="qB2-jl-yaZ" id="hTF-Mb-3S2"/>
-                <outlet property="containerView" destination="am3-yq-w8r" id="mgl-Qx-yM6"/>
                 <outlet property="titleView" destination="Ozw-uC-SsI" id="OF4-SV-gmM"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -30,26 +30,29 @@
                                 <action selector="cancel:" destination="-1" eventType="touchUpInside" id="vlX-eN-bQD"/>
                             </connections>
                         </button>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Jhf-Pg-mTB">
+                            <rect key="frame" x="572" y="27" width="20" height="20"/>
+                        </activityIndicatorView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="qB2-jl-yaZ" firstAttribute="leading" secondItem="Ozw-uC-SsI" secondAttribute="leadingMargin" id="1Ue-xd-tr6"/>
+                        <constraint firstItem="Jhf-Pg-mTB" firstAttribute="bottom" secondItem="Ozw-uC-SsI" secondAttribute="bottomMargin" id="Ici-kB-jhD"/>
                         <constraint firstItem="qB2-jl-yaZ" firstAttribute="bottom" secondItem="Ozw-uC-SsI" secondAttribute="bottomMargin" id="VeW-br-9CL"/>
+                        <constraint firstItem="Jhf-Pg-mTB" firstAttribute="centerY" secondItem="qB2-jl-yaZ" secondAttribute="centerY" id="aNF-b2-vXk"/>
+                        <constraint firstItem="Jhf-Pg-mTB" firstAttribute="trailing" secondItem="Ozw-uC-SsI" secondAttribute="trailingMargin" id="sTK-LY-JKW"/>
                         <constraint firstAttribute="height" constant="60" id="weE-tu-LiQ"/>
                     </constraints>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="am3-yq-w8r">
-                    <rect key="frame" x="0.0" y="60" width="600" height="540"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Ici-kB-jhD"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="am3-yq-w8r" firstAttribute="top" secondItem="Ozw-uC-SsI" secondAttribute="bottom" id="7uz-E1-iJQ"/>
-                <constraint firstItem="am3-yq-w8r" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="9C5-HF-p7b"/>
-                <constraint firstAttribute="trailing" secondItem="am3-yq-w8r" secondAttribute="trailing" id="9gA-67-Yv9"/>
                 <constraint firstItem="Ozw-uC-SsI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="AIH-HJ-aOd"/>
-                <constraint firstAttribute="bottom" secondItem="am3-yq-w8r" secondAttribute="bottom" id="BLO-sh-oSU"/>
                 <constraint firstAttribute="trailing" secondItem="Ozw-uC-SsI" secondAttribute="trailing" id="CQc-10-E2w"/>
                 <constraint firstItem="Ozw-uC-SsI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="wMN-fg-T8D"/>
             </constraints>
