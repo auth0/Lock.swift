@@ -87,12 +87,12 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
-  - Lock (1.15.1):
+  - Lock (1.16.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
-    - Lock/Core (= 1.15.1)
-    - Lock/UI (= 1.15.1)
-    - Lock/WebView (= 1.15.1)
+    - Lock/Core (= 1.16.0)
+    - Lock/UI (= 1.16.0)
+    - Lock/WebView (= 1.16.0)
   - Lock-Facebook (2.0.1):
     - CocoaLumberjack (~> 2.0)
     - FBSDKCoreKit (~> 4.0)
@@ -103,40 +103,40 @@ PODS:
     - Lock/Core (~> 1.11)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Lock/1Password (1.15.1):
+  - Lock/1Password (1.16.0):
     - 1PasswordExtension (~> 1.2)
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/Core (1.15.1):
+  - Lock/Core (1.16.0):
     - AFNetworking (~> 2.5)
     - CocoaLumberjack (~> 2.0)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
-  - Lock/ReactiveCore (1.15.1):
+  - Lock/ReactiveCore (1.16.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ReactiveCocoa (~> 2.3)
-  - Lock/Safari (1.15.1):
+  - Lock/Safari (1.16.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/SMS (1.15.1):
+  - Lock/SMS (1.16.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/UI
-  - Lock/TouchID (1.15.1):
+  - Lock/TouchID (1.16.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/UI
     - SimpleKeychain (~> 0.2)
     - TouchIDAuth (~> 0.1)
-  - Lock/UI (1.15.1):
+  - Lock/UI (1.16.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/WebView (1.15.1):
+  - Lock/WebView (1.16.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
@@ -202,7 +202,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   JWTDecode: bff190dc06ff9ee7a3a244c454dc8ef05962c994
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  Lock: 26649aca7524ee65f2fc420f7d4c3c7544ec096b
+  Lock: bf99824342e973f1994a6b40ca26e1153ba6de40
   Lock-Facebook: 02c315b7d15d6fed20c7a2ea8a5e5e27c072483a
   Lock-Twitter: 61168e95f6614535167621794cbada2d6606d4c5
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
