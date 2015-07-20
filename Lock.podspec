@@ -60,33 +60,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     ui.resource_bundles = { 'Auth0' => ['Pod/Assets/UI/Images/*.png', 'Pod/Assets/UI/*.plist', 'Pod/Assets/UI/*.ttf']}
   end
 
-  s.subspec 'Facebook' do |facebook|
-    facebook.platform = :ios
-    facebook.public_header_files = 'Pod/Classes/Provider/Facebook/*.h'
-    facebook.source_files = 'Pod/Classes/Provider/Facebook/*.{h,m}'
-    facebook.dependency 'Lock/Core'
-    facebook.dependency 'Facebook-iOS-SDK', '~> 3.15'
-  end
-
-  s.subspec 'Twitter' do |twitter|
-    twitter.platform = :ios
-    twitter.public_header_files = 'Pod/Classes/Twitter/*.h'
-    twitter.source_files = 'Pod/Classes/Provider/Twitter/*.{h,m}'
-    twitter.dependency 'Lock/Core'
-    twitter.dependency 'BDBOAuth1Manager', '~> 1.5.0'
-    twitter.dependency 'TWReverseAuth', '~> 0.1.0'
-    twitter.dependency 'PSAlertView', '~> 2.0'
-    twitter.frameworks  = 'Social', 'Accounts', 'Twitter'
-  end
-
-  s.subspec 'GooglePlus' do |gplus|
-    gplus.platform = :ios
-    gplus.public_header_files = 'Pod/Classes/Provider/GooglePlus/*.h'
-    gplus.source_files = 'Pod/Classes/Provider/GooglePlus/*.{h,m}'
-    gplus.dependency 'Lock/Core'
-    gplus.dependency 'googleplus-ios-sdk', '~> 1.7.1'
-  end
-
   s.subspec 'TouchID' do |touchid|
     touchid.platform = :ios
     touchid.public_header_files = 'Pod/Classes/TouchID/*.h'
