@@ -1,5 +1,15 @@
 # Change Log
 
+## [1.16.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.16.0) (2015-07-20)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.15.1...1.16.0)
+
+**Merged pull requests:**
+
+- Remove deprecated native integrations [\#140](https://github.com/auth0/Lock.iOS-OSX/pull/140) ([hzalaz](https://github.com/hzalaz))
+
+- Use WKWebView for web flow authentication [\#139](https://github.com/auth0/Lock.iOS-OSX/pull/139) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.15.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.15.1) (2015-07-18)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.15.0...1.15.1)
