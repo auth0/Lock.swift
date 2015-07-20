@@ -21,7 +21,19 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import <Lock/A0WebAuthenticable.h>
 
-@interface A0WebKitViewController : UIViewController
+@class A0APIClient, A0AuthParameters;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface A0WebKitViewController : UIViewController<A0WebAuthenticable>
+
+@property (copy, nullable, nonatomic) A0IdPAuthenticationBlock onAuthentication;
+@property (copy, nullable, nonatomic) A0IdPAuthenticationErrorBlock onFailure;
+
+- (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters;
 
 @end
+
+NS_ASSUME_NONNULL_END

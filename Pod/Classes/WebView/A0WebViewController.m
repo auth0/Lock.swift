@@ -90,7 +90,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         NSError *error;
         A0Token *token = [self.authentication tokenFromURL:request.URL error:&error];
         if (token) {
-            void(^success)(A0UserProfile *, A0Token *) = self.onAuthentication;
+            A0IdPAuthenticationBlock success = self.onAuthentication;
             @weakify(self);
             [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
                 @strongify(self);

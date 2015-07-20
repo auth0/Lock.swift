@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0WebKitViewController">
             <connections>
-                <outlet property="cancelButton" destination="qB2-jl-yaZ" id="c6e-R3-H9a"/>
+                <outlet property="cancelButton" destination="qB2-jl-yaZ" id="hTF-Mb-3S2"/>
                 <outlet property="containerView" destination="am3-yq-w8r" id="mgl-Qx-yM6"/>
                 <outlet property="titleView" destination="Ozw-uC-SsI" id="OF4-SV-gmM"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
