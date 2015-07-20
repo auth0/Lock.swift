@@ -21,12 +21,13 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import <Lock/A0WebAuthenticable.h>
 
 @class A0Token, A0UserProfile, A0Application, A0Strategy, A0AuthParameters, A0APIClient;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface A0WebViewController : UIViewController
+@interface A0WebViewController : UIViewController<A0WebAuthenticable>
 
 @property (copy, nullable, nonatomic) void(^onAuthentication)(A0UserProfile *profile, A0Token *token);
 @property (copy, nullable, nonatomic) void(^onFailure)(NSError *error);

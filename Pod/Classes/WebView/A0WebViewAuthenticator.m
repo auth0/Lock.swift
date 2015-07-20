@@ -22,6 +22,7 @@
 
 #import "A0WebViewAuthenticator.h"
 #import "A0WebViewController.h"
+#import "A0WebKitViewController.h"
 
 @interface A0WebViewAuthenticator ()
 @property (strong, nonatomic) A0APIClient *client;
@@ -40,7 +41,7 @@
 }
 
 - (void)authenticateWithParameters:(A0AuthParameters * __nonnull)parameters success:(A0IdPAuthenticationBlock __nonnull)success failure:(A0IdPAuthenticationErrorBlock __nonnull)failure {
-    A0WebViewController *controller = [[A0WebViewController alloc] initWithAPIClient:self.client connectionName:self.connectionName parameters:parameters];
+    UIViewController<A0WebAuthenticable> *controller = [self newWebControllerWithParameters:parameters];
     controller.modalPresentationStyle = UIModalPresentationCurrentContext;
     controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     controller.onAuthentication = success;
@@ -92,6 +93,14 @@
         }
     } else {
         return controller;
+    }
+}
+
+- (UIViewController<A0WebAuthenticable> *)newWebControllerWithParameters:(A0AuthParameters *)parameters {
+    if (NSClassFromString(@"WKWebView")) {
+        return [[A0WebKitViewController alloc] initWithAPIClient:self.client connectionName:self.connectionName parameters:parameters];
+    } else {
+        return [[A0WebViewController alloc] initWithAPIClient:self.client connectionName:self.connectionName parameters:parameters];
     }
 }
 

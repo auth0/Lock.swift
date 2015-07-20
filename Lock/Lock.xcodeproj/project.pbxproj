@@ -40,6 +40,7 @@
 		5FC7EECF1A7957BE00C83B09 /* GET-Application-Info.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */; };
 		5FC7EEF51A79850000C83B09 /* POST-oauth-ro.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */; };
 		5FC7EEF91A79942500C83B09 /* POST-tokeninfo.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF81A79942500C83B09 /* POST-tokeninfo.response */; };
+		5FC933F81B5D3B1600EBCB74 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC933F71B5D3B1600EBCB74 /* WebKit.framework */; };
 		5FEDA4B31A1E4E73009B1C2F /* A0EmailValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA4B21A1E4E73009B1C2F /* A0EmailValidatorSpec.m */; };
 		5FEDA4B81A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA4B71A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m */; };
 		5FEDA4BD1A1E60F3009B1C2F /* A0ConfirmPasswordValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA4BC1A1E60F3009B1C2F /* A0ConfirmPasswordValidatorSpec.m */; };
@@ -118,6 +119,7 @@
 		5FC7EED11A79788800C83B09 /* Tests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 		5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-oauth-ro.response"; sourceTree = "<group>"; };
 		5FC7EEF81A79942500C83B09 /* POST-tokeninfo.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-tokeninfo.response"; sourceTree = "<group>"; };
+		5FC933F71B5D3B1600EBCB74 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		5FE9C87A1B27991500EA18D5 /* Lock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Lock.entitlements; sourceTree = "<group>"; };
 		5FEDA4B21A1E4E73009B1C2F /* A0EmailValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0EmailValidatorSpec.m; sourceTree = "<group>"; };
 		5FEDA4B71A1E5DC8009B1C2F /* A0PasswordValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0PasswordValidatorSpec.m; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FC933F81B5D3B1600EBCB74 /* WebKit.framework in Frameworks */,
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
@@ -249,6 +252,7 @@
 		6003F58C195388D20070C39A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FC933F71B5D3B1600EBCB74 /* WebKit.framework */,
 				5F3A9C541A0D16FF00154DF2 /* Crashlytics.framework */,
 				5F3A9C551A0D16FF00154DF2 /* Fabric.framework */,
 				6003F58D195388D20070C39A /* Foundation.framework */,
@@ -711,6 +715,7 @@
 			baseConfigurationReference = 26AA405967D1A3B89FAD9B49 /* Pods-Lock.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				AUTH0_CLIENT_ID = U5MhUrbyQHSVWjlEqZSTCBUFABLbJAS3;
 				AUTH0_DOMAIN = overmind.auth0.com;
 				BUNDLE_SUFFIX = "-Dev";
@@ -740,6 +745,7 @@
 			baseConfigurationReference = 4AB1168063DB527AB1BC16CF /* Pods-Lock.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				AUTH0_CLIENT_ID = uPW0Reav8UNYt3TGPdM4I8rIAIazDOgG;
 				AUTH0_DOMAIN = samples.auth0.com;
 				BUNDLE_SUFFIX = "";

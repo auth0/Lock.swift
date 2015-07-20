@@ -1,4 +1,4 @@
-// A0LockApplication.m
+// A0WebAuthenticable.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,35 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockApplication.h"
+#import <Foundation/Foundation.h>
+#import <Lock/A0AuthenticationProvider.h>
 
-#import <Lock/Lock.h>
-#import <Lock-Facebook/A0FacebookAuthenticator.h>
-#import <Lock-Twitter/A0TwitterAuthenticator.h>
+@protocol A0WebAuthenticable <NSObject>
 
-@implementation A0LockApplication
+- (void)setOnAuthentication:(A0IdPAuthenticationBlock)success;
+- (void)setOnFailure:(A0IdPAuthenticationErrorBlock)error;
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        _lock = [A0Lock newLock];
-        A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
-                                                                                andSecret:@""];
-        A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
-        [_lock registerAuthenticators:@[
-                                        twitter,
-                                        facebook,
-                                        ]];
-    }
-    return self;
-}
-
-+ (A0LockApplication *)sharedInstance {
-    static A0LockApplication *instance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        instance = [[A0LockApplication alloc] init];
-    });
-    return instance;
-}
 @end
