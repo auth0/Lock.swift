@@ -711,6 +711,7 @@
 			baseConfigurationReference = 26AA405967D1A3B89FAD9B49 /* Pods-Lock.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				AUTH0_CLIENT_ID = U5MhUrbyQHSVWjlEqZSTCBUFABLbJAS3;
 				AUTH0_DOMAIN = overmind.auth0.com;
 				BUNDLE_SUFFIX = "-Dev";
@@ -740,6 +741,7 @@
 			baseConfigurationReference = 4AB1168063DB527AB1BC16CF /* Pods-Lock.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				AUTH0_CLIENT_ID = uPW0Reav8UNYt3TGPdM4I8rIAIazDOgG;
 				AUTH0_DOMAIN = samples.auth0.com;
 				BUNDLE_SUFFIX = "";

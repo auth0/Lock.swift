@@ -1,4 +1,4 @@
-// A0LockApplication.m
+// A0WebKitViewController.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,35 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockApplication.h"
+#import <UIKit/UIKit.h>
 
-#import <Lock/Lock.h>
-#import <Lock-Facebook/A0FacebookAuthenticator.h>
-#import <Lock-Twitter/A0TwitterAuthenticator.h>
+@interface A0WebKitViewController : UIViewController
 
-@implementation A0LockApplication
+@property (weak, nonatomic) IBOutlet UIView *titleView;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        _lock = [A0Lock newLock];
-        A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
-                                                                                andSecret:@""];
-        A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
-        [_lock registerAuthenticators:@[
-                                        twitter,
-                                        facebook,
-                                        ]];
-    }
-    return self;
-}
 
-+ (A0LockApplication *)sharedInstance {
-    static A0LockApplication *instance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        instance = [[A0LockApplication alloc] init];
-    });
-    return instance;
-}
+- (IBAction)cancel:(id)sender;
 @end

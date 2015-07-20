@@ -50,7 +50,6 @@ PODS:
     - FBSDKCoreKit/arc
   - FBSDKLoginKit (4.1.0):
     - FBSDKCoreKit
-  - googleplus-ios-sdk (1.7.1)
   - ISO8601DateFormatter (0.7)
   - JWTDecode (0.2.1)
   - libextobjc (0.4.1):
@@ -98,9 +97,6 @@ PODS:
     - CocoaLumberjack (~> 2.0)
     - FBSDKCoreKit (~> 4.0)
     - FBSDKLoginKit (~> 4.0)
-    - Lock/Core (~> 1.11)
-  - Lock-GooglePlus (1.0.1):
-    - googleplus-ios-sdk (~> 1.7.1)
     - Lock/Core (~> 1.11)
   - Lock-Twitter (1.0.1):
     - BDBOAuth1Manager (~> 1.5.0)
@@ -177,7 +173,6 @@ DEPENDENCIES:
   - libextobjc
   - Lock (from `../`)
   - Lock-Facebook (~> 2.0)
-  - Lock-GooglePlus (~> 1.0)
   - Lock-Twitter (~> 1.0)
   - Lock/1Password (from `../`)
   - Lock/ReactiveCore (from `../`)
@@ -204,13 +199,11 @@ SPEC CHECKSUMS:
   Expecta: 32604574add2c46a36f8d2f716b6c5736eb75024
   FBSDKCoreKit: 469ed167195f860dbd2b4c4bbaa33d2e90598db9
   FBSDKLoginKit: ff6224762732e3698f30942e4544321b8c7a23e6
-  googleplus-ios-sdk: 065d9135061a5f84c07656a68ced48336408fe35
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   JWTDecode: bff190dc06ff9ee7a3a244c454dc8ef05962c994
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  Lock: b4e383b63bbbebad315cd65076dfbe5cb2bb0f63
+  Lock: b9b0a1503e24008d311b572e4e4d224747bc0ab9
   Lock-Facebook: 02c315b7d15d6fed20c7a2ea8a5e5e27c072483a
-  Lock-GooglePlus: 38ea73da70d3dd3d210dfb7716b5aeed5aaabca6
   Lock-Twitter: 61168e95f6614535167621794cbada2d6606d4c5
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
@@ -225,4 +218,4 @@ SPEC CHECKSUMS:
   TouchIDAuth: f63596baf1c23d85211ab7a3b4bea794d73f3e36
   TWReverseAuth: d2deef3521fa6bee32eabab67f114c2c4a53d4f5
 
-COCOAPODS: 0.37.2
+COCOAPODS: 0.38.0
