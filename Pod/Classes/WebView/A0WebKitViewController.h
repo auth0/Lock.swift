@@ -24,9 +24,4 @@
 
 @interface A0WebKitViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIView *titleView;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
-
-
-- (IBAction)cancel:(id)sender;
 @end

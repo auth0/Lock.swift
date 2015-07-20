@@ -21,18 +21,39 @@
 // THE SOFTWARE.
 
 #import "A0WebKitViewController.h"
+#import <WebKit/WebKit.h>
 
 @interface A0WebKitViewController ()
+
+@property (weak, nonatomic) IBOutlet UIView *titleView;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet WKWebView *webview;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
+
+- (IBAction)cancel:(id)sender;
 
 @end
 
 @implementation A0WebKitViewController
 
+- (instancetype)init {
+    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    WKWebView *webview = [[WKWebView alloc] init];
+    [self.view addSubview:webview];
+    webview.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_titleView][webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview, _titleView)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview)]];
+    self.view.backgroundColor = [UIColor redColor];
+    [webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://google.com"]]];
+    self.webview = webview;
+    [self.view updateConstraints];
 }
 
 - (IBAction)cancel:(id)sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 @end

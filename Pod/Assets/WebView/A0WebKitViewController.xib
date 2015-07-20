@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0WebKitViewController">
             <connections>
                 <outlet property="cancelButton" destination="qB2-jl-yaZ" id="c6e-R3-H9a"/>
+                <outlet property="containerView" destination="am3-yq-w8r" id="mgl-Qx-yM6"/>
                 <outlet property="titleView" destination="Ozw-uC-SsI" id="OF4-SV-gmM"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -37,10 +38,18 @@
                         <constraint firstAttribute="height" constant="60" id="weE-tu-LiQ"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="am3-yq-w8r">
+                    <rect key="frame" x="0.0" y="60" width="600" height="540"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="am3-yq-w8r" firstAttribute="top" secondItem="Ozw-uC-SsI" secondAttribute="bottom" id="7uz-E1-iJQ"/>
+                <constraint firstItem="am3-yq-w8r" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="9C5-HF-p7b"/>
+                <constraint firstAttribute="trailing" secondItem="am3-yq-w8r" secondAttribute="trailing" id="9gA-67-Yv9"/>
                 <constraint firstItem="Ozw-uC-SsI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="AIH-HJ-aOd"/>
+                <constraint firstAttribute="bottom" secondItem="am3-yq-w8r" secondAttribute="bottom" id="BLO-sh-oSU"/>
                 <constraint firstAttribute="trailing" secondItem="Ozw-uC-SsI" secondAttribute="trailing" id="CQc-10-E2w"/>
                 <constraint firstItem="Ozw-uC-SsI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="wMN-fg-T8D"/>
             </constraints>

@@ -22,6 +22,7 @@
 
 #import "A0WebViewAuthenticator.h"
 #import "A0WebViewController.h"
+#import "A0WebKitViewController.h"
 
 @interface A0WebViewAuthenticator ()
 @property (strong, nonatomic) A0APIClient *client;
