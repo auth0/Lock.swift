@@ -114,15 +114,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.dismissButton.hidden = !self.closable;
 
     [self loadApplicationInfo];
-
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) {
-      //Force portrait orientation
-      [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationPortrait] forKey:@"orientation"];
-    }
 }
 
-- (BOOL)shouldAutorotate {
-    return NO;
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 - (void)dismiss:(id)sender {

@@ -198,11 +198,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                          success:self.onAuthenticationBlock
                          failure:errorBlock];
     };
-
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) {
-      //Force portrait orientation
-      [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationPortrait] forKey:@"orientation"];
-    }
 }
 
 - (void)close:(id)sender {
@@ -213,8 +208,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (BOOL)shouldAutorotate {
-    return NO;
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 - (void)checkTouchID:(id)sender {

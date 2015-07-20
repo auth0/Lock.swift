@@ -98,16 +98,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     [self displayController:[[A0LoadingViewController alloc] init]];
     [self loadApplicationInfo];
-
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) {
-      //Force portrait orientation
-      [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationPortrait] forKey:@"orientation"];
-    }
 }
 
-
-- (BOOL)shouldAutorotate {
-    return NO;
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 - (IBAction)dismiss:(id)sender {
