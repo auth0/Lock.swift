@@ -98,12 +98,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     [self displayController:[[A0LoadingViewController alloc] init]];
     [self loadApplicationInfo];
-
 }
 
-
-- (BOOL)shouldAutorotate {
-    return NO;
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 - (IBAction)dismiss:(id)sender {

@@ -116,8 +116,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self loadApplicationInfo];
 }
 
-- (BOOL)shouldAutorotate {
-    return NO;
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 - (void)dismiss:(id)sender {

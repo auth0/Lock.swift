@@ -208,8 +208,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (BOOL)shouldAutorotate {
-    return NO;
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 - (void)checkTouchID:(id)sender {
