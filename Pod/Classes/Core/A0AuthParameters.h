@@ -226,7 +226,7 @@ FOUNDATION_EXTERN NSString * const A0ParameterTarget;
 - (void)addValuesFromParameters:(A0AuthParameters *)parameters;
 
 - (nullable id)objectForKeyedSubscript:(NSString *)key;
-- (void)setObject:(id)obj forKeyedSubscript:(NSString *)key;
+- (void)setObject:(nullable id)obj forKeyedSubscript:(NSString *)key;
 
 @end
 
