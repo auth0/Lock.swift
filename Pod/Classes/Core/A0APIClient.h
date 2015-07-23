@@ -148,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
                                  password:(NSString *)password
                            loginOnSuccess:(BOOL)loginOnSuccess
                                parameters:(nullable A0AuthParameters *)parameters
-                                  success:(A0APIClientAuthenticationSuccess)success
+                                  success:(A0APIClientSignUpSuccess)success
                                   failure:(A0APIClientError)failure;
 
 /**
