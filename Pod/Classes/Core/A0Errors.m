@@ -323,6 +323,32 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
     NSString *localizedString;
     if ([errorKey isEqualToString:@"user_exists"] || [errorKey isEqualToString:@"username_exists"]) {
         localizedString = A0LocalizedString(@"The user already exists.");
+    } else if ([errorKey isEqualToString:@"invalid_password"]) {
+        NSDictionary *description = apiErrorInfo[@"description"];
+        NSArray *rules = description[@"rules"];
+        NSMutableString *ruleString = [NSMutableString stringWithString:@"Password failed to meet the requirements: "];
+        for (NSDictionary *rule in rules) {
+            if ([rule[@"verified"] intValue] == 0) {
+                if ([rule[@"code"] isEqualToString:@"lengthAtLeast"]) {
+                    [ruleString appendString:[NSString stringWithFormat:rule[@"message"], [rule[@"format"][0] intValue]]];
+                    [ruleString appendString:@". "];
+                } else if ([rule[@"code"] isEqualToString:@"containsAtLeast"]) {
+                    [ruleString appendString:[NSString stringWithFormat:rule[@"message"], [rule[@"format"][0] intValue], [rule[@"format"][1] intValue]]];
+                    NSArray *items = rule[@"items"];
+                    for (int i = 0; i<[items count]; ++i) {
+                        [ruleString appendFormat:@" %@", items[i][@"message"]];
+                        if (i != [items count]-1) {
+                            [ruleString appendString:@","];
+                        }
+                    }
+                    [ruleString appendString:@". "];
+                } else if ([rule[@"code"] isEqualToString:@"identicalChars"]) {
+                    [ruleString appendString:[NSString stringWithFormat:rule[@"message"], [(rule[@"format"][0]) intValue], (rule[@"format"][1])]];
+                    [ruleString appendString:@". "];
+                }
+            }
+        }
+        localizedString = A0LocalizedString(ruleString);
     } else {
         localizedString = A0LocalizedString(@"There was an error processing the sign up.");
     }
