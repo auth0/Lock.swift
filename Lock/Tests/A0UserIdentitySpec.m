@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "Specta.h"
+#import "A0LockTest.h"
 #import "A0UserIdentity.h"
 
 #define kAccessToken @"ACCESS_TOKEN"
@@ -29,12 +29,6 @@
 #define kUserId @"USER"
 #define kAccessTokenSecret @"secret"
 #define kIdentityId @"PROVIDER|USER"
-
-#define HC_SHORTHAND
-#import <OCHamcrest/OCHamcrest.h>
-
-#define MOCKITO_SHORTHAND
-#import <OCMockito/OCMockito.h>
 
 SpecBegin(A0UserIdentity)
 

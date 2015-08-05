@@ -20,16 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "Specta.h"
-#import "A0APIClient.h"
-
+#import "A0LockTest.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
-#define HC_SHORTHAND
-#import <OCHamcrest/OCHamcrest.h>
 
-#define MOCKITO_SHORTHAND
-#import <OCMockito/OCMockito.h>
-
+#import "A0APIClient.h"
 #import "A0APIRouter.h"
 #import "A0Application.h"
 #import "A0Connection.h"

@@ -20,19 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Specta/Specta.h>
+#import "A0LockTest.h"
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0Application.h"
 #import "A0Strategy.h"
 #import "A0Errors.h"
 #import "A0Lock.h"
 #import "A0AuthParameters.h"
-
-#define HC_SHORTHAND
-#import <OCHamcrest/OCHamcrest.h>
-
-#define MOCKITO_SHORTHAND
-#import <OCMockito/OCMockito.h>
 
 #define kFBProviderId @"facebook"
 #define kTwitterProviderId @"twitter"

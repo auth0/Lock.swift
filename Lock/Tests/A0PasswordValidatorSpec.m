@@ -20,15 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "Specta.h"
+#import "A0LockTest.h"
+
 #import "A0PasswordValidator.h"
 #import "A0Errors.h"
-
-#define HC_SHORTHAND
-#import <OCHamcrest/OCHamcrest.h>
-
-#define MOCKITO_SHORTHAND
-#import <OCMockito/OCMockito.h>
 
 SpecBegin(A0PasswordValidator)
 

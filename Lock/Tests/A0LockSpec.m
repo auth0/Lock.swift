@@ -20,7 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "Specta.h"
+#import "A0LockTest.h"
+
 #import "A0Lock.h"
 
 #define kClientId @"1234567890"

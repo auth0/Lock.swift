@@ -23,12 +23,13 @@
 #ifndef Lock_A0LockTest_h
 #define Lock_A0LockTest_h
 
-#import "Specta.h"
-#import "A0GlobalHelperFunctions.h"
+#import <Specta/Specta.h>
+
 #define HC_SHORTHAND
 #import <OCHamcrest/OCHamcrest.h>
 #define MOCKITO_SHORTHAND
 #import <OCMockito/OCMockito.h>
 
+#import "A0GlobalHelperFunctions.h"
 
 #endif
