@@ -328,7 +328,7 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
         NSArray *rules = description[@"rules"];
         NSMutableString *ruleString = [NSMutableString stringWithString:A0LocalizedString(@"Password failed to meet the requirements: ")];
         for (NSDictionary *rule in rules) {
-            if ([rule[@"verified"] intValue] == 0) {
+            if (![rule[@"verified"] boolValue]) {
                 if ([rule[@"code"] isEqualToString:@"lengthAtLeast"]) {
                     [ruleString appendString:[NSString localizedStringWithFormat:rule[@"message"], [rule[@"format"][0] intValue]]];
                     [ruleString appendString:@". "];
