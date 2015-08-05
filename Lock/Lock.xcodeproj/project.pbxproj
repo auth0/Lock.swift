@@ -18,6 +18,8 @@
 		5F22B5D619E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */; };
 		5F22E6ED1AFBC6E80037859D /* A0LockSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */; };
 		5F29E4591B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29E4581B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m */; };
+		5F29E45D1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29E45C1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m */; };
+		5F29E4601B7287A700D7A62F /* A0GlobalHelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29E45F1B7287A700D7A62F /* A0GlobalHelperFunctions.m */; };
 		5F3237351A7A858E00B58994 /* A0AnnotatedRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3237341A7A858E00B58994 /* A0AnnotatedRequestSerializer.m */; };
 		5F35161619B8CBA500574C11 /* A0UserIdentitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */; };
 		5F3A9C561A0D16FF00154DF2 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3A9C541A0D16FF00154DF2 /* Crashlytics.framework */; };
@@ -92,6 +94,10 @@
 		5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FilteredConnectionDomainMatcherSpec.m; sourceTree = "<group>"; };
 		5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockSpec.m; sourceTree = "<group>"; };
 		5F29E4581B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0GenericAPIErrorHandlerSpec.m; sourceTree = "<group>"; };
+		5F29E45C1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0RuleErrorHandlerSpec.m; sourceTree = "<group>"; };
+		5F29E45E1B72872B00D7A62F /* A0GlobalHelperFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = A0GlobalHelperFunctions.h; sourceTree = "<group>"; };
+		5F29E45F1B7287A700D7A62F /* A0GlobalHelperFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0GlobalHelperFunctions.m; sourceTree = "<group>"; };
+		5F29E4611B72882D00D7A62F /* A0LockTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = A0LockTest.h; path = Utils/A0LockTest.h; sourceTree = "<group>"; };
 		5F3237331A7A858E00B58994 /* A0AnnotatedRequestSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0AnnotatedRequestSerializer.h; path = Utils/A0AnnotatedRequestSerializer.h; sourceTree = "<group>"; };
 		5F3237341A7A858E00B58994 /* A0AnnotatedRequestSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = A0AnnotatedRequestSerializer.m; path = Utils/A0AnnotatedRequestSerializer.m; sourceTree = "<group>"; };
 		5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserIdentitySpec.m; sourceTree = "<group>"; };
@@ -226,6 +232,9 @@
 				5FC45F8C1AE5942400427E31 /* A0HTTPStubber.m */,
 				5FFFB4D61AE92D1700BDA90D /* A0HttpKeeper.h */,
 				5FFFB4D71AE92D1700BDA90D /* A0HttpKeeper.m */,
+				5F29E45E1B72872B00D7A62F /* A0GlobalHelperFunctions.h */,
+				5F29E45F1B7287A700D7A62F /* A0GlobalHelperFunctions.m */,
+				5F29E4611B72882D00D7A62F /* A0LockTest.h */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -332,6 +341,7 @@
 				5FEDA4C11A1E7589009B1C2F /* A0CredentialsValidatorSpec.m */,
 				5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */,
 				5F29E4581B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m */,
+				5F29E45C1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -571,6 +581,8 @@
 			files = (
 				5FEDCF361A1D50520050C2C1 /* A0UsernameValidatorSpec.m in Sources */,
 				5F9F5B6419AF8FBD0021068C /* A0UserProfileSpec.m in Sources */,
+				5F29E45D1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m in Sources */,
+				5F29E4601B7287A700D7A62F /* A0GlobalHelperFunctions.m in Sources */,
 				5F9F5B6619AF9A8D0021068C /* A0TokenSpec.m in Sources */,
 				5F9F5B6819AF9D8E0021068C /* A0StrategySpec.m in Sources */,
 				5F29E4591B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m in Sources */,

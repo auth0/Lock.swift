@@ -20,25 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "Specta.h"
+#import "A0LockTest.h"
 #import "A0GenericAPIErrorHandler.h"
 
-#define HC_SHORTHAND
-#import <OCHamcrest/OCHamcrest.h>
-
-#define MOCKITO_SHORTHAND
-#import <OCMockito/OCMockito.h>
 static NSString *ErrorCode = @"invalid";
 static NSString *ErrorString = @"something_invalid";
 static NSString *Message = @"An error has ocurred";
-
-NSError *createError(NSDictionary *payload) {
-    return [NSError errorWithDomain:@"com.auth0"
-                               code:0
-                           userInfo:@{
-                                      @"A0JSONResponseSerializerErrorDataKey": payload
-                                      }];
-}
 
 SpecBegin(A0GenericAPIErrorHandler)
 
