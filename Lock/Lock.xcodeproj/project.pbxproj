@@ -20,6 +20,9 @@
 		5F29E4591B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29E4581B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m */; };
 		5F29E45D1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29E45C1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m */; };
 		5F29E4601B7287A700D7A62F /* A0GlobalHelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29E45F1B7287A700D7A62F /* A0GlobalHelperFunctions.m */; };
+		5F29E4651B72B87200D7A62F /* A0PasswordStrengthErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29E4641B72B87200D7A62F /* A0PasswordStrengthErrorHandlerSpec.m */; };
+		5F29E4681B72BDEB00D7A62F /* PasswordStrengthError.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F29E4671B72BDEB00D7A62F /* PasswordStrengthError.json */; };
+		5F29E46B1B72C22400D7A62F /* A0PasswordStrengthErrorBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29E46A1B72C22400D7A62F /* A0PasswordStrengthErrorBuilder.m */; };
 		5F3237351A7A858E00B58994 /* A0AnnotatedRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3237341A7A858E00B58994 /* A0AnnotatedRequestSerializer.m */; };
 		5F35161619B8CBA500574C11 /* A0UserIdentitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */; };
 		5F3A9C561A0D16FF00154DF2 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3A9C541A0D16FF00154DF2 /* Crashlytics.framework */; };
@@ -98,6 +101,10 @@
 		5F29E45E1B72872B00D7A62F /* A0GlobalHelperFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = A0GlobalHelperFunctions.h; sourceTree = "<group>"; };
 		5F29E45F1B7287A700D7A62F /* A0GlobalHelperFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0GlobalHelperFunctions.m; sourceTree = "<group>"; };
 		5F29E4611B72882D00D7A62F /* A0LockTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = A0LockTest.h; path = Utils/A0LockTest.h; sourceTree = "<group>"; };
+		5F29E4641B72B87200D7A62F /* A0PasswordStrengthErrorHandlerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0PasswordStrengthErrorHandlerSpec.m; sourceTree = "<group>"; };
+		5F29E4671B72BDEB00D7A62F /* PasswordStrengthError.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PasswordStrengthError.json; sourceTree = "<group>"; };
+		5F29E4691B72C22400D7A62F /* A0PasswordStrengthErrorBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0PasswordStrengthErrorBuilder.h; path = Utils/A0PasswordStrengthErrorBuilder.h; sourceTree = "<group>"; };
+		5F29E46A1B72C22400D7A62F /* A0PasswordStrengthErrorBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = A0PasswordStrengthErrorBuilder.m; path = Utils/A0PasswordStrengthErrorBuilder.m; sourceTree = "<group>"; };
 		5F3237331A7A858E00B58994 /* A0AnnotatedRequestSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0AnnotatedRequestSerializer.h; path = Utils/A0AnnotatedRequestSerializer.h; sourceTree = "<group>"; };
 		5F3237341A7A858E00B58994 /* A0AnnotatedRequestSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = A0AnnotatedRequestSerializer.m; path = Utils/A0AnnotatedRequestSerializer.m; sourceTree = "<group>"; };
 		5F35161519B8CBA500574C11 /* A0UserIdentitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserIdentitySpec.m; sourceTree = "<group>"; };
@@ -235,6 +242,8 @@
 				5F29E45E1B72872B00D7A62F /* A0GlobalHelperFunctions.h */,
 				5F29E45F1B7287A700D7A62F /* A0GlobalHelperFunctions.m */,
 				5F29E4611B72882D00D7A62F /* A0LockTest.h */,
+				5F29E4691B72C22400D7A62F /* A0PasswordStrengthErrorBuilder.h */,
+				5F29E46A1B72C22400D7A62F /* A0PasswordStrengthErrorBuilder.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -318,7 +327,6 @@
 			isa = PBXGroup;
 			children = (
 				5FC7EED01A79786A00C83B09 /* Utils */,
-				5FC7EECD1A7957BE00C83B09 /* HttpResponses */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
 				5F12365B19675EA9006CE0D2 /* A0ApplicationSpec.m */,
 				5F9F5B6319AF8FBD0021068C /* A0UserProfileSpec.m */,
@@ -342,6 +350,7 @@
 				5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */,
 				5F29E4581B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m */,
 				5F29E45C1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m */,
+				5F29E4641B72B87200D7A62F /* A0PasswordStrengthErrorHandlerSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -349,9 +358,11 @@
 		6003F5B6195388D20070C39A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5FC7EECD1A7957BE00C83B09 /* HttpResponses */,
 				6003F5B7195388D20070C39A /* Tests-Info.plist */,
 				6003F5B8195388D20070C39A /* InfoPlist.strings */,
 				606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */,
+				5F29E4671B72BDEB00D7A62F /* PasswordStrengthError.json */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -471,6 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FC7EEF91A79942500C83B09 /* POST-tokeninfo.response in Resources */,
+				5F29E4681B72BDEB00D7A62F /* PasswordStrengthError.json in Resources */,
 				5F1DA1AD1A7C093500E7BA6D /* AppInfo.json in Resources */,
 				5F48BBA41A7ACC2900D8E05B /* POST-dbconnections-signup.response in Resources */,
 				5F48BBA81A7B151700D8E05B /* POST-delegation.response in Resources */,
@@ -599,12 +611,14 @@
 				5FC45F8D1AE5942400427E31 /* A0HTTPStubber.m in Sources */,
 				5F12365C19675EA9006CE0D2 /* A0ApplicationSpec.m in Sources */,
 				5F7112E519D5C18B001971BE /* A0AuthParametersSpec.m in Sources */,
+				5F29E46B1B72C22400D7A62F /* A0PasswordStrengthErrorBuilder.m in Sources */,
 				5F22E6ED1AFBC6E80037859D /* A0LockSpec.m in Sources */,
 				5FEDA4BD1A1E60F3009B1C2F /* A0ConfirmPasswordValidatorSpec.m in Sources */,
 				5F35161619B8CBA500574C11 /* A0UserIdentitySpec.m in Sources */,
 				5F3237351A7A858E00B58994 /* A0AnnotatedRequestSerializer.m in Sources */,
 				5F9F5B6A19AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m in Sources */,
 				5FEDA4B31A1E4E73009B1C2F /* A0EmailValidatorSpec.m in Sources */,
+				5F29E4651B72B87200D7A62F /* A0PasswordStrengthErrorHandlerSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

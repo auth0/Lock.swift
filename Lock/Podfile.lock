@@ -144,6 +144,7 @@ PODS:
   - NSData+Base64 (1.0.0)
   - OAuthCore (0.0.1):
     - NSData+Base64
+  - ObjectiveSugar (1.1.0)
   - OCHamcrest (4.1.1)
   - OCMockito (1.4.0):
     - OCHamcrest (~> 4.0)
@@ -180,6 +181,7 @@ DEPENDENCIES:
   - Lock/SMS (from `../`)
   - Lock/TouchID (from `../`)
   - Lock/WebView (from `../`)
+  - ObjectiveSugar
   - OCHamcrest
   - OCMockito
   - OHHTTPStubs
@@ -208,6 +210,7 @@ SPEC CHECKSUMS:
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
   OAuthCore: 43dce261db846a1fe20234d95654257e00e78581
+  ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
   OCHamcrest: 6f03ffa81d12feab872638490a44ab0a6d3aca10
   OCMockito: 4981140c9a9ec06c31af40f636e3c0f25f27e6b2
   OHHTTPStubs: dbd1957d414659783e07b49c961940b7564c23d9

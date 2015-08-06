@@ -28,5 +28,6 @@ target 'Tests', :exclusive => true do
   pod 'Expecta'
   pod 'OCMockito'
   pod 'OHHTTPStubs'
+  pod 'ObjectiveSugar'
   pod 'OCHamcrest', :inhibit_warnings => true #Ignore warnings for this lib
 end
