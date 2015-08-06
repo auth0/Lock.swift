@@ -22,6 +22,7 @@
 
 #import "A0JSONResponseSerializer.h"
 #import "A0Errors.h"
+#import "NSError+A0APIError.h"
 
 @implementation A0JSONResponseSerializer
 
@@ -30,20 +31,16 @@
     if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {
         NSError *validateError = *error;
         if (validateError) {
-            NSMutableDictionary *userInfo = [validateError.userInfo mutableCopy];
             NSError *jsonError;
-            id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
-            if (!jsonError) {
-                userInfo[A0JSONResponseSerializerErrorDataKey] = json;
-            } else {
+            NSDictionary *payload = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+            if (jsonError) {
                 NSString *stringError = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                userInfo[A0JSONResponseSerializerErrorDataKey] = @{
-                                                                   @"error_description": stringError,
-                                                                   @"error": stringError,
-                                                                   };
+                payload = @{
+                            @"error_description": stringError,
+                            @"error": stringError,
+                            };
             }
-            NSError *newError = [NSError errorWithDomain:validateError.domain code:validateError.code userInfo:userInfo];
-            (*error) = newError;
+            (*error) = [validateError a0_errorWithPayload:payload];
         }
     } else {
         responseObject = [super responseObjectForResponse:response data:data error:error];

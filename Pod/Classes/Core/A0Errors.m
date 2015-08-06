@@ -21,9 +21,12 @@
 // THE SOFTWARE.
 
 #import "A0Errors.h"
+#import "NSError+A0APIError.h"
+#import "A0GenericAPIErrorHandler.h"
+#import "A0RuleErrorHandler.h"
+#import "A0PasswordStrengthErrorHandler.h"
 
 NSString * const A0ErrorDomain = @"com.auth0";
-NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializerErrorDataKey";
 
 @implementation A0Errors
 
@@ -287,97 +290,53 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializ
 
 #pragma mark - Localized error messages
 
++ (NSString *)localizedStringFromError:(NSError *)error handlers:(NSArray *)handlers defaultMessage:(NSString *)defaultMessage {
+    __block NSString *message = nil;
+    [handlers enumerateObjectsUsingBlock:^(id<A0ErrorHandler> handler, NSUInteger idx, BOOL *stop) {
+        message = [handler localizedMessageFromError:error];
+        *stop = message != nil;
+    }];
+    return message ?: defaultMessage;
+}
+
 + (NSString *)localizedStringForLoginError:(NSError *)error {
-    NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
-    NSString *errorKey = apiErrorInfo[@"error"];
-    NSString *localizedString;
-    if ([errorKey isEqualToString:@"invalid_user_password"]) {
-        localizedString = A0LocalizedString(@"Wrong email or password.");
-    } if ([errorKey isEqualToString:@"unauthorized"]) {
-        NSString *description = apiErrorInfo[@"error_description"];
-        localizedString = description.length > 0 ? A0LocalizedString(description) : A0LocalizedString(@"There was an error processing the sign in.");
-    } else {
-        localizedString = A0LocalizedString(@"There was an error processing the sign in.");
-    }
-    return localizedString;
+    NSArray *handlers = @[
+                          [A0GenericAPIErrorHandler handlerForErrorString:@"invalid_user_password" returnMessage:A0LocalizedString(@"Wrong email or password.")],
+                          [A0RuleErrorHandler handler],
+                          ];
+    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
 }
 
 + (NSString *)localizedStringForSMSLoginError:(NSError *)error {
-    NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
-    NSString *errorKey = apiErrorInfo[@"error"];
-    NSString *localizedString;
-    if ([errorKey isEqualToString:@"invalid_user_password"]) {
-        localizedString = A0LocalizedString(@"Wrong phone number or passcode.");
-    } if ([errorKey isEqualToString:@"unauthorized"]) {
-        NSString *description = apiErrorInfo[@"error_description"];
-        localizedString = description.length > 0 ? A0LocalizedString(description) : A0LocalizedString(@"There was an error processing the sign in.");
-    } else {
-        localizedString = A0LocalizedString(@"There was an error processing the sign in.");
-    }
-    return localizedString;
+    NSArray *handlers = @[
+                          [A0GenericAPIErrorHandler handlerForErrorString:@"invalid_user_password" returnMessage:A0LocalizedString(@"Wrong phone number or passcode.")],
+                          [A0RuleErrorHandler handler],
+                          ];
+    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
 }
 
 + (NSString *)localizedStringForSignUpError:(NSError *)error {
-    NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
-    NSString *errorKey = apiErrorInfo[@"code"];
-    NSString *localizedString;
-    if ([errorKey isEqualToString:@"user_exists"] || [errorKey isEqualToString:@"username_exists"]) {
-        localizedString = A0LocalizedString(@"The user already exists.");
-    } else if ([errorKey isEqualToString:@"invalid_password"]) {
-        NSDictionary *description = apiErrorInfo[@"description"];
-        NSArray *rules = description[@"rules"];
-        NSMutableString *ruleString = [NSMutableString stringWithString:@"Password failed to meet the requirements: "];
-        for (NSDictionary *rule in rules) {
-            if ([rule[@"verified"] intValue] == 0) {
-                if ([rule[@"code"] isEqualToString:@"lengthAtLeast"]) {
-                    [ruleString appendString:[NSString stringWithFormat:rule[@"message"], [rule[@"format"][0] intValue]]];
-                    [ruleString appendString:@". "];
-                } else if ([rule[@"code"] isEqualToString:@"containsAtLeast"]) {
-                    [ruleString appendString:[NSString stringWithFormat:rule[@"message"], [rule[@"format"][0] intValue], [rule[@"format"][1] intValue]]];
-                    NSArray *items = rule[@"items"];
-                    for (int i = 0; i<[items count]; ++i) {
-                        [ruleString appendFormat:@" %@", items[i][@"message"]];
-                        if (i != [items count]-1) {
-                            [ruleString appendString:@","];
-                        }
-                    }
-                    [ruleString appendString:@". "];
-                } else if ([rule[@"code"] isEqualToString:@"identicalChars"]) {
-                    [ruleString appendString:[NSString stringWithFormat:rule[@"message"], [(rule[@"format"][0]) intValue], (rule[@"format"][1])]];
-                    [ruleString appendString:@". "];
-                }
-            }
-        }
-        localizedString = A0LocalizedString(ruleString);
-    } else {
-        localizedString = A0LocalizedString(@"There was an error processing the sign up.");
-    }
-    return localizedString;
+    NSArray *handlers = @[
+                          [A0GenericAPIErrorHandler handlerForCodes:@[@"user_exists", @"username_exists"] returnMessage:A0LocalizedString(@"The user already exists.")],
+                          [A0RuleErrorHandler handler],
+                          [[A0PasswordStrengthErrorHandler alloc] init],
+                          ];
+    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign up.")];
 }
 
 + (NSString *)localizedStringForChangePasswordError:(NSError *)error {
-    NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
-    NSString *errorKey = apiErrorInfo[@"code"];
-    NSString *localizedString;
-    if ([errorKey isEqualToString:@"invalid_user"]) {
-        localizedString = A0LocalizedString(@"The user does not exists. Please check the email and try again.");
-    } else {
-        localizedString = A0LocalizedString(@"There was an error processing the reset password.");
-    }
-    return localizedString;
+    NSArray *handlers = @[
+                          [A0GenericAPIErrorHandler handlerForCode:@"invalid_user" returnMessage:A0LocalizedString(@"The user does not exists. Please check the email and try again.")],
+                          [[A0PasswordStrengthErrorHandler alloc] init],
+                          ];
+    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the reset password.")];
 }
 
 + (NSString *)localizedStringForSocialLoginError:(NSError *)error {
-    NSDictionary *apiErrorInfo = error.userInfo[A0JSONResponseSerializerErrorDataKey];
-    NSString *errorKey = apiErrorInfo[@"error"];
-    NSString *localizedString;
-    if ([errorKey isEqualToString:@"unauthorized"]) {
-        NSString *description = apiErrorInfo[@"error_description"];
-        localizedString = description.length > 0 ? A0LocalizedString(description) : A0LocalizedString(@"There was an error processing the sign in.");
-    } else {
-        localizedString = A0LocalizedString(@"There was an error processing the sign in.");
-    }
-    return localizedString;
+    NSArray *handlers = @[
+                          [A0RuleErrorHandler handler],
+                          ];
+    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
 }
 
 #pragma mark - Utility methods

@@ -111,8 +111,6 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
     A0ErrorCodeConfigurationLoadFailed,
 };
 
-FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
-
 @interface A0Errors : NSObject
 
 + (NSError *)errorWithCode:(NSInteger)code userInfo:(NSDictionary *)userInfo;

@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "Specta.h"
-#import "A0AuthParameters.h"
+#import "A0LockTest.h"
 #import <UIKit/UIKit.h>
+#import "A0AuthParameters.h"
 
 SpecBegin(A0AuthParameters)
 
