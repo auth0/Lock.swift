@@ -24,11 +24,10 @@
 #import "A0RuleErrorHandler.h"
 
 static NSString *RuleErrorMessage = @"Rule Failed!";
-static NSString *DefaultMessage = @"Default Message!";
 
 SpecBegin(A0RuleErrorHandler)
 
-__block A0RuleErrorHandler *handler = [A0RuleErrorHandler handlerWithDefaultMessage:DefaultMessage];
+__block A0RuleErrorHandler *handler = [A0RuleErrorHandler handler];
 
 it(@"should return rule error message", ^{
     NSError *error = createError(@{
@@ -38,11 +37,11 @@ it(@"should return rule error message", ^{
     expect([handler localizedMessageFromError:error]).to.equal(RuleErrorMessage);
 });
 
-it(@"should return default message when rule error message is missing", ^{
+it(@"should return nil message when rule error message is missing", ^{
     NSError *error = createError(@{
                                    @"error": @"unauthorized",
                                    });
-    expect([handler localizedMessageFromError:error]).to.equal(DefaultMessage);
+    expect([handler localizedMessageFromError:error]).to.beNil();
 });
 
 it(@"should return null for unknown error", ^{

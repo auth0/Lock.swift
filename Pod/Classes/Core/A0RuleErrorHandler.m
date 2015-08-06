@@ -23,31 +23,19 @@
 #import "A0RuleErrorHandler.h"
 #import "NSError+A0APIError.h"
 
-@interface A0RuleErrorHandler ()
-@property (copy, nonatomic) NSString *defaultMessage;
-@end
-
 @implementation A0RuleErrorHandler
-
-- (instancetype)initWithDefaultMessage:(NSString *)defaultMessage {
-    self = [super init];
-    if (self) {
-        _defaultMessage = [defaultMessage copy];
-    }
-    return self;
-}
 
 - (NSString *)localizedMessageFromError:(NSError *)error {
     NSString *actual = [error a0_error];
     NSString *message = [error a0_errorDescription];
     if (message.length == 0) {
-        message = self.defaultMessage;
+        message = nil;
     }
     return [actual isEqualToString:@"unauthorized"] ? message : nil;
 }
 
-+ (A0RuleErrorHandler *)handlerWithDefaultMessage:(NSString *)defaultMessage {
-    return [[A0RuleErrorHandler alloc] initWithDefaultMessage:defaultMessage];
++ (A0RuleErrorHandler *)handler {
+    return [[A0RuleErrorHandler alloc] init];
 }
 
 @end

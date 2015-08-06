@@ -25,6 +25,6 @@
 
 @interface A0RuleErrorHandler : NSObject<A0ErrorHandler>
 
-+ (A0RuleErrorHandler *)handlerWithDefaultMessage:(NSString *)defaultMessage;
++ (A0RuleErrorHandler *)handler;
 
 @end

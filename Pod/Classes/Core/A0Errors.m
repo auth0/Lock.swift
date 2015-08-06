@@ -302,7 +302,7 @@ NSString * const A0ErrorDomain = @"com.auth0";
 + (NSString *)localizedStringForLoginError:(NSError *)error {
     NSArray *handlers = @[
                           [A0GenericAPIErrorHandler handlerForErrorString:@"invalid_user_password" returnMessage:A0LocalizedString(@"Wrong email or password.")],
-                          [A0RuleErrorHandler handlerWithDefaultMessage:A0LocalizedString(@"There was an error processing the sign in.")]
+                          [A0RuleErrorHandler handler],
                           ];
     return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
 }
@@ -310,7 +310,7 @@ NSString * const A0ErrorDomain = @"com.auth0";
 + (NSString *)localizedStringForSMSLoginError:(NSError *)error {
     NSArray *handlers = @[
                           [A0GenericAPIErrorHandler handlerForErrorString:@"invalid_user_password" returnMessage:A0LocalizedString(@"Wrong phone number or passcode.")],
-                          [A0RuleErrorHandler handlerWithDefaultMessage:A0LocalizedString(@"There was an error processing the sign in.")]
+                          [A0RuleErrorHandler handler],
                           ];
     return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
 }
@@ -318,7 +318,7 @@ NSString * const A0ErrorDomain = @"com.auth0";
 + (NSString *)localizedStringForSignUpError:(NSError *)error {
     NSArray *handlers = @[
                           [A0GenericAPIErrorHandler handlerForCodes:@[@"user_exists", @"username_exists"] returnMessage:A0LocalizedString(@"The user already exists.")],
-                          [A0RuleErrorHandler handlerWithDefaultMessage:A0LocalizedString(@"There was an error processing the sign in.")],
+                          [A0RuleErrorHandler handler],
                           [[A0PasswordStrengthErrorHandler alloc] init],
                           ];
     return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign up.")];
@@ -334,7 +334,7 @@ NSString * const A0ErrorDomain = @"com.auth0";
 
 + (NSString *)localizedStringForSocialLoginError:(NSError *)error {
     NSArray *handlers = @[
-                          [A0RuleErrorHandler handlerWithDefaultMessage:A0LocalizedString(@"There was an error processing the sign in.")],
+                          [A0RuleErrorHandler handler],
                           ];
     return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
 }
