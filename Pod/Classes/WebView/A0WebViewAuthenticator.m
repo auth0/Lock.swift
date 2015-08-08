@@ -46,6 +46,7 @@
     controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     controller.onAuthentication = success;
     controller.onFailure = failure;
+    controller.localizedCancelButtonTitle = self.localizedCancelButtonTitle;
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
     [[self presenterViewController] presentViewController:navigation animated:YES completion:nil];
 }

@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithConnectionName:(NSString *)connectionName client:(A0APIClient *)client;
 
+@property (copy, nonatomic) NSString *localizedCancelButtonTitle;
+
 @end
 
 NS_ASSUME_NONNULL_END

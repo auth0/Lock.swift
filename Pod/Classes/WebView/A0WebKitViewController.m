@@ -73,7 +73,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     webview.navigationDelegate = self;
     [webview loadRequest:[NSURLRequest requestWithURL:self.authorizeURL]];
 
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:A0LocalizedString(@"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
+    NSString *cancelTitle = self.localizedCancelButtonTitle ?: A0LocalizedString(@"Cancel");
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:cancelTitle style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
     [self showProgressIndicator];
 }
 
