@@ -46,7 +46,8 @@
     controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     controller.onAuthentication = success;
     controller.onFailure = failure;
-    [[self presenterViewController] presentViewController:controller animated:YES completion:nil];
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
+    [[self presenterViewController] presentViewController:navigation animated:YES completion:nil];
 }
 
 - (BOOL)handleURL:(NSURL * __nonnull)url sourceApplication:(nullable NSString *)sourceApplication {

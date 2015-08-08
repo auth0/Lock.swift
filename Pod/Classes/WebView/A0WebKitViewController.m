@@ -36,10 +36,6 @@
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (copy, nonatomic) NSString *connectionName;
 
-@property (weak, nonatomic) IBOutlet UIView *titleView;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-
 - (IBAction)cancel:(id)sender;
 
 @end
@@ -70,14 +66,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     WKWebView *webview = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[[WKWebViewConfiguration alloc] init]];
     webview.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:webview];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_titleView][webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview, _titleView)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview)]];
-    self.view.backgroundColor = [UIColor redColor];
     [self.view updateConstraints];
 
     webview.navigationDelegate = self;
     [webview loadRequest:[NSURLRequest requestWithURL:self.authorizeURL]];
-    [self.cancelButton setTitle:A0LocalizedString(@"Cancel") forState:UIControlStateNormal];
+
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:A0LocalizedString(@"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
+    UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [indicatorView startAnimating];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:indicatorView]];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -93,12 +92,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     A0LogVerbose(@"Loaded page");
-    [self.activityIndicator stopAnimating];
+    [self.navigationItem setRightBarButtonItem:nil];
+    self.title = webView.title;
 }
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     A0LogVerbose(@"Started to load page");
-    [self.activityIndicator startAnimating];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
