@@ -74,9 +74,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [webview loadRequest:[NSURLRequest requestWithURL:self.authorizeURL]];
 
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:A0LocalizedString(@"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
-    UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [indicatorView startAnimating];
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:indicatorView]];
+    [self showProgressIndicator];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -92,7 +90,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     A0LogVerbose(@"Loaded page");
-    [self.navigationItem setRightBarButtonItem:nil];
+    [self hideProgressIndicator];
     self.title = webView.title;
 }
 
@@ -110,6 +108,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         if (token) {
             A0IdPAuthenticationBlock success = self.onAuthentication;
             @weakify(self);
+            [self showProgressIndicator];
             [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
                 @strongify(self);
                 if (success) {
@@ -145,4 +144,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     [self cleanCallbacks];
 }
+
+- (void)showProgressIndicator {
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [indicator startAnimating];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:indicator] animated:YES];
+}
+
+- (void)hideProgressIndicator {
+    [self.navigationItem setRightBarButtonItem:nil animated:NO];
+}
+
 @end
