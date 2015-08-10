@@ -121,6 +121,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)showProgressIndicator {
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    indicator.color = self.navigationController.navigationBar.tintColor;
     [indicator startAnimating];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:indicator] animated:YES];
 }

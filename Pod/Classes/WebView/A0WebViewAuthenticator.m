@@ -23,6 +23,12 @@
 #import "A0WebViewAuthenticator.h"
 #import "A0WebViewController.h"
 #import "A0WebKitViewController.h"
+#import "A0Theme.h"
+
+NSString * const A0WebViewAuthenticatorTitleBarTintColor = @"A0WebViewAuthenticatorTitleBarTintColor";
+NSString * const A0WebViewAuthenticatorTitleBarBarTintColor = @"A0WebViewAuthenticatorTitleBarBarTintColor";
+NSString * const A0WebViewAuthenticatorTitleTextColor = @"A0WebViewAuthenticatorTitleTextColor";
+NSString * const A0WebViewAuthenticatorTitleTextFont = @"A0WebViewAuthenticatorTitleTextFont";
 
 @interface A0WebViewAuthenticator ()
 @property (strong, nonatomic) A0APIClient *client;
@@ -48,6 +54,7 @@
     controller.onFailure = failure;
     controller.localizedCancelButtonTitle = self.localizedCancelButtonTitle;
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
+    [self applyThemeToNavigationBar:navigation.navigationBar];
     [[self presenterViewController] presentViewController:navigation animated:YES completion:nil];
 }
 
@@ -106,4 +113,22 @@
     }
 }
 
+- (void)applyThemeToNavigationBar:(UINavigationBar *)navigationBar {
+    A0Theme *theme = [A0Theme sharedInstance];
+    navigationBar.barTintColor = [theme colorForKey:A0WebViewAuthenticatorTitleBarBarTintColor defaultColor:navigationBar.barTintColor];
+    navigationBar.tintColor = [theme colorForKey:A0WebViewAuthenticatorTitleBarTintColor defaultColor:navigationBar.tintColor];
+    navigationBar.translucent = YES;
+    UIFont *titleFont = [theme fontForKey:A0WebViewAuthenticatorTitleTextFont];
+    UIColor *titleTextColor = [theme colorForKey:A0WebViewAuthenticatorTitleTextColor];
+    NSMutableDictionary *attributes = [@{} mutableCopy];
+    if (titleFont) {
+        attributes[NSFontAttributeName] = titleFont;
+    }
+    if (titleTextColor) {
+        attributes[NSForegroundColorAttributeName] = titleTextColor;
+    }
+    if (attributes.count != 0) {
+        navigationBar.titleTextAttributes = attributes;
+    }
+}
 @end
