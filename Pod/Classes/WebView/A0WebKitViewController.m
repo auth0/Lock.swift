@@ -29,12 +29,21 @@
 #import "A0Token.h"
 #import <libextobjc/EXTScope.h>
 
+@interface NSTimer (WebKitNetworkTimer)
+
+@property (readonly, nonatomic) WKNavigation *navigation;
+
++ (NSTimer *)networkTimerWithInterval:(NSTimeInterval)interval navigation:(WKNavigation *)navigation target:(id)target selector:(SEL)selector;
+
+@end
+
 @interface A0WebKitViewController () <WKNavigationDelegate>
 
 @property (strong, nonatomic) A0WebAuthentication *authentication;
 @property (strong, nonatomic) A0APIClient *client;
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (copy, nonatomic) NSString *connectionName;
+@property (strong, nonatomic) NSTimer *networkTimer;
 
 - (IBAction)cancel:(id)sender;
 
@@ -83,20 +92,49 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (self.onFailure) {
         self.onFailure([A0Errors auth0CancelledForConnectionName:self.connectionName]);
     }
-    self.onFailure = nil;
-    self.onAuthentication = nil;
+    [self cleanCallbacks];
+}
+
+- (void)dealloc {
+    [self cleanCallbacks];
+    [self cleanNetworkTimeout];
+}
+
+- (void)networkTimedOut:(NSTimer *)timer {
+    A0LogError(@"Network timed out for navigation %@", timer.userInfo[@"navigation"]);
+}
+
+- (void)cleanNetworkTimeout {
+    A0LogDebug(@"Cleaned network timeout for navigation %@", self.networkTimer.navigation);
+    [self.networkTimer invalidate];
+    self.networkTimer = nil;
 }
 
 #pragma mark - WKNavigationDelegate
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    A0LogVerbose(@"Loaded page");
+    A0LogVerbose(@"Loaded page with navigation: %@", navigation);
     [self hideProgressIndicator];
     self.title = webView.title;
+    if ([self.networkTimer.navigation isEqual:navigation]) {
+        [self cleanNetworkTimeout];
+    }
 }
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
-    A0LogVerbose(@"Started to load page");
+    A0LogVerbose(@"Started to load page with navigation: %@", navigation);
+    [self cleanNetworkTimeout];
+    self.networkTimer = [NSTimer networkTimerWithInterval:3.0 navigation:navigation target:self selector:@selector(networkTimedOut:)];
+}
+
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    A0LogDebug(@"Failed navigation %@ with error %@", navigation, error);
+    [self cleanNetworkTimeout];
+}
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    A0LogVerbose(@"Failed provisional navigation %@ with error %@", navigation, error);
+    [self cleanNetworkTimeout];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
@@ -116,8 +154,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     success(profile, token);
                 }
                 decisionHandler(WKNavigationActionPolicyCancel);
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-                [self cleanCallbacks];
+                [self dismiss];
             } failure:^(NSError *error) {
                 @strongify(self);
                 [self handleError:error decisionHandler:decisionHandler];
@@ -137,13 +174,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.onFailure = nil;
 }
 
+- (void)dismiss {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self cleanCallbacks];
+}
+
 - (void)handleError:(NSError *)error decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     if (self.onFailure) {
         self.onFailure(error);
     }
     decisionHandler(WKNavigationActionPolicyCancel);
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    [self cleanCallbacks];
+    [self dismiss];
 }
 
 - (void)showProgressIndicator {
@@ -157,4 +198,19 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.navigationItem setRightBarButtonItem:nil animated:NO];
 }
 
+@end
+
+@implementation NSTimer (WebKitNetworkTimer)
+
+- (WKNavigation *)navigation {
+    return self.userInfo[@"navigation"];
+}
+
++ (NSTimer *)networkTimerWithInterval:(NSTimeInterval)interval navigation:(WKNavigation *)navigation target:(id)target selector:(SEL)selector {
+    return [NSTimer scheduledTimerWithTimeInterval:3.0
+                                            target:target
+                                          selector:selector
+                                          userInfo:@{@"navigation": navigation}
+                                           repeats:NO];
+}
 @end
