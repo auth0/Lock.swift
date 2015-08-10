@@ -45,6 +45,8 @@
 @property (copy, nonatomic) NSString *connectionName;
 @property (strong, nonatomic) NSTimer *networkTimer;
 
+@property (weak, nonatomic) IBOutlet WKWebView *webview;
+
 - (IBAction)cancel:(id)sender;
 
 @end
@@ -78,9 +80,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview)]];
     [self.view updateConstraints];
-
     webview.navigationDelegate = self;
     [webview loadRequest:[NSURLRequest requestWithURL:self.authorizeURL]];
+    self.webview = webview;
 
     NSString *cancelTitle = self.localizedCancelButtonTitle ?: A0LocalizedString(@"Cancel");
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:cancelTitle style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
@@ -102,6 +104,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)networkTimedOut:(NSTimer *)timer {
     A0LogError(@"Network timed out for navigation %@", timer.userInfo[@"navigation"]);
+    [self.webview stopLoading];
+    [self cleanNetworkTimeout];
 }
 
 - (void)cleanNetworkTimeout {
@@ -130,40 +134,43 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     A0LogDebug(@"Failed navigation %@ with error %@", navigation, error);
     [self cleanNetworkTimeout];
+    [self hideProgressIndicator];
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     A0LogVerbose(@"Failed provisional navigation %@ with error %@", navigation, error);
     [self cleanNetworkTimeout];
+    [self hideProgressIndicator];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     A0LogVerbose(@"Loading URL %@", navigationAction.request.URL);
     NSURLRequest *request = navigationAction.request;
-    BOOL isCallback = [self.authentication validateURL:request.URL];
-    if (isCallback) {
-        NSError *error;
-        A0Token *token = [self.authentication tokenFromURL:request.URL error:&error];
-        if (token) {
-            A0IdPAuthenticationBlock success = self.onAuthentication;
-            @weakify(self);
-            [self showProgressIndicator];
-            [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
-                @strongify(self);
-                if (success) {
-                    success(profile, token);
-                }
-                decisionHandler(WKNavigationActionPolicyCancel);
-                [self dismiss];
-            } failure:^(NSError *error) {
-                @strongify(self);
-                [self handleError:error decisionHandler:decisionHandler];
-            }];
-        } else {
-            [self handleError:error decisionHandler:decisionHandler];
-        }
-    } else {
+    NSURL *url = request.URL;
+    BOOL isCallback = [self.authentication validateURL:url];
+    if (!isCallback) {
         decisionHandler(WKNavigationActionPolicyAllow);
+        return;
+    }
+    NSError *error;
+    A0Token *token = [self.authentication tokenFromURL:url error:&error];
+    if (token) {
+        A0IdPAuthenticationBlock success = self.onAuthentication;
+        @weakify(self);
+        [self showProgressIndicator];
+        [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
+            @strongify(self);
+            if (success) {
+                success(profile, token);
+            }
+            decisionHandler(WKNavigationActionPolicyCancel);
+            [self dismiss];
+        } failure:^(NSError *error) {
+            @strongify(self);
+            [self handleError:error decisionHandler:decisionHandler];
+        }];
+    } else {
+        [self handleError:error decisionHandler:decisionHandler];
     }
 }
 
