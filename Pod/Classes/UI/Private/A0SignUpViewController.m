@@ -86,6 +86,7 @@
 
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.signUpButton];
+    [theme configureTextField:self.usernameField.textField];
     [theme configureTextField:self.userField.textField];
     [theme configureTextField:self.passwordField.textField];
     [theme configureLabel:self.messageLabel];
