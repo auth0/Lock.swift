@@ -46,8 +46,13 @@
 @property (strong, nonatomic) NSTimer *networkTimer;
 
 @property (weak, nonatomic) IBOutlet WKWebView *webview;
+@property (weak, nonatomic) IBOutlet UIView *messageView;
+@property (weak, nonatomic) IBOutlet UILabel *messageTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *messageDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UIButton *retryButton;
 
 - (IBAction)cancel:(id)sender;
+- (IBAction)retry:(id)sender;
 
 @end
 
@@ -76,7 +81,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [super viewDidLoad];
     WKWebView *webview = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[[WKWebViewConfiguration alloc] init]];
     webview.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:webview];
+    self.automaticallyAdjustsScrollViewInsets = YES;
+    [self.view insertSubview:webview atIndex:0];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview)]];
     [self.view updateConstraints];
@@ -86,6 +92,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     NSString *cancelTitle = self.localizedCancelButtonTitle ?: A0LocalizedString(@"Cancel");
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:cancelTitle style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
+
+    self.messageView.hidden = YES;
 }
 
 - (IBAction)cancel:(id)sender {
@@ -94,6 +102,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         self.onFailure([A0Errors auth0CancelledForConnectionName:self.connectionName]);
     }
     [self cleanCallbacks];
+}
+
+- (void)retry:(id)sender {
+    [self.webview loadRequest:[NSURLRequest requestWithURL:self.authorizeURL]];
 }
 
 - (void)dealloc {
@@ -105,6 +117,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0LogError(@"Network timed out for navigation %@", timer.userInfo[@"navigation"]);
     [self.webview stopLoading];
     [self cleanNetworkTimeout];
+    NSString *message = [NSString stringWithFormat:@"Failed to reach server at %@. Please check your network connection and try again.", self.webview.URL.host];
+    self.messageDescriptionLabel.text = A0LocalizedString(message);
+    [self.messageView updateConstraints];
+    self.messageView.hidden = NO;
 }
 
 - (void)cleanNetworkTimeout {
@@ -118,6 +134,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     A0LogVerbose(@"Loaded page with navigation: %@", navigation);
     [self hideProgressIndicator];
+    self.messageView.hidden = YES;
     self.title = webView.title;
     if ([self.networkTimer.navigation isEqual:navigation]) {
         [self cleanNetworkTimeout];
@@ -127,7 +144,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     A0LogVerbose(@"Started to load page with navigation: %@", navigation);
     [self cleanNetworkTimeout];
-    self.networkTimer = [NSTimer networkTimerWithInterval:3.0 navigation:navigation target:self selector:@selector(networkTimedOut:)];
+    self.networkTimer = [NSTimer networkTimerWithInterval:10.0 navigation:navigation target:self selector:@selector(networkTimedOut:)];
     [self showProgressIndicator];
 }
 
@@ -214,7 +231,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 + (NSTimer *)networkTimerWithInterval:(NSTimeInterval)interval navigation:(WKNavigation *)navigation target:(id)target selector:(SEL)selector {
-    return [NSTimer scheduledTimerWithTimeInterval:3.0
+    return [NSTimer scheduledTimerWithTimeInterval:interval
                                             target:target
                                           selector:selector
                                           userInfo:@{@"navigation": navigation}
