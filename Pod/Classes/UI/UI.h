@@ -23,7 +23,6 @@
 #ifndef _AUTH0_IOS_SDK_UI_
 #define _AUTH0_IOS_SDK_UI_
 
-#import "A0Theme.h"
 #import "A0LockViewController.h"
 #import "A0LockSignUpViewController.h"
 #import "A0Lock+A0LockViewController.h"
