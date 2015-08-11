@@ -34,9 +34,7 @@
 #import <libextobjc/EXTScope.h>
 
 @interface A0WebViewController () <UIWebViewDelegate>
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (strong, nonatomic) A0WebAuthentication *authentication;
 @property (copy, nonatomic) NSString *connectionName;
@@ -71,7 +69,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [super viewDidLoad];
     NSURLRequest *request = [NSURLRequest requestWithURL:self.authorizeURL];
     [self.webview loadRequest:request];
-    [self.cancelButton setTitle:A0LocalizedString(@"CANCEL") forState:UIControlStateNormal];
+    NSString *cancelTitle = self.localizedCancelButtonTitle ?: A0LocalizedString(@"Cancel");
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:cancelTitle style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
+    [self showProgressIndicator];
 }
 
 - (void)cancel:(id)sender {
@@ -99,13 +99,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     success(profile, token);
                 }
             } failure:self.onFailure];
-            [self.activityView startAnimating];
-            self.activityView.hidden = NO;
+            [self showProgressIndicator];
         } else {
             if (self.onFailure) {
                 self.onFailure(error);
             }
-            [self.activityView stopAnimating];
+            [self hideProgressIndicator];
         }
         self.onAuthentication = nil;
         self.onFailure = nil;
@@ -115,7 +114,20 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     A0LogVerbose(@"Loaded URL %@", webView.request);
-    [self.activityView stopAnimating];
+    [self hideProgressIndicator];
+}
+
+#pragma mark - Utility methods
+
+- (void)showProgressIndicator {
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    indicator.color = self.navigationController.navigationBar.tintColor;
+    [indicator startAnimating];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:indicator] animated:YES];
+}
+
+- (void)hideProgressIndicator {
+    [self.navigationItem setRightBarButtonItem:nil animated:NO];
 }
 
 @end

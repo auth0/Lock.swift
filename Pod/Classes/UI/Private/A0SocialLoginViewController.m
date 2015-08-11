@@ -37,6 +37,7 @@
 #import "UIViewController+LockNotification.h"
 #import "A0Lock.h"
 #import "NSObject+A0AuthenticatorProvider.h"
+#import "NSError+A0APIError.h"
 
 #define kCellIdentifier @"ServiceCell"
 
@@ -93,7 +94,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         @strongify(self);
         [self postLoginErrorNotificationWithError:error];
         [self setInProgress:NO];
-        if (![A0Errors isCancelledSocialAuthentication:error]) {
+        if (![error a0_cancelledSocialAuthenticationError]) {
             switch (error.code) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
                 case A0ErrorCodeTwitterInvalidAccount:
@@ -106,7 +107,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                     break;
                 default:
-                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
+                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForConnectionName:strategy.name loginError:error]);
                     break;
             }
         }

@@ -6,7 +6,7 @@ osx_image: xcode6.4
 podfile: Lock/Podfile
 
 before_install:
-  - brew update
+  - brew update; brew update
   - if brew outdated | grep -qx xctool; then brew upgrade xctool; fi
   - gem install cocoapods --no-ri --no-rdoc
 

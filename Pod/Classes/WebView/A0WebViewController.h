@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface A0WebViewController : UIViewController<A0WebAuthenticable>
 
+@property (copy, nonatomic) NSString *localizedCancelButtonTitle;
 @property (copy, nullable, nonatomic) void(^onAuthentication)(A0UserProfile *profile, A0Token *token);
 @property (copy, nullable, nonatomic) void(^onFailure)(NSError *error);
 

@@ -20,14 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <Lock/A0BaseAuthenticator.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+FOUNDATION_EXPORT NSString * const A0WebViewAuthenticatorTitleBarTintColor;
+FOUNDATION_EXPORT NSString * const A0WebViewAuthenticatorTitleBarBarTintColor;
+FOUNDATION_EXPORT NSString * const A0WebViewAuthenticatorTitleTextColor;
+FOUNDATION_EXPORT NSString * const A0WebViewAuthenticatorTitleTextFont;
+
 @interface A0WebViewAuthenticator : A0BaseAuthenticator
 
 - (instancetype)initWithConnectionName:(NSString *)connectionName client:(A0APIClient *)client;
+
+@property (copy, nonatomic) NSString *localizedCancelButtonTitle;
 
 @end
 

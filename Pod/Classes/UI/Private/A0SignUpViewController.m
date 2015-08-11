@@ -45,6 +45,7 @@
 #import <libextobjc/EXTScope.h>
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
+#import "NSError+A0APIError.h"
 
 
 @interface A0SignUpViewController ()
@@ -172,8 +173,8 @@
             @strongify(self);
             [self postSignUpErrorNotificationWithError:error];
             [self.signUpButton setInProgress:NO];
-            NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
-            NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
+            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
+            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
             A0ShowAlertErrorView(title, message);
         };
         A0APIClient *client = [self a0_apiClientFromProvider:self.lock];

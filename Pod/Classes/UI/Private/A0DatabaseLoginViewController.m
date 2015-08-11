@@ -51,6 +51,7 @@
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
 #import "NSObject+A0AuthenticatorProvider.h"
+#import "NSError+A0APIError.h"
 
 @interface A0DatabaseLoginViewController ()
 
@@ -178,8 +179,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             @strongify(self);
             [self postLoginErrorNotificationWithError:error];
             [self.accessButton setInProgress:NO];
-            NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
-            NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
+            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
+            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
             A0ShowAlertErrorView(title, message);
         };
         [client loginWithUsername:username password:password parameters:self.parameters success:success failure:failure];
@@ -226,6 +227,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)loginUserWithConnection:(A0Connection *)connection {
     @weakify(self);
     [self.accessButton setInProgress:YES];
+
+    NSString *connectionName = connection.name;
+
     A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
         @strongify(self);
         [self postLoginSuccessfulForConnection:connection];
@@ -239,7 +243,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         @strongify(self);
         [self postLoginErrorNotificationWithError:error];
         [self.accessButton setInProgress:NO];
-        if (![A0Errors isCancelledSocialAuthentication:error]) {
+        if (![error a0_cancelledSocialAuthenticationError]) {
             switch (error.code) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
                 case A0ErrorCodeTwitterInvalidAccount:
@@ -252,7 +256,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                     break;
                 default:
-                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForSocialLoginError:error]);
+                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForConnectionName:connectionName loginError:error]);
                     break;
             }
         }
@@ -260,7 +264,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
     A0AuthParameters *parameters = [self.parameters copy];
-    NSString *connectionName = connection.name;
     A0LogVerbose(@"Authenticating with connection %@", connectionName);
     [authenticator authenticateWithConnectionName:connectionName parameters:parameters success:successBlock failure:failureBlock];
 }

@@ -31,6 +31,7 @@
 #import <libextobjc/EXTScope.h>
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
+#import "NSError+A0APIError.h"
 
 @interface A0SMSCodeViewController ()
 
@@ -83,8 +84,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         void(^failureBlock)(NSError *) = ^(NSError *error) {
             @strongify(self);
             [self.loginButton setInProgress:NO];
-            NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
-            NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSMSLoginError:error];
+            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
+            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSMSLoginError:error];
             A0ShowAlertErrorView(title, message);
         };
         [self.loginButton setInProgress:YES];

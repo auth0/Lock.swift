@@ -52,6 +52,7 @@
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
 #import "NSObject+A0AuthenticatorProvider.h"
+#import "NSError+A0APIError.h"
 
 @interface A0LockViewController () <UIAlertViewDelegate>
 
@@ -157,8 +158,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self layoutRootController];
     } failure:^(NSError *error) {
         A0LogError(@"Failed to fetch App info %@", error);
-        NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Failed to display login");
-        NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldnt get login screen configuration. Please try again.");
+        NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Failed to display login");
+        NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldnt get login screen configuration. Please try again.");
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                         message:message
                                                        delegate:self

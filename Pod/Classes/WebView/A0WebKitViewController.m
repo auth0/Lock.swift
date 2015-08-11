@@ -28,6 +28,7 @@
 #import "A0AuthParameters.h"
 #import "A0Token.h"
 #import <libextobjc/EXTScope.h>
+#import "A0Theme.h"
 
 @interface A0WebKitViewController () <WKNavigationDelegate>
 
@@ -36,11 +37,14 @@
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (copy, nonatomic) NSString *connectionName;
 
-@property (weak, nonatomic) IBOutlet UIView *titleView;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet WKWebView *webview;
+@property (weak, nonatomic) IBOutlet UIView *messageView;
+@property (weak, nonatomic) IBOutlet UILabel *messageTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *messageDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UIButton *retryButton;
 
 - (IBAction)cancel:(id)sender;
+- (IBAction)retry:(id)sender;
 
 @end
 
@@ -69,15 +73,24 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [super viewDidLoad];
     WKWebView *webview = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[[WKWebViewConfiguration alloc] init]];
     webview.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:webview];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_titleView][webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview, _titleView)]];
+    self.automaticallyAdjustsScrollViewInsets = YES;
+    [self.view insertSubview:webview atIndex:0];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview)]];
-    self.view.backgroundColor = [UIColor redColor];
     [self.view updateConstraints];
-
     webview.navigationDelegate = self;
     [webview loadRequest:[NSURLRequest requestWithURL:self.authorizeURL]];
-    [self.cancelButton setTitle:A0LocalizedString(@"Cancel") forState:UIControlStateNormal];
+    self.webview = webview;
+
+    NSString *cancelTitle = self.localizedCancelButtonTitle ?: A0LocalizedString(@"Cancel");
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:cancelTitle style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
+
+    self.messageView.hidden = YES;
+    A0Theme *theme = [A0Theme sharedInstance];
+    [theme configureLabel:self.messageDescriptionLabel];
+    self.messageTitleLabel.font = [theme fontForKey:A0ThemeTitleFont];
+    self.messageTitleLabel.textColor = [theme colorForKey:A0ThemeTitleTextColor];
+    self.retryButton.tintColor = self.navigationController.navigationBar.tintColor;
 }
 
 - (IBAction)cancel:(id)sender {
@@ -85,49 +98,82 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (self.onFailure) {
         self.onFailure([A0Errors auth0CancelledForConnectionName:self.connectionName]);
     }
-    self.onFailure = nil;
-    self.onAuthentication = nil;
+    [self cleanCallbacks];
+}
+
+- (void)retry:(id)sender {
+    [self.webview loadRequest:[NSURLRequest requestWithURL:self.authorizeURL]];
+}
+
+- (void)dealloc {
+    [self cleanCallbacks];
+}
+
+- (void)networkTimedOutForNavigation:(WKNavigation *)navigation {
+    A0LogError(@"Network timed out for navigation %@", navigation);
+    self.messageDescriptionLabel.text = A0LocalizedString(@"Sorry, we couldn't reach our authentication server. Please check your network connection and try again.");
+    [self.messageView updateConstraints];
+    self.messageView.hidden = NO;
 }
 
 #pragma mark - WKNavigationDelegate
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    A0LogVerbose(@"Loaded page");
-    [self.activityIndicator stopAnimating];
+    A0LogVerbose(@"Loaded page with navigation: %@", navigation);
+    [self hideProgressIndicator];
+    self.messageView.hidden = YES;
+    self.title = webView.title;
 }
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
-    A0LogVerbose(@"Started to load page");
-    [self.activityIndicator startAnimating];
+    A0LogVerbose(@"Started to load page with navigation: %@", navigation);
+    [self showProgressIndicator];
+}
+
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    A0LogDebug(@"Failed navigation %@ with error %@", navigation, error);
+    if (error.code == NSURLErrorTimedOut || error.code == NSURLErrorCannotConnectToHost) {
+        [self networkTimedOutForNavigation:navigation];
+    }
+    [self hideProgressIndicator];
+}
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    A0LogVerbose(@"Failed provisional navigation %@ with error %@", navigation, error);
+    if (error.code == NSURLErrorTimedOut || error.code == NSURLErrorCannotConnectToHost) {
+        [self networkTimedOutForNavigation:navigation];
+    }
+    [self hideProgressIndicator];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     A0LogVerbose(@"Loading URL %@", navigationAction.request.URL);
     NSURLRequest *request = navigationAction.request;
-    BOOL isCallback = [self.authentication validateURL:request.URL];
-    if (isCallback) {
-        NSError *error;
-        A0Token *token = [self.authentication tokenFromURL:request.URL error:&error];
-        if (token) {
-            A0IdPAuthenticationBlock success = self.onAuthentication;
-            @weakify(self);
-            [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
-                @strongify(self);
-                if (success) {
-                    success(profile, token);
-                }
-                decisionHandler(WKNavigationActionPolicyCancel);
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-                [self cleanCallbacks];
-            } failure:^(NSError *error) {
-                @strongify(self);
-                [self handleError:error decisionHandler:decisionHandler];
-            }];
-        } else {
-            [self handleError:error decisionHandler:decisionHandler];
-        }
-    } else {
+    NSURL *url = request.URL;
+    BOOL isCallback = [self.authentication validateURL:url];
+    if (!isCallback) {
         decisionHandler(WKNavigationActionPolicyAllow);
+        return;
+    }
+    NSError *error;
+    A0Token *token = [self.authentication tokenFromURL:url error:&error];
+    if (token) {
+        A0IdPAuthenticationBlock success = self.onAuthentication;
+        @weakify(self);
+        [self showProgressIndicator];
+        [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
+            @strongify(self);
+            if (success) {
+                success(profile, token);
+            }
+            decisionHandler(WKNavigationActionPolicyCancel);
+            [self dismiss];
+        } failure:^(NSError *error) {
+            @strongify(self);
+            [self handleError:error decisionHandler:decisionHandler];
+        }];
+    } else {
+        [self handleError:error decisionHandler:decisionHandler];
     }
 }
 
@@ -138,12 +184,28 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.onFailure = nil;
 }
 
+- (void)dismiss {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self cleanCallbacks];
+}
+
 - (void)handleError:(NSError *)error decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     if (self.onFailure) {
         self.onFailure(error);
     }
     decisionHandler(WKNavigationActionPolicyCancel);
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    [self cleanCallbacks];
+    [self dismiss];
 }
+
+- (void)showProgressIndicator {
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    indicator.color = self.navigationController.navigationBar.tintColor;
+    [indicator startAnimating];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:indicator] animated:YES];
+}
+
+- (void)hideProgressIndicator {
+    [self.navigationItem setRightBarButtonItem:nil animated:NO];
+}
+
 @end

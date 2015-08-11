@@ -26,77 +26,51 @@
 #import "A0RuleErrorHandler.h"
 #import "A0PasswordStrengthErrorHandler.h"
 
-NSString * const A0ErrorDomain = @"com.auth0";
-
 @implementation A0Errors
 
-+ (NSError *)errorWithCode:(NSInteger)code userInfo:(NSDictionary *)userInfo {
-    NSError *error = [NSError errorWithDomain:A0ErrorDomain
-                                         code:code
-                                     userInfo:userInfo];
-    return error;
-}
-
 + (NSError *)noConnectionNameFound {
-    return [self errorWithCode:A0ErrorCodeNoConnectionNameFound
-                   description:A0LocalizedString(@"Authentication failed")
-                 failureReason:A0LocalizedString(@"Can't find connection name to use for authentication")];
+    return [NSError errorWithCode:A0ErrorCodeNoConnectionNameFound
+                      description:A0LocalizedString(@"Authentication failed")
+                    failureReason:A0LocalizedString(@"Can't find connection name to use for authentication")];
 }
 
 + (NSError *)notConnectedToInternetError {
-    return [self errorWithCode:A0ErrorCodeNotConnectedToInternet
-                   description:A0LocalizedString(@"The server could not be contacted")
-                 failureReason:A0LocalizedString(@"Make sure your network settings are correct and your network connection is active, or try again later.")];
-}
-
-+ (BOOL)isAuth0Error:(NSError *)error withCode:(A0ErrorCode)code {
-    return [error.domain isEqualToString:A0ErrorDomain] && error.code == code;
-}
-
-+ (BOOL)isCancelledSocialAuthentication:(NSError *)error {
-    return error.code == A0ErrorCodeFacebookCancelled
-    || error.code == A0ErrorCodeTwitterCancelled
-    || error.code == A0ErrorCodeAuth0Cancelled
-    || error.code == A0ErrorCodeGooglePlusCancelled;
+    return [NSError errorWithCode:A0ErrorCodeNotConnectedToInternet
+                      description:A0LocalizedString(@"The server could not be contacted")
+                    failureReason:A0LocalizedString(@"Make sure your network settings are correct and your network connection is active, or try again later.")];
 }
 
 + (NSError *)invalidUsername {
-    return [self errorWithCode:A0ErrorCodeInvalidUsername
-                   description:A0LocalizedString(@"Invalid credentials")
-                 failureReason:A0LocalizedString(@"The username you entered is invalid. Please try again.")];
+    return [NSError errorWithCode:A0ErrorCodeInvalidUsername
+                      description:A0LocalizedString(@"Invalid credentials")
+                    failureReason:A0LocalizedString(@"The username you entered is invalid. Please try again.")];
 }
 
 + (NSError *)invalidEmail {
-    return [self errorWithCode:A0ErrorCodeInvalidEmail
-                   description:A0LocalizedString(@"Invalid credentials")
-                 failureReason:A0LocalizedString(@"The email you entered is invalid. Please try again.")];
+    return [NSError errorWithCode:A0ErrorCodeInvalidEmail
+                      description:A0LocalizedString(@"Invalid credentials")
+                    failureReason:A0LocalizedString(@"The email you entered is invalid. Please try again.")];
 }
 
 + (NSError *)invalidPassword {
-    return [self errorWithCode:A0ErrorCodeInvalidPassword
-                   description:A0LocalizedString(@"Invalid credentials")
-                 failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
+    return [NSError errorWithCode:A0ErrorCodeInvalidPassword
+                      description:A0LocalizedString(@"Invalid credentials")
+                    failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
 }
 
 + (NSError *)invalidRepeatPassword {
-    return [self errorWithCode:A0ErrorCodeInvalidRepeatPassword
-                   description:A0LocalizedString(@"Invalid credentials")
-                 failureReason:A0LocalizedString(@"The passwords you entered must match. Please try again.")];
+    return [NSError errorWithCode:A0ErrorCodeInvalidRepeatPassword
+                      description:A0LocalizedString(@"Invalid credentials")
+                    failureReason:A0LocalizedString(@"The passwords you entered must match. Please try again.")];
 }
 
 + (NSError *)configurationLoadFailed {
-    return [self errorWithCode:A0ErrorCodeConfigurationLoadFailed
-                   description:A0LocalizedString(@"Failed to load Auth0 configuration")
-                 failureReason:A0LocalizedString(@"Auth0 configuration for your app is not available. Please try again later.")];
+    return [NSError errorWithCode:A0ErrorCodeConfigurationLoadFailed
+                      description:A0LocalizedString(@"Failed to load Auth0 configuration")
+                    failureReason:A0LocalizedString(@"Auth0 configuration for your app is not available. Please try again later.")];
 }
 
 #pragma mark - Login errors
-
-+ (NSError *)defaultLoginErrorFor:(NSError *)error {
-    return [self errorWithCode:A0ErrorCodeAuthenticationFailed
-                   description:A0LocalizedString(@"There was an error logging in")
-                 failureReason:[self localizedStringForLoginError:error]];
-}
 
 + (NSError *)invalidLoginCredentialsUsingEmail:(BOOL)usesEmail {
     NSString *failureReason;
@@ -105,9 +79,9 @@ NSString * const A0ErrorDomain = @"com.auth0";
     } else {
         failureReason = A0LocalizedString(@"The username and password you entered are invalid. Please try again.");
     }
-    return [self errorWithCode:A0ErrorCodeInvalidCredentials
-                   description:A0LocalizedString(@"Invalid login credentials")
-                 failureReason:failureReason];
+    return [NSError errorWithCode:A0ErrorCodeInvalidCredentials
+                      description:A0LocalizedString(@"Invalid login credentials")
+                    failureReason:failureReason];
 }
 
 + (NSError *)invalidLoginUsernameUsingEmail:(BOOL)usesEmail {
@@ -117,15 +91,15 @@ NSString * const A0ErrorDomain = @"com.auth0";
     } else {
         failureReason = A0LocalizedString(@"The username you entered is invalid. Please try again.");
     }
-    return [self errorWithCode:A0ErrorCodeInvalidUsername
-                   description:A0LocalizedString(@"Invalid login credentials")
-                 failureReason:failureReason];
+    return [NSError errorWithCode:A0ErrorCodeInvalidUsername
+                      description:A0LocalizedString(@"Invalid login credentials")
+                    failureReason:failureReason];
 }
 
 + (NSError *)invalidLoginPassword {
-    return [self errorWithCode:A0ErrorCodeInvalidPassword
-                   description:A0LocalizedString(@"Invalid login credentials")
-                 failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
+    return [NSError errorWithCode:A0ErrorCodeInvalidPassword
+                      description:A0LocalizedString(@"Invalid login credentials")
+                    failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
 }
 
 #pragma mark - SignUp errors
@@ -137,9 +111,9 @@ NSString * const A0ErrorDomain = @"com.auth0";
     } else {
         failureReason = A0LocalizedString(@"The username and password you entered are invalid. Please try again.");
     }
-    return [self errorWithCode:A0ErrorCodeInvalidCredentials
-                   description:A0LocalizedString(@"Invalid credentials")
-                 failureReason:failureReason];
+    return [NSError errorWithCode:A0ErrorCodeInvalidCredentials
+                      description:A0LocalizedString(@"Invalid credentials")
+                    failureReason:failureReason];
 }
 
 + (NSError *)invalidSignUpUsernameUsingEmail:(BOOL)usesEmail {
@@ -149,15 +123,15 @@ NSString * const A0ErrorDomain = @"com.auth0";
     } else {
         failureReason = A0LocalizedString(@"The username you entered is invalid. Please try again.");
     }
-    return [self errorWithCode:A0ErrorCodeInvalidUsername
-                   description:A0LocalizedString(@"Invalid credentials")
-                 failureReason:failureReason];
+    return [NSError errorWithCode:A0ErrorCodeInvalidUsername
+                      description:A0LocalizedString(@"Invalid credentials")
+                    failureReason:failureReason];
 }
 
 + (NSError *)invalidSignUpPassword {
-    return [self errorWithCode:A0ErrorCodeInvalidPassword
-                   description:A0LocalizedString(@"Invalid credentials")
-                 failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
+    return [NSError errorWithCode:A0ErrorCodeInvalidPassword
+                      description:A0LocalizedString(@"Invalid credentials")
+                    failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
 }
 
 #pragma mark - Change password errors
@@ -169,9 +143,9 @@ NSString * const A0ErrorDomain = @"com.auth0";
     } else {
         failureReason = A0LocalizedString(@"The username and password you entered are invalid. Please try again.");
     }
-    return [self errorWithCode:A0ErrorCodeInvalidCredentials
-                   description:A0LocalizedString(@"Invalid credentials")
-                 failureReason:failureReason];
+    return [NSError errorWithCode:A0ErrorCodeInvalidCredentials
+                      description:A0LocalizedString(@"Invalid credentials")
+                    failureReason:failureReason];
 }
 
 + (NSError *)invalidChangePasswordUsernameUsingEmail:(BOOL)usesEmail {
@@ -181,89 +155,95 @@ NSString * const A0ErrorDomain = @"com.auth0";
     } else {
         failureReason = A0LocalizedString(@"The username you entered is invalid. Please try again.");
     }
-    return [self errorWithCode:A0ErrorCodeInvalidUsername
+    return [NSError errorWithCode:A0ErrorCodeInvalidUsername
                    description:A0LocalizedString(@"Invalid credentials")
                  failureReason:failureReason];
 }
 
 + (NSError *)invalidChangePasswordPassword {
-    return [self errorWithCode:A0ErrorCodeInvalidPassword
+    return [NSError errorWithCode:A0ErrorCodeInvalidPassword
                    description:A0LocalizedString(@"Invalid credentials")
                  failureReason:A0LocalizedString(@"The password you entered is invalid. Please try again.")];
 }
 
 + (NSError *)invalidChangePasswordRepeatPassword {
-    return [self errorWithCode:A0ErrorCodeInvalidRepeatPassword
+    return [NSError errorWithCode:A0ErrorCodeInvalidRepeatPassword
                    description:A0LocalizedString(@"Invalid credentials")
                  failureReason:A0LocalizedString(@"The passwords you entered must match. Please try again.")];
 }
 
 + (NSError *)invalidChangePasswordRepeatPasswordAndPassword {
-    return [self errorWithCode:A0ErrorCodeInvalidPasswordAndRepeatPassword
+    return [NSError errorWithCode:A0ErrorCodeInvalidPasswordAndRepeatPassword
                    description:A0LocalizedString(@"Invalid credentials")
                  failureReason:A0LocalizedString(@"The passwords you entered must match. Please try again.")];
 }
 
 #pragma mark - Social Errors
 
++ (NSError *)failedLoginWithConnectionName:(NSString *)connectionName for:(NSError *)error {
+    return [NSError errorWithCode:A0ErrorCodeAuthenticationFailed
+                      description:A0LocalizedString(@"There was an error logging in")
+                    failureReason:[self localizedStringForConnectionName:connectionName loginError:error]];
+}
+
 + (NSError *)urlSchemeNotRegistered {
-    return [self errorWithCode:A0ErrorCodeAuth0NoURLSchemeFound
+    return [NSError errorWithCode:A0ErrorCodeAuth0NoURLSchemeFound
                    description:A0LocalizedString(@"Couldn't start authentication using Safari")
                  failureReason:A0LocalizedString(@"You need to configure your auth0 scheme in CFBundleURLTypes in your app's Info.plist file")];
 }
 
 + (NSError *)unkownProviderForConnectionName:(NSString *)connectionName {
-    return [self errorWithCode:A0ErrorCodeUknownProviderForStrategy
+    return [NSError errorWithCode:A0ErrorCodeUknownProviderForStrategy
                    description:A0LocalizedString(@"Couldn't found authentication method for unknown connection")
                  failureReason:[NSString stringWithFormat:A0LocalizedString(@"The connection %@ has no registered authentication provider. Please register one or add 'Lock/WebView' subspec to use WebView by default."), connectionName]];
 }
 
 + (NSError *)facebookCancelled {
-    return [self errorWithCode:A0ErrorCodeFacebookCancelled
+    return [NSError errorWithCode:A0ErrorCodeFacebookCancelled
                    description:A0LocalizedString(@"There was an error contacting Facebook")
                  failureReason:A0LocalizedString(@"You need to authorize the application")];
 }
 
 + (NSError *)twitterAppNotAuthorized {
-    return [self errorWithCode:A0ErrorCodeTwitterAppNotAuthorized
+    return [NSError errorWithCode:A0ErrorCodeTwitterAppNotAuthorized
                    description:A0LocalizedString(@"There was an error contacting Twitter")
                  failureReason:A0LocalizedString(@"Permissions were not granted. Please authorize the app in Settings > Twitter")];
 }
 
 + (NSError *)twitterAppOauthNotAuthorized {
-    return [self errorWithCode:A0ErrorCodeTwitterAppNotAuthorized
+    return [NSError errorWithCode:A0ErrorCodeTwitterAppNotAuthorized
                    description:A0LocalizedString(@"There was an error contacting Twitter")
                  failureReason:A0LocalizedString(@"Permissions were not granted. Try again")];
 }
 
 + (NSError *)twitterCancelled {
-    return [self errorWithCode:A0ErrorCodeTwitterCancelled
+    return [NSError errorWithCode:A0ErrorCodeTwitterCancelled
                    description:A0LocalizedString(@"There was an error contacting Twitter")
                  failureReason:A0LocalizedString(@"User cancelled the login operation. Try again")];
 }
 
 + (NSError *)twitterNotConfigured {
-    return [self errorWithCode:A0ErrorCodeTwitterNotConfigured
+    return [NSError errorWithCode:A0ErrorCodeTwitterNotConfigured
                    description:A0LocalizedString(@"There was an error contacting Twitter")
                  failureReason:A0LocalizedString(@"The domain has not been setup for Twitter.")];
 }
 
 + (NSError *)twitterInvalidAccount {
-    return [self errorWithCode:A0ErrorCodeTwitterInvalidAccount
+    return [NSError errorWithCode:A0ErrorCodeTwitterInvalidAccount
                    description:A0LocalizedString(@"There was an error contacting Twitter")
                  failureReason:A0LocalizedString(@"The twitter account seems to be invalid. Please check it in Settings > Twitter and re-enter them.")];
 }
 
 + (NSError *)auth0CancelledForConnectionName:(NSString *)connectionName {
     NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", connectionName];
-    return [self errorWithCode:A0ErrorCodeAuth0Cancelled
+    return [NSError errorWithCode:A0ErrorCodeAuth0Cancelled
                    description:A0LocalizedString(description)
                  failureReason:A0LocalizedString(@"User cancelled the login operation. Try again")];
 }
 
 + (NSError *)auth0NotAuthorizedForConnectionName:(NSString *)connectionName {
     NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", connectionName];
-    return [self errorWithCode:A0ErrorCodeAuth0NotAuthorized
+    return [NSError errorWithCode:A0ErrorCodeAuth0NotAuthorized
                    description:A0LocalizedString(description)
                  failureReason:A0LocalizedString(@"Permissions were not granted. Try again")];
 }
@@ -271,19 +251,19 @@ NSString * const A0ErrorDomain = @"com.auth0";
 + (NSError *)auth0InvalidConfigurationForConnectionName:(NSString *)connectionName {
     NSString *description = [NSString stringWithFormat:@"There was an error contacting %@", connectionName];
     NSString *failureReason = [NSString stringWithFormat:@"The application isn't configured properly for %@. Please check your Auth0's application configuration", connectionName];
-    return [self errorWithCode:A0ErrorCodeAuth0InvalidConfiguration
+    return [NSError errorWithCode:A0ErrorCodeAuth0InvalidConfiguration
                    description:A0LocalizedString(description)
                  failureReason:A0LocalizedString(failureReason)];
 }
 
 + (NSError *)googleplusFailed {
-    return [self errorWithCode:A0ErrorCodeGooglePlusFailed
+    return [NSError errorWithCode:A0ErrorCodeGooglePlusFailed
                    description:A0LocalizedString(@"There was an error contacting Google+")
                  failureReason:A0LocalizedString(@"Permissions were not granted. Try again")];
 }
 
 + (NSError *)googleplusCancelled {
-    return [self errorWithCode:A0ErrorCodeGooglePlusCancelled
+    return [NSError errorWithCode:A0ErrorCodeGooglePlusCancelled
                    description:A0LocalizedString(@"There was an error contacting Google+")
                  failureReason:A0LocalizedString(@"User cancelled the login operation. Try again")];
 }
@@ -339,16 +319,14 @@ NSString * const A0ErrorDomain = @"com.auth0";
     return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
 }
 
-#pragma mark - Utility methods
-
-+ (NSError *)errorWithCode:(NSInteger)code description:(NSString *)description failureReason:(NSString *)failureReason {
-    NSError *error = [NSError errorWithDomain:A0ErrorDomain
-                                         code:code
-                                     userInfo:@{
-                                                NSLocalizedDescriptionKey: description,
-                                                NSLocalizedFailureReasonErrorKey: failureReason,
-                                                }];
-    return error;
++ (NSString *)localizedStringForConnectionName:(NSString *)connectionName loginError:(NSError *)error {
+    NSString *connectionScopeMessage = [NSString stringWithFormat:@"The scopes for the connection %@ are invalid, please check your configuration in Auth0 Dashboard.", connectionName];
+    NSArray *handlers = @[
+                          [A0GenericAPIErrorHandler handlerForErrorString:@"access_denied" returnMessage:A0LocalizedString(@"Permissions were not granted. Try again")],
+                          [A0GenericAPIErrorHandler handlerForErrorString:@"invalid_scope" returnMessage:A0LocalizedString(connectionScopeMessage)],
+                          [A0RuleErrorHandler handler],
+                          ];
+    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
 }
 
 @end

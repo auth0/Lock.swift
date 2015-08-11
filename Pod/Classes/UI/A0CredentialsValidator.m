@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0CredentialsValidator.h"
+#import "NSError+A0APIError.h"
 #import "A0Errors.h"
 
 NSString * const A0CredentialsValidatorErrorsKey = @"A0CredentialsValidatorErrorsKey";
@@ -61,12 +62,12 @@ NSString * const A0CredentialsValidatorErrorsKey = @"A0CredentialsValidatorError
     } else if (self.flattenErrors) {
         error = self.flattenErrors(errors);
     } else  {
-        error = [A0Errors errorWithCode:A0ErrorCodeInvalidCredentials
-                               userInfo:@{
-                                          NSLocalizedDescriptionKey: A0LocalizedString(@"Invalid credentials"),
-                                          NSLocalizedFailureReasonErrorKey: A0LocalizedString(@"The credentials you entered are invalid. Please try again"),
-                                          A0CredentialsValidatorErrorsKey: errors,
-                                          }];
+        error = [NSError errorWithCode:A0ErrorCodeInvalidCredentials
+                              userInfo:@{
+                                         NSLocalizedDescriptionKey: A0LocalizedString(@"Invalid credentials"),
+                                         NSLocalizedFailureReasonErrorKey: A0LocalizedString(@"The credentials you entered are invalid. Please try again"),
+                                         A0CredentialsValidatorErrorsKey: errors,
+                                         }];
     }
     return error;
 }
