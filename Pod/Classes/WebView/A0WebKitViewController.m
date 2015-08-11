@@ -29,21 +29,12 @@
 #import "A0Token.h"
 #import <libextobjc/EXTScope.h>
 
-@interface NSTimer (WebKitNetworkTimer)
-
-@property (readonly, nonatomic) WKNavigation *navigation;
-
-+ (NSTimer *)networkTimerWithInterval:(NSTimeInterval)interval navigation:(WKNavigation *)navigation target:(id)target selector:(SEL)selector;
-
-@end
-
 @interface A0WebKitViewController () <WKNavigationDelegate>
 
 @property (strong, nonatomic) A0WebAuthentication *authentication;
 @property (strong, nonatomic) A0APIClient *client;
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (copy, nonatomic) NSString *connectionName;
-@property (strong, nonatomic) NSTimer *networkTimer;
 
 @property (weak, nonatomic) IBOutlet WKWebView *webview;
 @property (weak, nonatomic) IBOutlet UIView *messageView;
@@ -110,23 +101,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)dealloc {
     [self cleanCallbacks];
-    [self cleanNetworkTimeout];
 }
 
-- (void)networkTimedOut:(NSTimer *)timer {
-    A0LogError(@"Network timed out for navigation %@", timer.userInfo[@"navigation"]);
-    [self.webview stopLoading];
-    [self cleanNetworkTimeout];
-    NSString *message = [NSString stringWithFormat:@"Failed to reach server at %@. Please check your network connection and try again.", self.webview.URL.host];
-    self.messageDescriptionLabel.text = A0LocalizedString(message);
+- (void)networkTimedOutForNavigation:(WKNavigation *)navigation {
+    A0LogError(@"Network timed out for navigation %@", navigation);
+    self.messageDescriptionLabel.text = A0LocalizedString(@"Sorry, we couldn't reach our authentication server. Please check your network connection and try again.");
     [self.messageView updateConstraints];
     self.messageView.hidden = NO;
-}
-
-- (void)cleanNetworkTimeout {
-    A0LogDebug(@"Cleaned network timeout for navigation %@", self.networkTimer.navigation);
-    [self.networkTimer invalidate];
-    self.networkTimer = nil;
 }
 
 #pragma mark - WKNavigationDelegate
@@ -136,27 +117,26 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self hideProgressIndicator];
     self.messageView.hidden = YES;
     self.title = webView.title;
-    if ([self.networkTimer.navigation isEqual:navigation]) {
-        [self cleanNetworkTimeout];
-    }
 }
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     A0LogVerbose(@"Started to load page with navigation: %@", navigation);
-    [self cleanNetworkTimeout];
-    self.networkTimer = [NSTimer networkTimerWithInterval:10.0 navigation:navigation target:self selector:@selector(networkTimedOut:)];
     [self showProgressIndicator];
 }
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     A0LogDebug(@"Failed navigation %@ with error %@", navigation, error);
-    [self cleanNetworkTimeout];
+    if (error.code == NSURLErrorTimedOut || error.code == NSURLErrorCannotConnectToHost) {
+        [self networkTimedOutForNavigation:navigation];
+    }
     [self hideProgressIndicator];
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     A0LogVerbose(@"Failed provisional navigation %@ with error %@", navigation, error);
-    [self cleanNetworkTimeout];
+    if (error.code == NSURLErrorTimedOut || error.code == NSURLErrorCannotConnectToHost) {
+        [self networkTimedOutForNavigation:navigation];
+    }
     [self hideProgressIndicator];
 }
 
@@ -222,19 +202,4 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.navigationItem setRightBarButtonItem:nil animated:NO];
 }
 
-@end
-
-@implementation NSTimer (WebKitNetworkTimer)
-
-- (WKNavigation *)navigation {
-    return self.userInfo[@"navigation"];
-}
-
-+ (NSTimer *)networkTimerWithInterval:(NSTimeInterval)interval navigation:(WKNavigation *)navigation target:(id)target selector:(SEL)selector {
-    return [NSTimer scheduledTimerWithTimeInterval:interval
-                                            target:target
-                                          selector:selector
-                                          userInfo:@{@"navigation": navigation}
-                                           repeats:NO];
-}
 @end
