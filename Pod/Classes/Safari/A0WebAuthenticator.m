@@ -38,7 +38,7 @@
 @interface A0WebAuthenticator ()
 
 @property (strong, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0Strategy *strategy;
+@property (strong, nonatomic) NSString *connectionName;
 @property (strong, nonatomic) NSURLComponents *components;
 @property (strong, nonatomic) A0WebAuthentication *authentication;
 @property (copy, nonatomic) void(^successBlock)(A0UserProfile *, A0Token *);
@@ -62,12 +62,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                      application:(A0Application *)application {
     self = [self init];
     if (self) {
-        NSString *connectionName = [strategy.connections.firstObject name];
-        _authentication = [[A0WebAuthentication alloc] initWithClientId:application.identifier domainURL:application.authorizeURL connectionName:connectionName];
+        _connectionName = [strategy.connections.firstObject name];
+        _authentication = [[A0WebAuthentication alloc] initWithClientId:application.identifier domainURL:application.authorizeURL connectionName:_connectionName];
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
         A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{
                                                                              @"response_type": @"token",
-                                                                             @"connection": connectionName,
+                                                                             @"connection": _connectionName,
                                                                              @"client_id": application.identifier,
                                                                              @"redirect_uri": _authentication.callbackURL.absoluteString,
                                                                              }];
@@ -75,7 +75,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             parameters[A0ClientInfoQueryParamName] = [A0Stats stringForAuth0ClientHeader];
         }
         _parameters = parameters;
-        _strategy = strategy;
         _components = components;
     }
     return self;
@@ -87,7 +86,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)applicationActiveNotification:(NSNotification *)notification {
     if (self.failureBlock) {
-        self.failureBlock([A0Errors auth0CancelledForConnectionName:self.strategy.name]);
+        self.failureBlock([A0Errors auth0CancelledForConnectionName:self.connectionName]);
     }
     [self clearBlocks];
 }
@@ -99,7 +98,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (NSString *)identifier {
-    return self.strategy.name;
+    return self.connectionName;
 }
 
 - (void)clearSessions {
