@@ -38,7 +38,7 @@
 @interface A0WebAuthenticator ()
 
 @property (strong, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0Strategy *strategy;
+@property (strong, nonatomic) NSString *connectionName;
 @property (strong, nonatomic) NSURLComponents *components;
 @property (strong, nonatomic) A0WebAuthentication *authentication;
 @property (copy, nonatomic) void(^successBlock)(A0UserProfile *, A0Token *);
@@ -58,27 +58,30 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return self;
 }
 
-- (instancetype)initWithStrategy:(A0Strategy *)strategy
-                     application:(A0Application *)application {
+- (instancetype)initWithAuthorizeURL:(NSURL *)authorizeURL clientId:(NSString *)clientId connectionName:(NSString *)connectionName {
     self = [self init];
     if (self) {
-        NSString *connectionName = [strategy.connections.firstObject name];
-        _authentication = [[A0WebAuthentication alloc] initWithClientId:application.identifier domainURL:application.authorizeURL connectionName:connectionName];
-        NSURLComponents *components = [[NSURLComponents alloc] initWithURL:application.authorizeURL resolvingAgainstBaseURL:NO];
+        _authentication = [[A0WebAuthentication alloc] initWithClientId:clientId domainURL:authorizeURL connectionName:connectionName];
+        NSURLComponents *components = [[NSURLComponents alloc] initWithURL:authorizeURL resolvingAgainstBaseURL:NO];
         A0AuthParameters *parameters = [A0AuthParameters newWithDictionary:@{
                                                                              @"response_type": @"token",
                                                                              @"connection": connectionName,
-                                                                             @"client_id": application.identifier,
+                                                                             @"client_id": clientId,
                                                                              @"redirect_uri": _authentication.callbackURL.absoluteString,
                                                                              }];
         if ([A0Stats shouldSendAuth0ClientHeader]) {
             parameters[A0ClientInfoQueryParamName] = [A0Stats stringForAuth0ClientHeader];
         }
+        _connectionName = connectionName;
         _parameters = parameters;
-        _strategy = strategy;
         _components = components;
     }
     return self;
+}
+
+- (instancetype)initWithStrategy:(A0Strategy *)strategy
+                     application:(A0Application *)application {
+    return [self initWithAuthorizeURL:application.authorizeURL clientId:application.identifier connectionName:[strategy.connections.firstObject name]];
 }
 
 - (void)dealloc {
@@ -87,7 +90,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)applicationActiveNotification:(NSNotification *)notification {
     if (self.failureBlock) {
-        self.failureBlock([A0Errors auth0CancelledForConnectionName:self.strategy.name]);
+        self.failureBlock([A0Errors auth0CancelledForConnectionName:self.connectionName]);
     }
     [self clearBlocks];
 }
@@ -99,7 +102,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (NSString *)identifier {
-    return self.strategy.name;
+    return self.connectionName;
 }
 
 - (void)clearSessions {

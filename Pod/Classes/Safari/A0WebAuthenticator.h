@@ -26,7 +26,22 @@
 @class A0Strategy, A0Application;
 
  __attribute__((deprecated("Please use WebView authentication due to Apple rejecting apps that authenticate with Safari")))
+/**
+ Safari based authentication for IdP using Auth0
+ @deprecated Use Embedded WebView based authentication due to Apple rejections
+ */
 @interface A0WebAuthenticator : A0BaseAuthenticator
+
+/**
+ *  Initialize object using Auth0 account information
+ *
+ *  @param authorizeURL   of the /authorize endpoint under your Auth0 subdomain
+ *  @param clientId       of your Auth0 account
+ *  @param connectionName of the IdP to authenticate with
+ *
+ *  @return an initialised object
+ */
+- (instancetype)initWithAuthorizeURL:(NSURL *)authorizeURL clientId:(NSString *)clientId connectionName:(NSString *)connectionName;
 
 + (instancetype)newWebAuthenticationForStrategy:(A0Strategy *)strategy
                                   ofApplication:(A0Application *)application;
