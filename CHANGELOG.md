@@ -1,5 +1,59 @@
 # Change Log
 
+## [1.17.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.17.0) (2015-08-11)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.16.1...1.17.0)
+
+**Implemented enhancements:**
+
+- Allow to change \(and localize\) "Cancel" button on WebView auth [\#152](https://github.com/auth0/Lock.iOS-OSX/issues/152)
+
+- Handle network timeout for A0WebKitViewController [\#151](https://github.com/auth0/Lock.iOS-OSX/issues/151)
+
+- Customize WKWebView based auth UI [\#149](https://github.com/auth0/Lock.iOS-OSX/issues/149)
+
+**Fixed bugs:**
+
+- Username field does not inherit A0ThemeTextFieldTextColor [\#148](https://github.com/auth0/Lock.iOS-OSX/issues/148)
+
+**Merged pull requests:**
+
+- Refactor UI Subspec [\#157](https://github.com/auth0/Lock.iOS-OSX/pull/157) ([hzalaz](https://github.com/hzalaz))
+
+- Fix how Safari integration handles connection name [\#156](https://github.com/auth0/Lock.iOS-OSX/pull/156) ([hzalaz](https://github.com/hzalaz))
+
+- Apply theme to username field in Sign Up [\#155](https://github.com/auth0/Lock.iOS-OSX/pull/155) ([hzalaz](https://github.com/hzalaz))
+
+- Avoid leaking NSURLSession [\#154](https://github.com/auth0/Lock.iOS-OSX/pull/154) ([hzalaz](https://github.com/hzalaz))
+
+- Improve A0WebKitViewController UI and customisation options [\#153](https://github.com/auth0/Lock.iOS-OSX/pull/153) ([hzalaz](https://github.com/hzalaz))
+
+- Improve how API errors are handled [\#150](https://github.com/auth0/Lock.iOS-OSX/pull/150) ([hzalaz](https://github.com/hzalaz))
+
+- Add detail to SignUp failure dialog [\#147](https://github.com/auth0/Lock.iOS-OSX/pull/147) ([brandonecraig](https://github.com/brandonecraig))
+
+## [1.16.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.16.1) (2015-07-23)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.16.0...1.16.1)
+
+**Implemented enhancements:**
+
+- Option to use WKWebView [\#64](https://github.com/auth0/Lock.iOS-OSX/issues/64)
+
+**Fixed bugs:**
+
+- Fix signature for signup with email method [\#144](https://github.com/auth0/Lock.iOS-OSX/issues/144)
+
+- When app supports landscape Lock is displayed landscape [\#142](https://github.com/auth0/Lock.iOS-OSX/issues/142)
+
+**Merged pull requests:**
+
+- Fix wrong type of callback in signup [\#146](https://github.com/auth0/Lock.iOS-OSX/pull/146) ([hzalaz](https://github.com/hzalaz))
+
+- Fix subscript support in Swift for A0AuthParameters [\#145](https://github.com/auth0/Lock.iOS-OSX/pull/145) ([hzalaz](https://github.com/hzalaz))
+
+- Force all views that have autorotate disabled to portrait orientation. [\#141](https://github.com/auth0/Lock.iOS-OSX/pull/141) ([basejumper9](https://github.com/basejumper9))
+
 ## [1.16.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.16.0) (2015-07-20)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.15.1...1.16.0)
