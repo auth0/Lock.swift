@@ -86,7 +86,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     NSString *cancelTitle = self.localizedCancelButtonTitle ?: A0LocalizedString(@"Cancel");
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:cancelTitle style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
-    [self showProgressIndicator];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -129,6 +128,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0LogVerbose(@"Started to load page with navigation: %@", navigation);
     [self cleanNetworkTimeout];
     self.networkTimer = [NSTimer networkTimerWithInterval:3.0 navigation:navigation target:self selector:@selector(networkTimedOut:)];
+    [self showProgressIndicator];
 }
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {

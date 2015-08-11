@@ -43,7 +43,7 @@
     [parts enumerateObjectsUsingBlock:^(NSString *part, NSUInteger idx, BOOL *stop) {
         A0QueryParameter *param = [[A0QueryParameter alloc] initWithQueryString:part];
         if (param.value) {
-            dict[param.key] = param.value;
+            dict[param.key] = [param.value stringByRemovingPercentEncoding];
         }
     }];
     return [NSDictionary dictionaryWithDictionary:dict];

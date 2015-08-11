@@ -29,6 +29,7 @@
 #import "A0Connection.h"
 #import "A0Stats.h"
 #import "A0AuthParameters.h"
+#import "NSError+A0APIError.h"
 
 #define kCallbackURLString @"a0%@://%@.auth0.com/authorize"
 
@@ -68,7 +69,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (errorMessage) {
         A0LogError(@"URL contained error message %@", errorMessage);
         if (error != NULL) {
-            *error = [errorMessage isEqualToString:@"access_denied"] ? [A0Errors auth0NotAuthorizedForConnectionName:self.connectionName] : [A0Errors auth0InvalidConfigurationForConnectionName:self.connectionName];
+            NSString *localizedDescription = [NSString stringWithFormat:@"Failed to authenticate user with connection %@", self.connectionName];
+            *error = [NSError errorWithCode:A0ErrorCodeAuthenticationFailed
+                                description:A0LocalizedString(localizedDescription)
+                                    payload:params];
         }
     } else {
         NSString *accessToken = params[@"access_token"];
@@ -81,7 +85,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         } else {
             A0LogError(@"Failed to obtain id_token from URL %@", url);
             if (error != NULL) {
-                *error = [A0Errors auth0NotAuthorizedForConnectionName:self.connectionName];
+                *error = [A0Errors auth0InvalidConfigurationForConnectionName:self.connectionName];
             }
 
         }

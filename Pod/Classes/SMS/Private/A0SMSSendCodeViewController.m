@@ -33,6 +33,7 @@
 #import <libextobjc/EXTScope.h>
 #import "A0Errors.h"
 #import "A0Lock.h"
+#import "NSError+A0APIError.h"
 
 @interface A0SMSSendCodeViewController ()
 
@@ -98,8 +99,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         void(^onFailure)(NSError *) = ^(NSError *error) {
             @strongify(self);
             A0LogError(@"Failed to send SMS code with error %@", error);
-            NSString *title = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the SMS code");
-            NSString *message = [A0Errors isAuth0Error:error withCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send an SMS to your phone. Please try again later.");
+            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the SMS code");
+            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send an SMS to your phone. Please try again later.");
             A0ShowAlertErrorView(title, message);
             [self.registerButton setInProgress:NO];
         };

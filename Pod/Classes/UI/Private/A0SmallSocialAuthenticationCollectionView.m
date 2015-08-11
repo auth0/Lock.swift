@@ -39,6 +39,7 @@
 #import "A0AuthParameters.h"
 #import "NSObject+A0AuthenticatorProvider.h"
 #import "A0Lock.h"
+#import "NSError+A0APIError.h"
 
 
 #define kCellIdentifier @"ServiceCell"
@@ -79,6 +80,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)triggerAuth:(UIButton *)sender {
     @weakify(self);
     A0Strategy *strategy = self.socialServices[sender.tag];
+    NSString *connectionName = strategy.name;
     A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
         @strongify(self);
         [self postLoginSuccessfulForConnection:strategy.connections.firstObject];
@@ -91,7 +93,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self postLoginErrorNotificationWithError:error];
         [self.authenticationDelegate authenticationDidEndForSocialCollectionView:self];
         NSError *authenticationError;
-        if (![A0Errors isCancelledSocialAuthentication:error]) {
+        if (![error a0_cancelledSocialAuthenticationError]) {
             switch (error.code) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
                 case A0ErrorCodeTwitterInvalidAccount:
@@ -104,7 +106,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     authenticationError = error;
                     break;
                 default:
-                    authenticationError = [A0Errors defaultLoginErrorFor:error];
+                    authenticationError = [A0Errors failedLoginWithConnectionName:connectionName for:error];
                     break;
             }
             [self.authenticationDelegate socialAuthenticationCollectionView:self didFailWithError:authenticationError];
@@ -114,7 +116,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     A0AuthParameters *parameters = [self.parameters copy];
     A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
-    NSString *connectionName = strategy.name;
     A0LogVerbose(@"Authenticating with connection %@", connectionName);
     [authenticator authenticateWithConnectionName:connectionName parameters:parameters success:successBlock failure:failureBlock];
 }

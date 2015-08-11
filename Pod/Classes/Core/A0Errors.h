@@ -21,107 +21,13 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-
-
-typedef NS_ENUM(NSInteger, A0ErrorCode) {
-    A0ErrorCodeAuthenticationFailed = 0,
-    /**
-     *  Both password and email/username are invalid
-     */
-    A0ErrorCodeInvalidCredentials,
-    /**
-     *  Username is invalid
-     */
-    A0ErrorCodeInvalidUsername,
-    /**
-     *  Email is invalid.
-     */
-    A0ErrorCodeInvalidEmail,
-    /**
-     *  Password is invalid
-     */
-    A0ErrorCodeInvalidPassword,
-    /**
-     *  Repeat password is invalid (empty or doesnt match password)
-     */
-    A0ErrorCodeInvalidRepeatPassword,
-    /**
-     *  Both password and repeat password are invalid
-     */
-    A0ErrorCodeInvalidPasswordAndRepeatPassword,
-    /**
-     *  User cancelled facebook auth flow (Safari or Native)
-     */
-    A0ErrorCodeFacebookCancelled,
-    /**
-     *  User didn't authorize twitter app for authentication
-     */
-    A0ErrorCodeTwitterAppNotAuthorized,
-    /**
-     *  User cancelled twitter auth flow (Safari or Native)
-     */
-    A0ErrorCodeTwitterCancelled,
-    /**
-     *  Twitter is not configured in Auth0 Dashboard
-     */
-    A0ErrorCodeTwitterNotConfigured,
-    /**
-     *  Twitter account in iOS is invalid (e.g: password changed). It must be reentered in iOS Settings.
-     */
-    A0ErrorCodeTwitterInvalidAccount,
-    /**
-     *  Strategy is not found in A0Application. Please check if it's enabled in Auth0 Dashboard
-     */
-    A0ErrorCodeUknownProviderForStrategy,
-    /**
-     *  Safari/WebView auth flow was cancelled by the user
-     */
-    A0ErrorCodeAuth0Cancelled,
-    /**
-     *  User didn't authorize the app during Safari/WebView auth flow.
-     */
-    A0ErrorCodeAuth0NotAuthorized,
-    /**
-     *  Auth0 connection was not configured properly in Dashboard.
-     */
-    A0ErrorCodeAuth0InvalidConfiguration,
-    /**
-     *  iOS custom scheme for Auth0 was not registered in Info plist file.
-     */
-    A0ErrorCodeAuth0NoURLSchemeFound,
-    /**
-     *  Authentication parameters didn't contain a valid connection name.
-     */
-    A0ErrorCodeNoConnectionNameFound,
-    /**
-     *  When device is not connected to internet.
-     */
-    A0ErrorCodeNotConnectedToInternet,
-    /**
-     *  When Google+ authentication fails
-     */
-    A0ErrorCodeGooglePlusFailed,
-    /**
-     *  When Google+ authentication was cancelled by the user.
-     */
-    A0ErrorCodeGooglePlusCancelled,
-    /**
-     *  When Auth0 App information cannot be retrieved from configuration URL.
-     */
-    A0ErrorCodeConfigurationLoadFailed,
-};
+#import "A0ErrorCode.h"
 
 @interface A0Errors : NSObject
-
-+ (NSError *)errorWithCode:(NSInteger)code userInfo:(NSDictionary *)userInfo;
 
 + (NSError *)noConnectionNameFound;
 
 + (NSError *)notConnectedToInternetError;
-
-+ (BOOL)isAuth0Error:(NSError *)error withCode:(A0ErrorCode)code;
-
-+ (BOOL)isCancelledSocialAuthentication:(NSError *)error;
 
 + (NSError *)invalidUsername;
 
@@ -137,7 +43,6 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
 /// @name Login Errors
 ///----------------------------------------
 
-+ (NSError *)defaultLoginErrorFor:(NSError *)error;
 + (NSError *)invalidLoginCredentialsUsingEmail:(BOOL)usesEmail;
 + (NSError *)invalidLoginUsernameUsingEmail:(BOOL)usesEmail;
 + (NSError *)invalidLoginPassword;
@@ -164,6 +69,7 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
 /// @name Enterprise & Social Errors
 ///----------------------------------------
 
++ (NSError *)failedLoginWithConnectionName:(NSString *)connectionName for:(NSError *)error;
 + (NSError *)urlSchemeNotRegistered;
 + (NSError *)unkownProviderForConnectionName:(NSString *)connectionName;
 + (NSError *)facebookCancelled;
@@ -182,7 +88,7 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
 /// @name Localized Messages
 ///----------------------------------------
 
-+ (NSString *)localizedStringForSocialLoginError:(NSError *)error;
++ (NSString *)localizedStringForConnectionName:(NSString *)connectionName loginError:(NSError *)error;
 + (NSString *)localizedStringForLoginError:(NSError *)error;
 + (NSString *)localizedStringForSMSLoginError:(NSError *)error;
 + (NSString *)localizedStringForSignUpError:(NSError *)error;
