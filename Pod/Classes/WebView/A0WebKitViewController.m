@@ -28,6 +28,7 @@
 #import "A0AuthParameters.h"
 #import "A0Token.h"
 #import <libextobjc/EXTScope.h>
+#import "A0Theme.h"
 
 @interface A0WebKitViewController () <WKNavigationDelegate>
 
@@ -85,6 +86,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:cancelTitle style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
 
     self.messageView.hidden = YES;
+    A0Theme *theme = [A0Theme sharedInstance];
+    [theme configureLabel:self.messageDescriptionLabel];
+    self.messageTitleLabel.font = [theme fontForKey:A0ThemeTitleFont];
+    self.messageTitleLabel.textColor = [theme colorForKey:A0ThemeTitleTextColor];
+    self.retryButton.tintColor = self.navigationController.navigationBar.tintColor;
 }
 
 - (IBAction)cancel:(id)sender {
