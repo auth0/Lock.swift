@@ -51,18 +51,6 @@
 #import "A0Theme.h"
 #endif
 
-#if __has_include(<Lock/A0FacebookAuthenticator.h>)
-#import <Lock/A0FacebookAuthenticator.h>
-#endif
-
-#if __has_include(<Lock/A0TwitterAuthenticator.h>)
-#import <Lock/A0TwitterAuthenticator.h>
-#endif
-
-#if __has_include(<Lock/A0GooglePlusAuthenticator.h>)
-#import <Lock/A0GooglePlusAuthenticator.h>
-#endif
-
 #if __has_include("A0TouchIDLockViewController.h")
 #import "A0TouchIDLockViewController.h"
 #import "A0Lock+A0TouchIDLockViewController.h"
