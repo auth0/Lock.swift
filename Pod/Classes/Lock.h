@@ -47,6 +47,10 @@
 #import "UI.h"
 #endif
 
+#if __has_include("A0Theme.h")
+#import "A0Theme.h"
+#endif
+
 #if __has_include(<Lock/A0FacebookAuthenticator.h>)
 #import <Lock/A0FacebookAuthenticator.h>
 #endif

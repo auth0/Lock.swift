@@ -50,12 +50,19 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     core.dependency 'Lock/Core'
   end
 
+  s.subspec 'CoreUI' do |coreui|
+    coreui.platform = :ios
+    coreui.public_header_files = 'Pod/Classes/CoreUI/*.h'
+    coreui.source_files = ['Pod/Classes/CoreUI/*.{h,m}']
+    coreui.dependency 'Lock/Core'
+  end
+
   s.subspec 'UI' do |ui|
     ui.platform = :ios
     ui.public_header_files = 'Pod/Classes/UI/*.h'
     ui.private_header_files = ['Pod/Classes/UI/Private/*.h', 'Pod/Classes/Utils/*.h']
     ui.source_files = ['Pod/Classes/{UI,Utils}/*.{h,m}', 'Pod/Classes/UI/Private/*.{h,m}']
-    ui.dependency 'Lock/Core'
+    ui.dependency 'Lock/CoreUI'
     ui.resources = 'Pod/Assets/UI/*.xib'
     ui.resource_bundles = { 'Auth0' => ['Pod/Assets/UI/Images/*.png', 'Pod/Assets/UI/*.plist', 'Pod/Assets/UI/*.ttf']}
   end
@@ -102,6 +109,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     webview.public_header_files = 'Pod/Classes/WebView/*.h'
     webview.source_files = 'Pod/Classes/WebView/*.{h,m}'
     webview.resources = 'Pod/Assets/WebView/*.xib'
-    webview.dependency 'Lock/Core'
+    webview.dependency 'Lock/CoreUI'
   end
 end
