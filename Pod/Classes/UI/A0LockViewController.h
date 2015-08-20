@@ -67,6 +67,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nullable, nonatomic) void(^onUserDismissBlock)();
 
+/**
+ Block that is called when the user presses the "Sign Up" button on the Login Screen. Default value is nil, if set to nil then standard Auth0 Sign Up UI will be displayed.
+ This provides a customisation point allowing you to navigate to your own Sign Up interface if needed. If set, standard Sign Up UI will not be presented.
+ */
+@property (copy, nullable, nonatomic) void(^onUserSignupBlock)();
+
 ///------------------------------------------------
 /// @name UI customization
 ///------------------------------------------------
