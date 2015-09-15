@@ -36,6 +36,7 @@
 #import "A0TitleView.h"
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
+#import "UIConstants.h"
 
 NSString * const A0ThemeTouchIDLockButtonImageNormalName = @"A0ThemeTouchIDLockButtonImageNormalName";
 NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchIDLockButtonImageHighlightedName";
@@ -208,7 +209,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+- (A0LockControllerSupportedOrientation)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
