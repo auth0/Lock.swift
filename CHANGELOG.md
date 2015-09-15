@@ -1,5 +1,19 @@
 # Change Log
 
+## [1.18.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.18.0) (2015-09-15)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.17.0...1.18.0)
+
+**Fixed bugs:**
+
+- fetchNewIdTokenWithRefreshToken is missing a parameter [\#162](https://github.com/auth0/Lock.iOS-OSX/issues/162)
+
+**Merged pull requests:**
+
+- Default api\_type for delegation [\#166](https://github.com/auth0/Lock.iOS-OSX/pull/166) ([hzalaz](https://github.com/hzalaz))
+
+- Fix Xcode 7 warnings [\#165](https://github.com/auth0/Lock.iOS-OSX/pull/165) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.17.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.17.0) (2015-08-11)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.16.1...1.17.0)
