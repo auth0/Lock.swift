@@ -38,6 +38,7 @@
 #import "NSObject+A0APIClientProvider.h"
 #import "NSObject+A0AuthenticatorProvider.h"
 #import "NSError+A0APIError.h"
+#import "UIConstants.h"
 
 @interface A0LockSignUpViewController () <A0SmallSocialAuthenticationCollectionViewDelegate>
 
@@ -101,7 +102,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self loadApplicationInfo];
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (A0LockControllerSupportedOrientation)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 

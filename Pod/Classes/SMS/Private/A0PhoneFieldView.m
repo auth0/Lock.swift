@@ -50,7 +50,7 @@
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    self = [self initWithFrame:frame];
+    self = [super initWithFrame:frame];
     if (self) {
         _defaultCountryCode = kDefaultUSCode;
     }
