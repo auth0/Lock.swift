@@ -363,6 +363,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                                kClientIdParamName: self.clientId,
                                                                                kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
                                                                                kIdTokenParamName: idToken,
+                                                                               kGrantTypeParamName: @"app",
                                                                                }];
     [defaultParamters addValuesFromParameters:parameters];
     return [self fetchDelegationTokenWithParameters:defaultParamters success:^(NSDictionary *tokenInfo) {
@@ -380,6 +381,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                                kClientIdParamName: self.clientId,
                                                                                kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
                                                                                kRefreshTokenParamName: refreshToken,
+                                                                               kGrantTypeParamName: @"app",
                                                                                }];
     [defaultParamters addValuesFromParameters:parameters];
     return [self fetchDelegationTokenWithParameters:defaultParamters success:^(NSDictionary *tokenInfo) {
