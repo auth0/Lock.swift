@@ -15,7 +15,7 @@ target 'Lock', :exclusive => true do
 
   pod_with_warnings
 
-  pod 'JWTDecode'
+  pod 'JWTDecode', '~> 0.2.1'
   pod 'SimpleKeychain'
 end
 

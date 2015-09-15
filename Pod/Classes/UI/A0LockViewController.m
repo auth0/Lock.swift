@@ -117,7 +117,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self loadApplicationInfo];
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 

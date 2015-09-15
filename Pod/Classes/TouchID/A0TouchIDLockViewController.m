@@ -208,7 +208,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
