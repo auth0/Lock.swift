@@ -136,7 +136,7 @@ describe(@"A0APIClient", ^{
             [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
                 return [request.URL.absoluteString isEqualToString:[client.router configurationURL].absoluteString];
             } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                return [OHHTTPStubsResponse responseNamed:@"GET-Application-Info" inBundle:nil];
+                return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFile(@"GET-Application-Info.response", self.class) statusCode:200 headers:@{@"Content-Type": @"application/json"}];
             }].name = @"Auth0 App CDN";
             waitUntil(^(DoneCallback done) {
                 [client fetchAppInfoWithSuccess:^(A0Application *application) {
