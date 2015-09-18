@@ -8,7 +8,7 @@ podfile: Lock/Podfile
 before_install:
   - brew update; brew update
   - if brew outdated | grep -qx xctool; then brew upgrade xctool; fi
-  - gem install cocoapods --no-ri --no-rdoc
+  - bundle install
 
 script:
   - xctool -workspace Lock/Lock.xcworkspace -scheme Lock -sdk iphonesimulator -destination "platform=iOS Simulator,OS=latest,name=iPhone 6" ONLY_ACTIVE_ARCH=NO clean test
