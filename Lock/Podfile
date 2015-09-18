@@ -1,6 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '8.0'
+platform :ios, '7.0'
 
 def pod_with_warnings
   pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
