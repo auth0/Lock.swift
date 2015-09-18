@@ -1,5 +1,5 @@
 PODS:
-  - 1PasswordExtension (1.5)
+  - 1PasswordExtension (1.6)
   - AFNetworking (2.5.4):
     - AFNetworking/NSURLConnection (= 2.5.4)
     - AFNetworking/NSURLSession (= 2.5.4)
@@ -93,10 +93,10 @@ PODS:
     - Lock/Core (= 1.18.0)
     - Lock/UI (= 1.18.0)
     - Lock/WebView (= 1.18.0)
-  - Lock-Facebook (2.1.0):
+  - Lock-Facebook (2.2.0):
     - CocoaLumberjack (~> 2.0)
-    - FBSDKCoreKit (~> 4.0)
-    - FBSDKLoginKit (~> 4.0)
+    - FBSDKCoreKit (~> 4.6)
+    - FBSDKLoginKit (~> 4.6)
     - Lock/Core (~> 1.11)
   - Lock-Twitter (1.0.2):
     - BDBOAuth1Manager (~> 1.5.0)
@@ -175,7 +175,7 @@ PODS:
   - ReactiveCocoa/UI (2.5):
     - ReactiveCocoa/Core
   - SimpleKeychain (0.5.0)
-  - Specta (0.5.0)
+  - Specta (1.0.3)
   - TouchIDAuth (0.1.1):
     - libextobjc (~> 0.4)
     - SimpleKeychain (~> 0.3)
@@ -203,14 +203,14 @@ DEPENDENCIES:
   - OCMockito
   - OHHTTPStubs
   - SimpleKeychain
-  - Specta (~> 0.5)
+  - Specta
 
 EXTERNAL SOURCES:
   Lock:
     :path: "../"
 
 SPEC CHECKSUMS:
-  1PasswordExtension: d2392e44526be30ae7d23f305e96e411ede9b9d1
+  1PasswordExtension: 846c1497815c8b5dcf2828bc843d21d04f07138f
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   BDBOAuth1Manager: 2e28773b58f880fb36b5cd3efcf0b1fefbc78a99
   Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
@@ -222,7 +222,7 @@ SPEC CHECKSUMS:
   JWTDecode: c193d229af74dd72121515c976f930ccbed96a2a
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   Lock: 74df3917e300de2d2accddf4d8dfcc1c72e683cf
-  Lock-Facebook: 7edec7cb80a5f45de9d1f0c7e40eb99490915e1e
+  Lock-Facebook: 36e982eb8221dd07fcc9770781e3fc6363be28d3
   Lock-Twitter: 8168e4c3861f6cc6581d1b8d635f41e29a607cb3
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
@@ -234,7 +234,7 @@ SPEC CHECKSUMS:
   PSAlertView: 16d35f5dba549418492cf68a750d4f0dca21f4a2
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   SimpleKeychain: ae04c7ca6a960a146081010b412cf0ba2ecb10fe
-  Specta: eb90708ed77569bbda089f8ead10bb99b8e9489e
+  Specta: cf3e4188cf35375c3ee2cd03f8db8f1f4ef98234
   TouchIDAuth: f63596baf1c23d85211ab7a3b4bea794d73f3e36
   TWReverseAuth: d2deef3521fa6bee32eabab67f114c2c4a53d4f5
 

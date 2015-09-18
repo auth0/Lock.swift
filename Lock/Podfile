@@ -24,7 +24,7 @@ target 'Tests', :exclusive => true do
 
   pod_with_warnings
 
-  pod 'Specta', '~> 0.5'
+  pod 'Specta'
   pod 'Expecta'
   pod 'OCMockito'
   pod 'OHHTTPStubs'
