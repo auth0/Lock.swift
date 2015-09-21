@@ -3,15 +3,12 @@ reference: http://www.objc.io/issue-6/travis-ci.html
 language: objective-c
 osx_image: xcode6.4
 
-podfile: Lock/Podfile
-
-before_install:
-  - brew update; brew update
-  - if brew outdated | grep -qx xctool; then brew upgrade xctool; fi
+install:
   - bundle install
+  - pod install --project-directory=Lock
 
 script:
-  - xctool -workspace Lock/Lock.xcworkspace -scheme Lock -sdk iphonesimulator -destination "platform=iOS Simulator,OS=latest,name=iPhone 6" ONLY_ACTIVE_ARCH=NO clean test
+  - set -o pipefail && xcodebuild -workspace Lock/Lock.xcworkspace -scheme Lock -destination "platform=iOS Simulator,OS=latest,name=iPhone 6" clean build test | xcpretty -c
 
 notifications:
   slack:

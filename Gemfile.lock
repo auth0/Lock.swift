@@ -60,6 +60,7 @@ GEM
       activesupport (>= 3)
       claide (~> 0.9.1)
       colored (~> 1.2)
+    xcpretty (0.1.12)
 
 PLATFORMS
   ruby
@@ -71,3 +72,4 @@ DEPENDENCIES
   cocoapods-packager
   git
   rake
+  xcpretty
