@@ -29,7 +29,7 @@
     return [[A0EmailLockViewController alloc] initWithLock:self];
 }
 
-- (void)presentSMSController:(A0EmailLockViewController *)emailController fromController:(UIViewController *)controller {
+- (void)presentEmailController:(A0EmailLockViewController *)emailController fromController:(UIViewController *)controller {
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:emailController];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         navController.modalPresentationStyle = UIModalPresentationFormSheet;

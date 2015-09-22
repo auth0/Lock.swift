@@ -40,6 +40,6 @@
  *  @param smsController    controller to present
  *  @param controller       controller that will present the SMS VC.
  */
-- (void)presentSMSController:(A0EmailLockViewController *)emailController fromController:(UIViewController *)controller;
+- (void)presentEmailController:(A0EmailLockViewController *)emailController fromController:(UIViewController *)controller;
 
 @end
