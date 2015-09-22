@@ -83,6 +83,16 @@
                                   }];
 }
 
+- (HTTPFilter)filterForPasswordlessStartWithEmail:(NSString *)email {
+    return [self filterWithPath:@"/passwordless/start"
+                         method:@"POST"
+                     parameters:@{
+                                  @"email": email,
+                                  @"connection": @"email",
+                                  @"send": @"code",
+                                  }];
+}
+
 - (HTTPFilter)filterWithPath:(NSString *)path method:(NSString *)method parameters:(NSDictionary *)parameters {
     return ^BOOL(NSURLRequest *request) {
         NSDictionary *dictionary = [NSURLProtocol propertyForKey:@"parameters" inRequest:request];

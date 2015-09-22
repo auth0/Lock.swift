@@ -380,6 +380,19 @@ NS_ASSUME_NONNULL_BEGIN
                                                    success:(void(^)())success
                                                    failure:(A0APIClientError)failure;
 
+/**
+ *  Start passwordless authentication using Email to send a One Time Password to the user
+ *
+ *  @param email    that will receive the OTP
+ *  @param success  block called when the Email was sent successfully
+ *  @param failure  block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
+ */
+- (NSURLSessionDataTask *)startPasswordlessWithEmail:(NSString *)email
+                                             success:(void(^)())success
+                                             failure:(A0APIClientError)failure;
+
 @end
 
 @interface A0APIClient (Deprecated)

@@ -481,6 +481,22 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                       } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
+- (NSURLSessionDataTask *)startPasswordlessWithEmail:(NSString *)email success:(void (^)())success failure:(A0APIClientError)failure {
+    return [self.manager POST:[self.router startPasswordless]
+                   parameters:@{
+                                kClientIdParamName: self.clientId,
+                                kEmailParamName: email,
+                                kConnectionParamName: @"email",
+                                @"send": @"code"
+                                }
+                      success:^(NSURLSessionDataTask *task, id responseObject) {
+                          if (success) {
+                              success();
+                          }
+                      }
+                      failure:[A0APIClient sanitizeFailureBlock:failure]];
+}
+
 #pragma mark - Internal API calls
 
 - (NSURLSessionDataTask *)fetchUserInfoWithTokenInfo:(NSDictionary *)tokenInfo success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {
