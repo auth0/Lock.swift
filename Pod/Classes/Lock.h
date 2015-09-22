@@ -61,6 +61,11 @@
 #import "A0SMSLockViewController.h"
 #endif
 
+#if __has_include("A0EmailLockViewController.h")
+#import "A0Lock+A0EmailLockViewController.h"
+#import "A0EmailLockViewController.h"
+#endif
+
 #if __has_include("A0PasswordManager.h")
 #import "A0PasswordManager.h"
 #endif

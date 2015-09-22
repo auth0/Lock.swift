@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SMSSendCodeViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0EmailSendCodeViewController">
             <connections>
+                <outlet property="emailFieldView" destination="D74-nk-5ph" id="1Xq-0M-pCv"/>
                 <outlet property="messageLabel" destination="zr6-4y-aoT" id="fDB-Fb-XWI"/>
-                <outlet property="phoneFieldView" destination="D74-nk-5ph" id="Mfd-HA-ChX"/>
                 <outlet property="registerButton" destination="2Do-Xd-XLu" id="3q7-4b-Vt4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -35,13 +35,13 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kMV-hb-KG2" customClass="A0RoundedBoxView">
                     <rect key="frame" x="21" y="41" width="558" height="50"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D74-nk-5ph" customClass="A0PhoneFieldView">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D74-nk-5ph" customClass="A0CredentialFieldView">
                             <rect key="frame" x="0.0" y="0.0" width="558" height="50"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Pjx-u4-0k1">
-                                    <rect key="frame" x="94" y="10" width="457" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Pjx-u4-0k1">
+                                    <rect key="frame" x="44" y="10" width="507" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="send"/>
+                                    <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="send"/>
                                     <connections>
                                         <action selector="registerSMS:" destination="-1" eventType="editingDidEndOnExit" id="cNk-Kf-IIf"/>
                                     </connections>
@@ -50,27 +50,14 @@
                                     <rect key="frame" x="18" y="17" width="16" height="16"/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                 </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5dP-Dj-WTV">
-                                    <rect key="frame" x="39" y="11" width="50" height="29"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="50" id="JSp-hi-cjy"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <state key="normal" title="+1">
-                                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                </button>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="D7m-hQ-Wvp" firstAttribute="centerY" secondItem="Pjx-u4-0k1" secondAttribute="centerY" id="CxY-6C-uFo"/>
+                                <constraint firstItem="Pjx-u4-0k1" firstAttribute="leading" secondItem="D7m-hQ-Wvp" secondAttribute="trailing" constant="10" id="HeJ-tb-JoS"/>
                                 <constraint firstAttribute="bottom" secondItem="Pjx-u4-0k1" secondAttribute="bottom" constant="10" id="RHU-ZU-seu"/>
                                 <constraint firstItem="D7m-hQ-Wvp" firstAttribute="leading" secondItem="D74-nk-5ph" secondAttribute="leading" constant="18" id="Sdy-uW-JOP"/>
                                 <constraint firstItem="Pjx-u4-0k1" firstAttribute="top" secondItem="D74-nk-5ph" secondAttribute="top" constant="10" id="T0E-vg-uFZ"/>
-                                <constraint firstItem="5dP-Dj-WTV" firstAttribute="leading" secondItem="D7m-hQ-Wvp" secondAttribute="trailing" constant="5" id="eJh-xN-HmD"/>
                                 <constraint firstItem="Pjx-u4-0k1" firstAttribute="leading" secondItem="D7m-hQ-Wvp" secondAttribute="trailing" constant="10" id="nqa-al-6kk"/>
-                                <constraint firstAttribute="centerY" secondItem="5dP-Dj-WTV" secondAttribute="centerY" id="ohh-jf-xtH"/>
-                                <constraint firstItem="Pjx-u4-0k1" firstAttribute="leading" secondItem="5dP-Dj-WTV" secondAttribute="trailing" constant="5" id="u2c-SL-3xR"/>
                                 <constraint firstAttribute="trailing" secondItem="Pjx-u4-0k1" secondAttribute="trailing" constant="7" id="vsD-Qm-HP8"/>
                                 <constraint firstAttribute="height" constant="50" id="zXl-hs-6uC"/>
                             </constraints>
@@ -80,7 +67,6 @@
                                 </mask>
                             </variation>
                             <connections>
-                                <outlet property="countryCodeButton" destination="5dP-Dj-WTV" id="l35-nS-jSm"/>
                                 <outlet property="iconImageView" destination="D7m-hQ-Wvp" id="H9V-c3-Kc3"/>
                                 <outlet property="textField" destination="Pjx-u4-0k1" id="u44-pu-bnC"/>
                             </connections>
@@ -93,8 +79,8 @@
                         <constraint firstAttribute="trailing" secondItem="D74-nk-5ph" secondAttribute="trailing" id="s3Z-jg-FJk"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your phone number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zr6-4y-aoT">
-                    <rect key="frame" x="202" y="10" width="197" height="23"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zr6-4y-aoT">
+                    <rect key="frame" x="229.5" y="10" width="141.5" height="23"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.29803921568627451" green="0.29803921568627451" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>

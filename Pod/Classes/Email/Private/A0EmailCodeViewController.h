@@ -1,4 +1,4 @@
-// A0HomeViewController.h
+// A0EmailCodeViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -20,16 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <Lock/A0AuthenticationUIComponent.h>
 
-@interface A0HomeViewController : UIViewController
+@class A0AuthParameters, A0UserProfile, A0Token, A0Lock;
 
-@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
+@interface A0EmailCodeViewController : UIViewController<A0AuthenticationUIComponent>
 
-- (IBAction)loginNative:(id)sender;
-- (IBAction)loginTouchID:(id)sender;
-- (IBAction)loginSMS:(id)sender;
-- (IBAction)loginEmail:(id)sender;
+@property (copy, nonatomic) NSString *email;
+@property (copy, nonatomic) A0AuthParameters *parameters;
+@property (strong, nonatomic) A0Lock *lock;
+@property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
 @end

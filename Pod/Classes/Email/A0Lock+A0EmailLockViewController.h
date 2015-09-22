@@ -1,6 +1,6 @@
-// A0HomeViewController.h
+// A0Lock+A0EmailLockViewController.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "A0Lock.h"
 
-@interface A0HomeViewController : UIViewController
+@class A0EmailLockViewController;
 
-@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
+@interface A0Lock (A0EmailLockViewController)
 
-- (IBAction)loginNative:(id)sender;
-- (IBAction)loginTouchID:(id)sender;
-- (IBAction)loginSMS:(id)sender;
-- (IBAction)loginEmail:(id)sender;
+/**
+ *  Creates a new instance of `A0EmailLockViewController`
+ *
+ *  @return a new instance
+ */
+- (A0EmailLockViewController *)newEmailViewController;
+
+/**
+ *  Presents a `A0EmailLockViewController` from a UIViewController. This method takes care of embedding the `A0EmailLockViewController` inside a `UINavigationController`
+ *
+ *  @param smsController    controller to present
+ *  @param controller       controller that will present the SMS VC.
+ */
+- (void)presentEmailController:(A0EmailLockViewController *)emailController fromController:(UIViewController *)controller;
 
 @end

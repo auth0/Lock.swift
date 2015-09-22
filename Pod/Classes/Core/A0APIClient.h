@@ -237,8 +237,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///----------------------------------------
 
 /**
- *  Perform login of a user with phone number & SMS code using `SMS` connection.
- *  If app info is available and it doesn't have a SMS connection, it will fail.
+ *  Perform login of a user with phone number & SMS code using `sms` connection.
+ *  If app info is available and it doesn't have a `sms` connection, it will fail.
  *
  *  @param phoneNumber  phone number where the user received the code and previously registered with.
  *  @param passcode     passcode received by SMS.
@@ -254,6 +254,29 @@ NS_ASSUME_NONNULL_BEGIN
                                     parameters:(nullable A0AuthParameters *)parameters
                                        success:(A0APIClientAuthenticationSuccess)success
                                        failure:(A0APIClientError)failure;
+
+///----------------------------------------
+/// @name Email Authentication
+///----------------------------------------
+
+/**
+ *  Perform login of a user with email address & code using `email` connection.
+ *  If app info is available and it doesn't have a `email` connection, it will fail.
+ *
+ *  @param email        address where the user received the code and previously registered with.
+ *  @param passcode     passcode received by email.
+ *  @param parameters   optional parameters for Auth0 API. It can be nil
+ *  @param success      block called on successful login with it's token info and profile
+ *  @param failure      block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
+ *  @see A0AuthParameters
+ */
+- (NSURLSessionDataTask *)loginWithEmail:(NSString *)email
+                                passcode:(NSString *)passcode
+                              parameters:(nullable A0AuthParameters *)parameters
+                                 success:(A0APIClientAuthenticationSuccess)success
+                                 failure:(A0APIClientError)failure;
 
 ///----------------------------------------
 /// @name Social Authentication

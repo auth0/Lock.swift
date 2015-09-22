@@ -1,6 +1,6 @@
-// A0HomeViewController.h
+// A0Lock+A0EmailLockViewController.m
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import "A0Lock+A0EmailLockViewController.h"
+#import "A0EmailLockViewController.h"
 
-@interface A0HomeViewController : UIViewController
+@implementation A0Lock (A0SMSLockViewController)
 
-@property (weak, nonatomic) IBOutlet UILabel *tenantLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clientIdLabel;
+- (A0EmailLockViewController *)newEmailViewController {
+    return [[A0EmailLockViewController alloc] initWithLock:self];
+}
 
-- (IBAction)loginNative:(id)sender;
-- (IBAction)loginTouchID:(id)sender;
-- (IBAction)loginSMS:(id)sender;
-- (IBAction)loginEmail:(id)sender;
+- (void)presentEmailController:(A0EmailLockViewController *)emailController fromController:(UIViewController *)controller {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:emailController];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        navController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    [controller presentViewController:navController animated:YES completion:nil];
+}
 
 @end

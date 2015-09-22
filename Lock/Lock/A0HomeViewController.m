@@ -29,10 +29,6 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "A0LockApplication.h"
 
-#if __has_include(<TouchIDAuth/A0TouchIDAuthentication.h>)
-#define TOUCH_ID 1
-#endif
-
 #define kClientIdKey @"Auth0ClientId"
 #define kTenantKey @"Auth0Tenant"
 
@@ -105,7 +101,6 @@ static BOOL isRunningTests(void) {
 
 - (void)loginTouchID:(id)sender {
     [self.keychain clearAll];
-#ifdef TOUCHID
     A0Lock *lock = [[A0LockApplication sharedInstance] lock];
 
     A0TouchIDLockViewController *controller = [lock newTouchIDViewController];
@@ -122,7 +117,6 @@ static BOOL isRunningTests(void) {
         }];
     };
     [lock presentTouchIDController:controller fromController:self];
-#endif
 }
 
 - (void)loginSMS:(id)sender {
@@ -143,4 +137,24 @@ static BOOL isRunningTests(void) {
     };
     [lock presentSMSController:controller fromController:self];
 }
+
+- (void)loginEmail:(id)sender {
+    [self.keychain clearAll];
+    A0Lock *lock = [[A0LockApplication sharedInstance] lock];
+    A0EmailLockViewController *controller = [lock newEmailViewController];
+    controller.closable = YES;
+    @weakify(self);
+    controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
+        NSLog(@"SUCCESS %@", profile);
+        @strongify(self);
+        [self.keychain setString:token.idToken forKey:@"id_token"];
+        [self.keychain setString:token.refreshToken forKey:@"refresh_token"];
+        [self.keychain setData:[NSKeyedArchiver archivedDataWithRootObject:profile] forKey:@"profile"];
+        [self dismissViewControllerAnimated:YES completion:^(){
+            [self performSegueWithIdentifier:@"LoggedIn" sender:self];
+        }];
+    };
+    [lock presentEmailController:controller fromController:self];
+}
+
 @end
