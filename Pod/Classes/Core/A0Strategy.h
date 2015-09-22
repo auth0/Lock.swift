@@ -76,6 +76,7 @@ FOUNDATION_EXPORT NSString * const A0StrategyNameTheCity;
 FOUNDATION_EXPORT NSString * const A0StrategyNameTheCitySandbox;
 FOUNDATION_EXPORT NSString * const A0StrategyNamePlanningCenter;
 FOUNDATION_EXPORT NSString * const A0StrategyNameSMS;
+FOUNDATION_EXPORT NSString * const A0StrategyNameEmail;
 
 ///----------------------------------------
 /// @name Social Strategy parameter names
@@ -109,7 +110,11 @@ typedef NS_ENUM(NSUInteger, A0StrategyType) {
     /**
      *  LDAP, Sharepoint, IP, etc.
      */
-    A0StrategyTypeEnterprise
+    A0StrategyTypeEnterprise,
+    /**
+     *  Passwordless authentication like SMS or Email
+     */
+    A0StrategyTypePasswordless
 };
 
 /**

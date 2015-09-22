@@ -71,11 +71,11 @@ NSString * const A0StrategyNameTheCity = @"thecity";
 NSString * const A0StrategyNameTheCitySandbox = @"thecity-sandbox";
 NSString * const A0StrategyNamePlanningCenter = @"planningcenter";
 NSString * const A0StrategyNameSMS = @"sms";
+NSString * const A0StrategyNameEmail = @"email";
 
 NSString * const A0StrategySocialTokenParameter = @"access_token";
 NSString * const A0StrategySocialTokenSecretParameter = @"access_token_secret";
 NSString * const A0StrategySocialUserIdParameter = @"user_id";
-
 @implementation A0Strategy
 
 - (instancetype)initWithName:(NSString *)name connections:(NSArray *)connections type:(A0StrategyType)type {
@@ -98,10 +98,12 @@ NSString * const A0StrategySocialUserIdParameter = @"user_id";
             [connections addObject:[[A0Connection alloc] initWithJSONDictionary:connectionJSON]];
         }
         _connections = [NSArray arrayWithArray:connections];
-        if ([_name isEqualToString:A0StrategyNameAuth0] || [_name isEqualToString:A0StrategyNameSMS]) {
+        if ([_name isEqualToString:A0StrategyNameAuth0]) {
             _type = A0StrategyTypeDatabase;
         } else if ([[A0Strategy enterpriseNames] containsObject:_name]) {
             _type = A0StrategyTypeEnterprise;
+        } else if ([_name isEqualToString:A0StrategyNameSMS] || [_name isEqualToString:A0StrategyNameEmail]) {
+            _type = A0StrategyTypePasswordless;
         } else {
             _type = A0StrategyTypeSocial;
         }
