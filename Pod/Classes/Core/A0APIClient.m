@@ -326,7 +326,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                  success:(A0APIClientAuthenticationSuccess)success
                                  failure:(A0APIClientError)failure {
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
-                                                                                kEmailParamName: email,
+                                                                                kUsernameParamName: email,
                                                                                 kPasswordParamName: passcode,
                                                                                 kGrantTypeParamName: @"password",
                                                                                 kClientIdParamName: self.clientId,
