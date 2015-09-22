@@ -49,4 +49,6 @@ typedef BOOL(^HTTPFilter)(NSURLRequest *request);
 - (HTTPFilter)filterForUnlinkWithParameters:(NSDictionary *)parameters;
 
 - (HTTPFilter)filterForPasswordlessStartWithPhoneNumber:(NSString *)phoneNumber;
+
+- (HTTPFilter)filterForPasswordlessStartWithEmail:(NSString *)email;
 @end

@@ -616,6 +616,39 @@ describe(@"A0APIClient", ^{
                     });
                 });
             });
+
+            describe(@"start email passwordless authentication", ^{
+
+                NSString *email = @"support@auth0.com";
+
+                it(@"should send email with code", ^{
+                    [keeper startPasswordlessWithFilter:[filter filterForPasswordlessStartWithEmail:email]];
+                    waitUntil(^(DoneCallback done) {
+                        [client startPasswordlessWithEmail:email success:^{
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).to.beNil();
+                            done();
+                        }];
+                    });
+                });
+
+                it(@"should call failure callback with error", ^{
+                    [keeper failWithFilter:[filter filterForPasswordlessStartWithEmail:email]
+                                   message:@"passwordless_start_failed"];
+                    waitUntil(^(DoneCallback done) {
+                        [client startPasswordlessWithEmail:email success:^{
+                            expect(nil).toNot.beNil();
+                            done();
+                        } failure:^(NSError *error) {
+                            expect(error).notTo.beNil();
+                            expect(error.localizedDescription).to.equal(@"passwordless_start_failed");
+                            done();
+                        }];
+                    });
+                });
+            });
+
         });
     });
 

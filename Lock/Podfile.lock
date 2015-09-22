@@ -38,7 +38,11 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.0.1):
     - CocoaLumberjack/Default
+  - Crashlytics (3.3.1)
   - Expecta (1.0.3)
+  - Fabric (1.5.1):
+    - Fabric/Base (= 1.5.1)
+  - Fabric/Base (1.5.1)
   - FBSDKCoreKit (4.6.0):
     - Bolts (~> 1.1)
     - FBSDKCoreKit/arc (= 4.6.0)
@@ -185,7 +189,9 @@ PODS:
 
 DEPENDENCIES:
   - BDBOAuth1Manager
+  - Crashlytics
   - Expecta
+  - Fabric
   - ISO8601DateFormatter
   - JWTDecode (~> 0.2.1)
   - libextobjc
@@ -215,7 +221,9 @@ SPEC CHECKSUMS:
   BDBOAuth1Manager: 2e28773b58f880fb36b5cd3efcf0b1fefbc78a99
   Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
   CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
+  Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
   Expecta: 9d1bff6c8b0eeee73a166a2ee898892478927a15
+  Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
   FBSDKCoreKit: 9954492d90c5fd65ae831395697a1660360d61f1
   FBSDKLoginKit: 3d07febbfa884b9878cacba54f705bb41f07d4b6
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274

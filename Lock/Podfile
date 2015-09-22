@@ -13,6 +13,8 @@ target 'Lock', :exclusive => true do
   pod 'Lock-Facebook', '~> 2.0'
   pod 'Lock-Twitter', '~> 1.0'
 
+  pod 'Fabric'
+  pod 'Crashlytics'
   pod_with_warnings
 
   pod 'JWTDecode', '~> 0.2.1'
