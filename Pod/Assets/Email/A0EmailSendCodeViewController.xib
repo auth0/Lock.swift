@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0EmailSendCodeViewController">
             <connections>
+                <outlet property="emailFieldView" destination="D74-nk-5ph" id="1Xq-0M-pCv"/>
                 <outlet property="messageLabel" destination="zr6-4y-aoT" id="fDB-Fb-XWI"/>
                 <outlet property="registerButton" destination="2Do-Xd-XLu" id="3q7-4b-Vt4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -31,14 +32,14 @@
                         <action selector="registerSMS:" destination="-1" eventType="touchUpInside" id="FC3-SR-8aZ"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kMV-hb-KG2">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kMV-hb-KG2" customClass="A0RoundedBoxView">
                     <rect key="frame" x="21" y="41" width="558" height="50"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D74-nk-5ph" customClass="A0CredentialFieldView">
                             <rect key="frame" x="0.0" y="0.0" width="558" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Pjx-u4-0k1">
-                                    <rect key="frame" x="39" y="10" width="512" height="30"/>
+                                    <rect key="frame" x="44" y="10" width="507" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="send"/>
                                     <connections>
@@ -52,7 +53,7 @@
                             </subviews>
                             <constraints>
                                 <constraint firstItem="D7m-hQ-Wvp" firstAttribute="centerY" secondItem="Pjx-u4-0k1" secondAttribute="centerY" id="CxY-6C-uFo"/>
-                                <constraint firstItem="Pjx-u4-0k1" firstAttribute="leading" secondItem="D7m-hQ-Wvp" secondAttribute="trailing" constant="5" id="HeJ-tb-JoS"/>
+                                <constraint firstItem="Pjx-u4-0k1" firstAttribute="leading" secondItem="D7m-hQ-Wvp" secondAttribute="trailing" constant="10" id="HeJ-tb-JoS"/>
                                 <constraint firstAttribute="bottom" secondItem="Pjx-u4-0k1" secondAttribute="bottom" constant="10" id="RHU-ZU-seu"/>
                                 <constraint firstItem="D7m-hQ-Wvp" firstAttribute="leading" secondItem="D74-nk-5ph" secondAttribute="leading" constant="18" id="Sdy-uW-JOP"/>
                                 <constraint firstItem="Pjx-u4-0k1" firstAttribute="top" secondItem="D74-nk-5ph" secondAttribute="top" constant="10" id="T0E-vg-uFZ"/>
@@ -79,7 +80,7 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zr6-4y-aoT">
-                    <rect key="frame" x="230" y="10" width="142" height="23"/>
+                    <rect key="frame" x="229.5" y="10" width="141.5" height="23"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.29803921568627451" green="0.29803921568627451" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>

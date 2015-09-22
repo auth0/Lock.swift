@@ -30,5 +30,6 @@
 - (IBAction)loginNative:(id)sender;
 - (IBAction)loginTouchID:(id)sender;
 - (IBAction)loginSMS:(id)sender;
+- (IBAction)loginEmail:(id)sender;
 
 @end
