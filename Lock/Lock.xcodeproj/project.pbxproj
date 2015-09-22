@@ -742,7 +742,7 @@
 				GCC_PREFIX_HEADER = "Lock/Lock-Prefix.pch";
 				GOOGLE_PLUS_CLIENT_ID = "856630117504-cman9rbv3t5diu2ksgkn4n3m4p0b84ti.apps.googleusercontent.com";
 				INFOPLIST_FILE = "Lock/Lock-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_NAME = Lock;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -772,7 +772,7 @@
 				);
 				GOOGLE_PLUS_CLIENT_ID = "856630117504-sc8oovbfg7tl5fhqrbocee292inbuebq.apps.googleusercontent.com";
 				INFOPLIST_FILE = "Lock/Lock-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_NAME = Lock;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
