@@ -54,7 +54,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = A0LocalizedString(@"Enter email code");
+    self.title = A0LocalizedString(@"Enter Email Code");
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configureTextField:self.codeFieldView.textField];
     [theme configurePrimaryButton:self.loginButton];
