@@ -89,6 +89,16 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     sms.resource_bundles = { 'Auth0.SMS' => ['Pod/Assets/SMS/*.plist', 'Pod/Assets/SMS/Images/*.png'] }
   end
 
+  s.subspec 'Email' do |email|
+    email.platform = :ios
+    email.public_header_files = 'Pod/Classes/Email/*.h'
+    email.private_header_files = 'Pod/Classes/Email/Private/*.h'
+    email.source_files = ['Pod/Classes/Email/*.{h,m}', 'Pod/Classes/Email/Private/*.{h,m}']
+    email.resources = 'Pod/Assets/Email/*.xib'
+    email.dependency 'Lock/UI'
+    email.resource_bundles = { 'Auth0.Email' => ['Pod/Assets/Email/*.plist', 'Pod/Assets/Email/Images/*.png'] }
+  end
+
   s.subspec '1Password' do |onepassword|
     onepassword.platform = :ios
     onepassword.public_header_files = 'Pod/Classes/1Password/*.h'
