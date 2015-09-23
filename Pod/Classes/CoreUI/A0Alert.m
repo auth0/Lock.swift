@@ -42,8 +42,12 @@
     [self.buttons addObject:title];
 }
 
-- (void)show {
-    [self showAlertView];
+- (void)showInController:(UIViewController *)controller {
+    if ([UIAlertController class]) {
+        [self showAlerControllerFrom:controller];
+    } else {
+        [self showAlertView];
+    }
 }
 
 + (A0Alert *)showInController:(UIViewController *)controller alert:(void(^)(A0Alert *alert))builder {
@@ -51,7 +55,7 @@
     if (builder) {
         builder(alert);
     }
-    [alert show];
+    [alert showInController:controller];
     return alert;
 }
 
@@ -61,8 +65,26 @@
     if (builder) {
         builder(alert);
     }
-    [alert show];
+    [alert showInController:controller];
     return alert;
+}
+
+- (void)showAlerControllerFrom:(UIViewController *)controller {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:self.title message:self.message preferredStyle:UIAlertControllerStyleAlert];
+    if (self.cancelTitle) {
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:self.cancelTitle style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:cancel];
+    }
+    [self.buttons enumerateObjectsUsingBlock:^(NSString * _Nonnull title, NSUInteger idx, BOOL * _Nonnull stop) {
+        A0AlertButtonCallback callback = self.callbacks[title];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            if (callback) {
+                callback();
+            }
+        }];
+        [alert addAction:action];
+    }];
+    [controller presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)showAlertView {

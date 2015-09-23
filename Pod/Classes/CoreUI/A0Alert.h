@@ -32,7 +32,7 @@ typedef void(^A0AlertButtonCallback)();
 @property (copy, nullable, nonatomic) NSString *cancelTitle;
 
 - (void)addButtonWithTitle:(NSString *)title callback:(nullable A0AlertButtonCallback)callback;
-- (void)show;
+- (void)showInController:(UIViewController *)controller;
 
 + (A0Alert *)showInController:(UIViewController *)controller alert:(void(^)(A0Alert *alert))builder;
 + (A0Alert *)showInController:(UIViewController *)controller errorAlert:(void (^)(A0Alert * _Nonnull))builder;
