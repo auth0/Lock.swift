@@ -32,7 +32,7 @@
 #import <libextobjc/EXTScope.h>
 #import "A0Errors.h"
 #import "A0SignUpViewController.h"
-#import "A0UIUtilities.h"
+#import "A0Alert.h"
 #import "A0TitleView.h"
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
@@ -142,7 +142,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
                    didFailWithError:(NSError *)error {
-    A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+    [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+        alert.title = error.localizedDescription;
+        alert.message = error.localizedFailureReason;
+    }];
 }
 
 - (void)authenticationDidStartForSocialCollectionView:(A0SmallSocialServiceCollectionView *)collectionView {
@@ -199,7 +202,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0LogError(@"Failed to fetch App info %@", error);
         NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Failed to display Sign Up");
         NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldnt get Sign Up screen configuration. Please try again.");
-        [A0Alert showAlert:^(A0Alert *alert) {
+        [A0Alert showInController:self alert:^(A0Alert *alert) {
             alert.title = title;
             alert.message = message;
             [alert addButtonWithTitle:A0LocalizedString(@"Retry") callback:^{

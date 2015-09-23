@@ -27,7 +27,7 @@
 #import "A0ProgressButton.h"
 #import "A0APIClient.h"
 #import "A0Errors.h"
-#import "A0UIUtilities.h"
+#import "A0Alert.h"
 
 #import <libextobjc/EXTScope.h>
 #import "A0EmailValidator.h"
@@ -97,11 +97,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                [self.signUpButton setInProgress:NO];
                                NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
                                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
-                               A0ShowAlertErrorView(title, message);
+                               [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                                   alert.title = title;
+                                   alert.message = message;
+                               }];
                            }];
     } else {
         [self.signUpButton setInProgress:NO];
-        A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+        [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+            alert.title = error.localizedDescription;
+            alert.message = error.localizedFailureReason;
+        }];
     }
     [self updateUIWithError:error];
 }

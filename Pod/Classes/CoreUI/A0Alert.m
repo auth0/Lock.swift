@@ -46,8 +46,18 @@
     [self showAlertView];
 }
 
-+ (A0Alert *)showAlert:(void(^)(A0Alert *alert))builder {
++ (A0Alert *)showInController:(UIViewController *)controller alert:(void(^)(A0Alert *alert))builder {
     A0Alert *alert = [[A0Alert alloc] init];
+    if (builder) {
+        builder(alert);
+    }
+    [alert show];
+    return alert;
+}
+
++ (A0Alert *)showInController:(UIViewController *)controller errorAlert:(void (^)(A0Alert * _Nonnull))builder {
+    A0Alert *alert = [[A0Alert alloc] init];
+    alert.cancelTitle = A0LocalizedString(@"OK");
     if (builder) {
         builder(alert);
     }

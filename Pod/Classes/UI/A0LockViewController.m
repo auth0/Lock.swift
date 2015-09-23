@@ -162,7 +162,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0LogError(@"Failed to fetch App info %@", error);
         NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Failed to display login");
         NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldnt get login screen configuration. Please try again.");
-        [A0Alert showAlert:^(A0Alert *alert) {
+        [A0Alert showInController:self alert:^(A0Alert *alert) {
             alert.title = title;
             alert.message = message;
             [alert addButtonWithTitle:A0LocalizedString(@"Retry") callback:^{
@@ -235,7 +235,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     } else {
         NSString *title = A0LocalizedString(@"Failed to display login");
         NSString *message = A0LocalizedString(@"You have no enabled connections for your application. Please check your configuration and try again");
-        [A0Alert showAlert:^(A0Alert *alert) {
+        [A0Alert showInController:self alert:^(A0Alert *alert) {
             alert.title = title;
             alert.message = message;
             [alert addButtonWithTitle:A0LocalizedString(@"Retry") callback:^{

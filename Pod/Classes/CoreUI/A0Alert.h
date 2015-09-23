@@ -22,17 +22,20 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 typedef void(^A0AlertButtonCallback)();
 
 @interface A0Alert : NSObject
 
 @property (copy, nonatomic) NSString *title;
-@property (copy, nonatomic) NSString *message;
-@property (copy, nonatomic) NSString *cancelTitle;
+@property (copy, nullable, nonatomic) NSString *message;
+@property (copy, nullable, nonatomic) NSString *cancelTitle;
 
-- (void)addButtonWithTitle:(NSString *)title callback:(A0AlertButtonCallback)callback;
+- (void)addButtonWithTitle:(NSString *)title callback:(nullable A0AlertButtonCallback)callback;
 - (void)show;
 
-+ (A0Alert *)showAlert:(void(^)(A0Alert *alert))builder;
-
++ (A0Alert *)showInController:(UIViewController *)controller alert:(void(^)(A0Alert *alert))builder;
++ (A0Alert *)showInController:(UIViewController *)controller errorAlert:(void (^)(A0Alert * _Nonnull))builder;
 @end
+
+NS_ASSUME_NONNULL_END

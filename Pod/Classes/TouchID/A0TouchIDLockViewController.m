@@ -136,7 +136,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 message = A0LocalizedString(@"Couldn't authenticate with TouchID. Please try again later!.");
                 break;
         }
-        [A0Alert showAlert:^(A0Alert *alert) {
+        [A0Alert showInController:self alert:^(A0Alert *alert) {
             alert.title = A0LocalizedString(@"There was an error logging in");
             alert.message = message;
             alert.cancelTitle = A0LocalizedString(@"OK");

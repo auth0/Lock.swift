@@ -24,7 +24,7 @@
 #import "A0CredentialFieldView.h"
 #import "A0ProgressButton.h"
 #import "A0Theme.h"
-#import "A0UIUtilities.h"
+#import "A0Alert.h"
 #import "A0APIClient.h"
 #import "A0Errors.h"
 
@@ -86,7 +86,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             [self.loginButton setInProgress:NO];
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
             NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSMSLoginError:error];
-            A0ShowAlertErrorView(title, message);
+            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                alert.title = title;
+                alert.message = message;
+            }];
         };
         [self.loginButton setInProgress:YES];
         A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
@@ -97,7 +100,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                        failure:failureBlock];
     } else {
         A0LogError(@"Must provide a non-empty passcode.");
-        A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), A0LocalizedString(@"You must enter a valid email code"));
+        [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+            alert.title = A0LocalizedString(@"There was an error logging in");
+            alert.message = A0LocalizedString(@"You must enter a valid email code");
+        }];
     }
 }
 

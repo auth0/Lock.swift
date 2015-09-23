@@ -28,7 +28,7 @@
 #import "A0APIClient.h"
 #import "A0RequestAccessTokenOperation.h"
 #import "A0SendSMSOperation.h"
-#import "A0UIUtilities.h"
+#import "A0Alert.h"
 
 #import <libextobjc/EXTScope.h>
 #import "A0Errors.h"
@@ -101,7 +101,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             A0LogError(@"Failed to send SMS code with error %@", error);
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the SMS code");
             NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send an SMS to your phone. Please try again later.");
-            A0ShowAlertErrorView(title, message);
+            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                alert.title = title;
+                alert.message = message;
+            }];
             [self.registerButton setInProgress:NO];
         };
         A0LogDebug(@"About to send SMS code to phone %@", phoneNumber);
@@ -117,7 +120,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     } else {
         A0LogError(@"No phone number provided");
         [self.phoneFieldView setInvalid:YES];
-        A0ShowAlertErrorView(A0LocalizedString(@"There was an error sending the SMS code"), A0LocalizedString(@"You must enter a valid phone number"));
+        [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+            alert.title = A0LocalizedString(@"There was an error sending the SMS code");
+            alert.message = A0LocalizedString(@"You must enter a valid phone number");
+        }];
     }
 }
 

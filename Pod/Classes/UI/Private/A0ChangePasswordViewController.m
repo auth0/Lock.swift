@@ -27,7 +27,7 @@
 #import "A0APIClient.h"
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
-#import "A0UIUtilities.h"
+#import "A0Alert.h"
 #import "A0PasswordFieldView.h"
 #if __has_include("A0PasswordManager.h")
 #import "A0PasswordManager.h"
@@ -144,7 +144,10 @@
             @strongify(self);
             [self postChangePasswordSuccessfulWithEmail:username];
             [self.recoverButton setInProgress:NO];
-            A0ShowAlertErrorView(A0LocalizedString(@"Reset Password"), A0LocalizedString(@"We've just sent you an email to reset your password."));
+            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                alert.title = A0LocalizedString(@"Reset Password");
+                alert.message = A0LocalizedString(@"We've just sent you an email to reset your password.");
+            }];
             if (self.onChangePasswordBlock) {
                 self.onChangePasswordBlock();
             }
@@ -155,7 +158,10 @@
             [self.recoverButton setInProgress:NO];
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Couldn't change your password");
             NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForChangePasswordError:error];
-            A0ShowAlertErrorView(title, message);
+            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                alert.title = title;
+                alert.message = message;
+            }];
         };
         A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
         [client changePassword:password
@@ -166,7 +172,10 @@
 
     } else {
         [self.recoverButton setInProgress:NO];
-        A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+        [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+            alert.title = error.localizedDescription;
+            alert.message = error.localizedFailureReason;
+        }];
     }
     [self updateUIWithError:error];
 }

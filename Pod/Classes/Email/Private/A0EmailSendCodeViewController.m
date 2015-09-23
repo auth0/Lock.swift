@@ -27,7 +27,7 @@
 #import "A0APIClient.h"
 #import "A0RequestAccessTokenOperation.h"
 #import "A0SendSMSOperation.h"
-#import "A0UIUtilities.h"
+#import "A0Alert.h"
 #import "A0EmailValidator.h"
 #import "A0Errors.h"
 #import "A0Lock.h"
@@ -85,7 +85,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             A0LogError(@"Failed to send SMS code with error %@", error);
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the email code");
             NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send the email with your login code. Please try again later.");
-            A0ShowAlertErrorView(title, message);
+            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                alert.title = title;
+                alert.message = message;
+            }];
             [self.registerButton setInProgress:NO];
         };
         A0LogDebug(@"About to send Email code to %@", phoneNumber);
@@ -100,7 +103,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         } failure:onFailure];
     } else {
         [self.emailFieldView setInvalid:YES];
-        A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+        [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+            alert.title = error.localizedDescription;
+            alert.message = error.localizedFailureReason;
+        }];
     }
 }
 
