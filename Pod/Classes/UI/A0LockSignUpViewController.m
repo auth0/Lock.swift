@@ -131,16 +131,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 #pragma mark - A0SmallSocialServiceCollectionViewDelegate
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
-            didAuthenticateUserWithProfile:(A0UserProfile *)profile
-                                     token:(A0Token *)token {
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+     didAuthenticateUserWithProfile:(A0UserProfile *)profile
+                              token:(A0Token *)token {
     if (self.onAuthenticationBlock) {
         self.onAuthenticationBlock(profile, token);
     }
 }
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
-                          didFailWithError:(NSError *)error {
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+                   didFailWithError:(NSError *)error {
     A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
 }
 
@@ -152,8 +152,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self setInProgress:NO];
 }
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
-       presentAuthenticationViewController:(UIViewController *)controller {
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+              presentViewController:(UIViewController *)controller {
     [self presentViewController:controller animated:YES completion:nil];
 }
 

@@ -63,7 +63,7 @@
     }
 }
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
                           didFailWithError:(NSError *)error {
     A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
 }
@@ -77,7 +77,7 @@
 }
 
 - (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
-       presentAuthenticationViewController:(UIViewController *)controller {
+              presentViewController:(UIViewController *)controller {
     [self presentViewController:controller animated:YES completion:nil];
 }
 
