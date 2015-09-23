@@ -29,7 +29,7 @@
 #import "A0APIClient.h"
 #import "A0Errors.h"
 #import "A0ProgressButton.h"
-#import "A0UIUtilities.h"
+#import "A0Alert.h"
 #import "A0LockConfiguration.h"
 #import "UIViewController+LockNotification.h"
 #import "A0Lock.h"
@@ -107,12 +107,20 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 case A0ErrorCodeAuth0InvalidConfiguration:
                 case A0ErrorCodeAuth0NoURLSchemeFound:
                 case A0ErrorCodeNotConnectedToInternet:
-                case A0ErrorCodeGooglePlusFailed:
-                    A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+                case A0ErrorCodeGooglePlusFailed: {
+                    [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                        alert.title = error.localizedDescription;
+                        alert.message = error.localizedFailureReason;
+                    }];
                     break;
-                default:
-                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForConnectionName:connection.name loginError:error]);
+                }
+                default: {
+                    [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                        alert.title = A0LocalizedString(@"There was an error logging in");
+                        alert.message = [A0Errors localizedStringForConnectionName:connection.name loginError:error];
+                    }];
                     break;
+                }
             }
         }
     };

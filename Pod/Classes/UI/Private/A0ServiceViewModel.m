@@ -40,6 +40,7 @@ UIColor *UIColorFromRGB(value) { return UIColorFromRGBA(value, 1.0); }
 @implementation A0ServiceViewModel
 
 - (instancetype)initWithStrategy:(A0Strategy *)strategy connection:(A0Connection *)connection {
+    self = [super init];
     if (self) {
         _name = strategy.name;
         _connection = connection;

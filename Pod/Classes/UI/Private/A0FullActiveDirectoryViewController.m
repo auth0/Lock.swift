@@ -22,7 +22,7 @@
 
 #import "A0FullActiveDirectoryViewController.h"
 #import "A0Theme.h"
-#import "A0UIUtilities.h"
+#import "A0Alert.h"
 #import "A0LockConfiguration.h"
 #import "A0SmallSocialServiceCollectionView.h"
 
@@ -65,7 +65,10 @@
 
 - (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
                           didFailWithError:(NSError *)error {
-    A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+    [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+        alert.title = error.localizedDescription;
+        alert.message = error.localizedFailureReason;
+    }];
 }
 
 - (void)authenticationDidStartForSocialCollectionView:(A0SmallSocialServiceCollectionView *)collectionView {

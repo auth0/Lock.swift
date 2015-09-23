@@ -1,6 +1,6 @@
-// A0UIUtilities.h
+// A0Alert.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,4 +22,20 @@
 
 #import <Foundation/Foundation.h>
 
-void A0ShowAlertErrorView(NSString *title, NSString *message);
+NS_ASSUME_NONNULL_BEGIN
+typedef void(^A0AlertButtonCallback)();
+
+@interface A0Alert : NSObject
+
+@property (copy, nonatomic) NSString *title;
+@property (copy, nullable, nonatomic) NSString *message;
+@property (copy, nullable, nonatomic) NSString *cancelTitle;
+
+- (void)addButtonWithTitle:(NSString *)title callback:(nullable A0AlertButtonCallback)callback;
+- (void)showInController:(UIViewController *)controller;
+
++ (A0Alert *)showInController:(UIViewController *)controller alert:(void(^)(A0Alert *alert))builder;
++ (A0Alert *)showInController:(UIViewController *)controller errorAlert:(void (^)(A0Alert * _Nonnull))builder;
+@end
+
+NS_ASSUME_NONNULL_END

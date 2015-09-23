@@ -27,7 +27,7 @@
 #import "A0APIClient.h"
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
-#import "A0UIUtilities.h"
+#import "A0Alert.h"
 #import "A0PasswordFieldView.h"
 #import "A0CredentialsValidator.h"
 #import "A0EmailValidator.h"
@@ -176,7 +176,10 @@
             [self.signUpButton setInProgress:NO];
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
             NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
-            A0ShowAlertErrorView(title, message);
+            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                alert.title = title;
+                alert.message = message;
+            }];
         };
         A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
         [client signUpWithEmail:email
@@ -189,7 +192,10 @@
     } else {
         [self postSignUpErrorNotificationWithError:error];
         [self.signUpButton setInProgress:NO];
-        A0ShowAlertErrorView(A0LocalizedString(@"Invalid credentials"), error.localizedFailureReason);
+        [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+            alert.title = A0LocalizedString(@"Invalid credentials");
+            alert.message = error.localizedFailureReason;
+        }];
     }
     [self updateUIWithError:error];
 }

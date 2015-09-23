@@ -33,7 +33,7 @@
 #import "A0Connection.h"
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0AuthParameters.h"
-#import "A0UIUtilities.h"
+#import "A0Alert.h"
 #import "A0PasswordFieldView.h"
 #import "A0PasswordValidator.h"
 #import "A0UsernameValidator.h"
@@ -181,16 +181,25 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             [self.accessButton setInProgress:NO];
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
             NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
-            A0ShowAlertErrorView(title, message);
+            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                alert.title = title;
+                alert.message = message;
+            }];
         };
         [client loginWithUsername:username password:password parameters:self.parameters success:success failure:failure];
     } else {
         [self postLoginErrorNotificationWithError:error];
         [self.accessButton setInProgress:NO];
         if (error) {
-            A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                alert.title = error.localizedDescription;
+                alert.message = error.localizedFailureReason;
+            }];
         } else {
-            A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForLoginError:error]);
+            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                alert.title = A0LocalizedString(@"There was an error logging in");
+                alert.message = [A0Errors localizedStringForLoginError:error];
+            }];
         }
     }
     [self updateUIWithError:error];
@@ -252,12 +261,20 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 case A0ErrorCodeAuth0InvalidConfiguration:
                 case A0ErrorCodeAuth0NoURLSchemeFound:
                 case A0ErrorCodeNotConnectedToInternet:
-                case A0ErrorCodeGooglePlusFailed:
-                    A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
+                case A0ErrorCodeGooglePlusFailed: {
+                    [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                        alert.title = error.localizedDescription;
+                        alert.message = error.localizedFailureReason;
+                    }];
                     break;
-                default:
-                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForConnectionName:connectionName loginError:error]);
+                }
+                default: {
+                    [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                        alert.title = A0LocalizedString(@"There was an error logging in");
+                        alert.message = [A0Errors localizedStringForConnectionName:connectionName loginError:error];
+                    }];
                     break;
+                }
             }
         }
     };
