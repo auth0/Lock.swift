@@ -92,7 +92,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (NSString *)userPublicKeyPathForUser:(NSString *)userId {
-    return [[NSString stringWithFormat:@"api/users/%@/publickey", userId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];;
+    return [[NSString stringWithFormat:@"api/users/%@/publickey", userId] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];;
 }
 
 - (NSString *)startPasswordless {
