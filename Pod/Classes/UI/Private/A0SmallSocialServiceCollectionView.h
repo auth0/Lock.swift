@@ -1,4 +1,4 @@
-// A0SmallSocialAuthenticationCollectionView.h
+// A0SmallSocialServiceCollectionView.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -22,29 +22,29 @@
 
 #import <UIKit/UIKit.h>
 
-@class A0SmallSocialAuthenticationCollectionView, A0UserProfile, A0Token, A0LockConfiguration, A0AuthParameters, A0Lock;
+@class A0SmallSocialServiceCollectionView, A0UserProfile, A0Token, A0LockConfiguration, A0AuthParameters, A0Lock;
 
-@protocol A0SmallSocialAuthenticationCollectionViewDelegate <NSObject>
+@protocol A0SmallSocialServiceCollectionViewDelegate <NSObject>
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView
-       presentAuthenticationViewController:(UIViewController *)controller;
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+              presentViewController:(UIViewController *)controller;
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView
-            didAuthenticateUserWithProfile:(A0UserProfile *)profile
-                                     token:(A0Token *)token;
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+     didAuthenticateUserWithProfile:(A0UserProfile *)profile
+                              token:(A0Token *)token;
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView
-                          didFailWithError:(NSError *)error;
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+                   didFailWithError:(NSError *)error;
 
-- (void)authenticationDidStartForSocialCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView;
+- (void)authenticationDidStartForSocialCollectionView:(A0SmallSocialServiceCollectionView *)collectionView;
 
-- (void)authenticationDidEndForSocialCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView;
+- (void)authenticationDidEndForSocialCollectionView:(A0SmallSocialServiceCollectionView *)collectionView;
 
 @end
 
-@interface A0SmallSocialAuthenticationCollectionView : UICollectionView
+@interface A0SmallSocialServiceCollectionView : UICollectionView
 
-@property (weak, nonatomic) id<A0SmallSocialAuthenticationCollectionViewDelegate> authenticationDelegate;
+@property (weak, nonatomic) id<A0SmallSocialServiceCollectionViewDelegate> authenticationDelegate;
 @property (strong, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0Lock *lock;
 

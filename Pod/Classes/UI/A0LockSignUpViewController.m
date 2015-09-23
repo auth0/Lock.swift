@@ -24,7 +24,7 @@
 #import "A0Application.h"
 #import "A0AuthParameters.h"
 #import "A0Theme.h"
-#import "A0SmallSocialAuthenticationCollectionView.h"
+#import "A0SmallSocialServiceCollectionView.h"
 #import "A0LoadingViewController.h"
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0APIClient.h"
@@ -40,12 +40,12 @@
 #import "NSError+A0APIError.h"
 #import "UIConstants.h"
 
-@interface A0LockSignUpViewController () <A0SmallSocialAuthenticationCollectionViewDelegate>
+@interface A0LockSignUpViewController () <A0SmallSocialServiceCollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
-@property (weak, nonatomic) IBOutlet A0SmallSocialAuthenticationCollectionView *serviceCollectionView;
+@property (weak, nonatomic) IBOutlet A0SmallSocialServiceCollectionView *serviceCollectionView;
 
 @property (strong, nonatomic) A0LockConfiguration *configuration;
 @property (strong, nonatomic) A0Lock *lock;
@@ -129,31 +129,31 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [[A0Theme sharedInstance] statusBarHidden];
 }
 
-#pragma mark - A0SmallSocialAuthenticationCollectionViewDelegate
+#pragma mark - A0SmallSocialServiceCollectionViewDelegate
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView
-            didAuthenticateUserWithProfile:(A0UserProfile *)profile
-                                     token:(A0Token *)token {
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+     didAuthenticateUserWithProfile:(A0UserProfile *)profile
+                              token:(A0Token *)token {
     if (self.onAuthenticationBlock) {
         self.onAuthenticationBlock(profile, token);
     }
 }
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView
-                          didFailWithError:(NSError *)error {
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+                   didFailWithError:(NSError *)error {
     A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
 }
 
-- (void)authenticationDidStartForSocialCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView {
+- (void)authenticationDidStartForSocialCollectionView:(A0SmallSocialServiceCollectionView *)collectionView {
     [self setInProgress:YES];
 }
 
-- (void)authenticationDidEndForSocialCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView {
+- (void)authenticationDidEndForSocialCollectionView:(A0SmallSocialServiceCollectionView *)collectionView {
     [self setInProgress:NO];
 }
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView
-       presentAuthenticationViewController:(UIViewController *)controller {
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+              presentViewController:(UIViewController *)controller {
     [self presentViewController:controller animated:YES completion:nil];
 }
 

@@ -1,6 +1,6 @@
-//  A0ServicesTheme.h
+// A0ServiceViewModel.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@class A0Strategy;
+@class A0Connection, A0Strategy;
 
-@interface A0ServicesTheme : NSObject
+@interface A0ServiceViewModel : NSObject
 
-- (UIColor *)selectedBackgroundColorForServiceWithName:(NSString *)name;
-- (UIColor *)backgroundColorForServiceWithName:(NSString *)name;
-- (UIColor *)foregroundColorForServiceWithName:(NSString *)name;
-- (NSString *)iconCharacterForServiceWithName:(NSString *)name;
-- (NSString *)titleForServiceWithName:(NSString *)name;
+@property (readonly, strong, nonatomic) NSString *name;
+@property (readonly, strong, nonatomic) A0Connection *connection;
 
+@property (readonly, strong, nonatomic) UIColor *selectedBackgroundColor;
+@property (readonly, strong, nonatomic) UIColor *backgroundColor;
+@property (readonly, strong, nonatomic) UIColor *foregroundColor;
+@property (readonly, strong, nonatomic) NSString *iconCharacter;
+@property (readonly, strong, nonatomic) NSString *title;
+
+- (instancetype)initWithStrategy:(A0Strategy *)strategy connection:(A0Connection *)connection;
+
+- (void)applyTheme:(NSDictionary *)theme;
+
+@end
+
+@interface A0ServiceViewModel (Builder)
++ (NSArray *)servicesFromStrategy:(A0Strategy *)strategy;
++ (NSArray *)servicesFromStrategies:(NSArray *)strategies;
+@end
+
+@interface A0ServiceViewModel (ThemeLoad)
++ (NSDictionary *)loadThemeInformation;
 @end

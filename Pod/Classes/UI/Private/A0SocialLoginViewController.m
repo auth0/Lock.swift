@@ -29,15 +29,16 @@
 #import "A0APIClient.h"
 #import "A0Errors.h"
 #import "A0ProgressButton.h"
-#import "A0ServicesTheme.h"
 #import "A0UIUtilities.h"
 #import "A0LockConfiguration.h"
-
-#import <libextobjc/EXTScope.h>
 #import "UIViewController+LockNotification.h"
 #import "A0Lock.h"
 #import "NSObject+A0AuthenticatorProvider.h"
 #import "NSError+A0APIError.h"
+#import "A0ServiceViewModel.h"
+#import "A0Connection.h"
+
+#import <libextobjc/EXTScope.h>
 
 #define kCellIdentifier @"ServiceCell"
 
@@ -45,8 +46,8 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
-@property (strong, nonatomic) A0ServicesTheme *services;
-@property (strong, nonatomic) NSArray *activeServices;
+@property (strong, nonatomic) NSDictionary *serviceTheme;
+@property (strong, nonatomic) NSArray<A0ServiceViewModel *> *services;
 @property (assign, nonatomic) NSInteger selectedService;
 
 @end
@@ -71,19 +72,22 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [super viewDidLoad];
     UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:[NSBundle bundleForClass:self.class]];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:kCellIdentifier];
-    self.services = [[A0ServicesTheme alloc] init];
-    self.activeServices = self.configuration.socialStrategies;
+    self.serviceTheme = [A0ServiceViewModel loadThemeInformation];
+    self.services = [A0ServiceViewModel servicesFromStrategies:self.configuration.socialStrategies];
+    [self.services enumerateObjectsUsingBlock:^(A0ServiceViewModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj applyTheme:self.serviceTheme];
+    }];
     self.selectedService = NSNotFound;
 }
 
 - (void)triggerAuth:(UIButton *)sender {
     @weakify(self);
     self.selectedService = sender.tag;
-    A0Strategy *strategy = self.activeServices[sender.tag];
-
+    A0ServiceViewModel *service = self.services[sender.tag];
+    A0Connection *connection = service.connection;
     A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
         @strongify(self);
-        [self postLoginSuccessfulForConnection:strategy.connections.firstObject];
+        [self postLoginSuccessfulForConnection:service.connection];
         [self setInProgress:NO];
         if (self.onLoginBlock) {
             self.onLoginBlock(profile, token);
@@ -107,15 +111,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
                     break;
                 default:
-                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForConnectionName:strategy.name loginError:error]);
+                    A0ShowAlertErrorView(A0LocalizedString(@"There was an error logging in"), [A0Errors localizedStringForConnectionName:connection.name loginError:error]);
                     break;
             }
         }
     };
     [self setInProgress:YES];
     A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
-    A0LogVerbose(@"Authenticating with connection %@", strategy.name);
-    [authenticator authenticateWithConnectionName:strategy.name parameters:self.parameters success:successBlock failure:failureBlock];
+    A0LogVerbose(@"Authenticating with connection %@", connection.name);
+    [authenticator authenticateWithConnectionName:connection.name parameters:self.parameters success:successBlock failure:failureBlock];
 }
 
 - (CGRect)rectToKeepVisibleInView:(UIView *)view {
@@ -127,7 +131,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return (tableView.bounds.size.height - tableView.rowHeight * self.activeServices.count)  / 2;
+    return (tableView.bounds.size.height - tableView.rowHeight * self.services.count)  / 2;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -139,20 +143,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.activeServices.count;
+    return self.services.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *serviceName = [self.activeServices[indexPath.row] name];
-    UIColor *background = [self.services backgroundColorForServiceWithName:serviceName];
-    UIColor *selectedBackground = [self.services selectedBackgroundColorForServiceWithName:serviceName];
-    UIColor *foreground = [self.services foregroundColorForServiceWithName:serviceName];
+    A0ServiceViewModel *service = self.services[indexPath.row];
     A0ServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
-    [cell configureWithBackground:background
-                      highlighted:selectedBackground
-                       foreground:foreground
-                           symbol:[self.services iconCharacterForServiceWithName:serviceName]
-                             name:[self.services titleForServiceWithName:serviceName]];
+    [cell configureWithBackground:service.backgroundColor
+                      highlighted:service.selectedBackgroundColor
+                       foreground:service.foregroundColor
+                           symbol:service.iconCharacter
+                             name:service.title];
     [cell.button addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];
     cell.button.tag = indexPath.row;
     [cell.button setInProgress:self.selectedService == indexPath.row];

@@ -25,11 +25,11 @@
 #import <libextobjc/EXTScope.h>
 #import "A0ServiceCollectionViewLayoutDelegate.h"
 #import "A0LockConfiguration.h"
-#import "A0SmallSocialAuthenticationCollectionView.h"
+#import "A0SmallSocialServiceCollectionView.h"
 #import "A0Theme.h"
 #import "A0UIUtilities.h"
 
-@interface A0FullLoginViewController () <A0SmallSocialAuthenticationCollectionViewDelegate>
+@interface A0FullLoginViewController () <A0SmallSocialServiceCollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
@@ -56,7 +56,7 @@
     self.activityIndicator.color = [[A0Theme sharedInstance] colorForKey:A0ThemeTitleTextColor];
 }
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
             didAuthenticateUserWithProfile:(A0UserProfile *)profile
                                      token:(A0Token *)token {
     if (self.onLoginBlock) {
@@ -64,21 +64,21 @@
     }
 }
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView
-                          didFailWithError:(NSError *)error {
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+                   didFailWithError:(NSError *)error {
     A0ShowAlertErrorView(error.localizedDescription, error.localizedFailureReason);
 }
 
-- (void)authenticationDidStartForSocialCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView {
+- (void)authenticationDidStartForSocialCollectionView:(A0SmallSocialServiceCollectionView *)collectionView {
     [self setInProgress:YES];
 }
 
-- (void)authenticationDidEndForSocialCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView {
+- (void)authenticationDidEndForSocialCollectionView:(A0SmallSocialServiceCollectionView *)collectionView {
     [self setInProgress:NO];
 }
 
-- (void)socialAuthenticationCollectionView:(A0SmallSocialAuthenticationCollectionView *)collectionView
-       presentAuthenticationViewController:(UIViewController *)controller {
+- (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView
+              presentViewController:(UIViewController *)controller {
     [self presentViewController:controller animated:YES completion:nil];
 }
 
