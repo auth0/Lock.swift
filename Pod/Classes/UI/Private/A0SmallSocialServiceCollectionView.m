@@ -1,4 +1,4 @@
-// A0SmallSocialAuthenticationCollectionView.m
+// A0SmallSocialServiceCollectionView.m
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0SmallSocialAuthenticationCollectionView.h"
+#import "A0SmallSocialServiceCollectionView.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -44,7 +44,7 @@
 
 #define kCellIdentifier @"ServiceCell"
 
-@interface A0SmallSocialAuthenticationCollectionView () <UICollectionViewDataSource>
+@interface A0SmallSocialServiceCollectionView () <UICollectionViewDataSource>
 
 @property (strong, nonatomic) A0LockConfiguration *configuration;
 @property (strong, nonatomic) NSArray *socialServices;
@@ -53,7 +53,7 @@
 
 @end
 
-@implementation A0SmallSocialAuthenticationCollectionView
+@implementation A0SmallSocialServiceCollectionView
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
@@ -85,7 +85,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         @strongify(self);
         [self postLoginSuccessfulForConnection:strategy.connections.firstObject];
         [self.authenticationDelegate authenticationDidEndForSocialCollectionView:self];
-        [self.authenticationDelegate socialAuthenticationCollectionView:self didAuthenticateUserWithProfile:profile token:token];
+        [self.authenticationDelegate socialServiceCollectionView:self didAuthenticateUserWithProfile:profile token:token];
     };
 
     void(^failureBlock)(NSError *error) = ^(NSError *error) {
@@ -109,7 +109,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     authenticationError = [A0Errors failedLoginWithConnectionName:connectionName for:error];
                     break;
             }
-            [self.authenticationDelegate socialAuthenticationCollectionView:self didFailWithError:authenticationError];
+            [self.authenticationDelegate socialServiceCollectionView:self didFailWithError:authenticationError];
         }
     };
     [self.authenticationDelegate authenticationDidStartForSocialCollectionView:self];

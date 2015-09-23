@@ -23,11 +23,11 @@
 #import <UIKit/UIKit.h>
 #import "A0ActiveDirectoryViewController.h"
 
-@class A0LockConfiguration, A0SmallSocialAuthenticationCollectionView, A0Lock;
+@class A0LockConfiguration, A0SmallSocialServiceCollectionView, A0Lock;
 
 @interface A0FullActiveDirectoryViewController : A0ActiveDirectoryViewController
 
-@property (weak, nonatomic) IBOutlet A0SmallSocialAuthenticationCollectionView *serviceCollectionView;
+@property (weak, nonatomic) IBOutlet A0SmallSocialServiceCollectionView *serviceCollectionView;
 
 @property (strong, nonatomic) A0LockConfiguration *configuration;
 
