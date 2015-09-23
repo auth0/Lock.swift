@@ -1,6 +1,6 @@
-// A0UIUtilities.m
+// A0Alert.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0UIUtilities.h"
-#import "A0Alert.h"
+#import <Foundation/Foundation.h>
 
-void A0ShowAlertErrorView(NSString *title, NSString *message) {
-    [A0Alert showAlert:^(A0Alert *alert) {
-        alert.title = title;
-        alert.message = message;
-        alert.cancelTitle = A0LocalizedString(@"OK");
-    }];
-}
+typedef void(^A0AlertButtonCallback)();
+
+@interface A0Alert : NSObject
+
+@property (copy, nonatomic) NSString *title;
+@property (copy, nonatomic) NSString *message;
+@property (copy, nonatomic) NSString *cancelTitle;
+
+- (void)addButtonWithTitle:(NSString *)title callback:(A0AlertButtonCallback)callback;
+- (void)show;
+
++ (A0Alert *)showAlert:(void(^)(A0Alert *alert))builder;
+
+@end

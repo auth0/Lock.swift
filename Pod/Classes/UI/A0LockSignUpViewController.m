@@ -39,6 +39,7 @@
 #import "NSObject+A0AuthenticatorProvider.h"
 #import "NSError+A0APIError.h"
 #import "UIConstants.h"
+#import "A0Alert.h"
 
 @interface A0LockSignUpViewController () <A0SmallSocialServiceCollectionViewDelegate>
 
@@ -198,18 +199,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0LogError(@"Failed to fetch App info %@", error);
         NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Failed to display Sign Up");
         NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldnt get Sign Up screen configuration. Please try again.");
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:self
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:A0LocalizedString(@"Retry"), nil];
-        [alert show];
+        [A0Alert showAlert:^(A0Alert *alert) {
+            alert.title = title;
+            alert.message = message;
+            [alert addButtonWithTitle:A0LocalizedString(@"Retry") callback:^{
+                A0LogVerbose(@"Retrying fetch Auth0 app info...");
+                [self loadApplicationInfo];
+            }];
+        }];
     }];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    A0LogVerbose(@"Retrying fetch Auth0 app info...");
-    [self loadApplicationInfo];
 }
 
 - (A0AuthParameters *)copyAuthenticationParameters {

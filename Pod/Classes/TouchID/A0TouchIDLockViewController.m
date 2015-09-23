@@ -37,6 +37,7 @@
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
 #import "UIConstants.h"
+#import "A0Alert.h"
 
 NSString * const A0ThemeTouchIDLockButtonImageNormalName = @"A0ThemeTouchIDLockButtonImageNormalName";
 NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchIDLockButtonImageHighlightedName";
@@ -135,12 +136,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 message = A0LocalizedString(@"Couldn't authenticate with TouchID. Please try again later!.");
                 break;
         }
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:A0LocalizedString(@"There was an error logging in")
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:A0LocalizedString(@"OK")
-                                              otherButtonTitles:nil];
-        [alert show];
+        [A0Alert showAlert:^(A0Alert *alert) {
+            alert.title = A0LocalizedString(@"There was an error logging in");
+            alert.message = message;
+            alert.cancelTitle = A0LocalizedString(@"OK");
+        }];
         self.touchIDView.hidden = NO;
         self.loadingView.hidden = YES;
     };

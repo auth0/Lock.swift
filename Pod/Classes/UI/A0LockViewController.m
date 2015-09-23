@@ -54,8 +54,9 @@
 #import "NSObject+A0AuthenticatorProvider.h"
 #import "NSError+A0APIError.h"
 #import "UIConstants.h"
+#import "A0Alert.h"
 
-@interface A0LockViewController () <UIAlertViewDelegate>
+@interface A0LockViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 
@@ -161,18 +162,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0LogError(@"Failed to fetch App info %@", error);
         NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Failed to display login");
         NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldnt get login screen configuration. Please try again.");
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:self
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:A0LocalizedString(@"Retry"), nil];
-        [alert show];
+        [A0Alert showAlert:^(A0Alert *alert) {
+            alert.title = title;
+            alert.message = message;
+            [alert addButtonWithTitle:A0LocalizedString(@"Retry") callback:^{
+                A0LogVerbose(@"Retrying fetch Auth0 app info...");
+                [self loadApplicationInfo];
+            }];
+        }];
     }];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    A0LogVerbose(@"Retrying fetch Auth0 app info...");
-    [self loadApplicationInfo];
 }
 
 #pragma mark - Container methods
@@ -237,12 +235,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     } else {
         NSString *title = A0LocalizedString(@"Failed to display login");
         NSString *message = A0LocalizedString(@"You have no enabled connections for your application. Please check your configuration and try again");
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:self
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:A0LocalizedString(@"Retry"), nil];
-        [alert show];
+        [A0Alert showAlert:^(A0Alert *alert) {
+            alert.title = title;
+            alert.message = message;
+            [alert addButtonWithTitle:A0LocalizedString(@"Retry") callback:^{
+                A0LogVerbose(@"Retrying fetch Auth0 app info...");
+                [self loadApplicationInfo];
+            }];
+        }];
         A0LogError(@"Application has no enabled connections. Application Strategies: %@. Connections to filter %@.", application.strategies, self.connections);
     }
 }
