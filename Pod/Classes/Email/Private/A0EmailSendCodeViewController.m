@@ -63,7 +63,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [theme configureTextField:self.emailFieldView.textField];
     [theme configurePrimaryButton:self.registerButton];
     [theme configureLabel:self.messageLabel];
-    self.messageLabel.text = A0LocalizedString(@"Please enter your email");
+    self.messageLabel.text = A0LocalizedString(@"Enter your email to sign in or create an account");
     [self.emailFieldView setFieldPlaceholderText:A0LocalizedString(@"Email")];
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
 
