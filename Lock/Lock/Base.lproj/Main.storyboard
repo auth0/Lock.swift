@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="b0G-O7-9pB">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -119,7 +118,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="izG-b5-zPZ">
-                                        <rect key="frame" x="180" y="61" width="200" height="21"/>
+                                        <rect key="frame" x="180" y="60" width="200" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="uMa-76-5Wi"/>
                                         </constraints>
@@ -134,7 +133,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3NR-6U-S8X">
-                                        <rect key="frame" x="180" y="142" width="200" height="21"/>
+                                        <rect key="frame" x="180" y="141" width="200" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="iAw-pn-fAf"/>
                                         </constraints>
@@ -156,17 +155,19 @@
                                     <constraint firstItem="CLJ-3M-Wjy" firstAttribute="leading" secondItem="n9d-fm-LA3" secondAttribute="leading" constant="20" id="ooV-C3-Dhi"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="M8s-y2-R6w">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="M8s-y2-R6w">
                                 <rect key="frame" x="20" y="320" width="560" height="260"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="61p-ir-eFE">
-                                        <rect key="frame" x="0.0" y="0.0" width="560" height="120"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="bottom" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="61p-ir-eFE">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="125"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5jq-5F-iIv">
-                                                <rect key="frame" x="0.0" y="0.0" width="275" height="120"/>
+                                                <rect key="frame" x="0.0" y="85" width="270" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="clx-WE-hiW"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="Lock Default" image="badge-small" backgroundImage="normal-button-background">
+                                                <state key="normal" title="Lock Default" backgroundImage="normal-button-background">
                                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
@@ -174,10 +175,12 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Hz-S7-f0G">
-                                                <rect key="frame" x="285" y="0.0" width="275" height="120"/>
+                                                <rect key="frame" x="290" y="85" width="270" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="O1h-dR-LUC"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="TouchID" image="touchId-small" backgroundImage="normal-button-background">
+                                                <state key="normal" title="TouchID" backgroundImage="normal-button-background">
                                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
@@ -186,14 +189,16 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-a9-e75">
-                                        <rect key="frame" x="0.0" y="140" width="560" height="120"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-a9-e75">
+                                        <rect key="frame" x="0.0" y="135" width="560" height="125"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zMy-gF-7ox">
-                                                <rect key="frame" x="0.0" y="0.0" width="275" height="120"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="270" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="u0g-LQ-lLe"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="SMS" image="badge-small" backgroundImage="normal-button-background">
+                                                <state key="normal" title="SMS" backgroundImage="normal-button-background">
                                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
@@ -201,10 +206,12 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g0V-4q-35t">
-                                                <rect key="frame" x="285" y="0.0" width="275" height="120"/>
+                                                <rect key="frame" x="290" y="0.0" width="270" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="FMq-wx-mW0"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="Email" image="badge-small" backgroundImage="normal-button-background">
+                                                <state key="normal" title="Email" backgroundImage="normal-button-background">
                                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
@@ -527,12 +534,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="badge-small" width="27" height="30"/>
         <image name="nav-bar-logo" width="80" height="29"/>
         <image name="navbar-logout-icon" width="19" height="18"/>
         <image name="navbar-profile-icon" width="25" height="25"/>
         <image name="normal-button-background" width="20" height="20"/>
         <image name="refresh-btn" width="19" height="19"/>
-        <image name="touchId-small" width="32" height="31"/>
     </resources>
 </document>
