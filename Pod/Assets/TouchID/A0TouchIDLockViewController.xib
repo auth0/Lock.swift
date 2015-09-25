@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0TouchIDLockViewController">
@@ -42,14 +42,29 @@
                         <action selector="close:" destination="-1" eventType="touchUpInside" id="bhG-12-ZJY"/>
                     </connections>
                 </button>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUM-s6-89B">
+                    <rect key="frame" x="150" y="223" width="300" height="300"/>
+                    <subviews>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Mn7-UT-WeL">
+                            <rect key="frame" x="131" y="132" width="37" height="37"/>
+                            <color key="color" red="0.086274509803921567" green="0.12941176470588237" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="300" id="9vE-ff-zYp"/>
+                        <constraint firstAttribute="centerX" secondItem="Mn7-UT-WeL" secondAttribute="centerX" id="FGH-Ij-gC4"/>
+                        <constraint firstAttribute="centerY" secondItem="Mn7-UT-WeL" secondAttribute="centerY" id="Ikc-c3-nvZ"/>
+                        <constraint firstAttribute="width" constant="300" id="XhN-RM-hY1"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="40u-FA-4Nw">
-                    <rect key="frame" x="50" y="215" width="500" height="335"/>
+                    <rect key="frame" x="50" y="205" width="500" height="335"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OPV-4k-Yhd">
-                            <rect key="frame" x="200" y="97" width="100" height="100"/>
+                            <rect key="frame" x="173" y="70" width="155" height="155"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="100" id="KYq-Ds-DQ5"/>
-                                <constraint firstAttribute="width" constant="100" id="xrV-kF-5SP"/>
+                                <constraint firstAttribute="height" constant="155" id="KYq-Ds-DQ5"/>
+                                <constraint firstAttribute="width" constant="155" id="xrV-kF-5SP"/>
                             </constraints>
                             <state key="normal" image="Auth0.TouchID.bundle/touchid"/>
                             <state key="highlighted" image="Auth0.TouchID.bundle/touchid_selected"/>
@@ -57,20 +72,20 @@
                                 <action selector="checkTouchID:" destination="-1" eventType="touchUpInside" id="aaE-cq-br7"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap above to get started" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ZQ-b2-BUM">
-                            <rect key="frame" x="171" y="217" width="158" height="17"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" red="0.29803921568627451" green="0.29803921568627451" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap above to sign in or create an account" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ZQ-b2-BUM">
+                            <rect key="frame" x="103" y="313" width="295" height="20"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                            <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="0.95999999999999996" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" constant="300" id="5pU-8O-jY1"/>
-                        <constraint firstItem="2ZQ-b2-BUM" firstAttribute="top" secondItem="OPV-4k-Yhd" secondAttribute="bottom" constant="20" id="BcF-3r-fa3"/>
                         <constraint firstAttribute="centerX" secondItem="2ZQ-b2-BUM" secondAttribute="centerX" id="S4p-Tx-aEN"/>
                         <constraint firstAttribute="centerY" secondItem="OPV-4k-Yhd" secondAttribute="centerY" constant="20" id="bXu-aT-Kvu"/>
+                        <constraint firstAttribute="bottom" secondItem="2ZQ-b2-BUM" secondAttribute="bottom" constant="3" id="bzT-N1-jWY"/>
                         <constraint firstAttribute="centerX" secondItem="OPV-4k-Yhd" secondAttribute="centerX" id="d9s-sg-3QZ"/>
                         <constraint firstAttribute="height" constant="300" id="g46-vT-5Og"/>
                         <constraint firstAttribute="centerX" secondItem="2ZQ-b2-BUM" secondAttribute="centerX" id="yCK-DW-U8G"/>
@@ -87,30 +102,15 @@
                         </mask>
                     </variation>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUM-s6-89B">
-                    <rect key="frame" x="150" y="233" width="300" height="300"/>
-                    <subviews>
-                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Mn7-UT-WeL">
-                            <rect key="frame" x="131" y="132" width="37" height="37"/>
-                            <color key="color" red="0.086274509803921567" green="0.12941176470588237" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
-                        </activityIndicatorView>
-                    </subviews>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="300" id="9vE-ff-zYp"/>
-                        <constraint firstAttribute="centerX" secondItem="Mn7-UT-WeL" secondAttribute="centerX" id="FGH-Ij-gC4"/>
-                        <constraint firstAttribute="centerY" secondItem="Mn7-UT-WeL" secondAttribute="centerY" id="Ikc-c3-nvZ"/>
-                        <constraint firstAttribute="width" constant="300" id="XhN-RM-hY1"/>
-                    </constraints>
-                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="cvj-On-Dtc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="0G0-Po-vs7"/>
-                <constraint firstAttribute="bottom" secondItem="40u-FA-4Nw" secondAttribute="bottom" constant="50" id="0Pa-jA-8db"/>
+                <constraint firstAttribute="bottom" secondItem="40u-FA-4Nw" secondAttribute="bottom" constant="60" id="0Pa-jA-8db"/>
                 <constraint firstAttribute="trailing" secondItem="40u-FA-4Nw" secondAttribute="trailing" constant="50" id="16R-gj-iz4"/>
                 <constraint firstItem="mLe-q3-wEZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="55" id="Aak-Vr-vp5"/>
                 <constraint firstItem="40u-FA-4Nw" firstAttribute="centerY" secondItem="JUM-s6-89B" secondAttribute="centerY" id="Frs-bY-xap"/>
-                <constraint firstItem="40u-FA-4Nw" firstAttribute="top" secondItem="mLe-q3-wEZ" secondAttribute="bottom" constant="50" id="S28-Rw-tYY"/>
+                <constraint firstItem="40u-FA-4Nw" firstAttribute="top" secondItem="mLe-q3-wEZ" secondAttribute="bottom" constant="40" id="S28-Rw-tYY"/>
                 <constraint firstItem="mLe-q3-wEZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="SSB-kZ-cxW"/>
                 <constraint firstAttribute="trailing" secondItem="cvj-On-Dtc" secondAttribute="trailing" id="aqk-mA-N3Z"/>
                 <constraint firstItem="40u-FA-4Nw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="50" id="nK6-55-6EQ"/>
