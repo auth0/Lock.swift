@@ -91,12 +91,12 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
-  - Lock (1.18.0):
+  - Lock (1.19.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
-    - Lock/Core (= 1.18.0)
-    - Lock/UI (= 1.18.0)
-    - Lock/WebView (= 1.18.0)
+    - Lock/Core (= 1.19.0)
+    - Lock/UI (= 1.19.0)
+    - Lock/WebView (= 1.19.0)
   - Lock-Facebook (2.2.0):
     - CocoaLumberjack (~> 2.0)
     - FBSDKCoreKit (~> 4.6)
@@ -108,48 +108,48 @@ PODS:
     - Lock/Core (~> 1.11)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Lock/1Password (1.18.0):
+  - Lock/1Password (1.19.0):
     - 1PasswordExtension (~> 1.2)
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/Core (1.18.0):
+  - Lock/Core (1.19.0):
     - AFNetworking (~> 2.5)
     - CocoaLumberjack (~> 2.0)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
-  - Lock/CoreUI (1.18.0):
+  - Lock/CoreUI (1.19.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/Email (1.18.0):
+  - Lock/Email (1.19.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/UI
-  - Lock/ReactiveCore (1.18.0):
+  - Lock/ReactiveCore (1.19.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ReactiveCocoa (~> 2.3)
-  - Lock/Safari (1.18.0):
+  - Lock/Safari (1.19.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/SMS (1.18.0):
+  - Lock/SMS (1.19.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/UI
-  - Lock/TouchID (1.18.0):
+  - Lock/TouchID (1.19.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/UI
     - SimpleKeychain (~> 0.2)
     - TouchIDAuth (~> 0.1)
-  - Lock/UI (1.18.0):
+  - Lock/UI (1.19.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/CoreUI
-  - Lock/WebView (1.18.0):
+  - Lock/WebView (1.19.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/CoreUI
@@ -234,7 +234,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   JWTDecode: c193d229af74dd72121515c976f930ccbed96a2a
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  Lock: 9a2cdd8f3878c98bee4379fc47cff56f4b7a89ed
+  Lock: 858f80a2708b1e13833d186db0c3456db360f635
   Lock-Facebook: 36e982eb8221dd07fcc9770781e3fc6363be28d3
   Lock-Twitter: 8168e4c3861f6cc6581d1b8d635f41e29a607cb3
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
