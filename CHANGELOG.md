@@ -1,5 +1,29 @@
 # Change Log
 
+## [1.19.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.19.0) (2015-09-26)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.18.0...1.19.0)
+
+**Implemented enhancements:**
+
+- Native integrations for arbitrary connection name [\#159](https://github.com/auth0/Lock.iOS-OSX/issues/159)
+
+**Closed issues:**
+
+- Mismatch for custom oauth2 strategies [\#164](https://github.com/auth0/Lock.iOS-OSX/issues/164)
+
+**Merged pull requests:**
+
+- Clean iOS 9 warnings [\#172](https://github.com/auth0/Lock.iOS-OSX/pull/172) ([hzalaz](https://github.com/hzalaz))
+
+- Handle correctly multiple connection per strategy [\#171](https://github.com/auth0/Lock.iOS-OSX/pull/171) ([hzalaz](https://github.com/hzalaz))
+
+- Add Email passwordless connection \(send code only\) [\#169](https://github.com/auth0/Lock.iOS-OSX/pull/169) ([hzalaz](https://github.com/hzalaz))
+
+- Start passwordless with email \(code only\) in API client [\#168](https://github.com/auth0/Lock.iOS-OSX/pull/168) ([hzalaz](https://github.com/hzalaz))
+
+- Xcode 7 [\#167](https://github.com/auth0/Lock.iOS-OSX/pull/167) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.18.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.18.0) (2015-09-15)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.17.0...1.18.0)
@@ -66,7 +90,7 @@
 
 - Fix subscript support in Swift for A0AuthParameters [\#145](https://github.com/auth0/Lock.iOS-OSX/pull/145) ([hzalaz](https://github.com/hzalaz))
 
-- Force all views that have autorotate disabled to portrait orientation. [\#141](https://github.com/auth0/Lock.iOS-OSX/pull/141) ([basejumper9](https://github.com/basejumper9))
+- Force all views that have autorotate disabled to portrait orientation. [\#141](https://github.com/auth0/Lock.iOS-OSX/pull/141) ([PetroccoCo](https://github.com/PetroccoCo))
 
 ## [1.16.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.16.0) (2015-07-20)
 
