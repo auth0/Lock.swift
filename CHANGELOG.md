@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.19.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.19.1) (2015-09-30)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.19.0...1.19.1)
+
+**Merged pull requests:**
+
+- Missing Icon in passwords email [\#173](https://github.com/auth0/Lock.iOS-OSX/pull/173) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.19.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.19.0) (2015-09-26)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.18.0...1.19.0)
