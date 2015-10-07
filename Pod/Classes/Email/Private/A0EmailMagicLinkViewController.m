@@ -21,15 +21,106 @@
 // THE SOFTWARE.
 
 #import "A0EmailMagicLinkViewController.h"
+#import "A0EmailLockViewModel.h"
+#import "NSError+A0APIError.h"
+#import "A0Alert.h"
+#import "A0Theme.h"
+
+const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
 
 @interface A0EmailMagicLinkViewController ()
+
+@property (strong, nonatomic) A0EmailLockViewModel *viewModel;
+@property (strong, nonatomic) NSTimer *resendTimer;
+
+@property (unsafe_unretained, nonatomic) IBOutlet UILabel *checkLabel;
+@property (unsafe_unretained, nonatomic) IBOutlet UILabel *messageLabel;
+@property (unsafe_unretained, nonatomic) IBOutlet UIButton *resendButton;
+
+- (IBAction)resend:(id)sender;
 
 @end
 
 @implementation A0EmailMagicLinkViewController
 
+- (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel {
+    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    if (self) {
+        _viewModel = viewModel;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = A0LocalizedString(@"Email Sent");
+
+    A0Theme *theme = [A0Theme sharedInstance];
+    UIFont *font = [theme fontForKey:A0ThemeDescriptionFont];
+    NSMutableAttributedString *message = [[NSMutableAttributedString alloc] initWithString:A0LocalizedString(@"We sent you a link to sign in to ")
+                                                                                attributes:@{
+                                                                                             NSForegroundColorAttributeName: [theme colorForKey:A0ThemeDescriptionTextColor],
+                                                                                             NSFontAttributeName: font,
+                                                                                             }];
+    [message appendAttributedString:[[NSAttributedString alloc] initWithString:self.viewModel.email
+                                                                    attributes:@{
+                                                                                 NSFontAttributeName: [UIFont boldSystemFontOfSize:font.pointSize],
+                                                                                 }]];
+    self.messageLabel.attributedText = message;
+
+    self.checkLabel.layer.cornerRadius = self.checkLabel.frame.size.height / 2;
+    self.checkLabel.layer.masksToBounds = YES;
+    
+    [self scheduleToEnableResend];
+    self.resendButton.tintColor = [theme colorForKey:A0ThemePrimaryButtonNormalColor];
+}
+
+- (void)dealloc {
+    [self.resendTimer invalidate];
+    self.resendTimer = nil;
+}
+
+- (IBAction)resend:(id)sender {
+    self.resendButton.enabled = NO;
+    [self.viewModel requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
+        self.resendButton.enabled = error == nil;
+        if (error) {
+            A0LogError(@"Failed to send SMS code with error %@", error);
+            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the email");
+            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send the email with your login link. Please try again later.");
+            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                alert.title = title;
+                alert.message = message;
+            }];
+            return;
+        }
+
+        [self scheduleToEnableResend];
+    }];
+}
+
+- (void)enableResend {
+    self.resendButton.hidden = NO;
+    self.resendButton.enabled = YES;
+    self.resendTimer = nil;
+}
+
+- (void)scheduleToEnableResend {
+    self.resendTimer = [NSTimer scheduledTimerWithTimeInterval:A0EmailMagicLinkRetryInSeconds
+                                                        target:self
+                                                      selector:@selector(enableResend)
+                                                      userInfo:nil
+                                                       repeats:NO];
+    self.resendButton.hidden = YES;
+}
+
+#pragma mark - A0KeyboardEnabledView
+
+- (CGRect)rectToKeepVisibleInView:(UIView *)view {
+    return CGRectZero;
+}
+
+- (void)hideKeyboard {
 }
 
 @end

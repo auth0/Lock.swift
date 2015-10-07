@@ -29,6 +29,7 @@
 #import "A0TitleView.h"
 #import "A0Lock.h"
 #import "A0EmailLockViewModel.h"
+#import "A0EmailMagicLinkViewController.h"
 #import <libextobjc/EXTScope.h>
 
 #define kEmailKey @"auth0-lock-email-email"
@@ -132,10 +133,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:self.viewModel.email forKey:kEmailKey];
         [defaults synchronize];
-        [self navigateToInputCodeScreen];
+        if (self.useMagicLink) {
+            [self navigateToWaitForMagicLinkScreen];
+        } else {
+            [self navigateToInputCodeScreen];
+        }
     };
     [self.navigationView removeAll];
-    if (self.viewModel.hasEmail) {
+    if (self.viewModel.hasEmail && !self.useMagicLink) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
             @strongify(self);
             [self navigateToInputCodeScreen];
@@ -153,6 +158,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         @strongify(self);
         [self navigateToRequestCodeScreen];
     }];
+    [self displayController:controller];
+}
+
+- (void)navigateToWaitForMagicLinkScreen {
+    A0EmailMagicLinkViewController *controller = [[A0EmailMagicLinkViewController alloc] initWithViewModel:self.viewModel];
+    [self.navigationView removeAll];
     [self displayController:controller];
 }
 

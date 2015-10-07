@@ -36,7 +36,7 @@ NSString * const A0EmailValidatorIdentifer = @"A0EmailValidatorIdentifer";
 
 - (instancetype)init {
     [self doesNotRecognizeSelector:_cmd];
-    return [self initWithSource:^NSString * _Nullable{
+    return [self initWithSource:^NSString * _Nullable {
         return nil;
     }];
 }
