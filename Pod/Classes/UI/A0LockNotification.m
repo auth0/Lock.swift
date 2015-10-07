@@ -36,3 +36,6 @@ NSString * const A0LockNotificationLockDismissed = @"A0LockNotificationLockDismi
 NSString * const A0LockNotificationErrorParameterKey = @"A0LockNotificationErrorParameterKey";
 NSString * const A0LockNotificationEmailParameterKey = @"A0LockNotificationEmailParameterKey";
 NSString * const A0LockNotificationConnectionParameterKey = @"A0LockNotificationConnectionParameterKey";
+
+NSString * const A0LockNotificationUniversalLinkReceived = @"com.auth0.universal-link.received";
+NSString * const A0LockNotificationUniversalLinkParameterKey = @"com.auth0.universal-link.url";

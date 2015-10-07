@@ -23,6 +23,7 @@
 #import "A0LockTest.h"
 
 #import "A0Lock.h"
+#import "A0LockNotification.h"
 
 #define kClientId @"1234567890"
 #define kDomain @"samples.auth0.com"
@@ -196,6 +197,25 @@ describe(@"A0Lock", ^{
             [given(activity.webpageURL) willReturn:[NSURL URLWithString:[@"https://samples.auth0.com/ios/" stringByAppendingString:[[NSBundle mainBundle] bundleIdentifier]]]];
             expect([lock continueUserActivity:activity restorationHandler:restorationHandler]).to.beTruthy();
         });
+
+        it(@"should post notification with url", ^{
+            NSURL *url = [NSURL URLWithString:[@"https://samples.auth0.com/ios/" stringByAppendingString:[[NSBundle mainBundle] bundleIdentifier]]];
+            [given(activity.webpageURL) willReturn:url];
+            NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+
+            waitUntil(^(DoneCallback done) {
+                NSObject *observer = [defaultCenter addObserverForName:A0LockNotificationUniversalLinkReceived
+                                                                object:nil
+                                                                 queue:nil
+                                                            usingBlock:^(NSNotification * _Nonnull notif) {
+                                                                expect(notif.userInfo[A0LockNotificationUniversalLinkParameterKey]).to.equal(url);
+                                                                [[NSNotificationCenter defaultCenter] removeObserver:observer];
+                                                                done();
+                                                            }];
+                [lock continueUserActivity:activity restorationHandler:restorationHandler];
+            });
+        });
+
     });
 });
 

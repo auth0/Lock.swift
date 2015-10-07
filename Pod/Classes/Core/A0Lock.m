@@ -27,6 +27,7 @@
 #import "A0IdentityProviderAuthenticator.h"
 #endif
 #import "A0UserAPIClient.h"
+#import "A0LockNotification.h"
 
 #define kCDNConfigurationURL @"https://cdn.auth0.com"
 #define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
@@ -183,6 +184,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
 
     A0LogDebug(@"Received Universal Link %@", url);
+    [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationUniversalLinkReceived
+                                                        object:nil
+                                                      userInfo:@{
+                                                                 A0LockNotificationUniversalLinkParameterKey: url
+                                                                 }];
     return YES;
 }
 
