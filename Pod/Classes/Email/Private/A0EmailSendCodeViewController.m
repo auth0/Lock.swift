@@ -28,7 +28,6 @@
 #import "A0RequestAccessTokenOperation.h"
 #import "A0SendSMSOperation.h"
 #import "A0Alert.h"
-#import "A0EmailValidator.h"
 #import "A0Errors.h"
 #import "A0Lock.h"
 #import "NSError+A0APIError.h"
@@ -42,7 +41,6 @@
 @property (weak, nonatomic) IBOutlet A0ProgressButton *registerButton;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
-@property (strong, nonatomic) A0EmailValidator *validator;
 @property (strong, nonatomic) A0EmailLockViewModel *viewModel;
 - (IBAction)registerEmail:(id)sender;
 
@@ -73,17 +71,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
 
     self.emailFieldView.textField.text = self.viewModel.email;
-    self.validator = [[A0EmailValidator alloc] initWithField:self.emailFieldView.textField];
+    [self.emailFieldView.textField addTarget:self action:@selector(emailDidChangeInTextField:) forControlEvents:UIControlEventEditingChanged];
 }
 
 - (void)registerEmail:(id)sender {
-    NSError *error = [self.validator validate];
+    NSError *error = self.viewModel.emailError;
     if (!error) {
         [self.emailFieldView setInvalid:NO];
         [self.emailFieldView.textField resignFirstResponder];
         A0LogDebug(@"Registering email %@", self.emailFieldView.textField.text);
         [self.registerButton setInProgress:YES];
-        self.viewModel.email = self.emailFieldView.textField.text;
         @weakify(self);
         A0LogDebug(@"About to send Email code to %@", self.viewModel.email);
         [self.viewModel requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
@@ -113,6 +110,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         }];
     }
 }
+
+- (void)emailDidChangeInTextField:(UITextField *)textField {
+    self.viewModel.email = textField.text;
+}
+
 
 #pragma mark - A0KeyboardEnabledView
 

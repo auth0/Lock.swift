@@ -22,6 +22,9 @@
 
 #import "A0EmailLockViewModel.h"
 #import "A0APIClient.h"
+#import "A0EmailValidator.h"
+
+#import <libextobjc/EXTScope.h>
 
 typedef void(^RequestCode)(NSString *email, A0EmailLockViewModelRequestBlock _Nonnull callback);
 typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLockViewModelAuthenticationBlock _Nonnull callback);
@@ -29,6 +32,7 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
 @interface A0EmailLockViewModel ()
 @property (copy, nonatomic) RequestCode requestCode;
 @property (strong, nonatomic) AuthenticateWithCode authenticateWithCode;
+@property (strong, nonatomic) A0EmailValidator *validator;
 @end
 
 @implementation A0EmailLockViewModel
@@ -38,6 +42,11 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
     if (self) {
         self.requestCode = requestCode;
         self.authenticateWithCode = authenticateWithCode;
+        @weakify(self);
+        self.validator = [[A0EmailValidator alloc] initWithSource:^NSString * _Nullable{
+            @strongify(self);
+            return self.email;
+        }];
     }
     return self;
 }
@@ -89,6 +98,10 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
 }
 
 - (BOOL)hasEmail {
-    return [self.email stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0;
+    return self.emailError == nil;
+}
+
+- (NSError *)emailError {
+    return [self.validator validate];
 }
 @end
