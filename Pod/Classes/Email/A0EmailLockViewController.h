@@ -23,6 +23,8 @@
 #import <UIKit/UIKit.h>
 #import <Lock/A0ContainerViewController.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class A0AuthParameters, A0UserProfile, A0Token, A0Lock;
 
 @interface A0EmailLockViewController : A0ContainerViewController
@@ -49,13 +51,13 @@
 /**
  Block that is called on when the user dismisses the Login screen. Only when closable property is `YES`.
  */
-@property (copy, nonatomic) void(^onUserDismissBlock)();
+@property (copy, nonatomic, nullable) void(^onUserDismissBlock)();
 
 /**
  *  Parameters to be sent to all Authentication request to Auth0 API.
  *  @see A0AuthParameters
  */
-@property (strong, nonatomic) A0AuthParameters *authenticationParameters;
+@property (strong, nonatomic, nullable) A0AuthParameters *authenticationParameters;
 
 /**
  *  When starting authentication, request a magic link instead of the code. Default is `NO`.
@@ -63,3 +65,5 @@
 @property (assign, nonatomic) BOOL useMagicLink;
 
 @end
+
+NS_ASSUME_NONNULL_END
