@@ -28,6 +28,7 @@
 #import "A0NavigationView.h"
 #import "A0TitleView.h"
 #import "A0Lock.h"
+#import "A0EmailLockViewModel.h"
 #import <libextobjc/EXTScope.h>
 
 #define kEmailKey @"auth0-lock-email-email"
@@ -37,6 +38,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 @property (strong, nonatomic) A0Lock *lock;
+@property (strong, nonatomic) A0EmailLockViewModel *viewModel;
 
 - (IBAction)close:(id)sender;
 
@@ -72,8 +74,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
 
-    self.navigationController.navigationBarHidden = YES;
+    if (self.useMagicLink) {
+        self.viewModel = [[A0EmailLockViewModel alloc] initForMagicLinkWithLock:self.lock authenticationParameters:self.authenticationParameters];
+    } else {
+        self.viewModel = [[A0EmailLockViewModel alloc] initWithLock:self.lock authenticationParameters:self.authenticationParameters];
+    }
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *email = [defaults stringForKey:kEmailKey];
+    self.viewModel.email = email;
 
+    self.navigationController.navigationBarHidden = YES;
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
 
@@ -87,9 +97,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.closeButton.tintColor = [theme colorForKey:A0ThemeSecondaryButtonTextColor];
 
-    [self displayController:[self buildEmailSendCode]];
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapRecognizer];
+
+    [self displayController:[self buildEmailSendCode]];
 }
 
 - (void)close:(id)sender {
@@ -114,9 +125,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (A0EmailSendCodeViewController *)buildEmailSendCode {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *email = [defaults stringForKey:kEmailKey];
-    A0EmailSendCodeViewController *controller = [[A0EmailSendCodeViewController alloc] init];
+    A0EmailSendCodeViewController *controller = [[A0EmailSendCodeViewController alloc] initWithViewModel:self.viewModel];
     @weakify(self);
     controller.onRegisterBlock = ^(NSString *email){
         @strongify(self);
@@ -125,13 +134,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [defaults synchronize];
         [self displayController:[self buildEmailCodeWithEmail:email]];
     };
-    controller.currentEmail = email;
-    controller.lock = self.lock;
     [self.navigationView removeAll];
-    if (email) {
+    if (self.viewModel.hasEmail) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
             @strongify(self);
-            [self displayController:[self buildEmailCodeWithEmail:email]];
+            [self displayController:[self buildEmailCodeWithEmail:self.viewModel.email]];
         }];
     }
     return controller;

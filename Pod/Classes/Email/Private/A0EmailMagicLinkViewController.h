@@ -1,6 +1,6 @@
-// A0EmailSendCodeViewController.h
+// A0EmailMagicLinkViewController.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,14 +21,7 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import <Lock/A0KeyboardEnabledView.h>
 
-@class A0Lock, A0AuthParameters, A0EmailLockViewModel;
-
-@interface A0EmailSendCodeViewController : UIViewController<A0KeyboardEnabledView>
-
-@property (copy, nonatomic) void(^onRegisterBlock)(NSString *email);
-
-- (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel;
+@interface A0EmailMagicLinkViewController : UIViewController
 
 @end
