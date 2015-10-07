@@ -529,6 +529,33 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                       failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
+- (NSURLSessionDataTask *)startPasswordlessWithMagicLinkInEmail:(NSString *)email
+                                                     parameters:(A0AuthParameters *)parameters
+                                                        success:(void(^)())success
+                                                        failure:(A0APIClientError)failure {
+    NSDictionary *params = @{
+                             kClientIdParamName: self.clientId,
+                             kEmailParamName: email,
+                             kConnectionParamName: @"email",
+                             @"send": @"link",
+//                             @"mobile": @"ios",
+                             };
+    if (parameters) {
+        NSMutableDictionary *dict = [params mutableCopy];
+        dict[@"authParams"] = [parameters asAPIPayload];
+        params = [NSDictionary dictionaryWithDictionary:dict];
+    }
+    return [self.manager POST:[self.router startPasswordless]
+                   parameters:params
+                      success:^(NSURLSessionDataTask *task, id responseObject) {
+                          if (success) {
+                              success();
+                          }
+                      }
+                      failure:[A0APIClient sanitizeFailureBlock:failure]];
+
+}
+
 #pragma mark - Internal API calls
 
 - (NSURLSessionDataTask *)fetchUserInfoWithTokenInfo:(NSDictionary *)tokenInfo success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {

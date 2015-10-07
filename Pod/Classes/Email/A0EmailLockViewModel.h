@@ -1,6 +1,6 @@
-// A0EmailSendCodeViewController.h
+// A0EmailLockViewModel.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
-#import <Lock/A0KeyboardEnabledView.h>
+#import <Foundation/Foundation.h>
+#import "A0UserProfile.h"
+#import "A0Token.h"
+#import "A0AuthParameters.h"
+#import "A0Lock.h"
 
-@class A0Lock, A0AuthParameters, A0EmailLockViewModel;
+NS_ASSUME_NONNULL_BEGIN
 
-@interface A0EmailSendCodeViewController : UIViewController<A0KeyboardEnabledView>
+typedef void(^A0EmailLockViewModelRequestBlock)(NSError * _Nullable error);
+typedef void(^A0EmailLockViewModelAuthenticationBlock)(NSError * _Nullable error, A0UserProfile * _Nullable profile, A0Token * _Nullable token);
 
-@property (copy, nonatomic) void(^onRegisterBlock)(NSString *email);
+@interface A0EmailLockViewModel : NSObject
 
-- (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel;
+@property (strong, nonatomic) NSString *email;
+@property (readonly, nonatomic) BOOL hasEmail;
+
+- (instancetype)initForMagicLinkWithLock:(A0Lock *)lock authenticationParameters:(A0AuthParameters *)parameters;
+- (instancetype)initWithLock:(A0Lock *)lock authenticationParameters:(A0AuthParameters *)parameters;
+
+- (void)requestVerificationCodeWithCallback:(A0EmailLockViewModelRequestBlock)callback;
+- (void)authenticateWithVerificationCode:(NSString *)verificationCode callback:(A0EmailLockViewModelAuthenticationBlock)callback;
 
 @end
+
+NS_ASSUME_NONNULL_END

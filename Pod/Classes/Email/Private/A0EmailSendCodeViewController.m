@@ -32,6 +32,7 @@
 #import "A0Errors.h"
 #import "A0Lock.h"
 #import "NSError+A0APIError.h"
+#import "A0EmailLockViewModel.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -42,8 +43,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
 @property (strong, nonatomic) A0EmailValidator *validator;
-
-- (IBAction)registerSMS:(id)sender;
+@property (strong, nonatomic) A0EmailLockViewModel *viewModel;
+- (IBAction)registerEmail:(id)sender;
 
 @end
 
@@ -51,8 +52,12 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+- (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel {
+    self = [super initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    if (self) {
+        _viewModel = viewModel;
+    }
+    return self;
 }
 
 - (void)viewDidLoad {
@@ -67,40 +72,39 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.emailFieldView setFieldPlaceholderText:A0LocalizedString(@"Email")];
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
 
-    self.emailFieldView.textField.text = self.currentEmail;
+    self.emailFieldView.textField.text = self.viewModel.email;
     self.validator = [[A0EmailValidator alloc] initWithField:self.emailFieldView.textField];
 }
 
-- (void)registerSMS:(id)sender {
+- (void)registerEmail:(id)sender {
     NSError *error = [self.validator validate];
     if (!error) {
         [self.emailFieldView setInvalid:NO];
         [self.emailFieldView.textField resignFirstResponder];
         A0LogDebug(@"Registering email %@", self.emailFieldView.textField.text);
         [self.registerButton setInProgress:YES];
-        NSString *phoneNumber = self.emailFieldView.textField.text;
+        self.viewModel.email = self.emailFieldView.textField.text;
         @weakify(self);
-        void(^onFailure)(NSError *) = ^(NSError *error) {
+        A0LogDebug(@"About to send Email code to %@", self.viewModel.email);
+        [self.viewModel requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
             @strongify(self);
-            A0LogError(@"Failed to send SMS code with error %@", error);
-            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the email code");
-            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send the email with your login code. Please try again later.");
-            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
-                alert.title = title;
-                alert.message = message;
-            }];
-            [self.registerButton setInProgress:NO];
-        };
-        A0LogDebug(@"About to send Email code to %@", phoneNumber);
-        A0APIClient *client = self.lock.apiClient;
-        [client startPasswordlessWithEmail:phoneNumber success:^{
-            @strongify(self);
-            A0LogDebug(@"Email code sent to %@", phoneNumber);
+            if (error) {
+                A0LogError(@"Failed to send SMS code with error %@", error);
+                NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the email code");
+                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send the email with your login code. Please try again later.");
+                [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                    alert.title = title;
+                    alert.message = message;
+                }];
+                [self.registerButton setInProgress:NO];
+                return;
+            }
+            A0LogDebug(@"Email code sent to %@", self.viewModel.email);
             [self.registerButton setInProgress:NO];
             if (self.onRegisterBlock) {
-                self.onRegisterBlock(phoneNumber);
+                self.onRegisterBlock(self.viewModel.email);
             }
-        } failure:onFailure];
+        }];
     } else {
         [self.emailFieldView setInvalid:YES];
         [A0Alert showInController:self errorAlert:^(A0Alert *alert) {

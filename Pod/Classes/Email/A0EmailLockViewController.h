@@ -57,4 +57,9 @@
  */
 @property (strong, nonatomic) A0AuthParameters *authenticationParameters;
 
+/**
+ *  When starting authentication, request a magic link instead of the code. Default is `NO`.
+ */
+@property (assign, nonatomic) BOOL useMagicLink;
+
 @end
