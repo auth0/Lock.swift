@@ -94,7 +94,7 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
 
 - (void)authenticateWithVerificationCode:(NSString *)verificationCode
                                 callback:(A0EmailLockViewModelAuthenticationBlock)callback {
-
+    self.authenticateWithCode(self.email, verificationCode, callback);
 }
 
 - (BOOL)hasEmail {

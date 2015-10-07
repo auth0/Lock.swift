@@ -27,7 +27,7 @@
 
 @interface A0EmailSendCodeViewController : UIViewController<A0KeyboardEnabledView>
 
-@property (copy, nonatomic) void(^onRegisterBlock)(NSString *email);
+@property (copy, nonatomic) void(^didRequestVerificationCode)();
 
 - (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel;
 

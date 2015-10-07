@@ -98,8 +98,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             }
             A0LogDebug(@"Email code sent to %@", self.viewModel.email);
             [self.registerButton setInProgress:NO];
-            if (self.onRegisterBlock) {
-                self.onRegisterBlock(self.viewModel.email);
+            if (self.didRequestVerificationCode) {
+                self.didRequestVerificationCode();
             }
         }];
     } else {

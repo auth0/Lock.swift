@@ -100,7 +100,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapRecognizer];
 
-    [self displayController:[self buildEmailSendCode]];
+    [self navigateToRequestCodeScreen];
 }
 
 - (void)close:(id)sender {
@@ -124,40 +124,36 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [[A0Theme sharedInstance] statusBarHidden];
 }
 
-- (A0EmailSendCodeViewController *)buildEmailSendCode {
+- (void)navigateToRequestCodeScreen {
     A0EmailSendCodeViewController *controller = [[A0EmailSendCodeViewController alloc] initWithViewModel:self.viewModel];
     @weakify(self);
-    controller.onRegisterBlock = ^(NSString *email){
+    controller.didRequestVerificationCode = ^(){
         @strongify(self);
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:email forKey:kEmailKey];
+        [defaults setObject:self.viewModel.email forKey:kEmailKey];
         [defaults synchronize];
-        [self displayController:[self buildEmailCodeWithEmail:email]];
+        [self navigateToInputCodeScreen];
     };
     [self.navigationView removeAll];
     if (self.viewModel.hasEmail) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
             @strongify(self);
-            [self displayController:[self buildEmailCodeWithEmail:self.viewModel.email]];
+            [self navigateToInputCodeScreen];
         }];
     }
-    return controller;
+    [self displayController:controller];
 }
 
-- (A0EmailCodeViewController *)buildEmailCodeWithEmail:(NSString *)email {
+- (void)navigateToInputCodeScreen {
     @weakify(self);
-    A0EmailCodeViewController *controller = [[A0EmailCodeViewController alloc] init];
-    controller.email = email;
-    controller.parameters = self.authenticationParameters;
+    A0EmailCodeViewController *controller = [[A0EmailCodeViewController alloc] initWithViewModel:self.viewModel];
     controller.onAuthenticationBlock = self.onAuthenticationBlock;
-    controller.lock = self.lock;
-    void(^showRegister)() = ^{
-        @strongify(self);
-        [self displayController:[self buildEmailSendCode]];
-    };
     [self.navigationView removeAll];
-    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"DIDN'T RECEIVE CODE?") actionBlock:showRegister];
-    return controller;
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"DIDN'T RECEIVE CODE?") actionBlock:^{
+        @strongify(self);
+        [self navigateToRequestCodeScreen];
+    }];
+    [self displayController:controller];
 }
 
 @end
