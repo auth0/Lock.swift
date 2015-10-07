@@ -167,6 +167,17 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param launchOptions dictionary with launch options
  */
 - (void)applicationLaunchedWithOptions:(nullable NSDictionary *)launchOptions;
+
+/**
+ *  Ask Lock to continue a user activity
+ *
+ *  @param userActivity       to continue
+ *  @param restorationHandler to call if objects are created to perform the task
+ *
+ *  @return YES to indicate that Lock handled the activity or NO to let iOS know that Lock did not handle the activity.
+ */
+- (BOOL)continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler;
+
 #endif
 
 @end

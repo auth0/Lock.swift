@@ -415,8 +415,11 @@
 				ORGANIZATIONNAME = Auth0;
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
-						DevelopmentTeam = 86WQXF56BC;
+						DevelopmentTeam = UUWS9Z463H;
 						SystemCapabilities = {
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 0;
 							};
@@ -731,6 +734,7 @@
 				AUTH0_CLIENT_ID = U5MhUrbyQHSVWjlEqZSTCBUFABLbJAS3;
 				AUTH0_DOMAIN = overmind.auth0.com;
 				BUNDLE_SUFFIX = "-Dev";
+				CODE_SIGN_ENTITLEMENTS = Lock/Lock.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FACEBOOK_APP_ID = 507756515938786;
@@ -758,8 +762,9 @@
 				AUTH0_CLIENT_ID = uPW0Reav8UNYt3TGPdM4I8rIAIazDOgG;
 				AUTH0_DOMAIN = samples.auth0.com;
 				BUNDLE_SUFFIX = "";
+				CODE_SIGN_ENTITLEMENTS = Lock/Lock.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FACEBOOK_APP_ID = 696506353719958;
 				FACEBOOK_APP_NAME = "Auth0 Samples";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
