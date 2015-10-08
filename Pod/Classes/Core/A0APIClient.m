@@ -541,7 +541,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                              kEmailParamName: email,
                              kConnectionParamName: @"email",
                              @"send": @"link",
-//                             @"mobile": @"ios",
+                             @"platform": @"ios",
                              };
     if (parameters) {
         NSMutableDictionary *dict = [params mutableCopy];
