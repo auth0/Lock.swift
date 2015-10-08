@@ -24,12 +24,10 @@
 #import "A0Theme.h"
 #import "A0ProgressButton.h"
 #import "A0CredentialFieldView.h"
-#import "A0APIClient.h"
 #import "A0RequestAccessTokenOperation.h"
 #import "A0SendSMSOperation.h"
 #import "A0Alert.h"
 #import "A0Errors.h"
-#import "A0Lock.h"
 #import "NSError+A0APIError.h"
 #import "A0EmailLockViewModel.h"
 

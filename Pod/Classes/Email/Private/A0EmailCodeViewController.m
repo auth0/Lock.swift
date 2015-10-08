@@ -86,7 +86,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (passcode.length > 0) {
         @weakify(self);
         [self.loginButton setInProgress:YES];
-        [self.viewModel authenticateWithVerificationCode:passcode callback:^(NSError * _Nullable error, A0UserProfile * _Nullable profile, A0Token * _Nullable token) {
+        [self.viewModel authenticateWithVerificationCode:passcode callback:^(NSError * _Nullable error) {
             @strongify(self);
             if (error) {
                 [self.loginButton setInProgress:NO];
@@ -98,7 +98,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 }];
                 return;
             }
-            self.onAuthenticationBlock(profile, token);
         }];
     } else {
         A0LogError(@"Must provide a non-empty passcode.");

@@ -23,11 +23,9 @@
 #import <UIKit/UIKit.h>
 #import "A0KeyboardEnabledView.h"
 
-@class A0EmailLockViewModel, A0UserProfile, A0Token;
+@class A0EmailLockViewModel;
 
 @interface A0EmailMagicLinkViewController : UIViewController<A0KeyboardEnabledView>
-
-@property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
 - (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel;
 

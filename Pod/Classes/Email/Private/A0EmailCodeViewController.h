@@ -23,11 +23,9 @@
 #import <UIKit/UIKit.h>
 #import <Lock/A0AuthenticationUIComponent.h>
 
-@class A0AuthParameters, A0UserProfile, A0Token, A0EmailLockViewModel;
+@class A0EmailLockViewModel;
 
 @interface A0EmailCodeViewController : UIViewController<A0KeyboardEnabledView>
-
-@property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
 
 - (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel;
 
