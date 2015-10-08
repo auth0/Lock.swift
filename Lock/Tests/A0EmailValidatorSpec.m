@@ -37,12 +37,6 @@ describe(@"A0EmailValidator", ^{
         validator = [[A0EmailValidator alloc] initWithField:field];
     });
 
-    it(@"should fail init with nil field", ^{
-        expect(^{
-            validator = [[A0EmailValidator alloc] initWithField:nil];
-        }).to.raise(NSInternalInconsistencyException);
-    });
-
     sharedExamplesFor(@"valid email", ^(NSDictionary *data) {
 
         beforeEach(^{
