@@ -50,13 +50,16 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
             @strongify(self);
             return self.email;
         }];
-        self.onMagicLink = ^(NSString *code) {};
+        self.onMagicLink = ^(NSError *error, BOOL completed) {};
         self.linkObserver = [[NSNotificationCenter defaultCenter] addObserverForName:A0LockNotificationUniversalLinkReceived object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
             NSURL *link = note.userInfo[A0LockNotificationUniversalLinkParameterKey];
             NSDictionary *params = [NSDictionary fromQueryString:link.query];
             NSString *code = params[@"code"];
             if ([link.path hasSuffix:@"/email"] && code) {
-                self.onMagicLink(code);
+                self.onMagicLink(nil, NO);
+                [self authenticateWithVerificationCode:code callback:^(NSError * _Nullable error) {
+                    self.onMagicLink(error, YES);
+                }];
             }
         }];
     }
@@ -74,9 +77,10 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
                                        }];
     } authenticateWithCode:^(NSString *email, NSString *code, A0EmailLockViewModelAuthenticationBlock  _Nonnull callback) {
         [client loginWithEmail:email passcode:code parameters:[parameters copy] success:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull tokenInfo) {
-            callback(nil, profile, tokenInfo);
+            callback(nil);
+            self.onAuthenticationBlock(profile, tokenInfo);
         } failure:^(NSError * _Nonnull error) {
-            callback(error, nil, nil);
+            callback(error);
         }];
     }];
 }
@@ -93,9 +97,10 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
                                               }];
     } authenticateWithCode:^(NSString *email, NSString *code, A0EmailLockViewModelAuthenticationBlock  _Nonnull callback) {
         [client loginWithEmail:email passcode:code parameters:[parameters copy] success:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull tokenInfo) {
-            callback(nil, profile, tokenInfo);
+            callback(nil);
+            self.onAuthenticationBlock(profile, tokenInfo);
         } failure:^(NSError * _Nonnull error) {
-            callback(error, nil, nil);
+            callback(error);
         }];
     }];
 }

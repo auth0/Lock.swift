@@ -79,22 +79,22 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
     self.resendButton.tintColor = [theme colorForKey:A0ThemePrimaryButtonNormalColor];
 
     @weakify(self);
-    self.viewModel.onMagicLink = ^(NSString *code) {
+    self.viewModel.onMagicLink = ^(NSError *error, BOOL completed) {
         @strongify(self);
-        [self showLoadingWithMessage:A0LocalizedString(@"Logging in with Magic Link…")];
-        [self.viewModel authenticateWithVerificationCode:code callback:^(NSError * _Nullable error, A0UserProfile * _Nullable profile, A0Token * _Nullable token) {
+        if (error) {
+            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
+            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
+            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                alert.title = title;
+                alert.message = message;
+            }];
+            return;
+        }
+        if (completed) {
             [self hideLoadingView:self.loadingView];
-            if (error) {
-                NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
-                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
-                [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
-                    alert.title = title;
-                    alert.message = message;
-                }];
-                return;
-            }
-            self.onAuthenticationBlock(profile, token);
-        }];
+        } else {
+            [self showLoadingWithMessage:A0LocalizedString(@"Logging in with Magic Link…")];
+        }
     };
 }
 

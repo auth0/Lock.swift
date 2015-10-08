@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 #import <Lock/A0KeyboardEnabledView.h>
 
-@class A0Lock, A0AuthParameters, A0EmailLockViewModel;
+@class A0EmailLockViewModel;
 
 @interface A0EmailSendCodeViewController : UIViewController<A0KeyboardEnabledView>
 

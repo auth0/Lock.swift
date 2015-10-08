@@ -75,11 +75,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
 
-    if (self.useMagicLink) {
+    if ([self isMagicLinkAvailable]) {
         self.viewModel = [[A0EmailLockViewModel alloc] initForMagicLinkWithLock:self.lock authenticationParameters:self.authenticationParameters];
     } else {
         self.viewModel = [[A0EmailLockViewModel alloc] initWithLock:self.lock authenticationParameters:self.authenticationParameters];
     }
+    self.viewModel.onAuthenticationBlock = self.onAuthenticationBlock;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *email = [defaults stringForKey:kEmailKey];
     self.viewModel.email = email;
@@ -153,7 +154,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)navigateToInputCodeScreen {
     @weakify(self);
     A0EmailCodeViewController *controller = [[A0EmailCodeViewController alloc] initWithViewModel:self.viewModel];
-    controller.onAuthenticationBlock = self.onAuthenticationBlock;
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"DIDN'T RECEIVE CODE?") actionBlock:^{
         @strongify(self);
@@ -164,7 +164,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)navigateToWaitForMagicLinkScreen {
     A0EmailMagicLinkViewController *controller = [[A0EmailMagicLinkViewController alloc] initWithViewModel:self.viewModel];
-    controller.onAuthenticationBlock = self.onAuthenticationBlock;
     [self.navigationView removeAll];
     @weakify(self);
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"LET ME ENTER A CODE") actionBlock:^{
