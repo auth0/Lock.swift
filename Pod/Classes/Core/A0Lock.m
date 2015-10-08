@@ -107,6 +107,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return self;
 }
 
++ (instancetype)sharedLock {
+    static A0Lock *SharedInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        SharedInstance = [A0Lock newLock];
+    });
+    return SharedInstance;
+}
+
 - (A0APIClient *)apiClient {
     return self.client;
 }
