@@ -269,9 +269,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [defaultParameters addValuesFromParameters:parameters];
     defaultParameters.device = deviceName;
     A0LogVerbose(@"Starting Login with JWT %@", defaultParameters);
-    if (![self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
-        return nil;
-    }
     @weakify(self);
     NSDictionary *payload = [defaultParameters asAPIPayload];
     return [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
