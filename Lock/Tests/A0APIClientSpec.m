@@ -214,19 +214,6 @@ describe(@"A0APIClient", ^{
             });
         });
 
-        it(@"should fail login with jwt when no connection is specified", ^{
-            waitUntil(^(DoneCallback done) {
-                [client loginWithIdToken:@"token" deviceName:@"device" parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                    expect(tokenInfo).to.beNil();
-                    done();
-                } failure:^(NSError *error) {
-                    expect(error).notTo.beNil();
-                    expect(error.localizedFailureReason).to.equal(@"Can't find connection name to use for authentication");
-                    done();
-                }];
-            });
-        });
-
         it(@"should fail signup when no connection is specified", ^{
             waitUntil(^(DoneCallback done) {
                 [client signUpWithUsername:@"username" password:@"password" loginOnSuccess:YES parameters:nil success:^(A0UserProfile *profile, A0Token *tokenInfo) {
