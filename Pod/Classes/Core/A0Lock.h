@@ -118,6 +118,17 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)newLock;
 
 /**
+ *  Returns a shared instance of Lock with credentials obtained from Info.plist.
+ *  These are the the valid entries:
+ *      - Auth0ClientId: Your app's client identifier in Auth0.
+ *      - Auth0Domain: Your app's domain name or url in Auth0. e.g: samples.auth0.com or https://samples.auth0.com
+ *      - Auth0ConfigurationDomain: Your app's configuration domain name or url where we get yout app configuration. This value is optional and will default to Auth0 CDN.
+ *
+ *  @return a shared instance
+ */
++ (instancetype)sharedLock;
+
+/**
  *  Auth0 Authentication API client.
  *
  *  @return an API client
