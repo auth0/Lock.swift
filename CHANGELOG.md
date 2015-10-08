@@ -1,5 +1,15 @@
 # Change Log
 
+## [1.19.2](https://github.com/auth0/Lock.iOS-OSX/tree/1.19.2) (2015-10-08)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.19.1...1.19.2)
+
+**Merged pull requests:**
+
+- Add +sharedInstance for A0Lock [\#177](https://github.com/auth0/Lock.iOS-OSX/pull/177) ([hzalaz](https://github.com/hzalaz))
+
+- Remove connection requirement for ro with jwt [\#176](https://github.com/auth0/Lock.iOS-OSX/pull/176) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.19.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.19.1) (2015-09-30)
 
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.19.0...1.19.1)
