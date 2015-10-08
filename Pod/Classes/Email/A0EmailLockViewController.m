@@ -128,19 +128,20 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)navigateToRequestCodeScreen {
     A0EmailSendCodeViewController *controller = [[A0EmailSendCodeViewController alloc] initWithViewModel:self.viewModel];
     @weakify(self);
+    BOOL magicLinkAvailable = [self isMagicLinkAvailable];
     controller.didRequestVerificationCode = ^(){
         @strongify(self);
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:self.viewModel.email forKey:kEmailKey];
         [defaults synchronize];
-        if (self.useMagicLink) {
+        if (magicLinkAvailable) {
             [self navigateToWaitForMagicLinkScreen];
         } else {
             [self navigateToInputCodeScreen];
         }
     };
     [self.navigationView removeAll];
-    if (self.viewModel.hasEmail && !self.useMagicLink) {
+    if (self.viewModel.hasEmail && !magicLinkAvailable) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
             @strongify(self);
             [self navigateToInputCodeScreen];
@@ -163,8 +164,21 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)navigateToWaitForMagicLinkScreen {
     A0EmailMagicLinkViewController *controller = [[A0EmailMagicLinkViewController alloc] initWithViewModel:self.viewModel];
+    controller.onAuthenticationBlock = self.onAuthenticationBlock;
     [self.navigationView removeAll];
+    @weakify(self);
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"LET ME ENTER A CODE") actionBlock:^{
+        @strongify(self);
+        [self navigateToInputCodeScreen];
+    }];
     [self displayController:controller];
 }
 
+- (BOOL)isMagicLinkAvailable {
+#ifndef LOCK_MAGIC_LINK
+    return NO;
+#else
+    return self.useMagicLink && floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_3;
+#endif
+}
 @end

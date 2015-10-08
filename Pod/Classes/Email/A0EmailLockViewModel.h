@@ -36,6 +36,7 @@ typedef void(^A0EmailLockViewModelAuthenticationBlock)(NSError * _Nullable error
 @property (strong, nonatomic) NSString *email;
 @property (readonly, nonatomic) BOOL hasEmail;
 @property (readonly, nonatomic) NSError *emailError;
+@property (copy, nonatomic) void(^onMagicLink)(NSString *code);
 
 - (instancetype)initForMagicLinkWithLock:(A0Lock *)lock authenticationParameters:(A0AuthParameters *)parameters;
 - (instancetype)initWithLock:(A0Lock *)lock authenticationParameters:(A0AuthParameters *)parameters;

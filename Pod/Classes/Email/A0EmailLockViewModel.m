@@ -23,6 +23,8 @@
 #import "A0EmailLockViewModel.h"
 #import "A0APIClient.h"
 #import "A0EmailValidator.h"
+#import "A0LockNotification.h"
+#import "NSDictionary+A0QueryParameters.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -33,6 +35,7 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
 @property (copy, nonatomic) RequestCode requestCode;
 @property (strong, nonatomic) AuthenticateWithCode authenticateWithCode;
 @property (strong, nonatomic) A0EmailValidator *validator;
+@property (strong, nonatomic) id linkObserver;
 @end
 
 @implementation A0EmailLockViewModel
@@ -43,9 +46,18 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
         self.requestCode = requestCode;
         self.authenticateWithCode = authenticateWithCode;
         @weakify(self);
-        self.validator = [[A0EmailValidator alloc] initWithSource:^NSString * _Nullable{
+        self.validator = [[A0EmailValidator alloc] initWithSource:^NSString * _Nullable {
             @strongify(self);
             return self.email;
+        }];
+        self.onMagicLink = ^(NSString *code) {};
+        self.linkObserver = [[NSNotificationCenter defaultCenter] addObserverForName:A0LockNotificationUniversalLinkReceived object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+            NSURL *link = note.userInfo[A0LockNotificationUniversalLinkParameterKey];
+            NSDictionary *params = [NSDictionary fromQueryString:link.query];
+            NSString *code = params[@"code"];
+            if ([link.path hasSuffix:@"/email"] && code) {
+                self.onMagicLink(code);
+            }
         }];
     }
     return self;
@@ -86,6 +98,11 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
             callback(error, nil, nil);
         }];
     }];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self.linkObserver];
+    self.linkObserver = nil;
 }
 
 - (void)requestVerificationCodeWithCallback:(A0EmailLockViewModelRequestBlock)callback {
