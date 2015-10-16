@@ -24,35 +24,35 @@ PODS:
   - BDBOAuth1Manager (1.5.0):
     - AFNetworking/NSURLConnection (~> 2.5.0)
     - AFNetworking/NSURLSession (~> 2.5.0)
-  - Bolts (1.2.2):
-    - Bolts/AppLinks (= 1.2.2)
-    - Bolts/Tasks (= 1.2.2)
-  - Bolts/AppLinks (1.2.2):
+  - Bolts (1.3.0):
+    - Bolts/AppLinks (= 1.3.0)
+    - Bolts/Tasks (= 1.3.0)
+  - Bolts/AppLinks (1.3.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.2.2)
-  - CocoaLumberjack (2.0.1):
-    - CocoaLumberjack/Default (= 2.0.1)
-    - CocoaLumberjack/Extensions (= 2.0.1)
-  - CocoaLumberjack/Core (2.0.1)
-  - CocoaLumberjack/Default (2.0.1):
+  - Bolts/Tasks (1.3.0)
+  - CocoaLumberjack (2.0.3):
+    - CocoaLumberjack/Default (= 2.0.3)
+    - CocoaLumberjack/Extensions (= 2.0.3)
+  - CocoaLumberjack/Core (2.0.3)
+  - CocoaLumberjack/Default (2.0.3):
     - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.0.1):
+  - CocoaLumberjack/Extensions (2.0.3):
     - CocoaLumberjack/Default
-  - Crashlytics (3.3.1)
+  - Crashlytics (3.3.4)
   - Expecta (1.0.3)
-  - Fabric (1.5.1):
-    - Fabric/Base (= 1.5.1)
-  - Fabric/Base (1.5.1)
-  - FBSDKCoreKit (4.6.0):
+  - Fabric (1.5.5):
+    - Fabric/Base (= 1.5.5)
+  - Fabric/Base (1.5.5)
+  - FBSDKCoreKit (4.7.0):
     - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc (= 4.6.0)
-    - FBSDKCoreKit/no-arc (= 4.6.0)
-  - FBSDKCoreKit/arc (4.6.0):
+    - FBSDKCoreKit/arc (= 4.7.0)
+    - FBSDKCoreKit/no-arc (= 4.7.0)
+  - FBSDKCoreKit/arc (4.7.0):
     - Bolts (~> 1.1)
-  - FBSDKCoreKit/no-arc (4.6.0):
+  - FBSDKCoreKit/no-arc (4.7.0):
     - Bolts (~> 1.1)
     - FBSDKCoreKit/arc
-  - FBSDKLoginKit (4.6.0):
+  - FBSDKLoginKit (4.7.0):
     - FBSDKCoreKit
   - ISO8601DateFormatter (0.7)
   - JWTDecode (0.2.2)
@@ -153,27 +153,27 @@ PODS:
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/CoreUI
-  - LUKeychainAccess (1.2.4)
+  - LUKeychainAccess (1.2.5)
   - NSData+Base64 (1.0.0)
   - OAuthCore (0.0.1):
     - NSData+Base64
   - ObjectiveSugar (1.1.0)
-  - OCHamcrest (4.2.0)
-  - OCMockito (1.4.0):
+  - OCHamcrest (4.3.0)
+  - OCMockito (2.0.1):
     - OCHamcrest (~> 4.0)
-  - OHHTTPStubs (4.2.0):
-    - OHHTTPStubs/Default (= 4.2.0)
-  - OHHTTPStubs/Core (4.2.0)
-  - OHHTTPStubs/Default (4.2.0):
+  - OHHTTPStubs (4.3.0):
+    - OHHTTPStubs/Default (= 4.3.0)
+  - OHHTTPStubs/Core (4.3.0)
+  - OHHTTPStubs/Default (4.3.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (4.2.0):
+  - OHHTTPStubs/JSON (4.3.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (4.2.0):
+  - OHHTTPStubs/NSURLSession (4.3.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (4.2.0)
+  - OHHTTPStubs/OHPathHelpers (4.3.0)
   - PSAlertView (2.0.3)
   - ReactiveCocoa (2.5):
     - ReactiveCocoa/UI (= 2.5)
@@ -183,7 +183,7 @@ PODS:
   - ReactiveCocoa/UI (2.5):
     - ReactiveCocoa/Core
   - SimpleKeychain (0.5.0)
-  - Specta (1.0.3)
+  - Specta (1.0.4)
   - TouchIDAuth (0.1.2):
     - libextobjc (~> 0.4)
     - SimpleKeychain (~> 0.3)
@@ -224,30 +224,30 @@ SPEC CHECKSUMS:
   1PasswordExtension: 42b79b7ac6d8e7468b22b7a651fc0b445bcdbd3e
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   BDBOAuth1Manager: 2e28773b58f880fb36b5cd3efcf0b1fefbc78a99
-  Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
-  CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
-  Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
+  Bolts: 805a4a87413e49d4a0c2b7d469084cbc46b09342
+  CocoaLumberjack: f58d8a19629f4d8379ae14bb3534def24161430e
+  Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
   Expecta: 9d1bff6c8b0eeee73a166a2ee898892478927a15
-  Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
-  FBSDKCoreKit: 9954492d90c5fd65ae831395697a1660360d61f1
-  FBSDKLoginKit: 3d07febbfa884b9878cacba54f705bb41f07d4b6
+  Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
+  FBSDKCoreKit: eb580bfc2040ad44f4c0b4f4d0befb1d35bce59c
+  FBSDKLoginKit: 01bce8dd3f3a26a023b0ba4ffdde7ef5062889fe
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   JWTDecode: c193d229af74dd72121515c976f930ccbed96a2a
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   Lock: da94a6916dd22673e975e3974cb6ce03d89d905d
   Lock-Facebook: 36e982eb8221dd07fcc9770781e3fc6363be28d3
   Lock-Twitter: 8168e4c3861f6cc6581d1b8d635f41e29a607cb3
-  LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
+  LUKeychainAccess: d22fc00b33ad92c7532962b86daa94c14b85ecbe
   NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
   OAuthCore: 43dce261db846a1fe20234d95654257e00e78581
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
-  OCHamcrest: c14c0b3f4c4e99363e5b87d97bae38c4438b6d5d
-  OCMockito: 4981140c9a9ec06c31af40f636e3c0f25f27e6b2
-  OHHTTPStubs: f639130b83fb5f4f022d38f841141b0a6fa77249
+  OCHamcrest: cd63d27f48a266d4412c0b295b01b8f0940efa81
+  OCMockito: f92ad4c6fac2841a88558879cfe517c40aebf91e
+  OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8
   PSAlertView: 16d35f5dba549418492cf68a750d4f0dca21f4a2
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   SimpleKeychain: ae04c7ca6a960a146081010b412cf0ba2ecb10fe
-  Specta: cf3e4188cf35375c3ee2cd03f8db8f1f4ef98234
+  Specta: 69bb134672aae190a1379ff91df07dad8dd1f869
   TouchIDAuth: 2e54bba603ad518aefa02fc81fed9a29de0eab32
   TWReverseAuth: d2deef3521fa6bee32eabab67f114c2c4a53d4f5
 

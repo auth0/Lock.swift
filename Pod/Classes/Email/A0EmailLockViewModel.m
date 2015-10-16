@@ -33,7 +33,7 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
 
 @interface A0EmailLockViewModel ()
 @property (copy, nonatomic) RequestCode requestCode;
-@property (strong, nonatomic) AuthenticateWithCode authenticateWithCode;
+@property (copy, nonatomic) AuthenticateWithCode authenticateWithCode;
 @property (strong, nonatomic) A0EmailValidator *validator;
 @property (strong, nonatomic) id linkObserver;
 @end
@@ -52,6 +52,7 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
         }];
         self.onMagicLink = ^(NSError *error, BOOL completed) {};
         self.linkObserver = [[NSNotificationCenter defaultCenter] addObserverForName:A0LockNotificationUniversalLinkReceived object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+            @strongify(self);
             NSURL *link = note.userInfo[A0LockNotificationUniversalLinkParameterKey];
             NSDictionary *params = [NSDictionary fromQueryString:link.query];
             NSString *code = params[@"code"];
@@ -67,6 +68,7 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
 }
 
 - (instancetype)initWithLock:(A0Lock *)lock authenticationParameters:(A0AuthParameters *)parameters {
+    @weakify(self);
     A0APIClient *client = [lock apiClient];
     return [self initWithRequestCode:^(NSString *email, A0EmailLockViewModelRequestBlock callback) {
             [client startPasswordlessWithEmail:email
@@ -77,6 +79,7 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
                                        }];
     } authenticateWithCode:^(NSString *email, NSString *code, A0EmailLockViewModelAuthenticationBlock  _Nonnull callback) {
         [client loginWithEmail:email passcode:code parameters:[parameters copy] success:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull tokenInfo) {
+            @strongify(self);
             callback(nil);
             self.onAuthenticationBlock(profile, tokenInfo);
         } failure:^(NSError * _Nonnull error) {
@@ -86,6 +89,7 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
 }
 
 - (instancetype)initForMagicLinkWithLock:(A0Lock *)lock authenticationParameters:(A0AuthParameters *)parameters {
+    @weakify(self);
     A0APIClient *client = [lock apiClient];
     return [self initWithRequestCode:^(NSString *email, A0EmailLockViewModelRequestBlock callback) {
         [client startPasswordlessWithMagicLinkInEmail:email
@@ -97,6 +101,7 @@ typedef void(^AuthenticateWithCode)(NSString *email, NSString *code, A0EmailLock
                                               }];
     } authenticateWithCode:^(NSString *email, NSString *code, A0EmailLockViewModelAuthenticationBlock  _Nonnull callback) {
         [client loginWithEmail:email passcode:code parameters:[parameters copy] success:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull tokenInfo) {
+            @strongify(self);
             callback(nil);
             self.onAuthenticationBlock(profile, tokenInfo);
         } failure:^(NSError * _Nonnull error) {

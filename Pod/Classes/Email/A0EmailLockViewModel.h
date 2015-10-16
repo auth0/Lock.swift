@@ -34,9 +34,9 @@ typedef void(^A0EmailLockViewModelAuthenticationBlock)(NSError * _Nullable error
 @interface A0EmailLockViewModel : NSObject
 
 @property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
-@property (strong, nonatomic) NSString *email;
+@property (strong, nullable, nonatomic) NSString *email;
 @property (readonly, nonatomic) BOOL hasEmail;
-@property (readonly, nonatomic) NSError *emailError;
+@property (readonly, nullable, nonatomic) NSError *emailError;
 @property (copy, nonatomic) void(^onMagicLink)(NSError * _Nullable error, BOOL completed);
 
 - (instancetype)initForMagicLinkWithLock:(A0Lock *)lock authenticationParameters:(A0AuthParameters *)parameters;
