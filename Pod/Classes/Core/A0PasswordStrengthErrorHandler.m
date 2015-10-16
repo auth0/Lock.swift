@@ -47,7 +47,7 @@ static id A0RuleFormat(NSDictionary *rule, NSInteger index) {
         if (![rule[@"verified"] boolValue]) {
             if ([ruleCode isEqualToString:@"lengthAtLeast"]) {
                 [errors addObject:[self lengthMessageFromRule:rule]];
-            } else if ([ruleCode isEqualToString:@"containsAtLeast"]) {
+            } else if ([ruleCode isEqualToString:@"containsAtLeast"] || [ruleCode isEqualToString:@"shouldContain"]) {
                 [errors addObject:[self characterSetMessageFromRule:rule]];
             } else if ([ruleCode isEqualToString:@"identicalChars"]) {
                 [errors addObject:[self identicalCharacterMessageFromRule:rule]];
