@@ -33,7 +33,7 @@
 #import <libextobjc/EXTScope.h>
 
 #define kEmailKey @"auth0-lock-email-email"
-
+#define LOCK_MAGIC_LINK 1
 @interface A0EmailLockViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
