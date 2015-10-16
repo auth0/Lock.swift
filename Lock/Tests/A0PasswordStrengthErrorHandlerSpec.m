@@ -27,6 +27,7 @@
 static NSString *LenghtError = @"At least 10 characters in length.";
 static NSString *IdenticalCharacterError = @"No more than 2 identical characters in a row (e.g., \"aaa\" not allowed).";
 static NSString *CharacterSetError = @"Contain at least 3 of the following 4 types of characters:";
+static NSString *CharacterSetAllError = @"Should contain:";
 static NSString *LowerCaseSet = @"lower case letters (a-z)";
 static NSString *UpperCaseSet = @"upper case letters (A-Z)";
 static NSString *NumberSet = @"numbers (i.e. 0-9)";
@@ -62,10 +63,20 @@ it(@"should return message for identical characters error", ^{
     expect([handler localizedMessageFromError:error]).to.contain(IdenticalCharacterError);
 });
 
-it(@"should return message for character set error", ^{
+it(@"should return message for contains at least character set error", ^{
     NSError *error = createError([builder errorWithFailingRules:@[@"containsAtLeast"]]);
     NSString *message = [handler localizedMessageFromError:error];
     expect(message).to.contain(CharacterSetError);
+    expect(message).to.contain(LowerCaseSet);
+    expect(message).to.contain(UpperCaseSet);
+    expect(message).to.contain(NumberSet);
+    expect(message).to.contain(SpecialCharacterSet);
+});
+
+it(@"should return message for character should contain set error", ^{
+    NSError *error = createError([builder errorWithFailingRules:@[@"shouldContain"]]);
+    NSString *message = [handler localizedMessageFromError:error];
+    expect(message).to.contain(CharacterSetAllError);
     expect(message).to.contain(LowerCaseSet);
     expect(message).to.contain(UpperCaseSet);
     expect(message).to.contain(NumberSet);
