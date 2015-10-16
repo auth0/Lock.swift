@@ -1,4 +1,4 @@
-// A0LockNotification.h
+// A0EmailMagicLinkViewController.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,27 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef A0LockNotification_h
-#define A0LockNotification_h
+#import <UIKit/UIKit.h>
+#import "A0KeyboardEnabledView.h"
 
-#import <Foundation/Foundation.h>
+@class A0EmailLockViewModel;
 
-FOUNDATION_EXPORT NSString * const A0LockNotificationLoginSuccessful;
-FOUNDATION_EXPORT NSString * const A0LockNotificationLoginFailed;
+@interface A0EmailMagicLinkViewController : UIViewController<A0KeyboardEnabledView>
 
-FOUNDATION_EXPORT NSString * const A0LockNotificationSignUpSuccessful;
-FOUNDATION_EXPORT NSString * const A0LockNotificationSignUpFailed;
+- (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel;
 
-FOUNDATION_EXPORT NSString * const A0LockNotificationChangePasswordSuccessful;
-FOUNDATION_EXPORT NSString * const A0LockNotificationChangePasswordFailed;
-
-FOUNDATION_EXPORT NSString * const A0LockNotificationLockDismissed;
-
-
-FOUNDATION_EXPORT NSString * const A0LockNotificationErrorParameterKey;
-FOUNDATION_EXPORT NSString * const A0LockNotificationEmailParameterKey;
-FOUNDATION_EXPORT NSString * const A0LockNotificationConnectionParameterKey;
-
-FOUNDATION_EXPORT NSString * const A0LockNotificationUniversalLinkReceived;
-FOUNDATION_EXPORT NSString * const A0LockNotificationUniversalLinkParameterKey;
-#endif
+@end

@@ -23,10 +23,17 @@
 #import <UIKit/UIKit.h>
 #import "A0FieldValidator.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 FOUNDATION_EXPORT NSString * const A0EmailValidatorIdentifer;
+
+typedef NSString * _Nullable (^A0EmailValidatorSourceBlock)();
 
 @interface A0EmailValidator : NSObject<A0FieldValidator>
 
+- (instancetype)initWithSource:(A0EmailValidatorSourceBlock)source NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithField:(UITextField *)field;
 
 @end
+
+NS_ASSUME_NONNULL_END

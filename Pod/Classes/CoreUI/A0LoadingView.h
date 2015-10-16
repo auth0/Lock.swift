@@ -1,4 +1,4 @@
-// A0LockNotification.h
+// A0LoadingView.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,27 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef A0LockNotification_h
-#define A0LockNotification_h
+#import <UIKit/UIKit.h>
 
-#import <Foundation/Foundation.h>
-
-FOUNDATION_EXPORT NSString * const A0LockNotificationLoginSuccessful;
-FOUNDATION_EXPORT NSString * const A0LockNotificationLoginFailed;
-
-FOUNDATION_EXPORT NSString * const A0LockNotificationSignUpSuccessful;
-FOUNDATION_EXPORT NSString * const A0LockNotificationSignUpFailed;
-
-FOUNDATION_EXPORT NSString * const A0LockNotificationChangePasswordSuccessful;
-FOUNDATION_EXPORT NSString * const A0LockNotificationChangePasswordFailed;
-
-FOUNDATION_EXPORT NSString * const A0LockNotificationLockDismissed;
-
-
-FOUNDATION_EXPORT NSString * const A0LockNotificationErrorParameterKey;
-FOUNDATION_EXPORT NSString * const A0LockNotificationEmailParameterKey;
-FOUNDATION_EXPORT NSString * const A0LockNotificationConnectionParameterKey;
-
-FOUNDATION_EXPORT NSString * const A0LockNotificationUniversalLinkReceived;
-FOUNDATION_EXPORT NSString * const A0LockNotificationUniversalLinkParameterKey;
-#endif
+@interface A0LoadingView : UIView
+@property (copy, nonatomic) NSString *message;
+@end

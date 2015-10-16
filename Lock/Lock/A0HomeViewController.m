@@ -143,6 +143,7 @@ static BOOL isRunningTests(void) {
     A0Lock *lock = [[A0LockApplication sharedInstance] lock];
     A0EmailLockViewController *controller = [lock newEmailViewController];
     controller.closable = YES;
+    controller.useMagicLink = YES;
     @weakify(self);
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);

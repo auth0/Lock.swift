@@ -26,7 +26,7 @@
 NSString * const A0EmailValidatorIdentifer = @"A0EmailValidatorIdentifer";
 
 @interface A0EmailValidator ()
-@property (weak, nonatomic) UITextField *field;
+@property (copy, nonatomic) A0EmailValidatorSourceBlock emailSource;
 @property (strong, nonatomic) NSPredicate *emailPredicate;
 @end
 
@@ -34,20 +34,32 @@ NSString * const A0EmailValidatorIdentifer = @"A0EmailValidatorIdentifer";
 
 @synthesize identifier = _identifier;
 
-- (instancetype)initWithField:(UITextField *)field {
-    NSAssert(field != nil, @"Must provide a UITextField instance");
+- (instancetype)init {
+    [self doesNotRecognizeSelector:_cmd];
+    return [self initWithSource:^NSString * _Nullable {
+        return nil;
+    }];
+}
+
+- (instancetype)initWithSource:(A0EmailValidatorSourceBlock)source {
     self = [super init];
     if (self) {
+        _emailSource = [source copy];
         NSString *emailRegex = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
         _emailPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
-        _field = field;
         _identifier = A0EmailValidatorIdentifer;
     }
     return self;
 }
 
+- (instancetype)initWithField:(UITextField *)field {
+    return [self initWithSource:^NSString * _Nullable{
+        return field.text;
+    }];
+}
+
 - (NSError *)validate {
-    NSString *trimmedEmail = [self.field.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *trimmedEmail = [self.emailSource() stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     BOOL valid = [self.emailPredicate evaluateWithObject:trimmedEmail];
     return valid ? nil : [A0Errors invalidEmail];
 }

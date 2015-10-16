@@ -1,4 +1,4 @@
-// A0LockNotification.h
+// A0EmailLockViewModel.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,27 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef A0LockNotification_h
-#define A0LockNotification_h
-
 #import <Foundation/Foundation.h>
+#import "A0UserProfile.h"
+#import "A0Token.h"
+#import "A0AuthParameters.h"
+#import "A0Lock.h"
 
-FOUNDATION_EXPORT NSString * const A0LockNotificationLoginSuccessful;
-FOUNDATION_EXPORT NSString * const A0LockNotificationLoginFailed;
+NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXPORT NSString * const A0LockNotificationSignUpSuccessful;
-FOUNDATION_EXPORT NSString * const A0LockNotificationSignUpFailed;
+typedef void(^A0EmailLockViewModelRequestBlock)(NSError * _Nullable error);
+typedef void(^A0EmailLockViewModelAuthenticationBlock)(NSError * _Nullable error);
 
-FOUNDATION_EXPORT NSString * const A0LockNotificationChangePasswordSuccessful;
-FOUNDATION_EXPORT NSString * const A0LockNotificationChangePasswordFailed;
+@interface A0EmailLockViewModel : NSObject
 
-FOUNDATION_EXPORT NSString * const A0LockNotificationLockDismissed;
+@property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
+@property (strong, nonatomic) NSString *email;
+@property (readonly, nonatomic) BOOL hasEmail;
+@property (readonly, nonatomic) NSError *emailError;
+@property (copy, nonatomic) void(^onMagicLink)(NSError * _Nullable error, BOOL completed);
 
+- (instancetype)initForMagicLinkWithLock:(A0Lock *)lock authenticationParameters:(A0AuthParameters *)parameters;
+- (instancetype)initWithLock:(A0Lock *)lock authenticationParameters:(A0AuthParameters *)parameters;
 
-FOUNDATION_EXPORT NSString * const A0LockNotificationErrorParameterKey;
-FOUNDATION_EXPORT NSString * const A0LockNotificationEmailParameterKey;
-FOUNDATION_EXPORT NSString * const A0LockNotificationConnectionParameterKey;
+- (void)requestVerificationCodeWithCallback:(A0EmailLockViewModelRequestBlock)callback;
+- (void)authenticateWithVerificationCode:(NSString *)verificationCode callback:(A0EmailLockViewModelAuthenticationBlock)callback;
 
-FOUNDATION_EXPORT NSString * const A0LockNotificationUniversalLinkReceived;
-FOUNDATION_EXPORT NSString * const A0LockNotificationUniversalLinkParameterKey;
-#endif
+@end
+
+NS_ASSUME_NONNULL_END

@@ -28,6 +28,8 @@
 #import "A0NavigationView.h"
 #import "A0TitleView.h"
 #import "A0Lock.h"
+#import "A0EmailLockViewModel.h"
+#import "A0EmailMagicLinkViewController.h"
 #import <libextobjc/EXTScope.h>
 
 #define kEmailKey @"auth0-lock-email-email"
@@ -37,6 +39,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 @property (strong, nonatomic) A0Lock *lock;
+@property (strong, nonatomic) A0EmailLockViewModel *viewModel;
 
 - (IBAction)close:(id)sender;
 
@@ -72,8 +75,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
 
-    self.navigationController.navigationBarHidden = YES;
+    if ([self isMagicLinkAvailable]) {
+        self.viewModel = [[A0EmailLockViewModel alloc] initForMagicLinkWithLock:self.lock authenticationParameters:self.authenticationParameters];
+    } else {
+        self.viewModel = [[A0EmailLockViewModel alloc] initWithLock:self.lock authenticationParameters:self.authenticationParameters];
+    }
+    self.viewModel.onAuthenticationBlock = self.onAuthenticationBlock;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *email = [defaults stringForKey:kEmailKey];
+    self.viewModel.email = email;
 
+    self.navigationController.navigationBarHidden = YES;
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
 
@@ -87,9 +99,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.closeButton.tintColor = [theme colorForKey:A0ThemeSecondaryButtonTextColor];
 
-    [self displayController:[self buildEmailSendCode]];
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapRecognizer];
+
+    [self navigateToRequestCodeScreen];
 }
 
 - (void)close:(id)sender {
@@ -113,44 +126,58 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [[A0Theme sharedInstance] statusBarHidden];
 }
 
-- (A0EmailSendCodeViewController *)buildEmailSendCode {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *email = [defaults stringForKey:kEmailKey];
-    A0EmailSendCodeViewController *controller = [[A0EmailSendCodeViewController alloc] init];
+- (void)navigateToRequestCodeScreen {
+    A0EmailSendCodeViewController *controller = [[A0EmailSendCodeViewController alloc] initWithViewModel:self.viewModel];
     @weakify(self);
-    controller.onRegisterBlock = ^(NSString *email){
+    BOOL magicLinkAvailable = [self isMagicLinkAvailable];
+    controller.didRequestVerificationCode = ^(){
         @strongify(self);
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:email forKey:kEmailKey];
+        [defaults setObject:self.viewModel.email forKey:kEmailKey];
         [defaults synchronize];
-        [self displayController:[self buildEmailCodeWithEmail:email]];
+        if (magicLinkAvailable) {
+            [self navigateToWaitForMagicLinkScreen];
+        } else {
+            [self navigateToInputCodeScreen];
+        }
     };
-    controller.currentEmail = email;
-    controller.lock = self.lock;
     [self.navigationView removeAll];
-    if (email) {
+    if (self.viewModel.hasEmail && !magicLinkAvailable) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
             @strongify(self);
-            [self displayController:[self buildEmailCodeWithEmail:email]];
+            [self navigateToInputCodeScreen];
         }];
     }
-    return controller;
+    [self displayController:controller];
 }
 
-- (A0EmailCodeViewController *)buildEmailCodeWithEmail:(NSString *)email {
+- (void)navigateToInputCodeScreen {
     @weakify(self);
-    A0EmailCodeViewController *controller = [[A0EmailCodeViewController alloc] init];
-    controller.email = email;
-    controller.parameters = self.authenticationParameters;
-    controller.onAuthenticationBlock = self.onAuthenticationBlock;
-    controller.lock = self.lock;
-    void(^showRegister)() = ^{
-        @strongify(self);
-        [self displayController:[self buildEmailSendCode]];
-    };
+    A0EmailCodeViewController *controller = [[A0EmailCodeViewController alloc] initWithViewModel:self.viewModel];
     [self.navigationView removeAll];
-    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"DIDN'T RECEIVE CODE?") actionBlock:showRegister];
-    return controller;
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"DIDN'T RECEIVE CODE?") actionBlock:^{
+        @strongify(self);
+        [self navigateToRequestCodeScreen];
+    }];
+    [self displayController:controller];
 }
 
+- (void)navigateToWaitForMagicLinkScreen {
+    A0EmailMagicLinkViewController *controller = [[A0EmailMagicLinkViewController alloc] initWithViewModel:self.viewModel];
+    [self.navigationView removeAll];
+    @weakify(self);
+    [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"LET ME ENTER A CODE") actionBlock:^{
+        @strongify(self);
+        [self navigateToInputCodeScreen];
+    }];
+    [self displayController:controller];
+}
+
+- (BOOL)isMagicLinkAvailable {
+#ifndef LOCK_MAGIC_LINK
+    return NO;
+#else
+    return self.useMagicLink && floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_3;
+#endif
+}
 @end
