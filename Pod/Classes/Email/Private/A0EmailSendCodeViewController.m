@@ -29,7 +29,7 @@
 #import "A0Alert.h"
 #import "A0Errors.h"
 #import "NSError+A0APIError.h"
-#import "A0EmailLockViewModel.h"
+#import "A0PasswordlessLockViewModel.h"
 
 #import <libextobjc/EXTScope.h>
 
@@ -39,7 +39,7 @@
 @property (weak, nonatomic) IBOutlet A0ProgressButton *registerButton;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
-@property (strong, nonatomic) A0EmailLockViewModel *viewModel;
+@property (strong, nonatomic) A0PasswordlessLockViewModel *viewModel;
 - (IBAction)registerEmail:(id)sender;
 
 @end
@@ -48,7 +48,7 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel {
+- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel {
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
     if (self) {
         _viewModel = viewModel;
@@ -68,19 +68,19 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.emailFieldView setFieldPlaceholderText:A0LocalizedString(@"Email")];
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
 
-    self.emailFieldView.textField.text = self.viewModel.email;
+    self.emailFieldView.textField.text = self.viewModel.identifier;
     [self.emailFieldView.textField addTarget:self action:@selector(emailDidChangeInTextField:) forControlEvents:UIControlEventEditingChanged];
 }
 
 - (void)registerEmail:(id)sender {
-    NSError *error = self.viewModel.emailError;
+    NSError *error = self.viewModel.identifierError;
     if (!error) {
         [self.emailFieldView setInvalid:NO];
         [self.emailFieldView.textField resignFirstResponder];
         A0LogDebug(@"Registering email %@", self.emailFieldView.textField.text);
         [self.registerButton setInProgress:YES];
         @weakify(self);
-        A0LogDebug(@"About to send Email code to %@", self.viewModel.email);
+        A0LogDebug(@"About to send Email code to %@", self.viewModel.identifier);
         [self.viewModel requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
             @strongify(self);
             if (error) {
@@ -94,7 +94,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 [self.registerButton setInProgress:NO];
                 return;
             }
-            A0LogDebug(@"Email code sent to %@", self.viewModel.email);
+            A0LogDebug(@"Email code sent to %@", self.viewModel.identifier);
             [self.registerButton setInProgress:NO];
             if (self.didRequestVerificationCode) {
                 self.didRequestVerificationCode();
@@ -110,7 +110,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)emailDidChangeInTextField:(UITextField *)textField {
-    self.viewModel.email = textField.text;
+    self.viewModel.identifier = textField.text;
 }
 
 

@@ -23,12 +23,12 @@
 #import <UIKit/UIKit.h>
 #import <Lock/A0KeyboardEnabledView.h>
 
-@class A0EmailLockViewModel;
+@class A0PasswordlessLockViewModel;
 
 @interface A0EmailSendCodeViewController : UIViewController<A0KeyboardEnabledView>
 
 @property (copy, nonatomic) void(^didRequestVerificationCode)();
 
-- (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel;
+- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel;
 
 @end

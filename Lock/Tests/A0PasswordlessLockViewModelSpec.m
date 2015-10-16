@@ -1,4 +1,4 @@
-// A0EmailLockViewModelSpec.m
+// A0PasswordlessLockViewModelSpec.m
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -22,15 +22,15 @@
 
 #import "A0LockTest.h"
 #import "Lock.h"
-#import "A0EmailLockViewModel.h"
+#import "A0PasswordlessLockViewModel.h"
 
-SpecBegin(A0EmailLockViewModel)
+SpecBegin(A0PasswordlessLockViewModel)
 
 __block A0Lock *lock;
 __block A0APIClient *client;
 __block A0AuthParameters *parameters;
 
-__block A0EmailLockViewModel *model;
+__block A0PasswordlessLockViewModel *model;
 
 beforeEach(^{
     lock = mock(A0Lock.class);
@@ -42,12 +42,12 @@ beforeEach(^{
 describe(@"initialisation", ^{
 
     it(@"should build for Magic Link", ^{
-        model = [[A0EmailLockViewModel alloc] initForMagicLinkWithLock:lock authenticationParameters:parameters];
+        model = [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailMagicLink];
         expect(model).toNot.beNil();
     });
 
     it(@"should build for code only", ^{
-        model = [[A0EmailLockViewModel alloc] initWithLock:lock authenticationParameters:parameters];
+        model = [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailCode];
         expect(model).toNot.beNil();
     });
 
@@ -56,21 +56,21 @@ describe(@"initialisation", ^{
 describe(@"email", ^{
 
     beforeEach(^{
-        model = [[A0EmailLockViewModel alloc] initForMagicLinkWithLock:lock authenticationParameters:parameters];
+        model = [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailMagicLink];
     });
 
     it(@"should tell an email is invalid", ^{
-        model.email = @"no idea what i should input";
-        expect(model.emailError).toNot.beNil();
+        model.identifier = @"no idea what i should input";
+        expect(model.identifierError).toNot.beNil();
     });
 
     it(@"should check if there is a valid email", ^{
-        model.email = @"random string";
-        expect(model.hasEmail).to.beFalsy();
+        model.identifier = @"random string";
+        expect(model.hasIdentifier).to.beFalsy();
     });
 
     it(@"should not have any email first", ^{
-        expect(model.hasEmail).to.beFalsy();
+        expect(model.hasIdentifier).to.beFalsy();
     });
 
 });
@@ -79,7 +79,7 @@ describe(@"email", ^{
 describe(@"send email with code", ^{
 
     beforeEach(^{
-        model = [[A0EmailLockViewModel alloc] initWithLock:lock authenticationParameters:parameters];
+        model = [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailCode];
     });
 
     it(@"should request to send email", ^{
@@ -117,7 +117,7 @@ describe(@"send email with code", ^{
 describe(@"send magic link", ^{
 
     beforeEach(^{
-        model = [[A0EmailLockViewModel alloc] initForMagicLinkWithLock:lock authenticationParameters:parameters];
+        model = [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailMagicLink];
     });
 
     it(@"should request to send email", ^{
@@ -173,8 +173,8 @@ describe(@"code authentication", ^{
         });
 
         it(@"should authenticate user", ^{
-            A0EmailLockViewModel *model = data[@"model"];
-            model.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
+            A0PasswordlessLockViewModel *model = data[@"model"];
+            model.onAuthentication = ^(A0UserProfile *profile, A0Token *token) {
             };
             waitUntil(^(DoneCallback done) {
                 [model authenticateWithVerificationCode:@"valid" callback:^(NSError * _Nullable error) {
@@ -185,8 +185,8 @@ describe(@"code authentication", ^{
         });
 
         it(@"should report failure", ^{
-            A0EmailLockViewModel *model = data[@"model"];
-            model.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
+            A0PasswordlessLockViewModel *model = data[@"model"];
+            model.onAuthentication = ^(A0UserProfile *profile, A0Token *token) {
             };
             waitUntil(^(DoneCallback done) {
                 [model authenticateWithVerificationCode:@"invalid" callback:^(NSError * _Nullable error) {
@@ -197,9 +197,9 @@ describe(@"code authentication", ^{
         });
 
         it(@"should return token and profile", ^{
-            A0EmailLockViewModel *model = data[@"model"];
+            A0PasswordlessLockViewModel *model = data[@"model"];
             waitUntil(^(DoneCallback done) {
-                model.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
+                model.onAuthentication = ^(A0UserProfile *profile, A0Token *token) {
                     expect(profile).toNot.beNil();
                     expect(token).toNot.beNil();
                     done();
@@ -211,13 +211,13 @@ describe(@"code authentication", ^{
 
     itShouldBehaveLike(@"authentication", ^id{
         return @{
-                 @"model": [[A0EmailLockViewModel alloc] initForMagicLinkWithLock:lock authenticationParameters:parameters]
+                 @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailCode]
                  };
     });
 
     itShouldBehaveLike(@"authentication", ^id{
         return @{
-                 @"model": [[A0EmailLockViewModel alloc] initWithLock:lock authenticationParameters:parameters]
+                 @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailMagicLink]
                  };
     });
 

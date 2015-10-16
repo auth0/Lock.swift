@@ -15,7 +15,7 @@
 		5F1DA1AD1A7C093500E7BA6D /* AppInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */; };
 		5F22B5D619E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */; };
 		5F22E6ED1AFBC6E80037859D /* A0LockSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */; };
-		5F27AF651BD18A7D00E0D71F /* A0EmailLockViewModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F27AF641BD18A7D00E0D71F /* A0EmailLockViewModelSpec.m */; settings = {ASSET_TAGS = (); }; };
+		5F27AF651BD18A7D00E0D71F /* A0PasswordlessLockViewModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F27AF641BD18A7D00E0D71F /* A0PasswordlessLockViewModelSpec.m */; settings = {ASSET_TAGS = (); }; };
 		5F29E4591B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29E4581B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m */; };
 		5F29E45D1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29E45C1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m */; };
 		5F29E4601B7287A700D7A62F /* A0GlobalHelperFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29E45F1B7287A700D7A62F /* A0GlobalHelperFunctions.m */; };
@@ -89,7 +89,7 @@
 		5F1DA1AC1A7C093500E7BA6D /* AppInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = AppInfo.json; path = ../AppInfo.json; sourceTree = "<group>"; };
 		5F22B5D519E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FilteredConnectionDomainMatcherSpec.m; sourceTree = "<group>"; };
 		5F22E6EC1AFBC6E80037859D /* A0LockSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockSpec.m; sourceTree = "<group>"; };
-		5F27AF641BD18A7D00E0D71F /* A0EmailLockViewModelSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0EmailLockViewModelSpec.m; sourceTree = "<group>"; };
+		5F27AF641BD18A7D00E0D71F /* A0PasswordlessLockViewModelSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0PasswordlessLockViewModelSpec.m; sourceTree = "<group>"; };
 		5F29E4581B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0GenericAPIErrorHandlerSpec.m; sourceTree = "<group>"; };
 		5F29E45C1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0RuleErrorHandlerSpec.m; sourceTree = "<group>"; };
 		5F29E45E1B72872B00D7A62F /* A0GlobalHelperFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = A0GlobalHelperFunctions.h; sourceTree = "<group>"; };
@@ -325,7 +325,7 @@
 				5F29E4581B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m */,
 				5F29E45C1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m */,
 				5F29E4641B72B87200D7A62F /* A0PasswordStrengthErrorHandlerSpec.m */,
-				5F27AF641BD18A7D00E0D71F /* A0EmailLockViewModelSpec.m */,
+				5F27AF641BD18A7D00E0D71F /* A0PasswordlessLockViewModelSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -606,7 +606,7 @@
 				5F3237351A7A858E00B58994 /* A0AnnotatedRequestSerializer.m in Sources */,
 				5F9F5B6A19AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m in Sources */,
 				5FEDA4B31A1E4E73009B1C2F /* A0EmailValidatorSpec.m in Sources */,
-				5F27AF651BD18A7D00E0D71F /* A0EmailLockViewModelSpec.m in Sources */,
+				5F27AF651BD18A7D00E0D71F /* A0PasswordlessLockViewModelSpec.m in Sources */,
 				5F29E4651B72B87200D7A62F /* A0PasswordStrengthErrorHandlerSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

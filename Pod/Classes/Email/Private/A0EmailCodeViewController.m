@@ -28,7 +28,7 @@
 #import "A0Errors.h"
 
 #import <libextobjc/EXTScope.h>
-#import "A0EmailLockViewModel.h"
+#import "A0PasswordlessLockViewModel.h"
 #import "NSError+A0APIError.h"
 
 @interface A0EmailCodeViewController ()
@@ -38,7 +38,7 @@
 @property (weak, nonatomic) IBOutlet A0ProgressButton *loginButton;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
-@property (strong, nonatomic) A0EmailLockViewModel *viewModel;
+@property (strong, nonatomic) A0PasswordlessLockViewModel *viewModel;
 
 - (IBAction)login:(id)sender;
 
@@ -48,7 +48,7 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel {
+- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel {
     self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
     if (self) {
         _viewModel = viewModel;
@@ -64,10 +64,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [theme configurePrimaryButton:self.loginButton];
     [theme configureLabel:self.messageLabel];
     [self.loginButton setTitle:A0LocalizedString(@"LOGIN") forState:UIControlStateNormal];
-    NSString *message = [NSString stringWithFormat:A0LocalizedString(@"Please check your mail %@.\nYou’ve received a message from us with your passcode"), self.viewModel.email];
+    NSString *message = [NSString stringWithFormat:A0LocalizedString(@"Please check your mail %@.\nYou’ve received a message from us with your passcode"), self.viewModel.identifier];
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:message];
-    if (self.viewModel.hasEmail) {
-        NSRange phoneRange = [message rangeOfString:self.viewModel.email];
+    if (self.viewModel.hasIdentifier) {
+        NSRange phoneRange = [message rangeOfString:self.viewModel.identifier];
         [attrString setAttributes:@{
                                     NSFontAttributeName: [UIFont boldSystemFontOfSize:self.messageLabel.font.pointSize],
                                     }
@@ -78,7 +78,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)login:(id)sender {
-    A0LogVerbose(@"About to login with email %@", self.viewModel.email);
+    A0LogVerbose(@"About to login with email %@", self.viewModel.identifier);
     [self.codeFieldView.textField resignFirstResponder];
     NSString *passcode = [self.codeFieldView.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     BOOL valid = passcode.length > 0;

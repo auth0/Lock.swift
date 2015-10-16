@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0EmailMagicLinkViewController.h"
-#import "A0EmailLockViewModel.h"
+#import "A0PasswordlessLockViewModel.h"
 #import "NSError+A0APIError.h"
 #import "A0Alert.h"
 #import "A0Theme.h"
@@ -33,7 +33,7 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
 
 @interface A0EmailMagicLinkViewController ()
 
-@property (strong, nonatomic) A0EmailLockViewModel *viewModel;
+@property (strong, nonatomic) A0PasswordlessLockViewModel *viewModel;
 @property (strong, nonatomic) NSTimer *resendTimer;
 
 @property (weak, nonatomic) IBOutlet UILabel *checkLabel;
@@ -47,7 +47,7 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
 
 @implementation A0EmailMagicLinkViewController
 
-- (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel {
+- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel {
     self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
     if (self) {
         _viewModel = viewModel;
@@ -66,7 +66,7 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
                                                                                              NSForegroundColorAttributeName: [theme colorForKey:A0ThemeDescriptionTextColor],
                                                                                              NSFontAttributeName: font,
                                                                                              }];
-    [message appendAttributedString:[[NSAttributedString alloc] initWithString:self.viewModel.email
+    [message appendAttributedString:[[NSAttributedString alloc] initWithString:self.viewModel.identifier
                                                                     attributes:@{
                                                                                  NSFontAttributeName: [UIFont boldSystemFontOfSize:font.pointSize],
                                                                                  }]];

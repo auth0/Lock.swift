@@ -42,6 +42,10 @@ typedef NS_ENUM(NSInteger, A0ErrorCode) {
      */
     A0ErrorCodeInvalidPassword,
     /**
+     *  Phone number is invalid
+     */
+    A0ErrorCodeInvalidPhoneNumber,
+    /**
      *  Repeat password is invalid (empty or doesnt match password)
      */
     A0ErrorCodeInvalidRepeatPassword,

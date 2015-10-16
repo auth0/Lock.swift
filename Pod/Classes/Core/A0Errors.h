@@ -35,6 +35,8 @@
 
 + (NSError *)invalidPassword;
 
++ (NSError *)invalidPhoneNumber;
+
 + (NSError *)invalidRepeatPassword;
 
 + (NSError *)configurationLoadFailed;

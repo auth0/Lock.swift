@@ -23,10 +23,10 @@
 #import <UIKit/UIKit.h>
 #import <Lock/A0AuthenticationUIComponent.h>
 
-@class A0EmailLockViewModel;
+@class A0PasswordlessLockViewModel;
 
 @interface A0EmailCodeViewController : UIViewController<A0KeyboardEnabledView>
 
-- (instancetype)initWithViewModel:(A0EmailLockViewModel *)viewModel;
+- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel;
 
 @end

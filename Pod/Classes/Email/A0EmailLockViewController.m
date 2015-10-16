@@ -28,7 +28,7 @@
 #import "A0NavigationView.h"
 #import "A0TitleView.h"
 #import "A0Lock.h"
-#import "A0EmailLockViewModel.h"
+#import "A0PasswordlessLockViewModel.h"
 #import "A0EmailMagicLinkViewController.h"
 #import <libextobjc/EXTScope.h>
 
@@ -39,7 +39,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 @property (strong, nonatomic) A0Lock *lock;
-@property (strong, nonatomic) A0EmailLockViewModel *viewModel;
+@property (strong, nonatomic) A0PasswordlessLockViewModel *viewModel;
 
 - (IBAction)close:(id)sender;
 
@@ -75,15 +75,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
 
-    if ([self isMagicLinkAvailable]) {
-        self.viewModel = [[A0EmailLockViewModel alloc] initForMagicLinkWithLock:self.lock authenticationParameters:self.authenticationParameters];
-    } else {
-        self.viewModel = [[A0EmailLockViewModel alloc] initWithLock:self.lock authenticationParameters:self.authenticationParameters];
-    }
-    self.viewModel.onAuthenticationBlock = self.onAuthenticationBlock;
+    A0PasswordlessLockStrategy strategy = [self isMagicLinkAvailable] ? A0PasswordlessLockStrategyEmailMagicLink : A0PasswordlessLockStrategyEmailCode;
+    self.viewModel = [[A0PasswordlessLockViewModel alloc] initWithLock:self.lock authenticationParameters:self.authenticationParameters strategy:strategy];
+    self.viewModel.onAuthentication = self.onAuthenticationBlock;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *email = [defaults stringForKey:kEmailKey];
-    self.viewModel.email = email;
+    self.viewModel.identifier = email;
 
     self.navigationController.navigationBarHidden = YES;
     self.closeButton.enabled = self.closable;
@@ -133,7 +130,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.didRequestVerificationCode = ^(){
         @strongify(self);
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:self.viewModel.email forKey:kEmailKey];
+        [defaults setObject:self.viewModel.identifier forKey:kEmailKey];
         [defaults synchronize];
         if (magicLinkAvailable) {
             [self navigateToWaitForMagicLinkScreen];
@@ -142,7 +139,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         }
     };
     [self.navigationView removeAll];
-    if (self.viewModel.hasEmail && !magicLinkAvailable) {
+    if (self.viewModel.hasIdentifier && !magicLinkAvailable) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
             @strongify(self);
             [self navigateToInputCodeScreen];

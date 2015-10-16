@@ -1,4 +1,4 @@
-// A0EmailLockViewModel.h
+// A0PhoneNumberValidator.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -21,29 +21,17 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0UserProfile.h"
-#import "A0Token.h"
-#import "A0AuthParameters.h"
-#import "A0Lock.h"
+#import "A0FieldValidator.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^A0EmailLockViewModelRequestBlock)(NSError * _Nullable error);
-typedef void(^A0EmailLockViewModelAuthenticationBlock)(NSError * _Nullable error);
+FOUNDATION_EXPORT NSString * const A0PhoneNumberValidatorIdentifer;
 
-@interface A0EmailLockViewModel : NSObject
+typedef NSString * _Nullable (^A0PhoneNumberValidatorSourceBlock)();
 
-@property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
-@property (strong, nullable, nonatomic) NSString *email;
-@property (readonly, nonatomic) BOOL hasEmail;
-@property (readonly, nullable, nonatomic) NSError *emailError;
-@property (copy, nonatomic) void(^onMagicLink)(NSError * _Nullable error, BOOL completed);
+@interface A0PhoneNumberValidator : NSObject<A0FieldValidator>
 
-- (instancetype)initForMagicLinkWithLock:(A0Lock *)lock authenticationParameters:(A0AuthParameters *)parameters;
-- (instancetype)initWithLock:(A0Lock *)lock authenticationParameters:(A0AuthParameters *)parameters;
-
-- (void)requestVerificationCodeWithCallback:(A0EmailLockViewModelRequestBlock)callback;
-- (void)authenticateWithVerificationCode:(NSString *)verificationCode callback:(A0EmailLockViewModelAuthenticationBlock)callback;
+- (instancetype)initWithSource:(A0PhoneNumberValidatorSourceBlock)source NS_DESIGNATED_INITIALIZER;
 
 @end
 
