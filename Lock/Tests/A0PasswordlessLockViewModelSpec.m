@@ -23,6 +23,12 @@
 #import "A0LockTest.h"
 #import "Lock.h"
 #import "A0PasswordlessLockViewModel.h"
+#import "A0LockNotification.h"
+
+#define kEmailForSuccess @"mail@mail.com"
+#define kEmailForFailure @"failed@mail.com"
+#define kNumberForSuccess @"+1123123123"
+#define kNumberForFailure @"+549123123123"
 
 SpecBegin(A0PasswordlessLockViewModel)
 
@@ -75,105 +81,116 @@ describe(@"email", ^{
 
 });
 
+describe(@"start", ^{
 
-describe(@"send email with code", ^{
+    sharedExamplesFor(@"passwordless started", ^(NSDictionary *data) {
+        __block A0PasswordlessLockViewModel *model;
+        beforeEach(^{
+            id (^allGood)(NSInvocation *) = ^id(NSInvocation *invocation) {
+                NSArray *arguments = [invocation mkt_arguments];
+                void(^callback)() = arguments[arguments.count - 2];
+                callback();
+                return mock(NSURLSessionDataTask.class);
+            };
+            id (^noGood)(NSInvocation *) = ^id(NSInvocation *invocation) {
+                NSArray *arguments = [invocation mkt_arguments];
+                void(^callback)() = arguments[arguments.count - 1];
+                callback(mock(NSError.class));
+                return mock(NSURLSessionDataTask.class);
+            };
+            [given([client startPasswordlessWithEmail:kEmailForSuccess success:anything() failure:anything()]) willDo:allGood];
+            [given([client startPasswordlessWithEmail:kEmailForFailure success:anything() failure:anything()]) willDo:noGood];
+            [given([client startPasswordlessWithMagicLinkInEmail:kEmailForSuccess parameters:anything() success:anything() failure:anything()]) willDo:allGood];
+            [given([client startPasswordlessWithMagicLinkInEmail:kEmailForFailure parameters:anything() success:anything() failure:anything()]) willDo:noGood];
+            [given([client startPasswordlessWithPhoneNumber:kNumberForSuccess success:anything() failure:anything()]) willDo:allGood];
+            [given([client startPasswordlessWithPhoneNumber:kNumberForFailure success:anything() failure:anything()]) willDo:noGood];
+            [given([client startPasswordlessWithMagicLinkInSMS:kNumberForSuccess parameters:anything() success:anything() failure:anything()]) willDo:allGood];
+            [given([client startPasswordlessWithMagicLinkInSMS:kNumberForFailure parameters:anything() success:anything() failure:anything()]) willDo:noGood];
 
-    beforeEach(^{
-        model = [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailCode];
+            model = data[@"model"];
+        });
+
+        it(@"should request code or magic link", ^{
+            waitUntil(^(DoneCallback done) {
+                model.identifier = [data[@"mode"] isEqualToString:@"email"] ? kEmailForSuccess : kNumberForSuccess;
+                [model requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
+                    expect(error).to.beNil();
+                    done();
+                }];
+            });
+        });
+
+        it(@"should report error", ^{
+            waitUntil(^(DoneCallback done) {
+                model.identifier = [data[@"mode"] isEqualToString:@"email"] ? kEmailForFailure : kNumberForFailure;
+                [model requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
+                    expect(error).toNot.beNil();
+                    done();
+                }];
+            });
+        });
+
     });
 
-    it(@"should request to send email", ^{
-        [given([client startPasswordlessWithEmail:anything() success:anything() failure:anything()]) willDo:^id(NSInvocation *invocation) {
-            NSArray *arguments = [invocation mkt_arguments];
-            void(^callback)() = arguments[1];
-            callback();
-            return mock(NSURLSessionDataTask.class);
-        }];
-        waitUntil(^(DoneCallback done) {
-            [model requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
-                expect(error).to.beNil();
-                done();
-            }];
-        });
+    itShouldBehaveLike(@"passwordless started", ^id{
+        return @{
+                 @"mode": @"email",
+                 @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailCode]
+                 };
     });
 
-    it(@"should report error", ^{
-        [given([client startPasswordlessWithEmail:anything() success:anything() failure:anything()]) willDo:^id(NSInvocation *invocation) {
-            NSArray *arguments = [invocation mkt_arguments];
-            void(^callback)() = arguments[2];
-            callback(mock(NSError.class));
-            return mock(NSURLSessionDataTask.class);
-        }];
-        waitUntil(^(DoneCallback done) {
-            [model requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
-                expect(error).toNot.beNil();
-                done();
-            }];
-        });
+    itShouldBehaveLike(@"passwordless started", ^id{
+        return @{
+                 @"mode": @"email",
+                 @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailMagicLink]
+                 };
+    });
+
+    itShouldBehaveLike(@"passwordless started", ^id{
+        return @{
+                 @"mode": @"sms",
+                 @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategySMSCode]
+                 };
+    });
+
+    itShouldBehaveLike(@"passwordless started", ^id{
+        return @{
+                 @"mode": @"sms",
+                 @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategySMSMagicLink]
+                 };
     });
 
 });
 
-describe(@"send magic link", ^{
+describe(@"authentication", ^{
 
-    beforeEach(^{
-        model = [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailMagicLink];
-    });
+    sharedExamplesFor(@"authenticated", ^(NSDictionary *data) {
 
-    it(@"should request to send email", ^{
-        [given([client startPasswordlessWithMagicLinkInEmail:anything() parameters:anything() success:anything() failure:anything()]) willDo:^id(NSInvocation *invocation) {
-            NSArray *arguments = [invocation mkt_arguments];
-            void(^callback)() = arguments[2];
-            callback();
-            return mock(NSURLSessionDataTask.class);
-        }];
-        waitUntil(^(DoneCallback done) {
-            [model requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
-                expect(error).to.beNil();
-                done();
-            }];
-        });
-    });
-
-    it(@"should report error", ^{
-        [given([client startPasswordlessWithMagicLinkInEmail:anything() parameters:anything() success:anything() failure:anything()]) willDo:^id(NSInvocation *invocation) {
-            NSArray *arguments = [invocation mkt_arguments];
-            void(^callback)() = arguments[3];
-            callback(mock(NSError.class));
-            return mock(NSURLSessionDataTask.class);
-        }];
-        waitUntil(^(DoneCallback done) {
-            [model requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
-                expect(error).toNot.beNil();
-                done();
-            }];
-        });
-    });
-    
-});
-
-describe(@"code authentication", ^{
-
-    sharedExamplesFor(@"authentication", ^(NSDictionary *data) {
+        __block A0PasswordlessLockViewModel *model;
 
         beforeEach(^{
-            [given([client loginWithEmail:anything() passcode:@"valid" parameters:anything() success:anything() failure:anything()]) willDo:^id(NSInvocation *invocation) {
+            id (^allGood)(NSInvocation *) = ^id(NSInvocation *invocation) {
                 NSArray *arguments = [invocation mkt_arguments];
                 A0APIClientAuthenticationSuccess callback = arguments[3];
                 callback(mock(A0UserProfile.class), mock(A0Token.class));
                 return mock(NSURLSessionDataTask.class);
-            }];
-            [given([client loginWithEmail:anything() passcode:@"invalid" parameters:anything() success:anything() failure:anything()]) willDo:^id(NSInvocation *invocation) {
+            };
+            id (^noGood)(NSInvocation *) = ^id(NSInvocation *invocation) {
                 NSArray *arguments = [invocation mkt_arguments];
                 A0APIClientError callback = arguments[4];
                 callback(mock(NSError.class));
                 return mock(NSURLSessionDataTask.class);
-            }];
+            };
+            [given([client loginWithEmail:kEmailForSuccess passcode:@"valid" parameters:anything() success:anything() failure:anything()]) willDo:allGood];
+            [given([client loginWithEmail:kEmailForSuccess passcode:@"invalid" parameters:anything() success:anything() failure:anything()]) willDo:noGood];
+            [given([client loginWithPhoneNumber:kNumberForSuccess passcode:@"valid" parameters:anything() success:anything() failure:anything()]) willDo:allGood];
+            [given([client loginWithPhoneNumber:kNumberForSuccess passcode:@"invalid" parameters:anything() success:anything() failure:anything()]) willDo:noGood];
 
+            model = data[@"model"];
+            model.identifier = data[@"identifier"];
         });
 
         it(@"should authenticate user", ^{
-            A0PasswordlessLockViewModel *model = data[@"model"];
             model.onAuthentication = ^(A0UserProfile *profile, A0Token *token) {
             };
             waitUntil(^(DoneCallback done) {
@@ -185,7 +202,6 @@ describe(@"code authentication", ^{
         });
 
         it(@"should report failure", ^{
-            A0PasswordlessLockViewModel *model = data[@"model"];
             model.onAuthentication = ^(A0UserProfile *profile, A0Token *token) {
             };
             waitUntil(^(DoneCallback done) {
@@ -197,7 +213,6 @@ describe(@"code authentication", ^{
         });
 
         it(@"should return token and profile", ^{
-            A0PasswordlessLockViewModel *model = data[@"model"];
             waitUntil(^(DoneCallback done) {
                 model.onAuthentication = ^(A0UserProfile *profile, A0Token *token) {
                     expect(profile).toNot.beNil();
@@ -209,18 +224,102 @@ describe(@"code authentication", ^{
         });
     });
 
-    itShouldBehaveLike(@"authentication", ^id{
+    itShouldBehaveLike(@"authenticated", ^id{
         return @{
+                 @"identifier": kEmailForSuccess,
                  @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailCode]
                  };
     });
 
-    itShouldBehaveLike(@"authentication", ^id{
+    itShouldBehaveLike(@"authenticated", ^id{
         return @{
+                 @"identifier": kEmailForSuccess,
                  @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailMagicLink]
+                 };
+    });
+
+    itShouldBehaveLike(@"authenticated", ^id{
+        return @{
+                 @"identifier": kNumberForSuccess,
+                 @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategySMSCode]
+                 };
+    });
+
+    itShouldBehaveLike(@"authenticated", ^id{
+        return @{
+                 @"identifier": kNumberForSuccess,
+                 @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategySMSMagicLink]
                  };
     });
 
 });
 
+describe(@"universal link", ^{
+
+    sharedExamplesFor(@"authenticated with link", ^(NSDictionary *data) {
+        __block A0PasswordlessLockViewModel *model;
+
+        beforeEach(^{
+            id (^allGood)(NSInvocation *) = ^id(NSInvocation *invocation) {
+                NSArray *arguments = [invocation mkt_arguments];
+                A0APIClientAuthenticationSuccess callback = arguments[3];
+                callback(mock(A0UserProfile.class), mock(A0Token.class));
+                return mock(NSURLSessionDataTask.class);
+            };
+            [given([client loginWithEmail:kEmailForSuccess passcode:@"valid" parameters:anything() success:anything() failure:anything()]) willDo:allGood];
+            [given([client loginWithPhoneNumber:kNumberForSuccess passcode:@"valid" parameters:anything() success:anything() failure:anything()]) willDo:allGood];
+
+            model = data[@"model"];
+            model.identifier = data[@"identifier"];
+        });
+
+        it(@"should call magic link block on complete", ^{
+            waitUntil(^(DoneCallback done) {
+                model.onAuthentication = ^(A0UserProfile *profile, A0Token *token) {};
+                model.onMagicLink = ^(NSError *error, BOOL completed) {
+                    done();
+                };
+                [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationUniversalLinkReceived
+                                                                    object:nil
+                                                                  userInfo:@{
+                                                                             A0LockNotificationUniversalLinkParameterKey: [NSURL URLWithString:[[@"https://samples.auth0.com/ios/appname/" stringByAppendingString:data[@"mode"]] stringByAppendingString:@"?code=valid"]]
+                                                                             }];
+            });
+        });
+
+        it(@"should return token and profile", ^{
+            waitUntil(^(DoneCallback done) {
+                model.onMagicLink = ^(NSError *error, BOOL completed) {};
+                model.onAuthentication = ^(A0UserProfile *profile, A0Token *token) {
+                    expect(profile).toNot.beNil();
+                    expect(token).toNot.beNil();
+                    done();
+                };
+                [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationUniversalLinkReceived
+                                                                    object:nil
+                                                                  userInfo:@{
+                                                                             A0LockNotificationUniversalLinkParameterKey: [NSURL URLWithString:[[@"https://samples.auth0.com/ios/appname/" stringByAppendingString:data[@"mode"]] stringByAppendingString:@"?code=valid"]]
+                                                                             }];
+            });
+        });
+
+    });
+
+    itShouldBehaveLike(@"authenticated with link", ^id{
+        return @{
+                 @"mode": @"email",
+                 @"identifier": kEmailForSuccess,
+                 @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategyEmailMagicLink]
+                 };
+    });
+
+    itShouldBehaveLike(@"authenticated with link", ^id{
+        return @{
+                 @"mode": @"sms",
+                 @"identifier": kNumberForSuccess,
+                 @"model": [[A0PasswordlessLockViewModel alloc] initWithLock:lock authenticationParameters:parameters strategy:A0PasswordlessLockStrategySMSMagicLink]
+                 };
+    });
+
+});
 SpecEnd

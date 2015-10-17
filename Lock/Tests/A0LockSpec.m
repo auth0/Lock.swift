@@ -166,11 +166,16 @@ describe(@"A0Lock", ^{
 
         __block A0Lock *lock;
         __block NSUserActivity *activity;
+        __block id observer;
         void(^restorationHandler)(NSArray *) = ^(NSArray *array){};
 
         beforeEach(^{
             lock = [A0Lock newLockWithClientId:kClientId domain:kDomain];
             activity = mock(NSUserActivity.class);
+        });
+
+        afterEach(^{
+            [[NSNotificationCenter defaultCenter] removeObserver:observer];
         });
 
         it(@"should accept url from configured auth0 subdomain", ^{
@@ -204,12 +209,11 @@ describe(@"A0Lock", ^{
             NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
             waitUntil(^(DoneCallback done) {
-                NSObject *observer = [defaultCenter addObserverForName:A0LockNotificationUniversalLinkReceived
+                observer = [defaultCenter addObserverForName:A0LockNotificationUniversalLinkReceived
                                                                 object:nil
                                                                  queue:nil
                                                             usingBlock:^(NSNotification * _Nonnull notif) {
                                                                 expect(notif.userInfo[A0LockNotificationUniversalLinkParameterKey]).to.equal(url);
-                                                                [[NSNotificationCenter defaultCenter] removeObserver:observer];
                                                                 done();
                                                             }];
                 [lock continueUserActivity:activity restorationHandler:restorationHandler];

@@ -129,12 +129,13 @@ typedef void(^AuthenticateWithCode)(NSString *identifier, NSString *code, A0Pass
             };
         case A0PasswordlessLockStrategySMSMagicLink:
             return ^(NSString *identifier, A0PasswordlessLockViewModelRequestBlock callback) {
-                [client startPasswordlessWithPhoneNumber:identifier
-                                                 success:^{
-                                                     callback(nil);
-                                                 } failure:^(NSError * _Nonnull error) {
-                                                     callback(error);
-                                                 }];
+                [client startPasswordlessWithMagicLinkInSMS:identifier
+                                                 parameters:[parameters copy]
+                                                    success:^{
+                                                        callback(nil);
+                                                    } failure:^(NSError * _Nonnull error) {
+                                                        callback(error);
+                                                    }];
             };
     }
 }
@@ -148,8 +149,8 @@ typedef void(^AuthenticateWithCode)(NSString *identifier, NSString *code, A0Pass
             return ^(NSString *identifier, NSString *code, A0PasswordlessLockViewModelAuthenticationBlock  _Nonnull callback) {
                 [client loginWithEmail:identifier passcode:code parameters:[parameters copy] success:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull tokenInfo) {
                     @strongify(self);
-                    callback(nil);
                     self.onAuthentication(profile, tokenInfo);
+                    callback(nil);
                 } failure:^(NSError * _Nonnull error) {
                     callback(error);
                 }];
