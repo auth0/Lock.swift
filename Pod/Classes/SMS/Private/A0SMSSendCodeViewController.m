@@ -34,12 +34,15 @@
 #import "A0Errors.h"
 #import "A0Lock.h"
 #import "NSError+A0APIError.h"
+#import "A0PasswordlessLockViewModel.h"
 
 @interface A0SMSSendCodeViewController ()
 
 @property (weak, nonatomic) IBOutlet A0PhoneFieldView *phoneFieldView;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *registerButton;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+
+@property (strong, nonatomic) A0PasswordlessLockViewModel *model;
 
 - (IBAction)registerSMS:(id)sender;
 
@@ -49,8 +52,12 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel {
+    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    if (self) {
+        _model = viewModel;
+    }
+    return self;
 }
 
 - (void)viewDidLoad {
@@ -66,21 +73,18 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.phoneFieldView setFieldPlaceholderText:A0LocalizedString(@"Phone Number")];
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
 
-    self.currentCountry = self.currentCountry ?: [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
-    self.phoneFieldView.countryCode = [A0CountryCodeTableViewController dialCodeForCountryWithCode:self.currentCountry];
-    if (self.currentPhoneNumber) {
-        NSString *countryDialCode = [self.phoneFieldView.countryCode stringByReplacingOccurrencesOfString:@" " withString:@""];
-        self.phoneFieldView.textField.text = [self.currentPhoneNumber stringByReplacingOccurrencesOfString:countryDialCode
-                                                                                                withString:@""];
+    NSArray *parts = [self.model.identifier componentsSeparatedByString:@" "];
+    NSString *code = parts.count > 2 ? [[parts[0] stringByAppendingString:@" "] stringByAppendingString:parts[1]] : parts.firstObject;
+    self.phoneFieldView.countryCode = code ?: [A0CountryCodeTableViewController dialCodeForCountryWithCode:[[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]];
+    if (parts.lastObject) {
+        self.phoneFieldView.textField.text = parts.lastObject;
     }
 
     self.phoneFieldView.onCountryCodeTapped = ^(NSString *currentCode){
         @strongify(self);
         A0CountryCodeTableViewController *controller = [[A0CountryCodeTableViewController alloc] init];
-        controller.defaultCountry = self.currentCountry;
         controller.onCountrySelect = ^(NSString *country, NSString *dialCode) {
             @strongify(self);
-            self.currentCountry = country;
             self.phoneFieldView.countryCode = dialCode;
             A0LogDebug(@"Selected country %@ with dial code %@", country, dialCode);
         };
@@ -89,7 +93,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)registerSMS:(id)sender {
-    if (self.phoneFieldView.phoneNumber.length > 0) {
+    self.model.identifier = self.phoneFieldView.fullPhoneNumber;
+    NSError *error = self.model.identifierError;
+    if (!error) {
         [self.phoneFieldView setInvalid:NO];
         [self.phoneFieldView.textField resignFirstResponder];
         A0LogDebug(@"Registering phone number %@", self.phoneFieldView.fullPhoneNumber);
@@ -108,21 +114,24 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             [self.registerButton setInProgress:NO];
         };
         A0LogDebug(@"About to send SMS code to phone %@", phoneNumber);
-        A0APIClient *client = self.lock.apiClient;
-        [client startPasswordlessWithPhoneNumber:phoneNumber success:^{
+        [self.model requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
+            if (error) {
+                onFailure(error);
+                return;
+            }
             @strongify(self);
             A0LogDebug(@"SMS code sent to phone %@", phoneNumber);
             [self.registerButton setInProgress:NO];
             if (self.onRegisterBlock) {
-                self.onRegisterBlock(self.currentCountry, self.phoneFieldView.fullPhoneNumber);
+                self.onRegisterBlock(self.phoneFieldView.countryCode, self.phoneFieldView.fullPhoneNumber);
             }
-        } failure:onFailure];
+        }];
     } else {
         A0LogError(@"No phone number provided");
         [self.phoneFieldView setInvalid:YES];
         [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
-            alert.title = A0LocalizedString(@"There was an error sending the SMS code");
-            alert.message = A0LocalizedString(@"You must enter a valid phone number");
+            alert.title = error.localizedDescription;
+            alert.message = error.localizedFailureReason;
         }];
     }
 }

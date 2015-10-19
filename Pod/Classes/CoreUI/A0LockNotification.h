@@ -36,7 +36,11 @@ FOUNDATION_EXPORT NSString * const A0LockNotificationChangePasswordFailed;
 
 FOUNDATION_EXPORT NSString * const A0LockNotificationLockDismissed;
 
+
 FOUNDATION_EXPORT NSString * const A0LockNotificationErrorParameterKey;
 FOUNDATION_EXPORT NSString * const A0LockNotificationEmailParameterKey;
 FOUNDATION_EXPORT NSString * const A0LockNotificationConnectionParameterKey;
+
+FOUNDATION_EXPORT NSString * const A0LockNotificationUniversalLinkReceived;
+FOUNDATION_EXPORT NSString * const A0LockNotificationUniversalLinkParameterKey;
 #endif

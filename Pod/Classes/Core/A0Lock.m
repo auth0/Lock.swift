@@ -27,6 +27,7 @@
 #import "A0IdentityProviderAuthenticator.h"
 #endif
 #import "A0UserAPIClient.h"
+#import "A0LockNotification.h"
 
 #define kCDNConfigurationURL @"https://cdn.auth0.com"
 #define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
@@ -145,7 +146,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
-    return [self.authenticator handleURL:url sourceApplication:sourceApplication];
+    return [self.identityProviderAuthenticator handleURL:url sourceApplication:sourceApplication];
 }
 
 - (void)registerAuthenticators:(NSArray *)authenticators {
@@ -158,6 +159,37 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions {
     [self.identityProviderAuthenticator applicationLaunchedWithOptions:launchOptions];
+}
+
+- (BOOL)continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
+    NSURL *url = userActivity.webpageURL;
+    if (!url) {
+        A0LogWarn(@"Received an user activity with no URL");
+        return NO;
+    }
+
+    NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+
+    if (![components.host isEqualToString:self.domainURL.host]) {
+        A0LogWarn(@"URL %@ is not inside configured Auth0 subdomain %@", url, self.domainURL.host);
+        return NO;
+    }
+
+    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    NSString *prefix = [NSString stringWithFormat:@"/ios/%@", bundleIdentifier];
+
+    if (![components.path.lowercaseString hasPrefix:prefix.lowercaseString]) {
+        A0LogWarn(@"URL %@ is not for this application with bundleId %@", url, bundleIdentifier);
+        return NO;
+    }
+
+    A0LogDebug(@"Received Universal Link %@", url);
+    [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationUniversalLinkReceived
+                                                        object:nil
+                                                      userInfo:@{
+                                                                 A0LockNotificationUniversalLinkParameterKey: url
+                                                                 }];
+    return YES;
 }
 
 #endif

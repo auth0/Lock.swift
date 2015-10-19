@@ -70,6 +70,12 @@
                     failureReason:A0LocalizedString(@"Auth0 configuration for your app is not available. Please try again later.")];
 }
 
++ (NSError *)invalidPhoneNumber {
+    return [NSError errorWithCode:A0ErrorCodeInvalidPhoneNumber
+                      description:A0LocalizedString(@"Invalid phone number")
+                    failureReason:A0LocalizedString(@"You must enter a valid phone number")];
+}
+
 #pragma mark - Login errors
 
 + (NSError *)invalidLoginCredentialsUsingEmail:(BOOL)usesEmail {

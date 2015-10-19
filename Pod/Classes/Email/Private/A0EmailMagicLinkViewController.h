@@ -1,6 +1,6 @@
-// A0SMSSendCodeViewController.h
+// A0EmailMagicLinkViewController.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,7 @@
 
 @class A0PasswordlessLockViewModel;
 
-@interface A0SMSSendCodeViewController : UIViewController<A0KeyboardEnabledView>
-
-@property (copy, nonatomic) void(^onRegisterBlock)(NSString *countryCode, NSString *phoneNumber);
+@interface A0EmailMagicLinkViewController : UIViewController<A0KeyboardEnabledView>
 
 - (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel;
 

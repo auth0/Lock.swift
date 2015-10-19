@@ -1,4 +1,4 @@
-// A0SMSSendCodeViewController.h
+// A0EmailValidator.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,14 +21,19 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "A0KeyboardEnabledView.h"
+#import "A0FieldValidator.h"
 
-@class A0PasswordlessLockViewModel;
+NS_ASSUME_NONNULL_BEGIN
 
-@interface A0SMSSendCodeViewController : UIViewController<A0KeyboardEnabledView>
+FOUNDATION_EXPORT NSString * const A0EmailValidatorIdentifer;
 
-@property (copy, nonatomic) void(^onRegisterBlock)(NSString *countryCode, NSString *phoneNumber);
+typedef NSString * _Nullable (^A0EmailValidatorSourceBlock)();
 
-- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel;
+@interface A0EmailValidator : NSObject<A0FieldValidator>
+
+- (instancetype)initWithSource:(A0EmailValidatorSourceBlock)source NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithField:(UITextField *)field;
 
 @end
+
+NS_ASSUME_NONNULL_END

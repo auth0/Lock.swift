@@ -416,6 +416,37 @@ NS_ASSUME_NONNULL_BEGIN
                                              success:(void(^)())success
                                              failure:(A0APIClientError)failure;
 
+/**
+ *  Start passwordless authentication using Email to send a Magic Link to the user.
+ *  The magic link will only work for iOS 9 and if the application is properly configured for Universal Links.
+ *
+ *  @param email        that will receive the magic link
+ *  @param parameters   used when the user authenticates with the magic link
+ *  @param success      block called when the Email was sent successfully
+ *  @param failure      block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
+ */
+- (NSURLSessionDataTask *)startPasswordlessWithMagicLinkInEmail:(NSString *)email
+                                                     parameters:(A0AuthParameters *)parameters
+                                                        success:(void(^)())success
+                                                        failure:(A0APIClientError)failure;
+
+/**
+ *  Start passwordless authentication using SMS to send a Magic Link to the user.
+ *  The magic link will only work for iOS 9 and if the application is properly configured for Universal Links.
+ *
+ *  @param phoneNumber that will receive the magic link
+ *  @param parameters  used when the user authenticates with the magic link
+ *  @param success     block called when the Email was sent successfully
+ *  @param failure     block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
+ */
+- (NSURLSessionDataTask *)startPasswordlessWithMagicLinkInSMS:(NSString *)phoneNumber
+                                                   parameters:(A0AuthParameters *)parameters
+                                                      success:(void(^)())success
+                                                      failure:(A0APIClientError)failure;
 @end
 
 @interface A0APIClient (Deprecated)

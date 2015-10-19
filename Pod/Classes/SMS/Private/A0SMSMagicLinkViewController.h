@@ -1,6 +1,6 @@
-// A0EmailValidator.h
+// A0SMSMagicLinkViewController.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,12 +21,12 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "A0FieldValidator.h"
+#import "A0KeyboardEnabledView.h"
 
-FOUNDATION_EXPORT NSString * const A0EmailValidatorIdentifer;
+@class A0PasswordlessLockViewModel;
 
-@interface A0EmailValidator : NSObject<A0FieldValidator>
+@interface A0SMSMagicLinkViewController : UIViewController<A0KeyboardEnabledView>
 
-- (instancetype)initWithField:(UITextField *)field;
+- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel;
 
 @end

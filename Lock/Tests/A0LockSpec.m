@@ -23,6 +23,7 @@
 #import "A0LockTest.h"
 
 #import "A0Lock.h"
+#import "A0LockNotification.h"
 
 #define kClientId @"1234567890"
 #define kDomain @"samples.auth0.com"
@@ -43,6 +44,7 @@ describe(@"A0Lock", ^{
         sharedExamplesFor(@"valid Lock", ^(NSDictionary *data) {
 
             __block A0Lock *lock;
+
             beforeEach(^{
                 lock = data[@"lock"];
             });
@@ -160,6 +162,65 @@ describe(@"A0Lock", ^{
 
     });
 
+    describe(@"Universal Links", ^{
+
+        __block A0Lock *lock;
+        __block NSUserActivity *activity;
+        __block id observer;
+        void(^restorationHandler)(NSArray *) = ^(NSArray *array){};
+
+        beforeEach(^{
+            lock = [A0Lock newLockWithClientId:kClientId domain:kDomain];
+            activity = mock(NSUserActivity.class);
+        });
+
+        afterEach(^{
+            [[NSNotificationCenter defaultCenter] removeObserver:observer];
+        });
+
+        it(@"should accept url from configured auth0 subdomain", ^{
+            [given(activity.webpageURL) willReturn:[NSURL URLWithString:@"https://auth0.com"]];
+            expect([lock continueUserActivity:activity restorationHandler:restorationHandler]).to.beFalsy();
+        });
+
+        it(@"should not accept nil url", ^{
+            [given(activity.webpageURL) willReturn:nil];
+            expect([lock continueUserActivity:activity restorationHandler:restorationHandler]).to.beFalsy();
+        });
+
+        it(@"should not accept url without ios prefix", ^{
+            [given(activity.webpageURL) willReturn:[NSURL URLWithString:@"https://samples.auth0.com/callback"]];
+            expect([lock continueUserActivity:activity restorationHandler:restorationHandler]).to.beFalsy();
+        });
+
+        it(@"should not accept url of another application", ^{
+            [given(activity.webpageURL) willReturn:[NSURL URLWithString:@"https://samples.auth0.com/ios/com.auth0.MyAwesomeApp"]];
+            expect([lock continueUserActivity:activity restorationHandler:restorationHandler]).to.beFalsy();
+        });
+
+        it(@"should handle valid url", ^{
+            [given(activity.webpageURL) willReturn:[NSURL URLWithString:[@"https://samples.auth0.com/ios/" stringByAppendingString:[[NSBundle mainBundle] bundleIdentifier]]]];
+            expect([lock continueUserActivity:activity restorationHandler:restorationHandler]).to.beTruthy();
+        });
+
+        it(@"should post notification with url", ^{
+            NSURL *url = [NSURL URLWithString:[@"https://samples.auth0.com/ios/" stringByAppendingString:[[NSBundle mainBundle] bundleIdentifier]]];
+            [given(activity.webpageURL) willReturn:url];
+            NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+
+            waitUntil(^(DoneCallback done) {
+                observer = [defaultCenter addObserverForName:A0LockNotificationUniversalLinkReceived
+                                                                object:nil
+                                                                 queue:nil
+                                                            usingBlock:^(NSNotification * _Nonnull notif) {
+                                                                expect(notif.userInfo[A0LockNotificationUniversalLinkParameterKey]).to.equal(url);
+                                                                done();
+                                                            }];
+                [lock continueUserActivity:activity restorationHandler:restorationHandler];
+            });
+        });
+
+    });
 });
 
 SpecEnd

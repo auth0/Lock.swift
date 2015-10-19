@@ -1,4 +1,4 @@
-// A0LockNotification.m
+// A0PhoneNumberValidator.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,19 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockNotification.h"
+#import <Foundation/Foundation.h>
+#import "A0FieldValidator.h"
 
-NSString * const A0LockNotificationLoginSuccessful = @"A0LockNotificationLoginSuccessful";
-NSString * const A0LockNotificationLoginFailed = @"A0LockNotificationLoginFailed";
+NS_ASSUME_NONNULL_BEGIN
 
-NSString * const A0LockNotificationSignUpSuccessful = @"A0LockNotificationSignUpSuccessful";
-NSString * const A0LockNotificationSignUpFailed = @"A0LockNotificationSignUpFailed";
+FOUNDATION_EXPORT NSString * const A0PhoneNumberValidatorIdentifer;
 
-NSString * const A0LockNotificationChangePasswordSuccessful = @"A0LockNotificationChangePasswordSuccessful";
-NSString * const A0LockNotificationChangePasswordFailed = @"A0LockNotificationChangePasswordFailed";
+typedef NSString * _Nullable (^A0PhoneNumberValidatorSourceBlock)();
 
-NSString * const A0LockNotificationLockDismissed = @"A0LockNotificationLockDismissed";
+@interface A0PhoneNumberValidator : NSObject<A0FieldValidator>
 
-NSString * const A0LockNotificationErrorParameterKey = @"A0LockNotificationErrorParameterKey";
-NSString * const A0LockNotificationEmailParameterKey = @"A0LockNotificationEmailParameterKey";
-NSString * const A0LockNotificationConnectionParameterKey = @"A0LockNotificationConnectionParameterKey";
+- (instancetype)initWithSource:(A0PhoneNumberValidatorSourceBlock)source NS_DESIGNATED_INITIALIZER;
+
+@end
+
+NS_ASSUME_NONNULL_END
