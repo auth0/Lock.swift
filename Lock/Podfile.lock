@@ -1,5 +1,5 @@
 PODS:
-  - 1PasswordExtension (1.6.1)
+  - 1PasswordExtension (1.6.3)
   - AFNetworking (2.5.4):
     - AFNetworking/NSURLConnection (= 2.5.4)
     - AFNetworking/NSURLSession (= 2.5.4)
@@ -221,7 +221,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  1PasswordExtension: 42b79b7ac6d8e7468b22b7a651fc0b445bcdbd3e
+  1PasswordExtension: 676a216461ffa9189db66541b5a2465e10ae4743
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   BDBOAuth1Manager: 2e28773b58f880fb36b5cd3efcf0b1fefbc78a99
   Bolts: 805a4a87413e49d4a0c2b7d469084cbc46b09342

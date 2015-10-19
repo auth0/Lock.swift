@@ -1,4 +1,4 @@
-// A0EmailMagicLinkViewController.m
+// A0SMSMagicLinkViewController.m
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0EmailMagicLinkViewController.h"
+#import "A0SMSMagicLinkViewController.h"
 #import "A0PasswordlessLockViewModel.h"
 #import "NSError+A0APIError.h"
 #import "A0Alert.h"
@@ -29,9 +29,9 @@
 #import "A0Errors.h"
 #import <libextobjc/EXTScope.h>
 
-const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
+const NSTimeInterval A0SMSMagicLinkRetryInSeconds = 40;
 
-@interface A0EmailMagicLinkViewController ()
+@interface A0SMSMagicLinkViewController ()
 
 @property (strong, nonatomic) A0PasswordlessLockViewModel *viewModel;
 @property (strong, nonatomic) NSTimer *resendTimer;
@@ -45,7 +45,7 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
 
 @end
 
-@implementation A0EmailMagicLinkViewController
+@implementation A0SMSMagicLinkViewController
 
 - (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel {
     self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
@@ -104,7 +104,7 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
 }
 
 - (IBAction)resend:(id)sender {
-    self.loadingView = [self showLoadingWithMessage:A0LocalizedString(@"Resending magic link to your email...")];
+    self.loadingView = [self showLoadingWithMessage:A0LocalizedString(@"Resending magic link to your phone...")];
 
     self.resendButton.enabled = NO;
     [self.viewModel requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
@@ -112,8 +112,8 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
         [self hideLoadingView:self.loadingView];
         if (error) {
             A0LogError(@"Failed to send SMS code with error %@", error);
-            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the email");
-            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send the email with your login link. Please try again later.");
+            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the SMS");
+            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send the SMS with your login link. Please try again later.");
             [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
                 alert.title = title;
                 alert.message = message;
@@ -151,7 +151,7 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
 }
 
 - (void)scheduleToEnableResend {
-    self.resendTimer = [NSTimer scheduledTimerWithTimeInterval:A0EmailMagicLinkRetryInSeconds
+    self.resendTimer = [NSTimer scheduledTimerWithTimeInterval:A0SMSMagicLinkRetryInSeconds
                                                         target:self
                                                       selector:@selector(enableResend)
                                                       userInfo:nil

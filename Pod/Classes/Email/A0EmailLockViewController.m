@@ -32,8 +32,8 @@
 #import "A0EmailMagicLinkViewController.h"
 #import <libextobjc/EXTScope.h>
 
-#define kEmailKey @"auth0-lock-email-email"
-#define LOCK_MAGIC_LINK 1
+#define kEmailKey @"com.auth0.lock.passwordless.email"
+
 @interface A0EmailLockViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
@@ -171,10 +171,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (BOOL)isMagicLinkAvailable {
-#ifndef LOCK_MAGIC_LINK
-    return NO;
-#else
     return self.useMagicLink && floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_3;
-#endif
 }
 @end
