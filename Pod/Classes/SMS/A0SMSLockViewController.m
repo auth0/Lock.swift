@@ -29,15 +29,15 @@
 #import "A0NavigationView.h"
 #import "A0TitleView.h"
 #import "A0Lock.h"
+#import "A0PasswordlessLockViewModel.h"
 
-#define kCountryCodeKey @"auth0-lock-sms-country-code"
-#define kPhoneNumberKey @"auth0-lock-sms-phone"
+#define kPhoneNumberKey @"com.auth0.lock.passwordless.sms"
 
 @interface A0SMSLockViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
-
 @property (strong, nonatomic) A0Lock *lock;
+@property (strong, nonatomic) A0PasswordlessLockViewModel *model;
 
 - (IBAction)close:(id)sender;
 
@@ -92,9 +92,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.closeButton.tintColor = [theme colorForKey:A0ThemeSecondaryButtonTextColor];
 
-    [self displayController:[self buildSMSSendCode]];
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapRecognizer];
+    A0PasswordlessLockStrategy strategy = A0PasswordlessLockStrategySMSCode;
+    self.model = [[A0PasswordlessLockViewModel alloc] initWithLock:self.lock authenticationParameters:[self.authenticationParameters copy] strategy:strategy];
+    self.model.onAuthentication = self.onAuthenticationBlock;
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *phoneNumber = [defaults stringForKey:kPhoneNumberKey];
+    self.model.identifier = phoneNumber;
+    
+    [self displayController:[self buildSMSSendCode]];
 }
 
 - (void)close:(id)sender {
@@ -121,20 +129,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (A0SMSSendCodeViewController *)buildSMSSendCode {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *phoneNumber = [defaults stringForKey:kPhoneNumberKey];
-    NSString *countryCode = [defaults stringForKey:kCountryCodeKey];
-    A0SMSSendCodeViewController *controller = [[A0SMSSendCodeViewController alloc] init];
+    A0SMSSendCodeViewController *controller = [[A0SMSSendCodeViewController alloc] initWithViewModel:self.model];
     @weakify(self);
     controller.onRegisterBlock = ^(NSString *countryCode, NSString *phoneNumber){
         @strongify(self);
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:countryCode forKey:kCountryCodeKey];
         [defaults setObject:phoneNumber forKey:kPhoneNumberKey];
         [defaults synchronize];
         [self displayController:[self buildSMSCodeWithNumber:phoneNumber]];
     };
-    controller.currentPhoneNumber = phoneNumber;
-    controller.currentCountry = countryCode;
-    controller.lock = self.lock;
     [self.navigationView removeAll];
     if (phoneNumber) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
@@ -147,11 +150,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (A0SMSCodeViewController *)buildSMSCodeWithNumber:(NSString *)phoneNumber {
     @weakify(self);
-    A0SMSCodeViewController *controller = [[A0SMSCodeViewController alloc] init];
-    controller.phoneNumber = phoneNumber;
-    controller.parameters = self.authenticationParameters;
-    controller.onAuthenticationBlock = self.onAuthenticationBlock;
-    controller.lock = self.lock;
+    A0SMSCodeViewController *controller = [[A0SMSCodeViewController alloc] initWithViewModel:self.model];
     void(^showRegister)() = ^{
         @strongify(self);
         [self displayController:[self buildSMSSendCode]];

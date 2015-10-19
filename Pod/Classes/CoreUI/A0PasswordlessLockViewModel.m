@@ -78,12 +78,12 @@ typedef void(^AuthenticateWithCode)(NSString *identifier, NSString *code, A0Pass
 }
 
 - (void)requestVerificationCodeWithCallback:(A0PasswordlessLockViewModelRequestBlock)callback {
-    self.requestCode(self.identifier, callback);
+    self.requestCode([self normalizedIdentifier], callback);
 }
 
 - (void)authenticateWithVerificationCode:(NSString *)verificationCode
                                 callback:(A0PasswordlessLockViewModelAuthenticationBlock)callback {
-    self.authenticateWithCode(self.identifier, verificationCode, callback);
+    self.authenticateWithCode([self normalizedIdentifier], verificationCode, callback);
 }
 
 - (BOOL)hasIdentifier {
@@ -198,4 +198,8 @@ typedef void(^AuthenticateWithCode)(NSString *identifier, NSString *code, A0Pass
     }
 }
 
+- (NSString *)normalizedIdentifier {
+    NSString *normalizedIdentifier = [[self.identifier componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsJoinedByString:@""];
+    return normalizedIdentifier;
+}
 @end

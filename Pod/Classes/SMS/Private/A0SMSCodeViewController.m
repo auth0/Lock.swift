@@ -32,8 +32,11 @@
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
 #import "NSError+A0APIError.h"
+#import "A0PasswordlessLockViewModel.h"
 
 @interface A0SMSCodeViewController ()
+
+@property (strong, nonatomic) A0PasswordlessLockViewModel *model;
 
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *codeFieldView;
@@ -48,8 +51,12 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel {
+    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    if (self) {
+        _model = viewModel;
+    }
+    return self;
 }
 
 - (void)viewDidLoad {
@@ -60,10 +67,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [theme configurePrimaryButton:self.loginButton];
     [theme configureLabel:self.messageLabel];
     [self.loginButton setTitle:A0LocalizedString(@"LOGIN") forState:UIControlStateNormal];
-    NSString *message = [NSString stringWithFormat:A0LocalizedString(@"Please check your phone %@.\nYou’ve received a message from us with your passcode"), self.phoneNumber];
+    NSString *message = [NSString stringWithFormat:A0LocalizedString(@"Please check your phone %@.\nYou’ve received a message from us with your passcode"), self.model.identifier];
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:message];
-    if (self.phoneNumber) {
-        NSRange phoneRange = [message rangeOfString:self.phoneNumber];
+    if (self.model.hasIdentifier) {
+        NSRange phoneRange = [message rangeOfString:self.model.identifier];
         [attrString setAttributes:@{
                                     NSFontAttributeName: [UIFont boldSystemFontOfSize:self.messageLabel.font.pointSize],
                                     }
@@ -74,30 +81,26 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)login:(id)sender {
-    A0LogVerbose(@"About to login with phone number %@", self.phoneNumber);
+    A0LogVerbose(@"About to login with phone number %@", self.model.identifier);
     [self.codeFieldView.textField resignFirstResponder];
     NSString *passcode = [self.codeFieldView.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     BOOL valid = passcode.length > 0;
     [self.codeFieldView setInvalid:!valid];
     if (passcode.length > 0) {
         @weakify(self);
-        void(^failureBlock)(NSError *) = ^(NSError *error) {
+        [self.loginButton setInProgress:YES];
+        [self.model authenticateWithVerificationCode:passcode callback:^(NSError * _Nullable error) {
             @strongify(self);
             [self.loginButton setInProgress:NO];
-            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
-            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSMSLoginError:error];
-            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
-                alert.title = title;
-                alert.message = message;
-            }];
-        };
-        [self.loginButton setInProgress:YES];
-        A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
-        [client loginWithPhoneNumber:self.phoneNumber
-                            passcode:passcode
-                          parameters:self.parameters
-                             success:self.onAuthenticationBlock
-                             failure:failureBlock];
+            if (error) {
+                NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
+                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSMSLoginError:error];
+                [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                    alert.title = title;
+                    alert.message = message;
+                }];
+            }
+        }];
     } else {
         A0LogError(@"Must provide a non-empty passcode.");
         [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
