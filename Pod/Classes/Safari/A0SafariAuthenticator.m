@@ -23,30 +23,38 @@
 #import "A0SafariAuthenticator.h"
 #import "A0SafariSession.h"
 #import "A0Lock.h"
-#import <SafariServices/SafariServices.h>
 #import "A0AuthParameters.h"
 #import "A0Errors.h"
 #import "A0LockNotification.h"
 #import "NSDictionary+A0QueryParameters.h"
-#import <libextobjc/EXTScope.h>
 #import "A0Token.h"
 #import "NSError+A0APIError.h"
+#import "A0ModalPresenter.h"
+#import <SafariServices/SafariServices.h>
+#import <libextobjc/EXTScope.h>
 
 @interface A0SafariAuthenticator () <SFSafariViewControllerDelegate>
 @property (strong, nonatomic) A0SafariSession *session;
+@property (strong, nonatomic) A0ModalPresenter *presenter;
 @property (copy, nonatomic) A0SafariSessionAuthentication onAuthentication;
-@property (strong, nonatomic) id magicLinkObserver;
+@property (strong, nonatomic) id universalLinkObserver;
 @end
 
 @implementation A0SafariAuthenticator
 
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName {
+    return [self initWithSession:[[A0SafariSession alloc] initWithLock:lock connectionName:connectionName]
+                  modalPresenter:[[A0ModalPresenter alloc] init]];
+}
+
+- (instancetype)initWithSession:(A0SafariSession *)session modalPresenter:(A0ModalPresenter *)presenter {
     self = [super init];
     if (self) {
-        _session = [[A0SafariSession alloc] initWithLock:lock connectionName:connectionName];
+        _session = session;
+        _presenter = presenter;
         [self clearSessions];
         @weakify(self);
-        _magicLinkObserver = [[NSNotificationCenter defaultCenter] addObserverForName:A0LockNotificationUniversalLinkReceived object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        _universalLinkObserver = [[NSNotificationCenter defaultCenter] addObserverForName:A0LockNotificationUniversalLinkReceived object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
             @strongify(self);
             NSURL *link = note.userInfo[A0LockNotificationUniversalLinkParameterKey];
             [self handleURL:link sourceApplication:nil];
@@ -56,8 +64,8 @@
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self.magicLinkObserver];
-    self.magicLinkObserver = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self.universalLinkObserver];
+    self.universalLinkObserver = nil;
 }
 
 - (void)authenticateWithParameters:(A0AuthParameters *)parameters
@@ -67,8 +75,7 @@
     NSURL *url = [self.session startWithParameters:[authenticationParameters asAPIPayload]];
     SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:url];
     controller.delegate = self;
-    UIViewController *presenter = [self presenterViewController];
-    [presenter presentViewController:controller animated:YES completion:nil];
+    [self.presenter presentController:controller completion:nil];
     self.onAuthentication = [self.session authenticationBlockWithSuccess:success failure:failure];
 }
 
@@ -117,40 +124,6 @@
         }
     }
     self.onAuthentication(error, token);
-}
-
-- (UIViewController *)presenterViewController {
-    UIViewController* viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    return [self findBestViewController:viewController];
-}
-
-- (UIViewController*) findBestViewController:(UIViewController*)controller {
-    if (controller.presentedViewController) {
-        return [self findBestViewController:controller.presentedViewController];
-    } else if ([controller isKindOfClass:[UISplitViewController class]]) {
-        UISplitViewController* splitViewController = (UISplitViewController*) controller;
-        if (splitViewController.viewControllers.count > 0) {
-            return [self findBestViewController:splitViewController.viewControllers.lastObject];
-        } else {
-            return controller;
-        }
-    } else if ([controller isKindOfClass:[UINavigationController class]]) {
-        UINavigationController* navigationController = (UINavigationController*) controller;
-        if (navigationController.viewControllers.count > 0) {
-            return [self findBestViewController:navigationController.topViewController];
-        } else {
-            return controller;
-        }
-    } else if ([controller isKindOfClass:[UITabBarController class]]) {
-        UITabBarController* tabBarController = (UITabBarController*) controller;
-        if (tabBarController.viewControllers.count > 0) {
-            return [self findBestViewController:tabBarController.selectedViewController];
-        } else {
-            return controller;
-        }
-    } else {
-        return controller;
-    }
 }
 
 #pragma mark - SFSafariViewControllerDelegate
