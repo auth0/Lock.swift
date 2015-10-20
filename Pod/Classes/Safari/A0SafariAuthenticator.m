@@ -1,0 +1,165 @@
+// A0SafariAuthenticator.m
+//
+// Copyright (c) 2015 Auth0 (http://auth0.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+#import "A0SafariAuthenticator.h"
+#import "A0SafariSession.h"
+#import "A0Lock.h"
+#import <SafariServices/SafariServices.h>
+#import "A0AuthParameters.h"
+#import "A0Errors.h"
+#import "A0LockNotification.h"
+#import "NSDictionary+A0QueryParameters.h"
+#import <libextobjc/EXTScope.h>
+#import "A0Token.h"
+#import "NSError+A0APIError.h"
+
+@interface A0SafariAuthenticator () <SFSafariViewControllerDelegate>
+@property (strong, nonatomic) A0SafariSession *session;
+@property (copy, nonatomic) A0SafariSessionAuthentication onAuthentication;
+@property (strong, nonatomic) id magicLinkObserver;
+@end
+
+@implementation A0SafariAuthenticator
+
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName {
+    self = [super init];
+    if (self) {
+        _session = [[A0SafariSession alloc] initWithLock:lock connectionName:connectionName];
+        [self clearSessions];
+        @weakify(self);
+        _magicLinkObserver = [[NSNotificationCenter defaultCenter] addObserverForName:A0LockNotificationUniversalLinkReceived object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+            @strongify(self);
+            NSURL *link = note.userInfo[A0LockNotificationUniversalLinkParameterKey];
+            [self handleURL:link sourceApplication:nil];
+        }];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self.magicLinkObserver];
+    self.magicLinkObserver = nil;
+}
+
+- (void)authenticateWithParameters:(A0AuthParameters *)parameters
+                           success:(A0IdPAuthenticationBlock)success
+                           failure:(A0IdPAuthenticationErrorBlock)failure {
+    A0AuthParameters *authenticationParameters = parameters ?: [A0AuthParameters newDefaultParams];
+    NSURL *url = [self.session startWithParameters:[authenticationParameters asAPIPayload]];
+    SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:url];
+    controller.delegate = self;
+    UIViewController *presenter = [self presenterViewController];
+    [presenter presentViewController:controller animated:YES completion:nil];
+    self.onAuthentication = [self.session authenticationBlockWithSuccess:success failure:failure];
+}
+
+- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
+    BOOL shouldHandle = [url.path hasPrefix:self.session.callbackURL.path];
+    if (shouldHandle) {
+        [self handleAuthorizeResultInURL:url];
+    }
+    return shouldHandle;
+}
+
+- (NSString *)identifier {
+    return self.session.connectionName;
+}
+
+- (void)clearSessions {
+    self.onAuthentication = ^(NSError *error, A0Token *token) {};
+}
+
+#pragma mark - Utility methods
+
+- (void)handleAuthorizeResultInURL:(NSURL *)url {
+    NSString *queryString = url.query ?: url.fragment;
+    NSDictionary *params = [NSDictionary fromQueryString:queryString];
+    A0LogDebug(@"Received params %@ from URL %@", params, url);
+    NSString *errorMessage = params[@"error"];
+    A0Token *token;
+    NSError *error;
+    if (errorMessage) {
+        A0LogError(@"URL contained error message %@", errorMessage);
+        NSString *localizedDescription = [NSString stringWithFormat:@"Failed to authenticate user with connection %@", self.session.connectionName];
+        error = [NSError errorWithCode:A0ErrorCodeAuthenticationFailed
+                           description:A0LocalizedString(localizedDescription)
+                               payload:params];
+    } else {
+        NSString *accessToken = params[@"access_token"];
+        NSString *idToken = params[@"id_token"];
+        NSString *tokenType = params[@"token_type"];
+        NSString *refreshToken = params[@"refresh_token"];
+        if (idToken) {
+            token = [[A0Token alloc] initWithAccessToken:accessToken idToken:idToken tokenType:tokenType refreshToken:refreshToken];
+            A0LogVerbose(@"Obtained token from URL: %@", token);
+        } else {
+            A0LogError(@"Failed to obtain id_token from URL %@", url);
+            error = [A0Errors auth0InvalidConfigurationForConnectionName:self.session.connectionName];
+        }
+    }
+    self.onAuthentication(error, token);
+}
+
+- (UIViewController *)presenterViewController {
+    UIViewController* viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    return [self findBestViewController:viewController];
+}
+
+- (UIViewController*) findBestViewController:(UIViewController*)controller {
+    if (controller.presentedViewController) {
+        return [self findBestViewController:controller.presentedViewController];
+    } else if ([controller isKindOfClass:[UISplitViewController class]]) {
+        UISplitViewController* splitViewController = (UISplitViewController*) controller;
+        if (splitViewController.viewControllers.count > 0) {
+            return [self findBestViewController:splitViewController.viewControllers.lastObject];
+        } else {
+            return controller;
+        }
+    } else if ([controller isKindOfClass:[UINavigationController class]]) {
+        UINavigationController* navigationController = (UINavigationController*) controller;
+        if (navigationController.viewControllers.count > 0) {
+            return [self findBestViewController:navigationController.topViewController];
+        } else {
+            return controller;
+        }
+    } else if ([controller isKindOfClass:[UITabBarController class]]) {
+        UITabBarController* tabBarController = (UITabBarController*) controller;
+        if (tabBarController.viewControllers.count > 0) {
+            return [self findBestViewController:tabBarController.selectedViewController];
+        } else {
+            return controller;
+        }
+    } else {
+        return controller;
+    }
+}
+
+#pragma mark - SFSafariViewControllerDelegate
+
+- (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.onAuthentication([A0Errors auth0CancelledForConnectionName:self.session.connectionName], nil);
+        [self clearSessions];
+    });
+}
+
+@end
