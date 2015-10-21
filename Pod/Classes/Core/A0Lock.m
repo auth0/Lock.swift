@@ -29,14 +29,13 @@
 #import "A0UserAPIClient.h"
 #import "A0LockNotification.h"
 #import "A0MainBundleCredentialProvider.h"
+#import "A0FileCredentialProvider.h"
 
 #define kCDNConfigurationURL @"https://cdn.auth0.com"
 #define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
 
-#define kClientIdKey @"Auth0ClientId"
-#define kTenantKey @"Auth0Tenant"
-#define kDomainKey @"Auth0Domain"
-#define kConfigurationDomainKey @"Auth0ConfigurationDomain"
+static NSString * const Auth0FileName = @"Auth0";
+static NSString * const Auth0FileExtension = @"plist";
 
 @interface NSURL (A0Lock)
 
@@ -66,7 +65,16 @@
 AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)init {
-    return [self initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] init]];
+    NSString *path = [[NSBundle mainBundle] pathForResource:Auth0FileName ofType:Auth0FileExtension];
+    id<A0CredentialProvider> credentialProvider;
+    if (path) {
+        A0LogInfo(@"Using Auth0 credentials from file %@", path);
+        credentialProvider = [[A0FileCredentialProvider alloc] initWithFilePath:path];
+    } else {
+        A0LogInfo(@"Using Auth0 credentials from main bundle");
+        credentialProvider = [[A0MainBundleCredentialProvider alloc] init];
+    }
+    return [self initWithCredentialProvider:credentialProvider];
 }
 
 - (instancetype)initWithCredentialProvider:(id<A0CredentialProvider>)credentialProvider {

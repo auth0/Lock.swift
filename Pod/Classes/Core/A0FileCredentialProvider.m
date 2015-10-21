@@ -1,4 +1,4 @@
-// A0MainBundleCredentialProvider.m
+// A0FileCredentialProvider.m
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,35 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0MainBundleCredentialProvider.h"
+#import "A0FileCredentialProvider.h"
 
-static NSString * const ClientIdKey = @"Auth0ClientId";
-static NSString * const TenantKey = @"Auth0Tenant";
-static NSString * const DomainKey = @"Auth0Domain";
-static NSString * const ConfigurationDomainKey = @"Auth0ConfigurationDomain";
+static NSString * const ClientIdKey = @"ClientId";
+static NSString * const DomainKey = @"Domain";
+static NSString * const ConfigurationDomainKey = @"ConfigurationDomain";
 
-@interface A0MainBundleCredentialProvider ()
+@interface A0FileCredentialProvider ()
 @property (strong, nonatomic) NSDictionary *values;
 @end
 
-@implementation A0MainBundleCredentialProvider
+@implementation A0FileCredentialProvider
 
-- (instancetype)init {
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSMutableDictionary *values = [NSMutableDictionary dictionary];
-    [@[ClientIdKey, TenantKey, DomainKey, ConfigurationDomainKey] enumerateObjectsUsingBlock:^(NSString * _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *value = info[key];
-        if (value) {
-            values[key] = value;
-        }
-    }];
-    return [self initWithDictionary:[NSDictionary dictionaryWithDictionary:values]];
-}
-
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+- (instancetype)initWithFilePath:(NSString *)path {
     self = [super init];
     if (self) {
-        _values = [NSDictionary dictionaryWithDictionary:dictionary];
+        _values = [NSDictionary dictionaryWithContentsOfFile:path];
     }
     return self;
 }
@@ -58,7 +45,7 @@ static NSString * const ConfigurationDomainKey = @"Auth0ConfigurationDomain";
 }
 
 - (NSString *)domain {
-    return self.values[DomainKey] ?: [NSString stringWithFormat:@"https://%@.auth0.com", self.values[TenantKey]];
+    return self.values[DomainKey];
 }
 
 - (NSString *)configurationDomain {
