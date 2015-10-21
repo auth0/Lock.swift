@@ -62,6 +62,7 @@
 
 @property (strong, nonatomic) A0LockConfiguration *configuration;
 @property (strong, nonatomic) A0Lock *lock;
+@property (strong, nonatomic) A0LockEventDelegate *eventDelegate;
 
 - (IBAction)dismiss:(id)sender;
 
@@ -95,6 +96,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         _defaultADUsernameFromEmailPrefix = YES;
         _connections = @[];
         _useWebView = YES;
+        _eventDelegate = [[A0LockEventDelegate alloc] initWithLockViewController:self];
     }
     return self;
 }
@@ -124,11 +126,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)dismiss:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationLockDismissed object:nil];
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    if (self.onUserDismissBlock) {
-        self.onUserDismissBlock();
-    }
+    [self.eventDelegate dismissLock];
 }
 
 - (IBAction)hideKeyboard:(id)sender {
@@ -179,9 +177,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     @weakify(self);
     void(^onAuthSuccessBlock)(A0UserProfile *, A0Token *) =  ^(A0UserProfile *profile, A0Token *token) {
         @strongify(self);
-        if (self.onAuthenticationBlock) {
-            self.onAuthenticationBlock(profile, token);
-        }
+        [self.eventDelegate userAuthenticatedWithToken:token profile:profile];
     };
     UIViewController<A0AuthenticationUIComponent> *rootController;
     BOOL hasSocial = self.configuration.socialStrategies.count > 0;
@@ -356,7 +352,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0LogDebug(@"Using a custom SignUp UIViewController");
         return ^{
             @strongify(self);
-            UIViewController *controller = self.customSignUp(self.lock);
+            UIViewController *controller = self.customSignUp(self.lock, self.eventDelegate);
             [self.navigationController pushViewController:controller animated:YES];
         };
     }
