@@ -26,13 +26,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class A0Token, A0UserProfile, A0LockViewController;
 
+/**
+ *  Object that allows to control to some extent the navigation inside Lock UI.
+ */
 @interface A0LockEventDelegate : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithLockViewController:(A0LockViewController *)controller NS_DESIGNATED_INITIALIZER;
 
+/**
+ *  Dismiss all custom UIViewControllers pushed inside Lock and shows it's main UI.
+ */
 - (void)backToLock;
+
+/**
+ *  Dismiss A0LockViewController, like tapping the close button if `closable` is true
+ */
 - (void)dismissLock;
+
+/**
+ *  Calls `onAuthenticationBlock` of `A0LockViewController` with token and profile
+ *
+ *  @param token   obtained during authentication
+ *  @param profile of the authenticated user
+ */
 - (void)userAuthenticatedWithToken:(A0Token *)token profile:(A0UserProfile *)profile;
 
 @end
