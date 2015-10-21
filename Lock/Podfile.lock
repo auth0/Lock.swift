@@ -102,48 +102,48 @@ PODS:
     - Lock/Core (~> 1.11)
     - PSAlertView (~> 2.0)
     - TWReverseAuth (~> 0.1.0)
-  - Lock/1Password (1.19.2):
+  - Lock/1Password (1.20.0):
     - 1PasswordExtension (~> 1.2)
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/Core (1.19.2):
+  - Lock/Core (1.20.0):
     - AFNetworking (~> 2.5)
     - CocoaLumberjack (~> 2.0)
     - ISO8601DateFormatter (~> 0.7)
     - libextobjc (~> 0.4)
-  - Lock/CoreUI (1.19.2):
+  - Lock/CoreUI (1.20.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
-  - Lock/Email (1.19.2):
+  - Lock/Email (1.20.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/UI
-  - Lock/ReactiveCore (1.19.2):
+  - Lock/ReactiveCore (1.20.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/Core
     - ReactiveCocoa (~> 2.3)
-  - Lock/Safari (1.19.2):
+  - Lock/Safari (1.20.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
-    - Lock/Core
-  - Lock/SMS (1.19.2):
+    - Lock/CoreUI
+  - Lock/SMS (1.20.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/UI
-  - Lock/TouchID (1.19.2):
+  - Lock/TouchID (1.20.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/UI
     - SimpleKeychain (~> 0.2)
     - TouchIDAuth (~> 0.1)
-  - Lock/UI (1.19.2):
+  - Lock/UI (1.20.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/CoreUI
-  - Lock/WebView (1.19.2):
+  - Lock/WebView (1.20.0):
     - CocoaLumberjack (~> 2.0)
     - libextobjc (~> 0.4)
     - Lock/CoreUI
@@ -228,7 +228,7 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   JWTDecode: c193d229af74dd72121515c976f930ccbed96a2a
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  Lock: da94a6916dd22673e975e3974cb6ce03d89d905d
+  Lock: 3279f6a648e318449950c638aa6d56d2cf95b931
   Lock-Facebook: 36e982eb8221dd07fcc9770781e3fc6363be28d3
   Lock-Twitter: 8168e4c3861f6cc6581d1b8d635f41e29a607cb3
   LUKeychainAccess: d22fc00b33ad92c7532962b86daa94c14b85ecbe
