@@ -1,4 +1,4 @@
-// A0Lock+A0LockViewController.h
+// A0LockEventDelegate.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,32 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0Lock.h"
+#import <Foundation/Foundation.h>
 
-@class A0LockViewController, A0LockSignUpViewController;
+NS_ASSUME_NONNULL_BEGIN
 
-@interface A0Lock (A0LockViewController)
-
-/**
- *  Creates a new `A0LockViewController` instance
- *
- *  @return a new Lock ViewController
- */
-- (A0LockViewController *)newLockViewController;
+@class A0Token, A0UserProfile, A0LockViewController;
 
 /**
- *  Creates a new `A0LockSignUpViewController` instance
- *
- *  @return a new Lock SignUp ViewController
+ *  Object that allows to control to some extent the navigation inside Lock UI.
  */
-- (A0LockSignUpViewController *)newSignUpViewController;
+@interface A0LockEventDelegate : NSObject
+
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithLockViewController:(A0LockViewController *)controller NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Presents `A0LockViewController` from a UIViewController.
- *
- *  @param lockController   controller to present
- *  @param controller       controller that will present Lock UIViewController.
+ *  Dismiss all custom UIViewControllers pushed inside Lock and shows it's main UI.
  */
-- (void)presentLockController:(A0LockViewController *)lockController fromController:(UIViewController *)controller;
+- (void)backToLock;
+
+/**
+ *  Dismiss A0LockViewController, like tapping the close button if `closable` is true
+ */
+- (void)dismissLock;
+
+/**
+ *  Calls `onAuthenticationBlock` of `A0LockViewController` with token and profile
+ *
+ *  @param token   obtained during authentication
+ *  @param profile of the authenticated user
+ */
+- (void)userAuthenticatedWithToken:(A0Token *)token profile:(A0UserProfile *)profile;
 
 @end
+
+NS_ASSUME_NONNULL_END

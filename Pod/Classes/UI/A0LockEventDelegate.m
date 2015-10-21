@@ -1,4 +1,4 @@
-// A0Lock+A0LockViewController.h
+// A0LockEventDelegate.m
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,32 +20,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0Lock.h"
+#import "A0LockEventDelegate.h"
+#import "A0LockViewController.h"
+#import "A0LockNotification.h"
 
-@class A0LockViewController, A0LockSignUpViewController;
+@interface A0LockEventDelegate ()
+@property (weak, nonatomic) A0LockViewController *controller;
+@end
 
-@interface A0Lock (A0LockViewController)
+@implementation A0LockEventDelegate
 
-/**
- *  Creates a new `A0LockViewController` instance
- *
- *  @return a new Lock ViewController
- */
-- (A0LockViewController *)newLockViewController;
+- (instancetype)initWithLockViewController:(A0LockViewController *)controller {
+    self = [super init];
+    if (self) {
+        _controller = controller;
+    }
+    return self;
+}
 
-/**
- *  Creates a new `A0LockSignUpViewController` instance
- *
- *  @return a new Lock SignUp ViewController
- */
-- (A0LockSignUpViewController *)newSignUpViewController;
+- (void)dismissLock {
+    [[NSNotificationCenter defaultCenter] postNotificationName:A0LockNotificationLockDismissed object:nil];
+    [self.controller.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    if (self.controller.onUserDismissBlock) {
+        self.controller.onUserDismissBlock();
+    }
+}
 
-/**
- *  Presents `A0LockViewController` from a UIViewController.
- *
- *  @param lockController   controller to present
- *  @param controller       controller that will present Lock UIViewController.
- */
-- (void)presentLockController:(A0LockViewController *)lockController fromController:(UIViewController *)controller;
+- (void)backToLock {
+    [self.controller.navigationController popToRootViewControllerAnimated:YES];
+}
 
+- (void)userAuthenticatedWithToken:(A0Token *)token profile:(A0UserProfile *)profile {
+    if (self.controller.onAuthenticationBlock) {
+        self.controller.onAuthenticationBlock(profile, token);
+    }
+}
 @end

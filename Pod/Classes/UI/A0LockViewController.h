@@ -22,6 +22,7 @@
 
 #import <UIKit/UIKit.h>
 #import "A0ContainerViewController.h"
+#import "A0LockEventDelegate.h"
 
 @class A0UserProfile, A0Token, A0AuthParameters, A0Lock;
 
@@ -94,6 +95,14 @@ NS_ASSUME_NONNULL_BEGIN
  * Hides the Reset Password button. By default is `false`.
  */
 @property (assign, nonatomic) BOOL disableResetPassword;
+
+/**
+ *  Hook to use a custom UIViewController for SignUp. By default is nil.
+ *  The block will receive two parameters:
+ *  - `A0Lock` instance of the displayed `A0LockViewController`
+ *  - an instance of `A0LockEventDelegate` used to interact with `A0LockViewController`, e.g. to go back to Lock UI.
+ */
+@property (copy, nullable, nonatomic) UIViewController *(^customSignUp)(A0Lock *lock, A0LockEventDelegate *delegate);
 
 ///------------------------------------------------
 /// @name Authentication options
