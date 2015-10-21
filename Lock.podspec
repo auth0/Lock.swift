@@ -111,7 +111,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     safari.platform = :ios
     safari.public_header_files = 'Pod/Classes/Safari/*.h'
     safari.source_files = 'Pod/Classes/Safari/*.{h,m}'
-    safari.dependency 'Lock/Core'
+    safari.dependency 'Lock/CoreUI'
   end
 
   s.subspec 'WebView' do |webview|

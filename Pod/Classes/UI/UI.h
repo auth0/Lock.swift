@@ -26,6 +26,5 @@
 #import "A0LockViewController.h"
 #import "A0LockSignUpViewController.h"
 #import "A0Lock+A0LockViewController.h"
-#import "A0LockNotification.h"
 
 #endif
