@@ -56,6 +56,16 @@
 				<string>com.auth0.$(PRODUCT_NAME:rfc1034identifier)$(BUNDLE_SUFFIX)</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>safari</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.auth0.$(PRODUCT_NAME:rfc1034identifier)$(BUNDLE_SUFFIX)</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>14</string>
@@ -79,6 +89,13 @@
 	<string>${FACEBOOK_APP_NAME}</string>
 	<key>GooglePlusClientId</key>
 	<string>${GOOGLE_PLUS_CLIENT_ID}</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+		<string>fb-messenger-api</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -128,13 +145,6 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>fbapi</string>
-		<string>fbauth2</string>
-		<string>fbshareextension</string>
-		<string>fb-messenger-api</string>
 	</array>
 </dict>
 </plist>

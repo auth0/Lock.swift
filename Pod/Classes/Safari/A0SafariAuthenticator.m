@@ -42,9 +42,15 @@
 
 @implementation A0SafariAuthenticator
 
-- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName {
-    return [self initWithSession:[[A0SafariSession alloc] initWithLock:lock connectionName:connectionName]
+AUTH0_DYNAMIC_LOGGER_METHODS
+
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName useUniversalLink:(BOOL)useUniversalLink {
+    return [self initWithSession:[[A0SafariSession alloc] initWithLock:lock connectionName:connectionName useUniversalLink:useUniversalLink]
                   modalPresenter:[[A0ModalPresenter alloc] init]];
+}
+
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName {
+    return [self initWithLock:lock connectionName:connectionName useUniversalLink:YES];
 }
 
 - (instancetype)initWithSession:(A0SafariSession *)session modalPresenter:(A0ModalPresenter *)presenter {
@@ -73,6 +79,7 @@
                            failure:(A0IdPAuthenticationErrorBlock)failure {
     A0AuthParameters *authenticationParameters = parameters ?: [A0AuthParameters newDefaultParams];
     NSURL *url = [self.session authorizeURLWithParameters:[authenticationParameters asAPIPayload]];
+    A0LogDebug(@"Opening URL %@ in SFSafariViewController", url);
     SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:url];
     controller.delegate = self;
     [self.presenter presentController:controller completion:nil];
@@ -82,6 +89,7 @@
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     BOOL shouldHandle = [url.path hasPrefix:self.session.callbackURL.path];
     if (shouldHandle) {
+        A0LogDebug(@"Handling callback URL %@", url);
         [self handleAuthorizeResultInURL:url];
     }
     return shouldHandle;

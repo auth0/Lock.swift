@@ -37,7 +37,11 @@
 @implementation A0SafariSession
 
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName {
-    NSURL *callbackURL = [A0SafariSession callbackURLForOSVersion:NSFoundationVersionNumber withLock:lock];
+    return [self initWithLock:lock connectionName:connectionName useUniversalLink:YES];
+}
+
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName useUniversalLink:(BOOL)useUniversalLink {
+    NSURL *callbackURL = useUniversalLink ? [A0SafariSession callbackURLForOSVersion:NSFoundationVersionNumber withLock:lock] : [A0SafariSession urlWithCustomSchemeForLock:lock];
     return [self initWithLock:lock connectionName:connectionName callbackURL:callbackURL];
 }
 

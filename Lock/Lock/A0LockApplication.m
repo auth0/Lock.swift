@@ -36,7 +36,11 @@
         A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
                                                                                 andSecret:@""];
         A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
+#if TARGET_IPHONE_SIMULATOR
+        A0SafariAuthenticator *safari = [[A0SafariAuthenticator alloc] initWithLock:_lock connectionName:@"instagram" useUniversalLink:NO];
+#else
         A0SafariAuthenticator *safari = [[A0SafariAuthenticator alloc] initWithLock:_lock connectionName:@"instagram"];
+#endif
         [_lock registerAuthenticators:@[
                                         twitter,
                                         facebook,
