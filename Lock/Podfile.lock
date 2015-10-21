@@ -91,12 +91,6 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - libextobjc/UmbrellaHeader (0.4.1)
-  - Lock (1.19.2):
-    - CocoaLumberjack (~> 2.0)
-    - libextobjc (~> 0.4)
-    - Lock/Core (= 1.19.2)
-    - Lock/UI (= 1.19.2)
-    - Lock/WebView (= 1.19.2)
   - Lock-Facebook (2.2.0):
     - CocoaLumberjack (~> 2.0)
     - FBSDKCoreKit (~> 4.6)
@@ -199,7 +193,6 @@ DEPENDENCIES:
   - ISO8601DateFormatter
   - JWTDecode (~> 0.2.1)
   - libextobjc
-  - Lock (from `../`)
   - Lock-Facebook (~> 2.0)
   - Lock-Twitter (~> 1.0)
   - Lock/1Password (from `../`)
@@ -208,6 +201,7 @@ DEPENDENCIES:
   - Lock/Safari (from `../`)
   - Lock/SMS (from `../`)
   - Lock/TouchID (from `../`)
+  - Lock/UI (from `../`)
   - Lock/WebView (from `../`)
   - ObjectiveSugar
   - OCHamcrest

@@ -25,6 +25,7 @@
 #import <Lock/Lock.h>
 #import <Lock-Facebook/A0FacebookAuthenticator.h>
 #import <Lock-Twitter/A0TwitterAuthenticator.h>
+#import <Lock/A0SafariAuthenticator.h>
 
 @implementation A0LockApplication
 
@@ -35,9 +36,15 @@
         A0TwitterAuthenticator *twitter = [A0TwitterAuthenticator newAuthenticatorWithKey:@""
                                                                                 andSecret:@""];
         A0FacebookAuthenticator *facebook = [A0FacebookAuthenticator newAuthenticatorWithDefaultPermissions];
+#if TARGET_IPHONE_SIMULATOR
+        A0SafariAuthenticator *safari = [[A0SafariAuthenticator alloc] initWithLock:_lock connectionName:@"instagram" useUniversalLink:NO];
+#else
+        A0SafariAuthenticator *safari = [[A0SafariAuthenticator alloc] initWithLock:_lock connectionName:@"instagram"];
+#endif
         [_lock registerAuthenticators:@[
                                         twitter,
                                         facebook,
+                                        safari,
                                         ]];
     }
     return self;

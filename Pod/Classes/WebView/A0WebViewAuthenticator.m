@@ -24,6 +24,7 @@
 #import "A0WebViewController.h"
 #import "A0WebKitViewController.h"
 #import "A0Theme.h"
+#import "A0ModalPresenter.h"
 
 NSString * const A0WebViewAuthenticatorTitleBarTintColor = @"A0WebViewAuthenticatorTitleBarTintColor";
 NSString * const A0WebViewAuthenticatorTitleBarBarTintColor = @"A0WebViewAuthenticatorTitleBarBarTintColor";
@@ -55,7 +56,8 @@ NSString * const A0WebViewAuthenticatorTitleTextFont = @"A0WebViewAuthenticatorT
     controller.localizedCancelButtonTitle = self.localizedCancelButtonTitle;
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
     [self applyThemeToNavigationBar:navigation.navigationBar];
-    [[self presenterViewController] presentViewController:navigation animated:YES completion:nil];
+    A0ModalPresenter *presenter = [[A0ModalPresenter alloc] init];
+    [presenter presentController:navigation completion:nil];
 }
 
 - (BOOL)handleURL:(NSURL * __nonnull)url sourceApplication:(nullable NSString *)sourceApplication {
@@ -67,42 +69,6 @@ NSString * const A0WebViewAuthenticatorTitleTextFont = @"A0WebViewAuthenticatorT
 }
 
 - (void)clearSessions {
-}
-
-#pragma mark - Utility methods
-
-- (UIViewController *)presenterViewController {
-    UIViewController* viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    return [self findBestViewController:viewController];
-}
-
-- (UIViewController*) findBestViewController:(UIViewController*)controller {
-    if (controller.presentedViewController) {
-        return [self findBestViewController:controller.presentedViewController];
-    } else if ([controller isKindOfClass:[UISplitViewController class]]) {
-        UISplitViewController* splitViewController = (UISplitViewController*) controller;
-        if (splitViewController.viewControllers.count > 0) {
-            return [self findBestViewController:splitViewController.viewControllers.lastObject];
-        } else {
-            return controller;
-        }
-    } else if ([controller isKindOfClass:[UINavigationController class]]) {
-        UINavigationController* navigationController = (UINavigationController*) controller;
-        if (navigationController.viewControllers.count > 0) {
-            return [self findBestViewController:navigationController.topViewController];
-        } else {
-            return controller;
-        }
-    } else if ([controller isKindOfClass:[UITabBarController class]]) {
-        UITabBarController* tabBarController = (UITabBarController*) controller;
-        if (tabBarController.viewControllers.count > 0) {
-            return [self findBestViewController:tabBarController.selectedViewController];
-        } else {
-            return controller;
-        }
-    } else {
-        return controller;
-    }
 }
 
 - (UIViewController<A0WebAuthenticable> *)newWebControllerWithParameters:(A0AuthParameters *)parameters {

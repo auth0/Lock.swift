@@ -29,6 +29,7 @@
 		5F48BBA81A7B151700D8E05B /* POST-delegation.response in Resources */ = {isa = PBXBuildFile; fileRef = 5F48BBA71A7B151700D8E05B /* POST-delegation.response */; };
 		5F7112E519D5C18B001971BE /* A0AuthParametersSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */; };
 		5F75E4541A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */; };
+		5F7CABE91BD699D5003B0FDA /* A0SafariAuthenticatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7CABE81BD699D5003B0FDA /* A0SafariAuthenticatorSpec.m */; settings = {ASSET_TAGS = (); }; };
 		5F8D5FD71AFD637B00E9BF55 /* A0LockApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8D5FD61AFD637B00E9BF55 /* A0LockApplication.m */; };
 		5F91E66E19E32C48003150DF /* A0ConnectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */; };
 		5F951A981A0EC7D600D128D0 /* A0HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */; };
@@ -39,6 +40,7 @@
 		5F9F5B6819AF9D8E0021068C /* A0StrategySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */; };
 		5F9F5B6A19AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6919AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m */; };
 		5FA2CAEB1A7FE673009178C0 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */; };
+		5FAFCEE11BD6E1F00071944D /* A0SafariSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFCEE01BD6E1F00071944D /* A0SafariSessionSpec.m */; settings = {ASSET_TAGS = (); }; };
 		5FC45F8D1AE5942400427E31 /* A0HTTPStubber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC45F8C1AE5942400427E31 /* A0HTTPStubber.m */; };
 		5FC7EECF1A7957BE00C83B09 /* GET-Application-Info.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */; };
 		5FC7EEF51A79850000C83B09 /* POST-oauth-ro.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */; };
@@ -107,6 +109,7 @@
 		5F48BBA71A7B151700D8E05B /* POST-delegation.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-delegation.response"; sourceTree = "<group>"; };
 		5F7112E419D5C18B001971BE /* A0AuthParametersSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0AuthParametersSpec.m; sourceTree = "<group>"; };
 		5F75E4531A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0APIv1RouterSpec.m; sourceTree = "<group>"; };
+		5F7CABE81BD699D5003B0FDA /* A0SafariAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SafariAuthenticatorSpec.m; sourceTree = "<group>"; };
 		5F8D5FD51AFD637B00E9BF55 /* A0LockApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0LockApplication.h; sourceTree = "<group>"; };
 		5F8D5FD61AFD637B00E9BF55 /* A0LockApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockApplication.m; sourceTree = "<group>"; };
 		5F91E66D19E32C48003150DF /* A0ConnectionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ConnectionSpec.m; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 		5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0StrategySpec.m; sourceTree = "<group>"; };
 		5F9F5B6919AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0IdentityProviderAuthenticatorSpec.m; sourceTree = "<group>"; };
 		5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		5FAFCEE01BD6E1F00071944D /* A0SafariSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SafariSessionSpec.m; sourceTree = "<group>"; };
 		5FC45F8B1AE5942400427E31 /* A0HTTPStubber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0HTTPStubber.h; sourceTree = "<group>"; };
 		5FC45F8C1AE5942400427E31 /* A0HTTPStubber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0HTTPStubber.m; sourceTree = "<group>"; };
 		5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GET-Application-Info.response"; sourceTree = "<group>"; };
@@ -326,6 +330,8 @@
 				5F29E45C1B72867B00D7A62F /* A0RuleErrorHandlerSpec.m */,
 				5F29E4641B72B87200D7A62F /* A0PasswordStrengthErrorHandlerSpec.m */,
 				5F27AF641BD18A7D00E0D71F /* A0PasswordlessLockViewModelSpec.m */,
+				5F7CABE81BD699D5003B0FDA /* A0SafariAuthenticatorSpec.m */,
+				5FAFCEE01BD6E1F00071944D /* A0SafariSessionSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -589,6 +595,7 @@
 				5F29E4591B72750800D7A62F /* A0GenericAPIErrorHandlerSpec.m in Sources */,
 				5FEDA4C21A1E7589009B1C2F /* A0CredentialsValidatorSpec.m in Sources */,
 				5F91E66E19E32C48003150DF /* A0ConnectionSpec.m in Sources */,
+				5F7CABE91BD699D5003B0FDA /* A0SafariAuthenticatorSpec.m in Sources */,
 				5F75E4541A2FB06D00EAB3B7 /* A0APIv1RouterSpec.m in Sources */,
 				5F22B5D619E84C28002A730A /* A0FilteredConnectionDomainMatcherSpec.m in Sources */,
 				5F0AA5BF1A78308100073120 /* A0APIClientSpec.m in Sources */,
@@ -607,6 +614,7 @@
 				5F9F5B6A19AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m in Sources */,
 				5FEDA4B31A1E4E73009B1C2F /* A0EmailValidatorSpec.m in Sources */,
 				5F27AF651BD18A7D00E0D71F /* A0PasswordlessLockViewModelSpec.m in Sources */,
+				5FAFCEE11BD6E1F00071944D /* A0SafariSessionSpec.m in Sources */,
 				5F29E4651B72B87200D7A62F /* A0PasswordStrengthErrorHandlerSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
