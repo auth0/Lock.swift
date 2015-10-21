@@ -24,6 +24,8 @@
 
 #import "A0Lock.h"
 #import "A0LockNotification.h"
+#import "A0CredentialProvider.h"
+#import "A0MainBundleCredentialProvider.h"
 
 #define kClientId @"1234567890"
 #define kDomain @"samples.auth0.com"
@@ -31,9 +33,12 @@
 #define kConfigurationDomain @"myconfig.mydomain.com"
 
 @interface A0Lock (Testing)
-- (instancetype)initWithBundleInfo:(NSDictionary *)info;
+- (instancetype)initWithCredentialProvider:(id<A0CredentialProvider>)credentialProvider;
 @end
 
+@interface A0MainBundleCredentialProvider (Testing)
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+@end
 
 SpecBegin(A0Lock)
 
@@ -113,41 +118,41 @@ describe(@"A0Lock", ^{
                                             });
 
         itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [[A0Lock alloc] initWithBundleInfo:@{
-                                                                                          @"Auth0ClientId": kClientId,
-                                                                                          @"Auth0Tenant": @"samples",
-                                                                                          }],
+                                            @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
+                                                                                                                                                             @"Auth0ClientId": kClientId,
+                                                                                                                                                             @"Auth0Tenant": @"samples",
+                                                                                                                                                             }]],
                                             @"domain": @"https://samples.auth0.com",
                                             @"configurationDomain": [NSString stringWithFormat:@"https://cdn.auth0.com/client/%@.js", kClientId],
                                             @"clientId": kClientId,
                                             });
 
         itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [[A0Lock alloc] initWithBundleInfo:@{
-                                                                                          @"Auth0ClientId": kClientId,
-                                                                                          @"Auth0Domain": kDomain,
-                                                                                          }],
+                                            @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
+                                                                                                                                                             @"Auth0ClientId": kClientId,
+                                                                                                                                                             @"Auth0Domain": kDomain,
+                                                                                                                                                             }]],
                                             @"domain": @"https://samples.auth0.com",
                                             @"configurationDomain": [NSString stringWithFormat:@"https://cdn.auth0.com/client/%@.js", kClientId],
                                             @"clientId": kClientId,
                                             });
 
         itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [[A0Lock alloc] initWithBundleInfo:@{
-                                                                                          @"Auth0ClientId": kClientId,
-                                                                                          @"Auth0Domain": kEUDomain,
-                                                                                          }],
+                                            @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
+                                                                                                                                                             @"Auth0ClientId": kClientId,
+                                                                                                                                                             @"Auth0Domain": kEUDomain,
+                                                                                                                                                             }]],
                                             @"domain": @"https://samples.eu.auth0.com",
                                             @"configurationDomain": [NSString stringWithFormat:@"https://cdn.eu.auth0.com/client/%@.js", kClientId],
                                             @"clientId": kClientId,
                                             });
 
         itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [[A0Lock alloc] initWithBundleInfo:@{
-                                                                                          @"Auth0ClientId": kClientId,
-                                                                                          @"Auth0Domain": kEUDomain,
-                                                                                          @"Auth0ConfigurationDomain": kConfigurationDomain
-                                                                                          }],
+                                            @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
+                                                                                                                                                             @"Auth0ClientId": kClientId,
+                                                                                                                                                             @"Auth0Domain": kEUDomain,
+                                                                                                                                                             @"Auth0ConfigurationDomain": kConfigurationDomain
+                                                                                                                                                             }]],
                                             @"domain": @"https://samples.eu.auth0.com",
                                             @"configurationDomain": [NSString stringWithFormat:@"https://%@/client/%@.js", kConfigurationDomain, kClientId],
                                             @"clientId": kClientId,
@@ -156,7 +161,7 @@ describe(@"A0Lock", ^{
 
         it(@"should fail to create", ^{
             expect(^{
-                NSAssert([[A0Lock alloc] initWithBundleInfo:@{}], @"Non nil");
+                NSAssert([[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{}]], @"Non nil");
             }).to.raise(NSInternalInconsistencyException);
         });
 

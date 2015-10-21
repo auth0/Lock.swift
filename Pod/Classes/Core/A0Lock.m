@@ -28,14 +28,11 @@
 #endif
 #import "A0UserAPIClient.h"
 #import "A0LockNotification.h"
+#import "A0MainBundleCredentialProvider.h"
+#import "A0FileCredentialProvider.h"
 
-#define kCDNConfigurationURL @"https://cdn.auth0.com"
-#define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
-
-#define kClientIdKey @"Auth0ClientId"
-#define kTenantKey @"Auth0Tenant"
-#define kDomainKey @"Auth0Domain"
-#define kConfigurationDomainKey @"Auth0ConfigurationDomain"
+static NSString * const Auth0FileName = @"Auth0";
+static NSString * const Auth0FileExtension = @"plist";
 
 @interface NSURL (A0Lock)
 
@@ -52,12 +49,21 @@
 
 @end
 
+static NSURL *Auth0CDNRegionURLFromDomainURL(NSURL *domainURL) {
+    if ([domainURL.host hasSuffix:@".eu.auth0.com"]) {
+        return [NSURL URLWithString:@"https://cdn.eu.auth0.com"];
+    }
+    return [NSURL URLWithString:@"https://cdn.auth0.com"];
+}
+
 @interface A0Lock ()
+
 @property (strong, nonatomic) id<A0APIRouter> router;
 @property (strong, nonatomic) A0APIClient *client;
 #if TARGET_OS_IPHONE
 @property (strong, nonatomic) A0IdentityProviderAuthenticator *authenticator;
 #endif
+
 @end
 
 @implementation A0Lock
@@ -65,26 +71,34 @@
 AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)init {
-    return [self initWithBundleInfo:[[NSBundle mainBundle] infoDictionary]];
+    NSString *path = [[NSBundle mainBundle] pathForResource:Auth0FileName ofType:Auth0FileExtension];
+    id<A0CredentialProvider> credentialProvider;
+    if (path) {
+        A0LogInfo(@"Using Auth0 credentials from file %@", path);
+        credentialProvider = [[A0FileCredentialProvider alloc] initWithFilePath:path];
+    } else {
+        A0LogInfo(@"Using Auth0 credentials from main bundle");
+        credentialProvider = [[A0MainBundleCredentialProvider alloc] init];
+    }
+    return [self initWithCredentialProvider:credentialProvider];
 }
 
-- (instancetype)initWithBundleInfo:(NSDictionary *)info {
-    NSString *tenant = info[kTenantKey];
-    NSString *clientId = info[kClientIdKey];
-    NSString *domain = info[kDomainKey];
-    NSString *configurationDomain = info[kConfigurationDomainKey];
-    A0LogVerbose(@"Loaded info from bundle %@", info);
+- (instancetype)initWithCredentialProvider:(id<A0CredentialProvider>)credentialProvider {
+    NSString *clientId = [credentialProvider clientId];
+    NSString *domain = [credentialProvider domain];
+    NSString *configurationDomain = [credentialProvider configurationDomain];
+    A0LogVerbose(@"Building lock with credentials %@", credentialProvider);
     if (configurationDomain) {
-        return [self initWithClientId:clientId domain:domain ?: [NSString stringWithFormat:@"https://%@.auth0.com", tenant] configurationDomain:configurationDomain];
+        return [self initWithClientId:clientId domain:domain configurationDomain:configurationDomain];
     }
-    return [self initWithClientId:clientId domain:domain ?: [NSString stringWithFormat:@"https://%@.auth0.com", tenant]];
+    return [self initWithClientId:clientId domain:domain];
 }
 
 - (instancetype)initWithClientId:(NSString *)clientId domain:(NSString *)domain {
     NSAssert(clientId.length > 0, @"Must supply a valid clientId");
     NSAssert(domain.length > 0, @"Must supply a valid domain");
     NSURL *domainURL = [NSURL URLWithAuth0Domain:domain];
-    NSURL *configurationURL = [domainURL.host hasSuffix:@".eu.auth0.com"] ? [NSURL URLWithString:kEUCDNConfigurationURL] : [NSURL URLWithString:kCDNConfigurationURL];
+    NSURL *configurationURL = Auth0CDNRegionURLFromDomainURL(domainURL);
     return [self initWithClientId:clientId domain:domain configurationDomain:configurationURL.absoluteString];
 }
 

@@ -124,6 +124,7 @@
 		5F9F5B6919AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0IdentityProviderAuthenticatorSpec.m; sourceTree = "<group>"; };
 		5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		5FAFCEE01BD6E1F00071944D /* A0SafariSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SafariSessionSpec.m; sourceTree = "<group>"; };
+		5FAFCEFC1BD83A020071944D /* Auth0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		5FC45F8B1AE5942400427E31 /* A0HTTPStubber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0HTTPStubber.h; sourceTree = "<group>"; };
 		5FC45F8C1AE5942400427E31 /* A0HTTPStubber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0HTTPStubber.m; sourceTree = "<group>"; };
 		5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GET-Application-Info.response"; sourceTree = "<group>"; };
@@ -268,7 +269,6 @@
 		6003F593195388D20070C39A /* Lock */ = {
 			isa = PBXGroup;
 			children = (
-				5FE9C87A1B27991500EA18D5 /* Lock.entitlements */,
 				6003F59C195388D20070C39A /* A0AppDelegate.h */,
 				6003F59D195388D20070C39A /* A0AppDelegate.m */,
 				6003F59F195388D20070C39A /* Main.storyboard */,
@@ -280,12 +280,11 @@
 				5F15815D196A3682003C4DD2 /* A0UserProfileViewController.m */,
 				5F951A961A0EC7D600D128D0 /* A0HomeViewController.h */,
 				5F951A971A0EC7D600D128D0 /* A0HomeViewController.m */,
-				5F951ABD1A1189A600D128D0 /* Lock.strings */,
 				5FF3B5161A25439400BE84F9 /* A0SettingsViewController.h */,
 				5FF3B5171A25439400BE84F9 /* A0SettingsViewController.m */,
-				5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */,
 				5F8D5FD51AFD637B00E9BF55 /* A0LockApplication.h */,
 				5F8D5FD61AFD637B00E9BF55 /* A0LockApplication.m */,
+				5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */,
 			);
 			path = Lock;
 			sourceTree = "<group>";
@@ -293,11 +292,14 @@
 		6003F594195388D20070C39A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5F951ABD1A1189A600D128D0 /* Lock.strings */,
+				5FE9C87A1B27991500EA18D5 /* Lock.entitlements */,
 				6003F595195388D20070C39A /* Lock-Info.plist */,
 				6003F596195388D20070C39A /* InfoPlist.strings */,
 				6003F599195388D20070C39A /* main.m */,
 				6003F59B195388D20070C39A /* Lock-Prefix.pch */,
 				5F951AFC1A12ABAF00D128D0 /* iTunesArtwork@2x -1024.png */,
+				5FAFCEFC1BD83A020071944D /* Auth0.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -383,6 +385,8 @@
 				6003F588195388D20070C39A /* Resources */,
 				5F3A9C531A0D14D400154DF2 /* Fabric */,
 				99E14E92A70743897F8BDC56 /* Copy Pods Resources */,
+				E1E47C521F75B1D487F8028E /* Embed Pods Frameworks */,
+				5FAFCF001BD83E620071944D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -402,6 +406,7 @@
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
 				3A77F3DEA1047E3F5E3693FB /* Copy Pods Resources */,
+				B03E0FE6A6245AF07F6D5D5A /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -535,6 +540,19 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ ${CONFIGURATION} != \"Debug\" ]; then\n    echo \"Running Fabric scripts\"\n    source $SRCROOT/.fabric_key\n    \"${PODS_ROOT}/Fabric/Fabric.framework/run\" $FABRIC_API_KEY $FABRIC_BUILD_SECRET\nelse\n    echo \"Skipped Fabric scripts\"\nfi";
 		};
+		5FAFCF001BD83E620071944D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "AUTH0_PLIST=\"${SRCROOT}/Lock/Auth0.plist\"\nif [ -f $AUTH0_PLIST ];\nthen\n cp \"$AUTH0_PLIST\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nfi";
+		};
 		99E14E92A70743897F8BDC56 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -550,6 +568,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lock/Pods-Lock-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B03E0FE6A6245AF07F6D5D5A /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests/Pods-Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		DB218F910BA89BEDE549CE3B /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -563,6 +596,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E1E47C521F75B1D487F8028E /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lock/Pods-Lock-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

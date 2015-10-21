@@ -28,3 +28,6 @@ examples/**/Pods/
 
 #Fabric
 .fabric_key
+
+#Auth0 Lock
+Auth0.plist
