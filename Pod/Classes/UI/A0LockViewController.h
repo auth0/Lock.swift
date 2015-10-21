@@ -95,6 +95,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) BOOL disableResetPassword;
 
+/**
+ *  Returns a custom UIViewController that will replace the default SignUp screen
+ */
+@property (copy, nullable, nonatomic) UIViewController *(^customSignUp)(A0Lock *lock);
+
 ///------------------------------------------------
 /// @name Authentication options
 ///------------------------------------------------

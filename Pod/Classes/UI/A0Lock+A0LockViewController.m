@@ -34,4 +34,9 @@
     return [[A0LockSignUpViewController alloc] initWithLock:self];
 }
 
+- (void)presentLockController:(A0LockViewController *)lockController fromController:(UIViewController *)controller {
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:lockController];
+    navigationController.navigationBarHidden = YES;
+    [controller presentViewController:navigationController animated:YES completion:nil];
+}
 @end

@@ -81,7 +81,8 @@ static BOOL isRunningTests(void) {
 
 - (void)loginNative:(id)sender {
     [self.keychain clearAll];
-    A0LockViewController *controller = [[[A0LockApplication sharedInstance] lock] newLockViewController];
+    A0Lock *lock = [[A0LockApplication sharedInstance] lock];
+    A0LockViewController *controller = [lock newLockViewController];
     @weakify(self);
     controller.closable = YES;
     controller.loginAfterSignUp = YES;
@@ -96,7 +97,7 @@ static BOOL isRunningTests(void) {
             [self performSegueWithIdentifier:@"LoggedIn" sender:self];
         }];
     };
-    [self presentViewController:controller animated:YES completion:nil];
+    [lock presentLockController:controller fromController:self];
 }
 
 - (void)loginTouchID:(id)sender {

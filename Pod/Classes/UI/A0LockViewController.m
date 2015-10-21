@@ -268,11 +268,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     BOOL showResetPassword = ![self.configuration shouldDisableResetPassword:self.disableResetPassword];
     BOOL showSignUp = ![self.configuration shouldDisableSignUp:self.disableSignUp];
     if (showSignUp) {
-        [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:^{
-            @strongify(self);
-            A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
-            [self displayController:controller];
-        }];
+        [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP")
+                                             actionBlock:[self signUpActionBlockWithSuccess:success]];
     }
     if (showResetPassword) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
@@ -306,11 +303,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     BOOL showResetPassword = ![self.configuration shouldDisableResetPassword:self.disableResetPassword];
     BOOL showSignUp = ![self.configuration shouldDisableSignUp:self.disableSignUp];
     if (showSignUp) {
-        [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:^{
-            @strongify(self);
-            A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
-            [self displayController:controller];
-        }];
+        [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP")
+                                             actionBlock:[self signUpActionBlockWithSuccess:success]];
     }
     if (showResetPassword) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
@@ -354,6 +348,23 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self displayController:controller];
     }];
     return controller;
+}
+
+- (void(^)())signUpActionBlockWithSuccess:(void(^)(A0UserProfile *, A0Token *))success {
+    @weakify(self);
+    if (self.navigationController && self.customSignUp) {
+        A0LogDebug(@"Using a custom SignUp UIViewController");
+        return ^{
+            @strongify(self);
+            UIViewController *controller = self.customSignUp(self.lock);
+            [self.navigationController pushViewController:controller animated:YES];
+        };
+    }
+    return ^{
+        @strongify(self);
+        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
+        [self displayController:controller];
+    };
 }
 
 - (A0SignUpViewController *)newSignUpViewControllerWithSuccess:(void(^)(A0UserProfile *, A0Token *))success {
