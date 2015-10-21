@@ -32,9 +32,9 @@ typedef void(^A0SafariSessionAuthentication)(NSError *error, A0Token *token);
 @property (readonly, copy, nonatomic) NSString *connectionName;
 @property (readonly, strong, nonatomic) NSURL *callbackURL;
 
-- (instancetype)initWithLock:(A0Lock *)lock connectionName:connectionName;
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName;
 
-- (NSURL *)startWithParameters:(NSDictionary *)parameters;
+- (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters;
 - (A0SafariSessionAuthentication)authenticationBlockWithSuccess:(A0IdPAuthenticationBlock)success
                                                         failure:(A0IdPAuthenticationErrorBlock)failure;
 @end

@@ -36,20 +36,24 @@
 
 @implementation A0SafariSession
 
-- (instancetype)initWithLock:(A0Lock *)lock connectionName:connectionName {
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName {
+    NSURL *callbackURL = [A0SafariSession callbackURLForOSVersion:NSFoundationVersionNumber withLock:lock];
+    return [self initWithLock:lock connectionName:connectionName callbackURL:callbackURL];
+}
+
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName callbackURL:(NSURL *)callbackURL {
     self = [super init];
     if (self) {
-        BOOL magicLinkAvailable = floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_3;
         _connectionName = connectionName;
         _client = [lock apiClient];
-        _callbackURL = magicLinkAvailable ? [self universalLinkURLForLock:lock] : [self urlWithCustomSchemeForLock:lock];
+        _callbackURL = callbackURL;
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:lock.domainURL.absoluteURL resolvingAgainstBaseURL:YES];
         components.path = @"/authorize";
         _authorizeURL = components.URL;
         NSMutableDictionary *defaults = [@{
                                            @"response_type": @"token",
                                            @"client_id": lock.clientId,
-                                           @"redirect_uri": _callbackURL.absoluteString,
+                                           @"redirect_uri": callbackURL.absoluteString,
                                            @"connection": connectionName,
                                            } mutableCopy];
         if ([A0Stats shouldSendAuth0ClientHeader]) {
@@ -60,7 +64,7 @@
     return self;
 }
 
-- (NSURL *)startWithParameters:(NSDictionary *)parameters {
+- (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters {
     NSMutableDictionary *authenticationParameters = [NSMutableDictionary dictionaryWithDictionary:self.defaultParameters];
     [authenticationParameters addEntriesFromDictionary:parameters];
     NSURLComponents *components = [NSURLComponents componentsWithURL:self.authorizeURL resolvingAgainstBaseURL:YES];
@@ -83,15 +87,21 @@
     };
 }
 
-- (NSURL *)urlWithCustomSchemeForLock:(A0Lock *)lock {
++ (NSURL *)callbackURLForOSVersion:(double)osVersion withLock:(A0Lock *)lock {
+    BOOL magicLinkAvailable = floor(osVersion) > NSFoundationVersionNumber_iOS_8_3;
+    NSURL *callbackURL = magicLinkAvailable ? [A0SafariSession universalLinkURLForLock:lock] : [A0SafariSession urlWithCustomSchemeForLock:lock];
+    return callbackURL;
+}
+
++ (NSURL *)urlWithCustomSchemeForLock:(A0Lock *)lock {
     NSURL *domainURL = lock.domainURL;
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:domainURL resolvingAgainstBaseURL:YES];
     components.scheme = [[NSBundle mainBundle] bundleIdentifier];
-    components.path = [@"/ios" stringByAppendingPathComponent:@"callback"];
+    components.path = [[@"/ios" stringByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]] stringByAppendingPathComponent:@"callback"];
     return components.URL;
 }
 
-- (NSURL *)universalLinkURLForLock:(A0Lock *)lock {
++ (NSURL *)universalLinkURLForLock:(A0Lock *)lock {
     NSURL *domainURL = lock.domainURL;
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:domainURL resolvingAgainstBaseURL:YES];
     components.path = [[@"/ios" stringByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]] stringByAppendingPathComponent:@"callback"];

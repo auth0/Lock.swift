@@ -40,6 +40,7 @@
 		5F9F5B6819AF9D8E0021068C /* A0StrategySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */; };
 		5F9F5B6A19AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F5B6919AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m */; };
 		5FA2CAEB1A7FE673009178C0 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */; };
+		5FAFCEE11BD6E1F00071944D /* A0SafariSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFCEE01BD6E1F00071944D /* A0SafariSessionSpec.m */; settings = {ASSET_TAGS = (); }; };
 		5FC45F8D1AE5942400427E31 /* A0HTTPStubber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC45F8C1AE5942400427E31 /* A0HTTPStubber.m */; };
 		5FC7EECF1A7957BE00C83B09 /* GET-Application-Info.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */; };
 		5FC7EEF51A79850000C83B09 /* POST-oauth-ro.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FC7EEF41A79850000C83B09 /* POST-oauth-ro.response */; };
@@ -122,6 +123,7 @@
 		5F9F5B6719AF9D8E0021068C /* A0StrategySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0StrategySpec.m; sourceTree = "<group>"; };
 		5F9F5B6919AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0IdentityProviderAuthenticatorSpec.m; sourceTree = "<group>"; };
 		5FA2CAEA1A7FE673009178C0 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		5FAFCEE01BD6E1F00071944D /* A0SafariSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SafariSessionSpec.m; sourceTree = "<group>"; };
 		5FC45F8B1AE5942400427E31 /* A0HTTPStubber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0HTTPStubber.h; sourceTree = "<group>"; };
 		5FC45F8C1AE5942400427E31 /* A0HTTPStubber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0HTTPStubber.m; sourceTree = "<group>"; };
 		5FC7EECE1A7957BE00C83B09 /* GET-Application-Info.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GET-Application-Info.response"; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				5F29E4641B72B87200D7A62F /* A0PasswordStrengthErrorHandlerSpec.m */,
 				5F27AF641BD18A7D00E0D71F /* A0PasswordlessLockViewModelSpec.m */,
 				5F7CABE81BD699D5003B0FDA /* A0SafariAuthenticatorSpec.m */,
+				5FAFCEE01BD6E1F00071944D /* A0SafariSessionSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -611,6 +614,7 @@
 				5F9F5B6A19AF9F960021068C /* A0IdentityProviderAuthenticatorSpec.m in Sources */,
 				5FEDA4B31A1E4E73009B1C2F /* A0EmailValidatorSpec.m in Sources */,
 				5F27AF651BD18A7D00E0D71F /* A0PasswordlessLockViewModelSpec.m in Sources */,
+				5FAFCEE11BD6E1F00071944D /* A0SafariSessionSpec.m in Sources */,
 				5F29E4651B72B87200D7A62F /* A0PasswordStrengthErrorHandlerSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -64,7 +64,7 @@ beforeEach(^{
     };
 
     [given(session.connectionName) willReturn:ConnectionName];
-    [given([session startWithParameters:anything()]) willReturn:authorizeURL];
+    [given([session authorizeURLWithParameters:anything()]) willReturn:authorizeURL];
 
     authenticator = [[A0SafariAuthenticator alloc] initWithSession:session modalPresenter:presenter];
 });
@@ -92,7 +92,7 @@ describe(@"safari controller", ^{
     });
 
     it(@"should open with authorizeURL", ^{
-        [MKTVerify(session) startWithParameters:[[A0AuthParameters newDefaultParams] asAPIPayload]];
+        [MKTVerify(session) authorizeURLWithParameters:[[A0AuthParameters newDefaultParams] asAPIPayload]];
     });
 
     it(@"should set authorization callback", ^{

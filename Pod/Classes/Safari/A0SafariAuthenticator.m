@@ -72,7 +72,7 @@
                            success:(A0IdPAuthenticationBlock)success
                            failure:(A0IdPAuthenticationErrorBlock)failure {
     A0AuthParameters *authenticationParameters = parameters ?: [A0AuthParameters newDefaultParams];
-    NSURL *url = [self.session startWithParameters:[authenticationParameters asAPIPayload]];
+    NSURL *url = [self.session authorizeURLWithParameters:[authenticationParameters asAPIPayload]];
     SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:url];
     controller.delegate = self;
     [self.presenter presentController:controller completion:nil];

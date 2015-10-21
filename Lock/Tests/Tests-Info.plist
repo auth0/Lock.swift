@@ -18,5 +18,7 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>Auth0SendSDKInfo</key>
+	<true/>
 </dict>
 </plist>
