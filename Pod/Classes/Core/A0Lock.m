@@ -31,9 +31,6 @@
 #import "A0MainBundleCredentialProvider.h"
 #import "A0FileCredentialProvider.h"
 
-#define kCDNConfigurationURL @"https://cdn.auth0.com"
-#define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
-
 static NSString * const Auth0FileName = @"Auth0";
 static NSString * const Auth0FileExtension = @"plist";
 
@@ -52,12 +49,21 @@ static NSString * const Auth0FileExtension = @"plist";
 
 @end
 
+static NSURL *Auth0CDNRegionURLFromDomainURL(NSURL *domainURL) {
+    if ([domainURL.host hasSuffix:@".eu.auth0.com"]) {
+        return [NSURL URLWithString:@"https://cdn.eu.auth0.com"];
+    }
+    return [NSURL URLWithString:@"https://cdn.auth0.com"];
+}
+
 @interface A0Lock ()
+
 @property (strong, nonatomic) id<A0APIRouter> router;
 @property (strong, nonatomic) A0APIClient *client;
 #if TARGET_OS_IPHONE
 @property (strong, nonatomic) A0IdentityProviderAuthenticator *authenticator;
 #endif
+
 @end
 
 @implementation A0Lock
@@ -92,7 +98,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     NSAssert(clientId.length > 0, @"Must supply a valid clientId");
     NSAssert(domain.length > 0, @"Must supply a valid domain");
     NSURL *domainURL = [NSURL URLWithAuth0Domain:domain];
-    NSURL *configurationURL = [domainURL.host hasSuffix:@".eu.auth0.com"] ? [NSURL URLWithString:kEUCDNConfigurationURL] : [NSURL URLWithString:kCDNConfigurationURL];
+    NSURL *configurationURL = Auth0CDNRegionURLFromDomainURL(domainURL);
     return [self initWithClientId:clientId domain:domain configurationDomain:configurationURL.absoluteString];
 }
 
