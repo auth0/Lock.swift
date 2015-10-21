@@ -27,8 +27,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class A0Lock;
 
+/**
+ *  Handles authentication for a Auth0 connection that doesn't have native integration using `SFSafariViewController`.
+ *  In iOS 9 you need to have Universal Links configured for your Auth0 subdomain and for older versions it will fallback to custom schemes.
+ */
 @interface A0SafariAuthenticator : A0BaseAuthenticator
 
+/**
+ *  Initialise the authenticator with a Lock instance for a specific connection name.
+ *
+ *  @param lock           instance with Auth0 credentials
+ *  @param connectionName that will be handled by this authenticator
+ *
+ *  @return an initialised instance.
+ */
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName;
 
 @end
