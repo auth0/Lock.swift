@@ -383,6 +383,7 @@
 				6003F588195388D20070C39A /* Resources */,
 				5F3A9C531A0D14D400154DF2 /* Fabric */,
 				99E14E92A70743897F8BDC56 /* Copy Pods Resources */,
+				E1E47C521F75B1D487F8028E /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -402,6 +403,7 @@
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
 				3A77F3DEA1047E3F5E3693FB /* Copy Pods Resources */,
+				B03E0FE6A6245AF07F6D5D5A /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -550,6 +552,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lock/Pods-Lock-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B03E0FE6A6245AF07F6D5D5A /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests/Pods-Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		DB218F910BA89BEDE549CE3B /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -563,6 +580,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E1E47C521F75B1D487F8028E /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lock/Pods-Lock-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

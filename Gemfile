@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'cocoapods', '~> 0.38.2'
+gem 'cocoapods', '~> 0.39'
 gem 'cocoapods-packager'
 gem 'cocoapods-deintegrate'
 gem 'cocoapods-dependencies'

@@ -28,6 +28,7 @@
 #endif
 #import "A0UserAPIClient.h"
 #import "A0LockNotification.h"
+#import "A0MainBundleCredentialProvider.h"
 
 #define kCDNConfigurationURL @"https://cdn.auth0.com"
 #define kEUCDNConfigurationURL @"https://cdn.eu.auth0.com"
@@ -65,19 +66,18 @@
 AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)init {
-    return [self initWithBundleInfo:[[NSBundle mainBundle] infoDictionary]];
+    return [self initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] init]];
 }
 
-- (instancetype)initWithBundleInfo:(NSDictionary *)info {
-    NSString *tenant = info[kTenantKey];
-    NSString *clientId = info[kClientIdKey];
-    NSString *domain = info[kDomainKey];
-    NSString *configurationDomain = info[kConfigurationDomainKey];
-    A0LogVerbose(@"Loaded info from bundle %@", info);
+- (instancetype)initWithCredentialProvider:(id<A0CredentialProvider>)credentialProvider {
+    NSString *clientId = [credentialProvider clientId];
+    NSString *domain = [credentialProvider domain];
+    NSString *configurationDomain = [credentialProvider configurationDomain];
+    A0LogVerbose(@"Building lock with credentials %@", credentialProvider);
     if (configurationDomain) {
-        return [self initWithClientId:clientId domain:domain ?: [NSString stringWithFormat:@"https://%@.auth0.com", tenant] configurationDomain:configurationDomain];
+        return [self initWithClientId:clientId domain:domain configurationDomain:configurationDomain];
     }
-    return [self initWithClientId:clientId domain:domain ?: [NSString stringWithFormat:@"https://%@.auth0.com", tenant]];
+    return [self initWithClientId:clientId domain:domain];
 }
 
 - (instancetype)initWithClientId:(NSString *)clientId domain:(NSString *)domain {

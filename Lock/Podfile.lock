@@ -245,4 +245,4 @@ SPEC CHECKSUMS:
   TouchIDAuth: 2e54bba603ad518aefa02fc81fed9a29de0eab32
   TWReverseAuth: d2deef3521fa6bee32eabab67f114c2c4a53d4f5
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0
