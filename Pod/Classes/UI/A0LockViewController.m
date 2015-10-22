@@ -264,8 +264,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     BOOL showResetPassword = ![self.configuration shouldDisableResetPassword:self.disableResetPassword];
     BOOL showSignUp = ![self.configuration shouldDisableSignUp:self.disableSignUp];
     if (showSignUp) {
-        [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP")
-                                             actionBlock:[self signUpActionBlockWithSuccess:success]];
+
+        if (self.onUserSignupBlock) {
+            [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:self.onUserSignupBlock];
+        } else {
+            [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"SIGN UP") actionBlock:^{
+                @strongify(self);
+                A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
+                [self displayController:controller];
+            }];
+        }
     }
     if (showResetPassword) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
