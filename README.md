@@ -54,7 +54,7 @@ Create a file named `Auth0.plist` and add it to your Application Target, this fi
 </plist>
 ```
 
-Whenever you need to use Lock, you'll have to import it in your source code, the different way to import Lock are detailed next
+Whenever you need to use Lock, you'll have to import either the ObjC header or a Swift module in your source code, the differents ways to do it are detailed next:
 
 ### Objective-C
 Just import in your source file Lock's header:
