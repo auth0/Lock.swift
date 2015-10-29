@@ -11,7 +11,6 @@ end
 target 'Lock', :exclusive => true do
   pod 'Lock', :path => '../', :subspecs => ['ReactiveCore', '1Password', 'Safari', 'WebView', 'TouchID', 'Email', 'SMS']
   pod 'Lock-Facebook', '~> 2.0'
-  pod 'Lock-Twitter', '~> 1.0'
 
   pod 'Fabric'
   pod 'Crashlytics'
