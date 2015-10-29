@@ -22,10 +22,6 @@ target 'Lock', :exclusive => true do
 end
 
 target 'Tests', :exclusive => true do
-  pod 'Lock', :path => '../', :subspecs => ['Safari', 'WebView', 'UI']
-
-  pod_with_warnings
-
   pod 'Specta'
   pod 'Expecta'
   pod 'OCMockito'

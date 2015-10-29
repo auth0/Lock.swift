@@ -201,7 +201,6 @@ DEPENDENCIES:
   - Lock/Safari (from `../`)
   - Lock/SMS (from `../`)
   - Lock/TouchID (from `../`)
-  - Lock/UI (from `../`)
   - Lock/WebView (from `../`)
   - ObjectiveSugar
   - OCHamcrest
