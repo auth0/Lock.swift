@@ -30,7 +30,6 @@
 #import "NSDictionary+A0QueryParameters.h"
 #import "A0AuthParameters.h"
 #import "A0Lock.h"
-#import <libextobjc/EXTScope.h>
 
 @interface A0WebViewController () <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
@@ -90,9 +89,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0Token *token = [self.authentication tokenFromURL:request.URL error:&error];
         if (token) {
             A0IdPAuthenticationBlock success = self.onAuthentication;
-            @weakify(self);
             [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
-                @strongify(self);
                 self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
                 if (success) {
                     success(profile, token);

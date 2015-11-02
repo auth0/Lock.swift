@@ -27,7 +27,6 @@
 #import "A0Alert.h"
 #import "A0Errors.h"
 
-#import <libextobjc/EXTScope.h>
 #import "A0PasswordlessLockViewModel.h"
 #import "NSError+A0APIError.h"
 
@@ -84,10 +83,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     BOOL valid = passcode.length > 0;
     [self.codeFieldView setInvalid:!valid];
     if (passcode.length > 0) {
-        @weakify(self);
         [self.loginButton setInProgress:YES];
         [self.viewModel authenticateWithVerificationCode:passcode callback:^(NSError * _Nullable error) {
-            @strongify(self);
             if (error) {
                 [self.loginButton setInProgress:NO];
                 NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");

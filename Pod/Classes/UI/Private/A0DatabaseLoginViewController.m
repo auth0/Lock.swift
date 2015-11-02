@@ -41,7 +41,6 @@
 #import "A0CredentialsValidator.h"
 
 #import <CoreGraphics/CoreGraphics.h>
-#import <libextobjc/EXTScope.h>
 
 #if __has_include("A0PasswordManager.h")
 #import "A0PasswordManager.h"
@@ -131,11 +130,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)fillLogin:(id)sender {
 #ifdef AUTH0_1PASSWORD
-    @weakify(self);
     [[A0PasswordManager sharedInstance] fillLoginInformationForViewController:self
                                                                        sender:sender
                                                                    completion:^(NSString *username, NSString *password) {
-                                                                       @strongify(self);
                                                                        self.userField.textField.text = username;
                                                                        self.passwordField.textField.text = password;
                                                                        [self matchDomainInTextField:self.userField.textField];
@@ -166,9 +163,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSString *password = self.passwordField.textField.text;
         A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
-        @weakify(self);
         A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
-            @strongify(self);
             [self postLoginSuccessfulWithUsername:username andParameters:self.parameters];
             [self.accessButton setInProgress:NO];
             if (self.onLoginBlock) {
@@ -176,7 +171,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             }
         };
         A0APIClientError failure = ^(NSError *error) {
-            @strongify(self);
             [self postLoginErrorNotificationWithError:error];
             [self.accessButton setInProgress:NO];
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
@@ -234,13 +228,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 #pragma mark - Enterprise login
 
 - (void)loginUserWithConnection:(A0Connection *)connection {
-    @weakify(self);
     [self.accessButton setInProgress:YES];
 
     NSString *connectionName = connection.name;
 
     A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
-        @strongify(self);
         [self postLoginSuccessfulForConnection:connection];
         [self.accessButton setInProgress:NO];
         if (self.onLoginBlock) {
@@ -249,7 +241,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     };
 
     void(^failureBlock)(NSError *error) = ^(NSError *error) {
-        @strongify(self);
         [self postLoginErrorNotificationWithError:error];
         [self.accessButton setInProgress:NO];
         if (![error a0_cancelledSocialAuthenticationError]) {

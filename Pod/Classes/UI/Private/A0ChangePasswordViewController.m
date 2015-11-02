@@ -40,7 +40,6 @@
 #import "A0EmailValidator.h"
 #import "A0PasswordValidator.h"
 #import <CoreGraphics/CoreGraphics.h>
-#import <libextobjc/EXTScope.h>
 #import "A0ConfirmPasswordValidator.h"
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
@@ -116,18 +115,17 @@
 
 - (IBAction)changeLoginInfo:(id)sender {
 #ifdef AUTH0_1PASSWORD
-    @weakify(self);
+    __weak A0ChangePasswordViewController *weakSelf = self;
     [[A0PasswordManager sharedInstance] saveLoginInformationForUsername:self.userField.textField.text
                                                                password:self.passwordField.textField.text
                                                               loginInfo:nil
                                                              controller:self
                                                                  sender:sender
                                                              completion:^(NSString *username, NSString *password) {
-                                                                 @strongify(self);
-                                                                 self.userField.textField.text = username;
-                                                                 self.passwordField.textField.text = password;
-                                                                 self.repeatPasswordField.textField.text = password;
-                                                                 [self recover:sender];
+                                                                 weakSelf.userField.textField.text = username;
+                                                                 weakSelf.passwordField.textField.text = password;
+                                                                 weakSelf.repeatPasswordField.textField.text = password;
+                                                                 [weakSelf recover:sender];
                                                              }];
 #endif
 }
@@ -139,9 +137,7 @@
         [self hideKeyboard];
         NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSString *password = self.passwordField.textField.text;
-        @weakify(self);
         void(^success)() = ^ {
-            @strongify(self);
             [self postChangePasswordSuccessfulWithEmail:username];
             [self.recoverButton setInProgress:NO];
             [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
@@ -153,7 +149,6 @@
             }
         };
         A0APIClientError failure = ^(NSError *error) {
-            @strongify(self);
             [self postChangePasswordErrorNotificationWithError:error];
             [self.recoverButton setInProgress:NO];
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Couldn't change your password");

@@ -29,7 +29,6 @@
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0APIClient.h"
 #import "A0LockConfiguration.h"
-#import <libextobjc/EXTScope.h>
 #import "A0Errors.h"
 #import "A0SignUpViewController.h"
 #import "A0Alert.h"
@@ -182,10 +181,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)loadApplicationInfo {
-    @weakify(self);
     A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
     [client fetchAppInfoWithSuccess:^(A0Application *application) {
-        @strongify(self);
         A0LogDebug(@"Obtained application info. Starting to build Lock UI for Sign Up...");
         A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
         configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;

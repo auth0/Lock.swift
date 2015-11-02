@@ -3,8 +3,6 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 
 def pod_with_warnings
-  pod 'libextobjc', :inhibit_warnings => true #Ignore warnings for this lib
-  pod 'BDBOAuth1Manager', :inhibit_warnings => true #Ignore warnings for this lib
   pod 'ISO8601DateFormatter', :inhibit_warnings => true #Ignore warnings for this lib
 end
 

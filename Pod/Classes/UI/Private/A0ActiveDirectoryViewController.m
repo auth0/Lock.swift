@@ -37,7 +37,6 @@
 #import "A0Alert.h"
 
 #import <CoreGraphics/CoreGraphics.h>
-#import <libextobjc/EXTScope.h>
 #import "UIViewController+LockNotification.h"
 #import "A0CredentialsValidator.h"
 #import "A0UsernameValidator.h"
@@ -113,22 +112,20 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 [self hideKeyboard];
                 NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
                 NSString *password = self.passwordField.textField.text;
-                @weakify(self);
+                __weak A0ActiveDirectoryViewController *weakSelf = self;
                 A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
-                    @strongify(self);
-                    [self postLoginSuccessfulForConnection:connection];
-                    [self.accessButton setInProgress:NO];
-                    if (self.onLoginBlock) {
-                        self.onLoginBlock(profile, token);
+                    [weakSelf postLoginSuccessfulForConnection:connection];
+                    [weakSelf.accessButton setInProgress:NO];
+                    if (weakSelf.onLoginBlock) {
+                        weakSelf.onLoginBlock(profile, token);
                     }
                 };
                 A0APIClientError failure = ^(NSError *error) {
-                    @strongify(self);
-                    [self postLoginErrorNotificationWithError:error];
-                    [self.accessButton setInProgress:NO];
+                    [weakSelf postLoginErrorNotificationWithError:error];
+                    [weakSelf.accessButton setInProgress:NO];
                     NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
                     NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
-                    [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                    [A0Alert showInController:weakSelf errorAlert:^(A0Alert *alert) {
                         alert.title = title;
                         alert.message = message;
                     }];
@@ -180,24 +177,22 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 #pragma mark - Enterprise login
 
 - (void)loginUserWithConnection:(A0Connection *)connection {
-    @weakify(self);
+    __weak A0ActiveDirectoryViewController *weakSelf = self;
     [self.accessButton setInProgress:YES];
 
     NSString *connectionName = connection.name;
 
     A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
-        @strongify(self);
-        [self postLoginSuccessfulForConnection:connection];
-        [self.accessButton setInProgress:NO];
-        if (self.onLoginBlock) {
-            self.onLoginBlock(profile, token);
+        [weakSelf postLoginSuccessfulForConnection:connection];
+        [weakSelf.accessButton setInProgress:NO];
+        if (weakSelf.onLoginBlock) {
+            weakSelf.onLoginBlock(profile, token);
         }
     };
 
     void(^failureBlock)(NSError *error) = ^(NSError *error) {
-        @strongify(self);
-        [self postLoginErrorNotificationWithError:error];
-        [self.accessButton setInProgress:NO];
+        [weakSelf postLoginErrorNotificationWithError:error];
+        [weakSelf.accessButton setInProgress:NO];
         if (![error a0_cancelledSocialAuthenticationError]) {
             switch (error.code) {
                 case A0ErrorCodeTwitterAppNotAuthorized:
@@ -208,14 +203,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 case A0ErrorCodeAuth0NoURLSchemeFound:
                 case A0ErrorCodeNotConnectedToInternet:
                 case A0ErrorCodeGooglePlusFailed: {
-                    [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                    [A0Alert showInController:weakSelf errorAlert:^(A0Alert *alert) {
                         alert.title = error.localizedDescription;
                         alert.message = error.localizedFailureReason;
                     }];
                     break;
                 }
                 default: {
-                    [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                    [A0Alert showInController:weakSelf errorAlert:^(A0Alert *alert) {
                         alert.title = A0LocalizedString(@"There was an error logging in");
                         alert.message = [A0Errors localizedStringForConnectionName:connectionName loginError:error];
                     }];

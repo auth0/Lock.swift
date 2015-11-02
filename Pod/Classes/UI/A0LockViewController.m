@@ -43,7 +43,6 @@
 #import "A0FullActiveDirectoryViewController.h"
 
 #import <CoreText/CoreText.h>
-#import <libextobjc/EXTScope.h>
 #import "A0NavigationView.h"
 #import "A0Errors.h"
 #import "A0LockConfiguration.h"
@@ -148,10 +147,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 #pragma mark - App info fetch
 
 - (void)loadApplicationInfo {
-    @weakify(self);
     A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
     [client fetchAppInfoWithSuccess:^(A0Application *application) {
-        @strongify(self);
         A0LogDebug(@"Obtained application info. Starting to build Lock UI...");
         self.configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
         self.configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
@@ -174,9 +171,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 #pragma mark - Container methods
 
 - (void)layoutRootController {
-    @weakify(self);
     void(^onAuthSuccessBlock)(A0UserProfile *, A0Token *) =  ^(A0UserProfile *profile, A0Token *token) {
-        @strongify(self);
         [self.eventDelegate userAuthenticatedWithToken:token profile:profile];
     };
     UIViewController<A0AuthenticationUIComponent> *rootController;
@@ -251,14 +246,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (A0FullLoginViewController *)newFullLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
-    @weakify(self);
+    __weak A0LockViewController *weakSelf = self;
     A0FullLoginViewController *controller = [[A0FullLoginViewController alloc] init];
     controller.onLoginBlock = success;
     controller.parameters = [self copyAuthenticationParameters];
     controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
-        @strongify(self);
-        A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
-        [self displayController:controller];
+        A0EnterpriseLoginViewController *controller = [weakSelf newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
+        [weakSelf displayController:controller];
     };
     [self.navigationView removeAll];
     BOOL showResetPassword = ![self.configuration shouldDisableResetPassword:self.disableResetPassword];
@@ -269,9 +263,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     if (showResetPassword) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
-            @strongify(self);
-            A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
-            [self displayController:controller];
+            A0ChangePasswordViewController *controller = [weakSelf newChangePasswordViewController];
+            [weakSelf displayController:controller];
         }];
     }
     return controller;
@@ -286,14 +279,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (A0DatabaseLoginViewController *)newDatabaseLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
-    @weakify(self);
+    __weak A0LockViewController *weakSelf = self;
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.onLoginBlock = success;
     controller.parameters = [self copyAuthenticationParameters];
     controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
-        @strongify(self);
-        A0EnterpriseLoginViewController *controller = [self newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
-        [self displayController:controller];
+        A0EnterpriseLoginViewController *controller = [weakSelf newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
+        [weakSelf displayController:controller];
     };
     [self.navigationView removeAll];
     BOOL showResetPassword = ![self.configuration shouldDisableResetPassword:self.disableResetPassword];
@@ -304,9 +296,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     if (showResetPassword) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
-            @strongify(self);
-            A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
-            [self displayController:controller];
+            A0ChangePasswordViewController *controller = [weakSelf newChangePasswordViewController];
+            [weakSelf displayController:controller];
         }];
     }
     return controller;
@@ -323,7 +314,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (A0EnterpriseLoginViewController *)newEnterpriseLoginViewController:(void(^)(A0UserProfile *, A0Token *))success
                                                         forConnection:(A0Connection *)connection
                                                             withEmail:(NSString *)email {
-    @weakify(self);
+    __weak A0LockViewController *weakSelf = self;
     A0EnterpriseLoginViewController *controller;
     if (self.defaultADUsernameFromEmailPrefix) {
         controller = [[A0EnterpriseLoginViewController alloc] initWithEmail:email];
@@ -335,31 +326,27 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.parameters = [self copyAuthenticationParameters];
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
-        @strongify(self);
-        [self layoutRootController];
+        [weakSelf layoutRootController];
     }];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
-        @strongify(self);
-        A0ChangePasswordViewController *controller = [self newChangePasswordViewController];
-        [self displayController:controller];
+        A0ChangePasswordViewController *controller = [weakSelf newChangePasswordViewController];
+        [weakSelf displayController:controller];
     }];
     return controller;
 }
 
 - (void(^)())signUpActionBlockWithSuccess:(void(^)(A0UserProfile *, A0Token *))success {
-    @weakify(self);
+    __weak A0LockViewController *weakSelf = self;
     if (self.navigationController && self.customSignUp) {
         A0LogDebug(@"Using a custom SignUp UIViewController");
         return ^{
-            @strongify(self);
-            UIViewController *controller = self.customSignUp(self.lock, self.eventDelegate);
-            [self.navigationController pushViewController:controller animated:YES];
+            UIViewController *controller = weakSelf.customSignUp(weakSelf.lock, weakSelf.eventDelegate);
+            [weakSelf.navigationController pushViewController:controller animated:YES];
         };
     }
     return ^{
-        @strongify(self);
-        A0SignUpViewController *controller = [self newSignUpViewControllerWithSuccess:success];
-        [self displayController:controller];
+        A0SignUpViewController *controller = [weakSelf newSignUpViewControllerWithSuccess:success];
+        [weakSelf displayController:controller];
     };
 }
 
@@ -373,10 +360,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.lock = self.lock;
     [controller addDisclaimerSubview:self.signUpDisclaimerView];
     [self.navigationView removeAll];
-    @weakify(self);
+    __weak A0LockViewController *weakSelf = self;
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
-        @strongify(self);
-        [self layoutRootController];
+        [weakSelf layoutRootController];
     }];
     return controller;
 }
@@ -387,10 +373,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.parameters = [self copyAuthenticationParameters];
     controller.defaultConnection = self.configuration.defaultDatabaseConnection;
     controller.lock = self.lock;
-    @weakify(self);
+    __weak A0LockViewController *weakSelf = self;
     void(^block)() = ^{
-        @strongify(self);
-        [self layoutRootController];
+        [weakSelf layoutRootController];
     };
     controller.onChangePasswordBlock = block;
     [self.navigationView removeAll];

@@ -27,7 +27,6 @@
 #import "A0APIClient.h"
 #import "A0AuthParameters.h"
 #import "A0Token.h"
-#import <libextobjc/EXTScope.h>
 #import "A0Theme.h"
 
 @interface A0WebKitViewController () <WKNavigationDelegate>
@@ -159,17 +158,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0Token *token = [self.authentication tokenFromURL:url error:&error];
     if (token) {
         A0IdPAuthenticationBlock success = self.onAuthentication;
-        @weakify(self);
         [self showProgressIndicator];
         [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
-            @strongify(self);
             if (success) {
                 success(profile, token);
             }
             decisionHandler(WKNavigationActionPolicyCancel);
             [self dismiss];
         } failure:^(NSError *error) {
-            @strongify(self);
             [self handleError:error decisionHandler:decisionHandler];
         }];
     } else {

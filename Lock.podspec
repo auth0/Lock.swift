@@ -22,7 +22,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
 
   s.requires_arc = true
 
-  s.dependency 'libextobjc', '~> 0.4'
   s.dependency 'CocoaLumberjack', '~> 2.0'
   s.default_subspecs = 'UI', 'Core', 'WebView'
   s.prefix_header_contents = <<-EOS

@@ -22,8 +22,6 @@
 
 #import "A0SmallSocialServiceCollectionView.h"
 
-#import <libextobjc/EXTScope.h>
-
 #import "A0ServiceCollectionViewLayoutDelegate.h"
 #import "A0ServiceCollectionViewCell.h"
 #import "UIFont+A0Social.h"
@@ -80,18 +78,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)triggerAuth:(UIButton *)sender {
-    @weakify(self);
     A0ServiceViewModel *service = self.socialServices[sender.tag];
     NSString *connectionName = service.connection.name;
     A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
-        @strongify(self);
         [self postLoginSuccessfulForConnection:service.connection];
         [self.authenticationDelegate authenticationDidEndForSocialCollectionView:self];
         [self.authenticationDelegate socialServiceCollectionView:self didAuthenticateUserWithProfile:profile token:token];
     };
 
     void(^failureBlock)(NSError *error) = ^(NSError *error) {
-        @strongify(self);
         [self postLoginErrorNotificationWithError:error];
         [self.authenticationDelegate authenticationDidEndForSocialCollectionView:self];
         NSError *authenticationError;

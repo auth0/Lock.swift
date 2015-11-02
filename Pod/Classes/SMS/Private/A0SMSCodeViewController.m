@@ -28,7 +28,6 @@
 #import "A0APIClient.h"
 #import "A0Errors.h"
 
-#import <libextobjc/EXTScope.h>
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
 #import "NSError+A0APIError.h"
@@ -87,15 +86,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     BOOL valid = passcode.length > 0;
     [self.codeFieldView setInvalid:!valid];
     if (passcode.length > 0) {
-        @weakify(self);
+        __weak A0SMSCodeViewController *weakSelf = self;
         [self.loginButton setInProgress:YES];
         [self.model authenticateWithVerificationCode:passcode callback:^(NSError * _Nullable error) {
-            @strongify(self);
-            [self.loginButton setInProgress:NO];
+            [weakSelf.loginButton setInProgress:NO];
             if (error) {
                 NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
                 NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSMSLoginError:error];
-                [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                [A0Alert showInController:weakSelf errorAlert:^(A0Alert *alert) {
                     alert.title = title;
                     alert.message = message;
                 }];

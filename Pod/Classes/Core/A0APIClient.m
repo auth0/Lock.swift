@@ -33,7 +33,6 @@
 #import "A0Connection.h"
 
 #import <AFNetworking/AFNetworking.h>
-#import <libextobjc/EXTScope.h>
 #import "A0UserAPIClient.h"
 #import "A0APIv1Router.h"
 #import "A0Lock.h"
@@ -116,9 +115,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (NSURLSessionDataTask *)fetchAppInfoWithSuccess:(A0APIClientFetchAppInfoSuccess)success
                                           failure:(A0APIClientError)failure {
     NSURLRequest *request = [NSURLRequest requestWithURL:self.router.configurationURL];
-    @weakify(self);
     NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        @strongify(self);
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSRange successRange = NSMakeRange(200, 100);
         if (!error && NSLocationInRange(httpResponse.statusCode, successRange)) {
@@ -176,10 +173,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (![self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
         return nil;
     }
-    @weakify(self);
     NSDictionary *payload = [defaultParameters asAPIPayload];
     return [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
-        @strongify(self);
         A0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
@@ -205,9 +200,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         return nil;
     }
     NSDictionary *payload = [defaultParameters asAPIPayload];
-    @weakify(self);
     return [self.manager POST:[self.router signUpPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
-        @strongify(self);
         A0LogDebug(@"Created user successfully %@", responseObject);
         if (loginOnSuccess) {
             NSString *loginUsername = username ?: email;
@@ -269,10 +262,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [defaultParameters addValuesFromParameters:parameters];
     defaultParameters.device = deviceName;
     A0LogVerbose(@"Starting Login with JWT %@", defaultParameters);
-    @weakify(self);
     NSDictionary *payload = [defaultParameters asAPIPayload];
     return [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
-        @strongify(self);
         A0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
@@ -298,10 +289,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [defaultParameters addValuesFromParameters:parameters];
         A0LogVerbose(@"Starting Login with phone & passcode %@", defaultParameters);
         if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
-            @weakify(self);
             NSDictionary *payload = [defaultParameters asAPIPayload];
             return [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
-                @strongify(self);
                 A0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
                 [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
             } failure:[A0APIClient sanitizeFailureBlock:failure]];
@@ -334,10 +323,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (!self.application || connection.name) {
         [defaultParameters addValuesFromParameters:parameters];
         A0LogVerbose(@"Starting Login with email & passcode %@", defaultParameters);
-        @weakify(self);
         NSDictionary *payload = [defaultParameters asAPIPayload];
         return [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
-            @strongify(self);
             A0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
             [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
         } failure:[A0APIClient sanitizeFailureBlock:failure]];
@@ -376,9 +363,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     NSDictionary *payload = [defaultParameters asAPIPayload];
     A0LogVerbose(@"Authenticating with social strategy %@ and payload %@", connectionName, payload);
-    @weakify(self);
     return [self.manager POST:[self.router socialLoginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
-        @strongify(self);
         A0LogDebug(@"Authenticated successfuly with social connection %@", connectionName);
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
     } failure:[A0APIClient sanitizeFailureBlock:failure]];

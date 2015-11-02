@@ -27,7 +27,6 @@
 #import "A0Theme.h"
 #import "A0LoadingView.h"
 #import "A0Errors.h"
-#import <libextobjc/EXTScope.h>
 
 const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
 
@@ -78,22 +77,21 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
     [self scheduleToEnableResend];
     self.resendButton.tintColor = [theme colorForKey:A0ThemePrimaryButtonNormalColor];
 
-    @weakify(self);
+    __weak A0EmailMagicLinkViewController *weakSelf = self;
     self.viewModel.onMagicLink = ^(NSError *error, BOOL completed) {
-        @strongify(self);
         if (error) {
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
             NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
-            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+            [A0Alert showInController:weakSelf errorAlert:^(A0Alert *alert) {
                 alert.title = title;
                 alert.message = message;
             }];
             return;
         }
         if (completed) {
-            [self hideLoadingView:self.loadingView];
+            [weakSelf hideLoadingView:weakSelf.loadingView];
         } else {
-            [self showLoadingWithMessage:A0LocalizedString(@"Logging in with Magic Link…")];
+            [weakSelf showLoadingWithMessage:A0LocalizedString(@"Logging in with Magic Link…")];
         }
     };
 }

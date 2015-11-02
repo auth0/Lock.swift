@@ -38,8 +38,6 @@
 #import "A0ServiceViewModel.h"
 #import "A0Connection.h"
 
-#import <libextobjc/EXTScope.h>
-
 #define kCellIdentifier @"ServiceCell"
 
 @interface A0SocialLoginViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -81,12 +79,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)triggerAuth:(UIButton *)sender {
-    @weakify(self);
     self.selectedService = sender.tag;
     A0ServiceViewModel *service = self.services[sender.tag];
     A0Connection *connection = service.connection;
     A0APIClientAuthenticationSuccess successBlock = ^(A0UserProfile *profile, A0Token *token){
-        @strongify(self);
         [self postLoginSuccessfulForConnection:service.connection];
         [self setInProgress:NO];
         if (self.onLoginBlock) {
@@ -95,7 +91,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     };
 
     void(^failureBlock)(NSError *) = ^(NSError *error) {
-        @strongify(self);
         [self postLoginErrorNotificationWithError:error];
         [self setInProgress:NO];
         if (![error a0_cancelledSocialAuthenticationError]) {

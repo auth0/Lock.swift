@@ -31,7 +31,6 @@
 #import "NSError+A0APIError.h"
 #import "A0ModalPresenter.h"
 #import <SafariServices/SafariServices.h>
-#import <libextobjc/EXTScope.h>
 
 @interface A0SafariAuthenticator () <SFSafariViewControllerDelegate>
 @property (strong, nonatomic) A0SafariSession *session;
@@ -59,11 +58,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         _session = session;
         _presenter = presenter;
         [self clearSessions];
-        @weakify(self);
+        __weak A0SafariAuthenticator *weakSelf = self;
         _universalLinkObserver = [[NSNotificationCenter defaultCenter] addObserverForName:A0LockNotificationUniversalLinkReceived object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-            @strongify(self);
             NSURL *link = note.userInfo[A0LockNotificationUniversalLinkParameterKey];
-            [self handleURL:link sourceApplication:nil];
+            [weakSelf handleURL:link sourceApplication:nil];
         }];
     }
     return self;

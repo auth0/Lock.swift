@@ -42,7 +42,6 @@
 #import "A0Connection.h"
 
 #import <CoreGraphics/CoreGraphics.h>
-#import <libextobjc/EXTScope.h>
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
 #import "NSError+A0APIError.h"
@@ -132,7 +131,6 @@
 
 - (void)storeLoginInfo:(id)sender {
 #ifdef AUTH0_1PASSWORD
-    @weakify(self);
     UITextField *userField = self.usernameField.textField ?: self.userField.textField;
     [[A0PasswordManager sharedInstance] saveLoginInformationForUsername:userField.text
                                                                password:self.passwordField.textField.text
@@ -142,7 +140,6 @@
                                                              controller:self
                                                                  sender:sender
                                                              completion:^(NSString *username, NSString *password) {
-                                                                 @strongify(self);
                                                                  userField.text = username;
                                                                  self.passwordField.textField.text = password;
                                                                  [self signUp:sender];
@@ -158,9 +155,7 @@
         NSString *email = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSString *username = [self.usernameField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSString *password = self.passwordField.textField.text;
-        @weakify(self);
         A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
-            @strongify(self);
             [self postSignUpSuccessfulWithEmail:email];
             if (token) {
                 [self postLoginSuccessfulWithUsername:email andParameters:self.parameters];
@@ -171,7 +166,6 @@
             }
         };
         A0APIClientError failure = ^(NSError *error) {
-            @strongify(self);
             [self postSignUpErrorNotificationWithError:error];
             [self.signUpButton setInProgress:NO];
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");

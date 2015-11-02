@@ -28,7 +28,6 @@
 #import "A0TouchIDSignUpViewController.h"
 #import "A0DatabaseLoginViewController.h"
 
-#import <libextobjc/EXTScope.h>
 #import "A0ChangePasswordViewController.h"
 #import "A0AuthParameters.h"
 #import "A0NavigationView.h"
@@ -57,7 +56,7 @@
 }
 
 - (UIViewController<A0KeyboardEnabledView> *)buildSignUp {
-    @weakify(self);
+    __weak A0TouchIDRegisterViewController *weakSelf = self;
     A0TouchIDSignUpViewController *signUpController = [[A0TouchIDSignUpViewController alloc] init];
     signUpController.onRegisterBlock = self.onRegisterBlock;
     signUpController.parameters = self.parameters;
@@ -65,49 +64,44 @@
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:self.onCancelBlock];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE AN ACCOUNT?") actionBlock:^{
-        @strongify(self);
-        A0DatabaseLoginViewController *controller = [self buildLogin];
+        A0DatabaseLoginViewController *controller = [weakSelf buildLogin];
         controller.defaultUsername = signUpController.emailField.textField.text;
-        [self displayController:controller];
+        [weakSelf displayController:controller];
     }];
     return signUpController;
 }
 
 - (A0DatabaseLoginViewController *)buildLogin {
-    @weakify(self);
+    __weak A0TouchIDRegisterViewController *weakSelf = self;
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.parameters = self.parameters;
     controller.onLoginBlock = self.onRegisterBlock;
     controller.lock = self.lock;
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
-        @strongify(self);
-        [self displayController:[self buildSignUp]];
+        [weakSelf displayController:[weakSelf buildSignUp]];
     }];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
-        @strongify(self);
-        A0ChangePasswordViewController *resetController = [self buildChangePassword];
+        A0ChangePasswordViewController *resetController = [weakSelf buildChangePassword];
         resetController.defaultEmail = controller.userField.textField.text;
-        [self displayController:resetController];
+        [weakSelf displayController:resetController];
     }];
     return controller;
 }
 
 - (A0ChangePasswordViewController *)buildChangePassword {
-    @weakify(self);
+    __weak A0TouchIDRegisterViewController *weakSelf = self;
     A0ChangePasswordViewController *controller = [[A0ChangePasswordViewController alloc] init];
     controller.parameters = self.parameters;
     controller.lock = self.lock;
     controller.onChangePasswordBlock = ^{
-        @strongify(self);
-        [self displayController:[self buildLogin]];
+        [weakSelf displayController:[weakSelf buildLogin]];
     };
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
-        @strongify(self);
-        A0DatabaseLoginViewController *loginController = [self buildLogin];
+        A0DatabaseLoginViewController *loginController = [weakSelf buildLogin];
         loginController.defaultUsername = controller.userField.textField.text;
-        [self displayController:loginController];
+        [weakSelf displayController:loginController];
     }];
     return controller;
 }

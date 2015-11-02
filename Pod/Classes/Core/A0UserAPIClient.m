@@ -22,7 +22,6 @@
 
 #import "A0UserAPIClient.h"
 #import <AFNetworking/AFNetworking.h>
-#import <libextobjc/EXTScope.h>
 #import "A0AuthParameters.h"
 #import "A0JSONResponseSerializer.h"
 #import "A0UserProfile.h"

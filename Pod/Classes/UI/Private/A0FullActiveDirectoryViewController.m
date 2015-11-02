@@ -26,8 +26,6 @@
 #import "A0LockConfiguration.h"
 #import "A0SmallSocialServiceCollectionView.h"
 
-#import <libextobjc/EXTScope.h>
-
 @interface A0FullActiveDirectoryViewController () <A0SmallSocialServiceCollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;

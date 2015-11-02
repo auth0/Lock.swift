@@ -29,7 +29,6 @@
 #import "A0Errors.h"
 #import "A0Alert.h"
 
-#import <libextobjc/EXTScope.h>
 #import "A0EmailValidator.h"
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
@@ -79,7 +78,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     NSString *password = [self randomStringWithLength:14];
     NSError *error = [self.validator validate];
     if (!error) {
-        @weakify(self);
         A0LogDebug(@"Registering user with email %@ for TouchID", username);
         A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
         [client signUpWithUsername:username
@@ -87,13 +85,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     loginOnSuccess:YES
                         parameters:self.parameters
                            success:^(A0UserProfile *profile, A0Token *tokenInfo) {
-                               @strongify(self);
                                if (self.onRegisterBlock) {
                                    self.onRegisterBlock(profile, tokenInfo);
                                    [self.signUpButton setInProgress:NO];
                                }
                            } failure:^(NSError *error){
-                               @strongify(self);
                                [self.signUpButton setInProgress:NO];
                                NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
                                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];

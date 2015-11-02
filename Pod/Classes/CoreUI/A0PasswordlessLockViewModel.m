@@ -27,7 +27,6 @@
 #import "A0LockNotification.h"
 #import "NSDictionary+A0QueryParameters.h"
 
-#import <libextobjc/EXTScope.h>
 
 typedef void(^RequestCode)(NSString *identifier, A0PasswordlessLockViewModelRequestBlock _Nonnull callback);
 typedef void(^AuthenticateWithCode)(NSString *identifier, NSString *code, A0PasswordlessLockViewModelAuthenticationBlock _Nonnull callback);
@@ -46,19 +45,18 @@ typedef void(^AuthenticateWithCode)(NSString *identifier, NSString *code, A0Pass
     if (self) {
         self.requestCode = requestCode;
         self.authenticateWithCode = authenticateWithCode;
-        @weakify(self);
         self.validator = [self validatorForStrategy:strategy];
         self.onMagicLink = ^(NSError *error, BOOL completed) {};
         NSString *suffix = [self magicLinkSuffixOfStrategy:strategy];
+        __weak A0PasswordlessLockViewModel *weakSelf = self;
         self.linkObserver = [[NSNotificationCenter defaultCenter] addObserverForName:A0LockNotificationUniversalLinkReceived object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-            @strongify(self);
             NSURL *link = note.userInfo[A0LockNotificationUniversalLinkParameterKey];
             NSDictionary *params = [NSDictionary fromQueryString:link.query];
             NSString *code = params[@"code"];
             if ([link.path hasSuffix:suffix] && code) {
-                self.onMagicLink(nil, NO);
-                [self authenticateWithVerificationCode:code callback:^(NSError * _Nullable error) {
-                    self.onMagicLink(error, YES);
+                weakSelf.onMagicLink(nil, NO);
+                [weakSelf authenticateWithVerificationCode:code callback:^(NSError * _Nullable error) {
+                    weakSelf.onMagicLink(error, YES);
                 }];
             }
         }];
@@ -141,14 +139,12 @@ typedef void(^AuthenticateWithCode)(NSString *identifier, NSString *code, A0Pass
 }
 
 - (AuthenticateWithCode)authenticateWithCodeForStrategy:(A0PasswordlessLockStrategy)strategy withLock:(A0Lock *)lock parameters:(A0AuthParameters *)parameters {
-    @weakify(self);
     A0APIClient *client = [lock apiClient];
     switch (strategy) {
         case A0PasswordlessLockStrategyEmailCode:
         case A0PasswordlessLockStrategyEmailMagicLink:
             return ^(NSString *identifier, NSString *code, A0PasswordlessLockViewModelAuthenticationBlock  _Nonnull callback) {
                 [client loginWithEmail:identifier passcode:code parameters:[parameters copy] success:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull tokenInfo) {
-                    @strongify(self);
                     self.onAuthentication(profile, tokenInfo);
                     callback(nil);
                 } failure:^(NSError * _Nonnull error) {
@@ -159,7 +155,6 @@ typedef void(^AuthenticateWithCode)(NSString *identifier, NSString *code, A0Pass
         case A0PasswordlessLockStrategySMSMagicLink:
             return ^(NSString *identifier, NSString *code, A0PasswordlessLockViewModelAuthenticationBlock  _Nonnull callback) {
                 [client loginWithPhoneNumber:identifier passcode:code parameters:[parameters copy] success:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull tokenInfo) {
-                    @strongify(self);
                     callback(nil);
                     self.onAuthentication(profile, tokenInfo);
                 } failure:^(NSError * _Nonnull error) {
@@ -181,19 +176,17 @@ typedef void(^AuthenticateWithCode)(NSString *identifier, NSString *code, A0Pass
 }
 
 - (id<A0FieldValidator>)validatorForStrategy:(A0PasswordlessLockStrategy)strategy {
-    @weakify(self);
+    __weak A0PasswordlessLockViewModel *weakSelf = self;
     switch (strategy) {
         case A0PasswordlessLockStrategyEmailCode:
         case A0PasswordlessLockStrategyEmailMagicLink:
             return [[A0EmailValidator alloc] initWithSource:^NSString * _Nullable {
-                @strongify(self);
-                return self.identifier;
+                return weakSelf.identifier;
             }];
         case A0PasswordlessLockStrategySMSCode:
         case A0PasswordlessLockStrategySMSMagicLink:
             return [[A0PhoneNumberValidator alloc] initWithSource:^NSString * _Nullable {
-                @strongify(self);
-                return self.identifier;
+                return weakSelf.identifier;
             }];
     }
 }

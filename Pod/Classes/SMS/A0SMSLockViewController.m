@@ -25,7 +25,6 @@
 #import "A0SMSSendCodeViewController.h"
 #import "A0AuthParameters.h"
 #import "A0SMSCodeViewController.h"
-#import <libextobjc/EXTScope.h>
 #import "A0NavigationView.h"
 #import "A0TitleView.h"
 #import "A0Lock.h"
@@ -131,34 +130,31 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *phoneNumber = [defaults stringForKey:kPhoneNumberKey];
     A0SMSSendCodeViewController *controller = [[A0SMSSendCodeViewController alloc] initWithViewModel:self.model];
-    @weakify(self);
+    __weak A0SMSLockViewController *weakSelf = self;
     controller.onRegisterBlock = ^(NSString *countryCode, NSString *phoneNumber){
-        @strongify(self);
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:phoneNumber forKey:kPhoneNumberKey];
         [defaults synchronize];
-        if ([self isMagicLinkAvailable]) {
-            [self navigateToWaitForMagicLinkScreen];
+        if ([weakSelf isMagicLinkAvailable]) {
+            [weakSelf navigateToWaitForMagicLinkScreen];
         } else {
-            [self navigateToInputCodeScreen];
+            [weakSelf navigateToInputCodeScreen];
         }
     };
     [self.navigationView removeAll];
     if (phoneNumber) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
-            @strongify(self);
-            [self navigateToInputCodeScreen];
+            [weakSelf navigateToInputCodeScreen];
         }];
     }
     [self displayController:controller];
 }
 
 - (void)navigateToInputCodeScreen {
-    @weakify(self);
+    __weak A0SMSLockViewController *weakSelf = self;
     A0SMSCodeViewController *controller = [[A0SMSCodeViewController alloc] initWithViewModel:self.model];
     void(^showRegister)() = ^{
-        @strongify(self);
-        [self nagivateToSendCodeScreen];
+        [weakSelf nagivateToSendCodeScreen];
     };
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"DIDN'T RECEIVE CODE?") actionBlock:showRegister];
@@ -168,10 +164,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)navigateToWaitForMagicLinkScreen {
     A0SMSMagicLinkViewController *controller = [[A0SMSMagicLinkViewController alloc] initWithViewModel:self.model];
     [self.navigationView removeAll];
-    @weakify(self);
+    __weak A0SMSLockViewController *weakSelf = self;
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"LET ME ENTER A CODE") actionBlock:^{
-        @strongify(self);
-        [self navigateToInputCodeScreen];
+        [weakSelf navigateToInputCodeScreen];
     }];
     [self displayController:controller];
 }

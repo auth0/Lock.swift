@@ -23,7 +23,6 @@
 #import "A0HomeViewController.h"
 
 #import <Lock/Lock.h>
-#import <libextobjc/EXTScope.h>
 #import <SimpleKeychain/A0SimpleKeychain.h>
 #import <JWTDecode/A0JWTDecoder.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>

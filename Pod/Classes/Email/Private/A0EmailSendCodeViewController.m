@@ -31,8 +31,6 @@
 #import "NSError+A0APIError.h"
 #import "A0PasswordlessLockViewModel.h"
 
-#import <libextobjc/EXTScope.h>
-
 @interface A0EmailSendCodeViewController ()
 
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *emailFieldView;
@@ -79,25 +77,24 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self.emailFieldView.textField resignFirstResponder];
         A0LogDebug(@"Registering email %@", self.emailFieldView.textField.text);
         [self.registerButton setInProgress:YES];
-        @weakify(self);
+        __weak A0EmailSendCodeViewController *weakSelf = self;
         A0LogDebug(@"About to send Email code to %@", self.viewModel.identifier);
         [self.viewModel requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
-            @strongify(self);
             if (error) {
                 A0LogError(@"Failed to send SMS code with error %@", error);
                 NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the email code");
                 NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send the email with your login code. Please try again later.");
-                [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                [A0Alert showInController:weakSelf errorAlert:^(A0Alert *alert) {
                     alert.title = title;
                     alert.message = message;
                 }];
-                [self.registerButton setInProgress:NO];
+                [weakSelf.registerButton setInProgress:NO];
                 return;
             }
-            A0LogDebug(@"Email code sent to %@", self.viewModel.identifier);
-            [self.registerButton setInProgress:NO];
-            if (self.didRequestVerificationCode) {
-                self.didRequestVerificationCode();
+            A0LogDebug(@"Email code sent to %@", weakSelf.viewModel.identifier);
+            [weakSelf.registerButton setInProgress:NO];
+            if (weakSelf.didRequestVerificationCode) {
+                weakSelf.didRequestVerificationCode();
             }
         }];
     } else {

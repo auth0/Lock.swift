@@ -30,7 +30,6 @@
 #import "A0Lock.h"
 #import "A0PasswordlessLockViewModel.h"
 #import "A0EmailMagicLinkViewController.h"
-#import <libextobjc/EXTScope.h>
 
 #define kEmailKey @"com.auth0.lock.passwordless.email"
 
@@ -125,36 +124,33 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)navigateToRequestCodeScreen {
     A0EmailSendCodeViewController *controller = [[A0EmailSendCodeViewController alloc] initWithViewModel:self.viewModel];
-    @weakify(self);
+    __weak A0EmailLockViewController *weakSelf = self;
     BOOL magicLinkAvailable = [self isMagicLinkAvailable];
     controller.didRequestVerificationCode = ^(){
-        @strongify(self);
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:self.viewModel.identifier forKey:kEmailKey];
+        [defaults setObject:weakSelf.viewModel.identifier forKey:kEmailKey];
         [defaults synchronize];
         if (magicLinkAvailable) {
-            [self navigateToWaitForMagicLinkScreen];
+            [weakSelf navigateToWaitForMagicLinkScreen];
         } else {
-            [self navigateToInputCodeScreen];
+            [weakSelf navigateToInputCodeScreen];
         }
     };
     [self.navigationView removeAll];
     if (self.viewModel.hasIdentifier && !magicLinkAvailable) {
         [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE A CODE?") actionBlock:^{
-            @strongify(self);
-            [self navigateToInputCodeScreen];
+            [weakSelf navigateToInputCodeScreen];
         }];
     }
     [self displayController:controller];
 }
 
 - (void)navigateToInputCodeScreen {
-    @weakify(self);
+    __weak A0EmailLockViewController *weakSelf = self;
     A0EmailCodeViewController *controller = [[A0EmailCodeViewController alloc] initWithViewModel:self.viewModel];
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"DIDN'T RECEIVE CODE?") actionBlock:^{
-        @strongify(self);
-        [self navigateToRequestCodeScreen];
+        [weakSelf navigateToRequestCodeScreen];
     }];
     [self displayController:controller];
 }
@@ -162,10 +158,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)navigateToWaitForMagicLinkScreen {
     A0EmailMagicLinkViewController *controller = [[A0EmailMagicLinkViewController alloc] initWithViewModel:self.viewModel];
     [self.navigationView removeAll];
-    @weakify(self);
+    __weak A0EmailLockViewController *weakSelf = self;
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"LET ME ENTER A CODE") actionBlock:^{
-        @strongify(self);
-        [self navigateToInputCodeScreen];
+        [weakSelf navigateToInputCodeScreen];
     }];
     [self displayController:controller];
 }

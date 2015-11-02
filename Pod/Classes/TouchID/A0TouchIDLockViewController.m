@@ -24,7 +24,6 @@
 
 #import <SimpleKeychain/A0SimpleKeychain+KeyPair.h>
 #import <TouchIDAuth/A0TouchIDAuthentication.h>
-#import <libextobjc/EXTScope.h>
 #import <SimpleKeychain/A0SimpleKeychain.h>
 #import "A0TouchIDRegisterViewController.h"
 #import "A0APIClient.h"
@@ -92,7 +91,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    @weakify(self);
 
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
     self.navigationController.navigationBarHidden = YES;
@@ -122,9 +120,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         self.authenticationParameters[A0ParameterConnection] = self.defaultDatabaseConnectionName;
     }
 
+    __weak A0TouchIDLockViewController *weakSelf = self;
     self.authentication = [[A0TouchIDAuthentication alloc] init];
     self.authentication.onError = ^(NSError *error) {
-        @strongify(self);
         A0LogError(@"Failed to perform TouchID authentication with error %@", error);
         NSString *message;
         switch (error.code) {
@@ -136,13 +134,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 message = A0LocalizedString(@"Couldn't authenticate with TouchID. Please try again later!.");
                 break;
         }
-        [A0Alert showInController:self alert:^(A0Alert *alert) {
+        [A0Alert showInController:weakSelf alert:^(A0Alert *alert) {
             alert.title = A0LocalizedString(@"There was an error logging in");
             alert.message = message;
             alert.cancelTitle = A0LocalizedString(@"OK");
         }];
-        self.touchIDView.hidden = NO;
-        self.loadingView.hidden = YES;
+        weakSelf.touchIDView.hidden = NO;
+        weakSelf.loadingView.hidden = YES;
     };
 
     NSString *userId = [[A0SimpleKeychain keychainWithService:@"TouchID"] stringForKey:@"auth0-userid"];
@@ -153,34 +151,29 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     A0SimpleKeychain *keychain = [A0SimpleKeychain keychainWithService:@"TouchID"];
     self.authentication.registerPublicKey = ^(NSData *pubKey, A0RegisterCompletionBlock completionBlock, A0ErrorBlock errorBlock) {
-        @strongify(self);
         A0TouchIDRegisterViewController *controller = [[A0TouchIDRegisterViewController alloc] init];
         controller.onCancelBlock = ^ {
-            @strongify(self);
-            [self.authentication reset];
-            [self.navigationController popViewControllerAnimated:YES];
-            self.touchIDView.hidden = NO;
-            self.loadingView.hidden = YES;
+            [weakSelf.authentication reset];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+            weakSelf.touchIDView.hidden = NO;
+            weakSelf.loadingView.hidden = YES;
         };
         controller.onRegisterBlock = ^(A0UserProfile *profile, A0Token *token) {
-            @strongify(self);
-            [self.navigationController popViewControllerAnimated:YES];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
             A0LogDebug(@"User %@ registered. Uploading public key...", profile.userId);
             [keychain setString:profile.userId forKey:@"auth0-userid"];
-            NSString *deviceName = [self deviceName];
-            self.userClient = [self.lock newUserAPIClientWithIdToken:token.idToken];
-            [self.userClient removePublicKeyOfDevice:deviceName user:profile.userId success:^{
-                @strongify(self);
-                [self.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
+            NSString *deviceName = [weakSelf deviceName];
+            weakSelf.userClient = [weakSelf.lock newUserAPIClientWithIdToken:token.idToken];
+            [weakSelf.userClient removePublicKeyOfDevice:deviceName user:profile.userId success:^{
+                [weakSelf.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
             } failure:^(NSError *error) {
-                @strongify(self);
                 A0LogWarn(@"Failed to remove public key. Please check that the user has only one Public key registered.");
-                [self.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
+                [weakSelf.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
             }];
         };
-        controller.parameters = self.authenticationParameters;
-        controller.lock = self.lock;
-        [self.navigationController pushViewController:controller animated:YES];
+        controller.parameters = weakSelf.authenticationParameters;
+        controller.lock = weakSelf.lock;
+        [weakSelf.navigationController pushViewController:controller animated:YES];
     };
     self.authentication.jwtPayload = ^{
         NSString *userId = [keychain stringForKey:@"auth0-userid"];
@@ -190,13 +183,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     };
 
     self.authentication.authenticate = ^(NSString *jwt, A0ErrorBlock errorBlock) {
-        @strongify(self);
         A0LogVerbose(@"Authenticating with signed JWT %@", jwt);
-        A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
+        A0APIClient *client = [weakSelf a0_apiClientFromProvider:weakSelf.lock];
         [client loginWithIdToken:jwt
-                      deviceName:[self deviceName]
-                      parameters:self.authenticationParameters
-                         success:self.onAuthenticationBlock
+                      deviceName:[weakSelf deviceName]
+                      parameters:weakSelf.authenticationParameters
+                         success:weakSelf.onAuthenticationBlock
                          failure:errorBlock];
     };
 }

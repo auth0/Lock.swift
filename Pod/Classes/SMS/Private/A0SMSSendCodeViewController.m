@@ -30,7 +30,6 @@
 #import "A0SendSMSOperation.h"
 #import "A0Alert.h"
 
-#import <libextobjc/EXTScope.h>
 #import "A0Errors.h"
 #import "A0Lock.h"
 #import "NSError+A0APIError.h"
@@ -62,7 +61,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    @weakify(self);
 
     self.title = A0LocalizedString(@"Send Passcode");
     A0Theme *theme = [A0Theme sharedInstance];
@@ -80,15 +78,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         self.phoneFieldView.textField.text = parts.lastObject;
     }
 
+    __weak A0SMSSendCodeViewController *weakSelf = self;
     self.phoneFieldView.onCountryCodeTapped = ^(NSString *currentCode){
-        @strongify(self);
         A0CountryCodeTableViewController *controller = [[A0CountryCodeTableViewController alloc] init];
         controller.onCountrySelect = ^(NSString *country, NSString *dialCode) {
-            @strongify(self);
-            self.phoneFieldView.countryCode = dialCode;
+            weakSelf.phoneFieldView.countryCode = dialCode;
             A0LogDebug(@"Selected country %@ with dial code %@", country, dialCode);
         };
-        [self.navigationController pushViewController:controller animated:YES];
+        [weakSelf.navigationController pushViewController:controller animated:YES];
     };
 }
 
@@ -101,9 +98,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0LogDebug(@"Registering phone number %@", self.phoneFieldView.fullPhoneNumber);
         [self.registerButton setInProgress:YES];
         NSString *phoneNumber = self.phoneFieldView.fullPhoneNumber;
-        @weakify(self);
         void(^onFailure)(NSError *) = ^(NSError *error) {
-            @strongify(self);
             A0LogError(@"Failed to send SMS code with error %@", error);
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the SMS code");
             NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send an SMS to your phone. Please try again later.");
@@ -119,7 +114,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 onFailure(error);
                 return;
             }
-            @strongify(self);
             A0LogDebug(@"SMS code sent to phone %@", phoneNumber);
             [self.registerButton setInProgress:NO];
             if (self.onRegisterBlock) {

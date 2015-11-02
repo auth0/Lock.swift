@@ -22,7 +22,6 @@
 
 #import "A0FullLoginViewController.h"
 
-#import <libextobjc/EXTScope.h>
 #import "A0ServiceCollectionViewLayoutDelegate.h"
 #import "A0LockConfiguration.h"
 #import "A0SmallSocialServiceCollectionView.h"
