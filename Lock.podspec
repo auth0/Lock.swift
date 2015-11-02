@@ -39,7 +39,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     core.ios.source_files = ['Pod/Classes/Core/iOS/*.{h,m}', 'Pod/Classes/Provider/*.{h,m}']
     core.osx.source_files = ['Pod/Classes/Core/OSX/*.{h,m}']
     core.dependency 'AFNetworking', '~> 2.5'
-    core.dependency 'ISO8601DateFormatter', '~> 0.7'
   end
 
   s.subspec 'ReactiveCore' do |core|

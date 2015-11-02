@@ -2,17 +2,12 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '9.0'
 
-def pod_with_warnings
-  pod 'ISO8601DateFormatter', :inhibit_warnings => true #Ignore warnings for this lib
-end
-
 target 'Lock', :exclusive => true do
   pod 'Lock', :path => '../', :subspecs => ['ReactiveCore', '1Password', 'Safari', 'WebView', 'TouchID', 'Email', 'SMS']
   pod 'Lock-Facebook', '~> 2.0'
 
   pod 'Fabric'
   pod 'Crashlytics'
-  pod_with_warnings
 
   pod 'JWTDecode', '~> 0.2.1'
   pod 'SimpleKeychain'

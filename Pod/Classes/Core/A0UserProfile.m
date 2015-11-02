@@ -23,7 +23,13 @@
 #import "A0UserProfile.h"
 #import "A0UserIdentity.h"
 
-#import <ISO8601DateFormatter/ISO8601DateFormatter.h>
+NSDate *dateFromISO8601String(NSString *string) {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [dateFormatter setLocale:enUSPOSIXLocale];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+    return [dateFormatter dateFromString:string];
+}
 
 @implementation A0UserProfile
 
@@ -47,13 +53,12 @@
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
-    ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
     self = [self initWithUserId:dictionary[@"user_id"]
                            name:dictionary[@"name"]
                        nickname:dictionary[@"nickname"]
                           email:dictionary[@"email"]
                         picture:[NSURL URLWithString:dictionary[@"picture"]]
-                      createdAt:[formatter dateFromString:dictionary[@"created_at"]]];
+                      createdAt:dateFromISO8601String(dictionary[@"created_at"])];
     if (self) {
         NSArray *identitiesJSON = dictionary[@"identities"];
         NSMutableDictionary *extraInfo = [dictionary mutableCopy];

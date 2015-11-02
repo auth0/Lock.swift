@@ -51,7 +51,6 @@ PODS:
     - FBSDKCoreKit/arc
   - FBSDKLoginKit (4.7.1):
     - FBSDKCoreKit
-  - ISO8601DateFormatter (0.7)
   - JWTDecode (0.2.2)
   - Lock-Facebook (2.2.1):
     - CocoaLumberjack (~> 2.0)
@@ -65,7 +64,6 @@ PODS:
   - Lock/Core (1.20.0):
     - AFNetworking (~> 2.5)
     - CocoaLumberjack (~> 2.0)
-    - ISO8601DateFormatter (~> 0.7)
   - Lock/CoreUI (1.20.0):
     - CocoaLumberjack (~> 2.0)
     - Lock/Core
@@ -126,7 +124,6 @@ DEPENDENCIES:
   - Crashlytics
   - Expecta
   - Fabric
-  - ISO8601DateFormatter
   - JWTDecode (~> 0.2.1)
   - Lock-Facebook (~> 2.0)
   - Lock/1Password (from `../`)
@@ -157,9 +154,8 @@ SPEC CHECKSUMS:
   Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
   FBSDKCoreKit: 9141b70960a37930850370495fe565f4a27ac141
   FBSDKLoginKit: c11ed3c2833472db3bb4a4aecf27af4a6f69b173
-  ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   JWTDecode: c193d229af74dd72121515c976f930ccbed96a2a
-  Lock: 0d82066ae85e6c124ed9d6f3bed58dfe6ba4e073
+  Lock: 6cd109c2a4d5c8f3ef063a1dbe7b1b314cdbbf4c
   Lock-Facebook: 09f2397cbc9ae2e1fc654f7e66248da30343e349
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
   OCHamcrest: cd63d27f48a266d4412c0b295b01b8f0940efa81
