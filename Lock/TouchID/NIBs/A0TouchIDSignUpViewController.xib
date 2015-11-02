@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0TouchIDSignUpViewController">
+            <connections>
+                <outlet property="credentialBoxView" destination="gpA-dC-FZ5" id="aLI-NX-7rJ"/>
+                <outlet property="emailField" destination="EKL-Oy-0Cy" id="BB1-Jj-xpl"/>
+                <outlet property="signUpButton" destination="2lK-y0-I92" id="Oyj-ao-gwn"/>
+                <outlet property="view" destination="oKZ-1q-kOP" id="lWr-8b-Qaf"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="oKZ-1q-kOP">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="133"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2lK-y0-I92" customClass="A0ProgressButton">
+                    <rect key="frame" x="21" y="78" width="558" height="55"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="55" id="BWS-r8-WF0"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
+                    <state key="normal" title="SIGN UP">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="disabled" title=" "/>
+                    <connections>
+                        <action selector="signUp:" destination="-1" eventType="touchUpInside" id="K3n-Yl-xD9"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gpA-dC-FZ5" customClass="A0RoundedBoxView">
+                    <rect key="frame" x="21" y="10" width="558" height="50"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKL-Oy-0Cy" customClass="A0CredentialFieldView">
+                            <rect key="frame" x="0.0" y="0.0" width="558" height="50"/>
+                            <subviews>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Please enter your email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="2Cd-SC-Pyf">
+                                    <rect key="frame" x="44" y="10" width="507" height="30"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="go"/>
+                                    <connections>
+                                        <action selector="signUp:" destination="-1" eventType="editingDidEndOnExit" id="Ulu-Ee-qUj"/>
+                                    </connections>
+                                </textField>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/mail" translatesAutoresizingMaskIntoConstraints="NO" id="zVF-05-xGl">
+                                    <rect key="frame" x="18" y="17" width="16" height="16"/>
+                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="14" id="NEp-fX-1go"/>
+                                        <constraint firstAttribute="height" constant="14" id="itI-Lk-8vt"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="NEp-fX-1go"/>
+                                            <exclude reference="itI-Lk-8vt"/>
+                                        </mask>
+                                    </variation>
+                                </imageView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="2Cd-SC-Pyf" firstAttribute="top" secondItem="EKL-Oy-0Cy" secondAttribute="top" constant="10" id="VIG-uA-yzI"/>
+                                <constraint firstAttribute="trailing" secondItem="2Cd-SC-Pyf" secondAttribute="trailing" constant="7" id="WSr-wL-8sG"/>
+                                <constraint firstItem="zVF-05-xGl" firstAttribute="leading" secondItem="EKL-Oy-0Cy" secondAttribute="leading" constant="18" id="aTm-O3-LOM"/>
+                                <constraint firstAttribute="height" constant="50" id="b3n-sM-bRm"/>
+                                <constraint firstItem="zVF-05-xGl" firstAttribute="centerY" secondItem="2Cd-SC-Pyf" secondAttribute="centerY" id="i3o-IT-oY7"/>
+                                <constraint firstItem="2Cd-SC-Pyf" firstAttribute="leading" secondItem="zVF-05-xGl" secondAttribute="trailing" constant="10" id="ris-rX-YlZ"/>
+                                <constraint firstAttribute="bottom" secondItem="2Cd-SC-Pyf" secondAttribute="bottom" constant="10" id="yBI-oc-1Wh"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="iconImageView" destination="zVF-05-xGl" id="ssi-6J-pQ4"/>
+                                <outlet property="textField" destination="2Cd-SC-Pyf" id="JHs-bp-NNO"/>
+                            </connections>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="EKL-Oy-0Cy" secondAttribute="trailing" id="0jh-Ns-O2b"/>
+                        <constraint firstItem="EKL-Oy-0Cy" firstAttribute="leading" secondItem="gpA-dC-FZ5" secondAttribute="leading" id="OxL-b0-TZV"/>
+                        <constraint firstItem="EKL-Oy-0Cy" firstAttribute="top" secondItem="gpA-dC-FZ5" secondAttribute="top" id="QV5-xb-vnj"/>
+                        <constraint firstAttribute="height" constant="50" id="e9c-oQ-ycm"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="2lK-y0-I92" secondAttribute="trailing" constant="21" id="B1b-k7-QsY"/>
+                <constraint firstItem="gpA-dC-FZ5" firstAttribute="top" secondItem="oKZ-1q-kOP" secondAttribute="top" constant="10" id="Cyq-LA-zsJ"/>
+                <constraint firstItem="2lK-y0-I92" firstAttribute="top" secondItem="gpA-dC-FZ5" secondAttribute="bottom" constant="18" id="Dx3-kS-EAQ"/>
+                <constraint firstAttribute="trailing" secondItem="gpA-dC-FZ5" secondAttribute="trailing" constant="21" id="F1k-KQ-HWz"/>
+                <constraint firstItem="gpA-dC-FZ5" firstAttribute="leading" secondItem="oKZ-1q-kOP" secondAttribute="leading" constant="21" id="cmR-7Z-uTW"/>
+                <constraint firstItem="2lK-y0-I92" firstAttribute="leading" secondItem="oKZ-1q-kOP" secondAttribute="leading" constant="21" id="fhO-RX-cNQ"/>
+                <constraint firstAttribute="bottom" secondItem="2lK-y0-I92" secondAttribute="bottom" id="xqu-8h-Hkg"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="479" y="237.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Auth0.bundle/mail" width="16" height="16"/>
+    </resources>
+</document>

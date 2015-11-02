@@ -1,4 +1,4 @@
-// AppDelegate.h
+// A0TouchIDRegisterViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,11 +21,16 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "A0ContainerViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class A0AuthParameters, A0UserProfile, A0Token, A0Lock;
 
-@property (strong, nonatomic) UIWindow *window;
+@interface A0TouchIDRegisterViewController : A0ContainerViewController
 
+@property (copy, nonatomic) void(^onRegisterBlock)(A0UserProfile *profile, A0Token *token);
+@property (copy, nonatomic) void(^onCancelBlock)();
+
+@property (copy, nonatomic) A0AuthParameters *parameters;
+@property (strong, nonatomic) A0Lock *lock;
 
 @end
-

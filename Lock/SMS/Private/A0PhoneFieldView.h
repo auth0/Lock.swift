@@ -1,4 +1,4 @@
-// AppDelegate.h
+// A0PhoneFieldView.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,11 +21,36 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "A0CredentialFieldView.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+/**
+ *  Custom view to input a phone number + country code
+ */
+@interface A0PhoneFieldView : A0CredentialFieldView
 
-@property (strong, nonatomic) UIWindow *window;
+/**
+ *  Default country code used. By default is US `"+1"`
+ */
+@property (copy, nonatomic) NSString *defaultCountryCode;
 
+/**
+ *  Country code selected
+ */
+@property (copy, nonatomic) NSString *countryCode;
+
+/**
+ *  Phone number + country code.
+ */
+@property (readonly, nonatomic) NSString *fullPhoneNumber;
+
+/**
+ *  Phone number only
+ */
+@property (readonly, nonatomic) NSString *phoneNumber;
+
+/**
+ *  Block called when country code button is tapped. It's used to allow the user to change the country code.
+ */
+@property (copy, nonatomic) void(^onCountryCodeTapped)(NSString *currentCountryCode);
 
 @end
-

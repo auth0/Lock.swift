@@ -1,4 +1,4 @@
-// AppDelegate.h
+// A0CountryCodeTableViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -22,10 +22,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface A0CountryCodeTableViewController : UITableViewController
 
-@property (strong, nonatomic) UIWindow *window;
+@property (copy, nonatomic) NSString *defaultCountry;
 
+@property (copy, nonatomic) void(^onCountrySelect)(NSString *country, NSString *countryDialCode);
+
++ (NSString *)dialCodeForCountryWithCode:(NSString *)code;
 
 @end
-

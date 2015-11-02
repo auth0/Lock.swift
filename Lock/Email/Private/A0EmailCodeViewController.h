@@ -1,4 +1,4 @@
-// AppDelegate.h
+// A0EmailCodeViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,11 +21,12 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import <Lock/A0AuthenticationUIComponent.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class A0PasswordlessLockViewModel;
 
-@property (strong, nonatomic) UIWindow *window;
+@interface A0EmailCodeViewController : UIViewController<A0KeyboardEnabledView>
 
+- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel;
 
 @end
-

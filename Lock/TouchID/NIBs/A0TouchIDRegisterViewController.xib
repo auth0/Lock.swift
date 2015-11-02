@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7706"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0TouchIDRegisterViewController">
+            <connections>
+                <outlet property="containerView" destination="AAC-yd-wLY" id="BFm-D2-cY6"/>
+                <outlet property="navigationView" destination="HFZ-ZN-GwE" id="FYB-wB-F9x"/>
+                <outlet property="titleView" destination="MIe-Zc-7nB" id="ldP-VF-JKD"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MIe-Zc-7nB" customClass="A0TitleView">
+                    <rect key="frame" x="10" y="55" width="580" height="110"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="220" id="fik-yk-LXd"/>
+                        <constraint firstAttribute="height" constant="110" id="jti-et-Rfo"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="fik-yk-LXd"/>
+                        </mask>
+                    </variation>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AAC-yd-wLY">
+                    <rect key="frame" x="0.0" y="165" width="600" height="387"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HFZ-ZN-GwE" customClass="A0NavigationView">
+                    <rect key="frame" x="20" y="552" width="560" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="tB5-26-5za"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="HFZ-ZN-GwE" secondAttribute="bottom" id="7Hq-aJ-NCS"/>
+                <constraint firstAttribute="centerX" secondItem="MIe-Zc-7nB" secondAttribute="centerX" id="B1r-RC-Yno"/>
+                <constraint firstItem="AAC-yd-wLY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="DUO-zX-hg4"/>
+                <constraint firstItem="AAC-yd-wLY" firstAttribute="top" secondItem="MIe-Zc-7nB" secondAttribute="bottom" id="MRN-Bh-sv3"/>
+                <constraint firstAttribute="bottom" secondItem="AAC-yd-wLY" secondAttribute="bottom" id="RDt-m1-qY3"/>
+                <constraint firstItem="MIe-Zc-7nB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="UEj-V5-GuO"/>
+                <constraint firstAttribute="trailing" secondItem="HFZ-ZN-GwE" secondAttribute="trailing" constant="20" id="fAH-zm-aZn"/>
+                <constraint firstItem="HFZ-ZN-GwE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="ha9-6Y-3Eh"/>
+                <constraint firstItem="HFZ-ZN-GwE" firstAttribute="top" secondItem="AAC-yd-wLY" secondAttribute="bottom" id="ttX-8R-L0T"/>
+                <constraint firstAttribute="trailing" secondItem="AAC-yd-wLY" secondAttribute="trailing" id="u9c-mG-MPw"/>
+                <constraint firstAttribute="trailing" secondItem="MIe-Zc-7nB" secondAttribute="trailing" constant="10" id="ujk-Mz-Gsv"/>
+                <constraint firstItem="MIe-Zc-7nB" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="55" id="xfR-D3-0Xf"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="RDt-m1-qY3"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>

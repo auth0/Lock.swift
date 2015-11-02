@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SMSLockViewController">
+            <connections>
+                <outlet property="closeButton" destination="UEQ-iy-i4l" id="AM9-xG-jGT"/>
+                <outlet property="containerView" destination="RVp-Gk-Hz5" id="4ks-P0-I2h"/>
+                <outlet property="navigationView" destination="qaM-cP-n67" id="NEa-PP-LL9"/>
+                <outlet property="titleView" destination="wzd-pc-0b5" id="BQF-FY-g0k"/>
+                <outlet property="view" destination="pjz-VA-gUK" id="rgu-UO-Jw6"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="pjz-VA-gUK">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wzd-pc-0b5" customClass="A0TitleView">
+                    <rect key="frame" x="0.0" y="55" width="600" height="110"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="220" id="D90-9r-0wA"/>
+                        <constraint firstAttribute="height" constant="110" id="TkB-5m-ORz"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="D90-9r-0wA"/>
+                        </mask>
+                    </variation>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVp-Gk-Hz5">
+                    <rect key="frame" x="0.0" y="165" width="600" height="387"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qaM-cP-n67" customClass="A0NavigationView">
+                    <rect key="frame" x="20" y="552" width="560" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="ZtT-s4-2WV"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UEQ-iy-i4l">
+                    <rect key="frame" x="560" y="10" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="5rk-5g-iuR"/>
+                        <constraint firstAttribute="height" constant="40" id="ubh-De-xy3"/>
+                    </constraints>
+                    <color key="tintColor" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <inset key="contentEdgeInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" image="Auth0.bundle/close">
+                        <color key="titleColor" red="0.81568627449999997" green="0.82352941180000006" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="close:" destination="-1" eventType="touchUpInside" id="a7L-3x-VlH"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="qaM-cP-n67" firstAttribute="top" secondItem="RVp-Gk-Hz5" secondAttribute="bottom" id="0hQ-Bp-ic8"/>
+                <constraint firstItem="UEQ-iy-i4l" firstAttribute="top" secondItem="pjz-VA-gUK" secondAttribute="top" constant="10" id="4Yk-et-lZ5"/>
+                <constraint firstAttribute="bottom" secondItem="qaM-cP-n67" secondAttribute="bottom" id="A4b-lm-QIB"/>
+                <constraint firstItem="wzd-pc-0b5" firstAttribute="leading" secondItem="pjz-VA-gUK" secondAttribute="leading" id="MBa-Xi-2oS"/>
+                <constraint firstAttribute="trailing" secondItem="wzd-pc-0b5" secondAttribute="trailing" id="PiR-Hc-Hfx"/>
+                <constraint firstAttribute="trailing" secondItem="qaM-cP-n67" secondAttribute="trailing" constant="20" id="fXK-7c-JHJ"/>
+                <constraint firstAttribute="centerX" secondItem="wzd-pc-0b5" secondAttribute="centerX" id="gKG-Dh-wij"/>
+                <constraint firstItem="qaM-cP-n67" firstAttribute="leading" secondItem="pjz-VA-gUK" secondAttribute="leading" constant="20" id="jiv-ej-bCM"/>
+                <constraint firstAttribute="trailing" secondItem="RVp-Gk-Hz5" secondAttribute="trailing" id="k2p-lG-gsf"/>
+                <constraint firstAttribute="trailing" secondItem="UEQ-iy-i4l" secondAttribute="trailing" id="nrd-0e-hpR"/>
+                <constraint firstItem="RVp-Gk-Hz5" firstAttribute="leading" secondItem="pjz-VA-gUK" secondAttribute="leading" id="s7d-VB-uY9"/>
+                <constraint firstAttribute="bottom" secondItem="RVp-Gk-Hz5" secondAttribute="bottom" id="wHr-pn-bCb"/>
+                <constraint firstItem="wzd-pc-0b5" firstAttribute="top" secondItem="pjz-VA-gUK" secondAttribute="top" constant="55" id="wK6-3K-pLr"/>
+                <constraint firstItem="RVp-Gk-Hz5" firstAttribute="top" secondItem="wzd-pc-0b5" secondAttribute="bottom" id="xFs-Dx-hMQ"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="wHr-pn-bCb"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+    <resources>
+        <image name="Auth0.bundle/close" width="16" height="16"/>
+    </resources>
+</document>

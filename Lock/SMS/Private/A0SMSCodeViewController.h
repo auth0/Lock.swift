@@ -1,4 +1,4 @@
-// AppDelegate.h
+// A0SMSCodeViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,11 +21,14 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "A0KeyboardEnabledView.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class A0PasswordlessLockViewModel, A0UserProfile, A0Token;
 
-@property (strong, nonatomic) UIWindow *window;
+@interface A0SMSCodeViewController : UIViewController<A0KeyboardEnabledView>
 
+@property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
+
+- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel;
 
 @end
-

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0TouchIDLockViewController">
+            <connections>
+                <outlet property="closeButton" destination="cvj-On-Dtc" id="IAc-7I-SiD"/>
+                <outlet property="loadingView" destination="JUM-s6-89B" id="pxR-I1-y5W"/>
+                <outlet property="messageLabel" destination="2ZQ-b2-BUM" id="igd-0u-wxA"/>
+                <outlet property="titleView" destination="mLe-q3-wEZ" id="rPS-id-zWw"/>
+                <outlet property="touchIDButton" destination="OPV-4k-Yhd" id="CMz-6o-Lut"/>
+                <outlet property="touchIDView" destination="40u-FA-4Nw" id="qWp-Qm-4b7"/>
+                <outlet property="view" destination="iN0-l3-epB" id="XvE-4E-i9A"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mLe-q3-wEZ" customClass="A0TitleView">
+                    <rect key="frame" x="10" y="55" width="580" height="110"/>
+                    <animations/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="110" id="laQ-Rm-sKZ"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-On-Dtc">
+                    <rect key="frame" x="560" y="10" width="40" height="40"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="DW4-7E-jzo"/>
+                        <constraint firstAttribute="width" constant="40" id="XUV-3u-1mP"/>
+                    </constraints>
+                    <color key="tintColor" red="0.29803921568627451" green="0.29803921568627451" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
+                    <inset key="contentEdgeInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" image="Auth0.bundle/close">
+                        <color key="titleColor" red="0.81568627450980391" green="0.82352941176470584" blue="0.82745098039215681" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="close:" destination="-1" eventType="touchUpInside" id="bhG-12-ZJY"/>
+                    </connections>
+                </button>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUM-s6-89B">
+                    <rect key="frame" x="150" y="223" width="300" height="300"/>
+                    <subviews>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Mn7-UT-WeL">
+                            <rect key="frame" x="131" y="132" width="37" height="37"/>
+                            <animations/>
+                            <color key="color" red="0.086274509803921567" green="0.12941176470588237" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="300" id="9vE-ff-zYp"/>
+                        <constraint firstAttribute="centerX" secondItem="Mn7-UT-WeL" secondAttribute="centerX" id="FGH-Ij-gC4"/>
+                        <constraint firstAttribute="centerY" secondItem="Mn7-UT-WeL" secondAttribute="centerY" id="Ikc-c3-nvZ"/>
+                        <constraint firstAttribute="width" constant="300" id="XhN-RM-hY1"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="40u-FA-4Nw">
+                    <rect key="frame" x="50" y="205" width="500" height="335"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OPV-4k-Yhd">
+                            <rect key="frame" x="173" y="70" width="155" height="155"/>
+                            <animations/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="155" id="KYq-Ds-DQ5"/>
+                                <constraint firstAttribute="width" constant="155" id="xrV-kF-5SP"/>
+                            </constraints>
+                            <state key="normal" image="Auth0.TouchID.bundle/touchid"/>
+                            <state key="highlighted" image="Auth0.TouchID.bundle/touchid_selected"/>
+                            <connections>
+                                <action selector="checkTouchID:" destination="-1" eventType="touchUpInside" id="aaE-cq-br7"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap above to sign in or create an account" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ZQ-b2-BUM">
+                            <rect key="frame" x="103" y="313" width="295" height="20"/>
+                            <animations/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                            <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <animations/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="300" id="5pU-8O-jY1"/>
+                        <constraint firstAttribute="centerX" secondItem="2ZQ-b2-BUM" secondAttribute="centerX" id="S4p-Tx-aEN"/>
+                        <constraint firstAttribute="centerY" secondItem="OPV-4k-Yhd" secondAttribute="centerY" constant="20" id="bXu-aT-Kvu"/>
+                        <constraint firstAttribute="bottom" secondItem="2ZQ-b2-BUM" secondAttribute="bottom" constant="3" id="bzT-N1-jWY"/>
+                        <constraint firstAttribute="centerX" secondItem="OPV-4k-Yhd" secondAttribute="centerX" id="d9s-sg-3QZ"/>
+                        <constraint firstAttribute="height" constant="300" id="g46-vT-5Og"/>
+                        <constraint firstAttribute="centerX" secondItem="2ZQ-b2-BUM" secondAttribute="centerX" id="yCK-DW-U8G"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="5pU-8O-jY1"/>
+                            <exclude reference="g46-vT-5Og"/>
+                        </mask>
+                    </variation>
+                </view>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="cvj-On-Dtc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="0G0-Po-vs7"/>
+                <constraint firstAttribute="bottom" secondItem="40u-FA-4Nw" secondAttribute="bottom" constant="60" id="0Pa-jA-8db"/>
+                <constraint firstAttribute="trailing" secondItem="40u-FA-4Nw" secondAttribute="trailing" constant="50" id="16R-gj-iz4"/>
+                <constraint firstItem="mLe-q3-wEZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="55" id="Aak-Vr-vp5"/>
+                <constraint firstItem="40u-FA-4Nw" firstAttribute="centerY" secondItem="JUM-s6-89B" secondAttribute="centerY" id="Frs-bY-xap"/>
+                <constraint firstItem="40u-FA-4Nw" firstAttribute="top" secondItem="mLe-q3-wEZ" secondAttribute="bottom" constant="40" id="S28-Rw-tYY"/>
+                <constraint firstItem="mLe-q3-wEZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="SSB-kZ-cxW"/>
+                <constraint firstAttribute="trailing" secondItem="cvj-On-Dtc" secondAttribute="trailing" id="aqk-mA-N3Z"/>
+                <constraint firstItem="40u-FA-4Nw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="50" id="nK6-55-6EQ"/>
+                <constraint firstAttribute="centerX" secondItem="mLe-q3-wEZ" secondAttribute="centerX" id="sIW-ra-JSp"/>
+                <constraint firstAttribute="trailing" secondItem="mLe-q3-wEZ" secondAttribute="trailing" constant="10" id="uqW-OM-SAy"/>
+                <constraint firstItem="40u-FA-4Nw" firstAttribute="centerX" secondItem="JUM-s6-89B" secondAttribute="centerX" id="wBb-lv-8EF"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="Auth0.TouchID.bundle/touchid" width="16" height="16"/>
+        <image name="Auth0.TouchID.bundle/touchid_selected" width="16" height="16"/>
+        <image name="Auth0.bundle/close" width="16" height="16"/>
+    </resources>
+</document>

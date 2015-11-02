@@ -1,6 +1,6 @@
-// AppDelegate.h
+// A0Lock+A0TouchIDLockViewController.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,11 +21,25 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "A0Lock.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class A0TouchIDLockViewController;
 
-@property (strong, nonatomic) UIWindow *window;
+@interface A0Lock (A0TouchIDLockViewController)
 
+/**
+ *  Creates a new instance of `A0TouchIDLockViewController`
+ *
+ *  @return a new instance
+ */
+- (A0TouchIDLockViewController *)newTouchIDViewController;
+
+/**
+ *  Presents a `A0TouchIDLockViewController` from a UIViewController. This method takes care of embedding the `A0TouchIDLockViewController` inside a `UINavigationController`
+ *
+ *  @param touchIDController controller to present
+ *  @param controller        controller that will present the TouchID VC.
+ */
+- (void)presentTouchIDController:(A0TouchIDLockViewController *)touchIDController fromController:(UIViewController *)controller;
 
 @end
-

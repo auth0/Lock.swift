@@ -1,4 +1,4 @@
-// AppDelegate.h
+// A0SMSSendCodeViewController.h
 //
 // Copyright (c) 2014 Auth0 (http://auth0.com)
 //
@@ -21,11 +21,14 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "A0KeyboardEnabledView.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class A0PasswordlessLockViewModel;
 
-@property (strong, nonatomic) UIWindow *window;
+@interface A0SMSSendCodeViewController : UIViewController<A0KeyboardEnabledView>
 
+@property (copy, nonatomic) void(^onRegisterBlock)(NSString *countryCode, NSString *phoneNumber);
+
+- (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel;
 
 @end
-
