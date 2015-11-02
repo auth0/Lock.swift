@@ -56,4 +56,11 @@ FOUNDATION_EXPORT const unsigned char LockVersionString[];
 #import "A0WebAuthenticable.h"
 #import "A0WebKitViewController.h"
 #import "A0WebViewController.h"
+
+#import "A0SMSLockViewController.h"
+#import "A0EmailLockViewController.h"
+#import "A0TouchIDLockViewController.h"
+#import "A0Lock+A0SMSLockViewController.h"
+#import "A0Lock+A0TouchIDLockViewController.h"
+#import "A0Lock+A0EmailLockViewController.h"
 #endif

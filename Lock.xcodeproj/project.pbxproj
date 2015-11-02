@@ -350,6 +350,19 @@
 		5FBAD44B1BE7F31A00703DD1 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD44A1BE7F31A00703DD1 /* SimpleKeychain.framework */; };
 		5FBAD44D1BE7F5B500703DD1 /* TouchIDAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD44C1BE7F5B500703DD1 /* TouchIDAuth.framework */; };
 		5FBAD4681BE7F93A00703DD1 /* Lock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBACFF51BE7AF8700703DD1 /* Lock.framework */; };
+		5FBAD4701BE8069500703DD1 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD44A1BE7F31A00703DD1 /* SimpleKeychain.framework */; };
+		5FBAD4711BE8069500703DD1 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0EB1BE7B42400703DD1 /* CocoaLumberjack.framework */; };
+		5FBAD4731BE8086B00703DD1 /* JWTDecode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD4721BE8086B00703DD1 /* JWTDecode.framework */; };
+		5FBAD47E1BE809EA00703DD1 /* A0ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4741BE809EA00703DD1 /* A0ViewController.m */; };
+		5FBAD47F1BE809EA00703DD1 /* A0HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4751BE809EA00703DD1 /* A0HomeViewController.m */; };
+		5FBAD4811BE809EA00703DD1 /* A0SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD47A1BE809EA00703DD1 /* A0SettingsViewController.m */; };
+		5FBAD4821BE809EA00703DD1 /* A0UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD47C1BE809EA00703DD1 /* A0UserProfileViewController.m */; };
+		5FBAD4871BE80DB600703DD1 /* Auth0.TouchID.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3CD1BE7E99A00703DD1 /* Auth0.TouchID.bundle */; };
+		5FBAD4881BE80DB600703DD1 /* Auth0.SMS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3EF1BE7EC3400703DD1 /* Auth0.SMS.bundle */; };
+		5FBAD48D1BE80E1A00703DD1 /* CountryCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3F51BE7ECF300703DD1 /* CountryCodes.plist */; };
+		5FBAD48E1BE80E2100703DD1 /* cellphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3F71BE7ECF300703DD1 /* cellphone.png */; };
+		5FBAD48F1BE80E2100703DD1 /* cellphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3F81BE7ECF300703DD1 /* cellphone@2x.png */; };
+		5FBAD4901BE80E2100703DD1 /* cellphone@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3F91BE7ECF300703DD1 /* cellphone@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -380,6 +393,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5FBAD22B1BE7BE1E00703DD1;
 			remoteInfo = MyLock;
+		};
+		5FBAD4891BE80DBA00703DD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5FBACFEC1BE7AF8700703DD1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5FBAD3CC1BE7E99A00703DD1;
+			remoteInfo = "Auth0-TouchID";
+		};
+		5FBAD48B1BE80DBA00703DD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5FBACFEC1BE7AF8700703DD1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5FBAD3EE1BE7EC3400703DD1;
+			remoteInfo = "Auth0-SMS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -582,7 +609,7 @@
 		5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SignUpViewController.xib; sourceTree = "<group>"; };
 		5FBAD2181BE7BD4C00703DD1 /* A0SocialLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SocialLoginViewController.xib; sourceTree = "<group>"; };
 		5FBAD2191BE7BD4C00703DD1 /* A0TitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TitleView.xib; sourceTree = "<group>"; };
-		5FBAD22C1BE7BE1E00703DD1 /* MyLock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MyLock-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBAD22F1BE7BE1E00703DD1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5FBAD2311BE7BE1E00703DD1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5FBAD2321BE7BE1E00703DD1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -647,7 +674,7 @@
 		5FBAD3A61BE7E76D00703DD1 /* A0EmailMagicLinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0EmailMagicLinkViewController.m; sourceTree = "<group>"; };
 		5FBAD3A71BE7E76D00703DD1 /* A0EmailSendCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0EmailSendCodeViewController.h; sourceTree = "<group>"; };
 		5FBAD3A81BE7E76D00703DD1 /* A0EmailSendCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0EmailSendCodeViewController.m; sourceTree = "<group>"; };
-		5FBAD3CD1BE7E99A00703DD1 /* Auth0-TouchID.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Auth0-TouchID.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FBAD3CD1BE7E99A00703DD1 /* Auth0.TouchID.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Auth0.TouchID.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBAD3CF1BE7E99A00703DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FBAD3D41BE7E9DC00703DD1 /* touchid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touchid.png; sourceTree = "<group>"; };
 		5FBAD3D51BE7E9DC00703DD1 /* touchid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid@2x.png"; sourceTree = "<group>"; };
@@ -658,7 +685,7 @@
 		5FBAD3E51BE7EA1500703DD1 /* A0TouchIDLockViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDLockViewController.xib; sourceTree = "<group>"; };
 		5FBAD3E61BE7EA1500703DD1 /* A0TouchIDRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDRegisterViewController.xib; sourceTree = "<group>"; };
 		5FBAD3E71BE7EA1500703DD1 /* A0TouchIDSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDSignUpViewController.xib; sourceTree = "<group>"; };
-		5FBAD3EF1BE7EC3400703DD1 /* Auth0-SMS.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Auth0-SMS.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FBAD3EF1BE7EC3400703DD1 /* Auth0.SMS.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Auth0.SMS.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBAD3F11BE7EC3400703DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FBAD3F51BE7ECF300703DD1 /* CountryCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountryCodes.plist; sourceTree = "<group>"; };
 		5FBAD3F71BE7ECF300703DD1 /* cellphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellphone.png; sourceTree = "<group>"; };
@@ -678,6 +705,16 @@
 		5FBAD44C1BE7F5B500703DD1 /* TouchIDAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TouchIDAuth.framework; path = Carthage/Build/iOS/TouchIDAuth.framework; sourceTree = "<group>"; };
 		5FBAD4631BE7F93A00703DD1 /* LockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBAD4671BE7F93A00703DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5FBAD4721BE8086B00703DD1 /* JWTDecode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JWTDecode.framework; path = Carthage/Build/iOS/JWTDecode.framework; sourceTree = "<group>"; };
+		5FBAD4741BE809EA00703DD1 /* A0ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ViewController.m; sourceTree = "<group>"; };
+		5FBAD4751BE809EA00703DD1 /* A0HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0HomeViewController.m; sourceTree = "<group>"; };
+		5FBAD4771BE809EA00703DD1 /* A0HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0HomeViewController.h; sourceTree = "<group>"; };
+		5FBAD4791BE809EA00703DD1 /* A0SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0SettingsViewController.h; sourceTree = "<group>"; };
+		5FBAD47A1BE809EA00703DD1 /* A0SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SettingsViewController.m; sourceTree = "<group>"; };
+		5FBAD47B1BE809EA00703DD1 /* A0UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0UserProfileViewController.h; sourceTree = "<group>"; };
+		5FBAD47C1BE809EA00703DD1 /* A0UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileViewController.m; sourceTree = "<group>"; };
+		5FBAD47D1BE809EA00703DD1 /* A0ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0ViewController.h; sourceTree = "<group>"; };
+		5FBAD4841BE80D0A00703DD1 /* MyLock-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyLock-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -705,6 +742,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FBAD4731BE8086B00703DD1 /* JWTDecode.framework in Frameworks */,
+				5FBAD4701BE8069500703DD1 /* SimpleKeychain.framework in Frameworks */,
+				5FBAD4711BE8069500703DD1 /* CocoaLumberjack.framework in Frameworks */,
 				5FBAD4491BE7F10F00703DD1 /* Lock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -758,10 +798,10 @@
 			children = (
 				5FBACFF51BE7AF8700703DD1 /* Lock.framework */,
 				5FBAD0051BE7B1E500703DD1 /* Lock.framework */,
-				5FBAD22C1BE7BE1E00703DD1 /* MyLock.app */,
+				5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */,
 				5FBAD27C1BE7CC8F00703DD1 /* Auth0.bundle */,
-				5FBAD3CD1BE7E99A00703DD1 /* Auth0-TouchID.bundle */,
-				5FBAD3EF1BE7EC3400703DD1 /* Auth0-SMS.bundle */,
+				5FBAD3CD1BE7E99A00703DD1 /* Auth0.TouchID.bundle */,
+				5FBAD3EF1BE7EC3400703DD1 /* Auth0.SMS.bundle */,
 				5FBAD4631BE7F93A00703DD1 /* LockTests.xctest */,
 			);
 			name = Products;
@@ -900,6 +940,7 @@
 		5FBAD0EA1BE7B40200703DD1 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				5FBAD4721BE8086B00703DD1 /* JWTDecode.framework */,
 				5FBAD44C1BE7F5B500703DD1 /* TouchIDAuth.framework */,
 				5FBAD44A1BE7F31A00703DD1 /* SimpleKeychain.framework */,
 				5FBAD0EB1BE7B42400703DD1 /* CocoaLumberjack.framework */,
@@ -1097,6 +1138,14 @@
 		5FBAD22D1BE7BE1E00703DD1 /* MyLock */ = {
 			isa = PBXGroup;
 			children = (
+				5FBAD4751BE809EA00703DD1 /* A0HomeViewController.m */,
+				5FBAD4771BE809EA00703DD1 /* A0HomeViewController.h */,
+				5FBAD4791BE809EA00703DD1 /* A0SettingsViewController.h */,
+				5FBAD47A1BE809EA00703DD1 /* A0SettingsViewController.m */,
+				5FBAD47B1BE809EA00703DD1 /* A0UserProfileViewController.h */,
+				5FBAD47C1BE809EA00703DD1 /* A0UserProfileViewController.m */,
+				5FBAD47D1BE809EA00703DD1 /* A0ViewController.h */,
+				5FBAD4741BE809EA00703DD1 /* A0ViewController.m */,
 				5FBAD2311BE7BE1E00703DD1 /* AppDelegate.h */,
 				5FBAD2321BE7BE1E00703DD1 /* AppDelegate.m */,
 				5FBAD2371BE7BE1E00703DD1 /* Main.storyboard */,
@@ -1104,6 +1153,7 @@
 				5FBAD23C1BE7BE1E00703DD1 /* LaunchScreen.storyboard */,
 				5FBAD23F1BE7BE1E00703DD1 /* Info.plist */,
 				5FBAD22E1BE7BE1E00703DD1 /* Supporting Files */,
+				5FBAD4841BE80D0A00703DD1 /* MyLock-Bridging-Header.h */,
 			);
 			path = MyLock;
 			sourceTree = "<group>";
@@ -1510,6 +1560,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				5FBAD48A1BE80DBA00703DD1 /* PBXTargetDependency */,
+				5FBAD48C1BE80DBA00703DD1 /* PBXTargetDependency */,
 				5FBAD2B31BE7CD0D00703DD1 /* PBXTargetDependency */,
 			);
 			name = "Lock-iOS";
@@ -1543,6 +1595,7 @@
 				5FBAD2291BE7BE1E00703DD1 /* Frameworks */,
 				5FBAD22A1BE7BE1E00703DD1 /* Resources */,
 				5FBAD2B41BE7CF6F00703DD1 /* Carthage */,
+				5FBAD4831BE80C3F00703DD1 /* Auth0 */,
 			);
 			buildRules = (
 			);
@@ -1551,7 +1604,7 @@
 			);
 			name = MyLock;
 			productName = MyLock;
-			productReference = 5FBAD22C1BE7BE1E00703DD1 /* MyLock.app */;
+			productReference = 5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */;
 			productType = "com.apple.product-type.application";
 		};
 		5FBAD27B1BE7CC8F00703DD1 /* Auth0 */ = {
@@ -1571,9 +1624,9 @@
 			productReference = 5FBAD27C1BE7CC8F00703DD1 /* Auth0.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
-		5FBAD3CC1BE7E99A00703DD1 /* Auth0-TouchID */ = {
+		5FBAD3CC1BE7E99A00703DD1 /* Auth0.TouchID */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5FBAD3D01BE7E99A00703DD1 /* Build configuration list for PBXNativeTarget "Auth0-TouchID" */;
+			buildConfigurationList = 5FBAD3D01BE7E99A00703DD1 /* Build configuration list for PBXNativeTarget "Auth0.TouchID" */;
 			buildPhases = (
 				5FBAD3C91BE7E99A00703DD1 /* Sources */,
 				5FBAD3CA1BE7E99A00703DD1 /* Frameworks */,
@@ -1583,14 +1636,14 @@
 			);
 			dependencies = (
 			);
-			name = "Auth0-TouchID";
+			name = Auth0.TouchID;
 			productName = "Auth0-TouchID";
-			productReference = 5FBAD3CD1BE7E99A00703DD1 /* Auth0-TouchID.bundle */;
+			productReference = 5FBAD3CD1BE7E99A00703DD1 /* Auth0.TouchID.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
-		5FBAD3EE1BE7EC3400703DD1 /* Auth0-SMS */ = {
+		5FBAD3EE1BE7EC3400703DD1 /* Auth0.SMS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5FBAD3F21BE7EC3400703DD1 /* Build configuration list for PBXNativeTarget "Auth0-SMS" */;
+			buildConfigurationList = 5FBAD3F21BE7EC3400703DD1 /* Build configuration list for PBXNativeTarget "Auth0.SMS" */;
 			buildPhases = (
 				5FBAD3EB1BE7EC3400703DD1 /* Sources */,
 				5FBAD3EC1BE7EC3400703DD1 /* Frameworks */,
@@ -1600,9 +1653,9 @@
 			);
 			dependencies = (
 			);
-			name = "Auth0-SMS";
+			name = Auth0.SMS;
 			productName = "Auth0-SMS";
-			productReference = 5FBAD3EF1BE7EC3400703DD1 /* Auth0-SMS.bundle */;
+			productReference = 5FBAD3EF1BE7EC3400703DD1 /* Auth0.SMS.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		5FBAD4621BE7F93A00703DD1 /* LockTests-iOS */ = {
@@ -1673,10 +1726,10 @@
 				5FBACFF41BE7AF8700703DD1 /* Lock-iOS */,
 				5FBAD0041BE7B1E500703DD1 /* Lock-OSX */,
 				5FBAD27B1BE7CC8F00703DD1 /* Auth0 */,
-				5FBAD3CC1BE7E99A00703DD1 /* Auth0-TouchID */,
-				5FBAD3EE1BE7EC3400703DD1 /* Auth0-SMS */,
-				5FBAD22B1BE7BE1E00703DD1 /* MyLock */,
+				5FBAD3CC1BE7E99A00703DD1 /* Auth0.TouchID */,
+				5FBAD3EE1BE7EC3400703DD1 /* Auth0.SMS */,
 				5FBAD4621BE7F93A00703DD1 /* LockTests-iOS */,
+				5FBAD22B1BE7BE1E00703DD1 /* MyLock */,
 			);
 		};
 /* End PBXProject section */
@@ -1686,6 +1739,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FBAD4871BE80DB600703DD1 /* Auth0.TouchID.bundle in Resources */,
+				5FBAD4881BE80DB600703DD1 /* Auth0.SMS.bundle in Resources */,
 				5FBAD4281BE7F0BA00703DD1 /* A0SMSLockViewController.xib in Resources */,
 				5FBAD2B11BE7CCE500703DD1 /* Auth0.bundle in Resources */,
 				5FBAD21E1BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib in Resources */,
@@ -1781,6 +1836,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FBAD4901BE80E2100703DD1 /* cellphone@3x.png in Resources */,
+				5FBAD48E1BE80E2100703DD1 /* cellphone.png in Resources */,
+				5FBAD48D1BE80E1A00703DD1 /* CountryCodes.plist in Resources */,
+				5FBAD48F1BE80E2100703DD1 /* cellphone@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1804,6 +1863,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/CocoaLumberjack.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SimpleKeychain.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/TouchIDAuth.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/JWTDecode.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -1811,6 +1871,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		5FBAD4831BE80C3F00703DD1 /* Auth0 */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Auth0;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "AUTH0_PLIST=\"${SRCROOT}/MyLock/Auth0.plist\"\nif [ -f $AUTH0_PLIST ];\nthen\ncp \"$AUTH0_PLIST\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1957,8 +2031,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FBAD4811BE809EA00703DD1 /* A0SettingsViewController.m in Sources */,
+				5FBAD4821BE809EA00703DD1 /* A0UserProfileViewController.m in Sources */,
 				5FBAD2331BE7BE1E00703DD1 /* AppDelegate.m in Sources */,
 				5FBAD2301BE7BE1E00703DD1 /* main.m in Sources */,
+				5FBAD47F1BE809EA00703DD1 /* A0HomeViewController.m in Sources */,
+				5FBAD47E1BE809EA00703DD1 /* A0ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2012,6 +2090,16 @@
 			isa = PBXTargetDependency;
 			target = 5FBAD22B1BE7BE1E00703DD1 /* MyLock */;
 			targetProxy = 5FBAD46E1BE8016700703DD1 /* PBXContainerItemProxy */;
+		};
+		5FBAD48A1BE80DBA00703DD1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5FBAD3CC1BE7E99A00703DD1 /* Auth0.TouchID */;
+			targetProxy = 5FBAD4891BE80DBA00703DD1 /* PBXContainerItemProxy */;
+		};
+		5FBAD48C1BE80DBA00703DD1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5FBAD3EE1BE7EC3400703DD1 /* Auth0.SMS */;
+			targetProxy = 5FBAD48B1BE80DBA00703DD1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2221,10 +2309,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_SUFFIX = "-Dev";
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = MyLock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.MyLock;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.auth0.Lock$(BUNDLE_SUFFIX)";
+				PRODUCT_NAME = "$(TARGET_NAME)$(BUNDLE_SUFFIX)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyLock/MyLock-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -2232,10 +2329,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_SUFFIX = "";
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = MyLock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.MyLock;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.auth0.Lock$(BUNDLE_SUFFIX)";
+				PRODUCT_NAME = "$(TARGET_NAME)$(BUNDLE_SUFFIX)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyLock/MyLock-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -2404,7 +2509,7 @@
 			);
 			defaultConfigurationIsVisible = 0;
 		};
-		5FBAD3D01BE7E99A00703DD1 /* Build configuration list for PBXNativeTarget "Auth0-TouchID" */ = {
+		5FBAD3D01BE7E99A00703DD1 /* Build configuration list for PBXNativeTarget "Auth0.TouchID" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5FBAD3D11BE7E99A00703DD1 /* Debug */,
@@ -2412,7 +2517,7 @@
 			);
 			defaultConfigurationIsVisible = 0;
 		};
-		5FBAD3F21BE7EC3400703DD1 /* Build configuration list for PBXNativeTarget "Auth0-SMS" */ = {
+		5FBAD3F21BE7EC3400703DD1 /* Build configuration list for PBXNativeTarget "Auth0.SMS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5FBAD3F31BE7EC3400703DD1 /* Debug */,

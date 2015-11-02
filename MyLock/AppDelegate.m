@@ -21,6 +21,10 @@
 // THE SOFTWARE.
 
 #import "AppDelegate.h"
+#import <Lock/Lock.h>
+#import <CocoaLumberjack/DDASLLogger.h>
+#import <CocoaLumberjack/DDTTYLogger.h>
+#import <CocoaLumberjack/DDLog.h>
 
 @interface AppDelegate ()
 
@@ -30,8 +34,34 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    A0Lock *lock = [A0Lock sharedLock];
+#if TARGET_IPHONE_SIMULATOR
+    A0SafariAuthenticator *safari = [[A0SafariAuthenticator alloc] initWithLock:lock connectionName:@"instagram" useUniversalLink:NO];
+#else
+    A0SafariAuthenticator *safari = [[A0SafariAuthenticator alloc] initWithLock:lock connectionName:@"instagram"];
+#endif
+    [lock registerAuthenticators:@[ safari ]];
+
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+#if DEBUG
+    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.400 green:0.800 blue:1.000 alpha:1.000] backgroundColor:nil forFlag:DDLogFlagInfo];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.400 green:1.000 blue:0.400 alpha:1.000] backgroundColor:nil forFlag:DDLogFlagDebug];
+#endif
+
+    [A0LockLogger logAll];
+    [lock applicationLaunchedWithOptions:launchOptions];
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [[A0Lock sharedLock] handleURL:url sourceApplication:sourceApplication];
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
+    A0Lock *lock = [A0Lock sharedLock];
+    return [lock continueUserActivity:userActivity restorationHandler:restorationHandler];
 }
 
 @end
