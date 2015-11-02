@@ -26,6 +26,9 @@ DerivedData
 examples/**/Pods/
 **/Pods/
 
+# Carthage
+Carthage/
+
 #Fabric
 .fabric_key
 
