@@ -25,6 +25,7 @@
 
 @interface A0APIv1Router : NSObject<A0APIRouter>
 
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithClientId:(NSString *)clientId domainURL:(NSURL *)domainURL configurationURL:(NSURL *)configurationURL;
 
 @end

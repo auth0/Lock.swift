@@ -20,12 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockTest.h"
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
 
 #import "A0EmailValidator.h"
 #import "A0Errors.h"
 
-SpecBegin(A0EmailValidator)
+QuickSpecBegin(A0EmailValidatorSpec)
 
 describe(@"A0EmailValidator", ^{
 
@@ -33,64 +34,54 @@ describe(@"A0EmailValidator", ^{
     __block UITextField *field;
 
     beforeEach(^{
-        field = mock(UITextField.class);
+        field = [[UITextField alloc] init];
         validator = [[A0EmailValidator alloc] initWithField:field];
     });
 
-    sharedExamplesFor(@"valid email", ^(NSDictionary *data) {
+    sharedExamples(@"valid email", ^(QCKDSLSharedExampleContext context) {
 
         beforeEach(^{
-            [given(field.text) willReturn:data[@"mail"]];
+            field.text = context()[@"mail"];
         });
 
-        specify(@"should obtain value from field", ^{
-            [validator validate];
-            [MKTVerify(field) text];
-        });
-
-        specify(@"no error", ^{
-            expect([validator validate]).to.beNil();
+        it(@"no error", ^{
+            expect([validator validate]).to(beNil());
         });
 
     });
 
-    itShouldBehaveLike(@"valid email", @{@"mail": @"mail@mail.com"});
-    itShouldBehaveLike(@"valid email", @{@"mail": @"mail+filter1@auth0.com"});
-    itShouldBehaveLike(@"valid email", @{@"mail": @"mail+filter1@auth0.com.ar"});
-    itShouldBehaveLike(@"valid email", @{@"mail": @" mail@auth0.com.ar"});
-    itShouldBehaveLike(@"valid email", @{@"mail": @"filter1@auth0.com.ar  "});
-    itShouldBehaveLike(@"valid email", @{@"mail": @" mail@auth0.com.ar  "});
+    itBehavesLike(@"valid email", ^{ return @{@"mail": @"mail@mail.com"}; });
+    itBehavesLike(@"valid email", ^{ return @{@"mail": @"mail+filter1@auth0.com"}; });
+    itBehavesLike(@"valid email", ^{ return @{@"mail": @"mail+filter1@auth0.com.ar"}; });
+    itBehavesLike(@"valid email", ^{ return @{@"mail": @" mail@auth0.com.ar"}; });
+    itBehavesLike(@"valid email", ^{ return @{@"mail": @"filter1@auth0.com.ar  "}; });
+    itBehavesLike(@"valid email", ^{ return @{@"mail": @" mail@auth0.com.ar  "}; });
 
-    sharedExamplesFor(@"invalid email", ^(NSDictionary *data) {
+    sharedExamples(@"invalid email", ^(QCKDSLSharedExampleContext context) {
 
         beforeEach(^{
-            [given(field.text) willReturn:data[@"mail"]];
+            field.text = context()[@"mail"];
         });
 
-        specify(@"should obtain value from field", ^{
-            [validator validate];
-            [MKTVerify(field) text];
+        it(@"an error", ^{
+            expect([validator validate]).notTo(beNil());
         });
 
-        specify(@"an error", ^{
-            expect([validator validate]).notTo.beNil();
-        });
-
-        specify(@"email error code", ^{
-            expect([[validator validate] code]).to.equal(@(A0ErrorCodeInvalidEmail));
+        it(@"email error code", ^{
+            expect(@([[validator validate] code])).to(equal(@(A0ErrorCodeInvalidEmail)));
         });
 
     });
 
-    itShouldBehaveLike(@"invalid email", @{});
-    itShouldBehaveLike(@"invalid email", @{@"mail": @""});
-    itShouldBehaveLike(@"invalid email", @{@"mail": @" "});
-    itShouldBehaveLike(@"invalid email", @{@"mail": @"mail"});
-    itShouldBehaveLike(@"invalid email", @{@"mail": @"mail.com"});
-    itShouldBehaveLike(@"invalid email", @{@"mail": @"mail@mail"});
-    itShouldBehaveLike(@"invalid email", @{@"mail": @"@mail.com"});
-    itShouldBehaveLike(@"invalid email", @{@"mail": @"|mail@mail.com"});
-    itShouldBehaveLike(@"invalid email", @{@"mail": @"mail@m.c"});
+    itBehavesLike(@"invalid email", ^{ return @{}; });
+    itBehavesLike(@"invalid email", ^{ return @{@"mail": @""}; });
+    itBehavesLike(@"invalid email", ^{ return @{@"mail": @" "}; });
+    itBehavesLike(@"invalid email", ^{ return @{@"mail": @"mail"}; });
+    itBehavesLike(@"invalid email", ^{ return @{@"mail": @"mail.com"}; });
+    itBehavesLike(@"invalid email", ^{ return @{@"mail": @"mail@mail"}; });
+    itBehavesLike(@"invalid email", ^{ return @{@"mail": @"@mail.com"}; });
+    itBehavesLike(@"invalid email", ^{ return @{@"mail": @"|mail@mail.com"}; });
+    itBehavesLike(@"invalid email", ^{ return @{@"mail": @"mail@m.c"}; });
 });
 
-SpecEnd
+QuickSpecEnd

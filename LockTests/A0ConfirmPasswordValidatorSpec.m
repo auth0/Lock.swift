@@ -20,8 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#define QUICK_DISABLE_SHORT_SYNTAX 1
-
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 #import "A0ConfirmPasswordValidator.h"

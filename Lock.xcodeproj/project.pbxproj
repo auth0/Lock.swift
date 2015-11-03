@@ -385,6 +385,13 @@
 		5FBAD4D91BE95C5700703DD1 /* A0ConfirmPasswordValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4BF1BE95C5700703DD1 /* A0ConfirmPasswordValidatorSpec.m */; };
 		5FBAD4DD1BE95C5700703DD1 /* A0FilteredConnectionDomainMatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C31BE95C5700703DD1 /* A0FilteredConnectionDomainMatcherSpec.m */; };
 		5FBAD4EC1BE95C5700703DD1 /* A0UserIdentitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4D21BE95C5700703DD1 /* A0UserIdentitySpec.m */; };
+		5FBAD4F01BE9661400703DD1 /* A0APIv1RouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4BC1BE95C5700703DD1 /* A0APIv1RouterSpec.m */; };
+		5FBAD4F11BE9676B00703DD1 /* A0ApplicationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4BD1BE95C5700703DD1 /* A0ApplicationSpec.m */; };
+		5FBAD4F21BE9688C00703DD1 /* A0AuthParametersSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4BE1BE95C5700703DD1 /* A0AuthParametersSpec.m */; };
+		5FBAD4F31BE9696100703DD1 /* A0ConnectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C01BE95C5700703DD1 /* A0ConnectionSpec.m */; };
+		5FBAD4F41BE969EF00703DD1 /* A0CredentialsValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C11BE95C5700703DD1 /* A0CredentialsValidatorSpec.m */; };
+		5FBAD4F51BE96BCE00703DD1 /* A0EmailValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C21BE95C5700703DD1 /* A0EmailValidatorSpec.m */; };
+		5FBAD4F61BE96D3500703DD1 /* A0GenericAPIErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C41BE95C5700703DD1 /* A0GenericAPIErrorHandlerSpec.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -781,7 +788,6 @@
 		5FBAD4C21BE95C5700703DD1 /* A0EmailValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0EmailValidatorSpec.m; sourceTree = "<group>"; };
 		5FBAD4C31BE95C5700703DD1 /* A0FilteredConnectionDomainMatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FilteredConnectionDomainMatcherSpec.m; sourceTree = "<group>"; };
 		5FBAD4C41BE95C5700703DD1 /* A0GenericAPIErrorHandlerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0GenericAPIErrorHandlerSpec.m; sourceTree = "<group>"; };
-		5FBAD4C51BE95C5700703DD1 /* A0IdentityProviderAuthenticatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0IdentityProviderAuthenticatorSpec.m; sourceTree = "<group>"; };
 		5FBAD4C61BE95C5700703DD1 /* A0JSONResponseSerializerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0JSONResponseSerializerSpec.m; sourceTree = "<group>"; };
 		5FBAD4C71BE95C5700703DD1 /* A0LockConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockConfigurationSpec.m; sourceTree = "<group>"; };
 		5FBAD4C81BE95C5700703DD1 /* A0LockSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LockSpec.m; sourceTree = "<group>"; };
@@ -1471,23 +1477,9 @@
 				5FBAD4C21BE95C5700703DD1 /* A0EmailValidatorSpec.m */,
 				5FBAD4C31BE95C5700703DD1 /* A0FilteredConnectionDomainMatcherSpec.m */,
 				5FBAD4C41BE95C5700703DD1 /* A0GenericAPIErrorHandlerSpec.m */,
-				5FBAD4C51BE95C5700703DD1 /* A0IdentityProviderAuthenticatorSpec.m */,
-				5FBAD4C61BE95C5700703DD1 /* A0JSONResponseSerializerSpec.m */,
-				5FBAD4C71BE95C5700703DD1 /* A0LockConfigurationSpec.m */,
-				5FBAD4C81BE95C5700703DD1 /* A0LockSpec.m */,
-				5FBAD4C91BE95C5700703DD1 /* A0PasswordlessLockViewModelSpec.m */,
-				5FBAD4CA1BE95C5700703DD1 /* A0PasswordStrengthErrorHandlerSpec.m */,
-				5FBAD4CB1BE95C5700703DD1 /* A0PasswordValidatorSpec.m */,
-				5FBAD4CC1BE95C5700703DD1 /* A0RuleErrorHandlerSpec.m */,
-				5FBAD4CD1BE95C5700703DD1 /* A0SafariAuthenticatorSpec.m */,
-				5FBAD4CE1BE95C5700703DD1 /* A0SafariSessionSpec.m */,
-				5FBAD4CF1BE95C5700703DD1 /* A0SimpleConnectionDomainMatcherSpec.m */,
-				5FBAD4D01BE95C5700703DD1 /* A0StrategySpec.m */,
 				5FBAD4D11BE95C5700703DD1 /* A0TokenSpec.m */,
 				5FBAD4D21BE95C5700703DD1 /* A0UserIdentitySpec.m */,
-				5FBAD4D31BE95C5700703DD1 /* A0UsernameValidatorSpec.m */,
-				5FBAD4D41BE95C5700703DD1 /* A0UserProfileSpec.m */,
-				5FBAD4D51BE95C5700703DD1 /* A0WebAuthenticationSpec.m */,
+				5FBAD4F81BE96F4800703DD1 /* Pending */,
 				5FBAD4AC1BE8F2B800703DD1 /* Utils */,
 				5FBAD49F1BE8E7F300703DD1 /* Fixtures */,
 				5FBAD4671BE7F93A00703DD1 /* Info.plist */,
@@ -1533,6 +1525,27 @@
 				5FBAD4AF1BE8F64E00703DD1 /* MockApplication.swift */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		5FBAD4F81BE96F4800703DD1 /* Pending */ = {
+			isa = PBXGroup;
+			children = (
+				5FBAD4C61BE95C5700703DD1 /* A0JSONResponseSerializerSpec.m */,
+				5FBAD4C71BE95C5700703DD1 /* A0LockConfigurationSpec.m */,
+				5FBAD4C81BE95C5700703DD1 /* A0LockSpec.m */,
+				5FBAD4C91BE95C5700703DD1 /* A0PasswordlessLockViewModelSpec.m */,
+				5FBAD4CA1BE95C5700703DD1 /* A0PasswordStrengthErrorHandlerSpec.m */,
+				5FBAD4CB1BE95C5700703DD1 /* A0PasswordValidatorSpec.m */,
+				5FBAD4CC1BE95C5700703DD1 /* A0RuleErrorHandlerSpec.m */,
+				5FBAD4CD1BE95C5700703DD1 /* A0SafariAuthenticatorSpec.m */,
+				5FBAD4CE1BE95C5700703DD1 /* A0SafariSessionSpec.m */,
+				5FBAD4CF1BE95C5700703DD1 /* A0SimpleConnectionDomainMatcherSpec.m */,
+				5FBAD4D01BE95C5700703DD1 /* A0StrategySpec.m */,
+				5FBAD4D31BE95C5700703DD1 /* A0UsernameValidatorSpec.m */,
+				5FBAD4D41BE95C5700703DD1 /* A0UserProfileSpec.m */,
+				5FBAD4D51BE95C5700703DD1 /* A0WebAuthenticationSpec.m */,
+			);
+			name = Pending;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2232,12 +2245,19 @@
 				5FBAD4D91BE95C5700703DD1 /* A0ConfirmPasswordValidatorSpec.m in Sources */,
 				5FBAD4BB1BE95C4000703DD1 /* A0PasswordStrengthErrorBuilder.m in Sources */,
 				5FBAD4EC1BE95C5700703DD1 /* A0UserIdentitySpec.m in Sources */,
+				5FBAD4F11BE9676B00703DD1 /* A0ApplicationSpec.m in Sources */,
+				5FBAD4F61BE96D3500703DD1 /* A0GenericAPIErrorHandlerSpec.m in Sources */,
 				5FBAD49A1BE8160700703DD1 /* A0APIClientSpec.swift in Sources */,
 				5FBAD4BA1BE95C4000703DD1 /* A0GlobalHelperFunctions.m in Sources */,
 				5FBAD4AE1BE8F2D400703DD1 /* Auth0API.swift in Sources */,
 				5FBAD4B01BE8F64E00703DD1 /* MockApplication.swift in Sources */,
 				5FBAD4B31BE8FDC200703DD1 /* A0AnnotatedRequestSerializer.m in Sources */,
+				5FBAD4F41BE969EF00703DD1 /* A0CredentialsValidatorSpec.m in Sources */,
+				5FBAD4F01BE9661400703DD1 /* A0APIv1RouterSpec.m in Sources */,
 				5FBAD4DD1BE95C5700703DD1 /* A0FilteredConnectionDomainMatcherSpec.m in Sources */,
+				5FBAD4F21BE9688C00703DD1 /* A0AuthParametersSpec.m in Sources */,
+				5FBAD4F31BE9696100703DD1 /* A0ConnectionSpec.m in Sources */,
+				5FBAD4F51BE96BCE00703DD1 /* A0EmailValidatorSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

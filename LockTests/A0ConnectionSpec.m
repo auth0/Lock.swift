@@ -20,10 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockTest.h"
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
 #import "A0Connection.h"
 
-SpecBegin(A0Connection)
+QuickSpecBegin(A0ConnectionSpec)
 
 describe(@"A0Connection", ^{
 
@@ -34,37 +35,36 @@ describe(@"A0Connection", ^{
                                    @"extra_key": @"extra_value",
                                    };
 
-    sharedExamplesFor(@"valid connection", ^(NSDictionary *data) {
+    sharedExamples(@"valid connection", ^(QCKDSLSharedExampleContext context) {
 
         beforeEach(^{
-            connection = [[A0Connection alloc] initWithJSONDictionary:data];
+            connection = [[A0Connection alloc] initWithJSONDictionary:context()];
         });
 
-        specify(@"valid name", ^{
-            expect(connection.name).to.equal(data[@"name"]);
+        it(@"valid name", ^{
+            expect(connection.name).to(equal(context()[@"name"]));
         });
 
-        specify(@"valid values", ^{
-            expect(connection.values).to.equal(data);
+        it(@"valid values", ^{
+            expect(connection.values).to(equal(context()));
         });
 
     });
 
-    sharedExamplesFor(@"invalid connection", ^(NSDictionary *data) {
+    sharedExamples(@"invalid connection", ^(QCKDSLSharedExampleContext context) {
 
         it(@"should raise exception on init", ^{
-            expect(^{
-                connection = [[A0Connection alloc] initWithJSONDictionary:data];
-            }).to.raise(NSInternalInconsistencyException);
+            expectAction(^{
+                connection = [[A0Connection alloc] initWithJSONDictionary:context()];
+            }).to(raiseException());
         });
 
     });
 
-    itBehavesLike(@"valid connection", JSON);
-    itBehavesLike(@"invalid connection", nil);
-    itBehavesLike(@"invalid connection", @{});
-    itBehavesLike(@"invalid connection", @{@"key": @"value"});
+    itBehavesLike(@"valid connection", ^{ return JSON; });
+    itBehavesLike(@"invalid connection", ^{ return @{}; });
+    itBehavesLike(@"invalid connection", ^{ return @{@"key": @"value"}; });
     
 });
 
-SpecEnd
+QuickSpecEnd

@@ -20,11 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockTest.h"
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
 #import <UIKit/UIKit.h>
 #import "A0AuthParameters.h"
 
-SpecBegin(A0AuthParameters)
+QuickSpecBegin(A0AuthParametersSpec)
 
 describe(@"A0AuthParameters", ^{
 
@@ -32,69 +33,69 @@ describe(@"A0AuthParameters", ^{
 
     describe(@"initialization", ^{
 
-        sharedExamplesFor(@"valid parameter with scope", ^(NSDictionary *data) {
+        sharedExamples(@"valid parameter with scope", ^(QCKDSLSharedExampleContext context) {
 
             __block A0AuthParameters *authParams;
 
             beforeEach(^{
-                authParams = data[@"params"];
+                authParams = context()[@"params"];
             });
 
             it(@"should have scopes", ^{
-                expect(authParams.scopes).to.equal(data[@"scopes"]);
+                expect(authParams.scopes).to(equal(context()[@"scopes"]));
             });
 
         });
 
-        sharedExamplesFor(@"offline access parameter", ^(NSDictionary *data) {
+        sharedExamples(@"offline access parameter", ^(QCKDSLSharedExampleContext context) {
 
             __block A0AuthParameters *authParams;
 
             beforeEach(^{
-                authParams = data[@"params"];
+                authParams = context()[@"params"];
             });
 
-            itShouldBehaveLike(@"valid parameter with scope", data);
+            itBehavesLike(@"valid parameter with scope", context);
 
             it(@"should have offline scope", ^{
-                expect(authParams.scopes).to.contain(A0ScopeOfflineAccess);
+                expect(authParams.scopes).to(contain(A0ScopeOfflineAccess));
             });
 
             it(@"should have device name", ^{
-                expect(authParams.device).to.equal([[UIDevice currentDevice] name]);
+                expect(authParams.device).to(equal([[UIDevice currentDevice] name]));
             });
 
         });
 
-        itShouldBehaveLike(@"offline access parameter", ^{
+        itBehavesLike(@"offline access parameter", ^{
             return @{
                      @"params": [[A0AuthParameters alloc] init],
                      @"scopes": @[A0ScopeOpenId, A0ScopeOfflineAccess],
                      };
         });
 
-        itShouldBehaveLike(@"offline access parameter", ^{
+        itBehavesLike(@"offline access parameter", ^{
             return @{
                      @"params": [A0AuthParameters newDefaultParams],
                      @"scopes": @[A0ScopeOpenId, A0ScopeOfflineAccess],
                      };
         });
 
-        itShouldBehaveLike(@"valid parameter with scope", ^{
+        itBehavesLike(@"valid parameter with scope", ^{
             return @{
                      @"params": [[A0AuthParameters alloc] initWithScopes:@[A0ScopeProfile]],
                      @"scopes": @[A0ScopeProfile],
                      };
         });
 
-        itShouldBehaveLike(@"valid parameter with scope", ^{
+        itBehavesLike(@"valid parameter with scope", ^{
             return @{
                      @"params": [A0AuthParameters newWithScopes:@[A0ScopeProfile]],
                      @"scopes": @[A0ScopeProfile],
                      };
         });
 
-        itShouldBehaveLike(@"valid parameter with scope", ^{
+        itBehavesLike(@"valid parameter with scope", ^{
             return @{
                      @"params": [[A0AuthParameters alloc] initWithDictionary:@{
                                                                                A0ParameterScope: @[@"openid profile", @"offline_access"],
@@ -103,7 +104,7 @@ describe(@"A0AuthParameters", ^{
                      };
         });
 
-        itShouldBehaveLike(@"offline access parameter", ^{
+        itBehavesLike(@"offline access parameter", ^{
             return @{
                      @"params": [A0AuthParameters newWithDictionary:@{
                                                                       A0ParameterScope: @[@"offline_access", @"openid profile"],
@@ -115,7 +116,7 @@ describe(@"A0AuthParameters", ^{
         it(@"should remove device parameter when `offline_access` is not present in scope", ^{
             params = [A0AuthParameters newDefaultParams];
             params.scopes = @[A0ScopeOpenId];
-            expect(params.device).to.beNil();
+            expect(params.device).to(beNil());
         });
 
         context(@"extra parameters", ^{
@@ -127,7 +128,7 @@ describe(@"A0AuthParameters", ^{
             });
 
             it(@"should have extra values", ^{
-                expect(params[@"key"]).to.equal(@"value");
+                expect(params[@"key"]).to(equal(@"value"));
             });
         });
 
@@ -141,9 +142,9 @@ describe(@"A0AuthParameters", ^{
             });
 
             it(@"should have extra values", ^{
-                expect(params[A0ParameterConnectionScopes]).to.equal(@{
+                expect(params[A0ParameterConnectionScopes]).to(equal(@{
                                                                        @"facebook": @[@"email", @"friends"],
-                                                                       });
+                                                                       }));
             });
 
         });
@@ -157,19 +158,19 @@ describe(@"A0AuthParameters", ^{
 
         it(@"should add value to extra parameters", ^{
             params[@"key"] = @"value";
-            expect(params[@"key"]).to.equal(@"value");
+            expect(params[@"key"]).to(equal(@"value"));
         });
 
         it(@"should not allow replace scope", ^{
-            expect(^{
+            expectAction(^{
                 params[@"scope"] = @"scope";
-            }).to.raise(NSInternalInconsistencyException);
+            }).to(raiseException());
         });
 
         it(@"should not allow replace connection scopes", ^{
-            expect(^{
+            expectAction(^{
                 params[@"connection_scopes"] = @"scope";
-            }).to.raise(NSInternalInconsistencyException);
+            }).to(raiseException());
         });
 
     });
@@ -181,13 +182,13 @@ describe(@"A0AuthParameters", ^{
         });
 
         it(@"should make a copy", ^{
-            expect(params.copy).toNot.equal(params);
+            expect(params.copy).toNot(equal(params));
         });
 
         it(@"should be a deep copy", ^{
             A0AuthParameters *copy = params.copy;
             params[@"key"] = @"new value";
-            expect(copy[@"key"]).to.beNil();
+            expect(copy[@"key"]).to(beNil());
         });
 
     });
@@ -212,28 +213,28 @@ describe(@"A0AuthParameters", ^{
         });
 
         it(@"should coalesce scopes in a NSString", ^{
-            expect(dict[A0ParameterScope]).to.equal(@"openid profile offline_access");
+            expect(dict[A0ParameterScope]).to(equal(@"openid profile offline_access"));
         });
 
         it(@"should include specified scopes for connection", ^{
             NSDictionary *payload = [params asAPIPayload];
-            expect(payload.allKeys).to.contain(@"connection_scope");
-            expect(payload[@"connection_scope"]).to.equal(@"email,friends");
+            expect(payload.allKeys).to(contain(@"connection_scope"));
+            expect(payload[@"connection_scope"]).to(equal(@"email,friends"));
         });
 
         it(@"should have state", ^{
-            expect(dict[A0ParameterState]).to.equal(@"TEST");
+            expect(dict[A0ParameterState]).to(equal(@"TEST"));
         });
 
         it(@"should have device", ^{
-            expect(dict[A0ParameterDevice]).to.equal(@"Specta Test");
+            expect(dict[A0ParameterDevice]).to(equal(@"Specta Test"));
         });
 
         it(@"should have custom parameter", ^{
-            expect(dict[@"foo"]).to.equal(@"bar");
+            expect(dict[@"foo"]).to(equal(@"bar"));
         });
 
     });
 });
 
-SpecEnd
+QuickSpecEnd

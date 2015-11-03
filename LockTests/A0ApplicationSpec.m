@@ -20,7 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockTest.h"
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
 #import "A0Application.h"
 #import "A0Strategy.h"
 
@@ -30,7 +31,7 @@
 #define kAuthorizeURL @"https://somewherefarneyond.com"
 #define kCallbackURL @"https://callback.to"
 
-SpecBegin(A0Application)
+QuickSpecBegin(A0ApplicationSpec)
 
 describe(@"A0Application", ^{
 
@@ -48,26 +49,26 @@ describe(@"A0Application", ^{
                                        ],
                                };
 
-    sharedExamplesFor(@"valid application object", ^(NSDictionary *data) {
+    sharedExamples(@"valid application object", ^(QCKDSLSharedExampleContext context) {
 
         beforeEach(^{
-            application = data[kAppDataKey];
+            application = context()[kAppDataKey];
         });
 
-        specify(@"valid id", ^{
-            expect(application.identifier).to.equal(kAppIdentifier);
+        it(@"valid id", ^{
+            expect(application.identifier).to(equal(kAppIdentifier));
         });
 
-        specify(@"valid tenant", ^{
-            expect(application.tenant).to.equal(kTenant);
+        it(@"valid tenant", ^{
+            expect(application.tenant).to(equal(kTenant));
         });
 
-        specify(@"valid authorize URL", ^{
-            expect(application.authorizeURL).to.equal([NSURL URLWithString:kAuthorizeURL]);
+        it(@"valid authorize URL", ^{
+            expect(application.authorizeURL).to(equal([NSURL URLWithString:kAuthorizeURL]));
         });
 
-        specify(@"valid strategies", ^{
-            expect(application.strategies).to.haveCountOf(3);
+        it(@"valid strategies", ^{
+            expect(application.strategies).to(haveCount(@3));
         });
     });
 
@@ -75,12 +76,12 @@ describe(@"A0Application", ^{
 
         NSString *JSONDictKey = @"JSONDict";
 
-        sharedExamplesFor(@"invalid JSON dictionary", ^(NSDictionary *data) {
+        sharedExamples(@"invalid JSON dictionary", ^(QCKDSLSharedExampleContext context) {
             it(@"should fail on init method", ^{
-                expect(^{
-                    A0Application *app = [[A0Application alloc] initWithJSONDictionary:data[JSONDictKey]];
-                    expect(app).to.beNil();
-                }).to.raiseAny();
+                expectAction(^{
+                    A0Application *app = [[A0Application alloc] initWithJSONDictionary:context()[JSONDictKey]];
+                    expect(app).to(beNil());
+                }).to(raiseException());
             });
         });
 
@@ -90,9 +91,9 @@ describe(@"A0Application", ^{
                      };
         });
 
-        itBehavesLike(@"invalid JSON dictionary", @{});
+        itBehavesLike(@"invalid JSON dictionary", ^{ return @{}; });
 
-        itBehavesLike(@"invalid JSON dictionary", @{JSONDictKey: @{}});
+        itBehavesLike(@"invalid JSON dictionary", ^{ return @{JSONDictKey: @{}}; });
 
         itBehavesLike(@"invalid JSON dictionary", ^{
             NSMutableDictionary *dict = [jsonDict mutableCopy];
@@ -140,11 +141,11 @@ describe(@"A0Application", ^{
             });
 
             it(@"should indicate that it has a Database Connection", ^{
-                expect(application.databaseStrategy).toNot.beNil();
+                expect(application.databaseStrategy).toNot(beNil());
             });
 
             it(@"should return database connection", ^{
-                expect([application.databaseStrategy name]).to.equal(@"auth0");
+                expect([application.databaseStrategy name]).to(equal(@"auth0"));
             });
         });
 
@@ -157,7 +158,7 @@ describe(@"A0Application", ^{
             });
 
             it(@"should indicate that it has no Database Connection", ^{
-                expect(application.databaseStrategy).to.beNil();
+                expect(application.databaseStrategy).to(beNil());
             });
             
         });
@@ -178,11 +179,11 @@ describe(@"A0Application", ^{
             });
 
             it(@"should return social strategies", ^{
-                expect(application.socialStrategies).to.haveCountOf(1);
+                expect(application.socialStrategies).to(haveCount(@1));
             });
 
             it(@"should have only twitter", ^{
-                expect([application.socialStrategies.firstObject name]).to.equal(@"twitter");
+                expect([application.socialStrategies.firstObject name]).to(equal(@"twitter"));
             });
         });
 
@@ -197,7 +198,7 @@ describe(@"A0Application", ^{
             });
 
             it(@"should return no social strategies", ^{
-                expect(application.socialStrategies).to.beEmpty();
+                expect(application.socialStrategies).to(beEmpty());
             });
         });
         
@@ -218,11 +219,11 @@ describe(@"A0Application", ^{
             });
 
             it(@"should return enterprise strategies", ^{
-                expect(application.enterpriseStrategies).to.haveCountOf(1);
+                expect(application.enterpriseStrategies).to(haveCount(@1));
             });
 
             it(@"should have only have ad", ^{
-                expect([application.enterpriseStrategies.firstObject name]).to.equal(@"ad");
+                expect([application.enterpriseStrategies.firstObject name]).to(equal(@"ad"));
             });
         });
 
@@ -238,7 +239,7 @@ describe(@"A0Application", ^{
             });
 
             it(@"should return no enterprise strategies", ^{
-                expect(application.enterpriseStrategies).to.beEmpty();
+                expect(application.enterpriseStrategies).to(beEmpty());
             });
         });
 
@@ -260,16 +261,16 @@ describe(@"A0Application", ^{
             });
 
             it(@"should return a strategy", ^{
-                expect([application enterpriseStrategyWithConnection:@"myADFS"]).toNot.beNil();
+                expect([application enterpriseStrategyWithConnection:@"myADFS"]).toNot(beNil());
             });
 
             it(@"should return ADFS strategy", ^{
                 A0Strategy *strategy = [application enterpriseStrategyWithConnection:@"myADFS"];
-                expect(strategy.name).to.equal(A0StrategyNameADFS);
+                expect(strategy.name).to(equal(A0StrategyNameADFS));
             });
 
             it(@"should return nil with unkown connection name", ^{
-                expect([application enterpriseStrategyWithConnection:@"otherADFS"]).to.beNil();
+                expect([application enterpriseStrategyWithConnection:@"otherADFS"]).to(beNil());
             });
 
         });
@@ -277,4 +278,4 @@ describe(@"A0Application", ^{
 
 });
 
-SpecEnd
+QuickSpecEnd
