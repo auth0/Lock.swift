@@ -378,6 +378,7 @@
 		5FBAD4AB1BE8E7F300703DD1 /* POST-tokeninfo.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4A51BE8E7F300703DD1 /* POST-tokeninfo.response */; };
 		5FBAD4AE1BE8F2D400703DD1 /* Auth0API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4AD1BE8F2D400703DD1 /* Auth0API.swift */; };
 		5FBAD4B01BE8F64E00703DD1 /* MockApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4AF1BE8F64E00703DD1 /* MockApplication.swift */; };
+		5FBAD4B31BE8FDC200703DD1 /* A0AnnotatedRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4B21BE8FDC200703DD1 /* A0AnnotatedRequestSerializer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -758,6 +759,8 @@
 		5FBAD4A51BE8E7F300703DD1 /* POST-tokeninfo.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-tokeninfo.response"; sourceTree = "<group>"; };
 		5FBAD4AD1BE8F2D400703DD1 /* Auth0API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth0API.swift; sourceTree = "<group>"; };
 		5FBAD4AF1BE8F64E00703DD1 /* MockApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockApplication.swift; sourceTree = "<group>"; };
+		5FBAD4B11BE8FDC200703DD1 /* A0AnnotatedRequestSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0AnnotatedRequestSerializer.h; sourceTree = "<group>"; };
+		5FBAD4B21BE8FDC200703DD1 /* A0AnnotatedRequestSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0AnnotatedRequestSerializer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1456,6 +1459,8 @@
 		5FBAD4AC1BE8F2B800703DD1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				5FBAD4B11BE8FDC200703DD1 /* A0AnnotatedRequestSerializer.h */,
+				5FBAD4B21BE8FDC200703DD1 /* A0AnnotatedRequestSerializer.m */,
 				5FBAD4AD1BE8F2D400703DD1 /* Auth0API.swift */,
 				5FBAD4AF1BE8F64E00703DD1 /* MockApplication.swift */,
 			);
@@ -2158,6 +2163,7 @@
 				5FBAD49A1BE8160700703DD1 /* A0APIClientSpec.swift in Sources */,
 				5FBAD4AE1BE8F2D400703DD1 /* Auth0API.swift in Sources */,
 				5FBAD4B01BE8F64E00703DD1 /* MockApplication.swift in Sources */,
+				5FBAD4B31BE8FDC200703DD1 /* A0AnnotatedRequestSerializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,4 +1,4 @@
-// MockApplication.swift
+// A0AnnotatedRequestSerializer.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,38 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+#import <Foundation/Foundation.h>
+#import <AFNetworking/AFNetworking.h>
 
-class MockApplication: A0Application {
+@interface A0AnnotatedRequestSerializer : AFJSONRequestSerializer
 
-    init(id: String, tenant: String, databases: [String] = [], hasPasswordless: Bool = false) {
-        var json: [String: AnyObject] = [
-            "id": id,
-            "tenant": tenant,
-            "authorize": "https://samples.auth0.com/authorize"
-        ]
-        var strategies: [[String: AnyObject]] = []
-        strategies.append([
-            "name": "auth0",
-            "connections": databases.map({ name in
-                return ["name": name]
-            })
-        ])
-        if hasPasswordless {
-            strategies.append([
-                "name": "sms",
-                "connections": [[
-                    "name": "sms"
-                ]]
-            ])
-            strategies.append([
-                "name": "email",
-                "connections": [[
-                    "name": "emails"
-                ]]
-            ])
-        }
-        json["strategies"] = strategies
-        super.init(JSONDictionary: json)
-    }
-}
+@end
