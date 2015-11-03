@@ -2698,6 +2698,7 @@
 				5FBAD00C1BE7B1E500703DD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5FBAD2401BE7BE1E00703DD1 /* Build configuration list for PBXNativeTarget "MyLock" */ = {
 			isa = XCConfigurationList;
@@ -2706,6 +2707,7 @@
 				5FBAD2421BE7BE1E00703DD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5FBAD27F1BE7CC8F00703DD1 /* Build configuration list for PBXNativeTarget "Auth0" */ = {
 			isa = XCConfigurationList;
@@ -2714,6 +2716,7 @@
 				5FBAD2811BE7CC8F00703DD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5FBAD3D01BE7E99A00703DD1 /* Build configuration list for PBXNativeTarget "Auth0.TouchID" */ = {
 			isa = XCConfigurationList;
@@ -2722,6 +2725,7 @@
 				5FBAD3D21BE7E99A00703DD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5FBAD3F21BE7EC3400703DD1 /* Build configuration list for PBXNativeTarget "Auth0.SMS" */ = {
 			isa = XCConfigurationList;
@@ -2730,6 +2734,7 @@
 				5FBAD3F41BE7EC3400703DD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5FBAD46B1BE7F93A00703DD1 /* Build configuration list for PBXNativeTarget "LockTests-iOS" */ = {
 			isa = XCConfigurationList;
@@ -2738,6 +2743,7 @@
 				5FBAD46D1BE7F93A00703DD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
