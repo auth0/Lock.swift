@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5FBAD4621BE7F93A00703DD1"
+               BuildableName = "LockTests.xctest"
+               BlueprintName = "LockTests-iOS"
+               ReferencedContainer = "container:Lock.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "5FBACFF41BE7AF8700703DD1"
+            BuildableName = "Lock.framework"
+            BlueprintName = "Lock-iOS"
+            ReferencedContainer = "container:Lock.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

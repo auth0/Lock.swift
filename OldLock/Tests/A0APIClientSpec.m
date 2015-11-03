@@ -134,7 +134,7 @@ describe(@"A0APIClient", ^{
 
         it(@"should fetch app info", ^{
             [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                return [request.URL.absoluteString isEqualToString:[client.router configurationURL].absoluteString];
+                return [request.URL.absoluteString isUEqualToString:[client.router configurationURL].absoluteString];
             } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                 return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFile(@"GET-Application-Info.response", self.class) statusCode:200 headers:@{@"Content-Type": @"application/json"}];
             }].name = @"Auth0 App CDN";

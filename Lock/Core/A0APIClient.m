@@ -125,7 +125,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 NSError *parseError;
                 A0Application *application = [self parseApplicationFromJSONP:data error:&parseError];
                 A0LogDebug(@"Application parsed form JSONP %@", application);
-                if (!error) {
+                if (!parseError) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self configureForApplication:application];
                         success(application);

@@ -363,6 +363,21 @@
 		5FBAD48E1BE80E2100703DD1 /* cellphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3F71BE7ECF300703DD1 /* cellphone.png */; };
 		5FBAD48F1BE80E2100703DD1 /* cellphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3F81BE7ECF300703DD1 /* cellphone@2x.png */; };
 		5FBAD4901BE80E2100703DD1 /* cellphone@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3F91BE7ECF300703DD1 /* cellphone@3x.png */; };
+		5FBAD4941BE80FDF00703DD1 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD4921BE80FDF00703DD1 /* Quick.framework */; };
+		5FBAD4951BE80FDF00703DD1 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD4931BE80FDF00703DD1 /* Nimble.framework */; };
+		5FBAD4971BE815F200703DD1 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD4961BE815F200703DD1 /* OHHTTPStubs.framework */; };
+		5FBAD49A1BE8160700703DD1 /* A0APIClientSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4991BE8160700703DD1 /* A0APIClientSpec.swift */; };
+		5FBAD49C1BE8167C00703DD1 /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FBAD4961BE815F200703DD1 /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5FBAD49D1BE8168400703DD1 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FBAD4921BE80FDF00703DD1 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5FBAD49E1BE8168400703DD1 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FBAD4931BE80FDF00703DD1 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5FBAD4A61BE8E7F300703DD1 /* GET-Application-Info.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4A01BE8E7F300703DD1 /* GET-Application-Info.response */; };
+		5FBAD4A71BE8E7F300703DD1 /* POST-dbconnections-change-password.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4A11BE8E7F300703DD1 /* POST-dbconnections-change-password.response */; };
+		5FBAD4A81BE8E7F300703DD1 /* POST-dbconnections-signup.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4A21BE8E7F300703DD1 /* POST-dbconnections-signup.response */; };
+		5FBAD4A91BE8E7F300703DD1 /* POST-delegation.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4A31BE8E7F300703DD1 /* POST-delegation.response */; };
+		5FBAD4AA1BE8E7F300703DD1 /* POST-oauth-ro.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4A41BE8E7F300703DD1 /* POST-oauth-ro.response */; };
+		5FBAD4AB1BE8E7F300703DD1 /* POST-tokeninfo.response in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4A51BE8E7F300703DD1 /* POST-tokeninfo.response */; };
+		5FBAD4AE1BE8F2D400703DD1 /* Auth0API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4AD1BE8F2D400703DD1 /* Auth0API.swift */; };
+		5FBAD4B01BE8F64E00703DD1 /* MockApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4AF1BE8F64E00703DD1 /* MockApplication.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -409,6 +424,21 @@
 			remoteInfo = "Auth0-SMS";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5FBAD49B1BE8166E00703DD1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5FBAD49C1BE8167C00703DD1 /* OHHTTPStubs.framework in CopyFiles */,
+				5FBAD49D1BE8168400703DD1 /* Quick.framework in CopyFiles */,
+				5FBAD49E1BE8168400703DD1 /* Nimble.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5FBACFF51BE7AF8700703DD1 /* Lock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -715,6 +745,19 @@
 		5FBAD47C1BE809EA00703DD1 /* A0UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileViewController.m; sourceTree = "<group>"; };
 		5FBAD47D1BE809EA00703DD1 /* A0ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0ViewController.h; sourceTree = "<group>"; };
 		5FBAD4841BE80D0A00703DD1 /* MyLock-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyLock-Bridging-Header.h"; sourceTree = "<group>"; };
+		5FBAD4921BE80FDF00703DD1 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
+		5FBAD4931BE80FDF00703DD1 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
+		5FBAD4961BE815F200703DD1 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
+		5FBAD4981BE8160700703DD1 /* LockTests-iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LockTests-iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		5FBAD4991BE8160700703DD1 /* A0APIClientSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = A0APIClientSpec.swift; sourceTree = "<group>"; };
+		5FBAD4A01BE8E7F300703DD1 /* GET-Application-Info.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GET-Application-Info.response"; sourceTree = "<group>"; };
+		5FBAD4A11BE8E7F300703DD1 /* POST-dbconnections-change-password.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-dbconnections-change-password.response"; sourceTree = "<group>"; };
+		5FBAD4A21BE8E7F300703DD1 /* POST-dbconnections-signup.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-dbconnections-signup.response"; sourceTree = "<group>"; };
+		5FBAD4A31BE8E7F300703DD1 /* POST-delegation.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-delegation.response"; sourceTree = "<group>"; };
+		5FBAD4A41BE8E7F300703DD1 /* POST-oauth-ro.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-oauth-ro.response"; sourceTree = "<group>"; };
+		5FBAD4A51BE8E7F300703DD1 /* POST-tokeninfo.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "POST-tokeninfo.response"; sourceTree = "<group>"; };
+		5FBAD4AD1BE8F2D400703DD1 /* Auth0API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth0API.swift; sourceTree = "<group>"; };
+		5FBAD4AF1BE8F64E00703DD1 /* MockApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockApplication.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -774,6 +817,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FBAD4951BE80FDF00703DD1 /* Nimble.framework in Frameworks */,
+				5FBAD4971BE815F200703DD1 /* OHHTTPStubs.framework in Frameworks */,
+				5FBAD4941BE80FDF00703DD1 /* Quick.framework in Frameworks */,
 				5FBAD4681BE7F93A00703DD1 /* Lock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -786,10 +832,9 @@
 			children = (
 				5FBACFF71BE7AF8700703DD1 /* Lock */,
 				5FBAD22D1BE7BE1E00703DD1 /* MyLock */,
-				5FBAD3E31BE7E9FC00703DD1 /* Bundles */,
 				5FBAD4641BE7F93A00703DD1 /* LockTests */,
 				5FBACFF61BE7AF8700703DD1 /* Products */,
-				5FBAD0E91BE7B3F200703DD1 /* Frameworks */,
+				5FBAD4911BE80FB100703DD1 /* Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -940,6 +985,9 @@
 		5FBAD0EA1BE7B40200703DD1 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				5FBAD4961BE815F200703DD1 /* OHHTTPStubs.framework */,
+				5FBAD4921BE80FDF00703DD1 /* Quick.framework */,
+				5FBAD4931BE80FDF00703DD1 /* Nimble.framework */,
 				5FBAD4721BE8086B00703DD1 /* JWTDecode.framework */,
 				5FBAD44C1BE7F5B500703DD1 /* TouchIDAuth.framework */,
 				5FBAD44A1BE7F31A00703DD1 /* SimpleKeychain.framework */,
@@ -1374,9 +1422,44 @@
 		5FBAD4641BE7F93A00703DD1 /* LockTests */ = {
 			isa = PBXGroup;
 			children = (
+				5FBAD4AC1BE8F2B800703DD1 /* Utils */,
+				5FBAD49F1BE8E7F300703DD1 /* Fixtures */,
 				5FBAD4671BE7F93A00703DD1 /* Info.plist */,
+				5FBAD4991BE8160700703DD1 /* A0APIClientSpec.swift */,
+				5FBAD4981BE8160700703DD1 /* LockTests-iOS-Bridging-Header.h */,
 			);
 			path = LockTests;
+			sourceTree = "<group>";
+		};
+		5FBAD4911BE80FB100703DD1 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5FBAD3E31BE7E9FC00703DD1 /* Bundles */,
+				5FBAD0E91BE7B3F200703DD1 /* Frameworks */,
+			);
+			name = "Support Files";
+			sourceTree = "<group>";
+		};
+		5FBAD49F1BE8E7F300703DD1 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				5FBAD4A01BE8E7F300703DD1 /* GET-Application-Info.response */,
+				5FBAD4A11BE8E7F300703DD1 /* POST-dbconnections-change-password.response */,
+				5FBAD4A21BE8E7F300703DD1 /* POST-dbconnections-signup.response */,
+				5FBAD4A31BE8E7F300703DD1 /* POST-delegation.response */,
+				5FBAD4A41BE8E7F300703DD1 /* POST-oauth-ro.response */,
+				5FBAD4A51BE8E7F300703DD1 /* POST-tokeninfo.response */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		5FBAD4AC1BE8F2B800703DD1 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5FBAD4AD1BE8F2D400703DD1 /* Auth0API.swift */,
+				5FBAD4AF1BE8F64E00703DD1 /* MockApplication.swift */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1665,6 +1748,7 @@
 				5FBAD45F1BE7F93A00703DD1 /* Sources */,
 				5FBAD4601BE7F93A00703DD1 /* Frameworks */,
 				5FBAD4611BE7F93A00703DD1 /* Resources */,
+				5FBAD49B1BE8166E00703DD1 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1847,6 +1931,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FBAD4A91BE8E7F300703DD1 /* POST-delegation.response in Resources */,
+				5FBAD4A81BE8E7F300703DD1 /* POST-dbconnections-signup.response in Resources */,
+				5FBAD4A61BE8E7F300703DD1 /* GET-Application-Info.response in Resources */,
+				5FBAD4AA1BE8E7F300703DD1 /* POST-oauth-ro.response in Resources */,
+				5FBAD4AB1BE8E7F300703DD1 /* POST-tokeninfo.response in Resources */,
+				5FBAD4A71BE8E7F300703DD1 /* POST-dbconnections-change-password.response in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2065,6 +2155,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FBAD49A1BE8160700703DD1 /* A0APIClientSpec.swift in Sources */,
+				5FBAD4AE1BE8F2D400703DD1 /* Auth0API.swift in Sources */,
+				5FBAD4B01BE8F64E00703DD1 /* MockApplication.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2444,11 +2537,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = LockTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockTests;
 				PRODUCT_NAME = LockTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLock.app/MyLock";
+				SWIFT_OBJC_BRIDGING_HEADER = "LockTests/LockTests-iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLock-Dev.app/MyLock-Dev";
 			};
 			name = Debug;
 		};
@@ -2456,11 +2556,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = LockTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockTests;
 				PRODUCT_NAME = LockTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLock.app/MyLock";
+				SWIFT_OBJC_BRIDGING_HEADER = "LockTests/LockTests-iOS-Bridging-Header.h";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLock-Dev.app/MyLock-Dev";
 			};
 			name = Release;
 		};
