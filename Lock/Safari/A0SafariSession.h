@@ -38,4 +38,5 @@ typedef void(^A0SafariSessionAuthentication)(NSError *error, A0Token *token);
 - (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters;
 - (A0SafariSessionAuthentication)authenticationBlockWithSuccess:(A0IdPAuthenticationBlock)success
                                                         failure:(A0IdPAuthenticationErrorBlock)failure;
+- (void)tokenFromURL:(NSURL *)url callback:(void(^)(NSError *error, A0Token *token))callback;
 @end

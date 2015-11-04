@@ -89,7 +89,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     BOOL shouldHandle = [url.path hasPrefix:self.session.callbackURL.path];
     if (shouldHandle) {
         A0LogDebug(@"Handling callback URL %@", url);
-        [self handleAuthorizeResultInURL:url];
+        [self.session tokenFromURL:url callback:self.onAuthentication];
     }
     return shouldHandle;
 }
@@ -100,37 +100,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)clearSessions {
     self.onAuthentication = ^(NSError *error, A0Token *token) {};
-}
-
-#pragma mark - Utility methods
-
-- (void)handleAuthorizeResultInURL:(NSURL *)url {
-    NSString *queryString = url.query ?: url.fragment;
-    NSDictionary *params = [NSDictionary fromQueryString:queryString];
-    A0LogDebug(@"Received params %@ from URL %@", params, url);
-    NSString *errorMessage = params[@"error"];
-    A0Token *token;
-    NSError *error;
-    if (errorMessage) {
-        A0LogError(@"URL contained error message %@", errorMessage);
-        NSString *localizedDescription = [NSString stringWithFormat:@"Failed to authenticate user with connection %@", self.session.connectionName];
-        error = [NSError errorWithCode:A0ErrorCodeAuthenticationFailed
-                           description:A0LocalizedString(localizedDescription)
-                               payload:params];
-    } else {
-        NSString *accessToken = params[@"access_token"];
-        NSString *idToken = params[@"id_token"];
-        NSString *tokenType = params[@"token_type"];
-        NSString *refreshToken = params[@"refresh_token"];
-        if (idToken) {
-            token = [[A0Token alloc] initWithAccessToken:accessToken idToken:idToken tokenType:tokenType refreshToken:refreshToken];
-            A0LogVerbose(@"Obtained token from URL: %@", token);
-        } else {
-            A0LogError(@"Failed to obtain id_token from URL %@", url);
-            error = [A0Errors auth0InvalidConfigurationForConnectionName:self.session.connectionName];
-        }
-    }
-    self.onAuthentication(error, token);
 }
 
 #pragma mark - SFSafariViewControllerDelegate

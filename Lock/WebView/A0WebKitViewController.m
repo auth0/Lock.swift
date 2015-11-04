@@ -29,6 +29,7 @@
 #import "A0Token.h"
 #import "A0Theme.h"
 #import "Constants.h"
+#import "A0PKCE.h"
 #import <Masonry/Masonry.h>
 
 @interface A0WebKitViewController () <WKNavigationDelegate>
@@ -37,6 +38,7 @@
 @property (strong, nonatomic) A0APIClient *client;
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (copy, nonatomic) NSString *connectionName;
+@property (strong, nonatomic) A0PKCE *pkce;
 
 @property (weak, nonatomic) WKWebView *webview;
 @property (weak, nonatomic) UIView *messageView;
@@ -58,9 +60,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                        parameters:(nullable A0AuthParameters *)parameters {
     self = [self init];
     if (self) {
+        _pkce = [[A0PKCE alloc] init];
         _authentication = [[A0WebAuthentication alloc] initWithClientId:client.clientId domainURL:client.baseURL connectionName:connectionName];
+        NSMutableDictionary *dictionary = [[parameters asAPIPayload] mutableCopy];
+        [dictionary addEntriesFromDictionary:[_pkce authorizationParameters]];
         [_authentication setTelemetryInfo:[client telemetryInfo]];
-        _authorizeURL = [_authentication authorizeURLWithParameters:[parameters asAPIPayload]];
+        _authorizeURL = [_authentication authorizeURLWithParameters:dictionary];
         _connectionName = connectionName;
         _client = client;
     }
@@ -201,20 +206,29 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         return;
     }
     NSError *error;
-    A0Token *token = [self.authentication tokenFromURL:url error:&error];
-    if (token) {
+    NSString *code = [self.authentication authorizationCodeFromURL:url error:&error];
+    if (code) {
         A0IdPAuthenticationBlock success = self.onAuthentication;
         [self showProgressIndicator];
-        [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
-            decisionHandler(WKNavigationActionPolicyCancel);
-            [self dismissWithCompletion:^{
-                if (success) {
-                    success(profile, token);
-                }
-            }];
-        } failure:^(NSError *error) {
-            [self handleError:error decisionHandler:decisionHandler];
-        }];
+        [self.client requestTokenWithParameters:@{
+                                                  @"code": code,
+                                                  @"redirect_uri": self.authentication.callbackURL.absoluteString,
+                                                  }
+                                       callback:^(NSError * _Nonnull error, A0Token * _Nonnull token) {
+                                           if (error) {
+                                               [self handleError:error decisionHandler:decisionHandler];
+                                               return;
+                                           }
+                                           [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
+                                               if (success) {
+                                                   success(profile, token);
+                                               }
+                                               decisionHandler(WKNavigationActionPolicyCancel);
+                                               [self dismiss];
+                                           } failure:^(NSError *error) {
+                                               [self handleError:error decisionHandler:decisionHandler];
+                                           }];
+                                       }];
     } else {
         [self handleError:error decisionHandler:decisionHandler];
     }

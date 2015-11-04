@@ -26,15 +26,23 @@
 #import "A0APIClient.h"
 #import "A0Token.h"
 #import "A0Telemetry.h"
+#import "A0PKCE.h"
+#import "Constants.h"
+#import "A0Errors.h"
+#import "NSError+A0APIError.h"
+
 
 @interface A0SafariSession ()
 @property (strong, nonatomic) A0APIClient *client;
 @property (strong, nonatomic) NSURL *callbackURL;
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (strong, nonatomic) NSDictionary *defaultParameters;
+@property (strong, nonatomic) A0PKCE *pkce;
 @end
 
 @implementation A0SafariSession
+
+AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName {
     return [self initWithLock:lock connectionName:connectionName useUniversalLink:YES];
@@ -51,20 +59,44 @@
         _connectionName = connectionName;
         _client = [lock apiClient];
         _callbackURL = callbackURL;
+        _pkce = [[A0PKCE alloc] init];
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:lock.domainURL.absoluteURL resolvingAgainstBaseURL:YES];
         components.path = @"/authorize";
         _authorizeURL = components.URL;
         NSMutableDictionary *defaults = [@{
-                                           @"response_type": @"token",
+                                           @"response_type": @"code",
                                            @"client_id": lock.clientId,
                                            @"redirect_uri": callbackURL.absoluteString,
                                            } mutableCopy];
         if (lock.telemetry) {
             defaults[A0ClientInfoQueryParamName] = lock.telemetry.base64Value;
         }
+        [defaults addEntriesFromDictionary:[_pkce authorizationParameters]];
         _defaultParameters = [NSDictionary dictionaryWithDictionary:defaults];
     }
     return self;
+}
+
+- (void)tokenFromURL:(NSURL *)url callback:(void (^)(NSError *, A0Token *))callback {
+    NSString *queryString = url.query ?: url.fragment;
+    NSDictionary *params = [NSDictionary fromQueryString:queryString];
+    A0LogDebug(@"Received params %@ from URL %@", params, url);
+    NSString *errorMessage = params[@"error"];
+    if (errorMessage) {
+        A0LogError(@"URL contained error message %@", errorMessage);
+        NSString *localizedDescription = [NSString stringWithFormat:@"Failed to authenticate user with connection %@", self.connectionName];
+        NSError *error = [NSError errorWithCode:A0ErrorCodeAuthenticationFailed
+                           description:A0LocalizedString(localizedDescription)
+                               payload:params];
+        callback(error, nil);
+    } else {
+        NSString *code = params[@"code"];
+        [self.client requestTokenWithParameters:@{
+                                                  @"code": code,
+                                                  @"redirect_uri": self.callbackURL.absoluteString,
+                                                  }
+                                       callback:callback];
+    }
 }
 
 - (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters {

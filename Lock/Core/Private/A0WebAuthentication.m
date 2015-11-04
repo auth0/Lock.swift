@@ -94,12 +94,32 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return token;
 }
 
+- (NSString *)authorizationCodeFromURL:(NSURL *)url error:(NSError * _Nullable __autoreleasing *)error {
+    NSString *queryString = url.query ?: url.fragment;
+    NSDictionary *params = [NSDictionary fromQueryString:queryString];
+    A0LogDebug(@"Received params %@ from URL %@", params, url);
+    NSString *errorMessage = params[@"error"];
+    NSString *code;
+    if (errorMessage) {
+        A0LogError(@"URL contained error message %@", errorMessage);
+        if (error != NULL) {
+            NSString *localizedDescription = [NSString stringWithFormat:@"Failed to authenticate user with connection %@", self.connectionName];
+            *error = [NSError errorWithCode:A0ErrorCodeAuthenticationFailed
+                                description:A0LocalizedString(localizedDescription)
+                                    payload:params];
+        }
+    } else {
+        code = params[@"code"];
+    }
+    return code;
+}
+
 - (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters {
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.domainURL.absoluteURL resolvingAgainstBaseURL:NO];
     components.path = @"/authorize";
     NSMutableDictionary *dictionary = parameters ? [parameters mutableCopy] : [[[A0AuthParameters newDefaultParams] asAPIPayload] mutableCopy];
     [dictionary addEntriesFromDictionary:@{
-                                           @"response_type": @"token",
+                                           @"response_type": @"code",
                                            @"client_id": self.clientId,
                                            @"redirect_uri": self.callbackURL.absoluteString,
                                            @"connection": self.connectionName,

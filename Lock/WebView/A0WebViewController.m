@@ -31,6 +31,7 @@
 #import "A0AuthParameters.h"
 #import "A0Lock.h"
 #import "Constants.h"
+#import "A0PKCE.h"
 #import <Masonry/Masonry.h>
 
 @interface A0WebViewController () <UIWebViewDelegate>
@@ -39,6 +40,7 @@
 @property (strong, nonatomic) A0WebAuthentication *authentication;
 @property (copy, nonatomic) NSString *connectionName;
 @property (strong, nonatomic) A0APIClient *client;
+@property (strong, nonatomic) A0PKCE *pkce;
 
 - (IBAction)cancel:(id)sender;
 
@@ -54,10 +56,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self = [self init];
     if (self) {
         _authentication = [[A0WebAuthentication alloc] initWithClientId:client.clientId domainURL:client.baseURL connectionName:connectionName];
-        [_authentication setTelemetryInfo:[client telemetryInfo]];
-        _authorizeURL = [_authentication authorizeURLWithParameters:[parameters asAPIPayload]];
         _connectionName = connectionName;
         _client = client;
+        _pkce = [[A0PKCE alloc] init];
+        NSMutableDictionary *dictionary = [[parameters asAPIPayload] mutableCopy];
+        [dictionary addEntriesFromDictionary:[_pkce authorizationParameters]];
+        [_authentication setTelemetryInfo:[client telemetryInfo]];
+        _authorizeURL = [_authentication authorizeURLWithParameters:dictionary];
     }
     return self;
 }
@@ -98,16 +103,29 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     BOOL isCallback = [self.authentication validateURL:request.URL];
     if (isCallback) {
         NSError *error;
-        A0Token *token = [self.authentication tokenFromURL:request.URL error:&error];
-        if (token) {
-            A0IdPAuthenticationBlock success = self.onAuthentication;
-            [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
-                self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-                if (success) {
-                    success(profile, token);
-                }
-            } failure:self.onFailure];
+        NSString *code = [self.authentication authorizationCodeFromURL:request.URL error:&error];
+        if (code) {
             [self showProgressIndicator];
+            A0IdPAuthenticationBlock success = self.onAuthentication;
+            [self.client requestTokenWithParameters:@{
+                                                      @"code": code,
+                                                      @"redirect_uri": self.authentication.callbackURL.absoluteString,
+                                                      }
+                                           callback:^(NSError * _Nonnull error, A0Token * _Nonnull token) {
+                                               if (error) {
+                                                   if (self.onFailure) {
+                                                       self.onFailure(error);
+                                                   }
+                                                   [self hideProgressIndicator];
+                                                   return;
+                                               }
+                                               [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
+                                                   self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                                                   if (success) {
+                                                       success(profile, token);
+                                                   }
+                                               } failure:self.onFailure];
+                                           }];
         } else {
             if (self.onFailure) {
                 self.onFailure(error);
