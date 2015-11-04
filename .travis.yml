@@ -1,19 +1,19 @@
 reference: http://www.objc.io/issue-6/travis-ci.html
-
 language: objective-c
-osx_image: xcode7
-
-install:
-  - bundle install
-  - pod install --project-directory=Lock
-
+osx_image: xcode7.1
+before_install: true
+install: true
 script:
-  - set -o pipefail && xcodebuild -workspace Lock/Lock.xcworkspace -scheme Lock -destination "platform=iOS Simulator,OS=latest,name=iPhone 6" clean build test | xcpretty -c
-
+- script/cibuild
 notifications:
   slack:
     secure: ZGaLexVgDGkvXMwhc8IklZJHZvI7N+SN+y1YD7WBH+yCw4cc+2CtNzHzNz7TuvRQjIXVbmgcBtKUGer9kcKTfnOrzHrW6K/XdkPNB9kGRUiQf/MnpyijbWpMyf7FZZnrzrwn1mADTG8tkYjV+N5fCYePvyyD/ancurSnC2T/H8E=
-
 branches:
   only:
-    - master
+  - master
+env:
+  matrix:
+  - SCHEME="Lock-iOS" IOS_DESTINATION_VERSION="9.1" CARTHAGE_BUILD_PLATFORM="iOS"
+  global:
+  - secure: hU2sg0N7L2hEAXzmssJRyVGLm1cHKDwuZEE1BQy6y+9jo88926DSTZpw0uLs5h3tHWMctDt/7hoXe9D93oUQowNRaoy6Y/k34VD3Wzfbl2Dht/xZ4M2fgFwy8AYxI9Px3zLmQOewLCsAdFvoLs1rGuRcHy77RH6wtSCMJG/MVng=
+  - secure: GGVKFNrp+gt0v7nTy1PRvWOt0omfSlxggpY4eDGCUvLizRNV0RrLVNxQ+5KnOSmpsC4UI7GFbTUJQhx0KTxSLEZgeaYgRHph51X0KOYxAPkYMC0eGiGzvQeT5cQldY652OKKnZLpnQsRHxdvyw8n6kMXayKxAhg4yAZIDXaSdHA=
