@@ -353,6 +353,21 @@ NS_ASSUME_NONNULL_BEGIN
                                                      failure:(A0APIClientError)failure;
 
 ///----------------------------------------
+/// @name Token Request
+///----------------------------------------
+
+/**
+ *  Change an authorization code obtained from authorize endpoint for Auth0 token using the token endpoint
+ *
+ *  @param parameters sent to token endpoint
+ *  @param callback   called with an error or the Auth0 token obtained
+ *
+ *  @return an instance of `NSURLSessionDataTask`
+ */
+- (NSURLSessionDataTask *)requestTokenWithParameters:(NSDictionary *)parameters
+                                            callback:(void(^)(NSError * _Nonnull error, A0Token * _Nonnull token))callback;
+
+///----------------------------------------
 /// @name User Profile
 ///----------------------------------------
 
