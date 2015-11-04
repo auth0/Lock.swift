@@ -37,6 +37,13 @@
 		5F6628BD1C12466C008D73FC /* touchid@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628B41C12466C008D73FC /* touchid@3x.png */; };
 		5FB6A5EA1CA0357F00DF5078 /* A0FailureAuthenticator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */; };
 		5FB6A5EB1CA0357F00DF5078 /* A0FailureAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */; };
+		5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */; };
+		5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A61C12062F008D73FC /* A0WebViewController.xib */; };
+		5F6641891BEA4E9300ECA900 /* A0PKCE.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6641871BEA4E9300ECA900 /* A0PKCE.h */; };
+		5F66418A1BEA4E9300ECA900 /* A0PKCE.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6641871BEA4E9300ECA900 /* A0PKCE.h */; };
+		5F66418B1BEA4E9300ECA900 /* A0PKCE.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6641881BEA4E9300ECA900 /* A0PKCE.m */; };
+		5F66418C1BEA4E9300ECA900 /* A0PKCE.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6641881BEA4E9300ECA900 /* A0PKCE.m */; };
+		5F66418E1BEA5A9F00ECA900 /* A0PKCESpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F66418D1BEA5A9F00ECA900 /* A0PKCESpec.swift */; };
 		5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD05B1BE7B23C00703DD1 /* A0APIClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD00E1BE7B22800703DD1 /* A0APIClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD05C1BE7B23C00703DD1 /* A0APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD00F1BE7B22800703DD1 /* A0APIClient.m */; };
@@ -550,6 +557,9 @@
 		5F6628B41C12466C008D73FC /* touchid@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid@3x.png"; sourceTree = "<group>"; };
 		5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0FailureAuthenticator.h; path = Private/A0FailureAuthenticator.h; sourceTree = "<group>"; };
 		5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = A0FailureAuthenticator.m; path = Private/A0FailureAuthenticator.m; sourceTree = "<group>"; };
+		5F6641871BEA4E9300ECA900 /* A0PKCE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0PKCE.h; sourceTree = "<group>"; };
+		5F6641881BEA4E9300ECA900 /* A0PKCE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0PKCE.m; sourceTree = "<group>"; };
+		5F66418D1BEA5A9F00ECA900 /* A0PKCESpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = A0PKCESpec.swift; sourceTree = "<group>"; };
 		5FBACFF51BE7AF8700703DD1 /* Lock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBACFF81BE7AF8700703DD1 /* Lock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lock.h; sourceTree = "<group>"; };
 		5FBACFFA1BE7AF8700703DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1118,6 +1128,8 @@
 				5FBAD04D1BE7B22800703DD1 /* Private */,
 				5F0499B51CAB2C72006F6C05 /* A0Telemetry.h */,
 				5F0499B61CAB2C72006F6C05 /* A0Telemetry.m */,
+				5F6641871BEA4E9300ECA900 /* A0PKCE.h */,
+				5F6641881BEA4E9300ECA900 /* A0PKCE.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1548,6 +1560,7 @@
 				5FBAD4671BE7F93A00703DD1 /* Info.plist */,
 				5FBAD4991BE8160700703DD1 /* A0APIClientSpec.swift */,
 				5FBAD4981BE8160700703DD1 /* LockTests-iOS-Bridging-Header.h */,
+				5F66418D1BEA5A9F00ECA900 /* A0PKCESpec.swift */,
 			);
 			path = LockTests;
 			sourceTree = "<group>";
@@ -1811,6 +1824,7 @@
 				5FBAD1B81BE7B92900703DD1 /* A0FieldValidator.h in Headers */,
 				5FBAD4231BE7F0AC00703DD1 /* A0TouchIDSignUpViewController.h in Headers */,
 				5FBAD0681BE7B23C00703DD1 /* A0ConnectionDomainMatcher.h in Headers */,
+				5F6641891BEA4E9300ECA900 /* A0PKCE.h in Headers */,
 				5FBAD1B61BE7B92900703DD1 /* A0EmailValidator.h in Headers */,
 				5FCE63381CA17D8A00F5C2B0 /* A0ChangePasswordView.h in Headers */,
 				5FBAD1C91BE7B92900703DD1 /* A0KeyboardHandler.h in Headers */,
@@ -1891,6 +1905,7 @@
 				5FBAD0D41BE7B24600703DD1 /* NSObject+A0APIClientProvider.h in Headers */,
 				5FBAD0951BE7B23D00703DD1 /* A0APIRouter.h in Headers */,
 				5FBAD0A21BE7B23D00703DD1 /* A0ErrorHandler.h in Headers */,
+				5F66418A1BEA4E9300ECA900 /* A0PKCE.h in Headers */,
 				5FBAD0C71BE7B23D00703DD1 /* A0UserProfile.h in Headers */,
 				5FBAD09D1BE7B23D00703DD1 /* A0Connection.h in Headers */,
 				5FBAD0C51BE7B23D00703DD1 /* A0UserIdentity.h in Headers */,
@@ -2364,6 +2379,7 @@
 				5FBAD1771BE7B92900703DD1 /* A0Lock+A0LockViewController.m in Sources */,
 				5FBAD0751BE7B23C00703DD1 /* A0IdentityProviderCredentials.m in Sources */,
 				5FBAD1C21BE7B92900703DD1 /* A0PhoneNumberValidator.m in Sources */,
+				5F66418B1BEA4E9300ECA900 /* A0PKCE.m in Sources */,
 				5FBAD07D1BE7B23C00703DD1 /* A0MainBundleCredentialProvider.m in Sources */,
 				5FBAD1901BE7B92900703DD1 /* A0LoadingViewController.m in Sources */,
 				5FBAD4381BE7F0CA00703DD1 /* A0SMSSendCodeViewController.m in Sources */,
@@ -2394,6 +2410,7 @@
 				5FBAD0C41BE7B23D00703DD1 /* A0UserAPIClient.m in Sources */,
 				5FBAD0BA1BE7B23D00703DD1 /* A0RuleErrorHandler.m in Sources */,
 				5FBAD0B01BE7B23D00703DD1 /* A0LockLogger.m in Sources */,
+				5F66418C1BEA4E9300ECA900 /* A0PKCE.m in Sources */,
 				5FBAD09C1BE7B23D00703DD1 /* A0AuthParameters.m in Sources */,
 				5FBAD0C61BE7B23D00703DD1 /* A0UserIdentity.m in Sources */,
 				5FBAD0931BE7B23D00703DD1 /* A0APIClient.m in Sources */,
@@ -2451,6 +2468,7 @@
 				5F181CD41C2057610008513E /* A0LockSpec.m in Sources */,
 				5FBAD4F21BE9688C00703DD1 /* A0AuthParametersSpec.m in Sources */,
 				5F181CD51C2057920008513E /* A0UserIdentitySpec.m in Sources */,
+				5F66418E1BEA5A9F00ECA900 /* A0PKCESpec.swift in Sources */,
 				5FBAD4F31BE9696100703DD1 /* A0ConnectionSpec.m in Sources */,
 				5FBAD4F51BE96BCE00703DD1 /* A0EmailValidatorSpec.m in Sources */,
 			);

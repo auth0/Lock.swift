@@ -5,6 +5,7 @@
 #import <Lock/Lock.h>
 #import <AFNetworking/AFNetworking.h>
 #import "A0AnnotatedRequestSerializer.h"
+#import "A0PKCE.h"
 
 @interface A0APIClient (TestingOnly)
 
