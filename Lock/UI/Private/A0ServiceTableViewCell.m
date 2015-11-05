@@ -38,23 +38,12 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    UIView *view = [[UIView alloc] init];
-    view.translatesAutoresizingMaskIntoConstraints = NO;
+    CGFloat size = self.button.frame.size.height;
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
     [self.button addSubview:view];
-    UIImageView *iconImageView = [[UIImageView alloc] init];
+    UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
+    iconImageView.contentMode = UIViewContentModeCenter;
     [view addSubview:iconImageView];
-    iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    [view addConstraint:[NSLayoutConstraint constraintWithItem:iconImageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
-    [view addConstraint:[NSLayoutConstraint constraintWithItem:iconImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
-    NSDictionary *views = NSDictionaryOfVariableBindings(view);
-    [self.button addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[view(width)]"
-                                                                        options:0
-                                                                        metrics:@{ @"width": @(self.button.frame.size.height) }
-                                                                          views:views]];
-    [self.button addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[view]-(0)-|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:views]];
     self.button.layer.cornerRadius = 5.0f;
     self.button.clipsToBounds = YES;
     self.button.tintColor = [UIColor whiteColor];
@@ -73,6 +62,7 @@
     self.imageView.tintColor = theme.foregroundColor;
     self.containerView.backgroundColor = theme.highlightedBackgroundColor;
     [self.button setTitle:theme.localizedTitle.uppercaseString forState:UIControlStateNormal];
+    [self updateConstraints];
 }
 
 @end

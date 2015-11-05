@@ -39,7 +39,7 @@
 }
 
 - (A0ServiceTheme *)theme {
-    return [[A0Theme sharedInstance] themeForStrategyName:self.name];
+    return [[A0Theme sharedInstance] themeForStrategyName:self.name andConnectionName:self.connection.name];
 }
 
 @end

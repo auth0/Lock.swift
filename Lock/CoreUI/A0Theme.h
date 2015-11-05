@@ -23,6 +23,8 @@
 #import <UIKit/UIKit.h>
 #import <Lock/A0ServiceTheme.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 FOUNDATION_EXPORT NSString * const A0ThemePrimaryButtonNormalColor;
 FOUNDATION_EXPORT NSString * const A0ThemePrimaryButtonHighlightedColor;
 FOUNDATION_EXPORT NSString * const A0ThemePrimaryButtonNormalImageName;
@@ -68,27 +70,26 @@ FOUNDATION_EXPORT NSString * const A0ThemeCloseButtonTintColor;
 
 @property (assign, nonatomic) UIStatusBarStyle statusBarStyle;
 @property (assign, nonatomic) BOOL statusBarHidden;
+@property (copy, nonatomic) A0ServiceTheme *(^customThemeForConnection)(NSString *connectionName, A0ServiceTheme *defaultTheme);
 
 - (void)registerFont:(UIFont *)font forKey:(NSString *)key;
 - (void)registerColor:(UIColor *)color forKey:(NSString *)key;
-- (void)registerImageWithName:(NSString *)name bundle:(NSBundle *)bundle forKey:(NSString *)key;
+- (void)registerImageWithName:(NSString *)name bundle:(nullable NSBundle *)bundle forKey:(NSString *)key;
+- (void)registerTheme:(A0Theme *)theme;
+- (void)registerDefaultTheme;
 
 - (UIImage *)imageForKey:(NSString *)key;
-- (UIFont *)fontForKey:(NSString *)key defaultFont:(UIFont *)defaultFont;
+- (UIFont *)fontForKey:(NSString *)key defaultFont:(nullable UIFont *)defaultFont;
 - (UIColor *)colorForKey:(NSString *)key;
-- (UIColor *)colorForKey:(NSString *)key defaultColor:(UIColor *)defaultColor;
+- (UIColor *)colorForKey:(NSString *)key defaultColor:(nullable UIColor *)defaultColor;
 - (UIFont *)fontForKey:(NSString *)key;
-- (UIImage *)imageForKey:(NSString *)key defaultImage:(UIImage *)image;
+- (UIImage *)imageForKey:(NSString *)key defaultImage:(nullable UIImage *)image;
+- (A0ServiceTheme *)themeForStrategyName:(NSString *)strategyName andConnectionName:(NSString *)connectionName;
 
 - (void)configurePrimaryButton:(UIButton *)button;
 - (void)configureSecondaryButton:(UIButton *)button;
 - (void)configureTextField:(UITextField *)textField;
 - (void)configureLabel:(UILabel *)label;
-
-- (A0ServiceTheme *)themeForStrategyName:(NSString *)strategyName;
-
-- (void)registerTheme:(A0Theme *)theme;
-- (void)registerDefaultTheme;
 
 @end
 
@@ -96,3 +97,4 @@ FOUNDATION_EXPORT NSString * const A0ThemeCloseButtonTintColor;
 - (void)registerImageWithName:(NSString *)name forKey:(NSString *)key DEPRECATED_ATTRIBUTE;
 @end
 
+NS_ASSUME_NONNULL_END
