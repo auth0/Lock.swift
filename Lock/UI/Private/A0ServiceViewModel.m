@@ -23,19 +23,9 @@
 #import "A0ServiceViewModel.h"
 #import "A0Connection.h"
 #import "A0Strategy.h"
-
-UIColor *UIColorFromRGBA(value, alpha) {
-    return [UIColor colorWithRed:((float)((value & 0xFF0000) >> 16)) / 255.0 \
-                           green:((float)((value & 0xFF00) >> 8)) / 255.0 \
-                            blue:((float)(value & 0xFF)) / 255.0 \
-                           alpha:alpha];
-}
-
-UIColor *UIColorFromRGB(value) { return UIColorFromRGBA(value, 1.0); }
-
-@interface A0ServiceViewModel ()
-@property (strong, nonatomic) NSDictionary *theme;
-@end
+#import "A0Theme.h"
+#import "A0ServiceTheme.h"
+#import "Constants.h"
 
 @implementation A0ServiceViewModel
 
@@ -48,48 +38,8 @@ UIColor *UIColorFromRGB(value) { return UIColorFromRGBA(value, 1.0); }
     return self;
 }
 
-- (void)applyTheme:(NSDictionary *)theme {
-    self.theme = [NSDictionary dictionaryWithDictionary:theme[self.name]];
-}
-
-#pragma mark - Theme
-
-- (UIColor *)selectedBackgroundColor {
-    return [self colorFromString:self.theme[@"selected_background_color"]];
-}
-
-- (UIColor *)backgroundColor {
-    return [self colorFromString:self.theme[@"background_color"]];
-}
-
-- (UIColor *)foregroundColor {
-    return [self colorFromString:self.theme[@"foreground_color"]];
-}
-
-- (NSString *)iconCharacter {
-    return self.theme[@"icon_character"];
-}
-
-- (NSString *)title {
-    return self.theme[@"title"];
-}
-
-#pragma mark - Utility methods
-
-- (UIColor *)colorFromString:(NSString *)string {
-    NSString *hexString = string.length > 0 ? string : @"000000";
-    NSScanner *scanner = [NSScanner scannerWithString:hexString];
-    unsigned hex;
-    BOOL success = [scanner scanHexInt:&hex];
-
-    if (!success) return nil;
-    if ([string length] <= 6) {
-        return UIColorFromRGB(hex);
-    } else {
-        unsigned color = (hex & 0xFFFFFF00) >> 8;
-        CGFloat alpha = 1.0 * (hex & 0xFF) / 255.0;
-        return UIColorFromRGBA(color, alpha);
-    }
+- (A0ServiceTheme *)theme {
+    return [[A0Theme sharedInstance] themeForStrategyName:self.name andConnectionName:self.connection.name];
 }
 
 @end
@@ -112,14 +62,4 @@ UIColor *UIColorFromRGB(value) { return UIColorFromRGBA(value, 1.0); }
     return [NSArray arrayWithArray:services];
 }
 
-@end
-
-@implementation A0ServiceViewModel (ThemeLoad)
-
-+ (NSDictionary *)loadThemeInformation {
-    NSString *resourceBundlePath = [[NSBundle bundleForClass:self.class] pathForResource:@"Auth0" ofType:@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-    NSString *plistPath = [resourceBundle pathForResource:@"Services" ofType:@"plist"];
-    return [NSDictionary dictionaryWithContentsOfFile:plistPath];
-}
 @end

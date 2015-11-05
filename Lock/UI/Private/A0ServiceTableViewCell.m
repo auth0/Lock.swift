@@ -23,13 +23,14 @@
 #import "A0ServiceTableViewCell.h"
 #import "UIButton+A0SolidButton.h"
 #import "A0ProgressButton.h"
-#import "UIFont+A0Social.h"
 #import <CoreGraphics/CoreGraphics.h>
 #import "Constants.h"
+#import "A0ServiceTheme.h"
 
 @interface A0ServiceTableViewCell ()
 
-@property (weak, nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
 @end
 
@@ -37,40 +38,31 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    UILabel *label = [[UILabel alloc] init];
-    label.textColor = [UIColor whiteColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont zocialFontOfSize:16.0f];
-    [self.button addSubview:label];
-    label.translatesAutoresizingMaskIntoConstraints = NO;
-    NSDictionary *views = NSDictionaryOfVariableBindings(label);
-    [self.button addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[label(width)]"
-                                                                        options:0
-                                                                        metrics:@{ @"width": @(self.bounds.size.height) }
-                                                                          views:views]];
-    [self.button addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[label]-(0)-|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:views]];
+    CGFloat size = self.button.frame.size.height;
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
+    [self.button addSubview:view];
+    UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
+    iconImageView.contentMode = UIViewContentModeCenter;
+    [view addSubview:iconImageView];
     self.button.layer.cornerRadius = 5.0f;
     self.button.clipsToBounds = YES;
     self.button.tintColor = [UIColor whiteColor];
-    self.label = label;
+    self.iconImageView = iconImageView;
+    self.containerView = view;
 }
 
 - (void)prepareForReuse {
     [self.button removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)configureWithBackground:(UIColor *)background highlighted:(UIColor *)highlighted foreground:(UIColor *)foreground symbol:(NSString *)symbol name:(NSString *)name {
-    [self.button setBackgroundColor:background forState:UIControlStateNormal];
-    [self.button setBackgroundColor:highlighted forState:UIControlStateHighlighted];
-    [self.button setTitleColor:foreground forState:UIControlStateNormal];
-    self.label.backgroundColor = highlighted;
-    self.label.text = symbol;
-    self.label.textColor = foreground;
-    NSString *title = [NSString stringWithFormat:A0LocalizedString(@"Login with %@"), name];
-    [self.button setTitle:title.uppercaseString forState:UIControlStateNormal];
+- (void)applyTheme:(A0ServiceTheme *)theme {
+    [self.button setBackgroundColor:theme.normalBackgroundColor forState:UIControlStateNormal];
+    [self.button setBackgroundColor:theme.highlightedBackgroundColor forState:UIControlStateHighlighted];
+    self.imageView.image = theme.iconImage;
+    self.imageView.tintColor = theme.foregroundColor;
+    self.containerView.backgroundColor = theme.highlightedBackgroundColor;
+    [self.button setTitle:theme.localizedTitle.uppercaseString forState:UIControlStateNormal];
+    [self updateConstraints];
 }
 
 @end

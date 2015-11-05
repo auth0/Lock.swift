@@ -47,6 +47,7 @@ FOUNDATION_EXPORT const unsigned char LockVersionString[];
 #import "A0APIClientProvider.h"
 
 #ifdef TARGET_OS_IOS
+#import "A0ServiceTheme.h"
 #import "A0Theme.h"
 
 #import "UI.h"

@@ -71,11 +71,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [super viewDidLoad];
     UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:[NSBundle bundleForClass:self.class]];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:kCellIdentifier];
-    self.serviceTheme = [A0ServiceViewModel loadThemeInformation];
     self.services = [A0ServiceViewModel servicesFromStrategies:self.configuration.socialStrategies];
-    [self.services enumerateObjectsUsingBlock:^(A0ServiceViewModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj applyTheme:self.serviceTheme];
-    }];
     self.selectedService = NSNotFound;
 }
 
@@ -153,11 +149,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     A0ServiceViewModel *service = self.services[indexPath.row];
     A0ServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
-    [cell configureWithBackground:service.backgroundColor
-                      highlighted:service.selectedBackgroundColor
-                       foreground:service.foregroundColor
-                           symbol:service.iconCharacter
-                             name:service.title];
+    [cell applyTheme:service.theme];
     [cell.button addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];
     cell.button.tag = indexPath.row;
     [cell.button setInProgress:self.selectedService == indexPath.row];
