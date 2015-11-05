@@ -23,7 +23,6 @@
 #import "A0ServiceTableViewCell.h"
 #import "UIButton+A0SolidButton.h"
 #import "A0ProgressButton.h"
-#import "UIFont+A0Social.h"
 #import <CoreGraphics/CoreGraphics.h>
 #import "Constants.h"
 #import "A0ServiceTheme.h"

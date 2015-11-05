@@ -24,7 +24,6 @@
 
 #import "A0ServiceCollectionViewLayoutDelegate.h"
 #import "A0ServiceCollectionViewCell.h"
-#import "UIFont+A0Social.h"
 #import "UIButton+A0SolidButton.h"
 #import "A0APIClient.h"
 #import "A0Errors.h"
@@ -123,7 +122,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     A0ServiceCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
     A0ServiceViewModel *service = self.socialServices[indexPath.item];
-    cell.serviceButton.titleLabel.font = [UIFont zocialFontOfSize:16.0f];
     A0ServiceTheme *theme = service.theme;
     cell.serviceButton.imageView.tintColor = theme.foregroundColor;
     [cell.serviceButton setImage:theme.iconImage forState:UIControlStateNormal];

@@ -208,8 +208,6 @@
 		5FBAD1A41BE7B92900703DD1 /* A0SocialLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD13D1BE7B92900703DD1 /* A0SocialLoginViewController.m */; };
 		5FBAD1A51BE7B92900703DD1 /* A0TitleView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD13E1BE7B92900703DD1 /* A0TitleView.h */; };
 		5FBAD1A61BE7B92900703DD1 /* A0TitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD13F1BE7B92900703DD1 /* A0TitleView.m */; };
-		5FBAD1A71BE7B92900703DD1 /* UIFont+A0Social.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD1401BE7B92900703DD1 /* UIFont+A0Social.h */; };
-		5FBAD1A81BE7B92900703DD1 /* UIFont+A0Social.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD1411BE7B92900703DD1 /* UIFont+A0Social.m */; };
 		5FBAD1A91BE7B92900703DD1 /* UIViewController+LockNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD1421BE7B92900703DD1 /* UIViewController+LockNotification.h */; };
 		5FBAD1AA1BE7B92900703DD1 /* UIViewController+LockNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD1431BE7B92900703DD1 /* UIViewController+LockNotification.m */; };
 		5FBAD1AB1BE7B92900703DD1 /* UI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD1441BE7B92900703DD1 /* UI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -291,8 +289,6 @@
 		5FBAD2AC1BE7CCD700703DD1 /* secondary_button_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2951BE7CCD700703DD1 /* secondary_button_normal.png */; };
 		5FBAD2AD1BE7CCD700703DD1 /* secondary_button_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2961BE7CCD700703DD1 /* secondary_button_normal@2x.png */; };
 		5FBAD2AE1BE7CCD700703DD1 /* secondary_button_normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2971BE7CCD700703DD1 /* secondary_button_normal@3x.png */; };
-		5FBAD2AF1BE7CCD700703DD1 /* Services.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2981BE7CCD700703DD1 /* Services.plist */; };
-		5FBAD2B01BE7CCD700703DD1 /* z-social.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2991BE7CCD700703DD1 /* z-social.ttf */; };
 		5FBAD2B11BE7CCE500703DD1 /* Auth0.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD27C1BE7CC8F00703DD1 /* Auth0.bundle */; };
 		5FBAD2B71BE7E25600703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD3DA1BE7E9DC00703DD1 /* touchid.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3D41BE7E9DC00703DD1 /* touchid.png */; };
@@ -484,6 +480,9 @@
 		5FF67FB51BEBC4B400161E5B /* yandex.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FF67F5B1BEBC4B400161E5B /* yandex.png */; };
 		5FF67FB61BEBC4B400161E5B /* yandex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FF67F5C1BEBC4B400161E5B /* yandex@2x.png */; };
 		5FF67FB71BEBC4B400161E5B /* yandex@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FF67F5D1BEBC4B400161E5B /* yandex@3x.png */; };
+		5FF67FC01BEBD72300161E5B /* Cartfile.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 5FF67FBD1BEBD72300161E5B /* Cartfile.resolved */; };
+		5FF67FC11BEBD72300161E5B /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 5FF67FBE1BEBD72300161E5B /* Cartfile */; };
+		5FF67FC21BEBD72300161E5B /* Cartfile.private in Resources */ = {isa = PBXBuildFile; fileRef = 5FF67FBF1BEBD72300161E5B /* Cartfile.private */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -692,8 +691,6 @@
 		5FBAD13D1BE7B92900703DD1 /* A0SocialLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SocialLoginViewController.m; sourceTree = "<group>"; };
 		5FBAD13E1BE7B92900703DD1 /* A0TitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0TitleView.h; sourceTree = "<group>"; };
 		5FBAD13F1BE7B92900703DD1 /* A0TitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0TitleView.m; sourceTree = "<group>"; };
-		5FBAD1401BE7B92900703DD1 /* UIFont+A0Social.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+A0Social.h"; sourceTree = "<group>"; };
-		5FBAD1411BE7B92900703DD1 /* UIFont+A0Social.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+A0Social.m"; sourceTree = "<group>"; };
 		5FBAD1421BE7B92900703DD1 /* UIViewController+LockNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+LockNotification.h"; sourceTree = "<group>"; };
 		5FBAD1431BE7B92900703DD1 /* UIViewController+LockNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+LockNotification.m"; sourceTree = "<group>"; };
 		5FBAD1441BE7B92900703DD1 /* UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UI.h; sourceTree = "<group>"; };
@@ -776,8 +773,6 @@
 		5FBAD2951BE7CCD700703DD1 /* secondary_button_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = secondary_button_normal.png; sourceTree = "<group>"; };
 		5FBAD2961BE7CCD700703DD1 /* secondary_button_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "secondary_button_normal@2x.png"; sourceTree = "<group>"; };
 		5FBAD2971BE7CCD700703DD1 /* secondary_button_normal@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "secondary_button_normal@3x.png"; sourceTree = "<group>"; };
-		5FBAD2981BE7CCD700703DD1 /* Services.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Services.plist; sourceTree = "<group>"; };
-		5FBAD2991BE7CCD700703DD1 /* z-social.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "z-social.ttf"; sourceTree = "<group>"; };
 		5FBAD3841BE7E76D00703DD1 /* A0Lock+A0TouchIDLockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "A0Lock+A0TouchIDLockViewController.h"; sourceTree = "<group>"; };
 		5FBAD3851BE7E76D00703DD1 /* A0Lock+A0TouchIDLockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "A0Lock+A0TouchIDLockViewController.m"; sourceTree = "<group>"; };
 		5FBAD3861BE7E76D00703DD1 /* A0TouchIDLockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0TouchIDLockViewController.h; sourceTree = "<group>"; };
@@ -988,6 +983,11 @@
 		5FF67F5B1BEBC4B400161E5B /* yandex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yandex.png; sourceTree = "<group>"; };
 		5FF67F5C1BEBC4B400161E5B /* yandex@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yandex@2x.png"; sourceTree = "<group>"; };
 		5FF67F5D1BEBC4B400161E5B /* yandex@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yandex@3x.png"; sourceTree = "<group>"; };
+		5FF67FB91BEBD6EF00161E5B /* Lock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lock.h; sourceTree = "<group>"; };
+		5FF67FBB1BEBD70800161E5B /* Lock.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Lock.podspec; sourceTree = SOURCE_ROOT; };
+		5FF67FBD1BEBD72300161E5B /* Cartfile.resolved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
+		5FF67FBE1BEBD72300161E5B /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		5FF67FBF1BEBD72300161E5B /* Cartfile.private */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1329,8 +1329,6 @@
 				5FBAD13D1BE7B92900703DD1 /* A0SocialLoginViewController.m */,
 				5FBAD13E1BE7B92900703DD1 /* A0TitleView.h */,
 				5FBAD13F1BE7B92900703DD1 /* A0TitleView.m */,
-				5FBAD1401BE7B92900703DD1 /* UIFont+A0Social.h */,
-				5FBAD1411BE7B92900703DD1 /* UIFont+A0Social.m */,
 				5FBAD1421BE7B92900703DD1 /* UIViewController+LockNotification.h */,
 				5FBAD1431BE7B92900703DD1 /* UIViewController+LockNotification.m */,
 			);
@@ -1451,8 +1449,6 @@
 			children = (
 				5FF67F031BEBC4B400161E5B /* Social */,
 				5FBAD2821BE7CCD700703DD1 /* Images */,
-				5FBAD2981BE7CCD700703DD1 /* Services.plist */,
-				5FBAD2991BE7CCD700703DD1 /* z-social.ttf */,
 				5FBAD27E1BE7CC8F00703DD1 /* Info.plist */,
 			);
 			path = Auth0;
@@ -1679,6 +1675,8 @@
 		5FBAD4911BE80FB100703DD1 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				5FF67FBC1BEBD71200161E5B /* Carthage */,
+				5FF67FB81BEBD6EF00161E5B /* CocoaPods */,
 				5FBAD3E31BE7E9FC00703DD1 /* Bundles */,
 				5FBAD0E91BE7B3F200703DD1 /* Frameworks */,
 			);
@@ -1832,6 +1830,25 @@
 			path = Social;
 			sourceTree = "<group>";
 		};
+		5FF67FB81BEBD6EF00161E5B /* CocoaPods */ = {
+			isa = PBXGroup;
+			children = (
+				5FF67FBB1BEBD70800161E5B /* Lock.podspec */,
+				5FF67FB91BEBD6EF00161E5B /* Lock.h */,
+			);
+			path = CocoaPods;
+			sourceTree = "<group>";
+		};
+		5FF67FBC1BEBD71200161E5B /* Carthage */ = {
+			isa = PBXGroup;
+			children = (
+				5FF67FBD1BEBD72300161E5B /* Cartfile.resolved */,
+				5FF67FBE1BEBD72300161E5B /* Cartfile */,
+				5FF67FBF1BEBD72300161E5B /* Cartfile.private */,
+			);
+			name = Carthage;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1872,7 +1889,6 @@
 				5FBAD0861BE7B23C00703DD1 /* A0SimpleConnectionDomainMatcher.h in Headers */,
 				5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */,
 				5FBAD4351BE7F0CA00703DD1 /* A0SMSMagicLinkViewController.h in Headers */,
-				5FBAD1A71BE7B92900703DD1 /* UIFont+A0Social.h in Headers */,
 				5FBAD05D1BE7B23C00703DD1 /* A0APIClientProvider.h in Headers */,
 				5FBAD18F1BE7B92900703DD1 /* A0LoadingViewController.h in Headers */,
 				5FBAD4311BE7F0CA00703DD1 /* A0PhoneFieldView.h in Headers */,
@@ -2255,6 +2271,7 @@
 				5FBAD41C1BE7F09600703DD1 /* A0TouchIDSignUpViewController.xib in Resources */,
 				5FBAD21B1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib in Resources */,
 				5FF67FA31BEBC4B400161E5B /* vimeo.png in Resources */,
+				5FF67FC21BEBD72300161E5B /* Cartfile.private in Resources */,
 				5FF67FA11BEBC4B400161E5B /* twitter@2x.png in Resources */,
 				5FF67F9C1BEBC4B400161E5B /* soundcloud@3x.png in Resources */,
 				5FBAD41A1BE7F09600703DD1 /* A0TouchIDLockViewController.xib in Resources */,
@@ -2264,6 +2281,7 @@
 				5FF67FA91BEBC4B400161E5B /* weibo.png in Resources */,
 				5FBAD4261BE7F0BA00703DD1 /* A0CountryCodeTableViewController.xib in Resources */,
 				5FF67F641BEBC4B400161E5B /* aol.png in Resources */,
+				5FF67FC01BEBD72300161E5B /* Cartfile.resolved in Resources */,
 				5FF67F8C1BEBC4B400161E5B /* paypal@2x.png in Resources */,
 				5FF67FA81BEBC4B400161E5B /* vkontakte@3x.png in Resources */,
 				5FBAD21F1BE7BD4C00703DD1 /* A0FullLoginViewController.xib in Resources */,
@@ -2309,6 +2327,7 @@
 				5FF67F751BEBC4B400161E5B /* facebook@3x.png in Resources */,
 				5FBAD21A1BE7BD4C00703DD1 /* A0ActiveDirectoryViewController.xib in Resources */,
 				5FF67F871BEBC4B400161E5B /* microsoft@3x.png in Resources */,
+				5FF67FC11BEBD72300161E5B /* Cartfile in Resources */,
 				5FF67F8B1BEBC4B400161E5B /* paypal.png in Resources */,
 				5FF67FB71BEBC4B400161E5B /* yandex@3x.png in Resources */,
 				5FF67F731BEBC4B400161E5B /* facebook.png in Resources */,
@@ -2346,8 +2365,6 @@
 				5FBAD2AB1BE7CCD700703DD1 /* secondary_button_highlighted@3x.png in Resources */,
 				5FBAD2A31BE7CCD700703DD1 /* people.png in Resources */,
 				5FBAD2A41BE7CCD700703DD1 /* people@2x.png in Resources */,
-				5FBAD2B01BE7CCD700703DD1 /* z-social.ttf in Resources */,
-				5FBAD2AF1BE7CCD700703DD1 /* Services.plist in Resources */,
 				5FBAD29E1BE7CCD700703DD1 /* lock@2x.png in Resources */,
 				5FBAD29A1BE7CCD700703DD1 /* close.png in Resources */,
 				5FBAD2A51BE7CCD700703DD1 /* people@3x.png in Resources */,
@@ -2492,7 +2509,6 @@
 				5FBAD1AA1BE7B92900703DD1 /* UIViewController+LockNotification.m in Sources */,
 				5FBAD1921BE7B92900703DD1 /* A0NavigationView.m in Sources */,
 				5FBAD1CC1BE7B92900703DD1 /* A0ProgressButton.m in Sources */,
-				5FBAD1A81BE7B92900703DD1 /* UIFont+A0Social.m in Sources */,
 				5FBAD1A01BE7B92900703DD1 /* A0SignUpViewController.m in Sources */,
 				5FBAD08D1BE7B23C00703DD1 /* A0UserAPIClient.m in Sources */,
 				5FBAD1C41BE7B92900703DD1 /* A0Theme.m in Sources */,

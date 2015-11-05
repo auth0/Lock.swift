@@ -369,6 +369,7 @@ NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
     if ([strategyName isEqualToString:@"windowslive"]) {
         theme = [[A0ServiceTheme alloc] initWithName:@"windowslive"
                                               values:@{
+                                                       A0ServiceThemeLocalizedTitle: A0LocalizedString(@"Login with Microsoft"),
                                                        A0ServiceThemeIconImageName: @"microsoft",
                                                        A0ServiceThemeNormalBackgroundColor: [UIColor colorWithRed:0.000 green:0.471 blue:0.843 alpha:1.000],
                                                        A0ServiceThemeHighlightedBackgroundColor: [UIColor colorWithRed:0.000 green:0.324 blue:0.581 alpha:1.000],

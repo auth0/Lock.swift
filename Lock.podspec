@@ -51,7 +51,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     ui.source_files = ['Lock/{UI,Utils}/*.{h,m}', 'Lock/UI/Private/*.{h,m}']
     ui.dependency 'Lock/CoreUI'
     ui.resources = 'Lock/UI/NIBs/*.xib'
-    ui.resource_bundles = { 'Auth0' => ['Auth0/Images/*.png', 'Auth0/*.plist', 'Auth0/*.ttf']}
+    ui.resource_bundles = { 'Auth0' => ['Auth0/Images/*.png', 'Auth0/Social/*.png']}
   end
 
   s.subspec 'TouchID' do |touchid|
