@@ -22,16 +22,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class  A0ProgressButton;
+@class  A0ProgressButton, A0ServiceTheme;
 
 @interface A0ServiceTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet A0ProgressButton *button;
 
-- (void)configureWithBackground:(UIColor *)background
-                    highlighted:(UIColor *)highlighted
-                     foreground:(UIColor *)foreground
-                         symbol:(NSString *)symbol
-                           name:(NSString *)name;
+- (void)applyTheme:(A0ServiceTheme *)theme;
 
 @end

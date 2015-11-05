@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import <Lock/A0ServiceTheme.h>
 
 FOUNDATION_EXPORT NSString * const A0ThemePrimaryButtonNormalColor;
 FOUNDATION_EXPORT NSString * const A0ThemePrimaryButtonHighlightedColor;
@@ -83,6 +84,8 @@ FOUNDATION_EXPORT NSString * const A0ThemeCloseButtonTintColor;
 - (void)configureSecondaryButton:(UIButton *)button;
 - (void)configureTextField:(UITextField *)textField;
 - (void)configureLabel:(UILabel *)label;
+
+- (A0ServiceTheme *)themeForStrategyName:(NSString *)strategyName;
 
 - (void)registerTheme:(A0Theme *)theme;
 - (void)registerDefaultTheme;

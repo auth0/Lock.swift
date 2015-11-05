@@ -34,23 +34,26 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    A0Lock *lock = [A0Lock sharedLock];
-#if TARGET_IPHONE_SIMULATOR
-    A0SafariAuthenticator *safari = [[A0SafariAuthenticator alloc] initWithLock:lock connectionName:@"instagram" useUniversalLink:NO];
-#else
-    A0SafariAuthenticator *safari = [[A0SafariAuthenticator alloc] initWithLock:lock connectionName:@"instagram"];
-#endif
-    [lock registerAuthenticators:@[ safari ]];
-
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
 #if DEBUG
+    setenv("XcodeColors", "YES", 0);
     [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.400 green:0.800 blue:1.000 alpha:1.000] backgroundColor:nil forFlag:DDLogFlagInfo];
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.400 green:1.000 blue:0.400 alpha:1.000] backgroundColor:nil forFlag:DDLogFlagDebug];
 #endif
 
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+
     [A0LockLogger logAll];
+
+    BOOL useUniversalLink = YES;
+#if TARGET_IPHONE_SIMULATOR
+    useUniversalLink = NO;
+#endif
+
+    A0Lock *lock = [A0Lock sharedLock];
+    A0SafariAuthenticator *safari = [[A0SafariAuthenticator alloc] initWithLock:lock connectionName:@"instagram" useUniversalLink:useUniversalLink];
+    [lock registerAuthenticators:@[safari]];
     [lock applicationLaunchedWithOptions:launchOptions];
     return YES;
 }

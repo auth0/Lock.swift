@@ -38,6 +38,7 @@
 #import "A0Lock.h"
 #import "NSError+A0APIError.h"
 #import "A0ServiceViewModel.h"
+#import "Constants.h"
 
 #define kCellIdentifier @"ServiceCell"
 
@@ -60,7 +61,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.delegate = self.layoutDelegate;
     self.dataSource = self;
     self.scrollEnabled = self.layoutDelegate.shouldScroll;
-    self.serviceTheme = [A0ServiceViewModel loadThemeInformation];
     UINib *cellNib = [UINib nibWithNibName:NSStringFromClass([A0ServiceCollectionViewCell class])
                                     bundle:[NSBundle bundleForClass:[self class]]];
     [self registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
@@ -69,9 +69,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)showSocialServicesForConfiguration:(A0LockConfiguration *)configuration {
     self.configuration = configuration;
     self.socialServices = [A0ServiceViewModel servicesFromStrategies:[configuration socialStrategies]];
-    [self.socialServices enumerateObjectsUsingBlock:^(A0ServiceViewModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj applyTheme:self.serviceTheme];
-    }];
     self.layoutDelegate.serviceCount = self.socialServices.count;
     self.scrollEnabled = self.layoutDelegate.shouldScroll;
     [self reloadData];
@@ -127,10 +124,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0ServiceCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
     A0ServiceViewModel *service = self.socialServices[indexPath.item];
     cell.serviceButton.titleLabel.font = [UIFont zocialFontOfSize:16.0f];
-    [cell.serviceButton setTitleColor:service.foregroundColor forState:UIControlStateNormal];
-    [cell.serviceButton setTitle:service.iconCharacter forState:UIControlStateNormal];
-    [cell.serviceButton setBackgroundColor:service.backgroundColor forState:UIControlStateNormal];
-    [cell.serviceButton setBackgroundColor:service.selectedBackgroundColor forState:UIControlStateHighlighted];
+    A0ServiceTheme *theme = service.theme;
+    cell.serviceButton.imageView.tintColor = theme.foregroundColor;
+    [cell.serviceButton setImage:theme.iconImage forState:UIControlStateNormal];
+    [cell.serviceButton setBackgroundColor:theme.normalBackgroundColor forState:UIControlStateNormal];
+    [cell.serviceButton setBackgroundColor:theme.highlightedBackgroundColor forState:UIControlStateHighlighted];
     [cell.serviceButton addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];
     cell.serviceButton.tag = indexPath.item;
     return cell;

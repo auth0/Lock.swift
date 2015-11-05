@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "Constants.h"
+#import "A0ServiceTheme.h"
 
 @class A0Connection, A0Strategy;
 
@@ -29,24 +29,13 @@
 
 @property (readonly, strong, nonatomic) NSString *name;
 @property (readonly, strong, nonatomic) A0Connection *connection;
-
-@property (readonly, strong, nonatomic) UIColor *selectedBackgroundColor;
-@property (readonly, strong, nonatomic) UIColor *backgroundColor;
-@property (readonly, strong, nonatomic) UIColor *foregroundColor;
-@property (readonly, strong, nonatomic) NSString *iconCharacter;
-@property (readonly, strong, nonatomic) NSString *title;
+@property (readonly, nonatomic) A0ServiceTheme *theme;
 
 - (instancetype)initWithStrategy:(A0Strategy *)strategy connection:(A0Connection *)connection;
-
-- (void)applyTheme:(NSDictionary *)theme;
 
 @end
 
 @interface A0ServiceViewModel (Builder)
 + (NSArray *)servicesFromStrategy:(A0Strategy *)strategy;
 + (NSArray *)servicesFromStrategies:(NSArray *)strategies;
-@end
-
-@interface A0ServiceViewModel (ThemeLoad)
-+ (NSDictionary *)loadThemeInformation;
 @end

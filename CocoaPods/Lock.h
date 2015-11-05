@@ -46,6 +46,7 @@
 
 #if __has_include("A0Theme.h")
 #import "A0Theme.h"
+#import "A0ServiceTheme.h"
 #endif
 
 #if __has_include("A0TouchIDLockViewController.h")

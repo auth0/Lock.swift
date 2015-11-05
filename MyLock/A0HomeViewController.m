@@ -68,9 +68,9 @@ static BOOL isRunningTests(void) {
         [self performSegueWithIdentifier:@"LoggedIn" sender:self];
     }
 
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    self.clientIdLabel.text = info[kClientIdKey];
-    self.tenantLabel.text = info[kTenantKey];
+    A0Lock *lock = [A0Lock sharedLock];
+    self.clientIdLabel.text = [lock clientId];
+    self.tenantLabel.text = [[lock domainURL] host];
 }
 
 - (void)loginNative:(id)sender {
