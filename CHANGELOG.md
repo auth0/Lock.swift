@@ -1,5 +1,21 @@
 # Change Log
 
+## [Unreleased](https://github.com/auth0/Lock.iOS-OSX/tree/HEAD)
+
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.21.0...HEAD)
+
+**Fixed bugs:**
+
+- Unable to install Lock as CocoaPod Xcode 7.1 Swift [\#185](https://github.com/auth0/Lock.iOS-OSX/issues/185)
+
+## [1.21.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.21.0) (2015-11-05)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.20.0...1.21.0)
+
+**Merged pull requests:**
+
+- Update Social icons and allow to customise them [\#189](https://github.com/auth0/Lock.iOS-OSX/pull/189) ([hzalaz](https://github.com/hzalaz))
+- Carthage Support [\#188](https://github.com/auth0/Lock.iOS-OSX/pull/188) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.20.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.20.0) (2015-10-21)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.19.2...1.20.0)
 
