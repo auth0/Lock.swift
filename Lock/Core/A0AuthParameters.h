@@ -91,7 +91,7 @@ FOUNDATION_EXPORT NSString * const A0ScopeOpenId;
  */
 FOUNDATION_EXPORT NSString * const A0ScopeOfflineAccess;
 /**
- 'openid profile' scope
+ 'openid name email' scope
  */
 FOUNDATION_EXPORT NSString * const A0ScopeProfile;
 

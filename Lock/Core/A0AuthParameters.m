@@ -36,7 +36,7 @@ NSString * const A0ParameterConnection = @"connection";
 
 NSString * const A0ScopeOpenId = @"openid";
 NSString * const A0ScopeOfflineAccess = @"offline_access";
-NSString * const A0ScopeProfile = @"openid profile";
+NSString * const A0ScopeProfile = @"openid name email";
 
 NSString * const A0ParameterAPIType = @"api_type";
 NSString * const A0ParameterTarget = @"target";
