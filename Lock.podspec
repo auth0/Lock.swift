@@ -98,5 +98,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     webview.source_files = 'Lock/WebView/*.{h,m}'
     webview.resources = 'Lock/WebView/NIBs/*.xib'
     webview.dependency 'Lock/CoreUI'
+    webview.frameworks = ["WebKit"]
   end
 end

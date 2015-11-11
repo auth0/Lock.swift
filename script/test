@@ -62,7 +62,7 @@ do
   run_tests $scheme
 done
 
-if [ -f "$PROJECT_NAME.podspec" ] && [ -z "$LINT_PODSPEC" ]
+if [ -f "$PROJECT_NAME.podspec" ] && [ "$LINT_PODSPEC" == "yes"]
 then
   echo ""
   echo " → Linting $PROJECT_NAME.podspec"
