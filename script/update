@@ -21,6 +21,10 @@ then
   then
     carthage_cmd="$carthage_cmd --no-use-binaries"
   fi
+  if [ -z $DISABLE_CARTHAGE_CACHE ] && type bundle > /dev/null && bundle show carthage_cache > /dev/null && [ -f .carthage_cache.yml ]
+  then
+    carthage_cmd="$carthage_cmd && bundle exec carthage_cache publish"
+  fi
   if [ ! -z "$VERBOSE" ]
   then
     echo $carthage_cmd

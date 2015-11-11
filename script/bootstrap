@@ -116,12 +116,13 @@ bootstrap_carthage ()
   echo ""
   echo " → Bootstrapping Carthage"
   echo ""
-  carthage_cmd="time carthage bootstrap --platform $CARTHAGE_BUILD_PLATFORM"
+  carthage_cmd="carthage bootstrap --platform $CARTHAGE_BUILD_PLATFORM"
 
   if [ "$USE_SSH" == "true" ]
   then
     carthage_cmd="$carthage_cmd --use-ssh"
   fi
+
   if [ "$USE_SUBMODULES" == "true" ]
   then
     carthage_cmd="$carthage_cmd --use-submodules --no-build"
@@ -130,6 +131,17 @@ bootstrap_carthage ()
   if [ "$CARTHAGE_NO_USE_BINARIES" == "true" ]
   then
     carthage_cmd="$carthage_cmd --no-use-binaries"
+  fi
+
+  if [ -z $DISABLE_CARTHAGE_CACHE ] && type bundle > /dev/null && bundle show carthage_cache > /dev/null && [ -f .carthage_cache.yml ]
+  then
+    carthage_cmd="(bundle exec carthage_cache install || $carthage_cmd) && bundle exec carthage_cache publish"
+  fi
+
+  carthage_cmd="time $carthage_cmd"
+  if [ ! -z "$VERBOSE" ]
+  then
+    echo $carthage_cmd
   fi
 
   eval $carthage_cmd
@@ -189,6 +201,11 @@ install_carthage ()
   else
     force_install_carthage
   fi
+
+  if [ -z "$DISABLE_CARTHAGE_CACHE_CONFIG" ] && type bundle > /dev/null && bundle show carthage_cache > /dev/null && [ ! -f .carthage_cache.yml ]
+  then
+    bundle exec carthage_cache config
+  fi
 }
 
 main ()
@@ -202,15 +219,15 @@ main ()
   install_git_hooks
   install_dependencies
 
+  if [ -f Gemfile ]
+  then
+    bundle_install
+  fi
+
   if [ -f Cartfile ]
   then
     install_carthage
     bootstrap_carthage
-  fi
-
-  if [ -f Gemfile ]
-  then
-    bundle_install
   fi
 
   if [ -f Podfile ]

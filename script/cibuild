@@ -26,7 +26,7 @@ main ()
     echo ""
     echo "####### Bootstrap Phase #######"
     echo ""
-    NO_CARTHAGE_UPDATE=true script/bootstrap
+    DISABLE_CARTHAGE_CACHE_CONFIG=true NO_CARTHAGE_UPDATE=true script/bootstrap
     local status=$?
 
     if [ $status -eq 0 ]
