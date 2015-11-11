@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo ""
+echo " → Creating Auth0.plist"
+echo ""
+
+if [ -z "$CLIENT_ID" ]
+then
+  echo "    ✕ You need to provide a Auth0 ClientId in the env variable 'CLIENT_ID'"
+  exit 1
+fi
+
+if [ -z "$DOMAIN" ]
+then
+  echo "    ✕ You need to provide a Auth0 Domain in the env variable 'DOMAIN'"
+  exit 1
+fi
+
+defaults write `pwd`/MyLock/Auth0.plist ClientId $CLIENT_ID
+defaults write `pwd`/MyLock/Auth0.plist Domain $DOMAIN
+plutil -convert xml1 MyLock/Auth0.plist
+
+echo ""
+echo "    ✔ Created Auth0.plist in `pwd`/MyLock"
+echo ""
