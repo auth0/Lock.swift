@@ -1,4 +1,4 @@
-github "Quick/Nimble" "v2.0.0"
-github "Quick/Quick" "v0.6.0"
+github "Quick/Nimble" "v3.0.0"
+github "Quick/Quick" "v0.8.0"
 github "auth0/JWTDecode.swift" ~> 1.0
 github "AliSoftware/OHHTTPStubs"
