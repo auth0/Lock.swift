@@ -5,7 +5,7 @@ set -e
 source script/.env
 source script/common/carthage
 
-if [ -f Cartfile ] && type carthage > /dev/null
+if [ -f Cartfile.resolved ] && type carthage > /dev/null
 then
   check_carthage_version
   carthage_cmd="carthage update --platform $CARTHAGE_BUILD_PLATFORM"

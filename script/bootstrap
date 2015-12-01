@@ -133,9 +133,14 @@ bootstrap_carthage ()
     carthage_cmd="$carthage_cmd --no-use-binaries"
   fi
 
-  if [ -z $DISABLE_CARTHAGE_CACHE ] && type bundle > /dev/null && bundle show carthage_cache > /dev/null && [ -f .carthage_cache.yml ]
+  if [ -z $DISABLE_CARTHAGE_CACHE ] && type bundle > /dev/null && bundle show carthage_cache > /dev/null && ([ ! -z $DISABLE_CARTHAGE_CACHE_CONFIG ] || [ -f .carthage_cache.yml ])
   then
-    carthage_cmd="(bundle exec carthage_cache install || $carthage_cmd) && bundle exec carthage_cache publish"
+    carthage_cache_cmd="carthage_cache"
+    if [ ! -z $CARTHAGE_CACHE_BUCKET_NAME ]
+    then
+      carthage_cache_cmd="$carthage_cache_cmd -b $CARTHAGE_CACHE_BUCKET_NAME"
+    fi
+    carthage_cmd="(bundle exec $carthage_cache_cmd install || $carthage_cmd) && bundle exec $carthage_cache_cmd publish"
   fi
 
   carthage_cmd="time $carthage_cmd"
@@ -182,7 +187,7 @@ install_dependencies ()
   install_homebrew
   brew_install "xcode-coveralls" "macmade/tap"
 
-  if [ -f script/script_hooks/bootstrap ]
+  if [ -f script/script_hooks/bootstrap ] && [ -z $DISABLE_BOOTSTRAP_HOOKS ]
   then
     script/script_hooks/bootstrap
   fi
@@ -224,7 +229,7 @@ main ()
     bundle_install
   fi
 
-  if [ -f Cartfile ]
+  if [ -f Cartfile.resolved ]
   then
     install_carthage
     bootstrap_carthage

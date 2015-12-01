@@ -45,7 +45,7 @@ build_using_xcodebuild ()
   eval $build_command
 }
 
-if [ ! -f $XCODE_WORKSPACE ] && [ -f Cartfile ] && type carthage > /dev/null
+if [ ! -f $XCODE_WORKSPACE ] && [ -f Cartfile.resolved ] && type carthage > /dev/null
 then
   build_using_carthage
 else

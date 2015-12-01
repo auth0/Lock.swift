@@ -29,7 +29,7 @@ uninstall_carthage ()
 check_carthage_version ()
 {
   local carthage_installed_version=`carthage version`
-  local patch_number=`echo $REQUIRED_CARTHAGE_VERSION | cut -d "." -f 4`
+  local patch_number=`echo $REQUIRED_CARTHAGE_VERSION | cut -d "." -f 3`
   if [ -z $patch_number ]
   then
     REQUIRED_CARTHAGE_VERSION="$REQUIRED_CARTHAGE_VERSION.0"

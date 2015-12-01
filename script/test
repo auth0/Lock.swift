@@ -44,7 +44,7 @@ run_tests ()
   eval $test_command
 }
 
-if [ -f Cartfile ]
+if [ -f Cartfile.resolved ]
 then
   check_carthage_version
 fi
@@ -69,7 +69,7 @@ then
   echo ""
   if type bundle > /dev/null && bundle show pod > /dev/null
   then
-    bundle exec pod lib lint
+    bundle exec pod lib lint $LINT_PODSPEC_PARAMETERS
   elif type pod > /dev/null
   then
     pod lib lint $LINT_PODSPEC_PARAMETERS
