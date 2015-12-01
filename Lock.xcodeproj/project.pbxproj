@@ -390,9 +390,6 @@
 		5FBAD4F61BE96D3500703DD1 /* A0GenericAPIErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C41BE95C5700703DD1 /* A0GenericAPIErrorHandlerSpec.m */; };
 		5FD6FB501BEB99400071343E /* A0ServiceTheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD6FB4E1BEB99400071343E /* A0ServiceTheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FD6FB511BEB99400071343E /* A0ServiceTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6FB4F1BEB99400071343E /* A0ServiceTheme.m */; };
-		5FF67FC01BEBD72300161E5B /* Cartfile.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 5FF67FBD1BEBD72300161E5B /* Cartfile.resolved */; };
-		5FF67FC11BEBD72300161E5B /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 5FF67FBE1BEBD72300161E5B /* Cartfile */; };
-		5FF67FC21BEBD72300161E5B /* Cartfile.private in Resources */ = {isa = PBXBuildFile; fileRef = 5FF67FBF1BEBD72300161E5B /* Cartfile.private */; };
 		5FF680E61BEBE3AB00161E5B /* exact.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FF680261BEBE36800161E5B /* exact.png */; };
 		5FF680E71BEBE3AB00161E5B /* exact@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FF680271BEBE36800161E5B /* exact@2x.png */; };
 		5FF680E81BEBE3AB00161E5B /* exact@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FF680281BEBE36800161E5B /* exact@3x.png */; };
@@ -2244,11 +2241,9 @@
 				5FBAD2231BE7BD4C00703DD1 /* A0ServiceCollectionViewCell.xib in Resources */,
 				5FBAD41C1BE7F09600703DD1 /* A0TouchIDSignUpViewController.xib in Resources */,
 				5FBAD21B1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib in Resources */,
-				5FF67FC21BEBD72300161E5B /* Cartfile.private in Resources */,
 				5FBAD41A1BE7F09600703DD1 /* A0TouchIDLockViewController.xib in Resources */,
 				5FBAD21D1BE7BD4C00703DD1 /* A0EnterpriseLoginViewController.xib in Resources */,
 				5FBAD4261BE7F0BA00703DD1 /* A0CountryCodeTableViewController.xib in Resources */,
-				5FF67FC01BEBD72300161E5B /* Cartfile.resolved in Resources */,
 				5FBAD21F1BE7BD4C00703DD1 /* A0FullLoginViewController.xib in Resources */,
 				5FBAD43A1BE7F0D100703DD1 /* A0EmailLockViewController.xib in Resources */,
 				5FBAD4251BE7F0BA00703DD1 /* A0CountryCodeTableViewCell.xib in Resources */,
@@ -2260,7 +2255,6 @@
 				5FBAD43B1BE7F0D100703DD1 /* A0EmailMagicLinkViewController.xib in Resources */,
 				5FBAD2221BE7BD4C00703DD1 /* A0LockViewController.xib in Resources */,
 				5FBAD21A1BE7BD4C00703DD1 /* A0ActiveDirectoryViewController.xib in Resources */,
-				5FF67FC11BEBD72300161E5B /* Cartfile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
