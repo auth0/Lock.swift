@@ -1,12 +1,21 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.2.4)
+    activesupport (4.2.5)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    aws-sdk (2.2.3)
+      aws-sdk-resources (= 2.2.3)
+    aws-sdk-core (2.2.3)
+      jmespath (~> 1.0)
+    aws-sdk-resources (2.2.3)
+      aws-sdk-core (= 2.2.3)
+    carthage_cache (0.1.4)
+      aws-sdk (~> 2)
+      commander
     claide (0.9.1)
     cocoapods (0.39.0)
       activesupport (>= 4.0.2)
@@ -37,11 +46,15 @@ GEM
       netrc (= 0.7.8)
     cocoapods-try (0.5.1)
     colored (1.2)
+    commander (4.3.5)
+      highline (~> 1.7.2)
     escape (0.0.4)
     fuzzy_match (2.0.4)
+    highline (1.7.8)
     i18n (0.7.0)
+    jmespath (1.1.3)
     json (1.8.3)
-    minitest (5.8.2)
+    minitest (5.8.3)
     molinillo (0.4.0)
     nap (1.0.0)
     netrc (0.7.8)
@@ -60,5 +73,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  carthage_cache
   cocoapods (~> 0.39)
   xcpretty
+
+BUNDLED WITH
+   1.10.6

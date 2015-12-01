@@ -34,3 +34,6 @@ Carthage/
 
 #Auth0 Lock
 Auth0.plist
+
+#Carthage Cache
+.carthage_cache.yml
