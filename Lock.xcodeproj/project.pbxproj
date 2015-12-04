@@ -22,6 +22,16 @@
 		5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A61C12062F008D73FC /* A0WebViewController.xib */; };
 		5FB6A5EA1CA0357F00DF5078 /* A0FailureAuthenticator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */; };
 		5FB6A5EB1CA0357F00DF5078 /* A0FailureAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */; };
+		5F6628AB1C12465F008D73FC /* CountryCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628AA1C12465F008D73FC /* CountryCodes.plist */; };
+		5F6628B51C12466C008D73FC /* cellphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628AC1C12466C008D73FC /* cellphone.png */; };
+		5F6628B61C12466C008D73FC /* cellphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628AD1C12466C008D73FC /* cellphone@2x.png */; };
+		5F6628B71C12466C008D73FC /* cellphone@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628AE1C12466C008D73FC /* cellphone@3x.png */; };
+		5F6628B81C12466C008D73FC /* touchid_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628AF1C12466C008D73FC /* touchid_selected.png */; };
+		5F6628B91C12466C008D73FC /* touchid_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628B01C12466C008D73FC /* touchid_selected@2x.png */; };
+		5F6628BA1C12466C008D73FC /* touchid_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628B11C12466C008D73FC /* touchid_selected@3x.png */; };
+		5F6628BB1C12466C008D73FC /* touchid.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628B21C12466C008D73FC /* touchid.png */; };
+		5F6628BC1C12466C008D73FC /* touchid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628B31C12466C008D73FC /* touchid@2x.png */; };
+		5F6628BD1C12466C008D73FC /* touchid@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628B41C12466C008D73FC /* touchid@3x.png */; };
 		5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD05B1BE7B23C00703DD1 /* A0APIClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD00E1BE7B22800703DD1 /* A0APIClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD05C1BE7B23C00703DD1 /* A0APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD00F1BE7B22800703DD1 /* A0APIClient.m */; };
@@ -306,12 +316,6 @@
 		5FBAD2AE1BE7CCD700703DD1 /* secondary_button_normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2971BE7CCD700703DD1 /* secondary_button_normal@3x.png */; };
 		5FBAD2B11BE7CCE500703DD1 /* Auth0.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD27C1BE7CC8F00703DD1 /* Auth0.bundle */; };
 		5FBAD2B71BE7E25600703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FBAD3DA1BE7E9DC00703DD1 /* touchid.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3D41BE7E9DC00703DD1 /* touchid.png */; };
-		5FBAD3DB1BE7E9DC00703DD1 /* touchid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3D51BE7E9DC00703DD1 /* touchid@2x.png */; };
-		5FBAD3DC1BE7E9DC00703DD1 /* touchid@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3D61BE7E9DC00703DD1 /* touchid@3x.png */; };
-		5FBAD3DD1BE7E9DC00703DD1 /* touchid_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3D71BE7E9DC00703DD1 /* touchid_selected.png */; };
-		5FBAD3DE1BE7E9DC00703DD1 /* touchid_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3D81BE7E9DC00703DD1 /* touchid_selected@2x.png */; };
-		5FBAD3DF1BE7E9DC00703DD1 /* touchid_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3D91BE7E9DC00703DD1 /* touchid_selected@3x.png */; };
 		5FBAD41A1BE7F09600703DD1 /* A0TouchIDLockViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3E51BE7EA1500703DD1 /* A0TouchIDLockViewController.xib */; };
 		5FBAD41B1BE7F09600703DD1 /* A0TouchIDRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3E61BE7EA1500703DD1 /* A0TouchIDRegisterViewController.xib */; };
 		5FBAD41C1BE7F09600703DD1 /* A0TouchIDSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3E71BE7EA1500703DD1 /* A0TouchIDSignUpViewController.xib */; };
@@ -368,12 +372,6 @@
 		5FBAD47F1BE809EA00703DD1 /* A0HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4751BE809EA00703DD1 /* A0HomeViewController.m */; };
 		5FBAD4811BE809EA00703DD1 /* A0SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD47A1BE809EA00703DD1 /* A0SettingsViewController.m */; };
 		5FBAD4821BE809EA00703DD1 /* A0UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD47C1BE809EA00703DD1 /* A0UserProfileViewController.m */; };
-		5FBAD4871BE80DB600703DD1 /* Auth0.TouchID.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3CD1BE7E99A00703DD1 /* Auth0.TouchID.bundle */; };
-		5FBAD4881BE80DB600703DD1 /* Auth0.SMS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3EF1BE7EC3400703DD1 /* Auth0.SMS.bundle */; };
-		5FBAD48D1BE80E1A00703DD1 /* CountryCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3F51BE7ECF300703DD1 /* CountryCodes.plist */; };
-		5FBAD48E1BE80E2100703DD1 /* cellphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3F71BE7ECF300703DD1 /* cellphone.png */; };
-		5FBAD48F1BE80E2100703DD1 /* cellphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3F81BE7ECF300703DD1 /* cellphone@2x.png */; };
-		5FBAD4901BE80E2100703DD1 /* cellphone@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3F91BE7ECF300703DD1 /* cellphone@3x.png */; };
 		5FBAD4941BE80FDF00703DD1 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD4921BE80FDF00703DD1 /* Quick.framework */; };
 		5FBAD4951BE80FDF00703DD1 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD4931BE80FDF00703DD1 /* Nimble.framework */; };
 		5FBAD4971BE815F200703DD1 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD4961BE815F200703DD1 /* OHHTTPStubs.framework */; };
@@ -531,20 +529,6 @@
 			remoteGlobalIDString = 5FBAD22B1BE7BE1E00703DD1;
 			remoteInfo = MyLock;
 		};
-		5FBAD4891BE80DBA00703DD1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5FBACFEC1BE7AF8700703DD1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5FBAD3CC1BE7E99A00703DD1;
-			remoteInfo = "Auth0-TouchID";
-		};
-		5FBAD48B1BE80DBA00703DD1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5FBACFEC1BE7AF8700703DD1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5FBAD3EE1BE7EC3400703DD1;
-			remoteInfo = "Auth0-SMS";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -575,6 +559,16 @@
 		5F6628A91C120F23008D73FC /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0FailureAuthenticator.h; path = Private/A0FailureAuthenticator.h; sourceTree = "<group>"; };
 		5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = A0FailureAuthenticator.m; path = Private/A0FailureAuthenticator.m; sourceTree = "<group>"; };
+		5F6628AA1C12465F008D73FC /* CountryCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountryCodes.plist; sourceTree = "<group>"; };
+		5F6628AC1C12466C008D73FC /* cellphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellphone.png; sourceTree = "<group>"; };
+		5F6628AD1C12466C008D73FC /* cellphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cellphone@2x.png"; sourceTree = "<group>"; };
+		5F6628AE1C12466C008D73FC /* cellphone@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cellphone@3x.png"; sourceTree = "<group>"; };
+		5F6628AF1C12466C008D73FC /* touchid_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touchid_selected.png; sourceTree = "<group>"; };
+		5F6628B01C12466C008D73FC /* touchid_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid_selected@2x.png"; sourceTree = "<group>"; };
+		5F6628B11C12466C008D73FC /* touchid_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid_selected@3x.png"; sourceTree = "<group>"; };
+		5F6628B21C12466C008D73FC /* touchid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touchid.png; sourceTree = "<group>"; };
+		5F6628B31C12466C008D73FC /* touchid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid@2x.png"; sourceTree = "<group>"; };
+		5F6628B41C12466C008D73FC /* touchid@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid@3x.png"; sourceTree = "<group>"; };
 		5FBACFF51BE7AF8700703DD1 /* Lock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBACFF81BE7AF8700703DD1 /* Lock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lock.h; sourceTree = "<group>"; };
 		5FBACFFA1BE7AF8700703DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -834,23 +828,9 @@
 		5FBAD3A61BE7E76D00703DD1 /* A0EmailMagicLinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0EmailMagicLinkViewController.m; sourceTree = "<group>"; };
 		5FBAD3A71BE7E76D00703DD1 /* A0EmailSendCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0EmailSendCodeViewController.h; sourceTree = "<group>"; };
 		5FBAD3A81BE7E76D00703DD1 /* A0EmailSendCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0EmailSendCodeViewController.m; sourceTree = "<group>"; };
-		5FBAD3CD1BE7E99A00703DD1 /* Auth0.TouchID.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Auth0.TouchID.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FBAD3CF1BE7E99A00703DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FBAD3D41BE7E9DC00703DD1 /* touchid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touchid.png; sourceTree = "<group>"; };
-		5FBAD3D51BE7E9DC00703DD1 /* touchid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid@2x.png"; sourceTree = "<group>"; };
-		5FBAD3D61BE7E9DC00703DD1 /* touchid@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid@3x.png"; sourceTree = "<group>"; };
-		5FBAD3D71BE7E9DC00703DD1 /* touchid_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touchid_selected.png; sourceTree = "<group>"; };
-		5FBAD3D81BE7E9DC00703DD1 /* touchid_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid_selected@2x.png"; sourceTree = "<group>"; };
-		5FBAD3D91BE7E9DC00703DD1 /* touchid_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid_selected@3x.png"; sourceTree = "<group>"; };
 		5FBAD3E51BE7EA1500703DD1 /* A0TouchIDLockViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDLockViewController.xib; sourceTree = "<group>"; };
 		5FBAD3E61BE7EA1500703DD1 /* A0TouchIDRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDRegisterViewController.xib; sourceTree = "<group>"; };
 		5FBAD3E71BE7EA1500703DD1 /* A0TouchIDSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDSignUpViewController.xib; sourceTree = "<group>"; };
-		5FBAD3EF1BE7EC3400703DD1 /* Auth0.SMS.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Auth0.SMS.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FBAD3F11BE7EC3400703DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FBAD3F51BE7ECF300703DD1 /* CountryCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountryCodes.plist; sourceTree = "<group>"; };
-		5FBAD3F71BE7ECF300703DD1 /* cellphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellphone.png; sourceTree = "<group>"; };
-		5FBAD3F81BE7ECF300703DD1 /* cellphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cellphone@2x.png"; sourceTree = "<group>"; };
-		5FBAD3F91BE7ECF300703DD1 /* cellphone@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cellphone@3x.png"; sourceTree = "<group>"; };
 		5FBAD3FF1BE7ED0200703DD1 /* A0EmailCodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0EmailCodeViewController.xib; sourceTree = "<group>"; };
 		5FBAD4001BE7ED0200703DD1 /* A0EmailLockViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0EmailLockViewController.xib; sourceTree = "<group>"; };
 		5FBAD4011BE7ED0200703DD1 /* A0EmailMagicLinkViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0EmailMagicLinkViewController.xib; sourceTree = "<group>"; };
@@ -1064,20 +1044,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5FBAD3CA1BE7E99A00703DD1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5FBAD3EC1BE7EC3400703DD1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5FBAD4601BE7F93A00703DD1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1121,8 +1087,6 @@
 				5FBAD0051BE7B1E500703DD1 /* Lock.framework */,
 				5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */,
 				5FBAD27C1BE7CC8F00703DD1 /* Auth0.bundle */,
-				5FBAD3CD1BE7E99A00703DD1 /* Auth0.TouchID.bundle */,
-				5FBAD3EF1BE7EC3400703DD1 /* Auth0.SMS.bundle */,
 				5FBAD4631BE7F93A00703DD1 /* LockTests.xctest */,
 			);
 			name = Products;
@@ -1499,6 +1463,7 @@
 		5FBAD27D1BE7CC8F00703DD1 /* Auth0 */ = {
 			isa = PBXGroup;
 			children = (
+				5F6628AA1C12465F008D73FC /* CountryCodes.plist */,
 				5FF67F031BEBC4B400161E5B /* Social */,
 				5FBAD2821BE7CCD700703DD1 /* Images */,
 				5FBAD27E1BE7CC8F00703DD1 /* Info.plist */,
@@ -1509,6 +1474,15 @@
 		5FBAD2821BE7CCD700703DD1 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5F6628AC1C12466C008D73FC /* cellphone.png */,
+				5F6628AD1C12466C008D73FC /* cellphone@2x.png */,
+				5F6628AE1C12466C008D73FC /* cellphone@3x.png */,
+				5F6628AF1C12466C008D73FC /* touchid_selected.png */,
+				5F6628B01C12466C008D73FC /* touchid_selected@2x.png */,
+				5F6628B11C12466C008D73FC /* touchid_selected@3x.png */,
+				5F6628B21C12466C008D73FC /* touchid.png */,
+				5F6628B31C12466C008D73FC /* touchid@2x.png */,
+				5F6628B41C12466C008D73FC /* touchid@3x.png */,
 				5FBAD2831BE7CCD700703DD1 /* close.png */,
 				5FBAD2841BE7CCD700703DD1 /* close@2x.png */,
 				5FBAD2851BE7CCD700703DD1 /* close@3x.png */,
@@ -1616,34 +1590,10 @@
 			path = Private;
 			sourceTree = "<group>";
 		};
-		5FBAD3CE1BE7E99A00703DD1 /* Auth0-TouchID */ = {
-			isa = PBXGroup;
-			children = (
-				5FBAD3D31BE7E9DC00703DD1 /* Images */,
-				5FBAD3CF1BE7E99A00703DD1 /* Info.plist */,
-			);
-			path = "Auth0-TouchID";
-			sourceTree = "<group>";
-		};
-		5FBAD3D31BE7E9DC00703DD1 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				5FBAD3D41BE7E9DC00703DD1 /* touchid.png */,
-				5FBAD3D51BE7E9DC00703DD1 /* touchid@2x.png */,
-				5FBAD3D61BE7E9DC00703DD1 /* touchid@3x.png */,
-				5FBAD3D71BE7E9DC00703DD1 /* touchid_selected.png */,
-				5FBAD3D81BE7E9DC00703DD1 /* touchid_selected@2x.png */,
-				5FBAD3D91BE7E9DC00703DD1 /* touchid_selected@3x.png */,
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
 		5FBAD3E31BE7E9FC00703DD1 /* Bundles */ = {
 			isa = PBXGroup;
 			children = (
-				5FBAD3F01BE7EC3400703DD1 /* Auth0-SMS */,
 				5FBAD27D1BE7CC8F00703DD1 /* Auth0 */,
-				5FBAD3CE1BE7E99A00703DD1 /* Auth0-TouchID */,
 			);
 			name = Bundles;
 			sourceTree = "<group>";
@@ -1656,26 +1606,6 @@
 				5FBAD3E71BE7EA1500703DD1 /* A0TouchIDSignUpViewController.xib */,
 			);
 			path = NIBs;
-			sourceTree = "<group>";
-		};
-		5FBAD3F01BE7EC3400703DD1 /* Auth0-SMS */ = {
-			isa = PBXGroup;
-			children = (
-				5FBAD3F51BE7ECF300703DD1 /* CountryCodes.plist */,
-				5FBAD3F61BE7ECF300703DD1 /* Images */,
-				5FBAD3F11BE7EC3400703DD1 /* Info.plist */,
-			);
-			path = "Auth0-SMS";
-			sourceTree = "<group>";
-		};
-		5FBAD3F61BE7ECF300703DD1 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				5FBAD3F71BE7ECF300703DD1 /* cellphone.png */,
-				5FBAD3F81BE7ECF300703DD1 /* cellphone@2x.png */,
-				5FBAD3F91BE7ECF300703DD1 /* cellphone@3x.png */,
-			);
-			path = Images;
 			sourceTree = "<group>";
 		};
 		5FBAD3FE1BE7ED0200703DD1 /* NIBs */ = {
@@ -2093,8 +2023,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				5FBAD48A1BE80DBA00703DD1 /* PBXTargetDependency */,
-				5FBAD48C1BE80DBA00703DD1 /* PBXTargetDependency */,
 				5FBAD2B31BE7CD0D00703DD1 /* PBXTargetDependency */,
 			);
 			name = "Lock-iOS";
@@ -2157,40 +2085,6 @@
 			productReference = 5FBAD27C1BE7CC8F00703DD1 /* Auth0.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
-		5FBAD3CC1BE7E99A00703DD1 /* Auth0.TouchID */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5FBAD3D01BE7E99A00703DD1 /* Build configuration list for PBXNativeTarget "Auth0.TouchID" */;
-			buildPhases = (
-				5FBAD3C91BE7E99A00703DD1 /* Sources */,
-				5FBAD3CA1BE7E99A00703DD1 /* Frameworks */,
-				5FBAD3CB1BE7E99A00703DD1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Auth0.TouchID;
-			productName = "Auth0-TouchID";
-			productReference = 5FBAD3CD1BE7E99A00703DD1 /* Auth0.TouchID.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
-		5FBAD3EE1BE7EC3400703DD1 /* Auth0.SMS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5FBAD3F21BE7EC3400703DD1 /* Build configuration list for PBXNativeTarget "Auth0.SMS" */;
-			buildPhases = (
-				5FBAD3EB1BE7EC3400703DD1 /* Sources */,
-				5FBAD3EC1BE7EC3400703DD1 /* Frameworks */,
-				5FBAD3ED1BE7EC3400703DD1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Auth0.SMS;
-			productName = "Auth0-SMS";
-			productReference = 5FBAD3EF1BE7EC3400703DD1 /* Auth0.SMS.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 		5FBAD4621BE7F93A00703DD1 /* LockTests-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5FBAD46B1BE7F93A00703DD1 /* Build configuration list for PBXNativeTarget "LockTests-iOS" */;
@@ -2232,12 +2126,6 @@
 					5FBAD27B1BE7CC8F00703DD1 = {
 						CreatedOnToolsVersion = 7.1;
 					};
-					5FBAD3CC1BE7E99A00703DD1 = {
-						CreatedOnToolsVersion = 7.1;
-					};
-					5FBAD3EE1BE7EC3400703DD1 = {
-						CreatedOnToolsVersion = 7.1;
-					};
 					5FBAD4621BE7F93A00703DD1 = {
 						CreatedOnToolsVersion = 7.1;
 						TestTargetID = 5FBAD22B1BE7BE1E00703DD1;
@@ -2260,8 +2148,6 @@
 				5FBACFF41BE7AF8700703DD1 /* Lock-iOS */,
 				5FBAD0041BE7B1E500703DD1 /* Lock-OSX */,
 				5FBAD27B1BE7CC8F00703DD1 /* Auth0 */,
-				5FBAD3CC1BE7E99A00703DD1 /* Auth0.TouchID */,
-				5FBAD3EE1BE7EC3400703DD1 /* Auth0.SMS */,
 				5FBAD4621BE7F93A00703DD1 /* LockTests-iOS */,
 				5FBAD22B1BE7BE1E00703DD1 /* MyLock */,
 			);
@@ -2273,8 +2159,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FBAD4871BE80DB600703DD1 /* Auth0.TouchID.bundle in Resources */,
-				5FBAD4881BE80DB600703DD1 /* Auth0.SMS.bundle in Resources */,
 				5FBAD4281BE7F0BA00703DD1 /* A0SMSLockViewController.xib in Resources */,
 				5FBAD2B11BE7CCE500703DD1 /* Auth0.bundle in Resources */,
 				5FBAD21E1BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib in Resources */,
@@ -2357,6 +2241,7 @@
 				5FF680E71BEBE3AB00161E5B /* exact@2x.png in Resources */,
 				5FBAD29C1BE7CCD700703DD1 /* close@3x.png in Resources */,
 				5FF681201BEBE3AB00161E5B /* renren@2x.png in Resources */,
+				5F6628BB1C12466C008D73FC /* touchid.png in Resources */,
 				5FF681271BEBE3AB00161E5B /* shopify@3x.png in Resources */,
 				5FF680F01BEBE3AB00161E5B /* 37signals@2x.png in Resources */,
 				5FF681141BEBE3AB00161E5B /* microsoft@2x.png in Resources */,
@@ -2373,6 +2258,7 @@
 				5FF680FE1BEBE3AB00161E5B /* dwolla.png in Resources */,
 				5FF681151BEBE3AB00161E5B /* microsoft@3x.png in Resources */,
 				5FBAD2A41BE7CCD700703DD1 /* people@2x.png in Resources */,
+				5F6628B51C12466C008D73FC /* cellphone.png in Resources */,
 				5FF681161BEBE3AB00161E5B /* miicard.png in Resources */,
 				5FF6810B1BEBE3AB00161E5B /* google@2x.png in Resources */,
 				5FF6813B1BEBE3AB00161E5B /* wordpress@2x.png in Resources */,
@@ -2382,12 +2268,14 @@
 				5FF680ED1BEBE3AB00161E5B /* auth0@2x.png in Resources */,
 				5FBAD29E1BE7CCD700703DD1 /* lock@2x.png in Resources */,
 				5FBAD29A1BE7CCD700703DD1 /* close.png in Resources */,
+				5F6628B91C12466C008D73FC /* touchid_selected@2x.png in Resources */,
 				5FF6812B1BEBE3AB00161E5B /* thecity.png in Resources */,
 				5FF680EA1BEBE3AB00161E5B /* facebook@2x.png in Resources */,
 				5FBAD2A51BE7CCD700703DD1 /* people@3x.png in Resources */,
 				5FF681451BEBE3AB00161E5B /* yandex@3x.png in Resources */,
 				5FF6810A1BEBE3AB00161E5B /* google.png in Resources */,
 				5FF6813E1BEBE3AB00161E5B /* yahoo@2x.png in Resources */,
+				5F6628BA1C12466C008D73FC /* touchid_selected@3x.png in Resources */,
 				5FBAD2A21BE7CCD700703DD1 /* mail@3x.png in Resources */,
 				5FBAD2A81BE7CCD700703DD1 /* person@3x.png in Resources */,
 				5FF681131BEBE3AB00161E5B /* microsoft.png in Resources */,
@@ -2398,9 +2286,11 @@
 				5FF6813F1BEBE3AB00161E5B /* yahoo@3x.png in Resources */,
 				5FF681341BEBE3AB00161E5B /* vkontakte.png in Resources */,
 				5FF681441BEBE3AB00161E5B /* yandex@2x.png in Resources */,
+				5F6628BD1C12466C008D73FC /* touchid@3x.png in Resources */,
 				5FF681181BEBE3AB00161E5B /* miicard@3x.png in Resources */,
 				5FF6811A1BEBE3AB00161E5B /* paypal@2x.png in Resources */,
 				5FBAD29F1BE7CCD700703DD1 /* lock@3x.png in Resources */,
+				5F6628AB1C12465F008D73FC /* CountryCodes.plist in Resources */,
 				5FBAD2AD1BE7CCD700703DD1 /* secondary_button_normal@2x.png in Resources */,
 				5FF681321BEBE3AB00161E5B /* vimeo@2x.png in Resources */,
 				5FF6811E1BEBE3AB00161E5B /* planningcenter@3x.png in Resources */,
@@ -2422,6 +2312,8 @@
 				5FF681091BEBE3AB00161E5B /* github@3x.png in Resources */,
 				5FF680FC1BEBE3AB00161E5B /* box@2x.png in Resources */,
 				5FF681221BEBE3AB00161E5B /* salesforce.png in Resources */,
+				5F6628B61C12466C008D73FC /* cellphone@2x.png in Resources */,
+				5F6628BC1C12466C008D73FC /* touchid@2x.png in Resources */,
 				5FBAD2A91BE7CCD700703DD1 /* secondary_button_highlighted.png in Resources */,
 				5FF680F61BEBE3AB00161E5B /* aol@2x.png in Resources */,
 				5FBAD29B1BE7CCD700703DD1 /* close@2x.png in Resources */,
@@ -2437,39 +2329,17 @@
 				5FF680EF1BEBE3AB00161E5B /* 37signals.png in Resources */,
 				5FF681281BEBE3AB00161E5B /* soundcloud.png in Resources */,
 				5FF681411BEBE3AB00161E5B /* yammer@2x.png in Resources */,
+				5F6628B81C12466C008D73FC /* touchid_selected.png in Resources */,
 				5FF681401BEBE3AB00161E5B /* yammer.png in Resources */,
 				5FF680E81BEBE3AB00161E5B /* exact@3x.png in Resources */,
 				5FF681081BEBE3AB00161E5B /* github@2x.png in Resources */,
 				5FF681331BEBE3AB00161E5B /* vimeo@3x.png in Resources */,
 				5FF681251BEBE3AB00161E5B /* shopify.png in Resources */,
+				5F6628B71C12466C008D73FC /* cellphone@3x.png in Resources */,
 				5FF6810F1BEBE3AB00161E5B /* instagram@3x.png in Resources */,
 				5FF680F21BEBE3AB00161E5B /* amazon.png in Resources */,
 				5FF681421BEBE3AB00161E5B /* yammer@3x.png in Resources */,
 				5FF680FD1BEBE3AB00161E5B /* box@3x.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5FBAD3CB1BE7E99A00703DD1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FBAD3DA1BE7E9DC00703DD1 /* touchid.png in Resources */,
-				5FBAD3DE1BE7E9DC00703DD1 /* touchid_selected@2x.png in Resources */,
-				5FBAD3DC1BE7E9DC00703DD1 /* touchid@3x.png in Resources */,
-				5FBAD3DB1BE7E9DC00703DD1 /* touchid@2x.png in Resources */,
-				5FBAD3DD1BE7E9DC00703DD1 /* touchid_selected.png in Resources */,
-				5FBAD3DF1BE7E9DC00703DD1 /* touchid_selected@3x.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5FBAD3ED1BE7EC3400703DD1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FBAD4901BE80E2100703DD1 /* cellphone@3x.png in Resources */,
-				5FBAD48E1BE80E2100703DD1 /* cellphone.png in Resources */,
-				5FBAD48D1BE80E1A00703DD1 /* CountryCodes.plist in Resources */,
-				5FBAD48F1BE80E2100703DD1 /* cellphone@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2687,20 +2557,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5FBAD3C91BE7E99A00703DD1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5FBAD3EB1BE7EC3400703DD1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5FBAD45F1BE7F93A00703DD1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2749,16 +2605,6 @@
 			isa = PBXTargetDependency;
 			target = 5FBAD22B1BE7BE1E00703DD1 /* MyLock */;
 			targetProxy = 5FBAD46E1BE8016700703DD1 /* PBXContainerItemProxy */;
-		};
-		5FBAD48A1BE80DBA00703DD1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5FBAD3CC1BE7E99A00703DD1 /* Auth0.TouchID */;
-			targetProxy = 5FBAD4891BE80DBA00703DD1 /* PBXContainerItemProxy */;
-		};
-		5FBAD48C1BE80DBA00703DD1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5FBAD3EE1BE7EC3400703DD1 /* Auth0.SMS */;
-			targetProxy = 5FBAD48B1BE80DBA00703DD1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3045,74 +2891,6 @@
 			};
 			name = Release;
 		};
-		5FBAD3D11BE7E99A00703DD1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = NO;
-				INFOPLIST_FILE = "Auth0-TouchID/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.auth0.Auth0-TouchID";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		5FBAD3D21BE7E99A00703DD1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = NO;
-				INFOPLIST_FILE = "Auth0-TouchID/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.auth0.Auth0-TouchID";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
-		5FBAD3F31BE7EC3400703DD1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = NO;
-				INFOPLIST_FILE = "Auth0-SMS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.auth0.Auth0-SMS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		5FBAD3F41BE7EC3400703DD1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = NO;
-				INFOPLIST_FILE = "Auth0-SMS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.auth0.Auth0-SMS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		5FBAD46C1BE7F93A00703DD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3194,24 +2972,6 @@
 			buildConfigurations = (
 				5FBAD2801BE7CC8F00703DD1 /* Debug */,
 				5FBAD2811BE7CC8F00703DD1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5FBAD3D01BE7E99A00703DD1 /* Build configuration list for PBXNativeTarget "Auth0.TouchID" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5FBAD3D11BE7E99A00703DD1 /* Debug */,
-				5FBAD3D21BE7E99A00703DD1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5FBAD3F21BE7EC3400703DD1 /* Build configuration list for PBXNativeTarget "Auth0.SMS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5FBAD3F31BE7EC3400703DD1 /* Debug */,
-				5FBAD3F41BE7EC3400703DD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
