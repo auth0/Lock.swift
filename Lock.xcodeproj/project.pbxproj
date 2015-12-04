@@ -553,6 +553,7 @@
 /* Begin PBXFileReference section */
 		5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebKitViewController.xib; sourceTree = "<group>"; };
 		5F6628A61C12062F008D73FC /* A0WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebViewController.xib; sourceTree = "<group>"; };
+		5F6628A91C120F23008D73FC /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		5FBACFF51BE7AF8700703DD1 /* Lock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBACFF81BE7AF8700703DD1 /* Lock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lock.h; sourceTree = "<group>"; };
 		5FBACFFA1BE7AF8700703DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1439,6 +1440,7 @@
 		5FBAD22D1BE7BE1E00703DD1 /* MyLock */ = {
 			isa = PBXGroup;
 			children = (
+				5F6628A91C120F23008D73FC /* Auth0.plist */,
 				5FBAD4751BE809EA00703DD1 /* A0HomeViewController.m */,
 				5FBAD4771BE809EA00703DD1 /* A0HomeViewController.h */,
 				5FBAD4791BE809EA00703DD1 /* A0SettingsViewController.h */,
