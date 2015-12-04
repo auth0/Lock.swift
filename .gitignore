@@ -33,7 +33,7 @@ Carthage/
 .fabric_key
 
 #Auth0 Lock
-Auth0.plist
+MyLock/Auth0.plist
 
 #Carthage Cache
 .carthage_cache.yml

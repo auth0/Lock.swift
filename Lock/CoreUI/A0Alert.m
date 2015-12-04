@@ -34,6 +34,7 @@
     self = [super init];
     if (self) {
         _callbacks = [@{} mutableCopy];
+        _buttons = [@[] mutableCopy];
     }
     return self;
 }
@@ -44,11 +45,13 @@
 }
 
 - (void)showInController:(UIViewController *)controller {
-    if ([UIAlertController class]) {
-        [self showAlerControllerFrom:controller];
-    } else {
-        [self showAlertView];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([UIAlertController class]) {
+            [self showAlerControllerFrom:controller];
+        } else {
+            [self showAlertView];
+        }
+    });
 }
 
 + (A0Alert *)showInController:(UIViewController *)controller alert:(void(^)(A0Alert *alert))builder {
