@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */; };
+		5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A61C12062F008D73FC /* A0WebViewController.xib */; };
 		5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD05B1BE7B23C00703DD1 /* A0APIClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD00E1BE7B22800703DD1 /* A0APIClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD05C1BE7B23C00703DD1 /* A0APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD00F1BE7B22800703DD1 /* A0APIClient.m */; };
@@ -549,6 +551,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebKitViewController.xib; sourceTree = "<group>"; };
+		5F6628A61C12062F008D73FC /* A0WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebViewController.xib; sourceTree = "<group>"; };
 		5FBACFF51BE7AF8700703DD1 /* Lock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBACFF81BE7AF8700703DD1 /* Lock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lock.h; sourceTree = "<group>"; };
 		5FBACFFA1BE7AF8700703DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1066,6 +1070,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F6628A41C12062E008D73FC /* NIBs */ = {
+			isa = PBXGroup;
+			children = (
+				5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */,
+				5F6628A61C12062F008D73FC /* A0WebViewController.xib */,
+			);
+			path = NIBs;
+			sourceTree = "<group>";
+		};
 		5FBACFEB1BE7AF8700703DD1 = {
 			isa = PBXGroup;
 			children = (
@@ -1260,6 +1273,7 @@
 		5FBAD1001BE7B92900703DD1 /* WebView */ = {
 			isa = PBXGroup;
 			children = (
+				5F6628A41C12062E008D73FC /* NIBs */,
 				5FBAD1011BE7B92900703DD1 /* A0WebAuthenticable.h */,
 				5FBAD1021BE7B92900703DD1 /* A0WebKitViewController.h */,
 				5FBAD1031BE7B92900703DD1 /* A0WebKitViewController.m */,
@@ -2236,6 +2250,7 @@
 				5FBAD4271BE7F0BA00703DD1 /* A0SMSCodeViewController.xib in Resources */,
 				5FBAD2241BE7BD4C00703DD1 /* A0ServiceTableViewCell.xib in Resources */,
 				5FBAD2271BE7BD4C00703DD1 /* A0TitleView.xib in Resources */,
+				5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */,
 				5FBAD42A1BE7F0BA00703DD1 /* A0SMSSendCodeViewController.xib in Resources */,
 				5FBAD2201BE7BD4C00703DD1 /* A0LoadingViewController.xib in Resources */,
 				5FBAD2231BE7BD4C00703DD1 /* A0ServiceCollectionViewCell.xib in Resources */,
@@ -2246,6 +2261,7 @@
 				5FBAD4261BE7F0BA00703DD1 /* A0CountryCodeTableViewController.xib in Resources */,
 				5FBAD21F1BE7BD4C00703DD1 /* A0FullLoginViewController.xib in Resources */,
 				5FBAD43A1BE7F0D100703DD1 /* A0EmailLockViewController.xib in Resources */,
+				5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */,
 				5FBAD4251BE7F0BA00703DD1 /* A0CountryCodeTableViewCell.xib in Resources */,
 				5FBAD41B1BE7F09600703DD1 /* A0TouchIDRegisterViewController.xib in Resources */,
 				5FBAD4391BE7F0D100703DD1 /* A0EmailCodeViewController.xib in Resources */,
@@ -2924,6 +2940,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = MyLock/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.auth0.Lock$(BUNDLE_SUFFIX)";
 				PRODUCT_NAME = "$(TARGET_NAME)$(BUNDLE_SUFFIX)";
@@ -2944,6 +2961,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = MyLock/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.auth0.Lock$(BUNDLE_SUFFIX)";
 				PRODUCT_NAME = "$(TARGET_NAME)$(BUNDLE_SUFFIX)";

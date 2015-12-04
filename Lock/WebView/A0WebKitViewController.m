@@ -161,11 +161,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0IdPAuthenticationBlock success = self.onAuthentication;
         [self showProgressIndicator];
         [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
-            if (success) {
-                success(profile, token);
-            }
             decisionHandler(WKNavigationActionPolicyCancel);
-            [self dismiss];
+            [self dismissWithCompletion:^{
+                if (success) {
+                    success(profile, token);
+                }
+            }];
         } failure:^(NSError *error) {
             [self handleError:error decisionHandler:decisionHandler];
         }];
@@ -181,17 +182,18 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.onFailure = nil;
 }
 
-- (void)dismiss {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+- (void)dismissWithCompletion:(void(^)())completion {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:completion];
     [self cleanCallbacks];
 }
 
 - (void)handleError:(NSError *)error decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    if (self.onFailure) {
-        self.onFailure(error);
-    }
     decisionHandler(WKNavigationActionPolicyCancel);
-    [self dismiss];
+    [self dismissWithCompletion:^{
+        if (self.onFailure) {
+            self.onFailure(error);
+        }
+    }];
 }
 
 - (void)showProgressIndicator {
