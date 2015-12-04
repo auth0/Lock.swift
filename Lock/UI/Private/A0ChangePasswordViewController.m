@@ -88,7 +88,7 @@
     
     self.userField.textField.text = self.defaultEmail;
     [self.userField setFieldPlaceholderText:A0LocalizedString(@"Email")];
-    [self.passwordField setFieldPlaceholderText:A0LocalizedString(@"Password")];
+    [self.passwordField setFieldPlaceholderText:A0LocalizedString(@"New Password")];
     [self.repeatPasswordField setFieldPlaceholderText:A0LocalizedString(@"Confirm New Password")];
     [self.recoverButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
     self.messageLabel.text = A0LocalizedString(@"Please enter your email and the new password. We will send you an email to confirm the password change.");
