@@ -273,6 +273,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     A0IdentityProviderAuthenticator *authenticator = [self a0_identityAuthenticatorFromProvider:self.lock];
     A0AuthParameters *parameters = [self.parameters copy];
+    NSString *hint = self.userField.textField.text;
+    NSRange range = [hint rangeOfString:@"@"];
+    if (connection[A0ConnectionDomain] && range.location != NSNotFound) {
+        hint = [hint substringToIndex:range.location];
+    }
+    parameters[@"login_hint"] = hint;
     A0LogVerbose(@"Authenticating with connection %@", connectionName);
     [authenticator authenticateWithConnectionName:connectionName parameters:parameters success:successBlock failure:failureBlock];
 }
