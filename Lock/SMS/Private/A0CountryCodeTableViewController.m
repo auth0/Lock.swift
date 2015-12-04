@@ -72,7 +72,7 @@ static NSString *CountryName = @"Name";
     self.searchDisplayController.searchResultsDataSource = self;
     self.searchDisplayController.searchResultsDelegate = self;
     self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
-    self.searchDisplayController.searchBar.placeholder = NSLocalizedStringFromTable(@"Search", @"Auth0.SMS", @"Search Country Placeholder");
+    self.searchDisplayController.searchBar.placeholder = NSLocalizedStringFromTable(@"Search", @"Auth0", @"Search Country Placeholder");
 #pragma GCC diagnostic pop
 }
 
@@ -161,7 +161,7 @@ static NSString *CountryName = @"Name";
 }
 
 + (NSArray *)loadCountryCodes {
-    NSString *resourceBundlePath = [[NSBundle bundleForClass:A0CountryCodeTableViewController.class] pathForResource:@"Auth0.SMS" ofType:@"bundle"];
+    NSString *resourceBundlePath = [[NSBundle bundleForClass:A0CountryCodeTableViewController.class] pathForResource:@"Auth0" ofType:@"bundle"];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
     NSString *plistPath = [resourceBundle pathForResource:@"CountryCodes" ofType:@"plist"];
     return [NSArray arrayWithContentsOfFile:plistPath];

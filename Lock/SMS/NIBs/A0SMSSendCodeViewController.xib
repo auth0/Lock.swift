@@ -49,7 +49,7 @@
                                         <action selector="registerSMS:" destination="-1" eventType="editingDidEndOnExit" id="cNk-Kf-IIf"/>
                                     </connections>
                                 </textField>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.SMS.bundle/cellphone" translatesAutoresizingMaskIntoConstraints="NO" id="D7m-hQ-Wvp">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/cellphone" translatesAutoresizingMaskIntoConstraints="NO" id="D7m-hQ-Wvp">
                                     <rect key="frame" x="18" y="17" width="16" height="16"/>
                                     <animations/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -125,6 +125,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Auth0.SMS.bundle/cellphone" width="16" height="16"/>
+        <image name="Auth0.bundle/cellphone" width="16" height="16"/>
     </resources>
 </document>
