@@ -1,15 +1,25 @@
 # Change Log
 
-## [Unreleased](https://github.com/auth0/Lock.iOS-OSX/tree/HEAD)
+## [1.21.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.21.1) (2015-12-04)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.21.0...1.21.1)
 
-[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.21.0...HEAD)
+**Fixed bugs:**
+
+- Alert without action when client id is invalid [\#192](https://github.com/auth0/Lock.iOS-OSX/issues/192)
+- Success block called before dismissing web view. [\#191](https://github.com/auth0/Lock.iOS-OSX/issues/191)
+
+**Merged pull requests:**
+
+- Fix Alerts without button [\#198](https://github.com/auth0/Lock.iOS-OSX/pull/198) ([hzalaz](https://github.com/hzalaz))
+- Dismiss WKWebView controller before callback calls [\#197](https://github.com/auth0/Lock.iOS-OSX/pull/197) ([hzalaz](https://github.com/hzalaz))
+- Make password placeholder in Change Password to be "New Password" [\#196](https://github.com/auth0/Lock.iOS-OSX/pull/196) ([hzalaz](https://github.com/hzalaz))
+
+## [1.21.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.21.0) (2015-11-05)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.20.0...1.21.0)
 
 **Fixed bugs:**
 
 - Unable to install Lock as CocoaPod Xcode 7.1 Swift [\#185](https://github.com/auth0/Lock.iOS-OSX/issues/185)
-
-## [1.21.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.21.0) (2015-11-05)
-[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.20.0...1.21.0)
 
 **Merged pull requests:**
 
