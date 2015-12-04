@@ -34,6 +34,7 @@
     self = [super init];
     if (self) {
         _callbacks = [@{} mutableCopy];
+        _buttons = [@[] mutableCopy];
     }
     return self;
 }
