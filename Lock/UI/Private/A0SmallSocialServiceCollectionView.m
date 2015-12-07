@@ -60,9 +60,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.delegate = self.layoutDelegate;
     self.dataSource = self;
     self.scrollEnabled = self.layoutDelegate.shouldScroll;
-    UINib *cellNib = [UINib nibWithNibName:NSStringFromClass([A0ServiceCollectionViewCell class])
-                                    bundle:[NSBundle bundleForClass:[self class]]];
-    [self registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
+    [self registerClass:A0ServiceCollectionViewCell.class forCellWithReuseIdentifier:kCellIdentifier];
 }
 
 - (void)showSocialServicesForConfiguration:(A0LockConfiguration *)configuration {
