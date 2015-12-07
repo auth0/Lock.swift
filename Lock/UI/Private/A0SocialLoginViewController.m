@@ -39,12 +39,12 @@
 #import "A0Connection.h"
 #import "Constants.h"
 
-#define kCellIdentifier @"ServiceCell"
+static NSString * const ServiceCellIdentifier = @"ServiceCell";
+static const CGFloat ServiceCellHeight = 55.0;
 
 @interface A0SocialLoginViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *loadingView;
 @property (strong, nonatomic) NSDictionary *serviceTheme;
 @property (strong, nonatomic) NSArray<A0ServiceViewModel *> *services;
 @property (assign, nonatomic) NSInteger selectedService;
@@ -55,23 +55,47 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.title = A0LocalizedString(@"Login");
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    [self.tableView registerClass:A0ServiceTableViewCell.class forCellReuseIdentifier:kCellIdentifier];
+    [self setupUI];
+}
+
+- (void)setupLayout {
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
+    tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:tableView];
+
+    NSDictionary<NSString *, id> *metrics = @{
+                                              @"horizontalMargin": @20,
+                                              @"verticalMargin": @0,
+                                              };
+    NSDictionary<NSString *, id> *views = NSDictionaryOfVariableBindings(tableView);
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-horizontalMargin-[tableView]-horizontalMargin-|"
+                                                                      options:0 metrics:metrics views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-verticalMargin-[tableView]-verticalMargin-|"
+                                                                      options:0 metrics:metrics views:views]];
+
+    self.tableView = tableView;
+}
+
+- (void)setupUI {
+    [self setupLayout];
+
+    self.title = A0LocalizedString(@"Login");
     self.services = [A0ServiceViewModel servicesFromStrategies:self.configuration.socialStrategies];
     self.selectedService = NSNotFound;
+
+    self.tableView.allowsMultipleSelection = NO;
+    self.tableView.allowsSelectionDuringEditing = NO;
+    self.tableView.rowHeight = ServiceCellHeight;
+    [self.tableView registerClass:A0ServiceTableViewCell.class forCellReuseIdentifier:ServiceCellIdentifier];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor clearColor];
+
+    self.view.backgroundColor = [UIColor clearColor];
+    [self.view setNeedsUpdateConstraints];
 }
 
 - (void)triggerAuth:(UIButton *)sender {
@@ -141,13 +165,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 #pragma mark - UITableViewDataSource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.services.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     A0ServiceViewModel *service = self.services[indexPath.row];
-    A0ServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+    A0ServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ServiceCellIdentifier forIndexPath:indexPath];
     [cell applyTheme:service.theme];
     [cell.button addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];
     cell.button.tag = indexPath.row;

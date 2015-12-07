@@ -29,21 +29,36 @@
 
 @implementation A0LoadingViewController
 
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(A0LoadingViewController.class) bundle:[NSBundle bundleForClass:A0LoadingViewController.class]];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.title = @" ";
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupUI];
+    [self.activityIndicator startAnimating];
+}
+
+- (void)setupUI {
+    [self setupLayout];
+
+    self.title = @" ";
     self.activityIndicator.color = [[A0Theme sharedInstance] colorForKey:A0ThemeTitleTextColor];
+}
+
+- (void)setupLayout {
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicator.translatesAutoresizingMaskIntoConstraints = NO;
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:activityIndicator];
+
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:activityIndicator attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1.0 constant:0.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:activityIndicator attribute:NSLayoutAttributeCenterY
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view attribute:NSLayoutAttributeCenterY
+                                                         multiplier:1.0 constant:0.0]];
+
+    self.activityIndicator = activityIndicator;
+    [self.view needsUpdateConstraints];
 }
 
 #pragma mark - A0KeyboardEnabledView
