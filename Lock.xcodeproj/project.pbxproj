@@ -287,7 +287,6 @@
 		5FBAD2241BE7BD4C00703DD1 /* A0ServiceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2161BE7BD4C00703DD1 /* A0ServiceTableViewCell.xib */; };
 		5FBAD2251BE7BD4C00703DD1 /* A0SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */; };
 		5FBAD2261BE7BD4C00703DD1 /* A0SocialLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2181BE7BD4C00703DD1 /* A0SocialLoginViewController.xib */; };
-		5FBAD2271BE7BD4C00703DD1 /* A0TitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2191BE7BD4C00703DD1 /* A0TitleView.xib */; };
 		5FBAD2301BE7BE1E00703DD1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD22F1BE7BE1E00703DD1 /* main.m */; };
 		5FBAD2331BE7BE1E00703DD1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD2321BE7BE1E00703DD1 /* AppDelegate.m */; };
 		5FBAD2391BE7BE1E00703DD1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2371BE7BE1E00703DD1 /* Main.storyboard */; };
@@ -764,7 +763,6 @@
 		5FBAD2161BE7BD4C00703DD1 /* A0ServiceTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0ServiceTableViewCell.xib; sourceTree = "<group>"; };
 		5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SignUpViewController.xib; sourceTree = "<group>"; };
 		5FBAD2181BE7BD4C00703DD1 /* A0SocialLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SocialLoginViewController.xib; sourceTree = "<group>"; };
-		5FBAD2191BE7BD4C00703DD1 /* A0TitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TitleView.xib; sourceTree = "<group>"; };
 		5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MyLock-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBAD22F1BE7BE1E00703DD1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5FBAD2311BE7BE1E00703DD1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1423,7 +1421,6 @@
 				5FBAD2161BE7BD4C00703DD1 /* A0ServiceTableViewCell.xib */,
 				5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */,
 				5FBAD2181BE7BD4C00703DD1 /* A0SocialLoginViewController.xib */,
-				5FBAD2191BE7BD4C00703DD1 /* A0TitleView.xib */,
 			);
 			path = NIBs;
 			sourceTree = "<group>";
@@ -2167,7 +2164,6 @@
 				5FBAD43C1BE7F0D100703DD1 /* A0EmailSendCodeViewController.xib in Resources */,
 				5FBAD4271BE7F0BA00703DD1 /* A0SMSCodeViewController.xib in Resources */,
 				5FBAD2241BE7BD4C00703DD1 /* A0ServiceTableViewCell.xib in Resources */,
-				5FBAD2271BE7BD4C00703DD1 /* A0TitleView.xib in Resources */,
 				5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */,
 				5FBAD42A1BE7F0BA00703DD1 /* A0SMSSendCodeViewController.xib in Resources */,
 				5FBAD2201BE7BD4C00703DD1 /* A0LoadingViewController.xib in Resources */,
