@@ -27,28 +27,77 @@
 #import "Constants.h"
 #import "A0ServiceTheme.h"
 
+static const CGFloat ServiceButtonHeight = 46.0f;
+static const CGFloat ServiceButtonTitlePaddingLeft = 10.0f;
+
 @interface A0ServiceTableViewCell ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 
 @end
 
 @implementation A0ServiceTableViewCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    CGFloat size = self.button.frame.size.height;
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
-    [self.button addSubview:view];
-    UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
-    iconImageView.contentMode = UIViewContentModeCenter;
-    [view addSubview:iconImageView];
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self setupUI];
+    }
+    return self;
+}
+
+- (void)setupLayout {
+    CGRect frame = self.frame;
+    A0ProgressButton *serviceButton = [A0ProgressButton progressButtonWithFrame:CGRectMake(0, 0, frame.size.width, ServiceButtonHeight)];
+    UIView *iconContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ServiceButtonHeight, ServiceButtonHeight)];
+
+    serviceButton.translatesAutoresizingMaskIntoConstraints = NO;
+    iconContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:serviceButton];
+    [serviceButton insertSubview:iconContainerView belowSubview:serviceButton.imageView];
+
+    [iconContainerView addConstraint:[NSLayoutConstraint constraintWithItem:iconContainerView
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:iconContainerView
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                 multiplier:1.0 constant:0.0]];
+
+    NSDictionary<NSString *, id> *views = @{ @"container": iconContainerView };
+    [serviceButton addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[container]" options:0 metrics:nil views:views]];
+    [serviceButton addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[container]-0-|" options:0 metrics:nil views:views]];
+
+    views = @{ @"button": serviceButton };
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[button]-0-|" options:0 metrics:nil views:views]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:serviceButton
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                     attribute:NSLayoutAttributeNotAnAttribute
+                                                    multiplier:1.0 constant:ServiceButtonHeight]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:serviceButton
+                                                     attribute:NSLayoutAttributeCenterY
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeCenterY
+                                                    multiplier:1.0 constant:0.0]];
+
+    self.button = serviceButton;
+    self.containerView = iconContainerView;
+}
+
+- (void)setupUI {
+    [self setupLayout];
+
+    self.button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    self.button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.button.layer.cornerRadius = 5.0f;
     self.button.clipsToBounds = YES;
     self.button.tintColor = [UIColor whiteColor];
-    self.iconImageView = iconImageView;
-    self.containerView = view;
+    self.button.titleLabel.font = [UIFont systemFontOfSize:11.0];
+    self.button.imageView.tintColor = [UIColor whiteColor];
+
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)prepareForReuse {
@@ -57,12 +106,17 @@
 
 - (void)applyTheme:(A0ServiceTheme *)theme {
     [self.button setBackgroundColor:theme.normalBackgroundColor forState:UIControlStateNormal];
+    [self.button setBackgroundColor:theme.highlightedBackgroundColor forState:UIControlStateDisabled];
     [self.button setBackgroundColor:theme.highlightedBackgroundColor forState:UIControlStateHighlighted];
-    self.imageView.image = theme.iconImage;
-    self.imageView.tintColor = theme.foregroundColor;
+    UIImage *image = theme.iconImage;
+    CGFloat inset = MAX((ServiceButtonHeight - image.size.width) / 2, 0);
+    self.button.contentEdgeInsets = UIEdgeInsetsMake(0, inset, 0, 0);
+    self.button.titleEdgeInsets = UIEdgeInsetsMake(0, inset + ServiceButtonTitlePaddingLeft, 0, 0);
+    [self.button setImage:image forState:UIControlStateNormal];
+    self.button.imageView.tintColor = theme.foregroundColor;
     self.containerView.backgroundColor = theme.highlightedBackgroundColor;
     [self.button setTitle:theme.localizedTitle.uppercaseString forState:UIControlStateNormal];
-    [self updateConstraints];
+    [self setNeedsUpdateConstraints];
 }
 
 @end

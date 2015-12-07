@@ -283,7 +283,6 @@
 		5FBAD2201BE7BD4C00703DD1 /* A0LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2121BE7BD4C00703DD1 /* A0LoadingViewController.xib */; };
 		5FBAD2211BE7BD4C00703DD1 /* A0LockSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */; };
 		5FBAD2221BE7BD4C00703DD1 /* A0LockViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2141BE7BD4C00703DD1 /* A0LockViewController.xib */; };
-		5FBAD2241BE7BD4C00703DD1 /* A0ServiceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2161BE7BD4C00703DD1 /* A0ServiceTableViewCell.xib */; };
 		5FBAD2251BE7BD4C00703DD1 /* A0SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */; };
 		5FBAD2261BE7BD4C00703DD1 /* A0SocialLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2181BE7BD4C00703DD1 /* A0SocialLoginViewController.xib */; };
 		5FBAD2301BE7BE1E00703DD1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD22F1BE7BE1E00703DD1 /* main.m */; };
@@ -758,7 +757,6 @@
 		5FBAD2121BE7BD4C00703DD1 /* A0LoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0LoadingViewController.xib; sourceTree = "<group>"; };
 		5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0LockSignUpViewController.xib; sourceTree = "<group>"; };
 		5FBAD2141BE7BD4C00703DD1 /* A0LockViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0LockViewController.xib; sourceTree = "<group>"; };
-		5FBAD2161BE7BD4C00703DD1 /* A0ServiceTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0ServiceTableViewCell.xib; sourceTree = "<group>"; };
 		5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SignUpViewController.xib; sourceTree = "<group>"; };
 		5FBAD2181BE7BD4C00703DD1 /* A0SocialLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SocialLoginViewController.xib; sourceTree = "<group>"; };
 		5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MyLock-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1415,7 +1413,6 @@
 				5FBAD2121BE7BD4C00703DD1 /* A0LoadingViewController.xib */,
 				5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */,
 				5FBAD2141BE7BD4C00703DD1 /* A0LockViewController.xib */,
-				5FBAD2161BE7BD4C00703DD1 /* A0ServiceTableViewCell.xib */,
 				5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */,
 				5FBAD2181BE7BD4C00703DD1 /* A0SocialLoginViewController.xib */,
 			);
@@ -2160,7 +2157,6 @@
 				5FBAD21C1BE7BD4C00703DD1 /* A0DatabaseLoginViewController.xib in Resources */,
 				5FBAD43C1BE7F0D100703DD1 /* A0EmailSendCodeViewController.xib in Resources */,
 				5FBAD4271BE7F0BA00703DD1 /* A0SMSCodeViewController.xib in Resources */,
-				5FBAD2241BE7BD4C00703DD1 /* A0ServiceTableViewCell.xib in Resources */,
 				5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */,
 				5FBAD42A1BE7F0BA00703DD1 /* A0SMSSendCodeViewController.xib in Resources */,
 				5FBAD2201BE7BD4C00703DD1 /* A0LoadingViewController.xib in Resources */,

@@ -69,8 +69,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UINib *cellNib = [UINib nibWithNibName:@"A0ServiceTableViewCell" bundle:[NSBundle bundleForClass:self.class]];
-    [self.tableView registerNib:cellNib forCellReuseIdentifier:kCellIdentifier];
+    [self.tableView registerClass:A0ServiceTableViewCell.class forCellReuseIdentifier:kCellIdentifier];
     self.services = [A0ServiceViewModel servicesFromStrategies:self.configuration.socialStrategies];
     self.selectedService = NSNotFound;
 }
