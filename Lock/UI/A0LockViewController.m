@@ -73,19 +73,7 @@
 AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)initWithLock:(A0Lock *)lock {
-    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-    if (self) {
-        _lock = lock;
-    }
-    return self;
-}
-
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             self.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -97,12 +85,30 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         _connections = @[];
         _useWebView = YES;
         _eventDelegate = [[A0LockEventDelegate alloc] initWithLockViewController:self];
+        _lock = lock;
     }
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (instancetype)init {
+    return [self initWithLock:[A0Lock sharedLock]];
+}
+
+- (void)setupLayout {
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeSystem];
+
+    dismissButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:dismissButton];
+
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[dismissButton(40)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(dismissButton)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[dismissButton(40)]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(dismissButton)]];
+
+    self.dismissButton = dismissButton;
+    [self.view setNeedsUpdateConstraints];
+}
+
+- (void)setupUI {
+    [self setupLayout];
 
     A0Theme *theme = [A0Theme sharedInstance];
     UIImage *image = [theme imageForKey:A0ThemeScreenBackgroundImageName];
@@ -112,12 +118,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
+    [self.dismissButton setImage:[theme imageForKey:A0ThemeCloseButtonImageName] forState:UIControlStateNormal];
     self.dismissButton.tintColor = [theme colorForKey:A0ThemeCloseButtonTintColor];
-
-    [self displayController:[[A0LoadingViewController alloc] init]];
-
     self.dismissButton.hidden = !self.closable;
+    [self.dismissButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
+}
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setupUI];
+    [self displayController:[[A0LoadingViewController alloc] init]];
     [self loadApplicationInfo];
 }
 

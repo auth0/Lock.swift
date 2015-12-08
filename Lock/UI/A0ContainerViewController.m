@@ -40,9 +40,87 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
+- (void)layoutContainerViews {
+    A0TitleView *titleView = [[A0TitleView alloc] init];
+    UIView *containerView = [[UIView alloc] init];
+    A0NavigationView *navigationView = [[A0NavigationView alloc] init];
+
+    titleView.translatesAutoresizingMaskIntoConstraints = NO;
+    containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    navigationView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [self.view addSubview:titleView];
+    [self.view addSubview:containerView];
+    [self.view addSubview:navigationView];
+
+
+    [titleView addConstraint:[NSLayoutConstraint constraintWithItem:titleView attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0 constant:110.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:titleView attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1.0 constant:0.0]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[titleView]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleView)]];
+    NSLayoutConstraint *lowPriorityConstraint = [NSLayoutConstraint constraintWithItem:titleView attribute:NSLayoutAttributeTop
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:self.view attribute:NSLayoutAttributeTop
+                                                                            multiplier:1.0 constant:20.0];
+    lowPriorityConstraint.priority = 500;
+    NSLayoutConstraint *highPriorityConstraint = [NSLayoutConstraint constraintWithItem:titleView attribute:NSLayoutAttributeTop
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:self.view attribute:NSLayoutAttributeTop
+                                                                             multiplier:1.0 constant:60.0];
+    highPriorityConstraint.priority = 800;
+    [self.view addConstraints:@[lowPriorityConstraint, highPriorityConstraint]];
+
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationGreaterThanOrEqual
+                                                                 toItem:nil attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1.0 constant:284.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:titleView attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0 constant:0.0]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[containerView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(containerView)]];
+
+
+    [navigationView addConstraint:[NSLayoutConstraint constraintWithItem:navigationView attribute:NSLayoutAttributeHeight
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:nil attribute:NSLayoutAttributeNotAnAttribute
+                                                              multiplier:1.0 constant:48.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:navigationView attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:containerView attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0 constant:0.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:navigationView attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0 constant:0.0]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-20-[navigationView]-20-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(navigationView)]];
+
+    self.titleView = titleView;
+    self.containerView = containerView;
+    self.navigationView = navigationView;
+
+    [self.view needsUpdateConstraints];
+}
+
+- (void)setupContainerUI {
+    [self layoutContainerViews];
+
+    self.containerView.clipsToBounds = YES;
+    self.containerView.backgroundColor = [UIColor clearColor];
+    self.titleView.backgroundColor = [UIColor clearColor];
+    self.navigationView.backgroundColor = [UIColor clearColor];
+
+    self.keyboardHandler = [[A0KeyboardHandler alloc] init];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.keyboardHandler = [[A0KeyboardHandler alloc] init];
+    [self setupContainerUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

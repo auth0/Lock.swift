@@ -63,6 +63,7 @@ FOUNDATION_EXPORT NSString * const A0ThemeCredentialBoxSeparatorColor;
 FOUNDATION_EXPORT NSString * const A0ThemeCredentialBoxBackgroundColor;
 
 FOUNDATION_EXPORT NSString * const A0ThemeCloseButtonTintColor;
+FOUNDATION_EXPORT NSString * const A0ThemeCloseButtonImageName;
 
 @interface A0Theme : NSObject
 
