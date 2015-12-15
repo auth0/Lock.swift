@@ -20,7 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockTest.h"
+#define QUICK_DISABLE_SHORT_SYNTAX 1
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
 
 #import "A0Lock.h"
 #import "A0LockNotification.h"
@@ -30,6 +33,7 @@
 #define kClientId @"1234567890"
 #define kDomain @"samples.auth0.com"
 #define kEUDomain @"samples.eu.auth0.com"
+#define kAUDomain @"samples.au.auth0.com"
 #define kConfigurationDomain @"myconfig.mydomain.com"
 
 @interface A0Lock (Testing)
@@ -40,129 +44,154 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 @end
 
-SpecBegin(A0Lock)
+QuickSpecBegin(A0LockSpec)
 
 describe(@"A0Lock", ^{
 
     describe(@"initialization", ^{
 
-        sharedExamplesFor(@"valid Lock", ^(NSDictionary *data) {
+        sharedExamples(@"valid Lock", ^(QCKDSLSharedExampleContext context) {
 
             __block A0Lock *lock;
 
             beforeEach(^{
-                lock = data[@"lock"];
+                lock = context()[@"lock"];
             });
 
-            specify(@"domain URL", ^{
-                expect([[lock domainURL] absoluteString]).to.equal(data[@"domain"]);
+            it(@"domain URL", ^{
+                expect([[lock domainURL] absoluteString]).to(equal(context()[@"domain"]));
             });
 
-            specify(@"configuration URL", ^{
-                expect([[lock configurationURL] absoluteString]).to.equal(data[@"configurationDomain"]);
+            it(@"configuration URL", ^{
+                expect([[lock configurationURL] absoluteString]).to(equal(context()[@"configurationDomain"]));
             });
 
-            specify(@"client Id", ^{
-                expect([lock clientId]).to.equal(data[@"clientId"]);
+            it(@"client Id", ^{
+                expect([lock clientId]).to(equal(context()[@"clientId"]));
             });
 
         });
 
-        itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [A0Lock newLockWithClientId:kClientId domain:kDomain],
-                                            @"domain": @"https://samples.auth0.com",
-                                            @"configurationDomain": [NSString stringWithFormat:@"https://cdn.auth0.com/client/%@.js", kClientId],
-                                            @"clientId": kClientId,
-                                            });
+        itBehavesLike(@"valid Lock", ^{
+            return @{
+                     @"lock": [A0Lock newLockWithClientId:kClientId domain:kDomain],
+                     @"domain": @"https://samples.auth0.com",
+                     @"configurationDomain": [NSString stringWithFormat:@"https://cdn.auth0.com/client/%@.js", kClientId],
+                     @"clientId": kClientId,
+                     };
+        });
 
-        itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [A0Lock newLockWithClientId:kClientId domain:kEUDomain],
-                                            @"domain": @"https://samples.eu.auth0.com",
-                                            @"configurationDomain": [NSString stringWithFormat:@"https://cdn.eu.auth0.com/client/%@.js", kClientId],
-                                            @"clientId": kClientId,
-                                            });
+        itBehavesLike(@"valid Lock", ^{
+            return @{
+                     @"lock": [A0Lock newLockWithClientId:kClientId domain:kEUDomain],
+                     @"domain": @"https://samples.eu.auth0.com",
+                     @"configurationDomain": [NSString stringWithFormat:@"https://cdn.eu.auth0.com/client/%@.js", kClientId],
+                     @"clientId": kClientId,
+                     };
+        });
 
-        itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [A0Lock newLockWithClientId:kClientId domain:@"https://overmind.auth0.com"],
-                                            @"domain": @"https://overmind.auth0.com",
-                                            @"configurationDomain": [NSString stringWithFormat:@"https://cdn.auth0.com/client/%@.js", kClientId],
-                                            @"clientId": kClientId,
-                                            });
+        itBehavesLike(@"valid Lock", ^{
+            return @{
+                     @"lock": [A0Lock newLockWithClientId:kClientId domain:kAUDomain],
+                     @"domain": @"https://samples.au.auth0.com",
+                     @"configurationDomain": [NSString stringWithFormat:@"https://cdn.au.auth0.com/client/%@.js", kClientId],
+                     @"clientId": kClientId,
+                     };
+        });
 
-        itShouldBehaveLike(@"valid Lock", @{
+        itBehavesLike(@"valid Lock", ^{
+            return @{
+                     @"lock": [A0Lock newLockWithClientId:kClientId domain:@"https://overmind.auth0.com"],
+                     @"domain": @"https://overmind.auth0.com",
+                     @"configurationDomain": [NSString stringWithFormat:@"https://cdn.auth0.com/client/%@.js", kClientId],
+                     @"clientId": kClientId,
+                     };
+        });
+
+        itBehavesLike(@"valid Lock", ^{
+            return @{
                                             @"lock": [A0Lock newLockWithClientId:kClientId domain:@"https://overmind.eu.auth0.com"],
                                             @"domain": @"https://overmind.eu.auth0.com",
                                             @"configurationDomain": [NSString stringWithFormat:@"https://cdn.eu.auth0.com/client/%@.js", kClientId],
                                             @"clientId": kClientId,
-                                            });
+                                            };
+        });
 
-        itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [A0Lock newLockWithClientId:kClientId domain:kDomain configurationDomain:kConfigurationDomain],
-                                            @"domain": @"https://samples.auth0.com",
-                                            @"configurationDomain": [NSString stringWithFormat:@"https://%@/client/%@.js", kConfigurationDomain, kClientId],
-                                            @"clientId": kClientId,
-                                            });
-        itShouldBehaveLike(@"valid Lock", @{
+        itBehavesLike(@"valid Lock", ^{
+            return @{
+                     @"lock": [A0Lock newLockWithClientId:kClientId domain:kDomain configurationDomain:kConfigurationDomain],
+                     @"domain": @"https://samples.auth0.com",
+                     @"configurationDomain": [NSString stringWithFormat:@"https://%@/client/%@.js", kConfigurationDomain, kClientId],
+                     @"clientId": kClientId,
+                     };
+        });
+
+        itBehavesLike(@"valid Lock", ^{
+            return @{
+                     @"lock": [A0Lock newLockWithClientId:kClientId domain:kDomain configurationDomain:@"https://somewhere.far.beyond"],
+                     @"domain": @"https://samples.auth0.com",
+                     @"configurationDomain": [NSString stringWithFormat:@"https://somewhere.far.beyond/client/%@.js", kClientId],
+                     @"clientId": kClientId,
+                     };
+        });
+
+
+        itBehavesLike(@"valid Lock", ^{
+            return @{
                                             @"lock": [A0Lock newLockWithClientId:kClientId domain:kDomain configurationDomain:@"https://somewhere.far.beyond"],
                                             @"domain": @"https://samples.auth0.com",
                                             @"configurationDomain": [NSString stringWithFormat:@"https://somewhere.far.beyond/client/%@.js", kClientId],
                                             @"clientId": kClientId,
-                                            });
+                                            };
+        });
 
+        itBehavesLike(@"valid Lock", ^{
+            return @{
+                     @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
+                                                                                                                                      @"Auth0ClientId": kClientId,
+                                                                                                                                      @"Auth0Tenant": @"samples",
+                                                                                                                                      }]],
+                     @"domain": @"https://samples.auth0.com",
+                     @"configurationDomain": [NSString stringWithFormat:@"https://cdn.auth0.com/client/%@.js", kClientId],
+                     @"clientId": kClientId,
+                     };
+        });
 
-        itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [A0Lock newLockWithClientId:kClientId domain:kDomain configurationDomain:@"https://somewhere.far.beyond"],
-                                            @"domain": @"https://samples.auth0.com",
-                                            @"configurationDomain": [NSString stringWithFormat:@"https://somewhere.far.beyond/client/%@.js", kClientId],
-                                            @"clientId": kClientId,
-                                            });
+        itBehavesLike(@"valid Lock", ^{
+            return @{
+                     @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
+                                                                                                                                      @"Auth0ClientId": kClientId,
+                                                                                                                                      @"Auth0Domain": kDomain,
+                                                                                                                                      }]],
+                     @"domain": @"https://samples.auth0.com",
+                     @"configurationDomain": [NSString stringWithFormat:@"https://cdn.auth0.com/client/%@.js", kClientId],
+                     @"clientId": kClientId,
+                     };
+        });
 
-        itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
-                                                                                                                                                             @"Auth0ClientId": kClientId,
-                                                                                                                                                             @"Auth0Tenant": @"samples",
-                                                                                                                                                             }]],
-                                            @"domain": @"https://samples.auth0.com",
-                                            @"configurationDomain": [NSString stringWithFormat:@"https://cdn.auth0.com/client/%@.js", kClientId],
-                                            @"clientId": kClientId,
-                                            });
+        itBehavesLike(@"valid Lock", ^{
+            return @{
+                     @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
+                                                                                                                                      @"Auth0ClientId": kClientId,
+                                                                                                                                      @"Auth0Domain": kEUDomain,
+                                                                                                                                      }]],
+                     @"domain": @"https://samples.eu.auth0.com",
+                     @"configurationDomain": [NSString stringWithFormat:@"https://cdn.eu.auth0.com/client/%@.js", kClientId],
+                     @"clientId": kClientId,
+                     };
+        });
 
-        itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
-                                                                                                                                                             @"Auth0ClientId": kClientId,
-                                                                                                                                                             @"Auth0Domain": kDomain,
-                                                                                                                                                             }]],
-                                            @"domain": @"https://samples.auth0.com",
-                                            @"configurationDomain": [NSString stringWithFormat:@"https://cdn.auth0.com/client/%@.js", kClientId],
-                                            @"clientId": kClientId,
-                                            });
-
-        itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
-                                                                                                                                                             @"Auth0ClientId": kClientId,
-                                                                                                                                                             @"Auth0Domain": kEUDomain,
-                                                                                                                                                             }]],
-                                            @"domain": @"https://samples.eu.auth0.com",
-                                            @"configurationDomain": [NSString stringWithFormat:@"https://cdn.eu.auth0.com/client/%@.js", kClientId],
-                                            @"clientId": kClientId,
-                                            });
-
-        itShouldBehaveLike(@"valid Lock", @{
-                                            @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
-                                                                                                                                                             @"Auth0ClientId": kClientId,
-                                                                                                                                                             @"Auth0Domain": kEUDomain,
-                                                                                                                                                             @"Auth0ConfigurationDomain": kConfigurationDomain
-                                                                                                                                                             }]],
-                                            @"domain": @"https://samples.eu.auth0.com",
-                                            @"configurationDomain": [NSString stringWithFormat:@"https://%@/client/%@.js", kConfigurationDomain, kClientId],
-                                            @"clientId": kClientId,
-                                            });
-
-
-        it(@"should fail to create", ^{
-            expect(^{
-                NSAssert([[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{}]], @"Non nil");
-            }).to.raise(NSInternalInconsistencyException);
+        itBehavesLike(@"valid Lock", ^{
+            return @{
+                     @"lock": [[A0Lock alloc] initWithCredentialProvider:[[A0MainBundleCredentialProvider alloc] initWithDictionary:@{
+                                                                                                                                      @"Auth0ClientId": kClientId,
+                                                                                                                                      @"Auth0Domain": kEUDomain,
+                                                                                                                                      @"Auth0ConfigurationDomain": kConfigurationDomain
+                                                                                                                                      }]],
+                     @"domain": @"https://samples.eu.auth0.com",
+                     @"configurationDomain": [NSString stringWithFormat:@"https://%@/client/%@.js", kConfigurationDomain, kClientId],
+                     @"clientId": kClientId,
+                     };
         });
 
     });
@@ -176,7 +205,7 @@ describe(@"A0Lock", ^{
 
         beforeEach(^{
             lock = [A0Lock newLockWithClientId:kClientId domain:kDomain];
-            activity = mock(NSUserActivity.class);
+            activity = [[NSUserActivity alloc] initWithActivityType:@"Mock"];
         });
 
         afterEach(^{
@@ -184,41 +213,41 @@ describe(@"A0Lock", ^{
         });
 
         it(@"should accept url from configured auth0 subdomain", ^{
-            [given(activity.webpageURL) willReturn:[NSURL URLWithString:@"https://auth0.com"]];
-            expect([lock continueUserActivity:activity restorationHandler:restorationHandler]).to.beFalsy();
+            activity.webpageURL = [NSURL URLWithString:@"https://auth0.com"];
+            expect(@([lock continueUserActivity:activity restorationHandler:restorationHandler])).to(beFalsy());
         });
 
         it(@"should not accept nil url", ^{
-            [given(activity.webpageURL) willReturn:nil];
-            expect([lock continueUserActivity:activity restorationHandler:restorationHandler]).to.beFalsy();
+            activity.webpageURL = nil;
+            expect(@([lock continueUserActivity:activity restorationHandler:restorationHandler])).to(beFalsy());
         });
 
         it(@"should not accept url without ios prefix", ^{
-            [given(activity.webpageURL) willReturn:[NSURL URLWithString:@"https://samples.auth0.com/callback"]];
-            expect([lock continueUserActivity:activity restorationHandler:restorationHandler]).to.beFalsy();
+            activity.webpageURL = [NSURL URLWithString:@"https://samples.auth0.com/callback"];
+            expect(@([lock continueUserActivity:activity restorationHandler:restorationHandler])).to(beFalsy());
         });
 
         it(@"should not accept url of another application", ^{
-            [given(activity.webpageURL) willReturn:[NSURL URLWithString:@"https://samples.auth0.com/ios/com.auth0.MyAwesomeApp"]];
-            expect([lock continueUserActivity:activity restorationHandler:restorationHandler]).to.beFalsy();
+            activity.webpageURL = [NSURL URLWithString:@"https://samples.auth0.com/ios/com.auth0.MyAwesomeApp"];
+            expect(@([lock continueUserActivity:activity restorationHandler:restorationHandler])).to(beFalsy());
         });
 
         it(@"should handle valid url", ^{
-            [given(activity.webpageURL) willReturn:[NSURL URLWithString:[@"https://samples.auth0.com/ios/" stringByAppendingString:[[NSBundle mainBundle] bundleIdentifier]]]];
-            expect([lock continueUserActivity:activity restorationHandler:restorationHandler]).to.beTruthy();
+            activity.webpageURL = [NSURL URLWithString:[@"https://samples.auth0.com/ios/" stringByAppendingString:[[NSBundle mainBundle] bundleIdentifier]]];
+            expect(@([lock continueUserActivity:activity restorationHandler:restorationHandler])).to(beTruthy());
         });
 
         it(@"should post notification with url", ^{
             NSURL *url = [NSURL URLWithString:[@"https://samples.auth0.com/ios/" stringByAppendingString:[[NSBundle mainBundle] bundleIdentifier]]];
-            [given(activity.webpageURL) willReturn:url];
+            activity.webpageURL = url;
             NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
-            waitUntil(^(DoneCallback done) {
+            waitUntil(^(void (^done)()) {
                 observer = [defaultCenter addObserverForName:A0LockNotificationUniversalLinkReceived
                                                                 object:nil
                                                                  queue:nil
                                                             usingBlock:^(NSNotification * _Nonnull notif) {
-                                                                expect(notif.userInfo[A0LockNotificationUniversalLinkParameterKey]).to.equal(url);
+                                                                expect(notif.userInfo[A0LockNotificationUniversalLinkParameterKey]).to(equal(url));
                                                                 done();
                                                             }];
                 [lock continueUserActivity:activity restorationHandler:restorationHandler];
@@ -228,4 +257,4 @@ describe(@"A0Lock", ^{
     });
 });
 
-SpecEnd
+QuickSpecEnd
