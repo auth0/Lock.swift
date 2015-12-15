@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F181CD41C2057610008513E /* A0LockSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C81BE95C5700703DD1 /* A0LockSpec.m */; };
+		5F181CD51C2057920008513E /* A0UserIdentitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4D21BE95C5700703DD1 /* A0UserIdentitySpec.m */; };
 		5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */; };
 		5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A61C12062F008D73FC /* A0WebViewController.xib */; };
 		5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -382,7 +384,6 @@
 		5FBAD4BB1BE95C4000703DD1 /* A0PasswordStrengthErrorBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4B91BE95C4000703DD1 /* A0PasswordStrengthErrorBuilder.m */; };
 		5FBAD4D91BE95C5700703DD1 /* A0ConfirmPasswordValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4BF1BE95C5700703DD1 /* A0ConfirmPasswordValidatorSpec.m */; };
 		5FBAD4DD1BE95C5700703DD1 /* A0FilteredConnectionDomainMatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C31BE95C5700703DD1 /* A0FilteredConnectionDomainMatcherSpec.m */; };
-		5FBAD4EC1BE95C5700703DD1 /* A0UserIdentitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4D21BE95C5700703DD1 /* A0UserIdentitySpec.m */; };
 		5FBAD4F01BE9661400703DD1 /* A0APIv1RouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4BC1BE95C5700703DD1 /* A0APIv1RouterSpec.m */; };
 		5FBAD4F11BE9676B00703DD1 /* A0ApplicationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4BD1BE95C5700703DD1 /* A0ApplicationSpec.m */; };
 		5FBAD4F21BE9688C00703DD1 /* A0AuthParametersSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4BE1BE95C5700703DD1 /* A0AuthParametersSpec.m */; };
@@ -1685,8 +1686,7 @@
 				5FBAD4C21BE95C5700703DD1 /* A0EmailValidatorSpec.m */,
 				5FBAD4C31BE95C5700703DD1 /* A0FilteredConnectionDomainMatcherSpec.m */,
 				5FBAD4C41BE95C5700703DD1 /* A0GenericAPIErrorHandlerSpec.m */,
-				5FBAD4D11BE95C5700703DD1 /* A0TokenSpec.m */,
-				5FBAD4D21BE95C5700703DD1 /* A0UserIdentitySpec.m */,
+				5FBAD4C81BE95C5700703DD1 /* A0LockSpec.m */,
 				5FBAD4F81BE96F4800703DD1 /* Pending */,
 				5FBAD4AC1BE8F2B800703DD1 /* Utils */,
 				5FBAD49F1BE8E7F300703DD1 /* Fixtures */,
@@ -1740,9 +1740,10 @@
 		5FBAD4F81BE96F4800703DD1 /* Pending */ = {
 			isa = PBXGroup;
 			children = (
+				5FBAD4D11BE95C5700703DD1 /* A0TokenSpec.m */,
+				5FBAD4D21BE95C5700703DD1 /* A0UserIdentitySpec.m */,
 				5FBAD4C61BE95C5700703DD1 /* A0JSONResponseSerializerSpec.m */,
 				5FBAD4C71BE95C5700703DD1 /* A0LockConfigurationSpec.m */,
-				5FBAD4C81BE95C5700703DD1 /* A0LockSpec.m */,
 				5FBAD4C91BE95C5700703DD1 /* A0PasswordlessLockViewModelSpec.m */,
 				5FBAD4CA1BE95C5700703DD1 /* A0PasswordStrengthErrorHandlerSpec.m */,
 				5FBAD4CB1BE95C5700703DD1 /* A0PasswordValidatorSpec.m */,
@@ -2672,7 +2673,6 @@
 			files = (
 				5FBAD4D91BE95C5700703DD1 /* A0ConfirmPasswordValidatorSpec.m in Sources */,
 				5FBAD4BB1BE95C4000703DD1 /* A0PasswordStrengthErrorBuilder.m in Sources */,
-				5FBAD4EC1BE95C5700703DD1 /* A0UserIdentitySpec.m in Sources */,
 				5FBAD4F11BE9676B00703DD1 /* A0ApplicationSpec.m in Sources */,
 				5FBAD4F61BE96D3500703DD1 /* A0GenericAPIErrorHandlerSpec.m in Sources */,
 				5FBAD49A1BE8160700703DD1 /* A0APIClientSpec.swift in Sources */,
@@ -2683,7 +2683,9 @@
 				5FBAD4F41BE969EF00703DD1 /* A0CredentialsValidatorSpec.m in Sources */,
 				5FBAD4F01BE9661400703DD1 /* A0APIv1RouterSpec.m in Sources */,
 				5FBAD4DD1BE95C5700703DD1 /* A0FilteredConnectionDomainMatcherSpec.m in Sources */,
+				5F181CD41C2057610008513E /* A0LockSpec.m in Sources */,
 				5FBAD4F21BE9688C00703DD1 /* A0AuthParametersSpec.m in Sources */,
+				5F181CD51C2057920008513E /* A0UserIdentitySpec.m in Sources */,
 				5FBAD4F31BE9696100703DD1 /* A0ConnectionSpec.m in Sources */,
 				5FBAD4F51BE96BCE00703DD1 /* A0EmailValidatorSpec.m in Sources */,
 			);

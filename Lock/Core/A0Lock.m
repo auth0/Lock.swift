@@ -51,10 +51,19 @@ static NSString * const Auth0FileExtension = @"plist";
 @end
 
 static NSURL *Auth0CDNRegionURLFromDomainURL(NSURL *domainURL) {
-    if ([domainURL.host hasSuffix:@".eu.auth0.com"]) {
-        return [NSURL URLWithString:@"https://cdn.eu.auth0.com"];
+    NSString *cdn = @"cdn";
+
+    if ([domainURL.host hasSuffix:@".auth0.com"]) {
+        NSString *part = [[domainURL.host componentsSeparatedByString:@".auth0.com"] firstObject];
+        NSArray<NSString *> *values = [part componentsSeparatedByString:@"."];
+        if (values.count > 1 && values.lastObject.length > 0) {
+            cdn = [[cdn stringByAppendingString:@"."] stringByAppendingString:values.lastObject];
+        }
     }
-    return [NSURL URLWithString:@"https://cdn.auth0.com"];
+    NSURLComponents *components = [[NSURLComponents alloc] init];
+    components.scheme = @"https";
+    components.host = [cdn stringByAppendingString:@".auth0.com"];
+    return components.URL;
 }
 
 @interface A0Lock ()
