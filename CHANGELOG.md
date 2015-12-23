@@ -1,5 +1,20 @@
 # Change Log
 
+## [1.22.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.22.0) (2015-12-23)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.21.1...1.22.0)
+
+**Closed issues:**
+
+- Add an option to use Webview with ADFS connections [\#207](https://github.com/auth0/Lock.iOS-OSX/issues/207)
+- Send login\_hint parameter for all email/username requests [\#199](https://github.com/auth0/Lock.iOS-OSX/issues/199)
+
+**Merged pull requests:**
+
+- Force web authentication for enterprise connections [\#208](https://github.com/auth0/Lock.iOS-OSX/pull/208) ([hzalaz](https://github.com/hzalaz))
+- Allow any region in CDN [\#203](https://github.com/auth0/Lock.iOS-OSX/pull/203) ([hzalaz](https://github.com/hzalaz))
+- Remove CFBundleExecutable from Bundle plist [\#202](https://github.com/auth0/Lock.iOS-OSX/pull/202) ([hzalaz](https://github.com/hzalaz))
+- Send login\_hint parameter in authorize [\#200](https://github.com/auth0/Lock.iOS-OSX/pull/200) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.21.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.21.1) (2015-12-04)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.21.0...1.21.1)
 
