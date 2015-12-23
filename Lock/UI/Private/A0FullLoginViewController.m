@@ -52,7 +52,7 @@
     self.serviceCollectionView.authenticationDelegate = self;
     self.serviceCollectionView.parameters = self.parameters;
     self.serviceCollectionView.lock = self.lock;
-   [self.serviceCollectionView showSocialServicesForConfiguration:self.config];
+   [self.serviceCollectionView showSocialServicesForConfiguration:self.configuration];
     self.activityIndicator.color = [[A0Theme sharedInstance] colorForKey:A0ThemeTitleTextColor];
 }
 

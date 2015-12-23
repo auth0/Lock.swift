@@ -39,6 +39,7 @@
 #import "A0UsernameValidator.h"
 #import "A0EmailValidator.h"
 #import "A0CredentialsValidator.h"
+#import "A0LockConfiguration.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 
@@ -144,10 +145,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)access:(id)sender {
     if (self.matchedConnection) {
-        A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
-        A0Application *application = [client application];
-        A0Strategy *strategy = [application enterpriseStrategyWithConnection:self.matchedConnection.name];
-        if (strategy.useResourceOwnerEndpoint) {
+        if (![self.configuration shouldUseWebAuthenticationForConnection:self.matchedConnection]) {
             if (self.onShowEnterpriseLogin) {
                 self.onShowEnterpriseLogin(self.matchedConnection, self.userField.textField.text);
             }

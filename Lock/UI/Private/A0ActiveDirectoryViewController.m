@@ -35,6 +35,7 @@
 #import "A0IdentityProviderAuthenticator.h"
 #import "A0AuthParameters.h"
 #import "A0Alert.h"
+#import "A0LockConfiguration.h"
 
 #import <CoreGraphics/CoreGraphics.h>
 #import "UIViewController+LockNotification.h"
@@ -101,10 +102,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)access:(id)sender {
     if (self.matchedConnection || self.defaultConnection) {
         A0Connection *connection = self.matchedConnection ?: self.defaultConnection;
-        A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
-        A0Application *application = [client application];
-        A0Strategy *strategy = [application enterpriseStrategyWithConnection:connection.name];
-        if (!strategy.useResourceOwnerEndpoint) {
+        if ([self.configuration shouldUseWebAuthenticationForConnection:connection]) {
             [self loginUserWithConnection:connection];
         } else {
             [self.accessButton setInProgress:YES];

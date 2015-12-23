@@ -131,6 +131,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nullable, nonatomic) A0AuthParameters *authenticationParameters;
 
+/**
+ *  List of enterprise connection names that should always use web form to login.
+ *  By default all ADFS, AD & WAAD connections will use native form to login unless added to this array.
+ */
+@property (copy, nullable, nonatomic) NSArray<NSString *> *enterpriseConnectionsUsingWebForm;
+
 ///------------------------------------------------
 /// @name Connection filtering
 ///------------------------------------------------

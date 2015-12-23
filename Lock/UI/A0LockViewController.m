@@ -153,6 +153,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0LogDebug(@"Obtained application info. Starting to build Lock UI...");
         self.configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:self.connections];
         self.configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
+        self.configuration.enterpriseConnectionsUsingWebForm = self.enterpriseConnectionsUsingWebForm;
         [self layoutRootController];
     } failure:^(NSError *error) {
         A0LogError(@"Failed to fetch App info %@", error);
@@ -188,7 +189,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0ContainerLayoutVertical layout = A0ContainerLayoutVerticalCenter;
     if ((hasDB && hasSocial) || (hasSocial && hasEnterprise && !hasAD)) {
         A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
-        controller.config = self.configuration;
+        controller.configuration = self.configuration;
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.forceUsername = !self.usesEmail;
         controller.defaultConnection = database;
@@ -196,6 +197,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     if ((hasDB & !hasSocial) || (hasEnterprise && !hasDB && !hasSocial && !hasAD)) {
         A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
+        controller.configuration = self.configuration;
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.forceUsername = !self.usesEmail;
         controller.defaultConnection = database ?: ad;
@@ -218,6 +220,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0ActiveDirectoryViewController *controller = [self newADLoginViewController:onAuthSuccessBlock];;
         controller.defaultConnection = ad;
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
+        controller.configuration = self.configuration;
         rootController = controller;
     }
     if (rootController) {

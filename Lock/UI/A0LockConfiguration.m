@@ -122,4 +122,8 @@
     return ![database[A0ConnectionShowForgot] boolValue] || disableResetPassword;
 }
 
+- (BOOL)shouldUseWebAuthenticationForConnection:(A0Connection *)connection {
+    A0Strategy *strategy = [self.application enterpriseStrategyWithConnection:connection.name];
+    return [self.enterpriseConnectionsUsingWebForm containsObject:connection.name] || !strategy.useResourceOwnerEndpoint;
+}
 @end
