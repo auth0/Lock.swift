@@ -30,6 +30,8 @@
 
 @property (copy, nonatomic) NSString *defaultDatabaseConnectionName;
 
+@property (copy, nonatomic) NSArray *enterpriseConnectionsUsingWebForm;
+
 - (instancetype)initWithApplication:(A0Application *)application filter:(NSArray *)connectionNames;
 
 - (NSArray *)socialStrategies;
@@ -45,5 +47,7 @@
 - (BOOL)shouldDisableSignUp:(BOOL)disableSignUp;
 
 - (BOOL)shouldDisableResetPassword:(BOOL)disableResetPassword;
+
+- (BOOL)shouldUseWebAuthenticationForConnection:(A0Connection *)connection;
 
 @end

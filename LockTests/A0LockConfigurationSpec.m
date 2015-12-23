@@ -20,7 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockTest.h"
+#define QUICK_DISABLE_SHORT_SYNTAX 1
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
 
 #import "A0LockConfiguration.h"
 #import "A0Application.h"
@@ -39,7 +42,7 @@
 #define kCustomDatabaseConnectionName @"CustomDatabase"
 #define kAuth0DatabaseConnectionName @"Username-Password-Authentication"
 
-SpecBegin(A0LockConfiguration)
+QuickSpecBegin(A0LockConfigurationSpec)
 
 describe(@"A0LockConfiguration", ^{
 
@@ -47,22 +50,24 @@ describe(@"A0LockConfiguration", ^{
 
     describe(@"initialisation", ^{
 
-        before(^{
-            application = mock(A0Application.class);
+        beforeEach(^{
+            NSData *jsonData = [NSData dataWithContentsOfFile:[[NSBundle bundleForClass:self.class] pathForResource:@"AppInfo" ofType:@"json"]];
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+            application = [[A0Application alloc] initWithJSONDictionary:json];
         });
 
         it(@"should build with application and list of connection names", ^{
-            expect([[A0LockConfiguration alloc] initWithApplication:application filter:@[@"facebook"]]).toNot.beNil();
+            expect([[A0LockConfiguration alloc] initWithApplication:application filter:@[@"facebook"]]).toNot(beNil());
         });
 
         it(@"should fail when application is nil", ^{
-            expect(^{
-                expect([[A0LockConfiguration alloc] initWithApplication:nil filter:@[@"facebook"]]).to.beNil();
-            }).to.raiseWithReason(NSInternalInconsistencyException, @"Must supply a non-nil application");
+            expectAction(^{
+                expect([[A0LockConfiguration alloc] initWithApplication:nil filter:@[@"facebook"]]).to(beNil());
+            }).to(raiseException());
         });
 
         it(@"should accept nil filter list", ^{
-            expect([[A0LockConfiguration alloc] initWithApplication:application filter:nil]).toNot.beNil();
+            expect([[A0LockConfiguration alloc] initWithApplication:application filter:nil]).toNot(beNil());
         });
 
     });
@@ -70,18 +75,18 @@ describe(@"A0LockConfiguration", ^{
 
     describe(@"filter connections", ^{
 
-        before(^{
+        beforeEach(^{
             NSData *jsonData = [NSData dataWithContentsOfFile:[[NSBundle bundleForClass:self.class] pathForResource:@"AppInfo" ofType:@"json"]];
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
             application = [[A0Application alloc] initWithJSONDictionary:json];
         });
 
-        sharedExamplesFor(kFilteredEnterpriseAndSocialExample, ^(NSDictionary *data) {
+        sharedExamples(kFilteredEnterpriseAndSocialExample, ^(QCKDSLSharedExampleContext context) {
 
             __block A0LockConfiguration *config;
 
-            before(^{
-                config = data[kLockConfig];
+            beforeEach(^{
+                config = context()[kLockConfig];
             });
 
             it(@"should have social connections", ^{
@@ -89,9 +94,11 @@ describe(@"A0LockConfiguration", ^{
                 [config.socialStrategies enumerateObjectsUsingBlock:^(A0Strategy *stragegy, NSUInteger idx, BOOL *stop) {
                     [names addObject:stragegy.name];
                 }];
-                NSArray *expected = [data[kSocialConnectionNames] mutableCopy];
-                expect(names).to.beSupersetOf(expected);
-                expect(names).to.haveCountOf(expected.count);
+                NSArray *expected = [context()[kSocialConnectionNames] mutableCopy];
+                expect(names).to(haveCount(@(expected.count)));
+                for (NSString *name in expected) {
+                    expect(names).to(contain(name));
+                }
             });
 
             it(@"should have enterprise connections", ^{
@@ -101,9 +108,11 @@ describe(@"A0LockConfiguration", ^{
                         [names addObject:connection.name];
                     }];
                 }];
-                NSArray *expected = [data[kEnterpriseConnectionNames] mutableCopy];
-                expect(names).to.beSupersetOf(expected);
-                expect(names).to.haveCountOf(expected.count);
+                NSArray *expected = [context()[kEnterpriseConnectionNames] mutableCopy];
+                expect(names).to(haveCount(@(expected.count)));
+                for (NSString *name in expected) {
+                    expect(names).to(contain(name));
+                }
             });
         });
 
@@ -111,7 +120,7 @@ describe(@"A0LockConfiguration", ^{
             return @{
                      kLockConfig: [[A0LockConfiguration alloc] initWithApplication:application filter:@[]],
                      kSocialConnectionNames: @[@"google-oauth2", @"facebook", @"twitter", @"instagram"],
-                     kEnterpriseConnectionNames: @[@"auth0.com", @"MyAD", @"mySeconAD"],
+                     kEnterpriseConnectionNames: @[@"auth0.com", @"MyAD", @"mySeconAD", @"MyADFS", @"MyWaad"],
                      };
         });
 
@@ -131,23 +140,23 @@ describe(@"A0LockConfiguration", ^{
                      };
         });
 
-        sharedExamplesFor(kActiveDirectoryExample, ^(NSDictionary *data) {
+        sharedExamples(kActiveDirectoryExample, ^(QCKDSLSharedExampleContext context) {
 
             __block A0LockConfiguration *config;
 
-            before(^{
-                config = data[kLockConfig];
+            beforeEach(^{
+                config = context()[kLockConfig];
             });
 
-            itBehavesLike(kFilteredEnterpriseAndSocialExample, data);
+            itBehavesLike(kFilteredEnterpriseAndSocialExample, context);
 
             it(@"should return an active directory strategy", ^{
-                expect(config.activeDirectoryStrategy).toNot.beNil();
-                expect(config.activeDirectoryStrategy.name).to.equal(A0StrategyNameActiveDirectory);
+                expect(config.activeDirectoryStrategy).toNot(beNil());
+                expect(config.activeDirectoryStrategy.name).to(equal(A0StrategyNameActiveDirectory));
             });
 
             it(@"should return the correct default AD connection", ^{
-                expect(config.defaultActiveDirectoryConnection.name).to.equal(data[kDefaultADConnectionName]);
+                expect(config.defaultActiveDirectoryConnection.name).to(equal(context()[kDefaultADConnectionName]));
             });
         });
 
@@ -155,7 +164,7 @@ describe(@"A0LockConfiguration", ^{
             return @{
                      kLockConfig: [[A0LockConfiguration alloc] initWithApplication:application filter:@[]],
                      kSocialConnectionNames: @[@"google-oauth2", @"facebook", @"twitter", @"instagram"],
-                     kEnterpriseConnectionNames: @[@"auth0.com", @"MyAD", @"mySeconAD"],
+                     kEnterpriseConnectionNames: @[@"auth0.com", @"MyAD", @"mySeconAD", @"MyADFS", @"MyWaad"],
                      kDefaultADConnectionName: @"MyAD",
                      };
         });
@@ -181,44 +190,44 @@ describe(@"A0LockConfiguration", ^{
 
         it(@"should return nil default DB when no DB connection is present", ^{
             A0LockConfiguration *config = [[A0LockConfiguration alloc] initWithApplication:application filter:@[@"auth0.com", @"mySeconAD"]];
-            expect(config.defaultDatabaseConnection).to.beNil();
+            expect(config.defaultDatabaseConnection).to(beNil());
         });
 
-        sharedExamplesFor(kDatabaseConnectionExample, ^(NSDictionary *data) {
+        sharedExamples(kDatabaseConnectionExample, ^(QCKDSLSharedExampleContext context) {
 
             __block A0LockConfiguration *config;
 
-            before(^{
-                config = data[kLockConfig];
+            beforeEach(^{
+                config = context()[kLockConfig];
             });
 
             it(@"should return a default DB connection", ^{
-                expect(config.defaultDatabaseConnection.name).to.equal(data[kDefaultDatabaseConnectionName]);
+                expect(config.defaultDatabaseConnection.name).to(equal(context()[kDefaultDatabaseConnectionName]));
             });
         });
 
-        itShouldBehaveLike(kDatabaseConnectionExample, ^id{
+        itBehavesLike(kDatabaseConnectionExample, ^id{
             return @{
                      kLockConfig: [[A0LockConfiguration alloc] initWithApplication:application filter:@[]],
                      kDefaultDatabaseConnectionName: kAuth0DatabaseConnectionName,
                      };
         });
 
-        itShouldBehaveLike(kDatabaseConnectionExample, ^id{
+        itBehavesLike(kDatabaseConnectionExample, ^id{
             return @{
                      kLockConfig: [[A0LockConfiguration alloc] initWithApplication:application filter:@[kAuth0DatabaseConnectionName, @"MyAD", @"mySeconAD"]],
                      kDefaultDatabaseConnectionName: kAuth0DatabaseConnectionName,
                      };
         });
 
-        itShouldBehaveLike(kDatabaseConnectionExample, ^id{
+        itBehavesLike(kDatabaseConnectionExample, ^id{
             return @{
                      kLockConfig: [[A0LockConfiguration alloc] initWithApplication:application filter:@[kCustomDatabaseConnectionName, @"MyAD", @"mySeconAD"]],
                      kDefaultDatabaseConnectionName: kCustomDatabaseConnectionName,
                      };
         });
 
-        itShouldBehaveLike(kDatabaseConnectionExample, ^id{
+        itBehavesLike(kDatabaseConnectionExample, ^id{
             A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:@[]];
             configuration.defaultDatabaseConnectionName = kCustomDatabaseConnectionName;
             return @{
@@ -227,7 +236,7 @@ describe(@"A0LockConfiguration", ^{
                      };
         });
 
-        itShouldBehaveLike(kDatabaseConnectionExample, ^id{
+        itBehavesLike(kDatabaseConnectionExample, ^id{
             A0LockConfiguration *configuration = [[A0LockConfiguration alloc] initWithApplication:application
                                                                                            filter:@[
                                                                                                     kAuth0DatabaseConnectionName,
@@ -242,11 +251,43 @@ describe(@"A0LockConfiguration", ^{
 
     });
 
+    describe(@"force web authentication for enterprise connections", ^{
+        __block A0LockConfiguration *configuration;
+
+        beforeEach(^{
+            NSData *jsonData = [NSData dataWithContentsOfFile:[[NSBundle bundleForClass:self.class] pathForResource:@"AppInfo" ofType:@"json"]];
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+            application = [[A0Application alloc] initWithJSONDictionary:json];
+            configuration = [[A0LockConfiguration alloc] initWithApplication:application filter:@[]];
+        });
+
+        it(@"should return false for ADFS by default", ^{
+            A0Strategy *strategy = [[configuration application] enterpriseStrategyWithConnection:@"MyADFS"];
+            expect(@([configuration shouldUseWebAuthenticationForConnection:strategy.connections.firstObject])).to(beFalse());
+        });
+
+        it(@"should return false for AD by default", ^{
+            A0Strategy *strategy = [[configuration application] enterpriseStrategyWithConnection:@"MyAD"];
+            expect(@([configuration shouldUseWebAuthenticationForConnection:strategy.connections.firstObject])).to(beFalse());
+        });
+
+        it(@"should return false for Waad by default", ^{
+            A0Strategy *strategy = [[configuration application] enterpriseStrategyWithConnection:@"MyWaad"];
+            expect(@([configuration shouldUseWebAuthenticationForConnection:strategy.connections.firstObject])).to(beFalse());
+        });
+
+        it(@"should return true when connection is whitelisted", ^{
+            configuration.enterpriseConnectionsUsingWebForm = @[@"MyWaad"];
+            A0Strategy *strategy = [[configuration application] enterpriseStrategyWithConnection:@"MyWaad"];
+            expect(@([configuration shouldUseWebAuthenticationForConnection:strategy.connections.firstObject])).to(beTrue());
+        });
+    });
+
     describe(@"disable Sign Up & Reset Password", ^{
 
         __block A0LockConfiguration *configuration;
 
-        before(^{
+        beforeEach(^{
             NSData *jsonData = [NSData dataWithContentsOfFile:[[NSBundle bundleForClass:self.class] pathForResource:@"AppInfo" ofType:@"json"]];
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
             application = [[A0Application alloc] initWithJSONDictionary:json];
@@ -260,19 +301,19 @@ describe(@"A0LockConfiguration", ^{
             });
 
             it(@"should disable Sign Up", ^{
-                expect([configuration shouldDisableSignUp:YES]).to.beTruthy();
+                expect(@([configuration shouldDisableSignUp:YES])).to(beTruthy());
             });
 
             it(@"should not disable Sign Up", ^{
-                expect([configuration shouldDisableSignUp:NO]).to.beFalsy();
+                expect(@([configuration shouldDisableSignUp:NO])).to(beFalsy());
             });
 
             it(@"should disable Reset Password", ^{
-                expect([configuration shouldDisableResetPassword:YES]).to.beTruthy();
+                expect(@([configuration shouldDisableResetPassword:YES])).to(beTruthy());
             });
 
             it(@"should not disable Reset Password", ^{
-                expect([configuration shouldDisableResetPassword:NO]).to.beFalsy();
+                expect(@([configuration shouldDisableResetPassword:NO])).to(beFalsy());
             });
 
         });
@@ -284,19 +325,19 @@ describe(@"A0LockConfiguration", ^{
             });
 
             it(@"should disable Sign Up", ^{
-                expect([configuration shouldDisableSignUp:YES]).to.beTruthy();
+                expect(@([configuration shouldDisableSignUp:YES])).to(beTruthy());
             });
 
             it(@"should not disable Sign Up", ^{
-                expect([configuration shouldDisableSignUp:NO]).to.beTruthy();
+                expect(@([configuration shouldDisableSignUp:NO])).to(beTruthy());
             });
 
             it(@"should disable Reset Password", ^{
-                expect([configuration shouldDisableResetPassword:YES]).to.beTruthy();
+                expect(@([configuration shouldDisableResetPassword:YES])).to(beTruthy());
             });
 
             it(@"should not disable Reset Password", ^{
-                expect([configuration shouldDisableResetPassword:NO]).to.beTruthy();
+                expect(@([configuration shouldDisableResetPassword:NO])).to(beTruthy());
             });
             
         });
@@ -304,4 +345,4 @@ describe(@"A0LockConfiguration", ^{
     });
 });
 
-SpecEnd
+QuickSpecEnd

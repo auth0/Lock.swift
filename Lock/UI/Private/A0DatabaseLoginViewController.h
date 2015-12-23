@@ -24,7 +24,7 @@
 #import "A0AuthenticationUIComponent.h"
 #import "A0ConnectionDomainMatcher.h"
 
-@class A0UserProfile, A0CredentialsValidator, A0Token, A0CredentialFieldView, A0AuthParameters, A0Connection, A0PasswordFieldView, A0Lock;
+@class A0UserProfile, A0CredentialsValidator, A0Token, A0CredentialFieldView, A0AuthParameters, A0Connection, A0PasswordFieldView, A0Lock, A0LockConfiguration;
 
 @interface A0DatabaseLoginViewController : UIViewController<A0AuthenticationUIComponent>
 
@@ -34,6 +34,7 @@
 @property (copy, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0Connection *defaultConnection;
 @property (copy, nonatomic) NSString *defaultUsername;
+@property (strong, nonatomic) A0LockConfiguration *configuration;
 
 @property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onShowEnterpriseLogin)(A0Connection *connection, NSString *email);
