@@ -76,6 +76,13 @@ describe(@"A0AuthParameters", ^{
 
         itBehavesLike(@"offline access parameter", ^{
             return @{
+                     @"params": [[A0AuthParameters alloc] initWithDictionary:@{}],
+                     @"scopes": @[A0ScopeOpenId, A0ScopeOfflineAccess],
+                     };
+        });
+
+        itBehavesLike(@"offline access parameter", ^{
+            return @{
                      @"params": [A0AuthParameters newDefaultParams],
                      @"scopes": @[A0ScopeOpenId, A0ScopeOfflineAccess],
                      };

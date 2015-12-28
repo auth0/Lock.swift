@@ -79,7 +79,7 @@ NSDictionary *ConnectionScopeValuesFromNSDictionary(NSDictionary *scopes) {
         } else {
             _params[A0ParameterScope] = scopes;
         }
-        if ([scopes containsObject:A0ScopeOfflineAccess]) {
+        if ([_params[A0ParameterScope] containsObject:A0ScopeOfflineAccess]) {
             NSString *deviceName = dictionary[A0ParameterDevice];
             _params[A0ParameterDevice] = deviceName ?: [A0DeviceNameProvider deviceName];
         }
