@@ -87,7 +87,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 #ifdef HAS_WEBVIEW_SUPPORT
         A0LogDebug(@"Authenticating %@ with WebView authenticator", connectionName);
         A0WebViewAuthenticator *authenticator = [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName client:[self a0_apiClientFromProvider:self.clientProvider]];
-        [authenticator authenticateWithParameters:parameters success:success failure:failure];
+        [authenticator authenticateWithParameters:params success:success failure:failure];
 #else
         A0LogWarn(@"No known provider for connection %@", connectionName);
         if (failure) {
