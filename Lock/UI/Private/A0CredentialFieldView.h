@@ -22,11 +22,20 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, A0CredentialFieldViewType) {
+    A0CredentialFieldViewEmail,
+    A0CredentialFieldViewUsername,
+    A0CredentialFieldViewEmailOrUsername,
+    A0CredentialFieldViewPassword
+};
+
 @interface A0CredentialFieldView : UIView
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (assign, nonatomic) BOOL invalid;
+@property (assign, nonatomic) A0CredentialFieldViewType type;
+@property (assign, nonatomic) UIReturnKeyType returnKeyType;
 
 - (void)setFieldPlaceholderText:(NSString *)placeholderText;
 @end

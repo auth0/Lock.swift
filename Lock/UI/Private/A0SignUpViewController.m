@@ -85,9 +85,6 @@
 
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.signUpButton];
-    [theme configureTextField:self.usernameField.textField];
-    [theme configureTextField:self.userField.textField];
-    [theme configureTextField:self.passwordField.textField];
     [theme configureLabel:self.messageLabel];
 
     self.requiresUsername = [self.defaultConnection[A0ConnectionRequiresUsername] boolValue];
@@ -96,9 +93,15 @@
         [self.usernameSeparatorView removeFromSuperview];
         [self.credentialBoxView addConstraint:[NSLayoutConstraint constraintWithItem:self.userField attribute:NSLayoutAttributeTop relatedBy: NSLayoutRelationEqual toItem:self.credentialBoxView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
     }
-    [self.usernameField setFieldPlaceholderText:A0LocalizedString(@"Username")];
-    [self.userField setFieldPlaceholderText:self.forceUsername && !self.requiresUsername ? A0LocalizedString(@"Username") : A0LocalizedString(@"Email")];
-    [self.passwordField setFieldPlaceholderText:A0LocalizedString(@"Password")];
+    self.usernameField.type = A0CredentialFieldViewUsername;
+    [self.usernameField.textField addTarget:self action:@selector(goToEmailField:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    self.usernameField.returnKeyType = UIReturnKeyNext;
+    self.userField.type = self.forceUsername && !self.requiresUsername ? A0CredentialFieldViewUsername : A0CredentialFieldViewEmail;
+    [self.userField.textField addTarget:self action:@selector(goToPasswordField:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    self.userField.returnKeyType = UIReturnKeyNext;
+    self.passwordField.type = A0CredentialFieldViewPassword;
+    [self.passwordField.textField addTarget:self action:@selector(signUp:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    self.passwordField.returnKeyType = UIReturnKeyGo;
     [self.signUpButton setTitle:A0LocalizedString(@"SIGN UP") forState:UIControlStateNormal];
     self.messageLabel.text = self.forceUsername ? A0LocalizedString(@"Please enter your username and password") : A0LocalizedString(@"Please enter your email and password");
     if (self.customMessage) {

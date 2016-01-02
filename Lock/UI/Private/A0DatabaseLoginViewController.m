@@ -101,8 +101,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [theme configurePrimaryButton:self.accessButton];
     [theme configureSecondaryButton:self.signUpButton];
     [theme configureSecondaryButton:self.forgotPasswordButton];
-    [theme configureTextField:self.userField.textField];
-    [theme configureTextField:self.passwordField.textField];
 
     BOOL requiresUsername = [self.defaultConnection[A0ConnectionRequiresUsername] boolValue];
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
@@ -110,16 +108,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (self.defaultConnection) {
         self.parameters[A0ParameterConnection] = self.defaultConnection.name;
     }
-    NSString *placeholderText;
     if (requiresUsername) {
-        placeholderText = A0LocalizedString(@"Username/Email");
+        self.userField.type = A0CredentialFieldViewEmailOrUsername;
     } else {
-        placeholderText = self.forceUsername ? A0LocalizedString(@"Username") : A0LocalizedString(@"Email");
+        self.userField.type = self.forceUsername ? A0CredentialFieldViewUsername : A0CredentialFieldViewEmail;
     }
-    [self.userField setFieldPlaceholderText:placeholderText];
-
     self.userField.textField.text = self.defaultUsername;
-    [self.passwordField setFieldPlaceholderText:A0LocalizedString(@"Password")];
+    [self.userField.textField addTarget:self action:@selector(goToPasswordField:) forControlEvents:UIControlEventEditingDidEndOnExit];
+
+    self.passwordField.type = A0CredentialFieldViewPassword;
+    [self.passwordField.textField addTarget:self action:@selector(access:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    self.passwordField.returnKeyType = UIReturnKeyGo;
     [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
     [self.passwordField.passwordManagerButton addTarget:self action:@selector(fillLogin:) forControlEvents:UIControlEventTouchUpInside];
     NSMutableArray *validators = [@[

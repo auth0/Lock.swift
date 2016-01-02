@@ -22,6 +22,7 @@
 
 #import "A0CredentialFieldView.h"
 #import "A0Theme.h"
+#import "Constants.h"
 
 @interface A0CredentialFieldView ()
 @property (copy, nonatomic) NSString *placeholderText;
@@ -29,15 +30,91 @@
 
 @implementation A0CredentialFieldView
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self layoutViews];
+        [self setupViews];
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self layoutViews];
+        [self setupViews];
+    }
+    return self;
+}
+
+- (void)setupViews {
     A0Theme *theme = [A0Theme sharedInstance];
     self.iconImageView.tintColor = [theme colorForKey:A0ThemeTextFieldIconColor];
     self.textField.tintColor = [theme colorForKey:A0ThemeTextFieldTextColor];
-    self.iconImageView.image = [self.iconImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    self.placeholderText = self.textField.placeholder;
+    self.textField.returnKeyType = self.returnKeyType;
+    self.textField.borderStyle = UITextBorderStyleNone;
+    self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.type = A0CredentialFieldViewEmail;
+    self.returnKeyType = UIReturnKeyNext;
+    [theme configureTextField:self.textField];
+}
+
+- (void)setType:(A0CredentialFieldViewType)type {
+    _type = type;
+    A0Theme *theme = [A0Theme sharedInstance];
+    switch (_type) {
+        case A0CredentialFieldViewEmail:
+            self.placeholderText = A0LocalizedString(@"Email");
+            self.textField.keyboardType = UIKeyboardTypeEmailAddress;
+            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconEmail] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            break;
+        case A0CredentialFieldViewEmailOrUsername:
+            self.placeholderText = A0LocalizedString(@"Email/Username");
+            self.textField.keyboardType = UIKeyboardTypeEmailAddress;
+            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconEmail] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            break;
+        case A0CredentialFieldViewPassword:
+            self.placeholderText = A0LocalizedString(@"Password");
+            self.textField.keyboardType = UIKeyboardTypeDefault;
+            self.textField.secureTextEntry = YES;
+            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconPassword] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            break;
+        case A0CredentialFieldViewUsername:
+            self.placeholderText = A0LocalizedString(@"Username");
+            self.textField.keyboardType = UIKeyboardTypeDefault;
+            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconUsername] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            break;
+    }
     self.textField.placeholder = nil;
     [self setFieldPlaceholderText:self.placeholderText];
+}
+
+- (void)setReturnKeyType:(UIReturnKeyType)returnKeyType {
+    _returnKeyType = returnKeyType;
+    self.textField.returnKeyType = returnKeyType;
+}
+
+- (void)layoutViews {
+    UITextField *textField = [[UITextField alloc] init];
+    UIImageView *iconView = [[UIImageView alloc] init];
+
+    textField.translatesAutoresizingMaskIntoConstraints = NO;
+    iconView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [self addSubview:iconView];
+    [self addSubview:textField];
+
+    NSDictionary<NSString *, id> *views = NSDictionaryOfVariableBindings(iconView, textField);
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(18)-[iconView]-(10)-[textField]-(7)-|" options:0 metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(10)-[textField]-(10)-|" options:0 metrics:nil views:views]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:iconView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:textField attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+
+    [iconView setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [iconView setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+    [self needsUpdateConstraints];
+    self.textField = textField;
+    self.iconImageView = iconView;
 }
 
 - (void)setInvalid:(BOOL)invalid {

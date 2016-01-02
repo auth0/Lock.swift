@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0ActiveDirectoryViewController">
@@ -10,7 +10,6 @@
                 <outlet property="accessButton" destination="7TG-l6-EYk" id="CHQ-QW-JlT"/>
                 <outlet property="credentialsBoxView" destination="QwR-a5-XHl" id="8va-zb-Cot"/>
                 <outlet property="passwordField" destination="K2g-v6-Djv" id="BWe-k8-EUP"/>
-                <outlet property="singleSignOnIcon" destination="veA-84-hT0" id="OjX-St-ilF"/>
                 <outlet property="singleSignOnView" destination="NB8-2G-PUO" id="QBg-bm-J58"/>
                 <outlet property="userField" destination="Xhc-hr-e8e" id="zcE-MF-3sH"/>
                 <outlet property="view" destination="fBM-TE-f4G" id="m3j-d6-72d"/>
@@ -29,77 +28,18 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xhc-hr-e8e" customClass="A0CredentialFieldView">
                                     <rect key="frame" x="0.0" y="0.0" width="238" height="50"/>
-                                    <subviews>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="daj-TK-3fr">
-                                            <rect key="frame" x="44" y="10" width="187" height="30"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" returnKeyType="next"/>
-                                            <connections>
-                                                <action selector="goToPasswordField:" destination="-1" eventType="editingDidEndOnExit" id="mX8-GJ-MIH"/>
-                                            </connections>
-                                        </textField>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/person" translatesAutoresizingMaskIntoConstraints="NO" id="NAY-MX-Mcg">
-                                            <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                            <animations/>
-                                            <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        </imageView>
-                                    </subviews>
-                                    <animations/>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="daj-TK-3fr" secondAttribute="trailing" constant="7" id="ApT-Iy-Lnr"/>
-                                        <constraint firstItem="NAY-MX-Mcg" firstAttribute="centerY" secondItem="daj-TK-3fr" secondAttribute="centerY" id="GxW-2Z-4gX"/>
-                                        <constraint firstAttribute="bottom" secondItem="daj-TK-3fr" secondAttribute="bottom" constant="10" id="Igw-yI-oWL"/>
                                         <constraint firstAttribute="height" constant="50" id="QTy-OA-Bva"/>
-                                        <constraint firstItem="daj-TK-3fr" firstAttribute="leading" secondItem="NAY-MX-Mcg" secondAttribute="trailing" constant="10" id="b8m-3Y-Bhi"/>
-                                        <constraint firstItem="daj-TK-3fr" firstAttribute="top" secondItem="Xhc-hr-e8e" secondAttribute="top" constant="10" id="r0U-17-cF0"/>
-                                        <constraint firstItem="NAY-MX-Mcg" firstAttribute="leading" secondItem="Xhc-hr-e8e" secondAttribute="leading" constant="18" id="sr5-lj-vD4"/>
                                     </constraints>
-                                    <connections>
-                                        <outlet property="iconImageView" destination="NAY-MX-Mcg" id="Cdd-VG-Bf2"/>
-                                        <outlet property="textField" destination="daj-TK-3fr" id="Is6-22-Qna"/>
-                                    </connections>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rvD-2H-1Kf">
                                     <rect key="frame" x="0.0" y="50" width="238" height="1"/>
-                                    <animations/>
                                     <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K2g-v6-Djv" customClass="A0PasswordFieldView">
                                     <rect key="frame" x="0.0" y="51" width="238" height="50"/>
-                                    <subviews>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="chi-h0-T7Q">
-                                            <rect key="frame" x="44" y="10" width="187" height="30"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
-                                            <connections>
-                                                <action selector="access:" destination="-1" eventType="editingDidEndOnExit" id="NRh-G9-oJ2"/>
-                                            </connections>
-                                        </textField>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="veA-84-hT0">
-                                            <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                            <animations/>
-                                            <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        </imageView>
-                                    </subviews>
-                                    <animations/>
-                                    <constraints>
-                                        <constraint firstItem="chi-h0-T7Q" firstAttribute="leading" secondItem="veA-84-hT0" secondAttribute="trailing" constant="10" id="EIY-gk-wHb"/>
-                                        <constraint firstAttribute="trailing" secondItem="chi-h0-T7Q" secondAttribute="trailing" constant="7" id="FG4-SV-VwN"/>
-                                        <constraint firstItem="chi-h0-T7Q" firstAttribute="centerY" secondItem="veA-84-hT0" secondAttribute="centerY" id="HU1-7L-fC3"/>
-                                        <constraint firstAttribute="bottom" secondItem="chi-h0-T7Q" secondAttribute="bottom" constant="10" id="b1A-U4-roj"/>
-                                        <constraint firstItem="chi-h0-T7Q" firstAttribute="top" secondItem="K2g-v6-Djv" secondAttribute="top" constant="10" id="lQg-hI-rCx"/>
-                                        <constraint firstItem="veA-84-hT0" firstAttribute="leading" secondItem="K2g-v6-Djv" secondAttribute="leading" constant="18" id="xUc-xf-zeg"/>
-                                    </constraints>
-                                    <connections>
-                                        <outlet property="fieldTrailingSpace" destination="FG4-SV-VwN" id="TUG-hz-yrZ"/>
-                                        <outlet property="iconImageView" destination="veA-84-hT0" id="VQM-pl-SoG"/>
-                                        <outlet property="textField" destination="chi-h0-T7Q" id="AvZ-lh-6rV"/>
-                                    </connections>
                                 </view>
                             </subviews>
-                            <animations/>
                             <constraints>
                                 <constraint firstItem="Xhc-hr-e8e" firstAttribute="top" secondItem="QwR-a5-XHl" secondAttribute="top" id="08f-vU-Sxq"/>
                                 <constraint firstItem="K2g-v6-Djv" firstAttribute="leading" secondItem="QwR-a5-XHl" secondAttribute="leading" id="DYa-ca-fL6"/>
@@ -123,7 +63,6 @@
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="lwR-PC-Crw">
                                     <rect key="frame" x="31" y="18" width="14" height="14"/>
-                                    <animations/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="14" id="ZS2-ZA-UCF"/>
@@ -132,13 +71,11 @@
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SINGLE SIGN-ON ENABLED" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FCS-dZ-MsR">
                                     <rect key="frame" x="53" y="19" width="134" height="12"/>
-                                    <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <animations/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="712-fk-jQi"/>
@@ -150,7 +87,6 @@
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7TG-l6-EYk" customClass="A0ProgressButton">
                             <rect key="frame" x="1" y="130" width="238" height="55"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="4hF-ca-rgc"/>
                             </constraints>
@@ -165,7 +101,6 @@
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="7TG-l6-EYk" secondAttribute="bottom" id="7iw-Ue-cG4"/>
@@ -181,7 +116,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="tBH-ah-ruv" firstAttribute="top" secondItem="fBM-TE-f4G" secondAttribute="top" id="X8F-MW-eQI"/>
@@ -196,6 +130,5 @@
     </objects>
     <resources>
         <image name="Auth0.bundle/lock" width="16" height="16"/>
-        <image name="Auth0.bundle/person" width="16" height="16"/>
     </resources>
 </document>

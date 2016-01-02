@@ -29,6 +29,4 @@
 
 @property (weak, nonatomic) IBOutlet A0SmallSocialServiceCollectionView *serviceCollectionView;
 
-@property (strong, nonatomic) A0LockConfiguration *configuration;
-
 @end

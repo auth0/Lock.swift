@@ -55,6 +55,10 @@ NSString * const A0ThemeCredentialBoxSeparatorColor = @"A0ThemeCredentialBoxSepa
 NSString * const A0ThemeCredentialBoxBackgroundColor = @"A0ThemeCredentialBoxBackgroundColor";
 NSString * const A0ThemeCloseButtonTintColor = @"A0ThemeCloseButtonTintColor";
 NSString * const A0ThemeCloseButtonImageName = @"A0ThemeCloseButtonImageName";
+NSString * const A0ThemeTextFieldIconEmail = @"A0ThemeTextFieldIconEmail";
+NSString * const A0ThemeTextFieldIconUsername = @"A0ThemeTextFieldIconUsername";
+NSString * const A0ThemeTextFieldIconPassword = @"A0ThemeTextFieldIconPassword";
+NSString * const A0ThemeTextFieldIconPhone = @"A0ThemeTextFieldIconPhone";
 
 #define kSecondaryButtonImageInsets UIEdgeInsetsMake(0, 28, 0, 28)
 
@@ -106,6 +110,10 @@ NSString * const A0ThemeCloseButtonImageName = @"A0ThemeCloseButtonImageName";
                      A0ThemeTextFieldPlaceholderTextColor: [UIColor colorWithRed:0.616 green:0.635 blue:0.675 alpha:1.000],
                      A0ThemeTextFieldTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],
                      A0ThemeTextFieldIconColor: [UIColor colorWithWhite:0.600 alpha:1.000],
+                     A0ThemeTextFieldIconEmail: [A0ImageTheme newImageWithName:@"Auth0.bundle/mail" bundle:nil],
+                     A0ThemeTextFieldIconUsername: [A0ImageTheme newImageWithName:@"Auth0.bundle/person" bundle:nil],
+                     A0ThemeTextFieldIconPassword: [A0ImageTheme newImageWithName:@"Auth0.bundle/lock" bundle:nil],
+                     A0ThemeTextFieldIconPhone: [A0ImageTheme newImageWithName:@"Auth0.bundle/cellphone" bundle:nil],
 
                      A0ThemeDescriptionFont: [UIFont systemFontOfSize:13.0f],
                      A0ThemeDescriptionTextColor: [UIColor colorWithWhite:0.302 alpha:1.000],

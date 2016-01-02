@@ -42,6 +42,10 @@ FOUNDATION_EXPORT NSString * const A0ThemeTextFieldFont;
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldPlaceholderTextColor;
 FOUNDATION_EXPORT NSString * const A0ThemeTextFieldIconColor;
+FOUNDATION_EXPORT NSString * const A0ThemeTextFieldIconEmail;
+FOUNDATION_EXPORT NSString * const A0ThemeTextFieldIconUsername;
+FOUNDATION_EXPORT NSString * const A0ThemeTextFieldIconPassword;
+FOUNDATION_EXPORT NSString * const A0ThemeTextFieldIconPhone;
 
 FOUNDATION_EXPORT NSString * const A0ThemeTitleFont;
 FOUNDATION_EXPORT NSString * const A0ThemeTitleTextColor;

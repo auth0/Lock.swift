@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0FullLoginViewController">
@@ -30,11 +30,9 @@
                     <subviews>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="s6B-ti-XIO">
                             <rect key="frame" x="122" y="118" width="37" height="37"/>
-                            <animations/>
                             <color key="color" red="0.13333333333333333" green="0.1803921568627451" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
                         </activityIndicatorView>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerX" secondItem="s6B-ti-XIO" secondAttribute="centerX" id="WE2-k1-xYy"/>
@@ -46,7 +44,6 @@
                     <subviews>
                         <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ynd-lY-AHE" customClass="A0SmallSocialServiceCollectionView">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
-                            <animations/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="s7G-uI-9Sq"/>
@@ -61,7 +58,6 @@
                         </collectionView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sFo-mK-7If">
                             <rect key="frame" x="148" y="68" width="25" height="20"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="gkJ-vX-D6a"/>
                             </constraints>
@@ -69,7 +65,6 @@
                             <color key="highlightedColor" red="0.29803921568627451" green="0.29803921568627451" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                         </label>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerX" secondItem="sFo-mK-7If" secondAttribute="centerX" id="JT8-OG-cZb"/>
@@ -88,79 +83,20 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d5T-jc-U5F" customClass="A0CredentialFieldView">
                                     <rect key="frame" x="0.0" y="0.0" width="278" height="50"/>
-                                    <subviews>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jiy-wY-wCM">
-                                            <rect key="frame" x="44" y="10" width="227" height="30"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" returnKeyType="next"/>
-                                            <connections>
-                                                <action selector="goToPasswordField:" destination="-1" eventType="editingDidEndOnExit" id="NUY-G2-q0B"/>
-                                            </connections>
-                                        </textField>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/mail" translatesAutoresizingMaskIntoConstraints="NO" id="YYC-VE-9yH">
-                                            <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                            <animations/>
-                                            <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        </imageView>
-                                    </subviews>
-                                    <animations/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="jiy-wY-wCM" secondAttribute="bottom" constant="10" id="1Ou-53-R7n"/>
-                                        <constraint firstItem="YYC-VE-9yH" firstAttribute="centerY" secondItem="jiy-wY-wCM" secondAttribute="centerY" id="8tB-kY-6IH"/>
-                                        <constraint firstItem="YYC-VE-9yH" firstAttribute="leading" secondItem="d5T-jc-U5F" secondAttribute="leading" constant="18" id="Kcf-Hg-khT"/>
-                                        <constraint firstItem="jiy-wY-wCM" firstAttribute="leading" secondItem="YYC-VE-9yH" secondAttribute="trailing" constant="10" id="NRI-Du-vI6"/>
                                         <constraint firstAttribute="height" constant="50" id="abi-gP-lMV"/>
-                                        <constraint firstItem="jiy-wY-wCM" firstAttribute="top" secondItem="d5T-jc-U5F" secondAttribute="top" constant="10" id="oQV-gP-eoS"/>
-                                        <constraint firstAttribute="trailing" secondItem="jiy-wY-wCM" secondAttribute="trailing" constant="7" id="thN-OX-jwi"/>
                                     </constraints>
-                                    <connections>
-                                        <outlet property="iconImageView" destination="YYC-VE-9yH" id="wSi-CA-Bad"/>
-                                        <outlet property="textField" destination="jiy-wY-wCM" id="QvA-kG-YlY"/>
-                                    </connections>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RHo-Le-rsy">
                                     <rect key="frame" x="0.0" y="50" width="278" height="1"/>
-                                    <animations/>
                                     <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T9N-fd-MMV" customClass="A0PasswordFieldView">
                                     <rect key="frame" x="0.0" y="51" width="278" height="50"/>
-                                    <subviews>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I1u-zo-5Wg">
-                                            <rect key="frame" x="44" y="10" width="227" height="30"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
-                                            <connections>
-                                                <action selector="access:" destination="-1" eventType="editingDidEndOnExit" id="LUu-pZ-Bjp"/>
-                                            </connections>
-                                        </textField>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="SsZ-1G-EQD">
-                                            <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                            <animations/>
-                                            <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        </imageView>
-                                    </subviews>
-                                    <animations/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    <constraints>
-                                        <constraint firstItem="I1u-zo-5Wg" firstAttribute="leading" secondItem="SsZ-1G-EQD" secondAttribute="trailing" constant="10" id="4wA-lM-DyT"/>
-                                        <constraint firstAttribute="bottom" secondItem="I1u-zo-5Wg" secondAttribute="bottom" constant="10" id="51C-44-m9y"/>
-                                        <constraint firstItem="I1u-zo-5Wg" firstAttribute="centerY" secondItem="SsZ-1G-EQD" secondAttribute="centerY" id="8mg-sa-ikz"/>
-                                        <constraint firstItem="I1u-zo-5Wg" firstAttribute="top" secondItem="T9N-fd-MMV" secondAttribute="top" constant="10" id="IXs-zm-aPV"/>
-                                        <constraint firstItem="SsZ-1G-EQD" firstAttribute="leading" secondItem="T9N-fd-MMV" secondAttribute="leading" constant="18" id="gp6-8o-8Aj"/>
-                                        <constraint firstAttribute="trailing" secondItem="I1u-zo-5Wg" secondAttribute="trailing" constant="7" id="lxZ-QS-9Wn"/>
-                                    </constraints>
-                                    <connections>
-                                        <outlet property="fieldTrailingSpace" destination="lxZ-QS-9Wn" id="dd6-CI-lc7"/>
-                                        <outlet property="iconImageView" destination="SsZ-1G-EQD" id="7Ob-xe-QL0"/>
-                                        <outlet property="textField" destination="I1u-zo-5Wg" id="cTb-Gp-cWa"/>
-                                    </connections>
                                 </view>
                             </subviews>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="d5T-jc-U5F" secondAttribute="trailing" id="Ado-7d-Cua"/>
                                 <constraint firstAttribute="height" constant="101" id="JTS-dp-XyC"/>
@@ -184,7 +120,6 @@
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="6SJ-p3-ZXA">
                                     <rect key="frame" x="51" y="18" width="14" height="14"/>
-                                    <animations/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="14" id="01Z-EB-eJE"/>
@@ -193,13 +128,11 @@
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SINGLE SIGN-ON ENABLED" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nha-z1-E1H">
                                     <rect key="frame" x="73" y="19" width="134" height="12"/>
-                                    <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="centerX" secondItem="nha-z1-E1H" secondAttribute="centerX" id="7gk-1g-DCE"/>
                                 <constraint firstAttribute="centerY" secondItem="nha-z1-E1H" secondAttribute="centerY" id="IPt-Jy-pgJ"/>
@@ -210,7 +143,6 @@
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYO-zd-sKu" customClass="A0ProgressButton">
                             <rect key="frame" x="1" y="130" width="278" height="55"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="nyC-nY-iiL"/>
                             </constraints>
@@ -225,7 +157,6 @@
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="wGI-hJ-Zry" secondAttribute="trailing" constant="1" id="4RO-7A-Y6w"/>
@@ -241,7 +172,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="r9V-aE-Dje" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="6kC-se-nef"/>
@@ -263,6 +193,5 @@
     </objects>
     <resources>
         <image name="Auth0.bundle/lock" width="16" height="16"/>
-        <image name="Auth0.bundle/mail" width="16" height="16"/>
     </resources>
 </document>

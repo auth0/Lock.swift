@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0EnterpriseLoginViewController">
@@ -28,77 +28,18 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BAY-A3-Jzh" customClass="A0CredentialFieldView">
                                     <rect key="frame" x="0.0" y="0.0" width="238" height="50"/>
-                                    <subviews>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gnH-SJ-vuK">
-                                            <rect key="frame" x="44" y="10" width="187" height="30"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" returnKeyType="next"/>
-                                            <connections>
-                                                <action selector="goToPasswordField:" destination="-1" eventType="editingDidEndOnExit" id="1FF-XQ-T18"/>
-                                            </connections>
-                                        </textField>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/person" translatesAutoresizingMaskIntoConstraints="NO" id="STu-B7-Woq">
-                                            <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                            <animations/>
-                                            <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        </imageView>
-                                    </subviews>
-                                    <animations/>
                                     <constraints>
-                                        <constraint firstItem="gnH-SJ-vuK" firstAttribute="top" secondItem="BAY-A3-Jzh" secondAttribute="top" constant="10" id="72a-Ru-vhH"/>
-                                        <constraint firstAttribute="bottom" secondItem="gnH-SJ-vuK" secondAttribute="bottom" constant="10" id="7bn-vS-R28"/>
-                                        <constraint firstItem="STu-B7-Woq" firstAttribute="centerY" secondItem="gnH-SJ-vuK" secondAttribute="centerY" id="dOd-11-JsR"/>
-                                        <constraint firstItem="STu-B7-Woq" firstAttribute="leading" secondItem="BAY-A3-Jzh" secondAttribute="leading" constant="18" id="lh9-v3-ia2"/>
                                         <constraint firstAttribute="height" constant="50" id="mV8-RI-5lC"/>
-                                        <constraint firstAttribute="trailing" secondItem="gnH-SJ-vuK" secondAttribute="trailing" constant="7" id="oOH-I1-btr"/>
-                                        <constraint firstItem="gnH-SJ-vuK" firstAttribute="leading" secondItem="STu-B7-Woq" secondAttribute="trailing" constant="10" id="ogW-jK-lXz"/>
                                     </constraints>
-                                    <connections>
-                                        <outlet property="iconImageView" destination="STu-B7-Woq" id="0QY-K4-QDv"/>
-                                        <outlet property="textField" destination="gnH-SJ-vuK" id="fh7-Ii-0FF"/>
-                                    </connections>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PGh-Iv-zbA">
                                     <rect key="frame" x="0.0" y="50" width="238" height="1"/>
-                                    <animations/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fk8-vm-zOL" customClass="A0PasswordFieldView">
                                     <rect key="frame" x="0.0" y="51" width="238" height="50"/>
-                                    <subviews>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8qb-ja-Yno">
-                                            <rect key="frame" x="44" y="10" width="187" height="30"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
-                                            <connections>
-                                                <action selector="access:" destination="-1" eventType="editingDidEndOnExit" id="ViZ-a6-HvB"/>
-                                            </connections>
-                                        </textField>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="pw1-ya-2vf">
-                                            <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                            <animations/>
-                                            <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        </imageView>
-                                    </subviews>
-                                    <animations/>
-                                    <constraints>
-                                        <constraint firstItem="8qb-ja-Yno" firstAttribute="leading" secondItem="pw1-ya-2vf" secondAttribute="trailing" constant="10" id="Fde-Gz-xqi"/>
-                                        <constraint firstItem="pw1-ya-2vf" firstAttribute="leading" secondItem="Fk8-vm-zOL" secondAttribute="leading" constant="18" id="H9Q-HQ-yfi"/>
-                                        <constraint firstItem="8qb-ja-Yno" firstAttribute="top" secondItem="Fk8-vm-zOL" secondAttribute="top" constant="10" id="LRH-91-cMx"/>
-                                        <constraint firstItem="8qb-ja-Yno" firstAttribute="centerY" secondItem="pw1-ya-2vf" secondAttribute="centerY" id="Wla-sb-H3M"/>
-                                        <constraint firstAttribute="trailing" secondItem="8qb-ja-Yno" secondAttribute="trailing" constant="7" id="aoj-jA-WTE"/>
-                                        <constraint firstAttribute="bottom" secondItem="8qb-ja-Yno" secondAttribute="bottom" constant="10" id="cL4-Gq-cjN"/>
-                                    </constraints>
-                                    <connections>
-                                        <outlet property="fieldTrailingSpace" destination="aoj-jA-WTE" id="698-Ut-QIJ"/>
-                                        <outlet property="iconImageView" destination="pw1-ya-2vf" id="17b-n0-dOo"/>
-                                        <outlet property="textField" destination="8qb-ja-Yno" id="y2n-IQ-7zR"/>
-                                    </connections>
                                 </view>
                             </subviews>
-                            <animations/>
                             <constraints>
                                 <constraint firstItem="Fk8-vm-zOL" firstAttribute="top" secondItem="PGh-Iv-zbA" secondAttribute="bottom" id="3R6-vU-kyh"/>
                                 <constraint firstItem="Fk8-vm-zOL" firstAttribute="leading" secondItem="Wjg-2h-hGz" secondAttribute="leading" id="Aye-N5-8XQ"/>
@@ -119,7 +60,6 @@
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PmP-V7-sFo" customClass="A0ProgressButton">
                             <rect key="frame" x="1" y="200" width="238" height="55"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="whs-cW-fd3"/>
                             </constraints>
@@ -135,7 +75,6 @@
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ar9-GH-byP">
                             <rect key="frame" x="0.0" y="8" width="240" height="54"/>
-                            <animations/>
                             <attributedString key="attributedText">
                                 <fragment content="Please enter your ">
                                     <attributes>
@@ -163,7 +102,6 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="PmP-V7-sFo" firstAttribute="leading" secondItem="236-6Y-uJi" secondAttribute="leading" constant="1" id="91S-zB-Z8X"/>
@@ -181,7 +119,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="236-6Y-uJi" secondAttribute="trailing" constant="20" id="96n-bl-dNd"/>
@@ -194,8 +131,4 @@
             <point key="canvasLocation" x="418" y="427"/>
         </view>
     </objects>
-    <resources>
-        <image name="Auth0.bundle/lock" width="16" height="16"/>
-        <image name="Auth0.bundle/person" width="16" height="16"/>
-    </resources>
 </document>

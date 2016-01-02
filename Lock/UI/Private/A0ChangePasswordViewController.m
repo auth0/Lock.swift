@@ -76,7 +76,9 @@
     [theme configureTextField:self.userField.textField];
 
     self.userField.textField.text = self.defaultEmail;
-    [self.userField setFieldPlaceholderText:A0LocalizedString(@"Email")];
+    self.userField.type = self.forceUsername ? A0CredentialFieldViewUsername : A0CredentialFieldViewEmail;
+    [self.userField.textField addTarget:self action:@selector(recover:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    self.userField.returnKeyType = UIReturnKeyGo;
     [self.recoverButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
     self.messageLabel.text = A0LocalizedString(@"Please enter your email address. We will send you an email to reset your password.");
 

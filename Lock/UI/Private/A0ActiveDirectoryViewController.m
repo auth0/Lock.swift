@@ -68,6 +68,10 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
+- (instancetype)init {
+    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -80,14 +84,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [super viewDidLoad];
 
     A0Theme *theme = [A0Theme sharedInstance];
-    [theme configurePrimaryButton:self.accessButton];
-    [theme configureTextField:self.userField.textField];
-    [theme configureTextField:self.passwordField.textField];
-    
+    [theme configurePrimaryButton:self.accessButton];    
     [self.userField.textField addTarget:self action:@selector(matchDomainInTextField:) forControlEvents:UIControlEventEditingChanged];
     self.singleSignOnIcon.image = [self.singleSignOnIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [self.userField setFieldPlaceholderText:A0LocalizedString(@"Username")];
-    [self.passwordField setFieldPlaceholderText:A0LocalizedString(@"Password")];
+    self.userField.type = A0CredentialFieldViewUsername;
+    self.userField.returnKeyType = UIReturnKeyNext;
+    [self.userField.textField addTarget:self action:@selector(goToPasswordField:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    self.passwordField.type = A0CredentialFieldViewPassword;
+    self.passwordField.returnKeyType = UIReturnKeyGo;
+    [self.passwordField.textField addTarget:self action:@selector(access:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.accessButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
     self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
                                                                           [[A0UsernameValidator alloc] initWithField:self.userField.textField],

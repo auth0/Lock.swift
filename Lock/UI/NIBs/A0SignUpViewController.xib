@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SignUpViewController">
@@ -52,33 +52,9 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uPM-Ir-6l4" customClass="A0CredentialFieldView">
                             <rect key="frame" x="0.0" y="0.0" width="238" height="50"/>
-                            <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tIl-xc-rd0">
-                                    <rect key="frame" x="44" y="10" width="187" height="30"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" returnKeyType="next"/>
-                                    <connections>
-                                        <action selector="goToEmailField:" destination="-1" eventType="editingDidEnd" id="HOB-jH-b8f"/>
-                                    </connections>
-                                </textField>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/person" translatesAutoresizingMaskIntoConstraints="NO" id="B4K-1n-dxc">
-                                    <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                </imageView>
-                            </subviews>
                             <constraints>
-                                <constraint firstItem="B4K-1n-dxc" firstAttribute="leading" secondItem="uPM-Ir-6l4" secondAttribute="leading" constant="18" id="0KR-4t-H1K"/>
-                                <constraint firstItem="B4K-1n-dxc" firstAttribute="centerY" secondItem="tIl-xc-rd0" secondAttribute="centerY" id="5yg-Uy-xzE"/>
-                                <constraint firstAttribute="trailing" secondItem="tIl-xc-rd0" secondAttribute="trailing" constant="7" id="Hsp-68-Ct1"/>
-                                <constraint firstAttribute="bottom" secondItem="tIl-xc-rd0" secondAttribute="bottom" constant="10" id="ZZU-Zw-NDw"/>
                                 <constraint firstAttribute="height" constant="50" id="mNf-HQ-1aI"/>
-                                <constraint firstItem="tIl-xc-rd0" firstAttribute="leading" secondItem="B4K-1n-dxc" secondAttribute="trailing" constant="10" id="ovP-5s-IzC"/>
-                                <constraint firstItem="tIl-xc-rd0" firstAttribute="top" secondItem="uPM-Ir-6l4" secondAttribute="top" constant="10" id="qF4-UI-kTK"/>
                             </constraints>
-                            <connections>
-                                <outlet property="iconImageView" destination="B4K-1n-dxc" id="8H6-rr-4Tt"/>
-                                <outlet property="textField" destination="tIl-xc-rd0" id="jZR-VA-rS1"/>
-                            </connections>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="013-KC-liE">
                             <rect key="frame" x="0.0" y="50" width="238" height="1"/>
@@ -89,33 +65,9 @@
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i5m-Aq-8EN" customClass="A0CredentialFieldView">
                             <rect key="frame" x="0.0" y="51" width="238" height="50"/>
-                            <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mFc-1H-Ngh">
-                                    <rect key="frame" x="44" y="10" width="187" height="30"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" returnKeyType="next"/>
-                                    <connections>
-                                        <action selector="goToPasswordField:" destination="-1" eventType="editingDidEndOnExit" id="9zi-FS-vX2"/>
-                                    </connections>
-                                </textField>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/mail" translatesAutoresizingMaskIntoConstraints="NO" id="59g-GJ-D1f">
-                                    <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                </imageView>
-                            </subviews>
                             <constraints>
-                                <constraint firstItem="59g-GJ-D1f" firstAttribute="leading" secondItem="i5m-Aq-8EN" secondAttribute="leading" constant="18" id="1Bg-bg-Bx6"/>
-                                <constraint firstAttribute="bottom" secondItem="mFc-1H-Ngh" secondAttribute="bottom" constant="10" id="ClP-Zd-KvX"/>
-                                <constraint firstItem="mFc-1H-Ngh" firstAttribute="leading" secondItem="59g-GJ-D1f" secondAttribute="trailing" constant="10" id="FRU-Fc-zrF"/>
-                                <constraint firstItem="59g-GJ-D1f" firstAttribute="centerY" secondItem="mFc-1H-Ngh" secondAttribute="centerY" id="NZv-hQ-ZK2"/>
                                 <constraint firstAttribute="height" constant="50" id="Yuu-zI-3vG"/>
-                                <constraint firstItem="mFc-1H-Ngh" firstAttribute="top" secondItem="i5m-Aq-8EN" secondAttribute="top" constant="10" id="fqO-cl-4ln"/>
-                                <constraint firstAttribute="trailing" secondItem="mFc-1H-Ngh" secondAttribute="trailing" constant="7" id="weX-cp-RmQ"/>
                             </constraints>
-                            <connections>
-                                <outlet property="iconImageView" destination="59g-GJ-D1f" id="RRm-q3-fbp"/>
-                                <outlet property="textField" destination="mFc-1H-Ngh" id="KDv-wc-iUy"/>
-                            </connections>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6sK-qG-ya2">
                             <rect key="frame" x="0.0" y="101" width="238" height="1"/>
@@ -126,35 +78,10 @@
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R6f-hv-Q3N" customClass="A0PasswordFieldView">
                             <rect key="frame" x="0.0" y="102" width="238" height="50"/>
-                            <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zve-FO-K8J">
-                                    <rect key="frame" x="44" y="10" width="187" height="30"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
-                                    <connections>
-                                        <action selector="signUp:" destination="-1" eventType="editingDidEndOnExit" id="EMc-06-tRY"/>
-                                    </connections>
-                                </textField>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="c9z-aw-6NQ">
-                                    <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                </imageView>
-                            </subviews>
                             <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="Zve-FO-K8J" secondAttribute="trailing" constant="7" id="4XX-bg-THK"/>
-                                <constraint firstItem="Zve-FO-K8J" firstAttribute="leading" secondItem="c9z-aw-6NQ" secondAttribute="trailing" constant="10" id="8Sa-Q2-4H2"/>
-                                <constraint firstItem="c9z-aw-6NQ" firstAttribute="leading" secondItem="R6f-hv-Q3N" secondAttribute="leading" constant="18" id="Qtr-nM-vIo"/>
-                                <constraint firstAttribute="bottom" secondItem="Zve-FO-K8J" secondAttribute="bottom" constant="10" id="Wg7-cX-xwf"/>
-                                <constraint firstItem="Zve-FO-K8J" firstAttribute="centerY" secondItem="c9z-aw-6NQ" secondAttribute="centerY" id="Zyq-Xs-nBG"/>
-                                <constraint firstItem="Zve-FO-K8J" firstAttribute="top" secondItem="R6f-hv-Q3N" secondAttribute="top" constant="10" id="bJF-V3-zTe"/>
                                 <constraint firstAttribute="height" constant="50" id="mRO-7m-cTg"/>
                             </constraints>
-                            <connections>
-                                <outlet property="fieldTrailingSpace" destination="4XX-bg-THK" id="ENJ-ny-XgI"/>
-                                <outlet property="iconImageView" destination="c9z-aw-6NQ" id="f4T-Zd-9pw"/>
-                                <outlet property="textField" destination="Zve-FO-K8J" id="4QZ-mI-dAW"/>
-                            </connections>
                         </view>
                     </subviews>
                     <constraints>
@@ -203,9 +130,4 @@
             <point key="canvasLocation" x="464" y="402.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="Auth0.bundle/lock" width="16" height="16"/>
-        <image name="Auth0.bundle/mail" width="16" height="16"/>
-        <image name="Auth0.bundle/person" width="16" height="16"/>
-    </resources>
 </document>
