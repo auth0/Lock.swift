@@ -2,3 +2,4 @@ github "AFNetworking/AFNetworking" ~> 3.0
 github "CocoaLumberjack/CocoaLumberjack" ~> 2.0
 github "auth0/SimpleKeychain" ~> 0.6
 github "auth0/TouchIDAuth" ~> 0.2
+github "SnapKit/Masonry" ~> 0.6
