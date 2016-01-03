@@ -59,7 +59,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [super viewDidLoad];
     self.title = A0LocalizedString(@"Enter Email Code");
     A0Theme *theme = [A0Theme sharedInstance];
-    [theme configureTextField:self.codeFieldView.textField];
     [theme configurePrimaryButton:self.loginButton];
     [theme configureLabel:self.messageLabel];
     [self.loginButton setTitle:A0LocalizedString(@"LOGIN") forState:UIControlStateNormal];
@@ -73,7 +72,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                             range:phoneRange];
     }
     self.messageLabel.attributedText = attrString;
+    self.codeFieldView.type = A0CredentialFieldViewOTPCode;
     [self.codeFieldView setFieldPlaceholderText:A0LocalizedString(@"Email Code")];
+    self.codeFieldView.returnKeyType = UIReturnKeyGo;
+    [self.codeFieldView.textField addTarget:self action:@selector(login:) forControlEvents:UIControlEventEditingDidEndOnExit];
 }
 
 - (void)login:(id)sender {

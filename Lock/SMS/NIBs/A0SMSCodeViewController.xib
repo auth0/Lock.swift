@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SMSCodeViewController">
@@ -20,7 +20,6 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GlB-fC-sye" customClass="A0ProgressButton">
                     <rect key="frame" x="21" y="137" width="558" height="55"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="55" id="FFY-LI-TVR"/>
                     </constraints>
@@ -39,49 +38,26 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="esC-bu-ZPY" customClass="A0CredentialFieldView">
                             <rect key="frame" x="0.0" y="0.0" width="558" height="50"/>
-                            <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="SMS Code" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="O1y-8u-u3e">
-                                    <rect key="frame" x="44" y="10" width="507" height="30"/>
-                                    <animations/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="send"/>
-                                    <connections>
-                                        <action selector="login:" destination="-1" eventType="editingDidEndOnExit" id="I3N-VE-LS3"/>
-                                    </connections>
-                                </textField>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="Ohf-Uq-zFi">
-                                    <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                    <animations/>
-                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                </imageView>
-                            </subviews>
-                            <animations/>
                             <constraints>
-                                <constraint firstItem="Ohf-Uq-zFi" firstAttribute="centerY" secondItem="O1y-8u-u3e" secondAttribute="centerY" id="5kD-ZP-3jC"/>
-                                <constraint firstItem="Ohf-Uq-zFi" firstAttribute="leading" secondItem="esC-bu-ZPY" secondAttribute="leading" constant="18" id="DIa-lB-ifn"/>
-                                <constraint firstAttribute="bottom" secondItem="O1y-8u-u3e" secondAttribute="bottom" constant="10" id="ZqN-fl-vDI"/>
-                                <constraint firstItem="O1y-8u-u3e" firstAttribute="top" secondItem="esC-bu-ZPY" secondAttribute="top" constant="10" id="hsj-Ty-myk"/>
-                                <constraint firstAttribute="trailing" secondItem="O1y-8u-u3e" secondAttribute="trailing" constant="7" id="hx6-Ai-lmo"/>
                                 <constraint firstAttribute="height" constant="50" id="sC6-uu-EPl"/>
-                                <constraint firstItem="O1y-8u-u3e" firstAttribute="leading" secondItem="Ohf-Uq-zFi" secondAttribute="trailing" constant="10" id="x8l-My-6u4"/>
                             </constraints>
-                            <connections>
-                                <outlet property="iconImageView" destination="Ohf-Uq-zFi" id="5IT-4x-NhU"/>
-                                <outlet property="textField" destination="O1y-8u-u3e" id="QPF-vl-oxH"/>
-                            </connections>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="sC6-uu-EPl"/>
+                                </mask>
+                            </variation>
                         </view>
                     </subviews>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="esC-bu-ZPY" secondAttribute="trailing" id="5bu-kN-zp4"/>
                         <constraint firstItem="esC-bu-ZPY" firstAttribute="leading" secondItem="5ub-pd-xuL" secondAttribute="leading" id="7am-lk-nZd"/>
                         <constraint firstItem="esC-bu-ZPY" firstAttribute="top" secondItem="5ub-pd-xuL" secondAttribute="top" id="86t-yZ-Fi4"/>
+                        <constraint firstAttribute="bottom" secondItem="esC-bu-ZPY" secondAttribute="bottom" id="Iwy-7t-dqG"/>
                         <constraint firstAttribute="height" constant="50" id="Nqj-pi-9yx"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="298" translatesAutoresizingMaskIntoConstraints="NO" id="d04-XJ-9xx">
                     <rect key="frame" x="167" y="10" width="267" height="51"/>
-                    <animations/>
                     <attributedString key="attributedText">
                         <fragment content="Please check your phone ">
                             <attributes>
@@ -108,7 +84,6 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <animations/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="5ub-pd-xuL" secondAttribute="trailing" constant="21" id="0je-RV-V0Y"/>
                 <constraint firstAttribute="centerX" secondItem="d04-XJ-9xx" secondAttribute="centerX" id="7Bt-K1-d9o"/>
@@ -124,7 +99,4 @@
             <point key="canvasLocation" x="349" y="202"/>
         </view>
     </objects>
-    <resources>
-        <image name="Auth0.bundle/lock" width="16" height="16"/>
-    </resources>
 </document>

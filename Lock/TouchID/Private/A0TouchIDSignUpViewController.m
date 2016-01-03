@@ -68,12 +68,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [theme configurePrimaryButton:self.signUpButton];
     [theme configureSecondaryButton:self.cancelButton];
     [theme configureSecondaryButton:self.loginButton];
-    [theme configureTextField:self.emailField.textField];
     [theme configureLabel:self.messageLabel];
     
     self.validator = [[A0EmailValidator alloc] initWithField:self.emailField.textField];
     self.title = A0LocalizedString(@"Register");
-    [self.emailField setFieldPlaceholderText:A0LocalizedString(@"Email")];
+    self.emailField.type = A0CredentialFieldViewEmail;
+    self.emailField.returnKeyType = UIReturnKeyGo;
+    [self.emailField.textField addTarget:self action:@selector(signUp:) forControlEvents:UIControlEventEditingDidEndOnExit];
 }
 
 - (void)signUp:(id)sender {

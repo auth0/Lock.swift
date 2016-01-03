@@ -85,6 +85,16 @@
             self.textField.keyboardType = UIKeyboardTypeDefault;
             self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconUsername] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             break;
+        case A0CredentialFieldViewPhoneNumber:
+            self.placeholderText = A0LocalizedString(@"Phone Number");
+            self.textField.keyboardType = UIKeyboardTypePhonePad;
+            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconPhone] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            break;
+        case A0CredentialFieldViewOTPCode:
+            self.placeholderText = A0LocalizedString(@"OTP Code");
+            self.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+            self.textField.secureTextEntry = YES;
+            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconPassword] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
     self.textField.placeholder = nil;
     [self setFieldPlaceholderText:self.placeholderText];

@@ -58,11 +58,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     self.title = A0LocalizedString(@"Send Passcode");
     A0Theme *theme = [A0Theme sharedInstance];
-    [theme configureTextField:self.emailFieldView.textField];
-    [theme configurePrimaryButton:self.registerButton];
+     [theme configurePrimaryButton:self.registerButton];
     [theme configureLabel:self.messageLabel];
     self.messageLabel.text = A0LocalizedString(@"Enter your email to sign in or create an account");
-    [self.emailFieldView setFieldPlaceholderText:A0LocalizedString(@"Email")];
+    self.emailFieldView.type = A0CredentialFieldViewEmail;
+    self.emailFieldView.returnKeyType = UIReturnKeySend;
+    [self.emailFieldView.textField addTarget:self action:@selector(registerEmail:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
 
     self.emailFieldView.textField.text = self.viewModel.identifier;

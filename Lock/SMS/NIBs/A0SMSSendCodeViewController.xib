@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SMSSendCodeViewController">
@@ -20,7 +20,6 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Do-Xd-XLu" customClass="A0ProgressButton">
                     <rect key="frame" x="21" y="109" width="558" height="55"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="55" id="zbf-Le-Aoo"/>
                     </constraints>
@@ -39,76 +38,31 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D74-nk-5ph" customClass="A0PhoneFieldView">
                             <rect key="frame" x="0.0" y="0.0" width="558" height="50"/>
-                            <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Pjx-u4-0k1">
-                                    <rect key="frame" x="94" y="10" width="457" height="30"/>
-                                    <animations/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="send"/>
-                                    <connections>
-                                        <action selector="registerSMS:" destination="-1" eventType="editingDidEndOnExit" id="cNk-Kf-IIf"/>
-                                    </connections>
-                                </textField>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/cellphone" translatesAutoresizingMaskIntoConstraints="NO" id="D7m-hQ-Wvp">
-                                    <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                    <animations/>
-                                    <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5dP-Dj-WTV">
-                                    <rect key="frame" x="39" y="11" width="50" height="29"/>
-                                    <animations/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="50" id="JSp-hi-cjy"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <state key="normal" title="+1">
-                                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                </button>
-                            </subviews>
-                            <animations/>
                             <constraints>
-                                <constraint firstItem="D7m-hQ-Wvp" firstAttribute="centerY" secondItem="Pjx-u4-0k1" secondAttribute="centerY" id="CxY-6C-uFo"/>
-                                <constraint firstAttribute="bottom" secondItem="Pjx-u4-0k1" secondAttribute="bottom" constant="10" id="RHU-ZU-seu"/>
-                                <constraint firstItem="D7m-hQ-Wvp" firstAttribute="leading" secondItem="D74-nk-5ph" secondAttribute="leading" constant="18" id="Sdy-uW-JOP"/>
-                                <constraint firstItem="Pjx-u4-0k1" firstAttribute="top" secondItem="D74-nk-5ph" secondAttribute="top" constant="10" id="T0E-vg-uFZ"/>
-                                <constraint firstItem="5dP-Dj-WTV" firstAttribute="leading" secondItem="D7m-hQ-Wvp" secondAttribute="trailing" constant="5" id="eJh-xN-HmD"/>
-                                <constraint firstItem="Pjx-u4-0k1" firstAttribute="leading" secondItem="D7m-hQ-Wvp" secondAttribute="trailing" constant="10" id="nqa-al-6kk"/>
-                                <constraint firstAttribute="centerY" secondItem="5dP-Dj-WTV" secondAttribute="centerY" id="ohh-jf-xtH"/>
-                                <constraint firstItem="Pjx-u4-0k1" firstAttribute="leading" secondItem="5dP-Dj-WTV" secondAttribute="trailing" constant="5" id="u2c-SL-3xR"/>
-                                <constraint firstAttribute="trailing" secondItem="Pjx-u4-0k1" secondAttribute="trailing" constant="7" id="vsD-Qm-HP8"/>
                                 <constraint firstAttribute="height" constant="50" id="zXl-hs-6uC"/>
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
-                                    <exclude reference="nqa-al-6kk"/>
+                                    <exclude reference="zXl-hs-6uC"/>
                                 </mask>
                             </variation>
-                            <connections>
-                                <outlet property="countryCodeButton" destination="5dP-Dj-WTV" id="l35-nS-jSm"/>
-                                <outlet property="iconImageView" destination="D7m-hQ-Wvp" id="H9V-c3-Kc3"/>
-                                <outlet property="textField" destination="Pjx-u4-0k1" id="u44-pu-bnC"/>
-                            </connections>
                         </view>
                     </subviews>
-                    <animations/>
                     <constraints>
                         <constraint firstItem="D74-nk-5ph" firstAttribute="leading" secondItem="kMV-hb-KG2" secondAttribute="leading" id="6MA-b5-FMo"/>
                         <constraint firstItem="D74-nk-5ph" firstAttribute="top" secondItem="kMV-hb-KG2" secondAttribute="top" id="b6j-3h-Wih"/>
+                        <constraint firstAttribute="bottom" secondItem="D74-nk-5ph" secondAttribute="bottom" id="hfF-ch-Ofl"/>
                         <constraint firstAttribute="height" constant="50" id="oyM-ML-AXg"/>
                         <constraint firstAttribute="trailing" secondItem="D74-nk-5ph" secondAttribute="trailing" id="s3Z-jg-FJk"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your phone to sign in or create an account" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zr6-4y-aoT">
                     <rect key="frame" x="155" y="10" width="292" height="23"/>
-                    <animations/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.29803921568627451" green="0.29803921568627451" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <animations/>
             <constraints>
                 <constraint firstItem="kMV-hb-KG2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="21" id="1AC-Vq-zAy"/>
                 <constraint firstAttribute="centerX" secondItem="zr6-4y-aoT" secondAttribute="centerX" id="F38-pA-4bC"/>
@@ -124,7 +78,4 @@
             <point key="canvasLocation" x="349" y="188"/>
         </view>
     </objects>
-    <resources>
-        <image name="Auth0.bundle/cellphone" width="16" height="16"/>
-    </resources>
 </document>

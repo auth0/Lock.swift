@@ -26,7 +26,9 @@ typedef NS_ENUM(NSUInteger, A0CredentialFieldViewType) {
     A0CredentialFieldViewEmail,
     A0CredentialFieldViewUsername,
     A0CredentialFieldViewEmailOrUsername,
-    A0CredentialFieldViewPassword
+    A0CredentialFieldViewPassword,
+    A0CredentialFieldViewPhoneNumber,
+    A0CredentialFieldViewOTPCode
 };
 
 @interface A0CredentialFieldView : UIView

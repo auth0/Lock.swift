@@ -63,11 +63,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     self.title = A0LocalizedString(@"Send Passcode");
     A0Theme *theme = [A0Theme sharedInstance];
-    [theme configureTextField:self.phoneFieldView.textField];
     [theme configurePrimaryButton:self.registerButton];
     [theme configureLabel:self.messageLabel];
     self.messageLabel.text = A0LocalizedString(@"Enter your phone to sign in or create an account");
-    [self.phoneFieldView setFieldPlaceholderText:A0LocalizedString(@"Phone Number")];
+    self.phoneFieldView.returnKeyType = UIReturnKeySend;
+    [self.phoneFieldView.textField addTarget:self action:@selector(registerSMS:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
 
     NSArray *parts = [self.model.identifier componentsSeparatedByString:@" "];

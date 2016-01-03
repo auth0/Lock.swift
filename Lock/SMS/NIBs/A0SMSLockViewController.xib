@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0SMSLockViewController">
@@ -21,7 +21,6 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wzd-pc-0b5" customClass="A0TitleView">
                     <rect key="frame" x="0.0" y="55" width="600" height="110"/>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="220" id="D90-9r-0wA"/>
@@ -35,18 +34,15 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVp-Gk-Hz5">
                     <rect key="frame" x="0.0" y="165" width="600" height="387"/>
-                    <animations/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qaM-cP-n67" customClass="A0NavigationView">
                     <rect key="frame" x="20" y="552" width="560" height="48"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="ZtT-s4-2WV"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UEQ-iy-i4l">
                     <rect key="frame" x="560" y="10" width="40" height="40"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="5rk-5g-iuR"/>
                         <constraint firstAttribute="height" constant="40" id="ubh-De-xy3"/>
@@ -61,7 +57,6 @@
                     </connections>
                 </button>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="qaM-cP-n67" firstAttribute="top" secondItem="RVp-Gk-Hz5" secondAttribute="bottom" id="0hQ-Bp-ic8"/>
