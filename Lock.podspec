@@ -34,7 +34,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     core.osx.public_header_files = ['Lock/Core/OSX/*.h']
     core.ios.source_files = ['Lock/Core/iOS/*.{h,m}', 'Lock/Provider/*.{h,m}']
     core.osx.source_files = ['Lock/Core/OSX/*.{h,m}']
-    core.dependency 'AFNetworking', '~> 2.5'
+    core.dependency 'AFNetworking', '~> 3.0'
   end
 
   s.subspec 'CoreUI' do |coreui|
