@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0EnterpriseLoginViewController">
             <connections>
-                <outlet property="accessButton" destination="PmP-V7-sFo" id="Lcp-Cn-Usu"/>
-                <outlet property="credentialsBoxView" destination="Wjg-2h-hGz" id="Ofx-qB-ubM"/>
+                <outlet property="loginView" destination="37t-ph-5KN" id="x70-x2-PnC"/>
                 <outlet property="messageLabel" destination="Ar9-GH-byP" id="lTp-Bx-FMM"/>
-                <outlet property="passwordField" destination="Fk8-vm-zOL" id="Hjj-OT-58C"/>
-                <outlet property="userField" destination="BAY-A3-Jzh" id="Csy-Pd-6n1"/>
                 <outlet property="view" destination="J5x-aU-ieo" id="Syg-c1-joh"/>
             </connections>
         </placeholder>
@@ -23,58 +20,12 @@
                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="236-6Y-uJi">
                     <rect key="frame" x="20" y="0.0" width="240" height="255"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wjg-2h-hGz" customClass="A0RoundedBoxView">
-                            <rect key="frame" x="1" y="80" width="238" height="101"/>
-                            <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BAY-A3-Jzh" customClass="A0CredentialFieldView">
-                                    <rect key="frame" x="0.0" y="0.0" width="238" height="50"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="mV8-RI-5lC"/>
-                                    </constraints>
-                                </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PGh-Iv-zbA">
-                                    <rect key="frame" x="0.0" y="50" width="238" height="1"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fk8-vm-zOL" customClass="A0PasswordFieldView">
-                                    <rect key="frame" x="0.0" y="51" width="238" height="50"/>
-                                </view>
-                            </subviews>
-                            <constraints>
-                                <constraint firstItem="Fk8-vm-zOL" firstAttribute="top" secondItem="PGh-Iv-zbA" secondAttribute="bottom" id="3R6-vU-kyh"/>
-                                <constraint firstItem="Fk8-vm-zOL" firstAttribute="leading" secondItem="Wjg-2h-hGz" secondAttribute="leading" id="Aye-N5-8XQ"/>
-                                <constraint firstItem="PGh-Iv-zbA" firstAttribute="top" secondItem="BAY-A3-Jzh" secondAttribute="bottom" id="IPq-RC-Ohj"/>
-                                <constraint firstItem="BAY-A3-Jzh" firstAttribute="height" secondItem="Fk8-vm-zOL" secondAttribute="height" id="KNN-OS-sNl"/>
-                                <constraint firstAttribute="trailing" secondItem="Fk8-vm-zOL" secondAttribute="trailing" id="OJH-qI-zCG"/>
-                                <constraint firstItem="BAY-A3-Jzh" firstAttribute="top" secondItem="Wjg-2h-hGz" secondAttribute="top" id="UkR-eR-IcA"/>
-                                <constraint firstItem="BAY-A3-Jzh" firstAttribute="leading" secondItem="Wjg-2h-hGz" secondAttribute="leading" id="Wll-Pf-a0j"/>
-                                <constraint firstAttribute="trailing" secondItem="PGh-Iv-zbA" secondAttribute="trailing" id="ZdM-HT-wzS"/>
-                                <constraint firstAttribute="height" constant="101" id="fim-na-tOx"/>
-                                <constraint firstItem="PGh-Iv-zbA" firstAttribute="leading" secondItem="Wjg-2h-hGz" secondAttribute="leading" id="hT4-nm-ldx"/>
-                                <constraint firstAttribute="trailing" secondItem="BAY-A3-Jzh" secondAttribute="trailing" id="p4c-Iz-QSk"/>
-                                <constraint firstAttribute="bottom" secondItem="Fk8-vm-zOL" secondAttribute="bottom" id="uGZ-AX-VK2"/>
-                            </constraints>
-                            <connections>
-                                <outletCollection property="separators" destination="PGh-Iv-zbA" id="7jh-uU-XEO"/>
-                            </connections>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="37t-ph-5KN" customClass="A0LoginView">
+                            <rect key="frame" x="0.0" y="66" width="240" height="189"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PmP-V7-sFo" customClass="A0ProgressButton">
-                            <rect key="frame" x="1" y="200" width="238" height="55"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="55" id="whs-cW-fd3"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
-                            <state key="normal" title="ACCESS">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="disabled" title=" "/>
-                            <connections>
-                                <action selector="access:" destination="-1" eventType="touchUpInside" id="LIE-mP-b0s"/>
-                            </connections>
-                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ar9-GH-byP">
-                            <rect key="frame" x="0.0" y="8" width="240" height="54"/>
+                            <rect key="frame" x="0.0" y="8" width="240" height="41"/>
                             <attributedString key="attributedText">
                                 <fragment content="Please enter your ">
                                     <attributes>
@@ -104,16 +55,12 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="PmP-V7-sFo" firstAttribute="leading" secondItem="236-6Y-uJi" secondAttribute="leading" constant="1" id="91S-zB-Z8X"/>
+                        <constraint firstAttribute="trailing" secondItem="37t-ph-5KN" secondAttribute="trailing" id="2CK-06-8bU"/>
+                        <constraint firstItem="37t-ph-5KN" firstAttribute="top" secondItem="Ar9-GH-byP" secondAttribute="bottom" constant="18" id="52J-GF-ndE"/>
+                        <constraint firstItem="37t-ph-5KN" firstAttribute="leading" secondItem="236-6Y-uJi" secondAttribute="leading" id="7d6-o6-Rk2"/>
                         <constraint firstItem="Ar9-GH-byP" firstAttribute="top" secondItem="236-6Y-uJi" secondAttribute="top" constant="8" id="9xQ-6V-uNm"/>
-                        <constraint firstItem="Wjg-2h-hGz" firstAttribute="top" secondItem="236-6Y-uJi" secondAttribute="top" constant="80" id="CUF-FJ-8hD"/>
-                        <constraint firstItem="Wjg-2h-hGz" firstAttribute="leading" secondItem="236-6Y-uJi" secondAttribute="leading" constant="1" id="Ghq-Gd-AKm"/>
                         <constraint firstItem="Ar9-GH-byP" firstAttribute="leading" secondItem="236-6Y-uJi" secondAttribute="leading" id="MA5-FO-ZHX"/>
-                        <constraint firstItem="PmP-V7-sFo" firstAttribute="top" secondItem="Wjg-2h-hGz" secondAttribute="bottom" constant="19" id="QMM-9Y-a75"/>
-                        <constraint firstAttribute="bottom" secondItem="PmP-V7-sFo" secondAttribute="bottom" id="V2J-bP-sbB"/>
-                        <constraint firstAttribute="trailing" secondItem="PmP-V7-sFo" secondAttribute="trailing" constant="1" id="dV5-5V-nck"/>
-                        <constraint firstAttribute="trailing" secondItem="Wjg-2h-hGz" secondAttribute="trailing" constant="1" id="eld-Cc-9w1"/>
-                        <constraint firstItem="Wjg-2h-hGz" firstAttribute="top" secondItem="Ar9-GH-byP" secondAttribute="bottom" constant="18" id="jjy-QZ-cUM"/>
+                        <constraint firstAttribute="bottom" secondItem="37t-ph-5KN" secondAttribute="bottom" id="Nsv-Ki-yyf"/>
                         <constraint firstAttribute="trailing" secondItem="Ar9-GH-byP" secondAttribute="trailing" id="rB6-Pr-6mD"/>
                         <constraint firstAttribute="centerX" secondItem="Ar9-GH-byP" secondAttribute="centerX" id="zM2-Em-EwT"/>
                     </constraints>

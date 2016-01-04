@@ -27,6 +27,19 @@
 
 @implementation A0RoundedBoxView
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        A0Theme *theme = [A0Theme sharedInstance];
+        UIColor *borderColor = [theme colorForKey:A0ThemeCredentialBoxBorderColor];
+        self.backgroundColor = [theme colorForKey:A0ThemeCredentialBoxBackgroundColor];
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = [borderColor CGColor];
+        self.layer.cornerRadius = 3.0f;
+    }
+    return self;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     A0Theme *theme = [A0Theme sharedInstance];

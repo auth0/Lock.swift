@@ -105,6 +105,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     self.dismissButton = dismissButton;
     [self.view setNeedsUpdateConstraints];
+
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
+    gesture.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer:gesture];
 }
 
 - (void)setupUI {

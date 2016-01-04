@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="A0FullActiveDirectoryViewController">
@@ -30,11 +30,9 @@
                     <subviews>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Ugz-4v-uZC">
                             <rect key="frame" x="122" y="118" width="37" height="37"/>
-                            <animations/>
                             <color key="color" red="0.1333333333" green="0.18039215689999999" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                         </activityIndicatorView>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerY" secondItem="Ugz-4v-uZC" secondAttribute="centerY" id="TDE-AI-1zJ"/>
@@ -46,7 +44,6 @@
                     <subviews>
                         <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="DH9-Ix-iAe" customClass="A0SmallSocialServiceCollectionView">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
-                            <animations/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="9wj-z5-UkZ"/>
@@ -61,7 +58,6 @@
                         </collectionView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YPJ-Xa-qjB">
                             <rect key="frame" x="148" y="68" width="25" height="20"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="PJs-zn-mOy"/>
                             </constraints>
@@ -69,7 +65,6 @@
                             <color key="highlightedColor" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="calibratedRGB"/>
                         </label>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="DH9-Ix-iAe" secondAttribute="trailing" id="EFJ-Bm-3bU"/>
@@ -91,7 +86,6 @@
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hOQ-4G-Z1n">
                                             <rect key="frame" x="44" y="10" width="227" height="30"/>
-                                            <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                             <connections>
@@ -100,11 +94,9 @@
                                         </textField>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/mail" translatesAutoresizingMaskIntoConstraints="NO" id="rER-tX-470">
                                             <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                            <animations/>
                                             <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
                                     </subviews>
-                                    <animations/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="rER-tX-470" firstAttribute="centerY" secondItem="hOQ-4G-Z1n" secondAttribute="centerY" id="E9h-UG-LBI"/>
@@ -122,7 +114,6 @@
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kwE-8P-Z3e">
                                     <rect key="frame" x="0.0" y="50" width="278" height="1"/>
-                                    <animations/>
                                     <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hpI-vo-2Q9" customClass="A0PasswordFieldView">
@@ -130,7 +121,6 @@
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aw3-Nx-wH7">
                                             <rect key="frame" x="44" y="10" width="227" height="30"/>
-                                            <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                             <connections>
@@ -139,11 +129,9 @@
                                         </textField>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="nYW-cz-nC2">
                                             <rect key="frame" x="18" y="17" width="16" height="16"/>
-                                            <animations/>
                                             <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
                                     </subviews>
-                                    <animations/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Aw3-Nx-wH7" secondAttribute="trailing" constant="7" id="ADL-Pb-gzc"/>
@@ -160,7 +148,6 @@
                                     </connections>
                                 </view>
                             </subviews>
-                            <animations/>
                             <constraints>
                                 <constraint firstItem="kwE-8P-Z3e" firstAttribute="leading" secondItem="v34-YZ-u27" secondAttribute="leading" id="1Ft-VF-K2F"/>
                                 <constraint firstAttribute="height" constant="101" id="1Zg-Yx-DE7"/>
@@ -184,7 +171,6 @@
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Auth0.bundle/lock" translatesAutoresizingMaskIntoConstraints="NO" id="IbM-64-qaM">
                                     <rect key="frame" x="51" y="18" width="14" height="14"/>
-                                    <animations/>
                                     <color key="tintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="14" id="gIM-k0-7Zn"/>
@@ -193,13 +179,11 @@
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SINGLE SIGN-ON ENABLED" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Kw-MY-d5B">
                                     <rect key="frame" x="73" y="19" width="134" height="12"/>
-                                    <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="centerX" secondItem="4Kw-MY-d5B" secondAttribute="centerX" id="MMD-SH-ddN"/>
                                 <constraint firstAttribute="height" constant="50" id="W8O-fl-Qrp"/>
@@ -210,7 +194,6 @@
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NCj-M2-bxy" customClass="A0ProgressButton">
                             <rect key="frame" x="1" y="130" width="278" height="55"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="xQq-a7-nT8"/>
                             </constraints>
@@ -225,7 +208,6 @@
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="3R0-bX-xR5" firstAttribute="leading" secondItem="C3Q-cC-kJ9" secondAttribute="leading" id="9w6-jU-b8g"/>
@@ -241,7 +223,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="rCb-Gm-7le" secondAttribute="trailing" constant="20" id="8Ns-z4-A8G"/>

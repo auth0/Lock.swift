@@ -18,6 +18,11 @@
 		5F3250791C8791CE00CCEC55 /* A0SafariSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4CE1BE95C5700703DD1 /* A0SafariSessionSpec.m */; };
 		5F32507C1C89E09700CCEC55 /* A0KeyUploader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F32507A1C89E09700CCEC55 /* A0KeyUploader.h */; };
 		5F32507D1C89E09700CCEC55 /* A0KeyUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F32507B1C89E09700CCEC55 /* A0KeyUploader.m */; };
+		5F624D1A1C39C24B009EDD83 /* A0LoginView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F624D181C39C24B009EDD83 /* A0LoginView.h */; };
+		5F624D1B1C39C24B009EDD83 /* A0LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F624D191C39C24B009EDD83 /* A0LoginView.m */; };
+		5F624D1E1C39C2FB009EDD83 /* A0LoginViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F624D1C1C39C2FB009EDD83 /* A0LoginViewModel.h */; };
+		5F624D1F1C39C2FB009EDD83 /* A0LoginViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F624D1D1C39C2FB009EDD83 /* A0LoginViewModel.m */; };
+		5F624D211C39D722009EDD83 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F624D201C39D722009EDD83 /* Masonry.framework */; };
 		5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */; };
 		5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A61C12062F008D73FC /* A0WebViewController.xib */; };
 		5FB6A5EA1CA0357F00DF5078 /* A0FailureAuthenticator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */; };
@@ -548,6 +553,11 @@
 		5F3250701C87912700CCEC55 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = Carthage/Build/iOS/OCHamcrest.framework; sourceTree = "<group>"; };
 		5F32507A1C89E09700CCEC55 /* A0KeyUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0KeyUploader.h; sourceTree = "<group>"; };
 		5F32507B1C89E09700CCEC55 /* A0KeyUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0KeyUploader.m; sourceTree = "<group>"; };
+		5F624D181C39C24B009EDD83 /* A0LoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0LoginView.h; sourceTree = "<group>"; };
+		5F624D191C39C24B009EDD83 /* A0LoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LoginView.m; sourceTree = "<group>"; };
+		5F624D1C1C39C2FB009EDD83 /* A0LoginViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0LoginViewModel.h; sourceTree = "<group>"; };
+		5F624D1D1C39C2FB009EDD83 /* A0LoginViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LoginViewModel.m; sourceTree = "<group>"; };
+		5F624D201C39D722009EDD83 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
 		5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebKitViewController.xib; sourceTree = "<group>"; };
 		5F6628A61C12062F008D73FC /* A0WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebViewController.xib; sourceTree = "<group>"; };
 		5F6628A91C120F23008D73FC /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
@@ -1000,6 +1010,7 @@
 			files = (
 				5FBAD1CE1BE7BA7C00703DD1 /* CocoaLumberjack.framework in Frameworks */,
 				5FBAD1CF1BE7BA7C00703DD1 /* AFNetworking.framework in Frameworks */,
+				5F624D211C39D722009EDD83 /* Masonry.framework in Frameworks */,
 				5FBAD44B1BE7F31A00703DD1 /* SimpleKeychain.framework in Frameworks */,
 				5FBAD44D1BE7F5B500703DD1 /* TouchIDAuth.framework in Frameworks */,
 			);
@@ -1215,6 +1226,7 @@
 			children = (
 				5F32506F1C87912700CCEC55 /* OCMockito.framework */,
 				5F3250701C87912700CCEC55 /* OCHamcrest.framework */,
+				5F624D201C39D722009EDD83 /* Masonry.framework */,
 				5FBAD4961BE815F200703DD1 /* OHHTTPStubs.framework */,
 				5FBAD4921BE80FDF00703DD1 /* Quick.framework */,
 				5FBAD4931BE80FDF00703DD1 /* Nimble.framework */,
@@ -1286,6 +1298,8 @@
 				5FBAD1171BE7B92900703DD1 /* A0LockViewController.m */,
 				5FBAD1181BE7B92900703DD1 /* Private */,
 				5FBAD1441BE7B92900703DD1 /* UI.h */,
+				5F624D181C39C24B009EDD83 /* A0LoginView.h */,
+				5F624D191C39C24B009EDD83 /* A0LoginView.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1379,6 +1393,8 @@
 				5FBAD1631BE7B92900703DD1 /* UIButton+A0SolidButton.m */,
 				5FD6FB4E1BEB99400071343E /* A0ServiceTheme.h */,
 				5FD6FB4F1BEB99400071343E /* A0ServiceTheme.m */,
+				5F624D1C1C39C2FB009EDD83 /* A0LoginViewModel.h */,
+				5F624D1D1C39C2FB009EDD83 /* A0LoginViewModel.m */,
 			);
 			path = CoreUI;
 			sourceTree = "<group>";
@@ -1886,6 +1902,7 @@
 				5FBAD1AC1BE7B92900703DD1 /* A0SafariAuthenticator.h in Headers */,
 				5FBAD4371BE7F0CA00703DD1 /* A0SMSSendCodeViewController.h in Headers */,
 				5FBAD08E1BE7B23C00703DD1 /* A0UserIdentity.h in Headers */,
+				5F624D1A1C39C24B009EDD83 /* A0LoginView.h in Headers */,
 				5FBAD19B1BE7B92900703DD1 /* A0ServiceTableViewCell.h in Headers */,
 				5FBAD05E1BE7B23C00703DD1 /* A0APIRouter.h in Headers */,
 				5FBAD05F1BE7B23C00703DD1 /* A0APIv1Router.h in Headers */,
@@ -1917,6 +1934,7 @@
 				5FBAD1831BE7B92900703DD1 /* A0ChangePasswordViewController.h in Headers */,
 				5FBAD0821BE7B23C00703DD1 /* A0RuleErrorHandler.h in Headers */,
 				5FBAD4431BE7F0E100703DD1 /* A0EmailMagicLinkViewController.h in Headers */,
+				5F624D1E1C39C2FB009EDD83 /* A0LoginViewModel.h in Headers */,
 				5FBAD0E11BE7B24600703DD1 /* NSObject+A0APIClientProvider.h in Headers */,
 				5FBAD0DB1BE7B24600703DD1 /* A0WebAuthentication.h in Headers */,
 				5FBAD42F1BE7F0CA00703DD1 /* A0CountryCodeTableViewController.h in Headers */,
@@ -2348,6 +2366,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SimpleKeychain.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/TouchIDAuth.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/JWTDecode.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Masonry.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -2384,6 +2403,7 @@
 				5FBAD07F1BE7B23C00703DD1 /* A0PasswordStrengthErrorHandler.m in Sources */,
 				5FBAD0871BE7B23C00703DD1 /* A0SimpleConnectionDomainMatcher.m in Sources */,
 				5FBAD1B11BE7B92900703DD1 /* A0WebAuthenticator.m in Sources */,
+				5F624D1F1C39C2FB009EDD83 /* A0LoginViewModel.m in Sources */,
 				5FBAD18E1BE7B92900703DD1 /* A0FullLoginViewController.m in Sources */,
 				5FBAD18A1BE7B92900703DD1 /* A0EnterpriseLoginViewController.m in Sources */,
 				5FBAD42C1BE7F0BF00703DD1 /* A0Lock+A0SMSLockViewController.m in Sources */,
@@ -2423,6 +2443,7 @@
 				5FBAD1721BE7B92900703DD1 /* A0ConfirmPasswordValidator.m in Sources */,
 				5FBAD1A41BE7B92900703DD1 /* A0SocialLoginViewController.m in Sources */,
 				5FBAD1AA1BE7B92900703DD1 /* UIViewController+LockNotification.m in Sources */,
+				5F624D1B1C39C24B009EDD83 /* A0LoginView.m in Sources */,
 				5FBAD1921BE7B92900703DD1 /* A0NavigationView.m in Sources */,
 				5FBAD1CC1BE7B92900703DD1 /* A0ProgressButton.m in Sources */,
 				5FBAD1A01BE7B92900703DD1 /* A0SignUpViewController.m in Sources */,

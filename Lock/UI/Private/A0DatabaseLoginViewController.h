@@ -24,12 +24,11 @@
 #import "A0AuthenticationUIComponent.h"
 #import "A0ConnectionDomainMatcher.h"
 
-@class A0UserProfile, A0CredentialsValidator, A0Token, A0CredentialFieldView, A0AuthParameters, A0Connection, A0PasswordFieldView, A0Lock, A0LockConfiguration;
+@class A0UserProfile, A0CredentialsValidator, A0Token, A0AuthParameters, A0Connection, A0Lock, A0LockConfiguration, A0LoginView;
 
 @interface A0DatabaseLoginViewController : UIViewController<A0AuthenticationUIComponent>
 
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
-@property (weak, nonatomic) IBOutlet A0PasswordFieldView *passwordField;
+@property (weak, nonatomic) IBOutlet A0LoginView *loginView;
 
 @property (copy, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0Connection *defaultConnection;

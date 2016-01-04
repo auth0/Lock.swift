@@ -30,6 +30,7 @@
 #import "A0PasswordValidator.h"
 #import "A0PasswordFieldView.h"
 #import "Constants.h"
+#import "A0LoginView.h"
 
 @interface A0EnterpriseLoginViewController ()
 
@@ -53,11 +54,11 @@
     [super viewDidLoad];
     NSString *message = A0LocalizedString(@"Please enter your corporate credentials at %@");
     self.messageLabel.text = [NSString stringWithFormat:message, self.connection[A0ConnectionDomain]];
-    self.userField.textField.text = self.defaultUsername;
+    self.loginView.identifier = self.defaultUsername;
     self.parameters[A0ParameterConnection] = self.connection.name;
     self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
-                                                                          [[A0UsernameValidator alloc] initWithField:self.userField.textField],
-                                                                          [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],
+                                                                          [[A0UsernameValidator alloc] initWithField:self.loginView.identifierField.textField],
+                                                                          [[A0PasswordValidator alloc] initWithField:self.loginView.passwordField.textField],
                                                                           ]];
 }
 

@@ -40,6 +40,7 @@
 #import "NSObject+A0APIClientProvider.h"
 #import "NSError+A0APIError.h"
 #import "Constants.h"
+#import <Masonry/Masonry.h>
 
 @interface A0ChangePasswordViewController ()
 
@@ -79,6 +80,7 @@
     self.userField.type = self.forceUsername ? A0CredentialFieldViewUsername : A0CredentialFieldViewEmail;
     [self.userField.textField addTarget:self action:@selector(recover:) forControlEvents:UIControlEventEditingDidEndOnExit];
     self.userField.returnKeyType = UIReturnKeyGo;
+    [self.recoverButton addTarget:self action:@selector(recover:) forControlEvents:UIControlEventTouchUpInside];
     [self.recoverButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
     self.messageLabel.text = A0LocalizedString(@"Please enter your email address. We will send you an email to reset your password.");
 

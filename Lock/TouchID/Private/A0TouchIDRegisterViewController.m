@@ -37,6 +37,7 @@
 #import "A0Lock.h"
 #import "A0Token.h"
 #import "A0UserProfile.h"
+#import "A0LoginView.h"
 
 @interface A0TouchIDRegisterViewController ()
 @end
@@ -95,7 +96,7 @@
     }];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
         A0ChangePasswordViewController *resetController = [weakSelf buildChangePassword];
-        resetController.defaultEmail = controller.userField.textField.text;
+        resetController.defaultEmail = controller.loginView.identifier;
         [weakSelf displayController:resetController];
     }];
     return controller;

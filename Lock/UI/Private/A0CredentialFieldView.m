@@ -30,6 +30,10 @@
 
 @implementation A0CredentialFieldView
 
+- (instancetype)init {
+    return [self initWithFrame:CGRectZero];
+}
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
@@ -67,34 +71,34 @@
         case A0CredentialFieldViewEmail:
             self.placeholderText = A0LocalizedString(@"Email");
             self.textField.keyboardType = UIKeyboardTypeEmailAddress;
-            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconEmail] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            self.iconImageView.image = [[theme imageForKey:A0ThemeIconEmail] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             break;
         case A0CredentialFieldViewEmailOrUsername:
             self.placeholderText = A0LocalizedString(@"Email/Username");
             self.textField.keyboardType = UIKeyboardTypeEmailAddress;
-            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconEmail] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            self.iconImageView.image = [[theme imageForKey:A0ThemeIconEmail] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             break;
         case A0CredentialFieldViewPassword:
             self.placeholderText = A0LocalizedString(@"Password");
             self.textField.keyboardType = UIKeyboardTypeDefault;
             self.textField.secureTextEntry = YES;
-            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconPassword] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            self.iconImageView.image = [[theme imageForKey:A0ThemeIconLock] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             break;
         case A0CredentialFieldViewUsername:
             self.placeholderText = A0LocalizedString(@"Username");
             self.textField.keyboardType = UIKeyboardTypeDefault;
-            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconUsername] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            self.iconImageView.image = [[theme imageForKey:A0ThemeIconUsername] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             break;
         case A0CredentialFieldViewPhoneNumber:
             self.placeholderText = A0LocalizedString(@"Phone Number");
             self.textField.keyboardType = UIKeyboardTypePhonePad;
-            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconPhone] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            self.iconImageView.image = [[theme imageForKey:A0ThemeIconPhone] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             break;
         case A0CredentialFieldViewOTPCode:
             self.placeholderText = A0LocalizedString(@"OTP Code");
             self.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
             self.textField.secureTextEntry = YES;
-            self.iconImageView.image = [[theme imageForKey:A0ThemeTextFieldIconPassword] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            self.iconImageView.image = [[theme imageForKey:A0ThemeIconLock] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
     self.textField.placeholder = nil;
     [self setFieldPlaceholderText:self.placeholderText];
