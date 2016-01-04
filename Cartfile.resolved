@@ -1,4 +1,4 @@
-github "AFNetworking/AFNetworking" "3.0.0-beta.2"
+github "AFNetworking/AFNetworking" "3.0.4"
 github "CocoaLumberjack/CocoaLumberjack" "2.2.0"
 github "auth0/JWTDecode.swift" "1.0.0"
 github "Quick/Nimble" "v3.0.0"
