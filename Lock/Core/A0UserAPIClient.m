@@ -83,7 +83,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)fetchUserProfileSuccess:(A0UserAPIClientUserProfileSuccess)success
                         failure:(A0UserAPIClientError)failure {
     A0LogVerbose(@"Fetching User Profile");
-    [self.manager GET:[self.router userInfoPath] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self.manager GET:[self.router userInfoPath] parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         A0LogDebug(@"Obtained user profile %@", responseObject);
         if (success) {
             A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
@@ -104,7 +104,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                  A0ParameterDevice: deviceName,
                                  };
     A0LogVerbose(@"Registering public key for user %@ and device %@", userId, deviceName);
-    [self.manager POST:[self.router userPublicKeyPathForUser:userId] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self.manager POST:[self.router userPublicKeyPathForUser:userId] parameters:parameters progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         A0LogDebug(@"Registered public key %@", responseObject);
         if (success) {
             success();
