@@ -79,6 +79,8 @@ Import Lock module in your swift file:
 import Lock
 ```
 
+> Make sure you have the flag `use_frameworks!` added in your `Podfile` so that Lock is build as a Framework, otherwise Xcode wont find it.
+
 ### Integrate with your Application
 
 Lock needs to be notified for some of your application state changes and some events/notifications your application receives from the OS. You can do all these things in the `AppDelegate`
