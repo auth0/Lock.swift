@@ -283,10 +283,6 @@ Read [this guide](https://github.com/auth0/Lock.iOS-OSX/wiki/SSO-on-Mobile-Apps)
 ## Documentation
 You can find the full documentation for this library on that [Auth0 doc site](https://auth0.com/docs/libraries/lock-ios). Additionally, you can browse the full API on [CocoaDocs](http://cocoadocs.org/docsets/Lock).
 
-## Issue Reporting
-
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
-
 ## What is Auth0?
 
 Auth0 helps you to:
@@ -303,10 +299,14 @@ Auth0 helps you to:
 1. Go to [Auth0](https://auth0.com) and click Sign Up.
 2. Use Google, GitHub or Microsoft Account to login.
 
+## Issue Reporting
+
+If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
+
 ## Author
 
-Auth0
+[Auth0](auth0.com)
 
 ## License
 
-Lock is available under the MIT license. See the [LICENSE file](LICENSE) for more info.
+This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
