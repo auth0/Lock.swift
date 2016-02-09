@@ -115,7 +115,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (NSURLSessionDataTask *)fetchAppInfoWithSuccess:(A0APIClientFetchAppInfoSuccess)success
                                           failure:(A0APIClientError)failure {
-    NSURLRequest *request = [NSURLRequest requestWithURL:self.router.configurationURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:self.router.configurationURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
     NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSRange successRange = NSMakeRange(200, 100);
