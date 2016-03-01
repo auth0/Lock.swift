@@ -210,21 +210,23 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (code) {
         A0IdPAuthenticationBlock success = self.onAuthentication;
         [self showProgressIndicator];
-        [self.client requestTokenWithParameters:@{
-                                                  @"code": code,
-                                                  @"redirect_uri": self.authentication.callbackURL.absoluteString,
-                                                  }
+        NSMutableDictionary *params = [[self.pkce tokenParametersWithAuthorizationCode:code] mutableCopy];
+        [params addEntriesFromDictionary:@{
+                                           @"redirect_uri": self.authentication.callbackURL.absoluteString,
+                                           }];
+        [self.client requestTokenWithParameters:params
                                        callback:^(NSError * _Nonnull error, A0Token * _Nonnull token) {
                                            if (error) {
                                                [self handleError:error decisionHandler:decisionHandler];
                                                return;
                                            }
                                            [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
-                                               if (success) {
-                                                   success(profile, token);
-                                               }
                                                decisionHandler(WKNavigationActionPolicyCancel);
-                                               [self dismiss];
+                                               [self dismissWithCompletion:^{
+                                                   if (success) {
+                                                       success(profile, token);
+                                                   }
+                                               }];
                                            } failure:^(NSError *error) {
                                                [self handleError:error decisionHandler:decisionHandler];
                                            }];

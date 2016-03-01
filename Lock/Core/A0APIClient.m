@@ -597,6 +597,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0LogDebug(@"Performing authorization code exchange with parameters %@", request);
     return [self.manager POST:@"oauth/token"
                    parameters:request
+                     progress:nil
                       success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
                           A0Token *token = [[A0Token alloc] initWithDictionary:responseObject];
                           A0LogDebug(@"Received token information %@", responseObject);
