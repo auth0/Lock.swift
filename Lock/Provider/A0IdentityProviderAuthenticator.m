@@ -113,6 +113,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [authenticator clearSessions];
     }];
 
+#ifdef HAS_WEBVIEW_SUPPORT
+    A0WebViewAuthenticator *authenticator = [[A0WebViewAuthenticator alloc] initWithConnectionName:@"auth0" client:[self a0_apiClientFromProvider:self.clientProvider]];
+    [authenticator clearSessions];
+#endif
 }
 
 - (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions {
