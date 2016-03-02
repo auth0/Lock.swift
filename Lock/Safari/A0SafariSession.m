@@ -58,7 +58,6 @@
                                            @"response_type": @"token",
                                            @"client_id": lock.clientId,
                                            @"redirect_uri": callbackURL.absoluteString,
-                                           @"connection": connectionName,
                                            } mutableCopy];
         if ([A0Stats shouldSendAuth0ClientHeader]) {
             defaults[A0ClientInfoQueryParamName] = [A0Stats stringForAuth0ClientHeader];
@@ -71,6 +70,7 @@
 - (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters {
     NSMutableDictionary *authenticationParameters = [NSMutableDictionary dictionaryWithDictionary:self.defaultParameters];
     [authenticationParameters addEntriesFromDictionary:parameters];
+    authenticationParameters[@"connection"] = self.connectionName;
     NSURLComponents *components = [NSURLComponents componentsWithURL:self.authorizeURL resolvingAgainstBaseURL:YES];
     components.query = authenticationParameters.queryString;
     return components.URL;

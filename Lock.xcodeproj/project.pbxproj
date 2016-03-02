@@ -15,6 +15,11 @@
 		5F32506B1C874BFE00CCEC55 /* A0FailureAuthenticator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F3250681C874BFE00CCEC55 /* A0FailureAuthenticator.h */; };
 		5F32506C1C874BFE00CCEC55 /* A0FailureAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3250691C874BFE00CCEC55 /* A0FailureAuthenticator.m */; };
 		5F32506D1C874BFE00CCEC55 /* A0FailureAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3250691C874BFE00CCEC55 /* A0FailureAuthenticator.m */; };
+		5F3250751C87913F00CCEC55 /* OCMockito.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F32506F1C87912700CCEC55 /* OCMockito.framework */; };
+		5F3250761C87913F00CCEC55 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3250701C87912700CCEC55 /* OCHamcrest.framework */; };
+		5F3250771C87914400CCEC55 /* OCMockito.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F32506F1C87912700CCEC55 /* OCMockito.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F3250781C87914400CCEC55 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F3250701C87912700CCEC55 /* OCHamcrest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F3250791C8791CE00CCEC55 /* A0SafariSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4CE1BE95C5700703DD1 /* A0SafariSessionSpec.m */; };
 		5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */; };
 		5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A61C12062F008D73FC /* A0WebViewController.xib */; };
 		5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -552,6 +557,8 @@
 				5FBAD49C1BE8167C00703DD1 /* OHHTTPStubs.framework in CopyFiles */,
 				5FBAD49D1BE8168400703DD1 /* Quick.framework in CopyFiles */,
 				5FBAD49E1BE8168400703DD1 /* Nimble.framework in CopyFiles */,
+				5F3250771C87914400CCEC55 /* OCMockito.framework in CopyFiles */,
+				5F3250781C87914400CCEC55 /* OCHamcrest.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +568,8 @@
 		5F2E38D71C2AE9BB007E71B2 /* AppInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppInfo.json; sourceTree = "<group>"; };
 		5F3250681C874BFE00CCEC55 /* A0FailureAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0FailureAuthenticator.h; sourceTree = "<group>"; };
 		5F3250691C874BFE00CCEC55 /* A0FailureAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FailureAuthenticator.m; sourceTree = "<group>"; };
+		5F32506F1C87912700CCEC55 /* OCMockito.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMockito.framework; path = Carthage/Build/iOS/OCMockito.framework; sourceTree = "<group>"; };
+		5F3250701C87912700CCEC55 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = Carthage/Build/iOS/OCHamcrest.framework; sourceTree = "<group>"; };
 		5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebKitViewController.xib; sourceTree = "<group>"; };
 		5F6628A61C12062F008D73FC /* A0WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebViewController.xib; sourceTree = "<group>"; };
 		5F6628A91C120F23008D73FC /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
@@ -1074,7 +1083,9 @@
 				5FBAD4951BE80FDF00703DD1 /* Nimble.framework in Frameworks */,
 				5FBAD4971BE815F200703DD1 /* OHHTTPStubs.framework in Frameworks */,
 				5FBAD4941BE80FDF00703DD1 /* Quick.framework in Frameworks */,
+				5F3250751C87913F00CCEC55 /* OCMockito.framework in Frameworks */,
 				5FBAD4681BE7F93A00703DD1 /* Lock.framework in Frameworks */,
+				5F3250761C87913F00CCEC55 /* OCHamcrest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1250,6 +1261,8 @@
 		5FBAD0EA1BE7B40200703DD1 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				5F32506F1C87912700CCEC55 /* OCMockito.framework */,
+				5F3250701C87912700CCEC55 /* OCHamcrest.framework */,
 				5FBAD4961BE815F200703DD1 /* OHHTTPStubs.framework */,
 				5FBAD4921BE80FDF00703DD1 /* Quick.framework */,
 				5FBAD4931BE80FDF00703DD1 /* Nimble.framework */,
@@ -1699,6 +1712,7 @@
 				5FBAD4C41BE95C5700703DD1 /* A0GenericAPIErrorHandlerSpec.m */,
 				5FBAD4C81BE95C5700703DD1 /* A0LockSpec.m */,
 				5FBAD4C71BE95C5700703DD1 /* A0LockConfigurationSpec.m */,
+				5FBAD4CE1BE95C5700703DD1 /* A0SafariSessionSpec.m */,
 				5FBAD4F81BE96F4800703DD1 /* Pending */,
 				5FBAD4AC1BE8F2B800703DD1 /* Utils */,
 				5FBAD49F1BE8E7F300703DD1 /* Fixtures */,
@@ -1761,7 +1775,6 @@
 				5FBAD4CB1BE95C5700703DD1 /* A0PasswordValidatorSpec.m */,
 				5FBAD4CC1BE95C5700703DD1 /* A0RuleErrorHandlerSpec.m */,
 				5FBAD4CD1BE95C5700703DD1 /* A0SafariAuthenticatorSpec.m */,
-				5FBAD4CE1BE95C5700703DD1 /* A0SafariSessionSpec.m */,
 				5FBAD4CF1BE95C5700703DD1 /* A0SimpleConnectionDomainMatcherSpec.m */,
 				5FBAD4D01BE95C5700703DD1 /* A0StrategySpec.m */,
 				5FBAD4D31BE95C5700703DD1 /* A0UsernameValidatorSpec.m */,
@@ -2689,6 +2702,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FBAD4D91BE95C5700703DD1 /* A0ConfirmPasswordValidatorSpec.m in Sources */,
+				5F3250791C8791CE00CCEC55 /* A0SafariSessionSpec.m in Sources */,
 				5FBAD4BB1BE95C4000703DD1 /* A0PasswordStrengthErrorBuilder.m in Sources */,
 				5FBAD4F11BE9676B00703DD1 /* A0ApplicationSpec.m in Sources */,
 				5FBAD4F61BE96D3500703DD1 /* A0GenericAPIErrorHandlerSpec.m in Sources */,
@@ -2911,6 +2925,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Lock/Info.plist;
@@ -2937,6 +2952,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Lock/Info.plist;

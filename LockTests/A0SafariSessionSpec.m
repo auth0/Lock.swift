@@ -20,7 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockTest.h"
+#define QUICK_DISABLE_SHORT_SYNTAX 1
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+#import <OCMockito/OCMockito.h>
+#import <OCHamcrest/OCHamcrest.h>
+
 #import "A0SafariSession.h"
 #import "A0Lock.h"
 #import "A0APIClient.h"
@@ -36,137 +42,163 @@
 + (NSURL *)callbackURLForOSVersion:(double)osVersion withLock:(A0Lock *)lock;
 @end
 
-SpecBegin(A0SafariSession)
+@interface A0MockAPI : A0APIClient
+@end
 
-__block A0Lock *lock;
-__block A0APIClient *client;
-__block A0SafariSession *session;
+@implementation A0MockAPI
 
-beforeEach(^{
-    lock = mock(A0Lock.class);
-    client = mock(A0APIClient.class);
-    [given([lock apiClient]) willReturn:client];
-    [given([lock domainURL]) willReturn:[NSURL URLWithString:@"https://samples.auth0.com"]];
-    [given([lock clientId]) willReturn:@"CLIENTID"];
-});
-
-it(@"should create a new instance", ^{
-    NSURL *callbackURL = [NSURL URLWithString:@"https://samples.auth0.com"];
-    session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook" callbackURL:callbackURL];
-    expect(session).toNot.beNil();
-    expect(session.connectionName).to.equal(@"facebook");
-    expect(session.callbackURL).to.equal(callbackURL);
-});
-
-context(@"callback url", ^{
-    it(@"should build with custom scheme", ^{
-        expect([A0SafariSession callbackURLForOSVersion:NSFoundationVersionNumber_iOS_8_3 withLock:lock]).to.equal([NSURL URLWithString:@"com.auth0.Lock-Dev://samples.auth0.com/ios/com.auth0.Lock-Dev/callback"]);
+- (NSURLSessionDataTask *)fetchUserProfileWithIdToken:(NSString *)idToken success:(A0APIClientUserProfileSuccess)success failure:(A0APIClientError)failure {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        success([[A0UserProfile alloc] init]);
     });
+    return nil;
+}
 
-    it(@"should build with universal links", ^{
-        expect([A0SafariSession callbackURLForOSVersion:(NSFoundationVersionNumber_iOS_8_3 + 1) withLock:lock]).to.equal([NSURL URLWithString:@"https://samples.auth0.com/ios/com.auth0.Lock-Dev/callback"]);
-    });
+@end
 
-    it(@"should pick the current OS version", ^{
-        session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook"];
-        if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_3) {
-            expect(session.callbackURL.scheme).to.equal(@"https");
-        } else {
-            expect(session.callbackURL.scheme).to.equal([[NSBundle mainBundle] bundleIdentifier]);
-        }
-    });
-});
+QuickSpecBegin(A0SafariSessionSpec)
 
-context(@"authorize url", ^{
-
-    __block NSURL *url;
+describe(@"A0SafariSession", ^{
+    __block A0Lock *lock;
+    __block A0APIClient *client;
+    __block A0SafariSession *session;
 
     beforeEach(^{
-        session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook"];
-        url = [session authorizeURLWithParameters:nil];
+        lock = mock(A0Lock.class);
+        client = mock(A0APIClient.class);
+        [given([lock apiClient]) willReturn:client];
+        [given([lock domainURL]) willReturn:[NSURL URLWithString:@"https://samples.auth0.com"]];
+        [given([lock clientId]) willReturn:@"CLIENTID"];
     });
 
-    it(@"should be based in domainURL", ^{
-        expect(url.host).to.equal(@"samples.auth0.com");
-        expect(url.scheme).to.equal(@"https");
+    it(@"should create a new instance", ^{
+        NSURL *callbackURL = [NSURL URLWithString:@"https://samples.auth0.com"];
+        session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook" callbackURL:callbackURL];
+        expect(session).toNot(beNil());
+        expect(session.connectionName).to(equal(@"facebook"));
+        expect(session.callbackURL).to(equal(callbackURL));
     });
 
-    it(@"should include default parameters in query string", ^{
-        NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
-        NSArray<NSURLQueryItem *> *items = components.queryItems;
-        expect(items).to.contain([NSURLQueryItem queryItemWithName:@"client_id" value:@"CLIENTID"]);
-        expect(items).to.contain([NSURLQueryItem queryItemWithName:@"response_type" value:@"token"]);
-        expect(items).to.contain([NSURLQueryItem queryItemWithName:@"connection" value:@"facebook"]);
-        expect(items).to.contain([NSURLQueryItem queryItemWithName:@"redirect_uri" value:session.callbackURL.absoluteString]);
-    });
+    context(@"callback url", ^{
+        it(@"should build with custom scheme", ^{
+            expect([A0SafariSession callbackURLForOSVersion:NSFoundationVersionNumber_iOS_8_3 withLock:lock]).to(equal([NSURL URLWithString:@"com.auth0.Lock-Dev://samples.auth0.com/ios/com.auth0.Lock-Dev/callback"]));
+        });
 
-    it(@"should include extra parameters in query string", ^{
-        url = [session authorizeURLWithParameters:@{
-                                                    @"scope": @"openid",
-                                                    @"nonce": @"some random value",
-                                                    }];
-        NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
-        NSArray<NSURLQueryItem *> *items = components.queryItems;
-        expect(items).to.contain([NSURLQueryItem queryItemWithName:@"scope" value:@"openid"]);
-        expect(items).to.contain([NSURLQueryItem queryItemWithName:@"nonce" value:@"some random value"]);
-    });
-});
+        it(@"should build with universal links", ^{
+            expect([A0SafariSession callbackURLForOSVersion:(NSFoundationVersionNumber_iOS_8_3 + 1) withLock:lock]).to(equal([NSURL URLWithString:@"https://samples.auth0.com/ios/com.auth0.Lock-Dev/callback"]));
+        });
 
-context(@"authentication block", ^{
-
-    __block A0IdPAuthenticationBlock successBlock;
-    __block A0IdPAuthenticationErrorBlock failureBlock;
-    __block A0Token *token;
-
-    beforeEach(^{
-        token = mock(A0Token.class);
-        [given(token.idToken) willReturn:@"IDTOKEN"];
-        successBlock = ^(A0UserProfile *profile, A0Token *token) {
-            expect(profile).toNot.beNil();
-            expect(token).toNot.beNil();
-        };
-        failureBlock = ^(NSError *error) {
-            expect(error).toNot.beNil();
-        };
-        session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook"];
-    });
-
-    it(@"should provide an authentication block", ^{
-        expect([session authenticationBlockWithSuccess:successBlock failure:failureBlock]).toNot.beNil();
-    });
-
-    it(@"should report error", ^{
-        waitUntil(^(DoneCallback done) {
-            A0SafariSessionAuthentication block = [session authenticationBlockWithSuccess:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull token) {
-                failure(@"should have failed");
-                done();
-            } failure:^(NSError * _Nonnull error) {
-                failureBlock(error);
-                done();
-            }];
-            block(mock(NSError.class), nil);
+        it(@"should pick the current OS version", ^{
+            session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook"];
+            if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_3) {
+                expect(session.callbackURL.scheme).to(equal(@"https"));
+            } else {
+                expect(session.callbackURL.scheme).to(equal([[NSBundle mainBundle] bundleIdentifier]));
+            }
         });
     });
 
-    it(@"should fetch profile", ^{
-        [given([client fetchUserProfileWithIdToken:@"IDTOKEN" success:anything() failure:anything()]) willDo:^id(NSInvocation *invocation) {
-            NSArray *arguments = [invocation mkt_arguments];
-            A0APIClientUserProfileSuccess block = arguments[1];
-            block(mock(A0UserProfile.class));
-            return nil;
-        }];
-        waitUntil(^(DoneCallback done) {
-            A0SafariSessionAuthentication block = [session authenticationBlockWithSuccess:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull token) {
-                successBlock(profile, token);
-                [MKTVerify(client) fetchUserProfileWithIdToken:@"IDTOKEN" success:anything() failure:anything()];
-                done();
-            } failure:^(NSError * _Nonnull error) {
-                failure(@"should not have failed");
-                done();
-            }];
-            block(nil, token);
+    context(@"authorize url", ^{
+
+        __block NSURL *url;
+
+        beforeEach(^{
+            session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook"];
+            url = [session authorizeURLWithParameters:nil];
         });
+
+        it(@"should be based in domainURL", ^{
+            expect(url.host).to(equal(@"samples.auth0.com"));
+            expect(url.scheme).to(equal(@"https"));
+        });
+
+        it(@"should include default parameters in query string", ^{
+            NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+            NSArray<NSURLQueryItem *> *items = components.queryItems;
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"client_id" value:@"CLIENTID"]));
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"response_type" value:@"token"]));
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"connection" value:@"facebook"]));
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"redirect_uri" value:session.callbackURL.absoluteString]));
+        });
+
+        it(@"should include extra parameters in query string", ^{
+            url = [session authorizeURLWithParameters:@{
+                                                        @"scope": @"openid",
+                                                        @"nonce": @"some random value",
+                                                        }];
+            NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+            NSArray<NSURLQueryItem *> *items = components.queryItems;
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"scope" value:@"openid"]));
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"nonce" value:@"some random value"]));
+        });
+
+        it(@"should always use the connection from initializer", ^{
+            url = [session authorizeURLWithParameters:@{
+                                                        @"connection": @"twitter",
+                                                        }];
+            NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+            NSArray<NSURLQueryItem *> *items = components.queryItems;
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"connection" value:@"facebook"]));
+        });
+
     });
 
+    context(@"authentication block", ^{
+
+        __block A0IdPAuthenticationBlock successBlock;
+        __block A0IdPAuthenticationErrorBlock failureBlock;
+        __block A0Token *token;
+
+        beforeEach(^{
+            token = mock(A0Token.class);
+            [given(token.idToken) willReturn:@"IDTOKEN"];
+            successBlock = ^(A0UserProfile *profile, A0Token *token) {
+                expect(profile).toNot(beNil());
+                expect(token).toNot(beNil());
+            };
+            failureBlock = ^(NSError *error) {
+                expect(error).toNot(beNil());
+            };
+            session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook"];
+        });
+
+        it(@"should provide an authentication block", ^{
+            expect([session authenticationBlockWithSuccess:successBlock failure:failureBlock]).toNot(beNil());
+        });
+
+        it(@"should report error", ^{
+            waitUntil(^(void(^done)()) {
+                A0SafariSessionAuthentication block = [session authenticationBlockWithSuccess:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull token) {
+                    failWithMessage(@"should have failed");
+                    done();
+                } failure:^(NSError * _Nonnull error) {
+                    failureBlock(error);
+                    done();
+                }];
+                block(mock(NSError.class), nil);
+            });
+        });
+
+        it(@"should fetch profile", ^{
+            [given([client fetchUserProfileWithIdToken:@"IDTOKEN" success:anything() failure:anything()]) willDo:^id(NSInvocation *invocation) {
+                NSArray *arguments = [invocation mkt_arguments];
+                A0APIClientUserProfileSuccess block = arguments[1];
+                block(mock(A0UserProfile.class));
+                return nil;
+            }];
+            waitUntil(^(void(^done)()) {
+                A0SafariSessionAuthentication block = [session authenticationBlockWithSuccess:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull token) {
+                    successBlock(profile, token);
+                    [MKTVerify(client) fetchUserProfileWithIdToken:@"IDTOKEN" success:anything() failure:anything()];
+                    done();
+                } failure:^(NSError * _Nonnull error) {
+                    failWithMessage(@"should not have failed");
+                    done();
+                }];
+                block(nil, token);
+            });
+        });
+    });
 });
-SpecEnd
+
+QuickSpecEnd
