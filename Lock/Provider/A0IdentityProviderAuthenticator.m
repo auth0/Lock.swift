@@ -78,15 +78,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                             parameters:(nullable A0AuthParameters *)parameters
                                success:(A0IdPAuthenticationBlock __nonnull)success
                                failure:(A0IdPAuthenticationErrorBlock __nonnull)failure {
-    id<A0AuthenticationProvider> idp = self.authenticators[connectionName];
     A0AuthParameters *params = [parameters copy];
-    if (idp) {
-        [idp authenticateWithParameters:params success:success failure:failure];
-    } else {
-        idp = [self defaultProviderForConnectionName:connectionName];
-        A0LogDebug(@"Authenticating %@ with WebView authenticator", connectionName);
-        [idp authenticateWithParameters:params success:success failure:failure];
-    }
+    id<A0AuthenticationProvider> idp = [self providerForConnectionName:connectionName];
+    [idp authenticateWithParameters:params success:success failure:failure];
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application {
@@ -120,6 +114,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 #else
     return [[A0FailureAuthenticator alloc] initWithConnectionName:connectionName];
 #endif
+}
+
+- (id<A0AuthenticationProvider>)providerForConnectionName:(NSString *)connectionName {
+    id<A0AuthenticationProvider> provider = self.authenticators[connectionName];
+    if (!provider) {
+        provider = [self defaultProviderForConnectionName:connectionName];
+    }
+    A0LogDebug(@"Provider %@ for connection %@", NSStringFromClass([provider class]), connectionName);
+    return provider;
 }
 
 @end
