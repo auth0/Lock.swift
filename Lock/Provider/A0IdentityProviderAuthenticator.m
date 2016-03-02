@@ -27,12 +27,13 @@
 #import "A0Lock.h"
 #import "A0AuthParameters.h"
 #import "NSObject+A0APIClientProvider.h"
+#import "Constants.h"
+#import "A0FailureAuthenticator.h"
 
 #if __has_include(<Lock/A0WebViewAuthenticator.h>)
 #define HAS_WEBVIEW_SUPPORT 1
 #import <Lock/A0WebViewAuthenticator.h>
 #endif
-#import "Constants.h"
 
 @interface A0IdentityProviderAuthenticator ()
 
@@ -84,16 +85,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (idp) {
         [idp authenticateWithParameters:params success:success failure:failure];
     } else {
-#ifdef HAS_WEBVIEW_SUPPORT
+        idp = [self defaultProviderForConnectionName:connectionName];
         A0LogDebug(@"Authenticating %@ with WebView authenticator", connectionName);
-        A0WebViewAuthenticator *authenticator = [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName client:[self a0_apiClientFromProvider:self.clientProvider]];
-        [authenticator authenticateWithParameters:params success:success failure:failure];
-#else
-        A0LogWarn(@"No known provider for connection %@", connectionName);
-        if (failure) {
-            failure([A0Errors unkownProviderForConnectionName:connectionName]);
-        }
-#endif
+        [idp authenticateWithParameters:params success:success failure:failure];
     }
 }
 
@@ -113,16 +107,21 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [authenticator clearSessions];
     }];
 
-#ifdef HAS_WEBVIEW_SUPPORT
-    A0WebViewAuthenticator *authenticator = [[A0WebViewAuthenticator alloc] initWithConnectionName:@"auth0" client:[self a0_apiClientFromProvider:self.clientProvider]];
-    [authenticator clearSessions];
-#endif
+    [[self defaultProviderForConnectionName:@"auth0"] clearSessions];
 }
 
 - (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions {
     [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0AuthenticationProvider> authenticator, BOOL *stop) {
         [authenticator applicationLaunchedWithOptions:launchOptions];
     }];
+}
+
+- (id<A0AuthenticationProvider>)defaultProviderForConnectionName:(NSString *)connectionName {
+#ifdef HAS_WEBVIEW_SUPPORT
+    return [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName client:[self a0_apiClientFromProvider:self.clientProvider]];
+#else
+    return [[A0FailureAuthenticator alloc] initWithConnectionName:connectionName];
+#endif
 }
 
 @end
@@ -142,9 +141,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return instance;
 }
 
-- (void)configureForApplication:(A0Application *)application {
-    //NOOP
-}
+- (void)configureForApplication:(A0Application *)application {}
 
 - (void)authenticateForStrategyName:(NSString *)strategyName
                          parameters:(A0AuthParameters *)parameters
