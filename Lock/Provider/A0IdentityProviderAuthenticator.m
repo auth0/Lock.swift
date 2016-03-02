@@ -79,9 +79,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                success:(A0IdPAuthenticationBlock __nonnull)success
                                failure:(A0IdPAuthenticationErrorBlock __nonnull)failure {
     id<A0AuthenticationProvider> idp = self.authenticators[connectionName];
-    //TODO: Once all IdP authenticators are changed remove this parameter dance.
     A0AuthParameters *params = [parameters copy];
-    params[A0ParameterConnection] = connectionName;
     if (idp) {
         [idp authenticateWithParameters:params success:success failure:failure];
     } else {
