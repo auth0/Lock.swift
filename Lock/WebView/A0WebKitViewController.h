@@ -35,8 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters;
 
-+ (void)clearSession;
-
 @end
 
 NS_ASSUME_NONNULL_END

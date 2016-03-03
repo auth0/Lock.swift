@@ -116,20 +116,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.messageView.hidden = NO;
 }
 
-+ (void)clearSession {
-    NSSet *websiteDataTypes = [NSSet setWithArray:@[
-                            WKWebsiteDataTypeLocalStorage,
-                            WKWebsiteDataTypeCookies,
-                            WKWebsiteDataTypeSessionStorage,
-                            WKWebsiteDataTypeIndexedDBDatabases,
-                            WKWebsiteDataTypeWebSQLDatabases
-                            ]];
-    NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
-    [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
-        A0LogInfo(@"Removed all WKWebView session data");
-    }];
-}
-
 #pragma mark - WKNavigationDelegate
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
