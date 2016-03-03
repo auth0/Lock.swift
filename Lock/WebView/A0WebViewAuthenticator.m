@@ -25,6 +25,8 @@
 #import "A0WebKitViewController.h"
 #import "A0Theme.h"
 #import "A0ModalPresenter.h"
+#import <WebKit/WebKit.h>
+#import "Constants.h"
 
 NSString * const A0WebViewAuthenticatorTitleBarTintColor = @"A0WebViewAuthenticatorTitleBarTintColor";
 NSString * const A0WebViewAuthenticatorTitleBarBarTintColor = @"A0WebViewAuthenticatorTitleBarBarTintColor";
@@ -37,6 +39,8 @@ NSString * const A0WebViewAuthenticatorTitleTextFont = @"A0WebViewAuthenticatorT
 @end
 
 @implementation A0WebViewAuthenticator
+
+AUTH0_DYNAMIC_LOGGER_METHODS
 
 -(instancetype)initWithConnectionName:(NSString * __nonnull)connectionName client:(A0APIClient * __nonnull)client {
     self = [super init];
@@ -57,6 +61,7 @@ NSString * const A0WebViewAuthenticatorTitleTextFont = @"A0WebViewAuthenticatorT
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
     [self applyThemeToNavigationBar:navigation.navigationBar];
     A0ModalPresenter *presenter = [[A0ModalPresenter alloc] init];
+    A0LogDebug(@"Presenting controller %@ from %@", NSStringFromClass(controller.class), NSStringFromClass(presenter.class));
     [presenter presentController:navigation completion:nil];
 }
 
@@ -69,6 +74,25 @@ NSString * const A0WebViewAuthenticatorTitleTextFont = @"A0WebViewAuthenticatorT
 }
 
 - (void)clearSessions {
+    if (NSClassFromString(@"WKWebsiteDataStore")) {
+        NSSet *types = [NSSet setWithArray:@[
+                                             WKWebsiteDataTypeLocalStorage,
+                                             WKWebsiteDataTypeCookies,
+                                             WKWebsiteDataTypeSessionStorage,
+                                             WKWebsiteDataTypeIndexedDBDatabases,
+                                             WKWebsiteDataTypeWebSQLDatabases
+                                             ]];
+        NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+        [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:types modifiedSince:dateFrom completionHandler:^{
+            A0LogVerbose(@"Removed WKWebView data: %@", types);
+        }];
+    }
+
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *cookie in [storage cookies]) {
+        [storage deleteCookie:cookie];
+    }
+    A0LogVerbose(@"Removed UIWebView cookies from shared storage");
 }
 
 - (UIViewController<A0WebAuthenticable> *)newWebControllerWithParameters:(A0AuthParameters *)parameters {

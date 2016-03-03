@@ -27,12 +27,13 @@
 #import "A0Lock.h"
 #import "A0AuthParameters.h"
 #import "NSObject+A0APIClientProvider.h"
+#import "Constants.h"
+#import "A0FailureAuthenticator.h"
 
 #if __has_include(<Lock/A0WebViewAuthenticator.h>)
 #define HAS_WEBVIEW_SUPPORT 1
 #import <Lock/A0WebViewAuthenticator.h>
 #endif
-#import "Constants.h"
 
 @interface A0IdentityProviderAuthenticator ()
 
@@ -77,24 +78,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                             parameters:(nullable A0AuthParameters *)parameters
                                success:(A0IdPAuthenticationBlock __nonnull)success
                                failure:(A0IdPAuthenticationErrorBlock __nonnull)failure {
-    id<A0AuthenticationProvider> idp = self.authenticators[connectionName];
-    //TODO: Once all IdP authenticators are changed remove this parameter dance.
     A0AuthParameters *params = [parameters copy];
-    params[A0ParameterConnection] = connectionName;
-    if (idp) {
-        [idp authenticateWithParameters:params success:success failure:failure];
-    } else {
-#ifdef HAS_WEBVIEW_SUPPORT
-        A0LogDebug(@"Authenticating %@ with WebView authenticator", connectionName);
-        A0WebViewAuthenticator *authenticator = [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName client:[self a0_apiClientFromProvider:self.clientProvider]];
-        [authenticator authenticateWithParameters:params success:success failure:failure];
-#else
-        A0LogWarn(@"No known provider for connection %@", connectionName);
-        if (failure) {
-            failure([A0Errors unkownProviderForConnectionName:connectionName]);
-        }
-#endif
-    }
+    id<A0AuthenticationProvider> idp = [self providerForConnectionName:connectionName];
+    [idp authenticateWithParameters:params success:success failure:failure];
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)application {
@@ -113,12 +99,30 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [authenticator clearSessions];
     }];
 
+    [[self defaultProviderForConnectionName:@"auth0"] clearSessions];
 }
 
 - (void)applicationLaunchedWithOptions:(NSDictionary *)launchOptions {
     [self.authenticators enumerateKeysAndObjectsUsingBlock:^(NSString *key, id<A0AuthenticationProvider> authenticator, BOOL *stop) {
         [authenticator applicationLaunchedWithOptions:launchOptions];
     }];
+}
+
+- (id<A0AuthenticationProvider>)defaultProviderForConnectionName:(NSString *)connectionName {
+#ifdef HAS_WEBVIEW_SUPPORT
+    return [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName client:[self a0_apiClientFromProvider:self.clientProvider]];
+#else
+    return [[A0FailureAuthenticator alloc] initWithConnectionName:connectionName];
+#endif
+}
+
+- (id<A0AuthenticationProvider>)providerForConnectionName:(NSString *)connectionName {
+    id<A0AuthenticationProvider> provider = self.authenticators[connectionName];
+    if (!provider) {
+        provider = [self defaultProviderForConnectionName:connectionName];
+    }
+    A0LogDebug(@"Provider %@ for connection %@", NSStringFromClass([provider class]), connectionName);
+    return provider;
 }
 
 @end
@@ -138,9 +142,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return instance;
 }
 
-- (void)configureForApplication:(A0Application *)application {
-    //NOOP
-}
+- (void)configureForApplication:(A0Application *)application {}
 
 - (void)authenticateForStrategyName:(NSString *)strategyName
                          parameters:(A0AuthParameters *)parameters
