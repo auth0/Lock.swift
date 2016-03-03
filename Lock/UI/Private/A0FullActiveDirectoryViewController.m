@@ -36,6 +36,7 @@
 @end
 
 @implementation A0FullActiveDirectoryViewController
+@dynamic configuration;
 
 - (instancetype)init {
     return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
