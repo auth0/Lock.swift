@@ -76,7 +76,9 @@
     __weak A0TouchIDRegisterViewController *weakSelf = self;
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.parameters = self.parameters;
-    controller.onLoginBlock = self.onRegisterBlock;
+    controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
+        weakSelf.onRegisterBlock(profile, token);
+    };
     controller.lock = self.lock;
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{

@@ -166,7 +166,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             [self postLoginSuccessfulWithUsername:username andParameters:self.parameters];
             [self.accessButton setInProgress:NO];
             if (self.onLoginBlock) {
-                self.onLoginBlock(profile, token);
+                self.onLoginBlock(self, profile, token);
             }
         };
         A0APIClientError failure = ^(NSError *error) {
@@ -235,7 +235,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [self postLoginSuccessfulForConnection:connection];
         [self.accessButton setInProgress:NO];
         if (self.onLoginBlock) {
-            self.onLoginBlock(profile, token);
+            self.onLoginBlock(self, profile, token);
         }
     };
 

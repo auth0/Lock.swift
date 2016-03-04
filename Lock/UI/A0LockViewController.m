@@ -252,7 +252,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (A0FullLoginViewController *)newFullLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
     __weak A0LockViewController *weakSelf = self;
     A0FullLoginViewController *controller = [[A0FullLoginViewController alloc] init];
-    controller.onLoginBlock = success;
+    controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
+        success(profile, token);
+    };
     controller.parameters = [self copyAuthenticationParameters];
     controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
         A0EnterpriseLoginViewController *controller = [weakSelf newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
@@ -285,7 +287,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (A0DatabaseLoginViewController *)newDatabaseLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
     __weak A0LockViewController *weakSelf = self;
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
-    controller.onLoginBlock = success;
+    controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
+        success(profile, token);
+    };
     controller.parameters = [self copyAuthenticationParameters];
     controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
         A0EnterpriseLoginViewController *controller = [weakSelf newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
@@ -325,7 +329,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     } else {
         controller = [[A0EnterpriseLoginViewController alloc] init];
     }
-    controller.onLoginBlock = success;
+    controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
+        success(profile, token);
+    };
     controller.connection = connection;
     controller.parameters = [self copyAuthenticationParameters];
     [self.navigationView removeAll];
