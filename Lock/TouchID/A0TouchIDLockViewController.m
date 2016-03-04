@@ -85,7 +85,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             self.modalPresentationStyle = UIModalPresentationFormSheet;
         }
         _authenticationParameters = [A0AuthParameters newDefaultParams];
-        _authenticationParameters[A0ParameterConnection] = @"Username-Password-Authentication";
     }
     return self;
 }
@@ -117,9 +116,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.titleView.title = A0LocalizedString(@"Login with TouchID");
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
 
-    if (self.defaultDatabaseConnectionName) {
-        self.authenticationParameters[A0ParameterConnection] = self.defaultDatabaseConnectionName;
-    }
+    self.authenticationParameters[A0ParameterConnection] = [self databaseConnectionName];
 
     __weak A0TouchIDLockViewController *weakSelf = self;
     self.authentication = [[A0TouchIDAuthentication alloc] init];
@@ -218,6 +215,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (BOOL)prefersStatusBarHidden {
     return [[A0Theme sharedInstance] statusBarHidden];
+}
+
+- (NSString *)databaseConnectionName {
+    return self.defaultDatabaseConnectionName ? self.defaultDatabaseConnectionName : @"Username-Password-Authentication";
 }
 
 #pragma mark - Utility methods
