@@ -44,4 +44,8 @@
 @property (strong, nonatomic) id<A0ConnectionDomainMatcher> domainMatcher;
 
 @property (strong, nonatomic) A0Lock *lock;
+
+@property (readonly, nonatomic) NSString *username;
+@property (readonly, nonatomic) NSString *password;
+
 @end

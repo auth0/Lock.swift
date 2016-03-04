@@ -86,6 +86,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return self;
 }
 
+- (NSString *)username {
+    return self.userField.textField.text;
+}
+
+- (NSString *)password {
+    return self.passwordField.textField.text;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 

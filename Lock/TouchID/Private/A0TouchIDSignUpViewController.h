@@ -23,13 +23,13 @@
 #import <UIKit/UIKit.h>
 #import "A0AuthenticationUIComponent.h"
 
-@class A0AuthParameters, A0UserProfile, A0Token, A0CredentialFieldView, A0Lock;
+@class A0AuthParameters, A0KeyUploader, A0CredentialFieldView, A0Lock;
 
 @interface A0TouchIDSignUpViewController : UIViewController<A0AuthenticationUIComponent>
 
 @property (weak, nonatomic) IBOutlet A0CredentialFieldView *emailField;
 
-@property (copy, nonatomic) void(^onRegisterBlock)(A0UserProfile *profile, A0Token *token);
+@property (copy, nonatomic) void(^onRegisterBlock)(A0KeyUploader *uploader, NSString *identifier);
 
 @property (copy, nonatomic) A0AuthParameters *parameters;
 

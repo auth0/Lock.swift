@@ -38,6 +38,7 @@
 #import "UIConstants.h"
 #import "A0Alert.h"
 #import "Constants.h"
+#import "A0KeyUploader.h"
 
 NSString * const A0ThemeTouchIDLockButtonImageNormalName = @"A0ThemeTouchIDLockButtonImageNormalName";
 NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchIDLockButtonImageHighlightedName";
@@ -54,7 +55,7 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (strong, nonatomic) A0TouchIDAuthentication *authentication;
-@property (strong, nonatomic) A0UserAPIClient *userClient;
+@property (strong, nonatomic) A0KeyUploader *uploader;
 @property (strong, nonatomic) A0Lock *lock;
 
 - (IBAction)checkTouchID:(id)sender;
@@ -156,17 +157,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             weakSelf.touchIDView.hidden = NO;
             weakSelf.loadingView.hidden = YES;
         };
-        controller.onRegisterBlock = ^(A0UserProfile *profile, A0Token *token) {
+        controller.onRegisterBlock = ^(A0KeyUploader *uploader, NSString *identifier) {
             [weakSelf.navigationController popViewControllerAnimated:YES];
-            A0LogDebug(@"User %@ registered. Uploading public key...", profile.userId);
-            [keychain setString:profile.userId forKey:@"auth0-userid"];
-            NSString *deviceName = [weakSelf deviceName];
-            weakSelf.userClient = [weakSelf.lock newUserAPIClientWithIdToken:token.idToken];
-            [weakSelf.userClient removePublicKeyOfDevice:deviceName user:profile.userId success:^{
-                [weakSelf.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
-            } failure:^(NSError *error) {
-                A0LogWarn(@"Failed to remove public key. Please check that the user has only one Public key registered.");
-                [weakSelf.userClient registerPublicKey:pubKey device:deviceName user:profile.userId success:completionBlock failure:errorBlock];
+            A0LogDebug(@"User %@ registered. Uploading public key...", identifier);
+            [keychain setString:identifier forKey:@"auth0-userid"];
+            [uploader uploadKey:pubKey forUserWithIdentifier:identifier callback:^(NSError * _Nonnull error) {
+                if (error) {
+                    errorBlock(error);
+                    return;
+                }
+                completionBlock();
             }];
         };
         controller.parameters = weakSelf.authenticationParameters;
