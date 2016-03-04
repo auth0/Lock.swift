@@ -20,6 +20,8 @@
 		5F3250771C87914400CCEC55 /* OCMockito.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F32506F1C87912700CCEC55 /* OCMockito.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F3250781C87914400CCEC55 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F3250701C87912700CCEC55 /* OCHamcrest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F3250791C8791CE00CCEC55 /* A0SafariSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4CE1BE95C5700703DD1 /* A0SafariSessionSpec.m */; };
+		5F32507C1C89E09700CCEC55 /* A0KeyUploader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F32507A1C89E09700CCEC55 /* A0KeyUploader.h */; };
+		5F32507D1C89E09700CCEC55 /* A0KeyUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F32507B1C89E09700CCEC55 /* A0KeyUploader.m */; };
 		5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */; };
 		5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A61C12062F008D73FC /* A0WebViewController.xib */; };
 		5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -570,6 +572,8 @@
 		5F3250691C874BFE00CCEC55 /* A0FailureAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0FailureAuthenticator.m; sourceTree = "<group>"; };
 		5F32506F1C87912700CCEC55 /* OCMockito.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMockito.framework; path = Carthage/Build/iOS/OCMockito.framework; sourceTree = "<group>"; };
 		5F3250701C87912700CCEC55 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = Carthage/Build/iOS/OCHamcrest.framework; sourceTree = "<group>"; };
+		5F32507A1C89E09700CCEC55 /* A0KeyUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0KeyUploader.h; sourceTree = "<group>"; };
+		5F32507B1C89E09700CCEC55 /* A0KeyUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0KeyUploader.m; sourceTree = "<group>"; };
 		5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebKitViewController.xib; sourceTree = "<group>"; };
 		5F6628A61C12062F008D73FC /* A0WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebViewController.xib; sourceTree = "<group>"; };
 		5F6628A91C120F23008D73FC /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
@@ -1541,6 +1545,8 @@
 				5FBAD3861BE7E76D00703DD1 /* A0TouchIDLockViewController.h */,
 				5FBAD3871BE7E76D00703DD1 /* A0TouchIDLockViewController.m */,
 				5FBAD3881BE7E76D00703DD1 /* Private */,
+				5F32507A1C89E09700CCEC55 /* A0KeyUploader.h */,
+				5F32507B1C89E09700CCEC55 /* A0KeyUploader.m */,
 			);
 			path = TouchID;
 			sourceTree = "<group>";
@@ -1946,6 +1952,7 @@
 				5FBAD0861BE7B23C00703DD1 /* A0SimpleConnectionDomainMatcher.h in Headers */,
 				5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */,
 				5FBAD4351BE7F0CA00703DD1 /* A0SMSMagicLinkViewController.h in Headers */,
+				5F32507C1C89E09700CCEC55 /* A0KeyUploader.h in Headers */,
 				5FBAD05D1BE7B23C00703DD1 /* A0APIClientProvider.h in Headers */,
 				5FBAD18F1BE7B92900703DD1 /* A0LoadingViewController.h in Headers */,
 				5FBAD4311BE7F0CA00703DD1 /* A0PhoneFieldView.h in Headers */,
@@ -2557,6 +2564,7 @@
 				5FBAD1861BE7B92900703DD1 /* A0CredentialFieldView.m in Sources */,
 				5FBAD1811BE7B92900703DD1 /* A0ActiveDirectoryViewController.m in Sources */,
 				5FBAD1AD1BE7B92900703DD1 /* A0SafariAuthenticator.m in Sources */,
+				5F32507D1C89E09700CCEC55 /* A0KeyUploader.m in Sources */,
 				5FBAD07B1BE7B23C00703DD1 /* A0LockNotification.m in Sources */,
 				5FBAD0D71BE7B24600703DD1 /* A0JSONResponseSerializer.m in Sources */,
 				5FD6FB511BEB99400071343E /* A0ServiceTheme.m in Sources */,
