@@ -126,6 +126,8 @@ typedef void(^A0UserAPIClientError)(NSError* __nonnull error);
                         success:(void(^)())success
                         failure:(A0UserAPIClientError)failure DEPRECATED_ATTRIBUTE;
 
+- (void)listPublicKeyForUser:(NSString *)identifier deviceName:(NSString *)deviceName callback:(void(^)(NSError * _Nullable error, NSString * _Nullable identifier))callback DEPRECATED_ATTRIBUTE;
+
 @end
 
 NS_ASSUME_NONNULL_END

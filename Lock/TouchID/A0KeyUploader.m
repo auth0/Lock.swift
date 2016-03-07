@@ -44,26 +44,45 @@
 }
 
 - (void)uploadKey:(NSData *)key forUserWithIdentifier:(NSString *)identifier callback:(nonnull void (^)(NSError * _Nullable))callback {
-    NSString *path = [[NSString stringWithFormat:@"api/users/%@/publickey", identifier] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
+    NSString *path = @"/api/v2/device-credentials";
     NSURL *url = [NSURL URLWithString:path relativeToURL:self.domainURL];
-    [self performRequestWithMethod:@"DELETE"
-                               url:url
-                           payload:@{
-                                     @"device": [self deviceName],
-                                     }
-                          callback:^(NSError * _Nullable error) {
-                              [self.client registerPublicKey:key device:[self deviceName] user:identifier success:^{
-                                  callback(nil);
-                              } failure:^(NSError * _Nonnull error) {
-                                  callback(error);
+    NSString *name = [self deviceName];
+    [self.client listPublicKeyForUser:identifier deviceName:name callback:^(NSError * _Nullable error, NSString * _Nullable keyIdentifier) {
+        if (error) {
+            callback([self errorFromCause:error]);
+            return;
+        }
+        if (!keyIdentifier) {
+            [self.client registerPublicKey:key device:[self deviceName] user:identifier success:^{
+                callback(nil);
+            } failure:^(NSError * _Nonnull error) {
+                callback(error);
+            }];
+            //                              [self performRequestWithMethod:@"POST" url:url
+            //                                                     payload:@{
+            //                                                               @"public_key": [[NSString alloc] initWithData:key encoding:NSUTF8StringEncoding],
+            //                                                               @"device": [self deviceName],
+            //                                                               }
+            //                                                    callback:callback];
+            return;
+        }
+        [self performRequestWithMethod:@"DELETE"
+                                   url:[NSURL URLWithString:[keyIdentifier stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]] relativeToURL:url]
+                               payload:nil
+                              callback:^(NSError * _Nullable error) {
+                                  [self.client registerPublicKey:key device:[self deviceName] user:identifier success:^{
+                                      callback(nil);
+                                  } failure:^(NSError * _Nonnull error) {
+                                      callback(error);
+                                  }];
+                                  //                              [self performRequestWithMethod:@"POST" url:url
+                                  //                                                     payload:@{
+                                  //                                                               @"public_key": [[NSString alloc] initWithData:key encoding:NSUTF8StringEncoding],
+                                  //                                                               @"device": [self deviceName],
+                                  //                                                               }
+                                  //                                                    callback:callback];
                               }];
-//                              [self performRequestWithMethod:@"POST" url:url
-//                                                     payload:@{
-//                                                               @"public_key": [[NSString alloc] initWithData:key encoding:NSUTF8StringEncoding],
-//                                                               @"device": [self deviceName],
-//                                                               }
-//                                                    callback:callback];
-                          }];
+    }];
 }
 
 

@@ -176,5 +176,25 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     } failure:[A0UserAPIClient sanitizeFailureBlock:failure]];
 }
 
+- (void)listPublicKeyForUser:(NSString *)identifier deviceName:(NSString *)deviceName callback:(void (^)(NSError * _Nullable, NSString * _Nullable))callback {
+    NSDictionary *parameters = @{
+                                 @"user_id": identifier,
+                                 @"client_id": [self.router clientId],
+                                 @"type": @"public_key"
+                                 };
+    [self.manager GET:@"/api/v2/device-credentials" parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSArray *devices = responseObject;
+        NSString *found = nil;
+        for (NSDictionary *device in devices) {
+            if ([device[@"device_name"] isEqualToString:deviceName]) {
+                found = device[@"id"];
+                break;
+            }
+        }
+        callback(nil, found);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        callback(error, nil);
+    }];
+}
 @end
 
