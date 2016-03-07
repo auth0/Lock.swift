@@ -91,7 +91,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                         parameters:self.parameters
                            success:^(A0UserProfile *profile, A0Token *tokenInfo) {
                                NSString *connection = self.parameters[@"connection"];
-                               NSString *authorization = [A0KeyUploader authenticationWithUsername:username password:password connectionName:connection];
+                               NSString *authorization = [A0KeyUploader authorizationWithUsername:username password:password connectionName:connection];
                                A0KeyUploader *uploader = [[A0KeyUploader alloc] initWithDomainURL:[self.lock domainURL]
                                                                                     authorization:authorization
                                                                                            client:[self.lock newUserAPIClientWithIdToken:tokenInfo.idToken]];

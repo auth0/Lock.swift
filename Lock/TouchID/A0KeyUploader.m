@@ -138,7 +138,7 @@
     return deviceName;
 }
 
-+ (NSString *)authenticationWithUsername:(NSString *)username password:(NSString *)password connectionName:(NSString *)connectionName {
++ (NSString *)authorizationWithUsername:(NSString *)username password:(NSString *)password connectionName:(NSString *)connectionName {
     NSString *token = [NSString stringWithFormat:@"%@\\%@:%@", connectionName, username, password];
     NSString *base64 = [[token dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:0];
     base64 = [base64 stringByReplacingOccurrencesOfString:@"=" withString:@""];

@@ -34,9 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)uploadKey:(NSData *)key forUserWithIdentifier:(NSString *)identifier callback:(void(^)(NSError *error))callback;
 
-+ (NSString *)authenticationWithUsername:(NSString *)username
-                                password:(NSString *)password
-                          connectionName:(NSString *)connectionName;
++ (NSString *)authorizationWithUsername:(NSString *)username
+                               password:(NSString *)password
+                         connectionName:(NSString *)connectionName;
 @end
 
 NS_ASSUME_NONNULL_END

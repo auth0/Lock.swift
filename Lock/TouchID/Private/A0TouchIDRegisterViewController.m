@@ -82,7 +82,7 @@
     controller.parameters = self.parameters;
     controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
         NSString *connection = weakSelf.parameters[@"connection"];
-        NSString *authorization = [A0KeyUploader authenticationWithUsername:controller.username password:controller.password connectionName:connection];
+        NSString *authorization = [A0KeyUploader authorizationWithUsername:controller.username password:controller.password connectionName:connection];
         A0KeyUploader *uploader = [[A0KeyUploader alloc] initWithDomainURL:[weakSelf.lock domainURL]
                                                              authorization:authorization
                                                                     client:[weakSelf.lock newUserAPIClientWithIdToken:token.idToken]];
