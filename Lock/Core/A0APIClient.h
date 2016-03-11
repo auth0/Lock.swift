@@ -196,10 +196,9 @@ NS_ASSUME_NONNULL_BEGIN
                                      failure:(A0APIClientError)failure;
 
 /**
- *  Change the password for a user.
+ *  Request a change password for the given user. Auth0 will send an email with a link to input a new password.
  *  By default it will use the first database connection name found in `application` property. If it's nil a *connection_name* must be set in parameters.
  *
- *  @param newPassword new password for the user
  *  @param username    username to change its password. It can be an email or a username
  *  @param parameters  optional parameters for Auth0 API. It can be nil
  *  @param success     block called on success
@@ -207,12 +206,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return an instance of `NSURLSessionDataTask`
  */
-- (NSURLSessionDataTask *)changePassword:(NSString *)newPassword
-                             forUsername:(NSString *)username
-                              parameters:(nullable A0AuthParameters *)parameters
-                                 success:(void(^)())success
-                                 failure:(A0APIClientError)failure;
-
+- (NSURLSessionDataTask *)requestChangePasswordForUsername:(NSString *)username
+                                                parameters:(nullable A0AuthParameters *)parameters
+                                                   success:(void(^)())success
+                                                   failure:(A0APIClientError)failure;
 
 /**
  *  Authenticates with a Database Connection using a signed JWT token.
@@ -511,6 +508,26 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)fetchUserProfileWithAccessToken:(NSString *)accessToken
                                 success:(A0APIClientUserProfileSuccess)success
                                 failure:(A0APIClientError)failure DEPRECATED_ATTRIBUTE;
+
+
+/**
+ *  Change the password for a user.
+ *  By default it will use the first database connection name found in `application` property. If it's nil a *connection_name* must be set in parameters.
+ *
+ *  @param newPassword new password for the user
+ *  @param username    username to change its password. It can be an email or a username
+ *  @param parameters  optional parameters for Auth0 API. It can be nil
+ *  @param success     block called on success
+ *  @param failure     block called on failure with the reason as a parameter
+ *
+ *  @return an instance of `NSURLSessionDataTask`
+ *  @deprecated 1.22.1
+ */
+- (NSURLSessionDataTask *)changePassword:(NSString *)newPassword
+                             forUsername:(NSString *)username
+                              parameters:(nullable A0AuthParameters *)parameters
+                                 success:(void(^)())success
+                                 failure:(A0APIClientError)failure DEPRECATED_ATTRIBUTE;
 
 @end
 

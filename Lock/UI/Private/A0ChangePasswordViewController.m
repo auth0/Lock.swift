@@ -28,10 +28,6 @@
 #import "A0Theme.h"
 #import "A0CredentialFieldView.h"
 #import "A0Alert.h"
-#import "A0PasswordFieldView.h"
-#if __has_include("A0PasswordManager.h")
-#import "A0PasswordManager.h"
-#endif
 #import "UIViewController+LockNotification.h"
 #import "A0AuthParameters.h"
 #import "A0Connection.h"
@@ -40,7 +36,6 @@
 #import "A0EmailValidator.h"
 #import "A0PasswordValidator.h"
 #import <CoreGraphics/CoreGraphics.h>
-#import "A0ConfirmPasswordValidator.h"
 #import "A0Lock.h"
 #import "NSObject+A0APIClientProvider.h"
 #import "NSError+A0APIError.h"
@@ -50,14 +45,10 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
-@property (weak, nonatomic) IBOutlet A0PasswordFieldView *passwordField;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *repeatPasswordField;
 @property (weak, nonatomic) IBOutlet A0ProgressButton *recoverButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 - (IBAction)recover:(id)sender;
-- (IBAction)goToPasswordField:(id)sender;
-- (IBAction)goToRepeatPasswordField:(id)sender;
 
 @end
 
@@ -83,52 +74,21 @@
     [theme configureSecondaryButton:self.cancelButton];
     [theme configureLabel:self.messageLabel];
     [theme configureTextField:self.userField.textField];
-    [theme configureTextField:self.passwordField.textField];
-    [theme configureTextField:self.repeatPasswordField.textField];
-    
+
     self.userField.textField.text = self.defaultEmail;
     [self.userField setFieldPlaceholderText:A0LocalizedString(@"Email")];
-    [self.passwordField setFieldPlaceholderText:A0LocalizedString(@"New Password")];
-    [self.repeatPasswordField setFieldPlaceholderText:A0LocalizedString(@"Confirm New Password")];
     [self.recoverButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
-    self.messageLabel.text = A0LocalizedString(@"Please enter your email and the new password. We will send you an email to confirm the password change.");
-    [self.passwordField.passwordManagerButton addTarget:self action:@selector(changeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
+    self.messageLabel.text = A0LocalizedString(@"Please enter your email address. We will send you an email to reset your password.");
 
     if (self.defaultConnection) {
         self.parameters[A0ParameterConnection] = self.defaultConnection.name;
     }
 
-    NSMutableArray *validators = [@[
-                                    [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],
-                                    [[A0ConfirmPasswordValidator alloc] initWithField:self.repeatPasswordField.textField passwordField:self.passwordField.textField],
-                                    ] mutableCopy];
     if (self.forceUsername) {
-        [validators addObject:[[A0UsernameValidator alloc] initWithField:self.userField.textField]];
+        self.validator = [[A0UsernameValidator alloc] initWithField:self.userField.textField];
     } else {
-        [validators addObject:[[A0EmailValidator alloc] initWithField:self.userField.textField]];
+        self.validator = [[A0EmailValidator alloc] initWithField:self.userField.textField];
     }
-    self.validator = [[A0CredentialsValidator alloc] initWithValidators:validators];
-}
-
-- (void)dealloc {
-    [self.passwordField.passwordManagerButton removeTarget:self action:@selector(changeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (IBAction)changeLoginInfo:(id)sender {
-#ifdef AUTH0_1PASSWORD
-    __weak A0ChangePasswordViewController *weakSelf = self;
-    [[A0PasswordManager sharedInstance] saveLoginInformationForUsername:self.userField.textField.text
-                                                               password:self.passwordField.textField.text
-                                                              loginInfo:nil
-                                                             controller:self
-                                                                 sender:sender
-                                                             completion:^(NSString *username, NSString *password) {
-                                                                 weakSelf.userField.textField.text = username;
-                                                                 weakSelf.passwordField.textField.text = password;
-                                                                 weakSelf.repeatPasswordField.textField.text = password;
-                                                                 [weakSelf recover:sender];
-                                                             }];
-#endif
 }
 
 - (IBAction)recover:(id)sender {
@@ -137,7 +97,6 @@
     if (!error) {
         [self hideKeyboard];
         NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        NSString *password = self.passwordField.textField.text;
         void(^success)() = ^ {
             [self postChangePasswordSuccessfulWithEmail:username];
             [self.recoverButton setInProgress:NO];
@@ -152,7 +111,7 @@
         A0APIClientError failure = ^(NSError *error) {
             [self postChangePasswordErrorNotificationWithError:error];
             [self.recoverButton setInProgress:NO];
-            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Couldn't change your password");
+            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Couldn't request to reset your password");
             NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForChangePasswordError:error];
             [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
                 alert.title = title;
@@ -160,12 +119,7 @@
             }];
         };
         A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
-        [client changePassword:password
-                   forUsername:username
-                    parameters:self.parameters
-                       success:success
-                       failure:failure];
-
+        [client requestChangePasswordForUsername:username parameters:self.parameters success:success failure:failure];
     } else {
         [self.recoverButton setInProgress:NO];
         [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
@@ -176,18 +130,8 @@
     [self updateUIWithError:error];
 }
 
-- (IBAction)goToPasswordField:(id)sender {
-    [self.passwordField.textField becomeFirstResponder];
-}
-
-- (IBAction)goToRepeatPasswordField:(id)sender {
-    [self.repeatPasswordField.textField becomeFirstResponder];
-}
-
 - (void)hideKeyboard {
     [self.userField.textField resignFirstResponder];
-    [self.passwordField.textField resignFirstResponder];
-    [self.repeatPasswordField.textField resignFirstResponder];
 }
 
 - (CGRect)rectToKeepVisibleInView:(UIView *)view {
@@ -197,28 +141,11 @@
 
 - (void)updateUIWithError:(NSError *)error {
     self.userField.invalid = NO;
-    self.passwordField.invalid = NO;
-    self.repeatPasswordField.invalid = NO;
     if (error) {
         switch (error.code) {
-            case A0ErrorCodeInvalidCredentials:
-                self.userField.invalid = YES;
-                self.passwordField.invalid = YES;
-                self.repeatPasswordField.invalid = YES;
-                break;
-            case A0ErrorCodeInvalidPassword:
-                self.passwordField.invalid = YES;
-                break;
             case A0ErrorCodeInvalidUsername:
             case A0ErrorCodeInvalidEmail:
                 self.userField.invalid = YES;
-                break;
-            case A0ErrorCodeInvalidRepeatPassword:
-                self.repeatPasswordField.invalid = YES;
-                break;
-            case A0ErrorCodeInvalidPasswordAndRepeatPassword:
-                self.passwordField.invalid = YES;
-                self.repeatPasswordField.invalid = YES;
                 break;
         }
     }

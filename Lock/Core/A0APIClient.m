@@ -232,21 +232,22 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [self signUpWithEmail:email username:nil password:password loginOnSuccess:loginOnSuccess parameters:parameters success:success failure:failure];
 }
 
-- (NSURLSessionDataTask *)changePassword:(NSString *)newPassword forUsername:(NSString *)username parameters:(A0AuthParameters *)parameters success:(void(^)())success failure:(A0APIClientError)failure {
+- (NSURLSessionDataTask *)requestChangePasswordForUsername:(NSString *)username
+                                                parameters:(A0AuthParameters *)parameters
+                                                   success:(void (^)())success failure:(A0APIClientError)failure {
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
                                                                                 kEmailParamName: username,
-                                                                                kPasswordParamName: newPassword,
                                                                                 kClientIdParamName: self.clientId,
                                                                                 }];
     [self addDatabaseConnectionNameToParams:defaultParameters];
     [defaultParameters addValuesFromParameters:parameters];
-    A0LogVerbose(@"Chaning password with params %@", defaultParameters);
+    A0LogVerbose(@"Requesting change password with params %@", defaultParameters);
     if (![self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
         return nil;
     }
     NSDictionary *payload = [defaultParameters asAPIPayload];
     return [self.manager POST:[self.router changePasswordPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
-        A0LogDebug(@"Changed password for user %@. Response %@", username, responseObject);
+        A0LogDebug(@"Changed password for user %@ requested. Response %@", username, responseObject);
         if (success) {
             success();
         }
@@ -683,6 +684,27 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0UserAPIClient *client = [A0UserAPIClient clientWithAccessToken:accessToken];
     [client fetchUserProfileSuccess:success failure:failure];
     self.userClient = client;
+}
+
+- (NSURLSessionDataTask *)changePassword:(NSString *)newPassword forUsername:(NSString *)username parameters:(A0AuthParameters *)parameters success:(void(^)())success failure:(A0APIClientError)failure {
+    A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
+                                                                                kEmailParamName: username,
+                                                                                kPasswordParamName: newPassword,
+                                                                                kClientIdParamName: self.clientId,
+                                                                                }];
+    [self addDatabaseConnectionNameToParams:defaultParameters];
+    [defaultParameters addValuesFromParameters:parameters];
+    A0LogVerbose(@"Chaning password with params %@", defaultParameters);
+    if (![self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
+        return nil;
+    }
+    NSDictionary *payload = [defaultParameters asAPIPayload];
+    return [self.manager POST:[self.router changePasswordPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
+        A0LogDebug(@"Changed password for user %@. Response %@", username, responseObject);
+        if (success) {
+            success();
+        }
+    } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
 @end
