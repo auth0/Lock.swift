@@ -30,7 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *deviceName;
 
-- (instancetype)initWithDomainURL:(NSURL *)domainURL authorization:(NSString *)authorization client:(A0UserAPIClient *)client;
+- (instancetype)initWithDomainURL:(NSURL *)domainURL
+                         clientId:(NSString *)clientId
+                    authorization:(NSString *)authorization
+                           client:(A0UserAPIClient *)client;
 
 - (void)uploadKey:(NSData *)key forUserWithIdentifier:(NSString *)identifier callback:(void(^)(NSError *error))callback;
 

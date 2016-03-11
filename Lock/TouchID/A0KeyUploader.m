@@ -25,68 +25,105 @@
 #import <AFNetworking/AFNetworking.h>
 
 @interface A0KeyUploader ()
-@property (strong, nonatomic) NSString *authorization;
+@property (copy, nonatomic) NSString *authorization;
 @property (strong, nonatomic) NSURL *domainURL;
 @property (copy, nonatomic) NSString *token;
+@property (copy, nonatomic) NSString *clientId;
 @property (strong, nonatomic) A0UserAPIClient *client;
 @end
 
 @implementation A0KeyUploader
 
-- (instancetype)initWithDomainURL:(NSURL *)domainURL authorization:(NSString *)authorization client:(A0UserAPIClient *)client {
+- (instancetype)initWithDomainURL:(NSURL *)domainURL clientId:(NSString *)clientId authorization:(NSString *)authorization client:(A0UserAPIClient *)client {
     self = [super init];
     if (self) {
         _authorization = [NSString stringWithFormat:@"Basic %@", authorization];
         _domainURL = domainURL;
         _client = client;
+        _clientId = clientId;
     }
     return self;
 }
 
 - (void)uploadKey:(NSData *)key forUserWithIdentifier:(NSString *)identifier callback:(nonnull void (^)(NSError * _Nullable))callback {
     NSString *path = @"/api/v2/device-credentials";
-    NSURL *url = [NSURL URLWithString:path relativeToURL:self.domainURL];
+    NSURL *domainURL = self.domainURL;
+    NSURL *url = [NSURL URLWithString:path relativeToURL:domainURL];
     NSString *name = [self deviceName];
-    [self.client listPublicKeyForUser:identifier deviceName:name callback:^(NSError * _Nullable error, NSString * _Nullable keyIdentifier) {
-        if (error) {
-            callback([self errorFromCause:error]);
-            return;
-        }
-        if (!keyIdentifier) {
-            [self.client registerPublicKey:key device:[self deviceName] user:identifier success:^{
-                callback(nil);
-            } failure:^(NSError * _Nonnull error) {
-                callback(error);
-            }];
-            //                              [self performRequestWithMethod:@"POST" url:url
-            //                                                     payload:@{
-            //                                                               @"public_key": [[NSString alloc] initWithData:key encoding:NSUTF8StringEncoding],
-            //                                                               @"device": [self deviceName],
-            //                                                               }
-            //                                                    callback:callback];
-            return;
-        }
-        [self performRequestWithMethod:@"DELETE"
-                                   url:[NSURL URLWithString:[keyIdentifier stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]] relativeToURL:url]
-                               payload:nil
-                              callback:^(NSError * _Nullable error) {
-                                  [self.client registerPublicKey:key device:[self deviceName] user:identifier success:^{
-                                      callback(nil);
-                                  } failure:^(NSError * _Nonnull error) {
-                                      callback(error);
-                                  }];
-                                  //                              [self performRequestWithMethod:@"POST" url:url
-                                  //                                                     payload:@{
-                                  //                                                               @"public_key": [[NSString alloc] initWithData:key encoding:NSUTF8StringEncoding],
-                                  //                                                               @"device": [self deviceName],
-                                  //                                                               }
-                                  //                                                    callback:callback];
-                              }];
-    }];
+    NSString *deviceIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    [self performRequestWithMethod:@"GET"
+                               url:url
+                           payload:@{
+                                     @"client_id": self.clientId,
+                                     @"type": @"public_key",
+                                     @"user_id": identifier,
+                                     }
+                          callback:^(NSError * _Nullable error, id payload) {
+                              if (error) {
+                                  callback([self errorFromCause:error]);
+                                  return;
+                              }
+                              NSArray *devices = payload;
+                              NSString *keyIdentifier = nil;
+                              for (NSDictionary *device in devices) {
+                                  if ([device[@"device_name"] isEqualToString:name]) {
+                                      keyIdentifier = device[@"id"];
+                                      break;
+                                  }
+                                  if ([device[@"device_id"] isEqualToString:deviceIdentifier]) {
+                                      keyIdentifier = device[@"id"];
+                                      break;
+                                  }
+                              }
+                              if (!keyIdentifier) {
+//                                  [self.client registerPublicKey:key device:[self deviceName] user:identifier success:^{
+//                                      callback(nil);
+//                                  } failure:^(NSError * _Nonnull error) {
+//                                      callback(error);
+//                                  }];
+                                  [self performRequestWithMethod:@"POST"
+                                                             url:url
+                                                         payload:@{
+                                                                   @"value": [key base64EncodedStringWithOptions:0],
+                                                                   @"device_name": name,
+                                                                   @"device_id": deviceIdentifier,
+                                                                   @"type": @"public_key",
+                                                                   @"client_id": self.clientId,
+                                                                   }
+                                                        callback:^(NSError * _Nullable error, id none) {
+                                                            callback(error);
+                                                        }];
+                                  return;
+                              }
+                              NSString *deletePath = [[path stringByAppendingPathComponent:keyIdentifier] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
+                              NSURL *deleteURL = [NSURL URLWithString:deletePath relativeToURL:domainURL];
+                              [self performRequestWithMethod:@"DELETE"
+                                                         url:deleteURL
+                                                     payload:nil
+                                                    callback:^(NSError * _Nullable error, id none) {
+//                                                        [self.client registerPublicKey:key device:[self deviceName] user:identifier success:^{
+//                                                            callback(nil);
+//                                                        } failure:^(NSError * _Nonnull error) {
+//                                                            callback(error);
+//                                                        }];
+                                                        [self performRequestWithMethod:@"POST"
+                                                                                   url:url
+                                                                               payload:@{
+                                                                                         @"value": [key base64EncodedStringWithOptions:0],
+                                                                                         @"device_name": name,
+                                                                                         @"device_id": deviceIdentifier,
+                                                                                         @"type": @"public_key",
+                                                                                         @"client_id": self.clientId,
+                                                                                         }
+                                                                              callback:^(NSError * _Nullable error, id none) {
+                                                                                  callback(error);
+                                                                              }];
+                                                    }];
+                          }];
 }
 
 
-- (void)performRequestWithMethod:(NSString *)method url:(NSURL *)url payload:(NSDictionary *)payload callback:(nonnull void (^)(NSError * _Nullable))callback {
+- (void)performRequestWithMethod:(NSString *)method url:(NSURL *)url payload:(NSDictionary *)payload callback:(nonnull void (^)(NSError * _Nullable, id _Nullable))callback {
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     NSError *error;
@@ -96,15 +133,15 @@
                                               error:&error];
 
     if (error) {
-        callback([self errorFromCause:error]);
+        callback([self errorFromCause:error], nil);
         return;
     }
 
     NSURLSessionTask *task = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         if (error) {
-            callback([self errorFromCause:error]);
+            callback([self errorFromCause:error], nil);
         } else {
-            callback(nil);
+            callback(nil, responseObject);
         }
     }];
     [task resume];
