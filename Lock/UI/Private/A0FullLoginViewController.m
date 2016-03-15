@@ -60,7 +60,7 @@
             didAuthenticateUserWithProfile:(A0UserProfile *)profile
                                      token:(A0Token *)token {
     if (self.onLoginBlock) {
-        self.onLoginBlock(profile, token);
+        self.onLoginBlock(self, profile, token);
     }
 }
 

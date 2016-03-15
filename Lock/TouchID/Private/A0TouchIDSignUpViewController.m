@@ -34,6 +34,10 @@
 #import "NSObject+A0APIClientProvider.h"
 #import "NSError+A0APIError.h"
 #import "Constants.h"
+#import "A0AuthParameters.h"
+#import "A0KeyUploader.h"
+#import "A0Token.h"
+#import "A0UserProfile.h"
 
 @interface A0TouchIDSignUpViewController ()
 
@@ -86,8 +90,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     loginOnSuccess:YES
                         parameters:self.parameters
                            success:^(A0UserProfile *profile, A0Token *tokenInfo) {
+                               NSString *connection = self.parameters[@"connection"];
+                               NSString *authorization = [A0KeyUploader authorizationWithUsername:username password:password connectionName:connection];
+                               A0KeyUploader *uploader = [[A0KeyUploader alloc] initWithDomainURL:[self.lock domainURL]
+                                                                                         clientId:[self.lock clientId]
+                                                                                    authorization:authorization];
                                if (self.onRegisterBlock) {
-                                   self.onRegisterBlock(profile, tokenInfo);
+                                   self.onRegisterBlock(uploader, profile.userId);
                                    [self.signUpButton setInProgress:NO];
                                }
                            } failure:^(NSError *error){

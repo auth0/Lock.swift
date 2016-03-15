@@ -51,38 +51,6 @@ typedef void(^A0UserAPIClientError)(NSError* __nonnull error);
 - (void)fetchUserProfileSuccess:(A0UserAPIClientUserProfileSuccess)success
                         failure:(A0UserAPIClientError)failure;
 
-///----------------------------------------
-/// @name Public Key
-///----------------------------------------
-
-/**
- *  Registers a RSA Public Key for the user. The key will be used to validate signed JWTs when authenticating.
- *
- *  @param pubKey           public key data to upload
- *  @param device           name of the device
- *  @param userId           id of the user
- *  @param success block    called on successful request
- *  @param failure block    called on failure with the reason as a parameter
- */
-- (void)registerPublicKey:(NSData *)pubKey
-                   device:(NSString *)deviceName
-                     user:(NSString *)userId
-                  success:(void(^)())success
-                  failure:(A0UserAPIClientError)failure;
-
-/**
- *  Removes a RSA public key associated to the user and a specific device.
- *
- *  @param deviceName name of the device
- *  @param userId     id of the user
- *  @param success    called on successful request
- *  @param failure    called on failure with the reason as a parameter
- */
-- (void)removePublicKeyOfDevice:(NSString *)deviceName
-                           user:(NSString *)userId
-                        success:(void(^)())success
-                        failure:(A0UserAPIClientError)failure;
-
 @end
 
 @interface A0UserAPIClient (Deprecated)
@@ -129,6 +97,34 @@ typedef void(^A0UserAPIClientError)(NSError* __nonnull error);
  *  @return a new instance
  */
 + (A0UserAPIClient *)clientWithIdToken:(NSString *)idToken DEPRECATED_ATTRIBUTE;
+
+/**
+ *  Registers a RSA Public Key for the user. The key will be used to validate signed JWTs when authenticating.
+ *
+ *  @param pubKey           public key data to upload
+ *  @param device           name of the device
+ *  @param userId           id of the user
+ *  @param success block    called on successful request
+ *  @param failure block    called on failure with the reason as a parameter
+ */
+- (void)registerPublicKey:(NSData *)pubKey
+                   device:(NSString *)deviceName
+                     user:(NSString *)userId
+                  success:(void(^)())success
+                  failure:(A0UserAPIClientError)failure DEPRECATED_ATTRIBUTE;
+
+/**
+ *  Removes a RSA public key associated to the user and a specific device.
+ *
+ *  @param deviceName name of the device
+ *  @param userId     id of the user
+ *  @param success    called on successful request
+ *  @param failure    called on failure with the reason as a parameter
+ */
+- (void)removePublicKeyOfDevice:(NSString *)deviceName
+                           user:(NSString *)userId
+                        success:(void(^)())success
+                        failure:(A0UserAPIClientError)failure DEPRECATED_ATTRIBUTE;
 
 @end
 

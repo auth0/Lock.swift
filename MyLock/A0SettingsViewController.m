@@ -24,11 +24,7 @@
 
 #import <SimpleKeychain/A0SimpleKeychain.h>
 #import <Lock/Lock.h>
-
-#if __has_include(<TouchIDAuth/A0TouchIDAuthentication.h>)
-#define TOUCH_ID 1
 #import <TouchIDAuth/A0TouchIDAuthentication.h>
-#endif
 
 @interface A0SettingsViewController ()
 
@@ -56,9 +52,7 @@
     [theme registerColor:[UIColor clearColor] forKey:A0ThemeIconBackgroundColor];
     [theme registerImageWithName:@"mindjet-icon" bundle:[NSBundle mainBundle] forKey:A0ThemeIconImageName];
     [theme registerImageWithName:@"mindjet-bg" bundle:[NSBundle mainBundle] forKey:A0ThemeScreenBackgroundImageName];
-#ifdef TOUCHID
     [theme registerColor:[UIColor colorWithWhite:1.000 alpha:0.300] forKey:A0ThemeTouchIDLockContainerBackgroundColor];
-#endif
     self.mindjetTheme = theme;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSInteger index = [defaults integerForKey:@"selected-theme"];
@@ -73,9 +67,7 @@
 }
 
 - (IBAction)clearTouchID:(id)sender {
-#ifdef TOUCHID
     [[[A0TouchIDAuthentication alloc] init] reset];
-#endif
 }
 
 - (IBAction)clearSMS:(id)sender {

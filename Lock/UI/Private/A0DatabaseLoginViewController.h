@@ -36,7 +36,7 @@
 @property (copy, nonatomic) NSString *defaultUsername;
 @property (strong, nonatomic) A0LockConfiguration *configuration;
 
-@property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
+@property (copy, nonatomic) void(^onLoginBlock)(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onShowEnterpriseLogin)(A0Connection *connection, NSString *email);
 
 @property (assign, nonatomic) BOOL forceUsername;
@@ -44,4 +44,8 @@
 @property (strong, nonatomic) id<A0ConnectionDomainMatcher> domainMatcher;
 
 @property (strong, nonatomic) A0Lock *lock;
+
+@property (readonly, nonatomic) NSString *username;
+@property (readonly, nonatomic) NSString *password;
+
 @end

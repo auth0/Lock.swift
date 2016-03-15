@@ -33,6 +33,10 @@
 #import "A0NavigationView.h"
 #import "A0TitleView.h"
 #import "Constants.h"
+#import "A0KeyUploader.h"
+#import "A0Lock.h"
+#import "A0Token.h"
+#import "A0UserProfile.h"
 
 @interface A0TouchIDRegisterViewController ()
 @end
@@ -76,7 +80,14 @@
     __weak A0TouchIDRegisterViewController *weakSelf = self;
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.parameters = self.parameters;
-    controller.onLoginBlock = self.onRegisterBlock;
+    controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
+        NSString *connection = weakSelf.parameters[@"connection"];
+        NSString *authorization = [A0KeyUploader authorizationWithUsername:controller.username password:controller.password connectionName:connection];
+        A0KeyUploader *uploader = [[A0KeyUploader alloc] initWithDomainURL:[weakSelf.lock domainURL]
+                                                                  clientId:[weakSelf.lock clientId]
+                                                             authorization:authorization];
+        weakSelf.onRegisterBlock(uploader, profile.userId);
+    };
     controller.lock = self.lock;
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
