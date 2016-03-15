@@ -160,13 +160,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         controller.onRegisterBlock = ^(A0KeyUploader *uploader, NSString *identifier) {
             [weakSelf.navigationController popViewControllerAnimated:YES];
             A0LogDebug(@"User %@ registered. Uploading public key...", identifier);
-            [keychain setString:identifier forKey:@"auth0-userid"];
             [uploader uploadKey:pubKey forUser:identifier callback:^(NSError * _Nullable error, NSString * _Nullable keyIdentifier) {
                 if (error) {
+                    [weakSelf.authentication reset];
                     errorBlock(error);
                     return;
                 }
-                [keychain setString:identifier forKey:@"auth0-key-id"];
+                [keychain setString:identifier forKey:@"auth0-userid"];
+                [keychain setString:keyIdentifier forKey:@"auth0-key-id"];
                 completionBlock();
             }];
         };
