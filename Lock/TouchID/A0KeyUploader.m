@@ -51,6 +51,48 @@
     NSURL *url = [NSURL URLWithString:path relativeToURL:domainURL];
     NSString *name = [self deviceName];
     NSString *deviceIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+
+    void(^registerKey)() = ^{
+        [self performRequestWithMethod:@"POST"
+                                   url:url
+                               payload:@{
+                                         @"value": [key base64EncodedStringWithOptions:0],
+                                         @"device_name": name,
+                                         @"device_id": deviceIdentifier,
+                                         @"type": @"public_key",
+                                         @"client_id": self.clientId,
+                                         }
+                              callback:^(NSError * _Nullable error, id none) {
+                                  callback(error);
+                              }];
+    };
+
+    NSString *(^filterKey)(NSArray *) = ^(NSArray *keys) {
+        NSString *keyIdentifier = nil;
+        for (NSDictionary *key in keys) {
+            if ([key[@"device_name"] isEqualToString:name]) {
+                keyIdentifier = key[@"id"];
+                break;
+            }
+            if ([key[@"device_id"] isEqualToString:deviceIdentifier]) {
+                keyIdentifier = key[@"id"];
+                break;
+            }
+        }
+        return keyIdentifier;
+    };
+
+    void(^removeKey)(NSString *, void(^)(NSError *)) = ^(NSString *keyIdentifier, void(^callback)(NSError *)) {
+        NSString *deletePath = [[path stringByAppendingPathComponent:keyIdentifier] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
+        NSURL *deleteURL = [NSURL URLWithString:deletePath relativeToURL:domainURL];
+        [self performRequestWithMethod:@"DELETE"
+                                   url:deleteURL
+                               payload:nil
+                              callback:^(NSError * _Nullable error, id none) {
+                                  callback(error);
+                              }];
+    };
+
     [self performRequestWithMethod:@"GET"
                                url:url
                            payload:@{
@@ -63,62 +105,15 @@
                                   callback([self errorFromCause:error]);
                                   return;
                               }
-                              NSArray *devices = payload;
-                              NSString *keyIdentifier = nil;
-                              for (NSDictionary *device in devices) {
-                                  if ([device[@"device_name"] isEqualToString:name]) {
-                                      keyIdentifier = device[@"id"];
-                                      break;
-                                  }
-                                  if ([device[@"device_id"] isEqualToString:deviceIdentifier]) {
-                                      keyIdentifier = device[@"id"];
-                                      break;
-                                  }
-                              }
+                              NSString *keyIdentifier = filterKey(payload);
                               if (!keyIdentifier) {
-//                                  [self.client registerPublicKey:key device:[self deviceName] user:identifier success:^{
-//                                      callback(nil);
-//                                  } failure:^(NSError * _Nonnull error) {
-//                                      callback(error);
-//                                  }];
-                                  [self performRequestWithMethod:@"POST"
-                                                             url:url
-                                                         payload:@{
-                                                                   @"value": [key base64EncodedStringWithOptions:0],
-                                                                   @"device_name": name,
-                                                                   @"device_id": deviceIdentifier,
-                                                                   @"type": @"public_key",
-                                                                   @"client_id": self.clientId,
-                                                                   }
-                                                        callback:^(NSError * _Nullable error, id none) {
-                                                            callback(error);
-                                                        }];
+                                  registerKey();
                                   return;
                               }
-                              NSString *deletePath = [[path stringByAppendingPathComponent:keyIdentifier] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
-                              NSURL *deleteURL = [NSURL URLWithString:deletePath relativeToURL:domainURL];
-                              [self performRequestWithMethod:@"DELETE"
-                                                         url:deleteURL
-                                                     payload:nil
-                                                    callback:^(NSError * _Nullable error, id none) {
-//                                                        [self.client registerPublicKey:key device:[self deviceName] user:identifier success:^{
-//                                                            callback(nil);
-//                                                        } failure:^(NSError * _Nonnull error) {
-//                                                            callback(error);
-//                                                        }];
-                                                        [self performRequestWithMethod:@"POST"
-                                                                                   url:url
-                                                                               payload:@{
-                                                                                         @"value": [key base64EncodedStringWithOptions:0],
-                                                                                         @"device_name": name,
-                                                                                         @"device_id": deviceIdentifier,
-                                                                                         @"type": @"public_key",
-                                                                                         @"client_id": self.clientId,
-                                                                                         }
-                                                                              callback:^(NSError * _Nullable error, id none) {
-                                                                                  callback(error);
-                                                                              }];
-                                                    }];
+
+                              removeKey(keyIdentifier, ^(NSError * _Nullable error) {
+                                  registerKey();
+                              });
                           }];
 }
 
