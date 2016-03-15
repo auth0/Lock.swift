@@ -22,20 +22,17 @@
 
 #import <Foundation/Foundation.h>
 
-@class A0UserAPIClient;
-
 NS_ASSUME_NONNULL_BEGIN
+
+typedef void(^A0KeyUploaderCallback)(NSError * _Nullable error, NSString * _Nullable keyIdentifier);
 
 @interface A0KeyUploader : NSObject
 
-@property (copy, nonatomic) NSString *deviceName;
-
 - (instancetype)initWithDomainURL:(NSURL *)domainURL
                          clientId:(NSString *)clientId
-                    authorization:(NSString *)authorization
-                           client:(A0UserAPIClient *)client;
+                    authorization:(NSString *)authorization;
 
-- (void)uploadKey:(NSData *)key forUserWithIdentifier:(NSString *)identifier callback:(void(^)(NSError *error))callback;
+- (void)uploadKey:(NSData *)key forUser:(NSString *)user callback:(A0KeyUploaderCallback)callback;
 
 + (NSString *)authorizationWithUsername:(NSString *)username
                                password:(NSString *)password

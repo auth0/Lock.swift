@@ -29,23 +29,22 @@
 @property (strong, nonatomic) NSURL *domainURL;
 @property (copy, nonatomic) NSString *token;
 @property (copy, nonatomic) NSString *clientId;
-@property (strong, nonatomic) A0UserAPIClient *client;
 @end
 
 @implementation A0KeyUploader
 
-- (instancetype)initWithDomainURL:(NSURL *)domainURL clientId:(NSString *)clientId authorization:(NSString *)authorization client:(A0UserAPIClient *)client {
+- (instancetype)initWithDomainURL:(NSURL *)domainURL clientId:(NSString *)clientId authorization:(NSString *)authorization {
     self = [super init];
     if (self) {
         _authorization = [NSString stringWithFormat:@"Basic %@", authorization];
         _domainURL = domainURL;
-        _client = client;
         _clientId = clientId;
     }
     return self;
 }
 
-- (void)uploadKey:(NSData *)key forUserWithIdentifier:(NSString *)identifier callback:(nonnull void (^)(NSError * _Nullable))callback {
+
+- (void)uploadKey:(NSData *)key forUser:(NSString *)user callback:(A0KeyUploaderCallback)callback {
     NSString *path = @"/api/v2/device-credentials";
     NSURL *domainURL = self.domainURL;
     NSURL *url = [NSURL URLWithString:path relativeToURL:domainURL];
@@ -62,8 +61,9 @@
                                          @"type": @"public_key",
                                          @"client_id": self.clientId,
                                          }
-                              callback:^(NSError * _Nullable error, id none) {
-                                  callback(error);
+                              callback:^(NSError * _Nullable error, id payload) {
+                                  NSDictionary *key = payload;
+                                  callback(error, key[@"id"]);
                               }];
     };
 
@@ -98,11 +98,11 @@
                            payload:@{
                                      @"client_id": self.clientId,
                                      @"type": @"public_key",
-                                     @"user_id": identifier,
+                                     @"user_id": user,
                                      }
                           callback:^(NSError * _Nullable error, id payload) {
                               if (error) {
-                                  callback([self errorFromCause:error]);
+                                  callback([self errorFromCause:error], nil);
                                   return;
                               }
                               NSString *keyIdentifier = filterKey(payload);

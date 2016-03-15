@@ -94,8 +94,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                NSString *authorization = [A0KeyUploader authorizationWithUsername:username password:password connectionName:connection];
                                A0KeyUploader *uploader = [[A0KeyUploader alloc] initWithDomainURL:[self.lock domainURL]
                                                                                          clientId:[self.lock clientId]
-                                                                                    authorization:authorization
-                                                                                           client:[self.lock newUserAPIClientWithIdToken:tokenInfo.idToken]];
+                                                                                    authorization:authorization];
                                if (self.onRegisterBlock) {
                                    self.onRegisterBlock(uploader, profile.userId);
                                    [self.signUpButton setInProgress:NO];

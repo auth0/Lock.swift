@@ -85,8 +85,7 @@
         NSString *authorization = [A0KeyUploader authorizationWithUsername:controller.username password:controller.password connectionName:connection];
         A0KeyUploader *uploader = [[A0KeyUploader alloc] initWithDomainURL:[weakSelf.lock domainURL]
                                                                   clientId:[weakSelf.lock clientId]
-                                                             authorization:authorization
-                                                                    client:[weakSelf.lock newUserAPIClientWithIdToken:token.idToken]];
+                                                             authorization:authorization];
         weakSelf.onRegisterBlock(uploader, profile.userId);
     };
     controller.lock = self.lock;
