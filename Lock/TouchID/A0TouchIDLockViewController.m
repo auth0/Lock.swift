@@ -57,6 +57,7 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
 @property (strong, nonatomic) A0TouchIDAuthentication *authentication;
 @property (strong, nonatomic) A0KeyUploader *uploader;
 @property (strong, nonatomic) A0Lock *lock;
+@property (readonly, nonatomic) A0SimpleKeychain *keychain;
 
 - (IBAction)checkTouchID:(id)sender;
 
@@ -86,6 +87,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             self.modalPresentationStyle = UIModalPresentationFormSheet;
         }
         _authenticationParameters = [A0AuthParameters newDefaultParams];
+        _cleanOnError = NO;
+        _cleanOnStart = NO;
     }
     return self;
 }
@@ -119,9 +122,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     self.authenticationParameters[A0ParameterConnection] = [self databaseConnectionName];
 
+    A0SimpleKeychain *keychain = self.keychain;
     __weak A0TouchIDLockViewController *weakSelf = self;
+
     self.authentication = [[A0TouchIDAuthentication alloc] init];
     self.authentication.onError = ^(NSError *error) {
+        if (weakSelf.cleanOnError) {
+            [weakSelf cleanKeys];
+        }
         A0LogError(@"Failed to perform TouchID authentication with error %@", error);
         NSString *message;
         switch (error.code) {
@@ -142,13 +150,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         weakSelf.loadingView.hidden = YES;
     };
 
-    NSString *userId = [[A0SimpleKeychain keychainWithService:@"TouchID"] stringForKey:@"auth0-userid"];
+    NSString *userId = [keychain stringForKey:@"auth0-userid"];
     if (!userId) {
-        [self.authentication reset];
         A0LogDebug(@"Cleaning up key pairs of unknown user");
+        [self.authentication reset];
     }
 
-    A0SimpleKeychain *keychain = [A0SimpleKeychain keychainWithService:@"TouchID"];
     self.authentication.registerPublicKey = ^(NSData *pubKey, A0RegisterCompletionBlock completionBlock, A0ErrorBlock errorBlock) {
         A0TouchIDRegisterViewController *controller = [[A0TouchIDRegisterViewController alloc] init];
         controller.onCancelBlock = ^ {
@@ -208,6 +215,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)checkTouchID:(id)sender {
     self.touchIDView.hidden = YES;
     self.loadingView.hidden = NO;
+    if (self.cleanOnStart) {
+        [self cleanKeys];
+    }
     [self.authentication start];
 }
 
@@ -223,7 +233,18 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return self.defaultDatabaseConnectionName ? self.defaultDatabaseConnectionName : @"Username-Password-Authentication";
 }
 
+- (A0SimpleKeychain *)keychain {
+    return [A0SimpleKeychain keychainWithService:@"TouchID"];
+}
+
 #pragma mark - Utility methods
+
+- (void)cleanKeys {
+    A0LogWarn(@"Cleaning stored public keys");
+    [self.authentication reset];
+    [self.keychain deleteEntryForKey:@"auth0-userid"];
+    [self.keychain deleteEntryForKey:@"auth0-key-id"];
+}
 
 - (NSString *)deviceName {
     NSString *deviceName = [[UIDevice currentDevice] name];

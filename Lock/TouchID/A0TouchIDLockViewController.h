@@ -58,6 +58,16 @@ FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockContainerBackgroundColor;
 @property (assign, nonatomic) BOOL closable;
 
 /**
+ * When controller is presented, it will remove any stored key (if any) and the user will be prompted to enroll again. By default it's NO
+ */
+@property (assign, nonatomic) BOOL cleanOnStart;
+
+/**
+ * If login with TouchID fails, it will clean up stored keys and the user will be prompted to enroll again on start. By default it's NO
+ */
+@property (assign, nonatomic) BOOL cleanOnError;
+
+/**
  Block that is called on successful authentication. It has two parameters profile and token, which will be non-nil unless login is disabled after signup.
  */
 @property (copy, nonatomic) void(^onAuthenticationBlock)(A0UserProfile *profile, A0Token *token);
