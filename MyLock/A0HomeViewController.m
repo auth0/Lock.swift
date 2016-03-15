@@ -98,7 +98,7 @@ static BOOL isRunningTests(void) {
 
     A0TouchIDLockViewController *controller = [lock newTouchIDViewController];
     controller.closable = YES;
-    controller.cleanOnStart = YES;
+    controller.cleanOnError = YES;
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
         NSLog(@"SUCCESS %@", profile);
         [self.keychain setString:token.idToken forKey:@"id_token"];

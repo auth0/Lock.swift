@@ -35,6 +35,8 @@ NSString * const A0KeyUploaderErrorDomain = @"com.auth0.touchid.uploader";
 
 @implementation A0KeyUploader
 
+AUTH0_DYNAMIC_LOGGER_METHODS
+
 - (instancetype)initWithDomainURL:(NSURL *)domainURL clientId:(NSString *)clientId authorization:(NSString *)authorization {
     self = [super init];
     if (self) {
@@ -52,12 +54,14 @@ NSString * const A0KeyUploaderErrorDomain = @"com.auth0.touchid.uploader";
     NSURL *url = [NSURL URLWithString:path relativeToURL:domainURL];
     NSString *name = [self deviceName];
     NSString *deviceIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSString *keyBase64 = [key base64EncodedStringWithOptions:0];
 
     void(^registerKey)() = ^{
+        A0LogDebug(@"Uploading key %@ for user %@", keyBase64, user);
         [self performRequestWithMethod:@"POST"
                                    url:url
                                payload:@{
-                                         @"value": [key base64EncodedStringWithOptions:0],
+                                         @"value": keyBase64,
                                          @"device_name": name,
                                          @"device_id": deviceIdentifier,
                                          @"type": @"public_key",
@@ -87,6 +91,7 @@ NSString * const A0KeyUploaderErrorDomain = @"com.auth0.touchid.uploader";
     void(^removeKey)(NSString *, void(^)(NSError *)) = ^(NSString *keyIdentifier, void(^callback)(NSError *)) {
         NSString *deletePath = [[path stringByAppendingPathComponent:keyIdentifier] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
         NSURL *deleteURL = [NSURL URLWithString:deletePath relativeToURL:domainURL];
+        A0LogDebug(@"Removing old key with identifier %@", keyIdentifier);
         [self performRequestWithMethod:@"DELETE"
                                    url:deleteURL
                                payload:nil
