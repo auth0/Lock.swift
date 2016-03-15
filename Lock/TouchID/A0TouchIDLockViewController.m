@@ -120,6 +120,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.titleView.title = A0LocalizedString(@"Login with TouchID");
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
 
+    if (!self.authenticationParameters) {
+        self.authenticationParameters = [A0AuthParameters newDefaultParams];
+    }
     self.authenticationParameters[A0ParameterConnection] = [self databaseConnectionName];
 
     A0SimpleKeychain *keychain = self.keychain;
