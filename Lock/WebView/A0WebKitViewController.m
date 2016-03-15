@@ -183,8 +183,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (void)dismissWithCompletion:(void(^)())completion {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:completion];
-    [self cleanCallbacks];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        completion();
+        [self cleanCallbacks];
+    }];
 }
 
 - (void)handleError:(NSError *)error decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
