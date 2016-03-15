@@ -21,8 +21,10 @@
 // THE SOFTWARE.
 
 #import "A0KeyUploader.h"
-#import "A0UserAPIClient.h"
+#import "Constants.h"
 #import <AFNetworking/AFNetworking.h>
+
+NSString * const A0KeyUploaderErrorDomain = @"com.auth0.touchid.uploader";
 
 @interface A0KeyUploader ()
 @property (copy, nonatomic) NSString *authorization;
@@ -155,11 +157,13 @@
     if (!cause) {
         return nil;
     }
-    return [NSError errorWithDomain:@"com.auth0.touchid.uploader"
-                               code:0
+
+    NSHTTPURLResponse *response = cause.userInfo[@"com.alamofire.serialization.response.error.response"];
+    return [NSError errorWithDomain:A0KeyUploaderErrorDomain
+                               code:[response statusCode] == 401 ? A0KeyUploaderErrorCodeUnauthorized : A0KeyUploaderErrorCodeFailed
                            userInfo:@{
-                                      @"com.auth0.cause": cause,
-                                      NSLocalizedDescriptionKey: @"Failed to upload public key"
+                                      @"com.auth0.touchid.uploader.cause": cause,
+                                      NSLocalizedDescriptionKey: A0LocalizedString(@"Failed to register device for TouchID. Please try again later.")
                                       }];
 }
 

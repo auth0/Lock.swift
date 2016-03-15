@@ -24,6 +24,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+FOUNDATION_EXPORT NSString * const A0KeyUploaderErrorDomain;
+
+typedef NS_ENUM(NSUInteger, A0KeyUploaderErrorCode) {
+    A0KeyUploaderErrorCodeFailed = 0,
+    A0KeyUploaderErrorCodeUnauthorized
+};
+
 /**
  *  Callback called when upload succeds or fails
  *
