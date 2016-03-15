@@ -24,14 +24,40 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Callback called when upload succeds or fails
+ *
+ *  @param error         that made the upload fail
+ *  @param keyIdentifier returned by Auth0 API after successful upload
+ */
 typedef void(^A0KeyUploaderCallback)(NSError * _Nullable error, NSString * _Nullable keyIdentifier);
 
+/**
+ * Uploader for Public Key using Auth0 Management API `device-credentials`.
+ *
+ */
 @interface A0KeyUploader : NSObject
 
+/**
+ *  Initialize a public key uploader to be used by TouchID authentication
+ *
+ *  @param domainURL     of your Auth0 account
+ *  @param clientId      of your Auth0 account
+ *  @param authorization value for 'Authorization' header
+ *
+ *  @return initialized instance
+ */
 - (instancetype)initWithDomainURL:(NSURL *)domainURL
                          clientId:(NSString *)clientId
                     authorization:(NSString *)authorization;
 
+/**
+ *  Uploads a public key for a given user
+ *
+ *  @param key      data to upload to Auth0
+ *  @param user     identifier of the user owner of the key
+ *  @param callback the will have either an error of the key identifier returned by Auth0
+ */
 - (void)uploadKey:(NSData *)key forUser:(NSString *)user callback:(A0KeyUploaderCallback)callback;
 
 + (NSString *)authorizationWithUsername:(NSString *)username
