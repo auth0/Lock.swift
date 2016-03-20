@@ -43,6 +43,7 @@
 #define kUsernameParamName @"username"
 #define kPasswordParamName @"password"
 #define kGrantTypeParamName @"grant_type"
+#define kApiTypeParamName @"api_type"
 #define kTenantParamName @"tenant"
 #define kConnectionParamName @"connection"
 #define kIdTokenParamName @"id_token"
@@ -382,7 +383,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                                kClientIdParamName: self.clientId,
                                                                                kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
                                                                                kIdTokenParamName: idToken,
-                                                                               kGrantTypeParamName: @"app",
+                                                                               kApiTypeParamName: @"app",
                                                                                }];
     [defaultParamters addValuesFromParameters:parameters];
     return [self fetchDelegationTokenWithParameters:defaultParamters success:^(NSDictionary *tokenInfo) {
@@ -400,7 +401,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                                kClientIdParamName: self.clientId,
                                                                                kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
                                                                                kRefreshTokenParamName: refreshToken,
-                                                                               kGrantTypeParamName: @"app",
+                                                                               kApiTypeParamName: @"app",
                                                                                }];
     [defaultParamters addValuesFromParameters:parameters];
     return [self fetchDelegationTokenWithParameters:defaultParamters success:^(NSDictionary *tokenInfo) {
