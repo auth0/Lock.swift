@@ -54,6 +54,19 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
+- (instancetype)init {
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    layout.itemSize = CGSizeMake(55, 55);
+    layout.minimumLineSpacing = 5;
+    layout.minimumInteritemSpacing = 5;
+    self = [super initWithFrame:CGRectZero collectionViewLayout:layout];
+    if (self) {
+        [self awakeFromNib];
+    }
+    return self;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.layoutDelegate = [[A0ServiceCollectionViewLayoutDelegate alloc] initWithServiceCount:self.socialServices.count];
