@@ -28,7 +28,7 @@
 
 @interface A0DatabaseLoginViewController : UIViewController<A0AuthenticationUIComponent>
 
-@property (weak, nonatomic) IBOutlet A0LoginView *loginView;
+@property (weak, nonatomic) A0LoginView *loginView;
 
 @property (copy, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0Connection *defaultConnection;

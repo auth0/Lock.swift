@@ -9,9 +9,9 @@
             <connections>
                 <outlet property="activityIndicator" destination="s6B-ti-XIO" id="zUc-VA-vIx"/>
                 <outlet property="loadingView" destination="fCB-wy-jDg" id="7Ei-Ik-7rB"/>
-                <outlet property="loginView" destination="r9V-aE-Dje" id="Xv0-qv-0zI"/>
                 <outlet property="orLabel" destination="sFo-mK-7If" id="cc5-nE-pgk"/>
                 <outlet property="serviceCollectionView" destination="ynd-lY-AHE" id="jfh-c5-r2f"/>
+                <outlet property="socialView" destination="pdV-35-L9G" id="cuF-gV-cPp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -32,6 +32,7 @@
                     <constraints>
                         <constraint firstAttribute="centerX" secondItem="s6B-ti-XIO" secondAttribute="centerX" id="WE2-k1-xYy"/>
                         <constraint firstAttribute="centerY" secondItem="s6B-ti-XIO" secondAttribute="centerY" id="Xlb-hv-MDe"/>
+                        <constraint firstAttribute="height" constant="273" id="jrv-hC-tpJ"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="pdV-35-L9G">
@@ -70,21 +71,13 @@
                         <constraint firstItem="ynd-lY-AHE" firstAttribute="top" secondItem="pdV-35-L9G" secondAttribute="top" id="phR-Uk-Nc8"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="r9V-aE-Dje" customClass="A0LoginView">
-                    <rect key="frame" x="0.0" y="88" width="320" height="185"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="r9V-aE-Dje" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6kC-se-nef"/>
                 <constraint firstItem="pdV-35-L9G" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="FtB-Mz-04j"/>
                 <constraint firstAttribute="trailing" secondItem="pdV-35-L9G" secondAttribute="trailing" id="JIU-2h-apr"/>
                 <constraint firstItem="pdV-35-L9G" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Rn0-sx-aDM"/>
-                <constraint firstItem="r9V-aE-Dje" firstAttribute="top" secondItem="pdV-35-L9G" secondAttribute="bottom" id="TJi-cp-cL6"/>
-                <constraint firstAttribute="bottom" secondItem="r9V-aE-Dje" secondAttribute="bottom" id="UUT-fF-MRO"/>
                 <constraint firstAttribute="trailing" secondItem="fCB-wy-jDg" secondAttribute="trailing" constant="20" id="Xpb-ip-P6I"/>
-                <constraint firstAttribute="trailing" secondItem="r9V-aE-Dje" secondAttribute="trailing" id="ZJ9-Hv-7eR"/>
                 <constraint firstItem="fCB-wy-jDg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="cjZ-Lq-qTg"/>
                 <constraint firstAttribute="bottom" secondItem="fCB-wy-jDg" secondAttribute="bottom" id="jV1-ps-z2D"/>
                 <constraint firstItem="fCB-wy-jDg" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="vmh-e2-ATJ"/>

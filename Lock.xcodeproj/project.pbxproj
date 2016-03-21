@@ -25,8 +25,6 @@
 		5F624D211C39D722009EDD83 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F624D201C39D722009EDD83 /* Masonry.framework */; };
 		5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */; };
 		5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A61C12062F008D73FC /* A0WebViewController.xib */; };
-		5FB6A5EA1CA0357F00DF5078 /* A0FailureAuthenticator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */; };
-		5FB6A5EB1CA0357F00DF5078 /* A0FailureAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */; };
 		5F6628AB1C12465F008D73FC /* CountryCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628AA1C12465F008D73FC /* CountryCodes.plist */; };
 		5F6628B51C12466C008D73FC /* cellphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628AC1C12466C008D73FC /* cellphone.png */; };
 		5F6628B61C12466C008D73FC /* cellphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628AD1C12466C008D73FC /* cellphone@2x.png */; };
@@ -37,6 +35,8 @@
 		5F6628BB1C12466C008D73FC /* touchid.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628B21C12466C008D73FC /* touchid.png */; };
 		5F6628BC1C12466C008D73FC /* touchid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628B31C12466C008D73FC /* touchid@2x.png */; };
 		5F6628BD1C12466C008D73FC /* touchid@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628B41C12466C008D73FC /* touchid@3x.png */; };
+		5FB6A5EA1CA0357F00DF5078 /* A0FailureAuthenticator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */; };
+		5FB6A5EB1CA0357F00DF5078 /* A0FailureAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */; };
 		5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD05B1BE7B23C00703DD1 /* A0APIClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD00E1BE7B22800703DD1 /* A0APIClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD05C1BE7B23C00703DD1 /* A0APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD00F1BE7B22800703DD1 /* A0APIClient.m */; };
@@ -281,7 +281,6 @@
 		5FBAD1D11BE7BA7F00703DD1 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0F11BE7B43E00703DD1 /* AFNetworking.framework */; };
 		5FBAD21A1BE7BD4C00703DD1 /* A0ActiveDirectoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD20C1BE7BD4C00703DD1 /* A0ActiveDirectoryViewController.xib */; };
 		5FBAD21B1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD20D1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib */; };
-		5FBAD21C1BE7BD4C00703DD1 /* A0DatabaseLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD20E1BE7BD4C00703DD1 /* A0DatabaseLoginViewController.xib */; };
 		5FBAD21D1BE7BD4C00703DD1 /* A0EnterpriseLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD20F1BE7BD4C00703DD1 /* A0EnterpriseLoginViewController.xib */; };
 		5FBAD21E1BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2101BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib */; };
 		5FBAD21F1BE7BD4C00703DD1 /* A0FullLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2111BE7BD4C00703DD1 /* A0FullLoginViewController.xib */; };
@@ -561,8 +560,6 @@
 		5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebKitViewController.xib; sourceTree = "<group>"; };
 		5F6628A61C12062F008D73FC /* A0WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebViewController.xib; sourceTree = "<group>"; };
 		5F6628A91C120F23008D73FC /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
-		5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0FailureAuthenticator.h; path = Private/A0FailureAuthenticator.h; sourceTree = "<group>"; };
-		5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = A0FailureAuthenticator.m; path = Private/A0FailureAuthenticator.m; sourceTree = "<group>"; };
 		5F6628AA1C12465F008D73FC /* CountryCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountryCodes.plist; sourceTree = "<group>"; };
 		5F6628AC1C12466C008D73FC /* cellphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellphone.png; sourceTree = "<group>"; };
 		5F6628AD1C12466C008D73FC /* cellphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cellphone@2x.png"; sourceTree = "<group>"; };
@@ -573,6 +570,8 @@
 		5F6628B21C12466C008D73FC /* touchid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touchid.png; sourceTree = "<group>"; };
 		5F6628B31C12466C008D73FC /* touchid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid@2x.png"; sourceTree = "<group>"; };
 		5F6628B41C12466C008D73FC /* touchid@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "touchid@3x.png"; sourceTree = "<group>"; };
+		5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0FailureAuthenticator.h; path = Private/A0FailureAuthenticator.h; sourceTree = "<group>"; };
+		5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = A0FailureAuthenticator.m; path = Private/A0FailureAuthenticator.m; sourceTree = "<group>"; };
 		5FBACFF51BE7AF8700703DD1 /* Lock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBACFF81BE7AF8700703DD1 /* Lock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lock.h; sourceTree = "<group>"; };
 		5FBACFFA1BE7AF8700703DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -757,7 +756,6 @@
 		5FBAD1691BE7B92900703DD1 /* UIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIConstants.h; sourceTree = "<group>"; };
 		5FBAD20C1BE7BD4C00703DD1 /* A0ActiveDirectoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0ActiveDirectoryViewController.xib; sourceTree = "<group>"; };
 		5FBAD20D1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0ChangePasswordViewController.xib; sourceTree = "<group>"; };
-		5FBAD20E1BE7BD4C00703DD1 /* A0DatabaseLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0DatabaseLoginViewController.xib; sourceTree = "<group>"; };
 		5FBAD20F1BE7BD4C00703DD1 /* A0EnterpriseLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0EnterpriseLoginViewController.xib; sourceTree = "<group>"; };
 		5FBAD2101BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0FullActiveDirectoryViewController.xib; sourceTree = "<group>"; };
 		5FBAD2111BE7BD4C00703DD1 /* A0FullLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0FullLoginViewController.xib; sourceTree = "<group>"; };
@@ -1416,7 +1414,6 @@
 			children = (
 				5FBAD20C1BE7BD4C00703DD1 /* A0ActiveDirectoryViewController.xib */,
 				5FBAD20D1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib */,
-				5FBAD20E1BE7BD4C00703DD1 /* A0DatabaseLoginViewController.xib */,
 				5FBAD20F1BE7BD4C00703DD1 /* A0EnterpriseLoginViewController.xib */,
 				5FBAD2101BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib */,
 				5FBAD2111BE7BD4C00703DD1 /* A0FullLoginViewController.xib */,
@@ -2162,7 +2159,6 @@
 				5FBAD4281BE7F0BA00703DD1 /* A0SMSLockViewController.xib in Resources */,
 				5FBAD2B11BE7CCE500703DD1 /* Auth0.bundle in Resources */,
 				5FBAD21E1BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib in Resources */,
-				5FBAD21C1BE7BD4C00703DD1 /* A0DatabaseLoginViewController.xib in Resources */,
 				5FBAD43C1BE7F0D100703DD1 /* A0EmailSendCodeViewController.xib in Resources */,
 				5FBAD4271BE7F0BA00703DD1 /* A0SMSCodeViewController.xib in Resources */,
 				5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */,

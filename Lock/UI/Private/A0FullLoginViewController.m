@@ -28,12 +28,15 @@
 #import "A0Theme.h"
 #import "A0Alert.h"
 #import "Constants.h"
+#import "A0LoginView.h"
+#import <Masonry/Masonry.h>
 
 @interface A0FullLoginViewController () <A0SmallSocialServiceCollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
 @property (weak, nonatomic) IBOutlet UILabel *orLabel;
+@property (weak, nonatomic) IBOutlet UIView *socialView;
 
 @end
 
@@ -46,6 +49,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     A0Theme *theme = [A0Theme sharedInstance];
+    self.title = A0LocalizedString(@"Login");
     self.orLabel.font = [theme fontForKey:A0ThemeSeparatorTextFont];
     self.orLabel.textColor = [theme colorForKey:A0ThemeSeparatorTextColor];
     self.orLabel.text = A0LocalizedString(@"OR");
@@ -54,6 +58,18 @@
     self.serviceCollectionView.lock = self.lock;
    [self.serviceCollectionView showSocialServicesForConfiguration:self.configuration];
     self.activityIndicator.color = [[A0Theme sharedInstance] colorForKey:A0ThemeTitleTextColor];
+
+    A0LoginView *loginView = self.loginView;
+    [loginView removeFromSuperview];
+
+    [self.view addSubview:loginView];
+    self.loginView = loginView;
+    [loginView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.socialView.mas_bottom);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.bottom.equalTo(self.view.mas_bottom);
+    }];
 }
 
 - (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView

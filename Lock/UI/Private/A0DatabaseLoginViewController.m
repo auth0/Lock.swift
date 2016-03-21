@@ -48,15 +48,9 @@
 #import "Constants.h"
 #import "A0LoginView.h"
 #import <CoreGraphics/CoreGraphics.h>
+#import <Masonry/Masonry.h>
 
 @interface A0DatabaseLoginViewController () <A0LoginViewDelegate>
-
-@property (weak, nonatomic) IBOutlet A0ProgressButton *accessButton;
-@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
-@property (weak, nonatomic) IBOutlet UIView *credentialsBoxView;
-@property (weak, nonatomic) IBOutlet UIImageView *singleSignOnIcon;
-@property (weak, nonatomic) IBOutlet UIView *singleSignOnView;
 
 @property (strong, nonatomic) A0Connection *matchedConnection;
 
@@ -67,11 +61,6 @@
 AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = A0LocalizedString(@"Login");
     }
@@ -90,8 +79,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [super viewDidLoad];
 
     A0Theme *theme = [A0Theme sharedInstance];
-    [theme configureSecondaryButton:self.signUpButton];
-    [theme configureSecondaryButton:self.forgotPasswordButton];
+    A0LoginView *loginView = [[A0LoginView alloc] initWithTheme:theme];
+    [self.view addSubview:loginView];
+    self.loginView = loginView;
+
+    [self.loginView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
 
     self.loginView.identifier = self.defaultUsername;
     self.loginView.delegate = self;
