@@ -1,5 +1,39 @@
 # Change Log
 
+## [1.23.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.23.0) (2016-03-21)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.22.0...1.23.0)
+
+**Fixed bugs:**
+
+- Clear cookies for UIWebView and WKWebView [\#227](https://github.com/auth0/Lock.iOS-OSX/issues/227)
+- Avoid cleaning reference to callbacks before calling them in A0WebKitViewController [\#222](https://github.com/auth0/Lock.iOS-OSX/issues/222)
+- For TouchID use default connection name if none is specified [\#220](https://github.com/auth0/Lock.iOS-OSX/issues/220)
+
+**Closed issues:**
+
+- How to get the latest commits using CocoaPods? [\#238](https://github.com/auth0/Lock.iOS-OSX/issues/238)
+- signUpWithEmail method doesn't work properly [\#233](https://github.com/auth0/Lock.iOS-OSX/issues/233)
+- LICENSE file needs an update and readme.md needs a fix [\#215](https://github.com/auth0/Lock.iOS-OSX/issues/215)
+- connection\_scopes are ignored by A0WebViewAuthenticator [\#209](https://github.com/auth0/Lock.iOS-OSX/issues/209)
+- Update Google Ent Auth Login screen logic [\#206](https://github.com/auth0/Lock.iOS-OSX/issues/206)
+- Add `au` region for CDN [\#201](https://github.com/auth0/Lock.iOS-OSX/issues/201)
+- Support customizing "user is blocked" message [\#195](https://github.com/auth0/Lock.iOS-OSX/issues/195)
+
+**Merged pull requests:**
+
+- Add api\_type param name to fetchNewIdTokenWithIdToken and fetchNewIdTokenWithRefreshToken  [\#239](https://github.com/auth0/Lock.iOS-OSX/pull/239) ([rweindl](https://github.com/rweindl))
+- If auth parameters are nil, use defaults [\#237](https://github.com/auth0/Lock.iOS-OSX/pull/237) ([hzalaz](https://github.com/hzalaz))
+- Avoid cleaning callbacks before vc is dismissed [\#236](https://github.com/auth0/Lock.iOS-OSX/pull/236) ([hzalaz](https://github.com/hzalaz))
+- Update TouchID authentication [\#235](https://github.com/auth0/Lock.iOS-OSX/pull/235) ([hzalaz](https://github.com/hzalaz))
+- Use new change password flow [\#232](https://github.com/auth0/Lock.iOS-OSX/pull/232) ([hzalaz](https://github.com/hzalaz))
+- Clear session of UIWebView & WKWebView [\#231](https://github.com/auth0/Lock.iOS-OSX/pull/231) ([hzalaz](https://github.com/hzalaz))
+- Fixed property inheritance warning [\#230](https://github.com/auth0/Lock.iOS-OSX/pull/230) ([ppaulojr](https://github.com/ppaulojr))
+- Remove apple versioning from bundles [\#229](https://github.com/auth0/Lock.iOS-OSX/pull/229) ([hzalaz](https://github.com/hzalaz))
+- Update license and readme [\#216](https://github.com/auth0/Lock.iOS-OSX/pull/216) ([aguerere](https://github.com/aguerere))
+- Update to AFNetworking 3 [\#213](https://github.com/auth0/Lock.iOS-OSX/pull/213) ([hzalaz](https://github.com/hzalaz))
+- Fix missing device when scope has offline\_access [\#211](https://github.com/auth0/Lock.iOS-OSX/pull/211) ([hzalaz](https://github.com/hzalaz))
+- connection\_scopes are ignored by A0WebViewAuthenticator [\#210](https://github.com/auth0/Lock.iOS-OSX/pull/210) ([keeth](https://github.com/keeth))
+
 ## [1.22.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.22.0) (2015-12-23)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.21.1...1.22.0)
 
