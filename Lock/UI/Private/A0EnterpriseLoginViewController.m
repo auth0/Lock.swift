@@ -46,7 +46,7 @@
     if (self) {
         NSArray *parts = [email componentsSeparatedByString:@"@"];
         NSString *localPart = [parts firstObject];
-        self.defaultUsername = [localPart copy];
+        self.identifier = [localPart copy];
     }
     return self;
 }
@@ -79,7 +79,7 @@
     self.messageLabel.text = [NSString stringWithFormat:message, self.connection[A0ConnectionDomain]];
     self.messageLabel.numberOfLines = 4;
     self.messageLabel.textAlignment = NSTextAlignmentCenter;
-    self.loginView.identifier = self.defaultUsername;
+    self.loginView.identifier = self.identifier;
     self.parameters[A0ParameterConnection] = self.connection.name;
     self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
                                                                           [[A0UsernameValidator alloc] initWithField:self.loginView.identifierField.textField],

@@ -67,14 +67,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return self;
 }
 
-- (NSString *)username {
-    return self.loginView.identifier;
-}
-
-- (NSString *)password {
-    return self.loginView.password;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -87,7 +79,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         make.edges.equalTo(self);
     }];
 
-    self.loginView.identifier = self.defaultUsername;
+    self.loginView.identifier = self.identifier;
     self.loginView.delegate = self;
     if (self.defaultConnection) {
         self.parameters[A0ParameterConnection] = self.defaultConnection.name;
@@ -109,6 +101,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     } else {
         self.loginView.identifierType = self.forceUsername ? A0LoginIndentifierTypeUsername : A0LoginIndentifierTypeEmail;
     }
+}
+
+- (NSString *)identifier {
+    return self.loginView ? self.loginView.identifier : _identifier;
 }
 
 #pragma mark - Enterprise login

@@ -28,13 +28,11 @@
 
 @interface A0ChangePasswordViewController : UIViewController<A0AuthenticationUIComponent>
 
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
-
 @property (copy, nonatomic) void(^onChangePasswordBlock)();
 @property (copy, nonatomic) A0AuthParameters *parameters;
 @property (assign, nonatomic) BOOL forceUsername;
 @property (strong, nonatomic) id<A0FieldValidator> validator;
-@property (copy, nonatomic) NSString *defaultEmail;
+@property (copy, nonatomic) NSString *email;
 @property (strong, nonatomic) A0Connection *defaultConnection;
 @property (strong, nonatomic) A0Lock *lock;
 

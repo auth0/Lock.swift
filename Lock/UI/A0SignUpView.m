@@ -206,6 +206,21 @@
     return self.passwordField.textField.text;
 }
 
+- (void)setIdentifierValid:(BOOL)identifierValid {
+    _identifierValid = identifierValid;
+    self.identifierField.invalid = !identifierValid;
+}
+
+- (void)setUsernameValid:(BOOL)usernameValid {
+    _usernameValid = usernameValid;
+    self.usernameField.invalid = !usernameValid;
+}
+
+- (void)setPasswordValid:(BOOL)passwordValid {
+    _passwordValid = passwordValid;
+    self.passwordField.invalid = !passwordValid;
+}
+
 - (CGSize)intrinsicContentSize {
     return CGSizeMake(280, 261);
 }

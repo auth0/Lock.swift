@@ -32,7 +32,7 @@
 
 @property (copy, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0Connection *defaultConnection;
-@property (copy, nonatomic) NSString *defaultUsername;
+@property (copy, nonatomic) NSString *identifier;
 @property (strong, nonatomic) A0LockConfiguration *configuration;
 
 @property (copy, nonatomic) void(^onLoginBlock)(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token);
@@ -44,7 +44,5 @@
 
 @property (strong, nonatomic) A0Lock *lock;
 
-@property (readonly, nonatomic) NSString *username;
-@property (readonly, nonatomic) NSString *password;
 
 @end
