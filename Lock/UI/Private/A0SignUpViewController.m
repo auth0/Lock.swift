@@ -46,137 +46,129 @@
 #import "NSObject+A0APIClientProvider.h"
 #import "NSError+A0APIError.h"
 #import "Constants.h"
+#import "A0SignUpView.h"
+#import <Masonry/Masonry.h>
 
-@interface A0SignUpViewController ()
+@interface A0SignUpViewController () <A0SignUpViewDelegate>
 
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *usernameField;
-@property (weak, nonatomic) IBOutlet A0CredentialFieldView *userField;
-@property (weak, nonatomic) IBOutlet A0PasswordFieldView *passwordField;
-@property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIView *disclaimerContainerView;
-@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
-@property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
-@property (weak, nonatomic) IBOutlet UIView *usernameSeparatorView;
+@property (weak, nonatomic) UIView *disclaimerContainerView;
 @property (weak, nonatomic) UIView *userDisclaimerView;
+@property (weak, nonatomic) A0SignUpView *signUpView;
 
 @property (assign, nonatomic) BOOL requiresUsername;
-
-- (IBAction)signUp:(id)sender;
-- (IBAction)goToPasswordField:(id)sender;
 
 @end
 
 @implementation A0SignUpViewController
 
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.title = A0LocalizedString(@"Sign Up");
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = A0LocalizedString(@"Sign Up");
+    self.requiresUsername = [self.defaultConnection[A0ConnectionRequiresUsername] boolValue];
 
     A0Theme *theme = [A0Theme sharedInstance];
-    [theme configurePrimaryButton:self.signUpButton];
-    [theme configureLabel:self.messageLabel];
 
-    self.requiresUsername = [self.defaultConnection[A0ConnectionRequiresUsername] boolValue];
-    if (!self.requiresUsername) {
-        [self.usernameField removeFromSuperview];
-        [self.usernameSeparatorView removeFromSuperview];
-        [self.credentialBoxView addConstraint:[NSLayoutConstraint constraintWithItem:self.userField attribute:NSLayoutAttributeTop relatedBy: NSLayoutRelationEqual toItem:self.credentialBoxView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-    }
-    self.usernameField.type = A0CredentialFieldViewUsername;
-    [self.usernameField.textField addTarget:self action:@selector(goToEmailField:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    self.usernameField.returnKeyType = UIReturnKeyNext;
-    self.userField.type = self.forceUsername && !self.requiresUsername ? A0CredentialFieldViewUsername : A0CredentialFieldViewEmail;
-    [self.userField.textField addTarget:self action:@selector(goToPasswordField:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    self.userField.returnKeyType = UIReturnKeyNext;
-    self.passwordField.type = A0CredentialFieldViewPassword;
-    [self.passwordField.textField addTarget:self action:@selector(signUp:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    self.passwordField.returnKeyType = UIReturnKeyGo;
-    [self.signUpButton setTitle:A0LocalizedString(@"SIGN UP") forState:UIControlStateNormal];
-    self.messageLabel.text = self.forceUsername ? A0LocalizedString(@"Please enter your username and password") : A0LocalizedString(@"Please enter your email and password");
-    if (self.customMessage) {
-        self.messageLabel.text = self.customMessage;
-    }
+    A0SignUpView *signUpView = [[A0SignUpView alloc] initWithTheme:theme requiresUsername:self.requiresUsername];
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectZero];
 
-    [self.passwordField.passwordManagerButton addTarget:self action:@selector(storeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:signUpView];
+    [self.view addSubview:containerView];
+
+    [signUpView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.right.equalTo(self);
+        make.centerY.equalTo(self);
+    }];
+    [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.and.right.equalTo(self);
+        make.top.equalTo(signUpView.mas_bottom);
+    }];
+    self.disclaimerContainerView = containerView;
+    self.signUpView = signUpView;
+    [self layoutDisclaimerView:self.userDisclaimerView];
+
+
+    self.signUpView.identifierType = self.forceUsername ? A0SignUpIndentifierTypeUsername : A0SignUpIndentifierTypeEmail;
+    self.signUpView.title = self.customMessage;
 
     if (self.defaultConnection) {
         self.parameters[A0ParameterConnection] = self.defaultConnection.name;
     }
     NSMutableArray *validators = [@[
-                                    [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],
+                                    [[A0PasswordValidator alloc] initWithField:signUpView.passwordField.textField],
                                     ] mutableCopy];
     if (self.requiresUsername) {
-        [validators addObject:[[A0EmailValidator alloc] initWithField:self.userField.textField]];
-        [validators addObject:[[A0UsernameValidator alloc] initWithField:self.usernameField.textField]];
+        [validators addObject:[[A0EmailValidator alloc] initWithField:signUpView.identifierField.textField]];
+        [validators addObject:[[A0UsernameValidator alloc] initWithField:signUpView.usernameField.textField]];
     } else if (self.forceUsername) {
-        [validators addObject:[[A0UsernameValidator alloc] initWithField:self.userField.textField]];
+        [validators addObject:[[A0UsernameValidator alloc] initWithField:signUpView.identifierField.textField]];
     } else {
-        [validators addObject:[[A0EmailValidator alloc] initWithField:self.userField.textField]];
+        [validators addObject:[[A0EmailValidator alloc] initWithField:signUpView.identifierField.textField]];
     }
     self.validator = [[A0CredentialsValidator alloc] initWithValidators:validators];
-    [self layoutDisclaimerView:self.userDisclaimerView];
 }
 
-- (void)dealloc {
-    [self.passwordField.passwordManagerButton removeTarget:self action:@selector(storeLoginInfo:) forControlEvents:UIControlEventTouchUpInside];
+- (void)addDisclaimerSubview:(UIView *)view {
+    self.userDisclaimerView = view;
 }
 
-- (void)storeLoginInfo:(id)sender {
-#ifdef AUTH0_1PASSWORD
-    UITextField *userField = self.usernameField.textField ?: self.userField.textField;
-    [[A0PasswordManager sharedInstance] saveLoginInformationForUsername:userField.text
-                                                               password:self.passwordField.textField.text
-                                                              loginInfo:@{
-                                                                          @"email": self.userField.textField,
-                                                                          }
-                                                             controller:self
-                                                                 sender:sender
-                                                             completion:^(NSString *username, NSString *password) {
-                                                                 userField.text = username;
-                                                                 self.passwordField.textField.text = password;
-                                                                 [self signUp:sender];
-                                                             }];
-#endif
+#pragma mark - A0KeyboardEnabledView
+
+- (void)hideKeyboard {
+    [self.signUpView resignFirstResponder];
 }
 
-- (void)signUp:(id)sender {
-    [self.signUpButton setInProgress:YES];
+- (CGRect)rectToKeepVisibleInView:(UIView *)view {
+    CGRect rect = [view convertRect:self.signUpView.submitButton.frame fromView:self.signUpView.submitButton.superview];
+    return rect;
+}
+
+#pragma mark - Error Handling
+
+- (void)updateUIWithError:(NSError *)error {
+    if (!error) {
+        self.signUpView.identifierValid = YES;
+        self.signUpView.usernameValid = YES;
+        self.signUpView.passwordValid = YES;
+        return;
+    }
+    NSInteger code = error.code;
+    self.signUpView.identifierValid = code != A0ErrorCodeInvalidCredentials && ((self.requiresUsername && code != A0ErrorCodeInvalidEmail) || (!self.requiresUsername && code != A0ErrorCodeInvalidUsername));
+    self.signUpView.usernameValid = code != A0ErrorCodeInvalidCredentials && code != A0ErrorCodeInvalidUsername;
+    self.signUpView.passwordValid = code != A0ErrorCodeInvalidCredentials && code != A0ErrorCodeInvalidPassword;
+}
+
+#pragma mark - A0SignUpViewDelegate
+
+- (void)signUpView:(A0SignUpView *)signUpView didSubmitWithCompletionHandler:(A0SignUpViewCompletionHandler)completionHandler {
     NSError *error = [self.validator validate];
     if (!error) {
         [self hideKeyboard];
-        NSString *email = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        NSString *username = [self.usernameField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        NSString *password = self.passwordField.textField.text;
+        NSString *email = self.signUpView.identifier;
+        NSString *username = self.signUpView.username;
+        NSString *password = self.signUpView.password;
         A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
             [self postSignUpSuccessfulWithEmail:email];
             if (token) {
                 [self postLoginSuccessfulWithUsername:email andParameters:self.parameters];
             }
-            [self.signUpButton setInProgress:NO];
             if (self.onSignUpBlock) {
                 self.onSignUpBlock(profile, token);
             }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionHandler(YES);
+            });
         };
         A0APIClientError failure = ^(NSError *error) {
             [self postSignUpErrorNotificationWithError:error];
-            [self.signUpButton setInProgress:NO];
-            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
-            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
-            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
-                alert.title = title;
-                alert.message = message;
-            }];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
+                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
+                [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                    alert.title = title;
+                    alert.message = message;
+                }];
+                completionHandler(NO);
+            });
         };
         A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
         [client signUpWithEmail:email
@@ -188,68 +180,13 @@
                         failure:failure];
     } else {
         [self postSignUpErrorNotificationWithError:error];
-        [self.signUpButton setInProgress:NO];
+        completionHandler(NO);
         [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
             alert.title = A0LocalizedString(@"Invalid credentials");
             alert.message = error.localizedFailureReason;
         }];
     }
     [self updateUIWithError:error];
-}
-
-- (IBAction)goToEmailField:(id)sender {
-    [self.userField.textField becomeFirstResponder];
-}
-
-- (IBAction)goToPasswordField:(id)sender {
-    [self.passwordField.textField becomeFirstResponder];
-}
-
-- (void)addDisclaimerSubview:(UIView *)view {
-    self.userDisclaimerView = view;
-}
-
-#pragma mark - A0KeyboardEnabledView
-
-- (void)hideKeyboard {
-    [self.usernameField.textField resignFirstResponder];
-    [self.userField.textField resignFirstResponder];
-    [self.passwordField.textField resignFirstResponder];
-}
-
-- (CGRect)rectToKeepVisibleInView:(UIView *)view {
-    CGRect rect = [view convertRect:self.signUpButton.frame fromView:self.signUpButton.superview];
-    return rect;
-}
-
-#pragma mark - Error Handling
-
-- (void)updateUIWithError:(NSError *)error {
-    self.userField.invalid = NO;
-    self.passwordField.invalid = NO;
-    self.usernameField.invalid = NO;
-    if (error) {
-        switch (error.code) {
-            case A0ErrorCodeInvalidCredentials:
-                self.userField.invalid = YES;
-                self.passwordField.invalid = YES;
-                self.usernameField.invalid = YES;
-                break;
-            case A0ErrorCodeInvalidPassword:
-                self.passwordField.invalid = YES;
-                break;
-            case A0ErrorCodeInvalidUsername:
-                if (self.requiresUsername) {
-                    self.usernameField.invalid = YES;
-                } else {
-                    self.userField.invalid = YES;
-                }
-                break;
-            case A0ErrorCodeInvalidEmail:
-                self.userField.invalid = YES;
-                break;
-        }
-    }
 }
 
 #pragma mark - Utility methods
@@ -260,9 +197,8 @@
         return;
     }
     [self.disclaimerContainerView addSubview:disclaimerView];
-    disclaimerView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSDictionary *views = NSDictionaryOfVariableBindings(disclaimerView);
-    [self.disclaimerContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[disclaimerView]-|" options:0 metrics:nil views:views]];
-    [self.disclaimerContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[disclaimerView]-|" options:0 metrics:nil views:views]];
+    [disclaimerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.disclaimerContainerView);
+    }];
 }
 @end

@@ -1,4 +1,4 @@
-// A0LoginView.h
+//  A0SignUpView.h
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -24,41 +24,39 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_OPTIONS(NSInteger, A0LoginIndentifierType) {
-    A0LoginIndentifierTypeUsername = 1 << 0,
-    A0LoginIndentifierTypeEmail
+typedef NS_OPTIONS(NSInteger, A0SignUpIndentifierType) {
+    A0SignUpIndentifierTypeUsername = 1 << 0,
+    A0SignUpIndentifierTypeEmail
 };
 
-@class A0Theme, A0LoginView, A0CredentialFieldView, A0ProgressButton;
+@class A0Theme, A0SignUpView, A0CredentialFieldView, A0ProgressButton;
 
-typedef void(^A0LoginViewCompletionHandler)(BOOL success);
+typedef void(^A0SignUpViewCompletionHandler)(BOOL success);
 
-@protocol A0LoginViewDelegate <NSObject>
+@protocol A0SignUpViewDelegate <NSObject>
 
-- (void)loginView:(A0LoginView *)loginView didChangeUsername:(NSString * _Nullable)username;
-- (void)loginView:(A0LoginView *)loginView didSubmitWithCompletionHandler:(A0LoginViewCompletionHandler)completionHandler;
+- (void)signUpView:(A0SignUpView *)signUpView didSubmitWithCompletionHandler:(A0SignUpViewCompletionHandler)completionHandler;
 
 @end
 
-@interface A0LoginView : UIView
+@interface A0SignUpView : UIView
 
 @property (weak, nonatomic) A0CredentialFieldView *identifierField;
+@property (weak, nonatomic) A0CredentialFieldView *usernameField;
 @property (weak, nonatomic) A0CredentialFieldView *passwordField;
 @property (weak, nonatomic) A0ProgressButton *submitButton;
-@property (weak, nonatomic) UIView *ssoView;
 
+@property (weak, nonatomic) id<A0SignUpViewDelegate> delegate;
 @property (copy, nullable, nonatomic) NSString *identifier;
+@property (copy, nullable, nonatomic) NSString *username;
 @property (copy, nullable, nonatomic) NSString *password;
-@property (readonly, nonatomic) BOOL enterpriseSSOEnabled;
-@property (assign, nonatomic) A0LoginIndentifierType identifierType;
+@property (copy, nonatomic) NSString *title;
+@property (assign, nonatomic) A0SignUpIndentifierType identifierType;
 @property (assign, nonatomic) BOOL identifierValid;
+@property (assign, nonatomic) BOOL usernameValid;
 @property (assign, nonatomic) BOOL passwordValid;
-@property (weak, nullable, nonatomic) id<A0LoginViewDelegate> delegate;
 
-- (instancetype)initWithTheme:(A0Theme *)theme;
-
-- (void)showEnterpriseSSOForConnectionName:(NSString *)connectionName;
-- (void)disableEnterpriseSSO;
+- (instancetype)initWithTheme:(A0Theme *)theme requiresUsername:(BOOL)requiresUsername;
 
 @end
 

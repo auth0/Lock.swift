@@ -1,6 +1,6 @@
 // A0LoginView.m
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2016 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +28,6 @@
 #import "A0ProgressButton.h"
 #import <Masonry/Masonry.h>
 
-@interface A0LoginView ()
-
-@property (strong, nonatomic) A0Theme *theme;
-
-@end
-
 @implementation A0LoginView
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -42,8 +36,7 @@
         _enterpriseSSOEnabled = NO;
         _identifierValid = YES;
         _passwordValid = YES;
-        _theme = [A0Theme sharedInstance];
-        [self setupLayoutWithTheme:_theme];
+        [self setupLayoutWithTheme:[A0Theme sharedInstance]];
     }
     return self;
 }
@@ -54,8 +47,7 @@
         _enterpriseSSOEnabled = NO;
         _identifierValid = YES;
         _passwordValid = YES;
-        _theme = theme;
-        [self setupLayoutWithTheme:_theme];
+        [self setupLayoutWithTheme:theme];
     }
     return self;
 }
@@ -179,7 +171,7 @@
 }
 
 - (NSString *)identifier {
-    return self.identifierField.textField.text;
+    return [self.identifierField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
 - (void)setIdentifier:(NSString *)identifier {
@@ -221,10 +213,6 @@
 - (void)setPasswordValid:(BOOL)passwordValid {
     _passwordValid = passwordValid;
     self.passwordField.invalid = !passwordValid;
-}
-
-- (void)showProgress:(BOOL)progress {
-    [self.submitButton setInProgress:progress];
 }
 
 - (BOOL)resignFirstResponder {

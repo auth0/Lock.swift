@@ -20,8 +20,6 @@
 		5F32507D1C89E09700CCEC55 /* A0KeyUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F32507B1C89E09700CCEC55 /* A0KeyUploader.m */; };
 		5F624D1A1C39C24B009EDD83 /* A0LoginView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F624D181C39C24B009EDD83 /* A0LoginView.h */; };
 		5F624D1B1C39C24B009EDD83 /* A0LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F624D191C39C24B009EDD83 /* A0LoginView.m */; };
-		5F624D1E1C39C2FB009EDD83 /* A0LoginViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F624D1C1C39C2FB009EDD83 /* A0LoginViewModel.h */; };
-		5F624D1F1C39C2FB009EDD83 /* A0LoginViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F624D1D1C39C2FB009EDD83 /* A0LoginViewModel.m */; };
 		5F624D211C39D722009EDD83 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F624D201C39D722009EDD83 /* Masonry.framework */; };
 		5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */; };
 		5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A61C12062F008D73FC /* A0WebViewController.xib */; };
@@ -281,7 +279,6 @@
 		5FBAD1D11BE7BA7F00703DD1 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0F11BE7B43E00703DD1 /* AFNetworking.framework */; };
 		5FBAD21B1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD20D1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib */; };
 		5FBAD2211BE7BD4C00703DD1 /* A0LockSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */; };
-		5FBAD2251BE7BD4C00703DD1 /* A0SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */; };
 		5FBAD2301BE7BE1E00703DD1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD22F1BE7BE1E00703DD1 /* main.m */; };
 		5FBAD2331BE7BE1E00703DD1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD2321BE7BE1E00703DD1 /* AppDelegate.m */; };
 		5FBAD2391BE7BE1E00703DD1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2371BE7BE1E00703DD1 /* Main.storyboard */; };
@@ -394,6 +391,8 @@
 		5FBAD4F41BE969EF00703DD1 /* A0CredentialsValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C11BE95C5700703DD1 /* A0CredentialsValidatorSpec.m */; };
 		5FBAD4F51BE96BCE00703DD1 /* A0EmailValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C21BE95C5700703DD1 /* A0EmailValidatorSpec.m */; };
 		5FBAD4F61BE96D3500703DD1 /* A0GenericAPIErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C41BE95C5700703DD1 /* A0GenericAPIErrorHandlerSpec.m */; };
+		5FCE63341CA1661000F5C2B0 /* A0SignUpView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FCE63321CA1661000F5C2B0 /* A0SignUpView.h */; };
+		5FCE63351CA1661000F5C2B0 /* A0SignUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE63331CA1661000F5C2B0 /* A0SignUpView.m */; };
 		5FD6FB501BEB99400071343E /* A0ServiceTheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FD6FB4E1BEB99400071343E /* A0ServiceTheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FD6FB511BEB99400071343E /* A0ServiceTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6FB4F1BEB99400071343E /* A0ServiceTheme.m */; };
 		5FF680E61BEBE3AB00161E5B /* exact.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FF680261BEBE36800161E5B /* exact.png */; };
@@ -550,8 +549,6 @@
 		5F32507B1C89E09700CCEC55 /* A0KeyUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0KeyUploader.m; sourceTree = "<group>"; };
 		5F624D181C39C24B009EDD83 /* A0LoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0LoginView.h; sourceTree = "<group>"; };
 		5F624D191C39C24B009EDD83 /* A0LoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LoginView.m; sourceTree = "<group>"; };
-		5F624D1C1C39C2FB009EDD83 /* A0LoginViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0LoginViewModel.h; sourceTree = "<group>"; };
-		5F624D1D1C39C2FB009EDD83 /* A0LoginViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LoginViewModel.m; sourceTree = "<group>"; };
 		5F624D201C39D722009EDD83 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
 		5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebKitViewController.xib; sourceTree = "<group>"; };
 		5F6628A61C12062F008D73FC /* A0WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebViewController.xib; sourceTree = "<group>"; };
@@ -752,7 +749,6 @@
 		5FBAD1691BE7B92900703DD1 /* UIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIConstants.h; sourceTree = "<group>"; };
 		5FBAD20D1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0LockSignUpViewController.xib; sourceTree = "<group>"; };
-		5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SignUpViewController.xib; sourceTree = "<group>"; };
 		5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MyLock-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBAD22F1BE7BE1E00703DD1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5FBAD2311BE7BE1E00703DD1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -888,6 +884,8 @@
 		5FBAD4D31BE95C5700703DD1 /* A0UsernameValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UsernameValidatorSpec.m; sourceTree = "<group>"; };
 		5FBAD4D41BE95C5700703DD1 /* A0UserProfileSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileSpec.m; sourceTree = "<group>"; };
 		5FBAD4D51BE95C5700703DD1 /* A0WebAuthenticationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0WebAuthenticationSpec.m; sourceTree = "<group>"; };
+		5FCE63321CA1661000F5C2B0 /* A0SignUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0SignUpView.h; sourceTree = "<group>"; };
+		5FCE63331CA1661000F5C2B0 /* A0SignUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SignUpView.m; sourceTree = "<group>"; };
 		5FD6FB4E1BEB99400071343E /* A0ServiceTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0ServiceTheme.h; sourceTree = "<group>"; };
 		5FD6FB4F1BEB99400071343E /* A0ServiceTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ServiceTheme.m; sourceTree = "<group>"; };
 		5FF67FB91BEBD6EF00161E5B /* Lock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lock.h; sourceTree = "<group>"; };
@@ -1290,6 +1288,8 @@
 				5FBAD1441BE7B92900703DD1 /* UI.h */,
 				5F624D181C39C24B009EDD83 /* A0LoginView.h */,
 				5F624D191C39C24B009EDD83 /* A0LoginView.m */,
+				5FCE63321CA1661000F5C2B0 /* A0SignUpView.h */,
+				5FCE63331CA1661000F5C2B0 /* A0SignUpView.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1383,8 +1383,6 @@
 				5FBAD1631BE7B92900703DD1 /* UIButton+A0SolidButton.m */,
 				5FD6FB4E1BEB99400071343E /* A0ServiceTheme.h */,
 				5FD6FB4F1BEB99400071343E /* A0ServiceTheme.m */,
-				5F624D1C1C39C2FB009EDD83 /* A0LoginViewModel.h */,
-				5F624D1D1C39C2FB009EDD83 /* A0LoginViewModel.m */,
 			);
 			path = CoreUI;
 			sourceTree = "<group>";
@@ -1406,7 +1404,6 @@
 			children = (
 				5FBAD20D1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib */,
 				5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */,
-				5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */,
 			);
 			path = NIBs;
 			sourceTree = "<group>";
@@ -1915,11 +1912,11 @@
 				5FBAD1A91BE7B92900703DD1 /* UIViewController+LockNotification.h in Headers */,
 				5FBAD1991BE7B92900703DD1 /* A0ServiceCollectionViewLayoutDelegate.h in Headers */,
 				5FBAD1BD1BE7B92900703DD1 /* A0PasswordlessLockViewModel.h in Headers */,
+				5FCE63341CA1661000F5C2B0 /* A0SignUpView.h in Headers */,
 				5FBAD1BF1BE7B92900703DD1 /* A0PasswordValidator.h in Headers */,
 				5FBAD1831BE7B92900703DD1 /* A0ChangePasswordViewController.h in Headers */,
 				5FBAD0821BE7B23C00703DD1 /* A0RuleErrorHandler.h in Headers */,
 				5FBAD4431BE7F0E100703DD1 /* A0EmailMagicLinkViewController.h in Headers */,
-				5F624D1E1C39C2FB009EDD83 /* A0LoginViewModel.h in Headers */,
 				5FBAD0E11BE7B24600703DD1 /* NSObject+A0APIClientProvider.h in Headers */,
 				5FBAD0DB1BE7B24600703DD1 /* A0WebAuthentication.h in Headers */,
 				5FBAD42F1BE7F0CA00703DD1 /* A0CountryCodeTableViewController.h in Headers */,
@@ -2160,7 +2157,6 @@
 				5FBAD41B1BE7F09600703DD1 /* A0TouchIDRegisterViewController.xib in Resources */,
 				5FBAD4391BE7F0D100703DD1 /* A0EmailCodeViewController.xib in Resources */,
 				5FBAD2211BE7BD4C00703DD1 /* A0LockSignUpViewController.xib in Resources */,
-				5FBAD2251BE7BD4C00703DD1 /* A0SignUpViewController.xib in Resources */,
 				5FBAD4291BE7F0BA00703DD1 /* A0SMSMagicLinkViewController.xib in Resources */,
 				5FBAD43B1BE7F0D100703DD1 /* A0EmailMagicLinkViewController.xib in Resources */,
 			);
@@ -2383,7 +2379,6 @@
 				5FBAD07F1BE7B23C00703DD1 /* A0PasswordStrengthErrorHandler.m in Sources */,
 				5FBAD0871BE7B23C00703DD1 /* A0SimpleConnectionDomainMatcher.m in Sources */,
 				5FBAD1B11BE7B92900703DD1 /* A0WebAuthenticator.m in Sources */,
-				5F624D1F1C39C2FB009EDD83 /* A0LoginViewModel.m in Sources */,
 				5FBAD18E1BE7B92900703DD1 /* A0FullLoginViewController.m in Sources */,
 				5FBAD18A1BE7B92900703DD1 /* A0EnterpriseLoginViewController.m in Sources */,
 				5FBAD42C1BE7F0BF00703DD1 /* A0Lock+A0SMSLockViewController.m in Sources */,
@@ -2396,6 +2391,7 @@
 				5FBAD1881BE7B92900703DD1 /* A0DatabaseLoginViewController.m in Sources */,
 				5FBAD0671BE7B23C00703DD1 /* A0Connection.m in Sources */,
 				5FBAD0891BE7B23C00703DD1 /* A0Strategy.m in Sources */,
+				5FCE63351CA1661000F5C2B0 /* A0SignUpView.m in Sources */,
 				5FBAD1961BE7B92900703DD1 /* A0RoundedBoxView.m in Sources */,
 				5FBAD1C81BE7B92900703DD1 /* UIButton+A0SolidButton.m in Sources */,
 				5FBAD4441BE7F0E100703DD1 /* A0EmailMagicLinkViewController.m in Sources */,
