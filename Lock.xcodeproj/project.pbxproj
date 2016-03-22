@@ -277,7 +277,6 @@
 		5FBAD1CF1BE7BA7C00703DD1 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0EC1BE7B42400703DD1 /* AFNetworking.framework */; };
 		5FBAD1D01BE7BA7F00703DD1 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0F01BE7B43E00703DD1 /* CocoaLumberjack.framework */; };
 		5FBAD1D11BE7BA7F00703DD1 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0F11BE7B43E00703DD1 /* AFNetworking.framework */; };
-		5FBAD2211BE7BD4C00703DD1 /* A0LockSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */; };
 		5FBAD2301BE7BE1E00703DD1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD22F1BE7BE1E00703DD1 /* main.m */; };
 		5FBAD2331BE7BE1E00703DD1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD2321BE7BE1E00703DD1 /* AppDelegate.m */; };
 		5FBAD2391BE7BE1E00703DD1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2371BE7BE1E00703DD1 /* Main.storyboard */; };
@@ -748,7 +747,6 @@
 		5FBAD1671BE7B92900703DD1 /* A0ProgressButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0ProgressButton.h; sourceTree = "<group>"; };
 		5FBAD1681BE7B92900703DD1 /* A0ProgressButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ProgressButton.m; sourceTree = "<group>"; };
 		5FBAD1691BE7B92900703DD1 /* UIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIConstants.h; sourceTree = "<group>"; };
-		5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0LockSignUpViewController.xib; sourceTree = "<group>"; };
 		5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MyLock-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBAD22F1BE7BE1E00703DD1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5FBAD2311BE7BE1E00703DD1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1270,7 +1268,6 @@
 		5FBAD1081BE7B92900703DD1 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				5FBAD20B1BE7BD4C00703DD1 /* NIBs */,
 				5FBAD1091BE7B92900703DD1 /* A0ConfirmPasswordValidator.h */,
 				5FBAD10A1BE7B92900703DD1 /* A0ConfirmPasswordValidator.m */,
 				5FBAD10B1BE7B92900703DD1 /* A0ContainerViewController.h */,
@@ -1401,14 +1398,6 @@
 				5FBAD1691BE7B92900703DD1 /* UIConstants.h */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		5FBAD20B1BE7BD4C00703DD1 /* NIBs */ = {
-			isa = PBXGroup;
-			children = (
-				5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */,
-			);
-			path = NIBs;
 			sourceTree = "<group>";
 		};
 		5FBAD22D1BE7BE1E00703DD1 /* MyLock */ = {
@@ -2159,7 +2148,6 @@
 				5FBAD4251BE7F0BA00703DD1 /* A0CountryCodeTableViewCell.xib in Resources */,
 				5FBAD41B1BE7F09600703DD1 /* A0TouchIDRegisterViewController.xib in Resources */,
 				5FBAD4391BE7F0D100703DD1 /* A0EmailCodeViewController.xib in Resources */,
-				5FBAD2211BE7BD4C00703DD1 /* A0LockSignUpViewController.xib in Resources */,
 				5FBAD4291BE7F0BA00703DD1 /* A0SMSMagicLinkViewController.xib in Resources */,
 				5FBAD43B1BE7F0D100703DD1 /* A0EmailMagicLinkViewController.xib in Resources */,
 			);

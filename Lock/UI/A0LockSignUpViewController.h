@@ -25,7 +25,7 @@
 
 @class A0AuthParameters, A0UserProfile, A0Token, A0Lock;
 
-@interface A0LockSignUpViewController : A0ContainerViewController
+@interface A0LockSignUpViewController : UIViewController
 
 /**
  *  Initialize a new instance of the ViewController
