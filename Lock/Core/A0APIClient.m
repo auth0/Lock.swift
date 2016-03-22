@@ -349,7 +349,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                        failure:(A0APIClientError)failure {
     NSDictionary *params = @{
                              kClientIdParamName: self.clientId,
-                             kConnectionParamName: connectionName,
                              };
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:params];
     if (credentials.extraInfo[A0StrategySocialTokenSecretParameter]) {
@@ -363,6 +362,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         defaultParameters[A0ParameterMainAccessToken] = defaultParameters.accessToken;
     }
     defaultParameters.accessToken = credentials.accessToken;
+    defaultParameters[kConnectionParamName] = connectionName;
 
     NSDictionary *payload = [defaultParameters asAPIPayload];
     A0LogVerbose(@"Authenticating with social strategy %@ and payload %@", connectionName, payload);

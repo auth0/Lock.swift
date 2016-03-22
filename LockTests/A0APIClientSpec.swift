@@ -440,6 +440,43 @@ class A0APIClientSpec : QuickSpec {
                             })
                         }
                     }
+
+                    it("should request change password") {
+                        api.allowChangePasswordWithParameters([
+                            "email": EMAIL,
+                            "connection": DB_CONNECTION
+                            ])
+                        waitUntil { done in
+                            client.requestChangePasswordForUsername(EMAIL,
+                                parameters: nil,
+                                success: { done() },
+                                failure: { _ in
+                                    fail("Should have changed password")
+                                    done()
+                            })
+                        }
+                    }
+
+                    it("should fail to request change password with error") {
+                        api.failForRoute(.ChangePassword,
+                            parameters: [
+                                "email": EMAIL,
+                                "connection": DB_CONNECTION
+                            ], message: "failed_change_passsword")
+                        waitUntil { done in
+                            client.requestChangePasswordForUsername(EMAIL,
+                                parameters: nil,
+                                success: {
+                                    fail("Should have failed to change password")
+                                    done()
+                                },
+                                failure: { error in
+                                    expect(error.localizedDescription).to(equal("failed_change_passsword"))
+                                    done()
+                            })
+                        }
+                    }
+
                 }
 
                 describe("login with JWT") {
@@ -651,6 +688,24 @@ class A0APIClientSpec : QuickSpec {
                         client.authenticateWithSocialConnectionName(A0StrategyNameFacebook,
                             credentials: credentials,
                             parameters: nil,
+                            success: {_, _ in done() },
+                            failure: {_ in fail("Should not have failed")})
+                    }
+                }
+
+                it("should not override connection name specified as a method parameter") {
+                    api.allowSocialLoginWithParameters([
+                        "access_token": SOCIAL_TOKEN,
+                        "connection": "facebook",
+                        "scope": "openid offline_access"
+                        ])
+                    api.allowTokenInfoForToken(JWT)
+                    let parameters = A0AuthParameters.newDefaultParams()
+                    parameters["connection"] = "invalid connection"
+                    waitUntil { done in
+                        client.authenticateWithSocialConnectionName("facebook",
+                            credentials: credentials,
+                            parameters: parameters,
                             success: {_, _ in done() },
                             failure: {_ in fail("Should not have failed")})
                     }
