@@ -279,10 +279,7 @@
 		5FBAD1CF1BE7BA7C00703DD1 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0EC1BE7B42400703DD1 /* AFNetworking.framework */; };
 		5FBAD1D01BE7BA7F00703DD1 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0F01BE7B43E00703DD1 /* CocoaLumberjack.framework */; };
 		5FBAD1D11BE7BA7F00703DD1 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0F11BE7B43E00703DD1 /* AFNetworking.framework */; };
-		5FBAD21A1BE7BD4C00703DD1 /* A0ActiveDirectoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD20C1BE7BD4C00703DD1 /* A0ActiveDirectoryViewController.xib */; };
 		5FBAD21B1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD20D1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib */; };
-		5FBAD21D1BE7BD4C00703DD1 /* A0EnterpriseLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD20F1BE7BD4C00703DD1 /* A0EnterpriseLoginViewController.xib */; };
-		5FBAD21E1BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2101BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib */; };
 		5FBAD2211BE7BD4C00703DD1 /* A0LockSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */; };
 		5FBAD2251BE7BD4C00703DD1 /* A0SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */; };
 		5FBAD2301BE7BE1E00703DD1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD22F1BE7BE1E00703DD1 /* main.m */; };
@@ -753,10 +750,7 @@
 		5FBAD1671BE7B92900703DD1 /* A0ProgressButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0ProgressButton.h; sourceTree = "<group>"; };
 		5FBAD1681BE7B92900703DD1 /* A0ProgressButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ProgressButton.m; sourceTree = "<group>"; };
 		5FBAD1691BE7B92900703DD1 /* UIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIConstants.h; sourceTree = "<group>"; };
-		5FBAD20C1BE7BD4C00703DD1 /* A0ActiveDirectoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0ActiveDirectoryViewController.xib; sourceTree = "<group>"; };
 		5FBAD20D1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0ChangePasswordViewController.xib; sourceTree = "<group>"; };
-		5FBAD20F1BE7BD4C00703DD1 /* A0EnterpriseLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0EnterpriseLoginViewController.xib; sourceTree = "<group>"; };
-		5FBAD2101BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0FullActiveDirectoryViewController.xib; sourceTree = "<group>"; };
 		5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0LockSignUpViewController.xib; sourceTree = "<group>"; };
 		5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SignUpViewController.xib; sourceTree = "<group>"; };
 		5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MyLock-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1410,10 +1404,7 @@
 		5FBAD20B1BE7BD4C00703DD1 /* NIBs */ = {
 			isa = PBXGroup;
 			children = (
-				5FBAD20C1BE7BD4C00703DD1 /* A0ActiveDirectoryViewController.xib */,
 				5FBAD20D1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib */,
-				5FBAD20F1BE7BD4C00703DD1 /* A0EnterpriseLoginViewController.xib */,
-				5FBAD2101BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib */,
 				5FBAD2131BE7BD4C00703DD1 /* A0LockSignUpViewController.xib */,
 				5FBAD2171BE7BD4C00703DD1 /* A0SignUpViewController.xib */,
 			);
@@ -2155,7 +2146,6 @@
 			files = (
 				5FBAD4281BE7F0BA00703DD1 /* A0SMSLockViewController.xib in Resources */,
 				5FBAD2B11BE7CCE500703DD1 /* Auth0.bundle in Resources */,
-				5FBAD21E1BE7BD4C00703DD1 /* A0FullActiveDirectoryViewController.xib in Resources */,
 				5FBAD43C1BE7F0D100703DD1 /* A0EmailSendCodeViewController.xib in Resources */,
 				5FBAD4271BE7F0BA00703DD1 /* A0SMSCodeViewController.xib in Resources */,
 				5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */,
@@ -2163,7 +2153,6 @@
 				5FBAD41C1BE7F09600703DD1 /* A0TouchIDSignUpViewController.xib in Resources */,
 				5FBAD21B1BE7BD4C00703DD1 /* A0ChangePasswordViewController.xib in Resources */,
 				5FBAD41A1BE7F09600703DD1 /* A0TouchIDLockViewController.xib in Resources */,
-				5FBAD21D1BE7BD4C00703DD1 /* A0EnterpriseLoginViewController.xib in Resources */,
 				5FBAD4261BE7F0BA00703DD1 /* A0CountryCodeTableViewController.xib in Resources */,
 				5FBAD43A1BE7F0D100703DD1 /* A0EmailLockViewController.xib in Resources */,
 				5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */,
@@ -2174,7 +2163,6 @@
 				5FBAD2251BE7BD4C00703DD1 /* A0SignUpViewController.xib in Resources */,
 				5FBAD4291BE7F0BA00703DD1 /* A0SMSMagicLinkViewController.xib in Resources */,
 				5FBAD43B1BE7F0D100703DD1 /* A0EmailMagicLinkViewController.xib in Resources */,
-				5FBAD21A1BE7BD4C00703DD1 /* A0ActiveDirectoryViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

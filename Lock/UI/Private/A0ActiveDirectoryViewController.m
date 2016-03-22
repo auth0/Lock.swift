@@ -48,11 +48,11 @@
 #import "NSError+A0APIError.h"
 #import "Constants.h"
 #import "A0LoginView.h"
+#import <Masonry/Masonry.h>
 
 @interface A0ActiveDirectoryViewController () <A0LoginViewDelegate>
 
 @property (strong, nonatomic) A0Connection *matchedConnection;
-@property (weak, nonatomic) IBOutlet A0LoginView *loginView;
 
 @end
 
@@ -60,21 +60,18 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.title = A0LocalizedString(@"Login");
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    A0LoginView *loginView = [[A0LoginView alloc] initWithTheme:[A0Theme sharedInstance]];
+    [self.view addSubview:loginView];
+
+    [loginView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+
+    self.loginView = loginView;
+    self.title = A0LocalizedString(@"Login");
     self.loginView.identifierType = A0CredentialFieldViewUsername;
     self.loginView.delegate = self;
 

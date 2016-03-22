@@ -33,11 +33,11 @@
 
 @interface A0FullLoginViewController () <A0SmallSocialServiceCollectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet A0SmallSocialServiceCollectionView *serviceCollectionView;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) IBOutlet UIView *loadingView;
-@property (weak, nonatomic) IBOutlet UILabel *orLabel;
-@property (weak, nonatomic) IBOutlet UIView *socialView;
+@property (weak, nonatomic) A0SmallSocialServiceCollectionView *serviceCollectionView;
+@property (weak, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) UIView *loadingView;
+@property (weak, nonatomic) UILabel *orLabel;
+@property (weak, nonatomic) UIView *socialView;
 
 @end
 
