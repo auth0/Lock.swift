@@ -26,6 +26,7 @@
 #import "A0Theme.h"
 #import "A0TitleView.h"
 #import "Constants.h"
+#import <Masonry/Masonry.h>
 
 @interface A0ContainerViewController ()
 
@@ -53,58 +54,30 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.view addSubview:containerView];
     [self.view addSubview:navigationView];
 
+    [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@110);
+        make.centerX.equalTo(self);
+        make.left.and.right.equalTo(self);
+        make.top.equalTo(self).offset(20).with.priority(500);
+        make.top.equalTo(self).offset(60).with.priority(800);
+    }];
 
-    [titleView addConstraint:[NSLayoutConstraint constraintWithItem:titleView attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1.0 constant:110.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:titleView attribute:NSLayoutAttributeCenterX
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view attribute:NSLayoutAttributeCenterX
-                                                         multiplier:1.0 constant:0.0]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[titleView]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(titleView)]];
-    NSLayoutConstraint *lowPriorityConstraint = [NSLayoutConstraint constraintWithItem:titleView attribute:NSLayoutAttributeTop
-                                                                             relatedBy:NSLayoutRelationEqual
-                                                                                toItem:self.view attribute:NSLayoutAttributeTop
-                                                                            multiplier:1.0 constant:20.0];
-    lowPriorityConstraint.priority = 500;
-    NSLayoutConstraint *highPriorityConstraint = [NSLayoutConstraint constraintWithItem:titleView attribute:NSLayoutAttributeTop
-                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                 toItem:self.view attribute:NSLayoutAttributeTop
-                                                                             multiplier:1.0 constant:60.0];
-    highPriorityConstraint.priority = 800;
-    [self.view addConstraints:@[lowPriorityConstraint, highPriorityConstraint]];
+    [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.greaterThanOrEqualTo(@284);
+        make.top.equalTo(titleView.mas_bottom);
+        make.left.and.right.equalTo(self);
+    }];
 
-    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationGreaterThanOrEqual
-                                                                 toItem:nil attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1.0 constant:284.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:containerView attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:titleView attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0 constant:0.0]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[containerView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(containerView)]];
-
-
-    [navigationView addConstraint:[NSLayoutConstraint constraintWithItem:navigationView attribute:NSLayoutAttributeHeight
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:nil attribute:NSLayoutAttributeNotAnAttribute
-                                                              multiplier:1.0 constant:48.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:navigationView attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:containerView attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0 constant:0.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:navigationView attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0 constant:0.0]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-20-[navigationView]-20-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(navigationView)]];
+    [navigationView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@48);
+        make.top.equalTo(containerView.mas_bottom);
+        make.left.and.right.equalTo(self.view);
+        make.bottom.equalTo(self);
+    }];
 
     self.titleView = titleView;
     self.containerView = containerView;
     self.navigationView = navigationView;
-
-    [self.view needsUpdateConstraints];
 }
 
 - (void)setupContainerUI {
@@ -161,23 +134,19 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)layoutAuthView:(UIView *)authView toFillInContainerView:(UIView *)containerView {
     containerView.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:authView];
-    NSDictionary *views = NSDictionaryOfVariableBindings(authView);
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[authView]|" options:0 metrics:nil views:views]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
+    [authView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(containerView);
+    }];
 }
 
 - (void)layoutAuthView:(UIView *)authView centeredInContainerView:(UIView *)containerView {
     containerView.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:authView];
-    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView
-                                                              attribute:NSLayoutAttributeCenterY
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:authView
-                                                              attribute:NSLayoutAttributeCenterY
-                                                             multiplier:1.0f
-                                                               constant:0.0f]];
-    NSDictionary *views = NSDictionaryOfVariableBindings(authView);
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
+
+    [authView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(containerView);
+        make.left.and.right.equalTo(containerView);
+    }];
 }
 
 - (void)animateFromViewController:(UIViewController *)from toViewController:(UIViewController *)to {
