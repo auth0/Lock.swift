@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.23.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.23.1) (2016-03-22)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.23.0...1.23.1)
+
+**Merged pull requests:**
+
+- Avoid overriding connection name for social login [\#240](https://github.com/auth0/Lock.iOS-OSX/pull/240) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.23.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.23.0) (2016-03-21)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.22.0...1.23.0)
 
