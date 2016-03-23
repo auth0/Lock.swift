@@ -334,10 +334,6 @@
 		5FBAD4361BE7F0CA00703DD1 /* A0SMSMagicLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD39A1BE7E76D00703DD1 /* A0SMSMagicLinkViewController.m */; };
 		5FBAD4371BE7F0CA00703DD1 /* A0SMSSendCodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD39B1BE7E76D00703DD1 /* A0SMSSendCodeViewController.h */; };
 		5FBAD4381BE7F0CA00703DD1 /* A0SMSSendCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD39C1BE7E76D00703DD1 /* A0SMSSendCodeViewController.m */; };
-		5FBAD4391BE7F0D100703DD1 /* A0EmailCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3FF1BE7ED0200703DD1 /* A0EmailCodeViewController.xib */; };
-		5FBAD43A1BE7F0D100703DD1 /* A0EmailLockViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4001BE7ED0200703DD1 /* A0EmailLockViewController.xib */; };
-		5FBAD43B1BE7F0D100703DD1 /* A0EmailMagicLinkViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4011BE7ED0200703DD1 /* A0EmailMagicLinkViewController.xib */; };
-		5FBAD43C1BE7F0D100703DD1 /* A0EmailSendCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4021BE7ED0200703DD1 /* A0EmailSendCodeViewController.xib */; };
 		5FBAD43D1BE7F0D600703DD1 /* A0EmailLockViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD39E1BE7E76D00703DD1 /* A0EmailLockViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD43E1BE7F0D600703DD1 /* A0EmailLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD39F1BE7E76D00703DD1 /* A0EmailLockViewController.m */; };
 		5FBAD43F1BE7F0D600703DD1 /* A0Lock+A0EmailLockViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD3A01BE7E76D00703DD1 /* A0Lock+A0EmailLockViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -809,10 +805,6 @@
 		5FBAD3E51BE7EA1500703DD1 /* A0TouchIDLockViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDLockViewController.xib; sourceTree = "<group>"; };
 		5FBAD3E61BE7EA1500703DD1 /* A0TouchIDRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDRegisterViewController.xib; sourceTree = "<group>"; };
 		5FBAD3E71BE7EA1500703DD1 /* A0TouchIDSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDSignUpViewController.xib; sourceTree = "<group>"; };
-		5FBAD3FF1BE7ED0200703DD1 /* A0EmailCodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0EmailCodeViewController.xib; sourceTree = "<group>"; };
-		5FBAD4001BE7ED0200703DD1 /* A0EmailLockViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0EmailLockViewController.xib; sourceTree = "<group>"; };
-		5FBAD4011BE7ED0200703DD1 /* A0EmailMagicLinkViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0EmailMagicLinkViewController.xib; sourceTree = "<group>"; };
-		5FBAD4021BE7ED0200703DD1 /* A0EmailSendCodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0EmailSendCodeViewController.xib; sourceTree = "<group>"; };
 		5FBAD4081BE7ED0C00703DD1 /* A0CountryCodeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0CountryCodeTableViewCell.xib; sourceTree = "<group>"; };
 		5FBAD4091BE7ED0C00703DD1 /* A0CountryCodeTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0CountryCodeTableViewController.xib; sourceTree = "<group>"; };
 		5FBAD40A1BE7ED0C00703DD1 /* A0SMSCodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SMSCodeViewController.xib; sourceTree = "<group>"; };
@@ -1525,7 +1517,6 @@
 		5FBAD39D1BE7E76D00703DD1 /* Email */ = {
 			isa = PBXGroup;
 			children = (
-				5FBAD3FE1BE7ED0200703DD1 /* NIBs */,
 				5FBAD39E1BE7E76D00703DD1 /* A0EmailLockViewController.h */,
 				5FBAD39F1BE7E76D00703DD1 /* A0EmailLockViewController.m */,
 				5FBAD3A01BE7E76D00703DD1 /* A0Lock+A0EmailLockViewController.h */,
@@ -1562,17 +1553,6 @@
 				5FBAD3E51BE7EA1500703DD1 /* A0TouchIDLockViewController.xib */,
 				5FBAD3E61BE7EA1500703DD1 /* A0TouchIDRegisterViewController.xib */,
 				5FBAD3E71BE7EA1500703DD1 /* A0TouchIDSignUpViewController.xib */,
-			);
-			path = NIBs;
-			sourceTree = "<group>";
-		};
-		5FBAD3FE1BE7ED0200703DD1 /* NIBs */ = {
-			isa = PBXGroup;
-			children = (
-				5FBAD3FF1BE7ED0200703DD1 /* A0EmailCodeViewController.xib */,
-				5FBAD4001BE7ED0200703DD1 /* A0EmailLockViewController.xib */,
-				5FBAD4011BE7ED0200703DD1 /* A0EmailMagicLinkViewController.xib */,
-				5FBAD4021BE7ED0200703DD1 /* A0EmailSendCodeViewController.xib */,
 			);
 			path = NIBs;
 			sourceTree = "<group>";
@@ -2122,18 +2102,14 @@
 			files = (
 				5FBAD4281BE7F0BA00703DD1 /* A0SMSLockViewController.xib in Resources */,
 				5FBAD2B11BE7CCE500703DD1 /* Auth0.bundle in Resources */,
-				5FBAD43C1BE7F0D100703DD1 /* A0EmailSendCodeViewController.xib in Resources */,
 				5FBAD4271BE7F0BA00703DD1 /* A0SMSCodeViewController.xib in Resources */,
 				5FBAD42A1BE7F0BA00703DD1 /* A0SMSSendCodeViewController.xib in Resources */,
 				5FBAD41C1BE7F09600703DD1 /* A0TouchIDSignUpViewController.xib in Resources */,
 				5FBAD41A1BE7F09600703DD1 /* A0TouchIDLockViewController.xib in Resources */,
 				5FBAD4261BE7F0BA00703DD1 /* A0CountryCodeTableViewController.xib in Resources */,
-				5FBAD43A1BE7F0D100703DD1 /* A0EmailLockViewController.xib in Resources */,
 				5FBAD4251BE7F0BA00703DD1 /* A0CountryCodeTableViewCell.xib in Resources */,
 				5FBAD41B1BE7F09600703DD1 /* A0TouchIDRegisterViewController.xib in Resources */,
-				5FBAD4391BE7F0D100703DD1 /* A0EmailCodeViewController.xib in Resources */,
 				5FBAD4291BE7F0BA00703DD1 /* A0SMSMagicLinkViewController.xib in Resources */,
-				5FBAD43B1BE7F0D100703DD1 /* A0EmailMagicLinkViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

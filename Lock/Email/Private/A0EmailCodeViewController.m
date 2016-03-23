@@ -29,6 +29,8 @@
 #import "A0PasswordlessLockViewModel.h"
 #import "NSError+A0APIError.h"
 #import "Constants.h"
+#import "A0RoundedBoxView.h"
+#import <Masonry/Masonry.h>
 
 @interface A0EmailCodeViewController ()
 
@@ -48,7 +50,7 @@
 AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel {
-    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    self = [self init];
     if (self) {
         _viewModel = viewModel;
     }
@@ -57,11 +59,48 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    A0CredentialFieldView *codeField = [[A0CredentialFieldView alloc] init];
+    UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    A0ProgressButton *loginButton = [A0ProgressButton progressButton];
+    A0RoundedBoxView *boxView = [[A0RoundedBoxView alloc] init];
+
+    [boxView addSubview:codeField];
+    [codeField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+
+    [self.view addSubview:messageLabel];
+    [self.view addSubview:boxView];
+    [self.view addSubview:loginButton];
+    [messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.top.equalTo(self).offset(10);
+    }];
+    [boxView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view).offset(-20);
+        make.top.equalTo(messageLabel.mas_bottom).offset(8);
+        make.height.equalTo(@50);
+    }];
+    [loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(boxView.mas_bottom).offset(18);
+        make.left.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view).offset(-20);
+        make.bottom.equalTo(self);
+        make.height.equalTo(@55);
+    }];
+
+    self.codeFieldView = codeField;
+    self.messageLabel = messageLabel;
+    self.loginButton = loginButton;
+
     self.title = A0LocalizedString(@"Enter Email Code");
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.loginButton];
     [theme configureLabel:self.messageLabel];
     [self.loginButton setTitle:A0LocalizedString(@"LOGIN") forState:UIControlStateNormal];
+    [self.loginButton addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
     NSString *message = [NSString stringWithFormat:A0LocalizedString(@"Please check your mail %@.\nYou’ve received a message from us with your passcode"), self.viewModel.identifier];
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:message];
     if (self.viewModel.hasIdentifier) {
@@ -72,6 +111,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                             range:phoneRange];
     }
     self.messageLabel.attributedText = attrString;
+    self.messageLabel.preferredMaxLayoutWidth = 298;
+    self.messageLabel.textAlignment = NSTextAlignmentCenter;
     self.codeFieldView.type = A0CredentialFieldViewOTPCode;
     [self.codeFieldView setFieldPlaceholderText:A0LocalizedString(@"Email Code")];
     self.codeFieldView.returnKeyType = UIReturnKeyGo;
