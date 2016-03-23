@@ -21,8 +21,6 @@
 		5F624D1A1C39C24B009EDD83 /* A0LoginView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F624D181C39C24B009EDD83 /* A0LoginView.h */; };
 		5F624D1B1C39C24B009EDD83 /* A0LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F624D191C39C24B009EDD83 /* A0LoginView.m */; };
 		5F624D211C39D722009EDD83 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F624D201C39D722009EDD83 /* Masonry.framework */; };
-		5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */; };
-		5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628A61C12062F008D73FC /* A0WebViewController.xib */; };
 		5F6628AB1C12465F008D73FC /* CountryCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628AA1C12465F008D73FC /* CountryCodes.plist */; };
 		5F6628B51C12466C008D73FC /* cellphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628AC1C12466C008D73FC /* cellphone.png */; };
 		5F6628B61C12466C008D73FC /* cellphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6628AD1C12466C008D73FC /* cellphone@2x.png */; };
@@ -550,8 +548,6 @@
 		5F624D181C39C24B009EDD83 /* A0LoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0LoginView.h; sourceTree = "<group>"; };
 		5F624D191C39C24B009EDD83 /* A0LoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0LoginView.m; sourceTree = "<group>"; };
 		5F624D201C39D722009EDD83 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
-		5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebKitViewController.xib; sourceTree = "<group>"; };
-		5F6628A61C12062F008D73FC /* A0WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0WebViewController.xib; sourceTree = "<group>"; };
 		5F6628A91C120F23008D73FC /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		5F6628AA1C12465F008D73FC /* CountryCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountryCodes.plist; sourceTree = "<group>"; };
 		5F6628AC1C12466C008D73FC /* cellphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellphone.png; sourceTree = "<group>"; };
@@ -1047,15 +1043,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5F6628A41C12062E008D73FC /* NIBs */ = {
-			isa = PBXGroup;
-			children = (
-				5F6628A51C12062F008D73FC /* A0WebKitViewController.xib */,
-				5F6628A61C12062F008D73FC /* A0WebViewController.xib */,
-			);
-			path = NIBs;
-			sourceTree = "<group>";
-		};
 		5FBACFEB1BE7AF8700703DD1 = {
 			isa = PBXGroup;
 			children = (
@@ -1253,7 +1240,6 @@
 		5FBAD1001BE7B92900703DD1 /* WebView */ = {
 			isa = PBXGroup;
 			children = (
-				5F6628A41C12062E008D73FC /* NIBs */,
 				5FBAD1011BE7B92900703DD1 /* A0WebAuthenticable.h */,
 				5FBAD1021BE7B92900703DD1 /* A0WebKitViewController.h */,
 				5FBAD1031BE7B92900703DD1 /* A0WebKitViewController.m */,
@@ -2138,13 +2124,11 @@
 				5FBAD2B11BE7CCE500703DD1 /* Auth0.bundle in Resources */,
 				5FBAD43C1BE7F0D100703DD1 /* A0EmailSendCodeViewController.xib in Resources */,
 				5FBAD4271BE7F0BA00703DD1 /* A0SMSCodeViewController.xib in Resources */,
-				5F6628A71C12062F008D73FC /* A0WebKitViewController.xib in Resources */,
 				5FBAD42A1BE7F0BA00703DD1 /* A0SMSSendCodeViewController.xib in Resources */,
 				5FBAD41C1BE7F09600703DD1 /* A0TouchIDSignUpViewController.xib in Resources */,
 				5FBAD41A1BE7F09600703DD1 /* A0TouchIDLockViewController.xib in Resources */,
 				5FBAD4261BE7F0BA00703DD1 /* A0CountryCodeTableViewController.xib in Resources */,
 				5FBAD43A1BE7F0D100703DD1 /* A0EmailLockViewController.xib in Resources */,
-				5F6628A81C12062F008D73FC /* A0WebViewController.xib in Resources */,
 				5FBAD4251BE7F0BA00703DD1 /* A0CountryCodeTableViewCell.xib in Resources */,
 				5FBAD41B1BE7F09600703DD1 /* A0TouchIDRegisterViewController.xib in Resources */,
 				5FBAD4391BE7F0D100703DD1 /* A0EmailCodeViewController.xib in Resources */,
