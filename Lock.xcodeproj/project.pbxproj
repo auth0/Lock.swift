@@ -314,12 +314,6 @@
 		5FBAD4221BE7F0AC00703DD1 /* A0TouchIDRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD38A1BE7E76D00703DD1 /* A0TouchIDRegisterViewController.m */; };
 		5FBAD4231BE7F0AC00703DD1 /* A0TouchIDSignUpViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD38B1BE7E76D00703DD1 /* A0TouchIDSignUpViewController.h */; };
 		5FBAD4241BE7F0AC00703DD1 /* A0TouchIDSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD38C1BE7E76D00703DD1 /* A0TouchIDSignUpViewController.m */; };
-		5FBAD4251BE7F0BA00703DD1 /* A0CountryCodeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4081BE7ED0C00703DD1 /* A0CountryCodeTableViewCell.xib */; };
-		5FBAD4261BE7F0BA00703DD1 /* A0CountryCodeTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD4091BE7ED0C00703DD1 /* A0CountryCodeTableViewController.xib */; };
-		5FBAD4271BE7F0BA00703DD1 /* A0SMSCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD40A1BE7ED0C00703DD1 /* A0SMSCodeViewController.xib */; };
-		5FBAD4281BE7F0BA00703DD1 /* A0SMSLockViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD40B1BE7ED0C00703DD1 /* A0SMSLockViewController.xib */; };
-		5FBAD4291BE7F0BA00703DD1 /* A0SMSMagicLinkViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD40C1BE7ED0C00703DD1 /* A0SMSMagicLinkViewController.xib */; };
-		5FBAD42A1BE7F0BA00703DD1 /* A0SMSSendCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD40D1BE7ED0C00703DD1 /* A0SMSSendCodeViewController.xib */; };
 		5FBAD42B1BE7F0BF00703DD1 /* A0Lock+A0SMSLockViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD38E1BE7E76D00703DD1 /* A0Lock+A0SMSLockViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD42C1BE7F0BF00703DD1 /* A0Lock+A0SMSLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD38F1BE7E76D00703DD1 /* A0Lock+A0SMSLockViewController.m */; };
 		5FBAD42D1BE7F0BF00703DD1 /* A0SMSLockViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD3901BE7E76D00703DD1 /* A0SMSLockViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -805,12 +799,6 @@
 		5FBAD3E51BE7EA1500703DD1 /* A0TouchIDLockViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDLockViewController.xib; sourceTree = "<group>"; };
 		5FBAD3E61BE7EA1500703DD1 /* A0TouchIDRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDRegisterViewController.xib; sourceTree = "<group>"; };
 		5FBAD3E71BE7EA1500703DD1 /* A0TouchIDSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDSignUpViewController.xib; sourceTree = "<group>"; };
-		5FBAD4081BE7ED0C00703DD1 /* A0CountryCodeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0CountryCodeTableViewCell.xib; sourceTree = "<group>"; };
-		5FBAD4091BE7ED0C00703DD1 /* A0CountryCodeTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0CountryCodeTableViewController.xib; sourceTree = "<group>"; };
-		5FBAD40A1BE7ED0C00703DD1 /* A0SMSCodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SMSCodeViewController.xib; sourceTree = "<group>"; };
-		5FBAD40B1BE7ED0C00703DD1 /* A0SMSLockViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SMSLockViewController.xib; sourceTree = "<group>"; };
-		5FBAD40C1BE7ED0C00703DD1 /* A0SMSMagicLinkViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SMSMagicLinkViewController.xib; sourceTree = "<group>"; };
-		5FBAD40D1BE7ED0C00703DD1 /* A0SMSSendCodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0SMSSendCodeViewController.xib; sourceTree = "<group>"; };
 		5FBAD44A1BE7F31A00703DD1 /* SimpleKeychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SimpleKeychain.framework; path = Carthage/Build/iOS/SimpleKeychain.framework; sourceTree = "<group>"; };
 		5FBAD44C1BE7F5B500703DD1 /* TouchIDAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TouchIDAuth.framework; path = Carthage/Build/iOS/TouchIDAuth.framework; sourceTree = "<group>"; };
 		5FBAD4631BE7F93A00703DD1 /* LockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1487,7 +1475,6 @@
 		5FBAD38D1BE7E76D00703DD1 /* SMS */ = {
 			isa = PBXGroup;
 			children = (
-				5FBAD4071BE7ED0B00703DD1 /* NIBs */,
 				5FBAD38E1BE7E76D00703DD1 /* A0Lock+A0SMSLockViewController.h */,
 				5FBAD38F1BE7E76D00703DD1 /* A0Lock+A0SMSLockViewController.m */,
 				5FBAD3901BE7E76D00703DD1 /* A0SMSLockViewController.h */,
@@ -1553,19 +1540,6 @@
 				5FBAD3E51BE7EA1500703DD1 /* A0TouchIDLockViewController.xib */,
 				5FBAD3E61BE7EA1500703DD1 /* A0TouchIDRegisterViewController.xib */,
 				5FBAD3E71BE7EA1500703DD1 /* A0TouchIDSignUpViewController.xib */,
-			);
-			path = NIBs;
-			sourceTree = "<group>";
-		};
-		5FBAD4071BE7ED0B00703DD1 /* NIBs */ = {
-			isa = PBXGroup;
-			children = (
-				5FBAD4081BE7ED0C00703DD1 /* A0CountryCodeTableViewCell.xib */,
-				5FBAD4091BE7ED0C00703DD1 /* A0CountryCodeTableViewController.xib */,
-				5FBAD40A1BE7ED0C00703DD1 /* A0SMSCodeViewController.xib */,
-				5FBAD40B1BE7ED0C00703DD1 /* A0SMSLockViewController.xib */,
-				5FBAD40C1BE7ED0C00703DD1 /* A0SMSMagicLinkViewController.xib */,
-				5FBAD40D1BE7ED0C00703DD1 /* A0SMSSendCodeViewController.xib */,
 			);
 			path = NIBs;
 			sourceTree = "<group>";
@@ -2100,16 +2074,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FBAD4281BE7F0BA00703DD1 /* A0SMSLockViewController.xib in Resources */,
 				5FBAD2B11BE7CCE500703DD1 /* Auth0.bundle in Resources */,
-				5FBAD4271BE7F0BA00703DD1 /* A0SMSCodeViewController.xib in Resources */,
-				5FBAD42A1BE7F0BA00703DD1 /* A0SMSSendCodeViewController.xib in Resources */,
 				5FBAD41C1BE7F09600703DD1 /* A0TouchIDSignUpViewController.xib in Resources */,
 				5FBAD41A1BE7F09600703DD1 /* A0TouchIDLockViewController.xib in Resources */,
-				5FBAD4261BE7F0BA00703DD1 /* A0CountryCodeTableViewController.xib in Resources */,
-				5FBAD4251BE7F0BA00703DD1 /* A0CountryCodeTableViewCell.xib in Resources */,
 				5FBAD41B1BE7F09600703DD1 /* A0TouchIDRegisterViewController.xib in Resources */,
-				5FBAD4291BE7F0BA00703DD1 /* A0SMSMagicLinkViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

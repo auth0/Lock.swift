@@ -133,7 +133,6 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
             [weakSelf showLoadingWithMessage:A0LocalizedString(@"Logging in with Magic Link…")];
         }
     };
-    [self.view setNeedsUpdateConstraints];
 }
 
 - (void)dealloc {

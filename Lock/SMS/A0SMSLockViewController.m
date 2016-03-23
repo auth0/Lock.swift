@@ -31,6 +31,7 @@
 #import "A0PasswordlessLockViewModel.h"
 #import "A0SMSMagicLinkViewController.h"
 #import "Constants.h"
+#import <Masonry/Masonry.h>
 
 #define kPhoneNumberKey @"com.auth0.lock.passwordless.sms"
 
@@ -48,22 +49,15 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
+- (instancetype)init {
+    return [self initWithLock:[A0Lock sharedLock]];
+}
+
 - (instancetype)initWithLock:(A0Lock *)lock {
     NSAssert(lock != nil, @"Must have a non-nil Lock instance");
-    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    self = [super init];
     if (self) {
         _lock = lock;
-    }
-    return self;
-}
-
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             self.modalPresentationStyle = UIModalPresentationFormSheet;
         }
@@ -75,7 +69,18 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.view addSubview:dismissButton];
+    [dismissButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(10);
+        make.right.equalTo(self);
+        make.height.equalTo(@40);
+        make.width.equalTo(@40);
+    }];
+
+    self.closeButton = dismissButton;
+
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
 
     self.navigationController.navigationBarHidden = YES;
@@ -92,6 +97,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.closeButton.tintColor = [theme colorForKey:A0ThemeSecondaryButtonTextColor];
+    [self.closeButton addTarget:self action:@selector(close:) forControlEvents:UIControlEventTouchUpInside];
+    [self.closeButton setImage:[theme imageForKey:A0ThemeCloseButtonImageName] forState:UIControlStateNormal];
 
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapRecognizer];
@@ -104,6 +111,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.model.identifier = phoneNumber;
 
     [self nagivateToSendCodeScreen];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (void)close:(id)sender {
