@@ -24,10 +24,6 @@
 
 @class A0UserProfile, A0Token, A0AuthParameters, A0Lock;
 
-FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockButtonImageNormalName;
-FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockButtonImageHighlightedName;
-FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockContainerBackgroundColor;
-
 /**
  *  Controller used to start passwordless authentication with TouchID.
  *  Must be displayed inside a UINavigationController.

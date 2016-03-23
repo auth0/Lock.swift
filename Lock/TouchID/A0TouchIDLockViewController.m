@@ -39,10 +39,7 @@
 #import "A0Alert.h"
 #import "Constants.h"
 #import "A0KeyUploader.h"
-
-NSString * const A0ThemeTouchIDLockButtonImageNormalName = @"A0ThemeTouchIDLockButtonImageNormalName";
-NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchIDLockButtonImageHighlightedName";
-NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLockContainerBackgroundColor";
+#import <Masonry/Masonry.h>
 
 @interface A0TouchIDLockViewController ()
 
@@ -67,22 +64,15 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
+- (instancetype)init {
+    return [self initWithLock:[A0Lock sharedLock]];
+}
+
 - (instancetype)initWithLock:(A0Lock *)lock {
     NSAssert(lock != nil, @"Must have a non-nil Lock instance");
-    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];;
+    self = [super init];
     if (self) {
         _lock = lock;
-    }
-    return self;
-}
-
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             self.modalPresentationStyle = UIModalPresentationFormSheet;
         }
@@ -96,6 +86,64 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    A0TitleView *titleView = [[A0TitleView alloc] init];
+    UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    UIView *loadingView = [[UIView alloc] initWithFrame:CGRectZero];
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    UIView *touchIDView = [[UIView alloc] initWithFrame:CGRectZero];
+    UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    UIButton *touchIDButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    [loadingView addSubview:activityIndicator];
+    [activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(loadingView);
+    }];
+
+    [touchIDView addSubview:touchIDButton];
+    [touchIDView addSubview:messageLabel];
+    [touchIDButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(touchIDView);
+        make.centerY.equalTo(touchIDView).offset(20);
+        make.height.and.width.equalTo(@155);
+    }];
+    [messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(touchIDView);
+        make.bottom.equalTo(touchIDView.mas_bottom).offset(-3);
+    }];
+
+    [self.view addSubview:titleView];
+    [self.view addSubview:closeButton];
+    [self.view addSubview:loadingView];
+    [self.view addSubview:touchIDView];
+    [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.right.equalTo(self);
+        make.top.equalTo(self).offset(55);
+        make.height.equalTo(@110);
+    }];
+    [closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(10);
+        make.right.equalTo(self);
+        make.height.and.width.equalTo(@40);
+    }];
+    [touchIDView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(50);
+        make.right.equalTo(self).offset(-50);
+        make.top.equalTo(titleView.mas_bottom).offset(40);
+        make.bottom.equalTo(self).offset(-60);
+    }];
+    [loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.and.width.equalTo(@300);
+        make.center.equalTo(touchIDView);
+    }];
+
+    self.titleView = titleView;
+    self.closeButton = closeButton;
+    self.loadingView = loadingView;
+    self.activityIndicator = activityIndicator;
+    self.touchIDView = touchIDView;
+    self.touchIDButton = touchIDButton;
+    self.messageLabel = messageLabel;
+
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
     self.navigationController.navigationBarHidden = YES;
     A0Theme *theme = [A0Theme sharedInstance];
@@ -107,15 +155,21 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
     self.closeButton.enabled = self.closable;
     self.closeButton.hidden = !self.closable;
+    [self.closeButton setImage:[theme imageForKey:A0ThemeCloseButtonImageName] forState:UIControlStateNormal];
     self.closeButton.tintColor = [theme colorForKey:A0ThemeSecondaryButtonTextColor];
-    UIImage *normalImage = [theme imageForKey:A0ThemeTouchIDLockButtonImageNormalName defaultImage:[self.touchIDButton imageForState:UIControlStateNormal]];
+    [self.closeButton addTarget:self action:@selector(close:) forControlEvents:UIControlEventTouchUpInside];
+    UIImage *normalImage = [theme imageForKey:A0ThemeTouchIDLockButtonImageNormalName];
     [self.touchIDButton setImage:normalImage forState:UIControlStateNormal];
-    UIImage *highlightedImage = [theme imageForKey:A0ThemeTouchIDLockButtonImageHighlightedName defaultImage:[self.touchIDButton imageForState:UIControlStateHighlighted]];
+    UIImage *highlightedImage = [theme imageForKey:A0ThemeTouchIDLockButtonImageHighlightedName];
     [self.touchIDButton setImage:highlightedImage forState:UIControlStateHighlighted];
+    [self.touchIDButton addTarget:self action:@selector(checkTouchID:) forControlEvents:UIControlEventTouchUpInside];
     self.touchIDView.backgroundColor = [theme colorForKey:A0ThemeTouchIDLockContainerBackgroundColor defaultColor:self.touchIDView.backgroundColor];
     self.messageLabel.font = [theme fontForKey:A0ThemeDescriptionFont];
     self.messageLabel.textColor = [theme colorForKey:A0ThemeDescriptionTextColor];
+    self.messageLabel.text = A0LocalizedString(@"Tap above to sign in or create an account");
     self.activityIndicator.color = [theme colorForKey:A0ThemeTitleTextColor];
+    self.loadingView.hidden = YES;
+    self.activityIndicator.hidesWhenStopped = YES;
 
     self.titleView.title = A0LocalizedString(@"Login with TouchID");
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];

@@ -59,6 +59,10 @@ NSString * const A0ThemeIconEmail = @"A0ThemeIconEmail";
 NSString * const A0ThemeIconUsername = @"A0ThemeIconUsername";
 NSString * const A0ThemeIconLock = @"A0ThemeIconLock";
 NSString * const A0ThemeIconPhone = @"A0ThemeIconPhone";
+NSString * const A0ThemeTouchIDLockButtonImageNormalName = @"A0ThemeTouchIDLockButtonImageNormalName";
+NSString * const A0ThemeTouchIDLockButtonImageHighlightedName = @"A0ThemeTouchIDLockButtonImageHighlightedName";
+NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLockContainerBackgroundColor";
+
 
 #define kSecondaryButtonImageInsets UIEdgeInsetsMake(0, 28, 0, 28)
 
@@ -135,6 +139,10 @@ NSString * const A0ThemeIconPhone = @"A0ThemeIconPhone";
 
                      A0ThemeCloseButtonTintColor: [UIColor colorWithWhite:0.302 alpha:1.000],
                      A0ThemeCloseButtonImageName: [A0ImageTheme newImageWithName:@"Auth0.bundle/close" bundle:nil],
+
+                     A0ThemeTouchIDLockButtonImageNormalName: [A0ImageTheme newImageWithName:@"Auth0.bundle/touchid" bundle:nil],
+                     A0ThemeTouchIDLockButtonImageHighlightedName: [A0ImageTheme newImageWithName:@"Auth0.bundle/touchid_selected" bundle:nil],
+                     A0ThemeTouchIDLockContainerBackgroundColor: [UIColor clearColor],
                      } mutableCopy];
         _customThemeForConnection = ^(NSString *n, A0ServiceTheme *t) { return t; };
     }

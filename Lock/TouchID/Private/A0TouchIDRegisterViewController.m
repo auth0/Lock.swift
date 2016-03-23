@@ -44,10 +44,6 @@
 
 @implementation A0TouchIDRegisterViewController
 
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(A0TouchIDRegisterViewController.class) bundle:[NSBundle bundleForClass:A0TouchIDRegisterViewController.class]];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self displayController:[self buildSignUp]];

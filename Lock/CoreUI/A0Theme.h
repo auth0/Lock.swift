@@ -70,6 +70,10 @@ FOUNDATION_EXPORT NSString * const A0ThemeIconUsername;
 FOUNDATION_EXPORT NSString * const A0ThemeIconLock;
 FOUNDATION_EXPORT NSString * const A0ThemeIconPhone;
 
+FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockButtonImageNormalName;
+FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockButtonImageHighlightedName;
+FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockContainerBackgroundColor;
+
 @interface A0Theme : NSObject
 
 + (A0Theme *)sharedInstance;

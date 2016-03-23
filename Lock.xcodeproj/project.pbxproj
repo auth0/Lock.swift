@@ -303,9 +303,6 @@
 		5FBAD2AE1BE7CCD700703DD1 /* secondary_button_normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD2971BE7CCD700703DD1 /* secondary_button_normal@3x.png */; };
 		5FBAD2B11BE7CCE500703DD1 /* Auth0.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD27C1BE7CC8F00703DD1 /* Auth0.bundle */; };
 		5FBAD2B71BE7E25600703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FBAD41A1BE7F09600703DD1 /* A0TouchIDLockViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3E51BE7EA1500703DD1 /* A0TouchIDLockViewController.xib */; };
-		5FBAD41B1BE7F09600703DD1 /* A0TouchIDRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3E61BE7EA1500703DD1 /* A0TouchIDRegisterViewController.xib */; };
-		5FBAD41C1BE7F09600703DD1 /* A0TouchIDSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBAD3E71BE7EA1500703DD1 /* A0TouchIDSignUpViewController.xib */; };
 		5FBAD41D1BE7F09C00703DD1 /* A0Lock+A0TouchIDLockViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD3841BE7E76D00703DD1 /* A0Lock+A0TouchIDLockViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD41E1BE7F09C00703DD1 /* A0TouchIDLockViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD3861BE7E76D00703DD1 /* A0TouchIDLockViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FBAD41F1BE7F0A700703DD1 /* A0Lock+A0TouchIDLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD3851BE7E76D00703DD1 /* A0Lock+A0TouchIDLockViewController.m */; };
@@ -796,9 +793,6 @@
 		5FBAD3A61BE7E76D00703DD1 /* A0EmailMagicLinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0EmailMagicLinkViewController.m; sourceTree = "<group>"; };
 		5FBAD3A71BE7E76D00703DD1 /* A0EmailSendCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0EmailSendCodeViewController.h; sourceTree = "<group>"; };
 		5FBAD3A81BE7E76D00703DD1 /* A0EmailSendCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0EmailSendCodeViewController.m; sourceTree = "<group>"; };
-		5FBAD3E51BE7EA1500703DD1 /* A0TouchIDLockViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDLockViewController.xib; sourceTree = "<group>"; };
-		5FBAD3E61BE7EA1500703DD1 /* A0TouchIDRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDRegisterViewController.xib; sourceTree = "<group>"; };
-		5FBAD3E71BE7EA1500703DD1 /* A0TouchIDSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = A0TouchIDSignUpViewController.xib; sourceTree = "<group>"; };
 		5FBAD44A1BE7F31A00703DD1 /* SimpleKeychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SimpleKeychain.framework; path = Carthage/Build/iOS/SimpleKeychain.framework; sourceTree = "<group>"; };
 		5FBAD44C1BE7F5B500703DD1 /* TouchIDAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TouchIDAuth.framework; path = Carthage/Build/iOS/TouchIDAuth.framework; sourceTree = "<group>"; };
 		5FBAD4631BE7F93A00703DD1 /* LockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1449,7 +1443,6 @@
 		5FBAD3831BE7E76D00703DD1 /* TouchID */ = {
 			isa = PBXGroup;
 			children = (
-				5FBAD3E41BE7EA1500703DD1 /* NIBs */,
 				5FBAD3841BE7E76D00703DD1 /* A0Lock+A0TouchIDLockViewController.h */,
 				5FBAD3851BE7E76D00703DD1 /* A0Lock+A0TouchIDLockViewController.m */,
 				5FBAD3861BE7E76D00703DD1 /* A0TouchIDLockViewController.h */,
@@ -1532,16 +1525,6 @@
 				5FBAD27D1BE7CC8F00703DD1 /* Auth0 */,
 			);
 			name = Bundles;
-			sourceTree = "<group>";
-		};
-		5FBAD3E41BE7EA1500703DD1 /* NIBs */ = {
-			isa = PBXGroup;
-			children = (
-				5FBAD3E51BE7EA1500703DD1 /* A0TouchIDLockViewController.xib */,
-				5FBAD3E61BE7EA1500703DD1 /* A0TouchIDRegisterViewController.xib */,
-				5FBAD3E71BE7EA1500703DD1 /* A0TouchIDSignUpViewController.xib */,
-			);
-			path = NIBs;
 			sourceTree = "<group>";
 		};
 		5FBAD4641BE7F93A00703DD1 /* LockTests */ = {
@@ -2075,9 +2058,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FBAD2B11BE7CCE500703DD1 /* Auth0.bundle in Resources */,
-				5FBAD41C1BE7F09600703DD1 /* A0TouchIDSignUpViewController.xib in Resources */,
-				5FBAD41A1BE7F09600703DD1 /* A0TouchIDLockViewController.xib in Resources */,
-				5FBAD41B1BE7F09600703DD1 /* A0TouchIDRegisterViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -38,14 +38,12 @@
 #import "A0KeyUploader.h"
 #import "A0Token.h"
 #import "A0UserProfile.h"
+#import "A0RoundedBoxView.h"
+#import <Masonry/Masonry.h>
 
 @interface A0TouchIDSignUpViewController ()
 
 @property (weak, nonatomic) IBOutlet A0ProgressButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
-@property (weak, nonatomic) IBOutlet UIButton *loginButton;
-@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
-@property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
 
 - (IBAction)signUp:(id)sender;
 
@@ -57,24 +55,47 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    A0CredentialFieldView *emailField = [[A0CredentialFieldView alloc] init];
+    A0RoundedBoxView *boxView = [[A0RoundedBoxView alloc] init];
+    A0ProgressButton *signUpButton = [A0ProgressButton progressButton];
+
+    [boxView addSubview:emailField];
+    [emailField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(boxView);
+    }];
+
+    [self.view addSubview:boxView];
+    [self.view addSubview:signUpButton];
+    [boxView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(10);
+        make.left.equalTo(self).offset(21);
+        make.right.equalTo(self).offset(-21);
+        make.height.equalTo(@50);
+    }];
+    [signUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(boxView.mas_bottom).offset(18);
+        make.left.equalTo(self).offset(21);
+        make.right.equalTo(self).offset(-21);
+        make.height.equalTo(@55);
+        make.bottom.equalTo(self);
+    }];
+
+    self.signUpButton = signUpButton;
+    self.emailField = emailField;
+
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.signUpButton];
-    [theme configureSecondaryButton:self.cancelButton];
-    [theme configureSecondaryButton:self.loginButton];
-    [theme configureLabel:self.messageLabel];
-    
+
     self.validator = [[A0EmailValidator alloc] initWithField:self.emailField.textField];
     self.title = A0LocalizedString(@"Register");
     self.emailField.type = A0CredentialFieldViewEmail;
     self.emailField.returnKeyType = UIReturnKeyGo;
     [self.emailField.textField addTarget:self action:@selector(signUp:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    [self.signUpButton addTarget:self action:@selector(signUp:) forControlEvents:UIControlEventTouchUpInside];
+    [self.signUpButton setTitle:A0LocalizedString(@"SIGN UP") forState:UIControlStateNormal];
 }
 
 - (void)signUp:(id)sender {
