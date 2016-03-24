@@ -27,12 +27,14 @@
 #import "A0CountryCodeTableViewController.h"
 #import "A0APIClient.h"
 #import "A0Alert.h"
+#import "A0RoundedBoxView.h"
 
 #import "A0Errors.h"
 #import "A0Lock.h"
 #import "NSError+A0APIError.h"
 #import "A0PasswordlessLockViewModel.h"
 #import "Constants.h"
+#import <Masonry/Masonry.h>
 
 @interface A0SMSSendCodeViewController ()
 
@@ -51,7 +53,7 @@
 AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel {
-    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    self = [self init];
     if (self) {
         _model = viewModel;
     }
@@ -61,14 +63,50 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    A0PhoneFieldView *phoneField = [[A0PhoneFieldView alloc] init];
+    UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    A0ProgressButton *registerButton = [A0ProgressButton progressButton];
+    A0RoundedBoxView *boxView = [[A0RoundedBoxView alloc] init];
+
+    [boxView addSubview:phoneField];
+    [phoneField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+
+    [self.view addSubview:messageLabel];
+    [self.view addSubview:boxView];
+    [self.view addSubview:registerButton];
+    [messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.top.equalTo(self).offset(10);
+    }];
+    [boxView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view).offset(-20);
+        make.top.equalTo(messageLabel.mas_bottom).offset(8);
+        make.height.equalTo(@50);
+    }];
+    [registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(boxView.mas_bottom).offset(18);
+        make.left.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view).offset(-20);
+        make.bottom.equalTo(self);
+        make.height.equalTo(@55);
+    }];
+
+    self.phoneFieldView = phoneField;
+    self.messageLabel = messageLabel;
+    self.registerButton = registerButton;
+
     self.title = A0LocalizedString(@"Send Passcode");
     A0Theme *theme = [A0Theme sharedInstance];
-    [theme configureTextField:self.phoneFieldView.textField];
     [theme configurePrimaryButton:self.registerButton];
     [theme configureLabel:self.messageLabel];
     self.messageLabel.text = A0LocalizedString(@"Enter your phone to sign in or create an account");
-    [self.phoneFieldView setFieldPlaceholderText:A0LocalizedString(@"Phone Number")];
+    self.phoneFieldView.returnKeyType = UIReturnKeySend;
+    [self.phoneFieldView.textField addTarget:self action:@selector(registerSMS:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.registerButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
+    [self.registerButton addTarget:self action:@selector(registerSMS:) forControlEvents:UIControlEventTouchUpInside];
 
     NSArray *parts = [self.model.identifier componentsSeparatedByString:@" "];
     NSString *code = parts.count > 2 ? [[parts[0] stringByAppendingString:@" "] stringByAppendingString:parts[1]] : parts.firstObject;

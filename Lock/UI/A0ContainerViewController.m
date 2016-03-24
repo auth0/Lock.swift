@@ -26,6 +26,7 @@
 #import "A0Theme.h"
 #import "A0TitleView.h"
 #import "Constants.h"
+#import <Masonry/Masonry.h>
 
 @interface A0ContainerViewController ()
 
@@ -40,9 +41,59 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
+- (void)layoutContainerViews {
+    A0TitleView *titleView = [[A0TitleView alloc] init];
+    UIView *containerView = [[UIView alloc] init];
+    A0NavigationView *navigationView = [[A0NavigationView alloc] init];
+
+    titleView.translatesAutoresizingMaskIntoConstraints = NO;
+    containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    navigationView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [self.view addSubview:titleView];
+    [self.view addSubview:containerView];
+    [self.view addSubview:navigationView];
+
+    [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@110);
+        make.centerX.equalTo(self);
+        make.left.and.right.equalTo(self);
+        make.top.equalTo(self).offset(20).with.priority(500);
+        make.top.equalTo(self).offset(60).with.priority(800);
+    }];
+
+    [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.greaterThanOrEqualTo(@284);
+        make.top.equalTo(titleView.mas_bottom);
+        make.left.and.right.equalTo(self);
+    }];
+
+    [navigationView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@48);
+        make.top.equalTo(containerView.mas_bottom);
+        make.left.and.right.equalTo(self.view);
+        make.bottom.equalTo(self);
+    }];
+
+    self.titleView = titleView;
+    self.containerView = containerView;
+    self.navigationView = navigationView;
+}
+
+- (void)setupContainerUI {
+    [self layoutContainerViews];
+
+    self.containerView.clipsToBounds = YES;
+    self.containerView.backgroundColor = [UIColor clearColor];
+    self.titleView.backgroundColor = [UIColor clearColor];
+    self.navigationView.backgroundColor = [UIColor clearColor];
+
+    self.keyboardHandler = [[A0KeyboardHandler alloc] init];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.keyboardHandler = [[A0KeyboardHandler alloc] init];
+    [self setupContainerUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -83,23 +134,19 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)layoutAuthView:(UIView *)authView toFillInContainerView:(UIView *)containerView {
     containerView.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:authView];
-    NSDictionary *views = NSDictionaryOfVariableBindings(authView);
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[authView]|" options:0 metrics:nil views:views]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
+    [authView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(containerView);
+    }];
 }
 
 - (void)layoutAuthView:(UIView *)authView centeredInContainerView:(UIView *)containerView {
     containerView.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:authView];
-    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:containerView
-                                                              attribute:NSLayoutAttributeCenterY
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:authView
-                                                              attribute:NSLayoutAttributeCenterY
-                                                             multiplier:1.0f
-                                                               constant:0.0f]];
-    NSDictionary *views = NSDictionaryOfVariableBindings(authView);
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[authView]|" options:0 metrics:nil views:views]];
+
+    [authView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(containerView);
+        make.left.and.right.equalTo(containerView);
+    }];
 }
 
 - (void)animateFromViewController:(UIViewController *)from toViewController:(UIViewController *)to {

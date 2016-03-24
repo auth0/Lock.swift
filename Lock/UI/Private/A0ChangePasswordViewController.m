@@ -40,88 +40,97 @@
 #import "NSObject+A0APIClientProvider.h"
 #import "NSError+A0APIError.h"
 #import "Constants.h"
+#import "A0ChangePasswordView.h"
+#import <Masonry/Masonry.h>
 
-@interface A0ChangePasswordViewController ()
+@interface A0ChangePasswordViewController () <A0ChangePasswordViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
-@property (weak, nonatomic) IBOutlet UIView *credentialBoxView;
-@property (weak, nonatomic) IBOutlet A0ProgressButton *recoverButton;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
-
-- (IBAction)recover:(id)sender;
+@property (weak, nonatomic) A0ChangePasswordView *changePasswordView;
 
 @end
 
 @implementation A0ChangePasswordViewController
 
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.title = A0LocalizedString(@"Reset Password");
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = A0LocalizedString(@"Reset Password");
 
     A0Theme *theme = [A0Theme sharedInstance];
-    [theme configurePrimaryButton:self.recoverButton];
-    [theme configureSecondaryButton:self.cancelButton];
-    [theme configureLabel:self.messageLabel];
-    [theme configureTextField:self.userField.textField];
 
-    self.userField.textField.text = self.defaultEmail;
-    [self.userField setFieldPlaceholderText:A0LocalizedString(@"Email")];
-    [self.recoverButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
-    self.messageLabel.text = A0LocalizedString(@"Please enter your email address. We will send you an email to reset your password.");
+    A0ChangePasswordView *changePasswordView = [[A0ChangePasswordView alloc] initWithTheme:theme];
+    [self.view addSubview:changePasswordView];
+    [changePasswordView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+
+    changePasswordView.delegate = self;
+    changePasswordView.identifier = self.email;
+    changePasswordView.identifierType = self.forceUsername ? A0ChangePasswordIndentifierTypeUsername : A0ChangePasswordIndentifierTypeEmail;
 
     if (self.defaultConnection) {
         self.parameters[A0ParameterConnection] = self.defaultConnection.name;
     }
 
     if (self.forceUsername) {
-        self.validator = [[A0UsernameValidator alloc] initWithField:self.userField.textField];
+        self.validator = [[A0UsernameValidator alloc] initWithField:changePasswordView.identifierField.textField];
     } else {
-        self.validator = [[A0EmailValidator alloc] initWithField:self.userField.textField];
+        self.validator = [[A0EmailValidator alloc] initWithField:changePasswordView.identifierField.textField];
     }
+    self.changePasswordView = changePasswordView;
 }
 
-- (IBAction)recover:(id)sender {
-    [self.recoverButton setInProgress:YES];
+- (NSString *)email {
+    return self.changePasswordView ? self.changePasswordView.identifier : _email;
+}
+
+- (void)hideKeyboard {
+    [self.changePasswordView resignFirstResponder];
+}
+
+- (CGRect)rectToKeepVisibleInView:(UIView *)view {
+    CGRect buttonFrame = [view convertRect:self.changePasswordView.submitButton.frame fromView:self.changePasswordView.submitButton.superview];
+    return buttonFrame;
+}
+
+- (void)updateUIWithError:(NSError *)error {
+    self.changePasswordView.identifierValid = !error;
+}
+
+- (void)changePasswordView:(A0ChangePasswordView *)changePasswordView didSubmitWithCompletionHandler:(A0ChangePasswordViewCompletionHandler)completionHandler {
     NSError *error = [self.validator validate];
     if (!error) {
         [self hideKeyboard];
-        NSString *username = [self.userField.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        NSString *username = self.changePasswordView.identifier;
         void(^success)() = ^ {
             [self postChangePasswordSuccessfulWithEmail:username];
-            [self.recoverButton setInProgress:NO];
-            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
-                alert.title = A0LocalizedString(@"Reset Password");
-                alert.message = A0LocalizedString(@"We've just sent you an email to reset your password.");
-            }];
-            if (self.onChangePasswordBlock) {
-                self.onChangePasswordBlock();
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                    alert.title = A0LocalizedString(@"Reset Password");
+                    alert.message = A0LocalizedString(@"We've just sent you an email to reset your password.");
+                }];
+                if (self.onChangePasswordBlock) {
+                    self.onChangePasswordBlock();
+                }
+                completionHandler(YES);
+            });
         };
         A0APIClientError failure = ^(NSError *error) {
             [self postChangePasswordErrorNotificationWithError:error];
-            [self.recoverButton setInProgress:NO];
-            NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Couldn't request to reset your password");
-            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForChangePasswordError:error];
-            [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
-                alert.title = title;
-                alert.message = message;
-            }];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Couldn't request to reset your password");
+                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForChangePasswordError:error];
+                [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
+                    alert.title = title;
+                    alert.message = message;
+                }];
+                completionHandler(NO);
+            });
         };
         A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
         [client requestChangePasswordForUsername:username parameters:self.parameters success:success failure:failure];
     } else {
-        [self.recoverButton setInProgress:NO];
+        completionHandler(NO);
         [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
             alert.title = error.localizedDescription;
             alert.message = error.localizedFailureReason;
@@ -129,26 +138,4 @@
     }
     [self updateUIWithError:error];
 }
-
-- (void)hideKeyboard {
-    [self.userField.textField resignFirstResponder];
-}
-
-- (CGRect)rectToKeepVisibleInView:(UIView *)view {
-    CGRect buttonFrame = [view convertRect:self.recoverButton.frame fromView:self.recoverButton.superview];
-    return buttonFrame;
-}
-
-- (void)updateUIWithError:(NSError *)error {
-    self.userField.invalid = NO;
-    if (error) {
-        switch (error.code) {
-            case A0ErrorCodeInvalidUsername:
-            case A0ErrorCodeInvalidEmail:
-                self.userField.invalid = YES;
-                break;
-        }
-    }
-}
-
 @end

@@ -26,4 +26,7 @@
 
 - (void)setInProgress:(BOOL)inProgress;
 
++ (instancetype) progressButton;
++ (instancetype) progressButtonWithFrame:(CGRect)frame;
+
 @end

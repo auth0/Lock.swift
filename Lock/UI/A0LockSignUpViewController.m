@@ -40,16 +40,22 @@
 #import "UIConstants.h"
 #import "A0Alert.h"
 #import "Constants.h"
+#import "A0KeyboardHandler.h"
+#import <Masonry/Masonry.h>
 
 @interface A0LockSignUpViewController () <A0SmallSocialServiceCollectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *dismissButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) IBOutlet UIView *loadingView;
-@property (weak, nonatomic) IBOutlet A0SmallSocialServiceCollectionView *serviceCollectionView;
+@property (weak, nonatomic) UIButton *dismissButton;
+@property (weak, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) UIView *loadingView;
+@property (weak, nonatomic) A0SmallSocialServiceCollectionView *serviceCollectionView;
+@property (weak, nonatomic) A0TitleView *titleView;
+@property (weak, nonatomic) UIView *authenticationView;
 
 @property (strong, nonatomic) A0LockConfiguration *configuration;
 @property (strong, nonatomic) A0Lock *lock;
+@property (strong, nonatomic) A0KeyboardHandler *keyboardHandler;
+
 
 @end
 
@@ -57,35 +63,100 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
+- (instancetype)init {
+    return [self initWithLock:[A0Lock sharedLock]];
+}
+
 - (instancetype)initWithLock:(A0Lock *)lock {
     NSAssert(lock != nil, @"Must have a non-nil Lock instance");
-    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    self = [super init];
     if (self) {
         _lock = lock;
-    }
-    return self;
-}
-
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             self.modalPresentationStyle = UIModalPresentationFormSheet;
         }
         _loginAfterSignUp = YES;
         _authenticationParameters = [A0AuthParameters newDefaultParams];
         _connections = @[];
+        _keyboardHandler = [[A0KeyboardHandler alloc] init];
     }
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.keyboardHandler start];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.keyboardHandler stop];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    A0TitleView *titleView = [[A0TitleView alloc] init];
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectZero];
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    UIView *loadingView = [[UIView alloc] initWithFrame:CGRectZero];
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    UIView *authenticationView = [[UIView alloc] initWithFrame:CGRectZero];
+    A0SmallSocialServiceCollectionView *serviceCollectionView = [[A0SmallSocialServiceCollectionView alloc] init];
+
+    [authenticationView addSubview:serviceCollectionView];
+    [serviceCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.and.right.equalTo(authenticationView);
+        make.height.equalTo(@60);
+    }];
+
+    [loadingView addSubview:activityIndicator];
+    [activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(loadingView);
+    }];
+
+    [containerView addSubview:loadingView];
+    [containerView addSubview:authenticationView];
+    [loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.right.equalTo(containerView);
+        make.centerY.equalTo(containerView);
+        make.height.equalTo(@273);
+    }];
+    [authenticationView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.right.equalTo(containerView);
+        make.centerY.equalTo(containerView);
+        make.height.equalTo(@330);
+    }];
+
+    [self.view addSubview:titleView];
+    [self.view addSubview:dismissButton];
+    [self.view addSubview:containerView];
+    [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.right.equalTo(self);
+        make.top.equalTo(self).offset(20).with.priority(500);
+        make.top.equalTo(self).offset(50).with.priority(800);
+        make.height.equalTo(@110);
+    }];
+    [dismissButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@40);
+        make.width.equalTo(titleView.mas_height);
+        make.top.equalTo(self).offset(10);
+        make.right.equalTo(self);
+    }];
+    [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.and.right.equalTo(self);
+        make.top.equalTo(titleView.mas_bottom);
+        make.height.greaterThanOrEqualTo(@330);
+    }];
+
+    self.titleView = titleView;
+    self.serviceCollectionView = serviceCollectionView;
+    self.dismissButton = dismissButton;
+    self.loadingView = loadingView;
+    self.activityIndicator = activityIndicator;
+    self.authenticationView = authenticationView;
+
     A0Theme *theme = [A0Theme sharedInstance];
+    self.serviceCollectionView.backgroundColor = [UIColor clearColor];
     self.serviceCollectionView.authenticationDelegate = self;
     self.serviceCollectionView.parameters = [self copyAuthenticationParameters];
     self.activityIndicator.color = [theme colorForKey:A0ThemeTitleTextColor];
@@ -99,6 +170,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.dismissButton.tintColor = [theme colorForKey:A0ThemeCloseButtonTintColor];
 
+    containerView.backgroundColor = [UIColor clearColor];
+    self.titleView.backgroundColor = [UIColor clearColor];
+    self.titleView.title = A0LocalizedString(@"Sign Up");
+
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
+    [self.view addGestureRecognizer:tapGesture];
     [self displayController:[[A0LoadingViewController alloc] init]];
     [self loadApplicationInfo];
 }
@@ -128,6 +205,34 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (BOOL)prefersStatusBarHidden {
     return [[A0Theme sharedInstance] statusBarHidden];
+}
+
+- (void)displayController:(UIViewController<A0KeyboardEnabledView> *)controller {
+    UIViewController *from = self.childViewControllers.firstObject;
+    controller.view.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.keyboardHandler handleForView:controller inView:self.view];
+    [from willMoveToParentViewController:nil];
+    [self addChildViewController:controller];
+    [self.authenticationView addSubview:controller.view];
+    [controller.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.and.right.equalTo(self.authenticationView);
+        make.top.equalTo(self.serviceCollectionView.mas_bottom);
+    }];
+    [self animateFromViewController:from toViewController:controller];
+}
+
+- (void)animateFromViewController:(UIViewController *)from toViewController:(UIViewController *)to {
+    A0LogDebug(@"Starting animation to show %@", NSStringFromClass(to.class));
+    to.view.alpha = 0.0f;
+    from.view.alpha = 0.0f;
+    [UIView animateWithDuration:0.3f animations:^{
+        to.view.alpha = 1.0f;
+        self.titleView.title = to.title;
+    } completion:^(BOOL finished) {
+        [from.view removeFromSuperview];
+        [from removeFromParentViewController];
+        [to didMoveToParentViewController:self];
+    }];
 }
 
 #pragma mark - A0SmallSocialServiceCollectionViewDelegate

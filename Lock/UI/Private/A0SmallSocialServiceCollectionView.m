@@ -54,15 +54,26 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
+- (instancetype)init {
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    layout.itemSize = CGSizeMake(55, 55);
+    layout.minimumLineSpacing = 5;
+    layout.minimumInteritemSpacing = 5;
+    self = [super initWithFrame:CGRectZero collectionViewLayout:layout];
+    if (self) {
+        [self awakeFromNib];
+    }
+    return self;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.layoutDelegate = [[A0ServiceCollectionViewLayoutDelegate alloc] initWithServiceCount:self.socialServices.count];
     self.delegate = self.layoutDelegate;
     self.dataSource = self;
     self.scrollEnabled = self.layoutDelegate.shouldScroll;
-    UINib *cellNib = [UINib nibWithNibName:NSStringFromClass([A0ServiceCollectionViewCell class])
-                                    bundle:[NSBundle bundleForClass:[self class]]];
-    [self registerNib:cellNib forCellWithReuseIdentifier:kCellIdentifier];
+    [self registerClass:A0ServiceCollectionViewCell.class forCellWithReuseIdentifier:kCellIdentifier];
 }
 
 - (void)showSocialServicesForConfiguration:(A0LockConfiguration *)configuration {

@@ -28,6 +28,7 @@
 #import "A0LoadingView.h"
 #import "A0Errors.h"
 #import "Constants.h"
+#import <Masonry/Masonry.h>
 
 const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
 
@@ -48,7 +49,7 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
 @implementation A0EmailMagicLinkViewController
 
 - (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel {
-    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    self = [self init];
     if (self) {
         _viewModel = viewModel;
     }
@@ -57,6 +58,34 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    UILabel *checkLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    UIButton *resendButton = [UIButton buttonWithType:UIButtonTypeSystem];
+
+    [self.view addSubview:checkLabel];
+    [self.view addSubview:messageLabel];
+    [self.view addSubview:resendButton];
+
+    [messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self);
+        make.width.equalTo(@230);
+    }];
+    [checkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(messageLabel.mas_top).offset(-30);
+        make.height.equalTo(@54);
+        make.width.equalTo(@54);
+        make.centerX.equalTo(self);
+    }];
+    [resendButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.top.equalTo(messageLabel.mas_bottom).offset(20);
+    }];
+
+    self.checkLabel = checkLabel;
+    self.messageLabel = messageLabel;
+    self.resendButton = resendButton;
+
     self.title = A0LocalizedString(@"Magic Link Sent");
 
     A0Theme *theme = [A0Theme sharedInstance];
@@ -71,12 +100,21 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
                                                                                  NSFontAttributeName: [UIFont boldSystemFontOfSize:font.pointSize],
                                                                                  }]];
     self.messageLabel.attributedText = message;
+    self.messageLabel.textAlignment = NSTextAlignmentCenter;
+    self.messageLabel.numberOfLines = 3;
 
-    self.checkLabel.layer.cornerRadius = self.checkLabel.frame.size.height / 2;
+    self.checkLabel.textAlignment = NSTextAlignmentCenter;
+    self.checkLabel.layer.cornerRadius = 27;
     self.checkLabel.layer.masksToBounds = YES;
+    self.checkLabel.backgroundColor = [UIColor colorWithRed:0.5686 green:0.749 blue:0.3059 alpha:1.0];
+    self.checkLabel.text = @"✓";
+    self.checkLabel.textColor = [UIColor whiteColor];
+    self.checkLabel.font = [UIFont systemFontOfSize:45];
     
     [self scheduleToEnableResend];
+    [self.resendButton setTitle:A0LocalizedString(@"Resend") forState:UIControlStateNormal];
     self.resendButton.tintColor = [theme colorForKey:A0ThemePrimaryButtonNormalColor];
+    [self.resendButton addTarget:self action:@selector(resend:) forControlEvents:UIControlEventTouchUpInside];
 
     __weak A0EmailMagicLinkViewController *weakSelf = self;
     self.viewModel.onMagicLink = ^(NSError *error, BOOL completed) {

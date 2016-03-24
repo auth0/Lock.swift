@@ -20,6 +20,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
 
   s.requires_arc = true
 
+
   s.dependency 'CocoaLumberjack', '~> 2.0'
   s.default_subspecs = 'UI', 'Core', 'WebView'
   s.prefix_header_contents = <<-EOS
@@ -42,6 +43,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     coreui.public_header_files = 'Lock/CoreUI/*.h'
     coreui.source_files = ['Lock/CoreUI/*.{h,m}']
     coreui.dependency 'Lock/Core'
+    coreui.dependency 'Masonry', '~> 0.6'
   end
 
   s.subspec 'UI' do |ui|
@@ -50,8 +52,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     ui.private_header_files = ['Lock/UI/Private/*.h', 'Lock/Utils/*.h']
     ui.source_files = ['Lock/{UI,Utils}/*.{h,m}', 'Lock/UI/Private/*.{h,m}']
     ui.dependency 'Lock/CoreUI'
-    ui.resources = 'Lock/UI/NIBs/*.xib'
-    ui.resource_bundles = { 'Auth0' => ['Auth0/Images/*.png', 'Auth0/Social/*.png']}
+    ui.resource_bundles = { 'Auth0' => ['Auth0/Images/*.png', 'Auth0/Social/*.png', 'Auth0/*.plist'] }
   end
 
   s.subspec 'TouchID' do |touchid|
@@ -59,11 +60,9 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     touchid.public_header_files = 'Lock/TouchID/*.h'
     touchid.private_header_files = 'Lock/TouchID/Private/*.h'
     touchid.source_files = 'Lock/TouchID/**/*.{h,m}'
-    touchid.resources = 'Lock/TouchID/NIBs/*.xib'
     touchid.dependency 'Lock/UI'
     touchid.dependency 'SimpleKeychain', '~> 0.2'
     touchid.dependency 'TouchIDAuth', '~> 0.1'
-    touchid.resource_bundles = { 'Auth0.TouchID' => ['Auth0-TouchID/Images/*.png'] }
   end
 
   s.subspec 'SMS' do |sms|
@@ -71,9 +70,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     sms.public_header_files = 'Lock/SMS/*.h'
     sms.private_header_files = 'Lock/SMS/Private/*.h'
     sms.source_files = ['Lock/SMS/*.{h,m}', 'Lock/SMS/Private/*.{h,m}']
-    sms.resources = 'Lock/SMS/NIBs/*.xib'
     sms.dependency 'Lock/UI'
-    sms.resource_bundles = { 'Auth0.SMS' => ['Auth0-SMS/*.plist', 'Auth0-SMS/Images/*.png'] }
   end
 
   s.subspec 'Email' do |email|
@@ -81,7 +78,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     email.public_header_files = 'Lock/Email/*.h'
     email.private_header_files = 'Lock/Email/Private/*.h'
     email.source_files = ['Lock/Email/*.{h,m}', 'Lock/Email/Private/*.{h,m}']
-    email.resources = 'Lock/Email/NIBs/*.xib'
     email.dependency 'Lock/UI'
   end
 
@@ -96,7 +92,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     webview.platform = :ios
     webview.public_header_files = 'Lock/WebView/*.h'
     webview.source_files = 'Lock/WebView/*.{h,m}'
-    webview.resources = 'Lock/WebView/NIBs/*.xib'
     webview.dependency 'Lock/CoreUI'
     webview.frameworks = ["WebKit"]
   end

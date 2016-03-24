@@ -35,6 +35,14 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [self awakeFromNib];
+    }
+    return self;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.actions = [@[] mutableCopy];

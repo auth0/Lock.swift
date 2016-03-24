@@ -37,15 +37,12 @@
 #import "A0Lock.h"
 #import "A0Token.h"
 #import "A0UserProfile.h"
+#import "A0LoginView.h"
 
 @interface A0TouchIDRegisterViewController ()
 @end
 
 @implementation A0TouchIDRegisterViewController
-
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(A0TouchIDRegisterViewController.class) bundle:[NSBundle bundleForClass:A0TouchIDRegisterViewController.class]];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -70,7 +67,7 @@
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:self.onCancelBlock];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"ALREADY HAVE AN ACCOUNT?") actionBlock:^{
         A0DatabaseLoginViewController *controller = [weakSelf buildLogin];
-        controller.defaultUsername = signUpController.emailField.textField.text;
+        controller.identifier = signUpController.emailField.textField.text;
         [weakSelf displayController:controller];
     }];
     return signUpController;
@@ -82,7 +79,7 @@
     controller.parameters = self.parameters;
     controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
         NSString *connection = weakSelf.parameters[@"connection"];
-        NSString *authorization = [A0KeyUploader authorizationWithUsername:controller.username password:controller.password connectionName:connection];
+        NSString *authorization = [A0KeyUploader authorizationWithUsername:controller.loginView.identifier password:controller.loginView.password connectionName:connection];
         A0KeyUploader *uploader = [[A0KeyUploader alloc] initWithDomainURL:[weakSelf.lock domainURL]
                                                                   clientId:[weakSelf.lock clientId]
                                                              authorization:authorization];
@@ -95,7 +92,7 @@
     }];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
         A0ChangePasswordViewController *resetController = [weakSelf buildChangePassword];
-        resetController.defaultEmail = controller.userField.textField.text;
+        resetController.email = controller.identifier;
         [weakSelf displayController:resetController];
     }];
     return controller;
@@ -112,7 +109,7 @@
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         A0DatabaseLoginViewController *loginController = [weakSelf buildLogin];
-        loginController.defaultUsername = controller.userField.textField.text;
+        loginController.identifier = controller.email;
         [weakSelf displayController:loginController];
     }];
     return controller;

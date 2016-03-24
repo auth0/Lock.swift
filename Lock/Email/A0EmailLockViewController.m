@@ -31,6 +31,7 @@
 #import "A0PasswordlessLockViewModel.h"
 #import "A0EmailMagicLinkViewController.h"
 #import "Constants.h"
+#import <Masonry/Masonry.h>
 
 #define kEmailKey @"com.auth0.lock.passwordless.email"
 
@@ -51,16 +52,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)initWithLock:(A0Lock *)lock {
     NSAssert(lock != nil, @"Must have a non-nil Lock instance");
-    self = [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
+    self = [super init];
     if (self) {
         _lock = lock;
-    }
-    return self;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             self.modalPresentationStyle = UIModalPresentationFormSheet;
         }
@@ -74,6 +68,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [super viewDidLoad];
     
     NSAssert(self.navigationController != nil, @"Must be inside a UINavigationController");
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.view addSubview:dismissButton];
+    [dismissButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(10);
+        make.right.equalTo(self);
+        make.height.equalTo(@40);
+        make.width.equalTo(@40);
+    }];
+
+    self.closeButton = dismissButton;
 
     A0PasswordlessLockStrategy strategy = [self isMagicLinkAvailable] ? A0PasswordlessLockStrategyEmailMagicLink : A0PasswordlessLockStrategyEmailCode;
     self.viewModel = [[A0PasswordlessLockViewModel alloc] initWithLock:self.lock authenticationParameters:self.authenticationParameters strategy:strategy];
@@ -95,6 +99,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
     self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
     self.closeButton.tintColor = [theme colorForKey:A0ThemeSecondaryButtonTextColor];
+    [self.closeButton addTarget:self action:@selector(close:) forControlEvents:UIControlEventTouchUpInside];
+    [self.closeButton setImage:[theme imageForKey:A0ThemeCloseButtonImageName] forState:UIControlStateNormal];
 
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapRecognizer];

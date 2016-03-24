@@ -26,33 +26,94 @@
 #import "A0LockConfiguration.h"
 #import "A0SmallSocialServiceCollectionView.h"
 #import "Constants.h"
+#import "A0LoginView.h"
+#import <Masonry/Masonry.h>
 
 @interface A0FullActiveDirectoryViewController () <A0SmallSocialServiceCollectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) IBOutlet UIView *loadingView;
-@property (weak, nonatomic) IBOutlet UILabel *orLabel;
+@property (weak, nonatomic) A0SmallSocialServiceCollectionView *serviceCollectionView;
+@property (weak, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) UIView *loadingView;
+@property (weak, nonatomic) UILabel *orLabel;
+@property (weak, nonatomic) UIView *socialView;
 
 @end
 
 @implementation A0FullActiveDirectoryViewController
-@dynamic configuration;
 
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
+@dynamic configuration;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    A0LoginView *loginView = self.loginView;
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    UIView *loadingView = [[UIView alloc] initWithFrame:CGRectZero];
+    A0SmallSocialServiceCollectionView *collectionView = [[A0SmallSocialServiceCollectionView alloc] init];
+    UILabel *orLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    UIView *socialView = [[UIView alloc] initWithFrame:CGRectZero];
+    [loginView removeFromSuperview];
+
+    [loadingView addSubview:activityIndicator];
+    [self.view addSubview:loadingView];
+    [socialView addSubview:collectionView];
+    [socialView addSubview:orLabel];
+    [self.view addSubview:socialView];
+    [self.view addSubview:loginView];
+    [self.view bringSubviewToFront:self.loadingView];
+
+    self.serviceCollectionView = collectionView;
+    self.activityIndicator = activityIndicator;
+    self.loadingView = loadingView;
+    self.orLabel = orLabel;
+    self.socialView = socialView;
+    self.loginView = loginView;
+
+    [loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    [activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(loadingView);
+    }];
+
+    [collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(socialView.mas_top);
+        make.left.equalTo(socialView.mas_left);
+        make.right.equalTo(socialView.mas_right);
+        make.height.equalTo(@60);
+    }];
+    [orLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(socialView);
+        make.top.equalTo(collectionView.mas_bottom).offset(8);
+        make.bottom.equalTo(socialView.mas_bottom);
+        make.height.equalTo(@20);
+    }];
+    [socialView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+    }];
+
+    [loginView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.socialView.mas_bottom);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.bottom.equalTo(self.view.mas_bottom);
+    }];
+
     A0Theme *theme = [A0Theme sharedInstance];
+
+    self.loadingView.hidden = YES;
+    self.title = A0LocalizedString(@"Login");
     self.orLabel.font = [theme fontForKey:A0ThemeSeparatorTextFont];
     self.orLabel.textColor = [theme colorForKey:A0ThemeSeparatorTextColor];
     self.orLabel.text = A0LocalizedString(@"OR");
     self.serviceCollectionView.authenticationDelegate = self;
     self.serviceCollectionView.parameters = self.parameters;
     self.serviceCollectionView.lock = self.lock;
+    self.serviceCollectionView.backgroundColor = [UIColor clearColor];
     [self.serviceCollectionView showSocialServicesForConfiguration:self.configuration];
     self.activityIndicator.color = [[A0Theme sharedInstance] colorForKey:A0ThemeTitleTextColor];
+    self.loadingView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)socialServiceCollectionView:(A0SmallSocialServiceCollectionView *)collectionView

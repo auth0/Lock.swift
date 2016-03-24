@@ -27,8 +27,4 @@
 
 @interface A0FullActiveDirectoryViewController : A0ActiveDirectoryViewController
 
-@property (weak, nonatomic) IBOutlet A0SmallSocialServiceCollectionView *serviceCollectionView;
-
-@property (strong, nonatomic) A0LockConfiguration *configuration;
-
 @end

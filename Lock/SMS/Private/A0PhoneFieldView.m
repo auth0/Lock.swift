@@ -33,18 +33,12 @@
 
 @implementation A0PhoneFieldView
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        _defaultCountryCode = kDefaultUSCode;
-    }
-    return self;
-}
-
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         _defaultCountryCode = kDefaultUSCode;
+        [self setupLayout];
+        [self setupViews];
     }
     return self;
 }
@@ -53,17 +47,50 @@
     self = [super initWithFrame:frame];
     if (self) {
         _defaultCountryCode = kDefaultUSCode;
+        [self setupLayout];
+        [self setupViews];
     }
     return self;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
+- (void)setupLayout {
+    UITextField *textField = self.textField;
+    UIImageView *iconView = self.iconImageView;
+    UIButton *codeButton = [UIButton buttonWithType:UIButtonTypeSystem];
+
+    [self removeConstraints:self.constraints];
+    codeButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:codeButton];
+
+    NSDictionary<NSString *, id> *views = NSDictionaryOfVariableBindings(iconView, textField, codeButton);
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(18)-[iconView]-(5)-[codeButton(50)]-(5)-[textField]-(7)-|" options:0 metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(10)-[textField]-(10)-|" options:0 metrics:nil views:views]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:iconView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:textField attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:codeButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:textField attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+
+    [iconView setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [iconView setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+    [self needsUpdateConstraints];
+
+    self.countryCodeButton = codeButton;
+}
+
+- (void)setupViews {
+    self.type = A0CredentialFieldViewEmail;
+    self.returnKeyType = UIReturnKeyNext;
     A0Theme *theme = [A0Theme sharedInstance];
+    self.iconImageView.tintColor = [theme colorForKey:A0ThemeTextFieldIconColor];
+    self.textField.tintColor = [theme colorForKey:A0ThemeTextFieldTextColor];
+    self.textField.returnKeyType = self.returnKeyType;
+    self.textField.borderStyle = UITextBorderStyleNone;
+    self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.countryCodeButton.titleLabel.font = [theme fontForKey:A0ThemeTextFieldFont];
+    self.countryCodeButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    self.countryCodeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [self.countryCodeButton setTitleColor:[theme colorForKey:A0ThemeTextFieldTextColor] forState:UIControlStateNormal];
     [self.countryCodeButton setTitle:self.defaultCountryCode forState:UIControlStateNormal];
     [self.countryCodeButton addTarget:self action:@selector(countryCodeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [theme configureTextField:self.textField];
 }
 
 - (void)dealloc {

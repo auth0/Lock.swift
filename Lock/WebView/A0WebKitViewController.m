@@ -29,6 +29,7 @@
 #import "A0Token.h"
 #import "A0Theme.h"
 #import "Constants.h"
+#import <Masonry/Masonry.h>
 
 @interface A0WebKitViewController () <WKNavigationDelegate>
 
@@ -37,11 +38,11 @@
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (copy, nonatomic) NSString *connectionName;
 
-@property (weak, nonatomic) IBOutlet WKWebView *webview;
-@property (weak, nonatomic) IBOutlet UIView *messageView;
-@property (weak, nonatomic) IBOutlet UILabel *messageTitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *messageDescriptionLabel;
-@property (weak, nonatomic) IBOutlet UIButton *retryButton;
+@property (weak, nonatomic) WKWebView *webview;
+@property (weak, nonatomic) UIView *messageView;
+@property (weak, nonatomic) UILabel *messageTitleLabel;
+@property (weak, nonatomic) UILabel *messageDescriptionLabel;
+@property (weak, nonatomic) UIButton *retryButton;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)retry:(id)sender;
@@ -51,10 +52,6 @@
 @implementation A0WebKitViewController
 
 AUTH0_DYNAMIC_LOGGER_METHODS
-
-- (instancetype)init {
-    return [self initWithNibName:NSStringFromClass(self.class) bundle:[NSBundle bundleForClass:self.class]];
-}
 
 - (instancetype)initWithAPIClient:(A0APIClient * __nonnull)client
                    connectionName:(NSString * __nonnull)connectionName
@@ -71,16 +68,51 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UIView *messageView = [[UIView alloc] initWithFrame:CGRectZero];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    UIButton *retryButton = [UIButton buttonWithType:UIButtonTypeSystem];
     WKWebView *webview = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[[WKWebViewConfiguration alloc] init]];
-    webview.translatesAutoresizingMaskIntoConstraints = NO;
-    self.automaticallyAdjustsScrollViewInsets = YES;
-    [self.view insertSubview:webview atIndex:0];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[webview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(webview)]];
-    [self.view updateConstraints];
+
+    [messageView addSubview:titleLabel];
+    [messageView addSubview:descriptionLabel];
+    [messageView addSubview:retryButton];
+
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(messageView);
+    }];
+    [retryButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(messageView);
+        make.width.equalTo(@100);
+        make.top.equalTo(descriptionLabel.mas_bottom).offset(20);
+    }];
+    [descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(messageView).offset(0.5);
+        make.left.and.right.equalTo(messageView).offset(20);
+        make.top.equalTo(titleLabel.mas_bottom).offset(16);
+    }];
+
+    [self.view addSubview:webview];
+    [self.view addSubview:messageView];
+    [self.view bringSubviewToFront:messageView];
+
+    [webview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+
+    [messageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+
     webview.navigationDelegate = self;
     [webview loadRequest:[NSURLRequest requestWithURL:self.authorizeURL]];
+    self.automaticallyAdjustsScrollViewInsets = YES;
+
+    self.messageView = messageView;
+    self.messageTitleLabel = titleLabel;
+    self.messageDescriptionLabel = descriptionLabel;
     self.webview = webview;
+    self.retryButton = retryButton;
 
     NSString *cancelTitle = self.localizedCancelButtonTitle ?: A0LocalizedString(@"Cancel");
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:cancelTitle style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
@@ -88,9 +120,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.messageView.hidden = YES;
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configureLabel:self.messageDescriptionLabel];
+    self.messageTitleLabel.text = A0LocalizedString(@"Could not connect to server");
     self.messageTitleLabel.font = [theme fontForKey:A0ThemeTitleFont];
     self.messageTitleLabel.textColor = [theme colorForKey:A0ThemeTitleTextColor];
+    self.messageDescriptionLabel.numberOfLines = 5;
+    self.messageDescriptionLabel.textAlignment = NSTextAlignmentCenter;
+    self.messageDescriptionLabel.font = [theme fontForKey:A0ThemeDescriptionFont];
+    self.messageDescriptionLabel.textColor = [theme colorForKey:A0ThemeDescriptionTextColor];
     self.retryButton.tintColor = self.navigationController.navigationBar.tintColor;
+    [self.retryButton setTitle:A0LocalizedString(@"Retry") forState:UIControlStateNormal];
+    [self.retryButton addTarget:self action:@selector(retry:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -103,6 +142,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)retry:(id)sender {
     [self.webview loadRequest:[NSURLRequest requestWithURL:self.authorizeURL]];
+    self.messageView.hidden = YES;
 }
 
 - (void)dealloc {

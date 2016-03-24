@@ -26,7 +26,47 @@
 
 @implementation A0ServiceCollectionViewCell
 
-- (void)awakeFromNib {
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setupUI];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self setupUI];
+    }
+    return self;
+}
+
+- (void)setupLayout {
+    UIButton *serviceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    serviceButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:serviceButton];
+
+    NSDictionary<NSString *, id> *metrics = @{ @"margin": @6 };
+    NSDictionary<NSString *, id> *views = @{ @"button": serviceButton };
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-margin-[button]-margin-|"
+                                                                 options:0 
+                                                                 metrics:metrics
+                                                                   views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-margin-[button]-margin-|"
+                                                                 options:0
+                                                                 metrics:metrics
+                                                                   views:views]];
+
+    self.serviceButton = serviceButton;
+    [self setNeedsUpdateConstraints];
+}
+
+- (void)setupUI {
+    [self setupLayout];
+
+
     self.serviceButton.layer.cornerRadius = 5.0f;
     self.serviceButton.clipsToBounds = YES;
 }

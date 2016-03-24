@@ -30,6 +30,8 @@
 #import "A0PasswordValidator.h"
 #import "A0PasswordFieldView.h"
 #import "Constants.h"
+#import "A0LoginView.h"
+#import <Masonry/Masonry.h>
 
 @interface A0EnterpriseLoginViewController ()
 
@@ -44,20 +46,44 @@
     if (self) {
         NSArray *parts = [email componentsSeparatedByString:@"@"];
         NSString *localPart = [parts firstObject];
-        self.defaultUsername = [localPart copy];
+        self.identifier = [localPart copy];
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    UILabel *mesageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    A0LoginView *loginView = self.loginView;
+    [loginView removeFromSuperview];
+    [self.view addSubview:mesageLabel];
+    [self.view addSubview:loginView];
+
+    [mesageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).offset(8);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+    }];
+    [loginView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(mesageLabel.mas_bottom).offset(18);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.bottom.equalTo(self.view.mas_bottom);
+    }];
+
+    self.messageLabel = mesageLabel;
+    self.loginView = loginView;
+
     NSString *message = A0LocalizedString(@"Please enter your corporate credentials at %@");
     self.messageLabel.text = [NSString stringWithFormat:message, self.connection[A0ConnectionDomain]];
-    self.userField.textField.text = self.defaultUsername;
+    self.messageLabel.numberOfLines = 4;
+    self.messageLabel.textAlignment = NSTextAlignmentCenter;
+    self.loginView.identifier = self.identifier;
     self.parameters[A0ParameterConnection] = self.connection.name;
     self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
-                                                                          [[A0UsernameValidator alloc] initWithField:self.userField.textField],
-                                                                          [[A0PasswordValidator alloc] initWithField:self.passwordField.textField],
+                                                                          [[A0UsernameValidator alloc] initWithField:self.loginView.identifierField.textField],
+                                                                          [[A0PasswordValidator alloc] initWithField:self.loginView.passwordField.textField],
                                                                           ]];
 }
 

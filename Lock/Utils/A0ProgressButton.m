@@ -31,26 +31,7 @@
 @implementation A0ProgressButton
 
 - (void)awakeFromNib {
-    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    activityIndicator.hidesWhenStopped = YES;
-    activityIndicator.hidden = YES;
-    [self addSubview:activityIndicator];
-    activityIndicator.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
-                                                     attribute:NSLayoutAttributeCenterX
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:activityIndicator
-                                                     attribute:NSLayoutAttributeCenterX
-                                                    multiplier:1.0f
-                                                      constant:0.0f]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
-                                                              attribute:NSLayoutAttributeCenterY
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:activityIndicator
-                                                              attribute:NSLayoutAttributeCenterY
-                                                             multiplier:1.0f
-                                                               constant:0.0f]];
-    self.activityIndicator = activityIndicator;
+    [self setupLayout];
 }
 
 - (void)setInProgress:(BOOL)inProgress {
@@ -65,4 +46,40 @@
     }
 }
 
+#pragma mark - Factory Methods
+
++ (instancetype)progressButton {
+    return [self progressButtonWithFrame:CGRectZero];
+}
+
++ (instancetype)progressButtonWithFrame:(CGRect)frame {
+    A0ProgressButton *button = [A0ProgressButton buttonWithType:UIButtonTypeCustom];
+    button.frame = frame;
+    [button setupLayout];
+    return button;
+}
+
+#pragma mark - Layout
+- (void)setupLayout {
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activityIndicator.hidesWhenStopped = YES;
+    activityIndicator.hidden = YES;
+    [self addSubview:activityIndicator];
+    activityIndicator.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                     attribute:NSLayoutAttributeCenterX
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:activityIndicator
+                                                     attribute:NSLayoutAttributeCenterX
+                                                    multiplier:1.0f
+                                                      constant:0.0f]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                     attribute:NSLayoutAttributeCenterY
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:activityIndicator
+                                                     attribute:NSLayoutAttributeCenterY
+                                                    multiplier:1.0f
+                                                      constant:0.0f]];
+    self.activityIndicator = activityIndicator;
+}
 @end

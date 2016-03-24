@@ -23,10 +23,6 @@
 #import <UIKit/UIKit.h>
 #import "A0DatabaseLoginViewController.h"
 
-@class A0Application, A0LockConfiguration, A0SmallSocialServiceCollectionView, A0Lock;
-
 @interface A0FullLoginViewController : A0DatabaseLoginViewController
-
-@property (weak, nonatomic) IBOutlet A0SmallSocialServiceCollectionView *serviceCollectionView;
 
 @end

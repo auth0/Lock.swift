@@ -22,6 +22,7 @@
 
 #import "A0TitleView.h"
 #import "A0Theme.h"
+#import "Constants.h"
 
 @interface A0TitleView ()
 
@@ -37,7 +38,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self loadNib];
+        [self setupUI];
     }
     return self;
 }
@@ -45,28 +46,67 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self loadNib];
+        self.frame = CGRectMake(0, 0, 172, 114);
+        [self setupUI];
     }
     return self;
 }
 
-- (void)loadNib {
-    UIView *view = [[[NSBundle bundleForClass:self.class] loadNibNamed:NSStringFromClass(self.class)
-                                                                owner:self
-                                                              options:nil]
-                    firstObject];
-    if (view != nil) {
-        view.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:view];
-        NSDictionary *views = NSDictionaryOfVariableBindings(view);
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:views]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:views]];
-    }
+- (void)setupLayout {
+    UIView *iconContainerView = [[UIView alloc] init];
+    UIImageView *smallIconImageView = [[UIImageView alloc] init];
+    UIImageView *bigIconImageView = [[UIImageView alloc] init];
+    UILabel *titleLabel = [[UILabel alloc] init];
+
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    iconContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+    smallIconImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    bigIconImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [self addSubview:iconContainerView];
+    [iconContainerView addSubview:smallIconImageView];
+    [self addSubview:bigIconImageView];
+    [self addSubview:titleLabel];
+
+    [iconContainerView addConstraint:[NSLayoutConstraint constraintWithItem:smallIconImageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:iconContainerView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [iconContainerView addConstraint:[NSLayoutConstraint constraintWithItem:smallIconImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:iconContainerView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:iconContainerView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:60.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:iconContainerView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:60.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:iconContainerView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:bigIconImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:55.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:bigIconImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:150.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:bigIconImageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:6.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:iconContainerView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:bigIconImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0]];
+
+    self.titleLabel = titleLabel;
+    self.iconContainerView = iconContainerView;
+    self.iconImageView = smallIconImageView;
+    self.bigIconImageView = bigIconImageView;
+}
+
+- (void)setupUI {
+    [self setupLayout];
 
     A0Theme *theme = [A0Theme sharedInstance];
+
     self.titleLabel.font = [theme fontForKey:A0ThemeTitleFont];
     self.titleLabel.textColor = [theme colorForKey:A0ThemeTitleTextColor];
+    self.titleLabel.text = A0LocalizedString(@"Sign Up");
+
     self.iconContainerView.backgroundColor = [theme colorForKey:A0ThemeIconBackgroundColor];
+    self.iconContainerView.layer.cornerRadius = 30.0;
+
+    self.iconImageView.image = [theme imageForKey:A0ThemeIconImageName];
+    self.bigIconImageView.contentMode = UIViewContentModeCenter;
+
+    [self setNeedsUpdateConstraints];
 }
 
 - (UIImage *)iconImage {
