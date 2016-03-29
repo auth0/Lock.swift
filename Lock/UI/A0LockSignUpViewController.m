@@ -295,6 +295,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         self.serviceCollectionView.lock = self.lock;
         [self.serviceCollectionView showSocialServicesForConfiguration:configuration];
         A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
+        controller.lock = self.lock;
         controller.loginUser = self.loginAfterSignUp;
         controller.parameters = [self copyAuthenticationParameters];
         controller.onSignUpBlock = self.onAuthenticationBlock;
