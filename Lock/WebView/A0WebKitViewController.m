@@ -132,6 +132,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.retryButton addTarget:self action:@selector(retry:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)setTelemetryInfo:(NSString *)telemetryInfo {
+    self.authentication.telemetryInfo = telemetryInfo;
+}
+
 - (IBAction)cancel:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     if (self.onFailure) {

@@ -26,6 +26,7 @@
 #import "A0APIClient.h"
 
 #import "A0Lock.h"
+#import "A0Telemetry.h"
 #import "A0UserAPIClient.h"
 #import "A0Application.h"
 #import "A0Strategy.h"

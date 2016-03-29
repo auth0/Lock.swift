@@ -36,8 +36,8 @@
 #import "A0UserAPIClient.h"
 #import "A0APIv1Router.h"
 #import "A0Lock.h"
-#import "A0Stats.h"
 #import "Constants.h"
+#import "A0Telemetry.h"
 
 #define kClientIdParamName @"client_id"
 #define kUsernameParamName @"username"
@@ -75,8 +75,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         _manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[router endpointURL]];
         _manager.requestSerializer = [AFJSONRequestSerializer serializer];
         _manager.responseSerializer = [A0JSONResponseSerializer serializer];
-        if ([A0Stats shouldSendAuth0ClientHeader]) {
-            [_manager.requestSerializer setValue:[A0Stats stringForAuth0ClientHeader] forHTTPHeaderField:A0ClientInfoHeaderName];
+        if ([A0Telemetry telemetryEnabled]) {
+            A0Telemetry *telemetry = [[A0Telemetry alloc] init];
+            [_manager.requestSerializer setValue:telemetry.base64Value forHTTPHeaderField:A0ClientInfoHeaderName];
         }
     }
     return self;
@@ -84,6 +85,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)logout {
     self.userClient = nil;
+}
+
+- (void)setTelemetryInfo:(NSString *)telemetryInfo {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(telemetryInfo))];
+    _telemetryInfo = telemetryInfo;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(telemetryInfo))];
+    [_manager.requestSerializer setValue:telemetryInfo forHTTPHeaderField:A0ClientInfoHeaderName];
 }
 
 + (instancetype)sharedClient {

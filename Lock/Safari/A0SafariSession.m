@@ -22,10 +22,10 @@
 
 #import "A0SafariSession.h"
 #import "A0Lock.h"
-#import "A0Stats.h"
 #import "NSDictionary+A0QueryParameters.h"
 #import "A0APIClient.h"
 #import "A0Token.h"
+#import "A0Telemetry.h"
 
 @interface A0SafariSession ()
 @property (strong, nonatomic) A0APIClient *client;
@@ -59,8 +59,8 @@
                                            @"client_id": lock.clientId,
                                            @"redirect_uri": callbackURL.absoluteString,
                                            } mutableCopy];
-        if ([A0Stats shouldSendAuth0ClientHeader]) {
-            defaults[A0ClientInfoQueryParamName] = [A0Stats stringForAuth0ClientHeader];
+        if (lock.telemetry) {
+            defaults[A0ClientInfoQueryParamName] = lock.telemetry.base64Value;
         }
         _defaultParameters = [NSDictionary dictionaryWithDictionary:defaults];
     }

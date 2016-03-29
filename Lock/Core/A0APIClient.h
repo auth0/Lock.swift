@@ -98,6 +98,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nullable, nonatomic) A0Application *application;
 
 /**
+ *  Auth0's telemetry info sent along with every request
+ */
+@property (nullable, nonatomic) NSString *telemetryInfo;
+
+/**
  Fetches Auth0 application info from Auth0 and configure itself.
  @param success block called on successful fetch of app info. Application information will be passed as a block parameter.
  @param failure block called when fetch of App information fails and reason of failure will be in error parameter

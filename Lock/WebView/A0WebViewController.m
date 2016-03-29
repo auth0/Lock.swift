@@ -79,6 +79,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self showProgressIndicator];
 }
 
+- (void)setTelemetryInfo:(NSString *)telemetryInfo {
+    self.authentication.telemetryInfo = telemetryInfo;
+}
+
 - (void)cancel:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     if (self.onFailure) {

@@ -1,6 +1,6 @@
-// A0Stats.h
+// A0Telemetry.h
 //
-// Copyright (c) 2015 Auth0 (http://auth0.com)
+// Copyright (c) 2016 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,18 @@
 
 #import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT NSString * const A0ClientInfoHeaderName;
-FOUNDATION_EXPORT NSString * const A0ClientInfoQueryParamName;
+NS_ASSUME_NONNULL_BEGIN
+@interface A0Telemetry : NSObject
 
-@interface A0Stats : NSObject
+- (instancetype)init;
+- (instancetype)initWithName:(NSString *)name version:(NSString *)version extra:(nullable NSDictionary *)extra;
 
-+ (BOOL)shouldSendAuth0ClientHeader;
+@property (readonly, nonatomic) NSString *base64Value;
 
-+ (NSString *)stringForAuth0ClientHeader;
++ (BOOL)telemetryEnabled;
++ (NSString *)libraryName;
++ (NSString *)platform;
++ (NSString *)libraryVersion;
 
 @end
+NS_ASSUME_NONNULL_END

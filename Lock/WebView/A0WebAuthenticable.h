@@ -28,5 +28,6 @@
 - (void)setOnAuthentication:(A0IdPAuthenticationBlock)success;
 - (void)setOnFailure:(A0IdPAuthenticationErrorBlock)error;
 - (void)setLocalizedCancelButtonTitle:(NSString *)localizedCancelButtonTitle;
+- (void)setTelemetryInfo:(NSString *)telemetryInfo;
 
 @end
