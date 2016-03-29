@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (BOOL)telemetryEnabled;
 + (NSString *)libraryName;
++ (NSString *)platform;
++ (NSString *)libraryVersion;
 
 @end
 NS_ASSUME_NONNULL_END

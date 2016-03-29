@@ -79,10 +79,22 @@
 }
 
 + (NSString *)libraryName {
-#if TARGET_OS_IPHONE || TARGET_OS_SIMULATOR
-    return @"Lock.iOS";
+    return [@"Lock." stringByAppendingString:[self platform]];
+}
+
++ (NSString *)platform {
+#if TARGET_OS_IOS
+    return @"iOS";
+#elif TARGET_OS_TV
+    return @"tvOS";
+#elif TARGET_OS_WATCH
+    return @"watchOS";
+#elif TARGET_OS_SIMULATOR
+    return @"AppleSimulator";
 #elif TARGET_OS_MAC
-    return @"Lock.OSX"
+    return @"OSX";
+#else
+    return @"unknown";
 #endif
 }
 
