@@ -27,10 +27,10 @@
 #import "A0Errors.h"
 #import "NSDictionary+A0QueryParameters.h"
 #import "A0Connection.h"
-#import "A0Stats.h"
 #import "A0AuthParameters.h"
 #import "NSError+A0APIError.h"
 #import "Constants.h"
+#import "A0Lock.h"
 
 #define kCallbackURLString @"a0%@://%@.auth0.com/authorize"
 
@@ -104,8 +104,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                            @"redirect_uri": self.callbackURL.absoluteString,
                                            @"connection": self.connectionName,
                                            }];
-    if ([A0Stats shouldSendAuth0ClientHeader]) {
-        dictionary[A0ClientInfoQueryParamName] = [A0Stats stringForAuth0ClientHeader];
+    if (self.telemetryInfo) {
+        dictionary[A0ClientInfoQueryParamName] = self.telemetryInfo;
     }
     components.query = dictionary.queryString;
     return components.URL;

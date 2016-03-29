@@ -33,7 +33,6 @@
 #import <Lock/A0WebAuthentication.h>
 #import <Lock/A0AuthParameters.h>
 #import <Lock/NSObject+A0APIClientProvider.h>
-#import <Lock/A0Stats.h>
 #import "Constants.h"
 
 @interface A0WebAuthenticator ()
@@ -70,9 +69,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                              @"client_id": clientId,
                                                                              @"redirect_uri": _authentication.callbackURL.absoluteString,
                                                                              }];
-        if ([A0Stats shouldSendAuth0ClientHeader]) {
-            parameters[A0ClientInfoQueryParamName] = [A0Stats stringForAuth0ClientHeader];
-        }
         _connectionName = connectionName;
         _parameters = parameters;
         _components = components;

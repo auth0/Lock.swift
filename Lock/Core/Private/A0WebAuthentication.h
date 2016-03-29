@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class A0Token, A0Application, A0Strategy;
+@class A0Token, A0Application, A0Strategy, A0Lock;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,6 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  Callback URL for web authentication using either Safari or embedded UIWebView.
  */
 @property (readonly, nonatomic) NSURL *callbackURL;
+
+/**
+ *  Telemetry info sent with the login request to Auth0
+ */
+@property (nullable, copy, nonatomic) NSString *telemetryInfo;
 
 /**
  *  Initialise an instance with Auth0's clientId and specific strategy (e.g. linkedin).

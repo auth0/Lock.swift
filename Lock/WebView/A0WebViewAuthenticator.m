@@ -27,6 +27,7 @@
 #import "A0ModalPresenter.h"
 #import <WebKit/WebKit.h>
 #import "Constants.h"
+#import "A0APIClient.h"
 
 NSString * const A0WebViewAuthenticatorTitleBarTintColor = @"A0WebViewAuthenticatorTitleBarTintColor";
 NSString * const A0WebViewAuthenticatorTitleBarBarTintColor = @"A0WebViewAuthenticatorTitleBarBarTintColor";
@@ -58,6 +59,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.onAuthentication = success;
     controller.onFailure = failure;
     controller.localizedCancelButtonTitle = self.localizedCancelButtonTitle;
+    [controller setTelemetryInfo:self.client.telemetryInfo];
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
     [self applyThemeToNavigationBar:navigation.navigationBar];
     A0ModalPresenter *presenter = [[A0ModalPresenter alloc] init];

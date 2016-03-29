@@ -24,9 +24,12 @@
 #import "A0APIClientProvider.h"
 #import "A0AuthenticatorProvider.h"
 
-@class A0APIClient, A0UserAPIClient, A0IdentityProviderAuthenticator;
-
 NS_ASSUME_NONNULL_BEGIN
+
+@class A0APIClient, A0UserAPIClient, A0IdentityProviderAuthenticator, A0Telemetry;
+
+FOUNDATION_EXPORT NSString * const A0ClientInfoHeaderName;
+FOUNDATION_EXPORT NSString * const A0ClientInfoQueryParamName;
 
 /**
  *  Main interface with Auth0 Lock for iOS.
@@ -49,6 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  Auth0 account's application info URL. By default is Auth0 CDN (EU or US).
  */
 @property (strong, readonly, nonatomic) NSURL *configurationURL;
+
+@property (strong, nullable, nonatomic) A0Telemetry *telemetry;
 
 /**
  *  Initialise a new instance with values from Info.plist
