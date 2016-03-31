@@ -56,23 +56,23 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@110);
-        make.centerX.equalTo(self);
-        make.left.and.right.equalTo(self);
-        make.top.equalTo(self).offset(20).with.priority(500);
-        make.top.equalTo(self).offset(60).with.priority(800);
+        make.centerX.equalTo(self.view);
+        make.left.and.right.equalTo(self.view);
+        make.top.equalTo(self.view).offset(20).with.priority(500);
+        make.top.equalTo(self.view).offset(60).with.priority(800);
     }];
 
     [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.greaterThanOrEqualTo(@284);
         make.top.equalTo(titleView.mas_bottom);
-        make.left.and.right.equalTo(self);
+        make.left.and.right.equalTo(self.view);
     }];
 
     [navigationView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@48);
         make.top.equalTo(containerView.mas_bottom);
         make.left.and.right.equalTo(self.view);
-        make.bottom.equalTo(self);
+        make.bottom.equalTo(self.view);
     }];
 
     self.titleView = titleView;

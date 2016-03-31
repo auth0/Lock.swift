@@ -131,19 +131,19 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.view addSubview:dismissButton];
     [self.view addSubview:containerView];
     [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.and.right.equalTo(self);
-        make.top.equalTo(self).offset(20).with.priority(500);
-        make.top.equalTo(self).offset(50).with.priority(800);
+        make.left.and.right.equalTo(self.view);
+        make.top.equalTo(self.view).offset(20).with.priority(500);
+        make.top.equalTo(self.view).offset(50).with.priority(800);
         make.height.equalTo(@110);
     }];
     [dismissButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@40);
         make.width.equalTo(titleView.mas_height);
-        make.top.equalTo(self).offset(10);
-        make.right.equalTo(self);
+        make.top.equalTo(self.view).offset(10);
+        make.right.equalTo(self.view);
     }];
     [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.and.right.equalTo(self);
+        make.left.bottom.and.right.equalTo(self.view);
         make.top.equalTo(titleView.mas_bottom);
         make.height.greaterThanOrEqualTo(@330);
     }];

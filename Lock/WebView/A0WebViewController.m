@@ -68,7 +68,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     [self.view addSubview:webview];
     [webview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+        make.edges.equalTo(self.view);
     }];
     self.webview = webview;
     self.automaticallyAdjustsScrollViewInsets = YES;

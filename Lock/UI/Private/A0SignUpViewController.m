@@ -75,11 +75,11 @@
     [self.view addSubview:containerView];
 
     [signUpView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.and.right.equalTo(self);
-        make.centerY.equalTo(self);
+        make.left.and.right.equalTo(self.view);
+        make.centerY.equalTo(self.view.mas_centerY);
     }];
     [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.and.right.equalTo(self);
+        make.left.bottom.and.right.equalTo(self.view);
         make.top.equalTo(signUpView.mas_bottom);
     }];
     self.disclaimerContainerView = containerView;

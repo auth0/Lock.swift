@@ -61,7 +61,7 @@
     A0ChangePasswordView *changePasswordView = [[A0ChangePasswordView alloc] initWithTheme:theme];
     [self.view addSubview:changePasswordView];
     [changePasswordView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+        make.edges.equalTo(self.view);
     }];
 
     changePasswordView.delegate = self;

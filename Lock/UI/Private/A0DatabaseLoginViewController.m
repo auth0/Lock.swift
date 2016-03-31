@@ -76,7 +76,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.loginView = loginView;
 
     [self.loginView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+        make.edges.equalTo(self.view);
     }];
 
     self.loginView.identifier = self.identifier;

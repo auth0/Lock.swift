@@ -69,7 +69,7 @@
     self.loginView = loginView;
 
     [loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+        make.edges.equalTo(self.view);
     }];
     [activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(loadingView);

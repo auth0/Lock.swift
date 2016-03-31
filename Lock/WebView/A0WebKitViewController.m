@@ -97,11 +97,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.view bringSubviewToFront:messageView];
 
     [webview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+        make.edges.equalTo(self.view);
     }];
 
     [messageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+        make.edges.equalTo(self.view);
     }];
 
     webview.navigationDelegate = self;
