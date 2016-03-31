@@ -54,6 +54,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self = [self init];
     if (self) {
         _authentication = [[A0WebAuthentication alloc] initWithClientId:client.clientId domainURL:client.baseURL connectionName:connectionName];
+        [_authentication setTelemetryInfo:[client telemetryInfo]];
         _authorizeURL = [_authentication authorizeURLWithParameters:[parameters asAPIPayload]];
         _connectionName = connectionName;
         _client = client;
