@@ -70,17 +70,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.view addSubview:boxView];
     [self.view addSubview:signUpButton];
     [boxView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(10);
-        make.left.equalTo(self).offset(21);
-        make.right.equalTo(self).offset(-21);
+        make.top.equalTo(self.view).offset(10);
+        make.left.equalTo(self.view).offset(21);
+        make.right.equalTo(self.view).offset(-21);
         make.height.equalTo(@50);
     }];
     [signUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(boxView.mas_bottom).offset(18);
-        make.left.equalTo(self).offset(21);
-        make.right.equalTo(self).offset(-21);
+        make.left.equalTo(self.view).offset(21);
+        make.right.equalTo(self.view).offset(-21);
         make.height.equalTo(@55);
-        make.bottom.equalTo(self);
+        make.bottom.equalTo(self.view);
     }];
 
     self.signUpButton = signUpButton;

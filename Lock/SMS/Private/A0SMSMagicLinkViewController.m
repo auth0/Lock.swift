@@ -68,17 +68,17 @@ const NSTimeInterval A0SMSMagicLinkRetryInSeconds = 40;
     [self.view addSubview:resendButton];
 
     [messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self);
+        make.center.equalTo(self.view);
         make.width.equalTo(@230);
     }];
     [checkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(messageLabel.mas_top).offset(-30);
         make.height.equalTo(@54);
         make.width.equalTo(@54);
-        make.centerX.equalTo(self);
+        make.centerX.equalTo(self.view.mas_centerX);
     }];
     [resendButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self);
+        make.centerX.equalTo(self.view.mas_centerX);
         make.top.equalTo(messageLabel.mas_bottom).offset(20);
     }];
 

@@ -116,20 +116,20 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.view addSubview:loadingView];
     [self.view addSubview:touchIDView];
     [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.and.right.equalTo(self);
-        make.top.equalTo(self).offset(55);
+        make.left.and.right.equalTo(self.view);
+        make.top.equalTo(self.view).offset(55);
         make.height.equalTo(@110);
     }];
     [closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(10);
-        make.right.equalTo(self);
+        make.top.equalTo(self.view).offset(10);
+        make.right.equalTo(self.view);
         make.height.and.width.equalTo(@40);
     }];
     [touchIDView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).offset(50);
-        make.right.equalTo(self).offset(-50);
+        make.left.equalTo(self.view).offset(50);
+        make.right.equalTo(self.view).offset(-50);
         make.top.equalTo(titleView.mas_bottom).offset(40);
-        make.bottom.equalTo(self).offset(-60);
+        make.bottom.equalTo(self.view).offset(-60);
     }];
     [loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.and.width.equalTo(@300);

@@ -71,8 +71,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.view addSubview:dismissButton];
     [dismissButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(10);
-        make.right.equalTo(self);
+        make.top.equalTo(self.view).offset(10);
+        make.right.equalTo(self.view);
         make.height.equalTo(@40);
         make.width.equalTo(@40);
     }];

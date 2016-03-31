@@ -67,15 +67,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     [boxView addSubview:codeField];
     [codeField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+        make.edges.equalTo(boxView);
     }];
 
     [self.view addSubview:messageLabel];
     [self.view addSubview:boxView];
     [self.view addSubview:loginButton];
     [messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self);
-        make.top.equalTo(self).offset(10);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.top.equalTo(self.view).offset(10);
     }];
     [boxView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(20);
@@ -87,7 +87,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         make.top.equalTo(boxView.mas_bottom).offset(18);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
-        make.bottom.equalTo(self);
+        make.bottom.equalTo(self.view);
         make.height.equalTo(@55);
     }];
 
