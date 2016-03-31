@@ -1,5 +1,20 @@
 # Change Log
 
+## [1.24.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.24.0) (2016-03-31)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.23.1...1.24.0)
+
+**Fixed bugs:**
+
+- Properly initialise A0LockSignupViewController [\#246](https://github.com/auth0/Lock.iOS-OSX/issues/246)
+- Change embedded WebView title text attributes [\#187](https://github.com/auth0/Lock.iOS-OSX/issues/187)
+
+**Merged pull requests:**
+
+- Update Telemetry [\#245](https://github.com/auth0/Lock.iOS-OSX/pull/245) ([hzalaz](https://github.com/hzalaz))
+- Set Lock instance to A0SignUpController [\#244](https://github.com/auth0/Lock.iOS-OSX/pull/244) ([hzalaz](https://github.com/hzalaz))
+- trivial typo fix to heading [\#243](https://github.com/auth0/Lock.iOS-OSX/pull/243) ([mikemee](https://github.com/mikemee))
+- Carthage Support [\#241](https://github.com/auth0/Lock.iOS-OSX/pull/241) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.23.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.23.1) (2016-03-22)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.23.0...1.23.1)
 
@@ -18,7 +33,6 @@
 
 **Closed issues:**
 
-- How to get the latest commits using CocoaPods? [\#238](https://github.com/auth0/Lock.iOS-OSX/issues/238)
 - signUpWithEmail method doesn't work properly [\#233](https://github.com/auth0/Lock.iOS-OSX/issues/233)
 - LICENSE file needs an update and readme.md needs a fix [\#215](https://github.com/auth0/Lock.iOS-OSX/issues/215)
 - connection\_scopes are ignored by A0WebViewAuthenticator [\#209](https://github.com/auth0/Lock.iOS-OSX/issues/209)
