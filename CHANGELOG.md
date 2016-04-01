@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.24.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.24.1) (2016-03-31)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.24.0...1.24.1)
+
+**Merged pull requests:**
+
+- Send telemetry for webviews [\#247](https://github.com/auth0/Lock.iOS-OSX/pull/247) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.24.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.24.0) (2016-03-31)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.23.1...1.24.0)
 
