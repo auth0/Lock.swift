@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nullable, nonatomic) void(^onAuthentication)(A0UserProfile *profile, A0Token *token);
 @property (copy, nullable, nonatomic) void(^onFailure)(NSError *error);
 
+- (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters usePKCE:(BOOL)usePKCE;
 - (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters;
 
 @end

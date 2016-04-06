@@ -114,12 +114,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return code;
 }
 
-- (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters {
+- (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters usePKCE:(BOOL)usePKCE {
+    NSString *responseType = usePKCE ? @"code" : @"token";
+    A0LogVerbose(@"Using response_type %@", responseType);
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.domainURL.absoluteURL resolvingAgainstBaseURL:NO];
     components.path = @"/authorize";
     NSMutableDictionary *dictionary = parameters ? [parameters mutableCopy] : [[[A0AuthParameters newDefaultParams] asAPIPayload] mutableCopy];
     [dictionary addEntriesFromDictionary:@{
-                                           @"response_type": @"code",
+                                           @"response_type": responseType,
                                            @"client_id": self.clientId,
                                            @"redirect_uri": self.callbackURL.absoluteString,
                                            @"connection": self.connectionName,

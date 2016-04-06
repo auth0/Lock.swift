@@ -30,9 +30,11 @@ FOUNDATION_EXPORT NSString * const A0WebViewAuthenticatorTitleBarBarTintColor;
 FOUNDATION_EXPORT NSString * const A0WebViewAuthenticatorTitleTextColor;
 FOUNDATION_EXPORT NSString * const A0WebViewAuthenticatorTitleTextFont;
 
+@class A0Lock;
+
 @interface A0WebViewAuthenticator : A0BaseAuthenticator
 
-- (instancetype)initWithConnectionName:(NSString *)connectionName client:(A0APIClient *)client;
+- (instancetype)initWithConnectionName:(NSString *)connectionName lock:(A0Lock *)lock;
 
 @property (copy, nonatomic) NSString *localizedCancelButtonTitle;
 

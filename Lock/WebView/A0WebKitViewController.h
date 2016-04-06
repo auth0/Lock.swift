@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nullable, nonatomic) A0IdPAuthenticationErrorBlock onFailure;
 
 - (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters;
+- (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters usePKCE:(BOOL)usePKCE;
 
 @end
 

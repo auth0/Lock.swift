@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return authorize URL
  */
-- (nullable NSURL *)authorizeURLWithParameters:(nullable NSDictionary *)parameters;
+- (nullable NSURL *)authorizeURLWithParameters:(nullable NSDictionary *)parameters usePKCE:(BOOL)usePKCE;
 
 @end
 

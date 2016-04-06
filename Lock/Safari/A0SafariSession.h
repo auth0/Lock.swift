@@ -34,6 +34,8 @@ typedef void(^A0SafariSessionAuthentication)(NSError *error, A0Token *token);
 
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName;
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName useUniversalLink:(BOOL)useUniversalLink;
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName usePKCE:(BOOL)usePKCE;
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName useUniversalLink:(BOOL)useUniversalLink usePKCE:(BOOL)usePKCE;
 
 - (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters;
 - (A0SafariSessionAuthentication)authenticationBlockWithSuccess:(A0IdPAuthenticationBlock)success

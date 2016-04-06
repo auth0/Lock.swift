@@ -45,7 +45,7 @@
 AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName useUniversalLink:(BOOL)useUniversalLink {
-    return [self initWithSession:[[A0SafariSession alloc] initWithLock:lock connectionName:connectionName useUniversalLink:useUniversalLink]
+    return [self initWithSession:[[A0SafariSession alloc] initWithLock:lock connectionName:connectionName useUniversalLink:useUniversalLink usePKCE:lock.usePKCE]
                   modalPresenter:[[A0ModalPresenter alloc] init]];
 }
 

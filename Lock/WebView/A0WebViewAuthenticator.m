@@ -28,6 +28,8 @@
 #import <WebKit/WebKit.h>
 #import "Constants.h"
 #import "A0APIClient.h"
+#import "A0Lock.h"
+#include "A0Telemetry.h"
 
 NSString * const A0WebViewAuthenticatorTitleBarTintColor = @"A0WebViewAuthenticatorTitleBarTintColor";
 NSString * const A0WebViewAuthenticatorTitleBarBarTintColor = @"A0WebViewAuthenticatorTitleBarBarTintColor";
@@ -35,7 +37,7 @@ NSString * const A0WebViewAuthenticatorTitleTextColor = @"A0WebViewAuthenticator
 NSString * const A0WebViewAuthenticatorTitleTextFont = @"A0WebViewAuthenticatorTitleTextFont";
 
 @interface A0WebViewAuthenticator ()
-@property (strong, nonatomic) A0APIClient *client;
+@property (strong, nonatomic) A0Lock *lock;
 @property (copy, nonatomic) NSString *connectionName;
 @end
 
@@ -43,10 +45,10 @@ NSString * const A0WebViewAuthenticatorTitleTextFont = @"A0WebViewAuthenticatorT
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
--(instancetype)initWithConnectionName:(NSString * __nonnull)connectionName client:(A0APIClient * __nonnull)client {
+-(instancetype)initWithConnectionName:(NSString * __nonnull)connectionName lock:(A0Lock * __nonnull)lock {
     self = [super init];
     if (self) {
-        _client = client;
+        _lock = lock;
         _connectionName = [connectionName copy];
     }
     return self;
@@ -59,7 +61,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.onAuthentication = success;
     controller.onFailure = failure;
     controller.localizedCancelButtonTitle = self.localizedCancelButtonTitle;
-    [controller setTelemetryInfo:self.client.telemetryInfo];
+    [controller setTelemetryInfo:self.lock.telemetry.base64Value];
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
     [self applyThemeToNavigationBar:navigation.navigationBar];
     A0ModalPresenter *presenter = [[A0ModalPresenter alloc] init];
@@ -98,10 +100,12 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (UIViewController<A0WebAuthenticable> *)newWebControllerWithParameters:(A0AuthParameters *)parameters {
+    A0APIClient *client = self.lock.apiClient;
+    BOOL usePKCE = self.lock.usePKCE;
     if (NSClassFromString(@"WKWebView")) {
-        return [[A0WebKitViewController alloc] initWithAPIClient:self.client connectionName:self.connectionName parameters:parameters];
+        return [[A0WebKitViewController alloc] initWithAPIClient:client connectionName:self.connectionName parameters:parameters usePKCE:usePKCE];
     } else {
-        return [[A0WebViewController alloc] initWithAPIClient:self.client connectionName:self.connectionName parameters:parameters];
+        return [[A0WebViewController alloc] initWithAPIClient:client connectionName:self.connectionName parameters:parameters usePKCE:usePKCE];
     }
 }
 

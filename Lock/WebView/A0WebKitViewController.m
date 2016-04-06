@@ -55,21 +55,27 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)initWithAPIClient:(A0APIClient * __nonnull)client
-                   connectionName:(NSString * __nonnull)connectionName
-                       parameters:(nullable A0AuthParameters *)parameters {
+- (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters usePKCE:(BOOL)usePKCE {
     self = [self init];
     if (self) {
-        _pkce = [[A0PKCE alloc] init];
+        _pkce = usePKCE ? [[A0PKCE alloc] init] : nil;
         _authentication = [[A0WebAuthentication alloc] initWithClientId:client.clientId domainURL:client.baseURL connectionName:connectionName];
         NSMutableDictionary *dictionary = [[parameters asAPIPayload] mutableCopy];
-        [dictionary addEntriesFromDictionary:[_pkce authorizationParameters]];
+        if (_pkce) {
+            [dictionary addEntriesFromDictionary:[_pkce authorizationParameters]];
+        }
         [_authentication setTelemetryInfo:[client telemetryInfo]];
-        _authorizeURL = [_authentication authorizeURLWithParameters:dictionary];
+        _authorizeURL = [_authentication authorizeURLWithParameters:dictionary usePKCE:usePKCE];
         _connectionName = connectionName;
         _client = client;
     }
     return self;
+}
+
+- (instancetype)initWithAPIClient:(A0APIClient * __nonnull)client
+                   connectionName:(NSString * __nonnull)connectionName
+                       parameters:(nullable A0AuthParameters *)parameters {
+    return [self initWithAPIClient:client connectionName:connectionName parameters:parameters usePKCE:NO];
 }
 
 - (void)viewDidLoad {
@@ -206,33 +212,46 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         return;
     }
     NSError *error;
-    NSString *code = [self.authentication authorizationCodeFromURL:url error:&error];
-    if (code) {
-        A0IdPAuthenticationBlock success = self.onAuthentication;
-        [self showProgressIndicator];
-        NSMutableDictionary *params = [[self.pkce tokenParametersWithAuthorizationCode:code] mutableCopy];
-        [params addEntriesFromDictionary:@{
-                                           @"redirect_uri": self.authentication.callbackURL.absoluteString,
-                                           }];
-        [self.client requestTokenWithParameters:params
-                                       callback:^(NSError * _Nonnull error, A0Token * _Nonnull token) {
-                                           if (error) {
-                                               [self handleError:error decisionHandler:decisionHandler];
-                                               return;
-                                           }
-                                           [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
-                                               decisionHandler(WKNavigationActionPolicyCancel);
-                                               [self dismissWithCompletion:^{
-                                                   if (success) {
-                                                       success(profile, token);
-                                                   }
+
+    A0IdPAuthenticationBlock success = self.onAuthentication;
+    void(^fetchProfile)(A0Token *) = ^(A0Token *token) {
+        [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
+            decisionHandler(WKNavigationActionPolicyCancel);
+            [self dismissWithCompletion:^{
+                if (success) {
+                    success(profile, token);
+                }
+            }];
+        } failure:^(NSError *error) {
+            [self handleError:error decisionHandler:decisionHandler];
+        }];
+    };
+    [self showProgressIndicator];
+    if (self.pkce) {
+        NSString *code = [self.authentication authorizationCodeFromURL:url error:&error];
+        if (code) {
+            NSMutableDictionary *params = [[self.pkce tokenParametersWithAuthorizationCode:code] mutableCopy];
+            [params addEntriesFromDictionary:@{
+                                               @"redirect_uri": self.authentication.callbackURL.absoluteString,
                                                }];
-                                           } failure:^(NSError *error) {
-                                               [self handleError:error decisionHandler:decisionHandler];
+            [self.client requestTokenWithParameters:params
+                                           callback:^(NSError * _Nonnull error, A0Token * _Nonnull token) {
+                                               if (error) {
+                                                   [self handleError:error decisionHandler:decisionHandler];
+                                                   return;
+                                               }
+                                               fetchProfile(token);
                                            }];
-                                       }];
+        } else {
+            [self handleError:error decisionHandler:decisionHandler];
+        }
     } else {
-        [self handleError:error decisionHandler:decisionHandler];
+        A0Token *token = [self.authentication tokenFromURL:url error:&error];
+        if (error) {
+            [self handleError:error decisionHandler:decisionHandler];
+            return;
+        }
+        fetchProfile(token);
     }
 }
 

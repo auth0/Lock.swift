@@ -44,34 +44,44 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName usePKCE:(BOOL)usePKCE {
+    return [self initWithLock:lock connectionName:connectionName useUniversalLink:YES usePKCE:usePKCE];
+}
+
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName useUniversalLink:(BOOL)useUniversalLink usePKCE:(BOOL)usePKCE {
+    NSURL *callbackURL = useUniversalLink ? [A0SafariSession callbackURLForOSVersion:NSFoundationVersionNumber withLock:lock] : [A0SafariSession urlWithCustomSchemeForLock:lock];
+    return [self initWithLock:lock connectionName:connectionName callbackURL:callbackURL usePKCE:usePKCE];
+}
+
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName {
     return [self initWithLock:lock connectionName:connectionName useUniversalLink:YES];
 }
 
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName useUniversalLink:(BOOL)useUniversalLink {
-    NSURL *callbackURL = useUniversalLink ? [A0SafariSession callbackURLForOSVersion:NSFoundationVersionNumber withLock:lock] : [A0SafariSession urlWithCustomSchemeForLock:lock];
-    return [self initWithLock:lock connectionName:connectionName callbackURL:callbackURL];
+    return [self initWithLock:lock connectionName:connectionName useUniversalLink:useUniversalLink usePKCE:NO];
 }
 
-- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName callbackURL:(NSURL *)callbackURL {
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName callbackURL:(NSURL *)callbackURL usePKCE:(BOOL)usePKCE {
     self = [super init];
     if (self) {
         _connectionName = connectionName;
         _client = [lock apiClient];
         _callbackURL = callbackURL;
-        _pkce = [[A0PKCE alloc] init];
+        _pkce = usePKCE ? [[A0PKCE alloc] init] : nil;
         NSURLComponents *components = [[NSURLComponents alloc] initWithURL:lock.domainURL.absoluteURL resolvingAgainstBaseURL:YES];
         components.path = @"/authorize";
         _authorizeURL = components.URL;
         NSMutableDictionary *defaults = [@{
-                                           @"response_type": @"code",
+                                           @"response_type": usePKCE ? @"code" : @"token",
                                            @"client_id": lock.clientId,
                                            @"redirect_uri": callbackURL.absoluteString,
                                            } mutableCopy];
         if (lock.telemetry) {
             defaults[A0ClientInfoQueryParamName] = lock.telemetry.base64Value;
         }
-        [defaults addEntriesFromDictionary:[_pkce authorizationParameters]];
+        if (_pkce) {
+            [defaults addEntriesFromDictionary:[_pkce authorizationParameters]];
+        }
         _defaultParameters = [NSDictionary dictionaryWithDictionary:defaults];
     }
     return self;
@@ -89,13 +99,20 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                            description:A0LocalizedString(localizedDescription)
                                payload:params];
         callback(error, nil);
-    } else {
+        return;
+    }
+    if (self.pkce) {
         NSString *code = params[@"code"];
-        [self.client requestTokenWithParameters:@{
-                                                  @"code": code,
-                                                  @"redirect_uri": self.callbackURL.absoluteString,
-                                                  }
+        NSMutableDictionary *params = [[self.pkce tokenParametersWithAuthorizationCode:code] mutableCopy];
+        [params addEntriesFromDictionary:@{
+                                           @"redirect_uri": self.callbackURL.absoluteString,
+                                           }];
+        [self.client requestTokenWithParameters:params
                                        callback:callback];
+    } else {
+        NSError *error;
+        A0Token *token = [self parseTokenFromURL:url error:&error];
+        callback(error, token);
     }
 }
 
@@ -121,6 +138,36 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             } failure:failure];
         });
     };
+}
+
+- (A0Token *)parseTokenFromURL:(NSURL *)url error:(NSError **)error {
+    NSString *queryString = url.query ?: url.fragment;
+    NSDictionary *params = [NSDictionary fromQueryString:queryString];
+    A0LogDebug(@"Received params %@ from URL %@", params, url);
+    NSString *errorMessage = params[@"error"];
+    A0Token *token;
+    NSError *cause;
+    if (errorMessage) {
+        A0LogError(@"URL contained error message %@", errorMessage);
+        NSString *localizedDescription = [NSString stringWithFormat:@"Failed to authenticate user with connection %@", self.connectionName];
+        cause = [NSError errorWithCode:A0ErrorCodeAuthenticationFailed
+                           description:A0LocalizedString(localizedDescription)
+                               payload:params];
+    } else {
+        NSString *accessToken = params[@"access_token"];
+        NSString *idToken = params[@"id_token"];
+        NSString *tokenType = params[@"token_type"];
+        NSString *refreshToken = params[@"refresh_token"];
+        if (idToken) {
+            token = [[A0Token alloc] initWithAccessToken:accessToken idToken:idToken tokenType:tokenType refreshToken:refreshToken];
+            A0LogVerbose(@"Obtained token from URL: %@", token);
+        } else {
+            A0LogError(@"Failed to obtain id_token from URL %@", url);
+            cause = [A0Errors auth0InvalidConfigurationForConnectionName:self.connectionName];
+        }
+    }
+    *error = cause;
+    return token;
 }
 
 + (NSURL *)callbackURLForOSVersion:(double)osVersion withLock:(A0Lock *)lock {
