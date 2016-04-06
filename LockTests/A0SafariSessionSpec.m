@@ -36,7 +36,7 @@
 #import <SafariServices/SafariServices.h>
 
 @interface A0SafariSession (Testing)
-- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName callbackURL:(NSURL *)callbackURL;
+- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName callbackURL:(NSURL *)callbackURL usePKCE:(BOOL)usePKCE;
 - (void)safariViewControllerDidFinish:(SFSafariViewController *)controller;
 
 + (NSURL *)callbackURLForOSVersion:(double)osVersion withLock:(A0Lock *)lock;
@@ -73,7 +73,7 @@ describe(@"A0SafariSession", ^{
 
     it(@"should create a new instance", ^{
         NSURL *callbackURL = [NSURL URLWithString:@"https://samples.auth0.com"];
-        session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook" callbackURL:callbackURL];
+        session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook" callbackURL:callbackURL usePKCE:NO];
         expect(session).toNot(beNil());
         expect(session.connectionName).to(equal(@"facebook"));
         expect(session.callbackURL).to(equal(callbackURL));

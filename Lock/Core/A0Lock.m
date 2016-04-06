@@ -133,6 +133,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 #endif
         _telemetry = [A0Telemetry telemetryEnabled] ? [[A0Telemetry alloc] init] : nil;
         _client.telemetryInfo = _telemetry.base64Value;
+        _usePKCE = NO;
     }
     return self;
 }

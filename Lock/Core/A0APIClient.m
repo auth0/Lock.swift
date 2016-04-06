@@ -585,6 +585,30 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 }
 
+#pragma mark - Token Request
+
+- (NSURLSessionDataTask *)requestTokenWithParameters:(NSDictionary *)parameters
+                                            callback:(void(^)(NSError * _Nullable error, A0Token * _Nullable token))callback {
+    NSMutableDictionary *request = [@{
+                                      kClientIdParamName: self.clientId,
+                                      kGrantTypeParamName: @"authorization_code",
+                                      } mutableCopy];
+    [request addEntriesFromDictionary:parameters];
+    A0LogDebug(@"Performing authorization code exchange with parameters %@", request);
+    return [self.manager POST:@"oauth/token"
+                   parameters:request
+                     progress:nil
+                      success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+                          A0Token *token = [[A0Token alloc] initWithDictionary:responseObject];
+                          A0LogDebug(@"Received token information %@", responseObject);
+                          callback(nil, token);
+                      }
+                      failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+                          A0LogError(@"Failed to exchange authorization code with error %@", error);
+                          callback(error, nil);
+                      }];
+}
+
 #pragma mark - Internal API calls
 
 - (NSURLSessionDataTask *)fetchUserInfoWithTokenInfo:(NSDictionary *)tokenInfo success:(A0APIClientAuthenticationSuccess)success failure:(A0APIClientError)failure {

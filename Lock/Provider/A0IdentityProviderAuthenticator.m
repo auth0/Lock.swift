@@ -37,7 +37,7 @@
 
 @interface A0IdentityProviderAuthenticator ()
 
-@property (weak, nonatomic) id<A0APIClientProvider> clientProvider;
+@property (weak, nonatomic) A0Lock *lock;
 @property (strong, nonatomic) NSMutableDictionary *authenticators;
 @property (assign, nonatomic) BOOL useWebAsDefault;
 
@@ -48,14 +48,10 @@
 AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)initWithLock:(A0Lock *)lock {
-    return [self initWithClientProvider:lock];
-}
-
-- (id)initWithClientProvider:(id<A0APIClientProvider>)clientProvider {
     self = [super init];
     if (self) {
         _authenticators = [@{} mutableCopy];
-        _clientProvider = clientProvider;
+        _lock = lock;
         _useWebAsDefault = NO;
     }
     return self;
@@ -70,7 +66,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)registerAuthenticationProvider:(A0BaseAuthenticator *)authenticationProvider {
     NSAssert(authenticationProvider != nil, @"Must supply a non-nil profile");
     NSAssert(authenticationProvider.identifier != nil, @"Provider must have a valid indentifier");
-    authenticationProvider.clientProvider = self.clientProvider;
+    authenticationProvider.clientProvider = self.lock;
     self.authenticators[authenticationProvider.identifier] = authenticationProvider;
 }
 
@@ -110,7 +106,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (id<A0AuthenticationProvider>)defaultProviderForConnectionName:(NSString *)connectionName {
 #ifdef HAS_WEBVIEW_SUPPORT
-    return [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName client:[self a0_apiClientFromProvider:self.clientProvider]];
+    return [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName lock:self.lock];
 #else
     return [[A0FailureAuthenticator alloc] initWithConnectionName:connectionName];
 #endif
@@ -130,7 +126,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 @implementation A0IdentityProviderAuthenticator (Deprecated)
 
 - (id)init {
-    return [self initWithClientProvider:nil];
+    return [self initWithLock:[A0Lock sharedLock]];
 }
 
 + (A0IdentityProviderAuthenticator *)sharedInstance {

@@ -29,6 +29,7 @@
 #import "A0Token.h"
 #import "A0Theme.h"
 #import "Constants.h"
+#import "A0PKCE.h"
 #import <Masonry/Masonry.h>
 
 @interface A0WebKitViewController () <WKNavigationDelegate>
@@ -37,6 +38,7 @@
 @property (strong, nonatomic) A0APIClient *client;
 @property (strong, nonatomic) NSURL *authorizeURL;
 @property (copy, nonatomic) NSString *connectionName;
+@property (strong, nonatomic) A0PKCE *pkce;
 
 @property (weak, nonatomic) WKWebView *webview;
 @property (weak, nonatomic) UIView *messageView;
@@ -53,18 +55,27 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)initWithAPIClient:(A0APIClient * __nonnull)client
-                   connectionName:(NSString * __nonnull)connectionName
-                       parameters:(nullable A0AuthParameters *)parameters {
+- (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters usePKCE:(BOOL)usePKCE {
     self = [self init];
     if (self) {
+        _pkce = usePKCE ? [[A0PKCE alloc] init] : nil;
         _authentication = [[A0WebAuthentication alloc] initWithClientId:client.clientId domainURL:client.baseURL connectionName:connectionName];
+        NSMutableDictionary *dictionary = [[parameters asAPIPayload] mutableCopy];
+        if (_pkce) {
+            [dictionary addEntriesFromDictionary:[_pkce authorizationParameters]];
+        }
         [_authentication setTelemetryInfo:[client telemetryInfo]];
-        _authorizeURL = [_authentication authorizeURLWithParameters:[parameters asAPIPayload]];
+        _authorizeURL = [_authentication authorizeURLWithParameters:dictionary usePKCE:usePKCE];
         _connectionName = connectionName;
         _client = client;
     }
     return self;
+}
+
+- (instancetype)initWithAPIClient:(A0APIClient * __nonnull)client
+                   connectionName:(NSString * __nonnull)connectionName
+                       parameters:(nullable A0AuthParameters *)parameters {
+    return [self initWithAPIClient:client connectionName:connectionName parameters:parameters usePKCE:NO];
 }
 
 - (void)viewDidLoad {
@@ -201,10 +212,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         return;
     }
     NSError *error;
-    A0Token *token = [self.authentication tokenFromURL:url error:&error];
-    if (token) {
-        A0IdPAuthenticationBlock success = self.onAuthentication;
-        [self showProgressIndicator];
+
+    A0IdPAuthenticationBlock success = self.onAuthentication;
+    void(^fetchProfile)(A0Token *) = ^(A0Token *token) {
         [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
             decisionHandler(WKNavigationActionPolicyCancel);
             [self dismissWithCompletion:^{
@@ -215,8 +225,33 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         } failure:^(NSError *error) {
             [self handleError:error decisionHandler:decisionHandler];
         }];
+    };
+    [self showProgressIndicator];
+    if (self.pkce) {
+        NSString *code = [self.authentication authorizationCodeFromURL:url error:&error];
+        if (code) {
+            NSMutableDictionary *params = [[self.pkce tokenParametersWithAuthorizationCode:code] mutableCopy];
+            [params addEntriesFromDictionary:@{
+                                               @"redirect_uri": self.authentication.callbackURL.absoluteString,
+                                               }];
+            [self.client requestTokenWithParameters:params
+                                           callback:^(NSError * _Nonnull error, A0Token * _Nonnull token) {
+                                               if (error) {
+                                                   [self handleError:error decisionHandler:decisionHandler];
+                                                   return;
+                                               }
+                                               fetchProfile(token);
+                                           }];
+        } else {
+            [self handleError:error decisionHandler:decisionHandler];
+        }
     } else {
-        [self handleError:error decisionHandler:decisionHandler];
+        A0Token *token = [self.authentication tokenFromURL:url error:&error];
+        if (error) {
+            [self handleError:error decisionHandler:decisionHandler];
+            return;
+        }
+        fetchProfile(token);
     }
 }
 

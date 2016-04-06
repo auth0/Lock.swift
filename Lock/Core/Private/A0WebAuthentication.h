@@ -73,13 +73,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable A0Token *)tokenFromURL:(NSURL *)url error:(NSError **)error;
 
 /**
+ *  Returns an authorization code from an URL query parameters
+ *
+ *  @param url   where the code is obtained
+ *  @param error if the parsing fails or the URL contains an error message
+ *
+ *  @return an instance of `A0Token` with the token information or nil if an error eccurs.
+ */
+- (nullable NSString *)authorizationCodeFromURL:(NSURL *)url error:(NSError **)error;
+
+/**
  *  Authorize endpoint URL with parameters
  *
  *  @param parameters to be sent to authorize endpoint
  *
  *  @return authorize URL
  */
-- (nullable NSURL *)authorizeURLWithParameters:(nullable NSDictionary *)parameters;
+- (nullable NSURL *)authorizeURLWithParameters:(nullable NSDictionary *)parameters usePKCE:(BOOL)usePKCE;
 
 @end
 

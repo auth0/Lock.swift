@@ -53,6 +53,11 @@ FOUNDATION_EXPORT NSString * const A0ClientInfoQueryParamName;
  */
 @property (strong, readonly, nonatomic) NSURL *configurationURL;
 
+/**
+ *  Use Proof Key for Code Exchange for OAuth authorization requests. Default is NO
+ */
+@property (assign, nonatomic) BOOL usePKCE;
+
 @property (strong, nullable, nonatomic) A0Telemetry *telemetry;
 
 /**

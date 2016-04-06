@@ -31,6 +31,7 @@
 #import "A0AuthParameters.h"
 #import "A0Lock.h"
 #import "Constants.h"
+#import "A0PKCE.h"
 #import <Masonry/Masonry.h>
 
 @interface A0WebViewController () <UIWebViewDelegate>
@@ -39,6 +40,7 @@
 @property (strong, nonatomic) A0WebAuthentication *authentication;
 @property (copy, nonatomic) NSString *connectionName;
 @property (strong, nonatomic) A0APIClient *client;
+@property (strong, nonatomic) A0PKCE *pkce;
 
 - (IBAction)cancel:(id)sender;
 
@@ -48,18 +50,27 @@
 
 AUTH0_DYNAMIC_LOGGER_METHODS
 
-- (instancetype)initWithAPIClient:(A0APIClient * __nonnull)client
-                   connectionName:(NSString * __nonnull)connectionName
-                       parameters:(nullable A0AuthParameters *)parameters {
+- (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters usePKCE:(BOOL)usePKCE {
     self = [self init];
     if (self) {
         _authentication = [[A0WebAuthentication alloc] initWithClientId:client.clientId domainURL:client.baseURL connectionName:connectionName];
-        [_authentication setTelemetryInfo:[client telemetryInfo]];
-        _authorizeURL = [_authentication authorizeURLWithParameters:[parameters asAPIPayload]];
         _connectionName = connectionName;
         _client = client;
+        _pkce = usePKCE ? [[A0PKCE alloc] init] : nil;
+        NSMutableDictionary *dictionary = [[parameters asAPIPayload] mutableCopy];
+        if (_pkce) {
+            [dictionary addEntriesFromDictionary:[_pkce authorizationParameters]];
+        }
+        [_authentication setTelemetryInfo:[client telemetryInfo]];
+        _authorizeURL = [_authentication authorizeURLWithParameters:dictionary usePKCE:usePKCE];
     }
     return self;
+}
+
+- (instancetype)initWithAPIClient:(A0APIClient * __nonnull)client
+                   connectionName:(NSString * __nonnull)connectionName
+                       parameters:(nullable A0AuthParameters *)parameters {
+    return [self initWithAPIClient:client connectionName:connectionName parameters:parameters usePKCE:NO];
 }
 
 - (void)viewDidLoad {
@@ -96,28 +107,59 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     A0LogVerbose(@"About to load URL %@", request);
     BOOL isCallback = [self.authentication validateURL:request.URL];
-    if (isCallback) {
-        NSError *error;
-        A0Token *token = [self.authentication tokenFromURL:request.URL error:&error];
-        if (token) {
-            A0IdPAuthenticationBlock success = self.onAuthentication;
-            [self.client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
-                self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-                if (success) {
-                    success(profile, token);
-                }
-            } failure:self.onFailure];
-            [self showProgressIndicator];
-        } else {
-            if (self.onFailure) {
-                self.onFailure(error);
+    A0IdPAuthenticationBlock success = self.onAuthentication;
+    A0IdPAuthenticationErrorBlock failure = self.onFailure ? self.onFailure : ^(NSError *error) {};
+    A0APIClient *client = self.client;
+
+    void(^fetchProfile)(A0Token *token) = ^(A0Token *token) {
+        [client fetchUserProfileWithIdToken:token.idToken success:^(A0UserProfile *profile) {
+            self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            if (success) {
+                success(profile, token);
             }
+        } failure:failure];
+    };
+
+    BOOL shouldStart = !isCallback;
+    if (shouldStart) {
+        return shouldStart;
+    }
+
+    NSError *error;
+    if (self.pkce) {
+        NSString *code = [self.authentication authorizationCodeFromURL:request.URL error:&error];
+        if (code) {
+            [self showProgressIndicator];
+            [client requestTokenWithParameters:@{
+                                                 @"code": code,
+                                                 @"redirect_uri": self.authentication.callbackURL.absoluteString,
+                                                 }
+                                      callback:^(NSError * _Nonnull error, A0Token * _Nonnull token) {
+                                          if (error) {
+                                              if (failure) {
+                                                  failure(error);
+                                              }
+                                              [self hideProgressIndicator];
+                                              return;
+                                          }
+                                          fetchProfile(token);
+                                      }];
+        } else {
+            failure(error);
             [self hideProgressIndicator];
         }
-        self.onAuthentication = nil;
-        self.onFailure = nil;
+    } else {
+        A0Token *token = [self.authentication tokenFromURL:request.URL error:&error];
+        if (error) {
+            failure(error);
+            [self hideProgressIndicator];
+        } else {
+            fetchProfile(token);
+        }
     }
-    return !isCallback;
+    self.onAuthentication = nil;
+    self.onFailure = nil;
+    return shouldStart;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
