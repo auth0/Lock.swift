@@ -89,7 +89,7 @@ describe(@"A0SafariSession", ^{
         });
 
         it(@"should pick the current OS version", ^{
-            session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook"];
+            session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook" usePKCE:NO];
             if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_3) {
                 expect(session.callbackURL.scheme).to(equal(@"https"));
             } else {
@@ -98,12 +98,12 @@ describe(@"A0SafariSession", ^{
         });
     });
 
-    context(@"authorize url", ^{
+    context(@"authorize url with connection", ^{
 
         __block NSURL *url;
 
         beforeEach(^{
-            session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook"];
+            session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook" usePKCE:NO];
             url = [session authorizeURLWithParameters:nil];
         });
 
@@ -143,6 +143,42 @@ describe(@"A0SafariSession", ^{
 
     });
 
+    context(@"authorize url with no connection", ^{
+
+        __block NSURL *url;
+
+        beforeEach(^{
+            session = [[A0SafariSession alloc] initWithLock:lock connectionName:nil usePKCE:NO];
+            url = [session authorizeURLWithParameters:nil];
+        });
+
+        it(@"should be based in domainURL", ^{
+            expect(url.host).to(equal(@"samples.auth0.com"));
+            expect(url.scheme).to(equal(@"https"));
+        });
+
+        it(@"should include default parameters in query string", ^{
+            NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+            NSArray<NSURLQueryItem *> *items = components.queryItems;
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"client_id" value:@"CLIENTID"]));
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"response_type" value:@"token"]));
+            expect(items).toNot(contain([NSURLQueryItem queryItemWithName:@"connection" value:@"facebook"]));
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"redirect_uri" value:session.callbackURL.absoluteString]));
+        });
+
+        it(@"should include extra parameters in query string", ^{
+            url = [session authorizeURLWithParameters:@{
+                                                        @"scope": @"openid",
+                                                        @"nonce": @"some random value",
+                                                        }];
+            NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+            NSArray<NSURLQueryItem *> *items = components.queryItems;
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"scope" value:@"openid"]));
+            expect(items).to(contain([NSURLQueryItem queryItemWithName:@"nonce" value:@"some random value"]));
+        });
+        
+    });
+
     context(@"authentication block", ^{
 
         __block A0IdPAuthenticationBlock successBlock;
@@ -159,7 +195,7 @@ describe(@"A0SafariSession", ^{
             failureBlock = ^(NSError *error) {
                 expect(error).toNot(beNil());
             };
-            session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook"];
+            session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook" usePKCE:NO];
         });
 
         it(@"should provide an authentication block", ^{
