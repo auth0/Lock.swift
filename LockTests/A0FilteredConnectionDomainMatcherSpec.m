@@ -84,12 +84,10 @@ describe(@"A0FilteredConnectionDomainMatcher", ^{
             expect([matcher valueForKeyPath:@"domains"]).to(beEmpty());
         });
 
-        it(@"should pick all connections with domain when filter list is empty", ^{
-            it(@"should pick connections from unfiltered strategies", ^{
-                matcher = [[A0FilteredConnectionDomainMatcher alloc] initWithStrategies:@[strategy, filterStrategy] filter:@[]];
-                expect([[matcher valueForKeyPath:@"connections"] allKeys]).to(equal(@[@"myADFS", @"myAD"]));
-                expect([[matcher valueForKeyPath:@"domains"] allKeys]).to(equal(@[@"myADFS", @"myAD"]));
-            });
+        it(@"should pick connections from unfiltered strategies", ^{
+            matcher = [[A0FilteredConnectionDomainMatcher alloc] initWithStrategies:@[strategy, filterStrategy] filter:@[]];
+            expect([[matcher valueForKeyPath:@"connections"] allKeys]).to(contain(@"myADFS", @"myAD"));
+            expect([[matcher valueForKeyPath:@"domains"] allKeys]).to(contain(@"myADFS", @"myAD"));
         });
     });
 });
