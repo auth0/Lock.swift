@@ -28,11 +28,19 @@ NS_ASSUME_NONNULL_BEGIN
 @class A0Lock;
 
 /**
- *  Handles authentication for a Auth0 connection that doesn't have native integration using `SFSafariViewController`.
+ *  Handles authentication using `SFSafariViewController` for either a specific connection or just shows Auth0 Lock web login form.
  *  In iOS 9 you need to have Universal Links configured for your Auth0 subdomain and for older versions it will fallback to custom schemes.
  *  The callback URL will be:
  *  - Universal Link: `https://{YOUR_AUTH0_DOMAIN}/ios/{BUNDLE_IDENTIFIER}/callback`
  *  - Custom Scheme: `{BUNDLE_IDENTIFIER}://{YOUR_AUTH0_DOMAIN}/ios/{BUNDLE_IDENTIFIER}/callback`
+ *  So you need to add them to your Application `Allowed Callbacks` section in Auth0 Dashboard
+ *
+ *  You can also force it to use a custom scheme by setting the flag `useUniversalLink` to `NO` when initialising the authenticator
+ * 
+ * ## Universal Links (iOS 9+)
+ * 
+ * Auth0 provides support to use callbacks as universal links by serving the file `https://{auth0 domain}/apple-app-site-association`, 
+ * the only requirement is to provide the application bundleIdentifier and Apple Developer TeamId in your Auth0 Application settings.
  */
 @interface A0SafariAuthenticator : A0BaseAuthenticator
 
@@ -56,6 +64,25 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return an initialised instance.
  */
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName useUniversalLink:(BOOL)useUniversalLink;
+
+/**
+ *  Initialise the authenticator with a Lock instance that will show Auth0's configured web login page
+ *
+ *  @param lock           instance with Auth0 credentials
+ *
+ *  @return an initialised instance.
+ */
+- (instancetype)initWithLock:(A0Lock *)lock;
+
+/**
+ *  Initialise the authenticator with a Lock instance that will show Auth0's configured web login page
+ *
+ *  @param lock                 instance with Auth0 credentials
+ *  @param useUniversalLink     for callback, if the device is running iOS 9+ otherwise use custom schemes. If it's NO it will always use custom schemes
+ *
+ *  @return an initialised instance.
+ */
+- (instancetype)initWithLock:(A0Lock *)lock useUniversalLink:(BOOL)useUniversalLink;
 
 @end
 

@@ -32,8 +32,6 @@ typedef void(^A0SafariSessionAuthentication)(NSError *error, A0Token *token);
 @property (readonly, copy, nonatomic) NSString *connectionName;
 @property (readonly, strong, nonatomic) NSURL *callbackURL;
 
-- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName;
-- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName useUniversalLink:(BOOL)useUniversalLink;
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName usePKCE:(BOOL)usePKCE;
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName useUniversalLink:(BOOL)useUniversalLink usePKCE:(BOOL)usePKCE;
 

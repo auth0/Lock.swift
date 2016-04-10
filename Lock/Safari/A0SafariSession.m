@@ -53,14 +53,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [self initWithLock:lock connectionName:connectionName callbackURL:callbackURL usePKCE:usePKCE];
 }
 
-- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName {
-    return [self initWithLock:lock connectionName:connectionName useUniversalLink:YES];
-}
-
-- (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName useUniversalLink:(BOOL)useUniversalLink {
-    return [self initWithLock:lock connectionName:connectionName useUniversalLink:useUniversalLink usePKCE:NO];
-}
-
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName callbackURL:(NSURL *)callbackURL usePKCE:(BOOL)usePKCE {
     self = [super init];
     if (self) {
@@ -94,7 +86,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     NSString *errorMessage = params[@"error"];
     if (errorMessage) {
         A0LogError(@"URL contained error message %@", errorMessage);
-        NSString *localizedDescription = [NSString stringWithFormat:@"Failed to authenticate user with connection %@", self.connectionName];
+        NSString *localizedDescription = self.connectionName ? [NSString stringWithFormat:@"Failed to authenticate user with connection %@", self.connectionName] : @"Failed to authenticate user";
         NSError *error = [NSError errorWithCode:A0ErrorCodeAuthenticationFailed
                            description:A0LocalizedString(localizedDescription)
                                payload:params];
@@ -117,11 +109,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (NSURL *)authorizeURLWithParameters:(NSDictionary *)parameters {
-    NSMutableDictionary *authenticationParameters = [NSMutableDictionary dictionaryWithDictionary:self.defaultParameters];
-    [authenticationParameters addEntriesFromDictionary:parameters];
-    authenticationParameters[@"connection"] = self.connectionName;
+    NSMutableDictionary *queryParameters = [NSMutableDictionary dictionaryWithDictionary:self.defaultParameters];
+    [queryParameters addEntriesFromDictionary:parameters];
+    if (self.connectionName) {
+        queryParameters[@"connection"] = self.connectionName;
+    }
     NSURLComponents *components = [NSURLComponents componentsWithURL:self.authorizeURL resolvingAgainstBaseURL:YES];
-    components.query = authenticationParameters.queryString;
+    components.query = queryParameters.queryString;
     return components.URL;
 }
 
@@ -168,6 +162,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     *error = cause;
     return token;
+}
+
+- (NSString *)titleForAuthenticationFailed {
+    return self.connectionName ? [NSString stringWithFormat:@"Failed to authenticate user with connection %@", self.connectionName] : @"Failed to authenticate user";
 }
 
 + (NSURL *)callbackURLForOSVersion:(double)osVersion withLock:(A0Lock *)lock {
