@@ -1,9 +1,0 @@
-platform :ios, '8.0'
-
-inhibit_all_warnings!
-
-target 'FirebaseExample' do
-  pod 'Lock', '~> 1.10'
-  pod 'SimpleKeychain', '~> 0.3'
-  pod 'Firebase', '~> 2.0'
-end
