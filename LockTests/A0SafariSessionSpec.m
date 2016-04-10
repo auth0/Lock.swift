@@ -176,7 +176,7 @@ describe(@"A0SafariSession", ^{
             expect(items).to(contain([NSURLQueryItem queryItemWithName:@"scope" value:@"openid"]));
             expect(items).to(contain([NSURLQueryItem queryItemWithName:@"nonce" value:@"some random value"]));
         });
-        
+
     });
 
     context(@"authentication block", ^{
