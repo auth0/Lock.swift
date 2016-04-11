@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.25.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.25.0) (2016-04-11)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.24.1...1.25.0)
+
+**Merged pull requests:**
+
+- Allow to use A0SafariAuthenticator w/o connection [\#254](https://github.com/auth0/Lock.iOS-OSX/pull/254) ([hzalaz](https://github.com/hzalaz))
+- Update build scripts [\#252](https://github.com/auth0/Lock.iOS-OSX/pull/252) ([hzalaz](https://github.com/hzalaz))
+- Use PKCE for token exchange via authorize [\#250](https://github.com/auth0/Lock.iOS-OSX/pull/250) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.24.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.24.1) (2016-03-31)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.24.0...1.24.1)
 
