@@ -103,6 +103,7 @@
 
     [submitButton addTarget:self action:@selector(submitChangePasswordFromSender:) forControlEvents:UIControlEventTouchUpInside];
     [submitButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
+    submitButton.accessibilityHint = A0LocalizedString(@"Send reset password email");
     [theme configurePrimaryButton:submitButton];
 
     self.identifierField = identifierField;
