@@ -130,4 +130,8 @@
 - (void)setTitle:(NSString *)title {
     self.titleLabel.text = title;
 }
+
+- (NSArray *)accessibilityElements {
+    return @[self.titleLabel];
+}
 @end

@@ -96,7 +96,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)setupLayout {
     UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeSystem];
-
+    dismissButton.accessibilityLabel = A0LocalizedString(@"Dismiss");
+    dismissButton.accessibilityHint = A0LocalizedString(@"Dismiss Login");
     dismissButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:dismissButton];
 
@@ -125,6 +126,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.dismissButton setImage:[theme imageForKey:A0ThemeCloseButtonImageName] forState:UIControlStateNormal];
     self.dismissButton.tintColor = [theme colorForKey:A0ThemeCloseButtonTintColor];
     self.dismissButton.hidden = !self.closable;
+    self.dismissButton.accessibilityElementsHidden = YES;
     [self.dismissButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -169,6 +171,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         self.configuration.defaultDatabaseConnectionName = self.defaultDatabaseConnectionName;
         self.configuration.enterpriseConnectionsUsingWebForm = self.enterpriseConnectionsUsingWebForm;
         [self layoutRootController];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.dismissButton.accessibilityElementsHidden = NO;
+        });
     } failure:^(NSError *error) {
         A0LogError(@"Failed to fetch App info %@", error);
         NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Failed to display login");

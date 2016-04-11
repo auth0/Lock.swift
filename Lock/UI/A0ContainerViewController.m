@@ -78,6 +78,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.titleView = titleView;
     self.containerView = containerView;
     self.navigationView = navigationView;
+    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.titleView);
 }
 
 - (void)setupContainerUI {

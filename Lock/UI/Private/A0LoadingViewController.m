@@ -22,6 +22,7 @@
 
 #import "A0LoadingViewController.h"
 #import "A0Theme.h"
+#import "Constants.h"
 
 @interface A0LoadingViewController ()
 
@@ -38,7 +39,7 @@
 - (void)setupUI {
     [self setupLayout];
 
-    self.title = @" ";
+    self.title = A0LocalizedString(@"Loading");
     self.activityIndicator.color = [[A0Theme sharedInstance] colorForKey:A0ThemeTitleTextColor];
 }
 

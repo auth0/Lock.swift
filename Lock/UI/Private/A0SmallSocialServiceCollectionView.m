@@ -140,6 +140,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [cell.serviceButton setBackgroundColor:theme.highlightedBackgroundColor forState:UIControlStateHighlighted];
     [cell.serviceButton addTarget:self action:@selector(triggerAuth:) forControlEvents:UIControlEventTouchUpInside];
     cell.serviceButton.tag = indexPath.item;
+    cell.serviceButton.accessibilityLabel = theme.localizedTitle;
     return cell;
 }
 
