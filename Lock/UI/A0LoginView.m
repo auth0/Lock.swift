@@ -196,6 +196,8 @@
     [self.submitButton setTitle:title.uppercaseString forState:UIControlStateNormal];
     self.ssoView.hidden = NO;
     self.passwordField.hidden = YES;
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, A0LocalizedString(@"SINGLE SIGN-ON ENABLED"));
+    self.submitButton.accessibilityHint = nil;
 }
 
 - (void)disableEnterpriseSSO {
@@ -203,6 +205,7 @@
     self.ssoView.hidden = YES;
     self.passwordField.hidden = NO;
     [self.submitButton setTitle:A0LocalizedString(@"ACCESS") forState:UIControlStateNormal];
+    self.submitButton.accessibilityHint = A0LocalizedString(@"Login with email and password");
 }
 
 - (void)setIdentifierValid:(BOOL)identifierValid {

@@ -11,6 +11,7 @@
 		5F0499B81CAB2C72006F6C05 /* A0Telemetry.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0499B51CAB2C72006F6C05 /* A0Telemetry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F0499B91CAB2C72006F6C05 /* A0Telemetry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0499B61CAB2C72006F6C05 /* A0Telemetry.m */; };
 		5F0499BA1CAB2C72006F6C05 /* A0Telemetry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0499B61CAB2C72006F6C05 /* A0Telemetry.m */; };
+		5F06DD471CBC2D180011842B /* Lock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FBACFF51BE7AF8700703DD1 /* Lock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F181CD41C2057610008513E /* A0LockSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C81BE95C5700703DD1 /* A0LockSpec.m */; };
 		5F181CD51C2057920008513E /* A0UserIdentitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4D21BE95C5700703DD1 /* A0UserIdentitySpec.m */; };
 		5F2E38D61C2AE5F0007E71B2 /* A0LockConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C71BE95C5700703DD1 /* A0LockConfigurationSpec.m */; };
@@ -526,6 +527,16 @@
 				5FBAD49E1BE8168400703DD1 /* Nimble.framework in CopyFiles */,
 				5F3250771C87914400CCEC55 /* OCMockito.framework in CopyFiles */,
 				5F3250781C87914400CCEC55 /* OCHamcrest.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5FEDBC551CBC2B930060FE0A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5F06DD471CBC2D180011842B /* Lock.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1968,6 +1979,7 @@
 				5FBAD22A1BE7BE1E00703DD1 /* Resources */,
 				5FBAD2B41BE7CF6F00703DD1 /* Carthage */,
 				5FBAD4831BE80C3F00703DD1 /* Auth0 */,
+				5FEDBC551CBC2B930060FE0A /* CopyFiles */,
 			);
 			buildRules = (
 			);

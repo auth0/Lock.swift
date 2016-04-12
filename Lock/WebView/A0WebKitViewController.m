@@ -100,7 +100,8 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }];
     [descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(messageView).offset(0.5);
-        make.left.and.right.equalTo(messageView).offset(20);
+        make.left.equalTo(messageView.mas_left).offset(20);
+        make.right.equalTo(messageView.mas_right).offset(-20);
         make.top.equalTo(titleLabel.mas_bottom).offset(16);
     }];
 
@@ -170,6 +171,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.messageDescriptionLabel.text = A0LocalizedString(@"Sorry, we couldn't reach our authentication server. Please check your network connection and try again.");
     [self.messageView updateConstraints];
     self.messageView.hidden = NO;
+    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.messageTitleLabel);
 }
 
 #pragma mark - WKNavigationDelegate
@@ -179,10 +181,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self hideProgressIndicator];
     self.messageView.hidden = YES;
     self.title = webView.title;
+    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.title);
 }
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     A0LogVerbose(@"Started to load page with navigation: %@", navigation);
+    NSString *annoucement = [NSString stringWithFormat:@"Loading page at %@", self.webview.URL.host];
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, A0LocalizedString(annoucement));
+
     [self showProgressIndicator];
 }
 
@@ -196,7 +202,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     A0LogVerbose(@"Failed provisional navigation %@ with error %@", navigation, error);
-    if (error.code == NSURLErrorTimedOut || error.code == NSURLErrorCannotConnectToHost) {
+    if (error.code == NSURLErrorTimedOut || error.code == NSURLErrorCannotConnectToHost || error.code == NSURLErrorNotConnectedToInternet) {
         [self networkTimedOutForNavigation:navigation];
     }
     [self hideProgressIndicator];
