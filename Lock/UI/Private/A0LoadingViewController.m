@@ -39,7 +39,7 @@
 - (void)setupUI {
     [self setupLayout];
 
-    self.title = A0LocalizedString(@"Loading");
+    self.title = @" ";
     self.activityIndicator.color = [[A0Theme sharedInstance] colorForKey:A0ThemeTitleTextColor];
 }
 
