@@ -236,7 +236,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             [self postLoginErrorNotificationWithError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(NO);
-                if (![error a0_mfaRequired]) {
+                if ([error a0_mfaRequired]) {
+                    self.onMFARequired(self.defaultConnection.name, username, password);
+                } else {
                     NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
                     NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
                     [A0Alert showInController:self errorAlert:^(A0Alert *alert) {

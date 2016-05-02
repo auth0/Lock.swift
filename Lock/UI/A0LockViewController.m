@@ -314,6 +314,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0EnterpriseLoginViewController *controller = [weakSelf newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
         [weakSelf displayController:controller];
     };
+    controller.onMFARequired = ^(NSString *connectionName, NSString *identifier, NSString *password) {
+        A0LogDebug(@"Required to ask MFA for user with identifier %@ and connection %@", identifier, connectionName);
+    };
     [self.navigationView removeAll];
     BOOL showResetPassword = ![self.configuration shouldDisableResetPassword:self.disableResetPassword];
     BOOL showSignUp = ![self.configuration shouldDisableSignUp:self.disableSignUp];

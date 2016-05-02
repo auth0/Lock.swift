@@ -37,6 +37,7 @@
 
 @property (copy, nonatomic) void(^onLoginBlock)(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token);
 @property (copy, nonatomic) void(^onShowEnterpriseLogin)(A0Connection *connection, NSString *email);
+@property (copy, nonatomic) void(^onMFARequired)(NSString *connectionName, NSString *identifier, NSString *password);
 
 @property (assign, nonatomic) BOOL forceUsername;
 @property (strong, nonatomic) A0CredentialsValidator *validator;
