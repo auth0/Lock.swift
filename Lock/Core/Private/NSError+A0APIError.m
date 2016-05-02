@@ -60,6 +60,10 @@ NSString * const A0ErrorDomain = @"com.auth0";
     || self.code == A0ErrorCodeGooglePlusCancelled;
 }
 
+- (BOOL)a0_mfaRequired {
+    return [[self a0_error] isEqualToString:@"a0.mfa_required"];
+}
+
 + (NSError *)errorWithCode:(NSInteger)code description:(NSString *)description payload:(NSDictionary *)payload {
     return [self errorWithCode:code
                       userInfo:@{

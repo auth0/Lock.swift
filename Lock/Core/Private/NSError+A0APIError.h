@@ -39,6 +39,8 @@
 
 - (BOOL)a0_cancelledSocialAuthenticationError;
 
+- (BOOL)a0_mfaRequired;
+
 + (NSError *)errorWithCode:(NSInteger)code description:(NSString *)description payload:(NSDictionary *)payload;
 
 + (NSError *)errorWithCode:(NSInteger)code userInfo:(NSDictionary *)userInfo;
