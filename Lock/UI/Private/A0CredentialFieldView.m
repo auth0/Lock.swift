@@ -100,6 +100,7 @@
             self.textField.secureTextEntry = YES;
             self.iconImageView.image = [[theme imageForKey:A0ThemeIconLock] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
+    self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.textField.placeholder = nil;
     [self setFieldPlaceholderText:self.placeholderText];
 }
