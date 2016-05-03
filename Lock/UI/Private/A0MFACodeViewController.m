@@ -119,6 +119,8 @@
         };
         parameters[@"mfa_code"] = code;
         [client loginWithUsername:self.identifier password:self.password parameters:parameters success:success failure:failure];
+    } else {
+        completionHandler(NO);
     }
 
     self.codeView.codeValid = valid;
