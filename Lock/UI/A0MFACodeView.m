@@ -77,6 +77,7 @@
         make.right.equalTo(containerView.mas_right).with.offset(1);
         make.height.equalTo(@55);
         make.top.equalTo(boxView.mas_bottom).with.offset(19);
+        make.bottom.equalTo(self);
     }];
 
     containerView.backgroundColor = [UIColor clearColor];
@@ -87,11 +88,7 @@
     [codeField.textField addTarget:self action:@selector(submitLoginFromSender:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [theme configureTextField:codeField.textField];
 
-    [theme configureLabel:titleLabel];
-    titleLabel.preferredMaxLayoutWidth = 225;
-    titleLabel.numberOfLines = 3;
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.text = A0LocalizedString(@"Please enter a verification code from your code generator application.");
+    [theme configureMultilineLabel:titleLabel withText:A0LocalizedString(@"Please enter a verification code from your code generator application.")];
 
     [submitButton setTitle:A0LocalizedString(@"SEND") forState:UIControlStateNormal];
     submitButton.accessibilityHint = A0LocalizedString(@"multi-factor authentication");

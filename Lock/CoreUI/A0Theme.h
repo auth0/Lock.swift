@@ -100,7 +100,7 @@ FOUNDATION_EXPORT NSString * const A0ThemeTouchIDLockContainerBackgroundColor;
 - (void)configureSecondaryButton:(UIButton *)button;
 - (void)configureTextField:(UITextField *)textField;
 - (void)configureLabel:(UILabel *)label;
-
+- (void)configureMultilineLabel:(UILabel *)label withText:(NSString *)text;
 @end
 
 @interface A0Theme (Deprecated)

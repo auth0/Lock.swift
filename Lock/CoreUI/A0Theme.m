@@ -252,6 +252,22 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
     label.textColor = [self colorForKey:A0ThemeDescriptionTextColor];
 }
 
+- (void)configureMultilineLabel:(UILabel *)label withText:(NSString *)text {
+    label.preferredMaxLayoutWidth = 225;
+    label.numberOfLines = 3;
+    label.textAlignment = NSTextAlignmentCenter;
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.lineSpacing = 5;
+    style.alignment = NSTextAlignmentCenter;
+    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text
+                                                               attributes:@{
+                                                                            NSFontAttributeName: [self fontForKey:A0ThemeDescriptionFont],
+                                                                            NSForegroundColorAttributeName: [self colorForKey:A0ThemeDescriptionTextColor],
+                                                                            NSParagraphStyleAttributeName: style,
+                                                                            }];
+    label.attributedText = attributedText;
+}
+
 - (A0ServiceTheme *)themeForStrategyName:(NSString *)strategyName andConnectionName:(NSString *)connectionName {
     NSDictionary *values;
     NSString *imageName;
