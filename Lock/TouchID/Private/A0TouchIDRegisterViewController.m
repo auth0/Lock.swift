@@ -27,7 +27,7 @@
 #import "A0KeyboardHandler.h"
 #import "A0TouchIDSignUpViewController.h"
 #import "A0DatabaseLoginViewController.h"
-
+#import "A0MFACodeViewController.h"
 #import "A0ChangePasswordViewController.h"
 #import "A0AuthParameters.h"
 #import "A0NavigationView.h"
@@ -75,15 +75,37 @@
 
 - (A0DatabaseLoginViewController *)buildLogin {
     __weak A0TouchIDRegisterViewController *weakSelf = self;
-    A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
-    controller.parameters = self.parameters;
-    controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
-        NSString *connection = weakSelf.parameters[@"connection"];
-        NSString *authorization = [A0KeyUploader authorizationWithUsername:controller.loginView.identifier password:controller.loginView.password connectionName:connection];
+    void (^uploadKey)(NSString *, A0UserProfile *, A0Token *) = ^(NSString *authorization, A0UserProfile *profile, A0Token *token) {
         A0KeyUploader *uploader = [[A0KeyUploader alloc] initWithDomainURL:[weakSelf.lock domainURL]
                                                                   clientId:[weakSelf.lock clientId]
                                                              authorization:authorization];
         weakSelf.onRegisterBlock(uploader, profile.userId);
+    };
+    void(^success)(A0DatabaseLoginViewController *, A0UserProfile *, A0Token *) = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
+        NSString *connection = weakSelf.parameters[@"connection"];
+        NSString *authorization = [A0KeyUploader authorizationWithUsername:controller.loginView.identifier password:controller.loginView.password connectionName:connection];
+        uploadKey(authorization, profile, token);
+    };
+
+    A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
+    controller.parameters = self.parameters;
+    controller.onLoginBlock = success;
+    controller.onMFARequired = ^(NSString *connectionName, NSString *identifier, NSString *password) {
+        A0LogDebug(@"Required to ask MFA for user with identifier %@ and connection %@", identifier, connectionName);
+        A0MFACodeViewController *controller = [[A0MFACodeViewController alloc] initWithIdentifier:identifier password:password connectionName:connectionName];
+        controller.onLoginBlock = ^(A0UserProfile *profile, A0Token *token) {
+            NSString *connection = weakSelf.parameters[@"connection"];
+            NSString *authorization = [A0KeyUploader authorizationWithUsername:identifier password:password connectionName:connection];
+            uploadKey(authorization, profile, token);
+        };
+        controller.parameters = [weakSelf.parameters copy];
+        [weakSelf.navigationView removeAll];
+        [weakSelf.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
+            A0DatabaseLoginViewController *controller = [weakSelf buildLogin];
+            controller.identifier = identifier;
+            [weakSelf displayController:controller];
+        }];
+        [weakSelf displayController:controller];
     };
     controller.lock = self.lock;
     [self.navigationView removeAll];

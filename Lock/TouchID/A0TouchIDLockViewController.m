@@ -272,6 +272,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)checkTouchID:(id)sender {
     self.touchIDView.hidden = YES;
     self.loadingView.hidden = NO;
+    [self.activityIndicator startAnimating];
     if (self.cleanOnStart) {
         [self cleanKeys];
     }

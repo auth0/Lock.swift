@@ -41,6 +41,10 @@
 		5F66418B1BEA4E9300ECA900 /* A0PKCE.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6641881BEA4E9300ECA900 /* A0PKCE.m */; };
 		5F66418C1BEA4E9300ECA900 /* A0PKCE.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6641881BEA4E9300ECA900 /* A0PKCE.m */; };
 		5F66418E1BEA5A9F00ECA900 /* A0PKCESpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F66418D1BEA5A9F00ECA900 /* A0PKCESpec.swift */; };
+		5FAFAB311CD80CA3004048BE /* A0MFACodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAFAB2F1CD80CA3004048BE /* A0MFACodeViewController.h */; };
+		5FAFAB321CD80CA3004048BE /* A0MFACodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFAB301CD80CA3004048BE /* A0MFACodeViewController.m */; };
+		5FAFAB351CD80F0B004048BE /* A0MFACodeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAFAB331CD80F0B004048BE /* A0MFACodeView.h */; };
+		5FAFAB361CD80F0B004048BE /* A0MFACodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFAB341CD80F0B004048BE /* A0MFACodeView.m */; };
 		5FB6A5EA1CA0357F00DF5078 /* A0FailureAuthenticator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */; };
 		5FB6A5EB1CA0357F00DF5078 /* A0FailureAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */; };
 		5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -567,6 +571,10 @@
 		5F6641871BEA4E9300ECA900 /* A0PKCE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0PKCE.h; sourceTree = "<group>"; };
 		5F6641881BEA4E9300ECA900 /* A0PKCE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0PKCE.m; sourceTree = "<group>"; };
 		5F66418D1BEA5A9F00ECA900 /* A0PKCESpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = A0PKCESpec.swift; sourceTree = "<group>"; };
+		5FAFAB2F1CD80CA3004048BE /* A0MFACodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0MFACodeViewController.h; sourceTree = "<group>"; };
+		5FAFAB301CD80CA3004048BE /* A0MFACodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0MFACodeViewController.m; sourceTree = "<group>"; };
+		5FAFAB331CD80F0B004048BE /* A0MFACodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0MFACodeView.h; sourceTree = "<group>"; };
+		5FAFAB341CD80F0B004048BE /* A0MFACodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0MFACodeView.m; sourceTree = "<group>"; };
 		5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0FailureAuthenticator.h; path = Private/A0FailureAuthenticator.h; sourceTree = "<group>"; };
 		5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = A0FailureAuthenticator.m; path = Private/A0FailureAuthenticator.m; sourceTree = "<group>"; };
 		5FBACFF51BE7AF8700703DD1 /* Lock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1272,6 +1280,8 @@
 				5FCE63331CA1661000F5C2B0 /* A0SignUpView.m */,
 				5FCE63361CA17D8A00F5C2B0 /* A0ChangePasswordView.h */,
 				5FCE63371CA17D8A00F5C2B0 /* A0ChangePasswordView.m */,
+				5FAFAB331CD80F0B004048BE /* A0MFACodeView.h */,
+				5FAFAB341CD80F0B004048BE /* A0MFACodeView.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1320,6 +1330,8 @@
 				5FBAD13F1BE7B92900703DD1 /* A0TitleView.m */,
 				5FBAD1421BE7B92900703DD1 /* UIViewController+LockNotification.h */,
 				5FBAD1431BE7B92900703DD1 /* UIViewController+LockNotification.m */,
+				5FAFAB2F1CD80CA3004048BE /* A0MFACodeViewController.h */,
+				5FAFAB301CD80CA3004048BE /* A0MFACodeViewController.m */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -1798,10 +1810,12 @@
 				5FBAD0861BE7B23C00703DD1 /* A0SimpleConnectionDomainMatcher.h in Headers */,
 				5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */,
 				5FBAD4351BE7F0CA00703DD1 /* A0SMSMagicLinkViewController.h in Headers */,
+				5FAFAB351CD80F0B004048BE /* A0MFACodeView.h in Headers */,
 				5F32507C1C89E09700CCEC55 /* A0KeyUploader.h in Headers */,
 				5FBAD05D1BE7B23C00703DD1 /* A0APIClientProvider.h in Headers */,
 				5FBAD18F1BE7B92900703DD1 /* A0LoadingViewController.h in Headers */,
 				5FBAD4311BE7F0CA00703DD1 /* A0PhoneFieldView.h in Headers */,
+				5FAFAB311CD80CA3004048BE /* A0MFACodeViewController.h in Headers */,
 				5FBAD19D1BE7B92900703DD1 /* A0ServiceViewModel.h in Headers */,
 				5FBAD1891BE7B92900703DD1 /* A0EnterpriseLoginViewController.h in Headers */,
 				5FBAD06B1BE7B23C00703DD1 /* A0ErrorHandler.h in Headers */,
@@ -2321,6 +2335,7 @@
 				5FBAD4441BE7F0E100703DD1 /* A0EmailMagicLinkViewController.m in Sources */,
 				5FBAD0E01BE7B24600703DD1 /* NSError+A0APIError.m in Sources */,
 				5FBAD4221BE7F0AC00703DD1 /* A0TouchIDRegisterViewController.m in Sources */,
+				5FAFAB361CD80F0B004048BE /* A0MFACodeView.m in Sources */,
 				5FBAD16E1BE7B92900703DD1 /* A0WebViewAuthenticator.m in Sources */,
 				5FCE63391CA17D8A00F5C2B0 /* A0ChangePasswordView.m in Sources */,
 				5FBAD1BA1BE7B92900703DD1 /* A0LoadingView.m in Sources */,
@@ -2365,6 +2380,7 @@
 				5FBAD0E81BE7B25100703DD1 /* NSObject+A0AuthenticatorProvider.m in Sources */,
 				5FBAD43E1BE7F0D600703DD1 /* A0EmailLockViewController.m in Sources */,
 				5FBAD1B71BE7B92900703DD1 /* A0EmailValidator.m in Sources */,
+				5FAFAB321CD80CA3004048BE /* A0MFACodeViewController.m in Sources */,
 				5FBAD0601BE7B23C00703DD1 /* A0APIv1Router.m in Sources */,
 				5FBAD1CA1BE7B92900703DD1 /* A0KeyboardHandler.m in Sources */,
 				5FBAD19E1BE7B92900703DD1 /* A0ServiceViewModel.m in Sources */,

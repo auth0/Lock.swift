@@ -289,6 +289,7 @@
 + (NSString *)localizedStringForLoginError:(NSError *)error {
     NSArray *handlers = @[
                           [A0GenericAPIErrorHandler handlerForErrorString:@"invalid_user_password" returnMessage:A0LocalizedString(@"Wrong email or password.")],
+                          [A0GenericAPIErrorHandler handlerForErrorString:@"a0.mfa_invalid_code" returnMessage:A0LocalizedString(@"Invalid or expired verification code.")],
                           [A0RuleErrorHandler handler],
                           ];
     return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];

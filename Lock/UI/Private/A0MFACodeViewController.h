@@ -1,6 +1,6 @@
-//  A0DatabaseLoginViewController.h
+// A0MFACodeViewController.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2016 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,16 @@
 
 #import <UIKit/UIKit.h>
 #import "A0AuthenticationUIComponent.h"
-#import "A0ConnectionDomainMatcher.h"
 
-@class A0UserProfile, A0CredentialsValidator, A0Token, A0AuthParameters, A0Connection, A0Lock, A0LockConfiguration, A0LoginView;
+@class A0AuthParameters, A0CredentialsValidator, A0Lock, A0UserProfile, A0Token;
 
-@interface A0DatabaseLoginViewController : UIViewController<A0AuthenticationUIComponent>
+@interface A0MFACodeViewController : UIViewController<A0AuthenticationUIComponent>
 
-@property (weak, nonatomic) A0LoginView *loginView;
+- (instancetype)initWithIdentifier:(NSString *)identifier password:(NSString *)password connectionName:(NSString *)connectionName;
+
+@property (copy, nonatomic) void(^onLoginBlock)(A0UserProfile *profile, A0Token *token);
 
 @property (copy, nonatomic) A0AuthParameters *parameters;
-@property (strong, nonatomic) A0Connection *defaultConnection;
-@property (copy, nonatomic) NSString *identifier;
-@property (strong, nonatomic) A0LockConfiguration *configuration;
-
-@property (copy, nonatomic) void(^onLoginBlock)(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token);
-@property (copy, nonatomic) void(^onShowEnterpriseLogin)(A0Connection *connection, NSString *email);
-@property (copy, nonatomic) void(^onMFARequired)(NSString *connectionName, NSString *identifier, NSString *password);
-
-@property (assign, nonatomic) BOOL forceUsername;
-@property (strong, nonatomic) A0CredentialsValidator *validator;
-@property (strong, nonatomic) id<A0ConnectionDomainMatcher> domainMatcher;
-
 @property (strong, nonatomic) A0Lock *lock;
-
 
 @end

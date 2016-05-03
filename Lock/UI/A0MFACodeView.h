@@ -1,6 +1,6 @@
-//  A0SignUpViewController.h
+// A0MFACodeView.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2016 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,25 +22,29 @@
 
 #import <UIKit/UIKit.h>
 
-#import "A0AuthenticationUIComponent.h"
+NS_ASSUME_NONNULL_BEGIN
 
-@class A0CredentialsValidator, A0UserProfile, A0Token, A0AuthParameters, A0Connection;
+@class A0CredentialFieldView, A0ProgressButton, A0MFACodeView, A0Theme;
 
-@interface A0SignUpViewController : UIViewController<A0AuthenticationUIComponent>
+typedef void(^A0MFACodeViewCompletionHandler)(BOOL success);
 
-@property (copy, nonatomic) void(^onSignUpBlock)(A0UserProfile *profile, A0Token *token);
-@property (copy, nonatomic) void(^onMFARequired)();
+@protocol A0MFACodeViewDelegate <NSObject>
 
-@property (copy, nonatomic) A0AuthParameters *parameters;
-@property (assign, nonatomic) BOOL forceUsername;
-@property (strong, nonatomic) A0CredentialsValidator *validator;
-
-@property (assign, nonatomic, getter = shouldLoginUser) BOOL loginUser;
-@property (copy, nonatomic) NSString *customMessage;
-@property (strong, nonatomic) A0Connection *defaultConnection;
-@property (strong, nonatomic) A0Lock *lock;
-
-- (void)addDisclaimerSubview:(UIView *)view;
-- (void)updateUIWithError:(NSError *)error;
+- (void)mfaCodeView:(A0MFACodeView *)mfaCodeView didSubmitWithCompletionHandler:(A0MFACodeViewCompletionHandler)completionHandler;
 
 @end
+
+@interface A0MFACodeView : UIView
+
+- (instancetype)initWithTheme:(A0Theme *)theme;
+
+@property (weak, nonatomic) A0CredentialFieldView *codeField;
+@property (weak, nonatomic) A0ProgressButton *submitButton;
+
+@property (weak, nullable, nonatomic) id<A0MFACodeViewDelegate> delegate;
+@property (copy, nullable, nonatomic) NSString *code;
+@property (assign, nonatomic) BOOL codeValid;
+
+@end
+
+NS_ASSUME_NONNULL_END

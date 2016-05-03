@@ -41,6 +41,7 @@
 #import "A0AuthenticationUIComponent.h"
 #import "A0ActiveDirectoryViewController.h"
 #import "A0FullActiveDirectoryViewController.h"
+#import "A0MFACodeViewController.h"
 
 #import <CoreText/CoreText.h>
 #import "A0NavigationView.h"
@@ -207,19 +208,17 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [self.navigationView removeAll];
     A0ContainerLayoutVertical layout = A0ContainerLayoutVerticalCenter;
     if ((hasDB && hasSocial) || (hasSocial && hasEnterprise && !hasAD)) {
-        A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock];
+        A0FullLoginViewController *controller = [self newFullLoginViewController:onAuthSuccessBlock connection:database];
         controller.configuration = self.configuration;
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.forceUsername = !self.usesEmail;
-        controller.defaultConnection = database;
         rootController = controller;
     }
     if ((hasDB & !hasSocial) || (hasEnterprise && !hasDB && !hasSocial && !hasAD)) {
-        A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock];;
+        A0DatabaseLoginViewController *controller = [self newDatabaseLoginViewController:onAuthSuccessBlock connection:database ?: ad];
         controller.configuration = self.configuration;
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.forceUsername = !self.usesEmail;
-        controller.defaultConnection = database ?: ad;
         rootController = controller;
     }
     if (hasSocial && !hasAD && !hasDB && !hasEnterprise) {
@@ -229,15 +228,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         layout = A0ContainerLayoutVerticalFill;
     }
     if (hasSocial && hasAD && !hasDB) {
-        A0FullActiveDirectoryViewController *controller = [self newFullADLoginViewController:onAuthSuccessBlock];
+        A0FullActiveDirectoryViewController *controller = [self newFullADLoginViewController:onAuthSuccessBlock connection:ad];
         controller.configuration = self.configuration;
-        controller.defaultConnection = ad;
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         rootController = controller;
     }
     if (hasAD && !hasDB && !hasSocial) {
-        A0ActiveDirectoryViewController *controller = [self newADLoginViewController:onAuthSuccessBlock];;
-        controller.defaultConnection = ad;
+        A0ActiveDirectoryViewController *controller = [self newADLoginViewController:onAuthSuccessBlock connection:ad];
         controller.domainMatcher = [[A0SimpleConnectionDomainMatcher alloc] initWithStrategies:self.configuration.enterpriseStrategies];
         controller.configuration = self.configuration;
         rootController = controller;
@@ -268,12 +265,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return controller;
 }
 
-- (A0FullLoginViewController *)newFullLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
+- (A0FullLoginViewController *)newFullLoginViewController:(void(^)(A0UserProfile *, A0Token *))success connection:(A0Connection *)connection {
     __weak A0LockViewController *weakSelf = self;
     A0FullLoginViewController *controller = [[A0FullLoginViewController alloc] init];
     controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
         success(profile, token);
     };
+    controller.defaultConnection = connection;
     controller.parameters = [self copyAuthenticationParameters];
     controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
         A0EnterpriseLoginViewController *controller = [weakSelf newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
@@ -295,15 +293,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return controller;
 }
 
-- (A0FullActiveDirectoryViewController *)newFullADLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
+- (A0FullActiveDirectoryViewController *)newFullADLoginViewController:(void(^)(A0UserProfile *, A0Token *))success connection:(A0Connection *)connection {
     A0FullActiveDirectoryViewController *controller = [[A0FullActiveDirectoryViewController alloc] init];
     controller.onLoginBlock = success;
+    controller.defaultConnection = connection;
     controller.parameters = [self copyAuthenticationParameters];
     [self.navigationView removeAll];
     return controller;
 }
 
-- (A0DatabaseLoginViewController *)newDatabaseLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
+- (A0DatabaseLoginViewController *)newDatabaseLoginViewController:(void(^)(A0UserProfile *, A0Token *))success connection:(A0Connection *)connection {
     __weak A0LockViewController *weakSelf = self;
     A0DatabaseLoginViewController *controller = [[A0DatabaseLoginViewController alloc] init];
     controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
@@ -314,6 +313,20 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0EnterpriseLoginViewController *controller = [weakSelf newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
         [weakSelf displayController:controller];
     };
+    controller.defaultConnection = connection;
+    controller.onMFARequired = ^(NSString *connectionName, NSString *identifier, NSString *password) {
+        A0LogDebug(@"Required to ask MFA for user with identifier %@ and connection %@", identifier, connectionName);
+        A0MFACodeViewController *controller = [[A0MFACodeViewController alloc] initWithIdentifier:identifier password:password connectionName:connectionName];
+        controller.onLoginBlock = success;
+        controller.parameters = [weakSelf copyAuthenticationParameters];
+        [weakSelf.navigationView removeAll];
+        [weakSelf.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
+            A0DatabaseLoginViewController *controller = [weakSelf newDatabaseLoginViewController:success connection:connection];
+            controller.identifier = identifier;
+            [weakSelf displayController:controller];
+        }];
+        [weakSelf displayController:controller];
+    };
     [self.navigationView removeAll];
     BOOL showResetPassword = ![self.configuration shouldDisableResetPassword:self.disableResetPassword];
     BOOL showSignUp = ![self.configuration shouldDisableSignUp:self.disableSignUp];
@@ -330,9 +343,10 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return controller;
 }
 
-- (A0ActiveDirectoryViewController *)newADLoginViewController:(void(^)(A0UserProfile *, A0Token *))success {
+- (A0ActiveDirectoryViewController *)newADLoginViewController:(void(^)(A0UserProfile *, A0Token *))success connection:(A0Connection *)connection {
     A0ActiveDirectoryViewController *controller = [[A0ActiveDirectoryViewController alloc] init];
     controller.onLoginBlock = success;
+    controller.defaultConnection = connection;
     controller.parameters = [self copyAuthenticationParameters];
     [self.navigationView removeAll];
     return controller;
@@ -380,16 +394,25 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (A0SignUpViewController *)newSignUpViewControllerWithSuccess:(void(^)(A0UserProfile *, A0Token *))success {
+    __weak A0LockViewController *weakSelf = self;
     A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
     controller.forceUsername = !self.usesEmail;
     controller.loginUser = self.loginAfterSignUp;
     controller.parameters = [self copyAuthenticationParameters];
     controller.defaultConnection = self.configuration.defaultDatabaseConnection;
     controller.onSignUpBlock = success;
+    controller.onMFARequired = ^{
+        NSString *title = A0LocalizedString(@"Successfully created User");
+        NSString *message = A0LocalizedString(@"Please enroll a verification code generator application before trying to login");
+        [A0Alert showInController:weakSelf errorAlert:^(A0Alert *alert) {
+            alert.title = title;
+            alert.message = message;
+        }];
+        [weakSelf layoutRootController];
+    };
     controller.lock = self.lock;
     [controller addDisclaimerSubview:self.signUpDisclaimerView];
     [self.navigationView removeAll];
-    __weak A0LockViewController *weakSelf = self;
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         [weakSelf layoutRootController];
     }];

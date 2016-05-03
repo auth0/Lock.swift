@@ -81,6 +81,9 @@ static BOOL isRunningTests(void) {
     controller.loginAfterSignUp = YES;
     controller.usesEmail = YES;
     controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
+        if (!token) {
+            return;
+        }
         NSLog(@"SUCCESS %@", profile);
         [self.keychain setString:token.idToken forKey:@"id_token"];
         [self.keychain setString:token.refreshToken forKey:@"refresh_token"];

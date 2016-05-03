@@ -73,7 +73,6 @@
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(10);
         make.centerX.equalTo(self);
-        make.height.equalTo(@47);
     }];
 
     [boxView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -87,11 +86,7 @@
         make.height.equalTo(@55);
     }];
 
-    [theme configureLabel:titleLabel];
-    titleLabel.preferredMaxLayoutWidth = 225;
-    titleLabel.numberOfLines = 3;
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.text = A0LocalizedString(@"Please enter your email address. We will send you an email to reset your password.");
+    [theme configureMultilineLabel:titleLabel withText:A0LocalizedString(@"Please enter your email address. We will send you an email to reset your password.")];
 
     containerView.backgroundColor = [UIColor clearColor];
 

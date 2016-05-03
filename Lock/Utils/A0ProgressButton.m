@@ -30,10 +30,6 @@
 
 @implementation A0ProgressButton
 
-- (void)awakeFromNib {
-    [self setupLayout];
-}
-
 - (void)setInProgress:(BOOL)inProgress {
     if (inProgress) {
         self.enabled = NO;
@@ -56,6 +52,7 @@
     A0ProgressButton *button = [A0ProgressButton buttonWithType:UIButtonTypeCustom];
     button.frame = frame;
     [button setupLayout];
+    [button setTitle:@" " forState:UIControlStateDisabled];
     return button;
 }
 
