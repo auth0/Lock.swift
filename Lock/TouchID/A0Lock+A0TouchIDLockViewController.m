@@ -22,6 +22,7 @@
 
 #import "A0Lock+A0TouchIDLockViewController.h"
 #import "A0TouchIDLockViewController.h"
+#import "A0NavigationController.h"
 
 @implementation A0Lock (A0TouchIDLockViewController)
 
@@ -30,7 +31,7 @@
 }
 
 - (void)presentTouchIDController:(A0TouchIDLockViewController *)touchIDController fromController:(UIViewController *)controller {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:touchIDController];
+    UINavigationController *navController = [[A0NavigationController alloc] initWithRootViewController:touchIDController];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         navController.modalPresentationStyle = UIModalPresentationFormSheet;
     }

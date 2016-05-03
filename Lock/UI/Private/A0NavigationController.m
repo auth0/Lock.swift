@@ -1,6 +1,6 @@
-// A0Lock+A0EmailLockViewController.m
+// A0NavigationController.m
 //
-// Copyright (c) 2015 Auth0 (http://auth0.com)
+// Copyright (c) 2016 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0Lock+A0EmailLockViewController.h"
-#import "A0EmailLockViewController.h"
 #import "A0NavigationController.h"
 
-@implementation A0Lock (A0SMSLockViewController)
 
-- (A0EmailLockViewController *)newEmailViewController {
-    return [[A0EmailLockViewController alloc] initWithLock:self];
-}
+@implementation A0NavigationController
 
-- (void)presentEmailController:(A0EmailLockViewController *)emailController fromController:(UIViewController *)controller {
-    UINavigationController *navController = [[A0NavigationController alloc] initWithRootViewController:emailController];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        navController.modalPresentationStyle = UIModalPresentationFormSheet;
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    UIViewController *last = [self.childViewControllers lastObject];
+    if (!last) {
+        return [super supportedInterfaceOrientations];
     }
-    [controller presentViewController:navController animated:YES completion:nil];
+    return [last supportedInterfaceOrientations];
 }
 
 @end
