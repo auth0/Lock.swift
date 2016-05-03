@@ -22,7 +22,7 @@
 
 #import "NSError+A0AuthAPIError.h"
 
-NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializerErrorDataKey";
+NSString * const A0JSONResponseSerializerErrorDataKey = @"com.auth0.authentication.error";
 
 @implementation NSError (A0AuthAPIError)
 

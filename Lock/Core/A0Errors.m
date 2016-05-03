@@ -313,11 +313,7 @@
 }
 
 + (NSString *)localizedStringForChangePasswordError:(NSError *)error {
-    NSArray *handlers = @[
-                          [A0GenericAPIErrorHandler handlerForCode:@"invalid_user" returnMessage:A0LocalizedString(@"The user does not exists. Please check the email and try again.")],
-                          [[A0PasswordStrengthErrorHandler alloc] init],
-                          ];
-    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the reset password.")];
+    return [self localizedStringFromError:error handlers:@[] defaultMessage:A0LocalizedString(@"There was an error processing the reset password.")];
 }
 
 + (NSString *)localizedStringForSocialLoginError:(NSError *)error {
