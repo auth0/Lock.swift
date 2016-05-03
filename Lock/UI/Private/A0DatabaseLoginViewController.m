@@ -79,7 +79,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         make.edges.equalTo(self.view);
     }];
 
-    self.loginView.identifier = self.identifier;
+    self.loginView.identifier = _identifier;
     self.loginView.delegate = self;
     if (self.defaultConnection) {
         self.parameters[A0ParameterConnection] = self.defaultConnection.name;
