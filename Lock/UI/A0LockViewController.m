@@ -394,16 +394,25 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (A0SignUpViewController *)newSignUpViewControllerWithSuccess:(void(^)(A0UserProfile *, A0Token *))success {
+    __weak A0LockViewController *weakSelf = self;
     A0SignUpViewController *controller = [[A0SignUpViewController alloc] init];
     controller.forceUsername = !self.usesEmail;
     controller.loginUser = self.loginAfterSignUp;
     controller.parameters = [self copyAuthenticationParameters];
     controller.defaultConnection = self.configuration.defaultDatabaseConnection;
     controller.onSignUpBlock = success;
+    controller.onMFARequired = ^{
+        NSString *title = A0LocalizedString(@"Successfully created User");
+        NSString *message = A0LocalizedString(@"Please enroll a verification code generator application before trying to login");
+        [A0Alert showInController:weakSelf errorAlert:^(A0Alert *alert) {
+            alert.title = title;
+            alert.message = message;
+        }];
+        [weakSelf layoutRootController];
+    };
     controller.lock = self.lock;
     [controller addDisclaimerSubview:self.signUpDisclaimerView];
     [self.navigationView removeAll];
-    __weak A0LockViewController *weakSelf = self;
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
         [weakSelf layoutRootController];
     }];

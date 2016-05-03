@@ -162,6 +162,11 @@
         A0APIClientError failure = ^(NSError *error) {
             [self postSignUpErrorNotificationWithError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
+                if ([error a0_mfaRequired]) {
+                    completionHandler(YES);
+                    self.onMFARequired();
+                    return;
+                }
                 NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
                 NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
                 [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
