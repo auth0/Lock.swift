@@ -23,6 +23,7 @@
 #import "A0Lock+A0LockViewController.h"
 #import "A0LockViewController.h"
 #import "A0LockSignUpViewController.h"
+#import "A0NavigationController.h"
 
 @implementation A0Lock (A0LockViewController)
 
@@ -35,7 +36,7 @@
 }
 
 - (void)presentLockController:(A0LockViewController *)lockController fromController:(UIViewController *)controller {
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:lockController];
+    UINavigationController *navigationController = [[A0NavigationController alloc] initWithRootViewController:lockController];
     navigationController.navigationBarHidden = YES;
     [controller presentViewController:navigationController animated:YES completion:nil];
 }
