@@ -1,4 +1,4 @@
-// NSError+A0APIError.h
+// NSError+A0AuthAPIError.m
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -20,22 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import "A0ErrorCode.h"
 #import "NSError+A0AuthAPIError.h"
 
-@interface NSError (A0APIError)
+NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializerErrorDataKey";
 
-- (NSError *)a0_errorWithPayload:(NSDictionary *)payload;
+@implementation NSError (A0AuthAPIError)
 
-- (BOOL)a0_auth0ErrorWithCode:(A0ErrorCode)code;
+- (NSDictionary *)a0_payload {
+    return self.userInfo[A0JSONResponseSerializerErrorDataKey];
+}
 
-- (BOOL)a0_cancelledSocialAuthenticationError;
+- (NSString *)a0_error {
+    return [self a0_payload][@"error"] ?: [self a0_payload][@"code"];
+}
 
-+ (NSError *)errorWithCode:(NSInteger)code description:(NSString *)description payload:(NSDictionary *)payload;
+- (NSString *)a0_errorDescription {
+    return [self a0_payload][@"error_description"];
+}
 
-+ (NSError *)errorWithCode:(NSInteger)code userInfo:(NSDictionary *)userInfo;
-
-+ (NSError *)errorWithCode:(NSInteger)code description:(NSString *)description failureReason:(NSString *)failureReason;
+- (BOOL)a0_mfaRequired {
+    return [[self a0_error] isEqualToString:@"a0.mfa_required"];
+}
 
 @end

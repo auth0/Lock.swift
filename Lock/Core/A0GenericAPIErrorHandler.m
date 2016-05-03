@@ -49,14 +49,14 @@ typedef BOOL(^ErrorPredicateBlock)(NSError *error);
 
 + (A0GenericAPIErrorHandler *)handlerForCode:(NSString *)code returnMessage:(NSString *)message {
     return [[A0GenericAPIErrorHandler alloc] initWithPredicateBlock:^BOOL(NSError *error) {
-        NSString *actual = [error a0_code];
+        NSString *actual = [error a0_error];
         return [code isEqualToString:actual];
     } message:message];
 }
 
 + (A0GenericAPIErrorHandler *)handlerForCodes:(NSArray *)codes returnMessage:(NSString *)message {
     return [[A0GenericAPIErrorHandler alloc] initWithPredicateBlock:^BOOL(NSError *error) {
-        NSString *actual = [error a0_code];
+        NSString *actual = [error a0_error];
         __block BOOL matches = NO;
         [codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger idx, BOOL *stop) {
             matches = [code isEqualToString:actual];

@@ -1,4 +1,4 @@
-// NSError+A0APIError.h
+// NSError+A0AuthAPIError.h
 //
 // Copyright (c) 2015 Auth0 (http://auth0.com)
 //
@@ -21,21 +21,47 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "A0ErrorCode.h"
-#import "NSError+A0AuthAPIError.h"
 
-@interface NSError (A0APIError)
+NS_ASSUME_NONNULL_BEGIN
 
-- (NSError *)a0_errorWithPayload:(NSDictionary *)payload;
+/**
+ *  Auth0 Error response key in NSError userInfo property
+ */
+FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
 
-- (BOOL)a0_auth0ErrorWithCode:(A0ErrorCode)code;
+/**
+ *  Category with helper methods to check Auth0 Auth API error responses.
+ */
+@interface NSError (A0AuthAPIError)
 
-- (BOOL)a0_cancelledSocialAuthenticationError;
+/**
+ *  Auth0 API error response
+ *
+ *  @return response from Auth0 or nil
+ */
+- (NSDictionary * _Nullable)a0_payload;
 
-+ (NSError *)errorWithCode:(NSInteger)code description:(NSString *)description payload:(NSDictionary *)payload;
+/**
+ *  Auth0 error code from Auth0 Auth API
+ *
+ *  @return a string code or nil
+ */
+- (NSString * _Nullable)a0_error;
 
-+ (NSError *)errorWithCode:(NSInteger)code userInfo:(NSDictionary *)userInfo;
+/**
+ *  Auth0 error message from Auth0 Auth API
+ *
+ *  @return a message or nil
+ */
+- (NSString * _Nullable)a0_errorDescription;
 
-+ (NSError *)errorWithCode:(NSInteger)code description:(NSString *)description failureReason:(NSString *)failureReason;
+/**
+ *  If Auth0 error for authentication indicates that a MFA step is needed
+ *
+ *  @return if login requires an additional step or not
+ */
+- (BOOL)a0_mfaRequired;
 
 @end
+
+NS_ASSUME_NONNULL_END
