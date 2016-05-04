@@ -272,6 +272,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
         success(profile, token);
     };
+    controller.identifier = self.defaultIdentifier;
     controller.onMFARequired = ^(NSString *connectionName, NSString *identifier, NSString *password) {
         A0LogDebug(@"Required to ask MFA for user with identifier %@ and connection %@", identifier, connectionName);
         A0MFACodeViewController *controller = [[A0MFACodeViewController alloc] initWithIdentifier:identifier password:password connectionName:connectionName];
@@ -322,6 +323,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
         success(profile, token);
     };
+    controller.identifier = self.defaultIdentifier;
     controller.parameters = [self copyAuthenticationParameters];
     controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
         A0EnterpriseLoginViewController *controller = [weakSelf newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
