@@ -32,6 +32,7 @@
 #import "A0Errors.h"
 #import "A0Lock.h"
 #import "NSError+A0APIError.h"
+#import "NSError+A0LockErrors.h"
 #import "A0PasswordlessLockViewModel.h"
 #import "Constants.h"
 #import <Masonry/Masonry.h>

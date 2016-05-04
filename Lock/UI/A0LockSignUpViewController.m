@@ -41,6 +41,7 @@
 #import "A0Alert.h"
 #import "Constants.h"
 #import "A0KeyboardHandler.h"
+#import "NSError+A0LockErrors.h"
 #import <Masonry/Masonry.h>
 
 @interface A0LockSignUpViewController () <A0SmallSocialServiceCollectionViewDelegate>

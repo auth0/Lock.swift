@@ -38,6 +38,7 @@
 #import "NSError+A0APIError.h"
 #import "A0ServiceViewModel.h"
 #import "Constants.h"
+#import "NSError+A0LockErrors.h"
 
 #define kCellIdentifier @"ServiceCell"
 

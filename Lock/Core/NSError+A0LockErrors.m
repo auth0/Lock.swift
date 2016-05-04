@@ -27,7 +27,20 @@
 #import "Constants.h"
 #import "A0PasswordStrengthErrorHandler.h"
 
+NSString * const A0ErrorDomain = @"com.auth0";
+
 @implementation NSError (A0LockErrors)
+
+- (BOOL)a0_auth0ErrorWithCode:(A0ErrorCode)code {
+    return [self.domain isEqualToString:A0ErrorDomain] && self.code == code;
+}
+
+- (BOOL)a0_cancelledSocialAuthenticationError {
+    return self.code == A0ErrorCodeFacebookCancelled
+    || self.code == A0ErrorCodeTwitterCancelled
+    || self.code == A0ErrorCodeAuth0Cancelled
+    || self.code == A0ErrorCodeGooglePlusCancelled;
+}
 
 #pragma mark - Localized error messages
 

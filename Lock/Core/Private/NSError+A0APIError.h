@@ -28,10 +28,6 @@
 
 - (NSError *)a0_errorWithPayload:(NSDictionary *)payload;
 
-- (BOOL)a0_auth0ErrorWithCode:(A0ErrorCode)code;
-
-- (BOOL)a0_cancelledSocialAuthenticationError;
-
 + (NSError *)errorWithCode:(NSInteger)code description:(NSString *)description payload:(NSDictionary *)payload;
 
 + (NSError *)errorWithCode:(NSInteger)code userInfo:(NSDictionary *)userInfo;

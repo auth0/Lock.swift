@@ -21,8 +21,7 @@
 // THE SOFTWARE.
 
 #import "NSError+A0APIError.h"
-
-NSString * const A0ErrorDomain = @"com.auth0";
+#import "NSError+A0LockErrors.h"
 
 @implementation NSError (A0APIError)
 
@@ -30,17 +29,6 @@ NSString * const A0ErrorDomain = @"com.auth0";
     NSMutableDictionary *userInfo = [self.userInfo mutableCopy];
     userInfo[A0JSONResponseSerializerErrorDataKey] = payload;
     return [NSError errorWithDomain:self.domain code:self.code userInfo:[NSDictionary dictionaryWithDictionary:userInfo]];
-}
-
-- (BOOL)a0_auth0ErrorWithCode:(A0ErrorCode)code {
-    return [self.domain isEqualToString:A0ErrorDomain] && self.code == code;
-}
-
-- (BOOL)a0_cancelledSocialAuthenticationError {
-    return self.code == A0ErrorCodeFacebookCancelled
-    || self.code == A0ErrorCodeTwitterCancelled
-    || self.code == A0ErrorCodeAuth0Cancelled
-    || self.code == A0ErrorCodeGooglePlusCancelled;
 }
 
 + (NSError *)errorWithCode:(NSInteger)code description:(NSString *)description payload:(NSDictionary *)payload {

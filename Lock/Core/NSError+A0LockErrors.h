@@ -21,8 +21,14 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import "A0ErrorCode.h"
+
+FOUNDATION_EXPORT NSString * const A0ErrorDomain;
 
 @interface NSError (A0LockErrors)
+
+- (BOOL)a0_auth0ErrorWithCode:(A0ErrorCode)code;
+- (BOOL)a0_cancelledSocialAuthenticationError;
 
 ///----------------------------------------
 /// @name Localized Messages
