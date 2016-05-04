@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  `A0UserProfile` has User's information obtained from Auth0.
  */
-@interface A0UserProfile : NSObject<NSCoding>
+@interface A0UserProfile : NSObject<NSSecureCoding>
 
 /**
  *  User's id in Auth0

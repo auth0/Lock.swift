@@ -55,6 +55,8 @@
 		5FAFAB471CD972F6004048BE /* NSError+A0LockErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAFAB441CD972F6004048BE /* NSError+A0LockErrors.h */; };
 		5FAFAB481CD972F6004048BE /* NSError+A0LockErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFAB451CD972F6004048BE /* NSError+A0LockErrors.m */; };
 		5FAFAB491CD972F6004048BE /* NSError+A0LockErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFAB451CD972F6004048BE /* NSError+A0LockErrors.m */; };
+		5FAFAB4A1CDAAB55004048BE /* A0TokenSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4D11BE95C5700703DD1 /* A0TokenSpec.m */; };
+		5FAFAB4B1CDAB8E3004048BE /* A0UserProfileSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4D41BE95C5700703DD1 /* A0UserProfileSpec.m */; };
 		5FB6A5EA1CA0357F00DF5078 /* A0FailureAuthenticator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */; };
 		5FB6A5EB1CA0357F00DF5078 /* A0FailureAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */; };
 		5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2525,9 +2527,11 @@
 				5FBAD4DD1BE95C5700703DD1 /* A0FilteredConnectionDomainMatcherSpec.m in Sources */,
 				5F181CD41C2057610008513E /* A0LockSpec.m in Sources */,
 				5FBAD4F21BE9688C00703DD1 /* A0AuthParametersSpec.m in Sources */,
+				5FAFAB4B1CDAB8E3004048BE /* A0UserProfileSpec.m in Sources */,
 				5F181CD51C2057920008513E /* A0UserIdentitySpec.m in Sources */,
 				5F66418E1BEA5A9F00ECA900 /* A0PKCESpec.swift in Sources */,
 				5FBAD4F31BE9696100703DD1 /* A0ConnectionSpec.m in Sources */,
+				5FAFAB4A1CDAAB55004048BE /* A0TokenSpec.m in Sources */,
 				5FBAD4F51BE96BCE00703DD1 /* A0EmailValidatorSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

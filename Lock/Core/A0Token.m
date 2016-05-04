@@ -50,4 +50,28 @@
 - (NSString *)description {
     return [NSString stringWithFormat:@"<A0Token access_token = '%@'; id_token = '%@' token_type = %@; refresh_token = '%@'>", self.accessToken, self.idToken, self.tokenType, self.refreshToken];
 }
+
+#pragma mark - NSSecureCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    return [self initWithAccessToken:[aDecoder decodeObjectOfClass:NSString.class forKey:NSStringFromSelector(@selector(accessToken))]
+                             idToken:[aDecoder decodeObjectOfClass:NSString.class forKey:NSStringFromSelector(@selector(idToken))]
+                           tokenType:[aDecoder decodeObjectOfClass:NSString.class forKey:NSStringFromSelector(@selector(tokenType))]
+                        refreshToken:[aDecoder decodeObjectOfClass:NSString.class forKey:NSStringFromSelector(@selector(refreshToken))]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    if (self.accessToken) {
+        [aCoder encodeObject:self.accessToken forKey:NSStringFromSelector(@selector(accessToken))];
+    }
+    if (self.refreshToken) {
+        [aCoder encodeObject:self.refreshToken forKey:NSStringFromSelector(@selector(refreshToken))];
+    }
+    [aCoder encodeObject:self.idToken forKey:NSStringFromSelector(@selector(idToken))];
+    [aCoder encodeObject:self.tokenType forKey:NSStringFromSelector(@selector(tokenType))];
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
 @end

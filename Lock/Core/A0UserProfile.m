@@ -52,6 +52,10 @@ NSDate *dateFromISO8601String(NSString *string) {
     return self;
 }
 
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [self initWithUserId:dictionary[@"user_id"]
                            name:dictionary[@"name"]
@@ -84,15 +88,15 @@ NSDate *dateFromISO8601String(NSString *string) {
 #pragma mark - NSCoding
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [self initWithUserId:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(userId))]
-                           name:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(name))]
-                       nickname:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(nickname))]
-                          email:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(email))]
-                        picture:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(picture))]
-                      createdAt:[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(createdAt))]];
+    self = [self initWithUserId:[aDecoder decodeObjectOfClass:NSString.class forKey:NSStringFromSelector(@selector(userId))]
+                           name:[aDecoder decodeObjectOfClass:NSString.class forKey:NSStringFromSelector(@selector(name))]
+                       nickname:[aDecoder decodeObjectOfClass:NSString.class forKey:NSStringFromSelector(@selector(nickname))]
+                          email:[aDecoder decodeObjectOfClass:NSString.class forKey:NSStringFromSelector(@selector(email))]
+                        picture:[aDecoder decodeObjectOfClass:NSURL.class forKey:NSStringFromSelector(@selector(picture))]
+                      createdAt:[aDecoder decodeObjectOfClass:NSDate.class forKey:NSStringFromSelector(@selector(createdAt))]];
     if (self) {
-        _extraInfo = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(extraInfo))];
-        _identities = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(identities))];
+        _extraInfo = [aDecoder decodeObjectOfClass:NSDictionary.class forKey:NSStringFromSelector(@selector(extraInfo))];
+        _identities = [aDecoder decodeObjectOfClass:NSArray.class forKey:NSStringFromSelector(@selector(identities))];
     }
     return self;
 }
