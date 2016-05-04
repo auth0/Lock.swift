@@ -20,7 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockTest.h"
+#define QUICK_DISABLE_SHORT_SYNTAX 1
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+#import <OCMockito/OCMockito.h>
 #import "A0UserProfile.h"
 
 #define kUserId @"USER_ID"
@@ -30,11 +34,9 @@
 #define kPictureURL @"http://server.com/image"
 #define kCreatedAt @"2014-08-28T15:44:24.288Z"
 
-SpecBegin(A0UserProfile)
+QuickSpecBegin(A0UserProfileSpec)
 
 describe(@"A0UserProfile", ^{
-
-    __block A0UserProfile *profile;
 
     NSDictionary *jsonDict = @{
                                @"user_id": kUserId,
@@ -45,72 +47,79 @@ describe(@"A0UserProfile", ^{
                                @"created_at": kCreatedAt,
                                };
 
-    sharedExamplesFor(@"valid basic profile", ^(NSDictionary *data) {
+    sharedExamples(@"valid basic profile", ^(QCKDSLSharedExampleContext context) {
+
+        __block A0UserProfile *profile;
 
         beforeEach(^{
-            profile = data[@"profile"];
+            profile = context()[@"profile"];
         });
 
-        specify(@"valid user id", ^{
-            expect(profile.userId).to.equal(kUserId);
+        it(@"valid user id", ^{
+            expect(profile.userId).to(equal(kUserId));
         });
 
     });
 
-    sharedExamplesFor(@"valid complete profile", ^(NSDictionary *data) {
+    sharedExamples(@"valid complete profile", ^(QCKDSLSharedExampleContext context) {
+
+        __block A0UserProfile *profile;
 
         beforeEach(^{
-            profile = data[@"profile"];
+            profile = context()[@"profile"];
         });
 
-        itShouldBehaveLike(@"valid basic profile", data);
+        itBehavesLike(@"valid basic profile", context);
 
-        specify(@"valid name", ^{
-            expect(profile.name).to.equal(kName);
+        it(@"valid name", ^{
+            expect(profile.name).to(equal(kName));
         });
 
-        specify(@"valid nickname", ^{
-            expect(profile.nickname).to.equal(kNickname);
+        it(@"valid nickname", ^{
+            expect(profile.nickname).to(equal(kNickname));
         });
 
-        specify(@"valid email", ^{
-            expect(profile.email).to.equal(kEmail);
+        it(@"valid email", ^{
+            expect(profile.email).to(equal(kEmail));
         });
 
-        specify(@"valid picture url", ^{
-            expect(profile.picture.absoluteString).to.equal(kPictureURL);
+        it(@"valid picture url", ^{
+            expect(profile.picture.absoluteString).to(equal(kPictureURL));
         });
 
-        specify(@"valid created date", ^{
-            expect(profile.createdAt).toNot.beNil();
+        it(@"valid created date", ^{
+            expect(profile.createdAt).toNot(beNil());
         });
     });
 
     context(@"Create object from JSON", ^{
 
-        itShouldBehaveLike(@"valid complete profile", @{ @"profile": [[A0UserProfile alloc] initWithDictionary:jsonDict] });
+        __block A0UserProfile *profile;
+
+        itBehavesLike(@"valid complete profile", ^{ return @{ @"profile": [[A0UserProfile alloc] initWithDictionary:jsonDict] }; });
 
         it(@"should fail when no user id is present", ^{
-            expect(^{
+            expectAction(^{
                 NSMutableDictionary *dict = [jsonDict mutableCopy];
                 [dict removeObjectForKey:@"user_id"];
                 profile = [[A0UserProfile alloc] initWithDictionary:dict];
-            }).to.raiseWithReason(NSInternalInconsistencyException, @"Should have a non empty user id");
+            }).to(raiseException());
         });
 
         it(@"should fail when no user id is empty", ^{
-            expect(^{
+            expectAction(^{
                 NSMutableDictionary *dict = [jsonDict mutableCopy];
                 dict[@"user_id"] = @"";
                 profile = [[A0UserProfile alloc] initWithDictionary:dict];
-            }).to.raiseWithReason(NSInternalInconsistencyException, @"Should have a non empty user id");
+            }).to(raiseException());
         });
 
-        itShouldBehaveLike(@"valid basic profile", @{ @"profile": [[A0UserProfile alloc] initWithDictionary:@{ @"user_id": kUserId }] });
+        itBehavesLike(@"valid basic profile", ^{ return @{ @"profile": [[A0UserProfile alloc] initWithDictionary:@{ @"user_id": kUserId }] }; });
     });
 
     describe(@"NSCoding", ^{
 
+        __block A0UserProfile *profile;
         __block NSCoder *coder;
 
         beforeEach(^{
@@ -124,31 +133,31 @@ describe(@"A0UserProfile", ^{
                 [profile encodeWithCoder:coder];
             });
 
-            specify(@"store key for user id", ^{
+            it(@"store key for user id", ^{
                 [verify(coder) encodeObject:profile.userId forKey:@"userId"];
             });
 
-            specify(@"store key for email", ^{
+            it(@"store key for email", ^{
                 [verify(coder) encodeObject:profile.email forKey:@"email"];
             });
 
-            specify(@"store key for name", ^{
+            it(@"store key for name", ^{
                 [verify(coder) encodeObject:profile.name forKey:@"name"];
             });
 
-            specify(@"store key for nickname", ^{
+            it(@"store key for nickname", ^{
                 [verify(coder) encodeObject:profile.nickname forKey:@"nickname"];
             });
 
-            specify(@"store key for picture", ^{
+            it(@"store key for picture", ^{
                 [verify(coder) encodeObject:profile.picture forKey:@"picture"];
             });
 
-            specify(@"store key for createdAt", ^{
+            it(@"store key for createdAt", ^{
                 [verify(coder) encodeObject:profile.createdAt forKey:@"createdAt"];
             });
 
-            specify(@"store key for extraInfo", ^{
+            it(@"store key for extraInfo", ^{
                 [verify(coder) encodeObject:profile.extraInfo forKey:@"extraInfo"];
             });
 
@@ -158,23 +167,23 @@ describe(@"A0UserProfile", ^{
 
             beforeEach(^{
                 profile = [[A0UserProfile alloc] initWithDictionary:jsonDict];
-                [given([coder decodeObjectForKey:@"userId"]) willReturn:profile.userId];
-                [given([coder decodeObjectForKey:@"email"]) willReturn:profile.email];
-                [given([coder decodeObjectForKey:@"name"]) willReturn:profile.name];
-                [given([coder decodeObjectForKey:@"nickname"]) willReturn:profile.nickname];
-                [given([coder decodeObjectForKey:@"createdAt"]) willReturn:profile.createdAt];
-                [given([coder decodeObjectForKey:@"picture"]) willReturn:profile.picture];
-                [given([coder decodeObjectForKey:@"extraInfo"]) willReturn:@{}];
+                [given([coder decodeObjectOfClass:NSString.class forKey:@"userId"]) willReturn:profile.userId];
+                [given([coder decodeObjectOfClass:NSString.class forKey:@"email"]) willReturn:profile.email];
+                [given([coder decodeObjectOfClass:NSString.class forKey:@"name"]) willReturn:profile.name];
+                [given([coder decodeObjectOfClass:NSString.class forKey:@"nickname"]) willReturn:profile.nickname];
+                [given([coder decodeObjectOfClass:NSDate.class forKey:@"createdAt"]) willReturn:profile.createdAt];
+                [given([coder decodeObjectOfClass:NSURL.class forKey:@"picture"]) willReturn:profile.picture];
+                [given([coder decodeObjectOfClass:NSDictionary.class forKey:@"extraInfo"]) willReturn:@{}];
                 profile = [[A0UserProfile alloc] initWithCoder:coder];
             });
 
-            itShouldBehaveLike(@"valid complete profile", ^{ return @{ @"profile": profile }; });
+            itBehavesLike(@"valid complete profile", ^{ return @{ @"profile": [[A0UserProfile alloc] initWithDictionary:jsonDict] }; });
 
-            specify(@"valid extraInfo", ^{
-                expect(profile.extraInfo).to.equal(@{});
+            it(@"valid extraInfo", ^{
+                expect(profile.extraInfo).to(equal(@{}));
             });
         });
     });
 });
 
-SpecEnd
+QuickSpecEnd

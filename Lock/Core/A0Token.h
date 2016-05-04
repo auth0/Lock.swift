@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  `A0Token` holds all token information for a user.
  */
-@interface A0Token : NSObject
+@interface A0Token : NSObject<NSSecureCoding>
 
 /**
  *  User's accessToken for Auth0 API
