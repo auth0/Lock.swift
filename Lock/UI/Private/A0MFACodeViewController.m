@@ -53,7 +53,7 @@
         _identifier = identifier;
         _password = password;
         _connectionName = connectionName;
-        self.title = A0LocalizedString(@"Login");
+        self.title = A0LocalizedString(@"Two Step Verification");
     }
     return self;
 }
