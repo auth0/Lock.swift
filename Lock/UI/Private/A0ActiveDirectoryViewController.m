@@ -75,11 +75,16 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     self.title = A0LocalizedString(@"Login");
     self.loginView.identifierType = A0CredentialFieldViewUsername;
     self.loginView.delegate = self;
+    self.loginView.identifier = _identifier;
 
     self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
                                                                           [[A0UsernameValidator alloc] initWithField:self.loginView.identifierField.textField],
                                                                           [[A0PasswordValidator alloc] initWithField:self.loginView.passwordField.textField],
                                                                           ]];
+}
+
+- (NSString *)identifier {
+    return self.loginView ? self.loginView.identifier : _identifier;
 }
 
 #pragma mark - Enterprise login

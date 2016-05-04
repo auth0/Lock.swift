@@ -312,6 +312,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0FullActiveDirectoryViewController *controller = [[A0FullActiveDirectoryViewController alloc] init];
     controller.onLoginBlock = success;
     controller.defaultConnection = connection;
+    controller.identifier = self.defaultIdentifier;
     controller.parameters = [self copyAuthenticationParameters];
     [self.navigationView removeAll];
     return controller;
@@ -363,6 +364,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0ActiveDirectoryViewController *controller = [[A0ActiveDirectoryViewController alloc] init];
     controller.onLoginBlock = success;
     controller.defaultConnection = connection;
+    controller.identifier = self.defaultIdentifier;
     controller.parameters = [self copyAuthenticationParameters];
     [self.navigationView removeAll];
     return controller;
