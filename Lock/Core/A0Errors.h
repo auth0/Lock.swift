@@ -86,14 +86,4 @@
 + (NSError *)googleplusFailed;
 + (NSError *)googleplusCancelled;
 
-///----------------------------------------
-/// @name Localized Messages
-///----------------------------------------
-
-+ (NSString *)localizedStringForConnectionName:(NSString *)connectionName loginError:(NSError *)error;
-+ (NSString *)localizedStringForLoginError:(NSError *)error;
-+ (NSString *)localizedStringForSMSLoginError:(NSError *)error;
-+ (NSString *)localizedStringForSignUpError:(NSError *)error;
-+ (NSString *)localizedStringForChangePasswordError:(NSError *)error;
-
 @end

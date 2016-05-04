@@ -39,6 +39,7 @@
 #import "A0Token.h"
 #import "A0UserProfile.h"
 #import "A0RoundedBoxView.h"
+#import "NSError+A0LockErrors.h"
 #import <Masonry/Masonry.h>
 
 @interface A0TouchIDSignUpViewController ()
@@ -124,7 +125,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                            } failure:^(NSError *error){
                                [self.signUpButton setInProgress:NO];
                                NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error signing up");
-                               NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSignUpError:error];
+                               NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [error a0_localizedStringForSignUpError];
                                [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
                                    alert.title = title;
                                    alert.message = message;

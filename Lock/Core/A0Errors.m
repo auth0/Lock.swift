@@ -26,6 +26,7 @@
 #import "A0RuleErrorHandler.h"
 #import "A0PasswordStrengthErrorHandler.h"
 #import "Constants.h"
+#import "NSError+A0LockErrors.h"
 
 @implementation A0Errors
 
@@ -190,7 +191,7 @@
 + (NSError *)failedLoginWithConnectionName:(NSString *)connectionName for:(NSError *)error {
     return [NSError errorWithCode:A0ErrorCodeAuthenticationFailed
                       description:A0LocalizedString(@"There was an error logging in")
-                    failureReason:[self localizedStringForConnectionName:connectionName loginError:error]];
+                    failureReason:[error a0_localizedStringErrorForConnectionName:connectionName]];
 }
 
 + (NSError *)urlSchemeNotRegistered {
@@ -273,64 +274,6 @@
     return [NSError errorWithCode:A0ErrorCodeGooglePlusCancelled
                    description:A0LocalizedString(@"There was an error contacting Google+")
                  failureReason:A0LocalizedString(@"User cancelled the login operation. Try again")];
-}
-
-#pragma mark - Localized error messages
-
-+ (NSString *)localizedStringFromError:(NSError *)error handlers:(NSArray *)handlers defaultMessage:(NSString *)defaultMessage {
-    __block NSString *message = nil;
-    [handlers enumerateObjectsUsingBlock:^(id<A0ErrorHandler> handler, NSUInteger idx, BOOL *stop) {
-        message = [handler localizedMessageFromError:error];
-        *stop = message != nil;
-    }];
-    return message ?: defaultMessage;
-}
-
-+ (NSString *)localizedStringForLoginError:(NSError *)error {
-    NSArray *handlers = @[
-                          [A0GenericAPIErrorHandler handlerForErrorString:@"invalid_user_password" returnMessage:A0LocalizedString(@"Wrong email or password.")],
-                          [A0GenericAPIErrorHandler handlerForErrorString:@"a0.mfa_invalid_code" returnMessage:A0LocalizedString(@"Invalid or expired verification code.")],
-                          [A0RuleErrorHandler handler],
-                          ];
-    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
-}
-
-+ (NSString *)localizedStringForSMSLoginError:(NSError *)error {
-    NSArray *handlers = @[
-                          [A0GenericAPIErrorHandler handlerForErrorString:@"invalid_user_password" returnMessage:A0LocalizedString(@"Wrong phone number or passcode.")],
-                          [A0RuleErrorHandler handler],
-                          ];
-    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
-}
-
-+ (NSString *)localizedStringForSignUpError:(NSError *)error {
-    NSArray *handlers = @[
-                          [A0GenericAPIErrorHandler handlerForCodes:@[@"user_exists", @"username_exists"] returnMessage:A0LocalizedString(@"The user already exists.")],
-                          [A0RuleErrorHandler handler],
-                          [[A0PasswordStrengthErrorHandler alloc] init],
-                          ];
-    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign up.")];
-}
-
-+ (NSString *)localizedStringForChangePasswordError:(NSError *)error {
-    return [self localizedStringFromError:error handlers:@[] defaultMessage:A0LocalizedString(@"There was an error processing the reset password.")];
-}
-
-+ (NSString *)localizedStringForSocialLoginError:(NSError *)error {
-    NSArray *handlers = @[
-                          [A0RuleErrorHandler handler],
-                          ];
-    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
-}
-
-+ (NSString *)localizedStringForConnectionName:(NSString *)connectionName loginError:(NSError *)error {
-    NSString *connectionScopeMessage = [NSString stringWithFormat:@"The scopes for the connection %@ are invalid, please check your configuration in Auth0 Dashboard.", connectionName];
-    NSArray *handlers = @[
-                          [A0GenericAPIErrorHandler handlerForErrorString:@"access_denied" returnMessage:A0LocalizedString(@"Permissions were not granted. Try again")],
-                          [A0GenericAPIErrorHandler handlerForErrorString:@"invalid_scope" returnMessage:A0LocalizedString(connectionScopeMessage)],
-                          [A0RuleErrorHandler handler],
-                          ];
-    return [self localizedStringFromError:error handlers:handlers defaultMessage:A0LocalizedString(@"There was an error processing the sign in.")];
 }
 
 @end

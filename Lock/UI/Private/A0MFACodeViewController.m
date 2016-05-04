@@ -32,6 +32,7 @@
 #import "NSError+A0APIError.h"
 #import "A0Errors.h"
 #import "A0Alert.h"
+#import "NSError+A0LockErrors.h"
 
 #import <Masonry/Masonry.h>
 
@@ -110,7 +111,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(NO);
                 NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
-                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
+                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [error a0_localizedStringForLoginError];
                 [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
                     alert.title = title;
                     alert.message = message;

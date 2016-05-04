@@ -42,6 +42,7 @@
 #import "Constants.h"
 #import "A0ChangePasswordView.h"
 #import <Masonry/Masonry.h>
+#import "NSError+A0LockErrors.h"
 
 @interface A0ChangePasswordViewController () <A0ChangePasswordViewDelegate>
 
@@ -119,7 +120,7 @@
             [self postChangePasswordErrorNotificationWithError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"Couldn't request to reset your password");
-                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForChangePasswordError:error];
+                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [error a0_localizedStringForChangePasswordError];
                 [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
                     alert.title = title;
                     alert.message = message;

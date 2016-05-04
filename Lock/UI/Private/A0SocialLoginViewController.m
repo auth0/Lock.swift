@@ -35,6 +35,7 @@
 #import "A0Lock.h"
 #import "NSObject+A0AuthenticatorProvider.h"
 #import "NSError+A0APIError.h"
+#import "NSError+A0LockErrors.h"
 #import "A0ServiceViewModel.h"
 #import "A0Connection.h"
 #import "Constants.h"
@@ -132,7 +133,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                 default: {
                     [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
                         alert.title = A0LocalizedString(@"There was an error logging in");
-                        alert.message = [A0Errors localizedStringForConnectionName:connection.name loginError:error];
+                        alert.message = [error a0_localizedStringErrorForConnectionName:connection.name];
                     }];
                     break;
                 }

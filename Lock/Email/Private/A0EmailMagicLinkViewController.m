@@ -28,6 +28,7 @@
 #import "A0LoadingView.h"
 #import "A0Errors.h"
 #import "Constants.h"
+#import "NSError+A0LockErrors.h"
 #import <Masonry/Masonry.h>
 
 const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
@@ -120,7 +121,7 @@ const NSTimeInterval A0EmailMagicLinkRetryInSeconds = 40;
     self.viewModel.onMagicLink = ^(NSError *error, BOOL completed) {
         if (error) {
             NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
-            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
+            NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [error a0_localizedStringForLoginError];
             [A0Alert showInController:weakSelf errorAlert:^(A0Alert *alert) {
                 alert.title = title;
                 alert.message = message;
