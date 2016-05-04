@@ -25,20 +25,75 @@
 
 FOUNDATION_EXPORT NSString * const A0ErrorDomain;
 
+/**
+ *  Category for Lock & A0IdentityProviderAuthenticator errors. (A0APICient errors are not included)
+ */
 @interface NSError (A0LockErrors)
 
+/**
+ *  Check if the NSError is an Auth0 Lock error with a specific code.
+ *
+ *  @param code of the Lock error
+ *
+ *  @return if its an expected Lock Error
+ */
 - (BOOL)a0_auth0ErrorWithCode:(A0ErrorCode)code;
+
+/**
+ *  Check if the error is from a cancelled social authentication
+ *
+ *  @return if its a cancelled social authentication error.
+ */
 - (BOOL)a0_cancelledSocialAuthenticationError;
 
 ///----------------------------------------
 /// @name Localized Messages
 ///----------------------------------------
 
+/**
+ *  Returns localized message for login error
+ *
+ *  @param connectionName used to login
+ *
+ *  @return localized message
+ */
 - (NSString *)a0_localizedStringErrorForConnectionName:(NSString *)connectionName;
+
+/**
+ *  Returns localized message for login error
+ *
+ *  @param connectionName used to login
+ *
+ *  @return localized message
+ */
 - (NSString *)a0_localizedStringForLoginError;
+
+/**
+ *  Returns localized message for passwordless email login error
+ *
+ *  @return localized message
+ */
 - (NSString *)a0_localizedStringForPasswordlessEmailLoginError;
+
+/**
+ *  Returns localized message for passwordless sms login error
+ *
+ *  @return localized message
+ */
 - (NSString *)a0_localizedStringForPasswordlessSMSLoginError;
+
+/**
+ *  Returns localized message for signup error
+ *
+ *  @return localized message
+ */
 - (NSString *)a0_localizedStringForSignUpError;
+
+/**
+ *  Returns localized message for change password error
+ *
+ *  @return localized message
+ */
 - (NSString *)a0_localizedStringForChangePasswordError;
 
 @end
