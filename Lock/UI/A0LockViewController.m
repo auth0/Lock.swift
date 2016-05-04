@@ -272,6 +272,19 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
         success(profile, token);
     };
+    controller.onMFARequired = ^(NSString *connectionName, NSString *identifier, NSString *password) {
+        A0LogDebug(@"Required to ask MFA for user with identifier %@ and connection %@", identifier, connectionName);
+        A0MFACodeViewController *controller = [[A0MFACodeViewController alloc] initWithIdentifier:identifier password:password connectionName:connectionName];
+        controller.onLoginBlock = success;
+        controller.parameters = [weakSelf copyAuthenticationParameters];
+        [weakSelf.navigationView removeAll];
+        [weakSelf.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
+            A0DatabaseLoginViewController *controller = [weakSelf newDatabaseLoginViewController:success connection:connection];
+            controller.identifier = identifier;
+            [weakSelf displayController:controller];
+        }];
+        [weakSelf displayController:controller];
+    };
     controller.defaultConnection = connection;
     controller.parameters = [self copyAuthenticationParameters];
     controller.onShowEnterpriseLogin = ^(A0Connection *connection, NSString *email) {
@@ -365,6 +378,19 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     controller.onLoginBlock = ^(A0DatabaseLoginViewController *controller, A0UserProfile *profile, A0Token *token) {
         success(profile, token);
+    };
+    controller.onMFARequired = ^(NSString *connectionName, NSString *identifier, NSString *password) {
+        A0LogDebug(@"Required to ask MFA for user with identifier %@ and connection %@", identifier, connectionName);
+        A0MFACodeViewController *controller = [[A0MFACodeViewController alloc] initWithIdentifier:identifier password:password connectionName:connectionName];
+        controller.onLoginBlock = success;
+        controller.parameters = [weakSelf copyAuthenticationParameters];
+        [weakSelf.navigationView removeAll];
+        [weakSelf.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
+            A0DatabaseLoginViewController *controller = [weakSelf newDatabaseLoginViewController:success connection:connection];
+            controller.identifier = identifier;
+            [weakSelf displayController:controller];
+        }];
+        [weakSelf displayController:controller];
     };
     controller.connection = connection;
     controller.parameters = [self copyAuthenticationParameters];
