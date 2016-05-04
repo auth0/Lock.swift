@@ -45,6 +45,7 @@
 #import "NSObject+A0APIClientProvider.h"
 #import "NSObject+A0AuthenticatorProvider.h"
 #import "NSError+A0APIError.h"
+#import "NSError+A0LockErrors.h"
 #import "Constants.h"
 #import "A0LoginView.h"
 #import <CoreGraphics/CoreGraphics.h>
@@ -146,7 +147,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     default: {
                         [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
                             alert.title = A0LocalizedString(@"There was an error logging in");
-                            alert.message = [A0Errors localizedStringForConnectionName:connectionName loginError:error];
+                            alert.message = [error a0_localizedStringErrorForConnectionName:connectionName];
                         }];
                         break;
                     }
@@ -240,7 +241,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                     self.onMFARequired(self.defaultConnection.name, username, password);
                 } else {
                     NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
-                    NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForLoginError:error];
+                    NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [error a0_localizedStringForLoginError];
                     [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
                         alert.title = title;
                         alert.message = message;
@@ -261,7 +262,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             } else {
                 [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
                     alert.title = A0LocalizedString(@"There was an error logging in");
-                    alert.message = [A0Errors localizedStringForLoginError:error];
+                    alert.message = [error a0_localizedStringForLoginError];
                 }];
             }
         });

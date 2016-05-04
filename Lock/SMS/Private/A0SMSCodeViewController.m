@@ -34,6 +34,7 @@
 #import "A0PasswordlessLockViewModel.h"
 #import "Constants.h"
 #import "A0RoundedBoxView.h"
+#import "NSError+A0LockErrors.h"
 #import <Masonry/Masonry.h>
 
 @interface A0SMSCodeViewController ()
@@ -135,7 +136,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
             [weakSelf.loginButton setInProgress:NO];
             if (error) {
                 NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
-                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [A0Errors localizedStringForSMSLoginError:error];
+                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : [error a0_localizedStringForPasswordlessSMSLoginError];
                 [A0Alert showInController:weakSelf errorAlert:^(A0Alert *alert) {
                     alert.title = title;
                     alert.message = message;

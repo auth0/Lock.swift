@@ -47,6 +47,14 @@
 		5FAFAB361CD80F0B004048BE /* A0MFACodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFAB341CD80F0B004048BE /* A0MFACodeView.m */; };
 		5FAFAB391CD95C5D004048BE /* A0NavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAFAB371CD95C5D004048BE /* A0NavigationController.h */; };
 		5FAFAB3A1CD95C5D004048BE /* A0NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFAB381CD95C5D004048BE /* A0NavigationController.m */; };
+		5FAFAB401CD96F67004048BE /* NSError+A0AuthAPIError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAFAB3E1CD96F67004048BE /* NSError+A0AuthAPIError.h */; };
+		5FAFAB411CD96F67004048BE /* NSError+A0AuthAPIError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAFAB3E1CD96F67004048BE /* NSError+A0AuthAPIError.h */; };
+		5FAFAB421CD96F67004048BE /* NSError+A0AuthAPIError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFAB3F1CD96F67004048BE /* NSError+A0AuthAPIError.m */; };
+		5FAFAB431CD96F67004048BE /* NSError+A0AuthAPIError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFAB3F1CD96F67004048BE /* NSError+A0AuthAPIError.m */; };
+		5FAFAB461CD972F6004048BE /* NSError+A0LockErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAFAB441CD972F6004048BE /* NSError+A0LockErrors.h */; };
+		5FAFAB471CD972F6004048BE /* NSError+A0LockErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAFAB441CD972F6004048BE /* NSError+A0LockErrors.h */; };
+		5FAFAB481CD972F6004048BE /* NSError+A0LockErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFAB451CD972F6004048BE /* NSError+A0LockErrors.m */; };
+		5FAFAB491CD972F6004048BE /* NSError+A0LockErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFAB451CD972F6004048BE /* NSError+A0LockErrors.m */; };
 		5FB6A5EA1CA0357F00DF5078 /* A0FailureAuthenticator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */; };
 		5FB6A5EB1CA0357F00DF5078 /* A0FailureAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */; };
 		5FBACFF91BE7AF8700703DD1 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBACFF81BE7AF8700703DD1 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -579,6 +587,10 @@
 		5FAFAB341CD80F0B004048BE /* A0MFACodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0MFACodeView.m; sourceTree = "<group>"; };
 		5FAFAB371CD95C5D004048BE /* A0NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0NavigationController.h; sourceTree = "<group>"; };
 		5FAFAB381CD95C5D004048BE /* A0NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0NavigationController.m; sourceTree = "<group>"; };
+		5FAFAB3E1CD96F67004048BE /* NSError+A0AuthAPIError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+A0AuthAPIError.h"; sourceTree = "<group>"; };
+		5FAFAB3F1CD96F67004048BE /* NSError+A0AuthAPIError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+A0AuthAPIError.m"; sourceTree = "<group>"; };
+		5FAFAB441CD972F6004048BE /* NSError+A0LockErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+A0LockErrors.h"; sourceTree = "<group>"; };
+		5FAFAB451CD972F6004048BE /* NSError+A0LockErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+A0LockErrors.m"; sourceTree = "<group>"; };
 		5FB6A5E81CA0357F00DF5078 /* A0FailureAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = A0FailureAuthenticator.h; path = Private/A0FailureAuthenticator.h; sourceTree = "<group>"; };
 		5FB6A5E91CA0357F00DF5078 /* A0FailureAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = A0FailureAuthenticator.m; path = Private/A0FailureAuthenticator.m; sourceTree = "<group>"; };
 		5FBACFF51BE7AF8700703DD1 /* Lock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1151,6 +1163,10 @@
 				5F0499B61CAB2C72006F6C05 /* A0Telemetry.m */,
 				5F6641871BEA4E9300ECA900 /* A0PKCE.h */,
 				5F6641881BEA4E9300ECA900 /* A0PKCE.m */,
+				5FAFAB3E1CD96F67004048BE /* NSError+A0AuthAPIError.h */,
+				5FAFAB3F1CD96F67004048BE /* NSError+A0AuthAPIError.m */,
+				5FAFAB441CD972F6004048BE /* NSError+A0LockErrors.h */,
+				5FAFAB451CD972F6004048BE /* NSError+A0LockErrors.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1825,6 +1841,7 @@
 				5FAFAB311CD80CA3004048BE /* A0MFACodeViewController.h in Headers */,
 				5FBAD19D1BE7B92900703DD1 /* A0ServiceViewModel.h in Headers */,
 				5FBAD1891BE7B92900703DD1 /* A0EnterpriseLoginViewController.h in Headers */,
+				5FAFAB461CD972F6004048BE /* NSError+A0LockErrors.h in Headers */,
 				5FBAD06B1BE7B23C00703DD1 /* A0ErrorHandler.h in Headers */,
 				5FBAD16D1BE7B92900703DD1 /* A0WebViewAuthenticator.h in Headers */,
 				5FBAD1B91BE7B92900703DD1 /* A0LoadingView.h in Headers */,
@@ -1853,6 +1870,7 @@
 				5FBAD0D61BE7B24600703DD1 /* A0JSONResponseSerializer.h in Headers */,
 				5FBAD1B81BE7B92900703DD1 /* A0FieldValidator.h in Headers */,
 				5FBAD4231BE7F0AC00703DD1 /* A0TouchIDSignUpViewController.h in Headers */,
+				5FAFAB401CD96F67004048BE /* NSError+A0AuthAPIError.h in Headers */,
 				5FBAD0681BE7B23C00703DD1 /* A0ConnectionDomainMatcher.h in Headers */,
 				5F6641891BEA4E9300ECA900 /* A0PKCE.h in Headers */,
 				5FBAD1B61BE7B92900703DD1 /* A0EmailValidator.h in Headers */,
@@ -1912,6 +1930,7 @@
 				5FBAD0A91BE7B23D00703DD1 /* A0GenericAPIErrorHandler.h in Headers */,
 				5FBAD0C31BE7B23D00703DD1 /* A0UserAPIClient.h in Headers */,
 				5FBAD0A31BE7B23D00703DD1 /* A0Errors.h in Headers */,
+				5FAFAB411CD96F67004048BE /* NSError+A0AuthAPIError.h in Headers */,
 				5FBAD0C91BE7B24600703DD1 /* A0JSONResponseSerializer.h in Headers */,
 				5FBAD0B91BE7B23D00703DD1 /* A0RuleErrorHandler.h in Headers */,
 				5FBAD09F1BE7B23D00703DD1 /* A0ConnectionDomainMatcher.h in Headers */,
@@ -1937,6 +1956,7 @@
 				5FBAD0A21BE7B23D00703DD1 /* A0ErrorHandler.h in Headers */,
 				5F66418A1BEA4E9300ECA900 /* A0PKCE.h in Headers */,
 				5FBAD0C71BE7B23D00703DD1 /* A0UserProfile.h in Headers */,
+				5FAFAB471CD972F6004048BE /* NSError+A0LockErrors.h in Headers */,
 				5FBAD09D1BE7B23D00703DD1 /* A0Connection.h in Headers */,
 				5FBAD0C51BE7B23D00703DD1 /* A0UserIdentity.h in Headers */,
 				5FBAD0D21BE7B24600703DD1 /* NSError+A0APIError.h in Headers */,
@@ -2360,6 +2380,8 @@
 				5FBAD0E21BE7B24600703DD1 /* NSObject+A0APIClientProvider.m in Sources */,
 				5FBAD4341BE7F0CA00703DD1 /* A0SMSCodeViewController.m in Sources */,
 				5FBAD18C1BE7B92900703DD1 /* A0FullActiveDirectoryViewController.m in Sources */,
+				5FAFAB421CD96F67004048BE /* NSError+A0AuthAPIError.m in Sources */,
+				5FAFAB481CD972F6004048BE /* NSError+A0LockErrors.m in Sources */,
 				5FBAD0711BE7B23C00703DD1 /* A0FilteredConnectionDomainMatcher.m in Sources */,
 				5FBAD4421BE7F0E100703DD1 /* A0EmailCodeViewController.m in Sources */,
 				5FBAD1BC1BE7B92900703DD1 /* A0ModalPresenter.m in Sources */,
@@ -2449,6 +2471,7 @@
 				5FBAD0C61BE7B23D00703DD1 /* A0UserIdentity.m in Sources */,
 				5FBAD0931BE7B23D00703DD1 /* A0APIClient.m in Sources */,
 				5FBAD0971BE7B23D00703DD1 /* A0APIv1Router.m in Sources */,
+				5FAFAB431CD96F67004048BE /* NSError+A0AuthAPIError.m in Sources */,
 				5FBAD0AA1BE7B23D00703DD1 /* A0GenericAPIErrorHandler.m in Sources */,
 				5FBAD0D11BE7B24600703DD1 /* NSDictionary+A0QueryParameters.m in Sources */,
 				5FBAD0AE1BE7B23D00703DD1 /* A0Lock.m in Sources */,
@@ -2457,6 +2480,7 @@
 				5FBAD0AC1BE7B23D00703DD1 /* A0IdentityProviderCredentials.m in Sources */,
 				5FBAD0B41BE7B23D00703DD1 /* A0MainBundleCredentialProvider.m in Sources */,
 				5FBAD0E41BE7B24B00703DD1 /* A0DeviceNameProvider.m in Sources */,
+				5FAFAB491CD972F6004048BE /* NSError+A0LockErrors.m in Sources */,
 				5FBAD0A41BE7B23D00703DD1 /* A0Errors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

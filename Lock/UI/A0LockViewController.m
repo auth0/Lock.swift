@@ -53,6 +53,7 @@
 #import "NSObject+A0APIClientProvider.h"
 #import "NSObject+A0AuthenticatorProvider.h"
 #import "NSError+A0APIError.h"
+#import "NSError+A0LockErrors.h"
 #import "UIConstants.h"
 #import "A0Alert.h"
 #import "Constants.h"

@@ -21,47 +21,14 @@
 // THE SOFTWARE.
 
 #import "NSError+A0APIError.h"
-
-NSString * const A0JSONResponseSerializerErrorDataKey = @"A0JSONResponseSerializerErrorDataKey";
-NSString * const A0ErrorDomain = @"com.auth0";
+#import "NSError+A0LockErrors.h"
 
 @implementation NSError (A0APIError)
-
-- (NSDictionary *)a0_payload {
-    return self.userInfo[A0JSONResponseSerializerErrorDataKey];
-}
-
-- (NSString *)a0_code {
-    return [self a0_payload][@"code"];
-}
-
-- (NSString *)a0_error {
-    return [self a0_payload][@"error"];
-}
-
-- (NSString *)a0_errorDescription {
-    return [self a0_payload][@"error_description"];
-}
 
 - (NSError *)a0_errorWithPayload:(NSDictionary *)payload {
     NSMutableDictionary *userInfo = [self.userInfo mutableCopy];
     userInfo[A0JSONResponseSerializerErrorDataKey] = payload;
     return [NSError errorWithDomain:self.domain code:self.code userInfo:[NSDictionary dictionaryWithDictionary:userInfo]];
-}
-
-- (BOOL)a0_auth0ErrorWithCode:(A0ErrorCode)code {
-    return [self.domain isEqualToString:A0ErrorDomain] && self.code == code;
-}
-
-- (BOOL)a0_cancelledSocialAuthenticationError {
-    return self.code == A0ErrorCodeFacebookCancelled
-    || self.code == A0ErrorCodeTwitterCancelled
-    || self.code == A0ErrorCodeAuth0Cancelled
-    || self.code == A0ErrorCodeGooglePlusCancelled;
-}
-
-- (BOOL)a0_mfaRequired {
-    return [[self a0_error] isEqualToString:@"a0.mfa_required"];
 }
 
 + (NSError *)errorWithCode:(NSInteger)code description:(NSString *)description payload:(NSDictionary *)payload {

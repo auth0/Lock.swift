@@ -35,7 +35,7 @@ static id A0RuleFormat(NSDictionary *rule, NSInteger index) {
 @implementation A0PasswordStrengthErrorHandler
 
 - (NSString *)localizedMessageFromError:(NSError *)error {
-    NSString *actual = [error a0_code];
+    NSString *actual = [error a0_error];
     if (![actual isEqualToString:@"invalid_password"]) {
         return nil;
     }
