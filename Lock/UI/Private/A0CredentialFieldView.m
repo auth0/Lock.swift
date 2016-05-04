@@ -58,6 +58,7 @@
     self.textField.tintColor = [theme colorForKey:A0ThemeTextFieldTextColor];
     self.textField.returnKeyType = self.returnKeyType;
     self.textField.borderStyle = UITextBorderStyleNone;
+    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.type = A0CredentialFieldViewEmail;
     self.returnKeyType = UIReturnKeyNext;

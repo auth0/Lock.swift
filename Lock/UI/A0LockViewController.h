@@ -109,6 +109,11 @@ NS_ASSUME_NONNULL_BEGIN
 ///------------------------------------------------
 
 /**
+ *  Default value for identifier field (if available). Default is nil
+ */
+@property (copy, nullable, nonatomic) NSString *defaultIdentifier;
+
+/**
  After a successful Signup, `A0AuthenticationViewController` will attempt to login the user if this property is YES otherwise will call onAuthenticationBlock with both parameters nil. Default value is YES
  */
 @property (assign, nonatomic) BOOL loginAfterSignUp;

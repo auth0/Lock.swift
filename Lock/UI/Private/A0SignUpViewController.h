@@ -39,6 +39,7 @@
 @property (copy, nonatomic) NSString *customMessage;
 @property (strong, nonatomic) A0Connection *defaultConnection;
 @property (strong, nonatomic) A0Lock *lock;
+@property (copy, nonatomic) NSString *identifier;
 
 - (void)addDisclaimerSubview:(UIView *)view;
 - (void)updateUIWithError:(NSError *)error;

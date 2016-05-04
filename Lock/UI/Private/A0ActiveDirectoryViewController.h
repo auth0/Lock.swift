@@ -38,6 +38,8 @@
 @property (strong, nonatomic) A0CredentialsValidator *validator;
 @property (strong, nonatomic) id<A0ConnectionDomainMatcher> domainMatcher;
 
-@property (weak, nonatomic) IBOutlet A0LoginView *loginView;
+@property (weak, nonatomic) A0LoginView *loginView;
+
+@property (copy, nonatomic) NSString *identifier;
 
 @end
