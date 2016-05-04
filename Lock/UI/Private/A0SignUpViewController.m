@@ -88,6 +88,7 @@
     self.signUpView.identifierType = self.forceUsername ? A0SignUpIndentifierTypeUsername : A0SignUpIndentifierTypeEmail;
     self.signUpView.title = self.customMessage;
     self.signUpView.delegate = self;
+    self.signUpView.identifier = _identifier;
 
     if (self.defaultConnection) {
         self.parameters[A0ParameterConnection] = self.defaultConnection.name;
@@ -108,6 +109,10 @@
 
 - (void)addDisclaimerSubview:(UIView *)view {
     self.userDisclaimerView = view;
+}
+
+- (NSString *)identifier {
+    return self.signUpView ? self.signUpView.identifier : _identifier;
 }
 
 #pragma mark - A0KeyboardEnabledView
