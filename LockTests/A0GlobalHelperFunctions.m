@@ -21,11 +21,12 @@
 // THE SOFTWARE.
 
 #import "A0GlobalHelperFunctions.h"
+#import "NSError+A0AuthAPIError.h"
 
 NSError *createError(NSDictionary *payload) {
     return [NSError errorWithDomain:@"com.auth0"
                                code:0
                            userInfo:@{
-                                      @"A0JSONResponseSerializerErrorDataKey": payload
+                                      A0JSONResponseSerializerErrorDataKey: payload
                                       }];
 }
