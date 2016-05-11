@@ -49,4 +49,12 @@
  */
 - (void)presentLockController:(A0LockViewController *)lockController fromController:(UIViewController *)controller;
 
+/**
+ *  Presents `A0LockViewController` from a UIViewController.
+ *
+ *  @param lockController   controller to present
+ *  @param controller       controller that will present Lock UIViewController.
+ */
+- (void)presentLockController:(A0LockViewController *)lockController fromController:(UIViewController *)controller presentationStyle:(UIModalPresentationStyle)presentationStyle;
+
 @end
