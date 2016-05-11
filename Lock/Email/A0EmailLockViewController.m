@@ -31,6 +31,7 @@
 #import "A0PasswordlessLockViewModel.h"
 #import "A0EmailMagicLinkViewController.h"
 #import "Constants.h"
+#import "UIConstants.h"
 #import <Masonry/Masonry.h>
 
 #define kEmailKey @"com.auth0.lock.passwordless.email"
@@ -127,6 +128,14 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (BOOL)prefersStatusBarHidden {
     return [[A0Theme sharedInstance] statusBarHidden];
+}
+
+- (A0LockControllerSupportedOrientation)supportedInterfaceOrientations {
+    A0LockControllerSupportedOrientation orientations = UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        orientations = UIInterfaceOrientationMaskAll;
+    }
+    return orientations;
 }
 
 - (void)navigateToRequestCodeScreen {

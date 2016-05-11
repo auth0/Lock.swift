@@ -78,9 +78,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (instancetype)initWithLock:(A0Lock *)lock {
     self = [super init];
     if (self) {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            self.modalPresentationStyle = UIModalPresentationFormSheet;
-        }
         _usesEmail = YES;
         _loginAfterSignUp = YES;
         _authenticationParameters = [A0AuthParameters newDefaultParams];
@@ -142,7 +139,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (A0LockControllerSupportedOrientation)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+    A0LockControllerSupportedOrientation orientations = UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        orientations = UIInterfaceOrientationMaskAll;
+    }
+    return orientations;
 }
 
 - (void)dismiss:(id)sender {
