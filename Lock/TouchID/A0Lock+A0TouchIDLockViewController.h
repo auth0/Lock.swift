@@ -42,4 +42,13 @@
  */
 - (void)presentTouchIDController:(A0TouchIDLockViewController *)touchIDController fromController:(UIViewController *)controller;
 
+/**
+ *  Presents a `A0TouchIDLockViewController` from a UIViewController. This method takes care of embedding the `A0TouchIDLockViewController` inside a `UINavigationController`
+ *
+ *  @param touchIDController controller to present
+ *  @param controller        controller that will present the TouchID UIViewController
+ *  @param presentationStyle    used to present as modal TouchID UIViewController
+ */
+- (void)presentTouchIDController:(A0TouchIDLockViewController *)touchIDController fromController:(UIViewController *)controller presentationStyle:(UIModalPresentationStyle)presentationStyle;
+
 @end
