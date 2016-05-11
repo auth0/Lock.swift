@@ -34,7 +34,7 @@ You'll need iOS 7 or later, if you need to use it with an older version please u
 The Lock is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Lock", "~> 1.25"
+pod "Lock", "~> 1.26"
 ```
 
 ## Before Getting Started
