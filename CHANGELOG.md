@@ -1,5 +1,32 @@
 # Change Log
 
+## [1.26.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.26.0) (2016-05-11)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.25.0...1.26.0)
+
+**Implemented enhancements:**
+
+- Not passing correct error code and domain [\#226](https://github.com/auth0/Lock.iOS-OSX/issues/226)
+
+**Fixed bugs:**
+
+- Force Lock's UIViewControllers in portrait mode [\#258](https://github.com/auth0/Lock.iOS-OSX/issues/258)
+
+**Closed issues:**
+
+- Make Error handling helper methods public [\#224](https://github.com/auth0/Lock.iOS-OSX/issues/224)
+
+**Merged pull requests:**
+
+- Allow to specify presentation style & iPad in landscape [\#270](https://github.com/auth0/Lock.iOS-OSX/pull/270) ([hzalaz](https://github.com/hzalaz))
+- Make A0Token conform NSSecureCoding [\#267](https://github.com/auth0/Lock.iOS-OSX/pull/267) ([hzalaz](https://github.com/hzalaz))
+- Allow to prefill identifier [\#266](https://github.com/auth0/Lock.iOS-OSX/pull/266) ([hzalaz](https://github.com/hzalaz))
+- Fix issues with mfa flow [\#265](https://github.com/auth0/Lock.iOS-OSX/pull/265) ([hzalaz](https://github.com/hzalaz))
+- Make NSErrors categories public [\#264](https://github.com/auth0/Lock.iOS-OSX/pull/264) ([hzalaz](https://github.com/hzalaz))
+- Make sure lock works in portrait only [\#263](https://github.com/auth0/Lock.iOS-OSX/pull/263) ([hzalaz](https://github.com/hzalaz))
+- MFA for database connections using resource owner [\#262](https://github.com/auth0/Lock.iOS-OSX/pull/262) ([hzalaz](https://github.com/hzalaz))
+- Disable autoCorrect on credential field [\#260](https://github.com/auth0/Lock.iOS-OSX/pull/260) ([chirag04](https://github.com/chirag04))
+- Bugfixes & voiceover [\#256](https://github.com/auth0/Lock.iOS-OSX/pull/256) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.25.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.25.0) (2016-04-11)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.24.1...1.25.0)
 
