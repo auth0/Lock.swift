@@ -189,7 +189,7 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 ```swift
 let lock = A0Lock.sharedLock()
 let controller = lock.newTouchIDViewController()
-lock.onAuthenticationBlock = {(profile, token) in
+controller.onAuthenticationBlock = {(profile, token) in
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
     // And dismiss the UIViewController.
@@ -228,7 +228,7 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 let lock = A0Lock.sharedLock()
 let controller = lock.newSMSViewController()
 controller.useMagicLink = true
-lock.onAuthenticationBlock = {(profile, token) in
+controller.onAuthenticationBlock = {(profile, token) in
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
     // And dismiss the UIViewController.
