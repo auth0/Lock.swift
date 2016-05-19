@@ -329,23 +329,13 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                                 kClientIdParamName: self.clientId,
                                                                                 kConnectionParamName: @"email",
                                                                                 }];
-    A0Strategy *strategy = [self.application strategyByName:@"email"];
-    A0Connection *connection = strategy.connections.firstObject;
-    if (!self.application || connection.name) {
-        [defaultParameters addValuesFromParameters:parameters];
-        A0LogVerbose(@"Starting Login with email & passcode %@", defaultParameters);
-        NSDictionary *payload = [defaultParameters asAPIPayload];
-        return [self.manager POST:[self.router loginPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
-            A0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
-            [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
-        } failure:[A0APIClient sanitizeFailureBlock:failure]];
-    } else {
-        A0LogError(@"No email connection found in Auth0 app.");
-        if (failure) {
-            failure([A0Errors noConnectionNameFound]);
-        }
-    }
-    return nil;
+    [defaultParameters addValuesFromParameters:parameters];
+    A0LogVerbose(@"Starting Login with email & passcode %@", defaultParameters);
+    NSDictionary *payload = [defaultParameters asAPIPayload];
+    return [self.manager POST:[self.router loginPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
+        A0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
+        [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
+    } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
 #pragma mark - Social Authentication
