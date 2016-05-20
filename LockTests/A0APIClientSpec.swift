@@ -536,22 +536,6 @@ class A0APIClientSpec : QuickSpec {
                 let phoneNumber = "4444444444"
                 let code = "1234"
 
-                it("should fail change password when no sms connection is enabled") {
-                    waitUntil { done in
-                        client.loginWithPhoneNumber(phoneNumber,
-                            passcode: code,
-                            parameters: nil,
-                            success: { _, _ in
-                                fail("Should have failed")
-                                done()
-                            },
-                            failure: { error in
-                                expect(error.localizedFailureReason).to(equal("Can't find connection name to use for authentication"))
-                                done()
-                        })
-                    }
-                }
-
                 context("with sms connection enabled") {
 
                     beforeEach {
