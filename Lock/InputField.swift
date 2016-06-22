@@ -24,6 +24,9 @@ import UIKit
 
 public class InputField: UIView {
 
+    weak var textField: UITextField?
+    weak var iconView: UIImageView?
+
     public convenience init() {
         self.init(frame: CGRectZero)
     }
@@ -37,6 +40,35 @@ public class InputField: UIView {
         super.init(coder: aDecoder)
         
         self.layoutField()
+    }
+
+    public var text: String? {
+        get {
+            return self.textField?.text
+        }
+        set {
+            self.textField?.text = newValue
+        }
+    }
+
+    public var type: Type = .Email {
+        didSet {
+            self.textField?.placeholder = type.placeholder
+            self.textField?.secureTextEntry = type.secure
+            self.textField?.autocorrectionType = .Default
+            self.textField?.autocapitalizationType = .None
+            self.textField?.keyboardType = type.keyboardType
+            self.iconView?.image = image(named: type.iconName, compatibleWithTraitCollection: self.traitCollection)
+        }
+    }
+
+    public var returnKey: UIReturnKeyType {
+        get {
+            return self.textField?.returnKeyType ?? .Default
+        }
+        set {
+            self.textField?.returnKeyType = newValue
+        }
     }
 
     private func layoutField() {
@@ -65,18 +97,88 @@ public class InputField: UIView {
         iconView.translatesAutoresizingMaskIntoConstraints = false
 
         iconContainer.backgroundColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
-        textField.placeholder = "Email"
-        iconView.image = image(named: "ic_mail", compatibleWithTraitCollection: self.traitCollection)
         iconView.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
+
+        self.textField = textField
+        self.iconView = iconView
 
         self.backgroundColor = .whiteColor()
         self.layer.cornerRadius = 3.67
         self.layer.masksToBounds = true
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 ).CGColor
+        self.type = .Email
     }
 
     public override func intrinsicContentSize() -> CGSize {
         return CGSize(width: 230, height: 49)
+    }
+
+    public enum Type {
+        case Email
+        case Username
+        case EmailOrUsername
+        case Password
+        case Phone
+        case OneTimePassword
+
+        var placeholder: String? {
+            switch self {
+            case .Email:
+                return i18n(key: "com.auth0.lock.input.placeholder.email", value: "Email", comment: "Email placeholder")
+            case .Username:
+                return i18n(key: "com.auth0.lock.input.placeholder.username", value: "Username", comment: "Email placeholder")
+            case .EmailOrUsername:
+                return i18n(key: "com.auth0.lock.input.placeholder.email-username", value: "Username/Email", comment: "Username or Email placeholder")
+            case .Password:
+                return i18n(key: "com.auth0.lock.input.placeholder.password", value: "Password", comment: "Password placeholder")
+            case .Phone:
+                return i18n(key: "com.auth0.lock.input.placeholder.phone", value: "Phone Number", comment: "Phone placeholder")
+            case .OneTimePassword:
+                return i18n(key: "com.auth0.lock.input.placeholder.otp", value: "Code", comment: "OTP placeholder")
+            }
+        }
+
+        var secure: Bool {
+            if case .Password = self {
+                return true
+            }
+
+            return false
+        }
+
+        var iconName: String {
+            switch self {
+            case .Email:
+                return "ic_mail"
+            case .Username:
+                return "ic_person"
+            case .EmailOrUsername:
+                return "ic_mail"
+            case .Password:
+                return "ic_lock"
+            case .Phone:
+                return "ic_phone"
+            case .OneTimePassword:
+                return "ic_lock"
+            }
+        }
+
+        var keyboardType: UIKeyboardType {
+            switch self {
+            case .Email:
+                return .EmailAddress
+            case .Username:
+                return .Default
+            case .EmailOrUsername:
+                return .Default
+            case .Password:
+                return .Default
+            case .Phone:
+                return .PhonePad
+            case .OneTimePassword:
+                return .DecimalPad
+            }
+        }
     }
 }

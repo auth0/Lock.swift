@@ -58,6 +58,8 @@ class ViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
 
         let field = InputField()
+        field.type = .Password
+        field.returnKey = .Go
         self.view.addSubview(field)
 
         field.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor, constant: 20).active = true
