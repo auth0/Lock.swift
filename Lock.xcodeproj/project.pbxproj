@@ -18,6 +18,8 @@
 		5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA851D1B0BF100D27842 /* Resources.swift */; };
 		5F99AA881D1B0E2500D27842 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA871D1B0E2500D27842 /* Layout.swift */; };
 		5F99AA8A1D1B360C00D27842 /* SubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA891D1B360C00D27842 /* SubmitButton.swift */; };
+		5F99AA8C1D1B3F1300D27842 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA8B1D1B3F1300D27842 /* InputField.swift */; };
+		5F99AA8E1D1B4BFA00D27842 /* Lock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FEAE1C61D1A5154005C0028 /* Lock.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5FEADCEF1D1A76610032D810 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD21D1A7294003670A4 /* Auth0.framework */; };
 		5FEADCF71D1A7EBC0032D810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */; };
 		5FEADCF91D1A7EBC0032D810 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF81D1A7EBC0032D810 /* ViewController.swift */; };
@@ -54,6 +56,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5F99AA8D1D1B4BEF00D27842 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5F99AA8E1D1B4BFA00D27842 /* Lock.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		5F814FD01D1A7294003670A4 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		5F814FD11D1A7294003670A4 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
@@ -66,6 +81,7 @@
 		5F99AA851D1B0BF100D27842 /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		5F99AA871D1B0E2500D27842 /* Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		5F99AA891D1B360C00D27842 /* SubmitButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitButton.swift; sourceTree = "<group>"; };
+		5F99AA8B1D1B3F1300D27842 /* InputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		5FEADCF41D1A7EBC0032D810 /* LockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FEADCF81D1A7EBC0032D810 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -184,6 +200,7 @@
 			children = (
 				5FEAE20F1D1A5691005C0028 /* Header.swift */,
 				5F99AA891D1B360C00D27842 /* SubmitButton.swift */,
+				5F99AA8B1D1B3F1300D27842 /* InputField.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -221,6 +238,7 @@
 				5FEADCF11D1A7EBC0032D810 /* Frameworks */,
 				5FEADCF21D1A7EBC0032D810 /* Resources */,
 				5FEADD061D1A7ECA0032D810 /* Carthage */,
+				5F99AA8D1D1B4BEF00D27842 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -375,6 +393,7 @@
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
 				5F99AA8A1D1B360C00D27842 /* SubmitButton.swift in Sources */,
 				5FEAE2101D1A5691005C0028 /* Header.swift in Sources */,
+				5F99AA8C1D1B3F1300D27842 /* InputField.swift in Sources */,
 				5F99AA881D1B0E2500D27842 /* Layout.swift in Sources */,
 				5F99AA841D1B0BCE00D27842 /* Lock.swift in Sources */,
 				5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */,
@@ -447,7 +466,7 @@
 				INFOPLIST_FILE = LockApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_LIBRARY_PATHS = "";
 			};
@@ -464,7 +483,7 @@
 				INFOPLIST_FILE = LockApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_LIBRARY_PATHS = "";
 			};
@@ -577,7 +596,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
+				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.ios.Lock;
 				PRODUCT_NAME = Lock;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -600,7 +619,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
+				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.ios.Lock;
 				PRODUCT_NAME = Lock;
 				SKIP_INSTALL = YES;
 			};

@@ -108,7 +108,7 @@ public class Header: UIView {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
 
         titleView.text = i18n(key: "com.auth0.lock.header.default-title", value: "Lock", comment: "Header Title")
-        titleView.font = lightSystemFont(size: 20)
+        titleView.font = regularSystemFont(size: 20)
         logoView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)
         closeButton.setImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
         closeButton.addTarget(self, action: #selector(closePressed), forControlEvents: .TouchUpInside)

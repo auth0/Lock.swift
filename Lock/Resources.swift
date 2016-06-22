@@ -48,3 +48,7 @@ func image(withColor color: UIColor) -> UIImage {
 func lightSystemFont(size size: CGFloat) -> UIFont {
     return UIFont.systemFontOfSize(size, weight: UIFontWeightLight)
 }
+
+func regularSystemFont(size size: CGFloat) -> UIFont {
+    return UIFont.systemFontOfSize(size, weight: UIFontWeightRegular)
+}

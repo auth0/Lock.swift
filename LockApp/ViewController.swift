@@ -57,7 +57,13 @@ class ViewController: UIViewController {
         button.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
         button.translatesAutoresizingMaskIntoConstraints = false
 
-        self.view.layoutIfNeeded()
+        let field = InputField()
+        self.view.addSubview(field)
+
+        field.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor, constant: 20).active = true
+        field.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor, constant: -20).active = true
+        field.centerYAnchor.constraintEqualToAnchor(self.view.centerYAnchor).active = true
+        field.translatesAutoresizingMaskIntoConstraints = false
     }
 
 
