@@ -27,21 +27,6 @@ public class InputField: UIView {
     weak var textField: UITextField?
     weak var iconView: UIImageView?
 
-    public convenience init() {
-        self.init(frame: CGRectZero)
-    }
-
-    required override public init(frame: CGRect) {
-        super.init(frame: frame)
-        self.layoutField()
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        self.layoutField()
-    }
-
     public var text: String? {
         get {
             return self.textField?.text
@@ -71,6 +56,35 @@ public class InputField: UIView {
         }
     }
 
+    public var showError: Bool = false {
+        didSet {
+            let color: UIColor
+            if showError {
+                color = UIColor.redColor()
+            } else {
+                color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
+            }
+            self.layer.borderColor = color.CGColor
+        }
+    }
+
+    public var onTextChange: (InputField) -> () = {_ in}
+
+    public convenience init() {
+        self.init(frame: CGRectZero)
+    }
+
+    required override public init(frame: CGRect) {
+        super.init(frame: frame)
+        self.layoutField()
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        self.layoutField()
+    }
+
     private func layoutField() {
         let iconContainer = UIView()
         let textField = UITextField()
@@ -98,6 +112,7 @@ public class InputField: UIView {
 
         iconContainer.backgroundColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
         iconView.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
+        textField.addTarget(self, action: #selector(textChanged), forControlEvents: .EditingChanged)
 
         self.textField = textField
         self.iconView = iconView
@@ -106,12 +121,16 @@ public class InputField: UIView {
         self.layer.cornerRadius = 3.67
         self.layer.masksToBounds = true
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 ).CGColor
+        self.showError = false
         self.type = .Email
     }
 
     public override func intrinsicContentSize() -> CGSize {
         return CGSize(width: 230, height: 49)
+    }
+
+    func textChanged(field: UITextField) {
+        self.onTextChange(self)
     }
 
     public enum Type {

@@ -60,6 +60,9 @@ class ViewController: UIViewController {
         let field = InputField()
         field.type = .Password
         field.returnKey = .Go
+        field.onTextChange = { field in
+            field.showError = true
+        }
         self.view.addSubview(field)
 
         field.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor, constant: 20).active = true
