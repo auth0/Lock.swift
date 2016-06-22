@@ -1,4 +1,4 @@
-// Lock.h
+// ViewController.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,14 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+import UIKit
+import Lock
 
-//! Project version number for Lock.
-FOUNDATION_EXPORT double LockVersionNumber;
 
-//! Project version string for Lock.
-FOUNDATION_EXPORT const unsigned char LockVersionString[];
+class ViewController: UIViewController {
 
-// In this header, you should import all the public headers of your framework using statements like #import <Lock/PublicHeader.h>
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let header = Header()
+        header.title = "Overmind"
+        header.onClosePressed = {
+            print("Close Pressed")
+        }
+        header.showClose = false
+        self.view.addSubview(header)
 
+        header.topAnchor.constraintEqualToAnchor(self.view.topAnchor).active = true
+        header.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor).active = true
+        header.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
+        header.translatesAutoresizingMaskIntoConstraints = false
+        self.view.layoutIfNeeded()
+    }
+
+
+}
 

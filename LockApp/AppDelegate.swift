@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  App
+//  LockApp
 //
-//  Created by Hernan Zalazar on 6/21/16.
+//  Created by Hernan Zalazar on 6/22/16.
 //  Copyright © 2016 Auth0. All rights reserved.
 //
 

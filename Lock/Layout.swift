@@ -1,4 +1,4 @@
-// Lock.h
+// Layout.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,14 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+import Foundation
 
-//! Project version number for Lock.
-FOUNDATION_EXPORT double LockVersionNumber;
-
-//! Project version string for Lock.
-FOUNDATION_EXPORT const unsigned char LockVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <Lock/PublicHeader.h>
-
-
+func constraintEqual<C: NSLayoutAnchor>(anchor anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil) -> NSLayoutConstraint {
+    let constraint: NSLayoutConstraint
+    if let value = constant {
+        constraint = anchor.constraintEqualToAnchor(anotherAnchor, constant: value)
+    } else {
+        constraint = anchor.constraintEqualToAnchor(anotherAnchor)
+    }
+    constraint.active = true
+    return constraint
+}

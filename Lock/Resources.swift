@@ -1,4 +1,4 @@
-// Lock.h
+// Resources.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,14 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+import Foundation
 
-//! Project version number for Lock.
-FOUNDATION_EXPORT double LockVersionNumber;
+extension Lock {
+    static var bundle: NSBundle {
+        return NSBundle(forClass: Lock.classForCoder())
+    }
+}
 
-//! Project version string for Lock.
-FOUNDATION_EXPORT const unsigned char LockVersionString[];
+func image(named name: String, compatibleWithTraitCollection traitCollection: UITraitCollection? = nil) -> UIImage? {
+    let bundle = Lock.bundle
+    return UIImage(named: name, inBundle: bundle, compatibleWithTraitCollection: traitCollection)
+}
 
-// In this header, you should import all the public headers of your framework using statements like #import <Lock/PublicHeader.h>
-
-
+func lightSystemFont(size size: CGFloat) -> UIFont {
+    return UIFont.systemFontOfSize(size, weight: UIFontWeightLight)
+}
