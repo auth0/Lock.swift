@@ -24,8 +24,10 @@ import UIKit
 
 public class InputField: UIView {
 
+    weak var containerView: UIView?
     weak var textField: UITextField?
     weak var iconView: UIImageView?
+    weak var errorLabel: UILabel?
 
     public var text: String? {
         get {
@@ -56,19 +58,9 @@ public class InputField: UIView {
         }
     }
 
-    public var showError: Bool = false {
-        didSet {
-            let color: UIColor
-            if showError {
-                color = UIColor.redColor()
-            } else {
-                color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
-            }
-            self.layer.borderColor = color.CGColor
-        }
-    }
-
     public var onTextChange: (InputField) -> () = {_ in}
+
+    // MARK:- Initialisers
 
     public convenience init() {
         self.init(frame: CGRectZero)
@@ -85,25 +77,54 @@ public class InputField: UIView {
         self.layoutField()
     }
 
+    // MARK:- Error
+
+    public func showError(error: String? = nil) {
+        self.containerView?.layer.borderColor = UIColor.redColor().CGColor
+        self.errorLabel?.text = error
+    }
+
+    public func hideError() {
+        self.errorLabel?.text = nil
+        self.containerView?.layer.borderColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 ).CGColor
+    }
+
+    // MARK:- Layout
+
     private func layoutField() {
+        let container = UIView()
         let iconContainer = UIView()
         let textField = UITextField()
         let iconView = UIImageView()
+        let errorLabel = UILabel()
 
         iconContainer.addSubview(iconView)
-        self.addSubview(iconContainer)
-        self.addSubview(textField)
+        container.addSubview(iconContainer)
+        container.addSubview(textField)
+        self.addSubview(container)
+        self.addSubview(errorLabel)
 
-        constraintEqual(anchor: iconContainer.leftAnchor, toAnchor: self.leftAnchor)
-        constraintEqual(anchor: iconContainer.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: iconContainer.bottomAnchor, toAnchor: self.bottomAnchor)
+        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: container.bottomAnchor, toAnchor: errorLabel.topAnchor, constant: -10)
+        container.translatesAutoresizingMaskIntoConstraints = false
+
+        constraintEqual(anchor: errorLabel.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: errorLabel.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: errorLabel.bottomAnchor, toAnchor: self.bottomAnchor)
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        constraintEqual(anchor: iconContainer.leftAnchor, toAnchor: container.leftAnchor)
+        constraintEqual(anchor: iconContainer.topAnchor, toAnchor: container.topAnchor)
+        constraintEqual(anchor: iconContainer.bottomAnchor, toAnchor: container.bottomAnchor)
         constraintEqual(anchor: iconContainer.heightAnchor, toAnchor: iconContainer.widthAnchor)
         iconContainer.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: textField.leftAnchor, toAnchor: iconContainer.rightAnchor, constant: 16)
-        constraintEqual(anchor: textField.topAnchor, toAnchor: self.topAnchor, constant: 13)
-        constraintEqual(anchor: textField.rightAnchor, toAnchor: self.rightAnchor, constant: -16)
-        constraintEqual(anchor: textField.bottomAnchor, toAnchor: self.bottomAnchor, constant: -13)
+        constraintEqual(anchor: textField.topAnchor, toAnchor: container.topAnchor, constant: 13)
+        constraintEqual(anchor: textField.rightAnchor, toAnchor: container.rightAnchor, constant: -16)
+        constraintEqual(anchor: textField.bottomAnchor, toAnchor: container.bottomAnchor, constant: -13)
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: iconView.centerXAnchor, toAnchor: iconContainer.centerXAnchor)
@@ -113,26 +134,34 @@ public class InputField: UIView {
         iconContainer.backgroundColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
         iconView.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
         textField.addTarget(self, action: #selector(textChanged), forControlEvents: .EditingChanged)
+        errorLabel.textColor = .redColor()
+        errorLabel.text = nil
+        errorLabel.numberOfLines = 0
 
         self.textField = textField
         self.iconView = iconView
+        self.containerView = container
+        self.errorLabel = errorLabel
 
-        self.backgroundColor = .whiteColor()
-        self.layer.cornerRadius = 3.67
-        self.layer.masksToBounds = true
-        self.layer.borderWidth = 1
-        self.showError = false
+        self.containerView?.backgroundColor = .whiteColor()
+        self.containerView?.layer.cornerRadius = 3.67
+        self.containerView?.layer.masksToBounds = true
+        self.containerView?.layer.borderWidth = 1
         self.type = .Email
+        self.hideError()
     }
 
     public override func intrinsicContentSize() -> CGSize {
         return CGSize(width: 230, height: 49)
     }
 
+    // MARK:- Internal
+
     func textChanged(field: UITextField) {
         self.onTextChange(self)
     }
 
+    // MARK:- Types
     public enum Type {
         case Email
         case Username

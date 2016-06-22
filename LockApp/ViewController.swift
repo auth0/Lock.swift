@@ -61,7 +61,11 @@ class ViewController: UIViewController {
         field.type = .Password
         field.returnKey = .Go
         field.onTextChange = { field in
-            field.showError = true
+            if field.text?.isEmpty ?? false {
+                field.showError("Must not be empty!")
+            } else {
+                field.hideError()
+            }
         }
         self.view.addSubview(field)
 
