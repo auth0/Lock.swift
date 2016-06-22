@@ -113,8 +113,6 @@ public class Header: UIView {
         closeButton.setImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
         closeButton.addTarget(self, action: #selector(closePressed), forControlEvents: .TouchUpInside)
 
-        self.layoutIfNeeded()
-
         self.titleView = titleView
         self.logoView = logoView
         self.closeButton = closeButton

@@ -33,6 +33,18 @@ func image(named name: String, compatibleWithTraitCollection traitCollection: UI
     return UIImage(named: name, inBundle: bundle, compatibleWithTraitCollection: traitCollection)
 }
 
+func image(withColor color: UIColor) -> UIImage {
+    let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
+    UIGraphicsBeginImageContext(rect.size)
+    let context = UIGraphicsGetCurrentContext()
+    CGContextSetFillColorWithColor(context, color.CGColor)
+
+    CGContextFillRect(context, rect)
+    let image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return image
+}
+
 func lightSystemFont(size size: CGFloat) -> UIFont {
     return UIFont.systemFontOfSize(size, weight: UIFontWeightLight)
 }

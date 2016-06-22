@@ -28,6 +28,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         let header = Header()
         header.title = "Overmind"
         header.onClosePressed = {
@@ -40,6 +41,22 @@ class ViewController: UIViewController {
         header.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor).active = true
         header.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
         header.translatesAutoresizingMaskIntoConstraints = false
+
+        let button = SubmitButton()
+        button.onPress = { button in
+            button.inProgress = true
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue()) {
+                button.inProgress = false
+            }
+        }
+        self.view.addSubview(button)
+
+        button.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor).active = true
+        button.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
+        button.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+
         self.view.layoutIfNeeded()
     }
 
