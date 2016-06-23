@@ -152,7 +152,7 @@ public class InputField: UIView {
     }
 
     public override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: 230, height: 49)
+        return CGSize(width: 230, height: 50)
     }
 
     // MARK:- Internal
@@ -219,7 +219,7 @@ public class InputField: UIView {
             case .Username:
                 return .Default
             case .EmailOrUsername:
-                return .Default
+                return .EmailAddress
             case .Password:
                 return .Default
             case .Phone:

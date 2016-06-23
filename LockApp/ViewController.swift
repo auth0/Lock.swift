@@ -57,23 +57,6 @@ class ViewController: UIViewController {
         button.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
         button.translatesAutoresizingMaskIntoConstraints = false
 
-        let field = InputField()
-        field.type = .Password
-        field.returnKey = .Go
-        field.onTextChange = { field in
-            if field.text?.isEmpty ?? false {
-                field.showError("Must not be empty!")
-            } else {
-                field.hideError()
-            }
-        }
-        self.view.addSubview(field)
-
-        field.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor, constant: 20).active = true
-        field.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor, constant: -20).active = true
-        field.centerYAnchor.constraintEqualToAnchor(self.view.centerYAnchor).active = true
-        field.translatesAutoresizingMaskIntoConstraints = false
-
         let switcher = DatabaseModeSwitcher()
         switcher.selected = .Login
         switcher.onSelectionChange = { switcher in
@@ -94,6 +77,42 @@ class ViewController: UIViewController {
         secondaryButton.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor).active = true
         secondaryButton.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
         secondaryButton.translatesAutoresizingMaskIntoConstraints = false
+
+        let form = CredentialView()
+        form.onValueChange = { input in
+            switch input.type {
+            case .Email where !(input.text?.containsString("@") ?? false):
+                input.showError("Must supply an email!")
+            case .Password where input.text?.characters.count == 0:
+                input.showError("Must not be empty!")
+            default:
+                input.hideError()
+                print("Nothing to do")
+            }
+        }
+        let signupForm = SignUpView()
+        let centerGuide = UILayoutGuide()
+
+        self.view.addLayoutGuide(centerGuide)
+//        self.view.addSubview(form)
+        self.view.addSubview(signupForm)
+        signupForm.showUsername = true
+
+        centerGuide.topAnchor.constraintEqualToAnchor(switcher.bottomAnchor).active = true
+        centerGuide.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor, constant: 20).active = true
+        centerGuide.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor, constant: -20).active = true
+        centerGuide.bottomAnchor.constraintEqualToAnchor(secondaryButton.topAnchor).active = true
+
+//        form.leftAnchor.constraintEqualToAnchor(centerGuide.leftAnchor).active = true
+//        form.rightAnchor.constraintEqualToAnchor(centerGuide.rightAnchor).active = true
+//        form.centerYAnchor.constraintEqualToAnchor(centerGuide.centerYAnchor).active = true
+//        form.translatesAutoresizingMaskIntoConstraints = false
+
+        signupForm.leftAnchor.constraintEqualToAnchor(centerGuide.leftAnchor).active = true
+        signupForm.rightAnchor.constraintEqualToAnchor(centerGuide.rightAnchor).active = true
+        signupForm.centerYAnchor.constraintEqualToAnchor(centerGuide.centerYAnchor).active = true
+        signupForm.translatesAutoresizingMaskIntoConstraints = false
+
     }
 
 
