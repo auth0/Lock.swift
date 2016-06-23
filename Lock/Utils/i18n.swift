@@ -24,7 +24,7 @@ import Foundation
 
 private let TableName = "Lock"
 
-func i18n(key key: String, value: String? = nil, comment: String) -> String? {
+func i18n(key key: String, value: String? = nil, comment: String) -> String {
     let bundle = Lock.bundle
     if let value = value {
         return NSLocalizedString(key, tableName: TableName, bundle: bundle, value: value, comment: comment)

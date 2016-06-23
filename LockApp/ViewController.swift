@@ -74,14 +74,14 @@ class ViewController: UIViewController {
         field.centerYAnchor.constraintEqualToAnchor(self.view.centerYAnchor).active = true
         field.translatesAutoresizingMaskIntoConstraints = false
 
-        let segmentedControl = UISegmentedControl(items: ["LOG IN", "SIGN UP"])
-        self.view.addSubview(segmentedControl)
+        let switcher = DatabaseModeSwitcher()
+        switcher.selected = .Signup
+        self.view.addSubview(switcher)
 
-        segmentedControl.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor, constant: 20).active = true
-        segmentedControl.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor, constant: -20).active = true
-        segmentedControl.bottomAnchor.constraintEqualToAnchor(field.topAnchor, constant: -20).active = true
-        segmentedControl.heightAnchor.constraintEqualToConstant(38).active = true
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        switcher.topAnchor.constraintEqualToAnchor(header.bottomAnchor).active = true
+        switcher.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor, constant: 20).active = true
+        switcher.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor, constant: -20).active = true
+        switcher.translatesAutoresizingMaskIntoConstraints = false
     }
 
 

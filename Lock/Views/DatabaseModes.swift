@@ -1,4 +1,4 @@
-// Layout.swift
+// DatabaseModes.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,20 +22,19 @@
 
 import Foundation
 
-func constraintEqual<C: NSLayoutAnchor>(anchor anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil) -> NSLayoutConstraint {
-    let constraint: NSLayoutConstraint
-    if let value = constant {
-        constraint = anchor.constraintEqualToAnchor(anotherAnchor, constant: value)
-    } else {
-        constraint = anchor.constraintEqualToAnchor(anotherAnchor)
+public enum DatabaseModes: Int {
+    case Login = 0
+    case Signup
+    case ForgotPassword
+
+    var title: String {
+        switch self {
+        case .Login:
+            return i18n(key: "com.auth0.lock.database.mode.switcher.login", value: "LOG IN", comment: "Login Switch")
+        case .Signup:
+            return i18n(key: "com.auth0.lock.database.mode.switcher.signup", value: "SIGN UP", comment: "Signup Switch")
+        case .ForgotPassword:
+            return i18n(key: "com.auth0.lock.database.mode.switcher.forgot-password", value: "Don’t remember your password?", comment: "Forgot password")
+        }
     }
-    constraint.active = true
-    return constraint
-}
-
-
-func dimension(dimension: NSLayoutDimension, withValue value: CGFloat) -> NSLayoutConstraint {
-    let constraint = dimension.constraintEqualToConstant(value)
-    constraint.active = true
-    return constraint
 }
