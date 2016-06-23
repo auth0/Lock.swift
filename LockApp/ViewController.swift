@@ -85,6 +85,15 @@ class ViewController: UIViewController {
         switcher.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor, constant: 20).active = true
         switcher.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor, constant: -20).active = true
         switcher.translatesAutoresizingMaskIntoConstraints = false
+
+        let secondaryButton = SecondaryButton()
+        secondaryButton.title = DatabaseModes.ForgotPassword.title
+        self.view.addSubview(secondaryButton)
+
+        secondaryButton.bottomAnchor.constraintEqualToAnchor(button.topAnchor).active = true
+        secondaryButton.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor).active = true
+        secondaryButton.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
+        secondaryButton.translatesAutoresizingMaskIntoConstraints = false
     }
 
 

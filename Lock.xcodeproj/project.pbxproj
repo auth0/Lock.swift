@@ -22,6 +22,7 @@
 		5F99AA8E1D1B4BFA00D27842 /* Lock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FEAE1C61D1A5154005C0028 /* Lock.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5F99AA901D1B9E7100D27842 /* DatabaseModeSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA8F1D1B9E7100D27842 /* DatabaseModeSwitcher.swift */; };
 		5F99AA921D1BA5CA00D27842 /* DatabaseModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */; };
+		5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */; };
 		5FEADCEF1D1A76610032D810 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD21D1A7294003670A4 /* Auth0.framework */; };
 		5FEADCF71D1A7EBC0032D810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */; };
 		5FEADCF91D1A7EBC0032D810 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF81D1A7EBC0032D810 /* ViewController.swift */; };
@@ -86,6 +87,7 @@
 		5F99AA8B1D1B3F1300D27842 /* InputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		5F99AA8F1D1B9E7100D27842 /* DatabaseModeSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseModeSwitcher.swift; sourceTree = "<group>"; };
 		5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseModes.swift; sourceTree = "<group>"; };
+		5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		5FEADCF41D1A7EBC0032D810 /* LockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FEADCF81D1A7EBC0032D810 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				5F99AA891D1B360C00D27842 /* PrimaryButton.swift */,
 				5F99AA8F1D1B9E7100D27842 /* DatabaseModeSwitcher.swift */,
 				5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */,
+				5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */,
 				5F99AA901D1B9E7100D27842 /* DatabaseModeSwitcher.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
 				5F99AA8A1D1B360C00D27842 /* PrimaryButton.swift in Sources */,

@@ -27,7 +27,7 @@ public enum DatabaseModes: Int {
     case Signup
     case ForgotPassword
 
-    var title: String {
+    public var title: String {
         switch self {
         case .Login:
             return i18n(key: "com.auth0.lock.database.mode.switcher.login", value: "LOG IN", comment: "Login Switch")
