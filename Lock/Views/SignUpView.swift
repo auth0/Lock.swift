@@ -42,6 +42,7 @@ public class SignUpView: UIView {
     public var onValueChange: (InputField) -> () = {_ in} {
         didSet {
             self.emailField?.onTextChange = onValueChange
+            self.usernameField?.onTextChange = onValueChange
             self.passwordField?.onTextChange = onValueChange
         }
     }
@@ -107,7 +108,7 @@ public class SignUpView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         stackView.axis = .Vertical
-        stackView.spacing = 7
+        stackView.spacing = 4
         stackView.distribution = .EqualCentering
         stackView.alignment = .Fill
 

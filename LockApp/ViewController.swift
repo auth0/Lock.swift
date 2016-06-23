@@ -26,6 +26,10 @@ import Lock
 
 class ViewController: UIViewController {
 
+    var login: CredentialView?
+    var signup: SignUpView?
+    weak var guide: UILayoutGuide?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -59,8 +63,24 @@ class ViewController: UIViewController {
 
         let switcher = DatabaseModeSwitcher()
         switcher.selected = .Login
-        switcher.onSelectionChange = { switcher in
-            print("Mode: \(switcher.selected)")
+        switcher.onSelectionChange = { [weak self] switcher in
+            guard
+                let login = self?.login,
+                let signup = self?.signup,
+                let guide = self?.guide
+                else { return }
+            switch switcher.selected {
+            case .Login:
+                self?.view.addSubview(login)
+                self?.layout(view: login, withGuide: guide)
+                signup.removeFromSuperview()
+            case .Signup:
+                self?.view.addSubview(signup)
+                self?.layout(view: signup, withGuide: guide)
+                login.removeFromSuperview()
+            default:
+                print("Mode: \(switcher.selected)")
+            }
         }
         self.view.addSubview(switcher)
 
@@ -91,30 +111,29 @@ class ViewController: UIViewController {
             }
         }
         let signupForm = SignUpView()
+        signupForm.showUsername = true
         let centerGuide = UILayoutGuide()
 
         self.view.addLayoutGuide(centerGuide)
-//        self.view.addSubview(form)
-        self.view.addSubview(signupForm)
-        signupForm.showUsername = true
+        self.view.addSubview(form)
 
         centerGuide.topAnchor.constraintEqualToAnchor(switcher.bottomAnchor).active = true
         centerGuide.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor, constant: 20).active = true
         centerGuide.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor, constant: -20).active = true
         centerGuide.bottomAnchor.constraintEqualToAnchor(secondaryButton.topAnchor).active = true
 
-//        form.leftAnchor.constraintEqualToAnchor(centerGuide.leftAnchor).active = true
-//        form.rightAnchor.constraintEqualToAnchor(centerGuide.rightAnchor).active = true
-//        form.centerYAnchor.constraintEqualToAnchor(centerGuide.centerYAnchor).active = true
-//        form.translatesAutoresizingMaskIntoConstraints = false
-
-        signupForm.leftAnchor.constraintEqualToAnchor(centerGuide.leftAnchor).active = true
-        signupForm.rightAnchor.constraintEqualToAnchor(centerGuide.rightAnchor).active = true
-        signupForm.centerYAnchor.constraintEqualToAnchor(centerGuide.centerYAnchor).active = true
-        signupForm.translatesAutoresizingMaskIntoConstraints = false
-
+        layout(view: form, withGuide: centerGuide)
+        self.guide = centerGuide
+        self.signup = signupForm
+        self.login = form
     }
 
+    private func layout(view view: UIView, withGuide guide: UILayoutGuide) {
+        view.leftAnchor.constraintEqualToAnchor(guide.leftAnchor).active = true
+        view.rightAnchor.constraintEqualToAnchor(guide.rightAnchor).active = true
+        view.centerYAnchor.constraintEqualToAnchor(guide.centerYAnchor).active = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+    }
 
 }
 
