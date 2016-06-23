@@ -86,8 +86,8 @@ public class HeaderView: UIView {
         self.addSubview(logoView)
         self.addSubview(closeButton)
 
-        centerGuide.centerXAnchor.constraintEqualToAnchor(self.centerXAnchor).active = true
-        centerGuide.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
+        constraintEqual(anchor: centerGuide.centerYAnchor, toAnchor: self.centerYAnchor, constant: 10)
+        constraintEqual(anchor: centerGuide.centerXAnchor, toAnchor: self.centerXAnchor)
 
         constraintEqual(anchor: titleView.bottomAnchor, toAnchor: centerGuide.bottomAnchor)
         constraintEqual(anchor: titleView.leftAnchor, toAnchor: centerGuide.leftAnchor)
