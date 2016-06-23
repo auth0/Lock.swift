@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class Header: UIView {
+public class HeaderView: UIView {
 
     weak var logoView: UIImageView?
     weak var titleView: UILabel?
