@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         header.onClosePressed = {
             print("Close Pressed")
         }
-        header.showClose = false
+        header.showClose = true
         self.view.addSubview(header)
 
         header.topAnchor.constraintEqualToAnchor(self.view.topAnchor).active = true
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         header.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
         header.translatesAutoresizingMaskIntoConstraints = false
 
-        let button = SubmitButton()
+        let button = PrimaryButton()
         button.onPress = { button in
             button.inProgress = true
             let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
@@ -75,7 +75,7 @@ class ViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
 
         let switcher = DatabaseModeSwitcher()
-        switcher.selected = .Signup
+        switcher.selected = .Login
         switcher.onSelectionChange = { switcher in
             print("Mode: \(switcher.selected)")
         }

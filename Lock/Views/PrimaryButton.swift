@@ -1,4 +1,4 @@
-// SubmitButton.swift
+// PrimaryButton.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,12 +22,12 @@
 
 import UIKit
 
-public class SubmitButton: UIView {
+public class PrimaryButton: UIView {
 
     weak var button: UIButton?
     weak var indicator: UIActivityIndicatorView?
 
-    public var onPress: (SubmitButton) -> () = {_ in }
+    public var onPress: (PrimaryButton) -> () = {_ in }
 
     public var inProgress: Bool {
         get {
