@@ -76,6 +76,9 @@ class ViewController: UIViewController {
 
         let switcher = DatabaseModeSwitcher()
         switcher.selected = .Signup
+        switcher.onSelectionChange = { switcher in
+            print("Mode: \(switcher.selected)")
+        }
         self.view.addSubview(switcher)
 
         switcher.topAnchor.constraintEqualToAnchor(header.bottomAnchor).active = true

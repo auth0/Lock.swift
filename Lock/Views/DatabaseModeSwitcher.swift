@@ -26,6 +26,8 @@ public class DatabaseModeSwitcher: UIView {
 
     weak var segmentedControl: UISegmentedControl?
 
+    public var onSelectionChange: (DatabaseModeSwitcher) -> () = { _ in }
+
     public var selected: DatabaseModes {
         get {
             guard
@@ -71,6 +73,7 @@ public class DatabaseModeSwitcher: UIView {
         segmented.translatesAutoresizingMaskIntoConstraints = false
 
         segmented.tintColor = UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 1.0 )
+        segmented.addTarget(self, action: #selector(selectedIndex), forControlEvents: .ValueChanged)
 
         self.segmentedControl = segmented
 
@@ -79,5 +82,11 @@ public class DatabaseModeSwitcher: UIView {
 
     public override func intrinsicContentSize() -> CGSize {
         return CGSize(width: 280, height: 88)
+    }
+
+    // MARK:- Internal
+
+    func selectedIndex(sender: UISegmentedControl) {
+        self.onSelectionChange(self)
     }
 }
