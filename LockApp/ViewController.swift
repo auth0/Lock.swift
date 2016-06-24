@@ -26,9 +26,14 @@ import Lock
 
 class ViewController: UIViewController {
 
-    var login: CredentialView?
-    var signup: SignUpView?
+    weak var login: CredentialView?
+    weak var signup: SignUpView?
     weak var guide: UILayoutGuide?
+    weak var primaryButton: PrimaryButton?
+    weak var secondaryButton: SecondaryButton?
+    weak var header: HeaderView?
+    weak var switcher: DatabaseModeSwitcher?
+    weak var container: UIView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +50,36 @@ class ViewController: UIViewController {
         header.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor).active = true
         header.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
         header.translatesAutoresizingMaskIntoConstraints = false
+        self.header = header
 
+        let containerView = UIView()
+
+        self.view.addSubview(containerView)
+
+        containerView.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor).active = true
+        containerView.topAnchor.constraintEqualToAnchor(header.bottomAnchor).active = true
+        containerView.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
+        containerView.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+
+        self.layoutPrimaryButton(containerView)
+        self.layoutSwitcher(containerView)
+        self.layoutSecondaryButton(containerView)
+        self.layoutCenterGuide(containerView)
+
+        self.layoutLogin(containerView)
+
+        self.container = containerView
+    }
+
+    private func layout(view view: UIView, withGuide guide: UILayoutGuide) {
+        view.leftAnchor.constraintEqualToAnchor(guide.leftAnchor).active = true
+        view.rightAnchor.constraintEqualToAnchor(guide.rightAnchor).active = true
+        view.centerYAnchor.constraintEqualToAnchor(guide.centerYAnchor).active = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+    }
+
+    private func layoutPrimaryButton(containerView: UIView) {
         let button = PrimaryButton()
         button.onPress = { button in
             button.inProgress = true
@@ -54,50 +88,65 @@ class ViewController: UIViewController {
                 button.inProgress = false
             }
         }
-        self.view.addSubview(button)
+        containerView.addSubview(button)
 
-        button.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor).active = true
-        button.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
-        button.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
+        button.leftAnchor.constraintEqualToAnchor(containerView.leftAnchor).active = true
+        button.rightAnchor.constraintEqualToAnchor(containerView.rightAnchor).active = true
+        button.bottomAnchor.constraintEqualToAnchor(containerView.bottomAnchor).active = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        self.primaryButton = button
+    }
 
+    private func layoutSwitcher(containerView: UIView) {
         let switcher = DatabaseModeSwitcher()
         switcher.selected = .Login
         switcher.onSelectionChange = { [weak self] switcher in
-            guard
-                let login = self?.login,
-                let signup = self?.signup,
-                let guide = self?.guide
-                else { return }
+            guard let containerView = self?.container else { return }
             switch switcher.selected {
             case .Login:
-                self?.view.addSubview(login)
-                self?.layout(view: login, withGuide: guide)
-                signup.removeFromSuperview()
+                self?.layoutLogin(containerView)
+                self?.signup?.removeFromSuperview()
             case .Signup:
-                self?.view.addSubview(signup)
-                self?.layout(view: signup, withGuide: guide)
-                login.removeFromSuperview()
+                self?.layoutSignup(containerView)
+                self?.login?.removeFromSuperview()
             default:
                 print("Mode: \(switcher.selected)")
             }
         }
-        self.view.addSubview(switcher)
+        containerView.addSubview(switcher)
 
-        switcher.topAnchor.constraintEqualToAnchor(header.bottomAnchor).active = true
-        switcher.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor, constant: 20).active = true
-        switcher.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor, constant: -20).active = true
+        switcher.topAnchor.constraintEqualToAnchor(containerView.topAnchor).active = true
+        switcher.leftAnchor.constraintEqualToAnchor(containerView.leftAnchor, constant: 20).active = true
+        switcher.rightAnchor.constraintEqualToAnchor(containerView.rightAnchor, constant: -20).active = true
         switcher.translatesAutoresizingMaskIntoConstraints = false
 
+        self.switcher = switcher
+    }
+
+    private func layoutSecondaryButton(containerView: UIView) {
         let secondaryButton = SecondaryButton()
         secondaryButton.title = DatabaseModes.ForgotPassword.title
-        self.view.addSubview(secondaryButton)
+        containerView.addSubview(secondaryButton)
 
-        secondaryButton.bottomAnchor.constraintEqualToAnchor(button.topAnchor).active = true
-        secondaryButton.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor).active = true
-        secondaryButton.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
+        secondaryButton.bottomAnchor.constraintEqualToAnchor(self.primaryButton?.topAnchor ?? self.view.topAnchor).active = true
+        secondaryButton.leftAnchor.constraintEqualToAnchor(containerView.leftAnchor).active = true
+        secondaryButton.rightAnchor.constraintEqualToAnchor(containerView.rightAnchor).active = true
         secondaryButton.translatesAutoresizingMaskIntoConstraints = false
+        self.secondaryButton = secondaryButton
+    }
 
+    private func layoutCenterGuide(containerView: UIView) {
+        let centerGuide = UILayoutGuide()
+
+        containerView.addLayoutGuide(centerGuide)
+        centerGuide.topAnchor.constraintEqualToAnchor(self.switcher?.bottomAnchor ?? self.header?.bottomAnchor).active = true
+        centerGuide.leftAnchor.constraintEqualToAnchor(containerView.leftAnchor, constant: 20).active = true
+        centerGuide.rightAnchor.constraintEqualToAnchor(containerView.rightAnchor, constant: -20).active = true
+        centerGuide.bottomAnchor.constraintEqualToAnchor(self.secondaryButton?.topAnchor ?? self.primaryButton?.topAnchor).active = true
+        self.guide = centerGuide
+    }
+
+    private func layoutLogin(containerView: UIView) {
         let form = CredentialView()
         form.onValueChange = { input in
             switch input.type {
@@ -110,30 +159,30 @@ class ViewController: UIViewController {
                 print("Nothing to do")
             }
         }
-        let signupForm = SignUpView()
-        signupForm.showUsername = true
-        let centerGuide = UILayoutGuide()
-
-        self.view.addLayoutGuide(centerGuide)
-        self.view.addSubview(form)
-
-        centerGuide.topAnchor.constraintEqualToAnchor(switcher.bottomAnchor).active = true
-        centerGuide.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor, constant: 20).active = true
-        centerGuide.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor, constant: -20).active = true
-        centerGuide.bottomAnchor.constraintEqualToAnchor(secondaryButton.topAnchor).active = true
-
-        layout(view: form, withGuide: centerGuide)
-        self.guide = centerGuide
-        self.signup = signupForm
+        containerView.addSubview(form)
+        layout(view: form, withGuide: self.guide!) //FIME:
         self.login = form
     }
 
-    private func layout(view view: UIView, withGuide guide: UILayoutGuide) {
-        view.leftAnchor.constraintEqualToAnchor(guide.leftAnchor).active = true
-        view.rightAnchor.constraintEqualToAnchor(guide.rightAnchor).active = true
-        view.centerYAnchor.constraintEqualToAnchor(guide.centerYAnchor).active = true
-        view.translatesAutoresizingMaskIntoConstraints = false
+    private func layoutSignup(containerView: UIView) {
+        let signupForm = SignUpView()
+        signupForm.showUsername = true
+        signupForm.onValueChange = { input in
+            switch input.type {
+            case .Email where !(input.text?.containsString("@") ?? false):
+                input.showError("Must supply an email!")
+            case .Password where input.text?.characters.count == 0:
+                input.showError("Must not be empty!")
+            case .Username where input.text?.characters.count == 0:
+                input.showError("Must not be empty!")
+            default:
+                input.hideError()
+                print("Nothing to do")
+            }
+        }
+        containerView.addSubview(signupForm)
+        layout(view: signupForm, withGuide: self.guide!) //FIME:
+        self.signup = signupForm
     }
-
 }
 

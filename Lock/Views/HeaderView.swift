@@ -27,6 +27,7 @@ public class HeaderView: UIView {
     weak var logoView: UIImageView?
     weak var titleView: UILabel?
     weak var closeButton: UIButton?
+    weak var backButton: UIButton?
 
     public var onClosePressed: () -> () = {}
 
@@ -36,6 +37,17 @@ public class HeaderView: UIView {
         }
         set {
             self.closeButton?.hidden = !newValue
+        }
+    }
+
+    public var onBackPressed: () -> () = {}
+
+    public var showBack: Bool {
+        get {
+            return !(self.backButton?.hidden ?? true)
+        }
+        set {
+            self.backButton?.hidden = !newValue
         }
     }
 
@@ -79,12 +91,14 @@ public class HeaderView: UIView {
         let titleView = UILabel()
         let logoView = UIImageView()
         let closeButton = UIButton(type: .System)
+        let backButton = UIButton(type: .System)
         let centerGuide = UILayoutGuide()
 
         self.addLayoutGuide(centerGuide)
         self.addSubview(titleView)
         self.addSubview(logoView)
         self.addSubview(closeButton)
+        self.addSubview(backButton)
 
         constraintEqual(anchor: centerGuide.centerYAnchor, toAnchor: self.centerYAnchor, constant: 10)
         constraintEqual(anchor: centerGuide.centerXAnchor, toAnchor: self.centerXAnchor)
@@ -101,28 +115,45 @@ public class HeaderView: UIView {
         constraintEqual(anchor: logoView.topAnchor, toAnchor: centerGuide.topAnchor)
         logoView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: self.topAnchor, constant: 32)
+        constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
         constraintEqual(anchor: closeButton.rightAnchor, toAnchor: self.rightAnchor)
         closeButton.widthAnchor.constraintEqualToConstant(50).active = true
         closeButton.heightAnchor.constraintEqualToConstant(50).active = true
         closeButton.translatesAutoresizingMaskIntoConstraints = false
 
+        constraintEqual(anchor: backButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
+        constraintEqual(anchor: backButton.leftAnchor, toAnchor: self.leftAnchor)
+        backButton.widthAnchor.constraintEqualToConstant(50).active = true
+        backButton.heightAnchor.constraintEqualToConstant(50).active = true
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+
         titleView.text = i18n(key: "com.auth0.lock.header.default-title", value: "Lock", comment: "Header Title")
         titleView.font = regularSystemFont(size: 20)
         logoView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)
         closeButton.setImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
-        closeButton.addTarget(self, action: #selector(closePressed), forControlEvents: .TouchUpInside)
+        closeButton.addTarget(self, action: #selector(buttonPressed), forControlEvents: .TouchUpInside)
+        backButton.setImage(image(named: "ic_back", compatibleWithTraitCollection: self.traitCollection)?.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+        backButton.addTarget(self, action: #selector(buttonPressed), forControlEvents: .TouchUpInside)
 
         self.titleView = titleView
         self.logoView = logoView
         self.closeButton = closeButton
+        self.backButton = backButton
+
+        self.showBack = false
     }
 
     public override func intrinsicContentSize() -> CGSize {
         return CGSize(width: 200, height: 154)
     }
 
-    func closePressed(sender: AnyObject) {
-        self.onClosePressed()
+    func buttonPressed(sender: UIButton) {
+        if sender == self.backButton {
+            self.onBackPressed()
+        }
+
+        if sender == self.closeButton {
+            self.onClosePressed()
+        }
     }
 }
