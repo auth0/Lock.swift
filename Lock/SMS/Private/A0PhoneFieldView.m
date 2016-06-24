@@ -76,7 +76,7 @@
 }
 
 - (void)setupViews {
-    self.type = A0CredentialFieldViewEmail;
+    self.type = A0CredentialFieldViewPhoneNumber;
     self.returnKeyType = UIReturnKeyNext;
     A0Theme *theme = [A0Theme sharedInstance];
     self.iconImageView.tintColor = [theme colorForKey:A0ThemeTextFieldIconColor];
