@@ -72,6 +72,11 @@ class ViewController: UIViewController {
         self.layoutMainScreen(containerView)
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.presentViewController(LockViewController(), animated: true, completion: nil)
+    }
+
     private func layoutMainScreen(containerView: UIView) {
         self.layoutPrimaryButton(containerView)
         self.layoutSwitcher(containerView)
