@@ -24,31 +24,13 @@ import UIKit
 
 public class CredentialView: UIView {
 
-    weak var identityField: InputField?
-    weak var passwordField: InputField?
+    public var identityField: InputField
+    public var passwordField: InputField
 
     public var onValueChange: (InputField) -> () = {_ in} {
         didSet {
-            self.identityField?.onTextChange = onValueChange
-            self.passwordField?.onTextChange = onValueChange
-        }
-    }
-
-    public var identifier: String? {
-        get {
-            return self.identityField?.text
-        }
-        set {
-            self.identityField?.text = newValue
-        }
-    }
-
-    public var password: String? {
-        get {
-            return self.passwordField?.text
-        }
-        set {
-            self.passwordField?.text = newValue
+            self.identityField.onTextChange = onValueChange
+            self.passwordField.onTextChange = onValueChange
         }
     }
 
@@ -59,11 +41,15 @@ public class CredentialView: UIView {
     }
 
     required override public init(frame: CGRect) {
+        self.identityField = InputField()
+        self.passwordField = InputField()
         super.init(frame: frame)
         self.layoutForm()
     }
 
     public required init?(coder aDecoder: NSCoder) {
+        self.identityField = InputField()
+        self.passwordField = InputField()
         super.init(coder: aDecoder)
         self.layoutForm()
     }
@@ -72,8 +58,8 @@ public class CredentialView: UIView {
 
     private func layoutForm() {
 
-        let identifier = InputField()
-        let password = InputField()
+        let identifier = self.identityField
+        let password = self.passwordField
 
         self.addSubview(identifier)
         self.addSubview(password)
@@ -91,8 +77,5 @@ public class CredentialView: UIView {
 
         identifier.type = .Email
         password.type = .Password
-
-        self.identityField = identifier
-        self.passwordField = password
     }
 }

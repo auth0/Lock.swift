@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5F51EE681D1C88FC0024BCD6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */; };
+		5F51EE6A1D1CBC830024BCD6 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE691D1CBC830024BCD6 /* ForgotPasswordView.swift */; };
 		5F814FD51D1A72A6003670A4 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; };
 		5F814FD61D1A72A6003670A4 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD11D1A7294003670A4 /* Nimble.framework */; };
 		5F814FD71D1A72A6003670A4 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */; };
@@ -76,6 +77,7 @@
 
 /* Begin PBXFileReference section */
 		5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		5F51EE691D1CBC830024BCD6 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		5F814FD01D1A7294003670A4 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		5F814FD11D1A7294003670A4 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		5F814FD21D1A7294003670A4 /* Auth0.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Auth0.framework; path = Carthage/Build/iOS/Auth0.framework; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */,
 				5F99AA951D1C4AF400D27842 /* CredentialView.swift */,
 				5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */,
+				5F51EE691D1CBC830024BCD6 /* ForgotPasswordView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				5F99AA921D1BA5CA00D27842 /* DatabaseModes.swift in Sources */,
 				5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */,
 				5F99AA8C1D1B3F1300D27842 /* InputField.swift in Sources */,
+				5F51EE6A1D1CBC830024BCD6 /* ForgotPasswordView.swift in Sources */,
 				5F99AA881D1B0E2500D27842 /* Layout.swift in Sources */,
 				5F99AA841D1B0BCE00D27842 /* Lock.swift in Sources */,
 				5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */,

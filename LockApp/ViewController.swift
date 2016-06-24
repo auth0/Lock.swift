@@ -43,6 +43,12 @@ class ViewController: UIViewController {
         header.onClosePressed = {
             print("Close Pressed")
         }
+        header.onBackPressed = { [weak self] in
+            guard let container = self?.container else { return }
+            self?.header?.showBack = false
+            self?.cleanContainer()
+            self?.layoutMainScreen(container)
+        }
         header.showClose = true
         self.view.addSubview(header)
 
@@ -61,15 +67,18 @@ class ViewController: UIViewController {
         containerView.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
         containerView.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
         containerView.translatesAutoresizingMaskIntoConstraints = false
+        self.container = containerView
 
+        self.layoutMainScreen(containerView)
+    }
+
+    private func layoutMainScreen(containerView: UIView) {
         self.layoutPrimaryButton(containerView)
         self.layoutSwitcher(containerView)
         self.layoutSecondaryButton(containerView)
         self.layoutCenterGuide(containerView)
 
         self.layoutLogin(containerView)
-
-        self.container = containerView
     }
 
     private func layout(view view: UIView, withGuide guide: UILayoutGuide) {
@@ -126,6 +135,16 @@ class ViewController: UIViewController {
     private func layoutSecondaryButton(containerView: UIView) {
         let secondaryButton = SecondaryButton()
         secondaryButton.title = DatabaseModes.ForgotPassword.title
+        secondaryButton.onPress = { [weak self] _ in
+            guard let container = self?.container else { return }
+            self?.cleanContainer()
+            self?.layoutPrimaryButton(container)
+            let forgot = ForgotPasswordView()
+            container.addSubview(forgot)
+            let guide = self!.layoutCenterGuide(container)
+            self?.layout(view: forgot, withGuide: guide)
+            self?.header?.showBack = true
+        }
         containerView.addSubview(secondaryButton)
 
         secondaryButton.bottomAnchor.constraintEqualToAnchor(self.primaryButton?.topAnchor ?? self.view.topAnchor).active = true
@@ -135,7 +154,7 @@ class ViewController: UIViewController {
         self.secondaryButton = secondaryButton
     }
 
-    private func layoutCenterGuide(containerView: UIView) {
+    private func layoutCenterGuide(containerView: UIView) -> UILayoutGuide {
         let centerGuide = UILayoutGuide()
 
         containerView.addLayoutGuide(centerGuide)
@@ -144,6 +163,7 @@ class ViewController: UIViewController {
         centerGuide.rightAnchor.constraintEqualToAnchor(containerView.rightAnchor, constant: -20).active = true
         centerGuide.bottomAnchor.constraintEqualToAnchor(self.secondaryButton?.topAnchor ?? self.primaryButton?.topAnchor).active = true
         self.guide = centerGuide
+        return centerGuide
     }
 
     private func layoutLogin(containerView: UIView) {
@@ -183,6 +203,15 @@ class ViewController: UIViewController {
         containerView.addSubview(signupForm)
         layout(view: signupForm, withGuide: self.guide!) //FIME:
         self.signup = signupForm
+    }
+
+    private func cleanContainer() {
+        self.container?.subviews.forEach { $0.removeFromSuperview() }
+        let guides = container?.layoutGuides
+        guides?.forEach { container?.removeLayoutGuide($0) }
+        self.switcher = nil
+        self.secondaryButton = nil
+        self.primaryButton = nil
     }
 }
 

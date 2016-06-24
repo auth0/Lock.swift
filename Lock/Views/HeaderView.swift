@@ -127,7 +127,7 @@ public class HeaderView: UIView {
         backButton.heightAnchor.constraintEqualToConstant(50).active = true
         backButton.translatesAutoresizingMaskIntoConstraints = false
 
-        titleView.text = i18n(key: "com.auth0.lock.header.default-title", value: "Lock", comment: "Header Title")
+        titleView.text = "Auth0".i18n(key: "com.auth0.lock.header.default-title", comment: "Header Title")
         titleView.font = regularSystemFont(size: 20)
         logoView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)
         closeButton.setImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)

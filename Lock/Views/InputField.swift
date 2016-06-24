@@ -173,17 +173,17 @@ public class InputField: UIView {
         var placeholder: String? {
             switch self {
             case .Email:
-                return i18n(key: "com.auth0.lock.input.placeholder.email", value: "Email", comment: "Email placeholder")
+                return "Email".i18n(key: "com.auth0.lock.input.placeholder.email", comment: "Email placeholder")
             case .Username:
-                return i18n(key: "com.auth0.lock.input.placeholder.username", value: "Username", comment: "Email placeholder")
+                return "Username".i18n(key: "com.auth0.lock.input.placeholder.username", comment: "Email placeholder")
             case .EmailOrUsername:
-                return i18n(key: "com.auth0.lock.input.placeholder.email-username", value: "Username/Email", comment: "Username or Email placeholder")
+                return "Username/Email".i18n(key: "com.auth0.lock.input.placeholder.email-username", comment: "Username or Email placeholder")
             case .Password:
-                return i18n(key: "com.auth0.lock.input.placeholder.password", value: "Password", comment: "Password placeholder")
+                return "Password".i18n(key: "com.auth0.lock.input.placeholder.password", comment: "Password placeholder")
             case .Phone:
-                return i18n(key: "com.auth0.lock.input.placeholder.phone", value: "Phone Number", comment: "Phone placeholder")
+                return "Phone Number".i18n(key: "com.auth0.lock.input.placeholder.phone", comment: "Phone placeholder")
             case .OneTimePassword:
-                return i18n(key: "com.auth0.lock.input.placeholder.otp", value: "Code", comment: "OTP placeholder")
+                return "Code".i18n(key: "com.auth0.lock.input.placeholder.otp", comment: "OTP placeholder")
             }
         }
 

@@ -30,11 +30,11 @@ public enum DatabaseModes: Int {
     public var title: String {
         switch self {
         case .Login:
-            return i18n(key: "com.auth0.lock.database.mode.switcher.login", value: "LOG IN", comment: "Login Switch")
+            return "LOG IN".i18n(key: "com.auth0.lock.database.mode.switcher.login", comment: "Login Switch")
         case .Signup:
-            return i18n(key: "com.auth0.lock.database.mode.switcher.signup", value: "SIGN UP", comment: "Signup Switch")
+            return "SIGN UP".i18n(key: "com.auth0.lock.database.mode.switcher.signup", comment: "Signup Switch")
         case .ForgotPassword:
-            return i18n(key: "com.auth0.lock.database.mode.switcher.forgot-password", value: "Don’t remember your password?", comment: "Forgot password")
+            return "Don’t remember your password?".i18n(key: "com.auth0.lock.database.mode.switcher.forgot-password", comment: "Forgot password")
         }
     }
 }

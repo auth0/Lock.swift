@@ -24,10 +24,9 @@ import Foundation
 
 private let TableName = "Lock"
 
-func i18n(key key: String, value: String? = nil, comment: String) -> String {
-    let bundle = Lock.bundle
-    if let value = value {
-        return NSLocalizedString(key, tableName: TableName, bundle: bundle, value: value, comment: comment)
+extension String {
+    func i18n(key key: String, comment: String) -> String {
+        let bundle = Lock.bundle
+        return NSLocalizedString(key, tableName: TableName, bundle: bundle, value: self, comment: comment)
     }
-    return NSLocalizedString(key, tableName: TableName, bundle: bundle, comment: comment)
 }
