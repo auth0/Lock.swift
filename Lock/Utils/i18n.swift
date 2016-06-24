@@ -1,4 +1,4 @@
-// Lock.h
+// i18n.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,14 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+import Foundation
 
-//! Project version number for Lock.
-FOUNDATION_EXPORT double LockVersionNumber;
+private let TableName = "Lock"
 
-//! Project version string for Lock.
-FOUNDATION_EXPORT const unsigned char LockVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <Lock/PublicHeader.h>
-
-
+extension String {
+    func i18n(key key: String, comment: String) -> String {
+        let bundle = Lock.bundle
+        return NSLocalizedString(key, tableName: TableName, bundle: bundle, value: self, comment: comment)
+    }
+}

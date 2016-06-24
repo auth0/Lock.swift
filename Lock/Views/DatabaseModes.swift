@@ -1,4 +1,4 @@
-// Lock.h
+// DatabaseModes.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,14 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+import Foundation
 
-//! Project version number for Lock.
-FOUNDATION_EXPORT double LockVersionNumber;
+public enum DatabaseModes: Int {
+    case Login = 0
+    case Signup
+    case ForgotPassword
 
-//! Project version string for Lock.
-FOUNDATION_EXPORT const unsigned char LockVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <Lock/PublicHeader.h>
-
-
+    public var title: String {
+        switch self {
+        case .Login:
+            return "LOG IN".i18n(key: "com.auth0.lock.database.mode.switcher.login", comment: "Login Switch")
+        case .Signup:
+            return "SIGN UP".i18n(key: "com.auth0.lock.database.mode.switcher.signup", comment: "Signup Switch")
+        case .ForgotPassword:
+            return "Don’t remember your password?".i18n(key: "com.auth0.lock.database.mode.switcher.forgot-password", comment: "Forgot password")
+        }
+    }
+}

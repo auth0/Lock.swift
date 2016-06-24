@@ -1,0 +1,5 @@
+app_identifier "com.auth0.Lock" # The bundle identifier of your app
+apple_id "mobile@auth0.com" # Your Apple email address
+
+team_name "Auth0 Inc"
+team_id "86WQXF56BC"

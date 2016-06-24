@@ -1,0 +1,16 @@
+fastlane_version "1.95.0"
+
+default_platform :ios
+
+platform :ios do
+
+  private_lane :dependencies do
+    carthage(platform: "iOS", use_binaries: false, platform: "iOS")
+  end
+
+  lane :bootstrap do
+    dependencies()
+    match(git_url: "git@github.com:auth0/apple-certificates.git", type: "development")
+  end
+
+end
