@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import UIKit
+import Auth0
 
 public class LockViewController: UIViewController {
 
@@ -51,7 +52,10 @@ public class LockViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        let presenter = DatabasePresenter()
+        Auth0.using(inLibrary: "Lock.swift", version: "2.0.0-alpha.1")
+        let authentication = Auth0.authentication()
+        let interactor = DatabaseInteractor(authentication: authentication)
+        let presenter = DatabasePresenter(interactor: interactor)
         let view = presenter.view
         view.layout(inView: self.view, below: self.headerView)
     }

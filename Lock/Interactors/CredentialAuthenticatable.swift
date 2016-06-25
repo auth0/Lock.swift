@@ -1,4 +1,4 @@
-// View.swift
+// CredentialAuthenticatable.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,19 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import UIKit
+import Foundation
 
-protocol View {
-    func layout(inView root: UIView, below view: UIView)
+protocol CredentialAuthenticatable {
+    var email: String? { get }
+    var username: String? { get }
+    var password: String? { get }
+
+    mutating func update(attribute: CredentialAttribute, value: String?) throws
+
+    func login(callback: (AuthenticatableError?) -> ())
 }
 
-extension View where Self: UIView {
-    func layout(inView root: UIView, below view: UIView) {
-        root.addSubview(self)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        constraintEqual(anchor: self.leftAnchor, toAnchor: root.leftAnchor)
-        constraintEqual(anchor: self.topAnchor, toAnchor: view.bottomAnchor)
-        constraintEqual(anchor: self.rightAnchor, toAnchor: root.rightAnchor)
-        constraintEqual(anchor: self.bottomAnchor, toAnchor: root.bottomAnchor)
-    }
+enum AuthenticatableError: ErrorType {
+    case NonValidInput
+    case CouldNotLogin
+}
+
+enum CredentialAttribute {
+    case Email
+    case Username
+    case Password
 }

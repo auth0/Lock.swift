@@ -23,7 +23,7 @@
 import Foundation
 import Auth0
 
-struct DatabaseInteractor {
+struct DatabaseInteractor: CredentialAuthenticatable {
 
     private(set) var email: String? = nil
     private(set) var username: String? = nil
@@ -39,7 +39,7 @@ struct DatabaseInteractor {
         self.authentication = authentication
     }
 
-    mutating func update(attribute: Attribute, value: String) throws {
+    mutating func update(attribute: CredentialAttribute, value: String?) throws {
         switch attribute {
         case .Email:
             self.email = value
@@ -50,7 +50,7 @@ struct DatabaseInteractor {
         }
     }
 
-    func login(callback: (Error?) -> ()) {
+    func login(callback: (AuthenticatableError?) -> ()) {
         guard
             let identifier = self.email ?? self.username,
             let password = self.password
@@ -58,22 +58,11 @@ struct DatabaseInteractor {
         self.authentication
             .login(usernameOrEmail: identifier, password: password, connection: "Username-Password-Authentication")
             .start { result in
-                var error: Error? = nil
+                var error: AuthenticatableError? = nil
                 if case .Failure = result {
                     error = .CouldNotLogin
                 }
                 callback(error)
             }
-    }
-
-    enum Error: ErrorType {
-        case NonValidInput
-        case CouldNotLogin
-    }
-
-    enum Attribute {
-        case Email
-        case Username
-        case Password
     }
 }

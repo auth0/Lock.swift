@@ -1,4 +1,4 @@
-// DatabasePresenter.swift
+// View.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,35 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import UIKit
 
-struct DatabasePresenter {
+protocol View {
+    func layout(inView root: UIView, below view: UIView)
+}
 
-    var view: DatabaseView {
-        let database = DatabaseView()
-        database.showLogin()
-        database.form?.onValueChange = { input in
-            print("new value: \(input.text) for type: \(input.type)")
-        }
-        database.primaryButton?.onPress = { button in
-            print("perform login")
-        }
-        database.secondaryButton?.title = DatabaseModes.ForgotPassword.title
-        database.secondaryButton?.onPress = { button in
-            print("show forgot pwd")
-        }
-        database.switcher?.onSelectionChange = { [weak database] switcher in
-            let selected = switcher.selected
-            print("selected \(selected)")
-            switch selected {
-            case .Signup:
-                database?.showSignUp()
-            case .Login:
-                database?.showLogin()
-            default:
-                print("invalid db mode")
-            }
-        }
-        return database
+extension View where Self: UIView {
+    func layout(inView root: UIView, below view: UIView) {
+        root.addSubview(self)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        constraintEqual(anchor: self.leftAnchor, toAnchor: root.leftAnchor)
+        constraintEqual(anchor: self.topAnchor, toAnchor: view.bottomAnchor)
+        constraintEqual(anchor: self.rightAnchor, toAnchor: root.rightAnchor)
+        constraintEqual(anchor: self.bottomAnchor, toAnchor: root.bottomAnchor)
     }
+}
+
+protocol DatabaseView: View {
+    weak var form: Form? { get }
+    weak var secondaryButton: SecondaryButton? { get }
+    weak var primaryButton: PrimaryButton? { get }
+    weak var switcher: DatabaseModeSwitcher? { get }
+
+    func showLogin()
+    func showSignUp()
 }

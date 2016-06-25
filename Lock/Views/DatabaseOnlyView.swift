@@ -1,4 +1,4 @@
-// DatabaseView.swift
+// DatabaseOnlyView.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,7 +22,7 @@
 
 import UIKit
 
-class DatabaseView: UIView, View {
+class DatabaseOnlyView: UIView, DatabaseView {
 
     weak var form: Form?
     weak var secondaryButton: SecondaryButton?
@@ -67,20 +67,21 @@ class DatabaseView: UIView, View {
 
     func showLogin() {
         let form = CredentialView()
-        if let current = self.form as? UIView {
-            current.removeFromSuperview()
-        }
+        layoutInStack(form)
         self.form = form
-        self.container?.insertArrangedSubview(form, atIndex: 1)
     }
 
     func showSignUp() {
         let form = SignUpView()
+        layoutInStack(form)
+        self.form = form
+    }
+
+    private func layoutInStack(view: UIView) {
         if let current = self.form as? UIView {
             current.removeFromSuperview()
         }
-        self.form = form
-        self.container?.insertArrangedSubview(form, atIndex: 1)
+        self.container?.insertArrangedSubview(view, atIndex: 1)
     }
 
     required init?(coder aDecoder: NSCoder) {
