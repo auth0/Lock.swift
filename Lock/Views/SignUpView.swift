@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class SignUpView: UIView {
+public class SignUpView: UIView, Form {
     public var emailField: InputField
     public var passwordField: InputField
     public weak var usernameField: InputField?

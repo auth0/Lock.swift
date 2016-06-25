@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class CredentialView: UIView {
+public class CredentialView: UIView, Form {
 
     public var identityField: InputField
     public var passwordField: InputField

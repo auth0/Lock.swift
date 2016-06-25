@@ -1,4 +1,4 @@
-// LockViewController.swift
+// View.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,38 +22,17 @@
 
 import UIKit
 
-public class LockViewController: UIViewController {
+protocol View {
+    func layout(inView root: UIView, below view: UIView)
+}
 
-    weak var headerView: HeaderView!
-
-    public required init() {
-        super.init(nibName: nil, bundle: nil)
+extension View where Self: UIView {
+    func layout(inView root: UIView, below view: UIView) {
+        root.addSubview(self)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        constraintEqual(anchor: self.leftAnchor, toAnchor: root.leftAnchor)
+        constraintEqual(anchor: self.topAnchor, toAnchor: view.bottomAnchor)
+        constraintEqual(anchor: self.rightAnchor, toAnchor: root.rightAnchor)
+        constraintEqual(anchor: self.bottomAnchor, toAnchor: root.bottomAnchor)
     }
-
-    public required convenience init?(coder aDecoder: NSCoder) {
-        self.init()
-    }
-
-    public override func loadView() {
-        let root = UIView()
-        root.backgroundColor = .whiteColor()
-        self.view = root
-
-        let header = HeaderView()
-        root.addSubview(header)
-        constraintEqual(anchor: header.leftAnchor, toAnchor: root.leftAnchor)
-        constraintEqual(anchor: header.topAnchor, toAnchor: root.topAnchor)
-        constraintEqual(anchor: header.rightAnchor, toAnchor: root.rightAnchor)
-        header.translatesAutoresizingMaskIntoConstraints = false
-
-        self.headerView = header
-    }
-
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        let presenter = DatabasePresenter()
-        let view = presenter.view
-        view.layout(inView: self.view, below: self.headerView)
-    }
-
 }

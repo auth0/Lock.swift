@@ -1,4 +1,4 @@
-// LockViewController.swift
+// Constants.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,40 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import UIKit
+import Foundation
 
-public class LockViewController: UIViewController {
+let clientId = "CLIENT_ID"
+let domain = "samples.auth0.com"
 
-    weak var headerView: HeaderView!
-
-    public required init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    public required convenience init?(coder aDecoder: NSCoder) {
-        self.init()
-    }
-
-    public override func loadView() {
-        let root = UIView()
-        root.backgroundColor = .whiteColor()
-        self.view = root
-
-        let header = HeaderView()
-        root.addSubview(header)
-        constraintEqual(anchor: header.leftAnchor, toAnchor: root.leftAnchor)
-        constraintEqual(anchor: header.topAnchor, toAnchor: root.topAnchor)
-        constraintEqual(anchor: header.rightAnchor, toAnchor: root.rightAnchor)
-        header.translatesAutoresizingMaskIntoConstraints = false
-
-        self.headerView = header
-    }
-
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        let presenter = DatabasePresenter()
-        let view = presenter.view
-        view.layout(inView: self.view, below: self.headerView)
-    }
-
-}
+let email = "info@auth0.com"
+let password = "a long secure password"
+let username = "auth0"
+let connection = "Username-Password-Authentication"

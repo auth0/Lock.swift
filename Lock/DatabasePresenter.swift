@@ -1,4 +1,4 @@
-// LockViewController.swift
+// DatabasePresenter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,40 +20,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import UIKit
+import Foundation
 
-public class LockViewController: UIViewController {
+struct DatabasePresenter {
 
-    weak var headerView: HeaderView!
-
-    public required init() {
-        super.init(nibName: nil, bundle: nil)
+    var view: DatabaseView {
+        let database = DatabaseView()
+        database.showLogin()
+        database.form?.onValueChange = { input in
+            print("new value: \(input.text) for type: \(input.type)")
+        }
+        database.primaryButton?.onPress = { button in
+            print("perform login")
+        }
+        database.secondaryButton?.title = DatabaseModes.ForgotPassword.title
+        database.secondaryButton?.onPress = { button in
+            print("show forgot pwd")
+        }
+        database.switcher?.onSelectionChange = { [weak database] switcher in
+            let selected = switcher.selected
+            print("selected \(selected)")
+            switch selected {
+            case .Signup:
+                database?.showSignUp()
+            case .Login:
+                database?.showLogin()
+            default:
+                print("invalid db mode")
+            }
+        }
+        return database
     }
-
-    public required convenience init?(coder aDecoder: NSCoder) {
-        self.init()
-    }
-
-    public override func loadView() {
-        let root = UIView()
-        root.backgroundColor = .whiteColor()
-        self.view = root
-
-        let header = HeaderView()
-        root.addSubview(header)
-        constraintEqual(anchor: header.leftAnchor, toAnchor: root.leftAnchor)
-        constraintEqual(anchor: header.topAnchor, toAnchor: root.topAnchor)
-        constraintEqual(anchor: header.rightAnchor, toAnchor: root.rightAnchor)
-        header.translatesAutoresizingMaskIntoConstraints = false
-
-        self.headerView = header
-    }
-
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        let presenter = DatabasePresenter()
-        let view = presenter.view
-        view.layout(inView: self.view, below: self.headerView)
-    }
-
 }
