@@ -22,13 +22,14 @@
 
 import Foundation
 
-func constraintEqual<C: NSLayoutAnchor>(anchor anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil) -> NSLayoutConstraint {
+func constraintEqual<C: NSLayoutAnchor>(anchor anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
     let constraint: NSLayoutConstraint
     if let value = constant {
         constraint = anchor.constraintEqualToAnchor(anotherAnchor, constant: value)
     } else {
         constraint = anchor.constraintEqualToAnchor(anotherAnchor)
     }
+    constraint.priority = priority
     constraint.active = true
     return constraint
 }

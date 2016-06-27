@@ -23,17 +23,22 @@
 import UIKit
 
 protocol View {
-    func layout(inView root: UIView, below view: UIView)
+    func layout(inView root: UIView, below view: UIView) -> NSLayoutConstraint?
 }
 
 extension View where Self: UIView {
-    func layout(inView root: UIView, below view: UIView) {
+
+    func layout(inView root: UIView, below view: UIView) -> NSLayoutConstraint? {
         root.addSubview(self)
         self.translatesAutoresizingMaskIntoConstraints = false
         constraintEqual(anchor: self.leftAnchor, toAnchor: root.leftAnchor)
         constraintEqual(anchor: self.topAnchor, toAnchor: view.bottomAnchor)
         constraintEqual(anchor: self.rightAnchor, toAnchor: root.rightAnchor)
         constraintEqual(anchor: self.bottomAnchor, toAnchor: root.bottomAnchor)
+        if let superview = root.superview?.bottomAnchor {
+            return constraintEqual(anchor: self.bottomAnchor, toAnchor: superview, priority: UILayoutPriorityDefaultLow)
+        }
+        return nil
     }
 }
 
