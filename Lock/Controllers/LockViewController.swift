@@ -70,8 +70,7 @@ public class LockViewController: UIViewController {
         let authentication = Auth0.authentication()
         let interactor = DatabaseInteractor(authentication: authentication)
         let presenter = DatabasePresenter(interactor: interactor)
-        let view = presenter.view
-        self.anchorConstraint = view.layout(inView: self.scrollView, below: self.headerView)
+        self.anchorConstraint = presenter.view.layout(inView: self.scrollView, below: self.headerView)
 
         let center = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: #selector(keyboardWasShown), name: UIKeyboardWillShowNotification, object: nil)

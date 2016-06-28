@@ -25,11 +25,9 @@ import Foundation
 class DatabasePresenter {
 
     var interactor: CredentialAuthenticatable
-    var mode: DatabaseModes
 
     init(interactor: CredentialAuthenticatable) {
         self.interactor = interactor
-        self.mode = .Login
     }
 
     var view: DatabaseView {
@@ -46,7 +44,6 @@ class DatabasePresenter {
             default:
                 print("invalid db mode")
             }
-            self.mode = switcher.selected
         }
         showLogin(inView: database)
         return database
@@ -71,10 +68,14 @@ class DatabasePresenter {
             }
 
             guard let attr = attribute else { return }
-            let _ = try? self.interactor.update(attr, value: input.text)
+            do {
+                try self.interactor.update(attr, value: input.text)
+                input.hideError()
+            } catch {
+                input.showError()
+            }
         }
         view.primaryButton?.onPress = { button in
-            guard case .Login = self.mode else { return }
             print("perform login for email \(self.interactor.email)")
             button.inProgress = true
             self.interactor.login { error in

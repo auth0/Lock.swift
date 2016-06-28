@@ -38,7 +38,7 @@ public class InputField: UIView {
         }
     }
 
-    public var type: Type = .Email {
+    public var type: InputType = .Email {
         didSet {
             self.textField?.placeholder = type.placeholder
             self.textField?.secureTextEntry = type.secure
@@ -162,7 +162,7 @@ public class InputField: UIView {
     }
 
     // MARK:- Types
-    public enum Type {
+    public enum InputType {
         case Email
         case Username
         case EmailOrUsername
