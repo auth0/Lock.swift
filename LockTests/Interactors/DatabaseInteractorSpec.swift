@@ -58,11 +58,17 @@ class DatabaseInteractorSpec: QuickSpec {
         }
 
         describe("updateAttribute") {
+
             it("should update email") {
                 expect{ try database.update(.Email, value: email) }.toNot(throwError())
                 expect(database.email) == email
                 expect(database.username).to(beNil())
                 expect(database.password).to(beNil())
+            }
+
+            it("should trim email") {
+                expect{ try database.update(.Email, value: "  \(email)      ") }.toNot(throwError())
+                expect(database.email) == email
             }
 
             it("should update username") {
@@ -77,6 +83,85 @@ class DatabaseInteractorSpec: QuickSpec {
                 expect(database.password) == password
                 expect(database.username).to(beNil())
                 expect(database.email).to(beNil())
+            }
+
+            describe("email validation") {
+
+                it("should always store value") {
+                    let _ = try? database.update(.Email, value: "not an email")
+                    expect(database.email) == "not an email"
+                }
+
+                it("should raise error if email is invalid") {
+                    expect{ try database.update(.Email, value: "not an email") }.to(throwError(InputValidationError.NotAnEmailAddress))
+                }
+
+                it("should raise error if email is empty") {
+                    expect{ try database.update(.Email, value: "") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if email is only spaces") {
+                    expect{ try database.update(.Email, value: "     ") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if email is nil") {
+                    expect{ try database.update(.Email, value: nil) }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+            }
+
+            describe("username validation") {
+
+                it("should always store value") {
+                    let _ = try? database.update(.Username, value: "not a username")
+                    expect(database.username) == "not a username"
+                }
+
+                it("should accept '_' as valid character") {
+                    expect{ try database.update(.Username, value: "info_auth0") }.toNot(throwError())
+                }
+
+                it("should raise error if username has invalid chars") {
+                    expect{ try database.update(.Username, value: "!not avalidusername+++") }.to(throwError(InputValidationError.NotAUsername))
+                }
+
+                it("should raise error if username has too many chars") {
+                    expect{ try database.update(.Username, value: "12345678901234567890") }.to(throwError(InputValidationError.NotAUsername))
+                }
+
+                it("should raise error if username is empty") {
+                    expect{ try database.update(.Username, value: "") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if username is only spaces") {
+                    expect{ try database.update(.Username, value: "     ") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if email is nil") {
+                    expect{ try database.update(.Username, value: nil) }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+                
+            }
+
+            describe("password validation") {
+
+                it("should always store value") {
+                    let _ = try? database.update(.Password, value: "pass")
+                    expect(database.password) == "pass"
+                }
+
+                it("should raise error if username is empty") {
+                    expect{ try database.update(.Password, value: "") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if password is only spaces") {
+                    expect{ try database.update(.Password, value: "     ") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if password is nil") {
+                    expect{ try database.update(.Password, value: nil) }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+                
             }
 
         }

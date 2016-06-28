@@ -37,6 +37,12 @@ enum AuthenticatableError: ErrorType {
     case CouldNotLogin
 }
 
+enum InputValidationError: ErrorType {
+    case MustNotBeEmpty
+    case NotAnEmailAddress
+    case NotAUsername
+}
+
 enum CredentialAttribute {
     case Email
     case Username

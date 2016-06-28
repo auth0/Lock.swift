@@ -229,6 +229,13 @@
 			name = Presenters;
 			sourceTree = "<group>";
 		};
+		5F5F98D51D21F6E00016FC22 /* Validators */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Validators;
+			sourceTree = "<group>";
+		};
 		5F99AA801D1B0A2B00D27842 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,6 +291,7 @@
 		5FEAE1C81D1A5154005C0028 /* Lock */ = {
 			isa = PBXGroup;
 			children = (
+				5F5F98D51D21F6E00016FC22 /* Validators */,
 				5FEAE20E1D1A5682005C0028 /* Components */,
 				5F51EE6B1D1CE6110024BCD6 /* Controllers */,
 				5F508FF21D1D863400EAA650 /* Interactors */,
