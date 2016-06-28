@@ -22,12 +22,14 @@
 
 import UIKit
 
-public class InputField: UIView {
+public class InputField: UIView, UITextFieldDelegate {
 
     weak var containerView: UIView?
     weak var textField: UITextField?
     weak var iconView: UIImageView?
     weak var errorLabel: UILabel?
+
+    weak var nextField: InputField?
 
     public var text: String? {
         get {
@@ -134,6 +136,7 @@ public class InputField: UIView {
         iconContainer.backgroundColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
         iconView.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
         textField.addTarget(self, action: #selector(textChanged), forControlEvents: .EditingChanged)
+        textField.delegate = self
         errorLabel.textColor = .redColor()
         errorLabel.text = nil
         errorLabel.numberOfLines = 0
@@ -156,6 +159,17 @@ public class InputField: UIView {
     }
 
     // MARK:- Internal
+
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if let field = self.nextField?.textField {
+            dispatch_async(dispatch_get_main_queue()) {
+                field.becomeFirstResponder()
+            }
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
 
     func textChanged(field: UITextField) {
         self.onTextChange(self)

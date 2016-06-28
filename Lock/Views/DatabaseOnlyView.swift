@@ -69,6 +69,9 @@ class DatabaseOnlyView: UIView, DatabaseView {
     func showLogin(withUsername allowUsername: Bool) {
         let form = CredentialView()
         form.identityField.type = allowUsername ? .EmailOrUsername : .Email
+        form.identityField.returnKey = .Next
+        form.identityField.nextField = form.passwordField
+        form.passwordField.returnKey = .Done
         layoutInStack(form)
         self.form = form
     }
