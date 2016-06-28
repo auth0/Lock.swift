@@ -1,4 +1,4 @@
-// CredentialAuthenticatable.swift
+// ViewController.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,32 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import UIKit
+import Lock
 
-protocol CredentialAuthenticatable {
-    var email: String? { get }
-    var username: String? { get }
-    var password: String? { get }
 
-    mutating func update(attribute: CredentialAttribute, value: String?) throws
+class ViewController: UIViewController {
 
-    func login(callback: (AuthenticatableError?) -> ())
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        Lock
+            .login()
+            .connections { builder in
+                var connections = builder()
+                return connections
+                    .database(name: "Username-Password-Authentication", requiresUsername: false)
+            }
+            .on { result in
+                print(result)
+            }
+            .present(from: self)
+    }
+
 }
 
-enum AuthenticatableError: ErrorType {
-    case NonValidInput
-    case CouldNotLogin
-    case NoDatabaseConnection
-}
-
-enum InputValidationError: ErrorType {
-    case MustNotBeEmpty
-    case NotAnEmailAddress
-    case NotAUsername
-}
-
-enum CredentialAttribute {
-    case Email
-    case Username
-    case Password
-}

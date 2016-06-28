@@ -25,9 +25,11 @@ import Foundation
 class DatabasePresenter {
 
     var interactor: CredentialAuthenticatable
+    let database: DatabaseConnection
 
-    init(interactor: CredentialAuthenticatable) {
+    init(interactor: CredentialAuthenticatable, connections: Connections) {
         self.interactor = interactor
+        self.database = connections.database!
     }
 
     var view: DatabaseView {
@@ -50,7 +52,7 @@ class DatabasePresenter {
     }
 
     private func showLogin(inView view: DatabaseView) {
-        view.showLogin()
+        view.showLogin(withUsername: self.database.requiresUsername)
         view.form?.onValueChange = { input in
             print("new value: \(input.text) for type: \(input.type)")
             let attribute: CredentialAttribute?
@@ -96,7 +98,7 @@ class DatabasePresenter {
     }
 
     private func showSignup(inView view: DatabaseView) {
-        view.showSignUp()
+        view.showSignUp(withUsername: self.database.requiresUsername)
         view.form?.onValueChange = { input in
             print("new value: \(input.text) for type: \(input.type)")
         }

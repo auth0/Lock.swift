@@ -35,7 +35,9 @@ class DatabasePresenterSpec: QuickSpec {
 
         beforeEach {
             interactor = MockDBInteractor()
-            presenter = DatabasePresenter(interactor: interactor)
+            var connections = OfflineConnections()
+            connections.database(name: connection, requiresUsername: true)
+            presenter = DatabasePresenter(interactor: interactor, connections: connections)
             view = presenter.view
         }
 

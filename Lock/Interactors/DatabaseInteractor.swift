@@ -34,12 +34,16 @@ struct DatabaseInteractor: CredentialAuthenticatable {
     private(set) var validPassword: Bool = false
 
     let authentication: Authentication
+    let connections: Connections
     let emailValidator: InputValidator = EmailValidator()
     let usernameValidator: InputValidator = UsernameValidator()
     let passwordValidator: InputValidator = NonEmptyValidator()
+    let onAuthentication: Credentials -> ()
 
-    init(authentication: Authentication) {
+    init(connections: Connections, authentication: Authentication, callback: Credentials -> ()) {
         self.authentication = authentication
+        self.connections = connections
+        self.onAuthentication = callback
     }
 
     mutating func update(attribute: CredentialAttribute, value: String?) throws {
@@ -74,14 +78,19 @@ struct DatabaseInteractor: CredentialAuthenticatable {
         }
 
         guard let password = self.password where self.validPassword else { return callback(.NonValidInput) }
+        guard let databaseName = self.connections.database?.name else { return callback(.NoDatabaseConnection) }
+        
         self.authentication
-            .login(usernameOrEmail: identifier, password: password, connection: "Username-Password-Authentication")
+            .login(usernameOrEmail: identifier, password: password, connection: databaseName)
             .start { result in
                 var error: AuthenticatableError? = nil
                 if case .Failure = result {
                     error = .CouldNotLogin
                 }
                 callback(error)
+                if case .Success(let credentials) = result {
+                    self.onAuthentication(credentials)
+                }
             }
     }
 }

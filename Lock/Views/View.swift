@@ -48,6 +48,6 @@ protocol DatabaseView: View {
     weak var primaryButton: PrimaryButton? { get }
     weak var switcher: DatabaseModeSwitcher? { get }
 
-    func showLogin()
-    func showSignUp()
+    func showLogin(withUsername allowUsername: Bool)
+    func showSignUp(withUsername showUsername: Bool)
 }

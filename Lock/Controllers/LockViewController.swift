@@ -28,13 +28,15 @@ public class LockViewController: UIViewController {
     weak var headerView: HeaderView!
     weak var scrollView: UIScrollView!
     var anchorConstraint: NSLayoutConstraint?
+    let lock: Lock
 
-    public required init() {
+    public required init(lock: Lock) {
+        self.lock = lock
         super.init(nibName: nil, bundle: nil)
     }
 
-    public required convenience init?(coder aDecoder: NSCoder) {
-        self.init()
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("Storyboard currently not supported")
     }
 
     public override func loadView() {
@@ -66,15 +68,23 @@ public class LockViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        Auth0.using(inLibrary: "Lock.swift", version: "2.0.0-alpha.1")
-        let authentication = Auth0.authentication()
-        let interactor = DatabaseInteractor(authentication: authentication)
-        let presenter = DatabasePresenter(interactor: interactor)
-        self.anchorConstraint = presenter.view.layout(inView: self.scrollView, below: self.headerView)
 
         let center = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: #selector(keyboardWasShown), name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: #selector(keyboardWasHidden), name: UIKeyboardWillHideNotification, object: nil)
+
+        guard let connections = self.lock.connections else { return }
+        let authentication = self.lock.authentication
+        let callback = self.lock.callback
+        let interactor = DatabaseInteractor(connections: connections, authentication: authentication) { [weak self] credentials in
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.dismissViewControllerAnimated(true, completion: { _ in
+                    callback(.Success(credentials))
+                })
+            }
+        }
+        let presenter = DatabasePresenter(interactor: interactor, connections: connections)
+        self.anchorConstraint = presenter.view.layout(inView: self.scrollView, below: self.headerView)
     }
 
     func keyboardWasShown(notification: NSNotification) {

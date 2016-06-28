@@ -226,14 +226,7 @@
 			children = (
 				5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */,
 			);
-			name = Presenters;
-			sourceTree = "<group>";
-		};
-		5F5F98D51D21F6E00016FC22 /* Validators */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Validators;
+			path = Presenters;
 			sourceTree = "<group>";
 		};
 		5F99AA801D1B0A2B00D27842 /* Utils */ = {
@@ -254,7 +247,7 @@
 			path = Presenters;
 			sourceTree = "<group>";
 		};
-		5FEADCF51D1A7EBC0032D810 /* LockApp */ = {
+		5FEADCF51D1A7EBC0032D810 /* App */ = {
 			isa = PBXGroup;
 			children = (
 				5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */,
@@ -264,16 +257,16 @@
 				5FEADCFA1D1A7EBC0032D810 /* Main.storyboard */,
 				5FEADCF81D1A7EBC0032D810 /* ViewController.swift */,
 			);
-			path = LockApp;
+			path = App;
 			sourceTree = "<group>";
 		};
 		5FEAE1BC1D1A5154005C0028 = {
 			isa = PBXGroup;
 			children = (
-				5FEAE2111D1A5716005C0028 /* Frameworks */,
 				5FEAE1C81D1A5154005C0028 /* Lock */,
-				5FEADCF51D1A7EBC0032D810 /* LockApp */,
 				5FEAE1D41D1A5154005C0028 /* LockTests */,
+				5FEADCF51D1A7EBC0032D810 /* App */,
+				5FEAE2111D1A5716005C0028 /* Frameworks */,
 				5FEAE1C71D1A5154005C0028 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -291,7 +284,6 @@
 		5FEAE1C81D1A5154005C0028 /* Lock */ = {
 			isa = PBXGroup;
 			children = (
-				5F5F98D51D21F6E00016FC22 /* Validators */,
 				5FEAE20E1D1A5682005C0028 /* Components */,
 				5F51EE6B1D1CE6110024BCD6 /* Controllers */,
 				5F508FF21D1D863400EAA650 /* Interactors */,
@@ -310,8 +302,8 @@
 		5FEAE1D41D1A5154005C0028 /* LockTests */ = {
 			isa = PBXGroup;
 			children = (
-				5F5F98D11D21E3710016FC22 /* Presenters */,
 				5F508FF81D1DB01D00EAA650 /* Interactors */,
+				5F5F98D11D21E3710016FC22 /* Presenters */,
 				5F5090061D1DE7A000EAA650 /* Utils */,
 				5FEAE1D71D1A5154005C0028 /* Info.plist */,
 			);
@@ -629,7 +621,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = LockApp/Info.plist;
+				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
@@ -646,7 +638,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = LockApp/Info.plist;
+				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
