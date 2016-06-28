@@ -31,6 +31,7 @@ public class Lock: NSObject {
 
     let authentication: Authentication
     var connections: ConnectionBuildable? = nil
+    var options: OptionBuildable? = nil
     var callback: AuthenticationCallback = {_ in }
 
     override convenience init() {
@@ -63,6 +64,11 @@ public class Lock: NSObject {
         return self
     }
 
+    public func options(closure: (() -> OptionBuildable) -> OptionBuildable) -> Lock {
+        self.options = closure { return LockOptions() }
+        return self
+    }
+
     public func on(callback: AuthenticationCallback) -> Lock {
         self.callback = callback
         return self
@@ -86,6 +92,23 @@ struct OfflineConnections: ConnectionBuildable {
         return self
     }
 
+}
+
+public protocol Options {
+    var closable: Bool { get }
+}
+
+public protocol OptionBuildable: Options {
+    mutating func closable(closable: Bool) -> Self
+}
+
+struct LockOptions: OptionBuildable {
+    var closable: Bool = false
+
+    mutating func closable(closable: Bool) -> LockOptions {
+        self.closable = closable
+        return self
+    }
 }
 
 public struct DatabaseConnection {

@@ -39,6 +39,11 @@ class ViewController: UIViewController {
                 return connections
                     .database(name: "Username-Password-Authentication", requiresUsername: false)
             }
+            .options { builder in
+                var options = builder()
+                return options
+                    .closable(true)
+            }
             .on { result in
                 print(result)
             }

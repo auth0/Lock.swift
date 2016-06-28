@@ -56,6 +56,15 @@ public class LockViewController: UIViewController {
         self.scrollView = scrollView
 
         let header = HeaderView()
+        header.showClose = self.lock.options?.closable ?? false
+        let callback = self.lock.callback
+        header.onClosePressed = { [weak self] _ in
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.dismissViewControllerAnimated(true, completion: { _ in
+                    callback(.Cancelled)
+                })
+            }
+        }
         self.scrollView.addSubview(header)
         constraintEqual(anchor: header.leftAnchor, toAnchor: scrollView.leftAnchor)
         constraintEqual(anchor: header.topAnchor, toAnchor: scrollView.topAnchor)
