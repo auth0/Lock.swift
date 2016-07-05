@@ -26,12 +26,63 @@ import Lock
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    weak var messageLabel: UILabel?
+
+    override func loadView() {
+        let view = UIView()
+        view.backgroundColor = .whiteColor()
+        self.view = view
+        let header = HeaderView()
+        header.title = "Welcome to Lock"
+
+        view.addSubview(header)
+
+        NSLayoutConstraint.activateConstraints([
+            header.leftAnchor.constraintEqualToAnchor(view.leftAnchor),
+            header.topAnchor.constraintEqualToAnchor(view.topAnchor),
+            header.rightAnchor.constraintEqualToAnchor(view.rightAnchor),
+            ])
+        header.translatesAutoresizingMaskIntoConstraints = false
+
+        let button = PrimaryButton()
+        button.onPress = { [weak self] _ in self?.showLock() }
+
+        view.addSubview(button)
+
+        NSLayoutConstraint.activateConstraints([
+            button.leftAnchor.constraintEqualToAnchor(view.leftAnchor),
+            button.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor),
+            button.rightAnchor.constraintEqualToAnchor(view.rightAnchor),
+            ])
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        let centerGuide = UILayoutGuide()
+
+        view.addLayoutGuide(centerGuide)
+
+        NSLayoutConstraint.activateConstraints([
+            centerGuide.topAnchor.constraintEqualToAnchor(header.bottomAnchor),
+            centerGuide.bottomAnchor.constraintEqualToAnchor(button.topAnchor),
+            centerGuide.centerXAnchor.constraintEqualToAnchor(self.view.centerXAnchor),
+            ])
+
+        let message = UILabel()
+        message.numberOfLines = 0
+        message.preferredMaxLayoutWidth = 200
+        message.textAlignment = .Center
+        
+        view.addSubview(message)
+
+        NSLayoutConstraint.activateConstraints([
+            message.centerXAnchor.constraintEqualToAnchor(centerGuide.centerXAnchor),
+            message.centerYAnchor.constraintEqualToAnchor(centerGuide.centerYAnchor)
+            ])
+        message.translatesAutoresizingMaskIntoConstraints = false
+
+        self.messageLabel = message
     }
 
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    private func showLock() {
         Lock
             .login()
             .connections { builder in
@@ -45,10 +96,19 @@ class ViewController: UIViewController {
                     .closable(true)
             }
             .on { result in
-                print(result)
+                switch result {
+                case .Success(let credentials):
+                    print("Obtained credentials \(credentials)")
+                    self.messageLabel?.text = "Logged in user and got token \(credentials.accessToken)"
+                case .Failure(let cause):
+                    print("Failed with \(cause)")
+                    self.messageLabel?.text = "Failed with \(cause)"
+                default:
+                    self.messageLabel?.text = nil
+                    print(result)
+                }
             }
             .present(from: self)
     }
-
 }
 

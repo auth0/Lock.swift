@@ -38,7 +38,7 @@ class DatabasePresenterSpec: QuickSpec {
             var connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
             presenter = DatabasePresenter(interactor: interactor, connections: connections)
-            view = presenter.view
+            view = presenter.view as! DatabaseView
         }
 
         describe("login") {

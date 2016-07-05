@@ -22,7 +22,7 @@
 
 import Foundation
 
-class DatabasePresenter {
+class DatabasePresenter: Presentable {
 
     var interactor: CredentialAuthenticatable
     let database: DatabaseConnection
@@ -32,7 +32,7 @@ class DatabasePresenter {
         self.database = connections.database!
     }
 
-    var view: DatabaseView {
+    var view: View {
         let database = DatabaseOnlyView()
         database.switcher?.onSelectionChange = { [weak database] switcher in
             let selected = switcher.selected

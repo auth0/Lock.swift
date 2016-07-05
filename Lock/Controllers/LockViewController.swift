@@ -28,11 +28,11 @@ public class LockViewController: UIViewController {
     weak var headerView: HeaderView!
     weak var scrollView: UIScrollView!
     var anchorConstraint: NSLayoutConstraint?
-    let lock: Lock
+    var router: Router!
 
     public required init(lock: Lock) {
-        self.lock = lock
         super.init(nibName: nil, bundle: nil)
+        self.router = Router(lock: lock, controller: self)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -56,15 +56,8 @@ public class LockViewController: UIViewController {
         self.scrollView = scrollView
 
         let header = HeaderView()
-        header.showClose = self.lock.options?.closable ?? false
-        let callback = self.lock.callback
-        header.onClosePressed = { [weak self] _ in
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.dismissViewControllerAnimated(true, completion: { _ in
-                    callback(.Cancelled)
-                })
-            }
-        }
+        header.showClose = self.router.lock.options?.closable ?? false
+        header.onClosePressed = self.router.onDismiss
         self.scrollView.addSubview(header)
         constraintEqual(anchor: header.leftAnchor, toAnchor: scrollView.leftAnchor)
         constraintEqual(anchor: header.topAnchor, toAnchor: scrollView.topAnchor)
@@ -82,17 +75,7 @@ public class LockViewController: UIViewController {
         center.addObserver(self, selector: #selector(keyboardWasShown), name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: #selector(keyboardWasHidden), name: UIKeyboardWillHideNotification, object: nil)
 
-        guard let connections = self.lock.connections else { return }
-        let authentication = self.lock.authentication
-        let callback = self.lock.callback
-        let interactor = DatabaseInteractor(connections: connections, authentication: authentication) { [weak self] credentials in
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.dismissViewControllerAnimated(true, completion: { _ in
-                    callback(.Success(credentials))
-                })
-            }
-        }
-        let presenter = DatabasePresenter(interactor: interactor, connections: connections)
+        guard let presenter = self.router.root else { return }
         self.anchorConstraint = presenter.view.layout(inView: self.scrollView, below: self.headerView)
     }
 
