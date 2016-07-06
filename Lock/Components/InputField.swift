@@ -31,6 +31,9 @@ public class InputField: UIView, UITextFieldDelegate {
 
     weak var nextField: InputField?
 
+    private var state: State? = nil
+    private lazy var debounceShowError: () -> () = debounce(0.8, queue: dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), action: self.renderState)
+
     public var text: String? {
         get {
             return self.textField?.text
@@ -75,20 +78,33 @@ public class InputField: UIView, UITextFieldDelegate {
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-
         self.layoutField()
     }
 
     // MARK:- Error
 
-    public func showError(error: String? = nil) {
-        self.containerView?.layer.borderColor = UIColor.redColor().CGColor
-        self.errorLabel?.text = error
+    public func showError(message: String? = nil) {
+        self.state = .Invalid(message)
+        self.debounceShowError()
     }
 
     public func hideError() {
-        self.errorLabel?.text = nil
-        self.containerView?.layer.borderColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 ).CGColor
+        self.state = .Valid
+        self.renderState()
+    }
+
+    private func renderState() {
+        dispatch_async(dispatch_get_main_queue()) {
+            guard let state = self.state else { return }
+            switch state {
+            case .Valid:
+                self.errorLabel?.text = nil
+                self.containerView?.layer.borderColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 ).CGColor
+            case .Invalid(let message):
+                self.containerView?.layer.borderColor = UIColor.redColor().CGColor
+                self.errorLabel?.text = message
+            }
+        }
     }
 
     // MARK:- Layout
@@ -159,6 +175,11 @@ public class InputField: UIView, UITextFieldDelegate {
     }
 
     // MARK:- Internal
+
+    enum State {
+        case Valid
+        case Invalid(String?)
+    }
 
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
         if let field = self.nextField?.textField {
