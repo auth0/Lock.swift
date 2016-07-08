@@ -27,6 +27,7 @@ class DatabasePresenter: Presentable {
     var interactor: DatabaseAuthenticatable
     let database: DatabaseConnection
     var messagePresenter: MessagePresenter?
+    var showErrorText: Bool = false
 
     init(interactor: DatabaseAuthenticatable, connections: Connections) {
         self.interactor = interactor
@@ -53,34 +54,11 @@ class DatabasePresenter: Presentable {
     }
 
     private func showLogin(inView view: DatabaseView) {
-        messagePresenter?.hideCurrent()
+        self.showErrorText = false
+        self.messagePresenter?.hideCurrent()
         view.showLogin(withUsername: self.database.requiresUsername)
         let form = view.form
-        form?.onValueChange = { input in
-            self.messagePresenter?.hideCurrent()
-            print("new value: \(input.text) for type: \(input.type)")
-            let attribute: CredentialAttribute?
-            switch input.type {
-            case .Email:
-                attribute = .Email
-            case .EmailOrUsername:
-                attribute = .Username
-            case .Password:
-                attribute = .Password
-            case .Username:
-                attribute = .Username
-            default:
-                attribute = nil
-            }
-
-            guard let attr = attribute else { return }
-            do {
-                try self.interactor.update(attr, value: input.text)
-                input.showValid()
-            } catch {
-                input.showError()
-            }
-        }
+        form?.onValueChange = self.handleInput
 
         view.primaryButton?.onPress = { [weak form] button in
             self.messagePresenter?.hideCurrent()
@@ -107,15 +85,60 @@ class DatabasePresenter: Presentable {
     }
 
     private func showSignup(inView view: DatabaseView) {
+        self.showErrorText = true
+        self.messagePresenter?.hideCurrent()
         view.showSignUp(withUsername: self.database.requiresUsername)
-        view.form?.onValueChange = { input in
-            print("new value: \(input.text) for type: \(input.type)")
+        let form = view.form
+        view.form?.onValueChange = self.handleInput
+        view.primaryButton?.onPress = { [weak form] button in
+            self.messagePresenter?.hideCurrent()
+            print("perform sign up for email \(self.interactor.email)")
+            let interactor = self.interactor
+            button.inProgress = true
+            interactor.create { error in
+                dispatch_async(dispatch_get_main_queue()) {
+                    button.inProgress = false
+                    guard let error = error else {
+                        print("Logged in!")
+                        return
+                    }
+                    form?.needsToUpdateState()
+                    self.messagePresenter?.showError("\(error)")
+                    print("Failed with error \(error)")
+                }
+            }
         }
-        view.primaryButton?.onPress = { button in
-        }
-        view.secondaryButton?.title = nil
+        view.secondaryButton?.title = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.tos.button.title", comment: "tos & privacy")
         view.secondaryButton?.onPress = { button in
+            // FIXME: Show ToS & Privacy Policy
         }
     }
 
+    private func handleInput(input: InputField) {
+        self.messagePresenter?.hideCurrent()
+        print("new value: \(input.text) for type: \(input.type)")
+        let attribute: CredentialAttribute?
+        switch input.type {
+        case .Email:
+            attribute = .Email
+        case .EmailOrUsername:
+            attribute = .Username
+        case .Password:
+            attribute = .Password
+        case .Username:
+            attribute = .Username
+        default:
+            attribute = nil
+        }
+
+        guard let attr = attribute else { return }
+        do {
+            try self.interactor.update(attr, value: input.text)
+            input.showValid()
+        } catch let error as InputValidationError where self.showErrorText {
+            input.showError(error.localizedMessage)
+        } catch {
+            input.showError()
+        }
+    }
 }

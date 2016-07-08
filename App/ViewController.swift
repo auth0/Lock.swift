@@ -88,7 +88,7 @@ class ViewController: UIViewController {
             .connections { builder in
                 var connections = builder()
                 return connections
-                    .database(name: "Username-Password-Authentication", requiresUsername: false)
+                    .database(name: "Username-Password-Authentication", requiresUsername: true)
             }
             .options { builder in
                 var options = builder()

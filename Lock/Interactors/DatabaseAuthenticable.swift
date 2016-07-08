@@ -44,6 +44,17 @@ enum InputValidationError: ErrorType {
     case MustNotBeEmpty
     case NotAnEmailAddress
     case NotAUsername
+
+    var localizedMessage: String {
+        switch self {
+        case .NotAUsername:
+            return "Can only contain between 1 to 15 alphanumeric characters and \'_\'.".i18n(key: "com.auth0.lock.input.username.error", comment: "invalid username")
+        case .NotAnEmailAddress:
+            return "Must be a valid email address".i18n(key: "com.auth0.lock.input.email.error", comment: "invalid email")
+        case .MustNotBeEmpty:
+            return "Must not be empty".i18n(key: "com.auth0.lock.input.empty.error", comment: "empty input")
+        }
+    }
 }
 
 enum CredentialAttribute {
