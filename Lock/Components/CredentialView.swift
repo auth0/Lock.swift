@@ -34,6 +34,11 @@ public class CredentialView: UIView, Form {
         }
     }
 
+    func needsToUpdateState() {
+        self.identityField.needsToUpdateState()
+        self.passwordField.needsToUpdateState()
+    }
+
     // MARK:- Initialisers
 
     public convenience init() {

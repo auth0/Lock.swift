@@ -31,8 +31,9 @@ public class InputField: UIView, UITextFieldDelegate {
 
     weak var nextField: InputField?
 
-    private var state: State? = nil
-    private lazy var debounceShowError: () -> () = debounce(0.8, queue: dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), action: self.renderState)
+    private(set) var state: State = .Invalid(nil)
+
+    private lazy var debounceShowError: () -> () = debounce(0.8, queue: dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), action: self.needsToUpdateState)
 
     public var text: String? {
         get {
@@ -83,27 +84,24 @@ public class InputField: UIView, UITextFieldDelegate {
 
     // MARK:- Error
 
-    public func showError(message: String? = nil) {
+    public func showError(message: String? = nil, noDelay: Bool = false) {
         self.state = .Invalid(message)
-        self.debounceShowError()
+        if noDelay {
+            self.needsToUpdateState()
+        } else {
+            self.debounceShowError()
+        }
     }
 
-    public func hideError() {
+    public func showValid() {
         self.state = .Valid
-        self.renderState()
+        self.needsToUpdateState()
     }
 
-    private func renderState() {
+    public func needsToUpdateState() {
         dispatch_async(dispatch_get_main_queue()) {
-            guard let state = self.state else { return }
-            switch state {
-            case .Valid:
-                self.errorLabel?.text = nil
-                self.containerView?.layer.borderColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 ).CGColor
-            case .Invalid(let message):
-                self.containerView?.layer.borderColor = UIColor.redColor().CGColor
-                self.errorLabel?.text = message
-            }
+            self.errorLabel?.text = self.state.text
+            self.containerView?.layer.borderColor = self.state.color.CGColor
         }
     }
 
@@ -167,7 +165,8 @@ public class InputField: UIView, UITextFieldDelegate {
         self.containerView?.layer.masksToBounds = true
         self.containerView?.layer.borderWidth = 1
         self.type = .Email
-        self.hideError()
+        self.errorLabel?.text = State.Valid.text
+        self.containerView?.layer.borderColor = State.Valid.color.CGColor
     }
 
     public override func intrinsicContentSize() -> CGSize {
@@ -179,6 +178,24 @@ public class InputField: UIView, UITextFieldDelegate {
     enum State {
         case Valid
         case Invalid(String?)
+
+        var text: String? {
+            switch self {
+            case .Valid:
+                return nil
+            case .Invalid(let error):
+                return error
+            }
+        }
+
+        var color: UIColor {
+            switch self {
+            case .Valid:
+                return UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
+            case .Invalid:
+                return UIColor.redColor()
+            }
+        }
     }
 
     public func textFieldShouldReturn(textField: UITextField) -> Bool {

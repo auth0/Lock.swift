@@ -32,12 +32,15 @@ class DatabasePresenterSpec: QuickSpec {
         var interactor: MockDBInteractor!
         var presenter: DatabasePresenter!
         var view: DatabaseView!
+        var messagePresenter: MockMessagePresenter!
 
         beforeEach {
+            messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
             var connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
             presenter = DatabasePresenter(interactor: interactor, connections: connections)
+            presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseView
         }
 
@@ -48,6 +51,14 @@ class DatabasePresenterSpec: QuickSpec {
             }
 
             describe("user input") {
+
+                it("should clear global message") {
+                    messagePresenter.showError("Some Error")
+                    let input = mockInput(.Email, value: email)
+                    view.form?.onValueChange(input)
+                    expect(messagePresenter.success).to(beNil())
+                    expect(messagePresenter.message).to(beNil())
+                }
 
                 it("should update email") {
                     let input = mockInput(.Email, value: email)
@@ -96,6 +107,26 @@ class DatabasePresenterSpec: QuickSpec {
             }
 
             describe("login action") {
+
+                it("should clear global message") {
+                    messagePresenter.showError("Some Error")
+                    interactor.onLogin = {
+                        return nil
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(messagePresenter.success).toEventually(beNil())
+                    expect(messagePresenter.message).toEventually(beNil())
+                }
+
+                it("should show global error message") {
+                    interactor.onLogin = {
+                        return AuthenticatableError.CouldNotLogin
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(messagePresenter.success).toEventually(beFalse())
+                    expect(messagePresenter.message).toEventually(equal("CouldNotLogin"))
+                }
+
                 it("should trigger login on button press") {
                     waitUntil { done in
                         interactor.onLogin = {
@@ -137,14 +168,34 @@ func mockInput(type: InputField.InputType, value: String? = nil) -> MockInputFie
     return input
 }
 
+class MockMessagePresenter: MessagePresenter {
+    var success: Bool? = nil
+    var message: String? = nil
+
+    func showSuccess(message: String) {
+        self.success = true
+        self.message = message
+    }
+
+    func showError(message: String) {
+        self.success = false
+        self.message = message
+    }
+
+    func hideCurrent() {
+        self.message = nil
+        self.success = nil
+    }
+}
+
 class MockInputField: InputField {
     var valid: Bool? = nil
 
-    override func showError(error: String?) {
+    override func showError(error: String?, noDelay: Bool) {
         self.valid = false
     }
 
-    override func hideError() {
+    override func showValid() {
         self.valid = true
     }
 }

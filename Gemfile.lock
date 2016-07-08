@@ -1,9 +1,9 @@
 GIT
-  remote: https://github.com/hzalaz/carthage_cache
-  revision: ee9f5a5304dd0bd7860fd62b0480424126c51d1b
-  branch: travis-for-oss-support
+  remote: https://github.com/guidomb/carthage_cache
+  revision: 8dfc82f7b0e8bcc486b95833456663f8fc019c64
+  branch: master
   specs:
-    carthage_cache (0.4.0)
+    carthage_cache (0.4.1)
       aws-sdk (~> 2.2.3)
       commander (~> 4.3)
 
@@ -50,7 +50,7 @@ GEM
       fuzzy_match (~> 2.0.4)
       nap (~> 1.0)
     cocoapods-deintegrate (1.0.0)
-    cocoapods-downloader (1.0.0)
+    cocoapods-downloader (1.0.1)
     cocoapods-plugins (1.0.0)
       nap
     cocoapods-search (1.0.0)
@@ -87,13 +87,14 @@ GEM
       faraday (>= 0.7.4, < 0.10)
     fastimage (1.6.8)
       addressable (~> 2.3, >= 2.3.5)
-    fastlane (1.95.0)
+    fastlane (1.97.2)
+      activesupport (< 5)
       addressable (~> 2.3)
       bundler (~> 1.12)
       cert (>= 1.4.1, < 2.0.0)
       credentials_manager (>= 0.16.0, < 1.0.0)
       deliver (>= 1.13.1, < 2.0.0)
-      fastlane_core (>= 0.46.3, < 1.0.0)
+      fastlane_core (>= 0.48.1, < 1.0.0)
       frameit (>= 2.7.0, < 3.0.0)
       gym (>= 1.6.3, < 2.0.0)
       krausefx-shenzhen (>= 0.14.7)
@@ -116,13 +117,13 @@ GEM
       xcode-install (~> 1.4.0)
       xcodeproj (>= 0.20, < 2.0.0)
       xcpretty (>= 0.2.1)
-    fastlane_core (0.47.0)
+    fastlane_core (0.48.1)
       babosa
       colored
       commander (= 4.3.5)
       credentials_manager (>= 0.16.0, < 1.0.0)
       excon (~> 0.45.0)
-      gh_inspector (~> 1.0)
+      gh_inspector (>= 1.0.1, < 2.0.0)
       highline (>= 1.7.2)
       json
       multi_json
@@ -136,8 +137,8 @@ GEM
       fastlane_core (>= 0.36.1, < 1.0.0)
       mini_magick (~> 4.5.1)
     fuzzy_match (2.0.4)
-    gh_inspector (1.0.1)
-    google-api-client (0.9.9)
+    gh_inspector (1.0.2)
+    google-api-client (0.9.11)
       addressable (~> 2.3)
       googleauth (~> 0.5)
       httpclient (~> 2.7)
@@ -167,10 +168,8 @@ GEM
     httpclient (2.8.0)
     hurley (0.2)
     i18n (0.7.0)
-    jmespath (1.2.4)
-      json_pure (>= 1.8.1)
+    jmespath (1.3.0)
     json (1.8.3)
-    json_pure (1.8.3)
     jwt (1.5.4)
     krausefx-shenzhen (0.14.9)
       commander (~> 4.3)
@@ -252,7 +251,7 @@ GEM
       fastlane_core (>= 0.36.1, < 1.0.0)
       plist (~> 3.1.0)
       xcpretty (>= 0.2.1)
-    spaceship (0.27.2)
+    spaceship (0.28.0)
       colored
       credentials_manager (>= 0.9.0)
       faraday (~> 0.9)

@@ -1,4 +1,4 @@
-// Presentable.swift
+// MessagePresenter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,7 +22,11 @@
 
 import Foundation
 
-protocol Presentable {
-    var view: View { get }
-    var messagePresenter: MessagePresenter? { get set }
+
+protocol MessagePresenter {
+
+    func showError(message: String)
+    func showSuccess(message: String)
+    func hideCurrent()
+
 }

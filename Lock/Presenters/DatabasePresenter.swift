@@ -26,6 +26,7 @@ class DatabasePresenter: Presentable {
 
     var interactor: CredentialAuthenticatable
     let database: DatabaseConnection
+    var messagePresenter: MessagePresenter?
 
     init(interactor: CredentialAuthenticatable, connections: Connections) {
         self.interactor = interactor
@@ -52,8 +53,11 @@ class DatabasePresenter: Presentable {
     }
 
     private func showLogin(inView view: DatabaseView) {
+        messagePresenter?.hideCurrent()
         view.showLogin(withUsername: self.database.requiresUsername)
-        view.form?.onValueChange = { input in
+        let form = view.form
+        form?.onValueChange = { input in
+            self.messagePresenter?.hideCurrent()
             print("new value: \(input.text) for type: \(input.type)")
             let attribute: CredentialAttribute?
             switch input.type {
@@ -72,23 +76,28 @@ class DatabasePresenter: Presentable {
             guard let attr = attribute else { return }
             do {
                 try self.interactor.update(attr, value: input.text)
-                input.hideError()
+                input.showValid()
             } catch {
                 input.showError()
             }
         }
-        view.primaryButton?.onPress = { button in
+
+        view.primaryButton?.onPress = { [weak form] button in
+            self.messagePresenter?.hideCurrent()
             print("perform login for email \(self.interactor.email)")
+            let interactor = self.interactor
             button.inProgress = true
-            self.interactor.login { error in
+            interactor.login { error in
                 dispatch_async(dispatch_get_main_queue()) {
                     button.inProgress = false
+                    guard let error = error else {
+                        print("Logged in!")
+                        return
+                    }
+                    form?.needsToUpdateState()
+                    self.messagePresenter?.showError("\(error)")
+                    print("Failed with error \(error)")
                 }
-                guard let error = error else {
-                    print("Logged in!")
-                    return
-                }
-                print("Failed with error \(error)")
             }
         }
         view.secondaryButton?.title = DatabaseModes.ForgotPassword.title

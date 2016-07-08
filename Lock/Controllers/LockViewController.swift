@@ -23,10 +23,12 @@
 import UIKit
 import Auth0
 
-public class LockViewController: UIViewController {
+public class LockViewController: UIViewController, MessagePresenter {
 
     weak var headerView: HeaderView!
     weak var scrollView: UIScrollView!
+    weak var messageView: MessageView?
+
     var anchorConstraint: NSLayoutConstraint?
     var router: Router!
 
@@ -75,9 +77,41 @@ public class LockViewController: UIViewController {
         center.addObserver(self, selector: #selector(keyboardWasShown), name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: #selector(keyboardWasHidden), name: UIKeyboardWillHideNotification, object: nil)
 
-        guard let presenter = self.router.root else { return }
+        guard var presenter = self.router.root else { return }
         self.anchorConstraint = presenter.view.layout(inView: self.scrollView, below: self.headerView)
+        presenter.messagePresenter = self
     }
+
+    // MARK:- MessagePresenter
+
+    func showError(message: String) {
+        show(message: message, flavor: .Failure)
+    }
+
+    func showSuccess(message: String) {
+        show(message: message, flavor: .Success)
+    }
+
+    func hideCurrent() {
+        self.messageView?.removeFromSuperview()
+    }
+
+    private func show(message message: String, flavor: MessageView.Flavor) {
+        let view = MessageView()
+        view.type = flavor
+        view.message = message
+
+        self.view.addSubview(view)
+
+        constraintEqual(anchor: view.topAnchor, toAnchor: self.view.topAnchor)
+        constraintEqual(anchor: view.leftAnchor, toAnchor: self.view.leftAnchor)
+        constraintEqual(anchor: view.rightAnchor, toAnchor: self.view.rightAnchor)
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        self.messageView = view
+    }
+
+    // MARK:- Keyboard
 
     func keyboardWasShown(notification: NSNotification) {
         guard

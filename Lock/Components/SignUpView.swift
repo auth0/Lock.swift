@@ -50,6 +50,12 @@ public class SignUpView: UIView, Form {
         }
     }
 
+    func needsToUpdateState() {
+        self.usernameField?.needsToUpdateState()
+        self.emailField.needsToUpdateState()
+        self.passwordField.needsToUpdateState()
+    }
+
     // MARK:- Initialisers
 
     public convenience init() {
