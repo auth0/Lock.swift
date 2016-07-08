@@ -76,6 +76,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         _authenticationParameters = [A0AuthParameters newDefaultParams];
         _cleanOnError = NO;
         _cleanOnStart = NO;
+        _disableSignUp = NO;
     }
     return self;
 }
@@ -212,6 +213,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 
     self.authentication.registerPublicKey = ^(NSData *pubKey, A0RegisterCompletionBlock completionBlock, A0ErrorBlock errorBlock) {
         A0TouchIDRegisterViewController *controller = [[A0TouchIDRegisterViewController alloc] init];
+        controller.disableSignUp = _disableSignUp;
         controller.onCancelBlock = ^ {
             [weakSelf.authentication reset];
             [weakSelf.navigationController popViewControllerAnimated:YES];

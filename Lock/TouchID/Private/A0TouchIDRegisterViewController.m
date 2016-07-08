@@ -46,7 +46,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self displayController:[self buildSignUp]];
+    
+    if(_disableSignUp) {
+        [self displayController:[self buildLogin]];
+    } else {
+        [self displayController:[self buildSignUp]];
+    }
+    
     A0Theme *theme = [A0Theme sharedInstance];
     UIImage *image = [theme imageForKey:A0ThemeScreenBackgroundImageName];
     if (image) {

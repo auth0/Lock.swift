@@ -32,5 +32,6 @@
 
 @property (copy, nonatomic) A0AuthParameters *parameters;
 @property (strong, nonatomic) A0Lock *lock;
+@property (assign, nonatomic) BOOL disableSignUp;
 
 @end
