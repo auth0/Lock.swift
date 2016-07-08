@@ -21,6 +21,103 @@
 // THE SOFTWARE.
 
 import Foundation
+import Auth0
 
 public class Lock: NSObject {
+
+    public typealias AuthenticationCallback = Result -> ()
+
+    static let sharedInstance = Lock()
+
+    let authentication: Authentication
+    var connections: ConnectionBuildable? = nil
+    var options: OptionBuildable? = nil
+    var callback: AuthenticationCallback = {_ in }
+
+    override convenience init() {
+        self.init(authentication: Auth0.authentication())
+    }
+
+    required public init(authentication: Authentication) {
+        Auth0.using(inLibrary: "Lock.swift", version: "2.0.0-alpha.1") // FIXME: Use correct version from bundle
+        self.authentication = authentication
+    }
+
+    public static func login() -> Lock {
+        return Lock()
+    }
+
+    public static func login(clientId: String, domain: String) -> Lock {
+        return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain))
+    }
+
+    var controller: LockViewController {
+        return LockViewController(lock: self)
+    }
+
+    public func present(from controller: UIViewController) {
+        controller.presentViewController(self.controller, animated: true, completion: nil)
+    }
+
+    public func connections(closure: (() -> ConnectionBuildable) -> ConnectionBuildable) -> Lock {
+        self.connections = closure { return OfflineConnections() }
+        return self
+    }
+
+    public func options(closure: (() -> OptionBuildable) -> OptionBuildable) -> Lock {
+        self.options = closure { return LockOptions() }
+        return self
+    }
+
+    public func on(callback: AuthenticationCallback) -> Lock {
+        self.callback = callback
+        return self
+    }
+}
+
+public protocol Connections {
+    var database: DatabaseConnection? { get }
+}
+
+public protocol ConnectionBuildable: Connections {
+    mutating func database(name name: String, requiresUsername: Bool) -> Self
+}
+
+struct OfflineConnections: ConnectionBuildable {
+
+    var database: DatabaseConnection? = nil
+
+    mutating func database(name name: String, requiresUsername: Bool) -> OfflineConnections {
+        self.database = DatabaseConnection(name: name, requiresUsername: requiresUsername)
+        return self
+    }
+
+}
+
+public protocol Options {
+    var closable: Bool { get }
+}
+
+public protocol OptionBuildable: Options {
+    mutating func closable(closable: Bool) -> Self
+}
+
+struct LockOptions: OptionBuildable {
+    var closable: Bool = false
+
+    mutating func closable(closable: Bool) -> LockOptions {
+        self.closable = closable
+        return self
+    }
+}
+
+public struct DatabaseConnection {
+    public let name: String
+    public let requiresUsername: Bool
+}
+
+public enum Result {
+    case Success(Credentials)
+    case Failure(ErrorType)
+    case Cancelled
 }

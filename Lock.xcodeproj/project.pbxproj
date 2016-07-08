@@ -7,8 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */; };
+		5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */; };
+		5F5090031D1DE78800EAA650 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F5090041D1DE78800EAA650 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F814FD11D1A7294003670A4 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F5090051D1DE78800EAA650 /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5090071D1DE7BA00EAA650 /* NetworkStub.swift */; };
+		5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5090091D1DEE9A00EAA650 /* Constants.swift */; };
+		5F50900E1D1DF40400EAA650 /* DatabaseOnlyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F50900D1D1DF40400EAA650 /* DatabaseOnlyView.swift */; };
 		5F51EE681D1C88FC0024BCD6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */; };
 		5F51EE6A1D1CBC830024BCD6 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE691D1CBC830024BCD6 /* ForgotPasswordView.swift */; };
+		5F51EE6E1D1CE6210024BCD6 /* LockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE6D1D1CE6210024BCD6 /* LockViewController.swift */; };
+		5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */; };
+		5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D71D22ED120016FC22 /* Presentable.swift */; };
+		5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D91D22EF490016FC22 /* Router.swift */; };
+		5F5F98DC1D22F0B40016FC22 /* RouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98DB1D22F0B40016FC22 /* RouterSpec.swift */; };
+		5F73CDD01D30250900D8D8D1 /* MessagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */; };
 		5F814FD51D1A72A6003670A4 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; };
 		5F814FD61D1A72A6003670A4 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD11D1A7294003670A4 /* Nimble.framework */; };
 		5F814FD71D1A72A6003670A4 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */; };
@@ -26,6 +40,12 @@
 		5F99AA921D1BA5CA00D27842 /* DatabaseModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */; };
 		5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */; };
 		5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA951D1C4AF400D27842 /* CredentialView.swift */; };
+		5FC434861D1DF769005188BC /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC434851D1DF769005188BC /* View.swift */; };
+		5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC434891D1DF82A005188BC /* DatabasePresenter.swift */; };
+		5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4348B1D1DFC5A005188BC /* Form.swift */; };
+		5FC4348F1D1E0A57005188BC /* CredentialAuthenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4348E1D1E0A57005188BC /* CredentialAuthenticatable.swift */; };
+		5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CD1D2C79FD00166B67 /* Operations.swift */; };
+		5FDB41D01D2C95B100166B67 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CF1D2C95B100166B67 /* MessageView.swift */; };
 		5FEADCEF1D1A76610032D810 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD21D1A7294003670A4 /* Auth0.framework */; };
 		5FEADCF71D1A7EBC0032D810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */; };
 		5FEADCF91D1A7EBC0032D810 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF81D1A7EBC0032D810 /* ViewController.swift */; };
@@ -63,6 +83,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		5F5090021D1DE78100EAA650 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5F5090031D1DE78800EAA650 /* Quick.framework in CopyFiles */,
+				5F5090041D1DE78800EAA650 /* Nimble.framework in CopyFiles */,
+				5F5090051D1DE78800EAA650 /* OHHTTPStubs.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5F99AA8D1D1B4BEF00D27842 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -76,8 +108,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseInteractor.swift; sourceTree = "<group>"; };
+		5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseInteractorSpec.swift; sourceTree = "<group>"; };
+		5F5090071D1DE7BA00EAA650 /* NetworkStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkStub.swift; sourceTree = "<group>"; };
+		5F5090091D1DEE9A00EAA650 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		5F50900D1D1DF40400EAA650 /* DatabaseOnlyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseOnlyView.swift; sourceTree = "<group>"; };
 		5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		5F51EE691D1CBC830024BCD6 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		5F51EE6D1D1CE6210024BCD6 /* LockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockViewController.swift; sourceTree = "<group>"; };
+		5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenterSpec.swift; sourceTree = "<group>"; };
+		5F5F98D71D22ED120016FC22 /* Presentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
+		5F5F98D91D22EF490016FC22 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		5F5F98DB1D22F0B40016FC22 /* RouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterSpec.swift; sourceTree = "<group>"; };
+		5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePresenter.swift; sourceTree = "<group>"; };
 		5F814FD01D1A7294003670A4 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		5F814FD11D1A7294003670A4 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		5F814FD21D1A7294003670A4 /* Auth0.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Auth0.framework; path = Carthage/Build/iOS/Auth0.framework; sourceTree = "<group>"; };
@@ -94,6 +137,12 @@
 		5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseModes.swift; sourceTree = "<group>"; };
 		5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		5F99AA951D1C4AF400D27842 /* CredentialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialView.swift; sourceTree = "<group>"; };
+		5FC434851D1DF769005188BC /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		5FC434891D1DF82A005188BC /* DatabasePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenter.swift; sourceTree = "<group>"; };
+		5FC4348B1D1DFC5A005188BC /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
+		5FC4348E1D1E0A57005188BC /* CredentialAuthenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialAuthenticatable.swift; sourceTree = "<group>"; };
+		5FDB41CD1D2C79FD00166B67 /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
+		5FDB41CF1D2C95B100166B67 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		5FEADCF41D1A7EBC0032D810 /* LockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FEADCF81D1A7EBC0032D810 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -141,17 +190,79 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F508FF21D1D863400EAA650 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				5FC4348E1D1E0A57005188BC /* CredentialAuthenticatable.swift */,
+				5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */,
+			);
+			path = Interactors;
+			sourceTree = "<group>";
+		};
+		5F508FF81D1DB01D00EAA650 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */,
+			);
+			path = Interactors;
+			sourceTree = "<group>";
+		};
+		5F5090061D1DE7A000EAA650 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5F5090091D1DEE9A00EAA650 /* Constants.swift */,
+				5F5090071D1DE7BA00EAA650 /* NetworkStub.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		5F50900C1D1DF3ED00EAA650 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5F50900D1D1DF40400EAA650 /* DatabaseOnlyView.swift */,
+				5FC434851D1DF769005188BC /* View.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5F51EE6B1D1CE6110024BCD6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5F51EE6D1D1CE6210024BCD6 /* LockViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		5F5F98D11D21E3710016FC22 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */,
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
 		5F99AA801D1B0A2B00D27842 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				5F99AA871D1B0E2500D27842 /* Layout.swift */,
 				5F99AA851D1B0BF100D27842 /* Resources.swift */,
 				5F99AA811D1B0A3900D27842 /* i18n.swift */,
+				5FDB41CD1D2C79FD00166B67 /* Operations.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		5FEADCF51D1A7EBC0032D810 /* LockApp */ = {
+		5FC434871D1DF7FA005188BC /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				5FC434891D1DF82A005188BC /* DatabasePresenter.swift */,
+				5F5F98D71D22ED120016FC22 /* Presentable.swift */,
+				5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */,
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
+		5FEADCF51D1A7EBC0032D810 /* App */ = {
 			isa = PBXGroup;
 			children = (
 				5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */,
@@ -161,16 +272,16 @@
 				5FEADCFA1D1A7EBC0032D810 /* Main.storyboard */,
 				5FEADCF81D1A7EBC0032D810 /* ViewController.swift */,
 			);
-			path = LockApp;
+			path = App;
 			sourceTree = "<group>";
 		};
 		5FEAE1BC1D1A5154005C0028 = {
 			isa = PBXGroup;
 			children = (
-				5FEAE2111D1A5716005C0028 /* Frameworks */,
 				5FEAE1C81D1A5154005C0028 /* Lock */,
-				5FEADCF51D1A7EBC0032D810 /* LockApp */,
 				5FEAE1D41D1A5154005C0028 /* LockTests */,
+				5FEADCF51D1A7EBC0032D810 /* App */,
+				5FEAE2111D1A5716005C0028 /* Frameworks */,
 				5FEAE1C71D1A5154005C0028 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -188,13 +299,18 @@
 		5FEAE1C81D1A5154005C0028 /* Lock */ = {
 			isa = PBXGroup;
 			children = (
+				5FEAE20E1D1A5682005C0028 /* Components */,
+				5F51EE6B1D1CE6110024BCD6 /* Controllers */,
+				5F508FF21D1D863400EAA650 /* Interactors */,
+				5FC434871D1DF7FA005188BC /* Presenters */,
 				5F99AA801D1B0A2B00D27842 /* Utils */,
-				5FEAE20E1D1A5682005C0028 /* Views */,
+				5F50900C1D1DF3ED00EAA650 /* Views */,
 				5FEAE1CB1D1A5154005C0028 /* Info.plist */,
 				5FEAE1C91D1A5154005C0028 /* Lock.h */,
 				5F99AA7F1D1B08D900D27842 /* Lock.strings */,
 				5F99AA831D1B0BCE00D27842 /* Lock.swift */,
 				5F99AA791D1B031500D27842 /* Lock.xcassets */,
+				5F5F98D91D22EF490016FC22 /* Router.swift */,
 			);
 			path = Lock;
 			sourceTree = "<group>";
@@ -202,25 +318,31 @@
 		5FEAE1D41D1A5154005C0028 /* LockTests */ = {
 			isa = PBXGroup;
 			children = (
+				5F508FF81D1DB01D00EAA650 /* Interactors */,
+				5F5F98D11D21E3710016FC22 /* Presenters */,
+				5F5090061D1DE7A000EAA650 /* Utils */,
 				5FEAE1D71D1A5154005C0028 /* Info.plist */,
+				5F5F98DB1D22F0B40016FC22 /* RouterSpec.swift */,
 			);
 			path = LockTests;
 			sourceTree = "<group>";
 		};
-		5FEAE20E1D1A5682005C0028 /* Views */ = {
+		5FEAE20E1D1A5682005C0028 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5F99AA951D1C4AF400D27842 /* CredentialView.swift */,
+				5F99AA8F1D1B9E7100D27842 /* DatabaseModeSwitcher.swift */,
+				5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */,
+				5F51EE691D1CBC830024BCD6 /* ForgotPasswordView.swift */,
+				5FC4348B1D1DFC5A005188BC /* Form.swift */,
 				5FEAE20F1D1A5691005C0028 /* HeaderView.swift */,
 				5F99AA8B1D1B3F1300D27842 /* InputField.swift */,
 				5F99AA891D1B360C00D27842 /* PrimaryButton.swift */,
-				5F99AA8F1D1B9E7100D27842 /* DatabaseModeSwitcher.swift */,
-				5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */,
 				5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */,
-				5F99AA951D1C4AF400D27842 /* CredentialView.swift */,
 				5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */,
-				5F51EE691D1CBC830024BCD6 /* ForgotPasswordView.swift */,
+				5FDB41CF1D2C95B100166B67 /* MessageView.swift */,
 			);
-			path = Views;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		5FEAE2111D1A5716005C0028 /* Frameworks */ = {
@@ -257,6 +379,7 @@
 				5FEADCF21D1A7EBC0032D810 /* Resources */,
 				5FEADD061D1A7ECA0032D810 /* Carthage */,
 				5F99AA8D1D1B4BEF00D27842 /* CopyFiles */,
+				5FC4348D1D1E02EF005188BC /* Auth0 */,
 			);
 			buildRules = (
 			);
@@ -293,6 +416,7 @@
 				5FEAE1CC1D1A5154005C0028 /* Sources */,
 				5FEAE1CD1D1A5154005C0028 /* Frameworks */,
 				5FEAE1CE1D1A5154005C0028 /* Resources */,
+				5F5090021D1DE78100EAA650 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -377,6 +501,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5FC4348D1D1E02EF005188BC /* Auth0 */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Auth0;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "AUTH0_PLIST=\"${SRCROOT}/Auth0.plist\"\nif [ -f $AUTH0_PLIST ];\nthen\ncp \"$AUTH0_PLIST\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nfi";
+		};
 		5FEADD061D1A7ECA0032D810 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -408,17 +546,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */,
 				5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */,
 				5F99AA901D1B9E7100D27842 /* DatabaseModeSwitcher.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
+				5FC4348F1D1E0A57005188BC /* CredentialAuthenticatable.swift in Sources */,
 				5F99AA8A1D1B360C00D27842 /* PrimaryButton.swift in Sources */,
+				5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */,
+				5F73CDD01D30250900D8D8D1 /* MessagePresenter.swift in Sources */,
+				5FDB41D01D2C95B100166B67 /* MessageView.swift in Sources */,
+				5FC434861D1DF769005188BC /* View.swift in Sources */,
+				5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */,
 				5F51EE681D1C88FC0024BCD6 /* SignUpView.swift in Sources */,
+				5F51EE6E1D1CE6210024BCD6 /* LockViewController.swift in Sources */,
+				5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */,
 				5F99AA921D1BA5CA00D27842 /* DatabaseModes.swift in Sources */,
 				5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */,
 				5F99AA8C1D1B3F1300D27842 /* InputField.swift in Sources */,
 				5F51EE6A1D1CBC830024BCD6 /* ForgotPasswordView.swift in Sources */,
 				5F99AA881D1B0E2500D27842 /* Layout.swift in Sources */,
+				5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */,
 				5F99AA841D1B0BCE00D27842 /* Lock.swift in Sources */,
+				5F50900E1D1DF40400EAA650 /* DatabaseOnlyView.swift in Sources */,
+				5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */,
 				5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */,
 				5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */,
 			);
@@ -428,6 +578,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */,
+				5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */,
+				5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */,
+				5F5F98DC1D22F0B40016FC22 /* RouterSpec.swift in Sources */,
+				5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,7 +645,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = LockApp/Info.plist;
+				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
@@ -507,7 +662,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = LockApp/Info.plist;
+				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;

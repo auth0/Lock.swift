@@ -1,0 +1,105 @@
+// MessageView.swift
+//
+// Copyright (c) 2016 Auth0 (http://auth0.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+import UIKit
+
+public class MessageView: UIView {
+
+    weak var messageLabel: UILabel?
+
+    public var message: String? {
+        get {
+            return self.messageLabel?.text
+        }
+        set {
+            self.messageLabel?.text = newValue
+        }
+    }
+
+    public var type: Flavor = .Success {
+        didSet {
+            self.backgroundColor = self.type.color
+            self.messageLabel?.textColor = self.type.textColor
+        }
+    }
+
+    public enum Flavor {
+        case Success
+        case Failure
+
+        var textColor: UIColor {
+            return .whiteColor()
+        }
+
+        var color: UIColor {
+            switch self {
+            case .Success:
+                return UIColor ( red: 0.4941, green: 0.8275, blue: 0.1294, alpha: 1.0 )
+            case .Failure:
+                return UIColor ( red: 1.0, green: 0.2431, blue: 0.0, alpha: 1.0 )
+            }
+        }
+    }
+
+    required override public init(frame: CGRect) {
+        super.init(frame: frame)
+        self.layoutMessage()
+    }
+
+    public convenience init() {
+        self.init(frame: CGRectZero)
+    }
+
+    public required convenience init?(coder aDecoder: NSCoder) {
+        self.init(frame: CGRectZero)
+    }
+
+    // MARK:- Layout
+
+    private func layoutMessage() {
+        let guide = UILayoutGuide()
+
+        self.addLayoutGuide(guide)
+
+        constraintEqual(anchor: guide.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: guide.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
+        constraintEqual(anchor: guide.topAnchor, toAnchor: self.topAnchor, constant: 30)
+        constraintEqual(anchor: guide.bottomAnchor, toAnchor: self.bottomAnchor, constant: -10)
+
+        let messageLabel = UILabel()
+        messageLabel.numberOfLines = 0
+        messageLabel.textAlignment = .Center
+        messageLabel.font = .systemFontOfSize(12, weight: UIFontWeightMedium)
+        messageLabel.textColor = self.type.textColor
+
+        self.addSubview(messageLabel)
+
+        constraintEqual(anchor: messageLabel.leftAnchor, toAnchor: guide.leftAnchor)
+        constraintEqual(anchor: messageLabel.rightAnchor, toAnchor: guide.rightAnchor)
+        constraintEqual(anchor: messageLabel.topAnchor, toAnchor: guide.topAnchor)
+        constraintEqual(anchor: messageLabel.bottomAnchor, toAnchor: guide.bottomAnchor)
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        self.messageLabel = messageLabel
+        self.backgroundColor = self.type.color
+    }
+}

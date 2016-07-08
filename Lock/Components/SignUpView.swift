@@ -1,4 +1,4 @@
-// CredentialView.swift
+// SignUpView.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,16 +22,38 @@
 
 import UIKit
 
-public class CredentialView: UIView {
-
-    public var identityField: InputField
+public class SignUpView: UIView, Form {
+    public var emailField: InputField
     public var passwordField: InputField
+    public weak var usernameField: InputField?
+    var stackView: UIStackView
+
+    public var showUsername: Bool = false {
+        didSet {
+            let field = InputField()
+            field.type = .Username
+            field.onTextChange = onValueChange
+            self.usernameField = field
+            if showUsername {
+                self.stackView.insertArrangedSubview(field, atIndex: 1)
+            } else {
+                self.stackView.removeArrangedSubview(field)
+            }
+        }
+    }
 
     public var onValueChange: (InputField) -> () = {_ in} {
         didSet {
-            self.identityField.onTextChange = onValueChange
+            self.emailField.onTextChange = onValueChange
+            self.usernameField?.onTextChange = onValueChange
             self.passwordField.onTextChange = onValueChange
         }
+    }
+
+    func needsToUpdateState() {
+        self.usernameField?.needsToUpdateState()
+        self.emailField.needsToUpdateState()
+        self.passwordField.needsToUpdateState()
     }
 
     // MARK:- Initialisers
@@ -41,15 +63,17 @@ public class CredentialView: UIView {
     }
 
     required override public init(frame: CGRect) {
-        self.identityField = InputField()
+        self.emailField = InputField()
         self.passwordField = InputField()
+        self.stackView = UIStackView(arrangedSubviews: [emailField, passwordField])
         super.init(frame: frame)
         self.layoutForm()
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        self.identityField = InputField()
+        self.emailField = InputField()
         self.passwordField = InputField()
+        self.stackView = UIStackView(arrangedSubviews: [emailField, passwordField])
         super.init(coder: aDecoder)
         self.layoutForm()
     }
@@ -58,24 +82,24 @@ public class CredentialView: UIView {
 
     private func layoutForm() {
 
-        let identifier = self.identityField
+        let email = self.emailField
         let password = self.passwordField
+        let stackView = self.stackView
 
-        self.addSubview(identifier)
-        self.addSubview(password)
+        self.addSubview(stackView)
 
-        constraintEqual(anchor: identifier.leftAnchor, toAnchor: self.leftAnchor)
-        constraintEqual(anchor: identifier.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: identifier.rightAnchor, toAnchor: self.rightAnchor)
-        identifier.translatesAutoresizingMaskIntoConstraints = false
+        constraintEqual(anchor: stackView.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: stackView.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: stackView.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: stackView.bottomAnchor, toAnchor: self.bottomAnchor)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: password.leftAnchor, toAnchor: self.leftAnchor)
-        constraintEqual(anchor: password.topAnchor, toAnchor: identifier.bottomAnchor, constant: 4)
-        constraintEqual(anchor: password.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: password.bottomAnchor, toAnchor: self.bottomAnchor)
-        password.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .Vertical
+        stackView.spacing = 4
+        stackView.distribution = .EqualCentering
+        stackView.alignment = .Fill
 
-        identifier.type = .Email
+        email.type = .Email
         password.type = .Password
     }
 }

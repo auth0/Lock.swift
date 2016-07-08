@@ -22,12 +22,18 @@
 
 import UIKit
 
-public class InputField: UIView {
+public class InputField: UIView, UITextFieldDelegate {
 
     weak var containerView: UIView?
     weak var textField: UITextField?
     weak var iconView: UIImageView?
     weak var errorLabel: UILabel?
+
+    weak var nextField: InputField?
+
+    private(set) var state: State = .Invalid(nil)
+
+    private lazy var debounceShowError: () -> () = debounce(0.8, queue: dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), action: self.needsToUpdateState)
 
     public var text: String? {
         get {
@@ -38,7 +44,7 @@ public class InputField: UIView {
         }
     }
 
-    public var type: Type = .Email {
+    public var type: InputType = .Email {
         didSet {
             self.textField?.placeholder = type.placeholder
             self.textField?.secureTextEntry = type.secure
@@ -73,20 +79,30 @@ public class InputField: UIView {
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-
         self.layoutField()
     }
 
     // MARK:- Error
 
-    public func showError(error: String? = nil) {
-        self.containerView?.layer.borderColor = UIColor.redColor().CGColor
-        self.errorLabel?.text = error
+    public func showError(message: String? = nil, noDelay: Bool = false) {
+        self.state = .Invalid(message)
+        if noDelay {
+            self.needsToUpdateState()
+        } else {
+            self.debounceShowError()
+        }
     }
 
-    public func hideError() {
-        self.errorLabel?.text = nil
-        self.containerView?.layer.borderColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 ).CGColor
+    public func showValid() {
+        self.state = .Valid
+        self.needsToUpdateState()
+    }
+
+    public func needsToUpdateState() {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.errorLabel?.text = self.state.text
+            self.containerView?.layer.borderColor = self.state.color.CGColor
+        }
     }
 
     // MARK:- Layout
@@ -134,6 +150,7 @@ public class InputField: UIView {
         iconContainer.backgroundColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
         iconView.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
         textField.addTarget(self, action: #selector(textChanged), forControlEvents: .EditingChanged)
+        textField.delegate = self
         errorLabel.textColor = .redColor()
         errorLabel.text = nil
         errorLabel.numberOfLines = 0
@@ -148,7 +165,8 @@ public class InputField: UIView {
         self.containerView?.layer.masksToBounds = true
         self.containerView?.layer.borderWidth = 1
         self.type = .Email
-        self.hideError()
+        self.errorLabel?.text = State.Valid.text
+        self.containerView?.layer.borderColor = State.Valid.color.CGColor
     }
 
     public override func intrinsicContentSize() -> CGSize {
@@ -157,12 +175,46 @@ public class InputField: UIView {
 
     // MARK:- Internal
 
+    enum State {
+        case Valid
+        case Invalid(String?)
+
+        var text: String? {
+            switch self {
+            case .Valid:
+                return nil
+            case .Invalid(let error):
+                return error
+            }
+        }
+
+        var color: UIColor {
+            switch self {
+            case .Valid:
+                return UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
+            case .Invalid:
+                return UIColor.redColor()
+            }
+        }
+    }
+
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if let field = self.nextField?.textField {
+            dispatch_async(dispatch_get_main_queue()) {
+                field.becomeFirstResponder()
+            }
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+
     func textChanged(field: UITextField) {
         self.onTextChange(self)
     }
 
     // MARK:- Types
-    public enum Type {
+    public enum InputType {
         case Email
         case Username
         case EmailOrUsername

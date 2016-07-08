@@ -1,4 +1,4 @@
-// Layout.swift
+// CredentialAuthenticatable.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,21 +22,30 @@
 
 import Foundation
 
-func constraintEqual<C: NSLayoutAnchor>(anchor anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
-    let constraint: NSLayoutConstraint
-    if let value = constant {
-        constraint = anchor.constraintEqualToAnchor(anotherAnchor, constant: value)
-    } else {
-        constraint = anchor.constraintEqualToAnchor(anotherAnchor)
-    }
-    constraint.priority = priority
-    constraint.active = true
-    return constraint
+protocol CredentialAuthenticatable {
+    var email: String? { get }
+    var username: String? { get }
+    var password: String? { get }
+
+    mutating func update(attribute: CredentialAttribute, value: String?) throws
+
+    func login(callback: (AuthenticatableError?) -> ())
 }
 
+enum AuthenticatableError: ErrorType {
+    case NonValidInput
+    case CouldNotLogin
+    case NoDatabaseConnection
+}
 
-func dimension(dimension: NSLayoutDimension, withValue value: CGFloat) -> NSLayoutConstraint {
-    let constraint = dimension.constraintEqualToConstant(value)
-    constraint.active = true
-    return constraint
+enum InputValidationError: ErrorType {
+    case MustNotBeEmpty
+    case NotAnEmailAddress
+    case NotAUsername
+}
+
+enum CredentialAttribute {
+    case Email
+    case Username
+    case Password
 }

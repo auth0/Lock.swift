@@ -1,4 +1,4 @@
-// SignUpView.swift
+// CredentialView.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,32 +22,21 @@
 
 import UIKit
 
-public class SignUpView: UIView {
-    public var emailField: InputField
-    public var passwordField: InputField
-    public weak var usernameField: InputField?
-    var stackView: UIStackView
+public class CredentialView: UIView, Form {
 
-    public var showUsername: Bool = false {
-        didSet {
-            let field = InputField()
-            field.type = .Username
-            field.onTextChange = onValueChange
-            self.usernameField = field
-            if showUsername {
-                self.stackView.insertArrangedSubview(field, atIndex: 1)
-            } else {
-                self.stackView.removeArrangedSubview(field)
-            }
-        }
-    }
+    public var identityField: InputField
+    public var passwordField: InputField
 
     public var onValueChange: (InputField) -> () = {_ in} {
         didSet {
-            self.emailField.onTextChange = onValueChange
-            self.usernameField?.onTextChange = onValueChange
+            self.identityField.onTextChange = onValueChange
             self.passwordField.onTextChange = onValueChange
         }
+    }
+
+    func needsToUpdateState() {
+        self.identityField.needsToUpdateState()
+        self.passwordField.needsToUpdateState()
     }
 
     // MARK:- Initialisers
@@ -57,17 +46,15 @@ public class SignUpView: UIView {
     }
 
     required override public init(frame: CGRect) {
-        self.emailField = InputField()
+        self.identityField = InputField()
         self.passwordField = InputField()
-        self.stackView = UIStackView(arrangedSubviews: [emailField, passwordField])
         super.init(frame: frame)
         self.layoutForm()
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        self.emailField = InputField()
+        self.identityField = InputField()
         self.passwordField = InputField()
-        self.stackView = UIStackView(arrangedSubviews: [emailField, passwordField])
         super.init(coder: aDecoder)
         self.layoutForm()
     }
@@ -76,24 +63,24 @@ public class SignUpView: UIView {
 
     private func layoutForm() {
 
-        let email = self.emailField
+        let identifier = self.identityField
         let password = self.passwordField
-        let stackView = self.stackView
 
-        self.addSubview(stackView)
+        self.addSubview(identifier)
+        self.addSubview(password)
 
-        constraintEqual(anchor: stackView.leftAnchor, toAnchor: self.leftAnchor)
-        constraintEqual(anchor: stackView.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: stackView.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: stackView.bottomAnchor, toAnchor: self.bottomAnchor)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        constraintEqual(anchor: identifier.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: identifier.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: identifier.rightAnchor, toAnchor: self.rightAnchor)
+        identifier.translatesAutoresizingMaskIntoConstraints = false
 
-        stackView.axis = .Vertical
-        stackView.spacing = 4
-        stackView.distribution = .EqualCentering
-        stackView.alignment = .Fill
+        constraintEqual(anchor: password.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: password.topAnchor, toAnchor: identifier.bottomAnchor, constant: 4)
+        constraintEqual(anchor: password.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: password.bottomAnchor, toAnchor: self.bottomAnchor)
+        password.translatesAutoresizingMaskIntoConstraints = false
 
-        email.type = .Email
+        identifier.type = .Email
         password.type = .Password
     }
 }

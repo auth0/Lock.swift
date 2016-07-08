@@ -1,4 +1,4 @@
-// Layout.swift
+// Form.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,21 +22,7 @@
 
 import Foundation
 
-func constraintEqual<C: NSLayoutAnchor>(anchor anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
-    let constraint: NSLayoutConstraint
-    if let value = constant {
-        constraint = anchor.constraintEqualToAnchor(anotherAnchor, constant: value)
-    } else {
-        constraint = anchor.constraintEqualToAnchor(anotherAnchor)
-    }
-    constraint.priority = priority
-    constraint.active = true
-    return constraint
-}
-
-
-func dimension(dimension: NSLayoutDimension, withValue value: CGFloat) -> NSLayoutConstraint {
-    let constraint = dimension.constraintEqualToConstant(value)
-    constraint.active = true
-    return constraint
+@objc protocol Form {
+    var onValueChange: (InputField) -> () { get set }
+    func needsToUpdateState()
 }

@@ -1,4 +1,4 @@
-// Layout.swift
+// Operations.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,21 +22,20 @@
 
 import Foundation
 
-func constraintEqual<C: NSLayoutAnchor>(anchor anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
-    let constraint: NSLayoutConstraint
-    if let value = constant {
-        constraint = anchor.constraintEqualToAnchor(anotherAnchor, constant: value)
-    } else {
-        constraint = anchor.constraintEqualToAnchor(anotherAnchor)
+typealias DebounceAction = () -> ()
+
+func debounce(delay: NSTimeInterval, queue: dispatch_queue_t, action: DebounceAction) -> DebounceAction {
+    let delayTime = Int64(delay * Double(NSEC_PER_SEC))
+
+    var last: dispatch_time_t = 0
+    return {
+        last = dispatch_time(DISPATCH_TIME_NOW, 0)
+        let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, delayTime)
+        dispatch_after(dispatchTime, queue) {
+            let now = dispatch_time(DISPATCH_TIME_NOW, 0)
+            let when = dispatch_time(last, delayTime)
+            guard now >= when else { return }
+            action()
+        }
     }
-    constraint.priority = priority
-    constraint.active = true
-    return constraint
-}
-
-
-func dimension(dimension: NSLayoutDimension, withValue value: CGFloat) -> NSLayoutConstraint {
-    let constraint = dimension.constraintEqualToConstant(value)
-    constraint.active = true
-    return constraint
 }
