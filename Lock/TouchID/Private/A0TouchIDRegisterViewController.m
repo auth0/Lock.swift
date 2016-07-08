@@ -116,7 +116,11 @@
     controller.lock = self.lock;
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
-        [weakSelf displayController:[weakSelf buildSignUp]];
+        if(weakSelf.disableSignUp) {
+            weakSelf.onCancelBlock();
+        } else {
+            [weakSelf displayController:[weakSelf buildSignUp]];
+        }
     }];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
         A0ChangePasswordViewController *resetController = [weakSelf buildChangePassword];
