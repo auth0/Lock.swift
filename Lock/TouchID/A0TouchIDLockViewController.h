@@ -54,6 +54,11 @@
 @property (assign, nonatomic) BOOL closable;
 
 /**
+ * Hides the Sign Up button. By default is `false`.
+ */
+@property (assign, nonatomic) BOOL disableSignUp;
+
+/**
  * When controller is presented, it will remove any stored key (if any) and the user will be prompted to enroll again. By default it's NO
  */
 @property (assign, nonatomic) BOOL cleanOnStart;

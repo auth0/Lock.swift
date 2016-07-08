@@ -46,7 +46,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self displayController:[self buildSignUp]];
+    
+    if(_disableSignUp) {
+        [self displayController:[self buildLogin]];
+    } else {
+        [self displayController:[self buildSignUp]];
+    }
+    
     A0Theme *theme = [A0Theme sharedInstance];
     UIImage *image = [theme imageForKey:A0ThemeScreenBackgroundImageName];
     if (image) {
@@ -110,7 +116,11 @@
     controller.lock = self.lock;
     [self.navigationView removeAll];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"CANCEL") actionBlock:^{
-        [weakSelf displayController:[weakSelf buildSignUp]];
+        if(weakSelf.disableSignUp) {
+            weakSelf.onCancelBlock();
+        } else {
+            [weakSelf displayController:[weakSelf buildSignUp]];
+        }
     }];
     [self.navigationView addButtonWithLocalizedTitle:A0LocalizedString(@"RESET PASSWORD") actionBlock:^{
         A0ChangePasswordViewController *resetController = [weakSelf buildChangePassword];
