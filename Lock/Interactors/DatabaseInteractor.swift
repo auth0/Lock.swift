@@ -23,7 +23,7 @@
 import Foundation
 import Auth0
 
-struct DatabaseInteractor: CredentialAuthenticatable {
+struct DatabaseInteractor: DatabaseAuthenticatable {
 
     private(set) var email: String? = nil
     private(set) var username: String? = nil
@@ -66,7 +66,7 @@ struct DatabaseInteractor: CredentialAuthenticatable {
         if let error = error { throw error }
     }
 
-    func login(callback: (AuthenticatableError?) -> ()) {
+    func login(callback: (DatabaseAuthenticatableError?) -> ()) {
         let identifier: String
 
         if let email = self.email where self.validEmail {
@@ -82,16 +82,45 @@ struct DatabaseInteractor: CredentialAuthenticatable {
         
         self.authentication
             .login(usernameOrEmail: identifier, password: password, connection: databaseName)
-            .start { result in
-                var error: AuthenticatableError? = nil
-                if case .Failure = result {
-                    error = .CouldNotLogin
-                }
-                callback(error)
-                if case .Success(let credentials) = result {
-                    self.onAuthentication(credentials)
+            .start { self.handleLoginResult($0, callback: callback) }
+    }
+
+    func create(callback: (DatabaseAuthenticatableError?) -> ()) {
+        guard let connection = self.connections.database else { return callback(.NoDatabaseConnection) }
+        let databaseName = connection.name
+
+        guard
+            let email = self.email where self.validEmail,
+            let password = self.password where self.validPassword
+            else { return callback(.NonValidInput) }
+
+        guard !connection.requiresUsername || self.validUsername else { return callback(.NonValidInput) }
+
+        let username = connection.requiresUsername ? self.username : nil
+
+        let authentication = self.authentication
+        let login = authentication.login(usernameOrEmail: email, password: password, connection: databaseName)
+        authentication
+            .createUser(email: email, username: username, password: password, connection: databaseName)
+            .start {
+                switch $0 {
+                case .Success:
+                    login.start { self.handleLoginResult($0, callback: callback) }
+                case .Failure:
+                    callback(.CouldNotCreateUser)
                 }
             }
+    }
+
+    private func handleLoginResult(result: Auth0.Result<Credentials>, callback: DatabaseAuthenticatableError? -> ()) {
+        var error: DatabaseAuthenticatableError? = nil
+        if case .Failure = result {
+            error = .CouldNotLogin
+        }
+        callback(error)
+        if case .Success(let credentials) = result {
+            self.onAuthentication(credentials)
+        }
     }
 }
 

@@ -120,7 +120,7 @@ class DatabasePresenterSpec: QuickSpec {
 
                 it("should show global error message") {
                     interactor.onLogin = {
-                        return AuthenticatableError.CouldNotLogin
+                        return .CouldNotLogin
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
                     expect(messagePresenter.success).toEventually(beFalse())
@@ -200,16 +200,20 @@ class MockInputField: InputField {
     }
 }
 
-class MockDBInteractor: CredentialAuthenticatable {
+class MockDBInteractor: DatabaseAuthenticatable {
 
     var email: String? = nil
     var password: String? = nil
     var username: String? = nil
 
-    var onLogin: () -> AuthenticatableError? = { _ in return nil }
+    var onLogin: () -> DatabaseAuthenticatableError? = { _ in return nil }
 
-    func login(callback: (AuthenticatableError?) -> ()) {
+    func login(callback: (DatabaseAuthenticatableError?) -> ()) {
         callback(onLogin())
+    }
+
+    func create(callback: (DatabaseAuthenticatableError?) -> ()) {
+
     }
 
     func update(attribute: CredentialAttribute, value: String?) throws {

@@ -242,5 +242,102 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
         }
+
+        describe("signup") {
+
+            it("should fail if no db connection is found") {
+                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, callback: { _ in })
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { error in
+                        expect(error) == .NoDatabaseConnection
+                        done()
+                    }
+                }
+            }
+
+            it("should yield no error on success") {
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { error in
+                        expect(error).to(beNil())
+                        done()
+                    }
+                }
+            }
+
+            it("should not send username") {
+                let username = "AN INVALID USERNAME"
+                var conns = OfflineConnections()
+                connections = conns.database(name: connection, requiresUsername: false)
+                database = DatabaseInteractor(connections: connections, authentication: authentication, callback: { _ in })
+                stub(databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.Email, value: email)
+                let _ = try? database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { error in
+                        expect(error).to(beNil())
+                        done()
+                    }
+                }
+            }
+
+            it("should yield error on login failure") {
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { error in
+                        expect(error) == .CouldNotLogin
+                        done()
+                    }
+                }
+            }
+
+            it("should yield error on signup failure") {
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { error in
+                        expect(error) == .CouldNotCreateUser
+                        done()
+                    }
+                }
+            }
+
+            it("should yield error when input is not valid") {
+                waitUntil(timeout: 2) { done in
+                    database.create { error in
+                        expect(error) == .NonValidInput
+                        done()
+                    }
+                }
+            }
+
+            it("should yield error when username is not valid and required") {
+                try! database.update(.Email, value: email)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { error in
+                        expect(error) == .NonValidInput
+                        done()
+                    }
+                }
+            }
+
+        }
+
     }
 }

@@ -24,11 +24,11 @@ import Foundation
 
 class DatabasePresenter: Presentable {
 
-    var interactor: CredentialAuthenticatable
+    var interactor: DatabaseAuthenticatable
     let database: DatabaseConnection
     var messagePresenter: MessagePresenter?
 
-    init(interactor: CredentialAuthenticatable, connections: Connections) {
+    init(interactor: DatabaseAuthenticatable, connections: Connections) {
         self.interactor = interactor
         self.database = connections.database!
     }

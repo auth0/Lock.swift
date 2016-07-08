@@ -29,6 +29,12 @@ func databaseLogin(identifier identifier: String, password: String, connection: 
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/ro") && hasAtLeast(["username": identifier, "password": password, "connection": connection])
 }
 
+func databaseSignUp(email email: String, username: String? = nil, password: String, connection: String) -> OHHTTPStubsTestBlock {
+    var parameters = ["email": email, "password": password, "connection": connection]
+    if let username = username { parameters["username"] = username }
+    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/dbconnections/signup") && hasAtLeast(parameters)
+}
+
 // MARK:- Internal Matchers
 
 extension NSURLRequest {
@@ -38,6 +44,13 @@ extension NSURLRequest {
             let payload = try? NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject]
             else { return nil }
         return payload
+    }
+}
+
+func hasEntry(key key: String, value: String) -> OHHTTPStubsTestBlock {
+    return { request in
+        guard let payload = request.a0_payload else { return false }
+        return payload[key] as? String == value
     }
 }
 
@@ -96,6 +109,13 @@ struct Auth0Stubs {
 
     static func failure(code: String = "invalid_user_password") -> OHHTTPStubsResponse {
         return OHHTTPStubsResponse(JSONObject: ["error": code, "error_description": "FAILURE"], statusCode: 400, headers: ["Content-Type": "application/json"])
+    }
+
+    static func createdUser(email: String) -> OHHTTPStubsResponse {
+        let json = [
+            "email": email,
+            ]
+        return OHHTTPStubsResponse(JSONObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
     }
 
     static func authentication() -> OHHTTPStubsResponse {

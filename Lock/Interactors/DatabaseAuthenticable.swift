@@ -1,4 +1,4 @@
-// CredentialAuthenticatable.swift
+// DatabaseAuthenticatable.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,19 +22,21 @@
 
 import Foundation
 
-protocol CredentialAuthenticatable {
+protocol DatabaseAuthenticatable {
     var email: String? { get }
     var username: String? { get }
     var password: String? { get }
 
     mutating func update(attribute: CredentialAttribute, value: String?) throws
 
-    func login(callback: (AuthenticatableError?) -> ())
+    func login(callback: (DatabaseAuthenticatableError?) -> ())
+    func create(callback: (DatabaseAuthenticatableError?) -> ())
 }
 
-enum AuthenticatableError: ErrorType {
+enum DatabaseAuthenticatableError: ErrorType {
     case NonValidInput
     case CouldNotLogin
+    case CouldNotCreateUser
     case NoDatabaseConnection
 }
 
