@@ -1,5 +1,6 @@
 reference: http://www.objc.io/issue-6/travis-ci.html
 language: objective-c
+cache: bundler
 osx_image: xcode7.3
 before_install: true
 install: true
@@ -16,7 +17,3 @@ env:
   - SCHEME="Lock-iOS" CARTHAGE_BUILD_PLATFORM="iOS" IOS_DESTINATION_VERSION="9.1"
   global:
   - secure: hU2sg0N7L2hEAXzmssJRyVGLm1cHKDwuZEE1BQy6y+9jo88926DSTZpw0uLs5h3tHWMctDt/7hoXe9D93oUQowNRaoy6Y/k34VD3Wzfbl2Dht/xZ4M2fgFwy8AYxI9Px3zLmQOewLCsAdFvoLs1rGuRcHy77RH6wtSCMJG/MVng=
-  - secure: hGxFAZqBP+51H1PbY6vTuHmiQCNFeFk9G8nYPZM0otPTF1TSPh93vkuvMlwz+QN8DSF7Q0Hcgt9RlArFBWbpenrWGWXi428J5UzrLbinnmV++yqL8XIumqpqa3oG4Ir6lXFO0spE23ARBdmUAbfgNif/x4THKmMfLwEeQchKUJc=
-  - secure: OucwvcPC1pqXYyJet4p39BR+nzHtzt2MsCC1qGMB1/w0mmAu/zRfbYktwvob+mylz6O0+C7NLSdCqDGBy172AK3jgmDLdi5v5+Xti+vgcSjPn3Ze57rkdi+MXbGmM+DzvTc5lO7ZH7sIk/bYRN+BOdSz90CycPTrEH+2e/U19nc=
-  - secure: iAiXyv1u9hMbYn8coR+GfUcmnY63/WtXxoylORCGuJEa3j70Eks7b6BR/XA9Tp7E2PX0sxklUp64TMhuDG3yyWruGC188JFu1odFbCTclJpjldKBm/4wnerqzLhlJFTn0r+mBJLM4px3Aupwkx6F0NvwPPwTOwyMaydm4L+W74g=
-  - secure: YGdFCrKD/PsXagj/6J2iBR4oFAHRTBxXR+jUflYTgZ9q93bmZWNAuvv8d5z3hmfHlO+YnKwFRC2co2pGonzKm4ADBLDT1K2ALVg4QJarnCivZtOH3IZKTeLW714Wqc4RgLhdtkiU9N+tnHS0MBW/6puoVqvMDqHNs1T9wl9liHA=
