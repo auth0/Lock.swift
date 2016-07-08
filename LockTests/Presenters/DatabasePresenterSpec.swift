@@ -46,6 +46,11 @@ class DatabasePresenterSpec: QuickSpec {
 
         describe("login") {
 
+            beforeEach {
+                view.switcher?.selected = .Login
+                view.switcher?.onSelectionChange(view.switcher!)
+            }
+
             it("should set title for secondary button") {
                 expect(view.secondaryButton?.title) == DatabaseModes.ForgotPassword.title
             }
@@ -120,7 +125,7 @@ class DatabasePresenterSpec: QuickSpec {
 
                 it("should show global error message") {
                     interactor.onLogin = {
-                        return AuthenticatableError.CouldNotLogin
+                        return .CouldNotLogin
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
                     expect(messagePresenter.success).toEventually(beFalse())
@@ -155,6 +160,119 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(button.inProgress).toEventually(beFalse())
                 }
 
+            }
+        }
+
+        describe("sign up") {
+
+            beforeEach {
+                view.switcher?.selected = .Signup
+                view.switcher?.onSelectionChange(view.switcher!)
+            }
+
+            it("should set title for secondary button") {
+                expect(view.secondaryButton?.title).notTo(beNil())
+            }
+
+            describe("user input") {
+
+                it("should clear global message") {
+                    messagePresenter.showError("Some Error")
+                    let input = mockInput(.Email, value: email)
+                    view.form?.onValueChange(input)
+                    expect(messagePresenter.success).to(beNil())
+                    expect(messagePresenter.message).to(beNil())
+                }
+
+                it("should update email") {
+                    let input = mockInput(.Email, value: email)
+                    view.form?.onValueChange(input)
+                    expect(interactor.email) == email
+                }
+
+                it("should update username") {
+                    let input = mockInput(.Username, value: username)
+                    view.form?.onValueChange(input)
+                    expect(interactor.username) == username
+                }
+
+                it("should update password") {
+                    let input = mockInput(.Password, value: password)
+                    view.form?.onValueChange(input)
+                    expect(interactor.password) == password
+                }
+
+                it("should not update if type is not valid for db connection") {
+                    let input = mockInput(.Phone, value: "+1234567890")
+                    view.form?.onValueChange(input)
+                    expect(interactor.username).to(beNil())
+                    expect(interactor.email).to(beNil())
+                    expect(interactor.password).to(beNil())
+                }
+
+                it("should hide the field error if value is valid") {
+                    let input = mockInput(.Username, value: username)
+                    view.form?.onValueChange(input)
+                    expect(input.valid) == true
+                }
+
+                it("should show field error if value is invalid") {
+                    let input = mockInput(.Username, value: "invalid")
+                    view.form?.onValueChange(input)
+                    expect(input.valid) == false
+                }
+
+            }
+
+            describe("sign up action") {
+
+                it("should clear global message") {
+                    messagePresenter.showError("Some Error")
+                    interactor.onSignUp = {
+                        return nil
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(messagePresenter.success).toEventually(beNil())
+                    expect(messagePresenter.message).toEventually(beNil())
+                }
+
+                it("should show global error message") {
+                    interactor.onSignUp = {
+                        return .CouldNotLogin
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(messagePresenter.success).toEventually(beFalse())
+                    expect(messagePresenter.message).toEventually(equal("CouldNotLogin"))
+                }
+
+                it("should trigger sign up on button press") {
+                    waitUntil { done in
+                        interactor.onSignUp = {
+                            done()
+                            return nil
+                        }
+                        view.primaryButton?.onPress(view.primaryButton!)
+                    }
+                }
+
+                it("should set button in progress on button press") {
+                    let button = view.primaryButton!
+                    waitUntil { done in
+                        interactor.onSignUp = {
+                            expect(button.inProgress) == true
+                            done()
+                            return nil
+                        }
+                        button.onPress(button)
+                    }
+                }
+
+                it("should set button to normal after signup") {
+                    let button = view.primaryButton!
+                    button.onPress(button)
+                    expect(button.inProgress).toEventually(beFalse())
+                }
+                
             }
         }
     }
@@ -200,16 +318,21 @@ class MockInputField: InputField {
     }
 }
 
-class MockDBInteractor: CredentialAuthenticatable {
+class MockDBInteractor: DatabaseAuthenticatable {
 
     var email: String? = nil
     var password: String? = nil
     var username: String? = nil
 
-    var onLogin: () -> AuthenticatableError? = { _ in return nil }
+    var onLogin: () -> DatabaseAuthenticatableError? = { return nil }
+    var onSignUp: () -> DatabaseAuthenticatableError? = { return nil }
 
-    func login(callback: (AuthenticatableError?) -> ()) {
+    func login(callback: (DatabaseAuthenticatableError?) -> ()) {
         callback(onLogin())
+    }
+
+    func create(callback: (DatabaseAuthenticatableError?) -> ()) {
+        callback(onSignUp())
     }
 
     func update(attribute: CredentialAttribute, value: String?) throws {

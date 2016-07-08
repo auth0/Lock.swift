@@ -34,6 +34,18 @@ func constraintEqual<C: NSLayoutAnchor>(anchor anchor: C, toAnchor anotherAnchor
     return constraint
 }
 
+func constraintGreaterOrEqual<C: NSLayoutAnchor>(anchor anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
+    let constraint: NSLayoutConstraint
+    if let value = constant {
+        constraint = anchor.constraintGreaterThanOrEqualToAnchor(anotherAnchor, constant: value)
+    } else {
+        constraint = anchor.constraintGreaterThanOrEqualToAnchor(anotherAnchor)
+    }
+    constraint.priority = priority
+    constraint.active = true
+    return constraint
+}
+
 
 func dimension(dimension: NSLayoutDimension, withValue value: CGFloat) -> NSLayoutConstraint {
     let constraint = dimension.constraintEqualToConstant(value)

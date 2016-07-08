@@ -28,6 +28,12 @@ public class SecondaryButton: UIView {
 
     public var onPress: (SecondaryButton) -> () = {_ in }
 
+    public var color: UIColor = .clearColor() {
+        didSet {
+            self.backgroundColor = self.color
+        }
+    }
+
     public var title: String? {
         get {
             return self.button?.currentTitle
@@ -60,10 +66,14 @@ public class SecondaryButton: UIView {
         self.addSubview(button)
 
         constraintEqual(anchor: button.centerXAnchor, toAnchor: self.centerXAnchor)
+        constraintGreaterOrEqual(anchor: button.leftAnchor, toAnchor: self.leftAnchor)
+        constraintGreaterOrEqual(anchor: button.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: button.firstBaselineAnchor, toAnchor: self.centerYAnchor)
         button.translatesAutoresizingMaskIntoConstraints = false
 
         button.tintColor = .blackColor()
+        button.titleLabel?.lineBreakMode = .ByWordWrapping
+        button.titleLabel?.textAlignment = .Center
         button.addTarget(self, action: #selector(pressed), forControlEvents: .TouchUpInside)
 
         self.button = button
