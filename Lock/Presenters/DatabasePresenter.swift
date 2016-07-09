@@ -28,10 +28,12 @@ class DatabasePresenter: Presentable {
     let database: DatabaseConnection
     var messagePresenter: MessagePresenter?
     var showErrorText: Bool = false
+    let router: Router
 
-    init(interactor: DatabaseAuthenticatable, connections: Connections) {
+    init(interactor: DatabaseAuthenticatable, connections: Connections, router: Router) {
         self.interactor = interactor
         self.database = connections.database! // FIXME: Avoid the force unwrap
+        self.router = router
     }
 
     var view: View {
@@ -80,7 +82,7 @@ class DatabasePresenter: Presentable {
         }
         view.secondaryButton?.title = DatabaseModes.ForgotPassword.title
         view.secondaryButton?.onPress = { button in
-            print("show forgot pwd")
+            self.router.showForgotPassword()
         }
     }
 

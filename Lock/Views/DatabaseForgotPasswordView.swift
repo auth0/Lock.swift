@@ -30,6 +30,7 @@ class DatabaseForgotPasswordView: UIView, View {
     init() {
         let primaryButton = PrimaryButton()
         let forgotView = ForgotPasswordView()
+        let center = UILayoutGuide()
 
         self.primaryButton = primaryButton
         self.form = forgotView
@@ -38,11 +39,16 @@ class DatabaseForgotPasswordView: UIView, View {
 
         self.addSubview(forgotView)
         self.addSubview(primaryButton)
+        self.addLayoutGuide(center)
 
-        constraintEqual(anchor: forgotView.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
-        constraintEqual(anchor: forgotView.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: forgotView.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
-        constraintEqual(anchor: forgotView.bottomAnchor, toAnchor: primaryButton.topAnchor)
+        constraintEqual(anchor: center.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: center.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: center.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
+        constraintEqual(anchor: center.bottomAnchor, toAnchor: primaryButton.topAnchor)
+
+        constraintEqual(anchor: forgotView.leftAnchor, toAnchor: center.leftAnchor)
+        constraintEqual(anchor: forgotView.rightAnchor, toAnchor: center.rightAnchor)
+        constraintEqual(anchor: forgotView.centerYAnchor, toAnchor: center.centerYAnchor)
         forgotView.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)

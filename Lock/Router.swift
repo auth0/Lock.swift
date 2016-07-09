@@ -24,13 +24,13 @@ import Foundation
 import Auth0
 
 struct Router {
-    weak var controller: UIViewController?
+    weak var controller: LockViewController?
 
     let lock: Lock
     let onDismiss: () -> ()
     let onAuthentication: (Credentials) -> ()
 
-    init(lock: Lock, controller: UIViewController) {
+    init(lock: Lock, controller: LockViewController) {
         self.controller = controller
         self.lock = lock
         self.onDismiss = { [weak controller] in
@@ -50,10 +50,16 @@ struct Router {
     }
 
     var root: Presentable? {
-        guard let connections = self.lock.connections else { return nil }
+        guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
         let authentication = self.lock.authentication
         let interactor = DatabaseInteractor(connections: connections, authentication: authentication, callback: self.onAuthentication)
-        let presenter = DatabasePresenter(interactor: interactor, connections: connections)
+        let presenter = DatabasePresenter(interactor: interactor, connections: connections, router: self)
         return presenter
+    }
+
+    func showForgotPassword() {
+        guard let connections = self.lock.connections else { return } // FIXME: show error screen
+        let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication)
+        self.controller?.present(DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections))
     }
 }

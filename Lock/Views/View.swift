@@ -24,6 +24,7 @@ import UIKit
 
 protocol View {
     func layout(inView root: UIView, below view: UIView) -> NSLayoutConstraint?
+    func remove()
 }
 
 extension View where Self: UIView {
@@ -39,6 +40,10 @@ extension View where Self: UIView {
             return constraintEqual(anchor: self.bottomAnchor, toAnchor: superview, priority: UILayoutPriorityDefaultLow)
         }
         return nil
+    }
+
+    func remove() {
+        self.removeFromSuperview()
     }
 }
 

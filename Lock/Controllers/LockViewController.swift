@@ -28,6 +28,7 @@ public class LockViewController: UIViewController, MessagePresenter {
     weak var headerView: HeaderView!
     weak var scrollView: UIScrollView!
     weak var messageView: MessageView?
+    var current: View?
 
     var anchorConstraint: NSLayoutConstraint?
     var router: Router!
@@ -77,9 +78,16 @@ public class LockViewController: UIViewController, MessagePresenter {
         center.addObserver(self, selector: #selector(keyboardWasShown), name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: #selector(keyboardWasHidden), name: UIKeyboardWillHideNotification, object: nil)
 
-        guard var presenter = self.router.root else { return }
-        self.anchorConstraint = presenter.view.layout(inView: self.scrollView, below: self.headerView)
+        self.present(self.router.root)
+    }
+
+    func present(presentable: Presentable?) {
+        guard var presenter = presentable else { return }
+        self.current?.remove()
+        let view = presenter.view
+        self.anchorConstraint = view.layout(inView: self.scrollView, below: self.headerView)
         presenter.messagePresenter = self
+        self.current = view
     }
 
     // MARK:- MessagePresenter
