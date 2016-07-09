@@ -24,6 +24,11 @@
 		5F5F98DC1D22F0B40016FC22 /* RouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98DB1D22F0B40016FC22 /* RouterSpec.swift */; };
 		5F73CDD01D30250900D8D8D1 /* MessagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */; };
 		5F73CDD41D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */; };
+		5F73CDD61D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */; };
+		5F73CDD81D3093BF00D8D8D1 /* PasswordRecoverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */; };
+		5F73CDDA1D30957900D8D8D1 /* DatabasePasswordInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDD91D30957900D8D8D1 /* DatabasePasswordInteractor.swift */; };
+		5F73CDDC1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDDB1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift */; };
+		5F73CDDE1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDDD1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift */; };
 		5F814FD51D1A72A6003670A4 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; };
 		5F814FD61D1A72A6003670A4 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD11D1A7294003670A4 /* Nimble.framework */; };
 		5F814FD71D1A72A6003670A4 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */; };
@@ -123,6 +128,11 @@
 		5F5F98DB1D22F0B40016FC22 /* RouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterSpec.swift; sourceTree = "<group>"; };
 		5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePresenter.swift; sourceTree = "<group>"; };
 		5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseForgotPasswordView.swift; sourceTree = "<group>"; };
+		5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseForgotPasswordPresenter.swift; sourceTree = "<group>"; };
+		5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordRecoverable.swift; sourceTree = "<group>"; };
+		5F73CDD91D30957900D8D8D1 /* DatabasePasswordInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePasswordInteractor.swift; sourceTree = "<group>"; };
+		5F73CDDB1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePasswordInteractorSpec.swift; sourceTree = "<group>"; };
+		5F73CDDD1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseForgotPasswordPresenterSpec.swift; sourceTree = "<group>"; };
 		5F814FD01D1A7294003670A4 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		5F814FD11D1A7294003670A4 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		5F814FD21D1A7294003670A4 /* Auth0.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Auth0.framework; path = Carthage/Build/iOS/Auth0.framework; sourceTree = "<group>"; };
@@ -197,6 +207,8 @@
 			children = (
 				5FC4348E1D1E0A57005188BC /* DatabaseAuthenticable.swift */,
 				5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */,
+				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
+				5F73CDD91D30957900D8D8D1 /* DatabasePasswordInteractor.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -205,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */,
+				5F73CDDB1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -240,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */,
+				5F73CDDD1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -261,6 +275,7 @@
 				5FC434891D1DF82A005188BC /* DatabasePresenter.swift */,
 				5F5F98D71D22ED120016FC22 /* Presentable.swift */,
 				5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */,
+				5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -551,6 +566,7 @@
 			files = (
 				5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */,
 				5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */,
+				5F73CDD61D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift in Sources */,
 				5F99AA901D1B9E7100D27842 /* DatabaseModeSwitcher.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
 				5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */,
@@ -569,12 +585,14 @@
 				5F51EE6A1D1CBC830024BCD6 /* ForgotPasswordView.swift in Sources */,
 				5F99AA881D1B0E2500D27842 /* Layout.swift in Sources */,
 				5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */,
+				5F73CDD81D3093BF00D8D8D1 /* PasswordRecoverable.swift in Sources */,
 				5F99AA841D1B0BCE00D27842 /* Lock.swift in Sources */,
 				5F50900E1D1DF40400EAA650 /* DatabaseOnlyView.swift in Sources */,
 				5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */,
 				5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */,
 				5F73CDD41D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift in Sources */,
 				5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */,
+				5F73CDDA1D30957900D8D8D1 /* DatabasePasswordInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,6 +601,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */,
+				5F73CDDC1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift in Sources */,
+				5F73CDDE1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift in Sources */,
 				5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */,
 				5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */,
 				5F5F98DC1D22F0B40016FC22 /* RouterSpec.swift in Sources */,

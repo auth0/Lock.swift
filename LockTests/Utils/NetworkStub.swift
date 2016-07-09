@@ -35,6 +35,10 @@ func databaseSignUp(email email: String, username: String? = nil, password: Stri
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/dbconnections/signup") && hasAtLeast(parameters)
 }
 
+func databaseForgotPassword(email email: String, connection: String) -> OHHTTPStubsTestBlock {
+    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/dbconnections/change_password") && hasAtLeast(["email": email, "connection": connection])
+}
+
 // MARK:- Internal Matchers
 
 extension NSURLRequest {
@@ -116,6 +120,10 @@ struct Auth0Stubs {
             "email": email,
             ]
         return OHHTTPStubsResponse(JSONObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
+    }
+
+    static func forgotEmailSent() -> OHHTTPStubsResponse {
+        return OHHTTPStubsResponse(data: "Sent".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 200, headers: ["Content-Type": "application/json"])
     }
 
     static func authentication() -> OHHTTPStubsResponse {

@@ -31,7 +31,7 @@ class DatabasePresenter: Presentable {
 
     init(interactor: DatabaseAuthenticatable, connections: Connections) {
         self.interactor = interactor
-        self.database = connections.database!
+        self.database = connections.database! // FIXME: Avoid the force unwrap
     }
 
     var view: View {
