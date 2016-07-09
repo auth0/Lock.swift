@@ -23,6 +23,7 @@
 		5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D91D22EF490016FC22 /* Router.swift */; };
 		5F5F98DC1D22F0B40016FC22 /* RouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98DB1D22F0B40016FC22 /* RouterSpec.swift */; };
 		5F73CDD01D30250900D8D8D1 /* MessagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */; };
+		5F73CDD41D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */; };
 		5F814FD51D1A72A6003670A4 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; };
 		5F814FD61D1A72A6003670A4 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD11D1A7294003670A4 /* Nimble.framework */; };
 		5F814FD71D1A72A6003670A4 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */; };
@@ -121,6 +122,7 @@
 		5F5F98D91D22EF490016FC22 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		5F5F98DB1D22F0B40016FC22 /* RouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterSpec.swift; sourceTree = "<group>"; };
 		5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePresenter.swift; sourceTree = "<group>"; };
+		5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseForgotPasswordView.swift; sourceTree = "<group>"; };
 		5F814FD01D1A7294003670A4 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		5F814FD11D1A7294003670A4 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		5F814FD21D1A7294003670A4 /* Auth0.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Auth0.framework; path = Carthage/Build/iOS/Auth0.framework; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			children = (
 				5F50900D1D1DF40400EAA650 /* DatabaseOnlyView.swift */,
 				5FC434851D1DF769005188BC /* View.swift */,
+				5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				5F50900E1D1DF40400EAA650 /* DatabaseOnlyView.swift in Sources */,
 				5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */,
 				5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */,
+				5F73CDD41D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift in Sources */,
 				5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

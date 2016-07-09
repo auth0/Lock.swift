@@ -22,11 +22,21 @@
 
 import UIKit
 
-public class ForgotPasswordView: UIView {
+public class ForgotPasswordView: UIView, Form {
     public var emailField: InputField
     var titleView: UILabel
     var messageView: UILabel
     var stackView: UIStackView
+
+    var onValueChange: (InputField) -> () = { _ in } {
+        didSet {
+            self.emailField.onTextChange = self.onValueChange
+        }
+    }
+
+    func needsToUpdateState() {
+        self.emailField.needsToUpdateState()
+    }
 
     // MARK:- Initialisers
 
