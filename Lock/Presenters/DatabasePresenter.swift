@@ -22,16 +22,22 @@
 
 import Foundation
 
+protocol ForgotPasswordDisplayable {
+    func showForgotPassword()
+}
+
 class DatabasePresenter: Presentable {
 
     var interactor: DatabaseAuthenticatable
     let database: DatabaseConnection
     var messagePresenter: MessagePresenter?
     var showErrorText: Bool = false
+    var forgotDisplayable: ForgotPasswordDisplayable
 
-    init(interactor: DatabaseAuthenticatable, connections: Connections) {
+    init(interactor: DatabaseAuthenticatable, connections: Connections, forgotDisplayable: ForgotPasswordDisplayable) {
         self.interactor = interactor
-        self.database = connections.database!
+        self.database = connections.database! // FIXME: Avoid the force unwrap
+        self.forgotDisplayable = forgotDisplayable
     }
 
     var view: View {
@@ -80,7 +86,7 @@ class DatabasePresenter: Presentable {
         }
         view.secondaryButton?.title = DatabaseModes.ForgotPassword.title
         view.secondaryButton?.onPress = { button in
-            print("show forgot pwd")
+            self.forgotDisplayable.showForgotPassword()
         }
     }
 

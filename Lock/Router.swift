@@ -23,14 +23,14 @@
 import Foundation
 import Auth0
 
-struct Router {
-    weak var controller: UIViewController?
+struct Router: ForgotPasswordDisplayable {
+    weak var controller: LockViewController?
 
     let lock: Lock
     let onDismiss: () -> ()
     let onAuthentication: (Credentials) -> ()
 
-    init(lock: Lock, controller: UIViewController) {
+    init(lock: Lock, controller: LockViewController) {
         self.controller = controller
         self.lock = lock
         self.onDismiss = { [weak controller] in
@@ -47,13 +47,40 @@ struct Router {
                 })
             }
         }
+
+        self.onBack = {
+            switch self.controller?.state ?? .Root {
+            case .ForgotPassword:
+                self.showRoot()
+            default:
+                break
+            }
+        }
     }
 
     var root: Presentable? {
-        guard let connections = self.lock.connections else { return nil }
+        guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
         let authentication = self.lock.authentication
         let interactor = DatabaseInteractor(connections: connections, authentication: authentication, callback: self.onAuthentication)
-        let presenter = DatabasePresenter(interactor: interactor, connections: connections)
+        let presenter = DatabasePresenter(interactor: interactor, connections: connections, forgotDisplayable: self)
         return presenter
+    }
+
+    var showBack: Bool {
+        if case .ForgotPassword = self.controller?.state ?? .Root { return true }
+        return false
+    }
+
+    var onBack: () -> () = {}
+
+    mutating func showRoot() {
+        let root = self.root
+        self.controller?.present(root, state: .Root)
+    }
+
+    func showForgotPassword() {
+        guard let connections = self.lock.connections else { return } // FIXME: show error screen
+        let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication)
+        self.controller?.present(DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections), state: .ForgotPassword)
     }
 }

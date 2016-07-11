@@ -31,12 +31,14 @@ class RouterSpec: QuickSpec {
     override func spec() {
 
         var lock: Lock!
-        var controller: UIViewController!
+        var controller: MockController!
         var router: Router!
 
         beforeEach {
             lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"))
-            controller = MockController()
+            var connections = OfflineConnections()
+            lock.connections = connections.database(name: "connection", requiresUsername: false)
+            controller = MockController(lock: Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.con")))
             router = Router(lock: lock, controller: controller)
         }
 
@@ -71,12 +73,26 @@ class RouterSpec: QuickSpec {
                 }
             }
         }
+
+        it("should show forgot pwd screen") {
+            router.showForgotPassword()
+            expect(controller.presentable as? DatabaseForgotPasswordPresenter).toNot(beNil())
+        }
+
     }
 
 }
 
-class MockController: UIViewController {
+class MockController: LockViewController {
+
+    var presentable: Presentable?
+
     override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
         completion?()
+    }
+
+    override func present(presentable: Presentable?, state: LockViewController.State) {
+        self.presentable = presentable
+        self.state = state
     }
 }

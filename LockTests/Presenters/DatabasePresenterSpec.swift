@@ -39,7 +39,7 @@ class DatabasePresenterSpec: QuickSpec {
             interactor = MockDBInteractor()
             var connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
-            presenter = DatabasePresenter(interactor: interactor, connections: connections)
+            presenter = DatabasePresenter(interactor: interactor, connections: connections, forgotDisplayable: MockForgotDisplayable())
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseView
         }
@@ -345,5 +345,11 @@ class MockDBInteractor: DatabaseAuthenticatable {
         case .Password:
             self.password = value
         }
+    }
+}
+
+struct MockForgotDisplayable: ForgotPasswordDisplayable {
+    func showForgotPassword() {
+
     }
 }
