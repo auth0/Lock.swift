@@ -49,6 +49,8 @@ class DatabaseForgotPasswordView: UIView, View {
         constraintEqual(anchor: forgotView.leftAnchor, toAnchor: center.leftAnchor)
         constraintEqual(anchor: forgotView.rightAnchor, toAnchor: center.rightAnchor)
         constraintEqual(anchor: forgotView.centerYAnchor, toAnchor: center.centerYAnchor)
+        constraintGreaterOrEqual(anchor: forgotView.topAnchor, toAnchor: center.topAnchor, constant: 10, priority: UILayoutPriorityDefaultLow - 1)
+        constraintGreaterOrEqual(anchor: forgotView.bottomAnchor, toAnchor: center.bottomAnchor, constant: -10, priority: UILayoutPriorityDefaultLow - 1)
         forgotView.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
