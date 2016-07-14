@@ -75,7 +75,7 @@ class RouterSpec: QuickSpec {
         }
 
         it("should show forgot pwd screen") {
-            router.showForgotPassword()
+            router.navigate(.ForgotPassword)
             expect(controller.presentable as? DatabaseForgotPasswordPresenter).toNot(beNil())
         }
 
@@ -91,8 +91,7 @@ class MockController: LockViewController {
         completion?()
     }
 
-    override func present(presentable: Presentable?, state: LockViewController.State) {
+    override func present(presentable: Presentable?) {
         self.presentable = presentable
-        self.state = state
     }
 }

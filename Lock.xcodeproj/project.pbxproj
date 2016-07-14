@@ -62,6 +62,7 @@
 		5FEAE1CA1D1A5154005C0028 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEAE1C91D1A5154005C0028 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FEAE1D11D1A5154005C0028 /* Lock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FEAE1C61D1A5154005C0028 /* Lock.framework */; };
 		5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAE20F1D1A5691005C0028 /* HeaderView.swift */; };
+		5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC54FD1D37E3F700579581 /* Routes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,6 +169,7 @@
 		5FEAE1D01D1A5154005C0028 /* LockTests.iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LockTests.iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FEAE1D71D1A5154005C0028 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FEAE20F1D1A5691005C0028 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		5FFC54FD1D37E3F700579581 /* Routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Routes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,8 +209,8 @@
 			children = (
 				5FC4348E1D1E0A57005188BC /* DatabaseAuthenticable.swift */,
 				5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */,
-				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
 				5F73CDD91D30957900D8D8D1 /* DatabasePasswordInteractor.swift */,
+				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -234,9 +236,9 @@
 		5F50900C1D1DF3ED00EAA650 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */,
 				5F50900D1D1DF40400EAA650 /* DatabaseOnlyView.swift */,
 				5FC434851D1DF769005188BC /* View.swift */,
-				5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -252,8 +254,8 @@
 		5F5F98D11D21E3710016FC22 /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
-				5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */,
 				5F73CDDD1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift */,
+				5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -262,9 +264,9 @@
 			isa = PBXGroup;
 			children = (
 				5F99AA871D1B0E2500D27842 /* Layout.swift */,
+				5FDB41CD1D2C79FD00166B67 /* Operations.swift */,
 				5F99AA851D1B0BF100D27842 /* Resources.swift */,
 				5F99AA811D1B0A3900D27842 /* i18n.swift */,
-				5FDB41CD1D2C79FD00166B67 /* Operations.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -272,10 +274,10 @@
 		5FC434871D1DF7FA005188BC /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
-				5FC434891D1DF82A005188BC /* DatabasePresenter.swift */,
-				5F5F98D71D22ED120016FC22 /* Presentable.swift */,
-				5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */,
 				5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */,
+				5FC434891D1DF82A005188BC /* DatabasePresenter.swift */,
+				5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */,
+				5F5F98D71D22ED120016FC22 /* Presentable.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -296,10 +298,10 @@
 		5FEAE1BC1D1A5154005C0028 = {
 			isa = PBXGroup;
 			children = (
-				5FEAE1C81D1A5154005C0028 /* Lock */,
-				5FEAE1D41D1A5154005C0028 /* LockTests */,
 				5FEADCF51D1A7EBC0032D810 /* App */,
 				5FEAE2111D1A5716005C0028 /* Frameworks */,
+				5FEAE1C81D1A5154005C0028 /* Lock */,
+				5FEAE1D41D1A5154005C0028 /* LockTests */,
 				5FEAE1C71D1A5154005C0028 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -321,6 +323,7 @@
 				5F51EE6B1D1CE6110024BCD6 /* Controllers */,
 				5F508FF21D1D863400EAA650 /* Interactors */,
 				5FC434871D1DF7FA005188BC /* Presenters */,
+				5FFC54FC1D37E3E400579581 /* Router */,
 				5F99AA801D1B0A2B00D27842 /* Utils */,
 				5F50900C1D1DF3ED00EAA650 /* Views */,
 				5FEAE1CB1D1A5154005C0028 /* Info.plist */,
@@ -328,7 +331,6 @@
 				5F99AA7F1D1B08D900D27842 /* Lock.strings */,
 				5F99AA831D1B0BCE00D27842 /* Lock.swift */,
 				5F99AA791D1B031500D27842 /* Lock.xcassets */,
-				5F5F98D91D22EF490016FC22 /* Router.swift */,
 			);
 			path = Lock;
 			sourceTree = "<group>";
@@ -338,9 +340,9 @@
 			children = (
 				5F508FF81D1DB01D00EAA650 /* Interactors */,
 				5F5F98D11D21E3710016FC22 /* Presenters */,
+				5FFC54FF1D3803EC00579581 /* Router */,
 				5F5090061D1DE7A000EAA650 /* Utils */,
 				5FEAE1D71D1A5154005C0028 /* Info.plist */,
-				5F5F98DB1D22F0B40016FC22 /* RouterSpec.swift */,
 			);
 			path = LockTests;
 			sourceTree = "<group>";
@@ -355,10 +357,10 @@
 				5FC4348B1D1DFC5A005188BC /* Form.swift */,
 				5FEAE20F1D1A5691005C0028 /* HeaderView.swift */,
 				5F99AA8B1D1B3F1300D27842 /* InputField.swift */,
+				5FDB41CF1D2C95B100166B67 /* MessageView.swift */,
 				5F99AA891D1B360C00D27842 /* PrimaryButton.swift */,
 				5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */,
 				5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */,
-				5FDB41CF1D2C95B100166B67 /* MessageView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -372,6 +374,23 @@
 				5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5FFC54FC1D37E3E400579581 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				5F5F98D91D22EF490016FC22 /* Router.swift */,
+				5FFC54FD1D37E3F700579581 /* Routes.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		5FFC54FF1D3803EC00579581 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				5F5F98DB1D22F0B40016FC22 /* RouterSpec.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -574,6 +593,7 @@
 				5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */,
 				5F73CDD01D30250900D8D8D1 /* MessagePresenter.swift in Sources */,
 				5FDB41D01D2C95B100166B67 /* MessageView.swift in Sources */,
+				5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */,
 				5FC434861D1DF769005188BC /* View.swift in Sources */,
 				5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */,
 				5F51EE681D1C88FC0024BCD6 /* SignUpView.swift in Sources */,

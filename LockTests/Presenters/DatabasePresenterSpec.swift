@@ -33,13 +33,15 @@ class DatabasePresenterSpec: QuickSpec {
         var presenter: DatabasePresenter!
         var view: DatabaseView!
         var messagePresenter: MockMessagePresenter!
+        var navigator: MockNavigator!
 
         beforeEach {
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
+            navigator = MockNavigator()
             var connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
-            presenter = DatabasePresenter(interactor: interactor, connections: connections, forgotDisplayable: MockForgotDisplayable())
+            presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: navigator)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseView
         }
@@ -160,6 +162,11 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(button.inProgress).toEventually(beFalse())
                 }
 
+                it("should navigate to forgot password") {
+                    let button = view.secondaryButton!
+                    button.onPress(button)
+                    expect(navigator.route).toEventually(equal(Route.ForgotPassword))
+                }
             }
         }
 
@@ -279,6 +286,14 @@ class DatabasePresenterSpec: QuickSpec {
 
 }
 
+class MockNavigator: Navigable {
+    var route: Route?
+
+    func navigate(route: Route) {
+        self.route = route
+    }
+}
+
 func mockInput(type: InputField.InputType, value: String? = nil) -> MockInputField {
     let input = MockInputField()
     input.type = type
@@ -345,11 +360,5 @@ class MockDBInteractor: DatabaseAuthenticatable {
         case .Password:
             self.password = value
         }
-    }
-}
-
-struct MockForgotDisplayable: ForgotPasswordDisplayable {
-    func showForgotPassword() {
-
     }
 }

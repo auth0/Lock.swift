@@ -23,7 +23,11 @@
 import Foundation
 import Auth0
 
-struct Router: ForgotPasswordDisplayable {
+protocol Navigable {
+    func navigate(route: Route)
+}
+
+struct Router: Navigable {
     weak var controller: LockViewController?
 
     let lock: Lock
@@ -49,9 +53,13 @@ struct Router: ForgotPasswordDisplayable {
         }
 
         self.onBack = {
-            switch self.controller?.state ?? .Root {
+            guard let current = self.controller?.routes.back() else { return }
+
+            switch current {
             case .ForgotPassword:
-                self.showRoot()
+                self.controller?.present(self.forgotPassword)
+            case .Root:
+                self.controller?.present(self.root)
             default:
                 break
             }
@@ -62,25 +70,34 @@ struct Router: ForgotPasswordDisplayable {
         guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
         let authentication = self.lock.authentication
         let interactor = DatabaseInteractor(connections: connections, authentication: authentication, callback: self.onAuthentication)
-        let presenter = DatabasePresenter(interactor: interactor, connections: connections, forgotDisplayable: self)
+        let presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: self)
         return presenter
     }
 
+    var forgotPassword: Presentable? {
+        guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
+        let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication)
+        return DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
+    }
+
     var showBack: Bool {
-        if case .ForgotPassword = self.controller?.state ?? .Root { return true }
-        return false
+        guard let routes = self.controller?.routes else { return false }
+        return !routes.history.isEmpty
     }
 
     var onBack: () -> () = {}
 
-    mutating func showRoot() {
-        let root = self.root
-        self.controller?.present(root, state: .Root)
-    }
-
-    func showForgotPassword() {
-        guard let connections = self.lock.connections else { return } // FIXME: show error screen
-        let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication)
-        self.controller?.present(DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections), state: .ForgotPassword)
+    func navigate(route: Route) {
+        let presentable: Presentable?
+        switch route {
+        case .Root:
+            presentable = self.root
+        case .ForgotPassword:
+            presentable = self.forgotPassword
+        default:
+            presentable = nil
+        }
+        self.controller?.routes.go(route)
+        self.controller?.present(presentable)
     }
 }
