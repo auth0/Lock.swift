@@ -38,6 +38,7 @@ enum DatabaseAuthenticatableError: ErrorType {
     case CouldNotLogin
     case CouldNotCreateUser
     case NoDatabaseConnection
+    case MultifactorRequired
 }
 
 enum InputValidationError: ErrorType {

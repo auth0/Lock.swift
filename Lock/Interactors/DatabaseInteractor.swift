@@ -113,12 +113,13 @@ struct DatabaseInteractor: DatabaseAuthenticatable {
     }
 
     private func handleLoginResult(result: Auth0.Result<Credentials>, callback: DatabaseAuthenticatableError? -> ()) {
-        var error: DatabaseAuthenticatableError? = nil
-        if case .Failure = result {
-            error = .CouldNotLogin
-        }
-        callback(error)
-        if case .Success(let credentials) = result {
+        switch result {
+        case .Failure(let cause as AuthenticationError) where cause.isMultifactorRequired:
+            callback(.MultifactorRequired)
+        case .Failure:
+            callback(.CouldNotLogin)
+        case .Success(let credentials):
+            callback(nil)
             self.onAuthentication(credentials)
         }
     }

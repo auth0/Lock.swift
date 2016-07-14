@@ -232,6 +232,18 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
+            it("should indicate that mfa is required") {
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error) == .MultifactorRequired
+                        done()
+                    }
+                }
+            }
+
             it("should yield error when input is not valid") {
                 waitUntil(timeout: 2) { done in
                     database.login { error in
@@ -285,6 +297,20 @@ class DatabaseInteractorSpec: QuickSpec {
                 waitUntil(timeout: 2) { done in
                     database.create { error in
                         expect(error).to(beNil())
+                        done()
+                    }
+                }
+            }
+
+            it("should indicate that mfa is required") {
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { error in
+                        expect(error) == .MultifactorRequired
                         done()
                     }
                 }
