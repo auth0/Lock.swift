@@ -10,7 +10,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.2.6)
+    activesupport (4.2.7)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -28,6 +28,7 @@ GEM
       fastlane_core (>= 0.29.1, < 1.0.0)
       spaceship (>= 0.22.0, < 1.0.0)
     claide (1.0.0)
+    clamp (0.6.5)
     cocoapods (1.0.1)
       activesupport (>= 4.0.2)
       claide (>= 1.0.0, < 2.0)
@@ -50,7 +51,7 @@ GEM
       fuzzy_match (~> 2.0.4)
       nap (~> 1.0)
     cocoapods-deintegrate (1.0.0)
-    cocoapods-downloader (1.0.1)
+    cocoapods-downloader (1.1.0)
     cocoapods-plugins (1.0.0)
       nap
     cocoapods-search (1.0.0)
@@ -58,8 +59,9 @@ GEM
     cocoapods-trunk (1.0.0)
       nap (>= 0.8, < 2.0)
       netrc (= 0.7.8)
-    cocoapods-try (1.0.0)
+    cocoapods-try (1.1.0)
     colored (1.2)
+    colorize (0.8.1)
     commander (4.3.5)
       highline (~> 1.7.2)
     credentials_manager (0.16.0)
@@ -156,8 +158,8 @@ GEM
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
-    gym (1.6.3)
-      fastlane_core (>= 0.43.1, < 1.0.0)
+    gym (1.7.0)
+      fastlane_core (>= 0.43.3, < 1.0.0)
       plist
       rubyzip (>= 1.1.7)
       terminal-table
@@ -264,6 +266,10 @@ GEM
       credentials_manager (>= 0.15.0)
       fastlane_core (>= 0.43.4)
       google-api-client (~> 0.9.1)
+    synx (0.2.1)
+      clamp (~> 0.6)
+      colorize (~> 0.7)
+      xcodeproj (~> 1.0)
     terminal-notifier (1.6.3)
     terminal-table (1.4.5)
     thor (0.19.1)
@@ -278,7 +284,7 @@ GEM
     xcode-install (1.4.0)
       claide (>= 0.9.1, < 1.1.0)
       spaceship (>= 0.25.1, < 1.0.0)
-    xcodeproj (1.1.0)
+    xcodeproj (1.2.0)
       activesupport (>= 3)
       claide (>= 1.0.0, < 2.0)
       colored (~> 1.2)
@@ -294,7 +300,8 @@ DEPENDENCIES
   carthage_cache!
   cocoapods (~> 1.0)
   fastlane (~> 1.95)
+  synx (~> 0.2)
   xcpretty-travis-formatter
 
 BUNDLED WITH
-   1.13.0.pre.1
+   1.12.5

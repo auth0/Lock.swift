@@ -37,3 +37,7 @@ Auth0.plist
 
 #Carthage Cache
 .carthage_cache.yml
+
+#Fastlane
+fastlane/report.xml
+.env

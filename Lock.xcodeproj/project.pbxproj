@@ -150,6 +150,7 @@
 		5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseModes.swift; sourceTree = "<group>"; };
 		5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		5F99AA951D1C4AF400D27842 /* CredentialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialView.swift; sourceTree = "<group>"; };
+		5FBE5CB31D3D52EE0038536D /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = SOURCE_ROOT; };
 		5FC434851D1DF769005188BC /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		5FC434891D1DF82A005188BC /* DatabasePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenter.swift; sourceTree = "<group>"; };
 		5FC4348B1D1DFC5A005188BC /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
@@ -285,6 +286,7 @@
 		5FEADCF51D1A7EBC0032D810 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				5FBE5CB31D3D52EE0038536D /* Auth0.plist */,
 				5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */,
 				5FEADCFD1D1A7EBC0032D810 /* Assets.xcassets */,
 				5FEADD021D1A7EBC0032D810 /* Info.plist */,

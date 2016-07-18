@@ -134,6 +134,14 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(messagePresenter.message).toEventually(equal("CouldNotLogin"))
                 }
 
+                it("should navigate to multifactor required screen") {
+                    interactor.onLogin = {
+                        return .MultifactorRequired
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(navigator.route).toEventually(equal(Route.Multifactor))
+                }
+
                 it("should trigger login on button press") {
                     waitUntil { done in
                         interactor.onLogin = {
@@ -250,6 +258,14 @@ class DatabasePresenterSpec: QuickSpec {
                     view.primaryButton?.onPress(view.primaryButton!)
                     expect(messagePresenter.success).toEventually(beFalse())
                     expect(messagePresenter.message).toEventually(equal("CouldNotLogin"))
+                }
+
+                it("should navigate to multifactor required screen") {
+                    interactor.onSignUp = {
+                        return .MultifactorRequired
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(navigator.route).toEventually(equal(Route.Multifactor))
                 }
 
                 it("should trigger sign up on button press") {

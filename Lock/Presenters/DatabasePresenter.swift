@@ -74,9 +74,13 @@ class DatabasePresenter: Presentable {
                         print("Logged in!")
                         return
                     }
-                    form?.needsToUpdateState()
-                    self.messagePresenter?.showError("\(error)")
-                    print("Failed with error \(error)")
+                    if case .MultifactorRequired = error {
+                        self.navigator.navigate(.Multifactor)
+                    } else {
+                        form?.needsToUpdateState()
+                        self.messagePresenter?.showError("\(error)")
+                        print("Failed with error \(error)")
+                    }
                 }
             }
         }
@@ -104,9 +108,13 @@ class DatabasePresenter: Presentable {
                         print("Logged in!")
                         return
                     }
-                    form?.needsToUpdateState()
-                    self.messagePresenter?.showError("\(error)")
-                    print("Failed with error \(error)")
+                    if case .MultifactorRequired = error {
+                        self.navigator.navigate(.Multifactor)
+                    } else {
+                        form?.needsToUpdateState()
+                        self.messagePresenter?.showError("\(error)")
+                        print("Failed with error \(error)")
+                    }
                 }
             }
         }
