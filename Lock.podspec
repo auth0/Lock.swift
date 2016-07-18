@@ -32,9 +32,9 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     core.private_header_files = ['Lock/Core/Private/*.h']
     core.source_files = ['Lock/Core/*.{h,m}', 'Lock/Core/Private/*.{h,m}', 'CocoaPods/Lock.h']
     core.ios.public_header_files = ['Lock/Core/iOS/*.h', 'Lock/Provider/*.h']
-    core.osx.public_header_files = ['Lock/Core/OSX/*.h']
+    core.osx.public_header_files = ['Lock/Core/OSX/*.h', 'Lock/Provider/*.h']
     core.ios.source_files = ['Lock/Core/iOS/*.{h,m}', 'Lock/Provider/*.{h,m}', 'Lock/Provider/Private/*.{h,m}']
-    core.osx.source_files = ['Lock/Core/OSX/*.{h,m}']
+    core.osx.source_files = ['Lock/Core/OSX/*.{h,m}', 'Lock/Provider/*.{h,m}', 'Lock/Provider/Private/*.{h,m}']
     core.dependency 'AFNetworking', '~> 3.0'
   end
 
