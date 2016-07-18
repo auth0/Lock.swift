@@ -1,5 +1,15 @@
 # Change Log
 
+## [1.26.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.26.1) (2016-07-18)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.26.0...1.26.1)
+
+**Merged pull requests:**
+
+- Allow to disable signup view when using touchid feature [\#281](https://github.com/auth0/Lock.iOS-OSX/pull/281) ([finalquest](https://github.com/finalquest))
+- Fix passwordless login methods in API client [\#274](https://github.com/auth0/Lock.iOS-OSX/pull/274) ([hzalaz](https://github.com/hzalaz))
+- Fix README [\#273](https://github.com/auth0/Lock.iOS-OSX/pull/273) ([mkubenka](https://github.com/mkubenka))
+- Fix SMS fields. [\#272](https://github.com/auth0/Lock.iOS-OSX/pull/272) ([mkubenka](https://github.com/mkubenka))
+
 ## [1.26.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.26.0) (2016-05-11)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.25.0...1.26.0)
 
