@@ -38,7 +38,7 @@ class DatabaseInteractorSpec: QuickSpec {
         }
 
         describe("init") {
-            let database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, callback: {_ in})
+            let database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: User(), callback: {_ in})
 
             it("should build with authentication") {
                 expect(database).toNot(beNil())
@@ -53,11 +53,13 @@ class DatabaseInteractorSpec: QuickSpec {
 
         var connections: OfflineConnections!
         var database: DatabaseInteractor!
+        var user: User!
 
         beforeEach {
             var conns = OfflineConnections()
             connections = conns.database(name: connection, requiresUsername: true)
-            database = DatabaseInteractor(connections: connections, authentication: authentication, callback: { _ in })
+            user = User()
+            database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, callback: { _ in })
         }
 
         describe("updateAttribute") {
@@ -172,7 +174,7 @@ class DatabaseInteractorSpec: QuickSpec {
         describe("login") {
 
             it("should fail if no db connection is found") {
-                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, callback: { _ in })
+                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: user, callback: { _ in })
                 try! database.update(.Email, value: email)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in
@@ -258,7 +260,7 @@ class DatabaseInteractorSpec: QuickSpec {
         describe("signup") {
 
             it("should fail if no db connection is found") {
-                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, callback: { _ in })
+                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: user, callback: { _ in })
                 try! database.update(.Email, value: email)
                 try! database.update(.Username, value: username)
                 try! database.update(.Password, value: password)
@@ -288,7 +290,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 let username = "AN INVALID USERNAME"
                 var conns = OfflineConnections()
                 connections = conns.database(name: connection, requiresUsername: false)
-                database = DatabaseInteractor(connections: connections, authentication: authentication, callback: { _ in })
+                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, callback: { _ in })
                 stub(databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.Email, value: email)

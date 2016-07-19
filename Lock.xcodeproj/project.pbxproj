@@ -46,6 +46,7 @@
 		5F99AA921D1BA5CA00D27842 /* DatabaseModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */; };
 		5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */; };
 		5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA951D1C4AF400D27842 /* CredentialView.swift */; };
+		5FBE5CB81D3D8F030038536D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CB71D3D8F030038536D /* User.swift */; };
 		5FC434861D1DF769005188BC /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC434851D1DF769005188BC /* View.swift */; };
 		5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC434891D1DF82A005188BC /* DatabasePresenter.swift */; };
 		5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4348B1D1DFC5A005188BC /* Form.swift */; };
@@ -151,6 +152,7 @@
 		5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		5F99AA951D1C4AF400D27842 /* CredentialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialView.swift; sourceTree = "<group>"; };
 		5FBE5CB31D3D52EE0038536D /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = SOURCE_ROOT; };
+		5FBE5CB71D3D8F030038536D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5FC434851D1DF769005188BC /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		5FC434891D1DF82A005188BC /* DatabasePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenter.swift; sourceTree = "<group>"; };
 		5FC4348B1D1DFC5A005188BC /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
@@ -272,6 +274,14 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		5FBE5CB51D3D8EE70038536D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5FBE5CB71D3D8F030038536D /* User.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		5FC434871D1DF7FA005188BC /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
@@ -321,6 +331,7 @@
 		5FEAE1C81D1A5154005C0028 /* Lock */ = {
 			isa = PBXGroup;
 			children = (
+				5FBE5CB51D3D8EE70038536D /* Models */,
 				5FEAE20E1D1A5682005C0028 /* Components */,
 				5F51EE6B1D1CE6110024BCD6 /* Controllers */,
 				5F508FF21D1D863400EAA650 /* Interactors */,
@@ -589,6 +600,7 @@
 				5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */,
 				5F73CDD61D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift in Sources */,
 				5F99AA901D1B9E7100D27842 /* DatabaseModeSwitcher.swift in Sources */,
+				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
 				5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */,
 				5F99AA8A1D1B360C00D27842 /* PrimaryButton.swift in Sources */,

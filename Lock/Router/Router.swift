@@ -30,6 +30,7 @@ protocol Navigable {
 struct Router: Navigable {
     weak var controller: LockViewController?
 
+    let user = User()
     let lock: Lock
     let onDismiss: () -> ()
     let onAuthentication: (Credentials) -> ()
@@ -69,7 +70,7 @@ struct Router: Navigable {
     var root: Presentable? {
         guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
         let authentication = self.lock.authentication
-        let interactor = DatabaseInteractor(connections: connections, authentication: authentication, callback: self.onAuthentication)
+        let interactor = DatabaseInteractor(connections: connections, authentication: authentication, user: self.user, callback: self.onAuthentication)
         let presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: self)
         return presenter
     }

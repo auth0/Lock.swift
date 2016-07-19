@@ -25,13 +25,15 @@ import Auth0
 
 struct DatabaseInteractor: DatabaseAuthenticatable {
 
-    private(set) var email: String? = nil
-    private(set) var username: String? = nil
-    private(set) var password: String? = nil
+    private var user: DatabaseUser
 
-    private(set) var validEmail: Bool = false
-    private(set) var validUsername: Bool = false
-    private(set) var validPassword: Bool = false
+    var email: String? { return self.user.email }
+    var username: String? { return self.user.username }
+    var password: String? { return self.user.password }
+
+    var validEmail: Bool { return self.user.validEmail }
+    var validUsername: Bool { return self.user.validUsername }
+    var validPassword: Bool { return self.user.validPassword }
 
     let authentication: Authentication
     let connections: Connections
@@ -40,27 +42,28 @@ struct DatabaseInteractor: DatabaseAuthenticatable {
     let passwordValidator: InputValidator = NonEmptyValidator()
     let onAuthentication: Credentials -> ()
 
-    init(connections: Connections, authentication: Authentication, callback: Credentials -> ()) {
+    init(connections: Connections, authentication: Authentication, user: DatabaseUser, callback: Credentials -> ()) {
         self.authentication = authentication
         self.connections = connections
         self.onAuthentication = callback
+        self.user = user
     }
 
     mutating func update(attribute: CredentialAttribute, value: String?) throws {
         let error: ErrorType?
         switch attribute {
         case .Email:
-            self.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            self.user.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             error = self.emailValidator.validate(value)
-            self.validEmail = error == nil
+            self.user.validEmail = error == nil
         case .Username:
-            self.username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            self.user.username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             error = self.usernameValidator.validate(value)
-            self.validUsername = error == nil
+            self.user.validUsername = error == nil
         case .Password:
-            self.password = value
+            self.user.password = value
             error = self.passwordValidator.validate(value)
-            self.validPassword = error == nil
+            self.user.validPassword = error == nil
         }
 
         if let error = error { throw error }
