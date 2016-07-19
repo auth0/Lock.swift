@@ -1,4 +1,4 @@
-// Constants.swift
+// MultifactorAuthenticatable.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,11 +22,12 @@
 
 import Foundation
 
-let clientId = "CLIENT_ID"
-let domain = "samples.auth0.com"
+protocol MultifactorAuthenticatable {
+    var code: String? { get }
 
-let email = "info@auth0.com"
-let password = "a long secure password"
-let username = "auth0"
-let connection = "Username-Password-Authentication"
-let code = "999999"
+    var validCode: Bool { get }
+
+    mutating func setMultifactorCode(code: String?) throws
+
+    func login(callback: (DatabaseAuthenticatableError?) -> ())
+}

@@ -39,12 +39,14 @@ enum DatabaseAuthenticatableError: ErrorType {
     case CouldNotCreateUser
     case NoDatabaseConnection
     case MultifactorRequired
+    case MultifactorInvalid
 }
 
 enum InputValidationError: ErrorType {
     case MustNotBeEmpty
     case NotAnEmailAddress
     case NotAUsername
+    case NotAOneTimePassword
 
     var localizedMessage: String {
         switch self {
@@ -54,6 +56,8 @@ enum InputValidationError: ErrorType {
             return "Must be a valid email address".i18n(key: "com.auth0.lock.input.email.error", comment: "invalid email")
         case .MustNotBeEmpty:
             return "Must not be empty".i18n(key: "com.auth0.lock.input.empty.error", comment: "empty input")
+        case .NotAOneTimePassword:
+            return "Must be a valid numeric code".i18n(key: "com.auth0.lock.input.otp.error", comment: "invalid otp")
         }
     }
 }

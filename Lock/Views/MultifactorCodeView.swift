@@ -1,4 +1,4 @@
-// DatabaseForgotPasswordView.swift
+// MultifactorCodeView.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,7 +22,7 @@
 
 import UIKit
 
-class DatabaseForgotPasswordView: UIView, View {
+class MultifactorCodeView: UIView, View {
 
     weak var form: Form?
     weak var primaryButton: PrimaryButton?
@@ -58,7 +58,7 @@ class DatabaseForgotPasswordView: UIView, View {
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
 
-        forgotView.type = .Email
+        forgotView.type = .OneTimePassword
         forgotView.returnKey = .Done
         forgotView.title = "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
         forgotView.message = "Please enter your email and the new password. We will send you an email to confirm the password change.".i18n(key: "com.auth0.lock.forgot.message", comment: "Forgot Password message")
