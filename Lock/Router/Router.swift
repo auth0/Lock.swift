@@ -56,6 +56,16 @@ struct Router: Navigable {
         self.onBack = {
             guard let current = self.controller?.routes.back() else { return }
 
+            self.user.password = nil
+
+            if !self.user.validEmail {
+                self.user.email = nil
+            }
+
+            if !self.user.validUsername {
+                self.user.username = nil
+            }
+
             switch current {
             case .ForgotPassword:
                 self.controller?.present(self.forgotPassword)
@@ -77,8 +87,15 @@ struct Router: Navigable {
 
     var forgotPassword: Presentable? {
         guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
-        let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication)
+        let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication, user: self.user)
         return DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
+    }
+
+    var multifactor: Presentable? {
+        guard let connections = self.lock.connections, let database = connections.database else { return nil } // FIXME: show error screen
+        let authentication = self.lock.authentication
+        let interactor = MultifactorInteractor(user: self.user, authentication: authentication, connection: database, callback: self.onAuthentication)
+        return MultifactorPresenter(interactor: interactor, connection: database)
     }
 
     var showBack: Bool {
@@ -95,8 +112,8 @@ struct Router: Navigable {
             presentable = self.root
         case .ForgotPassword:
             presentable = self.forgotPassword
-        default:
-            presentable = nil
+        case .Multifactor:
+            presentable = self.multifactor
         }
         self.controller?.routes.go(route)
         self.controller?.present(presentable)

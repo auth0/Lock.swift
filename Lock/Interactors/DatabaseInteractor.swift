@@ -27,6 +27,10 @@ struct DatabaseInteractor: DatabaseAuthenticatable {
 
     private var user: DatabaseUser
 
+    var identifier: String? {
+        guard self.validEmail || self.validUsername else { return nil }
+        return self.validEmail ? self.email : self.username
+    }
     var email: String? { return self.user.email }
     var username: String? { return self.user.username }
     var password: String? { return self.user.password }
@@ -53,17 +57,19 @@ struct DatabaseInteractor: DatabaseAuthenticatable {
         let error: ErrorType?
         switch attribute {
         case .Email:
-            self.user.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            error = self.emailValidator.validate(value)
-            self.user.validEmail = error == nil
+            error = self.updateEmail(value)
         case .Username:
-            self.user.username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            error = self.usernameValidator.validate(value)
-            self.user.validUsername = error == nil
+            error = self.updateUsername(value)
         case .Password:
-            self.user.password = value
-            error = self.passwordValidator.validate(value)
-            self.user.validPassword = error == nil
+            error = self.updatePassword(value)
+        case .EmailOrUsername:
+            let emailError = self.updateEmail(value)
+            let usernameError = self.updateUsername(value)
+            if emailError != nil && usernameError != nil {
+                error = emailError
+            } else {
+                error = nil
+            }
         }
 
         if let error = error { throw error }
@@ -115,9 +121,30 @@ struct DatabaseInteractor: DatabaseAuthenticatable {
             }
     }
 
+    private mutating func updateEmail(value: String?) -> InputValidationError? {
+        self.user.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let error = self.emailValidator.validate(value)
+        self.user.validEmail = error == nil
+        return error
+    }
+
+    private mutating func updateUsername(value: String?) -> InputValidationError? {
+        self.user.username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let error = self.usernameValidator.validate(value)
+        self.user.validUsername = error == nil
+        return error
+    }
+
+    private mutating func updatePassword(value: String?) -> InputValidationError? {
+        self.user.password = value
+        let error = self.passwordValidator.validate(value)
+        self.user.validPassword = error == nil
+        return error
+    }
+
     private func handleLoginResult(result: Auth0.Result<Credentials>, callback: DatabaseAuthenticatableError? -> ()) {
         switch result {
-        case .Failure(let cause as AuthenticationError) where cause.isMultifactorRequired:
+        case .Failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
             callback(.MultifactorRequired)
         case .Failure:
             callback(.CouldNotLogin)

@@ -52,6 +52,9 @@
 		5FBE5CC01D3E5E0A0038536D /* MultifactorInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CBF1D3E5E0A0038536D /* MultifactorInteractor.swift */; };
 		5FBE5CC21D3E5EF50038536D /* MultifactorInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CC11D3E5EF50038536D /* MultifactorInteractorSpec.swift */; };
 		5FBE5CC41D3E67320038536D /* Validators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CC31D3E67320038536D /* Validators.swift */; };
+		5FBE5CC61D3E7F9D0038536D /* MultifactorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CC51D3E7F9D0038536D /* MultifactorPresenter.swift */; };
+		5FBE5CC81D3EA0EA0038536D /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CC71D3EA0EA0038536D /* Mocks.swift */; };
+		5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CC91D3EA1380038536D /* MultifactorPresenterSpec.swift */; };
 		5FC434861D1DF769005188BC /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC434851D1DF769005188BC /* View.swift */; };
 		5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC434891D1DF82A005188BC /* DatabasePresenter.swift */; };
 		5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4348B1D1DFC5A005188BC /* Form.swift */; };
@@ -163,6 +166,9 @@
 		5FBE5CBF1D3E5E0A0038536D /* MultifactorInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultifactorInteractor.swift; sourceTree = "<group>"; };
 		5FBE5CC11D3E5EF50038536D /* MultifactorInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultifactorInteractorSpec.swift; sourceTree = "<group>"; };
 		5FBE5CC31D3E67320038536D /* Validators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validators.swift; sourceTree = "<group>"; };
+		5FBE5CC51D3E7F9D0038536D /* MultifactorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultifactorPresenter.swift; sourceTree = "<group>"; };
+		5FBE5CC71D3EA0EA0038536D /* Mocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
+		5FBE5CC91D3EA1380038536D /* MultifactorPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultifactorPresenterSpec.swift; sourceTree = "<group>"; };
 		5FC434851D1DF769005188BC /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		5FC434891D1DF82A005188BC /* DatabasePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenter.swift; sourceTree = "<group>"; };
 		5FC4348B1D1DFC5A005188BC /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
@@ -245,6 +251,7 @@
 			children = (
 				5F5090091D1DEE9A00EAA650 /* Constants.swift */,
 				5F5090071D1DE7BA00EAA650 /* NetworkStub.swift */,
+				5FBE5CC71D3EA0EA0038536D /* Mocks.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -273,6 +280,7 @@
 			children = (
 				5F73CDDD1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift */,
 				5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */,
+				5FBE5CC91D3EA1380038536D /* MultifactorPresenterSpec.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -304,6 +312,7 @@
 				5FC434891D1DF82A005188BC /* DatabasePresenter.swift */,
 				5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */,
 				5F5F98D71D22ED120016FC22 /* Presentable.swift */,
+				5FBE5CC51D3E7F9D0038536D /* MultifactorPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -630,6 +639,7 @@
 				5F51EE6E1D1CE6210024BCD6 /* LockViewController.swift in Sources */,
 				5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */,
 				5F99AA921D1BA5CA00D27842 /* DatabaseModes.swift in Sources */,
+				5FBE5CC61D3E7F9D0038536D /* MultifactorPresenter.swift in Sources */,
 				5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */,
 				5F99AA8C1D1B3F1300D27842 /* InputField.swift in Sources */,
 				5FBE5CBA1D3E59B90038536D /* MultifactorCodeView.swift in Sources */,
@@ -653,6 +663,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */,
 				5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */,
 				5F73CDDC1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift in Sources */,
 				5FBE5CC21D3E5EF50038536D /* MultifactorInteractorSpec.swift in Sources */,
@@ -660,6 +671,7 @@
 				5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */,
 				5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */,
 				5F5F98DC1D22F0B40016FC22 /* RouterSpec.swift in Sources */,
+				5FBE5CC81D3EA0EA0038536D /* Mocks.swift in Sources */,
 				5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

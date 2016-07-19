@@ -83,6 +83,24 @@ class DatabaseInteractorSpec: QuickSpec {
                 expect(database.password).to(beNil())
             }
 
+            it("should update username or email with an email") {
+                expect{ try database.update(.EmailOrUsername, value: email) }.toNot(throwError())
+                expect(database.username) == email
+                expect(database.email) == email
+                expect(database.validEmail) == true
+                expect(database.validUsername) == false
+                expect(database.password).to(beNil())
+            }
+
+            it("should update username or email with an username") {
+                expect{ try database.update(.EmailOrUsername, value: username) }.toNot(throwError())
+                expect(database.username) == username
+                expect(database.email) == username
+                expect(database.validEmail) == false
+                expect(database.validUsername) == true
+                expect(database.password).to(beNil())
+            }
+
             it("should update password") {
                 expect{ try database.update(.Password, value: password) }.toNot(throwError())
                 expect(database.password) == password
@@ -90,6 +108,37 @@ class DatabaseInteractorSpec: QuickSpec {
                 expect(database.email).to(beNil())
             }
 
+            describe("email or username validation") {
+
+                it("should always store value") {
+                    let _ = try? database.update(.EmailOrUsername, value: "not an email")
+                    expect(database.email) == "not an email"
+                    expect(database.username) == "not an email"
+                }
+
+                it("should fallback to username if valid") {
+                    expect { try database.update(.EmailOrUsername, value: username) }.notTo(throwError())
+                    expect(database.username) == username
+                    expect(database.validUsername) == true
+                }
+
+                it("should raise error if email is invalid") {
+                    expect{ try database.update(.EmailOrUsername, value: "not an email") }.to(throwError(InputValidationError.NotAnEmailAddress))
+                }
+
+                it("should raise error if email is empty") {
+                    expect{ try database.update(.EmailOrUsername, value: "") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if email is only spaces") {
+                    expect{ try database.update(.EmailOrUsername, value: "     ") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if email is nil") {
+                    expect{ try database.update(.EmailOrUsername, value: nil) }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+                
+            }
             describe("email validation") {
 
                 it("should always store value") {
@@ -236,6 +285,18 @@ class DatabaseInteractorSpec: QuickSpec {
 
             it("should indicate that mfa is required") {
                 stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error) == .MultifactorRequired
+                        done()
+                    }
+                }
+            }
+
+            it("should indicate that mfa is required") {
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_registration_required") }
                 try! database.update(.Email, value: email)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in

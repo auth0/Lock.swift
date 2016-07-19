@@ -72,6 +72,58 @@ class RouterSpec: QuickSpec {
                     router.onAuthentication(credentials)
                 }
             }
+
+            describe("back") {
+
+                beforeEach {
+                    router.navigate(.Multifactor)
+                }
+
+                it("should navigate back to root") {
+                    router.onBack()
+                    expect(controller.routes.current) == Route.Root
+                }
+
+                it("should clean user email") {
+                    router.user.email = email
+                    router.onBack()
+                    expect(router.user.email).to(beNil())
+                }
+
+                it("should clean user username") {
+                    router.user.username = username
+                    router.onBack()
+                    expect(router.user.username).to(beNil())
+                }
+
+                it("should clean user password") {
+                    router.user.password = password
+                    router.onBack()
+                    expect(router.user.password).to(beNil())
+                }
+
+                it("should not clean valid user email") {
+                    router.user.email = email
+                    router.user.validEmail = true
+                    router.onBack()
+                    expect(router.user.email) == email
+                }
+
+                it("should not clean valid user username") {
+                    router.user.username = username
+                    router.user.validUsername = true
+                    router.onBack()
+                    expect(router.user.username) == username
+                }
+
+                it("should always clean user password") {
+                    router.user.password = password
+                    router.user.validPassword = true
+                    router.onBack()
+                    expect(router.user.password).to(beNil())
+                }
+
+            }
         }
 
         it("should show forgot pwd screen") {
@@ -79,6 +131,10 @@ class RouterSpec: QuickSpec {
             expect(controller.presentable as? DatabaseForgotPasswordPresenter).toNot(beNil())
         }
 
+        it("should show multifactor screen") {
+            router.navigate(.Multifactor)
+            expect(controller.presentable as? MultifactorPresenter).toNot(beNil())
+        }
     }
 
 }

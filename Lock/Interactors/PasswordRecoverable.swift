@@ -24,6 +24,7 @@ import Foundation
 
 protocol PasswordRecoverable {
     var email: String? { get }
+    var validEmail: Bool { get }
 
     mutating func updateEmail(value: String?) throws
 

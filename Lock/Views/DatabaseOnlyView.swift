@@ -66,8 +66,9 @@ class DatabaseOnlyView: UIView, DatabaseView {
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    func showLogin(withUsername allowUsername: Bool) {
+    func showLogin(withUsername allowUsername: Bool, identifier: String? = nil) {
         let form = CredentialView()
+        form.identityField.text = identifier
         form.identityField.type = allowUsername ? .EmailOrUsername : .Email
         form.identityField.returnKey = .Next
         form.identityField.nextField = form.passwordField
@@ -76,9 +77,11 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.form = form
     }
 
-    func showSignUp(withUsername showUsername: Bool) {
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?) {
         let form = SignUpView()
         form.showUsername = showUsername
+        form.emailField.text = email
+        form.usernameField?.text = username
         layoutInStack(form)
         self.form = form
     }

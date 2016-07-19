@@ -44,21 +44,24 @@ class DatabasePresenter: Presentable {
             print("selected \(selected)")
             switch selected {
             case .Signup:
-                self.showSignup(inView: view)
+                self.showSignup(inView: view, username: self.initialUsername, email: self.initialEmail)
             case .Login:
-                self.showLogin(inView: view)
+                self.showLogin(inView: view, identifier: self.interactor.identifier)
             default:
                 print("invalid db mode")
             }
         }
-        showLogin(inView: database)
+        showLogin(inView: database, identifier: interactor.identifier)
         return database
     }
 
-    private func showLogin(inView view: DatabaseView) {
+    var initialEmail: String? { return self.interactor.validEmail ? self.interactor.email : nil }
+    var initialUsername: String? { return self.interactor.validUsername ? self.interactor.username : nil }
+
+    private func showLogin(inView view: DatabaseView, identifier: String?) {
         self.showErrorText = false
         self.messagePresenter?.hideCurrent()
-        view.showLogin(withUsername: self.database.requiresUsername)
+        view.showLogin(withUsername: self.database.requiresUsername, identifier: identifier)
         let form = view.form
         form?.onValueChange = self.handleInput
 
@@ -90,10 +93,10 @@ class DatabasePresenter: Presentable {
         }
     }
 
-    private func showSignup(inView view: DatabaseView) {
+    private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
         self.showErrorText = true
         self.messagePresenter?.hideCurrent()
-        view.showSignUp(withUsername: self.database.requiresUsername)
+        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email)
         let form = view.form
         view.form?.onValueChange = self.handleInput
         view.primaryButton?.onPress = { [weak form] button in
@@ -132,7 +135,7 @@ class DatabasePresenter: Presentable {
         case .Email:
             attribute = .Email
         case .EmailOrUsername:
-            attribute = .Username
+            attribute = .EmailOrUsername
         case .Password:
             attribute = .Password
         case .Username:

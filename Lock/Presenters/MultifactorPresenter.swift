@@ -1,4 +1,4 @@
-// DatabaseForgotPasswordPresenter.swift
+// MultifactorPresenter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,30 +22,28 @@
 
 import Foundation
 
-class DatabaseForgotPasswordPresenter: Presentable {
+class MultifactorPresenter: Presentable {
 
-    var interactor: PasswordRecoverable
+    var interactor: MultifactorAuthenticatable
     let database: DatabaseConnection
 
-    init(interactor: PasswordRecoverable, connections: Connections) {
+    init(interactor: MultifactorAuthenticatable, connection: DatabaseConnection) {
         self.interactor = interactor
-        self.database = connections.database! // FIXME: Avoid the force unwrap
+        self.database = connection
     }
 
-
     var messagePresenter: MessagePresenter?
-    
+
     var view: View {
-        let email = self.interactor.validEmail ? self.interactor.email : nil
-        let view = DatabaseForgotPasswordView(email: email)
+        let view = MultifactorCodeView()
         let form = view.form
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
 
-            guard case .Email = input.type else { return }
+            guard case .OneTimePassword = input.type else { return }
 
             do {
-                try self.interactor.updateEmail(input.text)
+                try self.interactor.setMultifactorCode(input.text)
                 input.showValid()
             } catch let error as InputValidationError {
                 input.showError(error.localizedMessage)
@@ -55,19 +53,16 @@ class DatabaseForgotPasswordPresenter: Presentable {
         }
         view.primaryButton?.onPress = { button in
             self.messagePresenter?.hideCurrent()
-            print("request forgot password for email \(self.interactor.email)")
+            print("resuming with mutifactor code \(self.interactor.code)")
             let interactor = self.interactor
             button.inProgress = true
-            interactor.requestEmail { error in
+            interactor.login { error in
                 dispatch_async(dispatch_get_main_queue()) {
                     button.inProgress = false
                     form?.needsToUpdateState()
                     if let error = error {
                         self.messagePresenter?.showError("\(error)")
                         print("Failed with error \(error)")
-                    } else {
-                        let message = "We've just sent you an email to reset your password".i18n(key: "com.auth0.lock.database.forgot.success.message", comment: "forgot password email sent")
-                        self.messagePresenter?.showSuccess(message)
                     }
                 }
             }

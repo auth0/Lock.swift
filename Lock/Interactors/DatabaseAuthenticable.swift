@@ -23,10 +23,13 @@
 import Foundation
 
 protocol DatabaseAuthenticatable {
+    var identifier: String? { get }
     var email: String? { get }
     var username: String? { get }
     var password: String? { get }
 
+    var validEmail: Bool { get }
+    var validUsername: Bool { get }
     mutating func update(attribute: CredentialAttribute, value: String?) throws
 
     func login(callback: (DatabaseAuthenticatableError?) -> ())
@@ -66,4 +69,5 @@ enum CredentialAttribute {
     case Email
     case Username
     case Password
+    case EmailOrUsername
 }
