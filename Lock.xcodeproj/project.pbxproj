@@ -55,6 +55,7 @@
 		5FBE5CC61D3E7F9D0038536D /* MultifactorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CC51D3E7F9D0038536D /* MultifactorPresenter.swift */; };
 		5FBE5CC81D3EA0EA0038536D /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CC71D3EA0EA0038536D /* Mocks.swift */; };
 		5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CC91D3EA1380038536D /* MultifactorPresenterSpec.swift */; };
+		5FBE5CCD1D3EDF960038536D /* UserSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CCC1D3EDF960038536D /* UserSpec.swift */; };
 		5FC434861D1DF769005188BC /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC434851D1DF769005188BC /* View.swift */; };
 		5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC434891D1DF82A005188BC /* DatabasePresenter.swift */; };
 		5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4348B1D1DFC5A005188BC /* Form.swift */; };
@@ -169,6 +170,7 @@
 		5FBE5CC51D3E7F9D0038536D /* MultifactorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultifactorPresenter.swift; sourceTree = "<group>"; };
 		5FBE5CC71D3EA0EA0038536D /* Mocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
 		5FBE5CC91D3EA1380038536D /* MultifactorPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultifactorPresenterSpec.swift; sourceTree = "<group>"; };
+		5FBE5CCC1D3EDF960038536D /* UserSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSpec.swift; sourceTree = "<group>"; };
 		5FC434851D1DF769005188BC /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		5FC434891D1DF82A005188BC /* DatabasePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenter.swift; sourceTree = "<group>"; };
 		5FC4348B1D1DFC5A005188BC /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
@@ -229,9 +231,9 @@
 				5FC4348E1D1E0A57005188BC /* DatabaseAuthenticable.swift */,
 				5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */,
 				5F73CDD91D30957900D8D8D1 /* DatabasePasswordInteractor.swift */,
-				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
 				5FBE5CBD1D3E5C7B0038536D /* MultifactorAuthenticatable.swift */,
 				5FBE5CBF1D3E5E0A0038536D /* MultifactorInteractor.swift */,
+				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -250,8 +252,8 @@
 			isa = PBXGroup;
 			children = (
 				5F5090091D1DEE9A00EAA650 /* Constants.swift */,
-				5F5090071D1DE7BA00EAA650 /* NetworkStub.swift */,
 				5FBE5CC71D3EA0EA0038536D /* Mocks.swift */,
+				5F5090071D1DE7BA00EAA650 /* NetworkStub.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -261,8 +263,8 @@
 			children = (
 				5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */,
 				5F50900D1D1DF40400EAA650 /* DatabaseOnlyView.swift */,
-				5FC434851D1DF769005188BC /* View.swift */,
 				5FBE5CB91D3E59B90038536D /* MultifactorCodeView.swift */,
+				5FC434851D1DF769005188BC /* View.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -291,8 +293,8 @@
 				5F99AA871D1B0E2500D27842 /* Layout.swift */,
 				5FDB41CD1D2C79FD00166B67 /* Operations.swift */,
 				5F99AA851D1B0BF100D27842 /* Resources.swift */,
-				5F99AA811D1B0A3900D27842 /* i18n.swift */,
 				5FBE5CC31D3E67320038536D /* Validators.swift */,
+				5F99AA811D1B0A3900D27842 /* i18n.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -302,7 +304,15 @@
 			children = (
 				5FBE5CB71D3D8F030038536D /* User.swift */,
 			);
-			name = Models;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5FBE5CCB1D3ED9210038536D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5FBE5CCC1D3EDF960038536D /* UserSpec.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		5FC434871D1DF7FA005188BC /* Presenters */ = {
@@ -311,8 +321,8 @@
 				5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */,
 				5FC434891D1DF82A005188BC /* DatabasePresenter.swift */,
 				5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */,
-				5F5F98D71D22ED120016FC22 /* Presentable.swift */,
 				5FBE5CC51D3E7F9D0038536D /* MultifactorPresenter.swift */,
+				5F5F98D71D22ED120016FC22 /* Presentable.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -355,10 +365,10 @@
 		5FEAE1C81D1A5154005C0028 /* Lock */ = {
 			isa = PBXGroup;
 			children = (
-				5FBE5CB51D3D8EE70038536D /* Models */,
 				5FEAE20E1D1A5682005C0028 /* Components */,
 				5F51EE6B1D1CE6110024BCD6 /* Controllers */,
 				5F508FF21D1D863400EAA650 /* Interactors */,
+				5FBE5CB51D3D8EE70038536D /* Models */,
 				5FC434871D1DF7FA005188BC /* Presenters */,
 				5FFC54FC1D37E3E400579581 /* Router */,
 				5F99AA801D1B0A2B00D27842 /* Utils */,
@@ -376,6 +386,7 @@
 			isa = PBXGroup;
 			children = (
 				5F508FF81D1DB01D00EAA650 /* Interactors */,
+				5FBE5CCB1D3ED9210038536D /* Models */,
 				5F5F98D11D21E3710016FC22 /* Presenters */,
 				5FFC54FF1D3803EC00579581 /* Router */,
 				5F5090061D1DE7A000EAA650 /* Utils */,
@@ -390,7 +401,6 @@
 				5F99AA951D1C4AF400D27842 /* CredentialView.swift */,
 				5F99AA8F1D1B9E7100D27842 /* DatabaseModeSwitcher.swift */,
 				5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */,
-				5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */,
 				5FC4348B1D1DFC5A005188BC /* Form.swift */,
 				5FEAE20F1D1A5691005C0028 /* HeaderView.swift */,
 				5F99AA8B1D1B3F1300D27842 /* InputField.swift */,
@@ -398,6 +408,7 @@
 				5F99AA891D1B360C00D27842 /* PrimaryButton.swift */,
 				5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */,
 				5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */,
+				5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -671,6 +682,7 @@
 				5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */,
 				5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */,
 				5F5F98DC1D22F0B40016FC22 /* RouterSpec.swift in Sources */,
+				5FBE5CCD1D3EDF960038536D /* UserSpec.swift in Sources */,
 				5FBE5CC81D3EA0EA0038536D /* Mocks.swift in Sources */,
 				5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */,
 			);

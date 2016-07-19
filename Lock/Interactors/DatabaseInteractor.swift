@@ -27,10 +27,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable {
 
     private var user: DatabaseUser
 
-    var identifier: String? {
-        guard self.validEmail || self.validUsername else { return nil }
-        return self.validEmail ? self.email : self.username
-    }
+    var identifier: String? { return self.user.identifier }
     var email: String? { return self.user.email }
     var username: String? { return self.user.username }
     var password: String? { return self.user.password }

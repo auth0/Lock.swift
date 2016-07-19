@@ -26,6 +26,7 @@ protocol DatabaseUser {
     var email: String? { get set }
     var username: String? { get set }
     var password: String? { get set }
+    var identifier: String? { get }
 
     var validEmail: Bool { get set }
     var validUsername: Bool { get set }
@@ -40,4 +41,15 @@ class User: DatabaseUser {
     var validEmail: Bool = false
     var validUsername: Bool = false
     var validPassword: Bool = false
+
+    var identifier: String? {
+        guard self.validEmail || self.validUsername else { return nil }
+        return self.validEmail ? self.email : self.username
+    }
+
+    func reset() {
+        if !self.validUsername { self.username = nil }
+        if !self.validEmail { self.email = nil }
+        self.password = nil
+    }
 }
