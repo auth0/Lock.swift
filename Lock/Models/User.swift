@@ -1,4 +1,4 @@
-// Constants.swift
+// User.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,11 +22,34 @@
 
 import Foundation
 
-let clientId = "CLIENT_ID"
-let domain = "samples.auth0.com"
+protocol DatabaseUser {
+    var email: String? { get set }
+    var username: String? { get set }
+    var password: String? { get set }
+    var identifier: String? { get }
 
-let email = "info@auth0.com"
-let password = "a long secure password"
-let username = "auth0"
-let connection = "Username-Password-Authentication"
-let code = "999999"
+    var validEmail: Bool { get set }
+    var validUsername: Bool { get set }
+    var validPassword: Bool { get set }
+}
+
+class User: DatabaseUser {
+    var email: String? = nil
+    var username: String? = nil
+    var password: String? = nil
+
+    var validEmail: Bool = false
+    var validUsername: Bool = false
+    var validPassword: Bool = false
+
+    var identifier: String? {
+        guard self.validEmail || self.validUsername else { return nil }
+        return self.validEmail ? self.email : self.username
+    }
+
+    func reset() {
+        if !self.validUsername { self.username = nil }
+        if !self.validEmail { self.email = nil }
+        self.password = nil
+    }
+}

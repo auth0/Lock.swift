@@ -1,3 +1,5 @@
+opt_out_usage
+
 fastlane_version "1.95.0"
 
 default_platform :ios
@@ -13,4 +15,19 @@ platform :ios do
     match(git_url: "git@github.com:auth0/apple-certificates.git", type: "development")
   end
 
+  lane :synx do
+    sh "synx -e App ../Lock.xcodeproj"
+  end
+
+  lane :cache_update do
+    sh "cd ..; bundle exec carthage_cache publish -f --bucket-name #{ENV["CARTHAGE_CACHE_BUCKET_NAME"]}"
+  end
+
+  private_lane :carthage_cache_exist do
+    sh "cd ..; bundle exec carthage_cache exist --bucket-name #{ENV["CARTHAGE_CACHE_BUCKET_NAME"]}"
+  end
+
+  private_lane :carthage_cache_install do
+    sh "cd ..; bundle exec carthage_cache install --verbose --bucket-name #{ENV["CARTHAGE_CACHE_BUCKET_NAME"]}"
+  end
 end

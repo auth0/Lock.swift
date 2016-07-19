@@ -1,4 +1,4 @@
-// ForgotPasswordView.swift
+// SingleInputView.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,29 +22,68 @@
 
 import UIKit
 
-public class ForgotPasswordView: UIView, Form {
-    public var emailField: InputField
-    var titleView: UILabel
-    var messageView: UILabel
-    var stackView: UIStackView
+public class SingleInputView: UIView, Form {
+    private var inputField: InputField
+    private var titleView: UILabel
+    private var messageView: UILabel
+    private var stackView: UIStackView
+
+    var value: String? {
+        get {
+            return self.inputField.text
+        }
+        set {
+            self.inputField.text = newValue
+        }
+    }
+
+    var type: InputField.InputType = .Email {
+        didSet {
+            self.inputField.type = self.type
+        }
+    }
+
+    var returnKey: UIReturnKeyType = .Done {
+        didSet {
+            self.inputField.returnKey = self.returnKey
+        }
+    }
+
+    var title: String? {
+        get {
+            return self.titleView.text
+        }
+        set {
+            self.titleView.text = newValue
+        }
+    }
+
+    var message: String? {
+        get {
+            return self.messageView.text
+        }
+        set {
+            self.messageView.text = newValue
+        }
+    }
 
     var onValueChange: (InputField) -> () = { _ in } {
         didSet {
-            self.emailField.onTextChange = self.onValueChange
+            self.inputField.onTextChange = self.onValueChange
         }
     }
 
     func needsToUpdateState() {
-        self.emailField.needsToUpdateState()
+        self.inputField.needsToUpdateState()
     }
 
     // MARK:- Initialisers
 
     required override public init(frame: CGRect) {
-        self.emailField = InputField()
+        self.inputField = InputField()
         self.titleView = UILabel()
         self.messageView = UILabel()
-        self.stackView = UIStackView(arrangedSubviews: [titleView, messageView, emailField])
+        self.stackView = UIStackView(arrangedSubviews: [titleView, messageView, inputField])
         super.init(frame: frame)
         self.layoutForm()
     }
@@ -72,12 +111,11 @@ public class ForgotPasswordView: UIView, Form {
         self.stackView.axis = .Vertical
         self.stackView.distribution = .EqualCentering
 
-        titleView.text = "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
         titleView.textAlignment = .Center
-        messageView.text = "Please enter your email and the new password. We will send you an email to confirm the password change.".i18n(key: "com.auth0.lock.forgot.message", comment: "Forgot Password message")
         messageView.numberOfLines = 4
         messageView.textAlignment = .Center
-        emailField.type = .Email
+        inputField.type = self.type
+        inputField.returnKey = self.returnKey
     }
 
     public override func intrinsicContentSize() -> CGSize {

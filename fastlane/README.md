@@ -11,6 +11,16 @@ sudo gem install fastlane
 fastlane ios bootstrap
 ```
 
+### ios synx
+```
+fastlane ios synx
+```
+
+### ios cache_update
+```
+fastlane ios cache_update
+```
+
 
 ----
 

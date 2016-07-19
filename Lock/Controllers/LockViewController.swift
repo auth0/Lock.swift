@@ -21,7 +21,6 @@
 // THE SOFTWARE.
 
 import UIKit
-import Auth0
 
 public class LockViewController: UIViewController, MessagePresenter {
 
@@ -29,7 +28,8 @@ public class LockViewController: UIViewController, MessagePresenter {
     weak var scrollView: UIScrollView!
     weak var messageView: MessageView?
     var current: View?
-    var state = State.Root
+    var keyboard: Bool = false
+    var routes: Routes = Routes()
 
 
     var anchorConstraint: NSLayoutConstraint?
@@ -80,17 +80,16 @@ public class LockViewController: UIViewController, MessagePresenter {
         center.addObserver(self, selector: #selector(keyboardWasShown), name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: #selector(keyboardWasHidden), name: UIKeyboardWillHideNotification, object: nil)
 
-        self.present(self.router.root, state: .Root)
+        self.present(self.router.root)
     }
 
-    func present(presentable: Presentable?, state: State) {
+    func present(presentable: Presentable?) {
         guard var presenter = presentable else { return }
         self.current?.remove()
         let view = presenter.view
         self.anchorConstraint = view.layout(inView: self.scrollView, below: self.headerView)
         presenter.messagePresenter = self
         self.current = view
-        self.state = state
         self.headerView.showBack = self.router.showBack
         self.headerView.onBackPressed = self.router.onBack
     }
@@ -98,6 +97,11 @@ public class LockViewController: UIViewController, MessagePresenter {
     enum State {
         case Root
         case ForgotPassword
+    }
+
+    public override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+        guard !self.keyboard else { return }
+        self.anchorConstraint?.active = self.traitCollection.verticalSizeClass != .Compact
     }
 
     // MARK:- MessagePresenter
@@ -140,6 +144,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         let frame = value.CGRectValue()
         let insets = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
 
+        self.keyboard = true
         self.scrollView.contentInset = insets
         let options = UIViewAnimationOptions(rawValue: UInt(curveValue.integerValue << 16))
         UIView.animateWithDuration(
@@ -158,13 +163,15 @@ public class LockViewController: UIViewController, MessagePresenter {
             let curveValue = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
             else { return }
         self.scrollView.contentInset = UIEdgeInsetsZero
+
+        self.keyboard = false
         let options = UIViewAnimationOptions(rawValue: UInt(curveValue.integerValue << 16))
         UIView.animateWithDuration(
             duration.doubleValue,
             delay: 0,
             options: options,
             animations: {
-                self.anchorConstraint?.active = true
+                self.traitCollectionDidChange(nil)
             },
             completion: nil)
     }

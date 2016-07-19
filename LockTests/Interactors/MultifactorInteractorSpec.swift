@@ -1,0 +1,150 @@
+// MultifactorInteractorSpec.swift
+//
+// Copyright (c) 2016 Auth0 (http://auth0.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+import Quick
+import Nimble
+import OHHTTPStubs
+
+import Auth0
+@testable import Lock
+
+class MultifactorInteractorSpec: QuickSpec {
+    override func spec() {
+
+        var user: User!
+        var interactor: MultifactorInteractor!
+        var connection: DatabaseConnection!
+        var credentials: Credentials?
+
+        beforeEach {
+            user = User()
+            user.email = email
+            user.validEmail = true
+            user.password = password
+            user.validPassword = true
+            credentials = nil
+            connection = DatabaseConnection(name: "myConnection", requiresUsername: true)
+            interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection) { credentials = $0 }
+        }
+
+        describe("updateCode") {
+
+            it("should update code") {
+                expect{ try interactor.setMultifactorCode(code) }.toNot(throwError())
+                expect(interactor.code) == code
+            }
+
+            it("should trim email") {
+                expect{ try interactor.setMultifactorCode("  \(code)      ") }.toNot(throwError())
+                expect(interactor.code) == code
+            }
+
+            it("should set valid flag") {
+                let _ = try? interactor.setMultifactorCode(code)
+                expect(interactor.validCode) == true
+            }
+
+            describe("code validation") {
+
+                it("should set valid flag") {
+                    let _ = try? interactor.setMultifactorCode("not a code")
+                    expect(interactor.validCode) == false
+                }
+
+                it("should always store value") {
+                    let _ = try? interactor.setMultifactorCode("not a code")
+                    expect(interactor.code) == "not a code"
+                }
+
+                it("should raise error if code is invalid") {
+                    expect{ try interactor.setMultifactorCode("not an email") }.to(throwError(InputValidationError.NotAOneTimePassword))
+                }
+
+                it("should raise error if code is empty") {
+                    expect{ try interactor.setMultifactorCode("") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if email is only spaces") {
+                    expect{ try interactor.setMultifactorCode("     ") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if email is nil") {
+                    expect{ try interactor.setMultifactorCode(nil) }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+            }
+        }
+
+        describe("login") {
+
+            it("should yield no error on success") {
+                stub(databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
+                try! interactor.setMultifactorCode(code)
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error).to(beNil())
+                        done()
+                    }
+                }
+            }
+
+            it("should yield credentials") {
+                stub(databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
+                try! interactor.setMultifactorCode(code)
+                interactor.login { _ in }
+                expect(credentials).toEventuallyNot(beNil())
+            }
+
+            it("should yield error on failure") {
+                stub(databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure() }
+                try! interactor.setMultifactorCode(code)
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error) == .CouldNotLogin
+                        done()
+                    }
+                }
+            }
+
+            it("should notify when code is invalid") {
+                stub(databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
+                try! interactor.setMultifactorCode(code)
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error) == .MultifactorInvalid
+                        done()
+                    }
+                }
+            }
+
+            it("should yield error when input is not valid") {
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error) == .NonValidInput
+                        done()
+                    }
+                }
+            }
+            
+        }
+
+    }
+}

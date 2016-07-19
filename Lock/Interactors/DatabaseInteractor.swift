@@ -25,13 +25,16 @@ import Auth0
 
 struct DatabaseInteractor: DatabaseAuthenticatable {
 
-    private(set) var email: String? = nil
-    private(set) var username: String? = nil
-    private(set) var password: String? = nil
+    private var user: DatabaseUser
 
-    private(set) var validEmail: Bool = false
-    private(set) var validUsername: Bool = false
-    private(set) var validPassword: Bool = false
+    var identifier: String? { return self.user.identifier }
+    var email: String? { return self.user.email }
+    var username: String? { return self.user.username }
+    var password: String? { return self.user.password }
+
+    var validEmail: Bool { return self.user.validEmail }
+    var validUsername: Bool { return self.user.validUsername }
+    var validPassword: Bool { return self.user.validPassword }
 
     let authentication: Authentication
     let connections: Connections
@@ -40,27 +43,30 @@ struct DatabaseInteractor: DatabaseAuthenticatable {
     let passwordValidator: InputValidator = NonEmptyValidator()
     let onAuthentication: Credentials -> ()
 
-    init(connections: Connections, authentication: Authentication, callback: Credentials -> ()) {
+    init(connections: Connections, authentication: Authentication, user: DatabaseUser, callback: Credentials -> ()) {
         self.authentication = authentication
         self.connections = connections
         self.onAuthentication = callback
+        self.user = user
     }
 
     mutating func update(attribute: CredentialAttribute, value: String?) throws {
         let error: ErrorType?
         switch attribute {
         case .Email:
-            self.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            error = self.emailValidator.validate(value)
-            self.validEmail = error == nil
+            error = self.updateEmail(value)
         case .Username:
-            self.username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            error = self.usernameValidator.validate(value)
-            self.validUsername = error == nil
+            error = self.updateUsername(value)
         case .Password:
-            self.password = value
-            error = self.passwordValidator.validate(value)
-            self.validPassword = error == nil
+            error = self.updatePassword(value)
+        case .EmailOrUsername:
+            let emailError = self.updateEmail(value)
+            let usernameError = self.updateUsername(value)
+            if emailError != nil && usernameError != nil {
+                error = emailError
+            } else {
+                error = nil
+            }
         }
 
         if let error = error { throw error }
@@ -112,59 +118,36 @@ struct DatabaseInteractor: DatabaseAuthenticatable {
             }
     }
 
+    private mutating func updateEmail(value: String?) -> InputValidationError? {
+        self.user.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let error = self.emailValidator.validate(value)
+        self.user.validEmail = error == nil
+        return error
+    }
+
+    private mutating func updateUsername(value: String?) -> InputValidationError? {
+        self.user.username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let error = self.usernameValidator.validate(value)
+        self.user.validUsername = error == nil
+        return error
+    }
+
+    private mutating func updatePassword(value: String?) -> InputValidationError? {
+        self.user.password = value
+        let error = self.passwordValidator.validate(value)
+        self.user.validPassword = error == nil
+        return error
+    }
+
     private func handleLoginResult(result: Auth0.Result<Credentials>, callback: DatabaseAuthenticatableError? -> ()) {
-        var error: DatabaseAuthenticatableError? = nil
-        if case .Failure = result {
-            error = .CouldNotLogin
-        }
-        callback(error)
-        if case .Success(let credentials) = result {
+        switch result {
+        case .Failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
+            callback(.MultifactorRequired)
+        case .Failure:
+            callback(.CouldNotLogin)
+        case .Success(let credentials):
+            callback(nil)
             self.onAuthentication(credentials)
         }
-    }
-}
-
-protocol InputValidator {
-    func validate(value: String?) -> InputValidationError?
-}
-
-struct NonEmptyValidator: InputValidator {
-    func validate(value: String?) -> InputValidationError? {
-        guard let value = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) where !value.isEmpty else { return .MustNotBeEmpty }
-        return nil
-    }
-}
-
-struct UsernameValidator: InputValidator {
-
-    let set: NSCharacterSet
-
-    init() {
-        let set = NSMutableCharacterSet()
-        set.formUnionWithCharacterSet(NSCharacterSet.alphanumericCharacterSet())
-        set.addCharactersInString("_")
-        self.set = set.invertedSet
-    }
-
-    func validate(value: String?) -> InputValidationError? {
-        guard let username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) where !username.isEmpty else { return .MustNotBeEmpty }
-        guard username.characters.count <= 15 else { return .NotAUsername }
-        guard username.rangeOfCharacterFromSet(self.set) == nil else { return .NotAUsername }
-        return nil
-    }
-}
-
-struct EmailValidator: InputValidator {
-    let predicate: NSPredicate
-
-    init() {
-        let regex = "[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}"
-        self.predicate = NSPredicate(format: "SELF MATCHES %@", regex)
-    }
-
-    func validate(value: String?) -> InputValidationError? {
-        guard let email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) where !email.isEmpty else { return .MustNotBeEmpty }
-        guard self.predicate.evaluateWithObject(email) else { return .NotAnEmailAddress }
-        return nil
     }
 }

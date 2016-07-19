@@ -33,15 +33,32 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
         var presenter: DatabaseForgotPasswordPresenter!
         var view: DatabaseForgotPasswordView!
         var messagePresenter: MockMessagePresenter!
+        var connections: OfflineConnections!
 
         beforeEach {
             messagePresenter = MockMessagePresenter()
             interactor = MockForgotInteractor()
-            var connections = OfflineConnections()
+            connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
             presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseForgotPasswordView
+        }
+
+        it("should use valid email") {
+            interactor.email = email
+            interactor.validEmail = true
+            presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
+            let view = (presenter.view as! DatabaseForgotPasswordView).form as! SingleInputView
+            expect(view.value) == email
+        }
+
+        it("should not use invalid email") {
+            interactor.email = email
+            interactor.validEmail = false
+            presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
+            let view = (presenter.view as! DatabaseForgotPasswordView).form as! SingleInputView
+            expect(view.value) != email
         }
 
         describe("login") {
@@ -140,6 +157,7 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
 
 class MockForgotInteractor: PasswordRecoverable {
 
+    var validEmail: Bool = false
     var email: String?
     var onRequest: () -> PasswordRecoverableError? = { return nil }
 
@@ -148,7 +166,11 @@ class MockForgotInteractor: PasswordRecoverable {
     }
 
     func updateEmail(value: String?) throws {
-        guard value != "invalid" else { throw NSError(domain: "", code: 0, userInfo: nil) }
+        guard value != "invalid" else {
+            self.validEmail = false
+            throw NSError(domain: "", code: 0, userInfo: nil)
+        }
+        self.validEmail = true
         self.email = value
     }
 }

@@ -33,15 +33,65 @@ class DatabasePresenterSpec: QuickSpec {
         var presenter: DatabasePresenter!
         var view: DatabaseView!
         var messagePresenter: MockMessagePresenter!
+        var navigator: MockNavigator!
 
         beforeEach {
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
+            navigator = MockNavigator()
             var connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
-            presenter = DatabasePresenter(interactor: interactor, connections: connections, forgotDisplayable: MockForgotDisplayable())
+            presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: navigator)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseView
+        }
+
+        describe("user state") {
+
+            it("should return initial valid email") {
+                interactor.validEmail = true
+                interactor.email = email
+                expect(presenter.initialEmail) == email
+            }
+
+            it("should not return initial invalid email") {
+                interactor.validEmail = false
+                interactor.email = email
+                expect(presenter.initialEmail).to(beNil())
+            }
+
+            it("should return initial valid username") {
+                interactor.validUsername = true
+                interactor.username = username
+                expect(presenter.initialUsername) == username
+            }
+
+            it("should not return initial invalid email") {
+                interactor.validUsername = false
+                interactor.username = username
+                expect(presenter.initialUsername).to(beNil())
+            }
+
+            it("should set identifier default in login") {
+                interactor.identifier = email
+                view.switcher?.selected = .Login
+                view.switcher?.onSelectionChange(view.switcher!)
+                let view = view.form as! CredentialView
+                expect(view.identityField.text) == email
+            }
+
+            it("should set email and password in signup") {
+                interactor.validEmail = true
+                interactor.email = email
+                interactor.validUsername = true
+                interactor.username = username
+                view.switcher?.selected = .Signup
+                view.switcher?.onSelectionChange(view.switcher!)
+                let view = view.form as! SignUpView
+                expect(view.emailField.text) == email
+                expect(view.usernameField?.text) == username
+            }
+
         }
 
         describe("login") {
@@ -132,6 +182,14 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(messagePresenter.message).toEventually(equal("CouldNotLogin"))
                 }
 
+                it("should navigate to multifactor required screen") {
+                    interactor.onLogin = {
+                        return .MultifactorRequired
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(navigator.route).toEventually(equal(Route.Multifactor))
+                }
+
                 it("should trigger login on button press") {
                     waitUntil { done in
                         interactor.onLogin = {
@@ -160,6 +218,11 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(button.inProgress).toEventually(beFalse())
                 }
 
+                it("should navigate to forgot password") {
+                    let button = view.secondaryButton!
+                    button.onPress(button)
+                    expect(navigator.route).toEventually(equal(Route.ForgotPassword))
+                }
             }
         }
 
@@ -245,6 +308,14 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(messagePresenter.message).toEventually(equal("CouldNotLogin"))
                 }
 
+                it("should navigate to multifactor required screen") {
+                    interactor.onSignUp = {
+                        return .MultifactorRequired
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(navigator.route).toEventually(equal(Route.Multifactor))
+                }
+
                 it("should trigger sign up on button press") {
                     waitUntil { done in
                         interactor.onSignUp = {
@@ -277,79 +348,4 @@ class DatabasePresenterSpec: QuickSpec {
         }
     }
 
-}
-
-func mockInput(type: InputField.InputType, value: String? = nil) -> MockInputField {
-    let input = MockInputField()
-    input.type = type
-    input.text = value
-    return input
-}
-
-class MockMessagePresenter: MessagePresenter {
-    var success: Bool? = nil
-    var message: String? = nil
-
-    func showSuccess(message: String) {
-        self.success = true
-        self.message = message
-    }
-
-    func showError(message: String) {
-        self.success = false
-        self.message = message
-    }
-
-    func hideCurrent() {
-        self.message = nil
-        self.success = nil
-    }
-}
-
-class MockInputField: InputField {
-    var valid: Bool? = nil
-
-    override func showError(error: String?, noDelay: Bool) {
-        self.valid = false
-    }
-
-    override func showValid() {
-        self.valid = true
-    }
-}
-
-class MockDBInteractor: DatabaseAuthenticatable {
-
-    var email: String? = nil
-    var password: String? = nil
-    var username: String? = nil
-
-    var onLogin: () -> DatabaseAuthenticatableError? = { return nil }
-    var onSignUp: () -> DatabaseAuthenticatableError? = { return nil }
-
-    func login(callback: (DatabaseAuthenticatableError?) -> ()) {
-        callback(onLogin())
-    }
-
-    func create(callback: (DatabaseAuthenticatableError?) -> ()) {
-        callback(onSignUp())
-    }
-
-    func update(attribute: CredentialAttribute, value: String?) throws {
-        guard value != "invalid" else { throw NSError(domain: "", code: 0, userInfo: nil) }
-        switch attribute {
-        case .Email:
-            self.email = value
-        case .Username:
-            self.username = value
-        case .Password:
-            self.password = value
-        }
-    }
-}
-
-struct MockForgotDisplayable: ForgotPasswordDisplayable {
-    func showForgotPassword() {
-
-    }
 }

@@ -38,7 +38,7 @@ class DatabaseInteractorSpec: QuickSpec {
         }
 
         describe("init") {
-            let database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, callback: {_ in})
+            let database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: User(), callback: {_ in})
 
             it("should build with authentication") {
                 expect(database).toNot(beNil())
@@ -53,11 +53,13 @@ class DatabaseInteractorSpec: QuickSpec {
 
         var connections: OfflineConnections!
         var database: DatabaseInteractor!
+        var user: User!
 
         beforeEach {
             var conns = OfflineConnections()
             connections = conns.database(name: connection, requiresUsername: true)
-            database = DatabaseInteractor(connections: connections, authentication: authentication, callback: { _ in })
+            user = User()
+            database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, callback: { _ in })
         }
 
         describe("updateAttribute") {
@@ -81,6 +83,24 @@ class DatabaseInteractorSpec: QuickSpec {
                 expect(database.password).to(beNil())
             }
 
+            it("should update username or email with an email") {
+                expect{ try database.update(.EmailOrUsername, value: email) }.toNot(throwError())
+                expect(database.username) == email
+                expect(database.email) == email
+                expect(database.validEmail) == true
+                expect(database.validUsername) == false
+                expect(database.password).to(beNil())
+            }
+
+            it("should update username or email with an username") {
+                expect{ try database.update(.EmailOrUsername, value: username) }.toNot(throwError())
+                expect(database.username) == username
+                expect(database.email) == username
+                expect(database.validEmail) == false
+                expect(database.validUsername) == true
+                expect(database.password).to(beNil())
+            }
+
             it("should update password") {
                 expect{ try database.update(.Password, value: password) }.toNot(throwError())
                 expect(database.password) == password
@@ -88,6 +108,37 @@ class DatabaseInteractorSpec: QuickSpec {
                 expect(database.email).to(beNil())
             }
 
+            describe("email or username validation") {
+
+                it("should always store value") {
+                    let _ = try? database.update(.EmailOrUsername, value: "not an email")
+                    expect(database.email) == "not an email"
+                    expect(database.username) == "not an email"
+                }
+
+                it("should fallback to username if valid") {
+                    expect { try database.update(.EmailOrUsername, value: username) }.notTo(throwError())
+                    expect(database.username) == username
+                    expect(database.validUsername) == true
+                }
+
+                it("should raise error if email is invalid") {
+                    expect{ try database.update(.EmailOrUsername, value: "not an email") }.to(throwError(InputValidationError.NotAnEmailAddress))
+                }
+
+                it("should raise error if email is empty") {
+                    expect{ try database.update(.EmailOrUsername, value: "") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if email is only spaces") {
+                    expect{ try database.update(.EmailOrUsername, value: "     ") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if email is nil") {
+                    expect{ try database.update(.EmailOrUsername, value: nil) }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+                
+            }
             describe("email validation") {
 
                 it("should always store value") {
@@ -172,7 +223,7 @@ class DatabaseInteractorSpec: QuickSpec {
         describe("login") {
 
             it("should fail if no db connection is found") {
-                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, callback: { _ in })
+                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: user, callback: { _ in })
                 try! database.update(.Email, value: email)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in
@@ -232,6 +283,30 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
+            it("should indicate that mfa is required") {
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error) == .MultifactorRequired
+                        done()
+                    }
+                }
+            }
+
+            it("should indicate that mfa is required") {
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_registration_required") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error) == .MultifactorRequired
+                        done()
+                    }
+                }
+            }
+
             it("should yield error when input is not valid") {
                 waitUntil(timeout: 2) { done in
                     database.login { error in
@@ -246,7 +321,7 @@ class DatabaseInteractorSpec: QuickSpec {
         describe("signup") {
 
             it("should fail if no db connection is found") {
-                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, callback: { _ in })
+                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: user, callback: { _ in })
                 try! database.update(.Email, value: email)
                 try! database.update(.Username, value: username)
                 try! database.update(.Password, value: password)
@@ -276,7 +351,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 let username = "AN INVALID USERNAME"
                 var conns = OfflineConnections()
                 connections = conns.database(name: connection, requiresUsername: false)
-                database = DatabaseInteractor(connections: connections, authentication: authentication, callback: { _ in })
+                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, callback: { _ in })
                 stub(databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.Email, value: email)
@@ -285,6 +360,20 @@ class DatabaseInteractorSpec: QuickSpec {
                 waitUntil(timeout: 2) { done in
                     database.create { error in
                         expect(error).to(beNil())
+                        done()
+                    }
+                }
+            }
+
+            it("should indicate that mfa is required") {
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { error in
+                        expect(error) == .MultifactorRequired
                         done()
                     }
                 }

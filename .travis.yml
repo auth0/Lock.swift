@@ -17,3 +17,5 @@ env:
   - SCHEME="Lock" CARTHAGE_BUILD_PLATFORM="iOS" IOS_DESTINATION_VERSION="9.3"
   global:
   - secure: hU2sg0N7L2hEAXzmssJRyVGLm1cHKDwuZEE1BQy6y+9jo88926DSTZpw0uLs5h3tHWMctDt/7hoXe9D93oUQowNRaoy6Y/k34VD3Wzfbl2Dht/xZ4M2fgFwy8AYxI9Px3zLmQOewLCsAdFvoLs1rGuRcHy77RH6wtSCMJG/MVng=
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -J 'Lock'

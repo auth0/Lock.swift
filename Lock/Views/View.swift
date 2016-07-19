@@ -53,6 +53,6 @@ protocol DatabaseView: View {
     weak var primaryButton: PrimaryButton? { get }
     weak var switcher: DatabaseModeSwitcher? { get }
 
-    func showLogin(withUsername allowUsername: Bool)
-    func showSignUp(withUsername showUsername: Bool)
+    func showLogin(withUsername allowUsername: Bool, identifier: String?)
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?)
 }

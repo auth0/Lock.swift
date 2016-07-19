@@ -1,4 +1,4 @@
-// Constants.swift
+// RouteHistory.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,11 +22,26 @@
 
 import Foundation
 
-let clientId = "CLIENT_ID"
-let domain = "samples.auth0.com"
+struct Routes {
 
-let email = "info@auth0.com"
-let password = "a long secure password"
-let username = "auth0"
-let connection = "Username-Password-Authentication"
-let code = "999999"
+    var current: Route {
+        return self.history.first ?? .Root
+    }
+
+    private(set) var history: [Route] = []
+
+    mutating func back() -> Route {
+        self.history.removeLast(1)
+        return self.current
+    }
+
+    mutating func go(route: Route) {
+        self.history.append(route)
+    }
+}
+
+enum Route {
+    case Root
+    case ForgotPassword
+    case Multifactor
+}

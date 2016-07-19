@@ -25,22 +25,25 @@ import Auth0
 
 struct DatabasePasswordInteractor: PasswordRecoverable {
 
-    private(set) var email: String? = nil
-    private(set) var validEmail: Bool = false
+    private var user: DatabaseUser
+
+    var email: String? { return self.user.email }
+    var validEmail: Bool { return self.user.validEmail }
 
     let authentication: Authentication
     let connections: Connections
     let emailValidator: InputValidator = EmailValidator()
 
-    init(connections: Connections, authentication: Authentication) {
+    init(connections: Connections, authentication: Authentication, user: DatabaseUser) {
         self.authentication = authentication
         self.connections = connections
+        self.user = user
     }
 
     mutating func updateEmail(value: String?) throws {
-        self.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        self.user.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         let error = self.emailValidator.validate(value)
-        self.validEmail = error == nil
+        self.user.validEmail = error == nil
         if let error = error { throw error }
     }
 
