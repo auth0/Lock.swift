@@ -31,6 +31,8 @@ public class InputField: UIView, UITextFieldDelegate {
 
     weak var nextField: InputField?
 
+    private weak var errorLabelTopPadding: NSLayoutConstraint?
+
     private(set) var state: State = .Invalid(nil)
 
     private lazy var debounceShowError: () -> () = debounce(0.8, queue: dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), action: self.needsToUpdateState)
@@ -102,6 +104,7 @@ public class InputField: UIView, UITextFieldDelegate {
         dispatch_async(dispatch_get_main_queue()) {
             self.errorLabel?.text = self.state.text
             self.containerView?.layer.borderColor = self.state.color.CGColor
+            self.errorLabelTopPadding?.constant = self.state.padding
         }
     }
 
@@ -123,12 +126,14 @@ public class InputField: UIView, UITextFieldDelegate {
         constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: container.bottomAnchor, toAnchor: errorLabel.topAnchor, constant: -10)
+        self.errorLabelTopPadding = constraintEqual(anchor: container.bottomAnchor, toAnchor: errorLabel.topAnchor)
         container.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: errorLabel.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: errorLabel.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: errorLabel.bottomAnchor, toAnchor: self.bottomAnchor)
+        errorLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Vertical)
+        errorLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Vertical)
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: iconContainer.leftAnchor, toAnchor: container.leftAnchor)
@@ -196,6 +201,15 @@ public class InputField: UIView, UITextFieldDelegate {
                 return UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
             case .Invalid:
                 return UIColor.redColor()
+            }
+        }
+
+        var padding: CGFloat {
+            switch self {
+            case .Valid:
+                return 0
+            case .Invalid:
+                return -10
             }
         }
     }

@@ -95,7 +95,7 @@ public class SignUpView: UIView, Form {
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         stackView.axis = .Vertical
-        stackView.spacing = 4
+        stackView.spacing = 16
         stackView.distribution = .EqualCentering
         stackView.alignment = .Fill
 

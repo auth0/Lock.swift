@@ -27,7 +27,6 @@ class DatabasePresenter: Presentable {
     var interactor: DatabaseAuthenticatable
     let database: DatabaseConnection
     var messagePresenter: MessagePresenter?
-    var showErrorText: Bool = false
     var navigator: Navigable
 
     init(interactor: DatabaseAuthenticatable, connections: Connections, navigator: Navigable) {
@@ -59,7 +58,6 @@ class DatabasePresenter: Presentable {
     var initialUsername: String? { return self.interactor.validUsername ? self.interactor.username : nil }
 
     private func showLogin(inView view: DatabaseView, identifier: String?) {
-        self.showErrorText = false
         self.messagePresenter?.hideCurrent()
         view.showLogin(withUsername: self.database.requiresUsername, identifier: identifier)
         let form = view.form
@@ -94,7 +92,6 @@ class DatabasePresenter: Presentable {
     }
 
     private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
-        self.showErrorText = true
         self.messagePresenter?.hideCurrent()
         view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email)
         let form = view.form
@@ -148,7 +145,7 @@ class DatabasePresenter: Presentable {
         do {
             try self.interactor.update(attr, value: input.text)
             input.showValid()
-        } catch let error as InputValidationError where self.showErrorText {
+        } catch let error as InputValidationError {
             input.showError(error.localizedMessage)
         } catch {
             input.showError()
