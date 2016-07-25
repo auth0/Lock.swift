@@ -138,9 +138,10 @@ public class InputField: UIView, UITextFieldDelegate {
         iconContainer.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: textField.leftAnchor, toAnchor: iconContainer.rightAnchor, constant: 16)
-        constraintEqual(anchor: textField.topAnchor, toAnchor: container.topAnchor, constant: 13)
+        constraintEqual(anchor: textField.topAnchor, toAnchor: container.topAnchor)
         constraintEqual(anchor: textField.rightAnchor, toAnchor: container.rightAnchor, constant: -16)
-        constraintEqual(anchor: textField.bottomAnchor, toAnchor: container.bottomAnchor, constant: -13)
+        constraintEqual(anchor: textField.bottomAnchor, toAnchor: container.bottomAnchor)
+        dimension(textField.heightAnchor, withValue: 50)
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: iconView.centerXAnchor, toAnchor: iconContainer.centerXAnchor)
@@ -151,6 +152,7 @@ public class InputField: UIView, UITextFieldDelegate {
         iconView.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
         textField.addTarget(self, action: #selector(textChanged), forControlEvents: .EditingChanged)
         textField.delegate = self
+        textField.font = UIFont.systemFontOfSize(17)
         errorLabel.textColor = .redColor()
         errorLabel.text = nil
         errorLabel.numberOfLines = 0
