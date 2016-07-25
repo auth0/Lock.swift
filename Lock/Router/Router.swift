@@ -56,15 +56,7 @@ struct Router: Navigable {
         self.onBack = {
             guard let current = self.controller?.routes.back() else { return }
 
-            self.user.password = nil
-
-            if !self.user.validEmail {
-                self.user.email = nil
-            }
-
-            if !self.user.validUsername {
-                self.user.username = nil
-            }
+            self.user.reset()
 
             switch current {
             case .ForgotPassword:
