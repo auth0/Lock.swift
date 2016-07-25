@@ -24,7 +24,7 @@
 #import "A0ContainerViewController.h"
 #import "A0LockEventDelegate.h"
 
-@class A0UserProfile, A0Token, A0AuthParameters, A0Lock;
+@class A0UserProfile, A0Token, A0AuthParameters, A0Lock, A0Theme;
 
 typedef void(^A0AuthenticationBlock)(A0UserProfile * __nullable profile, A0Token * __nullable token);
 
@@ -43,6 +43,18 @@ NS_ASSUME_NONNULL_BEGIN
  *  @see A0Lock
  */
 - (instancetype)initWithLock:(A0Lock *)lock;
+
+/**
+ *  Initialize a new instance of the ViewController
+ *
+ *  @param lock an instance of Lock configured for an Auth0 application
+ *  @param theme the theme to use to customize the view controller's look. If nil, the `sharedInstance` on `A0Theme` will be used instead.
+ *  @see A0Lock
+ *  @see A0Theme
+ *  @return an initialized instance.
+ */
+- (instancetype)initWithLock:(A0Lock *)lock theme:(nullable A0Theme *)theme;
+
 
 /**
  *  Initialize a new instance of the ViewController
@@ -95,6 +107,15 @@ NS_ASSUME_NONNULL_BEGIN
  * Hides the Reset Password button. By default is `false`.
  */
 @property (assign, nonatomic) BOOL disableResetPassword;
+
+/**
+ *  The theme to customize the look of the view. By default is nil.
+ *
+ *  You may optionally set this property before presenting the view controller to customize its theme, either directly
+ *  of via `initWithLock: theme:` initializer. If you don't set this property, the `sharedInstance` of `A0Theme` will be 
+ *  used instead.
+ */
+@property (strong, nonatomic) A0Theme *theme;
 
 /**
  *  Hook to use a custom UIViewController for SignUp. By default is nil.

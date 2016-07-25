@@ -76,6 +76,10 @@
 AUTH0_DYNAMIC_LOGGER_METHODS
 
 - (instancetype)initWithLock:(A0Lock *)lock {
+  return [self initWithLock:lock theme:[A0Theme sharedInstance]];
+}
+
+- (instancetype)initWithLock:(A0Lock *)lock theme:(A0Theme *)theme; {
     self = [super init];
     if (self) {
         _usesEmail = YES;
@@ -86,6 +90,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         _useWebView = YES;
         _eventDelegate = [[A0LockEventDelegate alloc] initWithLockViewController:self];
         _lock = lock;
+        _theme = theme;
     }
     return self;
 }
@@ -115,16 +120,15 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 - (void)setupUI {
     [self setupLayout];
 
-    A0Theme *theme = [A0Theme sharedInstance];
-    UIImage *image = [theme imageForKey:A0ThemeScreenBackgroundImageName];
+    UIImage *image = [self.theme imageForKey:A0ThemeScreenBackgroundImageName];
     if (image) {
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         [self.view insertSubview:imageView atIndex:0];
     }
-    self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
-    self.titleView.iconImage = [theme imageForKey:A0ThemeIconImageName];
-    [self.dismissButton setImage:[theme imageForKey:A0ThemeCloseButtonImageName] forState:UIControlStateNormal];
-    self.dismissButton.tintColor = [theme colorForKey:A0ThemeCloseButtonTintColor];
+    self.view.backgroundColor = [self.theme colorForKey:A0ThemeScreenBackgroundColor];
+    self.titleView.iconImage = [self.theme imageForKey:A0ThemeIconImageName];
+    [self.dismissButton setImage:[self.theme imageForKey:A0ThemeCloseButtonImageName] forState:UIControlStateNormal];
+    self.dismissButton.tintColor = [self.theme colorForKey:A0ThemeCloseButtonTintColor];
     self.dismissButton.hidden = !self.closable;
     self.dismissButton.accessibilityElementsHidden = YES;
     [self.dismissButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
@@ -159,11 +163,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return [[A0Theme sharedInstance] statusBarStyle];
+    return [self.theme statusBarStyle];
 }
 
 - (BOOL)prefersStatusBarHidden {
-    return [[A0Theme sharedInstance] statusBarHidden];
+    return [self.theme statusBarHidden];
 }
 
 #pragma mark - App info fetch
