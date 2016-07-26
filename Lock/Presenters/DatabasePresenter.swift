@@ -86,6 +86,7 @@ class DatabasePresenter: Presentable {
             }
         }
         view.secondaryButton?.title = DatabaseModes.ForgotPassword.title
+        view.secondaryButton?.color = .clearColor()
         view.secondaryButton?.onPress = { button in
             self.navigator.navigate(.ForgotPassword)
         }
@@ -119,6 +120,7 @@ class DatabasePresenter: Presentable {
             }
         }
         view.secondaryButton?.title = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.tos.button.title", comment: "tos & privacy")
+        view.secondaryButton?.color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
         view.secondaryButton?.onPress = { button in
             // FIXME: Show ToS & Privacy Policy
         }

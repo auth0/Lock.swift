@@ -51,9 +51,9 @@ class DatabaseOnlyView: UIView, DatabaseView {
         container.distribution = .EqualCentering
         container.spacing = 10
 
-        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
+        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor)
         container.translatesAutoresizingMaskIntoConstraints = false
 
