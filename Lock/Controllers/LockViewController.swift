@@ -118,6 +118,10 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.messageView?.removeFromSuperview()
     }
 
+    func present(alert: UIAlertController) {
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
     private func show(message message: String, flavor: MessageView.Flavor) {
         let view = MessageView()
         view.type = flavor

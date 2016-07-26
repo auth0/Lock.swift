@@ -29,4 +29,5 @@ protocol MessagePresenter {
     func showSuccess(message: String)
     func hideCurrent()
 
+    func present(alert: UIAlertController)
 }
