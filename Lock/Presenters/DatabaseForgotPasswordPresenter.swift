@@ -59,7 +59,7 @@ class DatabaseForgotPasswordPresenter: Presentable {
             let interactor = self.interactor
             button.inProgress = true
             interactor.requestEmail { error in
-                dispatch_async(dispatch_get_main_queue()) {
+                Queue.main.async {
                     button.inProgress = false
                     form?.needsToUpdateState()
                     if let error = error {

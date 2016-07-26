@@ -101,7 +101,7 @@ public class InputField: UIView, UITextFieldDelegate {
     }
 
     public func needsToUpdateState() {
-        dispatch_async(dispatch_get_main_queue()) {
+        Queue.main.async {
             self.errorLabel?.text = self.state.text
             self.containerView?.layer.borderColor = self.state.color.CGColor
             self.errorLabelTopPadding?.constant = self.state.padding
@@ -206,21 +206,23 @@ public class InputField: UIView, UITextFieldDelegate {
 
         var padding: CGFloat {
             switch self {
-            case .Valid:
-                return 0
-            case .Invalid:
+            case .Invalid where self.text != nil:
                 return -10
+            default:
+                return 0
             }
         }
     }
 
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
         if let field = self.nextField?.textField {
-            dispatch_async(dispatch_get_main_queue()) {
+            Queue.main.async {
                 field.becomeFirstResponder()
             }
         } else {
-            textField.resignFirstResponder()
+            Queue.main.async {
+                textField.resignFirstResponder()
+            }
         }
         return true
     }

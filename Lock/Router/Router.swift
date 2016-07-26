@@ -39,14 +39,14 @@ struct Router: Navigable {
         self.controller = controller
         self.lock = lock
         self.onDismiss = { [weak controller] in
-            dispatch_async(dispatch_get_main_queue()) {
+            Queue.main.async {
                 controller?.dismissViewControllerAnimated(true, completion: { _ in
                     lock.callback(.Cancelled)
                 })
             }
         }
         self.onAuthentication = { [weak controller] credentials in
-            dispatch_async(dispatch_get_main_queue()) {
+            Queue.main.async {
                 controller?.dismissViewControllerAnimated(true, completion: { _ in
                     lock.callback(.Success(credentials))
                 })

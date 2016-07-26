@@ -131,6 +131,8 @@ public class LockViewController: UIViewController, MessagePresenter {
         view.translatesAutoresizingMaskIntoConstraints = false
 
         self.messageView = view
+
+        Queue.main.after(4) { [weak view] in view?.removeFromSuperview() }
     }
 
     // MARK:- Keyboard

@@ -69,7 +69,7 @@ class DatabasePresenter: Presentable {
             let interactor = self.interactor
             button.inProgress = true
             interactor.login { error in
-                dispatch_async(dispatch_get_main_queue()) {
+                Queue.main.async {
                     button.inProgress = false
                     guard let error = error else {
                         print("Logged in!")
@@ -102,7 +102,7 @@ class DatabasePresenter: Presentable {
             let interactor = self.interactor
             button.inProgress = true
             interactor.create { error in
-                dispatch_async(dispatch_get_main_queue()) {
+                Queue.main.async {
                     button.inProgress = false
                     guard let error = error else {
                         print("Logged in!")
