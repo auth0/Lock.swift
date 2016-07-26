@@ -64,8 +64,10 @@ public class Lock: NSObject {
         return self
     }
 
-    public func options(closure: (() -> OptionBuildable) -> OptionBuildable) -> Lock {
-        self.options = closure { return LockOptions() }
+    public func options(closure: (inout OptionBuildable) -> ()) -> Lock {
+        var options: OptionBuildable = LockOptions()
+        closure(&options)
+        self.options = options
         return self
     }
 

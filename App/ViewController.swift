@@ -90,10 +90,8 @@ class ViewController: UIViewController {
                 return connections
                     .database(name: "Username-Password-Authentication", requiresUsername: true)
             }
-            .options { builder in
-                var options = builder()
-                return options
-                    .closable(true)
+            .options { options in
+                options.closable(true)
             }
             .on { result in
                 switch result {
