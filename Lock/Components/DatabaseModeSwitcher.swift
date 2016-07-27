@@ -67,8 +67,8 @@ public class DatabaseModeSwitcher: UIView {
         self.addSubview(segmented)
 
         constraintEqual(anchor: segmented.centerYAnchor, toAnchor: self.centerYAnchor)
-        constraintEqual(anchor: segmented.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: segmented.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: segmented.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
+        constraintEqual(anchor: segmented.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
         dimension(segmented.heightAnchor, withValue: 40)
         segmented.translatesAutoresizingMaskIntoConstraints = false
 

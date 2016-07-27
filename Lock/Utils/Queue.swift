@@ -1,4 +1,4 @@
-// MessagePresenter.swift
+// Queue.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,12 +22,19 @@
 
 import Foundation
 
+struct Queue {
+    static var main = Queue()
 
-protocol MessagePresenter {
+    private let queue: dispatch_queue_t = dispatch_get_main_queue()
 
-    func showError(message: String)
-    func showSuccess(message: String)
-    func hideCurrent()
+    private init() {}
 
-    func present(alert: UIViewController)
+    func after(seconds: Int, closure: () -> ()) {
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(seconds) * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, queue, closure)
+    }
+
+    func async(closure: () -> ()) {
+        dispatch_async(queue, closure)
+    }
 }

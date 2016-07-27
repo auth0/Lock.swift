@@ -30,8 +30,13 @@ public class Lock: NSObject {
     static let sharedInstance = Lock()
 
     let authentication: Authentication
-    var connections: ConnectionBuildable? = nil
-    var options: OptionBuildable? = nil
+
+    private var connectionBuilder: ConnectionBuildable? = nil
+    var connections: Connections? { return self.connectionBuilder }
+
+    private var optionsBuilder: OptionBuildable = LockOptions()
+    var options: Options { return self.optionsBuilder }
+
     var callback: AuthenticationCallback = {_ in }
 
     override convenience init() {
@@ -59,13 +64,17 @@ public class Lock: NSObject {
         controller.presentViewController(self.controller, animated: true, completion: nil)
     }
 
-    public func connections(closure: (() -> ConnectionBuildable) -> ConnectionBuildable) -> Lock {
-        self.connections = closure { return OfflineConnections() }
+    public func connections(closure: (inout ConnectionBuildable) -> ()) -> Lock {
+        var connections: ConnectionBuildable = OfflineConnections()
+        closure(&connections)
+        self.connectionBuilder = connections
         return self
     }
 
-    public func options(closure: (() -> OptionBuildable) -> OptionBuildable) -> Lock {
-        self.options = closure { return LockOptions() }
+    public func options(closure: (inout OptionBuildable) -> ()) -> Lock {
+        var options: OptionBuildable = LockOptions()
+        closure(&options)
+        self.optionsBuilder = options
         return self
     }
 
@@ -96,19 +105,43 @@ struct OfflineConnections: ConnectionBuildable {
 
 public protocol Options {
     var closable: Bool { get }
+    var termsOfServiceURL: NSURL { get }
+    var privacyPolicyURL: NSURL { get }
 }
 
 public protocol OptionBuildable: Options {
-    mutating func closable(closable: Bool) -> Self
+    var closable: Bool { get set }
+    var termsOfServiceURL: NSURL { get set }
+    var privacyPolicyURL: NSURL { get set }
+}
+
+extension OptionBuildable {
+    var termsOfService: String {
+        get {
+            return self.termsOfServiceURL.absoluteString
+        }
+        set {
+            guard let url = NSURL(string: newValue) else { return } // FIXME: log error
+            self.termsOfServiceURL = url
+        }
+    }
+
+    var privacyPolicy: String {
+        get {
+            return self.privacyPolicyURL.absoluteString
+        }
+        set {
+            guard let url = NSURL(string: newValue) else { return } // FIXME: log error
+            self.privacyPolicyURL = url
+        }
+    }
+
 }
 
 struct LockOptions: OptionBuildable {
     var closable: Bool = false
-
-    mutating func closable(closable: Bool) -> LockOptions {
-        self.closable = closable
-        return self
-    }
+    var termsOfServiceURL: NSURL = NSURL(string: "https://auth0.com/terms")!
+    var privacyPolicyURL: NSURL = NSURL(string: "https://auth0.com/privacy")!
 }
 
 public struct DatabaseConnection {

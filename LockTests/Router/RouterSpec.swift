@@ -31,28 +31,30 @@ class RouterSpec: QuickSpec {
     override func spec() {
 
         var lock: Lock!
-        var controller: MockController!
+        var controller: MockLockController!
         var router: Router!
 
         beforeEach {
             lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"))
-            var connections = OfflineConnections()
-            lock.connections = connections.database(name: "connection", requiresUsername: false)
-            controller = MockController(lock: Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.con")))
+            lock.connections { $0.database(name: "connection", requiresUsername: false) }
+            controller = MockLockController(lock: Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.con")))
             router = Router(lock: lock, controller: controller)
         }
 
         describe("root") {
 
+            beforeEach {
+                lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"))
+                controller = MockLockController(lock: Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.con")))
+                router = Router(lock: lock, controller: controller)
+            }
+
             it("should return no root if there are no connections") {
-                lock.connections = nil
                 expect(router.root).to(beNil())
             }
 
             it("should return root for single database connection") {
-                var connections: ConnectionBuildable = OfflineConnections()
-                connections.database(name: connection, requiresUsername: true)
-                lock.connections = connections
+                lock.connections { $0.database(name: connection, requiresUsername: true) }
                 expect(router.root).toNot(beNil())
             }
 
@@ -139,7 +141,7 @@ class RouterSpec: QuickSpec {
 
 }
 
-class MockController: LockViewController {
+class MockLockController: LockViewController {
 
     var presentable: Presentable?
 

@@ -41,7 +41,7 @@ class DatabasePresenterSpec: QuickSpec {
             navigator = MockNavigator()
             var connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
-            presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: navigator)
+            presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: navigator, options: LockOptions())
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseView
         }
@@ -343,9 +343,41 @@ class DatabasePresenterSpec: QuickSpec {
                     button.onPress(button)
                     expect(button.inProgress).toEventually(beFalse())
                 }
-                
+            }
+
+            describe("tos action") {
+
+                beforeEach {
+                    let button = view.secondaryButton!
+                    button.onPress(button)
+                }
+
+                it("should present alert controller for ToS") {
+                    expect(messagePresenter.presented as? UIAlertController).toEventuallyNot(beNil())
+                    expect(messagePresenter.presented?.title).toEventually(beNil())
+                }
+
+                it("should have actions") {
+                    let alert = messagePresenter.presented as? UIAlertController
+                    expect(alert?.message).toEventually(beNil())
+                    expect(alert?.preferredStyle) == UIAlertControllerStyle.ActionSheet
+                    expect(alert?.actions).to(haveAction("Cancel", style: .Cancel))
+                    expect(alert?.actions).to(haveAction("Terms of Service", style: .Default))
+                    expect(alert?.actions).to(haveAction("Privacy Policy", style: .Default))
+                }
             }
         }
     }
+}
 
+func haveAction(title: String, style: UIAlertActionStyle) -> MatcherFunc<[UIAlertAction]> {
+    return MatcherFunc { expression, failureMessage in
+        failureMessage.postfixMessage = "have action with title \(title) and style \(style)"
+        if let actions = try expression.evaluate() {
+            return actions.contains { alert in
+                return alert.title == title && alert.style == style
+            }
+        }
+        return false
+    }
 }

@@ -21,19 +21,21 @@
 // THE SOFTWARE.
 
 import Foundation
+import SafariServices
 
 class DatabasePresenter: Presentable {
 
     var interactor: DatabaseAuthenticatable
     let database: DatabaseConnection
     var messagePresenter: MessagePresenter?
-    var showErrorText: Bool = false
     var navigator: Navigable
+    let options: Options
 
-    init(interactor: DatabaseAuthenticatable, connections: Connections, navigator: Navigable) {
+    init(interactor: DatabaseAuthenticatable, connections: Connections, navigator: Navigable, options: Options) {
         self.interactor = interactor
         self.database = connections.database! // FIXME: Avoid the force unwrap
         self.navigator = navigator
+        self.options = options
     }
 
     var view: View {
@@ -59,7 +61,6 @@ class DatabasePresenter: Presentable {
     var initialUsername: String? { return self.interactor.validUsername ? self.interactor.username : nil }
 
     private func showLogin(inView view: DatabaseView, identifier: String?) {
-        self.showErrorText = false
         self.messagePresenter?.hideCurrent()
         view.showLogin(withUsername: self.database.requiresUsername, identifier: identifier)
         let form = view.form
@@ -71,7 +72,7 @@ class DatabasePresenter: Presentable {
             let interactor = self.interactor
             button.inProgress = true
             interactor.login { error in
-                dispatch_async(dispatch_get_main_queue()) {
+                Queue.main.async {
                     button.inProgress = false
                     guard let error = error else {
                         print("Logged in!")
@@ -88,13 +89,13 @@ class DatabasePresenter: Presentable {
             }
         }
         view.secondaryButton?.title = DatabaseModes.ForgotPassword.title
+        view.secondaryButton?.color = .clearColor()
         view.secondaryButton?.onPress = { button in
             self.navigator.navigate(.ForgotPassword)
         }
     }
 
     private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
-        self.showErrorText = true
         self.messagePresenter?.hideCurrent()
         view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email)
         let form = view.form
@@ -105,7 +106,7 @@ class DatabasePresenter: Presentable {
             let interactor = self.interactor
             button.inProgress = true
             interactor.create { error in
-                dispatch_async(dispatch_get_main_queue()) {
+                Queue.main.async {
                     button.inProgress = false
                     guard let error = error else {
                         print("Logged in!")
@@ -122,8 +123,14 @@ class DatabasePresenter: Presentable {
             }
         }
         view.secondaryButton?.title = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.tos.button.title", comment: "tos & privacy")
+        view.secondaryButton?.color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
         view.secondaryButton?.onPress = { button in
-            // FIXME: Show ToS & Privacy Policy
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+            let cancel = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel.title", comment: "Cancel"), style: .Cancel, handler: nil)
+            let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.tos.title", comment: "ToS"), style: .Default, handler: safariBuilder(forURL: self.options.termsOfServiceURL, presenter: self.messagePresenter))
+            let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy.title", comment: "Privacy"), style: .Default, handler: safariBuilder(forURL: self.options.privacyPolicyURL, presenter: self.messagePresenter))
+            [cancel, tos, privacy].forEach { alert.addAction($0) }
+            self.messagePresenter?.present(alert)
         }
     }
 
@@ -148,10 +155,17 @@ class DatabasePresenter: Presentable {
         do {
             try self.interactor.update(attr, value: input.text)
             input.showValid()
-        } catch let error as InputValidationError where self.showErrorText {
+        } catch let error as InputValidationError {
             input.showError(error.localizedMessage)
         } catch {
             input.showError()
         }
+    }
+}
+
+private func safariBuilder(forURL url: NSURL, presenter: MessagePresenter?) -> (UIAlertAction) -> () {
+    return { _ in
+        let safari = SFSafariViewController(URL: url)
+        presenter?.present(safari)
     }
 }

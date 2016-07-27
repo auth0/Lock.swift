@@ -31,6 +31,8 @@ public class InputField: UIView, UITextFieldDelegate {
 
     weak var nextField: InputField?
 
+    private weak var errorLabelTopPadding: NSLayoutConstraint?
+
     private(set) var state: State = .Invalid(nil)
 
     private lazy var debounceShowError: () -> () = debounce(0.8, queue: dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), action: self.needsToUpdateState)
@@ -99,9 +101,10 @@ public class InputField: UIView, UITextFieldDelegate {
     }
 
     public func needsToUpdateState() {
-        dispatch_async(dispatch_get_main_queue()) {
+        Queue.main.async {
             self.errorLabel?.text = self.state.text
             self.containerView?.layer.borderColor = self.state.color.CGColor
+            self.errorLabelTopPadding?.constant = self.state.padding
         }
     }
 
@@ -123,12 +126,14 @@ public class InputField: UIView, UITextFieldDelegate {
         constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: container.bottomAnchor, toAnchor: errorLabel.topAnchor, constant: -10)
+        self.errorLabelTopPadding = constraintEqual(anchor: container.bottomAnchor, toAnchor: errorLabel.topAnchor)
         container.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: errorLabel.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: errorLabel.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: errorLabel.bottomAnchor, toAnchor: self.bottomAnchor)
+        errorLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Vertical)
+        errorLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Vertical)
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: iconContainer.leftAnchor, toAnchor: container.leftAnchor)
@@ -138,9 +143,10 @@ public class InputField: UIView, UITextFieldDelegate {
         iconContainer.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: textField.leftAnchor, toAnchor: iconContainer.rightAnchor, constant: 16)
-        constraintEqual(anchor: textField.topAnchor, toAnchor: container.topAnchor, constant: 13)
+        constraintEqual(anchor: textField.topAnchor, toAnchor: container.topAnchor)
         constraintEqual(anchor: textField.rightAnchor, toAnchor: container.rightAnchor, constant: -16)
-        constraintEqual(anchor: textField.bottomAnchor, toAnchor: container.bottomAnchor, constant: -13)
+        constraintEqual(anchor: textField.bottomAnchor, toAnchor: container.bottomAnchor)
+        dimension(textField.heightAnchor, withValue: 50)
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: iconView.centerXAnchor, toAnchor: iconContainer.centerXAnchor)
@@ -151,6 +157,7 @@ public class InputField: UIView, UITextFieldDelegate {
         iconView.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
         textField.addTarget(self, action: #selector(textChanged), forControlEvents: .EditingChanged)
         textField.delegate = self
+        textField.font = UIFont.systemFontOfSize(17)
         errorLabel.textColor = .redColor()
         errorLabel.text = nil
         errorLabel.numberOfLines = 0
@@ -196,15 +203,26 @@ public class InputField: UIView, UITextFieldDelegate {
                 return UIColor.redColor()
             }
         }
+
+        var padding: CGFloat {
+            switch self {
+            case .Invalid where self.text != nil:
+                return -10
+            default:
+                return 0
+            }
+        }
     }
 
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
         if let field = self.nextField?.textField {
-            dispatch_async(dispatch_get_main_queue()) {
+            Queue.main.async {
                 field.becomeFirstResponder()
             }
         } else {
-            textField.resignFirstResponder()
+            Queue.main.async {
+                textField.resignFirstResponder()
+            }
         }
         return true
     }

@@ -61,7 +61,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.scrollView = scrollView
 
         let header = HeaderView()
-        header.showClose = self.router.lock.options?.closable ?? false
+        header.showClose = self.router.lock.options.closable
         header.onClosePressed = self.router.onDismiss
         self.scrollView.addSubview(header)
         constraintEqual(anchor: header.leftAnchor, toAnchor: scrollView.leftAnchor)
@@ -118,6 +118,10 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.messageView?.removeFromSuperview()
     }
 
+    func present(alert: UIViewController) {
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
     private func show(message message: String, flavor: MessageView.Flavor) {
         let view = MessageView()
         view.type = flavor
@@ -131,6 +135,8 @@ public class LockViewController: UIViewController, MessagePresenter {
         view.translatesAutoresizingMaskIntoConstraints = false
 
         self.messageView = view
+
+        Queue.main.after(4) { [weak view] in view?.removeFromSuperview() }
     }
 
     // MARK:- Keyboard

@@ -39,14 +39,14 @@ struct Router: Navigable {
         self.controller = controller
         self.lock = lock
         self.onDismiss = { [weak controller] in
-            dispatch_async(dispatch_get_main_queue()) {
+            Queue.main.async {
                 controller?.dismissViewControllerAnimated(true, completion: { _ in
                     lock.callback(.Cancelled)
                 })
             }
         }
         self.onAuthentication = { [weak controller] credentials in
-            dispatch_async(dispatch_get_main_queue()) {
+            Queue.main.async {
                 controller?.dismissViewControllerAnimated(true, completion: { _ in
                     lock.callback(.Success(credentials))
                 })
@@ -56,15 +56,7 @@ struct Router: Navigable {
         self.onBack = {
             guard let current = self.controller?.routes.back() else { return }
 
-            self.user.password = nil
-
-            if !self.user.validEmail {
-                self.user.email = nil
-            }
-
-            if !self.user.validUsername {
-                self.user.username = nil
-            }
+            self.user.reset()
 
             switch current {
             case .ForgotPassword:
@@ -81,7 +73,7 @@ struct Router: Navigable {
         guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
         let authentication = self.lock.authentication
         let interactor = DatabaseInteractor(connections: connections, authentication: authentication, user: self.user, callback: self.onAuthentication)
-        let presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: self)
+        let presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: self, options: self.lock.options)
         return presenter
     }
 

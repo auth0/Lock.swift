@@ -88,14 +88,14 @@ public class SignUpView: UIView, Form {
 
         self.addSubview(stackView)
 
-        constraintEqual(anchor: stackView.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: stackView.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
         constraintEqual(anchor: stackView.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: stackView.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: stackView.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
         constraintEqual(anchor: stackView.bottomAnchor, toAnchor: self.bottomAnchor)
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         stackView.axis = .Vertical
-        stackView.spacing = 4
+        stackView.spacing = 16
         stackView.distribution = .EqualCentering
         stackView.alignment = .Fill
 
