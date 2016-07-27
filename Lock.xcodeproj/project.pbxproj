@@ -46,6 +46,8 @@
 		5F99AA921D1BA5CA00D27842 /* DatabaseModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */; };
 		5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */; };
 		5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA951D1C4AF400D27842 /* CredentialView.swift */; };
+		5FA250501D48E2A200C544FA /* OptionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA2504F1D48E2A200C544FA /* OptionsSpec.swift */; };
+		5FA250521D48F08200C544FA /* LockSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA250511D48F08200C544FA /* LockSpec.swift */; };
 		5FBE5CB81D3D8F030038536D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CB71D3D8F030038536D /* User.swift */; };
 		5FBE5CBA1D3E59B90038536D /* MultifactorCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CB91D3E59B90038536D /* MultifactorCodeView.swift */; };
 		5FBE5CBE1D3E5C7B0038536D /* MultifactorAuthenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CBD1D3E5C7B0038536D /* MultifactorAuthenticatable.swift */; };
@@ -161,6 +163,8 @@
 		5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseModes.swift; sourceTree = "<group>"; };
 		5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		5F99AA951D1C4AF400D27842 /* CredentialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialView.swift; sourceTree = "<group>"; };
+		5FA2504F1D48E2A200C544FA /* OptionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsSpec.swift; sourceTree = "<group>"; };
+		5FA250511D48F08200C544FA /* LockSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockSpec.swift; sourceTree = "<group>"; };
 		5FBE5CB31D3D52EE0038536D /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = SOURCE_ROOT; };
 		5FBE5CB71D3D8F030038536D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5FBE5CB91D3E59B90038536D /* MultifactorCodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultifactorCodeView.swift; sourceTree = "<group>"; };
@@ -394,6 +398,8 @@
 				5FFC54FF1D3803EC00579581 /* Router */,
 				5F5090061D1DE7A000EAA650 /* Utils */,
 				5FEAE1D71D1A5154005C0028 /* Info.plist */,
+				5FA2504F1D48E2A200C544FA /* OptionsSpec.swift */,
+				5FA250511D48F08200C544FA /* LockSpec.swift */,
 			);
 			path = LockTests;
 			sourceTree = "<group>";
@@ -681,10 +687,12 @@
 				5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */,
 				5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */,
 				5F73CDDC1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift in Sources */,
+				5FA250501D48E2A200C544FA /* OptionsSpec.swift in Sources */,
 				5FBE5CC21D3E5EF50038536D /* MultifactorInteractorSpec.swift in Sources */,
 				5F73CDDE1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift in Sources */,
 				5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */,
 				5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */,
+				5FA250521D48F08200C544FA /* LockSpec.swift in Sources */,
 				5F5F98DC1D22F0B40016FC22 /* RouterSpec.swift in Sources */,
 				5FBE5CCD1D3EDF960038536D /* UserSpec.swift in Sources */,
 				5FBE5CC81D3EA0EA0038536D /* Mocks.swift in Sources */,

@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
+import SafariServices
 
 class DatabasePresenter: Presentable {
 
@@ -28,11 +29,13 @@ class DatabasePresenter: Presentable {
     let database: DatabaseConnection
     var messagePresenter: MessagePresenter?
     var navigator: Navigable
+    let options: Options
 
-    init(interactor: DatabaseAuthenticatable, connections: Connections, navigator: Navigable) {
+    init(interactor: DatabaseAuthenticatable, connections: Connections, navigator: Navigable, options: Options) {
         self.interactor = interactor
         self.database = connections.database! // FIXME: Avoid the force unwrap
         self.navigator = navigator
+        self.options = options
     }
 
     var view: View {
@@ -124,8 +127,8 @@ class DatabasePresenter: Presentable {
         view.secondaryButton?.onPress = { button in
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
             let cancel = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel.title", comment: "Cancel"), style: .Cancel, handler: nil)
-            let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.tos.title", comment: "ToS"), style: .Default, handler: nil)
-            let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy.title", comment: "Privacy"), style: .Default, handler: nil)
+            let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.tos.title", comment: "ToS"), style: .Default, handler: safariBuilder(forURL: self.options.termsOfServiceURL, presenter: self.messagePresenter))
+            let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy.title", comment: "Privacy"), style: .Default, handler: safariBuilder(forURL: self.options.privacyPolicyURL, presenter: self.messagePresenter))
             [cancel, tos, privacy].forEach { alert.addAction($0) }
             self.messagePresenter?.present(alert)
         }
@@ -157,5 +160,12 @@ class DatabasePresenter: Presentable {
         } catch {
             input.showError()
         }
+    }
+}
+
+private func safariBuilder(forURL url: NSURL, presenter: MessagePresenter?) -> (UIAlertAction) -> () {
+    return { _ in
+        let safari = SFSafariViewController(URL: url)
+        presenter?.present(safari)
     }
 }

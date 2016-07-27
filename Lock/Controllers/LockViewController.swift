@@ -61,7 +61,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.scrollView = scrollView
 
         let header = HeaderView()
-        header.showClose = self.router.lock.options?.closable ?? false
+        header.showClose = self.router.lock.options.closable
         header.onClosePressed = self.router.onDismiss
         self.scrollView.addSubview(header)
         constraintEqual(anchor: header.leftAnchor, toAnchor: scrollView.leftAnchor)
@@ -118,7 +118,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.messageView?.removeFromSuperview()
     }
 
-    func present(alert: UIAlertController) {
+    func present(alert: UIViewController) {
         self.presentViewController(alert, animated: true, completion: nil)
     }
 

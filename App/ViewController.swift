@@ -85,13 +85,11 @@ class ViewController: UIViewController {
     private func showLock() {
         Lock
             .login()
-            .connections { builder in
-                var connections = builder()
-                return connections
-                    .database(name: "Username-Password-Authentication", requiresUsername: true)
+            .connections { connections in
+                connections.database(name: "Username-Password-Authentication", requiresUsername: true)
             }
-            .options { options in
-                options.closable(true)
+            .options {
+                $0.closable = true
             }
             .on { result in
                 switch result {

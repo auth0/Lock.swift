@@ -41,7 +41,7 @@ class DatabasePresenterSpec: QuickSpec {
             navigator = MockNavigator()
             var connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
-            presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: navigator)
+            presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: navigator, options: LockOptions())
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseView
         }
@@ -343,17 +343,27 @@ class DatabasePresenterSpec: QuickSpec {
                     button.onPress(button)
                     expect(button.inProgress).toEventually(beFalse())
                 }
+            }
 
-                it("should present alert controller for ToS") {
+            describe("tos action") {
+
+                beforeEach {
                     let button = view.secondaryButton!
                     button.onPress(button)
-                    expect(messagePresenter.alert).toEventuallyNot(beNil())
-                    expect(messagePresenter.alert?.title).toEventually(beNil())
-                    expect(messagePresenter.alert?.message).toEventually(beNil())
-                    expect(messagePresenter.alert?.preferredStyle) == UIAlertControllerStyle.ActionSheet
-                    expect(messagePresenter.alert?.actions).to(haveAction("Cancel", style: .Cancel))
-                    expect(messagePresenter.alert?.actions).to(haveAction("Terms of Service", style: .Default))
-                    expect(messagePresenter.alert?.actions).to(haveAction("Privacy Policy", style: .Default))
+                }
+
+                it("should present alert controller for ToS") {
+                    expect(messagePresenter.presented as? UIAlertController).toEventuallyNot(beNil())
+                    expect(messagePresenter.presented?.title).toEventually(beNil())
+                }
+
+                it("should have actions") {
+                    let alert = messagePresenter.presented as? UIAlertController
+                    expect(alert?.message).toEventually(beNil())
+                    expect(alert?.preferredStyle) == UIAlertControllerStyle.ActionSheet
+                    expect(alert?.actions).to(haveAction("Cancel", style: .Cancel))
+                    expect(alert?.actions).to(haveAction("Terms of Service", style: .Default))
+                    expect(alert?.actions).to(haveAction("Privacy Policy", style: .Default))
                 }
             }
         }

@@ -42,7 +42,7 @@ func mockInput(type: InputField.InputType, value: String? = nil) -> MockInputFie
 class MockMessagePresenter: MessagePresenter {
     var success: Bool? = nil
     var message: String? = nil
-    var alert: UIAlertController? = nil
+    var presented: UIViewController? = nil
 
     func showSuccess(message: String) {
         self.success = true
@@ -59,8 +59,8 @@ class MockMessagePresenter: MessagePresenter {
         self.success = nil
     }
 
-    func present(alert: UIAlertController) {
-        self.alert = alert
+    func present(controller: UIViewController) {
+        self.presented = controller
     }
 }
 

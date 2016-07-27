@@ -73,7 +73,7 @@ struct Router: Navigable {
         guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
         let authentication = self.lock.authentication
         let interactor = DatabaseInteractor(connections: connections, authentication: authentication, user: self.user, callback: self.onAuthentication)
-        let presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: self)
+        let presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: self, options: self.lock.options)
         return presenter
     }
 
