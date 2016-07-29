@@ -1,4 +1,4 @@
-github "auth0/Auth0.swift" "f5a4dbd26956a99f151bfcecf9dc227f5cc48f7c"
+github "auth0/Auth0.swift" "376f902dd0d46ca05171523fdf742efce546b94b"
 github "Quick/Nimble" "v4.1.0"
 github "AliSoftware/OHHTTPStubs" "5.1.0"
-github "Quick/Quick" "v0.9.2"
+github "Quick/Quick" "v0.9.3"

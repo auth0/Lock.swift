@@ -44,7 +44,8 @@ public class Lock: NSObject {
     }
 
     required public init(authentication: Authentication) {
-        Auth0.using(inLibrary: "Lock.swift", version: "2.0.0-alpha.1") // FIXME: Use correct version from bundle
+        var authentication = authentication
+        authentication.using(inLibrary: "Lock.swift", version: "2.0.0-alpha.1") // FIXME: Use correct version from bundle
         self.authentication = authentication
     }
 
