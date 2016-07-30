@@ -22,14 +22,8 @@
 
 import Foundation
 
-extension Lock {
-    static var bundle: NSBundle {
-        return NSBundle(forClass: Lock.classForCoder())
-    }
-}
-
 func image(named name: String, compatibleWithTraitCollection traitCollection: UITraitCollection? = nil) -> UIImage? {
-    let bundle = Lock.bundle
+    let bundle = _BundleHack.bundle
     return UIImage(named: name, inBundle: bundle, compatibleWithTraitCollection: traitCollection)
 }
 

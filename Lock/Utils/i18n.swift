@@ -24,9 +24,15 @@ import Foundation
 
 private let TableName = "Lock"
 
+class _BundleHack: NSObject {
+    static var bundle: NSBundle {
+        return NSBundle(forClass: _BundleHack.classForCoder())
+    }
+}
+
 extension String {
     func i18n(key key: String, comment: String) -> String {
-        let bundle = Lock.bundle
+        let bundle = _BundleHack.bundle
         return NSLocalizedString(key, tableName: TableName, bundle: bundle, value: self, comment: comment)
     }
 }
