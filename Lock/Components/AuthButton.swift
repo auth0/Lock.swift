@@ -40,15 +40,14 @@ public class AuthButton: UIView {
         didSet {
             self.iconView?.tintColor = self.titleColor
             self.button?.setTitleColor(self.titleColor, forState: .Normal)
+            self.button?.tintColor = self.titleColor
         }
     }
 
     public var title: String? {
-        get {
-            return self.button?.titleForState(.Normal)
-        }
-        set {
-            self.button?.setTitle(newValue, forState: .Normal)
+        didSet {
+            guard case .Big = self.style else { return }
+            self.button?.setTitle(self.title, forState: .Normal)
         }
     }
 
@@ -61,25 +60,47 @@ public class AuthButton: UIView {
         }
     }
 
+    public var onPress: AuthButton -> () = { _ in }
+
+    // MARK:- Style
+
+    public var style: Style {
+        didSet {
+            print("LAYOUT")
+            self.subviews.forEach { $0.removeFromSuperview() }
+            self.layout(style: self.style)
+        }
+    }
+
+    public enum Style {
+        case Small
+        case Big
+    }
+
     // MARK:- Initialisers
 
-    public convenience init() {
-        self.init(frame: CGRectZero)
+    public init(style: Style) {
+        self.style = style
+        super.init(frame: CGRectZero)
+        self.layout(style: self.style)
     }
 
     required override public init(frame: CGRect) {
+        self.style = .Big
         super.init(frame: frame)
-        self.layoutButton()
+        self.layout(style: self.style)
     }
 
     public required init?(coder aDecoder: NSCoder) {
+        self.style = .Big
         super.init(coder: aDecoder)
-        self.layoutButton()
+        self.layout(style: self.style)
     }
 
     // MARK:- Layout
 
-    private func layoutButton() {
+    private func layout(style style: Style) {
+
         let button = UIButton(type: .Custom)
         let iconView = UIImageView()
 
@@ -96,6 +117,10 @@ public class AuthButton: UIView {
         constraintEqual(anchor: button.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: button.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: button.bottomAnchor, toAnchor: self.bottomAnchor)
+        if case .Small = self.style {
+            constraintEqual(anchor: button.widthAnchor, toAnchor: button.heightAnchor)
+        }
+        dimension(button.heightAnchor, greaterThanOrEqual: 50)
         button.translatesAutoresizingMaskIntoConstraints = false
 
         button.layer.cornerRadius = 3
@@ -107,19 +132,45 @@ public class AuthButton: UIView {
         iconView.tintColor = self.titleColor
 
         button.setBackgroundImage(image(withColor: self.color), forState: .Normal)
+        button.setBackgroundImage(image(withColor: self.color.a0_darker(0.3)), forState: .Highlighted)
         button.setTitleColor(self.titleColor, forState: .Normal)
         button.titleLabel?.font = .systemFontOfSize(13.33, weight: UIFontWeightMedium)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.5
         button.contentVerticalAlignment = .Center
         button.contentHorizontalAlignment = .Left
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: self.frame.size.height + 18, bottom: 0, right: 18)
+        button.addTarget(self, action: #selector(buttonPressed), forControlEvents: .TouchUpInside)
+
+        if case .Big = self.style {
+            button.setTitle(self.title, forState: .Normal)
+        }
 
         self.button = button
         self.iconView = iconView
     }
+
+    public override func updateConstraints() {
+        super.updateConstraints()
+        self.button?.titleEdgeInsets = UIEdgeInsets(top: 0, left: max(self.frame.size.height, 50) + 18, bottom: 0, right: 18)
+    }
+
+    public override func intrinsicContentSize() -> CGSize {
+        switch self.style {
+        case .Big:
+            return CGSize(width: 280, height: 50)
+        case .Small:
+            return CGSize(width: 50, height: 50)
+        }
+    }
+
+    // MARK:- Event
+
+    func buttonPressed(sender: AnyObject) {
+        self.onPress(self)
+    }
 }
 
+// MARK:- Color Util
 extension UIColor {
     func a0_darker(percentage: CGFloat) -> UIColor {
         guard percentage >= 0 && percentage <= 1 else { return self }
