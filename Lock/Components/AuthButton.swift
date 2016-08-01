@@ -66,7 +66,6 @@ public class AuthButton: UIView {
 
     public var style: Style {
         didSet {
-            print("LAYOUT")
             self.subviews.forEach { $0.removeFromSuperview() }
             self.layout(style: self.style)
         }

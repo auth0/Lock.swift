@@ -56,8 +56,8 @@ class DatabaseInteractorSpec: QuickSpec {
         var user: User!
 
         beforeEach {
-            var conns = OfflineConnections()
-            connections = conns.database(name: connection, requiresUsername: true)
+            connections = OfflineConnections()
+            connections.database(name: connection, requiresUsername: true)
             user = User()
             database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, callback: { _ in })
         }
@@ -349,8 +349,8 @@ class DatabaseInteractorSpec: QuickSpec {
 
             it("should not send username") {
                 let username = "AN INVALID USERNAME"
-                var conns = OfflineConnections()
-                connections = conns.database(name: connection, requiresUsername: false)
+                connections = OfflineConnections()
+                connections.database(name: connection, requiresUsername: false)
                 database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, callback: { _ in })
                 stub(databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }

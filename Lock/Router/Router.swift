@@ -71,10 +71,18 @@ struct Router: Navigable {
 
     var root: Presentable? {
         guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
-        let authentication = self.lock.authentication
-        let interactor = DatabaseInteractor(connections: connections, authentication: authentication, user: self.user, callback: self.onAuthentication)
-        let presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: self, options: self.lock.options)
-        return presenter
+
+        if connections.database != nil {
+            let authentication = self.lock.authentication
+            let interactor = DatabaseInteractor(connections: connections, authentication: authentication, user: self.user, callback: self.onAuthentication)
+            let presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: self, options: self.lock.options)
+            return presenter
+        }
+
+        if !connections.social.isEmpty {
+            return SocialPresenter(connections: connections)
+        }
+        return nil
     }
 
     var forgotPassword: Presentable? {

@@ -87,21 +87,27 @@ public class Lock: NSObject {
 
 public protocol Connections {
     var database: DatabaseConnection? { get }
+    var social: [SocialConnection] { get }
 }
 
 public protocol ConnectionBuildable: Connections {
-    mutating func database(name name: String, requiresUsername: Bool) -> Self
+    mutating func database(name name: String, requiresUsername: Bool)
+    mutating func social(name name: String, strategy: SocialStrategy)
 }
 
 struct OfflineConnections: ConnectionBuildable {
 
     var database: DatabaseConnection? = nil
+    var social: [SocialConnection] = []
 
-    mutating func database(name name: String, requiresUsername: Bool) -> OfflineConnections {
+    mutating func database(name name: String, requiresUsername: Bool) {
         self.database = DatabaseConnection(name: name, requiresUsername: requiresUsername)
-        return self
     }
 
+    mutating func social(name name: String, strategy: SocialStrategy) {
+        let social = SocialConnection(name: name, strategy: strategy)
+        self.social.append(social)
+    }
 }
 
 public protocol Options {
@@ -148,6 +154,11 @@ struct LockOptions: OptionBuildable {
 public struct DatabaseConnection {
     public let name: String
     public let requiresUsername: Bool
+}
+
+public struct SocialConnection {
+    public let name: String
+    public let strategy: SocialStrategy
 }
 
 public enum Result {
