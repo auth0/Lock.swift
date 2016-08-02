@@ -102,7 +102,7 @@ public protocol Connections {
 
 public protocol ConnectionBuildable: Connections {
     mutating func database(name name: String, requiresUsername: Bool)
-    mutating func social(name name: String, strategy: SocialStrategy)
+    mutating func social(name name: String, style: AuthStyle)
 }
 
 struct OfflineConnections: ConnectionBuildable {
@@ -114,8 +114,8 @@ struct OfflineConnections: ConnectionBuildable {
         self.database = DatabaseConnection(name: name, requiresUsername: requiresUsername)
     }
 
-    mutating func social(name name: String, strategy: SocialStrategy) {
-        let social = SocialConnection(name: name, strategy: strategy)
+    mutating func social(name name: String, style: AuthStyle) {
+        let social = SocialConnection(name: name, style: style)
         self.social.append(social)
     }
 }
@@ -168,7 +168,7 @@ public struct DatabaseConnection {
 
 public struct SocialConnection {
     public let name: String
-    public let strategy: SocialStrategy
+    public let style: AuthStyle
 }
 
 public enum Result {

@@ -35,7 +35,7 @@ class SocialPresenterSpec: QuickSpec {
 
         beforeEach {
             var connections = OfflineConnections()
-            connections.social(name: "social0", strategy: .Custom)
+            connections.social(name: "social0", style: AuthStyle(name: "custom"))
             interactor = MockOAuth2()
             messagePresenter = MockMessagePresenter()
             presenter = SocialPresenter(connections: connections, interactor: interactor)
@@ -56,6 +56,35 @@ class SocialPresenterSpec: QuickSpec {
                 let view = presenter.view as! SocialView
                 view.buttons.forEach { expect($0.title).toNot(beNil()) }
             }
+        }
+
+        describe("styling") {
+
+            func styleButton(style: AuthStyle) -> AuthButton {
+                var connections = OfflineConnections()
+                connections.social(name: "social0", style: style)
+                let presenter = SocialPresenter(connections: connections, interactor: interactor)
+                let view = presenter.view as! SocialView
+                return view.buttons.first!
+            }
+
+            it("should set proper title") {
+                let button = styleButton(.Facebook)
+                expect(button.title) == "LOG IN WITH FACEBOOK"
+            }
+
+            it("should set color") {
+                let style = AuthStyle.Facebook
+                let button = styleButton(style)
+                expect(button.color) == style.color
+            }
+
+            it("should set icon") {
+                let style = AuthStyle.Facebook
+                let button = styleButton(style)
+                expect(button.icon).toNot(beNil())
+            }
+
         }
 
         describe("action") {

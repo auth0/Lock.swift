@@ -59,7 +59,7 @@ class RouterSpec: QuickSpec {
             }
 
             it("should return root for only social connections") {
-                lock.connections { $0.social(name: "dropbox", strategy: .Custom) }
+                lock.connections { $0.social(name: "dropbox", style: AuthStyle(name: "Dropbox")) }
                 expect(router.root as? SocialPresenter).toNot(beNil())
             }
 

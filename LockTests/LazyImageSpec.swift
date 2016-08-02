@@ -1,4 +1,4 @@
-// SocialStrategy.swift
+// LazyImageSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,10 +20,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import UIKit
+import Quick
+import Nimble
 
-public enum SocialStrategy: String {
+@testable import Lock
 
-    case Custom = "oauth2"
+class LazyImageSpec: QuickSpec {
+
+    override func spec() {
+
+        describe("init") {
+
+            it("should use name only") {
+                let image = LazyImage(name: "image")
+                expect(image.name) == "image"
+                expect(image.bundle) == _BundleHack.bundle
+            }
+
+            it("should use name and bundle") {
+                let image = LazyImage(name: "image", bundle: NSBundle.mainBundle())
+                expect(image.name) == "image"
+                expect(image.bundle) == NSBundle.mainBundle()
+            }
+
+        }
+
+        describe("image(compatibleWithTraits:)") {
+            it("should load image") {
+                let image = LazyImage(name: "ic_auth0")
+                expect(image.image(compatibleWithTraits: nil)).toNot(beNil())
+            }
+
+            it("should return nil when image cannot be found") {
+                let image = LazyImage(name: "ic_not_found_image")
+                expect(image.image(compatibleWithTraits: nil)).to(beNil())
+            }
+
+        }
+
+    }
 
 }

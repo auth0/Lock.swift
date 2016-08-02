@@ -1,4 +1,4 @@
-// SocialPresenter.swift
+// LazyImage.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,37 +22,16 @@
 
 import Foundation
 
-class SocialPresenter: Presentable {
+struct LazyImage {
+    let bundle: NSBundle
+    let name: String
 
-    let connections: [SocialConnection]
-    let interactor: OAuth2Authenticatable
-
-    var messagePresenter: MessagePresenter?
-
-    init(connections: Connections, interactor: OAuth2Authenticatable) {
-        self.connections = connections.social
-        self.interactor = interactor
+    init(name: String, bundle: NSBundle? = nil) {
+        self.name = name
+        self.bundle = bundle ?? _BundleHack.bundle
     }
 
-    var view: View {
-        let buttons = self.actions
-        return SocialView(buttons: buttons, style: .Big)
-    }
-
-    var actions: [AuthButton] {
-        return self.connections.map { connection -> AuthButton in
-            let button = AuthButton(style: .Big)
-            let style = connection.style
-            button.title = style.localizedLoginTitle.uppercaseString
-            button.color = style.color
-            button.icon = style.image.image(compatibleWithTraits: button.traitCollection)
-            button.onPress = { _ in
-                self.interactor.login(connection.name) { error in
-                    guard let error = error else { return }
-                    self.messagePresenter?.showError("\(error)")
-                }
-            }
-            return button
-        }
+    func image(compatibleWithTraits traits: UITraitCollection? = nil) -> UIImage? {
+        return UIImage(named: self.name, inBundle: self.bundle, compatibleWithTraitCollection: traits)
     }
 }
