@@ -30,14 +30,16 @@ class SocialPresenterSpec: QuickSpec {
     override func spec() {
 
         var presenter: SocialPresenter!
+        var interactor: MockOAuth2!
+        var messagePresenter: MockMessagePresenter!
 
         beforeEach {
             var connections = OfflineConnections()
             connections.social(name: "social0", strategy: .Custom)
-            connections.social(name: "social1", strategy: .Custom)
-            connections.social(name: "social2", strategy: .Custom)
-            connections.social(name: "social3", strategy: .Custom)
-            presenter = SocialPresenter(connections: connections)
+            interactor = MockOAuth2()
+            messagePresenter = MockMessagePresenter()
+            presenter = SocialPresenter(connections: connections, interactor: interactor)
+            presenter.messagePresenter = messagePresenter
         }
 
         describe("view") {
@@ -47,10 +49,42 @@ class SocialPresenterSpec: QuickSpec {
             }
 
             it("should build one button per connection") {
-                expect(presenter.actions).to(haveCount(4))
+                expect(presenter.actions).toNot(beEmpty())
+            }
+
+            it("should set title") {
+                let view = presenter.view as! SocialView
+                view.buttons.forEach { expect($0.title).toNot(beNil()) }
             }
         }
 
+        describe("action") {
+
+            var button: AuthButton!
+
+            beforeEach {
+                let view = presenter.view as! SocialView
+                button = view.buttons.first!
+            }
+
+            it("should login with connection") {
+                button.onPress(button)
+                expect(interactor.connection) == "social0"
+            }
+
+            it("should hide current message on start") {
+                button.onPress(button)
+                expect(messagePresenter.message).toEventually(beNil())
+            }
+
+            it("should show error") {
+                interactor.onLogin = { return .CouldNotAuthenticate }
+                button.onPress(button)
+                expect(messagePresenter.message).toEventually(equal("CouldNotAuthenticate"))
+                expect(messagePresenter.success).toEventually(beFalse())
+            }
+
+        }
     }
 
 }

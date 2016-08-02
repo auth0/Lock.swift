@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
-
+import Auth0
 @testable import Lock
 
 class MockNavigator: Navigable {
@@ -133,5 +133,55 @@ class MockDBInteractor: DatabaseAuthenticatable {
             self.email = value
             self.username = value
         }
+    }
+}
+
+class MockWebAuth: WebAuth {
+
+    var clientId: String = "CLIENT_ID"
+    var url: NSURL = .a0_url(domain)
+
+    var connection: String? = nil
+    var scope: String? = nil
+    var result: () -> Auth0.Result<Credentials> = { _ in return Auth0.Result.Failure(error: AuthenticationError(string: "FAILED", statusCode: 500)) }
+    var telemetry: Telemetry = Telemetry()
+
+    func connection(connection: String) -> Self {
+        self.connection = connection
+        return self
+    }
+
+    func useUniversalLink() -> Self {
+        return self
+    }
+
+    func state(state: String) -> Self {
+        return self
+    }
+
+    func parameters(parameters: [String : String]) -> Self {
+        return self
+    }
+
+    func usingImplicitGrant() -> Self {
+        return self
+    }
+
+    func scope(scope: String) -> Self {
+        self.scope = scope
+        return self
+    }
+
+    func start(callback: Auth0.Result<Credentials> -> ()) {
+        callback(self.result())
+    }
+}
+
+class MockOAuth2: OAuth2Authenticatable {
+    var connection: String? = nil
+    var onLogin: () -> OAuth2AuthenticatableError? = { _ in return nil }
+    func login(connection: String, callback: (OAuth2AuthenticatableError?) -> ()) {
+        self.connection = connection
+        callback(self.onLogin())
     }
 }

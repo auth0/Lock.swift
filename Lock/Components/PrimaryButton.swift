@@ -74,8 +74,8 @@ public class PrimaryButton: UIView {
         constraintEqual(anchor: indicator.centerYAnchor, toAnchor: self.centerYAnchor)
         indicator.translatesAutoresizingMaskIntoConstraints = false
 
-        button.setBackgroundImage(image(withColor: UIColor ( red: 0.8824, green: 0.2353, blue: 0.1059, alpha: 1.0 )), forState: .Normal)
-        button.setBackgroundImage(image(withColor: UIColor ( red: 0.6317, green: 0.1183, blue: 0.0707, alpha: 1.0 )), forState: .Highlighted)
+        button.setBackgroundImage(image(withColor: UIColor ( red: 0.921568627, green: 0.329411765, blue: 0.141176471, alpha: 1.0 )), forState: .Normal)
+        button.setBackgroundImage(image(withColor: UIColor ( red: 0.721568627, green: 0.250980392, blue: 0.109803922, alpha: 1.0 )), forState: .Highlighted)
         button.setBackgroundImage(image(withColor: UIColor ( red: 0.8902, green: 0.898, blue: 0.9059, alpha: 1.0 )), forState: .Disabled)
         button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), forState: .Normal)
         button.setImage(UIImage(), forState: .Disabled)

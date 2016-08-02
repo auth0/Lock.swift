@@ -32,6 +32,7 @@ class ViewController: UIViewController {
         self.view = view
         let header = HeaderView()
         header.title = "Welcome to Lock"
+        header.showClose = false
 
         view.addSubview(header)
 
@@ -60,6 +61,7 @@ class ViewController: UIViewController {
                 .login()
                 .connections { connections in
                     connections.social(name: "facebook", strategy: .Custom)
+                    connections.social(name: "google-oauth2", strategy: .Custom)
                 }
             self?.showLock(lock)
         }
@@ -67,14 +69,14 @@ class ViewController: UIViewController {
         let stack = UIStackView(arrangedSubviews: [wrap(databaseOnly), wrap(socialOnly)])
         stack.axis = .Vertical
         stack.distribution = .FillProportionally
-        stack.alignment = .Center
+        stack.alignment = .Fill
 
         view.addSubview(stack)
 
         NSLayoutConstraint.activateConstraints([
-            stack.leftAnchor.constraintEqualToAnchor(view.leftAnchor),
+            stack.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 18),
             stack.topAnchor.constraintEqualToAnchor(header.bottomAnchor),
-            stack.rightAnchor.constraintEqualToAnchor(view.rightAnchor),
+            stack.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -18),
             stack.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor),
             ])
         stack.translatesAutoresizingMaskIntoConstraints = false

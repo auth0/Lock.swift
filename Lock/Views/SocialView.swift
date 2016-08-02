@@ -24,9 +24,12 @@ import UIKit
 
 class SocialView: UIView, View {
 
+    var buttons: [AuthButton]
+
     // MARK:- Initialisers
 
     init(buttons: [AuthButton], style: AuthButton.Style) {
+        self.buttons = buttons
         super.init(frame: CGRectZero)
         self.layout(buttons, style: style)
     }

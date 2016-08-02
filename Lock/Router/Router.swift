@@ -80,7 +80,8 @@ struct Router: Navigable {
         }
 
         if !connections.social.isEmpty {
-            return SocialPresenter(connections: connections)
+            let interactor = Auth0OAuth2Interactor(webAuth: Auth0.webAuth(), onCredentials: self.onAuthentication)
+            return SocialPresenter(connections: connections, interactor: interactor)
         }
         return nil
     }

@@ -23,6 +23,8 @@
 		5F57DFC91D4F87CE00C54DA8 /* SocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFC81D4F87CE00C54DA8 /* SocialView.swift */; };
 		5F57DFCC1D4F93A000C54DA8 /* SocialPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFCB1D4F93A000C54DA8 /* SocialPresenter.swift */; };
 		5F57DFCE1D4FBE5A00C54DA8 /* SocialPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFCD1D4FBE5A00C54DA8 /* SocialPresenterSpec.swift */; };
+		5F57DFD21D4FE59800C54DA8 /* OAuth2Authenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */; };
+		5F57DFD41D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */; };
 		5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */; };
 		5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D71D22ED120016FC22 /* Presentable.swift */; };
 		5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D91D22EF490016FC22 /* Router.swift */; };
@@ -37,6 +39,7 @@
 		5F814FD51D1A72A6003670A4 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; };
 		5F814FD61D1A72A6003670A4 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD11D1A7294003670A4 /* Nimble.framework */; };
 		5F814FD71D1A72A6003670A4 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */; };
+		5F92C68B1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */; };
 		5F99AA761D1A7FA100D27842 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD21D1A7294003670A4 /* Auth0.framework */; };
 		5F99AA7A1D1B031500D27842 /* Lock.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA791D1B031500D27842 /* Lock.xcassets */; };
 		5F99AA7D1D1B08D900D27842 /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA7F1D1B08D900D27842 /* Lock.strings */; };
@@ -165,6 +168,8 @@
 		5F57DFC81D4F87CE00C54DA8 /* SocialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialView.swift; sourceTree = "<group>"; };
 		5F57DFCB1D4F93A000C54DA8 /* SocialPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialPresenter.swift; sourceTree = "<group>"; };
 		5F57DFCD1D4FBE5A00C54DA8 /* SocialPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialPresenterSpec.swift; sourceTree = "<group>"; };
+		5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2Authenticatable.swift; sourceTree = "<group>"; };
+		5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth0OAuth2Interactor.swift; sourceTree = "<group>"; };
 		5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenterSpec.swift; sourceTree = "<group>"; };
 		5F5F98D71D22ED120016FC22 /* Presentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
 		5F5F98D91D22EF490016FC22 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -180,6 +185,7 @@
 		5F814FD11D1A7294003670A4 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		5F814FD21D1A7294003670A4 /* Auth0.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Auth0.framework; path = Carthage/Build/iOS/Auth0.framework; sourceTree = "<group>"; };
 		5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
+		5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth0OAuth2InteractorSpec.swift; sourceTree = "<group>"; };
 		5F99AA791D1B031500D27842 /* Lock.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Lock.xcassets; sourceTree = "<group>"; };
 		5F99AA7E1D1B08D900D27842 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Lock.strings; sourceTree = "<group>"; };
 		5F99AA811D1B0A3900D27842 /* i18n.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = i18n.swift; sourceTree = "<group>"; };
@@ -279,6 +285,8 @@
 				5FBE5CBD1D3E5C7B0038536D /* MultifactorAuthenticatable.swift */,
 				5FBE5CBF1D3E5E0A0038536D /* MultifactorInteractor.swift */,
 				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
+				5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */,
+				5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -289,6 +297,7 @@
 				5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */,
 				5F73CDDB1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift */,
 				5FBE5CC11D3E5EF50038536D /* MultifactorInteractorSpec.swift */,
+				5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -744,6 +753,8 @@
 				5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */,
 				5F51EE681D1C88FC0024BCD6 /* SignUpView.swift in Sources */,
 				5F51EE6E1D1CE6210024BCD6 /* LockViewController.swift in Sources */,
+				5F57DFD41D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift in Sources */,
+				5F57DFD21D4FE59800C54DA8 /* OAuth2Authenticatable.swift in Sources */,
 				5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */,
 				5F99AA921D1BA5CA00D27842 /* DatabaseModes.swift in Sources */,
 				5FDC876D1D46DAF200D28596 /* Queue.swift in Sources */,
@@ -773,6 +784,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */,
+				5F92C68B1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift in Sources */,
 				5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */,
 				5F73CDDC1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift in Sources */,
 				5FA250501D48E2A200C544FA /* OptionsSpec.swift in Sources */,

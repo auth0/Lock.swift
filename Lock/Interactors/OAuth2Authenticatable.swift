@@ -1,4 +1,4 @@
-// SocialPresenter.swift
+// OAuth2Authenticatable.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,34 +22,11 @@
 
 import Foundation
 
-class SocialPresenter: Presentable {
+protocol OAuth2Authenticatable {
+    func login(connection: String, callback: (OAuth2AuthenticatableError?) -> ())
+}
 
-    let connections: [SocialConnection]
-    let interactor: OAuth2Authenticatable
-
-    var messagePresenter: MessagePresenter?
-
-    init(connections: Connections, interactor: OAuth2Authenticatable) {
-        self.connections = connections.social
-        self.interactor = interactor
-    }
-
-    var view: View {
-        let buttons = self.actions
-        return SocialView(buttons: buttons, style: .Big)
-    }
-
-    var actions: [AuthButton] {
-        return self.connections.map { connection -> AuthButton in
-            let button = AuthButton(style: .Big)
-            button.title = "LOGIN WITH \(connection.name.uppercaseString)"
-            button.onPress = { _ in
-                self.interactor.login(connection.name) { error in
-                    guard let error = error else { return }
-                    self.messagePresenter?.showError("\(error)")
-                }
-            }
-            return button
-        }
-    }
+enum OAuth2AuthenticatableError: ErrorType {
+    case CouldNotAuthenticate
+    case Cancelled
 }
