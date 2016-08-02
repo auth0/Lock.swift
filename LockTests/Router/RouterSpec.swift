@@ -35,17 +35,17 @@ class RouterSpec: QuickSpec {
         var router: Router!
 
         beforeEach {
-            lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"))
+            lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
             lock.connections { $0.database(name: "connection", requiresUsername: false) }
-            controller = MockLockController(lock: Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.con")))
+            controller = MockLockController(lock: lock)
             router = Router(lock: lock, controller: controller)
         }
 
         describe("root") {
 
             beforeEach {
-                lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"))
-                controller = MockLockController(lock: Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.con")))
+                lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
+                controller = MockLockController(lock: lock)
                 router = Router(lock: lock, controller: controller)
             }
 
@@ -55,7 +55,12 @@ class RouterSpec: QuickSpec {
 
             it("should return root for single database connection") {
                 lock.connections { $0.database(name: connection, requiresUsername: true) }
-                expect(router.root).toNot(beNil())
+                expect(router.root as? DatabasePresenter).toNot(beNil())
+            }
+
+            it("should return root for only social connections") {
+                lock.connections { $0.social(name: "dropbox", strategy: .Custom) }
+                expect(router.root as? SocialPresenter).toNot(beNil())
             }
 
         }

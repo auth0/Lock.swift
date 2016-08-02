@@ -31,10 +31,12 @@ class LockSpec: QuickSpec {
 
         var lock: Lock!
         var authentication: Authentication!
+        var webAuth: WebAuth!
 
         beforeEach {
             authentication = Auth0.authentication(clientId: clientId, domain: domain)
-            lock = Lock(authentication: authentication)
+            webAuth = MockWebAuth()
+            lock = Lock(authentication: authentication, webAuth: webAuth)
         }
 
         describe("options") {
@@ -110,6 +112,10 @@ class LockSpec: QuickSpec {
                 expect(controller.presented).notTo(beNil())
             }
 
+        }
+
+        it("should allow to resume Auth") {
+            expect(Lock.resumeAuth(.a0_url("samples.auth0.com"), options: [:])) == false
         }
 
     }

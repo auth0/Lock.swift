@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Auth0
+import Lock
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        return Auth0.resumeAuth(url, options: options)
+        return Lock.resumeAuth(url, options: options)
     }
 }
 

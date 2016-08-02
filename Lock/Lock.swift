@@ -30,6 +30,7 @@ public class Lock: NSObject {
     static let sharedInstance = Lock()
 
     let authentication: Authentication
+    let webAuth: WebAuth
 
     private var connectionBuilder: ConnectionBuildable? = nil
     var connections: Connections? { return self.connectionBuilder }
@@ -40,13 +41,18 @@ public class Lock: NSObject {
     var callback: AuthenticationCallback = {_ in }
 
     override convenience init() {
-        self.init(authentication: Auth0.authentication())
+        self.init(authentication: Auth0.authentication(), webAuth: Auth0.webAuth())
     }
 
-    required public init(authentication: Authentication) {
+    required public init(authentication: Authentication, webAuth: WebAuth) {
         var authentication = authentication
-        authentication.using(inLibrary: "Lock.swift", version: "2.0.0-alpha.1") // FIXME: Use correct version from bundle
+        var webAuth = webAuth
+        let name = "Lock.swift"
+        let version = "2.0.0-alpha.1"
+        authentication.using(inLibrary: name, version: version) // FIXME: Use correct version from bundle
+        webAuth.using(inLibrary: name, version: version) // FIXME: Use correct version from bundle
         self.authentication = authentication
+        self.webAuth = webAuth
     }
 
     public static func login() -> Lock {
@@ -54,7 +60,7 @@ public class Lock: NSObject {
     }
 
     public static func login(clientId: String, domain: String) -> Lock {
-        return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain))
+        return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain), webAuth: Auth0.webAuth(clientId: clientId, domain: domain))
     }
 
     var controller: LockViewController {
@@ -82,6 +88,10 @@ public class Lock: NSObject {
     public func on(callback: AuthenticationCallback) -> Lock {
         self.callback = callback
         return self
+    }
+
+    public static func resumeAuth(url: NSURL, options: [String: AnyObject]) -> Bool {
+        return Auth0.resumeAuth(url, options: options)
     }
 }
 
