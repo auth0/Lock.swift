@@ -161,6 +161,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     UIImage *image = [theme imageForKey:A0ThemeScreenBackgroundImageName];
     if (image) {
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        imageView.frame = self.view.frame;
+        imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self.view insertSubview:imageView atIndex:0];
     }
     self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
