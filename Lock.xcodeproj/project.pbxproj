@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
+		5F14565B1D5237180085DF9C /* LazyImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */; };
+		5F14565C1D5237210085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
+		5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F14565D1D5237820085DF9C /* DatabaseView.swift */; };
 		5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */; };
 		5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */; };
 		5F5090031D1DE78800EAA650 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -40,6 +43,7 @@
 		5F814FD51D1A72A6003670A4 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; };
 		5F814FD61D1A72A6003670A4 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD11D1A7294003670A4 /* Nimble.framework */; };
 		5F814FD71D1A72A6003670A4 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */; };
+		5F9231D51D5B6C5E00D92580 /* SocialViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9231D41D5B6C5E00D92580 /* SocialViewSpec.swift */; };
 		5F92C68B1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */; };
 		5F92C68D1D50E47100CCE6C0 /* AuthStyleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68C1D50E47100CCE6C0 /* AuthStyleSpec.swift */; };
 		5F92C68F1D50EAC200CCE6C0 /* LazyImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */; };
@@ -161,6 +165,7 @@
 
 /* Begin PBXFileReference section */
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		5F14565D1D5237820085DF9C /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
 		5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseInteractor.swift; sourceTree = "<group>"; };
 		5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseInteractorSpec.swift; sourceTree = "<group>"; };
 		5F5090071D1DE7BA00EAA650 /* NetworkStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkStub.swift; sourceTree = "<group>"; };
@@ -190,6 +195,7 @@
 		5F814FD11D1A7294003670A4 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		5F814FD21D1A7294003670A4 /* Auth0.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Auth0.framework; path = Carthage/Build/iOS/Auth0.framework; sourceTree = "<group>"; };
 		5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
+		5F9231D41D5B6C5E00D92580 /* SocialViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialViewSpec.swift; sourceTree = "<group>"; };
 		5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth0OAuth2InteractorSpec.swift; sourceTree = "<group>"; };
 		5F92C68C1D50E47100CCE6C0 /* AuthStyleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthStyleSpec.swift; sourceTree = "<group>"; };
 		5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyImage.swift; sourceTree = "<group>"; };
@@ -328,6 +334,7 @@
 				5FBE5CB91D3E59B90038536D /* MultifactorCodeView.swift */,
 				5FC434851D1DF769005188BC /* View.swift */,
 				5F57DFC81D4F87CE00C54DA8 /* SocialView.swift */,
+				5F14565D1D5237820085DF9C /* DatabaseView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -349,6 +356,14 @@
 				5F57DFCD1D4FBE5A00C54DA8 /* SocialPresenterSpec.swift */,
 			);
 			path = Presenters;
+			sourceTree = "<group>";
+		};
+		5F9231D31D5B6C2800D92580 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5F9231D41D5B6C5E00D92580 /* SocialViewSpec.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		5F99AA801D1B0A2B00D27842 /* Utils */ = {
@@ -457,6 +472,7 @@
 		5FEAE1D41D1A5154005C0028 /* LockTests */ = {
 			isa = PBXGroup;
 			children = (
+				5F9231D31D5B6C2800D92580 /* Views */,
 				5F508FF81D1DB01D00EAA650 /* Interactors */,
 				5FBE5CCB1D3ED9210038536D /* Models */,
 				5F5F98D11D21E3710016FC22 /* Presenters */,
@@ -786,6 +802,7 @@
 				5FBE5CC01D3E5E0A0038536D /* MultifactorInteractor.swift in Sources */,
 				5F50900E1D1DF40400EAA650 /* DatabaseOnlyView.swift in Sources */,
 				5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */,
+				5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */,
 				5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */,
 				5F73CDD41D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift in Sources */,
 				5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */,
@@ -805,6 +822,7 @@
 				5FA250501D48E2A200C544FA /* OptionsSpec.swift in Sources */,
 				5FBE5CC21D3E5EF50038536D /* MultifactorInteractorSpec.swift in Sources */,
 				5F73CDDE1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift in Sources */,
+				5F9231D51D5B6C5E00D92580 /* SocialViewSpec.swift in Sources */,
 				5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */,
 				5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */,
 				5FA250521D48F08200C544FA /* LockSpec.swift in Sources */,
@@ -822,6 +840,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FF1FA431D4C14EF00158CD1 /* SecondaryButton.swift in Sources */,
+				5F14565C1D5237210085DF9C /* Colors.swift in Sources */,
 				5FF1FA3F1D4C14EF00158CD1 /* HeaderView.swift in Sources */,
 				5FF1FA3D1D4C14EF00158CD1 /* DatabaseModes.swift in Sources */,
 				5FF1FA3E1D4C14EF00158CD1 /* Form.swift in Sources */,
@@ -838,6 +857,7 @@
 				5FF1FA421D4C14EF00158CD1 /* PrimaryButton.swift in Sources */,
 				5F57DFC71D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
 				5FF1FA401D4C14EF00158CD1 /* InputField.swift in Sources */,
+				5F14565B1D5237180085DF9C /* LazyImage.swift in Sources */,
 				5FF1FA4D1D4C15EA00158CD1 /* Operations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

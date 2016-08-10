@@ -36,12 +36,12 @@ class SocialPresenter: Presentable {
 
     var view: View {
         let buttons = self.actions
-        return SocialView(buttons: buttons, style: .Big)
+        return SocialView(buttons: buttons, mode: .Expanded)
     }
 
     var actions: [AuthButton] {
         return self.connections.map { connection -> AuthButton in
-            let button = AuthButton(style: .Big)
+            let button = AuthButton(size: .Big)
             let style = connection.style
             button.title = style.localizedLoginTitle.uppercaseString
             button.color = style.color

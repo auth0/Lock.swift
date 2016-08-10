@@ -44,7 +44,7 @@ class ViewController: UIViewController {
             ])
         header.translatesAutoresizingMaskIntoConstraints = false
 
-        let databaseOnly = AuthButton(style: .Big)
+        let databaseOnly = AuthButton(size: .Big)
         databaseOnly.title = "LOGIN WITH DB"
         databaseOnly.onPress = { [weak self] _ in
             let lock = Lock
@@ -54,7 +54,7 @@ class ViewController: UIViewController {
                 }
             self?.showLock(lock)
         }
-        let socialOnly = AuthButton(style: .Big)
+        let socialOnly = AuthButton(size: .Big)
         socialOnly.title = "LOGIN WITH SOCIAL"
         socialOnly.onPress = { [weak self] _ in
             let lock = Lock
@@ -62,6 +62,11 @@ class ViewController: UIViewController {
                 .connections { connections in
                     connections.social(name: "facebook", style: .Facebook)
                     connections.social(name: "google-oauth2", style: .Google)
+                    connections.social(name: "instagram", style: .Instagram)
+                    connections.social(name: "twitter", style: .Twitter)
+                    connections.social(name: "fitbit", style: .Fitbit)
+                    connections.social(name: "dropbox", style: .Dropbox)
+                    connections.social(name: "bitbucket", style: .Bitbucket)
                 }
             self?.showLock(lock)
         }
@@ -104,12 +109,9 @@ class ViewController: UIViewController {
                 switch result {
                 case .Success(let credentials):
                     print("Obtained credentials \(credentials)")
-//                    self.messageLabel?.text = "Logged in user and got token \(credentials.accessToken)"
                 case .Failure(let cause):
                     print("Failed with \(cause)")
-//                    self.messageLabel?.text = "Failed with \(cause)"
                 default:
-//                    self.messageLabel?.text = nil
                     print(result)
                 }
             }

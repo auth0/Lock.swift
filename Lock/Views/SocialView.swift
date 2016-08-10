@@ -26,27 +26,48 @@ class SocialView: UIView, View {
 
     var buttons: [AuthButton]
 
+    var mode: Mode
+
+    enum Mode {
+        case Expanded
+        case Compact
+    }
+
     // MARK:- Initialisers
 
-    init(buttons: [AuthButton], style: AuthButton.Style) {
+    init(buttons: [AuthButton], mode: Mode) {
         self.buttons = buttons
+        self.mode = mode
         super.init(frame: CGRectZero)
-        self.layout(buttons, style: style)
+        self.layout(buttons, mode: mode)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-
     // MARK:- Layout
 
-    private func layout(buttons: [AuthButton], style: AuthButton.Style) {
-        guard let sample = buttons.first else { return } // FIXME: Show error
-        let height = Int(sample.intrinsicContentSize().height) * buttons.count + (8 * buttons.count - 1)
+    var height: CGFloat {
+        guard let sample = buttons.first else { return 0 } // FIXME: Show error
+        let buttonHeight = Int(sample.intrinsicContentSize().height)
+        switch self.mode {
+        case .Expanded:
+            return CGFloat(buttonHeight * buttons.count + (8 * (buttons.count - 1)))
+        case .Compact:
+            let rows = Int(ceil(Double(buttons.count) / 5))
+            return CGFloat(buttonHeight * rows + (8 * (rows - 1)))
+        }
+    }
 
-        let stack = UIStackView(arrangedSubviews: buttons)
-
+    private func layout(buttons: [AuthButton], mode: Mode) {
+        let stack: UIStackView
+        switch mode {
+        case .Compact:
+            stack = compactStack(forButtons: buttons)
+        case .Expanded:
+            stack = expandedStack(forButtons: buttons)
+        }
         self.addSubview(stack)
 
         constraintEqual(anchor: stack.leftAnchor, toAnchor: self.leftAnchor, constant: 18)
@@ -54,11 +75,56 @@ class SocialView: UIView, View {
         constraintEqual(anchor: stack.rightAnchor, toAnchor: self.rightAnchor, constant: -18)
         constraintGreaterOrEqual(anchor: stack.bottomAnchor, toAnchor: self.bottomAnchor, constant: -18)
         constraintEqual(anchor: stack.centerYAnchor, toAnchor: self.centerYAnchor)
-        dimension(stack.heightAnchor, withValue: CGFloat(height))
+        dimension(stack.heightAnchor, withValue: self.height)
         stack.translatesAutoresizingMaskIntoConstraints = false
+    }
 
+    private func expandedStack(forButtons buttons: [AuthButton]) -> UIStackView {
+        buttons.forEach { $0.size = .Big }
+        let stack = UIStackView(arrangedSubviews: buttons)
         stack.axis = .Vertical
         stack.alignment = .Fill
         stack.distribution = .EqualSpacing
+        return stack
     }
+
+    private func compactStack(forButtons buttons: [AuthButton]) -> UIStackView {
+        let rows = 0.stride(to: buttons.count, by: 5).map { return Array(buttons[$0..<(min($0 + 5, buttons.count))]) }.map(rowView)
+        let stack = UIStackView(arrangedSubviews: rows)
+        stack.axis = .Vertical
+        stack.alignment = .Fill
+        stack.distribution = .FillEqually
+        stack.spacing = 8
+        return stack
+    }
+
+    private func rowView(from buttons: [AuthButton]) -> UIView {
+        let container = UIView()
+        let guide = UILayoutGuide()
+        container.addLayoutGuide(guide)
+        buttons.forEach {
+            $0.size = .Small
+            container.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.centerYAnchor.constraintEqualToAnchor(guide.centerYAnchor).active = true
+        }
+
+        NSLayoutConstraint.activateConstraints([
+            guide.centerYAnchor.constraintEqualToAnchor(container.centerYAnchor),
+            guide.centerXAnchor.constraintEqualToAnchor(container.centerXAnchor),
+            ])
+
+        buttons.enumerate().forEach { index, button in
+            let nextIndex = index + 1
+            guard buttons.count > nextIndex else { return }
+            let next = buttons[nextIndex]
+            next.leftAnchor.constraintEqualToAnchor(button.rightAnchor, constant: 8).active = true
+
+        }
+
+        buttons.first?.leftAnchor.constraintEqualToAnchor(guide.leftAnchor).active = true
+        buttons.last?.rightAnchor.constraintEqualToAnchor(guide.rightAnchor).active = true
+        return container
+    }
+
 }

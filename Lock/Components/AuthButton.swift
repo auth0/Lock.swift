@@ -46,7 +46,7 @@ public class AuthButton: UIView {
 
     public var title: String? {
         didSet {
-            guard case .Big = self.style else { return }
+            guard case .Big = self.size else { return }
             self.button?.setTitle(self.title, forState: .Normal)
         }
     }
@@ -64,41 +64,41 @@ public class AuthButton: UIView {
 
     // MARK:- Style
 
-    public var style: Style {
+    public var size: Size {
         didSet {
             self.subviews.forEach { $0.removeFromSuperview() }
-            self.layout(style: self.style)
+            self.layout(size: self.size)
         }
     }
 
-    public enum Style {
+    public enum Size {
         case Small
         case Big
     }
 
     // MARK:- Initialisers
 
-    public init(style: Style) {
-        self.style = style
+    public init(size: Size) {
+        self.size = size
         super.init(frame: CGRectZero)
-        self.layout(style: self.style)
+        self.layout(size: self.size)
     }
 
     required override public init(frame: CGRect) {
-        self.style = .Big
+        self.size = .Big
         super.init(frame: frame)
-        self.layout(style: self.style)
+        self.layout(size: self.size)
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        self.style = .Big
+        self.size = .Big
         super.init(coder: aDecoder)
-        self.layout(style: self.style)
+        self.layout(size: self.size)
     }
 
     // MARK:- Layout
 
-    private func layout(style style: Style) {
+    private func layout(size size: Size) {
 
         let button = UIButton(type: .Custom)
         let iconView = UIImageView()
@@ -116,7 +116,7 @@ public class AuthButton: UIView {
         constraintEqual(anchor: button.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: button.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: button.bottomAnchor, toAnchor: self.bottomAnchor)
-        if case .Small = self.style {
+        if case .Small = self.size {
             constraintEqual(anchor: button.widthAnchor, toAnchor: button.heightAnchor)
         }
         dimension(button.heightAnchor, greaterThanOrEqual: 50)
@@ -126,7 +126,7 @@ public class AuthButton: UIView {
         button.layer.masksToBounds = true
 
         iconView.backgroundColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3 )
-        iconView.image = image(named: "ic_auth_auth0", compatibleWithTraitCollection: self.traitCollection)
+        iconView.image = self.icon ?? image(named: "ic_auth_auth0", compatibleWithTraitCollection: self.traitCollection)
         iconView.contentMode = .Center
         iconView.tintColor = self.titleColor
 
@@ -140,7 +140,7 @@ public class AuthButton: UIView {
         button.contentHorizontalAlignment = .Left
         button.addTarget(self, action: #selector(buttonPressed), forControlEvents: .TouchUpInside)
 
-        if case .Big = self.style {
+        if case .Big = self.size {
             button.setTitle(self.title, forState: .Normal)
         }
 
@@ -154,7 +154,7 @@ public class AuthButton: UIView {
     }
 
     public override func intrinsicContentSize() -> CGSize {
-        switch self.style {
+        switch self.size {
         case .Big:
             return CGSize(width: 280, height: 50)
         case .Small:
