@@ -32,7 +32,7 @@ class DatabasePresenter: Presentable {
     var navigator: Navigable
 
     var messagePresenter: MessagePresenter?
-    var socialPresenter: SocialPresenter?
+    var authPresenter: AuthPresenter?
 
     var initialEmail: String? { return self.interactor.validEmail ? self.interactor.email : nil }
     var initialUsername: String? { return self.interactor.validUsername ? self.interactor.username : nil }
@@ -65,8 +65,8 @@ class DatabasePresenter: Presentable {
 
     private func showLogin(inView view: DatabaseView, identifier: String?) {
         self.messagePresenter?.hideCurrent()
-        let socialView = self.socialPresenter?.newView(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), mode: .Compact, showSignUp: false)
-        view.showLogin(withUsername: self.database.requiresUsername, identifier: identifier, socialView: socialView)
+        let authCollectionView = self.authPresenter?.newView(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), mode: .Compact, showSignUp: false)
+        view.showLogin(withUsername: self.database.requiresUsername, identifier: identifier, authCollectionView: authCollectionView)
         let form = view.form
         form?.onValueChange = self.handleInput
 
@@ -101,8 +101,8 @@ class DatabasePresenter: Presentable {
 
     private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
         self.messagePresenter?.hideCurrent()
-        let socialView = self.socialPresenter?.newView(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), mode: .Compact, showSignUp: true)
-        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, socialView: socialView)
+        let authCollectionView = self.authPresenter?.newView(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), mode: .Compact, showSignUp: true)
+        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView)
         let form = view.form
         view.form?.onValueChange = self.handleInput
         view.primaryButton?.onPress = { [weak form] button in

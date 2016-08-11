@@ -1,4 +1,4 @@
-// SocialViewSpec.swift
+// AuthCollectionViewSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -25,7 +25,7 @@ import Nimble
 
 @testable import Lock
 
-class SocialViewSpec: QuickSpec {
+class AuthCollectionViewSpec: QuickSpec {
     override func spec() {
 
         context("expanded") {
@@ -33,19 +33,19 @@ class SocialViewSpec: QuickSpec {
             describe("height") {
 
                 it("should return 0 when there are no buttons") {
-                    let view = SocialView(buttons: [], mode: .Expanded, insets: UIEdgeInsetsZero)
+                    let view = AuthCollectionView(buttons: [], mode: .Expanded, insets: UIEdgeInsetsZero)
                     expect(view.height) == 0
                 }
 
                 it("should just use the button size if there is only one button") {
-                    let view = SocialView(buttons: [AuthButton(size: .Big)], mode: .Expanded, insets: UIEdgeInsetsZero)
+                    let view = AuthCollectionView(buttons: [AuthButton(size: .Big)], mode: .Expanded, insets: UIEdgeInsetsZero)
                     expect(view.height) == 50
                 }
 
                 it("should add padding") {
                     let max = Int(arc4random_uniform(15)) + 2
                     let buttons = (1...max).map { _ in return AuthButton(size: .Big) }
-                    let view = SocialView(buttons: buttons, mode: .Expanded, insets: UIEdgeInsetsZero)
+                    let view = AuthCollectionView(buttons: buttons, mode: .Expanded, insets: UIEdgeInsetsZero)
                     let expected = (max * 50) + (max * 8) - 8
                     expect(view.height) == CGFloat(expected)
                 }
@@ -58,18 +58,18 @@ class SocialViewSpec: QuickSpec {
             describe("height") {
 
                 it("should return 0 when there are no buttons") {
-                    let view = SocialView(buttons: [], mode: .Compact, insets: UIEdgeInsetsZero)
+                    let view = AuthCollectionView(buttons: [], mode: .Compact, insets: UIEdgeInsetsZero)
                     expect(view.height) == 0
                 }
 
                 it("should just use the button size if there is only one button") {
-                    let view = SocialView(buttons: [AuthButton(size: .Small)], mode: .Compact, insets: UIEdgeInsetsZero)
+                    let view = AuthCollectionView(buttons: [AuthButton(size: .Small)], mode: .Compact, insets: UIEdgeInsetsZero)
                     expect(view.height) == 50
                 }
 
                 it("should just use the button size for less than 6 buttons") {
                     let buttons = [AuthButton(size: .Small), AuthButton(size: .Small), AuthButton(size: .Small), AuthButton(size: .Small), AuthButton(size: .Small)]
-                    let view = SocialView(buttons: buttons, mode: .Compact, insets: UIEdgeInsetsZero)
+                    let view = AuthCollectionView(buttons: buttons, mode: .Compact, insets: UIEdgeInsetsZero)
                     expect(view.height) == 50
                 }
 
@@ -77,7 +77,7 @@ class SocialViewSpec: QuickSpec {
                     let count = Int(arc4random_uniform(15)) + 2
                     let rows = Int(ceil(Double(count) / 5))
                     let buttons = (1...count).map { _ in return AuthButton(size: .Big) }
-                    let view = SocialView(buttons: buttons, mode: .Compact, insets: UIEdgeInsetsZero)
+                    let view = AuthCollectionView(buttons: buttons, mode: .Compact, insets: UIEdgeInsetsZero)
                     let expected = (rows * 50) + (rows * 8) - 8
                     expect(view.height) == CGFloat(expected)
                 }

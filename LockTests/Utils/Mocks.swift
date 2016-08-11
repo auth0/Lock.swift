@@ -24,11 +24,11 @@ import Foundation
 import Auth0
 @testable import Lock
 
-class MockAuthPresenter: SocialPresenter {
+class MockAuthPresenter: AuthPresenter {
 
-    var authView: SocialView = SocialView(buttons: [], mode: .Compact, insets: UIEdgeInsetsZero)
+    var authView = AuthCollectionView(buttons: [], mode: .Compact, insets: UIEdgeInsetsZero)
 
-    override func newView(withInsets insets: UIEdgeInsets, mode: SocialView.Mode, showSignUp: Bool) -> SocialView {
+    override func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode, showSignUp: Bool) -> AuthCollectionView {
         return self.authView
     }
 }

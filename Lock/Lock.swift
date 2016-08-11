@@ -97,7 +97,7 @@ public class Lock: NSObject {
 
 public protocol Connections {
     var database: DatabaseConnection? { get }
-    var social: [SocialConnection] { get }
+    var oauth2: [OAuth2Connection] { get }
 }
 
 public protocol ConnectionBuildable: Connections {
@@ -108,7 +108,7 @@ public protocol ConnectionBuildable: Connections {
 struct OfflineConnections: ConnectionBuildable {
 
     var database: DatabaseConnection? = nil
-    var social: [SocialConnection] = []
+    var oauth2: [OAuth2Connection] = []
 
     mutating func database(name name: String, requiresUsername: Bool) {
         self.database = DatabaseConnection(name: name, requiresUsername: requiresUsername)
@@ -116,7 +116,7 @@ struct OfflineConnections: ConnectionBuildable {
 
     mutating func social(name name: String, style: AuthStyle) {
         let social = SocialConnection(name: name, style: style)
-        self.social.append(social)
+        self.oauth2.append(social)
     }
 }
 
@@ -166,7 +166,12 @@ public struct DatabaseConnection {
     public let requiresUsername: Bool
 }
 
-public struct SocialConnection {
+public protocol OAuth2Connection {
+    var name: String { get }
+    var style: AuthStyle { get }
+}
+
+public struct SocialConnection: OAuth2Connection {
     public let name: String
     public let style: AuthStyle
 }

@@ -49,24 +49,24 @@ class DatabasePresenterSpec: QuickSpec {
         describe("auth buttons") {
 
             it("should init view with social view") {
-                presenter.socialPresenter = authPresenter
+                presenter.authPresenter = authPresenter
                 let view = presenter.view as? DatabaseView
-                expect(view?.social) == authPresenter.authView
+                expect(view?.authCollectionView) == authPresenter.authView
             }
 
             it("should init view with not social view") {
-                presenter.socialPresenter = nil
+                presenter.authPresenter = nil
                 let view = presenter.view as? DatabaseView
-                expect(view?.social).to(beNil())
+                expect(view?.authCollectionView).to(beNil())
             }
 
             it("should set a new one when switching tabs") {
-                presenter.socialPresenter = authPresenter
+                presenter.authPresenter = authPresenter
                 let view = presenter.view as? DatabaseView
-                let newView = SocialView(buttons: [], mode: .Expanded, insets: UIEdgeInsetsZero)
+                let newView = AuthCollectionView(buttons: [], mode: .Expanded, insets: UIEdgeInsetsZero)
                 authPresenter.authView = newView
                 view?.switcher?.onSelectionChange((view?.switcher)!)
-                expect(view?.social) == newView
+                expect(view?.authCollectionView) == newView
             }
 
         }

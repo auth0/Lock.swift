@@ -29,7 +29,7 @@ class SocialPresenterSpec: QuickSpec {
 
     override func spec() {
 
-        var presenter: SocialPresenter!
+        var presenter: AuthPresenter!
         var interactor: MockOAuth2!
         var messagePresenter: MockMessagePresenter!
 
@@ -38,14 +38,14 @@ class SocialPresenterSpec: QuickSpec {
             connections.social(name: "social0", style: AuthStyle(name: "custom"))
             interactor = MockOAuth2()
             messagePresenter = MockMessagePresenter()
-            presenter = SocialPresenter(connections: connections, interactor: interactor)
+            presenter = AuthPresenter(connections: connections, interactor: interactor)
             presenter.messagePresenter = messagePresenter
         }
 
         describe("view") {
 
             it("should return view") {
-                expect(presenter.view as? SocialView).toNot(beNil())
+                expect(presenter.view as? AuthCollectionView).toNot(beNil())
             }
 
             it("should build one button per connection") {
@@ -53,11 +53,11 @@ class SocialPresenterSpec: QuickSpec {
             }
 
             it("should return view in Expanded mode") {
-                expect((presenter.view as? SocialView)?.mode) == .Expanded
+                expect((presenter.view as? AuthCollectionView)?.mode) == .Expanded
             }
 
             it("should set title") {
-                let view = presenter.view as! SocialView
+                let view = presenter.view as! AuthCollectionView
                 view.buttons.forEach { expect($0.title).toNot(beNil()) }
             }
         }
@@ -69,7 +69,7 @@ class SocialPresenterSpec: QuickSpec {
             }
 
             it("should return view with correct mode") {
-                expect(presenter.newView(withInsets: UIEdgeInsetsZero, mode: .Compact).mode) == SocialView.Mode.Compact
+                expect(presenter.newView(withInsets: UIEdgeInsetsZero, mode: .Compact).mode) == AuthCollectionView.Mode.Compact
             }
 
             it("should build one button per connection") {
@@ -93,7 +93,7 @@ class SocialPresenterSpec: QuickSpec {
             func styleButton(style: AuthStyle, signUp: Bool = false) -> AuthButton {
                 var connections = OfflineConnections()
                 connections.social(name: "social0", style: style)
-                let presenter = SocialPresenter(connections: connections, interactor: interactor)
+                let presenter = AuthPresenter(connections: connections, interactor: interactor)
                 let view = presenter.newView(withInsets: UIEdgeInsetsZero, mode: .Compact, showSignUp: signUp)
                 return view.buttons.first!
             }
@@ -127,7 +127,7 @@ class SocialPresenterSpec: QuickSpec {
             var button: AuthButton!
 
             beforeEach {
-                let view = presenter.view as! SocialView
+                let view = presenter.view as! AuthCollectionView
                 button = view.buttons.first!
             }
 

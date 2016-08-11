@@ -27,8 +27,8 @@ protocol DatabaseView: View {
     weak var secondaryButton: SecondaryButton? { get }
     weak var primaryButton: PrimaryButton? { get }
     weak var switcher: DatabaseModeSwitcher? { get }
-    weak var social: SocialView? { get }
+    weak var authCollectionView: AuthCollectionView? { get }
 
-    func showLogin(withUsername allowUsername: Bool, identifier: String?, socialView: SocialView?)
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, socialView: SocialView?)
+    func showLogin(withUsername allowUsername: Bool, identifier: String?, authCollectionView: AuthCollectionView?)
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView?)
 }

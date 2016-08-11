@@ -76,16 +76,16 @@ struct Router: Navigable {
             let authentication = self.lock.authentication
             let interactor = DatabaseInteractor(connections: connections, authentication: authentication, user: self.user, callback: self.onAuthentication)
             let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
-            if !connections.social.isEmpty {
+            if !connections.oauth2.isEmpty {
                 let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication)
-                presenter.socialPresenter = SocialPresenter(connections: connections, interactor: interactor)
+                presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor)
             }
             return presenter
         }
 
-        if !connections.social.isEmpty {
+        if !connections.oauth2.isEmpty {
             let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication)
-            return SocialPresenter(connections: connections, interactor: interactor)
+            return AuthPresenter(connections: connections, interactor: interactor)
         }
         return nil
     }

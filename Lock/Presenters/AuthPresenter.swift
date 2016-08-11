@@ -1,4 +1,4 @@
-// SocialPresenter.swift
+// AuthPresenter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,15 +22,15 @@
 
 import Foundation
 
-class SocialPresenter: Presentable {
+class AuthPresenter: Presentable {
 
-    let connections: [SocialConnection]
+    let connections: [OAuth2Connection]
     let interactor: OAuth2Authenticatable
 
     var messagePresenter: MessagePresenter?
 
     init(connections: Connections, interactor: OAuth2Authenticatable) {
-        self.connections = connections.social
+        self.connections = connections.oauth2
         self.interactor = interactor
     }
 
@@ -38,9 +38,9 @@ class SocialPresenter: Presentable {
         return self.newView(withInsets: UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18), mode: .Expanded)
     }
 
-    func newView(withInsets insets: UIEdgeInsets, mode: SocialView.Mode, showSignUp: Bool = false) -> SocialView {
+    func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode, showSignUp: Bool = false) -> AuthCollectionView {
         let buttons = self.actions(forSignUp: showSignUp)
-        return SocialView(buttons: buttons, mode: mode, insets: insets)
+        return AuthCollectionView(buttons: buttons, mode: mode, insets: insets)
     }
 
     func actions(forSignUp signUp: Bool) -> [AuthButton] {

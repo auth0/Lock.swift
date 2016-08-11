@@ -1,4 +1,4 @@
-// SocialView.swift
+// AuthCollectionView.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,7 +22,7 @@
 
 import UIKit
 
-class SocialView: UIView, View {
+class AuthCollectionView: UIView, View {
 
     var buttons: [AuthButton]
 
