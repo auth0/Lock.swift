@@ -50,6 +50,8 @@ class ViewController: UIViewController {
             let lock = Lock
                 .login()
                 .connections { connections in
+                    connections.social(name: "facebook", style: .Facebook)
+                    connections.social(name: "google-oauth2", style: .Google)
                     connections.database(name: "Username-Password-Authentication", requiresUsername: true)
                 }
             self?.showLock(lock)

@@ -35,11 +35,11 @@ class SocialView: UIView, View {
 
     // MARK:- Initialisers
 
-    init(buttons: [AuthButton], mode: Mode) {
+    init(buttons: [AuthButton], mode: Mode, insets: UIEdgeInsets) {
         self.buttons = buttons
         self.mode = mode
         super.init(frame: CGRectZero)
-        self.layout(buttons, mode: mode)
+        self.layout(buttons, mode: mode, insets: insets)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -60,7 +60,11 @@ class SocialView: UIView, View {
         }
     }
 
-    private func layout(buttons: [AuthButton], mode: Mode) {
+    override func intrinsicContentSize() -> CGSize {
+        return CGSize(width: UIViewNoIntrinsicMetric, height: self.height)
+    }
+
+    private func layout(buttons: [AuthButton], mode: Mode, insets: UIEdgeInsets) {
         let stack: UIStackView
         switch mode {
         case .Compact:
@@ -70,10 +74,10 @@ class SocialView: UIView, View {
         }
         self.addSubview(stack)
 
-        constraintEqual(anchor: stack.leftAnchor, toAnchor: self.leftAnchor, constant: 18)
-        constraintGreaterOrEqual(anchor: stack.topAnchor, toAnchor: self.topAnchor, constant: 18)
-        constraintEqual(anchor: stack.rightAnchor, toAnchor: self.rightAnchor, constant: -18)
-        constraintGreaterOrEqual(anchor: stack.bottomAnchor, toAnchor: self.bottomAnchor, constant: -18)
+        constraintEqual(anchor: stack.leftAnchor, toAnchor: self.leftAnchor, constant: insets.left)
+        constraintGreaterOrEqual(anchor: stack.topAnchor, toAnchor: self.topAnchor, constant: insets.top)
+        constraintEqual(anchor: stack.rightAnchor, toAnchor: self.rightAnchor, constant: -insets.right)
+        constraintGreaterOrEqual(anchor: stack.bottomAnchor, toAnchor: self.bottomAnchor, constant: -insets.bottom)
         constraintEqual(anchor: stack.centerYAnchor, toAnchor: self.centerYAnchor)
         dimension(stack.heightAnchor, withValue: self.height)
         stack.translatesAutoresizingMaskIntoConstraints = false

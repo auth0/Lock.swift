@@ -49,7 +49,11 @@ class SocialPresenterSpec: QuickSpec {
             }
 
             it("should build one button per connection") {
-                expect(presenter.actions).toNot(beEmpty())
+                expect(presenter.actions(forSignUp: true)).toNot(beEmpty())
+            }
+
+            it("should return view in Expanded mode") {
+                expect((presenter.view as? SocialView)?.mode) == .Expanded
             }
 
             it("should set title") {
@@ -58,19 +62,50 @@ class SocialPresenterSpec: QuickSpec {
             }
         }
 
+        describe("newView") {
+
+            it("should return view") {
+                expect(presenter.newView(withInsets: UIEdgeInsetsZero, mode: .Expanded)).toNot(beNil())
+            }
+
+            it("should return view with correct mode") {
+                expect(presenter.newView(withInsets: UIEdgeInsetsZero, mode: .Compact).mode) == SocialView.Mode.Compact
+            }
+
+            it("should build one button per connection") {
+                expect(presenter.actions(forSignUp: true)).toNot(beEmpty())
+            }
+
+            it("should set title for login") {
+                let view = presenter.newView(withInsets: UIEdgeInsetsZero, mode: .Expanded, showSignUp: false)
+                view.buttons.forEach { expect($0.title).toNot(beNil()) }
+            }
+
+            it("should set title for signup") {
+                let view = presenter.newView(withInsets: UIEdgeInsetsZero, mode: .Expanded, showSignUp: true)
+                view.buttons.forEach { expect($0.title).toNot(beNil()) }
+            }
+
+        }
+
         describe("styling") {
 
-            func styleButton(style: AuthStyle) -> AuthButton {
+            func styleButton(style: AuthStyle, signUp: Bool = false) -> AuthButton {
                 var connections = OfflineConnections()
                 connections.social(name: "social0", style: style)
                 let presenter = SocialPresenter(connections: connections, interactor: interactor)
-                let view = presenter.view as! SocialView
+                let view = presenter.newView(withInsets: UIEdgeInsetsZero, mode: .Compact, showSignUp: signUp)
                 return view.buttons.first!
             }
 
             it("should set proper title") {
                 let button = styleButton(.Facebook)
                 expect(button.title) == "LOG IN WITH FACEBOOK"
+            }
+
+            it("should set proper title") {
+                let button = styleButton(.Facebook, signUp: true)
+                expect(button.title) == "SIGN UP WITH FACEBOOK"
             }
 
             it("should set color") {

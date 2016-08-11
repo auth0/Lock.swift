@@ -28,6 +28,8 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var secondaryButton: SecondaryButton?
     weak var primaryButton: PrimaryButton?
     weak var switcher: DatabaseModeSwitcher?
+    weak var social: SocialView?
+    weak var separator: UILabel?
     private weak var container: UIStackView?
 
     init() {
@@ -66,31 +68,43 @@ class DatabaseOnlyView: UIView, DatabaseView {
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    func showLogin(withUsername allowUsername: Bool, identifier: String? = nil) {
+    func showLogin(withUsername allowUsername: Bool, identifier: String? = nil, socialView: SocialView? = nil) {
         let form = CredentialView()
         form.identityField.text = identifier
         form.identityField.type = allowUsername ? .EmailOrUsername : .Email
         form.identityField.returnKey = .Next
         form.identityField.nextField = form.passwordField
         form.passwordField.returnKey = .Done
-        layoutInStack(form)
+        layoutInStack(form, socialView: socialView)
         self.form = form
     }
 
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?) {
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, socialView: SocialView? = nil) {
         let form = SignUpView()
         form.showUsername = showUsername
         form.emailField.text = email
         form.usernameField?.text = username
-        layoutInStack(form)
+        layoutInStack(form, socialView: socialView)
         self.form = form
     }
 
-    private func layoutInStack(view: UIView) {
+    private func layoutInStack(view: UIView, socialView: SocialView?) {
         if let current = self.form as? UIView {
             current.removeFromSuperview()
         }
-        self.container?.insertArrangedSubview(view, atIndex: 1)
+        self.social?.removeFromSuperview()
+        self.separator?.removeFromSuperview()
+
+        if let social = socialView {
+            let label = UILabel()
+            label.text = "OR".i18n(key: "", comment: "Social separator")
+            label.textAlignment = .Center
+            self.container?.insertArrangedSubview(social, atIndex: 1)
+            self.container?.insertArrangedSubview(label, atIndex: 2)
+            self.social = socialView
+            self.separator = label
+        }
+        self.container?.insertArrangedSubview(view, atIndex: self.social != nil ? 3 : 1)
     }
 
     required init?(coder aDecoder: NSCoder) {

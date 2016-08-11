@@ -24,6 +24,15 @@ import Foundation
 import Auth0
 @testable import Lock
 
+class MockAuthPresenter: SocialPresenter {
+
+    var authView: SocialView = SocialView(buttons: [], mode: .Compact, insets: UIEdgeInsetsZero)
+
+    override func newView(withInsets insets: UIEdgeInsets, mode: SocialView.Mode, showSignUp: Bool) -> SocialView {
+        return self.authView
+    }
+}
+
 class MockNavigator: Navigable {
     var route: Route?
 
@@ -88,6 +97,11 @@ class MockMultifactorInteractor: MultifactorAuthenticatable {
     func setMultifactorCode(code: String?) throws {
         guard code != "invalid" else { throw NSError(domain: "", code: 0, userInfo: nil) }
         self.code = code
+    }
+}
+
+class MockAuthInteractor: OAuth2Authenticatable {
+    func login(connection: String, callback: (OAuth2AuthenticatableError?) -> ()) {
     }
 }
 

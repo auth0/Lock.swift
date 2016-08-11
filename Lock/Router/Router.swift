@@ -72,10 +72,14 @@ struct Router: Navigable {
     var root: Presentable? {
         guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
 
-        if connections.database != nil {
+        if let database = connections.database {
             let authentication = self.lock.authentication
             let interactor = DatabaseInteractor(connections: connections, authentication: authentication, user: self.user, callback: self.onAuthentication)
-            let presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: self, options: self.lock.options)
+            let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
+            if !connections.social.isEmpty {
+                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication)
+                presenter.socialPresenter = SocialPresenter(connections: connections, interactor: interactor)
+            }
             return presenter
         }
 

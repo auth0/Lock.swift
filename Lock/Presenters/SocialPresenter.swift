@@ -35,15 +35,19 @@ class SocialPresenter: Presentable {
     }
 
     var view: View {
-        let buttons = self.actions
-        return SocialView(buttons: buttons, mode: .Expanded)
+        return self.newView(withInsets: UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18), mode: .Expanded)
     }
 
-    var actions: [AuthButton] {
+    func newView(withInsets insets: UIEdgeInsets, mode: SocialView.Mode, showSignUp: Bool = false) -> SocialView {
+        let buttons = self.actions(forSignUp: showSignUp)
+        return SocialView(buttons: buttons, mode: mode, insets: insets)
+    }
+
+    func actions(forSignUp signUp: Bool) -> [AuthButton] {
         return self.connections.map { connection -> AuthButton in
             let button = AuthButton(size: .Big)
             let style = connection.style
-            button.title = style.localizedLoginTitle.uppercaseString
+            button.title = signUp ? style.localizedSignUpTitle.uppercaseString : style.localizedLoginTitle.uppercaseString
             button.color = style.color
             button.icon = style.image.image(compatibleWithTraits: button.traitCollection)
             button.onPress = { _ in

@@ -33,17 +33,42 @@ class DatabasePresenterSpec: QuickSpec {
         var presenter: DatabasePresenter!
         var view: DatabaseView!
         var messagePresenter: MockMessagePresenter!
+        var authPresenter: MockAuthPresenter!
         var navigator: MockNavigator!
 
         beforeEach {
+            authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor())
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
             navigator = MockNavigator()
-            var connections = OfflineConnections()
-            connections.database(name: connection, requiresUsername: true)
-            presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: navigator, options: LockOptions())
+            presenter = DatabasePresenter(interactor: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: LockOptions())
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseView
+        }
+
+        describe("auth buttons") {
+
+            it("should init view with social view") {
+                presenter.socialPresenter = authPresenter
+                let view = presenter.view as? DatabaseView
+                expect(view?.social) == authPresenter.authView
+            }
+
+            it("should init view with not social view") {
+                presenter.socialPresenter = nil
+                let view = presenter.view as? DatabaseView
+                expect(view?.social).to(beNil())
+            }
+
+            it("should set a new one when switching tabs") {
+                presenter.socialPresenter = authPresenter
+                let view = presenter.view as? DatabaseView
+                let newView = SocialView(buttons: [], mode: .Expanded, insets: UIEdgeInsetsZero)
+                authPresenter.authView = newView
+                view?.switcher?.onSelectionChange((view?.switcher)!)
+                expect(view?.social) == newView
+            }
+
         }
 
         describe("user state") {
