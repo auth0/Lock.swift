@@ -24,22 +24,23 @@ import UIKit
 
 class AuthCollectionView: UIView, View {
 
-    var buttons: [AuthButton]
-
-    var mode: Mode
+    let connections: [OAuth2Connection]
+    let mode: Mode
+    let onAction: String -> ()
 
     enum Mode {
-        case Expanded
+        case Expanded(isLogin: Bool)
         case Compact
     }
 
     // MARK:- Initialisers
 
-    init(buttons: [AuthButton], mode: Mode, insets: UIEdgeInsets) {
-        self.buttons = buttons
+    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, onAction: String -> ()) {
+        self.connections = connections
         self.mode = mode
+        self.onAction = onAction
         super.init(frame: CGRectZero)
-        self.layout(buttons, mode: mode, insets: insets)
+        self.layout(connections, mode: mode, insets: insets)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -49,28 +50,30 @@ class AuthCollectionView: UIView, View {
     // MARK:- Layout
 
     var height: CGFloat {
-        guard let sample = buttons.first else { return 0 } // FIXME: Show error
+        guard !connections.isEmpty else { return 0 }
+        let sample = AuthButton(size: .Big)
         let buttonHeight = Int(sample.intrinsicContentSize().height)
+        let count: Int
         switch self.mode {
         case .Expanded:
-            return CGFloat(buttonHeight * buttons.count + (8 * (buttons.count - 1)))
+            count = connections.count
         case .Compact:
-            let rows = Int(ceil(Double(buttons.count) / 5))
-            return CGFloat(buttonHeight * rows + (8 * (rows - 1)))
+            count = Int(ceil(Double(connections.count) / 5))
         }
+        return CGFloat(buttonHeight * count + (8 * (count - 1)))
     }
 
     override func intrinsicContentSize() -> CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: self.height)
     }
 
-    private func layout(buttons: [AuthButton], mode: Mode, insets: UIEdgeInsets) {
+    private func layout(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets) {
         let stack: UIStackView
         switch mode {
         case .Compact:
-            stack = compactStack(forButtons: buttons)
-        case .Expanded:
-            stack = expandedStack(forButtons: buttons)
+            stack = compactStack(forButtons: oauth2Buttons(forConnections: connections, isLogin: true, onAction: self.onAction))
+        case .Expanded(let login):
+            stack = expandedStack(forButtons: oauth2Buttons(forConnections: connections, isLogin: login, onAction: self.onAction))
         }
         self.addSubview(stack)
 
@@ -131,4 +134,18 @@ class AuthCollectionView: UIView, View {
         return container
     }
 
+}
+
+func oauth2Buttons(forConnections connections: [OAuth2Connection], isLogin login: Bool, onAction: String -> ()) -> [AuthButton] {
+    return connections.map { connection -> AuthButton in
+        let button = AuthButton(size: .Big)
+        let style = connection.style
+        button.title = login ? style.localizedLoginTitle.uppercaseString : style.localizedSignUpTitle.uppercaseString
+        button.color = style.color
+        button.icon = style.image.image(compatibleWithTraits: button.traitCollection)
+        button.onPress = { _ in
+            onAction(connection.name)
+        }
+        return button
+    }
 }

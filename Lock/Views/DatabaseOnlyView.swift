@@ -68,6 +68,10 @@ class DatabaseOnlyView: UIView, DatabaseView {
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
     }
 
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     func showLogin(withUsername allowUsername: Bool, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil) {
         let form = CredentialView()
         form.identityField.text = identifier
@@ -97,17 +101,16 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         if let social = authCollectionView {
             let label = UILabel()
-            label.text = "OR".i18n(key: "", comment: "Social separator")
+            label.text = "OR".i18n(key: "com.auth0.lock.separator", comment: "Social separator")
             label.textAlignment = .Center
             self.container?.insertArrangedSubview(social, atIndex: 1)
             self.container?.insertArrangedSubview(label, atIndex: 2)
+            self.container?.insertArrangedSubview(view, atIndex: 3)
             self.authCollectionView = social
             self.separator = label
+        } else {
+            self.container?.insertArrangedSubview(view, atIndex: 1)
         }
-        self.container?.insertArrangedSubview(view, atIndex: self.authCollectionView != nil ? 3 : 1)
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }

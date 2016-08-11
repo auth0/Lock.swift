@@ -63,7 +63,7 @@ class DatabasePresenterSpec: QuickSpec {
             it("should set a new one when switching tabs") {
                 presenter.authPresenter = authPresenter
                 let view = presenter.view as? DatabaseView
-                let newView = AuthCollectionView(buttons: [], mode: .Expanded, insets: UIEdgeInsetsZero)
+                let newView = AuthCollectionView(connections: [], mode: .Expanded(isLogin: true), insets: UIEdgeInsetsZero)  { _ in }
                 authPresenter.authView = newView
                 view?.switcher?.onSelectionChange((view?.switcher)!)
                 expect(view?.authCollectionView) == newView

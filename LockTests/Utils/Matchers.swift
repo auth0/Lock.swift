@@ -1,4 +1,4 @@
-// AuthPresenter.swift
+// Matchers.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -21,30 +21,25 @@
 // THE SOFTWARE.
 
 import Foundation
+import Nimble
+@testable import Lock
 
-class AuthPresenter: Presentable {
-
-    let connections: [OAuth2Connection]
-    let interactor: OAuth2Authenticatable
-
-    var messagePresenter: MessagePresenter?
-
-    init(connections: Connections, interactor: OAuth2Authenticatable) {
-        self.connections = connections.oauth2
-        self.interactor = interactor
-    }
-
-    var view: View {
-        return self.newView(withInsets: UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18), mode: .Expanded(isLogin: true))
-    }
-
-    func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode) -> AuthCollectionView {
-        let view = AuthCollectionView(connections: self.connections, mode: mode, insets: insets) { name in
-            self.interactor.login(name) { error in
-                guard let error = error else { return }
-                self.messagePresenter?.showError("\(error)")
-            }
+func beExpandedMode(isLogin login: Bool = true) -> MatcherFunc<AuthCollectionView.Mode> {
+    return MatcherFunc { expression, failureMessage in
+        failureMessage.postfixMessage = "be with expanded mode with isLogin: <\(login)>"
+        if let actual = try expression.evaluate(), case .Expanded(let isLogin) = actual where isLogin == login {
+            return true
         }
-        return view
+        return false
+    }
+}
+
+func beCompactMode() -> MatcherFunc<AuthCollectionView.Mode> {
+    return MatcherFunc { expression, failureMessage in
+        failureMessage.postfixMessage = "be with compact mode"
+        if let actual = try expression.evaluate(), case .Compact = actual {
+            return true
+        }
+        return false
     }
 }

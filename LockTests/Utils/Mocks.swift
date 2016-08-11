@@ -26,9 +26,9 @@ import Auth0
 
 class MockAuthPresenter: AuthPresenter {
 
-    var authView = AuthCollectionView(buttons: [], mode: .Compact, insets: UIEdgeInsetsZero)
+    var authView = AuthCollectionView(connections: [], mode: .Compact, insets: UIEdgeInsetsZero)  { _ in }
 
-    override func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode, showSignUp: Bool) -> AuthCollectionView {
+    override func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode) -> AuthCollectionView {
         return self.authView
     }
 }
