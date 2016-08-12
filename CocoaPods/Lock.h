@@ -41,31 +41,31 @@
 #import "A0LockLogger.h"
 #import "A0LockNotification.h"
 
-#if __has_include("UI.h")
+#if TARGET_OS_IOS && __has_include("UI.h")
 #import "UI.h"
 #endif
 
-#if __has_include("A0Theme.h")
+#if TARGET_OS_IOS && __has_include("A0Theme.h")
 #import "A0Theme.h"
 #import "A0ServiceTheme.h"
 #endif
 
-#if __has_include("A0TouchIDLockViewController.h")
+#if TARGET_OS_IOS && __has_include("A0TouchIDLockViewController.h")
 #import "A0TouchIDLockViewController.h"
 #import "A0Lock+A0TouchIDLockViewController.h"
 #endif
 
-#if __has_include("A0SMSLockViewController.h")
+#if TARGET_OS_IOS && __has_include("A0SMSLockViewController.h")
 #import "A0Lock+A0SMSLockViewController.h"
 #import "A0SMSLockViewController.h"
 #endif
 
-#if __has_include("A0EmailLockViewController.h")
+#if TARGET_OS_IOS && __has_include("A0EmailLockViewController.h")
 #import "A0Lock+A0EmailLockViewController.h"
 #import "A0EmailLockViewController.h"
 #endif
 
-#if __has_include("A0WebViewAuthenticator.h")
+#if TARGET_OS_IOS && __has_include("A0WebViewAuthenticator.h")
 #import "A0WebViewAuthenticator.h"
 #endif
 
