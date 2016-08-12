@@ -33,17 +33,42 @@ class DatabasePresenterSpec: QuickSpec {
         var presenter: DatabasePresenter!
         var view: DatabaseView!
         var messagePresenter: MockMessagePresenter!
+        var authPresenter: MockAuthPresenter!
         var navigator: MockNavigator!
 
         beforeEach {
+            authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor())
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
             navigator = MockNavigator()
-            var connections = OfflineConnections()
-            connections.database(name: connection, requiresUsername: true)
-            presenter = DatabasePresenter(interactor: interactor, connections: connections, navigator: navigator, options: LockOptions())
+            presenter = DatabasePresenter(interactor: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: LockOptions())
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseView
+        }
+
+        describe("auth buttons") {
+
+            it("should init view with social view") {
+                presenter.authPresenter = authPresenter
+                let view = presenter.view as? DatabaseView
+                expect(view?.authCollectionView) == authPresenter.authView
+            }
+
+            it("should init view with not social view") {
+                presenter.authPresenter = nil
+                let view = presenter.view as? DatabaseView
+                expect(view?.authCollectionView).to(beNil())
+            }
+
+            it("should set a new one when switching tabs") {
+                presenter.authPresenter = authPresenter
+                let view = presenter.view as? DatabaseView
+                let newView = AuthCollectionView(connections: [], mode: .Expanded(isLogin: true), insets: UIEdgeInsetsZero)  { _ in }
+                authPresenter.authView = newView
+                view?.switcher?.onSelectionChange((view?.switcher)!)
+                expect(view?.authCollectionView) == newView
+            }
+
         }
 
         describe("user state") {

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
+		5F14565B1D5237180085DF9C /* LazyImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */; };
+		5F14565C1D5237210085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
+		5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F14565D1D5237820085DF9C /* DatabaseView.swift */; };
+		5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2037C11D5D02880005D2E2 /* Matchers.swift */; };
 		5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */; };
 		5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */; };
 		5F5090031D1DE78800EAA650 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -18,6 +23,13 @@
 		5F51EE681D1C88FC0024BCD6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */; };
 		5F51EE6A1D1CBC830024BCD6 /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */; };
 		5F51EE6E1D1CE6210024BCD6 /* LockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE6D1D1CE6210024BCD6 /* LockViewController.swift */; };
+		5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFC51D4F79DD00C54DA8 /* AuthStyle.swift */; };
+		5F57DFC71D4F79DD00C54DA8 /* AuthStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFC51D4F79DD00C54DA8 /* AuthStyle.swift */; };
+		5F57DFC91D4F87CE00C54DA8 /* AuthCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFC81D4F87CE00C54DA8 /* AuthCollectionView.swift */; };
+		5F57DFCC1D4F93A000C54DA8 /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFCB1D4F93A000C54DA8 /* AuthPresenter.swift */; };
+		5F57DFCE1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFCD1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift */; };
+		5F57DFD21D4FE59800C54DA8 /* OAuth2Authenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */; };
+		5F57DFD41D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */; };
 		5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */; };
 		5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D71D22ED120016FC22 /* Presentable.swift */; };
 		5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D91D22EF490016FC22 /* Router.swift */; };
@@ -32,6 +44,11 @@
 		5F814FD51D1A72A6003670A4 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; };
 		5F814FD61D1A72A6003670A4 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD11D1A7294003670A4 /* Nimble.framework */; };
 		5F814FD71D1A72A6003670A4 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */; };
+		5F9231D51D5B6C5E00D92580 /* AuthCollectionViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9231D41D5B6C5E00D92580 /* AuthCollectionViewSpec.swift */; };
+		5F92C68B1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */; };
+		5F92C68D1D50E47100CCE6C0 /* AuthStyleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68C1D50E47100CCE6C0 /* AuthStyleSpec.swift */; };
+		5F92C68F1D50EAC200CCE6C0 /* LazyImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */; };
+		5F92C6911D510AFE00CCE6C0 /* LazyImageSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C6901D510AFE00CCE6C0 /* LazyImageSpec.swift */; };
 		5F99AA761D1A7FA100D27842 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD21D1A7294003670A4 /* Auth0.framework */; };
 		5F99AA7A1D1B031500D27842 /* Lock.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA791D1B031500D27842 /* Lock.xcassets */; };
 		5F99AA7D1D1B08D900D27842 /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA7F1D1B08D900D27842 /* Lock.strings */; };
@@ -62,6 +79,8 @@
 		5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC434891D1DF82A005188BC /* DatabasePresenter.swift */; };
 		5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4348B1D1DFC5A005188BC /* Form.swift */; };
 		5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4348E1D1E0A57005188BC /* DatabaseAuthenticable.swift */; };
+		5FD6772C1D4C303C004B87C4 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6772B1D4C303C004B87C4 /* AuthButton.swift */; };
+		5FD6772D1D4C303C004B87C4 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6772B1D4C303C004B87C4 /* AuthButton.swift */; };
 		5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CD1D2C79FD00166B67 /* Operations.swift */; };
 		5FDB41D01D2C95B100166B67 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CF1D2C95B100166B67 /* MessageView.swift */; };
 		5FDC876D1D46DAF200D28596 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC876C1D46DAF200D28596 /* Queue.swift */; };
@@ -75,6 +94,24 @@
 		5FEAE1CA1D1A5154005C0028 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEAE1C91D1A5154005C0028 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FEAE1D11D1A5154005C0028 /* Lock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FEAE1C61D1A5154005C0028 /* Lock.framework */; };
 		5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAE20F1D1A5691005C0028 /* HeaderView.swift */; };
+		5FF1FA3A1D4C13CC00158CD1 /* LockUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FF1FA341D4C12DF00158CD1 /* LockUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5FF1FA3B1D4C14EF00158CD1 /* CredentialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA951D1C4AF400D27842 /* CredentialView.swift */; };
+		5FF1FA3C1D4C14EF00158CD1 /* DatabaseModeSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA8F1D1B9E7100D27842 /* DatabaseModeSwitcher.swift */; };
+		5FF1FA3D1D4C14EF00158CD1 /* DatabaseModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA911D1BA5CA00D27842 /* DatabaseModes.swift */; };
+		5FF1FA3E1D4C14EF00158CD1 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4348B1D1DFC5A005188BC /* Form.swift */; };
+		5FF1FA3F1D4C14EF00158CD1 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAE20F1D1A5691005C0028 /* HeaderView.swift */; };
+		5FF1FA401D4C14EF00158CD1 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA8B1D1B3F1300D27842 /* InputField.swift */; };
+		5FF1FA411D4C14EF00158CD1 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CF1D2C95B100166B67 /* MessageView.swift */; };
+		5FF1FA421D4C14EF00158CD1 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA891D1B360C00D27842 /* PrimaryButton.swift */; };
+		5FF1FA431D4C14EF00158CD1 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */; };
+		5FF1FA441D4C14EF00158CD1 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */; };
+		5FF1FA451D4C14EF00158CD1 /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */; };
+		5FF1FA461D4C150100158CD1 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA871D1B0E2500D27842 /* Layout.swift */; };
+		5FF1FA471D4C151000158CD1 /* i18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA811D1B0A3900D27842 /* i18n.swift */; };
+		5FF1FA4B1D4C15DC00158CD1 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA851D1B0BF100D27842 /* Resources.swift */; };
+		5FF1FA4C1D4C15DC00158CD1 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC876C1D46DAF200D28596 /* Queue.swift */; };
+		5FF1FA4D1D4C15EA00158CD1 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CD1D2C79FD00166B67 /* Operations.swift */; };
+		5FF1FA4E1D4C174B00158CD1 /* Lock.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA791D1B031500D27842 /* Lock.xcassets */; };
 		5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC54FD1D37E3F700579581 /* Routes.swift */; };
 /* End PBXBuildFile section */
 
@@ -128,6 +165,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		5F14565D1D5237820085DF9C /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
+		5F2037C11D5D02880005D2E2 /* Matchers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matchers.swift; sourceTree = "<group>"; };
 		5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseInteractor.swift; sourceTree = "<group>"; };
 		5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseInteractorSpec.swift; sourceTree = "<group>"; };
 		5F5090071D1DE7BA00EAA650 /* NetworkStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkStub.swift; sourceTree = "<group>"; };
@@ -136,6 +176,12 @@
 		5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleInputView.swift; sourceTree = "<group>"; };
 		5F51EE6D1D1CE6210024BCD6 /* LockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockViewController.swift; sourceTree = "<group>"; };
+		5F57DFC51D4F79DD00C54DA8 /* AuthStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthStyle.swift; sourceTree = "<group>"; };
+		5F57DFC81D4F87CE00C54DA8 /* AuthCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthCollectionView.swift; sourceTree = "<group>"; };
+		5F57DFCB1D4F93A000C54DA8 /* AuthPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
+		5F57DFCD1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthPresenterSpec.swift; sourceTree = "<group>"; };
+		5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2Authenticatable.swift; sourceTree = "<group>"; };
+		5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth0OAuth2Interactor.swift; sourceTree = "<group>"; };
 		5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenterSpec.swift; sourceTree = "<group>"; };
 		5F5F98D71D22ED120016FC22 /* Presentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
 		5F5F98D91D22EF490016FC22 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -151,6 +197,11 @@
 		5F814FD11D1A7294003670A4 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		5F814FD21D1A7294003670A4 /* Auth0.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Auth0.framework; path = Carthage/Build/iOS/Auth0.framework; sourceTree = "<group>"; };
 		5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
+		5F9231D41D5B6C5E00D92580 /* AuthCollectionViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthCollectionViewSpec.swift; sourceTree = "<group>"; };
+		5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth0OAuth2InteractorSpec.swift; sourceTree = "<group>"; };
+		5F92C68C1D50E47100CCE6C0 /* AuthStyleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthStyleSpec.swift; sourceTree = "<group>"; };
+		5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyImage.swift; sourceTree = "<group>"; };
+		5F92C6901D510AFE00CCE6C0 /* LazyImageSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyImageSpec.swift; sourceTree = "<group>"; };
 		5F99AA791D1B031500D27842 /* Lock.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Lock.xcassets; sourceTree = "<group>"; };
 		5F99AA7E1D1B08D900D27842 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Lock.strings; sourceTree = "<group>"; };
 		5F99AA811D1B0A3900D27842 /* i18n.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = i18n.swift; sourceTree = "<group>"; };
@@ -180,6 +231,7 @@
 		5FC434891D1DF82A005188BC /* DatabasePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenter.swift; sourceTree = "<group>"; };
 		5FC4348B1D1DFC5A005188BC /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
 		5FC4348E1D1E0A57005188BC /* DatabaseAuthenticable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseAuthenticable.swift; sourceTree = "<group>"; };
+		5FD6772B1D4C303C004B87C4 /* AuthButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 		5FDB41CD1D2C79FD00166B67 /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
 		5FDB41CF1D2C95B100166B67 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		5FDC876C1D46DAF200D28596 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
@@ -196,6 +248,8 @@
 		5FEAE1D01D1A5154005C0028 /* LockTests.iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LockTests.iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FEAE1D71D1A5154005C0028 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FEAE20F1D1A5691005C0028 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		5FF1FA321D4C12DF00158CD1 /* LockUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LockUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FF1FA341D4C12DF00158CD1 /* LockUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LockUI.h; path = Lock/LockUI.h; sourceTree = SOURCE_ROOT; };
 		5FFC54FD1D37E3F700579581 /* Routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Routes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -228,6 +282,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5FF1FA2E1D4C12DF00158CD1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -240,6 +301,8 @@
 				5FBE5CBD1D3E5C7B0038536D /* MultifactorAuthenticatable.swift */,
 				5FBE5CBF1D3E5E0A0038536D /* MultifactorInteractor.swift */,
 				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
+				5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */,
+				5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -250,6 +313,7 @@
 				5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */,
 				5F73CDDB1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift */,
 				5FBE5CC11D3E5EF50038536D /* MultifactorInteractorSpec.swift */,
+				5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -260,6 +324,7 @@
 				5F5090091D1DEE9A00EAA650 /* Constants.swift */,
 				5FBE5CC71D3EA0EA0038536D /* Mocks.swift */,
 				5F5090071D1DE7BA00EAA650 /* NetworkStub.swift */,
+				5F2037C11D5D02880005D2E2 /* Matchers.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -271,6 +336,8 @@
 				5F50900D1D1DF40400EAA650 /* DatabaseOnlyView.swift */,
 				5FBE5CB91D3E59B90038536D /* MultifactorCodeView.swift */,
 				5FC434851D1DF769005188BC /* View.swift */,
+				5F57DFC81D4F87CE00C54DA8 /* AuthCollectionView.swift */,
+				5F14565D1D5237820085DF9C /* DatabaseView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -289,8 +356,17 @@
 				5F73CDDD1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift */,
 				5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */,
 				5FBE5CC91D3EA1380038536D /* MultifactorPresenterSpec.swift */,
+				5F57DFCD1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift */,
 			);
 			path = Presenters;
+			sourceTree = "<group>";
+		};
+		5F9231D31D5B6C2800D92580 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5F9231D41D5B6C5E00D92580 /* AuthCollectionViewSpec.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		5F99AA801D1B0A2B00D27842 /* Utils */ = {
@@ -302,6 +378,8 @@
 				5FBE5CC31D3E67320038536D /* Validators.swift */,
 				5F99AA811D1B0A3900D27842 /* i18n.swift */,
 				5FDC876C1D46DAF200D28596 /* Queue.swift */,
+				5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */,
+				5F1456591D5130E80085DF9C /* Colors.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -310,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				5FBE5CB71D3D8F030038536D /* User.swift */,
+				5F57DFC51D4F79DD00C54DA8 /* AuthStyle.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -318,6 +397,7 @@
 			isa = PBXGroup;
 			children = (
 				5FBE5CCC1D3EDF960038536D /* UserSpec.swift */,
+				5F92C68C1D50E47100CCE6C0 /* AuthStyleSpec.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -330,6 +410,7 @@
 				5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */,
 				5FBE5CC51D3E7F9D0038536D /* MultifactorPresenter.swift */,
 				5F5F98D71D22ED120016FC22 /* Presentable.swift */,
+				5F57DFCB1D4F93A000C54DA8 /* AuthPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -365,6 +446,7 @@
 				5FEAE1C61D1A5154005C0028 /* Lock.framework */,
 				5FEAE1D01D1A5154005C0028 /* LockTests.iOS.xctest */,
 				5FEADCF41D1A7EBC0032D810 /* LockApp.app */,
+				5FF1FA321D4C12DF00158CD1 /* LockUI.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -382,6 +464,7 @@
 				5F50900C1D1DF3ED00EAA650 /* Views */,
 				5FEAE1CB1D1A5154005C0028 /* Info.plist */,
 				5FEAE1C91D1A5154005C0028 /* Lock.h */,
+				5FF1FA341D4C12DF00158CD1 /* LockUI.h */,
 				5F99AA7F1D1B08D900D27842 /* Lock.strings */,
 				5F99AA831D1B0BCE00D27842 /* Lock.swift */,
 				5F99AA791D1B031500D27842 /* Lock.xcassets */,
@@ -392,6 +475,7 @@
 		5FEAE1D41D1A5154005C0028 /* LockTests */ = {
 			isa = PBXGroup;
 			children = (
+				5F9231D31D5B6C2800D92580 /* Views */,
 				5F508FF81D1DB01D00EAA650 /* Interactors */,
 				5FBE5CCB1D3ED9210038536D /* Models */,
 				5F5F98D11D21E3710016FC22 /* Presenters */,
@@ -400,6 +484,7 @@
 				5FEAE1D71D1A5154005C0028 /* Info.plist */,
 				5FA2504F1D48E2A200C544FA /* OptionsSpec.swift */,
 				5FA250511D48F08200C544FA /* LockSpec.swift */,
+				5F92C6901D510AFE00CCE6C0 /* LazyImageSpec.swift */,
 			);
 			path = LockTests;
 			sourceTree = "<group>";
@@ -418,6 +503,7 @@
 				5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */,
 				5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */,
 				5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */,
+				5FD6772B1D4C303C004B87C4 /* AuthButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -458,6 +544,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FEAE1CA1D1A5154005C0028 /* Lock.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5FF1FA2F1D4C12DF00158CD1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5FF1FA3A1D4C13CC00158CD1 /* LockUI.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,6 +617,24 @@
 			productReference = 5FEAE1D01D1A5154005C0028 /* LockTests.iOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		5FF1FA311D4C12DF00158CD1 /* LockUI.iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5FF1FA391D4C12DF00158CD1 /* Build configuration list for PBXNativeTarget "LockUI.iOS" */;
+			buildPhases = (
+				5FF1FA2D1D4C12DF00158CD1 /* Sources */,
+				5FF1FA2E1D4C12DF00158CD1 /* Frameworks */,
+				5FF1FA2F1D4C12DF00158CD1 /* Headers */,
+				5FF1FA301D4C12DF00158CD1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LockUI.iOS;
+			productName = "Lock-UI.iOS";
+			productReference = 5FF1FA321D4C12DF00158CD1 /* LockUI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -543,6 +655,9 @@
 						CreatedOnToolsVersion = 7.3.1;
 						TestTargetID = 5FEADCF31D1A7EBC0032D810;
 					};
+					5FF1FA311D4C12DF00158CD1 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 				};
 			};
 			buildConfigurationList = 5FEAE1C01D1A5154005C0028 /* Build configuration list for PBXProject "Lock" */;
@@ -559,6 +674,7 @@
 			projectRoot = "";
 			targets = (
 				5FEAE1C51D1A5154005C0028 /* Lock.iOS */,
+				5FF1FA311D4C12DF00158CD1 /* LockUI.iOS */,
 				5FEAE1CF1D1A5154005C0028 /* LockTests.iOS */,
 				5FEADCF31D1A7EBC0032D810 /* LockApp */,
 			);
@@ -589,6 +705,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5FF1FA301D4C12DF00158CD1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5FF1FA4E1D4C174B00158CD1 /* Lock.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,12 +765,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */,
+				5F14565A1D5130E80085DF9C /* Colors.swift in Sources */,
+				5F57DFC91D4F87CE00C54DA8 /* AuthCollectionView.swift in Sources */,
+				5F57DFCC1D4F93A000C54DA8 /* AuthPresenter.swift in Sources */,
 				5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */,
 				5F73CDD61D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift in Sources */,
 				5F99AA901D1B9E7100D27842 /* DatabaseModeSwitcher.swift in Sources */,
 				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
 				5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */,
+				5FD6772C1D4C303C004B87C4 /* AuthButton.swift in Sources */,
 				5F99AA8A1D1B360C00D27842 /* PrimaryButton.swift in Sources */,
 				5FBE5CC41D3E67320038536D /* Validators.swift in Sources */,
 				5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */,
@@ -657,9 +785,13 @@
 				5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */,
 				5F51EE681D1C88FC0024BCD6 /* SignUpView.swift in Sources */,
 				5F51EE6E1D1CE6210024BCD6 /* LockViewController.swift in Sources */,
+				5F57DFD41D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift in Sources */,
+				5F57DFD21D4FE59800C54DA8 /* OAuth2Authenticatable.swift in Sources */,
 				5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */,
 				5F99AA921D1BA5CA00D27842 /* DatabaseModes.swift in Sources */,
 				5FDC876D1D46DAF200D28596 /* Queue.swift in Sources */,
+				5F92C68F1D50EAC200CCE6C0 /* LazyImage.swift in Sources */,
+				5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
 				5FBE5CC61D3E7F9D0038536D /* MultifactorPresenter.swift in Sources */,
 				5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */,
 				5F99AA8C1D1B3F1300D27842 /* InputField.swift in Sources */,
@@ -673,6 +805,7 @@
 				5FBE5CC01D3E5E0A0038536D /* MultifactorInteractor.swift in Sources */,
 				5F50900E1D1DF40400EAA650 /* DatabaseOnlyView.swift in Sources */,
 				5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */,
+				5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */,
 				5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */,
 				5F73CDD41D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift in Sources */,
 				5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */,
@@ -685,18 +818,51 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */,
+				5F92C68D1D50E47100CCE6C0 /* AuthStyleSpec.swift in Sources */,
+				5F92C68B1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift in Sources */,
 				5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */,
 				5F73CDDC1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift in Sources */,
 				5FA250501D48E2A200C544FA /* OptionsSpec.swift in Sources */,
 				5FBE5CC21D3E5EF50038536D /* MultifactorInteractorSpec.swift in Sources */,
 				5F73CDDE1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift in Sources */,
+				5F9231D51D5B6C5E00D92580 /* AuthCollectionViewSpec.swift in Sources */,
 				5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */,
 				5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */,
 				5FA250521D48F08200C544FA /* LockSpec.swift in Sources */,
 				5F5F98DC1D22F0B40016FC22 /* RouterSpec.swift in Sources */,
 				5FBE5CCD1D3EDF960038536D /* UserSpec.swift in Sources */,
 				5FBE5CC81D3EA0EA0038536D /* Mocks.swift in Sources */,
+				5F57DFCE1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift in Sources */,
+				5F92C6911D510AFE00CCE6C0 /* LazyImageSpec.swift in Sources */,
 				5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */,
+				5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5FF1FA2D1D4C12DF00158CD1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5FF1FA431D4C14EF00158CD1 /* SecondaryButton.swift in Sources */,
+				5F14565C1D5237210085DF9C /* Colors.swift in Sources */,
+				5FF1FA3F1D4C14EF00158CD1 /* HeaderView.swift in Sources */,
+				5FF1FA3D1D4C14EF00158CD1 /* DatabaseModes.swift in Sources */,
+				5FF1FA3E1D4C14EF00158CD1 /* Form.swift in Sources */,
+				5FF1FA451D4C14EF00158CD1 /* SingleInputView.swift in Sources */,
+				5FF1FA461D4C150100158CD1 /* Layout.swift in Sources */,
+				5FF1FA471D4C151000158CD1 /* i18n.swift in Sources */,
+				5FF1FA3C1D4C14EF00158CD1 /* DatabaseModeSwitcher.swift in Sources */,
+				5FF1FA3B1D4C14EF00158CD1 /* CredentialView.swift in Sources */,
+				5FF1FA4B1D4C15DC00158CD1 /* Resources.swift in Sources */,
+				5FF1FA4C1D4C15DC00158CD1 /* Queue.swift in Sources */,
+				5FF1FA441D4C14EF00158CD1 /* SignUpView.swift in Sources */,
+				5FD6772D1D4C303C004B87C4 /* AuthButton.swift in Sources */,
+				5FF1FA411D4C14EF00158CD1 /* MessageView.swift in Sources */,
+				5FF1FA421D4C14EF00158CD1 /* PrimaryButton.swift in Sources */,
+				5F57DFC71D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
+				5FF1FA401D4C14EF00158CD1 /* InputField.swift in Sources */,
+				5F14565B1D5237180085DF9C /* LazyImage.swift in Sources */,
+				5FF1FA4D1D4C15EA00158CD1 /* Operations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -951,6 +1117,38 @@
 			};
 			name = Release;
 		};
+		5FF1FA371D4C12DF00158CD1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Lock/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock.ui;
+				PRODUCT_NAME = LockUI;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5FF1FA381D4C12DF00158CD1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Lock/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock.ui;
+				PRODUCT_NAME = LockUI;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -986,6 +1184,15 @@
 			buildConfigurations = (
 				5FEAE1DE1D1A5154005C0028 /* Debug */,
 				5FEAE1DF1D1A5154005C0028 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5FF1FA391D4C12DF00158CD1 /* Build configuration list for PBXNativeTarget "LockUI.iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5FF1FA371D4C12DF00158CD1 /* Debug */,
+				5FF1FA381D4C12DF00158CD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

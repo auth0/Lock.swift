@@ -26,14 +26,13 @@ import Lock
 
 class ViewController: UIViewController {
 
-    weak var messageLabel: UILabel?
-
     override func loadView() {
         let view = UIView()
         view.backgroundColor = .whiteColor()
         self.view = view
         let header = HeaderView()
         header.title = "Welcome to Lock"
+        header.showClose = false
 
         view.addSubview(header)
 
@@ -41,53 +40,80 @@ class ViewController: UIViewController {
             header.leftAnchor.constraintEqualToAnchor(view.leftAnchor),
             header.topAnchor.constraintEqualToAnchor(view.topAnchor),
             header.rightAnchor.constraintEqualToAnchor(view.rightAnchor),
+            header.heightAnchor.constraintEqualToConstant(154),
             ])
         header.translatesAutoresizingMaskIntoConstraints = false
 
-        let button = PrimaryButton()
-        button.onPress = { [weak self] _ in self?.showLock() }
+        let databaseOnly = AuthButton(size: .Big)
+        databaseOnly.title = "LOGIN WITH DB"
+        databaseOnly.onPress = { [weak self] _ in
+            let lock = Lock
+                .login()
+                .connections { connections in
+                    connections.database(name: "Username-Password-Authentication", requiresUsername: true)
+                }
+            self?.showLock(lock)
+        }
+        let databaseAndSocial = AuthButton(size: .Big)
+        databaseAndSocial.title = "LOGIN WITH DB & SOCIAL"
+        databaseAndSocial.onPress = { [weak self] _ in
+            let lock = Lock
+                .login()
+                .connections { connections in
+                    connections.social(name: "facebook", style: .Facebook)
+                    connections.social(name: "google-oauth2", style: .Google)
+                    connections.database(name: "Username-Password-Authentication", requiresUsername: true)
+            }
+            self?.showLock(lock)
+        }
+        let socialOnly = AuthButton(size: .Big)
+        socialOnly.title = "LOGIN WITH SOCIAL"
+        socialOnly.onPress = { [weak self] _ in
+            let lock = Lock
+                .login()
+                .connections { connections in
+                    connections.social(name: "facebook", style: .Facebook)
+                    connections.social(name: "google-oauth2", style: .Google)
+                    connections.social(name: "instagram", style: .Instagram)
+                    connections.social(name: "twitter", style: .Twitter)
+                    connections.social(name: "fitbit", style: .Fitbit)
+                    connections.social(name: "dropbox", style: .Dropbox)
+                    connections.social(name: "bitbucket", style: .Bitbucket)
+                }
+            self?.showLock(lock)
+        }
 
-        view.addSubview(button)
+        let stack = UIStackView(arrangedSubviews: [wrap(databaseOnly), wrap(socialOnly), wrap(databaseAndSocial)])
+        stack.axis = .Vertical
+        stack.distribution = .FillProportionally
+        stack.alignment = .Fill
+
+        view.addSubview(stack)
 
         NSLayoutConstraint.activateConstraints([
-            button.leftAnchor.constraintEqualToAnchor(view.leftAnchor),
-            button.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor),
-            button.rightAnchor.constraintEqualToAnchor(view.rightAnchor),
+            stack.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 18),
+            stack.topAnchor.constraintEqualToAnchor(header.bottomAnchor),
+            stack.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -18),
+            stack.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor),
             ])
-        button.translatesAutoresizingMaskIntoConstraints = false
-
-        let centerGuide = UILayoutGuide()
-
-        view.addLayoutGuide(centerGuide)
-
-        NSLayoutConstraint.activateConstraints([
-            centerGuide.topAnchor.constraintEqualToAnchor(header.bottomAnchor),
-            centerGuide.bottomAnchor.constraintEqualToAnchor(button.topAnchor),
-            centerGuide.centerXAnchor.constraintEqualToAnchor(self.view.centerXAnchor),
-            ])
-
-        let message = UILabel()
-        message.numberOfLines = 0
-        message.preferredMaxLayoutWidth = 200
-        message.textAlignment = .Center
-        
-        view.addSubview(message)
-
-        NSLayoutConstraint.activateConstraints([
-            message.centerXAnchor.constraintEqualToAnchor(centerGuide.centerXAnchor),
-            message.centerYAnchor.constraintEqualToAnchor(centerGuide.centerYAnchor)
-            ])
-        message.translatesAutoresizingMaskIntoConstraints = false
-
-        self.messageLabel = message
+        stack.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    private func showLock() {
-        Lock
-            .login()
-            .connections { connections in
-                connections.database(name: "Username-Password-Authentication", requiresUsername: true)
-            }
+    private func wrap(button: AuthButton) -> UIView {
+        let wrapper = UIView()
+        wrapper.backgroundColor = .whiteColor()
+        wrapper.addSubview(button)
+
+        button.leftAnchor.constraintEqualToAnchor(wrapper.leftAnchor).active = true
+        button.rightAnchor.constraintEqualToAnchor(wrapper.rightAnchor).active = true
+        button.centerYAnchor.constraintEqualToAnchor(wrapper.centerYAnchor).active = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        return wrapper
+    }
+
+    private func showLock(lock: Lock) {
+        lock
             .options {
                 $0.closable = true
             }
@@ -95,12 +121,9 @@ class ViewController: UIViewController {
                 switch result {
                 case .Success(let credentials):
                     print("Obtained credentials \(credentials)")
-                    self.messageLabel?.text = "Logged in user and got token \(credentials.accessToken)"
                 case .Failure(let cause):
                     print("Failed with \(cause)")
-                    self.messageLabel?.text = "Failed with \(cause)"
                 default:
-                    self.messageLabel?.text = nil
                     print(result)
                 }
             }

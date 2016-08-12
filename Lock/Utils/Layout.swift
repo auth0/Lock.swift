@@ -52,3 +52,9 @@ func dimension(dimension: NSLayoutDimension, withValue value: CGFloat) -> NSLayo
     constraint.active = true
     return constraint
 }
+
+func dimension(dimension: NSLayoutDimension, greaterThanOrEqual value: CGFloat) -> NSLayoutConstraint {
+    let constraint = dimension.constraintGreaterThanOrEqualToConstant(value)
+    constraint.active = true
+    return constraint
+}

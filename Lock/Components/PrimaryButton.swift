@@ -58,7 +58,7 @@ public class PrimaryButton: UIView {
     }
 
     private func layoutButton() {
-        let button = UIButton(type: .System)
+        let button = UIButton(type: .Custom)
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
 
         self.addSubview(button)
@@ -74,7 +74,8 @@ public class PrimaryButton: UIView {
         constraintEqual(anchor: indicator.centerYAnchor, toAnchor: self.centerYAnchor)
         indicator.translatesAutoresizingMaskIntoConstraints = false
 
-        button.setBackgroundImage(image(withColor: UIColor ( red: 0.9176, green: 0.3255, blue: 0.1373, alpha: 1.0 )), forState: .Normal)
+        button.setBackgroundImage(image(withColor: UIColor ( red: 0.921568627, green: 0.329411765, blue: 0.141176471, alpha: 1.0 )), forState: .Normal)
+        button.setBackgroundImage(image(withColor: UIColor ( red: 0.721568627, green: 0.250980392, blue: 0.109803922, alpha: 1.0 )), forState: .Highlighted)
         button.setBackgroundImage(image(withColor: UIColor ( red: 0.8902, green: 0.898, blue: 0.9059, alpha: 1.0 )), forState: .Disabled)
         button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), forState: .Normal)
         button.setImage(UIImage(), forState: .Disabled)

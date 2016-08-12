@@ -56,8 +56,8 @@ class DatabasePasswordInteractorSpec: QuickSpec {
         var forgot: DatabasePasswordInteractor!
 
         beforeEach {
-            var conns = OfflineConnections()
-            connections = conns.database(name: connection, requiresUsername: true)
+            connections = OfflineConnections()
+            connections.database(name: connection, requiresUsername: true)
             user = User()
             forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user)
         }

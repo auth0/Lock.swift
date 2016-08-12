@@ -46,13 +46,3 @@ extension View where Self: UIView {
         self.removeFromSuperview()
     }
 }
-
-protocol DatabaseView: View {
-    weak var form: Form? { get }
-    weak var secondaryButton: SecondaryButton? { get }
-    weak var primaryButton: PrimaryButton? { get }
-    weak var switcher: DatabaseModeSwitcher? { get }
-
-    func showLogin(withUsername allowUsername: Bool, identifier: String?)
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?)
-}

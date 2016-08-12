@@ -28,6 +28,8 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var secondaryButton: SecondaryButton?
     weak var primaryButton: PrimaryButton?
     weak var switcher: DatabaseModeSwitcher?
+    weak var authCollectionView: AuthCollectionView?
+    weak var separator: UILabel?
     private weak var container: UIStackView?
 
     init() {
@@ -66,34 +68,51 @@ class DatabaseOnlyView: UIView, DatabaseView {
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    func showLogin(withUsername allowUsername: Bool, identifier: String? = nil) {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func showLogin(withUsername allowUsername: Bool, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil) {
         let form = CredentialView()
         form.identityField.text = identifier
         form.identityField.type = allowUsername ? .EmailOrUsername : .Email
         form.identityField.returnKey = .Next
         form.identityField.nextField = form.passwordField
         form.passwordField.returnKey = .Done
-        layoutInStack(form)
+        layoutInStack(form, authCollectionView: authCollectionView)
         self.form = form
     }
 
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?) {
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil) {
         let form = SignUpView()
         form.showUsername = showUsername
         form.emailField.text = email
         form.usernameField?.text = username
-        layoutInStack(form)
+        layoutInStack(form, authCollectionView: authCollectionView)
         self.form = form
     }
 
-    private func layoutInStack(view: UIView) {
+    private func layoutInStack(view: UIView, authCollectionView: AuthCollectionView?) {
         if let current = self.form as? UIView {
             current.removeFromSuperview()
         }
-        self.container?.insertArrangedSubview(view, atIndex: 1)
+        self.authCollectionView?.removeFromSuperview()
+        self.separator?.removeFromSuperview()
+
+        if let social = authCollectionView {
+            let label = UILabel()
+            label.text = "OR".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
+            label.font = mediumSystemFont(size: 13.75)
+            label.textColor = .blackColor()
+            label.textAlignment = .Center
+            self.container?.insertArrangedSubview(social, atIndex: 1)
+            self.container?.insertArrangedSubview(label, atIndex: 2)
+            self.container?.insertArrangedSubview(view, atIndex: 3)
+            self.authCollectionView = social
+            self.separator = label
+        } else {
+            self.container?.insertArrangedSubview(view, atIndex: 1)
+        }
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
