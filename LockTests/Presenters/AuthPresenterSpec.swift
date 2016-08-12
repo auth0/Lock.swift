@@ -54,14 +54,34 @@ class AuthPresenterSpec: QuickSpec {
 
         }
 
-        describe("newView") {
+        describe("embedded view") {
 
             it("should return view") {
-                expect(presenter.newView(withInsets: UIEdgeInsetsZero, mode: .Expanded(isLogin: true))).toNot(beNil())
+                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsetsZero)).toNot(beNil())
             }
 
-            it("should return view with correct mode") {
-                expect(presenter.newView(withInsets: UIEdgeInsetsZero, mode: .Compact).mode).to(beCompactMode())
+            it("should return view with expanded mode for single connection") {
+                let connections = OfflineConnections(database: nil, oauth2: mockConnections(count: 1))
+                presenter = AuthPresenter(connections: connections, interactor: interactor)
+                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsetsZero).mode).to(beExpandedMode())
+            }
+
+            it("should return view with expanded mode and signup flag") {
+                let connections = OfflineConnections(database: nil, oauth2: mockConnections(count: 1))
+                presenter = AuthPresenter(connections: connections, interactor: interactor)
+                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsetsZero, isLogin: false).mode).to(beExpandedMode(isLogin: false))
+            }
+
+            it("should return view with expanded mode for two connections") {
+                let connections = OfflineConnections(database: nil, oauth2: mockConnections(count: 2))
+                presenter = AuthPresenter(connections: connections, interactor: interactor)
+                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsetsZero).mode).to(beExpandedMode())
+            }
+
+            it("should return view with compact mode for more than three connecitons") {
+                let connections = OfflineConnections(database: nil, oauth2: mockConnections(count: Int(arc4random_uniform(10)) + 3))
+                presenter = AuthPresenter(connections: connections, interactor: interactor)
+                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsetsZero).mode).to(beCompactMode())
             }
 
         }

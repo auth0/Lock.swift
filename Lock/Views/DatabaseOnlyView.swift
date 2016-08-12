@@ -101,7 +101,9 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         if let social = authCollectionView {
             let label = UILabel()
-            label.text = "OR".i18n(key: "com.auth0.lock.separator", comment: "Social separator")
+            label.text = "OR".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
+            label.font = mediumSystemFont(size: 13.75)
+            label.textColor = .blackColor()
             label.textAlignment = .Center
             self.container?.insertArrangedSubview(social, atIndex: 1)
             self.container?.insertArrangedSubview(label, atIndex: 2)

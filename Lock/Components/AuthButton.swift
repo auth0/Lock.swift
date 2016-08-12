@@ -116,7 +116,7 @@ public class AuthButton: UIView {
         constraintEqual(anchor: button.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: button.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: button.bottomAnchor, toAnchor: self.bottomAnchor)
-        if case .Small = self.size {
+        if case .Small = size {
             constraintEqual(anchor: button.widthAnchor, toAnchor: button.heightAnchor)
         }
         dimension(button.heightAnchor, greaterThanOrEqual: 50)
@@ -125,7 +125,9 @@ public class AuthButton: UIView {
         button.layer.cornerRadius = 3
         button.layer.masksToBounds = true
 
-        iconView.backgroundColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3 )
+        if case .Big = size {
+            iconView.backgroundColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3 )
+        }
         iconView.image = self.icon ?? image(named: "ic_auth_auth0", compatibleWithTraitCollection: self.traitCollection)
         iconView.contentMode = .Center
         iconView.tintColor = self.titleColor

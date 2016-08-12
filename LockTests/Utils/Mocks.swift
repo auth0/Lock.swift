@@ -28,9 +28,10 @@ class MockAuthPresenter: AuthPresenter {
 
     var authView = AuthCollectionView(connections: [], mode: .Compact, insets: UIEdgeInsetsZero)  { _ in }
 
-    override func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode) -> AuthCollectionView {
+    override func newViewToEmbed(withInsets insets: UIEdgeInsets, isLogin: Bool) -> AuthCollectionView {
         return self.authView
     }
+
 }
 
 class MockNavigator: Navigable {

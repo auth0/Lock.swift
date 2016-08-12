@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import UIKit
 
 protocol DatabaseView: View {
     weak var form: Form? { get }
@@ -29,6 +29,8 @@ protocol DatabaseView: View {
     weak var switcher: DatabaseModeSwitcher? { get }
     weak var authCollectionView: AuthCollectionView? { get }
 
+    var traitCollection: UITraitCollection { get }
+    
     func showLogin(withUsername allowUsername: Bool, identifier: String?, authCollectionView: AuthCollectionView?)
     func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView?)
 }

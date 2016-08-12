@@ -50,10 +50,20 @@ class ViewController: UIViewController {
             let lock = Lock
                 .login()
                 .connections { connections in
+                    connections.database(name: "Username-Password-Authentication", requiresUsername: true)
+                }
+            self?.showLock(lock)
+        }
+        let databaseAndSocial = AuthButton(size: .Big)
+        databaseAndSocial.title = "LOGIN WITH DB & SOCIAL"
+        databaseAndSocial.onPress = { [weak self] _ in
+            let lock = Lock
+                .login()
+                .connections { connections in
                     connections.social(name: "facebook", style: .Facebook)
                     connections.social(name: "google-oauth2", style: .Google)
                     connections.database(name: "Username-Password-Authentication", requiresUsername: true)
-                }
+            }
             self?.showLock(lock)
         }
         let socialOnly = AuthButton(size: .Big)
@@ -73,7 +83,7 @@ class ViewController: UIViewController {
             self?.showLock(lock)
         }
 
-        let stack = UIStackView(arrangedSubviews: [wrap(databaseOnly), wrap(socialOnly)])
+        let stack = UIStackView(arrangedSubviews: [wrap(databaseOnly), wrap(socialOnly), wrap(databaseAndSocial)])
         stack.axis = .Vertical
         stack.distribution = .FillProportionally
         stack.alignment = .Fill

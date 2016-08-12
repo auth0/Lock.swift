@@ -65,7 +65,7 @@ class DatabasePresenter: Presentable {
 
     private func showLogin(inView view: DatabaseView, identifier: String?) {
         self.messagePresenter?.hideCurrent()
-        let authCollectionView = self.authPresenter?.newView(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), mode: .Compact)
+        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), isLogin: true)
         view.showLogin(withUsername: self.database.requiresUsername, identifier: identifier, authCollectionView: authCollectionView)
         let form = view.form
         form?.onValueChange = self.handleInput
@@ -101,7 +101,7 @@ class DatabasePresenter: Presentable {
 
     private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
         self.messagePresenter?.hideCurrent()
-        let authCollectionView = self.authPresenter?.newView(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), mode: .Compact)
+        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), isLogin: false)
         view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView)
         let form = view.form
         view.form?.onValueChange = self.handleInput
