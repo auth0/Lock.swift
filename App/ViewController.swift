@@ -118,7 +118,7 @@ class ViewController: UIViewController {
             .options {
                 $0.closable = true
                 $0.logLevel = .All
-                $0.logger = CleanroomLockLogger()
+                $0.loggerOutput = CleanroomLockLogger()
                 $0.logHttpRequest = true
             }
             .on { result in
@@ -135,27 +135,24 @@ class ViewController: UIViewController {
     }
 }
 
-class CleanroomLockLogger: Logger {
+class CleanroomLockLogger: LoggerOutput {
 
-    var level: LoggerLevel = .All
-
-    func debug(message: String, filename: String, line: Int) {
-        Log.debug?.message(message, filePath: filename, fileLine: line)
-    }
-
-    func info(message: String, filename: String, line: Int) {
-        Log.info?.message(message, filePath: filename, fileLine: line)
-    }
-
-    func error(message: String, filename: String, line: Int) {
-        Log.error?.message(message, filePath: filename, fileLine: line)
-    }
-
-    func warn(message: String, filename: String, line: Int) {
-        Log.warning?.message(message, filePath: filename, fileLine: line)
-    }
-
-    func verbose(message: String, filename: String, line: Int) {
-        Log.verbose?.message(message, filePath: filename, fileLine: line)
+    func message(message: String, level: LoggerLevel, filename: String, line: Int) {
+        let channel: LogChannel?
+        switch level {
+        case .Debug:
+            channel = Log.debug
+        case .Error:
+            channel = Log.error
+        case .Info:
+            channel = Log.info
+        case .Verbose:
+            channel = Log.verbose
+        case .Warn:
+            channel = Log.warning
+        default:
+            channel = nil
+        }
+        channel?.message(message, filePath: filename, fileLine: line)
     }
 }
