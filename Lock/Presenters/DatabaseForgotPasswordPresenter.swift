@@ -22,10 +22,11 @@
 
 import Foundation
 
-class DatabaseForgotPasswordPresenter: Presentable {
+class DatabaseForgotPasswordPresenter: Presentable, Loggable {
 
     var interactor: PasswordRecoverable
     let database: DatabaseConnection
+    var customLogger: Logger?
 
     init(interactor: PasswordRecoverable, connections: Connections) {
         self.interactor = interactor
@@ -55,7 +56,7 @@ class DatabaseForgotPasswordPresenter: Presentable {
         }
         let action = { (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            print("request forgot password for email \(self.interactor.email)")
+            self.logger.info("request forgot password for email \(self.interactor.email)")
             let interactor = self.interactor
             button.inProgress = true
             interactor.requestEmail { error in
@@ -64,7 +65,7 @@ class DatabaseForgotPasswordPresenter: Presentable {
                     form?.needsToUpdateState()
                     if let error = error {
                         self.messagePresenter?.showError("\(error)")
-                        print("Failed with error \(error)")
+                        self.logger.error("Failed with error \(error)")
                     } else {
                         let message = "We've just sent you an email to reset your password".i18n(key: "com.auth0.lock.database.forgot.success.message", comment: "forgot password email sent")
                         self.messagePresenter?.showSuccess(message)

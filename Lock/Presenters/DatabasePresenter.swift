@@ -23,7 +23,7 @@
 import Foundation
 import SafariServices
 
-class DatabasePresenter: Presentable {
+class DatabasePresenter: Presentable, Loggable {
 
     let database: DatabaseConnection
     let options: Options
@@ -33,6 +33,7 @@ class DatabasePresenter: Presentable {
 
     var messagePresenter: MessagePresenter?
     var authPresenter: AuthPresenter?
+    var customLogger: Logger?
 
     var initialEmail: String? { return self.interactor.validEmail ? self.interactor.email : nil }
     var initialUsername: String? { return self.interactor.validUsername ? self.interactor.username : nil }
@@ -49,14 +50,14 @@ class DatabasePresenter: Presentable {
         database.switcher?.onSelectionChange = { [weak database] switcher in
             let selected = switcher.selected
             guard let view = database else { return }
-            print("selected \(selected)")
+            self.logger.debug("selected \(selected)")
             switch selected {
             case .Signup:
                 self.showSignup(inView: view, username: self.initialUsername, email: self.initialEmail)
             case .Login:
                 self.showLogin(inView: view, identifier: self.interactor.identifier)
             default:
-                print("invalid db mode")
+                self.logger.error("invalid db mode <\(selected)> in switcher")
             }
         }
         showLogin(inView: database, identifier: interactor.identifier)
@@ -72,14 +73,14 @@ class DatabasePresenter: Presentable {
 
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            print("perform login for email \(self.interactor.email)")
+            self.logger.info("perform login for email \(self.interactor.email)")
             let interactor = self.interactor
             button.inProgress = true
             interactor.login { error in
                 Queue.main.async {
                     button.inProgress = false
                     guard let error = error else {
-                        print("Logged in!")
+                        self.logger.debug("Logged in!")
                         return
                     }
                     if case .MultifactorRequired = error {
@@ -87,7 +88,7 @@ class DatabasePresenter: Presentable {
                     } else {
                         form?.needsToUpdateState()
                         self.messagePresenter?.showError("\(error)")
-                        print("Failed with error \(error)")
+                        self.logger.error("Failed with error \(error)")
                     }
                 }
             }
@@ -112,14 +113,14 @@ class DatabasePresenter: Presentable {
         view.form?.onValueChange = self.handleInput
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            print("perform sign up for email \(self.interactor.email)")
+            self.logger.info("perform sign up for email \(self.interactor.email)")
             let interactor = self.interactor
             button.inProgress = true
             interactor.create { error in
                 Queue.main.async {
                     button.inProgress = false
                     guard let error = error else {
-                        print("Logged in!")
+                        self.logger.debug("Logged in!")
                         return
                     }
                     if case .MultifactorRequired = error {
@@ -127,7 +128,7 @@ class DatabasePresenter: Presentable {
                     } else {
                         form?.needsToUpdateState()
                         self.messagePresenter?.showError("\(error)")
-                        print("Failed with error \(error)")
+                        self.logger.error("Failed with error \(error)")
                     }
                 }
             }
@@ -152,7 +153,7 @@ class DatabasePresenter: Presentable {
 
     private func handleInput(input: InputField) {
         self.messagePresenter?.hideCurrent()
-        print("new value: \(input.text) for type: \(input.type)")
+        self.logger.debug("new value: \(input.text) for type: \(input.type)")
         let attribute: CredentialAttribute?
         switch input.type {
         case .Email:

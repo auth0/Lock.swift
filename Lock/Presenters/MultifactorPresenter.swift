@@ -22,10 +22,11 @@
 
 import Foundation
 
-class MultifactorPresenter: Presentable {
+class MultifactorPresenter: Presentable, Loggable {
 
     var interactor: MultifactorAuthenticatable
     let database: DatabaseConnection
+    var customLogger: Logger?
 
     init(interactor: MultifactorAuthenticatable, connection: DatabaseConnection) {
         self.interactor = interactor
@@ -53,7 +54,7 @@ class MultifactorPresenter: Presentable {
         }
         let action = { (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            print("resuming with mutifactor code \(self.interactor.code)")
+            self.logger.debug("resuming with mutifactor code \(self.interactor.code)")
             let interactor = self.interactor
             button.inProgress = true
             interactor.login { error in
@@ -62,7 +63,7 @@ class MultifactorPresenter: Presentable {
                     form?.needsToUpdateState()
                     if let error = error {
                         self.messagePresenter?.showError("\(error)")
-                        print("Failed with error \(error)")
+                        self.logger.error("Failed with error \(error)")
                     }
                 }
             }
