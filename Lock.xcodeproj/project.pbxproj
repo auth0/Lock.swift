@@ -12,6 +12,7 @@
 		5F14565C1D5237210085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
 		5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F14565D1D5237820085DF9C /* DatabaseView.swift */; };
 		5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2037C11D5D02880005D2E2 /* Matchers.swift */; };
+		5F390E851D63663D00FC549C /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA7F1D1B08D900D27842 /* Lock.strings */; };
 		5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */; };
 		5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */; };
 		5F5090031D1DE78800EAA650 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -51,7 +52,6 @@
 		5F92C6911D510AFE00CCE6C0 /* LazyImageSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C6901D510AFE00CCE6C0 /* LazyImageSpec.swift */; };
 		5F99AA761D1A7FA100D27842 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD21D1A7294003670A4 /* Auth0.framework */; };
 		5F99AA7A1D1B031500D27842 /* Lock.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA791D1B031500D27842 /* Lock.xcassets */; };
-		5F99AA7D1D1B08D900D27842 /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA7F1D1B08D900D27842 /* Lock.strings */; };
 		5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA811D1B0A3900D27842 /* i18n.swift */; };
 		5F99AA841D1B0BCE00D27842 /* Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA831D1B0BCE00D27842 /* Lock.swift */; };
 		5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA851D1B0BF100D27842 /* Resources.swift */; };
@@ -697,7 +697,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F99AA7A1D1B031500D27842 /* Lock.xcassets in Resources */,
-				5F99AA7D1D1B08D900D27842 /* Lock.strings in Resources */,
+				5F390E851D63663D00FC549C /* Lock.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
