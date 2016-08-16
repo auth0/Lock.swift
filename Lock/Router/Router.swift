@@ -58,6 +58,7 @@ struct Router: Navigable {
 
             self.user.reset()
 
+            self.lock.logger.debug("Back pressed. Showing \(current)")
             switch current {
             case .ForgotPassword:
                 self.controller?.present(self.forgotPassword)
@@ -127,6 +128,7 @@ struct Router: Navigable {
         case .Multifactor:
             presentable = self.multifactor
         }
+        self.lock.logger.debug("Navigating to \(route)")
         self.controller?.routes.go(route)
         self.controller?.present(presentable)
     }

@@ -26,6 +26,8 @@ public protocol Logger {
     func debug(message: String, filename: String, line: Int)
     func info(message: String, filename: String, line: Int)
     func error(message: String, filename: String, line: Int)
+    func warn(message: String, filename: String, line: Int)
+    func verbose(message: String, filename: String, line: Int)
 
     var level: LoggerLevel { get set }
 }
@@ -42,6 +44,15 @@ extension Logger {
     func error(message: String, _ filename: String = #file, _ line: Int = #line) {
         error(message, filename: filename, line: line)
     }
+
+    func warn(message: String, _ filename: String = #file, _ line: Int = #line) {
+        warn(message, filename: filename, line: line)
+    }
+
+    func verbose(message: String, _ filename: String = #file, _ line: Int = #line) {
+        verbose(message, filename: filename, line: line)
+    }
+
 }
 
 // MARK:- Level
@@ -49,25 +60,31 @@ extension Logger {
 public enum LoggerLevel: Int {
     case Off = 0
     case Error
+    case Warn
     case Info
     case Debug
+    case Verbose
     case All
 
     var label: String {
         switch self {
         case .Error:
             return "ERROR"
+        case Warn:
+            return "WARN"
         case .Info:
             return "INFO"
         case .Debug:
             return "DEBUG"
+        case .Verbose:
+            return "VERBOSE"
         default:
             return "INVALID"
         }
     }
 }
 
-func >=(lhs: LoggerLevel, rhs: LoggerLevel) -> Bool {
+public func >=(lhs: LoggerLevel, rhs: LoggerLevel) -> Bool {
     return lhs.rawValue >= rhs.rawValue
 }
 
@@ -110,6 +127,16 @@ class DefaultLogger: Logger {
     func error(message: String, filename: String, line: Int) {
         guard self.level >= .Error else { return }
         trace("\(heading(forFile: filename, line: line))", .Error, message)
+    }
+
+    func warn(message: String, filename: String, line: Int) {
+        guard self.level >= .Warn else { return }
+        trace("\(heading(forFile: filename, line: line))", .Warn, message)
+    }
+
+    func verbose(message: String, filename: String, line: Int) {
+        guard self.level >= .Verbose else { return }
+        trace("\(heading(forFile: filename, line: line))", .Verbose, message)
     }
 
     private func heading(forFile file: String, line: Int) -> String {

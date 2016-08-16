@@ -153,7 +153,7 @@ class DatabasePresenter: Presentable, Loggable {
 
     private func handleInput(input: InputField) {
         self.messagePresenter?.hideCurrent()
-        self.logger.debug("new value: \(input.text) for type: \(input.type)")
+        self.logger.verbose("new value: \(input.text) for type: \(input.type)")
         let attribute: CredentialAttribute?
         switch input.type {
         case .Email:

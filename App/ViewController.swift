@@ -22,7 +22,7 @@
 
 import UIKit
 import Lock
-
+import CleanroomLogger
 
 class ViewController: UIViewController {
 
@@ -113,22 +113,49 @@ class ViewController: UIViewController {
     }
 
     private func showLock(lock: Lock) {
+        Log.enable(minimumSeverity: LogSeverity.Verbose)
         lock
             .options {
                 $0.closable = true
                 $0.logLevel = .All
+                $0.logger = CleanroomLockLogger()
+                $0.logHttpRequest = true
             }
             .on { result in
                 switch result {
                 case .Success(let credentials):
-                    print("Obtained credentials \(credentials)")
+                    Log.info?.message("Obtained credentials \(credentials)")
                 case .Failure(let cause):
-                    print("Failed with \(cause)")
+                    Log.error?.message("Failed with \(cause)")
                 default:
-                    print(result)
+                    Log.debug?.value(result)
                 }
             }
             .present(from: self)
     }
 }
 
+class CleanroomLockLogger: Logger {
+
+    var level: LoggerLevel = .All
+
+    func debug(message: String, filename: String, line: Int) {
+        Log.debug?.message(message, filePath: filename, fileLine: line)
+    }
+
+    func info(message: String, filename: String, line: Int) {
+        Log.info?.message(message, filePath: filename, fileLine: line)
+    }
+
+    func error(message: String, filename: String, line: Int) {
+        Log.error?.message(message, filePath: filename, fileLine: line)
+    }
+
+    func warn(message: String, filename: String, line: Int) {
+        Log.warning?.message(message, filePath: filename, fileLine: line)
+    }
+
+    func verbose(message: String, filename: String, line: Int) {
+        Log.verbose?.message(message, filePath: filename, fileLine: line)
+    }
+}

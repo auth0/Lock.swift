@@ -68,7 +68,7 @@ public class Lock: NSObject {
     }
 
     var logger: Logger {
-        let logger = DefaultLogger.sharedInstance
+        var logger = options.logger ?? DefaultLogger.sharedInstance
         logger.level = options.logLevel
         return logger
     }
@@ -131,6 +131,8 @@ public protocol Options {
     var termsOfServiceURL: NSURL { get }
     var privacyPolicyURL: NSURL { get }
     var logLevel: LoggerLevel { get }
+    var logger: Logger? { get }
+    var logHttpRequest: Bool { get }
 }
 
 public protocol OptionBuildable: Options {
@@ -138,6 +140,8 @@ public protocol OptionBuildable: Options {
     var termsOfServiceURL: NSURL { get set }
     var privacyPolicyURL: NSURL { get set }
     var logLevel: LoggerLevel { get set }
+    var logger: Logger? { get set }
+    var logHttpRequest: Bool { get set }
 }
 
 extension OptionBuildable {
@@ -167,6 +171,12 @@ struct LockOptions: OptionBuildable {
     var termsOfServiceURL: NSURL = NSURL(string: "https://auth0.com/terms")!
     var privacyPolicyURL: NSURL = NSURL(string: "https://auth0.com/privacy")!
     var logLevel: LoggerLevel = .Off
+    var logger: Logger? = nil
+    var logHttpRequest: Bool = false {
+        didSet {
+            Auth0.enableLogging(enabled: self.logHttpRequest)
+        }
+    }
 }
 
 public struct DatabaseConnection {
