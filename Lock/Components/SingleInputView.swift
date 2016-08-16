@@ -73,6 +73,15 @@ public class SingleInputView: UIView, Form {
         }
     }
 
+    var onReturn: (InputField) -> () {
+        get {
+            return self.inputField.onReturn
+        }
+        set {
+            self.inputField.onReturn = newValue
+        }
+    }
+
     func needsToUpdateState() {
         self.inputField.needsToUpdateState()
     }

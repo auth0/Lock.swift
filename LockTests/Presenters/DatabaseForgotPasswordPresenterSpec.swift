@@ -102,6 +102,29 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
 
             describe("request forgot email action") {
 
+                it("should trigger action on return of last field") {
+                    let input = mockInput(.Email, value: email)
+                    input.returnKey = .Done
+                    waitUntil { done in
+                        interactor.onRequest = {
+                            done()
+                            return nil
+                        }
+                        view.form?.onReturn(input)
+                    }
+                }
+
+                it("should not trigger action with nil button") {
+                    let input = mockInput(.OneTimePassword, value: "123456")
+                    input.returnKey = .Done
+                    interactor.onRequest = {
+                        return .EmailNotSent
+                    }
+                    view.primaryButton = nil
+                    view.form?.onReturn(input)
+                    expect(messagePresenter.success).toEventually(beNil())
+                }
+
                 it("should show global error message") {
                     interactor.onRequest = {
                         return .EmailNotSent

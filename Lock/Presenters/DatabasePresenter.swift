@@ -70,7 +70,7 @@ class DatabasePresenter: Presentable {
         let form = view.form
         form?.onValueChange = self.handleInput
 
-        view.primaryButton?.onPress = { [weak form] button in
+        let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
             print("perform login for email \(self.interactor.email)")
             let interactor = self.interactor
@@ -92,6 +92,11 @@ class DatabasePresenter: Presentable {
                 }
             }
         }
+        view.form?.onReturn = { field in
+            guard let button = view.primaryButton where field.returnKey == .Done else { return } // FIXME: Log warn
+            action(button)
+        }
+        view.primaryButton?.onPress = action
         view.secondaryButton?.title = DatabaseModes.ForgotPassword.title
         view.secondaryButton?.color = .clearColor()
         view.secondaryButton?.onPress = { button in
@@ -105,7 +110,7 @@ class DatabasePresenter: Presentable {
         view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView)
         let form = view.form
         view.form?.onValueChange = self.handleInput
-        view.primaryButton?.onPress = { [weak form] button in
+        let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
             print("perform sign up for email \(self.interactor.email)")
             let interactor = self.interactor
@@ -127,6 +132,12 @@ class DatabasePresenter: Presentable {
                 }
             }
         }
+
+        view.form?.onReturn = { field in
+            guard let button = view.primaryButton where field.returnKey == .Done else { return } // FIXME: Log warn
+            action(button)
+        }
+        view.primaryButton?.onPress = action
         view.secondaryButton?.title = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.tos.button.title", comment: "tos & privacy")
         view.secondaryButton?.color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
         view.secondaryButton?.onPress = { button in
