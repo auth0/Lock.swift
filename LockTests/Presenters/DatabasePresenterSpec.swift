@@ -31,7 +31,7 @@ class DatabasePresenterSpec: QuickSpec {
 
         var interactor: MockDBInteractor!
         var presenter: DatabasePresenter!
-        var view: DatabaseView!
+        var view: DatabaseOnlyView!
         var messagePresenter: MockMessagePresenter!
         var authPresenter: MockAuthPresenter!
         var navigator: MockNavigator!
@@ -43,7 +43,7 @@ class DatabasePresenterSpec: QuickSpec {
             navigator = MockNavigator()
             presenter = DatabasePresenter(interactor: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: LockOptions())
             presenter.messagePresenter = messagePresenter
-            view = presenter.view as! DatabaseView
+            view = presenter.view as! DatabaseOnlyView
         }
 
         describe("auth buttons") {
@@ -188,6 +188,28 @@ class DatabasePresenterSpec: QuickSpec {
 
             describe("login action") {
 
+                it("should trigger action on return of last field") {
+                    let input = mockInput(.Password, value: password)
+                    input.returnKey = .Done
+                    waitUntil { done in
+                        interactor.onLogin = {
+                            done()
+                            return nil
+                        }
+                        view.form?.onReturn(input)
+                    }
+                }
+
+                it("should not trigger action if return key is not .Done") {
+                    let input = mockInput(.Password, value: password)
+                    input.returnKey = .Next
+                    interactor.onLogin = {
+                        return .CouldNotLogin
+                    }
+                    view.form?.onReturn(input)
+                    expect(messagePresenter.success).toEventually(beNil())
+                }
+
                 it("should clear global message") {
                     messagePresenter.showError("Some Error")
                     interactor.onLogin = {
@@ -313,6 +335,39 @@ class DatabasePresenterSpec: QuickSpec {
             }
 
             describe("sign up action") {
+
+                it("should trigger action on return of last field") {
+                    let input = mockInput(.Password, value: password)
+                    input.returnKey = .Done
+                    waitUntil { done in
+                        interactor.onSignUp = {
+                            done()
+                            return nil
+                        }
+                        view.form?.onReturn(input)
+                    }
+                }
+
+                it("should not trigger action if return key is not .Done") {
+                    let input = mockInput(.Password, value: password)
+                    input.returnKey = .Next
+                    interactor.onSignUp = {
+                        return .CouldNotLogin
+                    }
+                    view.form?.onReturn(input)
+                    expect(messagePresenter.success).toEventually(beNil())
+                }
+
+                it("should not trigger action with nil button") {
+                    let input = mockInput(.OneTimePassword, value: "123456")
+                    input.returnKey = .Done
+                    interactor.onLogin = {
+                        return .CouldNotLogin
+                    }
+                    view.primaryButton = nil
+                    view.form?.onReturn(input)
+                    expect(messagePresenter.success).toEventually(beNil())
+                }
 
                 it("should clear global message") {
                     messagePresenter.showError("Some Error")

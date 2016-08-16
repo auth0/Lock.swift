@@ -50,6 +50,15 @@ public class SignUpView: UIView, Form {
         }
     }
 
+    var onReturn: (InputField) -> () {
+        get {
+            return self.passwordField.onReturn
+        }
+        set {
+            self.passwordField.onReturn = newValue
+        }
+    }
+
     func needsToUpdateState() {
         self.usernameField?.needsToUpdateState()
         self.emailField.needsToUpdateState()
@@ -101,5 +110,8 @@ public class SignUpView: UIView, Form {
 
         email.type = .Email
         password.type = .Password
+
+        email.returnKey = .Next
+        password.returnKey = .Done
     }
 }

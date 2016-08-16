@@ -92,6 +92,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.current = view
         self.headerView.showBack = self.router.showBack
         self.headerView.onBackPressed = self.router.onBack
+        self.scrollView.setContentOffset(CGPointZero, animated: false)
     }
 
     enum State {
@@ -102,6 +103,8 @@ public class LockViewController: UIViewController, MessagePresenter {
     public override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
         guard !self.keyboard else { return }
         self.anchorConstraint?.active = self.traitCollection.verticalSizeClass != .Compact
+        self.scrollView.setContentOffset(CGPointZero, animated: true)
+        self.view.layoutIfNeeded()
     }
 
     // MARK:- MessagePresenter

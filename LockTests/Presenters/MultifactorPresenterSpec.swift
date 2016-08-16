@@ -82,6 +82,29 @@ class MultifactorPresenterSpec: QuickSpec {
 
         describe("login action") {
 
+            it("should trigger action on return of last field") {
+                let input = mockInput(.OneTimePassword, value: "123456")
+                input.returnKey = .Done
+                waitUntil { done in
+                    interactor.onLogin = {
+                        done()
+                        return nil
+                    }
+                    view.form?.onReturn(input)
+                }
+            }
+
+            it("should not trigger action with nil button") {
+                let input = mockInput(.OneTimePassword, value: "123456")
+                input.returnKey = .Done
+                interactor.onLogin = {
+                    return .CouldNotLogin
+                }
+                view.primaryButton = nil
+                view.form?.onReturn(input)
+                expect(messagePresenter.success).toEventually(beNil())
+            }
+
             it("should clear global message") {
                 messagePresenter.showError("Some Error")
                 interactor.onLogin = {

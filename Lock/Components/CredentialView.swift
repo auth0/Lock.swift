@@ -34,6 +34,15 @@ public class CredentialView: UIView, Form {
         }
     }
 
+    var onReturn: (InputField) -> () {
+        get {
+            return self.passwordField.onReturn
+        }
+        set {
+            self.passwordField.onReturn = newValue
+        }
+    }
+
     func needsToUpdateState() {
         self.identityField.needsToUpdateState()
         self.passwordField.needsToUpdateState()

@@ -24,5 +24,6 @@ import Foundation
 
 @objc protocol Form {
     var onValueChange: (InputField) -> () { get set }
+    var onReturn: (InputField) -> () { get set }
     func needsToUpdateState()
 }

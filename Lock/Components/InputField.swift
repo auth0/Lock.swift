@@ -66,7 +66,9 @@ public class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    public var onTextChange: (InputField) -> () = {_ in}
+    public var onTextChange: InputField -> () = {_ in}
+
+    public var onReturn: InputField -> () = {_ in}
 
     // MARK:- Initialisers
 
@@ -215,6 +217,7 @@ public class InputField: UIView, UITextFieldDelegate {
     }
 
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.onReturn(self)
         if let field = self.nextField?.textField {
             Queue.main.async {
                 field.becomeFirstResponder()

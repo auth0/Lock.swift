@@ -53,7 +53,7 @@ class DatabaseForgotPasswordPresenter: Presentable {
                 input.showError()
             }
         }
-        view.primaryButton?.onPress = { button in
+        let action = { (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
             print("request forgot password for email \(self.interactor.email)")
             let interactor = self.interactor
@@ -71,6 +71,11 @@ class DatabaseForgotPasswordPresenter: Presentable {
                     }
                 }
             }
+        }
+        view.primaryButton?.onPress = action
+        view.form?.onReturn = {_ in
+            guard let button = view.primaryButton else { return }
+            action(button)
         }
         return view
     }
