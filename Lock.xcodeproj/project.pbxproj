@@ -13,6 +13,10 @@
 		5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F14565D1D5237820085DF9C /* DatabaseView.swift */; };
 		5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2037C11D5D02880005D2E2 /* Matchers.swift */; };
 		5F390E851D63663D00FC549C /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA7F1D1B08D900D27842 /* Lock.strings */; };
+		5F390E871D638A6D00FC549C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F390E861D638A6D00FC549C /* Logger.swift */; };
+		5F390E8A1D63A5B800FC549C /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F390E881D63A5B800FC549C /* CleanroomLogger.framework */; };
+		5F390E8B1D63A5B800FC549C /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F390E891D63A5B800FC549C /* CleanroomASL.framework */; };
+		5F390E8D1D63B99300FC549C /* LoggerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F390E8C1D63B99300FC549C /* LoggerSpec.swift */; };
 		5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */; };
 		5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */; };
 		5F5090031D1DE78800EAA650 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F814FD01D1A7294003670A4 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -168,6 +172,10 @@
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		5F14565D1D5237820085DF9C /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
 		5F2037C11D5D02880005D2E2 /* Matchers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matchers.swift; sourceTree = "<group>"; };
+		5F390E861D638A6D00FC549C /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		5F390E881D63A5B800FC549C /* CleanroomLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomLogger.framework; path = Carthage/Build/iOS/CleanroomLogger.framework; sourceTree = "<group>"; };
+		5F390E891D63A5B800FC549C /* CleanroomASL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomASL.framework; path = Carthage/Build/iOS/CleanroomASL.framework; sourceTree = "<group>"; };
+		5F390E8C1D63B99300FC549C /* LoggerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggerSpec.swift; sourceTree = "<group>"; };
 		5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseInteractor.swift; sourceTree = "<group>"; };
 		5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseInteractorSpec.swift; sourceTree = "<group>"; };
 		5F5090071D1DE7BA00EAA650 /* NetworkStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkStub.swift; sourceTree = "<group>"; };
@@ -258,7 +266,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F390E8A1D63A5B800FC549C /* CleanroomLogger.framework in Frameworks */,
 				5F99AA761D1A7FA100D27842 /* Auth0.framework in Frameworks */,
+				5F390E8B1D63A5B800FC549C /* CleanroomASL.framework in Frameworks */,
 				5FEADD071D1A7EFC0032D810 /* Lock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,6 +390,7 @@
 				5FDC876C1D46DAF200D28596 /* Queue.swift */,
 				5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */,
 				5F1456591D5130E80085DF9C /* Colors.swift */,
+				5F390E861D638A6D00FC549C /* Logger.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -485,6 +496,7 @@
 				5FA2504F1D48E2A200C544FA /* OptionsSpec.swift */,
 				5FA250511D48F08200C544FA /* LockSpec.swift */,
 				5F92C6901D510AFE00CCE6C0 /* LazyImageSpec.swift */,
+				5F390E8C1D63B99300FC549C /* LoggerSpec.swift */,
 			);
 			path = LockTests;
 			sourceTree = "<group>";
@@ -511,6 +523,8 @@
 		5FEAE2111D1A5716005C0028 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F390E881D63A5B800FC549C /* CleanroomLogger.framework */,
+				5F390E891D63A5B800FC549C /* CleanroomASL.framework */,
 				5F814FD21D1A7294003670A4 /* Auth0.framework */,
 				5F814FD01D1A7294003670A4 /* Quick.framework */,
 				5F814FD11D1A7294003670A4 /* Nimble.framework */,
@@ -740,6 +754,8 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Auth0.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CleanroomLogger.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CleanroomASL.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -768,6 +784,7 @@
 				5F14565A1D5130E80085DF9C /* Colors.swift in Sources */,
 				5F57DFC91D4F87CE00C54DA8 /* AuthCollectionView.swift in Sources */,
 				5F57DFCC1D4F93A000C54DA8 /* AuthPresenter.swift in Sources */,
+				5F390E871D638A6D00FC549C /* Logger.swift in Sources */,
 				5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */,
 				5F73CDD61D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift in Sources */,
 				5F99AA901D1B9E7100D27842 /* DatabaseModeSwitcher.swift in Sources */,
@@ -835,6 +852,7 @@
 				5F57DFCE1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift in Sources */,
 				5F92C6911D510AFE00CCE6C0 /* LazyImageSpec.swift in Sources */,
 				5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */,
+				5F390E8D1D63B99300FC549C /* LoggerSpec.swift in Sources */,
 				5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

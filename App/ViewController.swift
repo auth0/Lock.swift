@@ -22,7 +22,7 @@
 
 import UIKit
 import Lock
-
+import CleanroomLogger
 
 class ViewController: UIViewController {
 
@@ -113,21 +113,46 @@ class ViewController: UIViewController {
     }
 
     private func showLock(lock: Lock) {
+        Log.enable(minimumSeverity: LogSeverity.Verbose)
         lock
             .options {
                 $0.closable = true
+                $0.logLevel = .All
+                $0.loggerOutput = CleanroomLockLogger()
+                $0.logHttpRequest = true
             }
             .on { result in
                 switch result {
                 case .Success(let credentials):
-                    print("Obtained credentials \(credentials)")
+                    Log.info?.message("Obtained credentials \(credentials)")
                 case .Failure(let cause):
-                    print("Failed with \(cause)")
+                    Log.error?.message("Failed with \(cause)")
                 default:
-                    print(result)
+                    Log.debug?.value(result)
                 }
             }
             .present(from: self)
     }
 }
 
+class CleanroomLockLogger: LoggerOutput {
+
+    func message(message: String, level: LoggerLevel, filename: String, line: Int) {
+        let channel: LogChannel?
+        switch level {
+        case .Debug:
+            channel = Log.debug
+        case .Error:
+            channel = Log.error
+        case .Info:
+            channel = Log.info
+        case .Verbose:
+            channel = Log.verbose
+        case .Warn:
+            channel = Log.warning
+        default:
+            channel = nil
+        }
+        channel?.message(message, filePath: filename, fileLine: line)
+    }
+}

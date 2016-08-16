@@ -22,13 +22,14 @@
 
 import Foundation
 
-class AuthPresenter: Presentable {
+class AuthPresenter: Presentable, Loggable {
 
     let compactModeThreshold = 3
     let connections: [OAuth2Connection]
     let interactor: OAuth2Authenticatable
 
     var messagePresenter: MessagePresenter?
+    var customLogger: Logger?
 
     init(connections: Connections, interactor: OAuth2Authenticatable) {
         self.connections = connections.oauth2

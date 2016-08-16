@@ -67,6 +67,15 @@ public class Lock: NSObject {
         return LockViewController(lock: self)
     }
 
+    var logger: Logger {
+        let logger = Logger.sharedInstance
+        if let output = options.loggerOutput {
+            logger.output = output
+        }
+        logger.level = options.logLevel
+        return logger
+    }
+
     public func present(from controller: UIViewController) {
         controller.presentViewController(self.controller, animated: true, completion: nil)
     }
@@ -124,12 +133,18 @@ public protocol Options {
     var closable: Bool { get }
     var termsOfServiceURL: NSURL { get }
     var privacyPolicyURL: NSURL { get }
+    var logLevel: LoggerLevel { get }
+    var loggerOutput: LoggerOutput? { get }
+    var logHttpRequest: Bool { get }
 }
 
 public protocol OptionBuildable: Options {
     var closable: Bool { get set }
     var termsOfServiceURL: NSURL { get set }
     var privacyPolicyURL: NSURL { get set }
+    var logLevel: LoggerLevel { get set }
+    var loggerOutput: LoggerOutput? { get set }
+    var logHttpRequest: Bool { get set }
 }
 
 extension OptionBuildable {
@@ -152,13 +167,19 @@ extension OptionBuildable {
             self.privacyPolicyURL = url
         }
     }
-
 }
 
 struct LockOptions: OptionBuildable {
     var closable: Bool = false
     var termsOfServiceURL: NSURL = NSURL(string: "https://auth0.com/terms")!
     var privacyPolicyURL: NSURL = NSURL(string: "https://auth0.com/privacy")!
+    var logLevel: LoggerLevel = .Off
+    var loggerOutput: LoggerOutput? = nil
+    var logHttpRequest: Bool = false {
+        didSet {
+            Auth0.enableLogging(enabled: self.logHttpRequest)
+        }
+    }
 }
 
 public struct DatabaseConnection {
