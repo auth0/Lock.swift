@@ -116,6 +116,7 @@ class ViewController: UIViewController {
         lock
             .options {
                 $0.closable = true
+                $0.logLevel = .All
             }
             .on { result in
                 switch result {

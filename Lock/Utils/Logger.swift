@@ -79,7 +79,12 @@ protocol Loggable {
 
 extension Loggable {
     var logger: Logger {
-        return self.customLogger ?? DefaultLogger.sharedInstance
+        var logger = self.customLogger
+        if logger == nil {
+            logger = DefaultLogger.sharedInstance
+            logger?.debug("Using default instance of logger")
+        }
+        return logger!
     }
 }
 

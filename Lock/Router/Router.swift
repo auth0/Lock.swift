@@ -80,12 +80,15 @@ struct Router: Navigable {
                 let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication)
                 presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor)
             }
+            presenter.customLogger = self.lock.logger
             return presenter
         }
 
         if !connections.oauth2.isEmpty {
             let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication)
-            return AuthPresenter(connections: connections, interactor: interactor)
+            let presenter = AuthPresenter(connections: connections, interactor: interactor)
+            presenter.customLogger = self.lock.logger
+            return presenter
         }
         return nil
     }
@@ -93,14 +96,18 @@ struct Router: Navigable {
     var forgotPassword: Presentable? {
         guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
         let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication, user: self.user)
-        return DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
+        let presenter =  DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
+        presenter.customLogger = self.lock.logger
+        return presenter
     }
 
     var multifactor: Presentable? {
         guard let connections = self.lock.connections, let database = connections.database else { return nil } // FIXME: show error screen
         let authentication = self.lock.authentication
         let interactor = MultifactorInteractor(user: self.user, authentication: authentication, connection: database, callback: self.onAuthentication)
-        return MultifactorPresenter(interactor: interactor, connection: database)
+        let presenter = MultifactorPresenter(interactor: interactor, connection: database)
+        presenter.customLogger = self.lock.logger
+        return presenter
     }
 
     var showBack: Bool {
