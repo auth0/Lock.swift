@@ -50,7 +50,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         container.alignment = .Fill
         container.axis = .Vertical
-        container.distribution = .EqualCentering
+        container.distribution = .EqualSpacing
         container.spacing = 10
 
         constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
