@@ -101,5 +101,8 @@ public class SignUpView: UIView, Form {
 
         email.type = .Email
         password.type = .Password
+
+        email.returnKey = .Next
+        password.returnKey = .Done
     }
 }

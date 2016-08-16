@@ -87,7 +87,12 @@ class DatabaseOnlyView: UIView, DatabaseView {
         let form = SignUpView()
         form.showUsername = showUsername
         form.emailField.text = email
+        form.emailField.returnKey = .Next
+        form.emailField.nextField = form.usernameField ?? form.passwordField
         form.usernameField?.text = username
+        form.usernameField?.returnKey = .Next
+        form.usernameField?.nextField = form.passwordField
+        form.passwordField.returnKey = .Done
         layoutInStack(form, authCollectionView: authCollectionView)
         self.form = form
     }
