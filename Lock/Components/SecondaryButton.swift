@@ -68,7 +68,7 @@ public class SecondaryButton: UIView {
         constraintEqual(anchor: button.centerXAnchor, toAnchor: self.centerXAnchor)
         constraintGreaterOrEqual(anchor: button.leftAnchor, toAnchor: self.leftAnchor)
         constraintGreaterOrEqual(anchor: button.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: button.firstBaselineAnchor, toAnchor: self.centerYAnchor)
+        constraintEqual(anchor: button.centerYAnchor, toAnchor: self.centerYAnchor)
         button.translatesAutoresizingMaskIntoConstraints = false
 
         button.tintColor = .blackColor()
@@ -80,7 +80,7 @@ public class SecondaryButton: UIView {
     }
 
     public override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 86)
+        return CGSize(width: UIViewNoIntrinsicMetric, height: 66)
     }
     
     func pressed(sender: AnyObject) {
