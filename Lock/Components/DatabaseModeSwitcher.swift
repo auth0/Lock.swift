@@ -83,11 +83,11 @@ public class DatabaseModeSwitcher: UIView {
         segmented.setBackgroundImage(image(named: "ic_switcher_normal", compatibleWithTraitCollection: self.traitCollection), forState: .Normal, barMetrics: .Default)
         segmented.setTitleTextAttributes([
             NSForegroundColorAttributeName: UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6 ),
-            NSFontAttributeName: mediumSystemFont(size: 13),
+            NSFontAttributeName: mediumSystemFont(size: 15),
             ], forState: .Normal)
         segmented.setTitleTextAttributes([
             NSForegroundColorAttributeName: UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 1.0 ),
-            NSFontAttributeName: semiBoldSystemFont(size: 13),
+            NSFontAttributeName: semiBoldSystemFont(size: 15),
             ], forState: .Selected)
         segmented.tintColor = UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 1.0 )
         segmented.addTarget(self, action: #selector(selectedIndex), forControlEvents: .ValueChanged)
