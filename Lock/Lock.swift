@@ -48,9 +48,10 @@ public class Lock: NSObject {
         var authentication = authentication
         var webAuth = webAuth
         let name = "Lock.swift"
-        let version = "2.0.0-alpha.1"
-        authentication.using(inLibrary: name, version: version) // FIXME: Use correct version from bundle
-        webAuth.using(inLibrary: name, version: version) // FIXME: Use correct version from bundle
+        let bundle = _BundleHack.bundle
+        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.0.0-alpha.0"
+        authentication.using(inLibrary: name, version: version)
+        webAuth.using(inLibrary: name, version: version)
         self.authentication = authentication
         self.webAuth = webAuth
     }
