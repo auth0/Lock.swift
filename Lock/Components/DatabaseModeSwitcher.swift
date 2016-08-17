@@ -67,11 +67,23 @@ public class DatabaseModeSwitcher: UIView {
         self.addSubview(segmented)
 
         constraintEqual(anchor: segmented.centerYAnchor, toAnchor: self.centerYAnchor)
-        constraintEqual(anchor: segmented.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
-        constraintEqual(anchor: segmented.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: segmented.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: segmented.leftAnchor, toAnchor: self.leftAnchor)
         dimension(segmented.heightAnchor, withValue: 40)
         segmented.translatesAutoresizingMaskIntoConstraints = false
 
+        segmented.setDividerImage(image(named: "ic_switcher_left", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Selected, rightSegmentState: .Normal, barMetrics: .Default)
+        segmented.setDividerImage(image(named: "ic_switcher_right", compatibleWithTraitCollection: nil), forLeftSegmentState: .Normal, rightSegmentState: .Selected, barMetrics: .Default)
+        segmented.setBackgroundImage(image(named: "ic_switcher_selected", compatibleWithTraitCollection: nil), forState: .Selected, barMetrics: .Default)
+        segmented.setBackgroundImage(image(named: "ic_switcher_normal", compatibleWithTraitCollection: nil), forState: .Normal, barMetrics: .Default)
+        segmented.setTitleTextAttributes([
+            NSForegroundColorAttributeName: UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6 ),
+            NSFontAttributeName: mediumSystemFont(size: 13),
+            ], forState: .Normal)
+        segmented.setTitleTextAttributes([
+            NSForegroundColorAttributeName: UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 1.0 ),
+            NSFontAttributeName: semiBoldSystemFont(size: 13),
+            ], forState: .Selected)
         segmented.tintColor = UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 1.0 )
         segmented.addTarget(self, action: #selector(selectedIndex), forControlEvents: .ValueChanged)
 
@@ -81,7 +93,7 @@ public class DatabaseModeSwitcher: UIView {
     }
 
     public override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: 280, height: 88)
+        return CGSize(width: 280, height: 55)
     }
 
     // MARK:- Internal
