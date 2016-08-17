@@ -72,6 +72,7 @@ public class SecondaryButton: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
 
         button.tintColor = .blackColor()
+        button.titleLabel?.font = regularSystemFont(size: 15)
         button.titleLabel?.lineBreakMode = .ByWordWrapping
         button.titleLabel?.textAlignment = .Center
         button.addTarget(self, action: #selector(pressed), forControlEvents: .TouchUpInside)
@@ -80,7 +81,7 @@ public class SecondaryButton: UIView {
     }
 
     public override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 66)
+        return CGSize(width: UIViewNoIntrinsicMetric, height: 76)
     }
     
     func pressed(sender: AnyObject) {

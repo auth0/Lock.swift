@@ -121,8 +121,11 @@ public class SingleInputView: UIView, Form {
         self.stackView.distribution = .EqualCentering
 
         titleView.textAlignment = .Center
+        titleView.font = regularSystemFont(size: 26)
+        titleView.textColor = UIColor ( red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0 )
         messageView.numberOfLines = 4
         messageView.textAlignment = .Center
+        messageView.font = regularSystemFont(size: 15)
         inputField.type = self.type
         inputField.returnKey = self.returnKey
     }
