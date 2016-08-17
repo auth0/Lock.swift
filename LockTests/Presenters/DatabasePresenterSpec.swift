@@ -130,6 +130,10 @@ class DatabasePresenterSpec: QuickSpec {
                 expect(view.secondaryButton?.title) == DatabaseModes.ForgotPassword.title
             }
 
+            it("should reset scroll") {
+                expect(navigator.resetted) == true
+            }
+
             describe("user input") {
 
                 it("should clear global message") {

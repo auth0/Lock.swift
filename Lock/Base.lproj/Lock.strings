@@ -54,9 +54,9 @@
 "com.auth0.lock.forgot.message" = "Please enter your email and the new password. We will send you an email to confirm the password change.";
 
 // Login Switch
-"com.auth0.lock.database.mode.switcher.login" = "LOG IN";
+"com.auth0.lock.database.mode.switcher.login" = "Log In";
 // Signup Switch
-"com.auth0.lock.database.mode.switcher.signup" = "SIGN UP";
+"com.auth0.lock.database.mode.switcher.signup" = "Sign Up";
 // Forgot password
 "com.auth0.lock.database.mode.switcher.forgot-password" = "Don’t remember your password?";
 // Social separator

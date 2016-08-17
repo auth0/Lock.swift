@@ -51,6 +51,7 @@ class DatabasePresenter: Presentable, Loggable {
             let selected = switcher.selected
             guard let view = database else { return }
             self.logger.debug("selected \(selected)")
+            self.navigator.resetScroll(false)
             switch selected {
             case .Signup:
                 self.showSignup(inView: view, username: self.initialUsername, email: self.initialEmail)

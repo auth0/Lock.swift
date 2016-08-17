@@ -66,16 +66,21 @@ public class DatabaseModeSwitcher: UIView {
 
         self.addSubview(segmented)
 
-        constraintEqual(anchor: segmented.centerYAnchor, toAnchor: self.centerYAnchor)
+        constraintEqual(anchor: segmented.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: segmented.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: segmented.leftAnchor, toAnchor: self.leftAnchor)
-        dimension(segmented.heightAnchor, withValue: 40)
+        dimension(segmented.heightAnchor, withValue: 45)
         segmented.translatesAutoresizingMaskIntoConstraints = false
 
         segmented.setDividerImage(image(named: "ic_switcher_left", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Selected, rightSegmentState: .Normal, barMetrics: .Default)
-        segmented.setDividerImage(image(named: "ic_switcher_right", compatibleWithTraitCollection: nil), forLeftSegmentState: .Normal, rightSegmentState: .Selected, barMetrics: .Default)
-        segmented.setBackgroundImage(image(named: "ic_switcher_selected", compatibleWithTraitCollection: nil), forState: .Selected, barMetrics: .Default)
-        segmented.setBackgroundImage(image(named: "ic_switcher_normal", compatibleWithTraitCollection: nil), forState: .Normal, barMetrics: .Default)
+        segmented.setDividerImage(image(named: "ic_switcher_right", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Normal, rightSegmentState: .Selected, barMetrics: .Default)
+        segmented.setDividerImage(image(named: "ic_switcher_both", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Selected, rightSegmentState: .Selected, barMetrics: .Default)
+        segmented.setDividerImage(image(named: "ic_switcher_both", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Highlighted, rightSegmentState: .Selected, barMetrics: .Default)
+        segmented.setDividerImage(image(named: "ic_switcher_both", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Selected, rightSegmentState: .Highlighted, barMetrics: .Default)
+        segmented.setDividerImage(image(named: "ic_switcher_none", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Normal, rightSegmentState: .Normal, barMetrics: .Default)
+        segmented.setBackgroundImage(image(named: "ic_switcher_selected", compatibleWithTraitCollection: self.traitCollection), forState: .Selected, barMetrics: .Default)
+        segmented.setBackgroundImage(image(named: "ic_switcher_selected", compatibleWithTraitCollection: self.traitCollection), forState: .Highlighted, barMetrics: .Default)
+        segmented.setBackgroundImage(image(named: "ic_switcher_normal", compatibleWithTraitCollection: self.traitCollection), forState: .Normal, barMetrics: .Default)
         segmented.setTitleTextAttributes([
             NSForegroundColorAttributeName: UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6 ),
             NSFontAttributeName: mediumSystemFont(size: 13),

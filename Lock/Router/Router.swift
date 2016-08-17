@@ -25,6 +25,7 @@ import Auth0
 
 protocol Navigable {
     func navigate(route: Route)
+    func resetScroll(animated: Bool)
 }
 
 struct Router: Navigable {
@@ -131,5 +132,9 @@ struct Router: Navigable {
         self.lock.logger.debug("Navigating to \(route)")
         self.controller?.routes.go(route)
         self.controller?.present(presentable)
+    }
+
+    func resetScroll(animated: Bool) {
+        self.controller?.scrollView.setContentOffset(CGPointZero, animated: animated)
     }
 }

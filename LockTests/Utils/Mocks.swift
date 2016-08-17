@@ -36,9 +36,14 @@ class MockAuthPresenter: AuthPresenter {
 
 class MockNavigator: Navigable {
     var route: Route?
+    var resetted: Bool = false
 
     func navigate(route: Route) {
         self.route = route
+    }
+
+    func resetScroll(animated: Bool) {
+        self.resetted = true
     }
 }
 
