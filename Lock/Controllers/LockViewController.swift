@@ -109,8 +109,9 @@ public class LockViewController: UIViewController, MessagePresenter {
 
     // MARK:- MessagePresenter
 
-    func showError(message: String) {
-        show(message: message, flavor: .Failure)
+    func showError(error: LocalizableError) {
+        guard error.userVisible else { return }
+        show(message: error.localizableMessage, flavor: .Failure)
     }
 
     func showSuccess(message: String) {

@@ -26,7 +26,25 @@ protocol OAuth2Authenticatable {
     func login(connection: String, callback: (OAuth2AuthenticatableError?) -> ())
 }
 
-enum OAuth2AuthenticatableError: ErrorType {
+enum OAuth2AuthenticatableError: ErrorType, LocalizableError {
     case CouldNotAuthenticate
     case Cancelled
+
+    var localizableMessage: String {
+        switch self {
+        case .CouldNotAuthenticate:
+            return "We're sorry, something went wrong when attempting to log in.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
+        default:
+            return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
+        }
+    }
+
+    var userVisible: Bool {
+        switch self {
+        case .CouldNotAuthenticate:
+            return true
+        default:
+            return false
+        }
+    }
 }

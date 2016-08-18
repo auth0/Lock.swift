@@ -66,10 +66,10 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
             describe("user input") {
 
                 it("should clear global message") {
-                    messagePresenter.showError("Some Error")
+                    messagePresenter.showError(PasswordRecoverableError.EmailNotSent)
                     let input = mockInput(.Email, value: email)
                     view.form?.onValueChange(input)
-                    expect(messagePresenter.success).to(beNil())
+                    expect(messagePresenter.error).to(beNil())
                     expect(messagePresenter.message).to(beNil())
                 }
 
@@ -122,7 +122,8 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
                     }
                     view.primaryButton = nil
                     view.form?.onReturn(input)
-                    expect(messagePresenter.success).toEventually(beNil())
+                    expect(messagePresenter.message).toEventually(beNil())
+                    expect(messagePresenter.error).toEventually(beNil())
                 }
 
                 it("should show global error message") {
@@ -130,8 +131,7 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
                         return .EmailNotSent
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(messagePresenter.success).toEventually(beFalsy())
-                    expect(messagePresenter.message).toEventually(equal("EmailNotSent"))
+                    expect(messagePresenter.error).toEventually(beError(error: PasswordRecoverableError.EmailNotSent))
                 }
 
                 it("should show global success message") {
@@ -139,7 +139,6 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
                         return nil
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(messagePresenter.success).toEventually(beTruthy())
                     expect(messagePresenter.message).toEventuallyNot(beNil())
                 }
 

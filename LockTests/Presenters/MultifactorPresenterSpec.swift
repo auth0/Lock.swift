@@ -47,10 +47,10 @@ class MultifactorPresenterSpec: QuickSpec {
         describe("user input") {
 
             it("should clear global message") {
-                messagePresenter.showError("Some Error")
+                messagePresenter.showError(DatabaseAuthenticatableError.CouldNotLogin)
                 let input = mockInput(.Email, value: email)
                 view.form?.onValueChange(input)
-                expect(messagePresenter.success).to(beNil())
+                expect(messagePresenter.error).to(beNil())
                 expect(messagePresenter.message).to(beNil())
             }
 
@@ -102,16 +102,17 @@ class MultifactorPresenterSpec: QuickSpec {
                 }
                 view.primaryButton = nil
                 view.form?.onReturn(input)
-                expect(messagePresenter.success).toEventually(beNil())
+                expect(messagePresenter.message).toEventually(beNil())
+                expect(messagePresenter.error).toEventually(beNil())
             }
 
             it("should clear global message") {
-                messagePresenter.showError("Some Error")
+                messagePresenter.showError(DatabaseAuthenticatableError.CouldNotLogin)
                 interactor.onLogin = {
                     return nil
                 }
                 view.primaryButton?.onPress(view.primaryButton!)
-                expect(messagePresenter.success).toEventually(beNil())
+                expect(messagePresenter.error).toEventually(beNil())
                 expect(messagePresenter.message).toEventually(beNil())
             }
 
@@ -120,8 +121,7 @@ class MultifactorPresenterSpec: QuickSpec {
                     return .CouldNotLogin
                 }
                 view.primaryButton?.onPress(view.primaryButton!)
-                expect(messagePresenter.success).toEventually(beFalse())
-                expect(messagePresenter.message).toEventually(equal("CouldNotLogin"))
+                expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.CouldNotLogin))
             }
 
             it("should trigger login on button press") {

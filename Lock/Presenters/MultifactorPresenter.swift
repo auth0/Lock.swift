@@ -62,7 +62,7 @@ class MultifactorPresenter: Presentable, Loggable {
                     button.inProgress = false
                     form?.needsToUpdateState()
                     if let error = error {
-                        self.messagePresenter?.showError("\(error)")
+                        self.messagePresenter?.showError(error)
                         self.logger.error("Failed with error \(error)")
                     }
                 }

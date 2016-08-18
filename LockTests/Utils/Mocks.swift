@@ -55,23 +55,21 @@ func mockInput(type: InputField.InputType, value: String? = nil) -> MockInputFie
 }
 
 class MockMessagePresenter: MessagePresenter {
-    var success: Bool? = nil
     var message: String? = nil
+    var error: LocalizableError? = nil
     var presented: UIViewController? = nil
 
     func showSuccess(message: String) {
-        self.success = true
         self.message = message
     }
 
-    func showError(message: String) {
-        self.success = false
-        self.message = message
+    func showError(error: LocalizableError) {
+        self.error = error
     }
 
     func hideCurrent() {
+        self.error = nil
         self.message = nil
-        self.success = nil
     }
 
     func present(controller: UIViewController) {

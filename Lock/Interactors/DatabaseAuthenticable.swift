@@ -36,13 +36,33 @@ protocol DatabaseAuthenticatable {
     func create(callback: (DatabaseAuthenticatableError?) -> ())
 }
 
-enum DatabaseAuthenticatableError: ErrorType {
+enum DatabaseAuthenticatableError: ErrorType, LocalizableError {
     case NonValidInput
     case CouldNotLogin
     case CouldNotCreateUser
     case NoDatabaseConnection
     case MultifactorRequired
     case MultifactorInvalid
+
+    var localizableMessage: String {
+        switch self {
+        case .CouldNotCreateUser:
+            return "We're sorry, something went wrong when attempting to sign up.".i18n(key: "com.auth0.lock.error.signup.fallback", comment: "Generic sign up error")
+        case .CouldNotLogin:
+            return "We're sorry, something went wrong when attempting to log in.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
+        default:
+            return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
+        }
+    }
+
+    var userVisible: Bool {
+        switch self {
+        case .CouldNotCreateUser, .CouldNotLogin, .NoDatabaseConnection:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 enum InputValidationError: ErrorType {

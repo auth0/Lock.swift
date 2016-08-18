@@ -88,7 +88,7 @@ class DatabasePresenter: Presentable, Loggable {
                         self.navigator.navigate(.Multifactor)
                     } else {
                         form?.needsToUpdateState()
-                        self.messagePresenter?.showError("\(error)")
+                        self.messagePresenter?.showError(error)
                         self.logger.error("Failed with error \(error)")
                     }
                 }
@@ -128,7 +128,7 @@ class DatabasePresenter: Presentable, Loggable {
                         self.navigator.navigate(.Multifactor)
                     } else {
                         form?.needsToUpdateState()
-                        self.messagePresenter?.showError("\(error)")
+                        self.messagePresenter?.showError(error)
                         self.logger.error("Failed with error \(error)")
                     }
                 }
