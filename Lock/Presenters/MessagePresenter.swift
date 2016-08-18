@@ -32,6 +32,5 @@ protocol MessagePresenter {
     func showError(error: LocalizableError)
     func showSuccess(message: String)
     func hideCurrent()
-
-    func present(alert: UIViewController)
+    
 }

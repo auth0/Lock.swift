@@ -145,10 +145,10 @@ class DatabasePresenter: Presentable, Loggable {
         view.secondaryButton?.onPress = { button in
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
             let cancel = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel.title", comment: "Cancel"), style: .Cancel, handler: nil)
-            let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.tos.title", comment: "ToS"), style: .Default, handler: safariBuilder(forURL: self.options.termsOfServiceURL, presenter: self.messagePresenter))
-            let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy.title", comment: "Privacy"), style: .Default, handler: safariBuilder(forURL: self.options.privacyPolicyURL, presenter: self.messagePresenter))
+            let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.tos.title", comment: "ToS"), style: .Default, handler: safariBuilder(forURL: self.options.termsOfServiceURL, navigator: self.navigator))
+            let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy.title", comment: "Privacy"), style: .Default, handler: safariBuilder(forURL: self.options.privacyPolicyURL, navigator: self.navigator))
             [cancel, tos, privacy].forEach { alert.addAction($0) }
-            self.messagePresenter?.present(alert)
+            self.navigator.present(alert)
         }
     }
 
@@ -181,9 +181,9 @@ class DatabasePresenter: Presentable, Loggable {
     }
 }
 
-private func safariBuilder(forURL url: NSURL, presenter: MessagePresenter?) -> (UIAlertAction) -> () {
+private func safariBuilder(forURL url: NSURL, navigator: Navigable) -> (UIAlertAction) -> () {
     return { _ in
         let safari = SFSafariViewController(URL: url)
-        presenter?.present(safari)
+        navigator.present(safari)
     }
 }

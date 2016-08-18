@@ -95,11 +95,6 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.scrollView.setContentOffset(CGPointZero, animated: false)
     }
 
-    enum State {
-        case Root
-        case ForgotPassword
-    }
-
     public override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
         guard !self.keyboard else { return }
         self.anchorConstraint?.active = self.traitCollection.verticalSizeClass != .Compact
@@ -120,10 +115,7 @@ public class LockViewController: UIViewController, MessagePresenter {
 
     func hideCurrent() {
         self.messageView?.removeFromSuperview()
-    }
-
-    func present(alert: UIViewController) {
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.messageView = nil
     }
 
     private func show(message message: String, flavor: MessageView.Flavor) {

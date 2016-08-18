@@ -77,5 +77,10 @@ let bitbucketSmall = social(size: .Small, style: .Bitbucket)
 let facebook = social(size: .Big, style: .Facebook)
 let facebookSmall = social(size: .Small, style: .Facebook)
 
+let linkedin = social(size: .Big, style: .Linkedin)
+let linkedinSmall = social(size: .Small, style: .Linkedin)
+
+
+
 
 

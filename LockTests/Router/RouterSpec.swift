@@ -154,19 +154,12 @@ class RouterSpec: QuickSpec {
             router.navigate(.Multifactor)
             expect(controller.presentable as? MultifactorPresenter).toNot(beNil())
         }
+
+        it("should present view controller") {
+            let presented = UIViewController()
+            router.present(presented)
+            expect(controller.presented) == presented
+        }
     }
 
-}
-
-class MockLockController: LockViewController {
-
-    var presentable: Presentable?
-
-    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
-        completion?()
-    }
-
-    override func present(presentable: Presentable?) {
-        self.presentable = presentable
-    }
 }

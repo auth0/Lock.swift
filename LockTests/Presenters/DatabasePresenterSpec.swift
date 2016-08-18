@@ -438,12 +438,12 @@ class DatabasePresenterSpec: QuickSpec {
                 }
 
                 it("should present alert controller for ToS") {
-                    expect(messagePresenter.presented as? UIAlertController).toEventuallyNot(beNil())
-                    expect(messagePresenter.presented?.title).toEventually(beNil())
+                    expect(navigator.presented as? UIAlertController).toEventuallyNot(beNil())
+                    expect(navigator.presented?.title).toEventually(beNil())
                 }
 
                 it("should have actions") {
-                    let alert = messagePresenter.presented as? UIAlertController
+                    let alert = navigator.presented as? UIAlertController
                     expect(alert?.message).toEventually(beNil())
                     expect(alert?.preferredStyle) == UIAlertControllerStyle.ActionSheet
                     expect(alert?.actions).to(haveAction("Cancel", style: .Cancel))

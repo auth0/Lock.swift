@@ -24,6 +24,25 @@ import Foundation
 import Auth0
 @testable import Lock
 
+class MockLockController: LockViewController {
+
+    var presented: UIViewController?
+    var presentable: Presentable?
+
+    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+        completion?()
+    }
+
+    override func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+        completion?()
+        self.presented = viewControllerToPresent
+    }
+
+    override func present(presentable: Presentable?) {
+        self.presentable = presentable
+    }
+}
+
 class MockAuthPresenter: AuthPresenter {
 
     var authView = AuthCollectionView(connections: [], mode: .Compact, insets: UIEdgeInsetsZero)  { _ in }
@@ -37,6 +56,8 @@ class MockAuthPresenter: AuthPresenter {
 class MockNavigator: Navigable {
     var route: Route?
     var resetted: Bool = false
+    var presented: UIViewController? = nil
+
 
     func navigate(route: Route) {
         self.route = route
@@ -44,6 +65,10 @@ class MockNavigator: Navigable {
 
     func resetScroll(animated: Bool) {
         self.resetted = true
+    }
+
+    func present(controller: UIViewController) {
+        self.presented = controller
     }
 }
 
@@ -57,7 +82,6 @@ func mockInput(type: InputField.InputType, value: String? = nil) -> MockInputFie
 class MockMessagePresenter: MessagePresenter {
     var message: String? = nil
     var error: LocalizableError? = nil
-    var presented: UIViewController? = nil
 
     func showSuccess(message: String) {
         self.message = message
@@ -70,10 +94,6 @@ class MockMessagePresenter: MessagePresenter {
     func hideCurrent() {
         self.error = nil
         self.message = nil
-    }
-
-    func present(controller: UIViewController) {
-        self.presented = controller
     }
 }
 
