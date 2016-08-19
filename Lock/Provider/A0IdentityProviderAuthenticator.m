@@ -30,7 +30,7 @@
 #import "Constants.h"
 #import "A0FailureAuthenticator.h"
 
-#if __has_include(<Lock/A0WebViewAuthenticator.h>)
+#if TARGET_OS_IOS && __has_include(<Lock/A0WebViewAuthenticator.h>)
 #define HAS_WEBVIEW_SUPPORT 1
 #import <Lock/A0WebViewAuthenticator.h>
 #endif
