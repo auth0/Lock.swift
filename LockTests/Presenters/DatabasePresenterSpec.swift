@@ -41,7 +41,7 @@ class DatabasePresenterSpec: QuickSpec {
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
             navigator = MockNavigator()
-            presenter = DatabasePresenter(interactor: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: LockOptions())
+            presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: LockOptions())
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseOnlyView
         }
@@ -291,7 +291,7 @@ class DatabasePresenterSpec: QuickSpec {
             describe("user input") {
 
                 it("should clear global message") {
-                    messagePresenter.showError(DatabaseAuthenticatableError.CouldNotCreateUser)
+                    messagePresenter.showError(DatabaseUserCreatorError.CouldNotCreateUser)
                     let input = mockInput(.Email, value: email)
                     view.form?.onValueChange(input)
                     expect(messagePresenter.error).to(beNil())
@@ -356,7 +356,7 @@ class DatabasePresenterSpec: QuickSpec {
                     let input = mockInput(.Password, value: password)
                     input.returnKey = .Next
                     interactor.onSignUp = {
-                        return .CouldNotLogin
+                        return .CouldNotCreateUser
                     }
                     view.form?.onReturn(input)
                     expect(messagePresenter.message).toEventually(beNil())
@@ -376,7 +376,7 @@ class DatabasePresenterSpec: QuickSpec {
                 }
 
                 it("should clear global message") {
-                    messagePresenter.showError(DatabaseAuthenticatableError.CouldNotCreateUser)
+                    messagePresenter.showError(DatabaseUserCreatorError.CouldNotCreateUser)
                     interactor.onSignUp = {
                         return nil
                     }
@@ -387,6 +387,14 @@ class DatabasePresenterSpec: QuickSpec {
 
                 it("should show global error message") {
                     interactor.onSignUp = {
+                        return .CouldNotCreateUser
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(messagePresenter.error).toEventually(beError(error: DatabaseUserCreatorError.CouldNotCreateUser))
+                }
+
+                it("should show global error message for login") {
+                    interactor.onLogin = {
                         return .CouldNotLogin
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
@@ -394,7 +402,7 @@ class DatabasePresenterSpec: QuickSpec {
                 }
 
                 it("should navigate to multifactor required screen") {
-                    interactor.onSignUp = {
+                    interactor.onLogin = {
                         return .MultifactorRequired
                     }
                     view.primaryButton?.onPress(view.primaryButton!)

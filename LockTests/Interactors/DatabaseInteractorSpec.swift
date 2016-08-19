@@ -326,8 +326,8 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.Username, value: username)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in
-                    database.create { error in
-                        expect(error) == .NoDatabaseConnection
+                    database.create { create, login in
+                        expect(create) == .NoDatabaseConnection
                         done()
                     }
                 }
@@ -340,8 +340,9 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.Username, value: username)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in
-                    database.create { error in
-                        expect(error).to(beNil())
+                    database.create { create, login in
+                        expect(create).to(beNil())
+                        expect(login).to(beNil())
                         done()
                     }
                 }
@@ -358,8 +359,9 @@ class DatabaseInteractorSpec: QuickSpec {
                 let _ = try? database.update(.Username, value: username)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in
-                    database.create { error in
-                        expect(error).to(beNil())
+                    database.create { create, login in
+                        expect(create).to(beNil())
+                        expect(login).to(beNil())
                         done()
                     }
                 }
@@ -372,8 +374,9 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.Username, value: username)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in
-                    database.create { error in
-                        expect(error) == .MultifactorRequired
+                    database.create { create, login in
+                        expect(create).to(beNil())
+                        expect(login) == .MultifactorRequired
                         done()
                     }
                 }
@@ -386,8 +389,9 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.Username, value: username)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in
-                    database.create { error in
-                        expect(error) == .CouldNotLogin
+                    database.create { create, login in
+                        expect(create).to(beNil())
+                        expect(login) == .CouldNotLogin
                         done()
                     }
                 }
@@ -399,8 +403,8 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.Username, value: username)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in
-                    database.create { error in
-                        expect(error) == .CouldNotCreateUser
+                    database.create { create, login in
+                        expect(create) == .CouldNotCreateUser
                         done()
                     }
                 }
@@ -408,8 +412,8 @@ class DatabaseInteractorSpec: QuickSpec {
 
             it("should yield error when input is not valid") {
                 waitUntil(timeout: 2) { done in
-                    database.create { error in
-                        expect(error) == .NonValidInput
+                    database.create { create, login in
+                        expect(create) == .NonValidInput
                         done()
                     }
                 }
@@ -419,8 +423,8 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.Email, value: email)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in
-                    database.create { error in
-                        expect(error) == .NonValidInput
+                    database.create { create, login in
+                        expect(create) == .NonValidInput
                         done()
                     }
                 }

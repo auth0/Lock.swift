@@ -13,6 +13,11 @@
 		5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F14565D1D5237820085DF9C /* DatabaseView.swift */; };
 		5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2037C11D5D02880005D2E2 /* Matchers.swift */; };
 		5F2496AF1D66210500A1C6E2 /* LockViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */; };
+		5F2496B31D665A5600A1C6E2 /* DatabaseUserCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */; };
+		5F2496B61D665AA800A1C6E2 /* InputValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B51D665AA800A1C6E2 /* InputValidationError.swift */; };
+		5F2496B81D665AC500A1C6E2 /* CredentialAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B71D665AC500A1C6E2 /* CredentialAttribute.swift */; };
+		5F2496BA1D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */; };
+		5F2496BC1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */; };
 		5F390E851D63663D00FC549C /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA7F1D1B08D900D27842 /* Lock.strings */; };
 		5F390E871D638A6D00FC549C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F390E861D638A6D00FC549C /* Logger.swift */; };
 		5F390E8A1D63A5B800FC549C /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F390E881D63A5B800FC549C /* CleanroomLogger.framework */; };
@@ -174,6 +179,11 @@
 		5F14565D1D5237820085DF9C /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
 		5F2037C11D5D02880005D2E2 /* Matchers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matchers.swift; sourceTree = "<group>"; };
 		5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockViewControllerSpec.swift; sourceTree = "<group>"; };
+		5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseUserCreator.swift; sourceTree = "<group>"; };
+		5F2496B51D665AA800A1C6E2 /* InputValidationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidationError.swift; sourceTree = "<group>"; };
+		5F2496B71D665AC500A1C6E2 /* CredentialAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialAttribute.swift; sourceTree = "<group>"; };
+		5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseAuthenticatableError.swift; sourceTree = "<group>"; };
+		5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseUserCreatorError.swift; sourceTree = "<group>"; };
 		5F390E861D638A6D00FC549C /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		5F390E881D63A5B800FC549C /* CleanroomLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomLogger.framework; path = Carthage/Build/iOS/CleanroomLogger.framework; sourceTree = "<group>"; };
 		5F390E891D63A5B800FC549C /* CleanroomASL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomASL.framework; path = Carthage/Build/iOS/CleanroomASL.framework; sourceTree = "<group>"; };
@@ -304,6 +314,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F2496B41D665A9700A1C6E2 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				5F2496B51D665AA800A1C6E2 /* InputValidationError.swift */,
+				5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */,
+				5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */,
+			);
+			name = Errors;
+			sourceTree = "<group>";
+		};
 		5F508FF21D1D863400EAA650 /* Interactors */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +335,8 @@
 				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
 				5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */,
 				5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */,
+				5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */,
+				5F2496B71D665AC500A1C6E2 /* CredentialAttribute.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -467,6 +489,7 @@
 		5FEAE1C81D1A5154005C0028 /* Lock */ = {
 			isa = PBXGroup;
 			children = (
+				5F2496B41D665A9700A1C6E2 /* Errors */,
 				5FEAE20E1D1A5682005C0028 /* Components */,
 				5F51EE6B1D1CE6110024BCD6 /* Controllers */,
 				5F508FF21D1D863400EAA650 /* Interactors */,
@@ -791,8 +814,10 @@
 				5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */,
 				5F73CDD61D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift in Sources */,
 				5F99AA901D1B9E7100D27842 /* DatabaseModeSwitcher.swift in Sources */,
+				5F2496B31D665A5600A1C6E2 /* DatabaseUserCreator.swift in Sources */,
 				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
+				5F2496B81D665AC500A1C6E2 /* CredentialAttribute.swift in Sources */,
 				5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */,
 				5FD6772C1D4C303C004B87C4 /* AuthButton.swift in Sources */,
 				5F99AA8A1D1B360C00D27842 /* PrimaryButton.swift in Sources */,
@@ -800,6 +825,7 @@
 				5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */,
 				5F73CDD01D30250900D8D8D1 /* MessagePresenter.swift in Sources */,
 				5FDB41D01D2C95B100166B67 /* MessageView.swift in Sources */,
+				5F2496B61D665AA800A1C6E2 /* InputValidationError.swift in Sources */,
 				5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */,
 				5FC434861D1DF769005188BC /* View.swift in Sources */,
 				5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */,
@@ -811,6 +837,7 @@
 				5F99AA921D1BA5CA00D27842 /* DatabaseModes.swift in Sources */,
 				5FDC876D1D46DAF200D28596 /* Queue.swift in Sources */,
 				5F92C68F1D50EAC200CCE6C0 /* LazyImage.swift in Sources */,
+				5F2496BA1D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift in Sources */,
 				5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
 				5FBE5CC61D3E7F9D0038536D /* MultifactorPresenter.swift in Sources */,
 				5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */,
@@ -818,6 +845,7 @@
 				5FBE5CBA1D3E59B90038536D /* MultifactorCodeView.swift in Sources */,
 				5F51EE6A1D1CBC830024BCD6 /* SingleInputView.swift in Sources */,
 				5F99AA881D1B0E2500D27842 /* Layout.swift in Sources */,
+				5F2496BC1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift in Sources */,
 				5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */,
 				5F73CDD81D3093BF00D8D8D1 /* PasswordRecoverable.swift in Sources */,
 				5F99AA841D1B0BCE00D27842 /* Lock.swift in Sources */,

@@ -23,7 +23,7 @@
 import Foundation
 import Auth0
 
-struct DatabaseInteractor: DatabaseAuthenticatable {
+struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggable {
 
     private var user: DatabaseUser
 
@@ -91,16 +91,16 @@ struct DatabaseInteractor: DatabaseAuthenticatable {
             .start { self.handleLoginResult($0, callback: callback) }
     }
 
-    func create(callback: (DatabaseAuthenticatableError?) -> ()) {
-        guard let connection = self.connections.database else { return callback(.NoDatabaseConnection) }
+    func create(callback: (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ()) {
+        guard let connection = self.connections.database else { return callback(.NoDatabaseConnection, nil) }
         let databaseName = connection.name
 
         guard
             let email = self.email where self.validEmail,
             let password = self.password where self.validPassword
-            else { return callback(.NonValidInput) }
+            else { return callback(.NonValidInput, nil) }
 
-        guard !connection.requiresUsername || self.validUsername else { return callback(.NonValidInput) }
+        guard !connection.requiresUsername || self.validUsername else { return callback(.NonValidInput, nil) }
 
         let username = connection.requiresUsername ? self.username : nil
 
@@ -111,9 +111,12 @@ struct DatabaseInteractor: DatabaseAuthenticatable {
             .start {
                 switch $0 {
                 case .Success:
-                    login.start { self.handleLoginResult($0, callback: callback) }
+                    let wrapper: DatabaseAuthenticatableError? -> () = { error in
+                        callback(nil, error)
+                    }
+                    login.start { self.handleLoginResult($0, callback: wrapper) }
                 case .Failure:
-                    callback(.CouldNotCreateUser)
+                    callback(.CouldNotCreateUser, nil)
                 }
             }
     }

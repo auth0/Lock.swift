@@ -129,7 +129,7 @@ class MockAuthInteractor: OAuth2Authenticatable {
     }
 }
 
-class MockDBInteractor: DatabaseAuthenticatable {
+class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
 
     var identifier: String? = nil
     var email: String? = nil
@@ -140,14 +140,14 @@ class MockDBInteractor: DatabaseAuthenticatable {
     var validUsername: Bool = false
 
     var onLogin: () -> DatabaseAuthenticatableError? = { return nil }
-    var onSignUp: () -> DatabaseAuthenticatableError? = { return nil }
+    var onSignUp: () -> DatabaseUserCreatorError? = { return nil }
 
     func login(callback: (DatabaseAuthenticatableError?) -> ()) {
         callback(onLogin())
     }
 
-    func create(callback: (DatabaseAuthenticatableError?) -> ()) {
-        callback(onSignUp())
+    func create(callback: (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ()) {
+        callback(onSignUp(), onLogin())
     }
 
     func update(attribute: CredentialAttribute, value: String?) throws {

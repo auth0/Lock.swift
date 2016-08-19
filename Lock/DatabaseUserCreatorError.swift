@@ -1,4 +1,4 @@
-// DatabaseAuthenticatable.swift
+// DatabaseUserCreatorError.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,15 +22,24 @@
 
 import Foundation
 
-protocol DatabaseAuthenticatable {
-    var identifier: String? { get }
-    var email: String? { get }
-    var username: String? { get }
-    var password: String? { get }
+enum DatabaseUserCreatorError: ErrorType, LocalizableError {
+    case NonValidInput
+    case CouldNotCreateUser
+    case NoDatabaseConnection
 
-    var validEmail: Bool { get }
-    var validUsername: Bool { get }
-    mutating func update(attribute: CredentialAttribute, value: String?) throws
+    var localizableMessage: String {
+        switch self {
+        default:
+            return "We're sorry, something went wrong when attempting to sign up.".i18n(key: "com.auth0.lock.error.signup.fallback", comment: "Generic sign up error")
+        }
+    }
 
-    func login(callback: (DatabaseAuthenticatableError?) -> ())
+    var userVisible: Bool {
+        switch self {
+        case .NonValidInput:
+            return false
+        default:
+            return true
+        }
+    }
 }
