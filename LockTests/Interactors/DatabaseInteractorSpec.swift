@@ -283,6 +283,18 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
+            it("should yield invalid credentials error on failure") {
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_user_password") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error) == .InvalidEmailPassword
+                        done()
+                    }
+                }
+            }
+
             it("should indicate that mfa is required") {
                 stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
                 try! database.update(.Email, value: email)
@@ -311,6 +323,54 @@ class DatabaseInteractorSpec: QuickSpec {
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error) == .NonValidInput
+                        done()
+                    }
+                }
+            }
+
+            it("should indicate the user is blocked for too many attempts") {
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("too_many_attempts") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error) == .TooManyAttempts
+                        done()
+                    }
+                }
+            }
+
+            it("should indicate the user is blocked") {
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("blocked_user") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error) == .UserBlocked
+                        done()
+                    }
+                }
+            }
+
+            it("should indicate the user is blocked") {
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("password_change_required") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error) == .PasswordChangeRequired
+                        done()
+                    }
+                }
+            }
+
+            it("should indicate the password is leaked") {
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("password_leaked") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error) == .PasswordLeaked
                         done()
                     }
                 }

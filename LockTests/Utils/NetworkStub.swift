@@ -115,7 +115,7 @@ struct Auth0Stubs {
             }.name = "YOU SHALL NOT PASS!"
     }
 
-    static func failure(code: String = "invalid_user_password") -> OHHTTPStubsResponse {
+    static func failure(code: String = "random_error") -> OHHTTPStubsResponse {
         return OHHTTPStubsResponse(JSONObject: ["error": code, "error_description": "FAILURE"], statusCode: 400, headers: ["Content-Type": "application/json"])
     }
 

@@ -145,10 +145,31 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     private func handleLoginResult(result: Auth0.Result<Credentials>, callback: DatabaseAuthenticatableError? -> ()) {
         switch result {
         case .Failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
+            self.logger.error("Multifactor is required for user <\(self.identifier)>")
             callback(.MultifactorRequired)
-        case .Failure:
+        case .Failure(let cause as AuthenticationError) where cause.isTooManyAttempts:
+            self.logger.error("Blocked user <\(self.identifier)> for too many login attempts")
+            callback(.TooManyAttempts)
+        case .Failure(let cause as AuthenticationError) where cause.isInvalidCredentials:
+            self.logger.error("Invalid credentials of user <\(self.identifier)>")
+            callback(.InvalidEmailPassword)
+        case .Failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
+            self.logger.error("Multifactor code is invalid for user <\(self.identifier)>")
+            callback(.MultifactorInvalid)
+        case .Failure(let cause as AuthenticationError) where cause.code == "blocked_user":
+            self.logger.error("Blocked user <\(self.identifier)>")
+            callback(.UserBlocked)
+        case .Failure(let cause as AuthenticationError) where cause.code == "password_change_required":
+            self.logger.error("Change password required for user <\(self.identifier)>")
+            callback(.PasswordChangeRequired)
+        case .Failure(let cause as AuthenticationError) where cause.code == "password_leaked":
+            self.logger.error("The password of user <\(self.identifier)> was leaked")
+            callback(.PasswordLeaked)
+        case .Failure(let cause):
+            self.logger.error("Failed login of user <\(self.identifier)> with error \(cause)")
             callback(.CouldNotLogin)
         case .Success(let credentials):
+            self.logger.info("Authenticated user <\(self.identifier)>")
             callback(nil)
             self.onAuthentication(credentials)
         }

@@ -18,7 +18,6 @@
 		5F2496B81D665AC500A1C6E2 /* CredentialAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B71D665AC500A1C6E2 /* CredentialAttribute.swift */; };
 		5F2496BA1D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */; };
 		5F2496BC1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */; };
-		5F390E851D63663D00FC549C /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA7F1D1B08D900D27842 /* Lock.strings */; };
 		5F390E871D638A6D00FC549C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F390E861D638A6D00FC549C /* Logger.swift */; };
 		5F390E8A1D63A5B800FC549C /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F390E881D63A5B800FC549C /* CleanroomLogger.framework */; };
 		5F390E8B1D63A5B800FC549C /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F390E891D63A5B800FC549C /* CleanroomASL.framework */; };
@@ -223,7 +222,6 @@
 		5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyImage.swift; sourceTree = "<group>"; };
 		5F92C6901D510AFE00CCE6C0 /* LazyImageSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyImageSpec.swift; sourceTree = "<group>"; };
 		5F99AA791D1B031500D27842 /* Lock.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Lock.xcassets; sourceTree = "<group>"; };
-		5F99AA7E1D1B08D900D27842 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Lock.strings; sourceTree = "<group>"; };
 		5F99AA811D1B0A3900D27842 /* i18n.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = i18n.swift; sourceTree = "<group>"; };
 		5F99AA831D1B0BCE00D27842 /* Lock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lock.swift; sourceTree = "<group>"; };
 		5F99AA851D1B0BF100D27842 /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
@@ -501,7 +499,6 @@
 				5FEAE1CB1D1A5154005C0028 /* Info.plist */,
 				5FEAE1C91D1A5154005C0028 /* Lock.h */,
 				5FF1FA341D4C12DF00158CD1 /* LockUI.h */,
-				5F99AA7F1D1B08D900D27842 /* Lock.strings */,
 				5F99AA831D1B0BCE00D27842 /* Lock.swift */,
 				5F99AA791D1B031500D27842 /* Lock.xcassets */,
 			);
@@ -737,7 +734,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F99AA7A1D1B031500D27842 /* Lock.xcassets in Resources */,
-				5F390E851D63663D00FC549C /* Lock.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -937,15 +933,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5F99AA7F1D1B08D900D27842 /* Lock.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5F99AA7E1D1B08D900D27842 /* Base */,
-			);
-			name = Lock.strings;
-			path = .;
-			sourceTree = "<group>";
-		};
 		5FEADCFA1D1A7EBC0032D810 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
