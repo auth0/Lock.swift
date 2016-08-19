@@ -111,10 +111,17 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             .start {
                 switch $0 {
                 case .Success:
-                    let wrapper: DatabaseAuthenticatableError? -> () = { error in
-                        callback(nil, error)
-                    }
-                    login.start { self.handleLoginResult($0, callback: wrapper) }
+                    login.start { self.handleLoginResult($0, callback: { callback(nil, $0) }) }
+                case .Failure(let cause as AuthenticationError) where cause.isPasswordNotStrongEnough:
+                    callback(.PasswordTooWeak, nil)
+                case .Failure(let cause as AuthenticationError) where cause.isPasswordAlreadyUsed:
+                    callback(.PasswordAlreadyUsed, nil)
+                case .Failure(let cause as AuthenticationError) where cause.code == "invalid_password" && cause.value("name") == "PasswordDictionaryError":
+                    callback(.PasswordTooCommon, nil)
+                case .Failure(let cause as AuthenticationError) where cause.code == "invalid_password" && cause.value("name") == "PasswordNoUserInfoError":
+                    callback(.PasswordHasUserInfo, nil)
+                case .Failure(let cause as AuthenticationError) where cause.code == "invalid_password":
+                    callback(.PasswordInvalid, nil)
                 case .Failure:
                     callback(.CouldNotCreateUser, nil)
                 }
@@ -156,7 +163,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         case .Failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
             self.logger.error("Multifactor code is invalid for user <\(self.identifier)>")
             callback(.MultifactorInvalid)
-        case .Failure(let cause as AuthenticationError) where cause.code == "blocked_user":
+        case .Failure(let cause as AuthenticationError) where cause.isRuleError && cause.description.lowercaseString == "user is blocked":
             self.logger.error("Blocked user <\(self.identifier)>")
             callback(.UserBlocked)
         case .Failure(let cause as AuthenticationError) where cause.code == "password_change_required":

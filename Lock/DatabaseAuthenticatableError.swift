@@ -37,7 +37,7 @@ enum DatabaseAuthenticatableError: ErrorType, LocalizableError {
     var localizableMessage: String {
         switch self {
         case .UserBlocked:
-            return "The user is blocked.".i18n(key: "com.auth0.lock.error.authentication.blocked_user", comment: "blocked_user")
+            return "The user is blocked.".i18n(key: "com.auth0.lock.error.authentication.blocked_user", comment: "user is blocked")
         case .InvalidEmailPassword:
             return "Wrong credentials.".i18n(key: "com.auth0.lock.error.authentication.invalid_user_password", comment: "invalid_user_password")
         case .PasswordChangeRequired:

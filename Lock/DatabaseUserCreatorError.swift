@@ -25,10 +25,25 @@ import Foundation
 enum DatabaseUserCreatorError: ErrorType, LocalizableError {
     case NonValidInput
     case CouldNotCreateUser
+    case PasswordTooCommon
+    case PasswordTooWeak
+    case PasswordHasUserInfo
+    case PasswordInvalid
+    case PasswordAlreadyUsed
     case NoDatabaseConnection
 
     var localizableMessage: String {
         switch self {
+        case .PasswordTooCommon:
+            return "Password is too common.".i18n(key: "com.auth0.lock.error.signup.password_dictionary_error", comment: "password_dictionary_error")
+        case .PasswordTooWeak:
+            return "Password is too weak.".i18n(key: "com.auth0.lock.error.signup.password_strength_error", comment: "password_strength_error")
+        case .PasswordHasUserInfo:
+            return "Password is based on user information.".i18n(key: "com.auth0.lock.error.signup.password_no_user_info_error", comment: "password_no_user_info_error")
+        case .PasswordAlreadyUsed:
+            return "Password has previously been used.".i18n(key: "com.auth0.lock.error.signup.password_history", comment: "password_history")
+        case .PasswordInvalid:
+            return "Password is invalid.".i18n(key: "com.auth0.lock.error.signup.invalid_password", comment: "invalid_password")
         default:
             return "We're sorry, something went wrong when attempting to sign up.".i18n(key: "com.auth0.lock.error.signup.fallback", comment: "Generic sign up error")
         }

@@ -341,7 +341,7 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should indicate the user is blocked") {
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("blocked_user") }
+                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("unauthorized", description: "user is blocked") }
                 try! database.update(.Email, value: email)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in
@@ -352,7 +352,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
-            it("should indicate the user is blocked") {
+            it("should indicate the password needs to be changed") {
                 stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("password_change_required") }
                 try! database.update(.Email, value: email)
                 try! database.update(.Password, value: password)
@@ -465,6 +465,71 @@ class DatabaseInteractorSpec: QuickSpec {
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create) == .CouldNotCreateUser
+                        done()
+                    }
+                }
+            }
+
+            it("should yield invalid password") {
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { create, login in
+                        expect(create) == .PasswordInvalid
+                        done()
+                    }
+                }
+            }
+
+            it("should yield password too weak") {
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordStrengthError") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { create, login in
+                        expect(create) == .PasswordTooWeak
+                        done()
+                    }
+                }
+            }
+
+            it("should yield password already used") {
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordHistoryError") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { create, login in
+                        expect(create) == .PasswordAlreadyUsed
+                        done()
+                    }
+                }
+            }
+
+            it("should yield password too common") {
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordDictionaryError") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { create, login in
+                        expect(create) == .PasswordTooCommon
+                        done()
+                    }
+                }
+            }
+
+            it("should yield password has user info") {
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordNoUserInfoError") }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { create, login in
+                        expect(create) == .PasswordHasUserInfo
                         done()
                     }
                 }
