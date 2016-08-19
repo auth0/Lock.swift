@@ -22,12 +22,15 @@
 
 import Foundation
 
+protocol LocalizableError {
+    var localizableMessage: String { get }
+    var userVisible: Bool { get }
+}
 
 protocol MessagePresenter {
 
-    func showError(message: String)
+    func showError(error: LocalizableError)
     func showSuccess(message: String)
     func hideCurrent()
-
-    func present(alert: UIViewController)
+    
 }

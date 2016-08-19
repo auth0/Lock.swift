@@ -1,4 +1,4 @@
-// DatabaseAuthenticatable.swift
+// InputValidationError.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,15 +22,22 @@
 
 import Foundation
 
-protocol DatabaseAuthenticatable {
-    var identifier: String? { get }
-    var email: String? { get }
-    var username: String? { get }
-    var password: String? { get }
+enum InputValidationError: ErrorType {
+    case MustNotBeEmpty
+    case NotAnEmailAddress
+    case NotAUsername
+    case NotAOneTimePassword
 
-    var validEmail: Bool { get }
-    var validUsername: Bool { get }
-    mutating func update(attribute: CredentialAttribute, value: String?) throws
-
-    func login(callback: (DatabaseAuthenticatableError?) -> ())
+    var localizedMessage: String {
+        switch self {
+        case .NotAUsername:
+            return "Can only contain between 1 to 15 alphanumeric characters and \'_\'.".i18n(key: "com.auth0.lock.input.username.error", comment: "invalid username")
+        case .NotAnEmailAddress:
+            return "Must be a valid email address".i18n(key: "com.auth0.lock.input.email.error", comment: "invalid email")
+        case .MustNotBeEmpty:
+            return "Must not be empty".i18n(key: "com.auth0.lock.input.empty.error", comment: "empty input")
+        case .NotAOneTimePassword:
+            return "Must be a valid numeric code".i18n(key: "com.auth0.lock.input.otp.error", comment: "invalid otp")
+        }
+    }
 }

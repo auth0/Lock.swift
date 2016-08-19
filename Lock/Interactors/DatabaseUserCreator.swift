@@ -1,4 +1,4 @@
-// DatabaseAuthenticatable.swift
+// DatabaseUserCreator.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,7 +22,7 @@
 
 import Foundation
 
-protocol DatabaseAuthenticatable {
+protocol DatabaseUserCreator {
     var identifier: String? { get }
     var email: String? { get }
     var username: String? { get }
@@ -32,5 +32,5 @@ protocol DatabaseAuthenticatable {
     var validUsername: Bool { get }
     mutating func update(attribute: CredentialAttribute, value: String?) throws
 
-    func login(callback: (DatabaseAuthenticatableError?) -> ())
+    func create(callback: (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ())
 }

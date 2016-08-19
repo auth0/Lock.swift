@@ -28,18 +28,24 @@ class DatabasePresenter: Presentable, Loggable {
     let database: DatabaseConnection
     let options: Options
 
-    var interactor: DatabaseAuthenticatable
+    var authenticator: DatabaseAuthenticatable
+    var creator: DatabaseUserCreator
     var navigator: Navigable
 
     var messagePresenter: MessagePresenter?
     var authPresenter: AuthPresenter?
     var customLogger: Logger?
 
-    var initialEmail: String? { return self.interactor.validEmail ? self.interactor.email : nil }
-    var initialUsername: String? { return self.interactor.validUsername ? self.interactor.username : nil }
+    var initialEmail: String? { return self.authenticator.validEmail ? self.authenticator.email : nil }
+    var initialUsername: String? { return self.authenticator.validUsername ? self.authenticator.username : nil }
 
-    init(interactor: DatabaseAuthenticatable, connection: DatabaseConnection, navigator: Navigable, options: Options) {
-        self.interactor = interactor
+    convenience init(interactor: DatabaseInteractor, connection: DatabaseConnection, navigator: Navigable, options: Options) {
+        self.init(authenticator: interactor, creator: interactor, connection: connection, navigator: navigator, options: options)
+    }
+
+    init(authenticator: DatabaseAuthenticatable, creator: DatabaseUserCreator, connection: DatabaseConnection, navigator: Navigable, options: Options) {
+        self.authenticator = authenticator
+        self.creator = creator
         self.database = connection
         self.navigator = navigator
         self.options = options
@@ -56,12 +62,12 @@ class DatabasePresenter: Presentable, Loggable {
             case .Signup:
                 self.showSignup(inView: view, username: self.initialUsername, email: self.initialEmail)
             case .Login:
-                self.showLogin(inView: view, identifier: self.interactor.identifier)
+                self.showLogin(inView: view, identifier: self.authenticator.identifier)
             default:
                 self.logger.error("invalid db mode <\(selected)> in switcher")
             }
         }
-        showLogin(inView: database, identifier: interactor.identifier)
+        showLogin(inView: database, identifier: authenticator.identifier)
         return database
     }
 
@@ -74,8 +80,8 @@ class DatabasePresenter: Presentable, Loggable {
 
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("perform login for email \(self.interactor.email)")
-            let interactor = self.interactor
+            self.logger.info("perform login for email \(self.authenticator.email)")
+            let interactor = self.authenticator
             button.inProgress = true
             interactor.login { error in
                 Queue.main.async {
@@ -88,7 +94,7 @@ class DatabasePresenter: Presentable, Loggable {
                         self.navigator.navigate(.Multifactor)
                     } else {
                         form?.needsToUpdateState()
-                        self.messagePresenter?.showError("\(error)")
+                        self.messagePresenter?.showError(error)
                         self.logger.error("Failed with error \(error)")
                     }
                 }
@@ -114,23 +120,27 @@ class DatabasePresenter: Presentable, Loggable {
         view.form?.onValueChange = self.handleInput
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("perform sign up for email \(self.interactor.email)")
-            let interactor = self.interactor
+            self.logger.info("perform sign up for email \(self.creator.email)")
+            let interactor = self.creator
             button.inProgress = true
-            interactor.create { error in
+            interactor.create { createError, loginError in
                 Queue.main.async {
                     button.inProgress = false
-                    guard let error = error else {
+
+                    guard createError != nil || loginError != nil else {
                         self.logger.debug("Logged in!")
                         return
                     }
-                    if case .MultifactorRequired = error {
+                    if let error = loginError, case .MultifactorRequired = error {
                         self.navigator.navigate(.Multifactor)
-                    } else {
-                        form?.needsToUpdateState()
-                        self.messagePresenter?.showError("\(error)")
-                        self.logger.error("Failed with error \(error)")
+                        return
                     }
+
+                    let error: LocalizableError = createError ?? loginError!
+                    form?.needsToUpdateState()
+                    self.messagePresenter?.showError(error)
+                    self.logger.error("Failed with error \(error)")
+
                 }
             }
         }
@@ -145,10 +155,10 @@ class DatabasePresenter: Presentable, Loggable {
         view.secondaryButton?.onPress = { button in
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
             let cancel = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel.title", comment: "Cancel"), style: .Cancel, handler: nil)
-            let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.tos.title", comment: "ToS"), style: .Default, handler: safariBuilder(forURL: self.options.termsOfServiceURL, presenter: self.messagePresenter))
-            let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy.title", comment: "Privacy"), style: .Default, handler: safariBuilder(forURL: self.options.privacyPolicyURL, presenter: self.messagePresenter))
+            let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.tos.title", comment: "ToS"), style: .Default, handler: safariBuilder(forURL: self.options.termsOfServiceURL, navigator: self.navigator))
+            let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy.title", comment: "Privacy"), style: .Default, handler: safariBuilder(forURL: self.options.privacyPolicyURL, navigator: self.navigator))
             [cancel, tos, privacy].forEach { alert.addAction($0) }
-            self.messagePresenter?.present(alert)
+            self.navigator.present(alert)
         }
     }
 
@@ -171,7 +181,7 @@ class DatabasePresenter: Presentable, Loggable {
 
         guard let attr = attribute else { return }
         do {
-            try self.interactor.update(attr, value: input.text)
+            try self.authenticator.update(attr, value: input.text)
             input.showValid()
         } catch let error as InputValidationError {
             input.showError(error.localizedMessage)
@@ -181,9 +191,9 @@ class DatabasePresenter: Presentable, Loggable {
     }
 }
 
-private func safariBuilder(forURL url: NSURL, presenter: MessagePresenter?) -> (UIAlertAction) -> () {
+private func safariBuilder(forURL url: NSURL, navigator: Navigable) -> (UIAlertAction) -> () {
     return { _ in
         let safari = SFSafariViewController(URL: url)
-        presenter?.present(safari)
+        navigator.present(safari)
     }
 }

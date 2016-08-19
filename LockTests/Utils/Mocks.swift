@@ -24,6 +24,25 @@ import Foundation
 import Auth0
 @testable import Lock
 
+class MockLockController: LockViewController {
+
+    var presented: UIViewController?
+    var presentable: Presentable?
+
+    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+        completion?()
+    }
+
+    override func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+        completion?()
+        self.presented = viewControllerToPresent
+    }
+
+    override func present(presentable: Presentable?) {
+        self.presentable = presentable
+    }
+}
+
 class MockAuthPresenter: AuthPresenter {
 
     var authView = AuthCollectionView(connections: [], mode: .Compact, insets: UIEdgeInsetsZero)  { _ in }
@@ -37,6 +56,8 @@ class MockAuthPresenter: AuthPresenter {
 class MockNavigator: Navigable {
     var route: Route?
     var resetted: Bool = false
+    var presented: UIViewController? = nil
+
 
     func navigate(route: Route) {
         self.route = route
@@ -44,6 +65,10 @@ class MockNavigator: Navigable {
 
     func resetScroll(animated: Bool) {
         self.resetted = true
+    }
+
+    func present(controller: UIViewController) {
+        self.presented = controller
     }
 }
 
@@ -55,27 +80,20 @@ func mockInput(type: InputField.InputType, value: String? = nil) -> MockInputFie
 }
 
 class MockMessagePresenter: MessagePresenter {
-    var success: Bool? = nil
     var message: String? = nil
-    var presented: UIViewController? = nil
+    var error: LocalizableError? = nil
 
     func showSuccess(message: String) {
-        self.success = true
         self.message = message
     }
 
-    func showError(message: String) {
-        self.success = false
-        self.message = message
+    func showError(error: LocalizableError) {
+        self.error = error
     }
 
     func hideCurrent() {
+        self.error = nil
         self.message = nil
-        self.success = nil
-    }
-
-    func present(controller: UIViewController) {
-        self.presented = controller
     }
 }
 
@@ -111,7 +129,7 @@ class MockAuthInteractor: OAuth2Authenticatable {
     }
 }
 
-class MockDBInteractor: DatabaseAuthenticatable {
+class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
 
     var identifier: String? = nil
     var email: String? = nil
@@ -122,14 +140,14 @@ class MockDBInteractor: DatabaseAuthenticatable {
     var validUsername: Bool = false
 
     var onLogin: () -> DatabaseAuthenticatableError? = { return nil }
-    var onSignUp: () -> DatabaseAuthenticatableError? = { return nil }
+    var onSignUp: () -> DatabaseUserCreatorError? = { return nil }
 
     func login(callback: (DatabaseAuthenticatableError?) -> ()) {
         callback(onLogin())
     }
 
-    func create(callback: (DatabaseAuthenticatableError?) -> ()) {
-        callback(onSignUp())
+    func create(callback: (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ()) {
+        callback(onSignUp(), onLogin())
     }
 
     func update(attribute: CredentialAttribute, value: String?) throws {

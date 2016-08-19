@@ -64,7 +64,7 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
                     button.inProgress = false
                     form?.needsToUpdateState()
                     if let error = error {
-                        self.messagePresenter?.showError("\(error)")
+                        self.messagePresenter?.showError(error)
                         self.logger.error("Failed with error \(error)")
                     } else {
                         let message = "We've just sent you an email to reset your password".i18n(key: "com.auth0.lock.database.forgot.success.message", comment: "forgot password email sent")

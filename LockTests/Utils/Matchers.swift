@@ -43,3 +43,13 @@ func beCompactMode() -> MatcherFunc<AuthCollectionView.Mode> {
         return false
     }
 }
+
+func beError(error error: LocalizableError) -> MatcherFunc<LocalizableError> {
+    return MatcherFunc { expression, failureMessage in
+        failureMessage.postfixMessage = "be error with message \(error.localizableMessage)"
+        if let actual = try expression.evaluate() where actual.localizableMessage == error.localizableMessage && actual.userVisible == error.userVisible {
+            return true
+        }
+        return false
+    }
+}

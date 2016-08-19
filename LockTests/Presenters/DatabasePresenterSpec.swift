@@ -41,7 +41,7 @@ class DatabasePresenterSpec: QuickSpec {
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
             navigator = MockNavigator()
-            presenter = DatabasePresenter(interactor: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: LockOptions())
+            presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: LockOptions())
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseOnlyView
         }
@@ -137,10 +137,10 @@ class DatabasePresenterSpec: QuickSpec {
             describe("user input") {
 
                 it("should clear global message") {
-                    messagePresenter.showError("Some Error")
+                    messagePresenter.showError(DatabaseAuthenticatableError.CouldNotLogin)
                     let input = mockInput(.Email, value: email)
                     view.form?.onValueChange(input)
-                    expect(messagePresenter.success).to(beNil())
+                    expect(messagePresenter.error).to(beNil())
                     expect(messagePresenter.message).to(beNil())
                 }
 
@@ -211,16 +211,17 @@ class DatabasePresenterSpec: QuickSpec {
                         return .CouldNotLogin
                     }
                     view.form?.onReturn(input)
-                    expect(messagePresenter.success).toEventually(beNil())
+                    expect(messagePresenter.message).toEventually(beNil())
+                    expect(messagePresenter.error).toEventually(beNil())
                 }
 
                 it("should clear global message") {
-                    messagePresenter.showError("Some Error")
+                    messagePresenter.showError(DatabaseAuthenticatableError.CouldNotLogin)
                     interactor.onLogin = {
                         return nil
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(messagePresenter.success).toEventually(beNil())
+                    expect(messagePresenter.error).toEventually(beNil())
                     expect(messagePresenter.message).toEventually(beNil())
                 }
 
@@ -229,8 +230,7 @@ class DatabasePresenterSpec: QuickSpec {
                         return .CouldNotLogin
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(messagePresenter.success).toEventually(beFalse())
-                    expect(messagePresenter.message).toEventually(equal("CouldNotLogin"))
+                    expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.CouldNotLogin))
                 }
 
                 it("should navigate to multifactor required screen") {
@@ -291,10 +291,10 @@ class DatabasePresenterSpec: QuickSpec {
             describe("user input") {
 
                 it("should clear global message") {
-                    messagePresenter.showError("Some Error")
+                    messagePresenter.showError(DatabaseUserCreatorError.CouldNotCreateUser)
                     let input = mockInput(.Email, value: email)
                     view.form?.onValueChange(input)
-                    expect(messagePresenter.success).to(beNil())
+                    expect(messagePresenter.error).to(beNil())
                     expect(messagePresenter.message).to(beNil())
                 }
 
@@ -356,10 +356,11 @@ class DatabasePresenterSpec: QuickSpec {
                     let input = mockInput(.Password, value: password)
                     input.returnKey = .Next
                     interactor.onSignUp = {
-                        return .CouldNotLogin
+                        return .CouldNotCreateUser
                     }
                     view.form?.onReturn(input)
-                    expect(messagePresenter.success).toEventually(beNil())
+                    expect(messagePresenter.message).toEventually(beNil())
+                    expect(messagePresenter.error).toEventually(beNil())
                 }
 
                 it("should not trigger action with nil button") {
@@ -370,30 +371,38 @@ class DatabasePresenterSpec: QuickSpec {
                     }
                     view.primaryButton = nil
                     view.form?.onReturn(input)
-                    expect(messagePresenter.success).toEventually(beNil())
+                    expect(messagePresenter.message).toEventually(beNil())
+                    expect(messagePresenter.error).toEventually(beNil())
                 }
 
                 it("should clear global message") {
-                    messagePresenter.showError("Some Error")
+                    messagePresenter.showError(DatabaseUserCreatorError.CouldNotCreateUser)
                     interactor.onSignUp = {
                         return nil
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(messagePresenter.success).toEventually(beNil())
+                    expect(messagePresenter.error).toEventually(beNil())
                     expect(messagePresenter.message).toEventually(beNil())
                 }
 
                 it("should show global error message") {
                     interactor.onSignUp = {
+                        return .CouldNotCreateUser
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(messagePresenter.error).toEventually(beError(error: DatabaseUserCreatorError.CouldNotCreateUser))
+                }
+
+                it("should show global error message for login") {
+                    interactor.onLogin = {
                         return .CouldNotLogin
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(messagePresenter.success).toEventually(beFalse())
-                    expect(messagePresenter.message).toEventually(equal("CouldNotLogin"))
+                    expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.CouldNotLogin))
                 }
 
                 it("should navigate to multifactor required screen") {
-                    interactor.onSignUp = {
+                    interactor.onLogin = {
                         return .MultifactorRequired
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
@@ -437,12 +446,12 @@ class DatabasePresenterSpec: QuickSpec {
                 }
 
                 it("should present alert controller for ToS") {
-                    expect(messagePresenter.presented as? UIAlertController).toEventuallyNot(beNil())
-                    expect(messagePresenter.presented?.title).toEventually(beNil())
+                    expect(navigator.presented as? UIAlertController).toEventuallyNot(beNil())
+                    expect(navigator.presented?.title).toEventually(beNil())
                 }
 
                 it("should have actions") {
-                    let alert = messagePresenter.presented as? UIAlertController
+                    let alert = navigator.presented as? UIAlertController
                     expect(alert?.message).toEventually(beNil())
                     expect(alert?.preferredStyle) == UIAlertControllerStyle.ActionSheet
                     expect(alert?.actions).to(haveAction("Cancel", style: .Cancel))
