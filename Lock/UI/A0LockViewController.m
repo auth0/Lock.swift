@@ -295,6 +295,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0EnterpriseLoginViewController *controller = [weakSelf newEnterpriseLoginViewController:success forConnection:connection withEmail:email];
         [weakSelf displayController:controller];
     };
+    controller.lock = self.lock;
     [self.navigationView removeAll];
     BOOL showResetPassword = ![self.configuration shouldDisableResetPassword:self.disableResetPassword];
     BOOL showSignUp = ![self.configuration shouldDisableSignUp:self.disableSignUp];
