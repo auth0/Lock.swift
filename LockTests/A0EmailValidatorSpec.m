@@ -52,6 +52,8 @@ describe(@"A0EmailValidator", ^{
 
     itBehavesLike(@"valid email", ^{ return @{@"mail": @"mail@mail.com"}; });
     itBehavesLike(@"valid email", ^{ return @{@"mail": @"mail+filter1@auth0.com"}; });
+    itBehavesLike(@"valid email", ^{ return @{@"mail": @"mail+filter1@auth0.co.uk"}; });
+    itBehavesLike(@"valid email", ^{ return @{@"mail": @"mail+filter1@auth0.blog"}; });
     itBehavesLike(@"valid email", ^{ return @{@"mail": @"mail+filter1@auth0.com.ar"}; });
     itBehavesLike(@"valid email", ^{ return @{@"mail": @" mail@auth0.com.ar"}; });
     itBehavesLike(@"valid email", ^{ return @{@"mail": @"filter1@auth0.com.ar  "}; });
@@ -80,8 +82,6 @@ describe(@"A0EmailValidator", ^{
     itBehavesLike(@"invalid email", ^{ return @{@"mail": @"mail.com"}; });
     itBehavesLike(@"invalid email", ^{ return @{@"mail": @"mail@mail"}; });
     itBehavesLike(@"invalid email", ^{ return @{@"mail": @"@mail.com"}; });
-    itBehavesLike(@"invalid email", ^{ return @{@"mail": @"|mail@mail.com"}; });
-    itBehavesLike(@"invalid email", ^{ return @{@"mail": @"mail@m.c"}; });
 });
 
 QuickSpecEnd
