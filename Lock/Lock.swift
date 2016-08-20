@@ -85,7 +85,7 @@ public class Lock: NSObject {
 
      - returns: a newly created Lock instance
      */
-    public static func classic(clientId: String, domain: String) -> Lock {
+    public static func classic(clientId clientId: String, domain: String) -> Lock {
         return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain), webAuth: Auth0.webAuth(clientId: clientId, domain: domain))
     }
 

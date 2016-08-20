@@ -1,5 +1,5 @@
-version = `agvtool mvers -terse1`.strip
-
+# version = `agvtool mvers -terse1`.strip
+version = '2.0.0-beta.1'
 Pod::Spec.new do |s|
   s.name             = "Lock"
   s.version          = version

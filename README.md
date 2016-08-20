@@ -17,6 +17,7 @@ Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 ## Requirements
 
 - iOS 9 or later
+- Xcode 7.3 or later
 
 ## Install
 
@@ -33,11 +34,8 @@ pod "Lock", "~> 2.0.0-beta.1"
 In your cartfile add
 
 ```
-github "auth0/Lock.iOS-OSX"
+github "auth0/Lock.iOS-OSX" "2.0.0-beta.1"
 ```
-
-## Condiguration
-
 
 ## Usage
 
@@ -53,6 +51,29 @@ then in your `AppDelegate.swift` add the following
 func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
     return Lock.resumeAuth(url, options: options)
 }
+```
+
+### Configuration
+
+In order to use Lock you need to provide your Auth0 Client Id and Domain, either with a *Property List* file
+
+> Auth0 ClientId & Domain can be found in your [Auth0 Dashboard](https://manage.auth0.com)
+
+#### Auth0.plist file
+
+In your application bundle you can add a `plist` file named `Auth0.plist` with the following format
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>ClientId</key>
+  <string>{YOUR_CLIENT_ID}</string>
+  <key>Domain</key>
+  <string>{YOUR_DOMAIN}</string>
+</dict>
+</plist>
 ```
 
 ### Classic 
