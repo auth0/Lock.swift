@@ -199,7 +199,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                   failure:(A0APIClientError)failure {
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
                                                                                 kEmailParamName: email,
-                                                                                kUsernameParamName: username ?: email,
+                                                                                kUsernameParamName: username ?: [NSNull null],
                                                                                 kPasswordParamName: password,
                                                                                 kClientIdParamName: self.clientId,
                                                                                 }];
