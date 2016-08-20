@@ -264,7 +264,6 @@ class A0APIClientSpec : QuickSpec {
                     it("should create and login user") {
                         api.allowSignUpWithParameters([
                             "email": EMAIL,
-                            "username": EMAIL,
                             "password": PASSWORD,
                             "client_id": CLIENT_ID,
                             "connection": DB_CONNECTION,
@@ -291,7 +290,6 @@ class A0APIClientSpec : QuickSpec {
                     it("should only create user") {
                         api.allowSignUpWithParameters([
                             "email": EMAIL,
-                            "username": EMAIL,
                             "password": PASSWORD,
                             "client_id": CLIENT_ID,
                             "connection": DB_CONNECTION,
