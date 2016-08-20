@@ -1,5 +1,20 @@
 # Change Log
 
+## [1.26.2](https://github.com/auth0/Lock.iOS-OSX/tree/1.26.2) (2016-08-19)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.26.1...1.26.2)
+
+**Closed Issues:**
+- The A0EnterpriseLoginViewController ignores the custom ClientId and Domain configuration [\#294](https://github.com/auth0/Lock.iOS-OSX/issues/294)
+- allow lock framework to enable bitcode by default [\#292](https://github.com/auth0/Lock.iOS-OSX/issues/292)
+- Top Level Domains on email address failing validation [\#248](https://github.com/auth0/Lock.iOS-OSX/issues/248)
+
+**Fixed:**
+- Avoid sending username if not needed [\#305](https://github.com/auth0/Lock.iOS-OSX/pull/305) ([hzalaz](https://github.com/hzalaz))
+- Fix controllers to use the correct Lock instance [\#304](https://github.com/auth0/Lock.iOS-OSX/pull/304) ([hzalaz](https://github.com/hzalaz))
+- Improve email validation [\#303](https://github.com/auth0/Lock.iOS-OSX/pull/303) ([hzalaz](https://github.com/hzalaz))
+- Fixing build for macOS [\#293](https://github.com/auth0/Lock.iOS-OSX/pull/293) ([robbiehanson](https://github.com/robbiehanson))
+- build: default build enables bitcode [\#279](https://github.com/auth0/Lock.iOS-OSX/pull/279) ([billbonney](https://github.com/billbonney))
+
 ## [1.26.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.26.1) (2016-07-18)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.26.0...1.26.1)
 
