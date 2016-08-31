@@ -55,17 +55,9 @@ public class Lock: NSObject {
      - returns: a newly created Lock instance
      */
     required public init(authentication: Authentication, webAuth: WebAuth) {
-        var authentication = authentication
-        var webAuth = webAuth
-        let name = "Lock.swift"
-        // FIXME:- Uncomment when stable is ready
-//        let bundle = _BundleHack.bundle
-//        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.0.0-alpha.0"
-        let version = "2.0.0-beta.1"
-        authentication.using(inLibrary: name, version: version)
-        webAuth.using(inLibrary: name, version: version)
-        self.authentication = authentication
-        self.webAuth = webAuth
+        let (authenticationWithTelemetry, webAuthWithTelemetry) = telemetryFor(authenticaction: authentication, webAuth: webAuth)
+        self.authentication = authenticationWithTelemetry
+        self.webAuth = webAuthWithTelemetry
     }
 
     /**
@@ -171,6 +163,19 @@ public class Lock: NSObject {
     public static func resumeAuth(url: NSURL, options: [String: AnyObject]) -> Bool {
         return Auth0.resumeAuth(url, options: options)
     }
+}
+
+private func telemetryFor(authenticaction authentication: Authentication, webAuth: WebAuth) -> (Authentication, WebAuth) {
+    var authentication = authentication
+    var webAuth = webAuth
+    let name = "Lock.swift"
+    // FIXME:- Uncomment when stable is ready
+    //        let bundle = _BundleHack.bundle
+    //        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.0.0-alpha.0"
+    let version = "2.0.0-beta.1"
+    authentication.using(inLibrary: name, version: version)
+    webAuth.using(inLibrary: name, version: version)
+    return (authentication, webAuth)
 }
 
 public protocol Connections {
