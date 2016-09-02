@@ -38,6 +38,10 @@ struct Routes {
     mutating func go(route: Route) {
         self.history.append(route)
     }
+
+    mutating func reset() {
+        self.history = []
+    }
 }
 
 enum Route {

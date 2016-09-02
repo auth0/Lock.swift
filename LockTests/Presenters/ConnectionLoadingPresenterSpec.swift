@@ -1,4 +1,4 @@
-// ConnectionLoadingPresenter.swift
+// ConnectionLoadingPresenterSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,26 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import Quick
+import Nimble
 
-class ConnectionLoadingPresenter: Presentable, Loggable {
-    var messagePresenter: MessagePresenter?
-    let loader: RemoteConnectionLoader
-    let navigator: Navigable
+@testable import Lock
 
-    init(loader: RemoteConnectionLoader, navigator: Navigable) {
-        self.loader = loader
-        self.navigator = navigator
-    }
+class ConnectionLoadingPresenterSpec: QuickSpec {
 
-    var view: View {
-        self.loader.load { connections in
-            guard let connections = connections else { return } // FIXME: Show error
-            Queue.main.async {
-                self.logger.debug("Loaded connections. Moving to root view")
-                self.navigator.reload(withConnections: connections)
-            }
+    override func spec() {
+
+        var interactor: MockConnectionsLoader!
+        var presenter: ConnectionLoadingPresenter!
+        var messagePresenter: MockMessagePresenter!
+        var navigator: MockNavigator!
+
+        beforeEach {
+            messagePresenter = MockMessagePresenter()
+            interactor = MockConnectionsLoader()
+            navigator = MockNavigator()
+            presenter = ConnectionLoadingPresenter(loader: interactor, navigator: navigator)
+            presenter.messagePresenter = messagePresenter
         }
-        return LoadingView()
+
+        it("should build LoadingView") {
+            expect(presenter.view as? LoadingView).toNot(beNil())
+        }
+
+        it("should reload when connections are obtained") {
+            let connections: Connections = OfflineConnections()
+            interactor.connections = connections
+            presenter.view
+            expect(navigator.connections).toEventuallyNot(beNil())
+        }
+
     }
 }

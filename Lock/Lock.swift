@@ -127,6 +127,7 @@ public class Lock: NSObject {
         var options: OptionBuildable = LockOptions()
         closure(&options)
         self.optionsBuilder = options
+        logger.debug("Lock options overriden")
         return self
     }
 

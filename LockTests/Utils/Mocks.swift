@@ -57,7 +57,7 @@ class MockNavigator: Navigable {
     var route: Route?
     var resetted: Bool = false
     var presented: UIViewController? = nil
-
+    var connections: Connections? = nil
 
     func navigate(route: Route) {
         self.route = route
@@ -69,6 +69,10 @@ class MockNavigator: Navigable {
 
     func present(controller: UIViewController) {
         self.presented = controller
+    }
+
+    func reload(withConnections connections: Connections) {
+        self.connections = connections
     }
 }
 
@@ -171,6 +175,15 @@ class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
             self.email = value
             self.username = value
         }
+    }
+}
+
+class MockConnectionsLoader: RemoteConnectionLoader {
+
+    var connections: Connections? = nil
+
+    func load(callback: Connections? -> ()) {
+        callback(connections)
     }
 }
 

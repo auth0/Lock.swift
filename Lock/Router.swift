@@ -24,6 +24,7 @@ import Foundation
 import Auth0
 
 protocol Navigable {
+    func reload(withConnections connections: Connections)
     func navigate(route: Route)
     func resetScroll(animated: Bool)
     func present(controller: UIViewController)
@@ -73,7 +74,10 @@ struct Router: Navigable {
     }
 
     var root: Presentable? {
-        guard let connections = self.lock.connections else { return ConnectionLoadingPresenter() }
+        guard let connections = self.lock.connections else {
+            let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
+            return ConnectionLoadingPresenter(loader: interactor, navigator: self)
+        }
 
         if let database = connections.database {
             let authentication = self.lock.authentication
@@ -119,6 +123,13 @@ struct Router: Navigable {
     }
 
     var onBack: () -> () = {}
+
+    func reload(withConnections connections: Connections) {
+        self.lock.connections = connections
+        self.lock.logger.debug("Reloading Lock")
+        self.controller?.routes.reset()
+        self.controller?.present(self.root)
+    }
 
     func navigate(route: Route) {
         let presentable: Presentable?
