@@ -36,7 +36,7 @@ class RouterSpec: QuickSpec {
 
         beforeEach {
             lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
-            lock.connections { $0.database(name: "connection", requiresUsername: false) }
+            lock.withConnections { $0.database(name: "connection", requiresUsername: false) }
             controller = MockLockController(lock: lock)
             router = Router(lock: lock, controller: controller)
         }
@@ -54,14 +54,14 @@ class RouterSpec: QuickSpec {
             }
 
             it("should return root for single database connection") {
-                lock.connections { $0.database(name: connection, requiresUsername: true) }
+                lock.withConnections { $0.database(name: connection, requiresUsername: true) }
                 let root = router.root as? DatabasePresenter
                 expect(root).toNot(beNil())
                 expect(root?.authPresenter).to(beNil())
             }
 
             it("should return root for single database connection and social") {
-                lock.connections {
+                lock.withConnections {
                     $0.database(name: connection, requiresUsername: true)
                     $0.social(name: "facebook", style: .Facebook)
                 }
@@ -71,7 +71,7 @@ class RouterSpec: QuickSpec {
             }
 
             it("should return root for only social connections") {
-                lock.connections { $0.social(name: "dropbox", style: AuthStyle(name: "Dropbox")) }
+                lock.withConnections { $0.social(name: "dropbox", style: AuthStyle(name: "Dropbox")) }
                 expect(router.root as? AuthPresenter).toNot(beNil())
             }
 

@@ -34,8 +34,7 @@ public class Lock: NSObject {
     let authentication: Authentication
     let webAuth: WebAuth
 
-    private var connectionBuilder: ConnectionBuildable? = nil
-    var connections: Connections? { return self.connectionBuilder }
+    var connections: Connections? = nil
 
     private var optionsBuilder: OptionBuildable = LockOptions()
     var options: Options { return self.optionsBuilder }
@@ -110,10 +109,10 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func connections(closure: (inout ConnectionBuildable) -> ()) -> Lock {
+    public func withConnections(closure: (inout ConnectionBuildable) -> ()) -> Lock {
         var connections: ConnectionBuildable = OfflineConnections()
         closure(&connections)
-        self.connectionBuilder = connections
+        self.connections = connections
         return self
     }
 

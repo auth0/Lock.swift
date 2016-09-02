@@ -49,7 +49,7 @@ class ViewController: UIViewController {
         databaseOnly.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
-                .connections { connections in
+                .withConnections { connections in
                     connections.database(name: "Username-Password-Authentication", requiresUsername: true)
                 }
             self?.showLock(lock)
@@ -59,7 +59,7 @@ class ViewController: UIViewController {
         databaseAndSocial.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
-                .connections { connections in
+                .withConnections { connections in
                     connections.social(name: "facebook", style: .Facebook)
                     connections.social(name: "google-oauth2", style: .Google)
                     connections.database(name: "Username-Password-Authentication", requiresUsername: true)
@@ -71,7 +71,7 @@ class ViewController: UIViewController {
         socialOnly.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
-                .connections { connections in
+                .withConnections { connections in
                     connections.social(name: "facebook", style: .Facebook)
                     connections.social(name: "google-oauth2", style: .Google)
                     connections.social(name: "instagram", style: .Instagram)

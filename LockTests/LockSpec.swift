@@ -76,10 +76,10 @@ class LockSpec: QuickSpec {
             }
         }
 
-        describe("connections") {
+        describe("withConnections") {
 
             it("should allow settings connections") {
-                lock.connections { $0.database(name: "MyDB", requiresUsername: false) }
+                lock.withConnections { $0.database(name: "MyDB", requiresUsername: false) }
                 expect(lock.connections?.database?.name) == "MyDB"
             }
 
@@ -88,13 +88,13 @@ class LockSpec: QuickSpec {
             }
 
             it("should use the latest options") {
-                lock.connections { $0.database(name: "MyDB", requiresUsername: false) }
-                lock.connections { $0.database(name: "AnotherDB", requiresUsername: false) }
+                lock.withConnections { $0.database(name: "MyDB", requiresUsername: false) }
+                lock.withConnections { $0.database(name: "AnotherDB", requiresUsername: false) }
                 expect(lock.connections?.database?.name) == "AnotherDB"
             }
 
             it("should return itself") {
-                expect(lock.connections { _ in } ) == lock
+                expect(lock.withConnections { _ in } ) == lock
             }
 
         }
