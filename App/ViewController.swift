@@ -44,6 +44,12 @@ class ViewController: UIViewController {
             ])
         header.translatesAutoresizingMaskIntoConstraints = false
 
+        let cdnLoading = AuthButton(size: .Big)
+        cdnLoading.title = "LOGIN WITH CDN"
+        cdnLoading.onPress = { [weak self] _ in
+            let lock = Lock.classic()
+            self?.showLock(lock)
+        }
         let databaseOnly = AuthButton(size: .Big)
         databaseOnly.title = "LOGIN WITH DB"
         databaseOnly.onPress = { [weak self] _ in
@@ -83,7 +89,7 @@ class ViewController: UIViewController {
             self?.showLock(lock)
         }
 
-        let stack = UIStackView(arrangedSubviews: [wrap(databaseOnly), wrap(socialOnly), wrap(databaseAndSocial)])
+        let stack = UIStackView(arrangedSubviews: [wrap(cdnLoading), wrap(databaseOnly), wrap(socialOnly), wrap(databaseAndSocial)])
         stack.axis = .Vertical
         stack.distribution = .FillProportionally
         stack.alignment = .Fill

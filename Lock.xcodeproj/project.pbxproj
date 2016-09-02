@@ -100,6 +100,8 @@
 		5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CD1D2C79FD00166B67 /* Operations.swift */; };
 		5FDB41D01D2C95B100166B67 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CF1D2C95B100166B67 /* MessageView.swift */; };
 		5FDC876D1D46DAF200D28596 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC876C1D46DAF200D28596 /* Queue.swift */; };
+		5FE50DB51D79ACCC00D82290 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE50DB41D79ACCC00D82290 /* LoadingView.swift */; };
+		5FE50DB71D79AF3000D82290 /* ConnectionLoadingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE50DB61D79AF3000D82290 /* ConnectionLoadingPresenter.swift */; };
 		5FEADCEF1D1A76610032D810 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD21D1A7294003670A4 /* Auth0.framework */; };
 		5FEADCF71D1A7EBC0032D810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */; };
 		5FEADCF91D1A7EBC0032D810 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF81D1A7EBC0032D810 /* ViewController.swift */; };
@@ -267,6 +269,8 @@
 		5FDB41CD1D2C79FD00166B67 /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Operations.swift; path = Lock/Operations.swift; sourceTree = SOURCE_ROOT; };
 		5FDB41CF1D2C95B100166B67 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageView.swift; path = Lock/MessageView.swift; sourceTree = SOURCE_ROOT; };
 		5FDC876C1D46DAF200D28596 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Queue.swift; path = Lock/Queue.swift; sourceTree = SOURCE_ROOT; };
+		5FE50DB41D79ACCC00D82290 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = SOURCE_ROOT; };
+		5FE50DB61D79AF3000D82290 /* ConnectionLoadingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionLoadingPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5FEADCF41D1A7EBC0032D810 /* LockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FEADCF81D1A7EBC0032D810 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -384,6 +388,7 @@
 				5FC434851D1DF769005188BC /* View.swift */,
 				5F57DFC81D4F87CE00C54DA8 /* AuthCollectionView.swift */,
 				5F14565D1D5237820085DF9C /* DatabaseView.swift */,
+				5FE50DB41D79ACCC00D82290 /* LoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -491,6 +496,7 @@
 				5FBE5CC51D3E7F9D0038536D /* MultifactorPresenter.swift */,
 				5F5F98D71D22ED120016FC22 /* Presentable.swift */,
 				5F57DFCB1D4F93A000C54DA8 /* AuthPresenter.swift */,
+				5FE50DB61D79AF3000D82290 /* ConnectionLoadingPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -849,12 +855,14 @@
 			files = (
 				5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */,
 				5F14565A1D5130E80085DF9C /* Colors.swift in Sources */,
+				5FE50DB71D79AF3000D82290 /* ConnectionLoadingPresenter.swift in Sources */,
 				5F57DFC91D4F87CE00C54DA8 /* AuthCollectionView.swift in Sources */,
 				5F57DFCC1D4F93A000C54DA8 /* AuthPresenter.swift in Sources */,
 				5F390E871D638A6D00FC549C /* Logger.swift in Sources */,
 				5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */,
 				5F73CDD61D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift in Sources */,
 				5F99AA901D1B9E7100D27842 /* DatabaseModeSwitcher.swift in Sources */,
+				5FE50DB51D79ACCC00D82290 /* LoadingView.swift in Sources */,
 				5F70F1E31D79057A004698DA /* OfflineConnections.swift in Sources */,
 				5F2496B31D665A5600A1C6E2 /* DatabaseUserCreator.swift in Sources */,
 				5F70F1E71D790773004698DA /* OptionBuildable.swift in Sources */,

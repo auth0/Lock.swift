@@ -49,10 +49,6 @@ class RouterSpec: QuickSpec {
                 router = Router(lock: lock, controller: controller)
             }
 
-            it("should return no root if there are no connections") {
-                expect(router.root).to(beNil())
-            }
-
             it("should return root for single database connection") {
                 lock.withConnections { $0.database(name: connection, requiresUsername: true) }
                 let root = router.root as? DatabasePresenter
@@ -73,6 +69,10 @@ class RouterSpec: QuickSpec {
             it("should return root for only social connections") {
                 lock.withConnections { $0.social(name: "dropbox", style: AuthStyle(name: "Dropbox")) }
                 expect(router.root as? AuthPresenter).toNot(beNil())
+            }
+
+            it("should return root for loading connection from CDN") {
+                expect(router.root as? ConnectionLoadingPresenter).toNot(beNil())
             }
 
         }

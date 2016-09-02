@@ -73,7 +73,7 @@ struct Router: Navigable {
     }
 
     var root: Presentable? {
-        guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
+        guard let connections = self.lock.connections else { return ConnectionLoadingPresenter() }
 
         if let database = connections.database {
             let authentication = self.lock.authentication
