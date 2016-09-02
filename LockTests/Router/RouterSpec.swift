@@ -145,6 +145,12 @@ class RouterSpec: QuickSpec {
             }
         }
 
+        it("should not show root again") {
+            expect(controller.routes.current).toNot(beNil())
+            router.navigate(.Root)
+            expect(controller.presentable).to(beNil())
+        }
+
         it("should show forgot pwd screen") {
             router.navigate(.ForgotPassword)
             expect(controller.presentable as? DatabaseForgotPasswordPresenter).toNot(beNil())

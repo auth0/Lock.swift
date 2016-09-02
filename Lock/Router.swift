@@ -123,12 +123,15 @@ struct Router: Navigable {
     func navigate(route: Route) {
         let presentable: Presentable?
         switch route {
-        case .Root:
+        case .Root where self.controller?.routes.current != .Root:
             presentable = self.root
         case .ForgotPassword:
             presentable = self.forgotPassword
         case .Multifactor:
             presentable = self.multifactor
+        default:
+            self.lock.logger.warn("Ignoring navigation \(route)")
+            return
         }
         self.lock.logger.debug("Navigating to \(route)")
         self.controller?.routes.go(route)
