@@ -111,6 +111,22 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 expect(connections?.oauth2).toEventually(beEmpty())
             }
 
+            it("should not load strategies without name") {
+                stub(isCDN(forClientId: clientId)) { _ in Auth0Stubs.strategiesFromCDN([[:]]) }
+                loader.load(callback)
+                expect(connections).toEventuallyNot(beNil())
+                expect(connections?.database).toEventually(beNil())
+                expect(connections?.oauth2).toEventually(beEmpty())
+            }
+
+            it("should not load connection without name") {
+                stub(isCDN(forClientId: clientId)) { _ in Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [[:]])]) }
+                loader.load(callback)
+                expect(connections).toEventuallyNot(beNil())
+                expect(connections?.database).toEventually(beNil())
+                expect(connections?.oauth2).toEventually(beEmpty())
+            }
+
             it("should load single database connection") {
                 stub(isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(databaseConnection)])]) }
                 loader.load(callback)
@@ -134,6 +150,25 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 expect(connections?.database?.requiresUsername).toEventually(beTruthy())
             }
 
+            it("should load oauth2 connections") {
+                stub(isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("oauth2", connections: [mockOAuth2("steam")])]) }
+                loader.load(callback)
+                expect(connections?.oauth2).toEventuallyNot(beNil())
+                let oauth2 = connections?.oauth2.first
+                expect(oauth2?.name) == "steam"
+                expect(oauth2?.style.name) == "oauth2"
+                expect(oauth2?.style.color) == .a0_orange
+            }
+
+            it("should load multiple oauth2 connections") {
+                stub(isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("facebook", connections: [mockOAuth2("facebook1"), mockOAuth2("facebook2")])]) }
+                loader.load(callback)
+                expect(connections?.oauth2).toEventuallyNot(beNil())
+                expect(connections?.oauth2.count).toEventually(be(2))
+                expect(connections?.oauth2[0].name) == "facebook1"
+                expect(connections?.oauth2[1].name) == "facebook2"
+            }
+
         }
 
     }
@@ -142,6 +177,11 @@ class CDNLoaderInteractorSpec: QuickSpec {
 
 private func mockStrategy(name: String, connections: [JSONObject]) -> JSONObject {
     return ["name": name, "connections": connections]
+}
+
+private func mockOAuth2(name: String) -> JSONObject {
+    let json: JSONObject = ["name": name ]
+    return json
 }
 
 private func mockDatabaseConnection(name: String, requiresUsername: Bool? = nil) -> JSONObject {

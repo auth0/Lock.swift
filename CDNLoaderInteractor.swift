@@ -73,15 +73,16 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
 
             do {
                 var connections = OfflineConnections()
-                let json = try NSJSONSerialization.JSONObjectWithData(jsonp.dataUsingEncoding(NSUTF8StringEncoding)!, options: [])
+                let json = try NSJSONSerialization.JSONObjectWithData(jsonp.dataUsingEncoding(NSUTF8StringEncoding)!, options: []) as? JSONObject
                 self.logger.debug("Client configuration is \(json)")
-                let strategies = json["strategies"] as? JSONArray ?? []
-                if let auth0 = strategies.filter({ $0["name"] as? String == "auth0" }).first {
-                    let databases = auth0["connections"] as? JSONArray ?? []
-                    if let connection = databases.first, let name = connection["name"] as? String {
-                        let requiresUsername = connection["requires_username"] as? Bool ?? false
-                        connections.database(name: name, requiresUsername: requiresUsername)
-                    }
+                let info = ClientInfo(json: json)
+                if let auth0 = info.auth0, let connection = auth0.connections.first {
+                    let requiresUsername = connection.booleanValue(forKey: "requires_username")
+                    connections.database(name: connection.name, requiresUsername: requiresUsername)
+                }
+                info.oauth2.forEach { strategy in
+                    let style = AuthStyle(name: strategy.name)
+                    strategy.connections.forEach { connections.social(name: $0.name, style: style) }
                 }
                 callback(connections)
             } catch let e {
@@ -91,6 +92,43 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
         }
         task.resume()
     }
+}
+
+private struct ClientInfo {
+    let json: JSONObject?
+
+    var strategies: [StrategyInfo] {
+        let list = json?["strategies"] as? JSONArray ?? []
+        return list
+            .filter { $0["name"] != nil }
+            .map { StrategyInfo(json: $0) }
+    }
+
+    var auth0: StrategyInfo? { return strategies.filter({ $0.name == "auth0" }).first }
+
+    var oauth2: [StrategyInfo] { return strategies.filter { $0.name != "auth0" } }
+}
+
+private struct StrategyInfo {
+    let json: JSONObject
+
+    var name: String { return json["name"] as! String }
+
+    var connections: [ConnectionInfo] {
+        let list = json["connections"] as? JSONArray ?? []
+        return list
+            .filter { $0["name"] != nil }
+            .map { ConnectionInfo(json: $0) }
+    }
+}
+
+private struct ConnectionInfo {
+
+    let json: JSONObject
+
+    var name: String { return json["name"] as! String }
+
+    func booleanValue(forKey key: String, defaultValue: Bool = false) -> Bool { return json[key] as? Bool ?? defaultValue }
 }
 
 private func cdnURL(from url: NSURL) -> NSURL {
