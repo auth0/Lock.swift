@@ -156,8 +156,17 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 expect(connections?.oauth2).toEventuallyNot(beNil())
                 let oauth2 = connections?.oauth2.first
                 expect(oauth2?.name) == "steam"
-                expect(oauth2?.style.name) == "oauth2"
+                expect(oauth2?.style.name) == "steam"
                 expect(oauth2?.style.color) == .a0_orange
+            }
+
+            it("should load first class social connections") {
+                stub(isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("github", connections: [mockOAuth2("random")])]) }
+                loader.load(callback)
+                expect(connections?.oauth2).toEventuallyNot(beNil())
+                let oauth2 = connections?.oauth2.first
+                expect(oauth2?.name) == "random"
+                expect(oauth2?.style) == .Github
             }
 
             it("should load multiple oauth2 connections") {

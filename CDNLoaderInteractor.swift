@@ -81,8 +81,7 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
                     connections.database(name: connection.name, requiresUsername: requiresUsername)
                 }
                 info.oauth2.forEach { strategy in
-                    let style = AuthStyle(name: strategy.name)
-                    strategy.connections.forEach { connections.social(name: $0.name, style: style) }
+                    strategy.connections.forEach { connections.social(name: $0.name, style: AuthStyle.style(forStrategy: strategy.name, connectionName: $0.name)) }
                 }
                 callback(connections)
             } catch let e {

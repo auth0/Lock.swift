@@ -142,6 +142,66 @@ class AuthStyleSpec: QuickSpec {
                 itBehavesLike(FirstClassStyleExample) { return style }
             }
         }
-    }
 
+        describe("style for strategy") {
+
+            it("should default to auth0 style") {
+                let style = AuthStyle.style(forStrategy: "random", connectionName: "connection")
+                expect(style.name) == "connection"
+                expect(style.color) == UIColor.a0_orange
+            }
+
+            [
+                ("amazon", AuthStyle.Amazon),
+                ("aol", AuthStyle.Aol),
+                ("baidu", AuthStyle.Baidu),
+                ("bitbucket", AuthStyle.Bitbucket),
+                ("dropbox", AuthStyle.Dropbox),
+                ("dwolla", AuthStyle.Dwolla),
+                ("ebay", AuthStyle.Ebay),
+                ("evernote", AuthStyle.Evernote),
+                ("evernote-sandbox", AuthStyle.EvernoteSandbox),
+                ("exact", AuthStyle.Exact),
+                ("facebook", AuthStyle.Facebook),
+                ("fitbit", AuthStyle.Fitbit),
+                ("github", AuthStyle.Github),
+                ("google-oauth2", AuthStyle.Google),
+                ("instagram", AuthStyle.Instagram),
+                ("linkedin", AuthStyle.Linkedin),
+                ("miicard", AuthStyle.Miicard),
+                ("paypal", AuthStyle.Paypal),
+                ("planningcenter", AuthStyle.PlanningCenter),
+                ("renren", AuthStyle.RenRen),
+                ("salesforce", AuthStyle.Salesforce),
+                ("salesforce-community", AuthStyle.SalesforceCommunity),
+                ("salesforce-sandbox", AuthStyle.SalesforceSandbox),
+                ("shopify", AuthStyle.Shopify),
+                ("soundcloud", AuthStyle.Soundcloud),
+                ("thecity", AuthStyle.TheCity),
+                ("thecity-sandbox", AuthStyle.TheCitySandbox),
+                ("thirtysevensignals", AuthStyle.ThirtySevenSignals),
+                ("twitter", AuthStyle.Twitter),
+                ("vkontakte", AuthStyle.Vkontakte),
+                ("windowslive", AuthStyle.Microsoft),
+                ("wordpress", AuthStyle.Wordpress),
+                ("yahoo", AuthStyle.Yahoo),
+                ("yammer", AuthStyle.Yammer),
+                ("yandex", AuthStyle.Yandex),
+                ("weibo", AuthStyle.Weibo),
+            ].forEach { (strategy, expected) in
+                it("should match \(strategy) style") {
+                    let style = AuthStyle.style(forStrategy: strategy, connectionName: "connection1")
+                    expect(style) == expected
+                }
+            }
+        }
+    }
+}
+
+extension AuthStyle: Equatable, CustomStringConvertible {
+    public var description: String { return "AuthStyle(name=\(name))" }
+}
+
+public func ==(lhs: AuthStyle, rhs: AuthStyle) -> Bool {
+    return lhs.name == rhs.name && lhs.color == rhs.color && lhs.image.name == rhs.image.name
 }
