@@ -178,6 +178,18 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 expect(connections?.oauth2[1].name) == "facebook2"
             }
 
+            it("should load database & oauth2 connection") {
+                stub(isCDN(forClientId: clientId)) { _ in
+                    return Auth0Stubs.strategiesFromCDN([
+                        mockStrategy("auth0", connections: [mockDatabaseConnection(databaseConnection)]),
+                        mockStrategy("facebook", connections: [mockOAuth2("facebook")])
+                    ])
+                }
+                loader.load(callback)
+                expect(connections?.database?.name).toEventually(equal(databaseConnection))
+                expect(connections?.oauth2).toEventually(haveCount(1))
+            }
+
         }
 
     }

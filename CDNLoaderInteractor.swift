@@ -105,7 +105,28 @@ private struct ClientInfo {
 
     var auth0: StrategyInfo? { return strategies.filter({ $0.name == "auth0" }).first }
 
-    var oauth2: [StrategyInfo] { return strategies.filter { $0.name != "auth0" } }
+    var oauth2: [StrategyInfo] { return strategies.filter { $0.name != "auth0" && !passwordlessStrategyNames.contains($0.name) && !enterpriseStrategyNames.contains($0.name) } }
+
+    let passwordlessStrategyNames = [
+        "email",
+        "sms"
+    ]
+
+    let enterpriseStrategyNames = [
+        "google-apps",
+        "google-openid",
+        "office365",
+        "waad",
+        "adfs",
+        "ad",
+        "samlp",
+        "pingfederate",
+        "ip",
+        "mscrm",
+        "custom",
+        "sharepoint",
+    ]
+
 }
 
 private struct StrategyInfo {
