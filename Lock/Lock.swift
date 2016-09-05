@@ -171,6 +171,12 @@ public enum Result {
     case Cancelled
 }
 
+public enum UnrecoverableError: ErrorType {
+    case InvalidClientOrDomain
+    case ClientWithNoConnections
+    case MissingDatabaseConnection
+}
+
 private func telemetryFor(authenticaction authentication: Authentication, webAuth: WebAuth) -> (Authentication, WebAuth) {
     var authentication = authentication
     var webAuth = webAuth

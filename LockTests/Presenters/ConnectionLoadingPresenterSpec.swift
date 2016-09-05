@@ -47,10 +47,23 @@ class ConnectionLoadingPresenterSpec: QuickSpec {
         }
 
         it("should reload when connections are obtained") {
-            let connections: Connections = OfflineConnections()
+            var connections = OfflineConnections()
+            connections.database(name: connection, requiresUsername: false)
             interactor.connections = connections
             presenter.view
             expect(navigator.connections).toEventuallyNot(beNil())
+        }
+
+        it("should exit with error when failed to get connections") {
+            interactor.connections = nil
+            presenter.view
+            expect(navigator.unrecoverableError).toEventuallyNot(beNil())
+        }
+
+        it("should exit with error when there are no connections") {
+            interactor.connections = OfflineConnections()
+            presenter.view
+            expect(navigator.unrecoverableError).toEventuallyNot(beNil())
         }
 
     }

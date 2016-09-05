@@ -28,6 +28,7 @@ protocol Navigable {
     func navigate(route: Route)
     func resetScroll(animated: Bool)
     func present(controller: UIViewController)
+    func exit(withError error: ErrorType)
 }
 
 struct Router: Navigable {
@@ -43,14 +44,14 @@ struct Router: Navigable {
         self.lock = lock
         self.onDismiss = { [weak controller] in
             Queue.main.async {
-                controller?.dismissViewControllerAnimated(true, completion: { _ in
+                controller?.presentingViewController?.dismissViewControllerAnimated(true, completion: { _ in
                     lock.callback(.Cancelled)
                 })
             }
         }
         self.onAuthentication = { [weak controller] credentials in
             Queue.main.async {
-                controller?.dismissViewControllerAnimated(true, completion: { _ in
+                controller?.presentingViewController?.dismissViewControllerAnimated(true, completion: { _ in
                     lock.callback(.Success(credentials))
                 })
             }
@@ -101,7 +102,10 @@ struct Router: Navigable {
     }
 
     var forgotPassword: Presentable? {
-        guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
+        guard let connections = self.lock.connections else {
+            exit(withError: UnrecoverableError.ClientWithNoConnections)
+            return nil
+        }
         let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication, user: self.user)
         let presenter =  DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
         presenter.customLogger = self.lock.logger
@@ -109,7 +113,10 @@ struct Router: Navigable {
     }
 
     var multifactor: Presentable? {
-        guard let connections = self.lock.connections, let database = connections.database else { return nil } // FIXME: show error screen
+        guard let connections = self.lock.connections, let database = connections.database else {
+            exit(withError: UnrecoverableError.MissingDatabaseConnection)
+            return nil
+        }
         let authentication = self.lock.authentication
         let interactor = MultifactorInteractor(user: self.user, authentication: authentication, connection: database, callback: self.onAuthentication)
         let presenter = MultifactorPresenter(interactor: interactor, connection: database)
@@ -155,5 +162,16 @@ struct Router: Navigable {
 
     func resetScroll(animated: Bool) {
         self.controller?.scrollView.setContentOffset(CGPointZero, animated: animated)
+    }
+
+    func exit(withError error: ErrorType) {
+        let controller = self.controller?.presentingViewController
+        let lock = self.lock
+        self.lock.logger.debug("Dismissing Lock with error \(error)")
+        Queue.main.async {
+            controller?.dismissViewControllerAnimated(true, completion: { _ in
+                lock.callback(.Failure(error))
+            })
+        }
     }
 }

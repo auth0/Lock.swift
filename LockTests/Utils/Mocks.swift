@@ -26,6 +26,7 @@ import Auth0
 
 class MockLockController: LockViewController {
 
+    var presenting: UIViewController?
     var presented: UIViewController?
     var presentable: Presentable?
 
@@ -40,6 +41,10 @@ class MockLockController: LockViewController {
 
     override func present(presentable: Presentable?) {
         self.presentable = presentable
+    }
+
+    override var presentingViewController: UIViewController? {
+        return self.presenting
     }
 }
 
@@ -58,6 +63,7 @@ class MockNavigator: Navigable {
     var resetted: Bool = false
     var presented: UIViewController? = nil
     var connections: Connections? = nil
+    var unrecoverableError: ErrorType? = nil
 
     func navigate(route: Route) {
         self.route = route
@@ -73,6 +79,10 @@ class MockNavigator: Navigable {
 
     func reload(withConnections connections: Connections) {
         self.connections = connections
+    }
+
+    func exit(withError error: ErrorType) {
+        self.unrecoverableError = error
     }
 }
 
@@ -234,5 +244,19 @@ class MockOAuth2: OAuth2Authenticatable {
     func login(connection: String, callback: (OAuth2AuthenticatableError?) -> ()) {
         self.connection = connection
         callback(self.onLogin())
+    }
+}
+
+class MockController: UIViewController {
+
+    var presented: UIViewController?
+
+    override func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+        self.presented = viewControllerToPresent
+    }
+
+    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+        self.presented = nil
+        completion?()
     }
 }

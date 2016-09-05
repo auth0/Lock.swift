@@ -121,12 +121,3 @@ class LockSpec: QuickSpec {
     }
 
 }
-
-class MockController: UIViewController {
-
-    var presented: UIViewController?
-
-    override func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
-        self.presented = viewControllerToPresent
-    }
-}

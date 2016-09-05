@@ -35,4 +35,8 @@ struct OfflineConnections: ConnectionBuildable {
         let social = SocialConnection(name: name, style: style)
         self.oauth2.append(social)
     }
+
+    var isEmpty: Bool {
+        return self.database == nil && self.oauth2.isEmpty
+    }
 }

@@ -80,6 +80,7 @@ class RouterSpec: QuickSpec {
         describe("events") {
 
             it("should call callback with auth result") {
+                controller.presenting = MockController()
                 let credentials = Credentials(accessToken: "ACCESS_TOKEN", tokenType: "bearer")
                 waitUntil(timeout: 2) { done in
                     lock.callback = { result in
@@ -141,24 +142,52 @@ class RouterSpec: QuickSpec {
                     router.onBack()
                     expect(router.user.password).to(beNil())
                 }
+            }
 
+            describe("exit") {
+
+                var presenting: MockController!
+
+                beforeEach {
+                    presenting = MockController()
+                    presenting.presented = controller
+                    controller.presenting = presenting
+                }
+
+                it("should dismiss controller") {
+                    router.exit(withError: UnrecoverableError.InvalidClientOrDomain)
+                    expect(presenting.presented).toEventually(beNil())
+                }
+
+                it("should pass error in callback") {
+                    waitUntil(timeout: 2) { done in
+                        lock.callback = { result in
+                            if case .Failure(let cause) = result, case UnrecoverableError.InvalidClientOrDomain = cause {
+                                done()
+                            }
+                        }
+                        router.exit(withError: UnrecoverableError.InvalidClientOrDomain)
+                    }
+                }
             }
         }
 
-        it("should not show root again") {
-            expect(controller.routes.current).toNot(beNil())
-            router.navigate(.Root)
-            expect(controller.presentable).to(beNil())
-        }
+        describe("navigate") {
+            it("should not show root again") {
+                expect(controller.routes.current).toNot(beNil())
+                router.navigate(.Root)
+                expect(controller.presentable).to(beNil())
+            }
 
-        it("should show forgot pwd screen") {
-            router.navigate(.ForgotPassword)
-            expect(controller.presentable as? DatabaseForgotPasswordPresenter).toNot(beNil())
-        }
+            it("should show forgot pwd screen") {
+                router.navigate(.ForgotPassword)
+                expect(controller.presentable as? DatabaseForgotPasswordPresenter).toNot(beNil())
+            }
 
-        it("should show multifactor screen") {
-            router.navigate(.Multifactor)
-            expect(controller.presentable as? MultifactorPresenter).toNot(beNil())
+            it("should show multifactor screen") {
+                router.navigate(.Multifactor)
+                expect(controller.presentable as? MultifactorPresenter).toNot(beNil())
+            }
         }
 
         it("should present view controller") {
@@ -166,6 +195,7 @@ class RouterSpec: QuickSpec {
             router.present(presented)
             expect(controller.presented) == presented
         }
+
     }
 
 }

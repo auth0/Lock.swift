@@ -25,6 +25,8 @@ import Foundation
 public protocol Connections {
     var database: DatabaseConnection? { get }
     var oauth2: [OAuth2Connection] { get }
+
+    var isEmpty: Bool { get }
 }
 
 public struct DatabaseConnection {
