@@ -36,6 +36,7 @@
 @interface A0SafariAuthenticator () <SFSafariViewControllerDelegate>
 @property (strong, nonatomic) A0SafariSession *session;
 @property (strong, nonatomic) A0ModalPresenter *presenter;
+@property (weak, nonatomic) SFSafariViewController *controller;
 @property (copy, nonatomic) A0SafariSessionAuthentication onAuthentication;
 @property (strong, nonatomic) id universalLinkObserver;
 @end
@@ -88,9 +89,9 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0AuthParameters *authenticationParameters = parameters ?: [A0AuthParameters newDefaultParams];
     NSURL *url = [self.session authorizeURLWithParameters:[authenticationParameters asAPIPayload]];
     A0LogDebug(@"Opening URL %@ in SFSafariViewController", url);
-    SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:url];
-    controller.delegate = self;
-    [self.presenter presentController:controller completion:nil];
+    self.controller = [[SFSafariViewController alloc] initWithURL:url];
+    self.controller.delegate = self;
+    [self.presenter presentController:_controller completion:nil];
     self.onAuthentication = [self.session authenticationBlockWithSuccess:success failure:failure];
 }
 
@@ -99,6 +100,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     if (shouldHandle) {
         A0LogDebug(@"Handling callback URL %@", url);
         [self.session tokenFromURL:url callback:self.onAuthentication];
+        [self.controller dismissViewControllerAnimated:YES completion:nil];
     }
     return shouldHandle;
 }
