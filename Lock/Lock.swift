@@ -34,8 +34,8 @@ public class Lock: NSObject {
     let authentication: Authentication
     let webAuth: WebAuth
 
-    private var connectionBuilder: ConnectionBuildable? = nil
-    var connections: Connections? { return self.connectionBuilder }
+    var connectionProvider: ConnectionProvider = ConnectionProvider(local: OfflineConnections(), allowed: [])
+    var connections: Connections { return self.connectionProvider.connections }
 
     private var optionsBuilder: OptionBuildable = LockOptions()
     var options: Options { return self.optionsBuilder }
@@ -110,10 +110,25 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func connections(closure: (inout ConnectionBuildable) -> ()) -> Lock {
+    public func withConnections(closure: (inout ConnectionBuildable) -> ()) -> Lock {
         var connections: ConnectionBuildable = OfflineConnections()
         closure(&connections)
-        self.connectionBuilder = connections
+        let allowed = self.connectionProvider.allowed
+        self.connectionProvider = ConnectionProvider(local: connections, allowed: allowed)
+        return self
+    }
+
+    /**
+     Specify what connections should be used by Lock. 
+     By default it will use all connections enabled or if an empty list is used
+
+     - parameter allowedConnections: list of connection names to use
+
+     - returns: Lock itself for chaining
+     */
+    public func allowedConnections(allowedConnections: [String]) -> Lock {
+        let connections = self.connectionProvider.connections
+        self.connectionProvider = ConnectionProvider(local: connections, allowed: allowedConnections)
         return self
     }
 
@@ -128,6 +143,7 @@ public class Lock: NSObject {
         var options: OptionBuildable = LockOptions()
         closure(&options)
         self.optionsBuilder = options
+        logger.debug("Lock options overriden")
         return self
     }
 
@@ -165,6 +181,25 @@ public class Lock: NSObject {
     }
 }
 
+struct ConnectionProvider {
+    let local: Connections
+    let allowed: [String]
+
+    var connections: Connections { return local.select(byNames: allowed) }
+}
+
+public enum Result {
+    case Success(Credentials)
+    case Failure(ErrorType)
+    case Cancelled
+}
+
+public enum UnrecoverableError: ErrorType {
+    case InvalidClientOrDomain
+    case ClientWithNoConnections
+    case MissingDatabaseConnection
+}
+
 private func telemetryFor(authenticaction authentication: Authentication, webAuth: WebAuth) -> (Authentication, WebAuth) {
     var authentication = authentication
     var webAuth = webAuth
@@ -176,140 +211,4 @@ private func telemetryFor(authenticaction authentication: Authentication, webAut
     authentication.using(inLibrary: name, version: version)
     webAuth.using(inLibrary: name, version: version)
     return (authentication, webAuth)
-}
-
-public protocol Connections {
-    var database: DatabaseConnection? { get }
-    var oauth2: [OAuth2Connection] { get }
-}
-
-/**
- *  Allows to specify Lock connections
- */
-public protocol ConnectionBuildable: Connections {
-
-    /**
-     Configure a database connection
-
-     - parameter name:             name of the database connection
-     - parameter requiresUsername: if the database connection requires username
-     - important: Only **ONE** database connection can be used so subsequent calls will override the previous value
-     */
-    mutating func database(name name: String, requiresUsername: Bool)
-
-    /**
-     Adds a new social connection
-
-     - parameter name:  name of the connection
-     - parameter style: style used for the button used to trigger authentication
-     - seeAlso: AuthStyle
-     */
-    mutating func social(name name: String, style: AuthStyle)
-}
-
-struct OfflineConnections: ConnectionBuildable {
-
-    var database: DatabaseConnection? = nil
-    var oauth2: [OAuth2Connection] = []
-
-    mutating func database(name name: String, requiresUsername: Bool) {
-        self.database = DatabaseConnection(name: name, requiresUsername: requiresUsername)
-    }
-
-    mutating func social(name name: String, style: AuthStyle) {
-        let social = SocialConnection(name: name, style: style)
-        self.oauth2.append(social)
-    }
-}
-
-public protocol Options {
-    var closable: Bool { get }
-    var termsOfServiceURL: NSURL { get }
-    var privacyPolicyURL: NSURL { get }
-    var logLevel: LoggerLevel { get }
-    var loggerOutput: LoggerOutput? { get }
-    var logHttpRequest: Bool { get }
-}
-
-/**
- *  Lock options
- */
-public protocol OptionBuildable: Options {
-
-        /// Allows Lock to be dismissed. By default is false
-    var closable: Bool { get set }
-
-        /// ToS URL. By default is Auth0's
-    var termsOfServiceURL: NSURL { get set }
-
-        /// Privacy Policy URL. By default is Auth0's
-    var privacyPolicyURL: NSURL { get set }
-
-        /// Log level for Lock. By default is `Off`
-    var logLevel: LoggerLevel { get set }
-
-        /// Log output used when Log is enabled. By default a simple `print` statement is used.
-    var loggerOutput: LoggerOutput? { get set }
-
-        /// If request from Auth0.swift should be logged or not
-    var logHttpRequest: Bool { get set }
-}
-
-extension OptionBuildable {
-
-        /// ToS URL. By default is Auth0's
-    var termsOfService: String {
-        get {
-            return self.termsOfServiceURL.absoluteString
-        }
-        set {
-            guard let url = NSURL(string: newValue) else { return } // FIXME: log error
-            self.termsOfServiceURL = url
-        }
-    }
-
-        /// Privacy Policy URL. By default is Auth0's
-    var privacyPolicy: String {
-        get {
-            return self.privacyPolicyURL.absoluteString
-        }
-        set {
-            guard let url = NSURL(string: newValue) else { return } // FIXME: log error
-            self.privacyPolicyURL = url
-        }
-    }
-}
-
-struct LockOptions: OptionBuildable {
-    var closable: Bool = false
-    var termsOfServiceURL: NSURL = NSURL(string: "https://auth0.com/terms")!
-    var privacyPolicyURL: NSURL = NSURL(string: "https://auth0.com/privacy")!
-    var logLevel: LoggerLevel = .Off
-    var loggerOutput: LoggerOutput? = nil
-    var logHttpRequest: Bool = false {
-        didSet {
-            Auth0.enableLogging(enabled: self.logHttpRequest)
-        }
-    }
-}
-
-public struct DatabaseConnection {
-    public let name: String
-    public let requiresUsername: Bool
-}
-
-public protocol OAuth2Connection {
-    var name: String { get }
-    var style: AuthStyle { get }
-}
-
-public struct SocialConnection: OAuth2Connection {
-    public let name: String
-    public let style: AuthStyle
-}
-
-public enum Result {
-    case Success(Credentials)
-    case Failure(ErrorType)
-    case Cancelled
 }

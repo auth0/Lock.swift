@@ -32,7 +32,7 @@ class LockViewControllerSpec: QuickSpec {
         var controller: LockViewController!
 
         beforeEach {
-            controller = Lock.classic(clientId: clientId, domain: domain).connections { $0.database(name: "db", requiresUsername: false) }.controller
+            controller = Lock.classic(clientId: clientId, domain: domain).withConnections { $0.database(name: "db", requiresUsername: false) }.controller
         }
 
         describe("message presenter") {

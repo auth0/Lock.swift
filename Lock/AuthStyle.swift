@@ -196,3 +196,87 @@ public extension AuthStyle {
         return AuthStyle(name: "新浪微博", color: .a0_fromRGB("#DD4B39"), withImage: "ic_auth_weibo")
     }
 }
+
+// MARK:- AuthStyle from Strategy & Connection
+
+extension AuthStyle {
+
+    static func style(forStrategy strategy: String, connectionName: String) -> AuthStyle {
+        switch strategy.lowercaseString {
+        case "amazon":
+            return .Amazon
+        case "aol":
+            return .Aol
+        case "baidu":
+            return .Baidu
+        case "bitbucket":
+            return .Bitbucket
+        case "dropbox":
+            return .Dropbox
+        case "dwolla":
+            return .Dwolla
+        case "ebay":
+            return .Ebay
+        case "evernote":
+            return .Evernote
+        case "evernote-sandbox":
+            return .EvernoteSandbox
+        case "exact":
+            return .Exact
+        case "facebook":
+            return .Facebook
+        case "fitbit":
+            return .Fitbit
+        case "github":
+            return .Github
+        case "google-oauth2":
+            return .Google
+        case "instagram":
+            return .Instagram
+        case "linkedin":
+            return .Linkedin
+        case "miicard":
+            return .Miicard
+        case "paypal":
+            return .Paypal
+        case "planningcenter":
+            return .PlanningCenter
+        case "renren":
+            return .RenRen
+        case "salesforce":
+            return .Salesforce
+        case "salesforce-community":
+            return .SalesforceCommunity
+        case "salesforce-sandbox":
+            return .SalesforceSandbox
+        case "shopify":
+            return .Shopify
+        case "soundcloud":
+            return .Soundcloud
+        case "thecity":
+            return .TheCity
+        case "thecity-sandbox":
+            return .TheCitySandbox
+        case "thirtysevensignals":
+            return .ThirtySevenSignals
+        case "twitter":
+            return .Twitter
+        case "vkontakte":
+            return .Vkontakte
+        case "windowslive":
+            return .Microsoft
+        case "wordpress":
+            return .Wordpress
+        case "yahoo":
+            return .Yahoo
+        case "yammer":
+            return .Yammer
+        case "yandex":
+            return .Yandex
+        case "weibo":
+            return .Weibo
+        default:
+            return AuthStyle(name: connectionName)
+        }
+    }
+}

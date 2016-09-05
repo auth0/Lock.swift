@@ -34,7 +34,6 @@ class DatabasePresenter: Presentable, Loggable {
 
     var messagePresenter: MessagePresenter?
     var authPresenter: AuthPresenter?
-    var customLogger: Logger?
 
     var initialEmail: String? { return self.authenticator.validEmail ? self.authenticator.email : nil }
     var initialUsername: String? { return self.authenticator.validUsername ? self.authenticator.username : nil }

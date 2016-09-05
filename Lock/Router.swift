@@ -24,9 +24,11 @@ import Foundation
 import Auth0
 
 protocol Navigable {
+    func reload(withConnections connections: Connections)
     func navigate(route: Route)
     func resetScroll(animated: Bool)
     func present(controller: UIViewController)
+    func exit(withError error: ErrorType)
 }
 
 struct Router: Navigable {
@@ -42,14 +44,14 @@ struct Router: Navigable {
         self.lock = lock
         self.onDismiss = { [weak controller] in
             Queue.main.async {
-                controller?.dismissViewControllerAnimated(true, completion: { _ in
+                controller?.presentingViewController?.dismissViewControllerAnimated(true, completion: { _ in
                     lock.callback(.Cancelled)
                 })
             }
         }
         self.onAuthentication = { [weak controller] credentials in
             Queue.main.async {
-                controller?.dismissViewControllerAnimated(true, completion: { _ in
+                controller?.presentingViewController?.dismissViewControllerAnimated(true, completion: { _ in
                     lock.callback(.Success(credentials))
                 })
             }
@@ -73,7 +75,12 @@ struct Router: Navigable {
     }
 
     var root: Presentable? {
-        guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
+        let connections = self.lock.connections
+        guard !connections.isEmpty else {
+            self.lock.logger.debug("No connections configured. Loading client info from Auth0...")
+            let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
+            return ConnectionLoadingPresenter(loader: interactor, navigator: self)
+        }
 
         if let database = connections.database {
             let authentication = self.lock.authentication
@@ -83,21 +90,23 @@ struct Router: Navigable {
                 let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication)
                 presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor)
             }
-            presenter.customLogger = self.lock.logger
             return presenter
         }
 
         if !connections.oauth2.isEmpty {
             let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication)
             let presenter = AuthPresenter(connections: connections, interactor: interactor)
-            presenter.customLogger = self.lock.logger
             return presenter
         }
         return nil
     }
 
     var forgotPassword: Presentable? {
-        guard let connections = self.lock.connections else { return nil } // FIXME: show error screen
+        let connections = self.lock.connections
+        guard !connections.isEmpty else {
+            exit(withError: UnrecoverableError.ClientWithNoConnections)
+            return nil
+        }
         let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication, user: self.user)
         let presenter =  DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
         presenter.customLogger = self.lock.logger
@@ -105,7 +114,11 @@ struct Router: Navigable {
     }
 
     var multifactor: Presentable? {
-        guard let connections = self.lock.connections, let database = connections.database else { return nil } // FIXME: show error screen
+        let connections = self.lock.connections
+        guard let database = connections.database else {
+            exit(withError: UnrecoverableError.MissingDatabaseConnection)
+            return nil
+        }
         let authentication = self.lock.authentication
         let interactor = MultifactorInteractor(user: self.user, authentication: authentication, connection: database, callback: self.onAuthentication)
         let presenter = MultifactorPresenter(interactor: interactor, connection: database)
@@ -120,15 +133,27 @@ struct Router: Navigable {
 
     var onBack: () -> () = {}
 
+    func reload(withConnections connections: Connections) {
+        self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed)
+        let connections = self.lock.connections
+        self.lock.logger.debug("Reloading Lock with connections \(connections).")
+        guard !connections.isEmpty else { return exit(withError: UnrecoverableError.ClientWithNoConnections) }
+        self.controller?.routes.reset()
+        self.controller?.present(self.root)
+    }
+
     func navigate(route: Route) {
         let presentable: Presentable?
         switch route {
-        case .Root:
+        case .Root where self.controller?.routes.current != .Root:
             presentable = self.root
         case .ForgotPassword:
             presentable = self.forgotPassword
         case .Multifactor:
             presentable = self.multifactor
+        default:
+            self.lock.logger.warn("Ignoring navigation \(route)")
+            return
         }
         self.lock.logger.debug("Navigating to \(route)")
         self.controller?.routes.go(route)
@@ -141,5 +166,16 @@ struct Router: Navigable {
 
     func resetScroll(animated: Bool) {
         self.controller?.scrollView.setContentOffset(CGPointZero, animated: animated)
+    }
+
+    func exit(withError error: ErrorType) {
+        let controller = self.controller?.presentingViewController
+        let lock = self.lock
+        self.lock.logger.debug("Dismissing Lock with error \(error)")
+        Queue.main.async {
+            controller?.dismissViewControllerAnimated(true, completion: { _ in
+                lock.callback(.Failure(error))
+            })
+        }
     }
 }

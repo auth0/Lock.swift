@@ -1,4 +1,4 @@
-// RouteHistory.swift
+// ConnectionLoadingPresenter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,26 +22,24 @@
 
 import Foundation
 
-struct Routes {
+class ConnectionLoadingPresenter: Presentable, Loggable {
+    var messagePresenter: MessagePresenter?
+    let loader: RemoteConnectionLoader
+    let navigator: Navigable
 
-    var current: Route {
-        return self.history.first ?? .Root
+    init(loader: RemoteConnectionLoader, navigator: Navigable) {
+        self.loader = loader
+        self.navigator = navigator
     }
 
-    private(set) var history: [Route] = []
-
-    mutating func back() -> Route {
-        self.history.removeLast(1)
-        return self.current
+    var view: View {
+        self.loader.load { connections in
+            guard let connections = connections where !connections.isEmpty else { return self.navigator.exit(withError: UnrecoverableError.ClientWithNoConnections) }
+            Queue.main.async {
+                self.logger.debug("Loaded connections. Moving to root view")
+                self.navigator.reload(withConnections: connections)
+            }
+        }
+        return LoadingView()
     }
-
-    mutating func go(route: Route) {
-        self.history.append(route)
-    }
-}
-
-enum Route {
-    case Root
-    case ForgotPassword
-    case Multifactor
 }

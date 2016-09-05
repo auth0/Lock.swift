@@ -44,12 +44,20 @@ class ViewController: UIViewController {
             ])
         header.translatesAutoresizingMaskIntoConstraints = false
 
+        let cdnLoading = AuthButton(size: .Big)
+        cdnLoading.title = "LOGIN WITH CDN"
+        cdnLoading.onPress = { [weak self] _ in
+            let lock = Lock
+                .classic()
+                .allowedConnections(["github", "instagram", "Username-Password-Authentication"])
+            self?.showLock(lock)
+        }
         let databaseOnly = AuthButton(size: .Big)
         databaseOnly.title = "LOGIN WITH DB"
         databaseOnly.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
-                .connections { connections in
+                .withConnections { connections in
                     connections.database(name: "Username-Password-Authentication", requiresUsername: true)
                 }
             self?.showLock(lock)
@@ -59,7 +67,7 @@ class ViewController: UIViewController {
         databaseAndSocial.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
-                .connections { connections in
+                .withConnections { connections in
                     connections.social(name: "facebook", style: .Facebook)
                     connections.social(name: "google-oauth2", style: .Google)
                     connections.database(name: "Username-Password-Authentication", requiresUsername: true)
@@ -71,7 +79,8 @@ class ViewController: UIViewController {
         socialOnly.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
-                .connections { connections in
+                .allowedConnections(["facebook", "google-oauth2", "twitter", "dropbox", "bitbucket"])
+                .withConnections { connections in
                     connections.social(name: "facebook", style: .Facebook)
                     connections.social(name: "google-oauth2", style: .Google)
                     connections.social(name: "instagram", style: .Instagram)
@@ -83,7 +92,7 @@ class ViewController: UIViewController {
             self?.showLock(lock)
         }
 
-        let stack = UIStackView(arrangedSubviews: [wrap(databaseOnly), wrap(socialOnly), wrap(databaseAndSocial)])
+        let stack = UIStackView(arrangedSubviews: [wrap(cdnLoading), wrap(databaseOnly), wrap(socialOnly), wrap(databaseAndSocial)])
         stack.axis = .Vertical
         stack.distribution = .FillProportionally
         stack.alignment = .Fill

@@ -104,6 +104,10 @@ func isOAuthAccessToken(domain: String) -> OHHTTPStubsTestBlock {
     return isMethodPOST() && isHost(domain) && isPath("/oauth/access_token")
 }
 
+func isCDN(forClientId clientId: String) -> OHHTTPStubsTestBlock {
+    return isMethodGET() && isHost("cdn.auth0.com") && isPath("/client/\(clientId).js")
+}
+
 // MARK:- Response Stubs
 
 struct Auth0Stubs {
@@ -138,5 +142,15 @@ struct Auth0Stubs {
             "token_type": "bearer",
             ]
         return OHHTTPStubsResponse(JSONObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
+    }
+
+    static func strategiesFromCDN(strategies: [[String: AnyObject]]) -> OHHTTPStubsResponse {
+        let json = [
+            "strategies": strategies
+        ]
+        let data = try! NSJSONSerialization.dataWithJSONObject(json, options: [])
+        let string = String(data: data, encoding: NSUTF8StringEncoding)!
+        let jsonp = "Auth0.setClient(\(string));"
+        return OHHTTPStubsResponse(data: jsonp.dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 200, headers: ["Content-Type": "application/x-javascript"])
     }
 }

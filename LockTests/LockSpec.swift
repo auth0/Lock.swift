@@ -76,25 +76,25 @@ class LockSpec: QuickSpec {
             }
         }
 
-        describe("connections") {
+        describe("withConnections") {
 
             it("should allow settings connections") {
-                lock.connections { $0.database(name: "MyDB", requiresUsername: false) }
-                expect(lock.connections?.database?.name) == "MyDB"
+                lock.withConnections { $0.database(name: "MyDB", requiresUsername: false) }
+                expect(lock.connections.database?.name) == "MyDB"
             }
 
             it("should have defaults if never called") {
-                expect(lock.connections?.database).to(beNil())
+                expect(lock.connections.database).to(beNil())
             }
 
             it("should use the latest options") {
-                lock.connections { $0.database(name: "MyDB", requiresUsername: false) }
-                lock.connections { $0.database(name: "AnotherDB", requiresUsername: false) }
-                expect(lock.connections?.database?.name) == "AnotherDB"
+                lock.withConnections { $0.database(name: "MyDB", requiresUsername: false) }
+                lock.withConnections { $0.database(name: "AnotherDB", requiresUsername: false) }
+                expect(lock.connections.database?.name) == "AnotherDB"
             }
 
             it("should return itself") {
-                expect(lock.connections { _ in } ) == lock
+                expect(lock.withConnections { _ in } ) == lock
             }
 
         }
@@ -120,13 +120,4 @@ class LockSpec: QuickSpec {
 
     }
 
-}
-
-class MockController: UIViewController {
-
-    var presented: UIViewController?
-
-    override func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
-        self.presented = viewControllerToPresent
-    }
 }
