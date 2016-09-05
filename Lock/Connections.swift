@@ -27,6 +27,15 @@ public protocol Connections {
     var oauth2: [OAuth2Connection] { get }
 
     var isEmpty: Bool { get }
+
+    /**
+     Select only the connections whose names are in the array
+
+     - parameter names: names of the connections to keep
+
+     - returns: filtered connections
+     */
+    func select(byNames names: [String]) -> Self
 }
 
 public struct DatabaseConnection {

@@ -59,46 +59,42 @@ class OfflineConnectionsSpec: QuickSpec {
             expect(connections.oauth2.first?.style) == style
         }
 
-        describe("filter") {
+        describe("select") {
 
-            it("should not filter by default") {
+            it("should do nothing with empty list") {
                 var connections = OfflineConnections()
                 connections.database(name: connection, requiresUsername: false)
                 connections.social(name: "facebook", style: .Facebook)
-                expect(connections.database).toNot(beNil())
-                expect(connections.oauth2).toNot(beEmpty())
+                let filtered = connections.select(byNames: [])
+                expect(filtered.database).toNot(beNil())
+                expect(filtered.oauth2).toNot(beEmpty())
             }
 
-            it("should not filter with empty list") {
-                var connections = OfflineConnections(allowedConnections: [])
+            it("should select by name a social connection") {
+                var connections = OfflineConnections()
                 connections.database(name: connection, requiresUsername: false)
                 connections.social(name: "facebook", style: .Facebook)
-                expect(connections.database).toNot(beNil())
-                expect(connections.oauth2).toNot(beEmpty())
+                let filtered = connections.select(byNames: ["facebook"])
+                expect(filtered.database).to(beNil())
+                expect(filtered.oauth2).toNot(beEmpty())
             }
 
-            it("should filter by name social") {
-                var connections = OfflineConnections(allowedConnections: ["facebook"])
-                connections.database(name: connection, requiresUsername: false)
-                connections.social(name: "facebook", style: .Facebook)
-                expect(connections.database).toNot(beNil())
-                expect(connections.oauth2).to(beEmpty())
-            }
-
-            it("should filter by name oauth2") {
-                var connections = OfflineConnections(allowedConnections: ["steam"])
+            it("should select by name an oauth2 connection") {
+                var connections = OfflineConnections()
                 connections.database(name: connection, requiresUsername: false)
                 connections.oauth2(name: "steam", style: AuthStyle(name: "Steam"))
-                expect(connections.database).toNot(beNil())
-                expect(connections.oauth2).to(beEmpty())
+                let filtered = connections.select(byNames: ["steam"])
+                expect(filtered.database).to(beNil())
+                expect(filtered.oauth2).toNot(beEmpty())
             }
 
-            it("should filter by name database connection") {
-                var connections = OfflineConnections(allowedConnections: [connection])
+            it("should select by name database connection") {
+                var connections = OfflineConnections()
                 connections.database(name: connection, requiresUsername: false)
                 connections.social(name: "facebook", style: .Facebook)
-                expect(connections.database).to(beNil())
-                expect(connections.oauth2).toNot(beEmpty())
+                let filtered = connections.select(byNames: [connection])
+                expect(filtered.database).toNot(beNil())
+                expect(filtered.oauth2).to(beEmpty())
             }
 
         }

@@ -24,18 +24,10 @@ import Foundation
 
 struct OfflineConnections: ConnectionBuildable {
 
-    var database: DatabaseConnection?
-    var oauth2: [OAuth2Connection]
-    let allowedConnections: [String]
-
-    init(database: DatabaseConnection? = nil, oauth2: [OAuth2Connection] = [], allowedConnections: [String] = []) {
-        self.database = database
-        self.oauth2 = oauth2
-        self.allowedConnections = allowedConnections
-    }
+    private (set) var database: DatabaseConnection? = nil
+    private (set) var oauth2: [OAuth2Connection] = []
 
     mutating func database(name name: String, requiresUsername: Bool) {
-        guard isAllowed(connectionName: name) else { return }
         self.database = DatabaseConnection(name: name, requiresUsername: requiresUsername)
     }
 
@@ -44,7 +36,6 @@ struct OfflineConnections: ConnectionBuildable {
     }
 
     mutating func oauth2(name name: String, style: AuthStyle) {
-        guard isAllowed(connectionName: name) else { return }
         let social = SocialConnection(name: name, style: style)
         self.oauth2.append(social)
     }
@@ -53,7 +44,16 @@ struct OfflineConnections: ConnectionBuildable {
         return self.database == nil && self.oauth2.isEmpty
     }
 
-    private func isAllowed(connectionName name: String) -> Bool {
-        return self.allowedConnections.isEmpty || !self.allowedConnections.contains(name)
+    func select(byNames names: [String]) -> OfflineConnections {
+        var connections = OfflineConnections()
+        if let database = self.database where isWhitelisted(connectionName: database.name, inList: names) {
+            connections.database = database
+        }
+        connections.oauth2 = self.oauth2.filter { isWhitelisted(connectionName: $0.name, inList: names) }
+        return connections
     }
+}
+
+private func isWhitelisted(connectionName name: String, inList whitelist: [String]) -> Bool {
+    return whitelist.isEmpty || whitelist.contains(name)
 }

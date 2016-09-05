@@ -34,7 +34,8 @@ public class Lock: NSObject {
     let authentication: Authentication
     let webAuth: WebAuth
 
-    var connections: Connections? = nil
+    var connectionProvider: ConnectionProvider = ConnectionProvider(local: OfflineConnections(), allowed: [])
+    var connections: Connections { return self.connectionProvider.connections }
 
     private var optionsBuilder: OptionBuildable = LockOptions()
     var options: Options { return self.optionsBuilder }
@@ -112,7 +113,22 @@ public class Lock: NSObject {
     public func withConnections(closure: (inout ConnectionBuildable) -> ()) -> Lock {
         var connections: ConnectionBuildable = OfflineConnections()
         closure(&connections)
-        self.connections = connections
+        let allowed = self.connectionProvider.allowed
+        self.connectionProvider = ConnectionProvider(local: connections, allowed: allowed)
+        return self
+    }
+
+    /**
+     Specify what connections should be used by Lock. 
+     By default it will use all connections enabled or if an empty list is used
+
+     - parameter allowedConnections: list of connection names to use
+
+     - returns: Lock itself for chaining
+     */
+    public func allowedConnections(allowedConnections: [String]) -> Lock {
+        let connections = self.connectionProvider.connections
+        self.connectionProvider = ConnectionProvider(local: connections, allowed: allowedConnections)
         return self
     }
 
@@ -163,6 +179,13 @@ public class Lock: NSObject {
     public static func resumeAuth(url: NSURL, options: [String: AnyObject]) -> Bool {
         return Auth0.resumeAuth(url, options: options)
     }
+}
+
+struct ConnectionProvider {
+    let local: Connections
+    let allowed: [String]
+
+    var connections: Connections { return local.select(byNames: allowed) }
 }
 
 public enum Result {

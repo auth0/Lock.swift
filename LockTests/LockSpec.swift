@@ -80,17 +80,17 @@ class LockSpec: QuickSpec {
 
             it("should allow settings connections") {
                 lock.withConnections { $0.database(name: "MyDB", requiresUsername: false) }
-                expect(lock.connections?.database?.name) == "MyDB"
+                expect(lock.connections.database?.name) == "MyDB"
             }
 
             it("should have defaults if never called") {
-                expect(lock.connections?.database).to(beNil())
+                expect(lock.connections.database).to(beNil())
             }
 
             it("should use the latest options") {
                 lock.withConnections { $0.database(name: "MyDB", requiresUsername: false) }
                 lock.withConnections { $0.database(name: "AnotherDB", requiresUsername: false) }
-                expect(lock.connections?.database?.name) == "AnotherDB"
+                expect(lock.connections.database?.name) == "AnotherDB"
             }
 
             it("should return itself") {

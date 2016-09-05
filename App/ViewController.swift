@@ -47,7 +47,9 @@ class ViewController: UIViewController {
         let cdnLoading = AuthButton(size: .Big)
         cdnLoading.title = "LOGIN WITH CDN"
         cdnLoading.onPress = { [weak self] _ in
-            let lock = Lock.classic()
+            let lock = Lock
+                .classic()
+                .allowedConnections(["github", "instagram", "Username-Password-Authentication"])
             self?.showLock(lock)
         }
         let databaseOnly = AuthButton(size: .Big)
@@ -77,6 +79,7 @@ class ViewController: UIViewController {
         socialOnly.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
+                .allowedConnections(["facebook", "google-oauth2", "twitter", "dropbox", "bitbucket"])
                 .withConnections { connections in
                     connections.social(name: "facebook", style: .Facebook)
                     connections.social(name: "google-oauth2", style: .Google)

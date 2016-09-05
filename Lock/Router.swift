@@ -75,7 +75,9 @@ struct Router: Navigable {
     }
 
     var root: Presentable? {
-        guard let connections = self.lock.connections else {
+        let connections = self.lock.connections
+        guard !connections.isEmpty else {
+            self.lock.logger.debug("No connections configured. Loading client info from Auth0...")
             let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
             return ConnectionLoadingPresenter(loader: interactor, navigator: self)
         }
@@ -88,21 +90,20 @@ struct Router: Navigable {
                 let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication)
                 presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor)
             }
-            presenter.customLogger = self.lock.logger
             return presenter
         }
 
         if !connections.oauth2.isEmpty {
             let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication)
             let presenter = AuthPresenter(connections: connections, interactor: interactor)
-            presenter.customLogger = self.lock.logger
             return presenter
         }
         return nil
     }
 
     var forgotPassword: Presentable? {
-        guard let connections = self.lock.connections else {
+        let connections = self.lock.connections
+        guard !connections.isEmpty else {
             exit(withError: UnrecoverableError.ClientWithNoConnections)
             return nil
         }
@@ -113,7 +114,8 @@ struct Router: Navigable {
     }
 
     var multifactor: Presentable? {
-        guard let connections = self.lock.connections, let database = connections.database else {
+        let connections = self.lock.connections
+        guard let database = connections.database else {
             exit(withError: UnrecoverableError.MissingDatabaseConnection)
             return nil
         }
@@ -132,8 +134,10 @@ struct Router: Navigable {
     var onBack: () -> () = {}
 
     func reload(withConnections connections: Connections) {
-        self.lock.connections = connections
-        self.lock.logger.debug("Reloading Lock")
+        self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed)
+        let connections = self.lock.connections
+        self.lock.logger.debug("Reloading Lock with connections \(connections).")
+        guard !connections.isEmpty else { return exit(withError: UnrecoverableError.ClientWithNoConnections) }
         self.controller?.routes.reset()
         self.controller?.present(self.root)
     }

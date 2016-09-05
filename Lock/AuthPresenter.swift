@@ -29,7 +29,6 @@ class AuthPresenter: Presentable, Loggable {
     let interactor: OAuth2Authenticatable
 
     var messagePresenter: MessagePresenter?
-    var customLogger: Logger?
 
     init(connections: Connections, interactor: OAuth2Authenticatable) {
         self.connections = connections.oauth2

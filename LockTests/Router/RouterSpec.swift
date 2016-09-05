@@ -196,6 +196,56 @@ class RouterSpec: QuickSpec {
             expect(controller.presented) == presented
         }
 
+        describe("reload") {
+
+            beforeEach {
+                let presenting = MockController()
+                presenting.presented = controller
+                controller.presenting = presenting
+            }
+
+            it("should override connections") {
+                var connections = OfflineConnections()
+                connections.social(name: "facebook", style: .Facebook)
+                router.reload(withConnections: connections)
+                let actual = router.lock.connectionProvider.connections
+                expect(actual.isEmpty) == false
+                expect(actual.oauth2.map { $0.name }).to(contain("facebook"))
+            }
+
+            it("should show root") {
+                var connections = OfflineConnections()
+                connections.social(name: "facebook", style: .Facebook)
+                router.reload(withConnections: connections)
+                expect(controller.presentable).toNot(beNil())
+                expect(controller.routes.history).to(beEmpty())
+            }
+
+            it("should select when overriding connections") {
+                lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth()).allowedConnections(["facebook"])
+                controller = MockLockController(lock: lock)
+                router = Router(lock: lock, controller: controller)
+                var connections = OfflineConnections()
+                connections.social(name: "facebook", style: .Facebook)
+                connections.social(name: "twitter", style: .Twitter)
+                router.reload(withConnections: connections)
+                let actual = router.lock.connectionProvider.connections
+                expect(actual.oauth2.map { $0.name }).toNot(contain("twitter"))
+                expect(actual.oauth2.map { $0.name }).to(contain("facebook"))
+            }
+
+            it("should exit with error when connections are empty") {
+                waitUntil(timeout: 2) { done in
+                    lock.callback = { result in
+                        if case .Failure(let cause) = result, case UnrecoverableError.ClientWithNoConnections = cause {
+                            done()
+                        }
+                    }
+                    router.reload(withConnections: OfflineConnections())
+                }
+            }
+
+        }
     }
 
 }
