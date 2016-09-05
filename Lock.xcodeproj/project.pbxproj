@@ -106,6 +106,7 @@
 		5FE50DBB1D79B7CD00D82290 /* CDNLoaderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE50DBA1D79B7CD00D82290 /* CDNLoaderInteractor.swift */; };
 		5FE50DBD1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE50DBC1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift */; };
 		5FE50DBF1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE50DBE1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift */; };
+		5FE50DC11D7DED8C00D82290 /* OfflineConnectionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE50DC01D7DED8C00D82290 /* OfflineConnectionsSpec.swift */; };
 		5FEADCEF1D1A76610032D810 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD21D1A7294003670A4 /* Auth0.framework */; };
 		5FEADCF71D1A7EBC0032D810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */; };
 		5FEADCF91D1A7EBC0032D810 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF81D1A7EBC0032D810 /* ViewController.swift */; };
@@ -279,6 +280,7 @@
 		5FE50DBA1D79B7CD00D82290 /* CDNLoaderInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNLoaderInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5FE50DBC1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNLoaderInteractorSpec.swift; sourceTree = "<group>"; };
 		5FE50DBE1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionLoadingPresenterSpec.swift; sourceTree = "<group>"; };
+		5FE50DC01D7DED8C00D82290 /* OfflineConnectionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineConnectionsSpec.swift; sourceTree = "<group>"; };
 		5FEADCF41D1A7EBC0032D810 /* LockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FEADCF81D1A7EBC0032D810 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 			children = (
 				5FBE5CCC1D3EDF960038536D /* UserSpec.swift */,
 				5F92C68C1D50E47100CCE6C0 /* AuthStyleSpec.swift */,
+				5FE50DC01D7DED8C00D82290 /* OfflineConnectionsSpec.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -958,6 +961,7 @@
 				5FE50DBD1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift in Sources */,
 				5F390E8D1D63B99300FC549C /* LoggerSpec.swift in Sources */,
 				5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */,
+				5FE50DC11D7DED8C00D82290 /* OfflineConnectionsSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

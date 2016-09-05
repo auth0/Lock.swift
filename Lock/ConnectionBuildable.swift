@@ -45,4 +45,13 @@ public protocol ConnectionBuildable: Connections {
      - seeAlso: AuthStyle
      */
     mutating func social(name name: String, style: AuthStyle)
+
+    /**
+     Adds a new oauth2 connection
+
+     - parameter name:  name of the connection
+     - parameter style: style used for the button used to trigger authentication
+     - seeAlso: AuthStyle
+     */
+    mutating func oauth2(name name: String, style: AuthStyle)
 }

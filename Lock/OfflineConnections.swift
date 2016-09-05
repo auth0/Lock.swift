@@ -24,19 +24,36 @@ import Foundation
 
 struct OfflineConnections: ConnectionBuildable {
 
-    var database: DatabaseConnection? = nil
-    var oauth2: [OAuth2Connection] = []
+    var database: DatabaseConnection?
+    var oauth2: [OAuth2Connection]
+    let allowedConnections: [String]
+
+    init(database: DatabaseConnection? = nil, oauth2: [OAuth2Connection] = [], allowedConnections: [String] = []) {
+        self.database = database
+        self.oauth2 = oauth2
+        self.allowedConnections = allowedConnections
+    }
 
     mutating func database(name name: String, requiresUsername: Bool) {
+        guard isAllowed(connectionName: name) else { return }
         self.database = DatabaseConnection(name: name, requiresUsername: requiresUsername)
     }
 
     mutating func social(name name: String, style: AuthStyle) {
+        self.oauth2(name: name, style: style)
+    }
+
+    mutating func oauth2(name name: String, style: AuthStyle) {
+        guard isAllowed(connectionName: name) else { return }
         let social = SocialConnection(name: name, style: style)
         self.oauth2.append(social)
     }
 
     var isEmpty: Bool {
         return self.database == nil && self.oauth2.isEmpty
+    }
+
+    private func isAllowed(connectionName name: String) -> Bool {
+        return self.allowedConnections.isEmpty || !self.allowedConnections.contains(name)
     }
 }
