@@ -447,6 +447,7 @@ NSString * const A0ThemeTouchIDLockContainerBackgroundColor = @"A0ThemeTouchIDLo
     }
     if ([strategyName isEqualToString:@"vkontakte"]) {
         values = @{
+                   A0ServiceThemeLocalizedTitle: A0LocalizedString(@"Login with VKONTAKTE"),
                    A0ServiceThemeNormalBackgroundColor: [UIColor colorWithRed:0.318 green:0.404 blue:0.553 alpha:1.000],
                    A0ServiceThemeHighlightedBackgroundColor: [UIColor colorWithRed:0.231 green:0.290 blue:0.392 alpha:1.000],
                    };
