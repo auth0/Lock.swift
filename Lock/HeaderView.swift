@@ -69,6 +69,7 @@ public class HeaderView: UIView {
         }
         set {
             self.logoView?.image = newValue
+            self.mask?.image = newValue
             self.setNeedsUpdateConstraints()
         }
     }
@@ -117,8 +118,7 @@ public class HeaderView: UIView {
         constraintEqual(anchor: centerGuide.centerXAnchor, toAnchor: self.centerXAnchor)
 
         constraintEqual(anchor: titleView.bottomAnchor, toAnchor: centerGuide.bottomAnchor)
-        constraintEqual(anchor: titleView.leftAnchor, toAnchor: centerGuide.leftAnchor)
-        constraintEqual(anchor: titleView.rightAnchor, toAnchor: centerGuide.rightAnchor)
+        constraintEqual(anchor: titleView.centerXAnchor, toAnchor: centerGuide.centerXAnchor)
         titleView.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
         titleView.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
         titleView.translatesAutoresizingMaskIntoConstraints = false
