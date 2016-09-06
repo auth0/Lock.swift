@@ -28,6 +28,8 @@ public class HeaderView: UIView {
     weak var titleView: UILabel?
     weak var closeButton: UIButton?
     weak var backButton: UIButton?
+    weak var mask: UIImageView?
+    weak var blurView: UIVisualEffectView?
 
     public var onClosePressed: () -> () = {}
 
@@ -71,6 +73,19 @@ public class HeaderView: UIView {
         }
     }
 
+    public var blurred: Bool = true {
+        didSet {
+            self.applyBackground()
+            self.setNeedsDisplay()
+        }
+    }
+
+    public var maskColor: UIColor = UIColor ( red: 0.8745, green: 0.8745, blue: 0.8745, alpha: 1.0 ) {
+        didSet {
+            self.mask?.tintColor = self.maskColor
+        }
+    }
+
     public convenience init() {
         self.init(frame: CGRectZero)
     }
@@ -86,8 +101,6 @@ public class HeaderView: UIView {
     }
 
     private func layoutHeader() {
-        self.backgroundColor = UIColor ( red: 0.9451, green: 0.9451, blue: 0.9451, alpha: 1.0 )
-
         let titleView = UILabel()
         let logoView = UIImageView()
         let closeButton = UIButton(type: .System)
@@ -127,6 +140,8 @@ public class HeaderView: UIView {
         backButton.heightAnchor.constraintEqualToConstant(50).active = true
         backButton.translatesAutoresizingMaskIntoConstraints = false
 
+        self.applyBackground()
+
         titleView.text = "Auth0".i18n(key: "com.auth0.lock.header.default-title", comment: "Header Title")
         titleView.font = regularSystemFont(size: 20)
         logoView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)
@@ -141,6 +156,8 @@ public class HeaderView: UIView {
         self.backButton = backButton
 
         self.showBack = false
+        self.backgroundColor = self.canBlur ? .whiteColor() : UIColor ( red: 0.9451, green: 0.9451, blue: 0.9451, alpha: 1.0 )
+        self.clipsToBounds = true
     }
 
     public override func intrinsicContentSize() -> CGSize {
@@ -155,5 +172,46 @@ public class HeaderView: UIView {
         if sender == self.closeButton {
             self.onClosePressed()
         }
+    }
+
+    // MARK:- Blur
+
+    private var canBlur: Bool {
+        return self.blurred && !UIAccessibilityIsReduceTransparencyEnabled()
+    }
+
+    private func applyBackground() {
+        self.mask?.removeFromSuperview()
+        self.blurView?.removeFromSuperview()
+
+        self.backgroundColor = self.canBlur ? .whiteColor() : UIColor ( red: 0.9451, green: 0.9451, blue: 0.9451, alpha: 1.0 )
+
+        guard self.canBlur else { return }
+
+        let maskView = UIImageView()
+        let blur = UIBlurEffect(style: .Light)
+        let blurView = UIVisualEffectView(effect: blur)
+
+        self.insertSubview(maskView, atIndex: 0)
+        self.insertSubview(blurView, atIndex: 1)
+
+        constraintEqual(anchor: blurView.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: blurView.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: blurView.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: blurView.bottomAnchor, toAnchor: self.bottomAnchor)
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+
+        maskView.translatesAutoresizingMaskIntoConstraints = false
+        dimension(maskView.widthAnchor, withValue: 400)
+        dimension(maskView.heightAnchor, withValue: 400)
+        constraintEqual(anchor: maskView.centerYAnchor, toAnchor: self.centerYAnchor)
+        constraintEqual(anchor: maskView.centerXAnchor, toAnchor: self.centerXAnchor)
+
+        maskView.contentMode = .ScaleToFill
+        maskView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)?.imageWithRenderingMode(.AlwaysTemplate)
+        maskView.tintColor = self.maskColor
+
+        self.mask = maskView
+        self.blurView = blurView
     }
 }

@@ -4,6 +4,12 @@ import UIKit
 @testable import LockUI
 import XCPlayground
 
+let header = HeaderView(frame: CGRect(x: 0, y: 0, width: 320, height: 140))
+header.blurred = false
+header.showClose = false
+header.layoutIfNeeded()
+header
+
 func small(style: AuthStyle) -> AuthButton {
     let button = AuthButton(size: .Small)
     button.title = style.localizedLoginTitle.uppercaseString
@@ -23,44 +29,6 @@ func social(size size: AuthButton.Size, style: AuthStyle) -> UIView {
     view.layoutIfNeeded()
     return view
 }
-let array = (1...33).map { return $0 }
-0.stride(to: array.count, by: 5)
-    .map { return array[$0..<(min($0 + 5, array.count))] }
-    .forEach { print($0) }
-let buttons = [
-    small(.Facebook),
-    small(.Google),
-    small(.Instagram),
-    small(.Fitbit),
-    small(.Amazon),
-]
-let guide = UILayoutGuide()
-let container = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
-container.addLayoutGuide(guide)
-buttons.forEach {
-    container.addSubview($0)
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.centerYAnchor.constraintEqualToAnchor(guide.centerYAnchor).active = true
-}
-
-NSLayoutConstraint.activateConstraints([
-    guide.centerYAnchor.constraintEqualToAnchor(container.centerYAnchor),
-    guide.centerXAnchor.constraintEqualToAnchor(container.centerXAnchor),
-    ])
-
-buttons.enumerate().forEach { index, button in
-    let nextIndex = index + 1
-    guard buttons.count > nextIndex else { return }
-    let next = buttons[nextIndex]
-    next.leftAnchor.constraintEqualToAnchor(button.rightAnchor, constant: 10).active = true
-
-}
-
-buttons.first?.leftAnchor.constraintEqualToAnchor(guide.leftAnchor).active = true
-buttons.last?.rightAnchor.constraintEqualToAnchor(guide.rightAnchor).active = true
-
-container.layoutIfNeeded()
-container
 
 let amazon = social(size: .Big, style: .Amazon)
 let amazonSmall = social(size: .Small, style: .Amazon)
