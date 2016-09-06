@@ -37,7 +37,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
         beforeEach {
             credentials = nil
             webAuth = MockWebAuth()
-            interactor = Auth0OAuth2Interactor(webAuth: webAuth, onCredentials: {credentials = $0})
+            interactor = Auth0OAuth2Interactor(webAuth: webAuth, onCredentials: {credentials = $0}, options: LockOptions())
         }
 
         describe("login") {
@@ -51,6 +51,20 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
             it("should set connection") {
                 interactor.login("facebook", callback: { _ in })
                 expect(webAuth.connection) == "facebook"
+            }
+
+            it("should set scope") {
+                interactor.login("facebook", callback: { _ in })
+                expect(webAuth.scope) == "openid"
+            }
+
+            it("should set parameters") {
+                let state = NSUUID().UUIDString
+                var options = LockOptions()
+                options.parameters = ["state": state]
+                interactor = Auth0OAuth2Interactor(webAuth: webAuth, onCredentials: {credentials = $0}, options: options)
+                interactor.login("facebook", callback: { _ in })
+                expect(webAuth.params["state"]) == state
             }
 
             it("should not yield error on success") {

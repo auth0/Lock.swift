@@ -203,6 +203,7 @@ class MockWebAuth: WebAuth {
     var url: NSURL = .a0_url(domain)
 
     var connection: String? = nil
+    var params: [String: String] = [:]
     var scope: String? = nil
     var result: () -> Auth0.Result<Credentials> = { _ in return Auth0.Result.Failure(error: AuthenticationError(string: "FAILED", statusCode: 500)) }
     var telemetry: Telemetry = Telemetry()
@@ -221,6 +222,7 @@ class MockWebAuth: WebAuth {
     }
 
     func parameters(parameters: [String : String]) -> Self {
+        self.params = parameters
         return self
     }
 
