@@ -134,6 +134,9 @@ class AuthCollectionView: UIView, View {
         return container
     }
 
+    func apply(style style: Style) {
+        
+    }
 }
 
 func oauth2Buttons(forConnections connections: [OAuth2Connection], isLogin login: Bool, onAction: String -> ()) -> [AuthButton] {

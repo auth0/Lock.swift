@@ -107,6 +107,8 @@
 		5FE50DBD1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE50DBC1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift */; };
 		5FE50DBF1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE50DBE1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift */; };
 		5FE50DC11D7DED8C00D82290 /* OfflineConnectionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE50DC01D7DED8C00D82290 /* OfflineConnectionsSpec.swift */; };
+		5FE50DC31D7EFEF900D82290 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE50DC21D7EFEF900D82290 /* Style.swift */; };
+		5FE50DC41D7EFEF900D82290 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE50DC21D7EFEF900D82290 /* Style.swift */; };
 		5FEADCEF1D1A76610032D810 /* Auth0.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD21D1A7294003670A4 /* Auth0.framework */; };
 		5FEADCF71D1A7EBC0032D810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */; };
 		5FEADCF91D1A7EBC0032D810 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEADCF81D1A7EBC0032D810 /* ViewController.swift */; };
@@ -281,6 +283,7 @@
 		5FE50DBC1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNLoaderInteractorSpec.swift; sourceTree = "<group>"; };
 		5FE50DBE1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionLoadingPresenterSpec.swift; sourceTree = "<group>"; };
 		5FE50DC01D7DED8C00D82290 /* OfflineConnectionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineConnectionsSpec.swift; sourceTree = "<group>"; };
+		5FE50DC21D7EFEF900D82290 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = SOURCE_ROOT; };
 		5FEADCF41D1A7EBC0032D810 /* LockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FEADCF61D1A7EBC0032D810 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FEADCF81D1A7EBC0032D810 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -488,6 +491,7 @@
 				5F57DFC51D4F79DD00C54DA8 /* AuthStyle.swift */,
 				5F70F1EA1D7909C4004698DA /* Connections */,
 				5F70F1EB1D7909DC004698DA /* Options */,
+				5FE50DC21D7EFEF900D82290 /* Style.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -929,6 +933,7 @@
 				5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */,
 				5F73CDD41D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift in Sources */,
 				5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */,
+				5FE50DC31D7EFEF900D82290 /* Style.swift in Sources */,
 				5F73CDDA1D30957900D8D8D1 /* DatabasePasswordInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -988,6 +993,7 @@
 				5F57DFC71D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
 				5FF1FA401D4C14EF00158CD1 /* InputField.swift in Sources */,
 				5F14565B1D5237180085DF9C /* LazyImage.swift in Sources */,
+				5FE50DC41D7EFEF900D82290 /* Style.swift in Sources */,
 				5FF1FA4D1D4C15EA00158CD1 /* Operations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

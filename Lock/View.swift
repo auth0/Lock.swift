@@ -22,7 +22,7 @@
 
 import UIKit
 
-protocol View {
+protocol View: Stylable {
     func layout(inView root: UIView, below view: UIView) -> NSLayoutConstraint?
     func remove()
 }

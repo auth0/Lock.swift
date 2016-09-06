@@ -74,17 +74,13 @@ public class PrimaryButton: UIView {
         constraintEqual(anchor: indicator.centerYAnchor, toAnchor: self.centerYAnchor)
         indicator.translatesAutoresizingMaskIntoConstraints = false
 
-        button.setBackgroundImage(image(withColor: UIColor ( red: 0.921568627, green: 0.329411765, blue: 0.141176471, alpha: 1.0 )), forState: .Normal)
-        button.setBackgroundImage(image(withColor: UIColor ( red: 0.721568627, green: 0.250980392, blue: 0.109803922, alpha: 1.0 )), forState: .Highlighted)
-        button.setBackgroundImage(image(withColor: UIColor ( red: 0.8902, green: 0.898, blue: 0.9059, alpha: 1.0 )), forState: .Disabled)
         button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), forState: .Normal)
         button.setImage(UIImage(), forState: .Disabled)
-        button.tintColor = .whiteColor()
         button.addTarget(self, action: #selector(pressed), forControlEvents: .TouchUpInside)
 
-        indicator.color = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
         indicator.hidesWhenStopped = true
 
+        apply(style: Style.Auth0)
         self.button = button
         self.indicator = indicator
     }
@@ -95,5 +91,16 @@ public class PrimaryButton: UIView {
 
     func pressed(sender: AnyObject) {
         self.onPress(self)
+    }
+}
+
+extension PrimaryButton: Stylable {
+
+    func apply(style style: Style) {
+        self.button?.setBackgroundImage(image(withColor: style.primaryColor), forState: .Normal)
+        self.button?.setBackgroundImage(image(withColor: style.primaryColor.a0_darker(0.20)), forState: .Highlighted)
+        self.button?.setBackgroundImage(image(withColor: style.disabledColor), forState: .Disabled)
+        self.button?.tintColor = style.buttonTintColor
+        self.indicator?.color = style.disabledTextColor
     }
 }

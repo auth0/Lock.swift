@@ -22,11 +22,28 @@
 
 import Foundation
 
-struct LazyImage {
+/**
+ *  Convenience struct to hold an image reference to a `NSBundle` without loading the `UIImage`.
+ *  Used to tell Lock to load an image from a specific bundle, e.g. when customising the Header logo.
+ */
+public struct LazyImage: Equatable {
     let bundle: NSBundle
     let name: String
 
-    init(name: String, bundle: NSBundle? = nil) {
+    /**
+     Creates a LazyImage with a name and an optional Bundle.
+     For images outside Lock's bundle you should specify the Bundle like
+     
+     ```
+     let image = LazyImage(name: "image_name", bundle: NSBundle.mainBundle())
+     ```
+
+     - parameter name:   name of the image to load from a bundle
+     - parameter bundle: bundle from where to load the imnage or nil which will default in Lock's Bundle.
+
+     - returns: a newly created `LazyImage`
+     */
+    public init(name: String, bundle: NSBundle? = nil) {
         self.name = name
         self.bundle = bundle ?? _BundleHack.bundle
     }
@@ -34,4 +51,8 @@ struct LazyImage {
     func image(compatibleWithTraits traits: UITraitCollection? = nil) -> UIImage? {
         return UIImage(named: self.name, inBundle: self.bundle, compatibleWithTraitCollection: traits)
     }
+}
+
+public func ==(lhs: LazyImage, rhs: LazyImage) -> Bool {
+    return lhs.name == rhs.name && lhs.bundle == rhs.bundle
 }

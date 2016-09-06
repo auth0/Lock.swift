@@ -49,6 +49,3 @@ let linkedin = social(size: .Big, style: .Linkedin)
 let linkedinSmall = social(size: .Small, style: .Linkedin)
 
 
-
-
-
