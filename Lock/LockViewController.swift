@@ -46,7 +46,8 @@ public class LockViewController: UIViewController, MessagePresenter {
 
     public override func loadView() {
         let root = UIView()
-        root.backgroundColor = .whiteColor()
+        let style = self.router.lock.style
+        root.backgroundColor = style.backgroundColor
         self.view = root
 
         let scrollView = UIScrollView()
@@ -61,14 +62,16 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.scrollView = scrollView
 
         let header = HeaderView()
-        header.showClose = self.router.lock.options.closable
-        header.onClosePressed = self.router.onDismiss
         self.scrollView.addSubview(header)
         constraintEqual(anchor: header.leftAnchor, toAnchor: scrollView.leftAnchor)
         constraintEqual(anchor: header.topAnchor, toAnchor: scrollView.topAnchor)
         constraintEqual(anchor: header.rightAnchor, toAnchor: scrollView.rightAnchor)
         constraintEqual(anchor: header.widthAnchor, toAnchor: scrollView.widthAnchor)
         header.translatesAutoresizingMaskIntoConstraints = false
+
+        header.showClose = self.router.lock.options.closable
+        header.onClosePressed = self.router.onDismiss
+        header.apply(style: style)
 
         self.headerView = header
     }
@@ -87,6 +90,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         guard var presenter = presentable else { return }
         self.current?.remove()
         let view = presenter.view
+        view.apply(style: self.router.lock.style)
         self.anchorConstraint = view.layout(inView: self.scrollView, below: self.headerView)
         presenter.messagePresenter = self
         self.current = view

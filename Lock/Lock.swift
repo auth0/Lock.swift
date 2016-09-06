@@ -42,6 +42,8 @@ public class Lock: NSObject {
 
     var callback: AuthenticationCallback = {_ in }
 
+    var style: Style = Style()
+
     override convenience init() {
         self.init(authentication: Auth0.authentication(), webAuth: Auth0.webAuth())
     }
@@ -148,6 +150,30 @@ public class Lock: NSObject {
     }
 
     /**
+     Customise Lock style
+
+     ```
+     Lock
+        .classic()
+        .style {
+            $0.title = "Auth0 Inc."
+            $0.primaryColor = UIColor.orangeColor()
+            $0.logo = LazyImage(name: "icn_auth0", bundle: NSBundle.mainBundle())
+        }
+     ```
+
+     - parameter closure: closure used to customize Lock style
+
+     - returns: Lock itself for chaining
+     */
+    public func style(closure: (inout Style) -> ()) -> Lock {
+        var style = self.style
+        closure(&style)
+        self.style = style
+        return self
+    }
+
+    /**
      Register a callback for the outcome of the Authentication
 
      - parameter callback: callback called when the user is authenticated, lock is dismissed or an unrecoverable error ocurrs
@@ -204,7 +230,7 @@ private func telemetryFor(authenticaction authentication: Authentication, webAut
     var authentication = authentication
     var webAuth = webAuth
     let name = "Lock.swift"
-    // FIXME:- Uncomment when stable is ready
+    // FIXME:- Uncomment when stable is ready since XCode wont' accept a tag in the version
     //        let bundle = _BundleHack.bundle
     //        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.0.0-alpha.0"
     let version = "2.0.0-beta.1"

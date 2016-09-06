@@ -120,4 +120,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         }
     }
 
+    func apply(style style: Style) {
+        primaryButton?.apply(style: style)
+    }
 }

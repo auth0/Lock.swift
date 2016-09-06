@@ -49,7 +49,23 @@ class ViewController: UIViewController {
         cdnLoading.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
-                .allowedConnections(["github", "instagram", "Username-Password-Authentication"])
+                .allowedConnections(["github", "instagram", "Username-Password-Authentication", "slack"])
+            self?.showLock(lock)
+        }
+        let customStyle = AuthButton(size: .Big)
+        customStyle.title = "LOGIN WITH CUSTOM STYLE"
+        customStyle.onPress = { [weak self] _ in
+            let lock = Lock
+                .classic()
+                .style {
+                    $0.title = "Phantom Inc."
+                    $0.headerBlur = .ExtraLight
+                    $0.logo = LazyImage(name: "icn_phantom", bundle: NSBundle.mainBundle())
+                    $0.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
+                }
+                .withConnections { connections in
+                    connections.database(name: "Username-Password-Authentication", requiresUsername: true)
+            }
             self?.showLock(lock)
         }
         let databaseOnly = AuthButton(size: .Big)
@@ -92,7 +108,7 @@ class ViewController: UIViewController {
             self?.showLock(lock)
         }
 
-        let stack = UIStackView(arrangedSubviews: [wrap(cdnLoading), wrap(databaseOnly), wrap(socialOnly), wrap(databaseAndSocial)])
+        let stack = UIStackView(arrangedSubviews: [wrap(cdnLoading), wrap(customStyle), wrap(databaseOnly), wrap(socialOnly), wrap(databaseAndSocial)])
         stack.axis = .Vertical
         stack.distribution = .FillProportionally
         stack.alignment = .Fill

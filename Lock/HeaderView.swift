@@ -63,18 +63,41 @@ public class HeaderView: UIView {
         }
     }
 
+    public var titleColor: UIColor = Style.Auth0.titleColor {
+        didSet {
+            self.titleView?.textColor = titleColor
+            self.setNeedsUpdateConstraints()
+        }
+    }
+
     public var logo: UIImage? {
         get {
             return self.logoView?.image
         }
         set {
             self.logoView?.image = newValue
+            self.setNeedsUpdateConstraints()
+        }
+    }
+
+    public var maskImage: UIImage? {
+        get {
+            return self.mask?.image
+        }
+        set {
             self.mask?.image = newValue
             self.setNeedsUpdateConstraints()
         }
     }
 
-    public var blurred: Bool = true {
+    public var blurred: Bool = Style.Auth0.headerColor == nil {
+        didSet {
+            self.applyBackground()
+            self.setNeedsDisplay()
+        }
+    }
+
+    public var blurStyle: UIBlurEffectStyle = .Light {
         didSet {
             self.applyBackground()
             self.setNeedsDisplay()
@@ -141,8 +164,7 @@ public class HeaderView: UIView {
         backButton.translatesAutoresizingMaskIntoConstraints = false
 
         self.applyBackground()
-
-        titleView.text = "Auth0".i18n(key: "com.auth0.lock.header.default-title", comment: "Header Title")
+        self.apply(style: Style.Auth0)
         titleView.font = regularSystemFont(size: 20)
         logoView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)
         closeButton.setImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
@@ -156,7 +178,6 @@ public class HeaderView: UIView {
         self.backButton = backButton
 
         self.showBack = false
-        self.backgroundColor = self.canBlur ? .whiteColor() : UIColor ( red: 0.9451, green: 0.9451, blue: 0.9451, alpha: 1.0 )
         self.clipsToBounds = true
     }
 
@@ -189,7 +210,7 @@ public class HeaderView: UIView {
         guard self.canBlur else { return }
 
         let maskView = UIImageView()
-        let blur = UIBlurEffect(style: .Light)
+        let blur = UIBlurEffect(style: self.blurStyle)
         let blurView = UIVisualEffectView(effect: blur)
 
         self.insertSubview(maskView, atIndex: 0)
@@ -213,5 +234,21 @@ public class HeaderView: UIView {
 
         self.mask = maskView
         self.blurView = blurView
+    }
+}
+
+extension HeaderView: Stylable {
+    func apply(style style: Style) {
+        if let color = style.headerColor {
+            self.blurred = false
+            self.backgroundColor = color
+        } else {
+            self.blurred = true
+            self.blurStyle = style.headerBlur
+        }
+        self.title = style.title
+        self.titleColor = style.titleColor
+        self.logo = style.logo.image(compatibleWithTraits: self.traitCollection)
+        self.maskImage = style.headerMask
     }
 }

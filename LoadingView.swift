@@ -48,7 +48,7 @@ class LoadingView: UIView, View {
         self.backgroundColor = .whiteColor()
 
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-        activityIndicator.color = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
+        apply(style: Style.Auth0)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(activityIndicator)
         constraintEqual(anchor: activityIndicator.centerXAnchor, toAnchor: self.centerXAnchor)
@@ -63,4 +63,7 @@ class LoadingView: UIView, View {
     }
 
 
+    func apply(style style: Style) {
+        self.indicator?.color = style.disabledTextColor
+    }
 }
