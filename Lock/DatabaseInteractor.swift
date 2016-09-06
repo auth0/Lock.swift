@@ -42,12 +42,14 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     let usernameValidator: InputValidator = UsernameValidator()
     let passwordValidator: InputValidator = NonEmptyValidator()
     let onAuthentication: Credentials -> ()
+    let options: Options
 
-    init(connections: Connections, authentication: Authentication, user: DatabaseUser, callback: Credentials -> ()) {
+    init(connections: Connections, authentication: Authentication, user: DatabaseUser, options: Options, callback: Credentials -> ()) {
         self.authentication = authentication
         self.connections = connections
         self.onAuthentication = callback
         self.user = user
+        self.options = options
     }
 
     mutating func update(attribute: CredentialAttribute, value: String?) throws {
@@ -87,7 +89,13 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         guard let databaseName = self.connections.database?.name else { return callback(.NoDatabaseConnection) }
         
         self.authentication
-            .login(usernameOrEmail: identifier, password: password, connection: databaseName)
+            .login(
+                usernameOrEmail: identifier,
+                password: password,
+                connection: databaseName,
+                scope: self.options.scope,
+                parameters: self.options.parameters
+            )
             .start { self.handleLoginResult($0, callback: callback) }
     }
 
@@ -105,7 +113,13 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         let username = connection.requiresUsername ? self.username : nil
 
         let authentication = self.authentication
-        let login = authentication.login(usernameOrEmail: email, password: password, connection: databaseName)
+        let login = authentication.login(
+                usernameOrEmail: email,
+                password: password,
+                connection: databaseName,
+                scope: self.options.scope,
+                parameters: self.options.parameters
+            )
         authentication
             .createUser(email: email, username: username, password: password, connection: databaseName)
             .start {

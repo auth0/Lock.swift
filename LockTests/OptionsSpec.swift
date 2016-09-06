@@ -57,6 +57,14 @@ class OptionsSpec: QuickSpec {
                 expect(options.privacyPolicyURL.absoluteString) == "https://auth0.com/privacy"
             }
 
+            it("should have openid as scope") {
+                expect(options.scope) == "openid"
+            }
+
+            it("should have empty default parameters") {
+                expect(options.parameters).to(beEmpty())
+            }
+
         }
 
         describe("builder") {

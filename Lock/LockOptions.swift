@@ -34,4 +34,6 @@ struct LockOptions: OptionBuildable {
             Auth0.enableLogging(enabled: self.logHttpRequest)
         }
     }
+    var scope: String = "openid"
+    var parameters: [String : AnyObject] = [:]
 }
