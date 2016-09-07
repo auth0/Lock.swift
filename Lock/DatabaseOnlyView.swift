@@ -34,9 +34,9 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
     private weak var container: UIStackView?
 
-    let allowedModes: [DatabaseModes]
+    let allowedModes: DatabaseMode
 
-    init(allowedModes: [DatabaseModes] = [.Login, .Signup, .ForgotPassword]) {
+    init(allowedModes: DatabaseMode = [.Login, .Signup, .ResetPassword]) {
         let primaryButton = PrimaryButton()
         let container = UIStackView()
 
@@ -88,7 +88,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         form.identityField.nextField = form.passwordField
         form.passwordField.returnKey = .Done
         layoutInStack(form, authCollectionView: authCollectionView)
-        self.layoutSecondaryButton(self.allowedModes.contains(.ForgotPassword))
+        self.layoutSecondaryButton(self.allowedModes.contains(.ResetPassword))
         self.form = form
     }
 

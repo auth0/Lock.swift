@@ -47,9 +47,7 @@ public protocol OptionBuildable: Options {
 
     var scope: String { get set }
     var parameters: [String: AnyObject] { get set }
-    var allowLogin: Bool { get set }
-    var allowSignup: Bool { get set }
-    var allowResetPassword: Bool { get set }
+    var allow: DatabaseMode { get set }
 }
 
 extension OptionBuildable {

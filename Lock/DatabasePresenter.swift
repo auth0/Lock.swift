@@ -51,17 +51,8 @@ class DatabasePresenter: Presentable, Loggable {
     }
 
     var view: View {
-        var modes: [DatabaseModes] = []
-        if self.options.allowLogin {
-            modes.append(DatabaseModes.Login)
-        }
-        if self.options.allowSignup {
-            modes.append(DatabaseModes.Signup)
-        }
-        if self.options.allowResetPassword {
-            modes.append(DatabaseModes.ForgotPassword)
-        }
-        let database = DatabaseOnlyView(allowedModes: modes)
+        let allow = self.options.allow
+        let database = DatabaseOnlyView(allowedModes: allow)
         database.switcher?.onSelectionChange = { [weak database] switcher in
             let selected = switcher.selected
             guard let view = database else { return }
@@ -72,11 +63,14 @@ class DatabasePresenter: Presentable, Loggable {
                 self.showSignup(inView: view, username: self.initialUsername, email: self.initialEmail)
             case .Login:
                 self.showLogin(inView: view, identifier: self.authenticator.identifier)
-            default:
-                self.logger.error("invalid db mode <\(selected)> in switcher")
             }
         }
-        showLogin(inView: database, identifier: authenticator.identifier)
+
+        if allow.contains(.Login) {
+            showLogin(inView: database, identifier: authenticator.identifier)
+        } else if allow.contains(.Signup) {
+            showSignup(inView: database, username: initialUsername, email: initialEmail)
+        }
         return database
     }
 
@@ -114,7 +108,7 @@ class DatabasePresenter: Presentable, Loggable {
             action(button)
         }
         view.primaryButton?.onPress = action
-        view.secondaryButton?.title = DatabaseModes.ForgotPassword.title
+        view.secondaryButton?.title = "Don’t remember your password?".i18n(key: "com.auth0.lock.database.button.forgot-password", comment: "Forgot password")
         view.secondaryButton?.color = .clearColor()
         view.secondaryButton?.onPress = { button in
             self.navigator.navigate(.ForgotPassword)

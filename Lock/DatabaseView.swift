@@ -31,7 +31,7 @@ protocol DatabaseView: View {
 
     var traitCollection: UITraitCollection { get }
 
-    var allowedModes: [DatabaseModes] { get }
+    var allowedModes: DatabaseMode { get }
 
     func showLogin(withUsername allowUsername: Bool, identifier: String?, authCollectionView: AuthCollectionView?)
     func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView?)

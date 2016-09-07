@@ -87,6 +87,20 @@ class ViewController: UIViewController {
                 }
             self?.showLock(lock)
         }
+        let databaseLoginOnly = AuthButton(size: .Big)
+        databaseLoginOnly.title = "LOGIN ONLY WITH DB"
+        databaseLoginOnly.onPress = { [weak self] _ in
+            let lock = Lock
+                .classic()
+                .options {
+                    applyDefaultOptions(&$0)
+                    $0.allow = [.Signup]
+                }
+                .withConnections { connections in
+                    connections.database(name: "Username-Password-Authentication", requiresUsername: true)
+            }
+            self?.showLock(lock)
+        }
         let databaseAndSocial = AuthButton(size: .Big)
         databaseAndSocial.title = "LOGIN WITH DB & SOCIAL"
         databaseAndSocial.onPress = { [weak self] _ in
@@ -123,7 +137,7 @@ class ViewController: UIViewController {
             self?.showLock(lock)
         }
 
-        let stack = UIStackView(arrangedSubviews: [wrap(cdnLoading), wrap(customStyle), wrap(databaseOnly), wrap(socialOnly), wrap(databaseAndSocial)])
+        let stack = UIStackView(arrangedSubviews: [wrap(cdnLoading), wrap(customStyle), wrap(databaseOnly), wrap(databaseLoginOnly), wrap(socialOnly), wrap(databaseAndSocial)])
         stack.axis = .Vertical
         stack.distribution = .FillProportionally
         stack.alignment = .Fill
