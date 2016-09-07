@@ -35,4 +35,7 @@ public protocol Options {
 
     var scope: String { get }
     var parameters: [String: AnyObject] { get }
+    var allowLogin: Bool { get }
+    var allowSignup: Bool { get }
+    var allowResetPassword: Bool { get }
 }

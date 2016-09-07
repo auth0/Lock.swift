@@ -30,7 +30,9 @@ protocol DatabaseView: View {
     weak var authCollectionView: AuthCollectionView? { get }
 
     var traitCollection: UITraitCollection { get }
-    
+
+    var allowedModes: [DatabaseModes] { get }
+
     func showLogin(withUsername allowUsername: Bool, identifier: String?, authCollectionView: AuthCollectionView?)
     func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView?)
 }

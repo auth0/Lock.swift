@@ -36,4 +36,7 @@ struct LockOptions: OptionBuildable {
     }
     var scope: String = "openid"
     var parameters: [String : AnyObject] = [:]
+    var allowLogin: Bool = true
+    var allowSignup: Bool = true
+    var allowResetPassword: Bool = true
 }

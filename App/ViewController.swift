@@ -49,6 +49,9 @@ class ViewController: UIViewController {
         cdnLoading.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
+                .options {
+                    applyDefaultOptions(&$0)
+                }
                 .allowedConnections(["github", "instagram", "Username-Password-Authentication", "slack"])
             self?.showLock(lock)
         }
@@ -57,6 +60,9 @@ class ViewController: UIViewController {
         customStyle.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
+                .options {
+                    applyDefaultOptions(&$0)
+                }
                 .style {
                     $0.title = "Phantom Inc."
                     $0.headerBlur = .ExtraLight
@@ -73,6 +79,9 @@ class ViewController: UIViewController {
         databaseOnly.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
+                .options {
+                    applyDefaultOptions(&$0)
+                }
                 .withConnections { connections in
                     connections.database(name: "Username-Password-Authentication", requiresUsername: true)
                 }
@@ -83,6 +92,9 @@ class ViewController: UIViewController {
         databaseAndSocial.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
+                .options {
+                    applyDefaultOptions(&$0)
+                }
                 .withConnections { connections in
                     connections.social(name: "facebook", style: .Facebook)
                     connections.social(name: "google-oauth2", style: .Google)
@@ -95,6 +107,9 @@ class ViewController: UIViewController {
         socialOnly.onPress = { [weak self] _ in
             let lock = Lock
                 .classic()
+                .options {
+                    applyDefaultOptions(&$0)
+                }
                 .allowedConnections(["facebook", "google-oauth2", "twitter", "dropbox", "bitbucket"])
                 .withConnections { connections in
                     connections.social(name: "facebook", style: .Facebook)
@@ -140,12 +155,6 @@ class ViewController: UIViewController {
     private func showLock(lock: Lock) {
         Log.enable(minimumSeverity: LogSeverity.Verbose)
         lock
-            .options {
-                $0.closable = true
-                $0.logLevel = .All
-                $0.loggerOutput = CleanroomLockLogger()
-                $0.logHttpRequest = true
-            }
             .on { result in
                 switch result {
                 case .Success(let credentials):
@@ -158,6 +167,13 @@ class ViewController: UIViewController {
             }
             .present(from: self)
     }
+}
+
+private func applyDefaultOptions(inout options: OptionBuildable) {
+    options.closable = true
+    options.logLevel = .All
+    options.loggerOutput = CleanroomLockLogger()
+    options.logHttpRequest = true
 }
 
 class CleanroomLockLogger: LoggerOutput {

@@ -142,9 +142,9 @@ public class Lock: NSObject {
      - returns: Lock itself for chaining
      */
     public func options(closure: (inout OptionBuildable) -> ()) -> Lock {
-        var options: OptionBuildable = LockOptions()
-        closure(&options)
-        self.optionsBuilder = options
+        var builder: OptionBuildable = self.optionsBuilder
+        closure(&builder)
+        self.optionsBuilder = builder
         logger.debug("Lock options overriden")
         return self
     }

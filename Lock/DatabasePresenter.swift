@@ -51,7 +51,17 @@ class DatabasePresenter: Presentable, Loggable {
     }
 
     var view: View {
-        let database = DatabaseOnlyView()
+        var modes: [DatabaseModes] = []
+        if self.options.allowLogin {
+            modes.append(DatabaseModes.Login)
+        }
+        if self.options.allowSignup {
+            modes.append(DatabaseModes.Signup)
+        }
+        if self.options.allowResetPassword {
+            modes.append(DatabaseModes.ForgotPassword)
+        }
+        let database = DatabaseOnlyView(allowedModes: modes)
         database.switcher?.onSelectionChange = { [weak database] switcher in
             let selected = switcher.selected
             guard let view = database else { return }

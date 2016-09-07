@@ -44,6 +44,12 @@ public protocol OptionBuildable: Options {
 
     /// If request from Auth0.swift should be logged or not
     var logHttpRequest: Bool { get set }
+
+    var scope: String { get set }
+    var parameters: [String: AnyObject] { get set }
+    var allowLogin: Bool { get set }
+    var allowSignup: Bool { get set }
+    var allowResetPassword: Bool { get set }
 }
 
 extension OptionBuildable {
