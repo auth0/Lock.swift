@@ -27,27 +27,34 @@ import Foundation
  */
 public protocol OptionBuildable: Options {
 
-    /// Allows Lock to be dismissed. By default is false
+        /// Allows Lock to be dismissed. By default is false.
     var closable: Bool { get set }
 
-    /// ToS URL. By default is Auth0's
+        /// ToS URL. By default is Auth0's.
     var termsOfServiceURL: NSURL { get set }
 
-    /// Privacy Policy URL. By default is Auth0's
+        /// Privacy Policy URL. By default is Auth0's.
     var privacyPolicyURL: NSURL { get set }
 
-    /// Log level for Lock. By default is `Off`
+        /// Log level for Lock. By default is `Off`.
     var logLevel: LoggerLevel { get set }
 
-    /// Log output used when Log is enabled. By default a simple `print` statement is used.
+        /// Log output used when Log is enabled. By default a simple `print` statement is used.
     var loggerOutput: LoggerOutput? { get set }
 
-    /// If request from Auth0.swift should be logged or not
+        /// If request from Auth0.swift should be logged or not.
     var logHttpRequest: Bool { get set }
 
+        /// Scope used for authentication. By default is `openid`.
     var scope: String { get set }
+
+        /// Authentication parameters sent with every authentication requests. By default is an empty dictionary.
     var parameters: [String: AnyObject] { get set }
+
+        /// What database modes are allowed and must be at least one. By default all modes are allowed.
     var allow: DatabaseMode { get set }
+
+        /// Initial screen displayed by Lock when a database connection is available. By default is Login
     var initialScreen: DatabaseScreen { get set }
 }
 
@@ -60,7 +67,7 @@ internal extension OptionBuildable {
 
 public extension OptionBuildable {
 
-    /// ToS URL. By default is Auth0's
+        /// ToS URL. By default is Auth0's
     var termsOfService: String {
         get {
             return self.termsOfServiceURL.absoluteString
@@ -71,7 +78,7 @@ public extension OptionBuildable {
         }
     }
 
-    /// Privacy Policy URL. By default is Auth0's
+        /// Privacy Policy URL. By default is Auth0's
     var privacyPolicy: String {
         get {
             return self.privacyPolicyURL.absoluteString
