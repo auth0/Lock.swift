@@ -51,6 +51,7 @@ class DatabasePresenter: Presentable, Loggable {
     }
 
     var view: View {
+        let initialScreen = self.options.initialScreen
         let allow = self.options.allow
         let database = DatabaseOnlyView(allowedModes: allow)
         database.switcher?.onSelectionChange = { [weak database] switcher in
@@ -66,9 +67,11 @@ class DatabasePresenter: Presentable, Loggable {
             }
         }
 
-        if allow.contains(.Login) {
+        if allow.contains(.Login) && initialScreen == .Login {
+            database.switcher?.selected = .Login
             showLogin(inView: database, identifier: authenticator.identifier)
-        } else if allow.contains(.Signup) {
+        } else if allow.contains(.Signup) && (initialScreen == .Signup || !allow.contains(.Login)) {
+            database.switcher?.selected = .Signup
             showSignup(inView: database, username: initialUsername, email: initialEmail)
         }
         return database

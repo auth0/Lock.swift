@@ -36,4 +36,5 @@ public protocol Options {
     var scope: String { get }
     var parameters: [String: AnyObject] { get }
     var allow: DatabaseMode { get }
+    var initialScreen: DatabaseScreen { get }
 }

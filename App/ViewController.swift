@@ -44,100 +44,85 @@ class ViewController: UIViewController {
             ])
         header.translatesAutoresizingMaskIntoConstraints = false
 
-        let cdnLoading = AuthButton(size: .Big)
-        cdnLoading.title = "LOGIN WITH CDN"
-        cdnLoading.onPress = { [weak self] _ in
-            let lock = Lock
-                .classic()
-                .options {
-                    applyDefaultOptions(&$0)
+        let actions = [
+            actionButton(withTitle: "LOGIN WITH CDN") {
+                return Lock
+                    .classic()
+                    .options {
+                        applyDefaultOptions(&$0)
+                    }
+                    .allowedConnections(["github", "instagram", "Username-Password-Authentication", "slack"])
+            },
+            actionButton(withTitle: "LOGIN WITH CUSTOM STYLE") {
+                return Lock
+                    .classic()
+                    .options {
+                        applyDefaultOptions(&$0)
+                    }
+                    .style {
+                        $0.title = "Phantom Inc."
+                        $0.headerBlur = .ExtraLight
+                        $0.logo = LazyImage(name: "icn_phantom", bundle: NSBundle.mainBundle())
+                        $0.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
+                    }
+                    .withConnections { connections in
+                        connections.database(name: "Username-Password-Authentication", requiresUsername: true)
                 }
-                .allowedConnections(["github", "instagram", "Username-Password-Authentication", "slack"])
-            self?.showLock(lock)
-        }
-        let customStyle = AuthButton(size: .Big)
-        customStyle.title = "LOGIN WITH CUSTOM STYLE"
-        customStyle.onPress = { [weak self] _ in
-            let lock = Lock
-                .classic()
-                .options {
-                    applyDefaultOptions(&$0)
+            },
+            actionButton(withTitle: "LOGIN WITH DB") {
+                return Lock
+                    .classic()
+                    .options {
+                        applyDefaultOptions(&$0)
+                    }
+                    .withConnections { connections in
+                        connections.database(name: "Username-Password-Authentication", requiresUsername: true)
                 }
-                .style {
-                    $0.title = "Phantom Inc."
-                    $0.headerBlur = .ExtraLight
-                    $0.logo = LazyImage(name: "icn_phantom", bundle: NSBundle.mainBundle())
-                    $0.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
+            },
+            actionButton(withTitle: "LOGIN ONLY WITH DB") {
+                return Lock
+                    .classic()
+                    .options {
+                        applyDefaultOptions(&$0)
+                        $0.allow = [.Login]
+                    }
+                    .withConnections { connections in
+                        connections.database(name: "Username-Password-Authentication", requiresUsername: true)
                 }
-                .withConnections { connections in
-                    connections.database(name: "Username-Password-Authentication", requiresUsername: true)
-            }
-            self?.showLock(lock)
-        }
-        let databaseOnly = AuthButton(size: .Big)
-        databaseOnly.title = "LOGIN WITH DB"
-        databaseOnly.onPress = { [weak self] _ in
-            let lock = Lock
-                .classic()
-                .options {
-                    applyDefaultOptions(&$0)
+            },
+            actionButton(withTitle: "LOGIN WITH DB & SOCIAL") {
+                return Lock
+                    .classic()
+                    .options {
+                        applyDefaultOptions(&$0)
+                    }
+                    .withConnections { connections in
+                        connections.social(name: "facebook", style: .Facebook)
+                        connections.social(name: "google-oauth2", style: .Google)
+                        connections.database(name: "Username-Password-Authentication", requiresUsername: true)
                 }
-                .withConnections { connections in
-                    connections.database(name: "Username-Password-Authentication", requiresUsername: true)
+            },
+            actionButton(withTitle: "LOGIN WITH SOCIAL") {
+                return Lock
+                    .classic()
+                    .options {
+                        applyDefaultOptions(&$0)
+                    }
+                    .allowedConnections(["facebook", "google-oauth2", "twitter", "dropbox", "bitbucket"])
+                    .withConnections { connections in
+                        connections.social(name: "facebook", style: .Facebook)
+                        connections.social(name: "google-oauth2", style: .Google)
+                        connections.social(name: "instagram", style: .Instagram)
+                        connections.social(name: "twitter", style: .Twitter)
+                        connections.social(name: "fitbit", style: .Fitbit)
+                        connections.social(name: "dropbox", style: .Dropbox)
+                        connections.social(name: "bitbucket", style: .Bitbucket)
                 }
-            self?.showLock(lock)
-        }
-        let databaseLoginOnly = AuthButton(size: .Big)
-        databaseLoginOnly.title = "LOGIN ONLY WITH DB"
-        databaseLoginOnly.onPress = { [weak self] _ in
-            let lock = Lock
-                .classic()
-                .options {
-                    applyDefaultOptions(&$0)
-                    $0.allow = [.Login]
-                }
-                .withConnections { connections in
-                    connections.database(name: "Username-Password-Authentication", requiresUsername: true)
-            }
-            self?.showLock(lock)
-        }
-        let databaseAndSocial = AuthButton(size: .Big)
-        databaseAndSocial.title = "LOGIN WITH DB & SOCIAL"
-        databaseAndSocial.onPress = { [weak self] _ in
-            let lock = Lock
-                .classic()
-                .options {
-                    applyDefaultOptions(&$0)
-                }
-                .withConnections { connections in
-                    connections.social(name: "facebook", style: .Facebook)
-                    connections.social(name: "google-oauth2", style: .Google)
-                    connections.database(name: "Username-Password-Authentication", requiresUsername: true)
-            }
-            self?.showLock(lock)
-        }
-        let socialOnly = AuthButton(size: .Big)
-        socialOnly.title = "LOGIN WITH SOCIAL"
-        socialOnly.onPress = { [weak self] _ in
-            let lock = Lock
-                .classic()
-                .options {
-                    applyDefaultOptions(&$0)
-                }
-                .allowedConnections(["facebook", "google-oauth2", "twitter", "dropbox", "bitbucket"])
-                .withConnections { connections in
-                    connections.social(name: "facebook", style: .Facebook)
-                    connections.social(name: "google-oauth2", style: .Google)
-                    connections.social(name: "instagram", style: .Instagram)
-                    connections.social(name: "twitter", style: .Twitter)
-                    connections.social(name: "fitbit", style: .Fitbit)
-                    connections.social(name: "dropbox", style: .Dropbox)
-                    connections.social(name: "bitbucket", style: .Bitbucket)
-                }
-            self?.showLock(lock)
-        }
+            },
 
-        let stack = UIStackView(arrangedSubviews: [wrap(cdnLoading), wrap(customStyle), wrap(databaseOnly), wrap(databaseLoginOnly), wrap(socialOnly), wrap(databaseAndSocial)])
+            ]
+
+        let stack = UIStackView(arrangedSubviews: actions.map { wrap($0) })
         stack.axis = .Vertical
         stack.distribution = .FillProportionally
         stack.alignment = .Fill
@@ -151,6 +136,15 @@ class ViewController: UIViewController {
             stack.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor),
             ])
         stack.translatesAutoresizingMaskIntoConstraints = false
+    }
+
+    private func actionButton(withTitle title: String, action: () -> Lock) -> AuthButton {
+        let button = AuthButton(size: .Big)
+        button.title = title
+        button.onPress = { [weak self] _ in
+            self?.showLock(action())
+        }
+        return button
     }
 
     private func wrap(button: AuthButton) -> UIView {

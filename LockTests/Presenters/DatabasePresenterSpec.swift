@@ -119,7 +119,7 @@ class DatabasePresenterSpec: QuickSpec {
 
         }
 
-        describe("allowed modes") {
+        describe("allowed modes & initial screen") {
 
             it("should keep switcher when login and signup are allowed") {
                 var options = LockOptions()
@@ -145,9 +145,27 @@ class DatabasePresenterSpec: QuickSpec {
                 expect(view.secondaryButton).to(beNil())
             }
 
+            it("should show login if is allowed and is initial screen") {
+                var options = LockOptions()
+                options.allow = [.Login]
+                options.initialScreen = .Login
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                view = presenter.view as! DatabaseOnlyView
+                expect(view.form as? CredentialView).toNot(beNil())
+            }
+
             it("should show signup if login is not allowed") {
                 var options = LockOptions()
                 options.allow = [.Signup]
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                view = presenter.view as! DatabaseOnlyView
+                expect(view.form as? SignUpView).toNot(beNil())
+            }
+
+            it("should show signup if is the initial screen") {
+                var options = LockOptions()
+                options.allow = [.Signup, .Login]
+                options.initialScreen = .Signup
                 presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
                 view = presenter.view as! DatabaseOnlyView
                 expect(view.form as? SignUpView).toNot(beNil())

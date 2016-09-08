@@ -48,6 +48,7 @@ public protocol OptionBuildable: Options {
     var scope: String { get set }
     var parameters: [String: AnyObject] { get set }
     var allow: DatabaseMode { get set }
+    var initialScreen: DatabaseScreen { get set }
 }
 
 internal extension OptionBuildable {

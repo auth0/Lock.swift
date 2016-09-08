@@ -32,3 +32,12 @@ public struct DatabaseMode: OptionSetType {
     public static let ResetPassword = DatabaseMode(rawValue: 1 << 2)
 }
 
+public enum DatabaseScreen: Int, Equatable {
+    case Login = 0
+    case Signup
+    case ResetPassword
+}
+
+public func ==(lhs: DatabaseScreen, rhs: DatabaseScreen) -> Bool {
+    return lhs.rawValue == rhs.rawValue
+}

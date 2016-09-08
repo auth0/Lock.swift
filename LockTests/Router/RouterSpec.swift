@@ -82,6 +82,13 @@ class RouterSpec: QuickSpec {
                 expect(router.root as? DatabaseForgotPasswordPresenter).toNot(beNil())
             }
 
+            it("should return root when reset password is the initial screen and there is a database connection") {
+                lock
+                    .withConnections { $0.database(name: connection, requiresUsername: false) }
+                    .options { $0.allow = [.ResetPassword] }
+                expect(router.root as? DatabaseForgotPasswordPresenter).toNot(beNil())
+            }
+
         }
 
         describe("events") {
