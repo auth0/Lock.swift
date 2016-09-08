@@ -94,7 +94,7 @@ class ViewController: UIViewController {
                 .classic()
                 .options {
                     applyDefaultOptions(&$0)
-                    $0.allow = [.Signup]
+                    $0.allow = [.Login]
                 }
                 .withConnections { connections in
                     connections.database(name: "Username-Password-Authentication", requiresUsername: true)

@@ -102,7 +102,11 @@ public class Lock: NSObject {
      - parameter controller: controller from where Lock is presented
      */
     public func present(from controller: UIViewController) {
-        controller.presentViewController(self.controller, animated: true, completion: nil)
+        if let error = self.optionsBuilder.validate() {
+            self.callback(.Failure(error))
+        } else {
+            controller.presentViewController(self.controller, animated: true, completion: nil)
+        }
     }
 
     /**
@@ -224,6 +228,7 @@ public enum UnrecoverableError: ErrorType {
     case InvalidClientOrDomain
     case ClientWithNoConnections
     case MissingDatabaseConnection
+    case InvalidOptions(cause: String)
 }
 
 private func telemetryFor(authenticaction authentication: Authentication, webAuth: WebAuth) -> (Authentication, WebAuth) {

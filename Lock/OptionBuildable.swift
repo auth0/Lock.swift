@@ -50,7 +50,14 @@ public protocol OptionBuildable: Options {
     var allow: DatabaseMode { get set }
 }
 
-extension OptionBuildable {
+internal extension OptionBuildable {
+    func validate() -> UnrecoverableError? {
+        guard !self.allow.isEmpty else { return UnrecoverableError.InvalidOptions(cause: "Must allow at least one database mode") }
+        return nil
+    }
+}
+
+public extension OptionBuildable {
 
     /// ToS URL. By default is Auth0's
     var termsOfService: String {

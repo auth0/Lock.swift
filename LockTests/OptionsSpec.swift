@@ -67,6 +67,19 @@ class OptionsSpec: QuickSpec {
 
         }
 
+        describe("validation") {
+
+            it("should consider the default values as valid") {
+                expect(options.validate()).to(beNil())
+            }
+
+            it("should fail when allow is empty") {
+                options.allow = []
+                expect(options.validate()).toNot(beNil())
+            }
+
+        }
+
         describe("builder") {
 
             it("should set closable") {

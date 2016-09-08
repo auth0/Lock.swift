@@ -112,6 +112,18 @@ class LockSpec: QuickSpec {
                 expect(controller.presented).notTo(beNil())
             }
 
+            it("should fail if options are invalid") {
+                lock.options { $0.allow = [] }
+                waitUntil { done in
+                    lock
+                        .on {
+                            expect($0).to(beErrorResult())
+                            done()
+                        }
+                        .present(from: controller)
+                }
+            }
+
         }
 
         it("should allow to resume Auth") {
