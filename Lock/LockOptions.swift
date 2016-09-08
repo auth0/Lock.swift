@@ -38,4 +38,5 @@ struct LockOptions: OptionBuildable {
     var parameters: [String : AnyObject] = [:]
     var allow: DatabaseMode = [.Login, .Signup, .ResetPassword]
     var initialScreen: DatabaseScreen = .Login
+    var usernameStyle: DatabaseIdentifierStyle = [.Username, .Email]
 }

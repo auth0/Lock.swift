@@ -1,4 +1,4 @@
-// DatabaseModes.swift
+// DatabaseConstants.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -36,6 +36,16 @@ public enum DatabaseScreen: Int, Equatable {
     case Login = 0
     case Signup
     case ResetPassword
+}
+
+
+public struct DatabaseIdentifierStyle: OptionSetType {
+    public let rawValue: Int
+
+    public init(rawValue: Int) { self.rawValue = rawValue }
+    
+    public static let Username = DatabaseIdentifierStyle(rawValue: 1 << 0)
+    public static let Email = DatabaseIdentifierStyle(rawValue: 1 << 1)
 }
 
 public func ==(lhs: DatabaseScreen, rhs: DatabaseScreen) -> Bool {

@@ -56,11 +56,19 @@ public protocol OptionBuildable: Options {
 
         /// Initial screen displayed by Lock when a database connection is available. By default is Login
     var initialScreen: DatabaseScreen { get set }
+
+    /**
+     Specify what type of identifier the database login will require to the user when the connection `requires_username` flag is true.
+     The possible values are email, username or both and by default it will require both.
+     - important: This option is ignored if the database does not require a username (when `requires_username` is false)
+    */
+    var usernameStyle: DatabaseIdentifierStyle { get set }
 }
 
 internal extension OptionBuildable {
     func validate() -> UnrecoverableError? {
         guard !self.allow.isEmpty else { return UnrecoverableError.InvalidOptions(cause: "Must allow at least one database mode") }
+        guard !self.usernameStyle.isEmpty else { return UnrecoverableError.InvalidOptions(cause: "Must specify at least one username style") }
         return nil
     }
 }

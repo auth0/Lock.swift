@@ -85,6 +85,7 @@ class ViewController: UIViewController {
                     .options {
                         applyDefaultOptions(&$0)
                         $0.allow = [.Login]
+                        $0.usernameStyle = [.Email]
                     }
                     .withConnections { connections in
                         connections.database(name: "Username-Password-Authentication", requiresUsername: true)

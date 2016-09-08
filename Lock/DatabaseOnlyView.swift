@@ -80,10 +80,21 @@ class DatabaseOnlyView: UIView, DatabaseView {
     private let separatorIndex = 2
     private let socialIndex = 1
 
-    func showLogin(withUsername allowUsername: Bool, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil) {
+    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil) {
         let form = CredentialView()
+
+        let type: InputField.InputType
+        switch style {
+        case [.Email, .Username]:
+            type = .EmailOrUsername
+        case [.Username]:
+            type = .Username
+        default:
+            type = .Email
+        }
+
         form.identityField.text = identifier
-        form.identityField.type = allowUsername ? .EmailOrUsername : .Email
+        form.identityField.type = type
         form.identityField.returnKey = .Next
         form.identityField.nextField = form.passwordField
         form.passwordField.returnKey = .Done

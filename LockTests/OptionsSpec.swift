@@ -73,6 +73,9 @@ class OptionsSpec: QuickSpec {
                 expect(options.initialScreen) == DatabaseScreen.Login
             }
 
+            it("should accept both styles for identifier") {
+                expect(options.usernameStyle) == [.Email, .Username]
+            }
         }
 
         describe("validation") {
@@ -104,6 +107,10 @@ class OptionsSpec: QuickSpec {
                 expect(options.validate()).toNot(beNil())
             }
 
+            it("should fail when username style is empty") {
+                options.usernameStyle = []
+                expect(options.validate()).toNot(beNil())
+            }
         }
 
         describe("builder") {

@@ -37,4 +37,5 @@ public protocol Options {
     var parameters: [String: AnyObject] { get }
     var allow: DatabaseMode { get }
     var initialScreen: DatabaseScreen { get }
+    var usernameStyle: DatabaseIdentifierStyle { get }
 }

@@ -80,7 +80,8 @@ class DatabasePresenter: Presentable, Loggable {
     private func showLogin(inView view: DatabaseView, identifier: String?) {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), isLogin: true)
-        view.showLogin(withUsername: self.database.requiresUsername, identifier: identifier, authCollectionView: authCollectionView)
+        let style = self.database.requiresUsername ? self.options.usernameStyle : [.Email]
+        view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView)
         let form = view.form
         form?.onValueChange = self.handleInput
 
