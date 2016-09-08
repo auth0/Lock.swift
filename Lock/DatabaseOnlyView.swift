@@ -30,17 +30,18 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var switcher: DatabaseModeSwitcher?
     weak var authCollectionView: AuthCollectionView?
     weak var separator: UILabel?
+    weak var secondaryStrut: UIView?
+
     private weak var container: UIStackView?
 
-    init() {
-        let secondaryButton = SecondaryButton()
+    let allowedModes: DatabaseMode
+
+    init(allowedModes: DatabaseMode = [.Login, .Signup, .ResetPassword]) {
         let primaryButton = PrimaryButton()
         let container = UIStackView()
-        let switcher = DatabaseModeSwitcher()
 
-        self.secondaryButton = secondaryButton
+        self.allowedModes = allowedModes
         self.primaryButton = primaryButton
-        self.switcher = switcher
         self.container = container
 
         super.init(frame: CGRectZero)
@@ -59,8 +60,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor)
         container.translatesAutoresizingMaskIntoConstraints = false
 
-        container.addArrangedSubview(switcher)
-        container.addArrangedSubview(secondaryButton)
+        self.layoutSwitcher(allowedModes.contains(.Login) && allowedModes.contains(.Signup))
 
         constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
@@ -72,14 +72,34 @@ class DatabaseOnlyView: UIView, DatabaseView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func showLogin(withUsername allowUsername: Bool, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil) {
+    // MARK:- Layout
+
+    private let switcherIndex = 0
+    private let formOnlyIndex = 1
+    private let formBelowSocialIndex = 3
+    private let separatorIndex = 2
+    private let socialIndex = 1
+
+    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil) {
         let form = CredentialView()
+
+        let type: InputField.InputType
+        switch style {
+        case [.Email, .Username]:
+            type = .EmailOrUsername
+        case [.Username]:
+            type = .Username
+        default:
+            type = .Email
+        }
+
         form.identityField.text = identifier
-        form.identityField.type = allowUsername ? .EmailOrUsername : .Email
+        form.identityField.type = type
         form.identityField.returnKey = .Next
         form.identityField.nextField = form.passwordField
         form.passwordField.returnKey = .Done
         layoutInStack(form, authCollectionView: authCollectionView)
+        self.layoutSecondaryButton(self.allowedModes.contains(.ResetPassword))
         self.form = form
     }
 
@@ -94,7 +114,34 @@ class DatabaseOnlyView: UIView, DatabaseView {
         form.usernameField?.nextField = form.passwordField
         form.passwordField.returnKey = .Done
         layoutInStack(form, authCollectionView: authCollectionView)
+        self.layoutSecondaryButton(true)
         self.form = form
+    }
+
+    private func layoutSecondaryButton(enabled: Bool) {
+        self.secondaryStrut?.removeFromSuperview()
+        self.secondaryButton?.removeFromSuperview()
+        if enabled {
+            let secondaryButton = SecondaryButton()
+            self.secondaryButton = secondaryButton
+            self.container?.addArrangedSubview(secondaryButton)
+        } else {
+            let view = strutView()
+            self.secondaryStrut = view
+            self.container?.addArrangedSubview(view)
+        }
+    }
+
+    private func layoutSwitcher(enabled: Bool) {
+        self.container?.arrangedSubviews.first?.removeFromSuperview()
+        if enabled {
+            let switcher = DatabaseModeSwitcher()
+            self.container?.insertArrangedSubview(switcher, atIndex: switcherIndex)
+            self.switcher = switcher
+        } else {
+            let view = strutView()
+            self.container?.insertArrangedSubview(view, atIndex: switcherIndex)
+        }
     }
 
     private func layoutInStack(view: UIView, authCollectionView: AuthCollectionView?) {
@@ -110,17 +157,26 @@ class DatabaseOnlyView: UIView, DatabaseView {
             label.font = mediumSystemFont(size: 13.75)
             label.textColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54 )
             label.textAlignment = .Center
-            self.container?.insertArrangedSubview(social, atIndex: 1)
-            self.container?.insertArrangedSubview(label, atIndex: 2)
-            self.container?.insertArrangedSubview(view, atIndex: 3)
+            self.container?.insertArrangedSubview(social, atIndex: socialIndex)
+            self.container?.insertArrangedSubview(label, atIndex: separatorIndex)
+            self.container?.insertArrangedSubview(view, atIndex: formBelowSocialIndex)
             self.authCollectionView = social
             self.separator = label
         } else {
-            self.container?.insertArrangedSubview(view, atIndex: 1)
+            self.container?.insertArrangedSubview(view, atIndex: formOnlyIndex)
         }
     }
+
+    // MARK:- Styling
 
     func apply(style style: Style) {
         primaryButton?.apply(style: style)
     }
+}
+
+private func strutView(withHeight height: CGFloat = 50) -> UIView {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    dimension(view.heightAnchor, withValue: height)
+    return view
 }

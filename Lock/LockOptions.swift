@@ -34,4 +34,9 @@ struct LockOptions: OptionBuildable {
             Auth0.enableLogging(enabled: self.logHttpRequest)
         }
     }
+    var scope: String = "openid"
+    var parameters: [String : AnyObject] = [:]
+    var allow: DatabaseMode = [.Login, .Signup, .ResetPassword]
+    var initialScreen: DatabaseScreen = .Login
+    var usernameStyle: DatabaseIdentifierStyle = [.Username, .Email]
 }

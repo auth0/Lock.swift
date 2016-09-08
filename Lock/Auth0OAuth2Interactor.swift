@@ -27,11 +27,15 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
 
     let webAuth: Auth0.WebAuth
     let onCredentials: Credentials -> ()
+    let options: Options
 
     func login(connection: String, callback: (OAuth2AuthenticatableError?) -> ()) {
-        webAuth
+        var parameters: [String: String] = [:]
+        self.options.parameters.forEach { parameters[$0] = "\($1)" }
+        self.webAuth
             .connection(connection)
-            .parameters(["auth_type": "reauthenticate"])
+            .scope(self.options.scope)
+            .parameters(parameters)
             .start { result in
                 switch result {
                 case .Success(let credentials):

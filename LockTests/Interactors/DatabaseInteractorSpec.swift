@@ -34,11 +34,10 @@ class DatabaseInteractorSpec: QuickSpec {
 
         afterEach {
             Auth0Stubs.cleanAll()
-            Auth0Stubs.failUnknown()
         }
 
         describe("init") {
-            let database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: User(), callback: {_ in})
+            let database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: User(), options: LockOptions(), callback: {_ in})
 
             it("should build with authentication") {
                 expect(database).toNot(beNil())
@@ -56,10 +55,11 @@ class DatabaseInteractorSpec: QuickSpec {
         var user: User!
 
         beforeEach {
+            Auth0Stubs.failUnknown()
             connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
             user = User()
-            database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, callback: { _ in })
+            database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
         }
 
         describe("updateAttribute") {
@@ -223,7 +223,7 @@ class DatabaseInteractorSpec: QuickSpec {
         describe("login") {
 
             it("should fail if no db connection is found") {
-                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: user, callback: { _ in })
+                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
                 try! database.update(.Email, value: email)
                 try! database.update(.Password, value: password)
                 waitUntil(timeout: 2) { done in
@@ -248,6 +248,40 @@ class DatabaseInteractorSpec: QuickSpec {
 
             it("should prefer email over username") {
                 stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error).to(beNil())
+                        done()
+                    }
+                }
+            }
+
+            it("should send scope") {
+                let scope = "openid email"
+                var options = LockOptions()
+                options.scope = scope
+                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error).to(beNil())
+                        done()
+                    }
+                }
+            }
+
+            it("should send parameters") {
+                let state = NSUUID().UUIDString
+                var options = LockOptions()
+                options.parameters = ["state": state]
+                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.Email, value: email)
                 try! database.update(.Username, value: username)
                 try! database.update(.Password, value: password)
@@ -381,7 +415,7 @@ class DatabaseInteractorSpec: QuickSpec {
         describe("signup") {
 
             it("should fail if no db connection is found") {
-                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: user, callback: { _ in })
+                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
                 try! database.update(.Email, value: email)
                 try! database.update(.Username, value: username)
                 try! database.update(.Password, value: password)
@@ -412,7 +446,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 let username = "AN INVALID USERNAME"
                 connections = OfflineConnections()
                 connections.database(name: connection, requiresUsername: false)
-                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, callback: { _ in })
+                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
                 stub(databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.Email, value: email)
@@ -554,6 +588,46 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
+
+
+            it("should send scope on login") {
+                let scope = "openid email"
+                var options = LockOptions()
+                options.scope = scope
+                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { create, login in
+                        expect(create).to(beNil())
+                        expect(login).to(beNil())
+                        done()
+                    }
+                }
+            }
+
+            it("should send parameters on login") {
+                let state = NSUUID().UUIDString
+                var options = LockOptions()
+                options.parameters = ["state": state]
+                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.Email, value: email)
+                try! database.update(.Username, value: username)
+                try! database.update(.Password, value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { create, login in
+                        expect(create).to(beNil())
+                        expect(login).to(beNil())
+                        done()
+                    }
+                }
+            }
+
 
         }
 

@@ -28,17 +28,29 @@ public class DatabaseModeSwitcher: UIView {
 
     public var onSelectionChange: (DatabaseModeSwitcher) -> () = { _ in }
 
-    public var selected: DatabaseModes {
+    public enum Mode: Int {
+        case Login = 0
+        case Signup
+
+        var title: String {
+            switch self {
+            case .Login:
+                return "Log In".i18n(key: "com.auth0.lock.database.mode.switcher.login", comment: "Login Switch")
+            case .Signup:
+                return "Sign Up".i18n(key: "com.auth0.lock.database.mode.switcher.signup", comment: "Signup Switch")
+            }
+        }
+    }
+
+    public var selected: Mode {
         get {
             guard
                 let index = self.segmentedControl?.selectedSegmentIndex,
-                let mode = DatabaseModes(rawValue: index)
-                where index < 3
+                let mode = Mode(rawValue: index)
                 else { return .Login }
             return mode
         }
         set {
-            guard newValue.rawValue < 3 else { return }
             self.segmentedControl?.selectedSegmentIndex = newValue.rawValue
         }
     }
@@ -62,7 +74,7 @@ public class DatabaseModeSwitcher: UIView {
     // MARK:- Layout
 
     private func layoutSwitcher() {
-        let segmented = UISegmentedControl(items: [DatabaseModes.Login.title, DatabaseModes.Signup.title])
+        let segmented = UISegmentedControl(items: [Mode.Login.title, Mode.Signup.title])
 
         self.addSubview(segmented)
 

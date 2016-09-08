@@ -119,6 +119,68 @@ class DatabasePresenterSpec: QuickSpec {
 
         }
 
+        describe("allowed modes & initial screen") {
+
+            it("should keep switcher when login and signup are allowed") {
+                var options = LockOptions()
+                options.allow = [.Login, .Signup]
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                view = presenter.view as! DatabaseOnlyView
+                expect(view.switcher).toNot(beNil())
+            }
+
+            it("should remove switcher when login or signup are not allowed") {
+                var options = LockOptions()
+                options.allow = [.Login]
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                view = presenter.view as! DatabaseOnlyView
+                expect(view.switcher).to(beNil())
+            }
+
+            it("should remove forgot button if it's not allowed") {
+                var options = LockOptions()
+                options.allow = [.Login]
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                view = presenter.view as! DatabaseOnlyView
+                expect(view.secondaryButton).to(beNil())
+            }
+
+            it("should show login if is allowed and is initial screen") {
+                var options = LockOptions()
+                options.allow = [.Login]
+                options.initialScreen = .Login
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                view = presenter.view as! DatabaseOnlyView
+                expect(view.form as? CredentialView).toNot(beNil())
+            }
+
+            it("should show signup if login is not allowed") {
+                var options = LockOptions()
+                options.allow = [.Signup]
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                view = presenter.view as! DatabaseOnlyView
+                expect(view.form as? SignUpView).toNot(beNil())
+            }
+
+            it("should show signup if is the initial screen") {
+                var options = LockOptions()
+                options.allow = [.Signup, .Login]
+                options.initialScreen = .Signup
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                view = presenter.view as! DatabaseOnlyView
+                expect(view.form as? SignUpView).toNot(beNil())
+            }
+
+            it("should always show terms button in signup") {
+                var options = LockOptions()
+                options.allow = [.Signup]
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                view = presenter.view as! DatabaseOnlyView
+                expect(view.secondaryButton).toNot(beNil())
+            }
+
+        }
+
         describe("login") {
 
             beforeEach {
@@ -127,7 +189,7 @@ class DatabasePresenterSpec: QuickSpec {
             }
 
             it("should set title for secondary button") {
-                expect(view.secondaryButton?.title) == DatabaseModes.ForgotPassword.title
+                expect(view.secondaryButton?.title) == "Don’t remember your password?"
             }
 
             it("should reset scroll") {

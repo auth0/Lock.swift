@@ -57,6 +57,60 @@ class OptionsSpec: QuickSpec {
                 expect(options.privacyPolicyURL.absoluteString) == "https://auth0.com/privacy"
             }
 
+            it("should have openid as scope") {
+                expect(options.scope) == "openid"
+            }
+
+            it("should have empty default parameters") {
+                expect(options.parameters).to(beEmpty())
+            }
+
+            it("should have all db modes allowed") {
+                expect(options.allow) == [.Login, .Signup, .ResetPassword]
+            }
+
+            it("should have login as the default db screen") {
+                expect(options.initialScreen) == DatabaseScreen.Login
+            }
+
+            it("should accept both styles for identifier") {
+                expect(options.usernameStyle) == [.Email, .Username]
+            }
+        }
+
+        describe("validation") {
+
+            it("should consider the default values as valid") {
+                expect(options.validate()).to(beNil())
+            }
+
+            it("should fail when allow is empty") {
+                options.allow = []
+                expect(options.validate()).toNot(beNil())
+            }
+
+            it("should fail when login is initial screen and not allowed") {
+                options.allow = []
+                options.initialScreen = .Login
+                expect(options.validate()).toNot(beNil())
+            }
+
+            it("should fail when signup is initial screen and not allowed") {
+                options.allow = []
+                options.initialScreen = .Signup
+                expect(options.validate()).toNot(beNil())
+            }
+
+            it("should fail when reset password is initial screen and not allowed") {
+                options.allow = []
+                options.initialScreen = .ResetPassword
+                expect(options.validate()).toNot(beNil())
+            }
+
+            it("should fail when username style is empty") {
+                options.usernameStyle = []
+                expect(options.validate()).toNot(beNil())
+            }
         }
 
         describe("builder") {

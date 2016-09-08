@@ -24,9 +24,18 @@ import Foundation
 
 public protocol Options {
     var closable: Bool { get }
+
     var termsOfServiceURL: NSURL { get }
     var privacyPolicyURL: NSURL { get }
+
+
     var logLevel: LoggerLevel { get }
     var loggerOutput: LoggerOutput? { get }
     var logHttpRequest: Bool { get }
+
+    var scope: String { get }
+    var parameters: [String: AnyObject] { get }
+    var allow: DatabaseMode { get }
+    var initialScreen: DatabaseScreen { get }
+    var usernameStyle: DatabaseIdentifierStyle { get }
 }

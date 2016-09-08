@@ -1,4 +1,4 @@
-// DatabaseModes.swift
+// DatabaseConstants.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,19 +22,32 @@
 
 import Foundation
 
-public enum DatabaseModes: Int {
+public struct DatabaseMode: OptionSetType {
+    public let rawValue: Int
+
+    public init(rawValue: Int) { self.rawValue = rawValue }
+
+    public static let Login = DatabaseMode(rawValue: 1 << 0)
+    public static let Signup = DatabaseMode(rawValue: 1 << 1)
+    public static let ResetPassword = DatabaseMode(rawValue: 1 << 2)
+}
+
+public enum DatabaseScreen: Int, Equatable {
     case Login = 0
     case Signup
-    case ForgotPassword
+    case ResetPassword
+}
 
-    public var title: String {
-        switch self {
-        case .Login:
-            return "Log In".i18n(key: "com.auth0.lock.database.mode.switcher.login", comment: "Login Switch")
-        case .Signup:
-            return "Sign Up".i18n(key: "com.auth0.lock.database.mode.switcher.signup", comment: "Signup Switch")
-        case .ForgotPassword:
-            return "Don’t remember your password?".i18n(key: "com.auth0.lock.database.mode.switcher.forgot-password", comment: "Forgot password")
-        }
-    }
+
+public struct DatabaseIdentifierStyle: OptionSetType {
+    public let rawValue: Int
+
+    public init(rawValue: Int) { self.rawValue = rawValue }
+    
+    public static let Username = DatabaseIdentifierStyle(rawValue: 1 << 0)
+    public static let Email = DatabaseIdentifierStyle(rawValue: 1 << 1)
+}
+
+public func ==(lhs: DatabaseScreen, rhs: DatabaseScreen) -> Bool {
+    return lhs.rawValue == rhs.rawValue
 }

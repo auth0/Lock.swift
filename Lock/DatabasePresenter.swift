@@ -51,7 +51,9 @@ class DatabasePresenter: Presentable, Loggable {
     }
 
     var view: View {
-        let database = DatabaseOnlyView()
+        let initialScreen = self.options.initialScreen
+        let allow = self.options.allow
+        let database = DatabaseOnlyView(allowedModes: allow)
         database.switcher?.onSelectionChange = { [weak database] switcher in
             let selected = switcher.selected
             guard let view = database else { return }
@@ -62,18 +64,24 @@ class DatabasePresenter: Presentable, Loggable {
                 self.showSignup(inView: view, username: self.initialUsername, email: self.initialEmail)
             case .Login:
                 self.showLogin(inView: view, identifier: self.authenticator.identifier)
-            default:
-                self.logger.error("invalid db mode <\(selected)> in switcher")
             }
         }
-        showLogin(inView: database, identifier: authenticator.identifier)
+
+        if allow.contains(.Login) && initialScreen == .Login {
+            database.switcher?.selected = .Login
+            showLogin(inView: database, identifier: authenticator.identifier)
+        } else if allow.contains(.Signup) && (initialScreen == .Signup || !allow.contains(.Login)) {
+            database.switcher?.selected = .Signup
+            showSignup(inView: database, username: initialUsername, email: initialEmail)
+        }
         return database
     }
 
     private func showLogin(inView view: DatabaseView, identifier: String?) {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), isLogin: true)
-        view.showLogin(withUsername: self.database.requiresUsername, identifier: identifier, authCollectionView: authCollectionView)
+        let style = self.database.requiresUsername ? self.options.usernameStyle : [.Email]
+        view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView)
         let form = view.form
         form?.onValueChange = self.handleInput
 
@@ -104,7 +112,7 @@ class DatabasePresenter: Presentable, Loggable {
             action(button)
         }
         view.primaryButton?.onPress = action
-        view.secondaryButton?.title = DatabaseModes.ForgotPassword.title
+        view.secondaryButton?.title = "Don’t remember your password?".i18n(key: "com.auth0.lock.database.button.forgot-password", comment: "Forgot password")
         view.secondaryButton?.color = .clearColor()
         view.secondaryButton?.onPress = { button in
             self.navigator.navigate(.ForgotPassword)

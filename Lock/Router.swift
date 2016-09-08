@@ -83,18 +83,19 @@ struct Router: Navigable {
         }
 
         if let database = connections.database {
+            guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .ResetPassword else { return forgotPassword }
             let authentication = self.lock.authentication
-            let interactor = DatabaseInteractor(connections: connections, authentication: authentication, user: self.user, callback: self.onAuthentication)
+            let interactor = DatabaseInteractor(connections: connections, authentication: authentication, user: self.user, options: self.lock.options, callback: self.onAuthentication)
             let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
             if !connections.oauth2.isEmpty {
-                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication)
+                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
                 presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor)
             }
             return presenter
         }
 
         if !connections.oauth2.isEmpty {
-            let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication)
+            let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
             let presenter = AuthPresenter(connections: connections, interactor: interactor)
             return presenter
         }
