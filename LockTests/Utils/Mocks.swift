@@ -238,6 +238,8 @@ class MockWebAuth: WebAuth {
     func start(callback: Auth0.Result<Credentials> -> ()) {
         callback(self.result())
     }
+
+    var logger: Auth0.Logger? = nil
 }
 
 class MockOAuth2: OAuth2Authenticatable {

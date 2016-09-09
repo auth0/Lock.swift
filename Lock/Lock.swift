@@ -31,8 +31,8 @@ public class Lock: NSObject {
 
     static let sharedInstance = Lock()
 
-    let authentication: Authentication
-    let webAuth: WebAuth
+    private(set) var authentication: Authentication
+    private(set) var webAuth: WebAuth
 
     var connectionProvider: ConnectionProvider = ConnectionProvider(local: OfflineConnections(), allowed: [])
     var connections: Connections { return self.connectionProvider.connections }
@@ -149,7 +149,8 @@ public class Lock: NSObject {
         var builder: OptionBuildable = self.optionsBuilder
         closure(&builder)
         self.optionsBuilder = builder
-        logger.debug("Lock options overriden")
+        self.authentication.logging(enabled: self.options.logHttpRequest)
+        self.webAuth.logging(enabled: self.options.logHttpRequest)
         return self
     }
 

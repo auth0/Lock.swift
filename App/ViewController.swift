@@ -162,7 +162,7 @@ class ViewController: UIViewController {
     }
 
     private func showLock(lock: Lock) {
-        Log.enable(minimumSeverity: LogSeverity.Verbose)
+        Log.enable(minimumSeverity: LogSeverity.verbose)
         lock
             .on { result in
                 switch result {
