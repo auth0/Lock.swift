@@ -29,11 +29,7 @@ struct LockOptions: OptionBuildable {
     var privacyPolicyURL: NSURL = NSURL(string: "https://auth0.com/privacy")!
     var logLevel: LoggerLevel = .Off
     var loggerOutput: LoggerOutput? = nil
-    var logHttpRequest: Bool = false {
-        didSet {
-            Auth0.enableLogging(enabled: self.logHttpRequest)
-        }
-    }
+    var logHttpRequest: Bool = false
     var scope: String = "openid"
     var parameters: [String : AnyObject] = [:]
     var allow: DatabaseMode = [.Login, .Signup, .ResetPassword]
