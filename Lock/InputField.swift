@@ -242,6 +242,7 @@ public class InputField: UIView, UITextFieldDelegate {
         case Password
         case Phone
         case OneTimePassword
+        case Custom(placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType, secure: Bool)
 
         var placeholder: String? {
             switch self {
@@ -257,6 +258,8 @@ public class InputField: UIView, UITextFieldDelegate {
                 return "Phone Number".i18n(key: "com.auth0.lock.input.placeholder.phone", comment: "Phone placeholder")
             case .OneTimePassword:
                 return "Code".i18n(key: "com.auth0.lock.input.placeholder.otp", comment: "OTP placeholder")
+            case .Custom(let placeholder, _, _, _):
+                return placeholder
             }
         }
 
@@ -265,27 +268,28 @@ public class InputField: UIView, UITextFieldDelegate {
                 return true
             }
 
+            if case .Custom(_, _, _, let secure) = self {
+                return secure
+            }
             return false
         }
 
         var icon: LazyImage {
-            return LazyImage(name: self.iconName)
-        }
-
-        var iconName: String {
             switch self {
             case .Email:
-                return "ic_mail"
+                return LazyImage(name: "ic_mail")
             case .Username:
-                return "ic_person"
+                return LazyImage(name: "ic_person")
             case .EmailOrUsername:
-                return "ic_mail"
+                return LazyImage(name: "ic_mail")
             case .Password:
-                return "ic_lock"
+                return LazyImage(name: "ic_lock")
             case .Phone:
-                return "ic_phone"
+                return LazyImage(name: "ic_phone")
             case .OneTimePassword:
-                return "ic_lock"
+                return LazyImage(name: "ic_lock")
+            case Custom(_, let icon, _, _):
+                return icon
             }
         }
 
@@ -303,6 +307,8 @@ public class InputField: UIView, UITextFieldDelegate {
                 return .PhonePad
             case .OneTimePassword:
                 return .DecimalPad
+            case Custom(_, _, let keyboardType, _):
+                return keyboardType
             }
         }
     }
