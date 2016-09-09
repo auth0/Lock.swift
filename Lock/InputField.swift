@@ -53,7 +53,7 @@ public class InputField: UIView, UITextFieldDelegate {
             self.textField?.autocorrectionType = .Default
             self.textField?.autocapitalizationType = .None
             self.textField?.keyboardType = type.keyboardType
-            self.iconView?.image = image(named: type.iconName, compatibleWithTraitCollection: self.traitCollection)
+            self.iconView?.image = type.icon.image(compatibleWithTraits: self.traitCollection)
         }
     }
 
@@ -266,6 +266,10 @@ public class InputField: UIView, UITextFieldDelegate {
             }
 
             return false
+        }
+
+        var icon: LazyImage {
+            return LazyImage(name: self.iconName)
         }
 
         var iconName: String {
