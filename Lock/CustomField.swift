@@ -1,4 +1,4 @@
-// LazyImage.swift
+// CustomField.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,37 +22,21 @@
 
 import Foundation
 
-/**
- *  Convenience struct to hold an image reference to a `NSBundle` without loading the `UIImage`.
- *  Used to tell Lock to load an image from a specific bundle, e.g. when customising the Header logo.
- */
-public struct LazyImage: Equatable {
-    let bundle: NSBundle
+public struct CustomField {
+
     let name: String
+    let placeholder: String
+    let icon: LazyImage
+    let keyboardType: UIKeyboardType
+    let secure: Bool
+    let validation: String? -> Bool
 
-    /**
-     Creates a LazyImage with a name and an optional Bundle.
-     For images outside Lock's bundle you should specify the Bundle like
-     
-     ```
-     let image = LazyImage(name: "image_name")
-     ```
-
-     - parameter name:   name of the image to load from a bundle
-     - parameter bundle: bundle from where to load the image or nil which will default application main bundle
-
-     - returns: a newly created `LazyImage`
-     */
-    public init(name: String, bundle: NSBundle? = nil) {
+    public init(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType = .Default, secure: Bool = false, validation: String? -> Bool = { return !($0?.isEmpty ?? true) }) {
         self.name = name
-        self.bundle = bundle ?? NSBundle.mainBundle()
+        self.placeholder = placeholder
+        self.icon = icon
+        self.keyboardType = keyboardType
+        self.secure = secure
+        self.validation = validation
     }
-
-    func image(compatibleWithTraits traits: UITraitCollection? = nil) -> UIImage? {
-        return UIImage(named: self.name, inBundle: self.bundle, compatibleWithTraitCollection: traits)
-    }
-}
-
-public func ==(lhs: LazyImage, rhs: LazyImage) -> Bool {
-    return lhs.name == rhs.name && lhs.bundle == rhs.bundle
 }

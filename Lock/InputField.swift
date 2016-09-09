@@ -277,17 +277,17 @@ public class InputField: UIView, UITextFieldDelegate {
         var icon: LazyImage {
             switch self {
             case .Email:
-                return LazyImage(name: "ic_mail")
+                return lazyImage(named: "ic_mail")
             case .Username:
-                return LazyImage(name: "ic_person")
+                return lazyImage(named: "ic_person")
             case .EmailOrUsername:
-                return LazyImage(name: "ic_mail")
+                return lazyImage(named: "ic_mail")
             case .Password:
-                return LazyImage(name: "ic_lock")
+                return lazyImage(named: "ic_lock")
             case .Phone:
-                return LazyImage(name: "ic_phone")
+                return lazyImage(named: "ic_phone")
             case .OneTimePassword:
-                return LazyImage(name: "ic_lock")
+                return lazyImage(named: "ic_lock")
             case Custom(_, let icon, _, _):
                 return icon
             }

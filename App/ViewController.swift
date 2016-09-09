@@ -62,7 +62,7 @@ class ViewController: UIViewController {
                     .style {
                         $0.title = "Phantom Inc."
                         $0.headerBlur = .ExtraLight
-                        $0.logo = LazyImage(name: "icn_phantom", bundle: NSBundle.mainBundle())
+                        $0.logo = LazyImage(name: "icn_phantom")
                         $0.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
                     }
                     .withConnections { connections in

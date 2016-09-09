@@ -55,7 +55,7 @@ public struct Style {
     public var titleColor = UIColor.blackColor()
 
         /// Header logo image
-    public var logo: LazyImage = LazyImage(name: "ic_auth0", bundle: _BundleHack.bundle)
+    public var logo: LazyImage = lazyImage(named: "ic_auth0")
 
     var headerMask: UIImage?  {
         let image = self.logo.image(compatibleWithTraits: nil)
