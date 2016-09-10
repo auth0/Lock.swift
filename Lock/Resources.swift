@@ -23,11 +23,11 @@
 import Foundation
 
 func lazyImage(named name: String) -> LazyImage {
-    return LazyImage(name: name, bundle: _BundleHack.bundle)
+    return LazyImage(name: name, bundle: Lock.bundle)
 }
 
 func image(named name: String, compatibleWithTraitCollection traitCollection: UITraitCollection? = nil) -> UIImage? {
-    let bundle = _BundleHack.bundle
+    let bundle = Lock.bundle
     return UIImage(named: name, inBundle: bundle, compatibleWithTraitCollection: traitCollection)
 }
 

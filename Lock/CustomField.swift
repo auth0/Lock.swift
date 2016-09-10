@@ -39,4 +39,8 @@ public struct CustomField {
         self.secure = secure
         self.validation = validation
     }
+
+    var type: InputField.InputType {
+        return .Custom(placeholder: placeholder, icon: icon, keyboardType: keyboardType, secure: secure)
+    }
 }

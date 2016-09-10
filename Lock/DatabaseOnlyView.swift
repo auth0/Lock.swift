@@ -103,8 +103,8 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.form = form
     }
 
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil) {
-        let form = SignUpView()
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomField]) {
+        let form = SignUpView(additionalFields: additionalFields)
         form.showUsername = showUsername
         form.emailField.text = email
         form.emailField.returnKey = .Next

@@ -76,6 +76,10 @@ class OptionsSpec: QuickSpec {
             it("should accept both styles for identifier") {
                 expect(options.usernameStyle) == [.Email, .Username]
             }
+
+            it("should have no custom fields") {
+                expect(options.customSignupFields).to(beEmpty())
+            }
         }
 
         describe("validation") {

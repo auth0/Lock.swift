@@ -190,6 +190,11 @@ public class Lock: NSObject {
         return self
     }
 
+        /// Lock's Bundle. Useful for getting bundled resources like images.
+    public static var bundle: NSBundle {
+        return NSBundle(forClass: Lock.classForCoder())
+    }
+
     /**
      Resumes an Auth session from Safari, e.g. when authenticating with Facebook.
      
