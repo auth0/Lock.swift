@@ -27,4 +27,5 @@ enum UserAttribute {
     case Username
     case Password
     case EmailOrUsername
+    case Custom(name: String)
 }

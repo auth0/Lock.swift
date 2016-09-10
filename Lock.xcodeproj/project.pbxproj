@@ -130,7 +130,6 @@
 		5FF1FA411D4C14EF00158CD1 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CF1D2C95B100166B67 /* MessageView.swift */; };
 		5FF1FA421D4C14EF00158CD1 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA891D1B360C00D27842 /* PrimaryButton.swift */; };
 		5FF1FA431D4C14EF00158CD1 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */; };
-		5FF1FA441D4C14EF00158CD1 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */; };
 		5FF1FA451D4C14EF00158CD1 /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */; };
 		5FF1FA461D4C150100158CD1 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA871D1B0E2500D27842 /* Layout.swift */; };
 		5FF1FA471D4C151000158CD1 /* i18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA811D1B0A3900D27842 /* i18n.swift */; };
@@ -990,7 +989,6 @@
 				5FF1FA3B1D4C14EF00158CD1 /* CredentialView.swift in Sources */,
 				5FF1FA4B1D4C15DC00158CD1 /* Resources.swift in Sources */,
 				5FF1FA4C1D4C15DC00158CD1 /* Queue.swift in Sources */,
-				5FF1FA441D4C14EF00158CD1 /* SignUpView.swift in Sources */,
 				5FD6772D1D4C303C004B87C4 /* AuthButton.swift in Sources */,
 				5FF1FA411D4C14EF00158CD1 /* MessageView.swift in Sources */,
 				5FF1FA421D4C14EF00158CD1 /* PrimaryButton.swift in Sources */,

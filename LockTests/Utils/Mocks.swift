@@ -149,6 +149,7 @@ class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
     var email: String? = nil
     var password: String? = nil
     var username: String? = nil
+    var custom: [String: String] = [:]
 
     var validEmail: Bool = false
     var validUsername: Bool = false
@@ -184,6 +185,8 @@ class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
         case .EmailOrUsername:
             self.email = value
             self.username = value
+        case .Custom(let name):
+            self.custom[name] = value
         }
     }
 }

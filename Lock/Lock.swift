@@ -192,7 +192,7 @@ public class Lock: NSObject {
 
         /// Lock's Bundle. Useful for getting bundled resources like images.
     public static var bundle: NSBundle {
-        return NSBundle(forClass: Lock.classForCoder())
+        return bundleForLock()
     }
 
     /**

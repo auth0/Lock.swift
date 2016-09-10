@@ -104,6 +104,29 @@ class UserSpec: QuickSpec {
                 expect(user.username).to(beNil())
             }
 
+            it("should clear additional attributes") {
+                user.additionalAttributes["first_name"] = "John"
+                user.additionalAttributesStatus["first_name"] = true
+                user.reset()
+                expect(user.additionalAttributes["first_name"]).to(beNil())
+            }
+        }
+
+        describe("additional attributes") {
+
+            it("should return nil by default") {
+                expect(user.additionalAttributes["attr"]).to(beNil())
+            }
+
+            it("should return non valid as default") {
+                expect(user.validAdditionaAttribute("attr")) == false
+            }
+
+            it("should update attribute status") {
+                user.validAdditionaAttribute("attr", valid: true)
+                expect(user.validAdditionaAttribute("attr")) == true
+            }
+
         }
     }
 

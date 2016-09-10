@@ -26,7 +26,7 @@ private let TableName = "Lock"
 
 extension String {
     func i18n(key key: String, comment: String) -> String {
-        let bundle = Lock.bundle
+        let bundle = bundleForLock()
         let defaultLocalizable = NSLocalizedString(key, tableName: TableName, bundle: bundle, value: self, comment: comment)
         let localizable = NSLocalizedString(key, tableName: TableName, value: defaultLocalizable, comment: comment)
         return localizable

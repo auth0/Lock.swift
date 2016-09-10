@@ -29,9 +29,9 @@ public struct CustomField {
     let icon: LazyImage
     let keyboardType: UIKeyboardType
     let secure: Bool
-    let validation: String? -> Bool
+    let validation: String? -> ErrorType?
 
-    public init(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType = .Default, secure: Bool = false, validation: String? -> Bool = { return !($0?.isEmpty ?? true) }) {
+    public init(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType = .Default, secure: Bool = false, validation: String? -> ErrorType? = nonEmpty) {
         self.name = name
         self.placeholder = placeholder
         self.icon = icon
@@ -41,6 +41,11 @@ public struct CustomField {
     }
 
     var type: InputField.InputType {
-        return .Custom(placeholder: placeholder, icon: icon, keyboardType: keyboardType, secure: secure)
+        return .Custom(name: name, placeholder: placeholder, icon: icon, keyboardType: keyboardType, secure: secure)
     }
+}
+
+private func nonEmpty(value: String?) -> ErrorType? {
+    guard let username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) where !username.isEmpty else { return InputValidationError.MustNotBeEmpty }
+    return nil
 }

@@ -27,16 +27,22 @@ protocol DatabaseUser {
     var username: String? { get set }
     var password: String? { get set }
     var identifier: String? { get }
+    var additionalAttributes: [String: String] { get set }
 
     var validEmail: Bool { get set }
     var validUsername: Bool { get set }
     var validPassword: Bool { get set }
+
+    func validAdditionaAttribute(name: String) -> Bool
+    func validAdditionaAttribute(name: String, valid: Bool)
 }
 
 class User: DatabaseUser {
     var email: String? = nil
     var username: String? = nil
     var password: String? = nil
+    var additionalAttributes: [String : String] = [:]
+    var additionalAttributesStatus: [String: Bool] = [:]
 
     var validEmail: Bool = false
     var validUsername: Bool = false
@@ -51,5 +57,15 @@ class User: DatabaseUser {
         if !self.validUsername { self.username = nil }
         if !self.validEmail { self.email = nil }
         self.password = nil
+        self.additionalAttributesStatus = [:]
+        self.additionalAttributes = [:]
+    }
+
+    func validAdditionaAttribute(name: String) -> Bool {
+        return self.additionalAttributesStatus[name] ?? false
+    }
+
+    func validAdditionaAttribute(name: String, valid: Bool) {
+        self.additionalAttributesStatus[name] = valid
     }
 }

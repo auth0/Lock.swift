@@ -22,13 +22,12 @@
 
 import Foundation
 
-func lazyImage(named name: String) -> LazyImage {
-    return LazyImage(name: name, bundle: Lock.bundle)
-}
+func bundleForLock() -> NSBundle { return NSBundle(forClass: InputField.classForCoder()) }
+
+func lazyImage(named name: String) -> LazyImage { return LazyImage(name: name, bundle: bundleForLock()) }
 
 func image(named name: String, compatibleWithTraitCollection traitCollection: UITraitCollection? = nil) -> UIImage? {
-    let bundle = Lock.bundle
-    return UIImage(named: name, inBundle: bundle, compatibleWithTraitCollection: traitCollection)
+    return UIImage(named: name, inBundle: bundleForLock(), compatibleWithTraitCollection: traitCollection)
 }
 
 func image(withColor color: UIColor) -> UIImage {

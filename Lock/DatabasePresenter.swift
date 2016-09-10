@@ -182,6 +182,8 @@ class DatabasePresenter: Presentable, Loggable {
             attribute = .Password
         case .Username:
             attribute = .Username
+        case .Custom(let name, _, _, _, _):
+            attribute = .Custom(name: name)
         default:
             attribute = nil
         }

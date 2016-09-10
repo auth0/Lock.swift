@@ -378,6 +378,13 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(interactor.password) == password
                 }
 
+                it("should custom field") {
+                    let name = "Auth0"
+                    let input = mockInput(.Custom(name: "first_name", placeholder: "Name", icon: LazyImage(name: "ic_auth0", bundle: Lock.bundle), keyboardType: .Default, secure: false), value: name)
+                    view.form?.onValueChange(input)
+                    expect(interactor.custom["first_name"]) == name
+                }
+
                 it("should not update if type is not valid for db connection") {
                     let input = mockInput(.Phone, value: "+1234567890")
                     view.form?.onValueChange(input)
