@@ -38,16 +38,16 @@ class LazyImageSpec: QuickSpec {
             }
 
             it("should use name and bundle") {
-                let image = LazyImage(name: "image", bundle: _BundleHack.bundle)
+                let image = LazyImage(name: "image", bundle: Lock.bundle)
                 expect(image.name) == "image"
-                expect(image.bundle) == _BundleHack.bundle
+                expect(image.bundle) == Lock.bundle
             }
 
         }
 
         describe("image(compatibleWithTraits:)") {
             it("should load image") {
-                let image = LazyImage(name: "ic_auth0", bundle: _BundleHack.bundle)
+                let image = LazyImage(name: "ic_auth0", bundle: Lock.bundle)
                 expect(image.image(compatibleWithTraits: nil)).toNot(beNil())
             }
 

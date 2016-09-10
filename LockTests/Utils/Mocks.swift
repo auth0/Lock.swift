@@ -164,7 +164,7 @@ class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
         callback(onSignUp(), onLogin())
     }
 
-    func update(attribute: CredentialAttribute, value: String?) throws {
+    func update(attribute: UserAttribute, value: String?) throws {
         guard value != "invalid" else {
             if case .Email = attribute {
                 self.validEmail = false

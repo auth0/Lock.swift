@@ -52,7 +52,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         self.options = options
     }
 
-    mutating func update(attribute: CredentialAttribute, value: String?) throws {
+    mutating func update(attribute: UserAttribute, value: String?) throws {
         let error: ErrorType?
         switch attribute {
         case .Email:

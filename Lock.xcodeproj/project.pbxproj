@@ -22,7 +22,7 @@
 		5F2496AF1D66210500A1C6E2 /* LockViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */; };
 		5F2496B31D665A5600A1C6E2 /* DatabaseUserCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */; };
 		5F2496B61D665AA800A1C6E2 /* InputValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B51D665AA800A1C6E2 /* InputValidationError.swift */; };
-		5F2496B81D665AC500A1C6E2 /* CredentialAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B71D665AC500A1C6E2 /* CredentialAttribute.swift */; };
+		5F2496B81D665AC500A1C6E2 /* UserAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B71D665AC500A1C6E2 /* UserAttribute.swift */; };
 		5F2496BA1D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */; };
 		5F2496BC1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */; };
 		5F2496BE1D67ADB300A1C6E2 /* ValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496BD1D67ADB300A1C6E2 /* ValidatorSpec.swift */; };
@@ -203,7 +203,7 @@
 		5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockViewControllerSpec.swift; sourceTree = "<group>"; };
 		5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseUserCreator.swift; path = Lock/DatabaseUserCreator.swift; sourceTree = SOURCE_ROOT; };
 		5F2496B51D665AA800A1C6E2 /* InputValidationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputValidationError.swift; path = Lock/InputValidationError.swift; sourceTree = SOURCE_ROOT; };
-		5F2496B71D665AC500A1C6E2 /* CredentialAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CredentialAttribute.swift; path = Lock/CredentialAttribute.swift; sourceTree = SOURCE_ROOT; };
+		5F2496B71D665AC500A1C6E2 /* UserAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserAttribute.swift; path = Lock/UserAttribute.swift; sourceTree = SOURCE_ROOT; };
 		5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseAuthenticatableError.swift; path = Lock/DatabaseAuthenticatableError.swift; sourceTree = SOURCE_ROOT; };
 		5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseUserCreatorError.swift; path = Lock/DatabaseUserCreatorError.swift; sourceTree = SOURCE_ROOT; };
 		5F2496BD1D67ADB300A1C6E2 /* ValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatorSpec.swift; sourceTree = "<group>"; };
@@ -369,7 +369,6 @@
 				5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */,
 				5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */,
 				5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */,
-				5F2496B71D665AC500A1C6E2 /* CredentialAttribute.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -491,6 +490,7 @@
 		5FBE5CB51D3D8EE70038536D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5F2496B71D665AC500A1C6E2 /* UserAttribute.swift */,
 				5FBE5CB71D3D8F030038536D /* User.swift */,
 				5F57DFC51D4F79DD00C54DA8 /* AuthStyle.swift */,
 				5F1C498D1D8360AA005B74FC /* Style.swift */,
@@ -890,7 +890,7 @@
 				5F70F1E71D790773004698DA /* OptionBuildable.swift in Sources */,
 				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
-				5F2496B81D665AC500A1C6E2 /* CredentialAttribute.swift in Sources */,
+				5F2496B81D665AC500A1C6E2 /* UserAttribute.swift in Sources */,
 				5F70F1DF1D7904A3004698DA /* ConnectionBuildable.swift in Sources */,
 				5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */,
 				5FD6772C1D4C303C004B87C4 /* AuthButton.swift in Sources */,
