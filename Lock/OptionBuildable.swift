@@ -65,7 +65,7 @@ public protocol OptionBuildable: Options {
     var usernameStyle: DatabaseIdentifierStyle { get set }
 
         /// Additional fields showed for Database Sign Up. By default the list is empty
-    var customSignupFields: [CustomField] { get set }
+    var customSignupFields: [CustomTextField] { get set }
 }
 
 internal extension OptionBuildable {

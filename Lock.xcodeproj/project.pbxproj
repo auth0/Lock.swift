@@ -17,7 +17,7 @@
 		5F1C49931D8360DF005B74FC /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C49921D8360DF005B74FC /* LoadingView.swift */; };
 		5F1C49961D8360F5005B74FC /* RemoteConnectionLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C49941D8360F5005B74FC /* RemoteConnectionLoader.swift */; };
 		5F1C49971D8360F5005B74FC /* CDNLoaderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C49951D8360F5005B74FC /* CDNLoaderInteractor.swift */; };
-		5F1C499B1D836190005B74FC /* CustomField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C499A1D836190005B74FC /* CustomField.swift */; };
+		5F1C499B1D836190005B74FC /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C499A1D836190005B74FC /* CustomTextField.swift */; };
 		5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2037C11D5D02880005D2E2 /* Matchers.swift */; };
 		5F2496AF1D66210500A1C6E2 /* LockViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */; };
 		5F2496B31D665A5600A1C6E2 /* DatabaseUserCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */; };
@@ -197,7 +197,7 @@
 		5F1C49921D8360DF005B74FC /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingView.swift; path = Lock/LoadingView.swift; sourceTree = SOURCE_ROOT; };
 		5F1C49941D8360F5005B74FC /* RemoteConnectionLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteConnectionLoader.swift; path = Lock/RemoteConnectionLoader.swift; sourceTree = SOURCE_ROOT; };
 		5F1C49951D8360F5005B74FC /* CDNLoaderInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CDNLoaderInteractor.swift; path = Lock/CDNLoaderInteractor.swift; sourceTree = SOURCE_ROOT; };
-		5F1C499A1D836190005B74FC /* CustomField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomField.swift; path = Lock/CustomField.swift; sourceTree = SOURCE_ROOT; };
+		5F1C499A1D836190005B74FC /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTextField.swift; path = Lock/CustomTextField.swift; sourceTree = SOURCE_ROOT; };
 		5F2037C11D5D02880005D2E2 /* Matchers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matchers.swift; sourceTree = "<group>"; };
 		5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockViewControllerSpec.swift; sourceTree = "<group>"; };
 		5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseUserCreator.swift; path = Lock/DatabaseUserCreator.swift; sourceTree = SOURCE_ROOT; };
@@ -446,7 +446,7 @@
 				5F70F1E41D790735004698DA /* Options.swift */,
 				5F70F1E61D790773004698DA /* OptionBuildable.swift */,
 				5F70F1E81D7907D5004698DA /* LockOptions.swift */,
-				5F1C499A1D836190005B74FC /* CustomField.swift */,
+				5F1C499A1D836190005B74FC /* CustomTextField.swift */,
 			);
 			name = Options;
 			sourceTree = "<group>";
@@ -885,7 +885,7 @@
 				5F99AA901D1B9E7100D27842 /* DatabaseModeSwitcher.swift in Sources */,
 				5F70F1E31D79057A004698DA /* OfflineConnections.swift in Sources */,
 				5F2496B31D665A5600A1C6E2 /* DatabaseUserCreator.swift in Sources */,
-				5F1C499B1D836190005B74FC /* CustomField.swift in Sources */,
+				5F1C499B1D836190005B74FC /* CustomTextField.swift in Sources */,
 				5F70F1E71D790773004698DA /* OptionBuildable.swift in Sources */,
 				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,

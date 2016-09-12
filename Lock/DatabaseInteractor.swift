@@ -43,7 +43,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     let passwordValidator: InputValidator = NonEmptyValidator()
     let onAuthentication: Credentials -> ()
     let options: Options
-    let customFields: [String: CustomField]
+    let customFields: [String: CustomTextField]
 
     init(connections: Connections, authentication: Authentication, user: DatabaseUser, options: Options, callback: Credentials -> ()) {
         self.authentication = authentication
@@ -51,7 +51,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         self.onAuthentication = callback
         self.user = user
         self.options = options
-        var fields: [String: CustomField] = [:]
+        var fields: [String: CustomTextField] = [:]
         options.customSignupFields.forEach { fields[$0.name] = $0 }
         self.customFields = fields
     }

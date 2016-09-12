@@ -222,7 +222,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 beforeEach {
                     var options = LockOptions()
-                    options.customSignupFields = [CustomField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))]
+                    options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))]
                     database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
                 }
 
@@ -246,7 +246,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 it("should raise error for custom validation") {
                     var options = LockOptions()
                     let error = NSError(domain: "com.auth0", code: -99999, userInfo: [:])
-                    options.customSignupFields = [CustomField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), validation: { _ in return error })]
+                    options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), validation: { _ in return error })]
                     database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
                     expect{ try database.update(.Custom(name: "first_name"), value: nil) }.to(throwError(error))
                 }

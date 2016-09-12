@@ -38,5 +38,5 @@ public protocol Options {
     var allow: DatabaseMode { get }
     var initialScreen: DatabaseScreen { get }
     var usernameStyle: DatabaseIdentifierStyle { get }
-    var customSignupFields: [CustomField] { get }
+    var customSignupFields: [CustomTextField] { get }
 }

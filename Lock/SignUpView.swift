@@ -66,7 +66,7 @@ public class SignUpView: UIView, Form {
 
     // MARK:- Initialisers
 
-    public init(additionalFields: [CustomField]) {
+    public init(additionalFields: [CustomTextField]) {
         self.emailField = inputField(withType: .Email)
         self.passwordField = inputField(withType: .Password)
         var fields = [emailField, passwordField]

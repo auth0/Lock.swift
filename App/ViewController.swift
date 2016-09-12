@@ -75,8 +75,8 @@ class ViewController: UIViewController {
                     .options {
                         applyDefaultOptions(&$0)
                         $0.customSignupFields = [
-                            CustomField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
-                            CustomField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
+                            CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
+                            CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
                         ]
                     }
                     .withConnections { connections in

@@ -1,4 +1,4 @@
-// CustomField.swift
+// CustomTextField.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,26 +22,28 @@
 
 import Foundation
 
-public struct CustomField {
+public struct CustomTextField {
 
     let name: String
     let placeholder: String
     let icon: LazyImage
     let keyboardType: UIKeyboardType
+    let autocorrectionType: UITextAutocorrectionType
     let secure: Bool
     let validation: String? -> ErrorType?
 
-    public init(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType = .Default, secure: Bool = false, validation: String? -> ErrorType? = nonEmpty) {
+    public init(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType = .Default, autocorrectionType: UITextAutocorrectionType = .Default, secure: Bool = false, validation: String? -> ErrorType? = nonEmpty) {
         self.name = name
         self.placeholder = placeholder
         self.icon = icon
         self.keyboardType = keyboardType
+        self.autocorrectionType = autocorrectionType
         self.secure = secure
         self.validation = validation
     }
 
     var type: InputField.InputType {
-        return .Custom(name: name, placeholder: placeholder, icon: icon, keyboardType: keyboardType, secure: secure)
+        return .Custom(name: name, placeholder: placeholder, icon: icon, keyboardType: keyboardType, autocorrectionType: self.autocorrectionType, secure: secure)
     }
 }
 

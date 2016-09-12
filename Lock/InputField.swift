@@ -50,7 +50,7 @@ public class InputField: UIView, UITextFieldDelegate {
         didSet {
             self.textField?.placeholder = type.placeholder
             self.textField?.secureTextEntry = type.secure
-            self.textField?.autocorrectionType = .Default
+            self.textField?.autocorrectionType = .No
             self.textField?.autocapitalizationType = .None
             self.textField?.keyboardType = type.keyboardType
             self.iconView?.image = type.icon.image(compatibleWithTraits: self.traitCollection)
@@ -242,14 +242,14 @@ public class InputField: UIView, UITextFieldDelegate {
         case Password
         case Phone
         case OneTimePassword
-        case Custom(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType, secure: Bool)
+        case Custom(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, secure: Bool)
 
         var placeholder: String? {
             switch self {
             case .Email:
                 return "Email".i18n(key: "com.auth0.lock.input.placeholder.email", comment: "Email placeholder")
             case .Username:
-                return "Username".i18n(key: "com.auth0.lock.input.placeholder.username", comment: "Email placeholder")
+                return "Username".i18n(key: "com.auth0.lock.input.placeholder.username", comment: "Username placeholder")
             case .EmailOrUsername:
                 return "Username/Email".i18n(key: "com.auth0.lock.input.placeholder.email-username", comment: "Username or Email placeholder")
             case .Password:
@@ -258,7 +258,7 @@ public class InputField: UIView, UITextFieldDelegate {
                 return "Phone Number".i18n(key: "com.auth0.lock.input.placeholder.phone", comment: "Phone placeholder")
             case .OneTimePassword:
                 return "Code".i18n(key: "com.auth0.lock.input.placeholder.otp", comment: "OTP placeholder")
-            case .Custom(_, let placeholder, _, _, _):
+            case .Custom(_, let placeholder, _, _, _, _):
                 return placeholder
             }
         }
@@ -268,7 +268,7 @@ public class InputField: UIView, UITextFieldDelegate {
                 return true
             }
 
-            if case .Custom(_, _, _, _, let secure) = self {
+            if case .Custom(_, _, _, _, _, let secure) = self {
                 return secure
             }
             return false
@@ -288,7 +288,7 @@ public class InputField: UIView, UITextFieldDelegate {
                 return lazyImage(named: "ic_phone")
             case .OneTimePassword:
                 return lazyImage(named: "ic_lock")
-            case Custom(_, _, let icon, _, _):
+            case Custom(_, _, let icon, _, _, _):
                 return icon
             }
         }
@@ -307,8 +307,17 @@ public class InputField: UIView, UITextFieldDelegate {
                 return .PhonePad
             case .OneTimePassword:
                 return .DecimalPad
-            case Custom(_, _, _, let keyboardType, _):
+            case Custom(_, _, _, let keyboardType, _, _):
                 return keyboardType
+            }
+        }
+
+        var autocorrectionType: UITextAutocorrectionType {
+            switch self {
+            case Custom(_, _, _, _, let autocorrectionType, _):
+                return autocorrectionType
+            default:
+                return .No
             }
         }
     }
