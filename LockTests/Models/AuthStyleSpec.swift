@@ -58,7 +58,7 @@ class AuthStyleSpecSharedExamplesConfiguration: QuickConfiguration {
 
                 it("should have icon") {
                     expect(style.image.name) == iconName
-                    expect(style.image.bundle) == _BundleHack.bundle
+                    expect(style.image.bundle) == Lock.bundle
                 }
             }
         }

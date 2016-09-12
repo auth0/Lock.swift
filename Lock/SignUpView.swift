@@ -30,8 +30,7 @@ public class SignUpView: UIView, Form {
 
     public var showUsername: Bool = false {
         didSet {
-            let field = InputField()
-            field.type = .Username
+            let field = inputField(withType: .Username)
             field.onTextChange = onValueChange
             self.usernameField = field
             if showUsername {
@@ -44,44 +43,50 @@ public class SignUpView: UIView, Form {
 
     public var onValueChange: (InputField) -> () = {_ in} {
         didSet {
-            self.emailField.onTextChange = onValueChange
-            self.usernameField?.onTextChange = onValueChange
-            self.passwordField.onTextChange = onValueChange
+            self.stackView.arrangedSubviews
+                .map { $0 as! InputField }
+                .forEach { $0.onTextChange = onValueChange }
         }
     }
 
     var onReturn: (InputField) -> () {
         get {
-            return self.passwordField.onReturn
+            return (self.stackView.arrangedSubviews.last as! InputField).onReturn
         }
         set {
-            self.passwordField.onReturn = newValue
+            (self.stackView.arrangedSubviews.last as! InputField).onReturn = newValue
         }
     }
 
     func needsToUpdateState() {
-        self.usernameField?.needsToUpdateState()
-        self.emailField.needsToUpdateState()
-        self.passwordField.needsToUpdateState()
+        self.stackView.arrangedSubviews
+            .map { $0 as! InputField }
+            .forEach { $0.needsToUpdateState() }
     }
 
     // MARK:- Initialisers
 
-    public convenience init() {
-        self.init(frame: CGRectZero)
+    public init(additionalFields: [CustomTextField]) {
+        self.emailField = inputField(withType: .Email)
+        self.passwordField = inputField(withType: .Password)
+        var fields = [emailField, passwordField]
+        fields.appendContentsOf(additionalFields.map { return inputField(withType: $0.type) })
+        self.stackView = UIStackView(arrangedSubviews: fields)
+        super.init(frame: CGRectZero)
+        self.layoutForm()
     }
 
     required override public init(frame: CGRect) {
-        self.emailField = InputField()
-        self.passwordField = InputField()
+        self.emailField = inputField(withType: .Email)
+        self.passwordField = inputField(withType: .Password)
         self.stackView = UIStackView(arrangedSubviews: [emailField, passwordField])
         super.init(frame: frame)
         self.layoutForm()
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        self.emailField = InputField()
-        self.passwordField = InputField()
+        self.emailField = inputField(withType: .Email)
+        self.passwordField = inputField(withType: .Password)
         self.stackView = UIStackView(arrangedSubviews: [emailField, passwordField])
         super.init(coder: aDecoder)
         self.layoutForm()
@@ -111,7 +116,15 @@ public class SignUpView: UIView, Form {
         email.type = .Email
         password.type = .Password
 
-        email.returnKey = .Next
-        password.returnKey = .Done
+        let fields = self.stackView.arrangedSubviews.map { $0 as! InputField }
+        fields.forEach { $0.returnKey = .Next }
+        fields.last?.returnKey = .Done
     }
+}
+
+
+private func inputField(withType type: InputField.InputType) -> InputField {
+    let field = InputField()
+    field.type = type
+    return field
 }

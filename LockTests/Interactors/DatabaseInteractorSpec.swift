@@ -218,6 +218,41 @@ class DatabaseInteractorSpec: QuickSpec {
                 
             }
 
+            describe("custom attribute validation") {
+
+                beforeEach {
+                    var options = LockOptions()
+                    options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))]
+                    database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                }
+
+                it("should always store value") {
+                    let _ = try? database.update(.Custom(name: "first_name"), value: "Auth0")
+                    expect(user.additionalAttributes["first_name"]) == "Auth0"
+                }
+
+                it("should raise error if value is empty") {
+                    expect{ try database.update(.Custom(name: "first_name"), value: "") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if password is only spaces") {
+                    expect{ try database.update(.Custom(name: "first_name"), value: "     ") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error if password is nil") {
+                    expect{ try database.update(.Custom(name: "first_name"), value: nil) }.to(throwError(InputValidationError.MustNotBeEmpty))
+                }
+
+                it("should raise error for custom validation") {
+                    var options = LockOptions()
+                    let error = NSError(domain: "com.auth0", code: -99999, userInfo: [:])
+                    options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), validation: { _ in return error })]
+                    database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                    expect{ try database.update(.Custom(name: "first_name"), value: nil) }.to(throwError(error))
+                }
+
+            }
+
         }
 
         describe("login") {

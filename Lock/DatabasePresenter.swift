@@ -122,7 +122,7 @@ class DatabasePresenter: Presentable, Loggable {
     private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), isLogin: false)
-        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView)
+        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields)
         let form = view.form
         view.form?.onValueChange = self.handleInput
         let action = { [weak form] (button: PrimaryButton) in
@@ -172,7 +172,7 @@ class DatabasePresenter: Presentable, Loggable {
     private func handleInput(input: InputField) {
         self.messagePresenter?.hideCurrent()
         self.logger.verbose("new value: \(input.text) for type: \(input.type)")
-        let attribute: CredentialAttribute?
+        let attribute: UserAttribute?
         switch input.type {
         case .Email:
             attribute = .Email
@@ -182,6 +182,8 @@ class DatabasePresenter: Presentable, Loggable {
             attribute = .Password
         case .Username:
             attribute = .Username
+        case .Custom(let name, _, _, _, _, _):
+            attribute = .Custom(name: name)
         default:
             attribute = nil
         }

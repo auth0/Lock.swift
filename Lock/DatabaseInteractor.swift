@@ -43,6 +43,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     let passwordValidator: InputValidator = NonEmptyValidator()
     let onAuthentication: Credentials -> ()
     let options: Options
+    let customFields: [String: CustomTextField]
 
     init(connections: Connections, authentication: Authentication, user: DatabaseUser, options: Options, callback: Credentials -> ()) {
         self.authentication = authentication
@@ -50,9 +51,12 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         self.onAuthentication = callback
         self.user = user
         self.options = options
+        var fields: [String: CustomTextField] = [:]
+        options.customSignupFields.forEach { fields[$0.name] = $0 }
+        self.customFields = fields
     }
 
-    mutating func update(attribute: CredentialAttribute, value: String?) throws {
+    mutating func update(attribute: UserAttribute, value: String?) throws {
         let error: ErrorType?
         switch attribute {
         case .Email:
@@ -69,6 +73,11 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             } else {
                 error = nil
             }
+        case .Custom(let name):
+            let field = self.customFields[name]
+            error = field?.validation(value)
+            self.user.additionalAttributes[name] = value
+            self.user.validAdditionaAttribute(name, valid: error == nil)
         }
 
         if let error = error { throw error }
@@ -111,6 +120,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         guard !connection.requiresUsername || self.validUsername else { return callback(.NonValidInput, nil) }
 
         let username = connection.requiresUsername ? self.username : nil
+        let metadata: [String: AnyObject]? = self.user.additionalAttributes.isEmpty ? nil : self.user.additionalAttributes
 
         let authentication = self.authentication
         let login = authentication.login(
@@ -121,7 +131,13 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                 parameters: self.options.parameters
             )
         authentication
-            .createUser(email: email, username: username, password: password, connection: databaseName)
+            .createUser(
+                email: email,
+                username: username,
+                password: password,
+                connection: databaseName,
+                userMetadata: metadata
+            )
             .start {
                 switch $0 {
                 case .Success:

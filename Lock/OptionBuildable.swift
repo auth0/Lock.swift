@@ -63,6 +63,9 @@ public protocol OptionBuildable: Options {
      - important: This option is ignored if the database does not require a username (when `requires_username` is false)
     */
     var usernameStyle: DatabaseIdentifierStyle { get set }
+
+        /// Additional fields showed for Database Sign Up. By default the list is empty
+    var customSignupFields: [CustomTextField] { get set }
 }
 
 internal extension OptionBuildable {

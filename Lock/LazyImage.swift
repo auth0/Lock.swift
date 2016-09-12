@@ -35,17 +35,17 @@ public struct LazyImage: Equatable {
      For images outside Lock's bundle you should specify the Bundle like
      
      ```
-     let image = LazyImage(name: "image_name", bundle: NSBundle.mainBundle())
+     let image = LazyImage(name: "image_name")
      ```
 
      - parameter name:   name of the image to load from a bundle
-     - parameter bundle: bundle from where to load the imnage or nil which will default in Lock's Bundle.
+     - parameter bundle: bundle from where to load the image or nil which will default application main bundle
 
      - returns: a newly created `LazyImage`
      */
     public init(name: String, bundle: NSBundle? = nil) {
         self.name = name
-        self.bundle = bundle ?? _BundleHack.bundle
+        self.bundle = bundle ?? NSBundle.mainBundle()
     }
 
     func image(compatibleWithTraits traits: UITraitCollection? = nil) -> UIImage? {

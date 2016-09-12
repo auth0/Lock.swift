@@ -163,7 +163,7 @@ public class Lock: NSObject {
         .style {
             $0.title = "Auth0 Inc."
             $0.primaryColor = UIColor.orangeColor()
-            $0.logo = LazyImage(name: "icn_auth0", bundle: NSBundle.mainBundle())
+            $0.logo = LazyImage(name: "icn_auth0")
         }
      ```
 
@@ -188,6 +188,11 @@ public class Lock: NSObject {
     public func on(callback: AuthenticationCallback) -> Lock {
         self.callback = callback
         return self
+    }
+
+        /// Lock's Bundle. Useful for getting bundled resources like images.
+    public static var bundle: NSBundle {
+        return bundleForLock()
     }
 
     /**

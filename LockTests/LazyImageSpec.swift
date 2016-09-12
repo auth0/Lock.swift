@@ -34,20 +34,20 @@ class LazyImageSpec: QuickSpec {
             it("should use name only") {
                 let image = LazyImage(name: "image")
                 expect(image.name) == "image"
-                expect(image.bundle) == _BundleHack.bundle
+                expect(image.bundle) == NSBundle.mainBundle()
             }
 
             it("should use name and bundle") {
-                let image = LazyImage(name: "image", bundle: NSBundle.mainBundle())
+                let image = LazyImage(name: "image", bundle: Lock.bundle)
                 expect(image.name) == "image"
-                expect(image.bundle) == NSBundle.mainBundle()
+                expect(image.bundle) == Lock.bundle
             }
 
         }
 
         describe("image(compatibleWithTraits:)") {
             it("should load image") {
-                let image = LazyImage(name: "ic_auth0")
+                let image = LazyImage(name: "ic_auth0", bundle: Lock.bundle)
                 expect(image.image(compatibleWithTraits: nil)).toNot(beNil())
             }
 

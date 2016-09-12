@@ -1,4 +1,4 @@
-// CredentialAttribute.swift
+// UserAttribute.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,9 +22,10 @@
 
 import Foundation
 
-enum CredentialAttribute {
+enum UserAttribute {
     case Email
     case Username
     case Password
     case EmailOrUsername
+    case Custom(name: String)
 }

@@ -37,9 +37,13 @@ public class AuthStyle {
         return String(format: format, self.name)
     }
 
-    public init(name: String, color: UIColor = UIColor.a0_orange, withImage imageName: String = "ic_auth_auth0", inBundle bundle: NSBundle? = nil) {
+    public convenience init(name: String, color: UIColor = UIColor.a0_orange, withImage imageName: String = "ic_auth_auth0", inBundle bundle: NSBundle? = bundleForLock()) {
+        self.init(name: name, color: color, withImage: LazyImage(name: imageName, bundle: bundle))
+    }
+
+    public init(name: String, color: UIColor = UIColor.a0_orange, withImage image: LazyImage) {
         self.name = name
-        self.image = LazyImage(name: imageName, bundle: bundle)
+        self.image = image
         self.color = color
     }
 
