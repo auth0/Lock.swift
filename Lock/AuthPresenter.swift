@@ -27,12 +27,14 @@ class AuthPresenter: Presentable, Loggable {
     let compactModeThreshold = 3
     let connections: [OAuth2Connection]
     let interactor: OAuth2Authenticatable
+    let customStyle: [String: AuthStyle]
 
     var messagePresenter: MessagePresenter?
 
-    init(connections: Connections, interactor: OAuth2Authenticatable) {
+    init(connections: Connections, interactor: OAuth2Authenticatable, customStyle: [String: AuthStyle]) {
         self.connections = connections.oauth2
         self.interactor = interactor
+        self.customStyle = customStyle
     }
 
     var view: View {
@@ -50,7 +52,7 @@ class AuthPresenter: Presentable, Loggable {
     }
 
     private func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode) -> AuthCollectionView {
-        let view = AuthCollectionView(connections: self.connections, mode: mode, insets: insets) { name in
+        let view = AuthCollectionView(connections: self.connections, mode: mode, insets: insets, customStyle: self.customStyle) { name in
             self.interactor.login(name) { error in
                 guard let error = error else { return }
                 self.messagePresenter?.showError(error)

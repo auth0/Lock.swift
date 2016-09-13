@@ -27,12 +27,30 @@ public class AuthButton: UIView {
     weak var button: UIButton?
     weak var iconView: UIImageView?
 
-    public var color: UIColor = UIColor ( red: 0.9176, green: 0.3255, blue: 0.1373, alpha: 1.0 ) {
+    public var color: UIColor {
+        get {
+            return self.normalColor
+        }
+        set {
+            self.normalColor = newValue
+            self.highlightedColor = newValue.a0_darker(0.3)
+        }
+    }
+
+    public var normalColor: UIColor = UIColor.a0_orange {
         didSet {
-            let normal = image(withColor: self.color)
+            let normal = image(withColor: self.normalColor)
             self.button?.setBackgroundImage(normal, forState: .Normal)
-            let highlighted = image(withColor: self.color.a0_darker(0.3))
+        }
+    }
+
+    public var highlightedColor: UIColor = UIColor.a0_orange.a0_darker(0.3) {
+        didSet {
+            let highlighted = image(withColor: self.highlightedColor)
             self.button?.setBackgroundImage(highlighted, forState: .Highlighted)
+            if case .Big = size {
+                self.iconView?.backgroundColor = self.highlightedColor
+            }
         }
     }
 
@@ -126,7 +144,7 @@ public class AuthButton: UIView {
         button.layer.masksToBounds = true
 
         if case .Big = size {
-            iconView.backgroundColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3 )
+            iconView.backgroundColor = self.highlightedColor
         }
         iconView.image = self.icon ?? image(named: "ic_auth_auth0", compatibleWithTraitCollection: self.traitCollection)
         iconView.contentMode = .Center

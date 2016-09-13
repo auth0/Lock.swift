@@ -27,6 +27,7 @@ class AuthCollectionView: UIView, View {
     let connections: [OAuth2Connection]
     let mode: Mode
     let onAction: String -> ()
+    let customStyle: [String : AuthStyle]
 
     enum Mode {
         case Expanded(isLogin: Bool)
@@ -35,10 +36,11 @@ class AuthCollectionView: UIView, View {
 
     // MARK:- Initialisers
 
-    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, onAction: String -> ()) {
+    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: String -> ()) {
         self.connections = connections
         self.mode = mode
         self.onAction = onAction
+        self.customStyle = customStyle
         super.init(frame: CGRectZero)
         self.layout(connections, mode: mode, insets: insets)
     }
@@ -71,9 +73,9 @@ class AuthCollectionView: UIView, View {
         let stack: UIStackView
         switch mode {
         case .Compact:
-            stack = compactStack(forButtons: oauth2Buttons(forConnections: connections, isLogin: true, onAction: self.onAction))
+            stack = compactStack(forButtons: oauth2Buttons(forConnections: connections, customStyle: self.customStyle, isLogin: true, onAction: self.onAction))
         case .Expanded(let login):
-            stack = expandedStack(forButtons: oauth2Buttons(forConnections: connections, isLogin: login, onAction: self.onAction))
+            stack = expandedStack(forButtons: oauth2Buttons(forConnections: connections, customStyle: self.customStyle, isLogin: login, onAction: self.onAction))
         }
         self.addSubview(stack)
 
@@ -139,12 +141,14 @@ class AuthCollectionView: UIView, View {
     }
 }
 
-func oauth2Buttons(forConnections connections: [OAuth2Connection], isLogin login: Bool, onAction: String -> ()) -> [AuthButton] {
+func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: String -> ()) -> [AuthButton] {
     return connections.map { connection -> AuthButton in
+        let style = customStyle[connection.name] ?? connection.style
         let button = AuthButton(size: .Big)
-        let style = connection.style
         button.title = login ? style.localizedLoginTitle.uppercaseString : style.localizedSignUpTitle.uppercaseString
-        button.color = style.color
+        button.normalColor = style.normalColor
+        button.highlightedColor = style.highlightedColor
+        button.titleColor = style.foregroundColor
         button.icon = style.image.image(compatibleWithTraits: button.traitCollection)
         button.onPress = { _ in
             onAction(connection.name)

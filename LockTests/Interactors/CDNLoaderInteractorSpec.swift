@@ -157,7 +157,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 let oauth2 = connections?.oauth2.first
                 expect(oauth2?.name) == "steam"
                 expect(oauth2?.style.name) == "steam"
-                expect(oauth2?.style.color) == .a0_orange
+                expect(oauth2?.style.normalColor) == .a0_orange
             }
 
             it("should load first class social connections") {
