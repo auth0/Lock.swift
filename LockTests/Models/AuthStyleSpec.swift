@@ -83,6 +83,11 @@ class AuthStyleSpec: QuickSpec {
             it("should have default color") {
                 expect(strategy.color) == UIColor.a0_orange
             }
+
+            it("should have main bundle") {
+                expect(strategy.image.bundle) == bundleForLock()
+            }
+
         }
 
         describe("titles") {

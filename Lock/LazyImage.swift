@@ -39,13 +39,13 @@ public struct LazyImage: Equatable {
      ```
 
      - parameter name:   name of the image to load from a bundle
-     - parameter bundle: bundle from where to load the image or nil which will default application main bundle
+     - parameter bundle: bundle from where to load the image. By default is application main bundle
 
      - returns: a newly created `LazyImage`
      */
-    public init(name: String, bundle: NSBundle? = nil) {
+    public init(name: String, bundle: NSBundle = NSBundle.mainBundle()) {
         self.name = name
-        self.bundle = bundle ?? NSBundle.mainBundle()
+        self.bundle = bundle
     }
 
     func image(compatibleWithTraits traits: UITraitCollection? = nil) -> UIImage? {
