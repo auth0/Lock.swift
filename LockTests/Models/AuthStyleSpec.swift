@@ -53,7 +53,7 @@ class AuthStyleSpecSharedExamplesConfiguration: QuickConfiguration {
                 }
 
                 it("should have a color") {
-                    expect(style.color) != UIColor.a0_orange
+                    expect(style.normalColor) != UIColor.a0_orange
                 }
 
                 it("should have icon") {
@@ -81,7 +81,15 @@ class AuthStyleSpec: QuickSpec {
             }
 
             it("should have default color") {
-                expect(strategy.color) == UIColor.a0_orange
+                expect(strategy.normalColor) == UIColor.a0_orange
+            }
+
+            it("should have default highligted color") {
+                expect(strategy.highlightedColor) == UIColor.a0_orange.a0_darker(0.3)
+            }
+
+            it("should have default foreground color") {
+                expect(strategy.foregroundColor) == UIColor.whiteColor()
             }
 
             it("should have main bundle") {
@@ -153,7 +161,7 @@ class AuthStyleSpec: QuickSpec {
             it("should default to auth0 style") {
                 let style = AuthStyle.style(forStrategy: "random", connectionName: "connection")
                 expect(style.name) == "connection"
-                expect(style.color) == UIColor.a0_orange
+                expect(style.normalColor) == UIColor.a0_orange
             }
 
             [
@@ -208,5 +216,5 @@ extension AuthStyle: Equatable, CustomStringConvertible {
 }
 
 public func ==(lhs: AuthStyle, rhs: AuthStyle) -> Bool {
-    return lhs.name == rhs.name && lhs.color == rhs.color && lhs.image.name == rhs.image.name
+    return lhs.name == rhs.name && lhs.normalColor == rhs.normalColor && lhs.highlightedColor == rhs.highlightedColor && lhs.foregroundColor == rhs.foregroundColor && lhs.image.name == rhs.image.name
 }

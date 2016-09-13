@@ -104,7 +104,8 @@ class AuthCollectionViewSpec: QuickSpec {
             it("should set color") {
                 let style = AuthStyle.Facebook
                 let button = styleButton(style)
-                expect(button.color) == style.color
+                expect(button.normalColor) == style.normalColor
+                expect(button.highlightedColor) == style.highlightedColor
             }
 
             it("should set icon") {
