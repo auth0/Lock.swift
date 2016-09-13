@@ -57,6 +57,9 @@ public struct Style {
         /// Header logo image
     public var logo: LazyImage = lazyImage(named: "ic_auth0")
 
+        /// OAuth2 custom connection styles by mapping a connection name with an `AuthStyle`
+    public var oauth2: [String: AuthStyle] = [:]
+    
     var headerMask: UIImage?  {
         let image = self.logo.image(compatibleWithTraits: nil)
         if Style.Auth0.logo == self.logo {

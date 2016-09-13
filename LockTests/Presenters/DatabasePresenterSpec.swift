@@ -37,7 +37,7 @@ class DatabasePresenterSpec: QuickSpec {
         var navigator: MockNavigator!
 
         beforeEach {
-            authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor())
+            authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor(), customStyle: [:])
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
             navigator = MockNavigator()
@@ -63,7 +63,7 @@ class DatabasePresenterSpec: QuickSpec {
             it("should set a new one when switching tabs") {
                 presenter.authPresenter = authPresenter
                 let view = presenter.view as? DatabaseView
-                let newView = AuthCollectionView(connections: [], mode: .Expanded(isLogin: true), insets: UIEdgeInsetsZero)  { _ in }
+                let newView = AuthCollectionView(connections: [], mode: .Expanded(isLogin: true), insets: UIEdgeInsetsZero, customStyle: [:])  { _ in }
                 authPresenter.authView = newView
                 view?.switcher?.onSelectionChange((view?.switcher)!)
                 expect(view?.authCollectionView) == newView

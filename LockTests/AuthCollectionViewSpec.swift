@@ -33,19 +33,19 @@ class AuthCollectionViewSpec: QuickSpec {
             describe("height") {
 
                 it("should return 0 when there are no buttons") {
-                    let view = AuthCollectionView(connections: [], mode: .Expanded(isLogin: true), insets: UIEdgeInsetsZero) { _ in }
+                    let view = AuthCollectionView(connections: [], mode: .Expanded(isLogin: true), insets: UIEdgeInsetsZero, customStyle: [:]) { _ in }
                     expect(view.height) == 0
                 }
 
                 it("should just use the button size if there is only one button") {
-                    let view = AuthCollectionView(connections: [SocialConnection(name: "social", style: .Facebook)], mode: .Expanded(isLogin: true), insets: UIEdgeInsetsZero) { _ in }
+                    let view = AuthCollectionView(connections: [SocialConnection(name: "social", style: .Facebook)], mode: .Expanded(isLogin: true), insets: UIEdgeInsetsZero, customStyle: [:]) { _ in }
                     expect(view.height) == 50
                 }
 
                 it("should add padding") {
                     let max = Int(arc4random_uniform(15)) + 2
                     let connections = mockConnections(count: max)
-                    let view = AuthCollectionView(connections: connections, mode: .Expanded(isLogin: true), insets: UIEdgeInsetsZero) { _ in }
+                    let view = AuthCollectionView(connections: connections, mode: .Expanded(isLogin: true), insets: UIEdgeInsetsZero, customStyle: [:]) { _ in }
                     let expected = (max * 50) + (max * 8) - 8
                     expect(view.height) == CGFloat(expected)
                 }
@@ -58,18 +58,18 @@ class AuthCollectionViewSpec: QuickSpec {
             describe("height") {
 
                 it("should return 0 when there are no buttons") {
-                    let view = AuthCollectionView(connections: [], mode: .Compact, insets: UIEdgeInsetsZero) { _ in }
+                    let view = AuthCollectionView(connections: [], mode: .Compact, insets: UIEdgeInsetsZero, customStyle: [:]) { _ in }
                     expect(view.height) == 0
                 }
 
                 it("should just use the button size if there is only one button") {
-                    let view = AuthCollectionView(connections: [SocialConnection(name: "social", style: .Facebook)], mode: .Compact, insets: UIEdgeInsetsZero) { _ in }
+                    let view = AuthCollectionView(connections: [SocialConnection(name: "social", style: .Facebook)], mode: .Compact, insets: UIEdgeInsetsZero, customStyle: [:]) { _ in }
                     expect(view.height) == 50
                 }
 
                 it("should just use the button size for less than 6 buttons") {
                     let connections: [OAuth2Connection] = mockConnections(count: 5)
-                    let view = AuthCollectionView(connections: connections, mode: .Compact, insets: UIEdgeInsetsZero) { _ in }
+                    let view = AuthCollectionView(connections: connections, mode: .Compact, insets: UIEdgeInsetsZero, customStyle: [:]) { _ in }
                     expect(view.height) == 50
                 }
 
@@ -77,7 +77,7 @@ class AuthCollectionViewSpec: QuickSpec {
                     let count = Int(arc4random_uniform(15)) + 2
                     let rows = Int(ceil(Double(count) / 5))
                     let connections = mockConnections(count: count)
-                    let view = AuthCollectionView(connections: connections, mode: .Compact, insets: UIEdgeInsetsZero) { _ in }
+                    let view = AuthCollectionView(connections: connections, mode: .Compact, insets: UIEdgeInsetsZero, customStyle: [:]) { _ in }
                     let expected = (rows * 50) + (rows * 8) - 8
                     expect(view.height) == CGFloat(expected)
                 }
@@ -88,7 +88,7 @@ class AuthCollectionViewSpec: QuickSpec {
         describe("styling") {
 
             func styleButton(style: AuthStyle, isLogin: Bool = true) -> AuthButton {
-                return oauth2Buttons(forConnections: [SocialConnection(name: "social0", style: style)], isLogin: isLogin, onAction: {_ in }).first!
+                return oauth2Buttons(forConnections: [SocialConnection(name: "social0", style: style)], customStyle: [:], isLogin: isLogin, onAction: {_ in }).first!
             }
 
             it("should set proper title") {
@@ -111,6 +111,13 @@ class AuthCollectionViewSpec: QuickSpec {
                 let style = AuthStyle.Facebook
                 let button = styleButton(style)
                 expect(button.icon).toNot(beNil())
+            }
+
+            it("should use custom style") {
+                let style = ["steam": AuthStyle(name: "Steam", color: .whiteColor())]
+                let button = oauth2Buttons(forConnections: [SocialConnection(name: "steam", style: AuthStyle(name: "steam"))], customStyle: style, isLogin: true, onAction: {_ in }).first!
+                expect(button.title) == "LOG IN WITH STEAM"
+                expect(button.color) == UIColor.whiteColor()
             }
             
         }

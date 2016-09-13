@@ -50,7 +50,7 @@ class MockLockController: LockViewController {
 
 class MockAuthPresenter: AuthPresenter {
 
-    var authView = AuthCollectionView(connections: [], mode: .Compact, insets: UIEdgeInsetsZero)  { _ in }
+    var authView = AuthCollectionView(connections: [], mode: .Compact, insets: UIEdgeInsetsZero, customStyle: [:])  { _ in }
 
     override func newViewToEmbed(withInsets insets: UIEdgeInsets, isLogin: Bool) -> AuthCollectionView {
         return self.authView
