@@ -1,6 +1,6 @@
-// A0Logging.h
+// A0Logger.h
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2016 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0Logger.h"
+#import <Foundation/Foundation.h>
 
-#ifndef Auth0_Logging_h
-#define Auth0_Logging_h
+typedef NS_ENUM(NSInteger, A0LoggerLevel) {
+    A0LoggerLevelOff = 0,
+    A0LoggerLevelError = 1,
+    A0LoggerLevelAll = 3
+};
 
-#define A0LogError(frmt, ...)    [[A0Logger sharedLogger] error: [NSString stringWithFormat: frmt, ##__VA_ARGS__]]
-#define A0LogWarn(frmt, ...)     [[A0Logger sharedLogger] message: [NSString stringWithFormat: frmt, ##__VA_ARGS__]]
-#define A0LogInfo(frmt, ...)     [[A0Logger sharedLogger] message: [NSString stringWithFormat: frmt, ##__VA_ARGS__]]
-#define A0LogDebug(frmt, ...)    [[A0Logger sharedLogger] message: [NSString stringWithFormat: frmt, ##__VA_ARGS__]]
-#define A0LogVerbose(frmt, ...)  [[A0Logger sharedLogger] message: [NSString stringWithFormat: frmt, ##__VA_ARGS__]]
+@interface A0Logger : NSObject
 
-#endif
++ (instancetype)sharedLogger;
+
+@property (assign, nonatomic) A0LoggerLevel level;
+
+- (void)error:(NSString *)message;
+- (void)message:(NSString *)message;
+
+@end

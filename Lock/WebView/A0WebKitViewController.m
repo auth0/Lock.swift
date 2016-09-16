@@ -53,8 +53,6 @@
 
 @implementation A0WebKitViewController
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithAPIClient:(A0APIClient *)client connectionName:(NSString *)connectionName parameters:(nullable A0AuthParameters *)parameters usePKCE:(BOOL)usePKCE {
     self = [self init];
     if (self) {

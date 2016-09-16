@@ -41,6 +41,10 @@
 		5F66418B1BEA4E9300ECA900 /* A0PKCE.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6641881BEA4E9300ECA900 /* A0PKCE.m */; };
 		5F66418C1BEA4E9300ECA900 /* A0PKCE.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6641881BEA4E9300ECA900 /* A0PKCE.m */; };
 		5F66418E1BEA5A9F00ECA900 /* A0PKCESpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F66418D1BEA5A9F00ECA900 /* A0PKCESpec.swift */; };
+		5F7504FB1D8CB32700E3BA1C /* A0Logger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7504F91D8CB32700E3BA1C /* A0Logger.h */; };
+		5F7504FC1D8CB32700E3BA1C /* A0Logger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7504F91D8CB32700E3BA1C /* A0Logger.h */; };
+		5F7504FD1D8CB32700E3BA1C /* A0Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7504FA1D8CB32700E3BA1C /* A0Logger.m */; };
+		5F7504FE1D8CB32700E3BA1C /* A0Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7504FA1D8CB32700E3BA1C /* A0Logger.m */; };
 		5FAFAB311CD80CA3004048BE /* A0MFACodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAFAB2F1CD80CA3004048BE /* A0MFACodeViewController.h */; };
 		5FAFAB321CD80CA3004048BE /* A0MFACodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFAB301CD80CA3004048BE /* A0MFACodeViewController.m */; };
 		5FAFAB351CD80F0B004048BE /* A0MFACodeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FAFAB331CD80F0B004048BE /* A0MFACodeView.h */; };
@@ -293,9 +297,7 @@
 		5FBAD1CB1BE7B92900703DD1 /* A0ProgressButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD1671BE7B92900703DD1 /* A0ProgressButton.h */; };
 		5FBAD1CC1BE7B92900703DD1 /* A0ProgressButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD1681BE7B92900703DD1 /* A0ProgressButton.m */; };
 		5FBAD1CD1BE7B92900703DD1 /* UIConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAD1691BE7B92900703DD1 /* UIConstants.h */; };
-		5FBAD1CE1BE7BA7C00703DD1 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0EB1BE7B42400703DD1 /* CocoaLumberjack.framework */; };
 		5FBAD1CF1BE7BA7C00703DD1 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0EC1BE7B42400703DD1 /* AFNetworking.framework */; };
-		5FBAD1D01BE7BA7F00703DD1 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0F01BE7B43E00703DD1 /* CocoaLumberjack.framework */; };
 		5FBAD1D11BE7BA7F00703DD1 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0F11BE7B43E00703DD1 /* AFNetworking.framework */; };
 		5FBAD2301BE7BE1E00703DD1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD22F1BE7BE1E00703DD1 /* main.m */; };
 		5FBAD2331BE7BE1E00703DD1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD2321BE7BE1E00703DD1 /* AppDelegate.m */; };
@@ -362,7 +364,6 @@
 		5FBAD44D1BE7F5B500703DD1 /* TouchIDAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD44C1BE7F5B500703DD1 /* TouchIDAuth.framework */; };
 		5FBAD4681BE7F93A00703DD1 /* Lock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBACFF51BE7AF8700703DD1 /* Lock.framework */; };
 		5FBAD4701BE8069500703DD1 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD44A1BE7F31A00703DD1 /* SimpleKeychain.framework */; };
-		5FBAD4711BE8069500703DD1 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD0EB1BE7B42400703DD1 /* CocoaLumberjack.framework */; };
 		5FBAD4731BE8086B00703DD1 /* JWTDecode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAD4721BE8086B00703DD1 /* JWTDecode.framework */; };
 		5FBAD47E1BE809EA00703DD1 /* A0ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4741BE809EA00703DD1 /* A0ViewController.m */; };
 		5FBAD47F1BE809EA00703DD1 /* A0HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4751BE809EA00703DD1 /* A0HomeViewController.m */; };
@@ -583,6 +584,8 @@
 		5F6641871BEA4E9300ECA900 /* A0PKCE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0PKCE.h; sourceTree = "<group>"; };
 		5F6641881BEA4E9300ECA900 /* A0PKCE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0PKCE.m; sourceTree = "<group>"; };
 		5F66418D1BEA5A9F00ECA900 /* A0PKCESpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = A0PKCESpec.swift; sourceTree = "<group>"; };
+		5F7504F91D8CB32700E3BA1C /* A0Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0Logger.h; sourceTree = "<group>"; };
+		5F7504FA1D8CB32700E3BA1C /* A0Logger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0Logger.m; sourceTree = "<group>"; };
 		5FAFAB2F1CD80CA3004048BE /* A0MFACodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0MFACodeViewController.h; sourceTree = "<group>"; };
 		5FAFAB301CD80CA3004048BE /* A0MFACodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0MFACodeViewController.m; sourceTree = "<group>"; };
 		5FAFAB331CD80F0B004048BE /* A0MFACodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0MFACodeView.h; sourceTree = "<group>"; };
@@ -667,9 +670,7 @@
 		5FBAD0581BE7B22800703DD1 /* NSError+A0APIError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSError+A0APIError.m"; sourceTree = "<group>"; };
 		5FBAD0591BE7B22800703DD1 /* NSObject+A0APIClientProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+A0APIClientProvider.h"; sourceTree = "<group>"; };
 		5FBAD05A1BE7B22800703DD1 /* NSObject+A0APIClientProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+A0APIClientProvider.m"; sourceTree = "<group>"; };
-		5FBAD0EB1BE7B42400703DD1 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		5FBAD0EC1BE7B42400703DD1 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = Carthage/Build/iOS/AFNetworking.framework; sourceTree = "<group>"; };
-		5FBAD0F01BE7B43E00703DD1 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/Mac/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		5FBAD0F11BE7B43E00703DD1 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = Carthage/Build/Mac/AFNetworking.framework; sourceTree = "<group>"; };
 		5FBAD0F41BE7B5CF00703DD1 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		5FBAD0F61BE7B64A00703DD1 /* A0AuthenticationProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0AuthenticationProvider.h; sourceTree = "<group>"; };
@@ -1011,7 +1012,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FBAD1CE1BE7BA7C00703DD1 /* CocoaLumberjack.framework in Frameworks */,
 				5FBAD1CF1BE7BA7C00703DD1 /* AFNetworking.framework in Frameworks */,
 				5F624D211C39D722009EDD83 /* Masonry.framework in Frameworks */,
 				5FBAD44B1BE7F31A00703DD1 /* SimpleKeychain.framework in Frameworks */,
@@ -1023,7 +1023,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FBAD1D01BE7BA7F00703DD1 /* CocoaLumberjack.framework in Frameworks */,
 				5FBAD1D11BE7BA7F00703DD1 /* AFNetworking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1034,7 +1033,6 @@
 			files = (
 				5FBAD4731BE8086B00703DD1 /* JWTDecode.framework in Frameworks */,
 				5FBAD4701BE8069500703DD1 /* SimpleKeychain.framework in Frameworks */,
-				5FBAD4711BE8069500703DD1 /* CocoaLumberjack.framework in Frameworks */,
 				5FBAD4491BE7F10F00703DD1 /* Lock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1233,7 +1231,6 @@
 				5FBAD4721BE8086B00703DD1 /* JWTDecode.framework */,
 				5FBAD44C1BE7F5B500703DD1 /* TouchIDAuth.framework */,
 				5FBAD44A1BE7F31A00703DD1 /* SimpleKeychain.framework */,
-				5FBAD0EB1BE7B42400703DD1 /* CocoaLumberjack.framework */,
 				5FBAD0EC1BE7B42400703DD1 /* AFNetworking.framework */,
 			);
 			name = iOS;
@@ -1242,7 +1239,6 @@
 		5FBAD0EF1BE7B42C00703DD1 /* OSX */ = {
 			isa = PBXGroup;
 			children = (
-				5FBAD0F01BE7B43E00703DD1 /* CocoaLumberjack.framework */,
 				5FBAD0F11BE7B43E00703DD1 /* AFNetworking.framework */,
 			);
 			name = OSX;
@@ -1413,6 +1409,8 @@
 				5FBAD1671BE7B92900703DD1 /* A0ProgressButton.h */,
 				5FBAD1681BE7B92900703DD1 /* A0ProgressButton.m */,
 				5FBAD1691BE7B92900703DD1 /* UIConstants.h */,
+				5F7504F91D8CB32700E3BA1C /* A0Logger.h */,
+				5F7504FA1D8CB32700E3BA1C /* A0Logger.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1857,6 +1855,7 @@
 				5FBAD1B01BE7B92900703DD1 /* A0WebAuthenticator.h in Headers */,
 				5FBAD16B1BE7B92900703DD1 /* A0WebKitViewController.h in Headers */,
 				5FBAD05B1BE7B23C00703DD1 /* A0APIClient.h in Headers */,
+				5F7504FB1D8CB32700E3BA1C /* A0Logger.h in Headers */,
 				5FBAD0741BE7B23C00703DD1 /* A0IdentityProviderCredentials.h in Headers */,
 				5FBAD1CD1BE7B92900703DD1 /* UIConstants.h in Headers */,
 				5FBAD1AC1BE7B92900703DD1 /* A0SafariAuthenticator.h in Headers */,
@@ -1962,6 +1961,7 @@
 				5FBAD09D1BE7B23D00703DD1 /* A0Connection.h in Headers */,
 				5FBAD0C51BE7B23D00703DD1 /* A0UserIdentity.h in Headers */,
 				5FBAD0D21BE7B24600703DD1 /* NSError+A0APIError.h in Headers */,
+				5F7504FC1D8CB32700E3BA1C /* A0Logger.h in Headers */,
 				5FBAD0981BE7B23D00703DD1 /* A0Application.h in Headers */,
 				5FBAD0A51BE7B23D00703DD1 /* A0FileCredentialProvider.h in Headers */,
 				5FBAD0921BE7B23D00703DD1 /* A0APIClient.h in Headers */,
@@ -2077,7 +2077,7 @@
 		5FBACFEC1BE7AF8700703DD1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Auth0;
 				TargetAttributes = {
 					5FBACFF41BE7AF8700703DD1 = {
@@ -2305,7 +2305,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/AFNetworking.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/CocoaLumberjack.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SimpleKeychain.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/TouchIDAuth.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/JWTDecode.framework",
@@ -2352,6 +2351,7 @@
 				5FBAD4201BE7F0A700703DD1 /* A0TouchIDLockViewController.m in Sources */,
 				5FBAD16C1BE7B92900703DD1 /* A0WebKitViewController.m in Sources */,
 				5FBAD08B1BE7B23C00703DD1 /* A0Token.m in Sources */,
+				5F7504FD1D8CB32700E3BA1C /* A0Logger.m in Sources */,
 				5FBAD1701BE7B92900703DD1 /* A0WebViewController.m in Sources */,
 				5FBAD0911BE7B23C00703DD1 /* A0UserProfile.m in Sources */,
 				5FBAD4301BE7F0CA00703DD1 /* A0CountryCodeTableViewController.m in Sources */,
@@ -2462,6 +2462,7 @@
 				5FBAD0D31BE7B24600703DD1 /* NSError+A0APIError.m in Sources */,
 				5FBAD0B21BE7B23D00703DD1 /* A0LockNotification.m in Sources */,
 				5FBAD0CA1BE7B24600703DD1 /* A0JSONResponseSerializer.m in Sources */,
+				5F7504FE1D8CB32700E3BA1C /* A0Logger.m in Sources */,
 				5FBAD0A61BE7B23D00703DD1 /* A0FileCredentialProvider.m in Sources */,
 				5FBAD0D51BE7B24600703DD1 /* NSObject+A0APIClientProvider.m in Sources */,
 				5FBAD0A81BE7B23D00703DD1 /* A0FilteredConnectionDomainMatcher.m in Sources */,
@@ -2594,8 +2595,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2642,8 +2645,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2664,6 +2669,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2674,6 +2680,7 @@
 		5FBACFFE1BE7AF8700703DD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2696,6 +2703,7 @@
 		5FBACFFF1BE7AF8700703DD1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2772,10 +2780,10 @@
 		5FBAD2411BE7BE1E00703DD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_SUFFIX = "-Dev";
 				CLANG_ENABLE_MODULES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -2793,10 +2801,10 @@
 		5FBAD2421BE7BE1E00703DD1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_SUFFIX = "";
 				CLANG_ENABLE_MODULES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

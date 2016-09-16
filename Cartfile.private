@@ -1,5 +1,5 @@
-github "Quick/Nimble" ~> 4.0
-github "Quick/Quick" ~> 0.9
+github "Quick/Quick" "swift-3.0"
+github "Quick/Nimble" "master"
+github "AliSoftware/OHHTTPStubs" "5.2.1-swift3"
 github "auth0/JWTDecode.swift" ~> 1.0
-github "AliSoftware/OHHTTPStubs"
 github "jonreid/OCMockito" "master"

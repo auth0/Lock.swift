@@ -43,8 +43,6 @@ typedef void (^AFFailureBlock)(NSURLSessionDataTask *, NSError *);
 
 @implementation A0UserAPIClient
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithRouter:(id<A0APIRouter>)router {
     NSAssert(router, @"Must supply a non nil router");
     self = [super init];

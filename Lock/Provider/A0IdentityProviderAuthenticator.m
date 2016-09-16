@@ -45,8 +45,6 @@
 
 @implementation A0IdentityProviderAuthenticator
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithLock:(A0Lock *)lock {
     self = [super init];
     if (self) {

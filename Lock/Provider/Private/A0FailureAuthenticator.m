@@ -30,8 +30,6 @@
 
 @implementation A0FailureAuthenticator
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithConnectionName:(NSString *)connectionName {
     self = [super init];
     if (self) {

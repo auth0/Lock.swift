@@ -48,8 +48,6 @@
 
 @implementation A0WebAuthenticator
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (id)init {
     self = [super init];
     if (self) {

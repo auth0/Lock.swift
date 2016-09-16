@@ -33,8 +33,6 @@
 
 @implementation A0NavigationView
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)init {
     self = [super init];
     if (self) {

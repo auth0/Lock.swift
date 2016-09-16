@@ -59,8 +59,6 @@
 
 @implementation A0ActiveDirectoryViewController
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 

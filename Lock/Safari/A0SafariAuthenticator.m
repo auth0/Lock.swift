@@ -43,8 +43,6 @@
 
 @implementation A0SafariAuthenticator
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithLock:(A0Lock *)lock {
     return [self initWithLock:lock useUniversalLink:YES];
 }

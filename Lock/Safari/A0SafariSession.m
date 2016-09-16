@@ -42,8 +42,6 @@
 
 @implementation A0SafariSession
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithLock:(A0Lock *)lock connectionName:(NSString *)connectionName usePKCE:(BOOL)usePKCE {
     return [self initWithLock:lock connectionName:connectionName useUniversalLink:YES usePKCE:usePKCE];
 }
