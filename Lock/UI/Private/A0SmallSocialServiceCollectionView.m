@@ -53,8 +53,6 @@
 
 @implementation A0SmallSocialServiceCollectionView
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)init {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;

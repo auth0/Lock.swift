@@ -54,8 +54,6 @@
 
 @implementation A0TouchIDSignUpViewController
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 

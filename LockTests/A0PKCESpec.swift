@@ -35,11 +35,11 @@ class A0PKCESpec: QuickSpec {
 
         describe("code verifier") {
             it("should be base64 url-safe encoded") {
-                let urlSafeBase64Set = NSCharacterSet.alphanumericCharacterSet().mutableCopy()
-                urlSafeBase64Set.formIntersectionWithCharacterSet(NSCharacterSet.nonBaseCharacterSet().invertedSet)
-                urlSafeBase64Set.addCharactersInString("-_")
-                let set = urlSafeBase64Set.invertedSet
-                expect(pkce.verifier.rangeOfCharacterFromSet(set)).to(beNil())
+                var urlSafeBase64Set = CharacterSet.alphanumerics
+                urlSafeBase64Set.formIntersection(CharacterSet.nonBaseCharacters.inverted)
+                urlSafeBase64Set.insert(charactersIn: "-_")
+                let set = urlSafeBase64Set.inverted
+                expect(pkce.verifier.rangeOfCharacter(from: set)).to(beNil())
             }
 
             it("should have 43 characters") {
@@ -49,11 +49,11 @@ class A0PKCESpec: QuickSpec {
 
         describe("code challenge") {
             it("should be base64 url-safe encoded") {
-                let urlSafeBase64Set = NSCharacterSet.alphanumericCharacterSet().mutableCopy()
-                urlSafeBase64Set.formIntersectionWithCharacterSet(NSCharacterSet.nonBaseCharacterSet().invertedSet)
-                urlSafeBase64Set.addCharactersInString("-_")
-                let set = urlSafeBase64Set.invertedSet
-                expect(pkce.challenge.rangeOfCharacterFromSet(set)).to(beNil())
+                var urlSafeBase64Set = CharacterSet.alphanumerics
+                urlSafeBase64Set.formIntersection(CharacterSet.nonBaseCharacters.inverted)
+                urlSafeBase64Set.insert(charactersIn: "-_")
+                let set = urlSafeBase64Set.inverted
+                expect(pkce.challenge.rangeOfCharacter(from: set)).to(beNil())
             }
 
             it("should have 43 characters") {
@@ -101,7 +101,7 @@ class A0PKCESpec: QuickSpec {
             var parameters: [String: String]!
 
             beforeEach {
-                parameters = pkce.tokenParametersWithAuthorizationCode("CODE")
+                parameters = pkce.tokenParameters(withAuthorizationCode: "CODE")
             }
 
             it("should include verifier") {
@@ -113,7 +113,7 @@ class A0PKCESpec: QuickSpec {
             }
 
             it("should only contain auth code & verifier") {
-                expect(Array(parameters.keys)).to(equal(["code", "code_verifier"]))
+                expect(Array(parameters.keys)).to(contain(["code", "code_verifier"]))
             }
         }
 

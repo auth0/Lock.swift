@@ -21,9 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0LockLogger.h"
-
-#import <CocoaLumberjack/CocoaLumberjack.h>
-
+#import "A0Logger.h"
 @implementation A0LockLogger
 
 - (instancetype)init {
@@ -32,31 +30,15 @@
 }
 
 + (void)logAll {
-    [self registerCocoaLumberjackLoggers];
-    [self logWithLevel:DDLogLevelAll];
+    [A0Logger sharedLogger].level = A0LoggerLevelAll;
 }
 
 + (void)logError {
-    [self registerCocoaLumberjackLoggers];
-    [self logWithLevel:DDLogLevelError];
+    [A0Logger sharedLogger].level = A0LoggerLevelError;
 }
 
 + (void)logOff {
-    [self logWithLevel:DDLogLevelOff];
-}
-
-+ (void)logWithLevel:(DDLogLevel)level {
-    for (Class clazz in [DDLog registeredClasses]) {
-        [DDLog setLevel:level forClass:clazz];
-    }
-}
-
-+ (void)registerCocoaLumberjackLoggers {
-    NSArray * loggers = [DDLog allLoggers];
-    if (loggers.count == 0) {
-        [DDLog addLogger:[DDASLLogger sharedInstance]];
-        [DDLog addLogger:[DDTTYLogger sharedInstance]];
-    }
+    [A0Logger sharedLogger].level = A0LoggerLevelOff;
 }
 
 @end

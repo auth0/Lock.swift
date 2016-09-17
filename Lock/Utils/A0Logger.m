@@ -1,6 +1,6 @@
-// A0Logging.h
+// A0Logger.m
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2016 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,29 @@
 
 #import "A0Logger.h"
 
-#ifndef Auth0_Logging_h
-#define Auth0_Logging_h
+@implementation A0Logger
 
-#define A0LogError(frmt, ...)    [[A0Logger sharedLogger] error: [NSString stringWithFormat: frmt, ##__VA_ARGS__]]
-#define A0LogWarn(frmt, ...)     [[A0Logger sharedLogger] message: [NSString stringWithFormat: frmt, ##__VA_ARGS__]]
-#define A0LogInfo(frmt, ...)     [[A0Logger sharedLogger] message: [NSString stringWithFormat: frmt, ##__VA_ARGS__]]
-#define A0LogDebug(frmt, ...)    [[A0Logger sharedLogger] message: [NSString stringWithFormat: frmt, ##__VA_ARGS__]]
-#define A0LogVerbose(frmt, ...)  [[A0Logger sharedLogger] message: [NSString stringWithFormat: frmt, ##__VA_ARGS__]]
++ (instancetype)sharedLogger {
+    static dispatch_once_t onceToken;
+    static A0Logger *instance;
+    dispatch_once(&onceToken, ^{
+        instance = [[A0Logger alloc] init];
+        instance.level = A0LoggerLevelOff;
+    });
+    return instance;
+}
 
-#endif
+- (void)error:(NSString *)message {
+    if (self.level == A0LoggerLevelOff) {
+        return;
+    }
+    NSLog(@"%@", message);
+}
+
+- (void)message:(NSString *)message {
+    if (self.level != A0LoggerLevelAll) {
+        return;
+    }
+    NSLog(@"%@", message);
+}
+@end

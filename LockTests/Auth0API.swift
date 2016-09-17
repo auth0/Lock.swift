@@ -23,10 +23,10 @@
 import Foundation
 import OHHTTPStubs
 
-private func FixturePathInBundle(name: String, forClassInBundle clazz: AnyClass) -> String {
-    let bundle = NSBundle(forClass: clazz)
-    let url = NSURL(string: name)!
-    return bundle.pathForResource(url.URLByDeletingPathExtension?.absoluteString, ofType: url.pathExtension!)!
+private func FixturePathInBundle(_ name: String, forClassInBundle clazz: AnyClass) -> String {
+    let bundle = Bundle(for: clazz)
+    let url = URL(string: name)!
+    return bundle.path(forResource: url.deletingPathExtension().absoluteString, ofType: url.pathExtension)!
 }
 
 class Auth0API : NSObject {
@@ -46,21 +46,21 @@ class Auth0API : NSObject {
     }
 
     func failForEveryRequest() {
-        OHHTTPStubs.stubRequestsPassingTest({ _ in return true }, withStubResponse: { request in
-            let error = NSError(domain: "com.auth0", code: -9999999, userInfo: [NSLocalizedDescriptionKey: "\(request.URL) shall not pass!"])
+        OHHTTPStubs.stubRequests(passingTest: { _ in return true }, withStubResponse: { request in
+            let error = NSError(domain: "com.auth0", code: -9999999, userInfo: [NSLocalizedDescriptionKey: "\(request.url) shall not pass!"])
             return OHHTTPStubsResponse(error: error)
         }).name = "YOU SHALL NOT PASS!"
     }
 
-    func failForRoute(route: Route, parameters: [String: String], message: String = "Kill it with fire!") {
-        let matcher = requestMatcherForRoute(route, parameters: parameters)
-        OHHTTPStubs.stubRequestsPassingTest(matcher) { request in
+    func failForRoute(_ route: Route, parameters: [String: String], message: String = "Kill it with fire!") {
+        let matcher = requestMatcherForRoute(route, parameters: parameters as [String : AnyObject])
+        OHHTTPStubs.stubRequests(passingTest: matcher) { request in
             let error = NSError(domain: "com.auth0", code: -9999999, userInfo: [NSLocalizedDescriptionKey: message])
             return OHHTTPStubsResponse(error: error)
         }.name = "Kill it with fire!"
     }
 
-    func allowLoginWithUsername(username: String, password: String, clientId: String, database: String) {
+    func allowLoginWithUsername(_ username: String, password: String, clientId: String, database: String) {
         allowLoginWithParameters([
             "username": username,
             "password": password,
@@ -71,58 +71,58 @@ class Auth0API : NSObject {
             ])
     }
 
-    func allowLoginWithParameters(parameters: [String: String]) {
-        let matcher = requestMatcherForRoute(.Login, parameters: parameters)
-        OHHTTPStubs.stubRequestsPassingTest(matcher) { request in
+    func allowLoginWithParameters(_ parameters: [String: String]) {
+        let matcher = requestMatcherForRoute(.Login, parameters: parameters as [String : AnyObject])
+        OHHTTPStubs.stubRequests(passingTest: matcher) { request in
             let path = FixturePathInBundle("POST-oauth-ro.response", forClassInBundle: Auth0API.classForCoder())
             return OHHTTPStubsResponse(fileAtPath: path, statusCode: 200, headers: ["Content-Type" : "application/json"])
         }.name = "Login with /ro"
     }
 
-    func allowSocialLoginWithParameters(parameters: [String: String]) {
-        let matcher = requestMatcherForRoute(.SocialLogin, parameters: parameters)
-        OHHTTPStubs.stubRequestsPassingTest(matcher) { request in
+    func allowSocialLoginWithParameters(_ parameters: [String: String]) {
+        let matcher = requestMatcherForRoute(.SocialLogin, parameters: parameters as [String : AnyObject])
+        OHHTTPStubs.stubRequests(passingTest: matcher) { request in
             let path = FixturePathInBundle("POST-oauth-ro.response", forClassInBundle: Auth0API.classForCoder())
             return OHHTTPStubsResponse(fileAtPath: path, statusCode: 200, headers: ["Content-Type" : "application/json"])
             }.name = "Login Social Token"
     }
 
-    func allowTokenInfoForToken(token: String) {
+    func allowTokenInfoForToken(_ token: String) {
         let matcher = requestMatcherForRoute(.TokenInfo, parameters: [
-            "id_token": token
+            "id_token": token as AnyObject
             ])
-        OHHTTPStubs.stubRequestsPassingTest(matcher) { request in
+        OHHTTPStubs.stubRequests(passingTest: matcher) { request in
             let path = FixturePathInBundle("POST-tokeninfo.response", forClassInBundle: Auth0API.classForCoder())
             return OHHTTPStubsResponse(fileAtPath: path, statusCode: 200, headers: ["Content-Type" : "application/json"])
         }.name = "Token information"
     }
 
-    func allowSignUpWithParameters(parameters: [String: String]) {
-        let matcher = requestMatcherForRoute(.SignUp, parameters: parameters)
-        OHHTTPStubs.stubRequestsPassingTest(matcher) { request in
+    func allowSignUpWithParameters(_ parameters: [String: String]) {
+        let matcher = requestMatcherForRoute(.SignUp, parameters: parameters as [String : AnyObject])
+        OHHTTPStubs.stubRequests(passingTest: matcher) { request in
             let path = FixturePathInBundle("POST-dbconnections-signup.response", forClassInBundle: Auth0API.classForCoder())
             return OHHTTPStubsResponse(fileAtPath: path, statusCode: 200, headers: ["Content-Type" : "application/json"])
         }.name = "SignUp"
     }
 
-    func allowChangePasswordWithParameters(parameters: [String: String]) {
-        let matcher = requestMatcherForRoute(.ChangePassword, parameters: parameters)
-        OHHTTPStubs.stubRequestsPassingTest(matcher) { request in
+    func allowChangePasswordWithParameters(_ parameters: [String: String]) {
+        let matcher = requestMatcherForRoute(.ChangePassword, parameters: parameters as [String : AnyObject])
+        OHHTTPStubs.stubRequests(passingTest: matcher) { request in
             let path = FixturePathInBundle("POST-dbconnections-change-password.response", forClassInBundle: Auth0API.classForCoder())
             return OHHTTPStubsResponse(fileAtPath: path, statusCode: 200, headers: ["Content-Type" : "application/json"])
         }.name = "Change Password"
     }
 
-    func allowStartPasswordlessWithParameters(parameters: [String: String]) {
+    func allowStartPasswordlessWithParameters(_ parameters: [String: String]) {
         let matcher = requestMatcherForRoute(.StartPasswordless, parameters: parameters)
-        OHHTTPStubs.stubRequestsPassingTest(matcher) { request in
-            return OHHTTPStubsResponse(JSONObject: ["_id": NSUUID().UUIDString], statusCode: 200, headers: ["Content-Type" : "application/json"])
+        OHHTTPStubs.stubRequests(passingTest: matcher) { request in
+            return OHHTTPStubsResponse(jsonObject: ["_id": UUID().uuidString], statusCode: 200, headers: ["Content-Type" : "application/json"])
         }.name = "Passwordless Start"
     }
 
-    func allowDelegationWithParameters(parameters: [String: String]) {
-        let matcher = requestMatcherForRoute(.Delegation, parameters: parameters)
-        OHHTTPStubs.stubRequestsPassingTest(matcher) { request in
+    func allowDelegationWithParameters(_ parameters: [String: String]) {
+        let matcher = requestMatcherForRoute(.Delegation, parameters: parameters as [String : AnyObject])
+        OHHTTPStubs.stubRequests(passingTest: matcher) { request in
             let path = FixturePathInBundle("POST-delegation.response", forClassInBundle: Auth0API.classForCoder())
             return OHHTTPStubsResponse(fileAtPath: path, statusCode: 200, headers: ["Content-Type" : "application/json"])
         }.name = "Delegation"
@@ -132,14 +132,14 @@ class Auth0API : NSObject {
         OHHTTPStubs.removeAllStubs()
     }
 
-    private func requestMatcherForRoute(route: Route, parameters: [String: AnyObject]) -> (NSURLRequest -> Bool) {
+    fileprivate func requestMatcherForRoute(_ route: Route, parameters: [String: Any]) -> ((URLRequest) -> Bool) {
         return { request in
-            let requestParameters = NSURLProtocol.propertyForKey("parameters", inRequest: request) as! [String: String]
-            let sameParameters = parameters.reduce(true, combine: { (matches, entry) in
+            let requestParameters = URLProtocol.property(forKey: "parameters", in: request) as! [String: String]
+            let sameParameters = parameters.reduce(true, { (matches, entry) in
                 let requestValue = requestParameters[entry.0]
                 return matches && requestValue != nil && requestValue! == entry.1 as! String
             })
-            return request.HTTPMethod == route.method && request.URL?.path == route.rawValue && sameParameters
+            return request.httpMethod == route.method && request.url?.path == route.rawValue && sameParameters
         }
     }
 }

@@ -44,7 +44,7 @@ NSString *Base64URLSafe(NSData * data) {
 
 - (instancetype)init {
     NSMutableData *data = [NSMutableData dataWithLength:32];
-    SecRandomCopyBytes(kSecRandomDefault, 32, data.mutableBytes);
+    int result __attribute__((unused)) = SecRandomCopyBytes(kSecRandomDefault, 32, data.mutableBytes);
     NSString *code = Base64URLSafe(data);
     return [self initWithVerifier:code];
 }

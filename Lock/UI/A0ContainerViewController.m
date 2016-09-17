@@ -39,8 +39,6 @@
 
 @implementation A0ContainerViewController
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (void)layoutContainerViews {
     A0TitleView *titleView = [[A0TitleView alloc] init];
     UIView *containerView = [[UIView alloc] init];

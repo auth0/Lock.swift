@@ -65,8 +65,6 @@ typedef void (^AFFailureBlock)(NSURLSessionDataTask *, NSError *);
 
 @implementation A0APIClient
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithAPIRouter:(id<A0APIRouter>)router {
     NSAssert(router, @"You must supply a valid API Router");
     self = [super init];

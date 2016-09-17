@@ -48,8 +48,6 @@
 
 @implementation A0EmailCodeViewController
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel {
     self = [self init];
     if (self) {

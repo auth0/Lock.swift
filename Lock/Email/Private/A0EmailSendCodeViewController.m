@@ -46,8 +46,6 @@
 
 @implementation A0EmailSendCodeViewController
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithViewModel:(A0PasswordlessLockViewModel *)viewModel {
     self = [super init];
     if (self) {

@@ -32,8 +32,6 @@
 
 @implementation A0APIv1Router
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)init {
     [NSException raise:NSInternalInconsistencyException format:@"Please use %@ initializer", NSStringFromSelector(@selector(initWithClientId:domainURL:configurationURL:))];
     return [super init];

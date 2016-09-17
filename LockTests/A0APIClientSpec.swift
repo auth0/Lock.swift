@@ -33,14 +33,14 @@ private let JWT = "HEADER.PAYLOAD.SIGNATURE"
 private let EMAIL = "support@auth0.com"
 private let USERNAME = "username"
 private let PASSWORD = "password"
-private let DEVICE = NSUUID().UUIDString
+private let DEVICE = UUID().uuidString
 private let SOCIAL_TOKEN = "SOCIAL TOKEN"
 private let REFRESH_TOKEN = "RefreshToken"
 
-private func FixturePathInBundle(name: String, forClassInBundle clazz: AnyClass) -> String {
-    let bundle = NSBundle(forClass: clazz)
-    let url = NSURL(string: name)!
-    return bundle.pathForResource(url.URLByDeletingPathExtension?.absoluteString, ofType: url.pathExtension!)!
+private func FixturePathInBundle(_ name: String, forClassInBundle clazz: AnyClass) -> String {
+    let bundle = Bundle(for: clazz)
+    let url = URL(string: name)!
+    return bundle.path(forResource: url.deletingPathExtension().absoluteString, ofType: url.pathExtension)!
 }
 
 class A0APIClientSpec : QuickSpec {
@@ -50,8 +50,8 @@ class A0APIClientSpec : QuickSpec {
         let api = Auth0API()
 
         beforeEach {
-            let router = A0APIv1Router(clientId: CLIENT_ID, domainURL: NSURL(string: ENDPOINT), configurationURL: NSURL(string: CONFIG_ENDPOINT))
-            client = A0APIClient(APIRouter: router)
+            let router = A0APIv1Router(clientId: CLIENT_ID, domainURL: NSURL(string: ENDPOINT) as URL!, configurationURL: NSURL(string: CONFIG_ENDPOINT) as URL!)
+            client = A0APIClient(apiRouter: router!)
             api.failForEveryRequest()
         }
 
@@ -70,7 +70,7 @@ class A0APIClientSpec : QuickSpec {
             }
 
             it("should return api base URL") {
-                expect(client.baseURL).to(equal(NSURL(string: ENDPOINT)))
+                expect(client.baseURL).to(equal(URL(string: ENDPOINT)))
             }
 
         }
@@ -78,14 +78,14 @@ class A0APIClientSpec : QuickSpec {
         describe("application info from Auth0") {
 
             it("should load from cdn") {
-                OHHTTPStubs.stubRequestsPassingTest({ request -> Bool in
-                        return request.URL == client.router.configurationURL
+                OHHTTPStubs.stubRequests(passingTest: { request -> Bool in
+                        return request.url == client.router.configurationURL
                     }, withStubResponse: { request -> OHHTTPStubsResponse in
                         let path = FixturePathInBundle("GET-Application-Info.response", forClassInBundle: A0APIClientSpec.classForCoder())
                         return OHHTTPStubsResponse(fileAtPath: path, statusCode: 200, headers: ["Content-Type" : "application/json"])
                     })
                 waitUntil { done in
-                    client.fetchAppInfoWithSuccess({ application in
+                    client.fetchAppInfo(success: { application in
                             expect(application.identifier).to(equal(CLIENT_ID))
                             expect(application.databaseStrategy).to(beNil())
                             expect(application.enterpriseStrategies).to(haveCount(0))
@@ -100,13 +100,13 @@ class A0APIClientSpec : QuickSpec {
             }
 
             it("should fail when 404 is returned") {
-                OHHTTPStubs.stubRequestsPassingTest({ request -> Bool in
-                    return request.URL == client.router.configurationURL
+                OHHTTPStubs.stubRequests(passingTest: { request -> Bool in
+                    return request.url == client.router.configurationURL
                     }, withStubResponse: { request -> OHHTTPStubsResponse in
-                        return OHHTTPStubsResponse(JSONObject: ["error": "not_found"], statusCode: 404, headers: ["Content-Type" : "application/json"])
+                        return OHHTTPStubsResponse(jsonObject: ["error": "not_found"], statusCode: 404, headers: ["Content-Type" : "application/json"])
                     })
                 waitUntil { done in
-                    client.fetchAppInfoWithSuccess({ _ in
+                    client.fetchAppInfo(success: { _ in
                             fail("Should not have received any application info")
                             done()
                         }, failure: { error in
@@ -116,14 +116,14 @@ class A0APIClientSpec : QuickSpec {
             }
 
             it("should fail when data is not in jsonp") {
-                OHHTTPStubs.stubRequestsPassingTest({ request -> Bool in
-                        return request.URL == client.router.configurationURL
+                OHHTTPStubs.stubRequests(passingTest: { request -> Bool in
+                        return request.url == client.router.configurationURL
                     }, withStubResponse: { request -> OHHTTPStubsResponse in
-                        let data = "INVALID".dataUsingEncoding(NSUTF8StringEncoding)!
+                        let data = "INVALID".data(using: String.Encoding.utf8)!
                         return OHHTTPStubsResponse(data: data, statusCode: 200, headers: ["Content-Type" : "application/json"])
                     })
                 waitUntil { done in
-                    client.fetchAppInfoWithSuccess({ _ in
+                    client.fetchAppInfo(success: { _ in
                             fail("Should not have received any application info")
                             done()
                         }, failure: { error in
@@ -139,13 +139,13 @@ class A0APIClientSpec : QuickSpec {
 
             beforeEach {
                 application = MockApplication(id: CLIENT_ID, tenant: TENANT)
-                client.configureForApplication(application)
+                client.configure(for: application)
                 client.manager.requestSerializer = A0AnnotatedRequestSerializer()
             }
 
             it("should fail login with user/pwd when no connection is specified") {
                 waitUntil { done in
-                    client.loginWithUsername(USERNAME,
+                    client.login(withUsername: USERNAME,
                         password: PASSWORD,
                         parameters: nil,
                         success: { _, _ in
@@ -153,7 +153,7 @@ class A0APIClientSpec : QuickSpec {
                             done()
                         },
                         failure: { error in
-                            expect(error.localizedFailureReason).to(equal("Can't find connection name to use for authentication"))
+                            expect((error as NSError).localizedFailureReason).to(equal("Can't find connection name to use for authentication"))
                             done()
                         })
                 }
@@ -161,7 +161,7 @@ class A0APIClientSpec : QuickSpec {
 
             it("should fail signup when no connection is specified") {
                 waitUntil { done in
-                    client.signUpWithEmail(EMAIL,
+                    client.signUp(withEmail: EMAIL,
                         password: PASSWORD,
                         loginOnSuccess: true,
                         parameters: nil,
@@ -170,7 +170,7 @@ class A0APIClientSpec : QuickSpec {
                             done()
                         },
                         failure: { error in
-                            expect(error.localizedFailureReason).to(equal("Can't find connection name to use for authentication"))
+                            expect((error as NSError).localizedFailureReason).to(equal("Can't find connection name to use for authentication"))
                             done()
                     })
                 }
@@ -186,7 +186,7 @@ class A0APIClientSpec : QuickSpec {
                             done()
                         },
                         failure: { error in
-                            expect(error.localizedFailureReason).to(equal("Can't find connection name to use for authentication"))
+                            expect((error as NSError).localizedFailureReason).to(equal("Can't find connection name to use for authentication"))
                             done()
                     })
                 }
@@ -196,7 +196,7 @@ class A0APIClientSpec : QuickSpec {
 
                 beforeEach {
                     application = MockApplication(id: CLIENT_ID, tenant: TENANT, databases: [DB_CONNECTION])
-                    client.configureForApplication(application)
+                    client.configure(for: application)
                 }
 
                 describe("login email/password") {
@@ -205,7 +205,7 @@ class A0APIClientSpec : QuickSpec {
                         api.allowLoginWithUsername(USERNAME, password: PASSWORD, clientId: CLIENT_ID, database: DB_CONNECTION)
                         api.allowTokenInfoForToken(JWT)
                         waitUntil { done in
-                            client.loginWithUsername(USERNAME,
+                            client.login(withUsername: USERNAME,
                                 password: PASSWORD,
                                 parameters: nil,
                                 success: { (profile, token) in
@@ -222,8 +222,8 @@ class A0APIClientSpec : QuickSpec {
                         api.allowLoginWithUsername(USERNAME, password: PASSWORD, clientId: CLIENT_ID, database: DB_CONNECTION)
                         api.allowTokenInfoForToken(JWT)
                         waitUntil { done in
-                            let parameters = A0AuthParameters.newWithDictionary(["key": "value"])
-                            client.loginWithUsername(USERNAME,
+                            let parameters = A0AuthParameters.new(with: ["key": "value"])
+                            client.login(withUsername: USERNAME,
                                 password: PASSWORD,
                                 parameters: parameters,
                                 success: { (profile, token) in
@@ -244,8 +244,8 @@ class A0APIClientSpec : QuickSpec {
                             ])
                         api.allowTokenInfoForToken(JWT)
                         waitUntil { done in
-                            let parameters = A0AuthParameters.newWithScopes(["openid"])
-                            client.loginWithUsername(USERNAME,
+                            let parameters = A0AuthParameters.new(withScopes: ["openid"])
+                            client.login(withUsername: USERNAME,
                                 password: PASSWORD,
                                 parameters: parameters,
                                 success: { (profile, token) in
@@ -271,7 +271,7 @@ class A0APIClientSpec : QuickSpec {
                         api.allowLoginWithUsername(EMAIL, password: PASSWORD, clientId: CLIENT_ID, database: DB_CONNECTION)
                         api.allowTokenInfoForToken(JWT)
                         waitUntil { done in
-                            client.signUpWithEmail(EMAIL,
+                            client.signUp(withEmail: EMAIL,
                                 password: PASSWORD,
                                 loginOnSuccess: true,
                                 parameters: nil,
@@ -295,7 +295,7 @@ class A0APIClientSpec : QuickSpec {
                             "connection": DB_CONNECTION,
                             ])
                         waitUntil { done in
-                            client.signUpWithEmail(EMAIL,
+                            client.signUp(withEmail: EMAIL,
                                 password: PASSWORD,
                                 loginOnSuccess: false,
                                 parameters: nil,
@@ -322,7 +322,7 @@ class A0APIClientSpec : QuickSpec {
                         api.allowLoginWithUsername(USERNAME, password: PASSWORD, clientId: CLIENT_ID, database: DB_CONNECTION)
                         api.allowTokenInfoForToken(JWT)
                         waitUntil { done in
-                            client.signUpWithEmail(EMAIL,
+                            client.signUp(withEmail: EMAIL,
                                 username: USERNAME,
                                 password: PASSWORD,
                                 loginOnSuccess: true,
@@ -351,8 +351,8 @@ class A0APIClientSpec : QuickSpec {
                         api.allowLoginWithUsername(USERNAME, password: PASSWORD, clientId: CLIENT_ID, database: DB_CONNECTION)
                         api.allowTokenInfoForToken(JWT)
                         waitUntil { done in
-                            let parameters = A0AuthParameters.newWithDictionary(["custom_key": "custom_value"])
-                            client.signUpWithEmail(EMAIL,
+                            let parameters = A0AuthParameters.new(with: ["custom_key": "custom_value"])
+                            client.signUp(withEmail: EMAIL,
                                 username: USERNAME,
                                 password: PASSWORD,
                                 loginOnSuccess: true,
@@ -380,7 +380,7 @@ class A0APIClientSpec : QuickSpec {
                             ],
                             message: "signup_failed")
                         waitUntil { done in
-                            client.signUpWithEmail(EMAIL,
+                            client.signUp(withEmail: EMAIL,
                                 username: USERNAME,
                                 password: PASSWORD,
                                 loginOnSuccess: true,
@@ -445,7 +445,7 @@ class A0APIClientSpec : QuickSpec {
                             "connection": DB_CONNECTION
                             ])
                         waitUntil { done in
-                            client.requestChangePasswordForUsername(EMAIL,
+                            client.requestChangePassword(forUsername: EMAIL,
                                 parameters: nil,
                                 success: { done() },
                                 failure: { _ in
@@ -462,7 +462,7 @@ class A0APIClientSpec : QuickSpec {
                                 "connection": DB_CONNECTION
                             ], message: "failed_change_passsword")
                         waitUntil { done in
-                            client.requestChangePasswordForUsername(EMAIL,
+                            client.requestChangePassword(forUsername: EMAIL,
                                 parameters: nil,
                                 success: {
                                     fail("Should have failed to change password")
@@ -489,7 +489,7 @@ class A0APIClientSpec : QuickSpec {
                             ])
                         api.allowTokenInfoForToken(JWT)
                             waitUntil { done in
-                                client.loginWithIdToken(idToken,
+                                client.login(withIdToken: idToken,
                                     deviceName: DEVICE,
                                     parameters: nil,
                                     success: { (profile, token) in
@@ -513,7 +513,7 @@ class A0APIClientSpec : QuickSpec {
                             ],
                             message: "jwt_login_failed")
                         waitUntil { done in
-                            client.loginWithIdToken(idToken,
+                            client.login(withIdToken: idToken,
                                 deviceName: DEVICE,
                                 parameters: nil,
                                 success: { (profile, token) in
@@ -538,7 +538,7 @@ class A0APIClientSpec : QuickSpec {
 
                     beforeEach {
                         application = MockApplication(id: CLIENT_ID, tenant: TENANT, hasPasswordless: true)
-                        client.configureForApplication(application)
+                        client.configure(for: application)
                         client.manager.requestSerializer = A0AnnotatedRequestSerializer()
                     }
 
@@ -552,7 +552,7 @@ class A0APIClientSpec : QuickSpec {
                             ])
                         api.allowTokenInfoForToken(JWT)
                         waitUntil { done in
-                            client.loginWithPhoneNumber(phoneNumber,
+                            client.login(withPhoneNumber: phoneNumber,
                                 passcode: code,
                                 parameters: nil,
                                 success: { _, _ in
@@ -576,7 +576,7 @@ class A0APIClientSpec : QuickSpec {
                             ],
                             message: "sms_login_failed")
                         waitUntil { done in
-                            client.loginWithPhoneNumber(phoneNumber,
+                            client.login(withPhoneNumber: phoneNumber,
                                 passcode: code,
                                 parameters: nil,
                                 success: { _, _ in
@@ -602,7 +602,7 @@ class A0APIClientSpec : QuickSpec {
                         "connection": "sms",
                     ])
                     waitUntil { done in
-                        client.startPasswordlessWithPhoneNumber(phoneNumber, success: { done() }, failure: { _ in fail("Should not have failed") })
+                        client.startPasswordless(withPhoneNumber: phoneNumber, success: { done() }, failure: { _ in fail("Should not have failed") })
                     }
                 }
 
@@ -613,7 +613,7 @@ class A0APIClientSpec : QuickSpec {
                         ],
                         message: "passwordless_start_failed")
                     waitUntil { done in
-                        client.startPasswordlessWithPhoneNumber(phoneNumber, success: { fail("Should have failed") }, failure: { error in
+                        client.startPasswordless(withPhoneNumber: phoneNumber, success: { fail("Should have failed") }, failure: { error in
                             expect(error.localizedDescription).to(equal("passwordless_start_failed"))
                             done()
                         })
@@ -632,7 +632,7 @@ class A0APIClientSpec : QuickSpec {
                         "send": "code"
                         ])
                     waitUntil { done in
-                        client.startPasswordlessWithEmail(email, success: { done() }, failure: { _ in fail("Should not have failed") })
+                        client.startPasswordless(withEmail: email, success: { done() }, failure: { _ in fail("Should not have failed") })
                     }
                 }
 
@@ -643,7 +643,7 @@ class A0APIClientSpec : QuickSpec {
                         ],
                         message: "passwordless_start_failed")
                     waitUntil { done in
-                        client.startPasswordlessWithEmail(email, success: { fail("Should have failed") }, failure: { error in
+                        client.startPasswordless(withEmail: email, success: { fail("Should have failed") }, failure: { error in
                             expect(error.localizedDescription).to(equal("passwordless_start_failed"))
                             done()
                         })
@@ -667,7 +667,7 @@ class A0APIClientSpec : QuickSpec {
                     ])
                     api.allowTokenInfoForToken(JWT)
                     waitUntil { done in
-                        client.authenticateWithSocialConnectionName(A0StrategyNameFacebook,
+                        client.authenticate(withSocialConnectionName: A0StrategyNameFacebook,
                             credentials: credentials,
                             parameters: nil,
                             success: {_, _ in done() },
@@ -685,7 +685,7 @@ class A0APIClientSpec : QuickSpec {
                     let parameters = A0AuthParameters.newDefaultParams()
                     parameters["connection"] = "invalid connection"
                     waitUntil { done in
-                        client.authenticateWithSocialConnectionName("facebook",
+                        client.authenticate(withSocialConnectionName: "facebook",
                             credentials: credentials,
                             parameters: parameters,
                             success: {_, _ in done() },
@@ -705,7 +705,7 @@ class A0APIClientSpec : QuickSpec {
                     ])
                     api.allowTokenInfoForToken(JWT)
                     waitUntil { done in
-                        client.authenticateWithSocialConnectionName(A0StrategyNameFacebook,
+                        client.authenticate(withSocialConnectionName: A0StrategyNameFacebook,
                             credentials: credentials,
                             parameters: parameters,
                             success: {_, _ in done() },
@@ -727,7 +727,7 @@ class A0APIClientSpec : QuickSpec {
                     ])
                     api.allowTokenInfoForToken(JWT)
                     waitUntil { done in
-                        client.authenticateWithSocialConnectionName(A0StrategyNameTwitter,
+                        client.authenticate(withSocialConnectionName: A0StrategyNameTwitter,
                             credentials: credentials,
                             parameters: nil,
                             success: {_, _ in done() },
@@ -742,7 +742,7 @@ class A0APIClientSpec : QuickSpec {
                         ],
                         message: "invalid_social_login")
                     waitUntil { done in
-                        client.authenticateWithSocialConnectionName(A0StrategyNameWeibo,
+                        client.authenticate(withSocialConnectionName: A0StrategyNameWeibo,
                             credentials: credentials,
                             parameters: nil,
                             success: { _, _ in fail("Should have failed") },
@@ -763,7 +763,7 @@ class A0APIClientSpec : QuickSpec {
                         "scope": "openid offline_access",
                     ])
                     waitUntil { done in
-                        client.fetchNewIdTokenWithIdToken(JWT,
+                        client.fetchNewIdToken(withIdToken: JWT,
                             parameters: nil,
                             success: { token in
                                 done()
@@ -781,7 +781,7 @@ class A0APIClientSpec : QuickSpec {
                         ])
 
                     waitUntil { done in
-                        client.fetchNewIdTokenWithRefreshToken(REFRESH_TOKEN,
+                        client.fetchNewIdToken(withRefreshToken: REFRESH_TOKEN,
                             parameters: nil,
                             success: { token in
                                 done()
@@ -798,9 +798,9 @@ class A0APIClientSpec : QuickSpec {
                         "scope": "openid offline_access",
                         "key": "value",
                     ])
-                    let parameters = A0AuthParameters.newWithDictionary(["key": "value"])
+                    let parameters = A0AuthParameters.new(with: ["key": "value"])
                     waitUntil { done in
-                        client.fetchNewIdTokenWithIdToken(JWT,
+                        client.fetchNewIdToken(withIdToken: JWT,
                             parameters: parameters,
                             success: { token in
                                 done()
@@ -816,9 +816,9 @@ class A0APIClientSpec : QuickSpec {
                         "scope": "openid offline_access",
                         "key": "value",
                     ])
-                    let parameters = A0AuthParameters.newWithDictionary(["key": "value"])
+                    let parameters = A0AuthParameters.new(with: ["key": "value"])
                     waitUntil { done in
-                        client.fetchDelegationTokenWithParameters(parameters,
+                        client.fetchDelegationToken(with: parameters,
                             success: { info in
                                 expect(info).notTo(beEmpty())
                                 done()
@@ -831,7 +831,7 @@ class A0APIClientSpec : QuickSpec {
                     let errorMessage = "invalid_delegation";
                     api.failForRoute(.Delegation, parameters: ["id_token": JWT], message: errorMessage)
                     waitUntil { done in
-                        client.fetchNewIdTokenWithIdToken(JWT,
+                        client.fetchNewIdToken(withIdToken: JWT,
                             parameters: nil,
                             success: { _ in fail("Should have failed") },
                             failure: { error in
@@ -851,8 +851,8 @@ class A0APIClientSpec : QuickSpec {
                         ])
 
                     waitUntil { done in
-                        let parameters = A0AuthParameters.newWithDictionary(["key": "value"])
-                        client.fetchNewIdTokenWithRefreshToken(REFRESH_TOKEN,
+                        let parameters = A0AuthParameters.new(with: ["key": "value"])
+                        client.fetchNewIdToken(withRefreshToken: REFRESH_TOKEN,
                             parameters: parameters,
                             success: { token in
                                 done()
@@ -865,7 +865,7 @@ class A0APIClientSpec : QuickSpec {
                     let errorMessage = "invalid_delegation"
                     api.failForRoute(.Delegation, parameters: ["refresh_token": REFRESH_TOKEN], message: errorMessage)
                     waitUntil { done in
-                        client.fetchNewIdTokenWithRefreshToken(REFRESH_TOKEN,
+                        client.fetchNewIdToken(withRefreshToken: REFRESH_TOKEN,
                             parameters: nil,
                             success: { _ in
                                 fail("Should have failed")
@@ -880,10 +880,10 @@ class A0APIClientSpec : QuickSpec {
                 it("should call failure callback with error") {
                     let errorMessage = "invalid_delegation"
                     api.failForRoute(.Delegation, parameters: ["key": "value"], message: errorMessage)
-                    let parameters = A0AuthParameters.newWithDictionary(["key": "value"])
+                    let parameters = A0AuthParameters.new(with: ["key": "value"])
 
                     waitUntil { done in
-                        client.fetchDelegationTokenWithParameters(parameters,
+                        client.fetchDelegationToken(with: parameters,
                             success: { _ in fail("Should have failed") },
                             failure: { error in
                                 expect(error.localizedDescription).to(equal(errorMessage))

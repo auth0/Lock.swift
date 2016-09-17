@@ -54,8 +54,6 @@ static const CGFloat ServiceCellHeight = 55.0;
 
 @implementation A0SocialLoginViewController
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (void)viewDidLoad {
     [self setupUI];
 }

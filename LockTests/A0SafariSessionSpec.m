@@ -81,11 +81,11 @@ describe(@"A0SafariSession", ^{
 
     context(@"callback url", ^{
         it(@"should build with custom scheme", ^{
-            expect([A0SafariSession callbackURLForOSVersion:NSFoundationVersionNumber_iOS_8_3 withLock:lock]).to(equal([NSURL URLWithString:@"com.auth0.Lock-Dev://samples.auth0.com/ios/com.auth0.Lock-Dev/callback"]));
+            expect([A0SafariSession callbackURLForOSVersion:NSFoundationVersionNumber_iOS_8_3 withLock:lock]).to(equal([NSURL URLWithString:@"com.auth0.app.legacy.Lock://samples.auth0.com/ios/com.auth0.app.legacy.Lock/callback"]));
         });
 
         it(@"should build with universal links", ^{
-            expect([A0SafariSession callbackURLForOSVersion:(NSFoundationVersionNumber_iOS_8_3 + 1) withLock:lock]).to(equal([NSURL URLWithString:@"https://samples.auth0.com/ios/com.auth0.Lock-Dev/callback"]));
+            expect([A0SafariSession callbackURLForOSVersion:(NSFoundationVersionNumber_iOS_8_3 + 1) withLock:lock]).to(equal([NSURL URLWithString:@"https://samples.auth0.com/ios/com.auth0.app.legacy.Lock/callback"]));
         });
 
         it(@"should pick the current OS version", ^{
@@ -189,11 +189,8 @@ describe(@"A0SafariSession", ^{
             token = mock(A0Token.class);
             [given(token.idToken) willReturn:@"IDTOKEN"];
             successBlock = ^(A0UserProfile *profile, A0Token *token) {
-                expect(profile).toNot(beNil());
-                expect(token).toNot(beNil());
             };
             failureBlock = ^(NSError *error) {
-                expect(error).toNot(beNil());
             };
             session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook" usePKCE:NO];
         });
@@ -211,7 +208,7 @@ describe(@"A0SafariSession", ^{
                     failureBlock(error);
                     done();
                 }];
-                block(mock(NSError.class), nil);
+                block([NSError errorWithDomain:@"com.auth0" code:0 userInfo:nil], nil);
             });
         });
 

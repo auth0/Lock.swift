@@ -63,7 +63,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateStyle = NSDateFormatterShortStyle;
     formatter.timeStyle = NSDateFormatterShortStyle;
-    self.expiresLabel.text = [formatter stringFromDate:[[A0JWT decode:token error:nil] expiresAt]];
+    self.expiresLabel.text = [formatter stringFromDate:[[A0JWT decodeWithJwt:token error:nil] expiresAt]];
     self.refreshTokenLabel.text = refreshToken;
     self.welcomeLabel.text = profile.name;
 }

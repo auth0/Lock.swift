@@ -43,8 +43,6 @@
 
 @implementation A0WebAuthentication
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithClientId:(NSString *)clientId domainURL:(NSURL *)domainURL connectionName:(NSString *)connectionName {
     self = [super init];
     if (self) {

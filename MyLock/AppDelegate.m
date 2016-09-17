@@ -22,9 +22,6 @@
 
 #import "AppDelegate.h"
 #import <Lock/Lock.h>
-#import <CocoaLumberjack/DDASLLogger.h>
-#import <CocoaLumberjack/DDTTYLogger.h>
-#import <CocoaLumberjack/DDLog.h>
 
 @interface AppDelegate ()
 
@@ -34,15 +31,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-#if DEBUG
-    setenv("XcodeColors", "YES", 0);
-    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
-    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.400 green:0.800 blue:1.000 alpha:1.000] backgroundColor:nil forFlag:DDLogFlagInfo];
-    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.400 green:1.000 blue:0.400 alpha:1.000] backgroundColor:nil forFlag:DDLogFlagDebug];
-#endif
-
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
 
     [A0LockLogger logAll];
 

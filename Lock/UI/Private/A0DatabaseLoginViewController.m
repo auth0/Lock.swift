@@ -59,8 +59,6 @@
 
 @implementation A0DatabaseLoginViewController
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)init {
     if (self) {
         self.title = A0LocalizedString(@"Login");

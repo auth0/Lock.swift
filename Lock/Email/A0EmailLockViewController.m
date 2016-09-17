@@ -49,8 +49,6 @@
 
 @implementation A0EmailLockViewController
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithLock:(A0Lock *)lock {
     NSAssert(lock != nil, @"Must have a non-nil Lock instance");
     self = [super init];

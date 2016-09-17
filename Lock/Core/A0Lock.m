@@ -82,8 +82,6 @@ static NSURL *Auth0CDNRegionURLFromDomainURL(NSURL *domainURL) {
 
 @implementation A0Lock
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)init {
     NSString *path = [[NSBundle mainBundle] pathForResource:Auth0FileName ofType:Auth0FileExtension];
     id<A0CredentialProvider> credentialProvider;

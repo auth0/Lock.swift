@@ -25,12 +25,12 @@ import Foundation
 class MockApplication: A0Application {
 
     init(id: String, tenant: String, databases: [String] = [], hasPasswordless: Bool = false) {
-        var json: [String: AnyObject] = [
+        var json: [String: Any] = [
             "id": id,
             "tenant": tenant,
-            "authorize": "https://samples.auth0.com/authorize"
+            "authorize": "https://samples.auth0.com/authorize",
         ]
-        var strategies: [[String: AnyObject]] = []
+        var strategies: [[String: Any]] = []
         strategies.append([
             "name": "auth0",
             "connections": databases.map({ name in
@@ -52,6 +52,6 @@ class MockApplication: A0Application {
             ])
         }
         json["strategies"] = strategies
-        super.init(JSONDictionary: json)
+        super.init(jsonDictionary: json)
     }
 }

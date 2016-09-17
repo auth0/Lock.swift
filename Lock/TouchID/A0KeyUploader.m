@@ -35,8 +35,6 @@ NSString * const A0KeyUploaderErrorDomain = @"com.auth0.touchid.uploader";
 
 @implementation A0KeyUploader
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)initWithDomainURL:(NSURL *)domainURL clientId:(NSString *)clientId authorization:(NSString *)authorization {
     self = [super init];
     if (self) {

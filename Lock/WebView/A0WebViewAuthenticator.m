@@ -43,8 +43,6 @@ NSString * const A0WebViewAuthenticatorTitleTextFont = @"A0WebViewAuthenticatorT
 
 @implementation A0WebViewAuthenticator
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 -(instancetype)initWithConnectionName:(NSString * __nonnull)connectionName lock:(A0Lock * __nonnull)lock {
     self = [super init];
     if (self) {

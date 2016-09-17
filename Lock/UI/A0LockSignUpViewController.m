@@ -62,8 +62,6 @@
 
 @implementation A0LockSignUpViewController
 
-AUTH0_DYNAMIC_LOGGER_METHODS
-
 - (instancetype)init {
     return [self initWithLock:[A0Lock sharedLock]];
 }
