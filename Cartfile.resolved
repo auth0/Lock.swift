@@ -1,5 +1,5 @@
 github "AFNetworking/AFNetworking" "3.1.0"
-github "auth0/JWTDecode.swift" "1.2.0"
+github "auth0/JWTDecode.swift" "2.0.0"
 github "SnapKit/Masonry" "v0.6.4"
 github "Quick/Nimble" "db706fc1d7130f6ac96c56aaf0e635fa3217fe57"
 github "hamcrest/OCHamcrest" "v6.0.0"

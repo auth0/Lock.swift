@@ -189,11 +189,8 @@ describe(@"A0SafariSession", ^{
             token = mock(A0Token.class);
             [given(token.idToken) willReturn:@"IDTOKEN"];
             successBlock = ^(A0UserProfile *profile, A0Token *token) {
-                expect(profile).toNot(beNil());
-                expect(token).toNot(beNil());
             };
             failureBlock = ^(NSError *error) {
-                expect(error).toNot(beNil());
             };
             session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook" usePKCE:NO];
         });
@@ -211,7 +208,7 @@ describe(@"A0SafariSession", ^{
                     failureBlock(error);
                     done();
                 }];
-                block(mock(NSError.class), nil);
+                block([NSError errorWithDomain:@"com.auth0" code:0 userInfo:nil], nil);
             });
         });
 
