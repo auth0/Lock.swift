@@ -776,7 +776,7 @@
 		5FBAD1671BE7B92900703DD1 /* A0ProgressButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0ProgressButton.h; sourceTree = "<group>"; };
 		5FBAD1681BE7B92900703DD1 /* A0ProgressButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0ProgressButton.m; sourceTree = "<group>"; };
 		5FBAD1691BE7B92900703DD1 /* UIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIConstants.h; sourceTree = "<group>"; };
-		5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MyLock-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FBAD22C1BE7BE1E00703DD1 /* MyLock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBAD22F1BE7BE1E00703DD1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5FBAD2311BE7BE1E00703DD1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5FBAD2321BE7BE1E00703DD1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -1076,7 +1076,7 @@
 			children = (
 				5FBACFF51BE7AF8700703DD1 /* Lock.framework */,
 				5FBAD0051BE7B1E500703DD1 /* Lock.framework */,
-				5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */,
+				5FBAD22C1BE7BE1E00703DD1 /* MyLock.app */,
 				5FBAD27C1BE7CC8F00703DD1 /* Auth0.bundle */,
 				5FBAD4631BE7F93A00703DD1 /* LockTests.xctest */,
 			);
@@ -2031,7 +2031,7 @@
 			);
 			name = MyLock;
 			productName = MyLock;
-			productReference = 5FBAD22C1BE7BE1E00703DD1 /* MyLock-Dev.app */;
+			productReference = 5FBAD22C1BE7BE1E00703DD1 /* MyLock.app */;
 			productType = "com.apple.product-type.application";
 		};
 		5FBAD27B1BE7CC8F00703DD1 /* Auth0 */ = {
@@ -2790,7 +2790,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BUNDLE_SUFFIX = "-Dev";
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2800,7 +2799,7 @@
 				INFOPLIST_FILE = MyLock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.auth0.Lock$(BUNDLE_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.app.legacy.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)$(BUNDLE_SUFFIX)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MyLock/MyLock-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2813,7 +2812,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BUNDLE_SUFFIX = "";
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2823,7 +2821,7 @@
 				INFOPLIST_FILE = MyLock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.auth0.Lock$(BUNDLE_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.app.legacy.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)$(BUNDLE_SUFFIX)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MyLock/MyLock-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -2882,7 +2880,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "LockTests/LockTests-iOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLock-Dev.app/MyLock-Dev";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLock.app/MyLock";
 			};
 			name = Debug;
 		};
@@ -2901,7 +2899,7 @@
 				PRODUCT_NAME = LockTests;
 				SWIFT_OBJC_BRIDGING_HEADER = "LockTests/LockTests-iOS-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLock-Dev.app/MyLock-Dev";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLock.app/MyLock";
 			};
 			name = Release;
 		};

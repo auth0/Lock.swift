@@ -81,11 +81,11 @@ describe(@"A0SafariSession", ^{
 
     context(@"callback url", ^{
         it(@"should build with custom scheme", ^{
-            expect([A0SafariSession callbackURLForOSVersion:NSFoundationVersionNumber_iOS_8_3 withLock:lock]).to(equal([NSURL URLWithString:@"com.auth0.Lock-Dev://samples.auth0.com/ios/com.auth0.Lock-Dev/callback"]));
+            expect([A0SafariSession callbackURLForOSVersion:NSFoundationVersionNumber_iOS_8_3 withLock:lock]).to(equal([NSURL URLWithString:@"com.auth0.app.legacy.Lock://samples.auth0.com/ios/com.auth0.app.legacy.Lock/callback"]));
         });
 
         it(@"should build with universal links", ^{
-            expect([A0SafariSession callbackURLForOSVersion:(NSFoundationVersionNumber_iOS_8_3 + 1) withLock:lock]).to(equal([NSURL URLWithString:@"https://samples.auth0.com/ios/com.auth0.Lock-Dev/callback"]));
+            expect([A0SafariSession callbackURLForOSVersion:(NSFoundationVersionNumber_iOS_8_3 + 1) withLock:lock]).to(equal([NSURL URLWithString:@"https://samples.auth0.com/ios/com.auth0.app.legacy.Lock/callback"]));
         });
 
         it(@"should pick the current OS version", ^{
