@@ -87,10 +87,11 @@
     A0AuthParameters *authenticationParameters = parameters ?: [A0AuthParameters newDefaultParams];
     NSURL *url = [self.session authorizeURLWithParameters:[authenticationParameters asAPIPayload]];
     A0LogDebug(@"Opening URL %@ in SFSafariViewController", url);
-    self.controller = [[SFSafariViewController alloc] initWithURL:url];
-    self.controller.delegate = self;
-    [self.presenter presentController:_controller completion:nil];
+    SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:url];
+    controller.delegate = self;
+    [self.presenter presentController:controller completion:nil];
     self.onAuthentication = [self.session authenticationBlockWithSuccess:success failure:failure];
+    self.controller = controller;
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
