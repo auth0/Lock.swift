@@ -1,6 +1,6 @@
 reference: http://www.objc.io/issue-6/travis-ci.html
 language: objective-c
-osx_image: xcode7.3
+osx_image: xcode8
 before_install: true
 install: true
 script:
@@ -14,7 +14,7 @@ branches:
   - v2
 env:
   matrix:
-  - SCHEME="Lock" CARTHAGE_BUILD_PLATFORM="iOS" IOS_DESTINATION_VERSION="9.3"
+  - SCHEME="Lock" CARTHAGE_BUILD_PLATFORM="iOS" IOS_DESTINATION_VERSION="10.0"
   global:
   - secure: hU2sg0N7L2hEAXzmssJRyVGLm1cHKDwuZEE1BQy6y+9jo88926DSTZpw0uLs5h3tHWMctDt/7hoXe9D93oUQowNRaoy6Y/k34VD3Wzfbl2Dht/xZ4M2fgFwy8AYxI9Px3zLmQOewLCsAdFvoLs1rGuRcHy77RH6wtSCMJG/MVng=
 after_success:

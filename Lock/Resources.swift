@@ -30,10 +30,10 @@ func image(named name: String, compatibleWithTraitCollection traitCollection: UI
     return UIImage(named: name, inBundle: bundleForLock(), compatibleWithTraitCollection: traitCollection)
 }
 
-func image(withColor color: UIColor) -> UIImage {
+func image(withColor color: UIColor) -> UIImage? {
     let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
     UIGraphicsBeginImageContext(rect.size)
-    let context = UIGraphicsGetCurrentContext()
+    guard let context = UIGraphicsGetCurrentContext() else { return nil }
     CGContextSetFillColorWithColor(context, color.CGColor)
 
     CGContextFillRect(context, rect)

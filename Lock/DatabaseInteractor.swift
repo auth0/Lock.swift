@@ -96,7 +96,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         guard let password = self.password where self.validPassword else { return callback(.NonValidInput) }
         guard let databaseName = self.connections.database?.name else { return callback(.NoDatabaseConnection) }
-        
+
         self.authentication
             .login(
                 usernameOrEmail: identifier,
