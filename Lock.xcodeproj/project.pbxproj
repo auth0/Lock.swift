@@ -397,6 +397,7 @@
 		5FBAD4F41BE969EF00703DD1 /* A0CredentialsValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C11BE95C5700703DD1 /* A0CredentialsValidatorSpec.m */; };
 		5FBAD4F51BE96BCE00703DD1 /* A0EmailValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C21BE95C5700703DD1 /* A0EmailValidatorSpec.m */; };
 		5FBAD4F61BE96D3500703DD1 /* A0GenericAPIErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C41BE95C5700703DD1 /* A0GenericAPIErrorHandlerSpec.m */; };
+		5FC69D181D8E0FDE007088EE /* A0UsernameValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4D31BE95C5700703DD1 /* A0UsernameValidatorSpec.m */; };
 		5FCE63341CA1661000F5C2B0 /* A0SignUpView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FCE63321CA1661000F5C2B0 /* A0SignUpView.h */; };
 		5FCE63351CA1661000F5C2B0 /* A0SignUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE63331CA1661000F5C2B0 /* A0SignUpView.m */; };
 		5FCE63381CA17D8A00F5C2B0 /* A0ChangePasswordView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FCE63361CA17D8A00F5C2B0 /* A0ChangePasswordView.h */; };
@@ -1597,6 +1598,7 @@
 				5FBAD4C81BE95C5700703DD1 /* A0LockSpec.m */,
 				5FBAD4C71BE95C5700703DD1 /* A0LockConfigurationSpec.m */,
 				5FBAD4CE1BE95C5700703DD1 /* A0SafariSessionSpec.m */,
+				5FBAD4D31BE95C5700703DD1 /* A0UsernameValidatorSpec.m */,
 				5FBAD4F81BE96F4800703DD1 /* Pending */,
 				5FBAD4AC1BE8F2B800703DD1 /* Utils */,
 				5FBAD49F1BE8E7F300703DD1 /* Fixtures */,
@@ -1662,7 +1664,6 @@
 				5FBAD4CD1BE95C5700703DD1 /* A0SafariAuthenticatorSpec.m */,
 				5FBAD4CF1BE95C5700703DD1 /* A0SimpleConnectionDomainMatcherSpec.m */,
 				5FBAD4D01BE95C5700703DD1 /* A0StrategySpec.m */,
-				5FBAD4D31BE95C5700703DD1 /* A0UsernameValidatorSpec.m */,
 				5FBAD4D41BE95C5700703DD1 /* A0UserProfileSpec.m */,
 				5FBAD4D51BE95C5700703DD1 /* A0WebAuthenticationSpec.m */,
 			);
@@ -2537,6 +2538,7 @@
 				5F66418E1BEA5A9F00ECA900 /* A0PKCESpec.swift in Sources */,
 				5FBAD4F31BE9696100703DD1 /* A0ConnectionSpec.m in Sources */,
 				5FAFAB4A1CDAAB55004048BE /* A0TokenSpec.m in Sources */,
+				5FC69D181D8E0FDE007088EE /* A0UsernameValidatorSpec.m in Sources */,
 				5FBAD4F51BE96BCE00703DD1 /* A0EmailValidatorSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
