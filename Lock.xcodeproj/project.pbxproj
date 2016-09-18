@@ -81,7 +81,7 @@
 		5F99AA881D1B0E2500D27842 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA871D1B0E2500D27842 /* Layout.swift */; };
 		5F99AA8A1D1B360C00D27842 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA891D1B360C00D27842 /* PrimaryButton.swift */; };
 		5F99AA8C1D1B3F1300D27842 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA8B1D1B3F1300D27842 /* InputField.swift */; };
-		5F99AA8E1D1B4BFA00D27842 /* Lock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FEAE1C61D1A5154005C0028 /* Lock.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5F99AA8E1D1B4BFA00D27842 /* Lock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FEAE1C61D1A5154005C0028 /* Lock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F99AA901D1B9E7100D27842 /* DatabaseModeSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA8F1D1B9E7100D27842 /* DatabaseModeSwitcher.swift */; };
 		5F99AA921D1BA5CA00D27842 /* DatabaseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA911D1BA5CA00D27842 /* DatabaseConstants.swift */; };
 		5F99AA941D1BABFC00D27842 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */; };
@@ -751,17 +751,20 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Auth0;
 				TargetAttributes = {
 					5FEADCF31D1A7EBC0032D810 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					5FEAE1C51D1A5154005C0028 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					5FEAE1CF1D1A5154005C0028 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 5FEADCF31D1A7EBC0032D810;
 					};
 					5FF1FA311D4C12DF00158CD1 = {
@@ -1056,6 +1059,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_LIBRARY_PATHS = "";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1073,6 +1077,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_LIBRARY_PATHS = "";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -1090,8 +1095,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1139,8 +1146,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1160,6 +1169,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1171,6 +1181,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1187,6 +1198,7 @@
 				PRODUCT_NAME = Lock;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1194,6 +1206,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1209,6 +1222,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.ios.Lock;
 				PRODUCT_NAME = Lock;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -1223,6 +1237,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LockApp.app/LockApp";
 			};
 			name = Debug;
@@ -1238,6 +1253,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LockApp.app/LockApp";
 			};
 			name = Release;
@@ -1245,6 +1261,7 @@
 		5FF1FA371D4C12DF00158CD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1261,6 +1278,7 @@
 		5FF1FA381D4C12DF00158CD1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

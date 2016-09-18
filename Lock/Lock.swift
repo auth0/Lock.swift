@@ -245,7 +245,7 @@ private func telemetryFor(authenticaction authentication: Authentication, webAut
     //        let bundle = _BundleHack.bundle
     //        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.0.0-alpha.0"
     let version = "2.0.0-beta.1"
-    authentication.using(inLibrary: name, version: version)
-    webAuth.using(inLibrary: name, version: version)
+    authentication.using(in: name, version: version)
+    webAuth.using(in: name, version: version)
     return (authentication, webAuth)
 }

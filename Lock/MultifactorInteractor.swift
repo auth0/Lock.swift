@@ -65,7 +65,6 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
         guard let password = self.user.password where self.user.validPassword else { return callback(.NonValidInput) }
         guard let code = self.code where self.validCode else { return callback(.NonValidInput) }
         let database = self.connection.name
-
         self.authentication
             .login(usernameOrEmail: identifier, password: password, multifactorCode: code, connection: database)
             .start { result in
