@@ -296,7 +296,7 @@ lock.presentEmailController(controller, fromController: self)
 
 A very cool thing you can do with Lock is use SSO. Imagine you want to create 2 apps. However, you want that if the user is logged in in app A, he will be already logged in in app B as well. Something similar to what happens with Messenger and Facebook as well as Foursquare and Swarm.
 
-Read [this guide](https://github.com/auth0/Lock.iOS-OSX/wiki/SSO-on-Mobile-Apps) to learn how to accomplish this with this library.
+Read [this guide](https://auth0.com/docs/libraries/lock-ios/sso-on-mobile-apps) to learn how to accomplish this with this library.
 
 ## Documentation
 You can find the full documentation for this library on that [Auth0 doc site](https://auth0.com/docs/libraries/lock-ios). Additionally, you can browse the full API on [CocoaDocs](http://cocoadocs.org/docsets/Lock).
