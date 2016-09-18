@@ -45,6 +45,7 @@
 #import "NSError+A0LockErrors.h"
 #import "Constants.h"
 #import "A0SignUpView.h"
+#import "A0Connection+DatabaseValidation.h"
 #import <Masonry/Masonry.h>
 
 @interface A0SignUpViewController () <A0SignUpViewDelegate>
@@ -90,17 +91,23 @@
     self.signUpView.delegate = self;
     self.signUpView.identifier = _identifier;
 
+    A0UsernameValidationInfo info;
     if (self.defaultConnection) {
         self.parameters[A0ParameterConnection] = self.defaultConnection.name;
+        info = self.defaultConnection.usernameValidation;
+    } else {
+        info.min = 1;
+        info.max = 15;
     }
+
     NSMutableArray *validators = [@[
                                     [[A0PasswordValidator alloc] initWithField:signUpView.passwordField.textField],
                                     ] mutableCopy];
     if (self.requiresUsername) {
         [validators addObject:[[A0EmailValidator alloc] initWithField:signUpView.identifierField.textField]];
-        [validators addObject:[[A0UsernameValidator alloc] initWithField:signUpView.usernameField.textField]];
+        [validators addObject:[A0UsernameValidator databaseValidatorForField:signUpView.usernameField.textField withMinimum:info.min andMaximum:info.max]];
     } else if (self.forceUsername) {
-        [validators addObject:[[A0UsernameValidator alloc] initWithField:signUpView.identifierField.textField]];
+        [validators addObject:[A0UsernameValidator nonEmtpyValidatorForField:signUpView.identifierField.textField]];
     } else {
         [validators addObject:[[A0EmailValidator alloc] initWithField:signUpView.identifierField.textField]];
     }

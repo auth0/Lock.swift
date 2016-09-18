@@ -398,6 +398,8 @@
 		5FBAD4F51BE96BCE00703DD1 /* A0EmailValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C21BE95C5700703DD1 /* A0EmailValidatorSpec.m */; };
 		5FBAD4F61BE96D3500703DD1 /* A0GenericAPIErrorHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4C41BE95C5700703DD1 /* A0GenericAPIErrorHandlerSpec.m */; };
 		5FC69D181D8E0FDE007088EE /* A0UsernameValidatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAD4D31BE95C5700703DD1 /* A0UsernameValidatorSpec.m */; };
+		5FC69D1B1D8F2561007088EE /* A0Connection+DatabaseValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FC69D191D8F2561007088EE /* A0Connection+DatabaseValidation.h */; };
+		5FC69D1C1D8F2561007088EE /* A0Connection+DatabaseValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC69D1A1D8F2561007088EE /* A0Connection+DatabaseValidation.m */; };
 		5FCE63341CA1661000F5C2B0 /* A0SignUpView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FCE63321CA1661000F5C2B0 /* A0SignUpView.h */; };
 		5FCE63351CA1661000F5C2B0 /* A0SignUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE63331CA1661000F5C2B0 /* A0SignUpView.m */; };
 		5FCE63381CA17D8A00F5C2B0 /* A0ChangePasswordView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FCE63361CA17D8A00F5C2B0 /* A0ChangePasswordView.h */; };
@@ -899,6 +901,8 @@
 		5FBAD4D31BE95C5700703DD1 /* A0UsernameValidatorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UsernameValidatorSpec.m; sourceTree = "<group>"; };
 		5FBAD4D41BE95C5700703DD1 /* A0UserProfileSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0UserProfileSpec.m; sourceTree = "<group>"; };
 		5FBAD4D51BE95C5700703DD1 /* A0WebAuthenticationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0WebAuthenticationSpec.m; sourceTree = "<group>"; };
+		5FC69D191D8F2561007088EE /* A0Connection+DatabaseValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "A0Connection+DatabaseValidation.h"; sourceTree = "<group>"; };
+		5FC69D1A1D8F2561007088EE /* A0Connection+DatabaseValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "A0Connection+DatabaseValidation.m"; sourceTree = "<group>"; };
 		5FCE63321CA1661000F5C2B0 /* A0SignUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0SignUpView.h; sourceTree = "<group>"; };
 		5FCE63331CA1661000F5C2B0 /* A0SignUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0SignUpView.m; sourceTree = "<group>"; };
 		5FCE63361CA17D8A00F5C2B0 /* A0ChangePasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0ChangePasswordView.h; sourceTree = "<group>"; };
@@ -1353,6 +1357,8 @@
 				5FAFAB301CD80CA3004048BE /* A0MFACodeViewController.m */,
 				5FAFAB371CD95C5D004048BE /* A0NavigationController.h */,
 				5FAFAB381CD95C5D004048BE /* A0NavigationController.m */,
+				5FC69D191D8F2561007088EE /* A0Connection+DatabaseValidation.h */,
+				5FC69D1A1D8F2561007088EE /* A0Connection+DatabaseValidation.m */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -1912,6 +1918,7 @@
 				5FBAD0701BE7B23C00703DD1 /* A0FilteredConnectionDomainMatcher.h in Headers */,
 				5FBAD0E71BE7B25100703DD1 /* NSObject+A0AuthenticatorProvider.h in Headers */,
 				5FBAD0FC1BE7B64A00703DD1 /* A0BaseAuthenticator.h in Headers */,
+				5FC69D1B1D8F2561007088EE /* A0Connection+DatabaseValidation.h in Headers */,
 				5FBAD1761BE7B92900703DD1 /* A0Lock+A0LockViewController.h in Headers */,
 				5FBAD0641BE7B23C00703DD1 /* A0AuthParameters.h in Headers */,
 				5FBAD1C51BE7B92900703DD1 /* A0UsernameValidator.h in Headers */,
@@ -2367,6 +2374,7 @@
 				5FBAD1961BE7B92900703DD1 /* A0RoundedBoxView.m in Sources */,
 				5FBAD1C81BE7B92900703DD1 /* UIButton+A0SolidButton.m in Sources */,
 				5FBAD4441BE7F0E100703DD1 /* A0EmailMagicLinkViewController.m in Sources */,
+				5FC69D1C1D8F2561007088EE /* A0Connection+DatabaseValidation.m in Sources */,
 				5FBAD0E01BE7B24600703DD1 /* NSError+A0APIError.m in Sources */,
 				5FBAD4221BE7F0AC00703DD1 /* A0TouchIDRegisterViewController.m in Sources */,
 				5FAFAB361CD80F0B004048BE /* A0MFACodeView.m in Sources */,

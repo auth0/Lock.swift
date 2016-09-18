@@ -76,7 +76,7 @@
     self.loginView.identifier = _identifier;
 
     self.validator = [[A0CredentialsValidator alloc] initWithValidators:@[
-                                                                          [[A0UsernameValidator alloc] initWithField:self.loginView.identifierField.textField],
+                                                                          [A0UsernameValidator nonEmtpyValidatorForField:self.loginView.identifierField.textField],
                                                                           [[A0PasswordValidator alloc] initWithField:self.loginView.passwordField.textField],
                                                                           ]];
 }
