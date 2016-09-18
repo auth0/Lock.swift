@@ -20,70 +20,96 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "A0LockTest.h"
+#define QUICK_DISABLE_SHORT_SYNTAX 1
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+#import <OCMockito/OCMockito.h>
+#import <OCHamcrest/OCHamcrest.h>
 
 #import "A0UsernameValidator.h"
 #import "A0Errors.h"
 
-SpecBegin(A0UsernameValidator)
+#define kValidatorKey @"validator"
+
+typedef NSDictionary *(^SampleBlock)();
+
+SampleBlock NonEmptyValidationForUsername(NSString *username) {
+    return ^{
+        UITextField *field = [[UITextField alloc] init];
+        field.text = username;
+        return @{
+                 kValidatorKey: [A0UsernameValidator nonEmtpyValidatorForField:field],
+                 };
+    };
+};
+
+SampleBlock BoundedValidationForUsername(NSString *username, NSInteger min, NSInteger max) {
+    return ^{
+        UITextField *field = [[UITextField alloc] init];
+        field.text = username;
+        return @{
+                 kValidatorKey: [A0UsernameValidator databaseValidatorForField:field withMinimum:min andMaximum:max],
+                 };
+    };
+};
+
+QuickSpecBegin(A0UsernameValidatorSpec)
 
 describe(@"A0UsernameValidator", ^{
 
-    __block A0UsernameValidator *validator;
-    __block UITextField *field;
+    sharedExamples(@"valid username", ^(QCKDSLSharedExampleContext context) {
 
-    beforeEach(^{
-        field = mock(UITextField.class);
-        validator = [[A0UsernameValidator alloc] initWithField:field];
-    });
+        A0UsernameValidator *validator = context()[kValidatorKey];
 
-    it(@"should fail init with nil field", ^{
-        expect(^{
-            validator = [[A0UsernameValidator alloc] initWithField:nil];
-        }).to.raise(NSInternalInconsistencyException);
-    });
-
-    context(@"valid username", ^{
-
-        beforeEach(^{
-            [given(field.text) willReturn:@"jdoe"];
-        });
-
-        specify(@"should obtain value from field", ^{
-            [validator validate];
-            [MKTVerify(field) text];
-        });
-
-        specify(@"no error", ^{
-            expect([validator validate]).to.beNil();
+        it(@"should return no error", ^{
+            expect([validator validate]).to(beNil());
         });
 
     });
 
-    sharedExamplesFor(@"invalid username", ^(NSDictionary *data) {
-        beforeEach(^{
-            [given(field.text) willReturn:data[@"username"]];
+    sharedExamples(@"invalid username", ^(QCKDSLSharedExampleContext context) {
+
+        A0UsernameValidator *validator = context()[kValidatorKey];
+
+        it(@"should have an error", ^{
+            expect([validator validate]).notTo(beNil());
         });
 
-        specify(@"should obtain value from field", ^{
-            [validator validate];
-            [MKTVerify(field) text];
-        });
-
-        specify(@"an error", ^{
-            expect([validator validate]).notTo.beNil();
-        });
-
-        specify(@"invalid username error code", ^{
-            expect([[validator validate] code]).to.equal(@(A0ErrorCodeInvalidUsername));
+        it(@"should return invalid username error code", ^{
+            expect(@([[validator validate] code])).to(equal(@(A0ErrorCodeInvalidUsername)));
         });
 
     });
 
-    itShouldBehaveLike(@"invalid username", @{});
-    itShouldBehaveLike(@"invalid username", @{@"username": @""});
-    itShouldBehaveLike(@"invalid username", @{@"username": @"  "});
+    itBehavesLike(@"valid username", NonEmptyValidationForUsername(@"jdoe"));
+    itBehavesLike(@"valid username", NonEmptyValidationForUsername(@"j_doe"));
+    itBehavesLike(@"valid username", NonEmptyValidationForUsername(@"j"));
+    itBehavesLike(@"valid username", NonEmptyValidationForUsername(@"john_doe_longer"));
+    itBehavesLike(@"valid username", NonEmptyValidationForUsername(@"john doe"));
+    itBehavesLike(@"valid username", NonEmptyValidationForUsername(@"john.doe"));
+    itBehavesLike(@"valid username", NonEmptyValidationForUsername(@"john/doe"));
+    itBehavesLike(@"valid username", NonEmptyValidationForUsername(@"john_doe_longer_than_allowed"));
+
+    itBehavesLike(@"invalid username", NonEmptyValidationForUsername(nil));
+    itBehavesLike(@"invalid username", NonEmptyValidationForUsername(@""));
+    itBehavesLike(@"invalid username", NonEmptyValidationForUsername(@"  "));
+
+    itBehavesLike(@"valid username", BoundedValidationForUsername(@"jdoe", 1, 15));
+    itBehavesLike(@"valid username", BoundedValidationForUsername(@"j_doe", 1, 15));
+    itBehavesLike(@"valid username", BoundedValidationForUsername(@"j", 1, 15));
+    itBehavesLike(@"valid username", BoundedValidationForUsername(@"john_doe_longer", 1, 15));
+    itBehavesLike(@"valid username", BoundedValidationForUsername(@"j", 1, 1));
+
+    itBehavesLike(@"invalid username", BoundedValidationForUsername(nil, 1, 15));
+    itBehavesLike(@"invalid username", BoundedValidationForUsername(@"", 1, 15));
+    itBehavesLike(@"invalid username", BoundedValidationForUsername(@"  ", 1, 15));
+    itBehavesLike(@"invalid username", BoundedValidationForUsername(@"john doe", 1, 15));
+    itBehavesLike(@"invalid username", BoundedValidationForUsername(@"john.doe", 1, 15));
+    itBehavesLike(@"invalid username", BoundedValidationForUsername(@"john/doe", 1, 15));
+    itBehavesLike(@"invalid username", BoundedValidationForUsername(@"john_doe_longer_than_allowed", 1, 15));
+    itBehavesLike(@"invalid username", BoundedValidationForUsername(@"j", 2, 15));
 
 });
 
-SpecEnd
+QuickSpecEnd

@@ -78,7 +78,6 @@ FOUNDATION_EXPORT NSString * const A0ConnectionShowSignUp;
  *  @return value of connection property
  */
 - (nullable id)objectForKeyedSubscript:(NSString *)key;
-
 @end
 
 NS_ASSUME_NONNULL_END

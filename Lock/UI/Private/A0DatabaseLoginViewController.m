@@ -48,6 +48,7 @@
 #import "NSError+A0LockErrors.h"
 #import "Constants.h"
 #import "A0LoginView.h"
+#import "A0Connection+DatabaseValidation.h"
 #import <CoreGraphics/CoreGraphics.h>
 #import <Masonry/Masonry.h>
 
@@ -80,8 +81,13 @@
 
     self.loginView.identifier = _identifier;
     self.loginView.delegate = self;
+    A0UsernameValidationInfo info;
     if (self.defaultConnection) {
         self.parameters[A0ParameterConnection] = self.defaultConnection.name;
+        info = self.defaultConnection.usernameValidation;
+    } else {
+        info.min = 1;
+        info.max = 15;
     }
 
     BOOL requiresUsername = [self.defaultConnection[A0ConnectionRequiresUsername] boolValue];
@@ -89,7 +95,7 @@
                                     [[A0PasswordValidator alloc] initWithField:self.loginView.passwordField.textField],
                                     ] mutableCopy];
     if (self.forceUsername || requiresUsername) {
-        [validators addObject:[[A0UsernameValidator alloc] initWithField:self.loginView.identifierField.textField]];
+        [validators addObject:[A0UsernameValidator databaseValidatorForField:self.loginView.identifierField.textField withMinimum:info.min andMaximum:info.max]];
     } else {
         [validators addObject:[[A0EmailValidator alloc] initWithField:self.loginView.identifierField.textField]];
     }

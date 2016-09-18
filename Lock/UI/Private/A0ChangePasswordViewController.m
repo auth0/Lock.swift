@@ -74,7 +74,7 @@
     }
 
     if (self.forceUsername) {
-        self.validator = [[A0UsernameValidator alloc] initWithField:changePasswordView.identifierField.textField];
+        self.validator = [A0UsernameValidator nonEmtpyValidatorForField:changePasswordView.identifierField.textField];
     } else {
         self.validator = [[A0EmailValidator alloc] initWithField:changePasswordView.identifierField.textField];
     }

@@ -1,6 +1,6 @@
-// A0UsernameValidator.h
+// A0Connection+DatabaseValidation.m
 //
-// Copyright (c) 2014 Auth0 (http://auth0.com)
+// Copyright (c) 2015 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
-#import "A0FieldValidator.h"
+#import "A0Connection+DatabaseValidation.h"
 
-FOUNDATION_EXPORT NSString * const A0UsernameValidatorIdentifier;
+@implementation A0Connection (DatabaseValidation)
 
-/**
- *  Object that validates a username from a UITextField.
- *  The UITextField is not retained.
- */
-@interface A0UsernameValidator : NSObject<A0FieldValidator>
-
-+ (instancetype)nonEmtpyValidatorForField:(UITextField *)field;
-+ (instancetype)databaseValidatorForField:(UITextField *)field withMinimum:(NSInteger)minimum andMaximum:(NSInteger)maximum;
+- (A0UsernameValidationInfo)usernameValidation {
+    A0UsernameValidationInfo info;
+    info.min = 1;
+    info.max = 15;
+    NSDictionary *validation = self.values[@"validation"][@"username"];
+    info.min = MAX(1, [validation[@"min"] integerValue]);
+    info.max = [validation[@"max"] integerValue] <= 0 ? 15 : [validation[@"max"] integerValue];
+    if (info.min > info.max) {
+        info.min = 1;
+    }
+    return info;
+}
 
 @end
