@@ -1,4 +1,18 @@
 # Change Log
+## [1.27.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.27.0) (2016-09-19)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.26.2...1.27.0)
+
+**Closed Issues:**
+- Xcode 8 support [\#317](https://github.com/auth0/Lock.iOS-OSX/issues/317)
+- A0SafariAuthenticator not dismissing SFSafariViewController [\#308](https://github.com/auth0/Lock.iOS-OSX/issues/308)
+
+**Added:**
+- Allow custom translation for vkontakte social network [\#306](https://github.com/auth0/Lock.iOS-OSX/pull/306) ([ivanzotov](https://github.com/ivanzotov))
+- Improved username validation [\#322](https://github.com/auth0/Lock.iOS-OSX/pull/322) ([hzalaz](https://github.com/hzalaz))
+- Update to Xcode 8 & Swift 2.3 [\#323](https://github.com/auth0/Lock.iOS-OSX/pull/323) ([hzalaz](https://github.com/hzalaz))
+
+**Fixed:**
+- SafariAuthenticator dismiss [\#307](https://github.com/auth0/Lock.iOS-OSX/pull/307) ([ppaulojr](https://github.com/ppaulojr))
 
 ## [1.26.2](https://github.com/auth0/Lock.iOS-OSX/tree/1.26.2) (2016-08-19)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.26.1...1.26.2)
