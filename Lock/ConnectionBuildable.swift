@@ -36,7 +36,7 @@ public protocol ConnectionBuildable: Connections {
      - parameter usernameValidator: custom validator for username. Connection must allow username
      - important: Only **ONE** database connection can be used so subsequent calls will override the previous value
      */
-    mutating func database(name name: String, requiresUsername: Bool, usernameValidator: InputValidator)
+    mutating func database(name name: String, requiresUsername: Bool, usernameValidator: UsernameValidator)
 
     /**
      Adds a new social connection
@@ -66,7 +66,7 @@ public extension ConnectionBuildable {
      - parameter usernameValidator: custom validator for username. Connection must allow username and defaults to 1..15 characters
      - important: Only **ONE** database connection can be used so subsequent calls will override the previous value
      */
-    public mutating func database(name name: String, requiresUsername: Bool, usernameValidator: InputValidator = UsernameValidator()) {
+    public mutating func database(name name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator()) {
         self.database(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator)
     }
 

@@ -141,7 +141,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 expect(connections?.database).toEventuallyNot(beNil())
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
                 expect(connections?.database?.requiresUsername).toEventually(beFalsy())
-                let validator = connections?.database?.usernameValidator as? UsernameValidator
+                let validator = connections?.database?.usernameValidator
                 expect(validator?.range.startIndex) == 10
                 expect(validator?.range.endIndex) == 201
             }
@@ -152,7 +152,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 expect(connections?.database).toEventuallyNot(beNil())
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
                 expect(connections?.database?.requiresUsername).toEventually(beFalsy())
-                let validator = connections?.database?.usernameValidator as? UsernameValidator
+                let validator = connections?.database?.usernameValidator
                 expect(validator?.range.startIndex) == 9
                 expect(validator?.range.endIndex) == 101
             }

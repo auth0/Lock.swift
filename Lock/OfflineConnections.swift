@@ -24,11 +24,12 @@ import Foundation
 
 struct OfflineConnections: ConnectionBuildable {
 
-    private (set) var database: DatabaseConnection? = nil
+    private (set) var databases: [DatabaseConnection] = []
+    var database: DatabaseConnection? { return self.databases.first }
     private (set) var oauth2: [OAuth2Connection] = []
 
-    mutating func database(name name: String, requiresUsername: Bool, usernameValidator: InputValidator = UsernameValidator()) {
-        self.database = DatabaseConnection(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator)
+    mutating func database(name name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator()) {
+        self.databases.append(DatabaseConnection(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator))
     }
 
     mutating func social(name name: String, style: AuthStyle) {
@@ -46,9 +47,7 @@ struct OfflineConnections: ConnectionBuildable {
 
     func select(byNames names: [String]) -> OfflineConnections {
         var connections = OfflineConnections()
-        if let database = self.database where isWhitelisted(connectionName: database.name, inList: names) {
-            connections.database = database
-        }
+        connections.databases = self.databases.filter { isWhitelisted(connectionName: $0.name, inList: names) }
         connections.oauth2 = self.oauth2.filter { isWhitelisted(connectionName: $0.name, inList: names) }
         return connections
     }

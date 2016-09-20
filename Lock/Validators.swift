@@ -22,16 +22,11 @@
 
 import Foundation
 
-public protocol InputValidator {
+protocol InputValidator {
     func validate(value: String?) -> ErrorType?
 }
 
-public func usernameLength(atLeast min: Int, upTo max: Int) -> InputValidator {
-    guard min < max else { return UsernameValidator() }
-    return UsernameValidator(range: min...max)
-}
-
-struct OneTimePasswordValidator: InputValidator {
+public class OneTimePasswordValidator: InputValidator {
     func validate(value: String?) -> ErrorType? {
         guard let value = value?.trimmed where !value.isEmpty else { return InputValidationError.MustNotBeEmpty }
         guard value.rangeOfCharacterFromSet(NSCharacterSet.decimalDigitCharacterSet()) != nil else { return InputValidationError.NotAOneTimePassword }
@@ -39,19 +34,22 @@ struct OneTimePasswordValidator: InputValidator {
     }
 }
 
-struct NonEmptyValidator: InputValidator {
+public class NonEmptyValidator: InputValidator {
     func validate(value: String?) -> ErrorType? {
         guard let value = value?.trimmed where !value.isEmpty else { return InputValidationError.MustNotBeEmpty }
         return nil
     }
 }
 
-struct UsernameValidator: InputValidator {
+public class UsernameValidator: InputValidator {
 
     let invalidSet: NSCharacterSet
     let range: Range<Int>
 
-    init(range: Range<Int> = 1...15) {
+    var min: Int { return self.range.startIndex }
+    var max: Int { return self.range.endIndex - 1 }
+    
+    public init(withLength range: Range<Int> = 1...15) {
         let set = NSMutableCharacterSet()
         set.formUnionWithCharacterSet(NSCharacterSet.alphanumericCharacterSet())
         set.addCharactersInString("_")
@@ -67,10 +65,10 @@ struct UsernameValidator: InputValidator {
     }
 }
 
-struct EmailValidator: InputValidator {
+public class EmailValidator: InputValidator {
     let predicate: NSPredicate
 
-    init() {
+    public init() {
         let regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
         self.predicate = NSPredicate(format: "SELF MATCHES %@", regex)
     }
