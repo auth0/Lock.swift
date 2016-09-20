@@ -41,6 +41,13 @@ public protocol Connections {
 public struct DatabaseConnection {
     public let name: String
     public let requiresUsername: Bool
+    public let usernameValidator: InputValidator
+
+    public init(name: String, requiresUsername: Bool, usernameValidator: InputValidator = UsernameValidator()) {
+        self.name = name
+        self.requiresUsername =  requiresUsername
+        self.usernameValidator = usernameValidator
+    }
 }
 
 public protocol OAuth2Connection {

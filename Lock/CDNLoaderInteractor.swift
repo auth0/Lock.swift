@@ -78,7 +78,7 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
                 let info = ClientInfo(json: json)
                 if let auth0 = info.auth0, let connection = auth0.connections.first {
                     let requiresUsername = connection.booleanValue(forKey: "requires_username")
-                    connections.database(name: connection.name, requiresUsername: requiresUsername)
+                    connections.database(name: connection.name, requiresUsername: requiresUsername, usernameValidator: connection.usernameValidation)
                 }
                 info.oauth2.forEach { strategy in
                     strategy.connections.forEach { connections.social(name: $0.name, style: AuthStyle.style(forStrategy: strategy.name, connectionName: $0.name)) }
@@ -149,6 +149,23 @@ private struct ConnectionInfo {
     var name: String { return json["name"] as! String }
 
     func booleanValue(forKey key: String, defaultValue: Bool = false) -> Bool { return json[key] as? Bool ?? defaultValue }
+
+    var usernameValidation: InputValidator {
+        let validation = json["validation"] as? JSONObject
+        let username = validation?["username"] as? JSONObject
+        switch (username?["min"], username?["max"]) {
+        case let (min as Int, max as Int):
+            return UsernameValidator(range: min...max)
+        case let (minString as String, maxString as String):
+            guard
+                let min = Int(minString),
+                let max = Int(maxString)
+                else { return UsernameValidator() }
+            return UsernameValidator(range: min...max)
+        default:
+            return UsernameValidator()
+        }
+    }
 }
 
 private func cdnURL(from url: NSURL) -> NSURL {

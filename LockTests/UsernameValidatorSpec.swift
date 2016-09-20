@@ -28,6 +28,18 @@ class UsernameValidatorSpec: QuickSpec {
         
     override func spec() {
 
+        it("should return validator using builder") {
+            let validator = usernameLength(atLeast: 1, upTo: 20) as? UsernameValidator
+            expect(validator?.range.startIndex) == 1
+            expect(validator?.range.endIndex) == 21
+        }
+
+        it("should return validator using builder with default values when invalid") {
+            let validator = usernameLength(atLeast: 100, upTo: 20) as? UsernameValidator
+            expect(validator?.range.startIndex) == 1
+            expect(validator?.range.endIndex) == 16
+        }
+
         context("default") {
             var validator: UsernameValidator { return UsernameValidator() }
 

@@ -22,8 +22,13 @@
 
 import Foundation
 
-protocol InputValidator {
+public protocol InputValidator {
     func validate(value: String?) -> ErrorType?
+}
+
+public func usernameLength(atLeast min: Int, upTo max: Int) -> InputValidator {
+    guard min < max else { return UsernameValidator() }
+    return UsernameValidator(range: min...max)
 }
 
 struct OneTimePasswordValidator: InputValidator {

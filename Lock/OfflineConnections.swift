@@ -27,8 +27,8 @@ struct OfflineConnections: ConnectionBuildable {
     private (set) var database: DatabaseConnection? = nil
     private (set) var oauth2: [OAuth2Connection] = []
 
-    mutating func database(name name: String, requiresUsername: Bool) {
-        self.database = DatabaseConnection(name: name, requiresUsername: requiresUsername)
+    mutating func database(name name: String, requiresUsername: Bool, usernameValidator: InputValidator = UsernameValidator()) {
+        self.database = DatabaseConnection(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator)
     }
 
     mutating func social(name name: String, style: AuthStyle) {
