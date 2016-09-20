@@ -156,21 +156,21 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             }
     }
 
-    private mutating func updateEmail(value: String?) -> InputValidationError? {
+    private mutating func updateEmail(value: String?) -> ErrorType? {
         self.user.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         let error = self.emailValidator.validate(value)
         self.user.validEmail = error == nil
         return error
     }
 
-    private mutating func updateUsername(value: String?) -> InputValidationError? {
+    private mutating func updateUsername(value: String?) -> ErrorType? {
         self.user.username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         let error = self.usernameValidator.validate(value)
         self.user.validUsername = error == nil
         return error
     }
 
-    private mutating func updatePassword(value: String?) -> InputValidationError? {
+    private mutating func updatePassword(value: String?) -> ErrorType? {
         self.user.password = value
         let error = self.passwordValidator.validate(value)
         self.user.validPassword = error == nil

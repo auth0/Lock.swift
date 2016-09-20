@@ -23,39 +23,41 @@
 import Foundation
 
 protocol InputValidator {
-    func validate(value: String?) -> InputValidationError?
+    func validate(value: String?) -> ErrorType?
 }
 
 struct OneTimePasswordValidator: InputValidator {
-    func validate(value: String?) -> InputValidationError? {
-        guard let value = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) where !value.isEmpty else { return .MustNotBeEmpty }
-        guard value.rangeOfCharacterFromSet(NSCharacterSet.decimalDigitCharacterSet()) != nil else { return .NotAOneTimePassword }
+    func validate(value: String?) -> ErrorType? {
+        guard let value = value?.trimmed where !value.isEmpty else { return InputValidationError.MustNotBeEmpty }
+        guard value.rangeOfCharacterFromSet(NSCharacterSet.decimalDigitCharacterSet()) != nil else { return InputValidationError.NotAOneTimePassword }
         return nil
     }
 }
 
 struct NonEmptyValidator: InputValidator {
-    func validate(value: String?) -> InputValidationError? {
-        guard let value = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) where !value.isEmpty else { return .MustNotBeEmpty }
+    func validate(value: String?) -> ErrorType? {
+        guard let value = value?.trimmed where !value.isEmpty else { return InputValidationError.MustNotBeEmpty }
         return nil
     }
 }
 
 struct UsernameValidator: InputValidator {
 
-    let set: NSCharacterSet
+    let invalidSet: NSCharacterSet
+    let range: Range<Int>
 
-    init() {
+    init(range: Range<Int> = 1...15) {
         let set = NSMutableCharacterSet()
         set.formUnionWithCharacterSet(NSCharacterSet.alphanumericCharacterSet())
         set.addCharactersInString("_")
-        self.set = set.invertedSet
+        self.invalidSet = set.invertedSet
+        self.range = range
     }
 
-    func validate(value: String?) -> InputValidationError? {
-        guard let username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) where !username.isEmpty else { return .MustNotBeEmpty }
-        guard username.characters.count <= 15 else { return .NotAUsername }
-        guard username.rangeOfCharacterFromSet(self.set) == nil else { return .NotAUsername }
+    func validate(value: String?) -> ErrorType? {
+        guard let username = value?.trimmed where !username.isEmpty else { return InputValidationError.MustNotBeEmpty }
+        guard self.range ~= username.characters.count else { return InputValidationError.NotAUsername }
+        guard username.rangeOfCharacterFromSet(self.invalidSet) == nil else { return InputValidationError.NotAUsername }
         return nil
     }
 }
@@ -68,9 +70,15 @@ struct EmailValidator: InputValidator {
         self.predicate = NSPredicate(format: "SELF MATCHES %@", regex)
     }
 
-    func validate(value: String?) -> InputValidationError? {
-        guard let email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) where !email.isEmpty else { return .MustNotBeEmpty }
-        guard self.predicate.evaluateWithObject(email) else { return .NotAnEmailAddress }
+    func validate(value: String?) -> ErrorType? {
+        guard let email = value?.trimmed where !email.isEmpty else { return InputValidationError.MustNotBeEmpty }
+        guard self.predicate.evaluateWithObject(email) else { return InputValidationError.NotAnEmailAddress }
         return nil
+    }
+}
+
+private extension String {
+    var trimmed: String {
+        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
     }
 }
