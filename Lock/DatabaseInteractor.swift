@@ -37,7 +37,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     var validPassword: Bool { return self.user.validPassword }
 
     let authentication: Authentication
-    let connections: Connections
+    let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
     let usernameValidator: InputValidator = UsernameValidator()
     let passwordValidator: InputValidator = NonEmptyValidator()
@@ -45,9 +45,9 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     let options: Options
     let customFields: [String: CustomTextField]
 
-    init(connections: Connections, authentication: Authentication, user: DatabaseUser, options: Options, callback: Credentials -> ()) {
+    init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, callback: Credentials -> ()) {
         self.authentication = authentication
-        self.connections = connections
+        self.connection = connection
         self.onAuthentication = callback
         self.user = user
         self.options = options
@@ -95,13 +95,12 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         }
 
         guard let password = self.password where self.validPassword else { return callback(.NonValidInput) }
-        guard let databaseName = self.connections.database?.name else { return callback(.NoDatabaseConnection) }
 
         self.authentication
             .login(
                 usernameOrEmail: identifier,
                 password: password,
-                connection: databaseName,
+                connection: self.connection.name,
                 scope: self.options.scope,
                 parameters: self.options.parameters
             )
@@ -109,7 +108,6 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     }
 
     func create(callback: (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ()) {
-        guard let connection = self.connections.database else { return callback(.NoDatabaseConnection, nil) }
         let databaseName = connection.name
 
         guard
@@ -158,21 +156,21 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             }
     }
 
-    private mutating func updateEmail(value: String?) -> InputValidationError? {
+    private mutating func updateEmail(value: String?) -> ErrorType? {
         self.user.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         let error = self.emailValidator.validate(value)
         self.user.validEmail = error == nil
         return error
     }
 
-    private mutating func updateUsername(value: String?) -> InputValidationError? {
+    private mutating func updateUsername(value: String?) -> ErrorType? {
         self.user.username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         let error = self.usernameValidator.validate(value)
         self.user.validUsername = error == nil
         return error
     }
 
-    private mutating func updatePassword(value: String?) -> InputValidationError? {
+    private mutating func updatePassword(value: String?) -> ErrorType? {
         self.user.password = value
         let error = self.passwordValidator.validate(value)
         self.user.validPassword = error == nil

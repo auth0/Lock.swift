@@ -193,7 +193,7 @@ class DatabasePresenter: Presentable, Loggable {
             try self.authenticator.update(attr, value: input.text)
             input.showValid()
         } catch let error as InputValidationError {
-            input.showError(error.localizedMessage)
+            input.showError(error.localizedMessage(withConnection: self.database))
         } catch {
             input.showError()
         }

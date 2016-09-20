@@ -31,11 +31,12 @@ public protocol ConnectionBuildable: Connections {
     /**
      Configure a database connection
 
-     - parameter name:             name of the database connection
-     - parameter requiresUsername: if the database connection requires username
+     - parameter name:              name of the database connection
+     - parameter requiresUsername:  if the database connection requires username
+     - parameter usernameValidator: custom validator for username. Connection must allow username
      - important: Only **ONE** database connection can be used so subsequent calls will override the previous value
      */
-    mutating func database(name name: String, requiresUsername: Bool)
+    mutating func database(name name: String, requiresUsername: Bool, usernameValidator: UsernameValidator)
 
     /**
      Adds a new social connection
@@ -54,4 +55,19 @@ public protocol ConnectionBuildable: Connections {
      - seeAlso: AuthStyle
      */
     mutating func oauth2(name name: String, style: AuthStyle)
+}
+
+public extension ConnectionBuildable {
+    /**
+     Configure a database connection
+
+     - parameter name:              name of the database connection
+     - parameter requiresUsername:  if the database connection requires username
+     - parameter usernameValidator: custom validator for username. Connection must allow username and defaults to 1..15 characters
+     - important: Only **ONE** database connection can be used so subsequent calls will override the previous value
+     */
+    public mutating func database(name name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator()) {
+        self.database(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator)
+    }
+
 }

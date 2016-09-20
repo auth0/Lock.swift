@@ -97,6 +97,16 @@ class OfflineConnectionsSpec: QuickSpec {
                 expect(filtered.oauth2).to(beEmpty())
             }
 
+            it("should select by name database connection") {
+                var connections = OfflineConnections()
+                connections.database(name: connection, requiresUsername: false)
+                connections.database(name: "another-connection", requiresUsername: false)
+                connections.social(name: "facebook", style: .Facebook)
+                let filtered = connections.select(byNames: [connection])
+                expect(filtered.database?.name) == connection
+                expect(filtered.oauth2).to(beEmpty())
+            }
+
         }
 
     }

@@ -30,7 +30,6 @@ enum DatabaseAuthenticatableError: ErrorType, LocalizableError {
     case PasswordChangeRequired
     case PasswordLeaked
     case TooManyAttempts
-    case NoDatabaseConnection
     case MultifactorRequired
     case MultifactorInvalid
 

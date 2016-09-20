@@ -135,6 +135,28 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 expect(connections?.database?.requiresUsername).toEventually(beFalsy())
             }
 
+            it("should load single database connection with custom username validation") {
+                stub(isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(databaseConnection, validation: ["username": ["min": 10, "max": 200]])])]) }
+                loader.load(callback)
+                expect(connections?.database).toEventuallyNot(beNil())
+                expect(connections?.database?.name).toEventually(equal(databaseConnection))
+                expect(connections?.database?.requiresUsername).toEventually(beFalsy())
+                let validator = connections?.database?.usernameValidator
+                expect(validator?.range.startIndex) == 10
+                expect(validator?.range.endIndex) == 201
+            }
+
+            it("should load single database connection with custom username validation with strings") {
+                stub(isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(databaseConnection, validation: ["username": ["min": "9", "max": "100"]])])]) }
+                loader.load(callback)
+                expect(connections?.database).toEventuallyNot(beNil())
+                expect(connections?.database?.name).toEventually(equal(databaseConnection))
+                expect(connections?.database?.requiresUsername).toEventually(beFalsy())
+                let validator = connections?.database?.usernameValidator
+                expect(validator?.range.startIndex) == 9
+                expect(validator?.range.endIndex) == 101
+            }
+
             it("should load multiple database connections but pick the first") {
                 stub(isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(databaseConnection), mockDatabaseConnection("another one")])]) }
                 loader.load(callback)
@@ -205,10 +227,11 @@ private func mockOAuth2(name: String) -> JSONObject {
     return json
 }
 
-private func mockDatabaseConnection(name: String, requiresUsername: Bool? = nil) -> JSONObject {
+private func mockDatabaseConnection(name: String, requiresUsername: Bool? = nil, validation: JSONObject = [:]) -> JSONObject {
     var json: JSONObject = ["name": name ]
     if let requiresUsername = requiresUsername {
         json["requires_username"] = requiresUsername
     }
+    json["validation"] = validation
     return json
 }

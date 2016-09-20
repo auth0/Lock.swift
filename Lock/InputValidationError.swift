@@ -28,10 +28,11 @@ enum InputValidationError: ErrorType {
     case NotAUsername
     case NotAOneTimePassword
 
-    var localizedMessage: String {
+    func localizedMessage(withConnection connection: DatabaseConnection) -> String {
         switch self {
         case .NotAUsername:
-            return "Can only contain between 1 to 15 alphanumeric characters and \'_\'.".i18n(key: "com.auth0.lock.input.username.error", comment: "invalid username")
+            let format = "Can only contain between %d to %d alphanumeric characters and \'_\'.".i18n(key: "com.auth0.lock.input.username.error", comment: "invalid username")
+            return String(format: format, connection.usernameValidator.min, connection.usernameValidator.max)
         case .NotAnEmailAddress:
             return "Must be a valid email address".i18n(key: "com.auth0.lock.input.email.error", comment: "invalid email")
         case .MustNotBeEmpty:

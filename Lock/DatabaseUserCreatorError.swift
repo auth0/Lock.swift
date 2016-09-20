@@ -30,7 +30,6 @@ enum DatabaseUserCreatorError: ErrorType, LocalizableError {
     case PasswordHasUserInfo
     case PasswordInvalid
     case PasswordAlreadyUsed
-    case NoDatabaseConnection
 
     var localizableMessage: String {
         switch self {

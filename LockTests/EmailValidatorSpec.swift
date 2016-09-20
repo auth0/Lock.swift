@@ -1,4 +1,4 @@
-// ValidatorSpec.swift
+// EmailValidatorSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -32,8 +32,8 @@ class EmailValidatorSpec: QuickSpec {
         var validator: EmailValidator { return EmailValidator() }
 
         ["", " ", "         ", "\n"].forEach { value in
-            it("should consider \(value!) an invalid email") {
-                expect(validator.validate(value)) == .MustNotBeEmpty
+            it("should consider \(value) an invalid email") {
+                expect(validator.validate(value) as? InputValidationError) == .MustNotBeEmpty
             }
         }
 
@@ -44,8 +44,8 @@ class EmailValidatorSpec: QuickSpec {
         }
 
         ["test", "@", "test@", "@io", "@iana.org", ".test@iana.org", "test.@iana.org", "test..iana.org", "test_exa-mple.com", "test\\@test@iana.org", "test@-iana.org", "test@iana.org.", "test@iana..com"].forEach { value in
-            it("should consider \(value!) an invalid email") {
-                expect(validator.validate(value)) == .NotAnEmailAddress
+            it("should consider \(value) an invalid email") {
+                expect(validator.validate(value) as? InputValidationError) == .NotAnEmailAddress
             }
         }
     }

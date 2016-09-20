@@ -37,7 +37,7 @@ class DatabaseInteractorSpec: QuickSpec {
         }
 
         describe("init") {
-            let database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: User(), options: LockOptions(), callback: {_ in})
+            let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, user: User(), options: LockOptions(), callback: {_ in})
 
             it("should build with authentication") {
                 expect(database).toNot(beNil())
@@ -50,16 +50,13 @@ class DatabaseInteractorSpec: QuickSpec {
         }
 
 
-        var connections: OfflineConnections!
         var database: DatabaseInteractor!
         var user: User!
 
         beforeEach {
             Auth0Stubs.failUnknown()
-            connections = OfflineConnections()
-            connections.database(name: connection, requiresUsername: true)
             user = User()
-            database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
+            database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
         }
 
         describe("updateAttribute") {
@@ -223,7 +220,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 beforeEach {
                     var options = LockOptions()
                     options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))]
-                    database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                    database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
                 }
 
                 it("should always store value") {
@@ -247,7 +244,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     var options = LockOptions()
                     let error = NSError(domain: "com.auth0", code: -99999, userInfo: [:])
                     options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), validation: { _ in return error })]
-                    database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                    database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
                     expect{ try database.update(.Custom(name: "first_name"), value: nil) }.to(throwError(error))
                 }
 
@@ -256,18 +253,6 @@ class DatabaseInteractorSpec: QuickSpec {
         }
 
         describe("login") {
-
-            it("should fail if no db connection is found") {
-                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
-                try! database.update(.Email, value: email)
-                try! database.update(.Password, value: password)
-                waitUntil(timeout: 2) { done in
-                    database.login { error in
-                        expect(error) == .NoDatabaseConnection
-                        done()
-                    }
-                }
-            }
 
             it("should yield no error on success") {
                 stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
@@ -298,7 +283,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 let scope = "openid email"
                 var options = LockOptions()
                 options.scope = scope
-                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
                 stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.Email, value: email)
                 try! database.update(.Username, value: username)
@@ -315,7 +300,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 let state = NSUUID().UUIDString
                 var options = LockOptions()
                 options.parameters = ["state": state]
-                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
                 stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.Email, value: email)
                 try! database.update(.Username, value: username)
@@ -449,19 +434,6 @@ class DatabaseInteractorSpec: QuickSpec {
 
         describe("signup") {
 
-            it("should fail if no db connection is found") {
-                database = DatabaseInteractor(connections: OfflineConnections(), authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password, value: password)
-                waitUntil(timeout: 2) { done in
-                    database.create { create, login in
-                        expect(create) == .NoDatabaseConnection
-                        done()
-                    }
-                }
-            }
-
             it("should yield no error on success") {
                 stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
@@ -479,9 +451,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
             it("should not send username") {
                 let username = "AN INVALID USERNAME"
-                connections = OfflineConnections()
-                connections.database(name: connection, requiresUsername: false)
-                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: false), authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
                 stub(databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.Email, value: email)
@@ -629,7 +599,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 let scope = "openid email"
                 var options = LockOptions()
                 options.scope = scope
-                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
                 stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.Email, value: email)
@@ -648,7 +618,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 let state = NSUUID().UUIDString
                 var options = LockOptions()
                 options.parameters = ["state": state]
-                database = DatabaseInteractor(connections: connections, authentication: authentication, user: user, options: options, callback: { _ in })
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
                 stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.Email, value: email)

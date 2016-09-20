@@ -25,7 +25,7 @@
 		5F2496B81D665AC500A1C6E2 /* UserAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B71D665AC500A1C6E2 /* UserAttribute.swift */; };
 		5F2496BA1D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */; };
 		5F2496BC1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */; };
-		5F2496BE1D67ADB300A1C6E2 /* ValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496BD1D67ADB300A1C6E2 /* ValidatorSpec.swift */; };
+		5F2496BE1D67ADB300A1C6E2 /* EmailValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */; };
 		5F390E871D638A6D00FC549C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F390E861D638A6D00FC549C /* Logger.swift */; };
 		5F390E8A1D63A5B800FC549C /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F390E881D63A5B800FC549C /* CleanroomLogger.framework */; };
 		5F390E8B1D63A5B800FC549C /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F390E891D63A5B800FC549C /* CleanroomASL.framework */; };
@@ -51,6 +51,7 @@
 		5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D71D22ED120016FC22 /* Presentable.swift */; };
 		5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D91D22EF490016FC22 /* Router.swift */; };
 		5F5F98DC1D22F0B40016FC22 /* RouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98DB1D22F0B40016FC22 /* RouterSpec.swift */; };
+		5F6C01551D91656100198ACD /* UsernameValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */; };
 		5F70F1DF1D7904A3004698DA /* ConnectionBuildable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F70F1DE1D7904A3004698DA /* ConnectionBuildable.swift */; };
 		5F70F1E11D790500004698DA /* Connections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F70F1E01D790500004698DA /* Connections.swift */; };
 		5F70F1E31D79057A004698DA /* OfflineConnections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F70F1E21D79057A004698DA /* OfflineConnections.swift */; };
@@ -205,7 +206,7 @@
 		5F2496B71D665AC500A1C6E2 /* UserAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserAttribute.swift; path = Lock/UserAttribute.swift; sourceTree = SOURCE_ROOT; };
 		5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseAuthenticatableError.swift; path = Lock/DatabaseAuthenticatableError.swift; sourceTree = SOURCE_ROOT; };
 		5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseUserCreatorError.swift; path = Lock/DatabaseUserCreatorError.swift; sourceTree = SOURCE_ROOT; };
-		5F2496BD1D67ADB300A1C6E2 /* ValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatorSpec.swift; sourceTree = "<group>"; };
+		5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailValidatorSpec.swift; sourceTree = "<group>"; };
 		5F390E861D638A6D00FC549C /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Lock/Logger.swift; sourceTree = SOURCE_ROOT; };
 		5F390E881D63A5B800FC549C /* CleanroomLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomLogger.framework; path = Carthage/Build/iOS/CleanroomLogger.framework; sourceTree = "<group>"; };
 		5F390E891D63A5B800FC549C /* CleanroomASL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomASL.framework; path = Carthage/Build/iOS/CleanroomASL.framework; sourceTree = "<group>"; };
@@ -227,6 +228,7 @@
 		5F5F98D71D22ED120016FC22 /* Presentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Presentable.swift; path = Lock/Presentable.swift; sourceTree = SOURCE_ROOT; };
 		5F5F98D91D22EF490016FC22 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Lock/Router.swift; sourceTree = SOURCE_ROOT; };
 		5F5F98DB1D22F0B40016FC22 /* RouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterSpec.swift; sourceTree = "<group>"; };
+		5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsernameValidatorSpec.swift; sourceTree = "<group>"; };
 		5F70F1DE1D7904A3004698DA /* ConnectionBuildable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionBuildable.swift; path = Lock/ConnectionBuildable.swift; sourceTree = SOURCE_ROOT; };
 		5F70F1E01D790500004698DA /* Connections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Connections.swift; path = Lock/Connections.swift; sourceTree = SOURCE_ROOT; };
 		5F70F1E21D79057A004698DA /* OfflineConnections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OfflineConnections.swift; path = Lock/OfflineConnections.swift; sourceTree = SOURCE_ROOT; };
@@ -592,7 +594,8 @@
 				5F92C6901D510AFE00CCE6C0 /* LazyImageSpec.swift */,
 				5F390E8C1D63B99300FC549C /* LoggerSpec.swift */,
 				5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */,
-				5F2496BD1D67ADB300A1C6E2 /* ValidatorSpec.swift */,
+				5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */,
+				5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */,
 			);
 			path = LockTests;
 			sourceTree = "<group>";
@@ -949,7 +952,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FE50DBF1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift in Sources */,
-				5F2496BE1D67ADB300A1C6E2 /* ValidatorSpec.swift in Sources */,
+				5F6C01551D91656100198ACD /* UsernameValidatorSpec.swift in Sources */,
+				5F2496BE1D67ADB300A1C6E2 /* EmailValidatorSpec.swift in Sources */,
 				5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */,
 				5F92C68D1D50E47100CCE6C0 /* AuthStyleSpec.swift in Sources */,
 				5F92C68B1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift in Sources */,

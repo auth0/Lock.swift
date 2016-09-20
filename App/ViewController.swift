@@ -87,7 +87,7 @@ class ViewController: UIViewController {
                         ]
                     }
                     .withConnections { connections in
-                        connections.database(name: "Username-Password-Authentication", requiresUsername: true)
+                        connections.database(name: "Username-Password-Authentication", requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...20))
                 }
             },
             actionButton(withTitle: "LOGIN ONLY WITH DB") {
