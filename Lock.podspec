@@ -1,5 +1,5 @@
 # version = `agvtool mvers -terse1`.strip
-version = '2.0.0-beta.1'
+version = '2.0.0-beta.2'
 Pod::Spec.new do |s|
   s.name             = "Lock"
   s.version          = version
@@ -20,7 +20,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.requires_arc = true
 
 
-  s.dependency 'Auth0', '1.0.0-rc.1'
+  s.dependency 'Auth0', '1.0.0-rc.3'
   s.default_subspecs = 'Classic'
 
   s.subspec 'Classic' do |classic|

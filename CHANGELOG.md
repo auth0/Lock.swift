@@ -1,5 +1,17 @@
 # Change Log
 
+## [2.0.0-beta.2](https://github.com/auth0/Lock.iOS-OSX/tree/2.0.0-beta.2) (2016-09-20)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/2.0.0-beta.1...2.0.0-beta.2)
+
+**Added**
+- Username validation improvements [\#324](https://github.com/auth0/Lock.iOS-OSX/pull/324) ([hzalaz](https://github.com/hzalaz))
+- Custom oauth2 style [\#318](https://github.com/auth0/Lock.iOS-OSX/pull/318) ([hzalaz](https://github.com/hzalaz))
+- Custom Sign up fields [\#316](https://github.com/auth0/Lock.iOS-OSX/pull/316) ([hzalaz](https://github.com/hzalaz))
+- Include more lock options [\#313](https://github.com/auth0/Lock.iOS-OSX/pull/313) ([hzalaz](https://github.com/hzalaz))
+- Introduce Lock Style [\#312](https://github.com/auth0/Lock.iOS-OSX/pull/312) ([hzalaz](https://github.com/hzalaz))
+- Blur Header background [\#311](https://github.com/auth0/Lock.iOS-OSX/pull/311) ([hzalaz](https://github.com/hzalaz))
+- Load connections from Auth0 [\#310](https://github.com/auth0/Lock.iOS-OSX/pull/310) ([hzalaz](https://github.com/hzalaz))
+
 ## [2.0.0-beta.1](https://github.com/auth0/Lock.iOS-OSX/tree/2.0.0-beta.1) (2016-08-19)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/f506b849083d9dc24c6d4236b3064d7cde7eac4e...2.0.0-beta.1)
 

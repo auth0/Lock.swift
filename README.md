@@ -17,24 +17,17 @@ Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 ## Requirements
 
 - iOS 9 or later
-- Xcode 7.3 or later
+- Xcode 8
+- Swift 2.3
 
 ## Install
-
-### CocoaPods
-
-The **Lock.swift** is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
-
-```ruby
-pod "Lock", "~> 2.0.0-beta.1"
-```
 
 ### Carthage
 
 In your cartfile add
 
 ```
-github "auth0/Lock.iOS-OSX" "2.0.0-beta.1"
+github "auth0/Lock.iOS-OSX" "2.0.0-beta.2"
 ```
 
 ## Usage
