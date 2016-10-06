@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import "A0NavigationController.h"
-
+#import "A0Theme.h"
 
 @implementation A0NavigationController
 
@@ -31,6 +31,12 @@
         return [super supportedInterfaceOrientations];
     }
     return [last supportedInterfaceOrientations];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    A0Theme *theme = [A0Theme sharedInstance];
+    self.view.backgroundColor = [theme colorForKey:A0ThemeScreenBackgroundColor];
 }
 
 @end
