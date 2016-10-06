@@ -94,14 +94,16 @@
     NSMutableArray *validators = [@[
                                     [[A0PasswordValidator alloc] initWithField:self.loginView.passwordField.textField],
                                     ] mutableCopy];
-    if (self.forceUsername || requiresUsername) {
+    if (self.forceUsername) {
         [validators addObject:[A0UsernameValidator databaseValidatorForField:self.loginView.identifierField.textField withMinimum:info.min andMaximum:info.max]];
+    } else if (requiresUsername) {
+        [validators addObject:[A0UsernameValidator nonEmtpyValidatorForField:self.loginView.identifierField.textField]];
     } else {
         [validators addObject:[[A0EmailValidator alloc] initWithField:self.loginView.identifierField.textField]];
     }
     self.validator = [[A0CredentialsValidator alloc] initWithValidators:validators];
 
-    if (requiresUsername) {
+    if (requiresUsername && !self.forceUsername) {
         self.loginView.identifierType = A0LoginIndentifierTypeUsername | A0LoginIndentifierTypeEmail;
     } else {
         self.loginView.identifierType = self.forceUsername ? A0LoginIndentifierTypeUsername : A0LoginIndentifierTypeEmail;

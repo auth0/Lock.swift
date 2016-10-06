@@ -565,6 +565,7 @@
 /* Begin PBXFileReference section */
 		5F0499B51CAB2C72006F6C05 /* A0Telemetry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A0Telemetry.h; sourceTree = "<group>"; };
 		5F0499B61CAB2C72006F6C05 /* A0Telemetry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = A0Telemetry.m; sourceTree = "<group>"; };
+		5F1DB4821DA69E6800264437 /* MyLock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyLock.entitlements; sourceTree = "<group>"; };
 		5F2E38D71C2AE9BB007E71B2 /* AppInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppInfo.json; sourceTree = "<group>"; };
 		5F32506F1C87912700CCEC55 /* OCMockito.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMockito.framework; path = Carthage/Build/iOS/OCMockito.framework; sourceTree = "<group>"; };
 		5F3250701C87912700CCEC55 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = Carthage/Build/iOS/OCHamcrest.framework; sourceTree = "<group>"; };
@@ -1425,6 +1426,7 @@
 		5FBAD22D1BE7BE1E00703DD1 /* MyLock */ = {
 			isa = PBXGroup;
 			children = (
+				5F1DB4821DA69E6800264437 /* MyLock.entitlements */,
 				5F6628A91C120F23008D73FC /* Auth0.plist */,
 				5FBAD4751BE809EA00703DD1 /* A0HomeViewController.m */,
 				5FBAD4771BE809EA00703DD1 /* A0HomeViewController.h */,
@@ -2098,6 +2100,11 @@
 						CreatedOnToolsVersion = 7.1;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					5FBAD27B1BE7CC8F00703DD1 = {
 						CreatedOnToolsVersion = 7.1;
@@ -2801,6 +2808,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MyLock/MyLock.entitlements;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2823,6 +2831,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MyLock/MyLock.entitlements;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
