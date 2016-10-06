@@ -1,4 +1,14 @@
 # Change Log
+## [1.27.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.27.1) (2016-10-06)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.27.0...1.27.1)
+
+**Closed issues**
+- Lock not displayed in fullscreen on an iPad [\#307](https://github.com/auth0/Lock.iOS-OSX/issues/307)
+
+**Fixed**
+- Set the background color to the enclosing controller [\#328](https://github.com/auth0/Lock.iOS-OSX/pull/328) ([hzalaz](https://github.com/hzalaz))
+- Properly validate login identifier [\#327](https://github.com/auth0/Lock.iOS-OSX/pull/327) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.27.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.27.0) (2016-09-19)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.26.2...1.27.0)
 
