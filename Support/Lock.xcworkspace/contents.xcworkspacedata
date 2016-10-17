@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "container:Lock.xcodeproj">
+      location = "group:../Lock.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Lock.playground">

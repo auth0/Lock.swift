@@ -18,7 +18,7 @@ func small(style: AuthStyle) -> AuthButton {
     return button
 }
 
-func social(size size: AuthButton.Size, style: AuthStyle) -> UIView {
+func social(size: AuthButton.Size, style: AuthStyle) -> UIView {
     let button = AuthButton(size: size)
     button.title = style.localizedLoginTitle.uppercaseString
     button.color = style.color
@@ -47,5 +47,3 @@ let facebookSmall = social(size: .Small, style: .Facebook)
 
 let linkedin = social(size: .Big, style: .Linkedin)
 let linkedinSmall = social(size: .Small, style: .Linkedin)
-
-
