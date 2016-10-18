@@ -35,11 +35,11 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     var validEmail: Bool { return self.user.validEmail }
     var validUsername: Bool { return self.user.validUsername }
     var validPassword: Bool { return self.user.validPassword }
+    var usernameValidator: InputValidator { return self.connection.usernameValidator }
 
     let authentication: Authentication
     let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
-    let usernameValidator: InputValidator = UsernameValidator()
     let passwordValidator: InputValidator = NonEmptyValidator()
     let onAuthentication: Credentials -> ()
     let options: Options

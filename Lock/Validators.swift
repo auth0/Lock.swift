@@ -43,25 +43,35 @@ public class NonEmptyValidator: InputValidator {
 
 public class UsernameValidator: InputValidator {
 
-    let invalidSet: NSCharacterSet
+    let invalidSet: NSCharacterSet?
     let range: Range<Int>
 
     var min: Int { return self.range.startIndex }
     var max: Int { return self.range.endIndex - 1 }
-    
-    public init(withLength range: Range<Int> = 1...15) {
-        let set = NSMutableCharacterSet()
-        set.formUnionWithCharacterSet(NSCharacterSet.alphanumericCharacterSet())
-        set.addCharactersInString("_")
-        self.invalidSet = set.invertedSet
+
+    public init() {
+        self.range = 1..<Int.max
+        self.invalidSet = nil
+    }
+
+    public init(withLength range: Range<Int>, characterSet: NSCharacterSet) {
+        self.invalidSet = characterSet
         self.range = range
     }
 
     func validate(value: String?) -> ErrorType? {
         guard let username = value?.trimmed where !username.isEmpty else { return InputValidationError.MustNotBeEmpty }
-        guard self.range ~= username.characters.count else { return InputValidationError.NotAUsername }
-        guard username.rangeOfCharacterFromSet(self.invalidSet) == nil else { return InputValidationError.NotAUsername }
+        guard self.range ~= username.characters.count else { return self.invalidSet == nil ? InputValidationError.MustNotBeEmpty : InputValidationError.NotAUsername }
+        guard let characterSet = self.invalidSet else { return nil }
+        guard username.rangeOfCharacterFromSet(characterSet) == nil else { return InputValidationError.NotAUsername }
         return nil
+    }
+
+    public static var auth0: NSCharacterSet {
+        let set = NSMutableCharacterSet()
+        set.formUnionWithCharacterSet(NSCharacterSet.alphanumericCharacterSet())
+        set.addCharactersInString("_")
+        return set.invertedSet
     }
 }
 
