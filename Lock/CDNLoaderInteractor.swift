@@ -157,13 +157,13 @@ private struct ConnectionInfo {
         let username = validation?["username"] as? JSONObject
         switch (username?["min"], username?["max"]) {
         case let (min as Int, max as Int):
-            return UsernameValidator(withLength: min...max)
+            return UsernameValidator(withLength: min...max, characterSet: UsernameValidator.auth0)
         case let (minString as String, maxString as String):
             guard
                 let min = Int(minString),
                 let max = Int(maxString)
                 else { return UsernameValidator() }
-            return UsernameValidator(withLength: min...max)
+            return UsernameValidator(withLength: min...max, characterSet: UsernameValidator.auth0)
         default:
             return UsernameValidator()
         }

@@ -37,13 +37,14 @@ class DatabaseInteractorSpec: QuickSpec {
         }
 
         describe("init") {
-            let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, user: User(), options: LockOptions(), callback: {_ in})
 
             it("should build with authentication") {
+                let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, user: User(), options: LockOptions(), callback: {_ in})
                 expect(database).toNot(beNil())
             }
 
             it("should have authentication object") {
+                let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, user: User(), options: LockOptions(), callback: {_ in})
                 expect(database.authentication.clientId) == "CLIENT_ID"
                 expect(database.authentication.url.host) == "samples.auth0.com"
             }
@@ -56,7 +57,8 @@ class DatabaseInteractorSpec: QuickSpec {
         beforeEach {
             Auth0Stubs.failUnknown()
             user = User()
-            database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
+            let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0))
+            database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
         }
 
         describe("updateAttribute") {
@@ -119,19 +121,19 @@ class DatabaseInteractorSpec: QuickSpec {
                     expect(database.validUsername) == true
                 }
 
-                it("should raise error if email is invalid") {
+                it("should not raise error if email is invalid") {
                     expect{ try database.update(.EmailOrUsername, value: "not an email") }.to(throwError(InputValidationError.NotAnEmailAddress))
                 }
 
-                it("should raise error if email is empty") {
+                it("should raise error if email/username is empty") {
                     expect{ try database.update(.EmailOrUsername, value: "") }.to(throwError(InputValidationError.MustNotBeEmpty))
                 }
 
-                it("should raise error if email is only spaces") {
+                it("should raise error if email/username is only spaces") {
                     expect{ try database.update(.EmailOrUsername, value: "     ") }.to(throwError(InputValidationError.MustNotBeEmpty))
                 }
 
-                it("should raise error if email is nil") {
+                it("should raise error if email/username is nil") {
                     expect{ try database.update(.EmailOrUsername, value: nil) }.to(throwError(InputValidationError.MustNotBeEmpty))
                 }
                 

@@ -37,21 +37,15 @@ class UsernameValidatorSpec: QuickSpec {
                 }
             }
 
-            ["username", "u", "username1234567", "user_name", " username "].forEach { value in
+            ["username", "u", "username1234567", "user_name", " username ", "verylongusernamevalue", "@", "with spaces", "with-hyphen", "email@address.com", "with$pec|alchar"].forEach { value in
                 it("should consider \(value!) a valid email") {
                     expect(validator.validate(value)).to(beNil())
-                }
-            }
-
-            ["verylongusernamevalue", "@", "with spaces", "with-hyphen", "email@address.com", "with$pec|alchar"].forEach { value in
-                it("should consider \(value!) an invalid email") {
-                    expect(validator.validate(value) as? InputValidationError) == .NotAUsername
                 }
             }
         }
 
         context("custom range") {
-            var validator: UsernameValidator { return UsernameValidator(withLength: 4...10) }
+            var validator: UsernameValidator { return UsernameValidator(withLength: 4...10, characterSet: UsernameValidator.auth0) }
 
             ["", " ", "         ", "\n"].forEach { value in
                 it("should consider \(value!) an invalid username") {
