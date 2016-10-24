@@ -32,23 +32,30 @@ class RuleSpec: QuickSpec {
 
         describe("length") {
 
+            let message = "length"
+
+            it("should pass message in result") {
+                let rule = withPassword(lengthInRange: 1...10, message: message)
+                expect(rule.evaluate(on: "password").message) == message
+            }
+
             it("should validate length with range") {
-                let rule = withPassword(lengthInRange: 1...10)
+                let rule = withPassword(lengthInRange: 1...10, message: message)
                 expect(rule.evaluate(on: "password").valid) == true
             }
 
             it("should fail when length is smaller than desired") {
-                let rule = withPassword(lengthInRange: 8...10)
+                let rule = withPassword(lengthInRange: 8...10, message: message)
                 expect(rule.evaluate(on: "short").valid) == false
             }
 
             it("should fail when length is greater than desired") {
-                let rule = withPassword(lengthInRange: 1...4)
+                let rule = withPassword(lengthInRange: 1...4, message: message)
                 expect(rule.evaluate(on: "longpassword").valid) == false
             }
 
             it("should fail with nil") {
-                let rule = withPassword(lengthInRange: 1...4)
+                let rule = withPassword(lengthInRange: 1...4, message: message)
                 expect(rule.evaluate(on: nil).valid) == false
             }
 
@@ -56,7 +63,11 @@ class RuleSpec: QuickSpec {
 
         describe("character set") {
 
-            let rule = withPassword(havingCharactersIn: .alphanumericCharacterSet())
+            let rule = withPassword(havingCharactersIn: .alphanumericCharacterSet(), message: "character set")
+
+            it("should pass message in result") {
+                expect(rule.evaluate(on: "password").message) == "character set"
+            }
 
             it("should allow valid characters") {
                 expect(rule.evaluate(on: "should match this 1 password").valid) == true
@@ -74,7 +85,11 @@ class RuleSpec: QuickSpec {
 
         describe("consecutive repeats") {
 
-            let rule = withPassword(havingMaxConsecutiveRepeats: 2)
+            let rule = withPassword(havingMaxConsecutiveRepeats: 2, message: "no repeats")
+
+            it("should pass message in result") {
+                expect(rule.evaluate(on: "password").message) == "no repeats"
+            }
 
             it("should allow string with no repeating count") {
                 expect(rule.evaluate(on: "1234567890").valid) == true
@@ -104,18 +119,31 @@ class RuleSpec: QuickSpec {
             let invalid = MockRule(valid: false)
             let password = "a password"
 
+            it("should pass message in result") {
+                let rule = AtLeastRule(minimum: 1, rules: [valid], message: "only one")
+                expect(rule.evaluate(on: "password").message) == "only one"
+            }
+
+            it("should have conditions") {
+                let rule = AtLeastRule(minimum: 1, rules: [valid, invalid], message: "only one")
+                let result = rule.evaluate(on: "password")
+                expect(result.conditions).to(haveCount(2))
+                expect(result.conditions[0].valid) == true
+                expect(result.conditions[1].valid) == false
+            }
+
             it("should be valid for only one") {
-                let rule = AtLeastRule(minimum: 1, rules: [valid])
+                let rule = AtLeastRule(minimum: 1, rules: [valid], message: "only one")
                 expect(rule.evaluate(on: password).valid) == true
             }
 
             it("should be valid when the minimum valid quote is reached") {
-                let rule = AtLeastRule(minimum: 1, rules: [valid, invalid, invalid])
+                let rule = AtLeastRule(minimum: 1, rules: [valid, invalid, invalid], message: "only one")
                 expect(rule.evaluate(on: password).valid) == true
             }
 
             it("should be invalid when minimum of valid rules is not reached") {
-                let rule = AtLeastRule(minimum: Int.max, rules: [valid, invalid, invalid])
+                let rule = AtLeastRule(minimum: Int.max, rules: [valid, invalid, invalid], message: "impossible")
                 expect(rule.evaluate(on: password).valid) == false
             }
 
@@ -126,8 +154,9 @@ class RuleSpec: QuickSpec {
 
 struct MockRule: Rule {
     let valid: Bool
+    let message = "MOCK"
 
     func evaluate(on password: String?) -> RuleResult {
-        return SimpleRule.Result(valid: valid)
+        return SimpleRule.Result(message: message, valid: valid)
     }
 }

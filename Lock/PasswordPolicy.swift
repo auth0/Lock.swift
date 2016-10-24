@@ -22,13 +22,17 @@
 
 import Foundation
 
-public protocol PasswordPolicy {
+private let lowercase = "Lower case letters (a-z)".i18n(key: "com.auth0.lock.error.password.lowercase-letters", comment: "Lowercase letters")
+private let upperCase = "Upper case letters (A-Z)".i18n(key: "com.auth0.lock.error.password.uppercase-letters", comment: "Uppercase letters")
+private let numbers = "Numbers (i.e. 0-9)".i18n(key: "com.auth0.lock.error.password.numbers", comment: "Numbers")
+private let specialCharacters = "Special characters (e.g. !@#$%^&*)".i18n(key: "com.auth0.lock.error.password.special-characters", comment: "Special Characters")
+private let containAtLeast = "Contain at least %d of the following %d types of characters:".i18n(key: "com.auth0.lock.error.password.contain-at-least", comment: "At least n groups")
+private let shouldContain = "Should contain:".i18n(key: "com.auth0.lock.error.password.should-contain", comment: "N groups")
+private let nonEmpty = "Non-empty password required".i18n(key: "com.auth0.lock.error.password.non-empty", comment: "Must no be empty")
+private let atLeast = "At least %d characters in length".i18n(key: "com.auth0.lock.error.password.at-least-length", comment: "At least N characters")
+private let noMoreThanSimilar = "No more than %d identical characters in a row (e.g., \"%s\" not allowed)".i18n(key: "com.auth0.lock.error.password.no-more-identical", comment: "No more than N identical characters")
 
-    func on(password: String?) -> [RuleResult]
-
-}
-
-public struct Auth0PasswordPolicy: PasswordPolicy {
+public struct PasswordPolicy {
 
     let rules: [Rule]
 
@@ -37,50 +41,51 @@ public struct Auth0PasswordPolicy: PasswordPolicy {
     }
 
     public static var none: PasswordPolicy {
-        return Auth0PasswordPolicy(rules: [withPassword(lengthInRange: 1..<Int.max)])
+        return PasswordPolicy(rules: [withPassword(lengthInRange: 1..<Int.max, message: nonEmpty)])
     }
 
     public static var low: PasswordPolicy {
-        return Auth0PasswordPolicy(rules: [withPassword(lengthInRange: 6..<Int.max)])
+        let message = String(format: atLeast, 6)
+        return PasswordPolicy(rules: [withPassword(lengthInRange: 6..<Int.max, message: message)])
     }
 
     public static var fair: PasswordPolicy {
-        return Auth0PasswordPolicy(rules: [
-            withPassword(lengthInRange: 8..<Int.max),
+        return PasswordPolicy(rules: [
+            withPassword(lengthInRange: 8..<Int.max, message: String(format: atLeast, 8)),
             AtLeastRule(minimum: 3, rules: [
-                    withPassword(havingCharactersIn: .lowercaseLetterCharacterSet()),
-                    withPassword(havingCharactersIn: .uppercaseLetterCharacterSet()),
-                    withPassword(havingCharactersIn: .decimalDigitCharacterSet()),
-                ]),
+                    withPassword(havingCharactersIn: .lowercaseLetterCharacterSet(), message: lowercase),
+                    withPassword(havingCharactersIn: .uppercaseLetterCharacterSet(), message: upperCase),
+                    withPassword(havingCharactersIn: .decimalDigitCharacterSet(), message: numbers),
+                ], message: shouldContain),
             ])
     }
 
     public static var good: PasswordPolicy {
         let specialCharacterSet = NSMutableCharacterSet.punctuationCharacterSet()
         specialCharacterSet.formUnionWithCharacterSet(.symbolCharacterSet())
-        return Auth0PasswordPolicy(rules: [
-            withPassword(lengthInRange: 8..<Int.max),
+        return PasswordPolicy(rules: [
+            withPassword(lengthInRange: 8..<Int.max, message: String(format: atLeast, 8)),
             AtLeastRule(minimum: 3, rules: [
-                withPassword(havingCharactersIn: .lowercaseLetterCharacterSet()),
-                withPassword(havingCharactersIn: .uppercaseLetterCharacterSet()),
-                withPassword(havingCharactersIn: .decimalDigitCharacterSet()),
-                withPassword(havingCharactersIn: specialCharacterSet),
-                ]),
+                    withPassword(havingCharactersIn: .lowercaseLetterCharacterSet(), message: lowercase),
+                    withPassword(havingCharactersIn: .uppercaseLetterCharacterSet(), message: upperCase),
+                    withPassword(havingCharactersIn: .decimalDigitCharacterSet(), message: numbers),
+                    withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters),
+                ], message: String(format: containAtLeast, 3, 4)),
             ])
     }
 
     public static var excellent: PasswordPolicy {
         let specialCharacterSet = NSMutableCharacterSet.punctuationCharacterSet()
         specialCharacterSet.formUnionWithCharacterSet(.symbolCharacterSet())
-        return Auth0PasswordPolicy(rules: [
-            withPassword(lengthInRange: 10...128),
+        return PasswordPolicy(rules: [
+            withPassword(lengthInRange: 10...128, message: String(format: atLeast, 10)),
             AtLeastRule(minimum: 3, rules: [
-                withPassword(havingCharactersIn: .lowercaseLetterCharacterSet()),
-                withPassword(havingCharactersIn: .uppercaseLetterCharacterSet()),
-                withPassword(havingCharactersIn: .decimalDigitCharacterSet()),
-                withPassword(havingCharactersIn: specialCharacterSet),
-                ]),
-            withPassword(havingMaxConsecutiveRepeats: 2)
+                    withPassword(havingCharactersIn: .lowercaseLetterCharacterSet(), message: lowercase),
+                    withPassword(havingCharactersIn: .uppercaseLetterCharacterSet(), message: upperCase),
+                    withPassword(havingCharactersIn: .decimalDigitCharacterSet(), message: numbers),
+                    withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters),
+            ], message: String(format: containAtLeast, 3, 4)),
+            withPassword(havingMaxConsecutiveRepeats: 2, message: String(format: noMoreThanSimilar, 2, "aaa"))
             ])
     }
 

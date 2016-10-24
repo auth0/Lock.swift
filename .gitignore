@@ -42,3 +42,6 @@ Auth0.plist
 #Fastlane
 fastlane/report.xml
 .env
+
+#AppCode
+.idea/

@@ -35,7 +35,7 @@ class PasswordPolicySpec: QuickSpec {
     override func spec() {
 
         describe("none") {
-            let policy = Auth0PasswordPolicy.none
+            let policy = PasswordPolicy.none
 
             ["1", "a random password", "with 1 number", "bad", "password", "a very strong password with more than 10 chars."].forEach { password in
                 it("is a valid password") {
@@ -52,7 +52,7 @@ class PasswordPolicySpec: QuickSpec {
         }
 
         describe("low") {
-            let policy = Auth0PasswordPolicy.low
+            let policy = PasswordPolicy.low
 
             ["123456", "a random password", "password", "a very strong password with more than 10 chars."].forEach { password in
                 it("is a valid password") {
@@ -69,7 +69,7 @@ class PasswordPolicySpec: QuickSpec {
         }
 
         describe("fair") {
-            let policy = Auth0PasswordPolicy.fair
+            let policy = PasswordPolicy.fair
 
             ["1ValidPassword", "A very strong password with more than 10 chars.", "ONEtwo34"].forEach { password in
                 it("is a valid password") {
@@ -86,7 +86,7 @@ class PasswordPolicySpec: QuickSpec {
         }
 
         describe("good") {
-            let policy = Auth0PasswordPolicy.good
+            let policy = PasswordPolicy.good
 
             ["1ValidPassword", "ValidPassword!", "A very strong password with more than 10 chars.", "ONEtwo3&", "password1*", "PASSWORD2_"].forEach { password in
                 it("is a valid password") {
@@ -103,7 +103,7 @@ class PasswordPolicySpec: QuickSpec {
         }
 
         describe("excellent") {
-            let policy = Auth0PasswordPolicy.excellent
+            let policy = PasswordPolicy.excellent
 
             ["1ValidPassword", "ValidPassword!", "A very strong password with more than 10 chars.", "ONEtwo3&()", "password1*", "PASSWORD2_"].forEach { password in
                 it("is a valid password") {

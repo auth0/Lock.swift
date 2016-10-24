@@ -23,24 +23,27 @@
 import Foundation
 
 protocol Rule {
+    var message: String { get }
     func evaluate(on password: String?) -> RuleResult
 
 }
 
 public protocol RuleResult {
+    var message: String { get }
+    var conditions: [RuleResult] { get }
     var valid: Bool { get }
 }
 
-func withPassword(lengthInRange range: Range<Int>) -> Rule {
-    return SimpleRule { range ~= $0.characters.count }
+func withPassword(lengthInRange range: Range<Int>, message: String) -> Rule {
+    return SimpleRule(message: message) { range ~= $0.characters.count }
 }
 
-func withPassword(havingCharactersIn characterSet: NSCharacterSet) -> Rule {
-    return SimpleRule { $0.rangeOfCharacterFromSet(characterSet) != nil }
+func withPassword(havingCharactersIn characterSet: NSCharacterSet, message: String) -> Rule {
+    return SimpleRule(message: message) { $0.rangeOfCharacterFromSet(characterSet) != nil }
 }
 
-func withPassword(havingMaxConsecutiveRepeats count: Int) -> Rule {
-    return SimpleRule {
+func withPassword(havingMaxConsecutiveRepeats count: Int, message: String) -> Rule {
+    return SimpleRule(message: message) {
         let repeated = $0.characters.reduce([]) { (partial: [Character], character: Character) in
             guard partial.count <= count else { return partial }
             guard partial.contains(character) else { return [character] }
@@ -51,32 +54,36 @@ func withPassword(havingMaxConsecutiveRepeats count: Int) -> Rule {
 }
 
 struct AtLeastRule: Rule {
-
     let minimum: Int
     let rules: [Rule]
+    let message: String
 
     func evaluate(on password: String?) -> RuleResult {
         let results = rules.map { $0.evaluate(on: password) }
         let count = results.reduce(0) { $0 + ($1.valid ? 1 : 0) }
-        return Result(valid: count >= minimum, inner: results)
+        return Result(message: message, valid: count >= minimum, conditions: results)
     }
 
     struct Result: RuleResult {
+        let message: String
         let valid: Bool
-        let inner: [RuleResult]
+        let conditions: [RuleResult]
     }
 }
 
 struct SimpleRule: Rule {
 
+    let message: String
     let valid: (String) -> Bool
 
     func evaluate(on password: String?) -> RuleResult {
-        guard let value = password else { return Result(valid: false) }
-        return Result(valid: self.valid(value))
+        guard let value = password else { return Result(message: message, valid: false) }
+        return Result(message: message, valid: self.valid(value))
     }
 
     struct Result: RuleResult {
+        let message: String
         let valid: Bool
+        let conditions: [RuleResult] = []
     }
 }
