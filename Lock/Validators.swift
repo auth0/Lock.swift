@@ -90,6 +90,21 @@ public class EmailValidator: InputValidator {
     }
 }
 
+public class PasswordPolicyValidator: InputValidator {
+    let policy: PasswordPolicy
+
+    init(policy: PasswordPolicy) {
+        self.policy = policy
+    }
+
+    func validate(value: String?) -> ErrorType? {
+        let result = self.policy.on(value)
+        let valid = result.reduce(true) { $0 && $1.valid }
+        guard !valid else { return nil }
+        return InputValidationError.PasswordPolicyViolation(result: result)
+    }
+}
+
 private extension String {
     var trimmed: String {
         return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)

@@ -137,6 +137,7 @@
 		5FEEE81E1DB84BBB00B4DFED /* PasswordPolicySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE81D1DB84BBB00B4DFED /* PasswordPolicySpec.swift */; };
 		5FF1FA3A1D4C13CC00158CD1 /* LockUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FF1FA341D4C12DF00158CD1 /* LockUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC54FD1D37E3F700579581 /* Routes.swift */; };
+		B73CCF98908698EC6FE6B978 /* PasswordPolicyValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -320,6 +321,7 @@
 		5FF1FA321D4C12DF00158CD1 /* LockUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LockUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FF1FA341D4C12DF00158CD1 /* LockUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LockUI.h; path = Lock/LockUI.h; sourceTree = SOURCE_ROOT; };
 		5FFC54FD1D37E3F700579581 /* Routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Routes.swift; path = Lock/Routes.swift; sourceTree = SOURCE_ROOT; };
+		B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicyValidatorSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -637,6 +639,9 @@
 				5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */,
 				5B0CF2DB1DE9B3D300F82BF4 /* Validators */,
 				5B0CF2DA1DE9B3C400F82BF4 /* Errors */,
+				5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */,
+				5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */,
+				B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */,
 			);
 			path = LockTests;
 			sourceTree = "<group>";
@@ -1025,6 +1030,7 @@
 				5FEEE81E1DB84BBB00B4DFED /* PasswordPolicySpec.swift in Sources */,
 				5FEEE81A1DB6AF3800B4DFED /* RuleSpec.swift in Sources */,
 				5FE50DC11D7DED8C00D82290 /* OfflineConnectionsSpec.swift in Sources */,
+				B73CCF98908698EC6FE6B978 /* PasswordPolicyValidatorSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
