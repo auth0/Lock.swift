@@ -195,10 +195,6 @@ describe(@"A0SafariSession", ^{
             session = [[A0SafariSession alloc] initWithLock:lock connectionName:@"facebook" usePKCE:NO];
         });
 
-        it(@"should provide an authentication block", ^{
-            expect([session authenticationBlockWithSuccess:successBlock failure:failureBlock]).toNot(beNil());
-        });
-
         it(@"should report error", ^{
             waitUntil(^(void(^done)()) {
                 A0SafariSessionAuthentication block = [session authenticationBlockWithSuccess:^(A0UserProfile * _Nonnull profile, A0Token * _Nonnull token) {
