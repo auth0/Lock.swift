@@ -212,7 +212,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
 
                 it("should raise error if password is nil") {
-                    expect{ try database.update(.password, value: nil) }.to(throwError(InputValidationError.mustNotBeEmpty))
+                    expect{ try database.update(.Password, value: "") }.to(throwError(InputValidationError.PasswordPolicyViolation(result: [])))
                 }
                 
             }

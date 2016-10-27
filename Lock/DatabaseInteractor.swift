@@ -36,12 +36,12 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     var validUsername: Bool { return self.user.validUsername }
     var validPassword: Bool { return self.user.validPassword }
     var usernameValidator: InputValidator { return self.connection.usernameValidator }
+    var passwordValidator: InputValidator { return self.connection.passwordValidator }
 
     let authentication: Authentication
     let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
-    let passwordValidator: InputValidator = NonEmptyValidator()
-    let onAuthentication: (Credentials) -> ()
+    let onAuthentication: Credentials -> ()
     let options: Options
     let customFields: [String: CustomTextField]
 
