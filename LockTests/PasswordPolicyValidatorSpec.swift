@@ -71,11 +71,11 @@ class PasswordPolicyValidatorSpec: QuickSpec {
 private func failingPolicy(withConditionCount count: Int) -> PasswordPolicy {
     var rules: [Rule] = []
     (1...count).forEach { _ in rules.append(MockRule(valid: false)) }
-    return PasswordPolicy(rules: rules)
+    return PasswordPolicy(name: "custom", rules: rules)
 }
 
 private func passingPolicy(withConditionCount count: Int) -> PasswordPolicy {
     var rules: [Rule] = []
     (1...count).forEach { _ in rules.append(MockRule(valid: true)) }
-    return PasswordPolicy(rules: rules)
+    return PasswordPolicy(name: "custom", rules: rules)
 }

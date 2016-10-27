@@ -34,23 +34,32 @@ private let noMoreThanSimilar = "No more than %d identical characters in a row (
 
 public struct PasswordPolicy {
 
+    let name: String
     let rules: [Rule]
+
+    enum Auth0: String {
+        case none = "none"
+        case low = "low"
+        case fair = "fair"
+        case good = "good"
+        case excellent = "excellent"
+    }
 
     public func on(password: String?) -> [RuleResult] {
         return rules.map { $0.evaluate(on: password) }
     }
 
     public static var none: PasswordPolicy {
-        return PasswordPolicy(rules: [withPassword(lengthInRange: 1..<Int.max, message: nonEmpty)])
+        return PasswordPolicy(name: Auth0.none.rawValue, rules: [withPassword(lengthInRange: 1..<Int.max, message: nonEmpty)])
     }
 
     public static var low: PasswordPolicy {
         let message = String(format: atLeast, 6)
-        return PasswordPolicy(rules: [withPassword(lengthInRange: 6..<Int.max, message: message)])
+        return PasswordPolicy(name: Auth0.low.rawValue, rules: [withPassword(lengthInRange: 6..<Int.max, message: message)])
     }
 
     public static var fair: PasswordPolicy {
-        return PasswordPolicy(rules: [
+        return PasswordPolicy(name: Auth0.fair.rawValue, rules: [
             withPassword(lengthInRange: 8..<Int.max, message: String(format: atLeast, 8)),
             AtLeastRule(minimum: 3, rules: [
                     withPassword(havingCharactersIn: .lowercaseLetterCharacterSet(), message: lowercase),
@@ -63,7 +72,7 @@ public struct PasswordPolicy {
     public static var good: PasswordPolicy {
         let specialCharacterSet = NSMutableCharacterSet.punctuationCharacterSet()
         specialCharacterSet.formUnionWithCharacterSet(.symbolCharacterSet())
-        return PasswordPolicy(rules: [
+        return PasswordPolicy(name: Auth0.good.rawValue, rules: [
             withPassword(lengthInRange: 8..<Int.max, message: String(format: atLeast, 8)),
             AtLeastRule(minimum: 3, rules: [
                     withPassword(havingCharactersIn: .lowercaseLetterCharacterSet(), message: lowercase),
@@ -77,7 +86,7 @@ public struct PasswordPolicy {
     public static var excellent: PasswordPolicy {
         let specialCharacterSet = NSMutableCharacterSet.punctuationCharacterSet()
         specialCharacterSet.formUnionWithCharacterSet(.symbolCharacterSet())
-        return PasswordPolicy(rules: [
+        return PasswordPolicy(name: Auth0.excellent.rawValue, rules: [
             withPassword(lengthInRange: 10...128, message: String(format: atLeast, 10)),
             AtLeastRule(minimum: 3, rules: [
                     withPassword(havingCharactersIn: .lowercaseLetterCharacterSet(), message: lowercase),
