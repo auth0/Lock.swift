@@ -37,6 +37,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     var validPassword: Bool { return self.user.validPassword }
     var usernameValidator: InputValidator { return self.connection.usernameValidator }
     var passwordValidator: InputValidator { return self.connection.passwordValidator }
+    var requiredValidator = NonEmptyValidator()
 
     let authentication: Authentication
     let connection: DatabaseConnection
@@ -64,7 +65,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         case .username:
             error = self.update(username: value)
         case .password:
-            error = self.update(password: value)
+            error = self.updatePassword(value, enforcingPolicy: enforcePolicy)
         case .emailOrUsername:
             let emailError = self.update(email: value)
             let usernameError = self.update(username: value)
@@ -170,9 +171,9 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         return error
     }
 
-    private mutating func update(password: String?) -> Error? {
-        self.user.password = password
-        let error = self.passwordValidator.validate(password)
+    private mutating func updatePassword(value: String?, enforcingPolicy: Bool) -> ErrorType? {
+        self.user.password = value
+        let error = enforcingPolicy ? self.passwordValidator.validate(value) : self.requiredValidator.validate(value)
         self.user.validPassword = error == nil
         return error
     }

@@ -40,6 +40,7 @@ class DatabasePresenter: Presentable, Loggable {
     var initialUsername: String? { return self.authenticator.validUsername ? self.authenticator.username : nil }
 
     weak var databaseView: DatabaseOnlyView?
+    var currentMode: DatabaseModeSwitcher.Mode?
 
     convenience init(interactor: DatabaseInteractor, connection: DatabaseConnection, navigator: Navigable, options: Options) {
         self.init(authenticator: interactor, creator: interactor, connection: connection, navigator: navigator, options: options)
@@ -68,6 +69,7 @@ class DatabasePresenter: Presentable, Loggable {
             case .login:
                 self.showLogin(inView: view, identifier: self.authenticator.identifier)
             }
+            self.currentMode = switcher.selected
         }
 
         if allow.contains(.Login) && initialScreen == .login {
@@ -200,7 +202,7 @@ class DatabasePresenter: Presentable, Loggable {
         case .emailOrUsername:
             attribute = .emailOrUsername
         case .password:
-            attribute = .password
+            attribute = .password(enforcePolicy: self.currentMode == .Signup)
         case .username:
             attribute = .username
         case .custom(let name, _, _, _, _, _):

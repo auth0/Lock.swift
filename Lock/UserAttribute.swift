@@ -25,7 +25,7 @@ import Foundation
 enum UserAttribute {
     case email
     case username
-    case password
+    case password(enforcePolicy: Bool)
     case emailOrUsername
     case custom(name: String)
 }
