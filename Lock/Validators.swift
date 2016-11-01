@@ -90,6 +90,19 @@ public class EmailValidator: InputValidator {
     }
 }
 
+public class DomainValidator : InputValidator {
+    
+    var connections: Connections
+
+    public init(connections: Connections) {
+        self.connections = connections
+    }
+    
+    func validate(value: String?) -> ErrorType? {
+        return nil
+    }
+}
+
 private extension String {
     var trimmed: String {
         return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())

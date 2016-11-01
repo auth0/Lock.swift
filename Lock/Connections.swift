@@ -25,6 +25,7 @@ import Foundation
 public protocol Connections {
     var database: DatabaseConnection? { get }
     var oauth2: [OAuth2Connection] { get }
+    var enterprise: [EnterpriseConnection] {get}
 
     var isEmpty: Bool { get }
 
@@ -58,4 +59,9 @@ public protocol OAuth2Connection {
 public struct SocialConnection: OAuth2Connection {
     public let name: String
     public let style: AuthStyle
+}
+
+public struct EnterpriseConnection {
+    public let name: String
+    public let domains: [String]
 }

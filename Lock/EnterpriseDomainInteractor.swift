@@ -1,4 +1,4 @@
-// ConnectionLoadingPresenter.swift
+// EnterpriseDomainInteractor.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -21,25 +21,27 @@
 // THE SOFTWARE.
 
 import Foundation
+import Auth0
 
-class ConnectionLoadingPresenter: Presentable, Loggable {
-    var messagePresenter: MessagePresenter?
-    let loader: RemoteConnectionLoader
-    let navigator: Navigable
+struct EnterpriseDomainInteractor: EnterpriseDomain {
 
-    init(loader: RemoteConnectionLoader, navigator: Navigable) {
-        self.loader = loader
-        self.navigator = navigator
+    var email: String? = nil
+    var validEmail: Bool = false
+    var validDomain: Bool = false
+
+    let connections: Connections
+    let emailValidator: InputValidator = EmailValidator()
+    let domainValidator: InputValidator
+
+    init(connections: Connections) {
+        self.connections = connections
+        self.domainValidator = DomainValidator(connections: connections)
     }
 
-    var view: View {
-        self.loader.load { connections in
-            guard let connections = connections where !connections.isEmpty else { return self.navigator.exit(withError: UnrecoverableError.ClientWithNoConnections) }
-            Queue.main.async {
-                self.logger.debug("Loaded connections. Moving to root view")
-                self.navigator.reload(withConnections: connections)
-            }
-        }
-        return LoadingView()
+    mutating func updateEmail(value: String?) throws {
+        self.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let error = self.emailValidator.validate(value)
+        self.validEmail = error == nil
+        if let error = error { throw error }
     }
 }

@@ -1,4 +1,4 @@
-// ConnectionLoadingPresenter.swift
+// EnterpriseDomain.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,24 +22,11 @@
 
 import Foundation
 
-class ConnectionLoadingPresenter: Presentable, Loggable {
-    var messagePresenter: MessagePresenter?
-    let loader: RemoteConnectionLoader
-    let navigator: Navigable
+protocol EnterpriseDomain {
+    var email: String? { get }
+    var validEmail: Bool { get }
 
-    init(loader: RemoteConnectionLoader, navigator: Navigable) {
-        self.loader = loader
-        self.navigator = navigator
-    }
-
-    var view: View {
-        self.loader.load { connections in
-            guard let connections = connections where !connections.isEmpty else { return self.navigator.exit(withError: UnrecoverableError.ClientWithNoConnections) }
-            Queue.main.async {
-                self.logger.debug("Loaded connections. Moving to root view")
-                self.navigator.reload(withConnections: connections)
-            }
-        }
-        return LoadingView()
-    }
+    mutating func updateEmail(value: String?) throws
 }
+
+
