@@ -42,8 +42,8 @@ struct OfflineConnections: ConnectionBuildable {
         self.oauth2.append(social)
     }
     
-    mutating func enterprise(name name: String, domains: [String]) {
-        let enterprise = EnterpriseConnection(name: name, domains: domains)
+    mutating func enterprise(name name: String, strategy: String, domain: String, domainAlias: [String]) {
+        let enterprise = EnterpriseConnector(name: name, strategy: strategy, domain: domain, domainAlias: domainAlias)
         self.enterprise.append(enterprise)
     }
 

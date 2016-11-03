@@ -61,7 +61,16 @@ public struct SocialConnection: OAuth2Connection {
     public let style: AuthStyle
 }
 
-public struct EnterpriseConnection {
+public protocol EnterpriseConnection {
+    var name: String { get }
+    var strategy: String { get }
+    var domain: String { get }
+    var domainAlias: [String] { get }
+}
+
+public struct EnterpriseConnector : EnterpriseConnection {
     public let name: String
-    public let domains: [String]
+    public let strategy: String
+    public let domain: String
+    public let domainAlias: [String]
 }

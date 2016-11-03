@@ -31,17 +31,37 @@ struct EnterpriseDomainInteractor: EnterpriseDomain {
 
     let connections: Connections
     let emailValidator: InputValidator = EmailValidator()
-    let domainValidator: InputValidator
+    let domainValidator: EnterpriseDomainValidator
 
     init(connections: Connections) {
         self.connections = connections
-        self.domainValidator = DomainValidator(connections: connections)
+        domainValidator = EnterpriseDomainValidator(connections: connections.enterprise)
     }
 
     mutating func updateEmail(value: String?) throws {
-        self.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        let error = self.emailValidator.validate(value)
-        self.validEmail = error == nil
-        if let error = error { throw error }
+        
+        validEmail = false
+        validDomain = false
+        
+        // Validate email
+        email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        if let error = emailValidator.validate(value) {
+            throw error
+        }
+        validEmail = true
+        
+        // Validate Enterprise domain
+        if let error = domainValidator.validate(self.email) {
+            throw error
+        }
+        validDomain = true
+    }
+    
+    func requestConnection(callback: (EnterpriseDomainError?) -> ()) {
+        guard let email = self.email else { return callback(.NoConnectionAvailable) }
+        guard let connection = self.domainValidator.enterpriseConnection else { return callback(.NoConnectionAvailable) }
+        
+        print("requestConnection: \(email), \(connection)")
+        callback(nil)
     }
 }

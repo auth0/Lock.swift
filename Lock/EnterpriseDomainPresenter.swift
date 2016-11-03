@@ -36,27 +36,38 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
     var view: View {
         let email = self.interactor.validEmail ? self.interactor.email : nil
         let view = EnterpriseDomainView(email: email)
-        //let form = view.form
+        let form = view.form
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
             
             guard case .Email = input.type else { return }
-            
             do {
                 try self.interactor.updateEmail(input.text)
-                
                 input.showValid()
             } catch {
                 input.showError()
             }
         }
+        
         let action = { (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("request forgot password for email \(self.interactor.email)")
-            //let interactor = self.interactor
+            self.logger.info("Enterprise connection check: \(self.interactor.email)")
+            let interactor = self.interactor
             button.inProgress = true
-            
-            // DO SOMETHING
+            interactor.requestConnection { error in
+                
+                Queue.main.async {
+                    button.inProgress = false
+                    form?.needsToUpdateState()
+                    if let error = error {
+                        //self.messagePresenter?.showError(error)
+                        self.logger.error("Failed with error \(error)")
+                    } else {
+                        print("Present AD or SSO Login Attempt")
+                    }
+                }
+                
+            }
         }
         view.primaryButton?.onPress = action
         view.form?.onReturn = {_ in

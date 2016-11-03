@@ -90,15 +90,25 @@ public class EmailValidator: InputValidator {
     }
 }
 
-public class DomainValidator : InputValidator {
+public class EnterpriseDomainValidator : InputValidator {
     
-    var connections: Connections
+    var connections: [EnterpriseConnection]
+    var enterpriseConnection: EnterpriseConnection?
 
-    public init(connections: Connections) {
+    public init(connections: [EnterpriseConnection]) {
         self.connections = connections
     }
     
     func validate(value: String?) -> ErrorType? {
+        enterpriseConnection = nil
+        
+        guard let domain = value?.componentsSeparatedByString("@").last else { return InputValidationError.MustNotBeEmpty }
+        let predicate = NSPredicate(format: "SELF ==[c] %@", domain)
+        
+        connections.forEach { connection in
+            let match = connection.domainAlias.filter { domain in predicate.evaluateWithObject(domain) }
+            if match.count > 0 { self.enterpriseConnection = connection }
+        }
         return nil
     }
 }
