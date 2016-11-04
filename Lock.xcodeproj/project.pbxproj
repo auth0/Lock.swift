@@ -11,6 +11,7 @@
 		5B09717E1DC8F292003AA88F /* EnterpriseDomainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717D1DC8F292003AA88F /* EnterpriseDomainInteractor.swift */; };
 		5B0971801DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */; };
 		5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */; };
+		5BC6BC0C1DCBDDC9002EA81C /* EnterpriseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC6BC0B1DCBDDC9002EA81C /* EnterpriseView.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
 		5F14565B1D5237180085DF9C /* LazyImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */; };
 		5F14565C1D5237210085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
@@ -199,6 +200,7 @@
 		5B09717D1DC8F292003AA88F /* EnterpriseDomainInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainInteractor.swift; path = Lock/EnterpriseDomainInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainPresenter.swift; path = Lock/EnterpriseDomainPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainView.swift; path = Lock/EnterpriseDomainView.swift; sourceTree = SOURCE_ROOT; };
+		5BC6BC0B1DCBDDC9002EA81C /* EnterpriseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseView.swift; path = Lock/EnterpriseView.swift; sourceTree = SOURCE_ROOT; };
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Lock/Colors.swift; sourceTree = SOURCE_ROOT; };
 		5F14565D1D5237820085DF9C /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseView.swift; path = Lock/DatabaseView.swift; sourceTree = SOURCE_ROOT; };
 		5F1C498D1D8360AA005B74FC /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Style.swift; path = Lock/Style.swift; sourceTree = SOURCE_ROOT; };
@@ -625,6 +627,7 @@
 				5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */,
 				5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */,
 				5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */,
+				5BC6BC0B1DCBDDC9002EA81C /* EnterpriseView.swift */,
 				5FD6772B1D4C303C004B87C4 /* AuthButton.swift */,
 			);
 			path = Components;
@@ -940,6 +943,7 @@
 				5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */,
 				5FBE5CC61D3E7F9D0038536D /* MultifactorPresenter.swift in Sources */,
 				5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */,
+				5BC6BC0C1DCBDDC9002EA81C /* EnterpriseView.swift in Sources */,
 				5F99AA8C1D1B3F1300D27842 /* InputField.swift in Sources */,
 				5FBE5CBA1D3E59B90038536D /* MultifactorCodeView.swift in Sources */,
 				5F1C49901D8360BF005B74FC /* ConnectionLoadingPresenter.swift in Sources */,

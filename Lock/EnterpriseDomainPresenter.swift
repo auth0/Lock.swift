@@ -51,19 +51,18 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         
         let action = { (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("Enterprise connection check: \(self.interactor.email)")
+            self.logger.info("Enterprise connection validation: \(self.interactor.email)")
             let interactor = self.interactor
             button.inProgress = true
             interactor.requestConnection { error in
-                
                 Queue.main.async {
                     button.inProgress = false
                     form?.needsToUpdateState()
                     if let error = error {
-                        //self.messagePresenter?.showError(error)
-                        self.logger.error("Failed with error \(error)")
+                        self.messagePresenter?.showError(error)
+                        self.logger.error("Failed: \(error)")
                     } else {
-                        print("Present AD or SSO Login Attempt")
+                        self.logger.debug("Launch Web Auth")
                     }
                 }
                 

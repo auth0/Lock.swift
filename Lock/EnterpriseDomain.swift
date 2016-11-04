@@ -29,17 +29,5 @@ protocol EnterpriseDomain {
 
     mutating func updateEmail(value: String?) throws
     
-    func requestConnection(callback: (EnterpriseDomainError?) -> ())
+    func requestConnection(callback: (OAuth2AuthenticatableError?) -> ())
 }
-
-enum EnterpriseDomainError: ErrorType {
-    case NoConnectionAvailable
-
-    var localizableMessage: String {
-        switch self {
-        case .NoConnectionAvailable:
-            return "We're sorry, we could not find an enterprise connection for this user.".i18n(key: "com.auth0.lock.error.enterprise.noconnection", comment: "No enterprise connection detected")
-        }
-    }
-}
-

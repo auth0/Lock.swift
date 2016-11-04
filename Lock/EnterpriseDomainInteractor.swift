@@ -32,12 +32,14 @@ struct EnterpriseDomainInteractor: EnterpriseDomain {
     let connections: Connections
     let emailValidator: InputValidator = EmailValidator()
     let domainValidator: EnterpriseDomainValidator
+    let authenticator: OAuth2Authenticatable
 
-    init(connections: Connections) {
+    init(connections: Connections, auth: OAuth2Authenticatable) {
         self.connections = connections
-        domainValidator = EnterpriseDomainValidator(connections: connections.enterprise)
+        self.domainValidator = EnterpriseDomainValidator(connections: connections.enterprise)
+        self.authenticator = auth
     }
-
+    
     mutating func updateEmail(value: String?) throws {
         
         validEmail = false
@@ -57,11 +59,13 @@ struct EnterpriseDomainInteractor: EnterpriseDomain {
         validDomain = true
     }
     
-    func requestConnection(callback: (EnterpriseDomainError?) -> ()) {
-        guard let email = self.email else { return callback(.NoConnectionAvailable) }
+    func requestConnection(callback: (OAuth2AuthenticatableError?) -> ()) {
+        guard let _ = self.email else { return callback(.NoConnectionAvailable) }
         guard let connection = self.domainValidator.enterpriseConnection else { return callback(.NoConnectionAvailable) }
         
-        print("requestConnection: \(email), \(connection)")
+        authenticator.login(connection.name) { error in
+            return callback(error)
+        }
         callback(nil)
     }
 }

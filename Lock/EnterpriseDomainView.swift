@@ -29,7 +29,7 @@ class EnterpriseDomainView: UIView, View {
 
     init(email: String?) {
         let primaryButton = PrimaryButton()
-        let domainView = SingleInputView()
+        let domainView = EnterpriseView()
         let center = UILayoutGuide()
 
         self.primaryButton = primaryButton
@@ -60,7 +60,6 @@ class EnterpriseDomainView: UIView, View {
 
         domainView.type = .Email
         domainView.returnKey = .Done
-        domainView.title = "Enterprise Login".i18n(key: "com.auth0.lock.enterprise.title", comment: "Enterprise login title")
         domainView.value = email
     }
 
