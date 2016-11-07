@@ -23,7 +23,7 @@
 import Foundation
 import Auth0
 
-struct EnterpriseDomainInteractor: EnterpriseDomain {
+struct EnterpriseDomainInteractor: HRDAuthenticatable {
 
     var email: String? = nil
     var validEmail: Bool = false
@@ -41,7 +41,7 @@ struct EnterpriseDomainInteractor: EnterpriseDomain {
     private func validateDomain(connections: [EnterpriseConnection], value: String?) -> EnterpriseConnection? {
         
         guard let domain = value?.componentsSeparatedByString("@").last else { return nil }
-        return connections.filter { $0.domain.contains(domain) }.first
+        return connections.filter { $0.domains.contains(domain) }.first
     }
     
     mutating func updateEmail(value: String?) throws {

@@ -22,7 +22,7 @@
 
 import Foundation
 
-protocol EnterpriseDomain {
+protocol HRDAuthenticatable {
     var email: String? { get }
     var validEmail: Bool { get }
 

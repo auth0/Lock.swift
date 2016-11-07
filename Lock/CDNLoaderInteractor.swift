@@ -85,7 +85,7 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
                 info.enterprise.forEach { strategy in
                     strategy.connections.forEach { connection in
                         let domain = connection.json["domain_aliases"] as! [String]
-                        connections.enterprise(name: connection.name, domain: domain)
+                        connections.enterprise(name: connection.name, domains: domain)
                     }
                 }
                 info.oauth2.forEach { strategy in
