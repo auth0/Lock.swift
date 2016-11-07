@@ -25,7 +25,6 @@ import Foundation
 protocol EnterpriseDomain {
     var email: String? { get }
     var validEmail: Bool { get }
-    var validDomain: Bool { get }
 
     mutating func updateEmail(value: String?) throws
     

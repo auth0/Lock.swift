@@ -27,23 +27,27 @@ struct EnterpriseDomainInteractor: EnterpriseDomain {
 
     var email: String? = nil
     var validEmail: Bool = false
-    var validDomain: Bool = false
 
     let connections: Connections
+    let connection: EnterpriseConnection? = nil
     let emailValidator: InputValidator = EmailValidator()
-    let domainValidator: EnterpriseDomainValidator
     let authenticator: OAuth2Authenticatable
 
     init(connections: Connections, auth: OAuth2Authenticatable) {
         self.connections = connections
-        self.domainValidator = EnterpriseDomainValidator(connections: connections.enterprise)
         self.authenticator = auth
+    }
+    
+    func validateDomain(connections: Connections, value: String?) -> EnterpriseConnection? {
+        
+        guard let domain = value?.componentsSeparatedByString("@").last else { return nil }
+        
+        return connections.enterprise.filter { $0.domain.contains(domain) }.first
     }
     
     mutating func updateEmail(value: String?) throws {
         
         validEmail = false
-        validDomain = false
         
         // Validate email
         email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
@@ -51,17 +55,12 @@ struct EnterpriseDomainInteractor: EnterpriseDomain {
             throw error
         }
         validEmail = true
-        
-        // Validate Enterprise domain
-        if let error = domainValidator.validate(self.email) {
-            throw error
-        }
-        validDomain = true
     }
     
     func requestConnection(callback: (OAuth2AuthenticatableError?) -> ()) {
         if self.email == nil { return callback(.NoConnectionAvailable) }
-        guard let connection = self.domainValidator.enterpriseConnection else { return callback(.NoConnectionAvailable) }
+        
+        guard let connection = validateDomain(connections, value: email) else { return callback(.NoConnectionAvailable) }
 
         authenticator.login(connection.name, callback: callback)
         

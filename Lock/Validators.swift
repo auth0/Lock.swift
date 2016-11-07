@@ -90,26 +90,6 @@ public class EmailValidator: InputValidator {
     }
 }
 
-public class EnterpriseDomainValidator : InputValidator {
-    
-    let connections: [EnterpriseConnection]
-    var enterpriseConnection: EnterpriseConnection?
-
-    public init(connections: [EnterpriseConnection]) {
-        self.connections = connections
-    }
-    
-    func validate(value: String?) -> ErrorType? {
-        enterpriseConnection = nil
-        
-        guard let domain = value?.componentsSeparatedByString("@").last else { return InputValidationError.MustNotBeEmpty }
-
-        enterpriseConnection = connections.filter { $0.domain.contains(domain) }.first
-        
-        return nil
-    }
-}
-
 private extension String {
     var trimmed: String {
         return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
