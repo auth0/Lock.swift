@@ -94,7 +94,7 @@ struct Router: Navigable {
         }
         if !connections.enterprise.isEmpty {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
-            let interactor = EnterpriseDomainInteractor(connections: connections, auth: authInteractor)
+            let interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authInteractor)
             let presenter = EnterpriseDomainPresenter(interactor: interactor)
             return presenter
         }

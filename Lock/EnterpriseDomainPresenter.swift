@@ -54,7 +54,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
             self.logger.info("Enterprise connection validation: \(self.interactor.email)")
             let interactor = self.interactor
             button.inProgress = true
-            interactor.requestConnection { error in
+            interactor.login { error in
                 Queue.main.async {
                     button.inProgress = false
                     form?.needsToUpdateState()

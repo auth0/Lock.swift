@@ -28,5 +28,5 @@ protocol EnterpriseDomain {
 
     mutating func updateEmail(value: String?) throws
     
-    func requestConnection(callback: (OAuth2AuthenticatableError?) -> ())
+    func login(callback: (OAuth2AuthenticatableError?) -> ())
 }

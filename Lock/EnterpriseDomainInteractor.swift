@@ -27,27 +27,27 @@ struct EnterpriseDomainInteractor: EnterpriseDomain {
 
     var email: String? = nil
     var validEmail: Bool = false
+    var connection: EnterpriseConnection? = nil
 
-    let connections: Connections
-    let connection: EnterpriseConnection? = nil
+    let connections: [EnterpriseConnection]
     let emailValidator: InputValidator = EmailValidator()
     let authenticator: OAuth2Authenticatable
 
-    init(connections: Connections, auth: OAuth2Authenticatable) {
+    init(connections: [EnterpriseConnection], authentication: OAuth2Authenticatable) {
         self.connections = connections
-        self.authenticator = auth
+        self.authenticator = authentication
     }
     
-    func validateDomain(connections: Connections, value: String?) -> EnterpriseConnection? {
+    private func validateDomain(connections: [EnterpriseConnection], value: String?) -> EnterpriseConnection? {
         
         guard let domain = value?.componentsSeparatedByString("@").last else { return nil }
-        
-        return connections.enterprise.filter { $0.domain.contains(domain) }.first
+        return connections.filter { $0.domain.contains(domain) }.first
     }
     
     mutating func updateEmail(value: String?) throws {
         
         validEmail = false
+        connection = nil
         
         // Validate email
         email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
@@ -55,13 +55,13 @@ struct EnterpriseDomainInteractor: EnterpriseDomain {
             throw error
         }
         validEmail = true
+        
+        self.connection = validateDomain(connections, value: email)
     }
     
-    func requestConnection(callback: (OAuth2AuthenticatableError?) -> ()) {
-        if self.email == nil { return callback(.NoConnectionAvailable) }
+    func login(callback: (OAuth2AuthenticatableError?) -> ()) {
+        guard let connection = self.connection else { return callback(.NoConnectionAvailable) }
         
-        guard let connection = validateDomain(connections, value: email) else { return callback(.NoConnectionAvailable) }
-
         authenticator.login(connection.name, callback: callback)
         
     }
