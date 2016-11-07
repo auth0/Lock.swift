@@ -60,12 +60,10 @@ struct EnterpriseDomainInteractor: EnterpriseDomain {
     }
     
     func requestConnection(callback: (OAuth2AuthenticatableError?) -> ()) {
-        guard let _ = self.email else { return callback(.NoConnectionAvailable) }
+        if self.email == nil { return callback(.NoConnectionAvailable) }
         guard let connection = self.domainValidator.enterpriseConnection else { return callback(.NoConnectionAvailable) }
+
+        authenticator.login(connection.name, callback: callback)
         
-        authenticator.login(connection.name) { error in
-            return callback(error)
-        }
-        callback(nil)
     }
 }

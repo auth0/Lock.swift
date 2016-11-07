@@ -92,7 +92,7 @@ public class EmailValidator: InputValidator {
 
 public class EnterpriseDomainValidator : InputValidator {
     
-    var connections: [EnterpriseConnection]
+    let connections: [EnterpriseConnection]
     var enterpriseConnection: EnterpriseConnection?
 
     public init(connections: [EnterpriseConnection]) {
@@ -103,12 +103,9 @@ public class EnterpriseDomainValidator : InputValidator {
         enterpriseConnection = nil
         
         guard let domain = value?.componentsSeparatedByString("@").last else { return InputValidationError.MustNotBeEmpty }
-        let predicate = NSPredicate(format: "SELF ==[c] %@", domain)
+
+        enterpriseConnection = connections.filter { $0.domain.contains(domain) }.first
         
-        connections.forEach { connection in
-            let match = connection.domainAlias.filter { domain in predicate.evaluateWithObject(domain) }
-            if match.count > 0 { self.enterpriseConnection = connection }
-        }
         return nil
     }
 }

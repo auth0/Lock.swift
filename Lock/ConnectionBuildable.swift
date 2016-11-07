@@ -60,11 +60,9 @@ public protocol ConnectionBuildable: Connections {
      Adds a new enterprise connection
      
      - parameter name:  name of the connection
-     - parameter strategy: name of enterprise strategy for the connection
-     - parameter domain: primary domain of connection
-     - parameter domainAlias: array of domaina aliases
+     - parameter domain: array of enterprise domains
      */
-    mutating func enterprise(name name: String, strategy: String, domain: String, domainAlias: [String])
+    mutating func enterprise(name name: String, domain: [String])
 }
 
 public extension ConnectionBuildable {
