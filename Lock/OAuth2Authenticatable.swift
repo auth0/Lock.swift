@@ -27,11 +27,14 @@ protocol OAuth2Authenticatable {
 }
 
 enum OAuth2AuthenticatableError: ErrorType, LocalizableError {
+    case NoConnectionAvailable
     case CouldNotAuthenticate
     case Cancelled
 
     var localizableMessage: String {
         switch self {
+        case .NoConnectionAvailable:
+            return "We're sorry, we could not find a valid connection for this user.".i18n(key: "com.auth0.lock.error.authentication.noconnection", comment: "No valid connection")
         case .CouldNotAuthenticate:
             return "We're sorry, something went wrong when attempting to log in.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
         default:

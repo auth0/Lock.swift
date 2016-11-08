@@ -81,7 +81,6 @@ struct Router: Navigable {
             let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
             return ConnectionLoadingPresenter(loader: interactor, navigator: self)
         }
-
         if let database = connections.database {
             guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .ResetPassword else { return forgotPassword }
             let authentication = self.lock.authentication
@@ -93,7 +92,12 @@ struct Router: Navigable {
             }
             return presenter
         }
-
+        if !connections.enterprise.isEmpty {
+            let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
+            let interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authInteractor)
+            let presenter = EnterpriseDomainPresenter(interactor: interactor)
+            return presenter
+        }
         if !connections.oauth2.isEmpty {
             let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
             let presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)

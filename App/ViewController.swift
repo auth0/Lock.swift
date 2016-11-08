@@ -58,7 +58,6 @@ class ViewController: UIViewController {
                             withImage: LazyImage(name: "ic_slack")
                         )
                     }
-                    .allowedConnections(["github", "instagram", "Username-Password-Authentication", "slack"])
             },
             actionButton(withTitle: "LOGIN WITH CUSTOM STYLE") {
                 return Lock

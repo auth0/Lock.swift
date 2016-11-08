@@ -27,6 +27,7 @@ struct OfflineConnections: ConnectionBuildable {
     private (set) var databases: [DatabaseConnection] = []
     var database: DatabaseConnection? { return self.databases.first }
     private (set) var oauth2: [OAuth2Connection] = []
+    private (set) var enterprise: [EnterpriseConnection] = []
 
     mutating func database(name name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator()) {
         self.databases.append(DatabaseConnection(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator))
@@ -40,15 +41,21 @@ struct OfflineConnections: ConnectionBuildable {
         let social = SocialConnection(name: name, style: style)
         self.oauth2.append(social)
     }
+    
+    mutating func enterprise(name name: String, domains: [String]) {
+        let enterprise = EnterpriseConnection(name: name, domains: domains)
+        self.enterprise.append(enterprise)
+    }
 
     var isEmpty: Bool {
-        return self.database == nil && self.oauth2.isEmpty
+        return self.database == nil && self.oauth2.isEmpty && self.enterprise.isEmpty
     }
 
     func select(byNames names: [String]) -> OfflineConnections {
         var connections = OfflineConnections()
         connections.databases = self.databases.filter { isWhitelisted(connectionName: $0.name, inList: names) }
         connections.oauth2 = self.oauth2.filter { isWhitelisted(connectionName: $0.name, inList: names) }
+        connections.enterprise = self.enterprise.filter { isWhitelisted(connectionName: $0.name, inList: names) }
         return connections
     }
 }

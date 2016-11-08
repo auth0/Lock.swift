@@ -82,6 +82,12 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
                         connections.database(name: connection.name, requiresUsername: requiresUsername, usernameValidator: connection.usernameValidation)
                     }
                 }
+                info.enterprise.forEach { strategy in
+                    strategy.connections.forEach { connection in
+                        let domain = connection.json["domain_aliases"] as! [String]
+                        connections.enterprise(name: connection.name, domains: domain)
+                    }
+                }
                 info.oauth2.forEach { strategy in
                     strategy.connections.forEach { connections.social(name: $0.name, style: AuthStyle.style(forStrategy: strategy.name, connectionName: $0.name)) }
                 }
@@ -108,6 +114,8 @@ private struct ClientInfo {
     var auth0: StrategyInfo? { return strategies.filter({ $0.name == "auth0" }).first }
 
     var oauth2: [StrategyInfo] { return strategies.filter { $0.name != "auth0" && !passwordlessStrategyNames.contains($0.name) && !enterpriseStrategyNames.contains($0.name) } }
+    
+    var enterprise: [StrategyInfo] { return strategies.filter { $0.name != "auth0" && !passwordlessStrategyNames.contains($0.name) && enterpriseStrategyNames.contains($0.name) } }
 
     let passwordlessStrategyNames = [
         "email",

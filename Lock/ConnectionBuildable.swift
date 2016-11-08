@@ -55,6 +55,14 @@ public protocol ConnectionBuildable: Connections {
      - seeAlso: AuthStyle
      */
     mutating func oauth2(name name: String, style: AuthStyle)
+    
+    /**
+     Adds a new enterprise connection
+     
+     - parameter name:  name of the connection
+     - parameter domain: array of enterprise domains
+     */
+    mutating func enterprise(name name: String, domains: [String])
 }
 
 public extension ConnectionBuildable {
