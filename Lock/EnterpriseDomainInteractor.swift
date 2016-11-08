@@ -48,8 +48,7 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
         
         validEmail = false
         connection = nil
-        
-        // Validate email
+
         email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         if let error = emailValidator.validate(value) {
             throw error

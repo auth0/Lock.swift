@@ -44,6 +44,9 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
             do {
                 try self.interactor.updateEmail(input.text)
                 input.showValid()
+                if let connection = self.interactor.connection {
+                    self.logger.debug("Enterprise connection match: \(connection)")
+                }
             } catch {
                 input.showError()
             }
@@ -51,7 +54,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         
         let action = { (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("Enterprise connection validation: \(self.interactor.email)")
+            self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
             let interactor = self.interactor
             button.inProgress = true
             interactor.login { error in
@@ -60,9 +63,9 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
                     form?.needsToUpdateState()
                     if let error = error {
                         self.messagePresenter?.showError(error)
-                        self.logger.error("Failed: \(error)")
+                        self.logger.error("Enterprise connection failed: \(error)")
                     } else {
-                        self.logger.debug("Launch Web Auth")
+                        self.logger.debug("Enterprise authenticator launched")
                     }
                 }
                 
