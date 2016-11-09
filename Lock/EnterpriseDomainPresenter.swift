@@ -26,6 +26,9 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
     
     var interactor: EnterpriseDomainInteractor
     var customLogger: Logger?
+
+    // Social connections
+    var authPresenter: AuthPresenter?
     
     init(interactor: EnterpriseDomainInteractor) {
         self.interactor = interactor
@@ -35,7 +38,8 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
     
     var view: View {
         let email = self.interactor.validEmail ? self.interactor.email : nil
-        let view = EnterpriseDomainView(email: email)
+        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), isLogin: true)
+        let view = EnterpriseDomainView(email: email, authCollectionView: authCollectionView)
         let form = view.form
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
@@ -78,4 +82,5 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         }
         return view
     }
+
 }

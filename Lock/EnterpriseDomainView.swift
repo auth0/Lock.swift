@@ -23,51 +23,82 @@
 import UIKit
 
 class EnterpriseDomainView: UIView, View {
-
+    
     weak var form: Form?
     weak var primaryButton: PrimaryButton?
-
-    init(email: String?) {
+    
+    private weak var container: UIStackView?
+    
+    init(email: String?, authCollectionView: AuthCollectionView? = nil) {
         let primaryButton = PrimaryButton()
-        let domainView = EnterpriseView()
-        let center = UILayoutGuide()
-
+        let domainView = EnterpriseSingleInputView()
+        let container = UIStackView()
+        
         self.primaryButton = primaryButton
         self.form = domainView
-
+        self.container = container
+        
         super.init(frame: CGRectZero)
-
-        self.addSubview(domainView)
+        
+        self.addSubview(container)
         self.addSubview(primaryButton)
-        self.addLayoutGuide(center)
-
-        constraintEqual(anchor: center.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
-        constraintEqual(anchor: center.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: center.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
-        constraintEqual(anchor: center.bottomAnchor, toAnchor: primaryButton.topAnchor)
-
-        constraintEqual(anchor: domainView.leftAnchor, toAnchor: center.leftAnchor)
-        constraintEqual(anchor: domainView.rightAnchor, toAnchor: center.rightAnchor)
-        constraintEqual(anchor: domainView.centerYAnchor, toAnchor: center.centerYAnchor)
-        constraintGreaterOrEqual(anchor: domainView.topAnchor, toAnchor: center.topAnchor, constant: 10, priority: UILayoutPriorityDefaultLow - 1)
-        constraintGreaterOrEqual(anchor: domainView.bottomAnchor, toAnchor: center.bottomAnchor, constant: -10, priority: UILayoutPriorityDefaultLow - 1)
-        domainView.translatesAutoresizingMaskIntoConstraints = false
-
+        
+        container.alignment = .Fill
+        container.axis = .Vertical
+        container.distribution = .EqualSpacing
+        container.spacing = 5
+        
+        container.addArrangedSubview(strutView())
+        if let authCollectionView = authCollectionView {
+            container.addArrangedSubview(authCollectionView)
+            let label = UILabel()
+            label.text = "or".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
+            label.font = mediumSystemFont(size: 13.75)
+            label.textColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54 )
+            label.textAlignment = .Center
+            container.addArrangedSubview(label)
+        }
+        container.addArrangedSubview(domainView)
+        container.addArrangedSubview(strutView())
+        
+        constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
+        constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor)
+        container.translatesAutoresizingMaskIntoConstraints = false
+        
         constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
-
+        
+        
         domainView.type = .Email
         domainView.returnKey = .Done
         domainView.value = email
+        
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func apply(style style: Style) {
         self.primaryButton?.apply(style: style)
+    }
+    
+}
+
+private func strutView(withHeight height: CGFloat = 50) -> UIView {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    dimension(view.heightAnchor, withValue: height)
+    return view
+}
+
+public class EnterpriseSingleInputView : SingleInputView {
+    
+    public override func intrinsicContentSize() -> CGSize {
+        return CGSize(width: UIViewNoIntrinsicMetric, height: 50)
     }
 }
