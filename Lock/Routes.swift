@@ -48,4 +48,5 @@ enum Route {
     case Root
     case ForgotPassword
     case Multifactor
+    case Enterprise
 }

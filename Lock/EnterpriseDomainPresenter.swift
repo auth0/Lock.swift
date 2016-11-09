@@ -41,8 +41,14 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 0, 0, 0), isLogin: true)
         let view = EnterpriseDomainView(email: email, authCollectionView: authCollectionView)
         let form = view.form
+        
+        if self.interactor.connection != nil {
+            view.header.hidden = false
+        }
+        
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
+            view.header.hidden = true
             
             guard case .Email = input.type else { return }
             do {
@@ -50,6 +56,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
                 input.showValid()
                 if let connection = self.interactor.connection {
                     self.logger.debug("Enterprise connection match: \(connection)")
+                    view.header.hidden = false
                 }
             } catch {
                 input.showError()
@@ -75,6 +82,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
                 
             }
         }
+        
         view.primaryButton?.onPress = action
         view.form?.onReturn = {_ in
             guard let button = view.primaryButton else { return }

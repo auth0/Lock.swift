@@ -34,10 +34,13 @@ class DatabasePresenter: Presentable, Loggable {
 
     var messagePresenter: MessagePresenter?
     var authPresenter: AuthPresenter?
+    var enterprisePresenter: EnterpriseDomainPresenter?
 
     var initialEmail: String? { return self.authenticator.validEmail ? self.authenticator.email : nil }
     var initialUsername: String? { return self.authenticator.validUsername ? self.authenticator.username : nil }
-
+    
+    var mode:DatabaseModeSwitcher?
+    
     convenience init(interactor: DatabaseInteractor, connection: DatabaseConnection, navigator: Navigable, options: Options) {
         self.init(authenticator: interactor, creator: interactor, connection: connection, navigator: navigator, options: options)
     }
@@ -74,6 +77,7 @@ class DatabasePresenter: Presentable, Loggable {
             database.switcher?.selected = .Signup
             showSignup(inView: database, username: initialUsername, email: initialEmail)
         }
+        self.mode = database.switcher
         return database
     }
 
@@ -191,7 +195,15 @@ class DatabasePresenter: Presentable, Loggable {
         guard let attr = attribute else { return }
         do {
             try self.authenticator.update(attr, value: input.text)
-            input.showValid()
+            // Check Enterprise connection
+            if let mode = self.mode, enterprise = self.enterprisePresenter {
+                if mode.selected == DatabaseModeSwitcher.Mode.Login {
+                    try enterprise.interactor.updateEmail(input.text)
+                    if enterprise.interactor.connection != nil {
+                        self.navigator.navigate(.Enterprise)
+                    }
+                }
+            }
         } catch let error as InputValidationError {
             input.showError(error.localizedMessage(withConnection: self.database))
         } catch {

@@ -25,6 +25,7 @@ import UIKit
 class EnterpriseDomainView: UIView, View {
     
     weak var form: Form?
+    weak var header: UILabel!
     weak var primaryButton: PrimaryButton?
     weak var authCollectionView: AuthCollectionView?
     
@@ -34,6 +35,7 @@ class EnterpriseDomainView: UIView, View {
         let primaryButton = PrimaryButton()
         let domainView = EnterpriseSingleInputView()
         let container = UIStackView()
+        let header = UILabel()
         
         self.primaryButton = primaryButton
         self.form = domainView
@@ -41,8 +43,16 @@ class EnterpriseDomainView: UIView, View {
         
         super.init(frame: CGRectZero)
         
+        self.addSubview(header)
         self.addSubview(container)
         self.addSubview(primaryButton)
+        
+        header.text = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
+        header.textAlignment = .Center
+        header.textColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
+        header.backgroundColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
+        header.hidden = true
+        self.header = header
         
         container.alignment = .Fill
         container.axis = .Vertical
@@ -63,7 +73,14 @@ class EnterpriseDomainView: UIView, View {
         container.addArrangedSubview(domainView)
         container.addArrangedSubview(strutView())
         
-        constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: header.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: header.leftAnchor, toAnchor: self.leftAnchor, constant: 0)
+        constraintEqual(anchor: header.rightAnchor, toAnchor: self.rightAnchor, constant: 0)
+        constraintEqual(anchor: header.bottomAnchor, toAnchor: container.topAnchor)
+        dimension(header.heightAnchor, greaterThanOrEqual: 30)
+        header.translatesAutoresizingMaskIntoConstraints = false
+
+        constraintEqual(anchor: container.topAnchor, toAnchor: header.bottomAnchor)
         constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
         constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
         constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor)
