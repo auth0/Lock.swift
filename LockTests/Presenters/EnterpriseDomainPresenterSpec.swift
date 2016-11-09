@@ -35,10 +35,13 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
         var messagePresenter: MockMessagePresenter!
         var connections: OfflineConnections!
         var oauth2: MockOAuth2!
+        var authPresenter: MockAuthPresenter!
         
         beforeEach {
             messagePresenter = MockMessagePresenter()
             oauth2 = MockOAuth2()
+            authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor(), customStyle: [:])
+            
             connections = OfflineConnections()
             connections.enterprise(name: "testAD", domains: ["test.com"])
             
@@ -57,7 +60,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 interactor.validEmail = true
                 presenter = EnterpriseDomainPresenter(interactor: interactor)
                 
-                let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseView
+                let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseSingleInputView
                 expect(view.value).to(equal(email))
             }
             
@@ -66,7 +69,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 interactor.validEmail = false
                 presenter = EnterpriseDomainPresenter(interactor: interactor)
                 
-                let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseView
+                let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseSingleInputView
                 expect(view.value).toNot(equal(email))
             }
         }
@@ -153,6 +156,22 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 expect(messagePresenter.error).toEventually(beNil())
             }
             
+            
+        }
+        
+        describe("auth buttons") {
+            
+            it("should init view with social view") {
+                presenter.authPresenter = authPresenter
+                let view = presenter.view as? EnterpriseDomainView
+                expect(view?.authCollectionView).to(equal(authPresenter.authView))
+            }
+            
+            it("should init view with not social view") {
+                presenter.authPresenter = nil
+                let view = presenter.view as? EnterpriseDomainView
+                expect(view?.authCollectionView).to(beNil())
+            }
             
         }
     }
