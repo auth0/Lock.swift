@@ -38,7 +38,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
     
     var view: View {
         let email = self.interactor.validEmail ? self.interactor.email : nil
-        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), isLogin: true)
+        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 0, 0, 0), isLogin: true)
         let view = EnterpriseDomainView(email: email, authCollectionView: authCollectionView)
         let form = view.form
         view.form?.onValueChange = { input in
