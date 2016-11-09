@@ -26,6 +26,7 @@ class EnterpriseDomainView: UIView, View {
     
     weak var form: Form?
     weak var primaryButton: PrimaryButton?
+    weak var authCollectionView: AuthCollectionView?
     
     private weak var container: UIStackView?
     
@@ -50,6 +51,7 @@ class EnterpriseDomainView: UIView, View {
         
         container.addArrangedSubview(strutView())
         if let authCollectionView = authCollectionView {
+            self.authCollectionView = authCollectionView
             container.addArrangedSubview(authCollectionView)
             let label = UILabel()
             label.text = "or".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
