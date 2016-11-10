@@ -43,12 +43,12 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let form = view.form
         
         if self.interactor.connection != nil {
-            view.header.hidden = false
+            view.infoBar?.hidden = false
         }
         
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
-            view.header.hidden = true
+            view.infoBar?.hidden = true
             
             guard case .Email = input.type else { return }
             do {
@@ -56,7 +56,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
                 input.showValid()
                 if let connection = self.interactor.connection {
                     self.logger.debug("Enterprise connection match: \(connection)")
-                    view.header.hidden = false
+                    view.infoBar?.hidden = false
                 }
             } catch {
                 input.showError()

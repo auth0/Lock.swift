@@ -63,6 +63,7 @@ public class InputField: UIView, UITextFieldDelegate {
         }
         set {
             self.textField?.returnKeyType = newValue
+            self.textField?.reloadInputViews()
         }
     }
 

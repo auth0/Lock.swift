@@ -95,7 +95,7 @@ struct Router: Navigable {
             if !connections.enterprise.isEmpty {
                 let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
                 let interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authInteractor)
-                presenter.enterprisePresenter = EnterpriseDomainPresenter(interactor: interactor)
+                presenter.enterpriseInteractor = interactor
             }
             return presenter
         }
@@ -141,20 +141,6 @@ struct Router: Navigable {
         presenter.customLogger = self.lock.logger
         return presenter
     }
-    
-    var enterprise: Presentable? {
-        let connections = self.lock.connections
-        guard !connections.isEmpty else {
-            exit(withError: UnrecoverableError.ClientWithNoConnections)
-            return nil
-        }
-        
-        let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
-        var interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authInteractor)
-        _ = try? interactor.updateEmail(self.user.email)
-        let presenter = EnterpriseDomainPresenter(interactor: interactor)
-        return presenter
-    }
 
     var showBack: Bool {
         guard let routes = self.controller?.routes else { return false }
@@ -181,8 +167,6 @@ struct Router: Navigable {
             presentable = self.forgotPassword
         case .Multifactor:
             presentable = self.multifactor
-        case .Enterprise:
-            presentable = self.enterprise
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")
             return

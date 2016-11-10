@@ -64,4 +64,14 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
         authenticator.login(connection.name, callback: callback)
         
     }
+    
+    mutating func isEnterprise(value: String?) -> Bool {
+        do {
+            try updateEmail(value)
+            if self.connection != nil { return true }
+        } catch {
+            return false
+        }
+        return false
+    }
 }
