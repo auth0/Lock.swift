@@ -125,14 +125,16 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         let form = self.form as! CredentialView
         let infoBar = InfoBarView()
-        let spacer = strutView(withHeight: 40)
+        let viewCount = self.container!.subviews.count
+        let spacer = strutView(withHeight: 125 - CGFloat(viewCount) * 25)
         
         infoBar.title  = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
         infoBar.setIcon("ic_lock")
         infoBar.hidden = false
 
         self.container?.insertArrangedSubview(infoBar, atIndex: 0)
-        //self.container?.insertArrangedSubview(spacer, atIndex: 5)
+        self.container?.addArrangedSubview(spacer)
+        
         self.infoBar = infoBar
         self.spacer = spacer
         
@@ -146,11 +148,11 @@ class DatabaseOnlyView: UIView, DatabaseView {
     }
     
     func removeEnterprise() {
-        if self.infoBar == nil { return }
-        
+        guard let infoBar = self.infoBar, spacer = self.spacer else { return }
         let form = self.form as! CredentialView
-        self.infoBar?.removeFromSuperview()
-        self.spacer?.removeFromSuperview()
+        
+        infoBar.removeFromSuperview()
+        spacer.removeFromSuperview()
         
         form.passwordField.hidden = false
         form.identityField.nextField = form.passwordField
@@ -158,6 +160,9 @@ class DatabaseOnlyView: UIView, DatabaseView {
         
         self.switcher?.hidden = false
         self.secondaryButton?.hidden = false
+        
+        self.infoBar = nil
+        self.spacer = nil
     }
     
     private func layoutSecondaryButton(enabled: Bool) {

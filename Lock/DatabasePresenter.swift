@@ -103,7 +103,6 @@ class DatabasePresenter: Presentable, Loggable {
                         if let error = error {
                             self.messagePresenter?.showError(error)
                             self.logger.error("Enterprise connection failed: \(error)")
-                            self.messagePresenter?.showError(error)
                         } else {
                             self.logger.debug("Enterprise authenticator launched")
                         }

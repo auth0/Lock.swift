@@ -92,7 +92,7 @@ public class InfoBarView: UIView {
     }
 
     public override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: 200, height: 40)
+        return CGSize(width: 200, height: 35)
     }
 
 
