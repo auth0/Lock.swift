@@ -102,7 +102,7 @@ struct Router: Navigable {
         if !connections.enterprise.isEmpty {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
             let interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authInteractor)
-            let presenter = EnterpriseDomainPresenter(interactor: interactor)
+            let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, user: self.user)
             if !connections.oauth2.isEmpty {
                 let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
                 presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
@@ -141,6 +141,16 @@ struct Router: Navigable {
         presenter.customLogger = self.lock.logger
         return presenter
     }
+    
+    var enterprisePassword: Presentable? {
+        let connections = self.lock.connections
+        let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
+        let interactor = EnterprisePasswordInteractor(connections: connections.enterprise, authentication: authInteractor, user: self.user)
+        let presenter = EnterprisePasswordPresenter(interactor: interactor, user: self.user)
+        presenter.customLogger = self.lock.logger
+
+        return presenter
+    }
 
     var showBack: Bool {
         guard let routes = self.controller?.routes else { return false }
@@ -167,6 +177,8 @@ struct Router: Navigable {
             presentable = self.forgotPassword
         case .Multifactor:
             presentable = self.multifactor
+        case .EnterprisePassword:
+            presentable = self.enterprisePassword
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")
             return

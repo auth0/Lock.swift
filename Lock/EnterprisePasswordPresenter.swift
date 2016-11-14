@@ -1,4 +1,4 @@
-// EnterpriseDomainPresenter.swift
+// EnterprisePasswordPresenter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,43 +22,42 @@
 
 import Foundation
 
-class EnterpriseDomainPresenter: Presentable, Loggable {
+class EnterprisePasswordPresenter: Presentable, Loggable {
     
-    var interactor: EnterpriseDomainInteractor
+    var interactor: EnterprisePasswordInteractor
     var customLogger: Logger?
     var user: User
-    
-    // Social connections
-    var authPresenter: AuthPresenter?
-    
-    init(interactor: EnterpriseDomainInteractor, navigator: Navigable, user: User) {
+
+    init(interactor: EnterprisePasswordInteractor, user: User) {
         self.interactor = interactor
-        self.navigator = navigator
         self.user = user
     }
     
     var messagePresenter: MessagePresenter?
-    var navigator: Navigable?
     
     var view: View {
+        
+        interactor.isEnterprise(user.email)
+        
         let email = self.interactor.validEmail ? self.interactor.email : nil
-        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 0, 0, 0), isLogin: true)
-        let view = EnterpriseDomainView(email: email, authCollectionView: authCollectionView)
+        let password = self.interactor.validPassword ? self.interactor.password : nil
+        
+        let username = email?.componentsSeparatedByString("@").first
+        
+        let view = EnterprisePasswordView(username: username)
         let form = view.form
-
-        view.infoBar?.hidden = self.interactor.connection != nil
+        
+        view.infoBar?.title = self.interactor.connection?.domains.first
         
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
-            view.infoBar?.hidden = true
-            
+
             guard case .Email = input.type else { return }
             do {
                 try self.interactor.updateEmail(input.text)
                 input.showValid()
                 if let connection = self.interactor.connection {
                     self.logger.debug("Enterprise connection match: \(connection)")
-                    view.infoBar?.hidden = false
                 }
             } catch {
                 input.showError()
@@ -66,28 +65,22 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         }
         
         let action = { (button: PrimaryButton) in
-            
-            if self.interactor.connection?.credentialAuth == true {
-                self.user.email = self.interactor.email
-                self.navigator?.navigate(.EnterprisePassword)
-            } else {
-                self.messagePresenter?.hideCurrent()
-                self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
-                let interactor = self.interactor
-                button.inProgress = true
-                interactor.login { error in
-                    Queue.main.async {
-                        button.inProgress = false
-                        form?.needsToUpdateState()
-                        if let error = error {
-                            self.messagePresenter?.showError(error)
-                            self.logger.error("Enterprise connection failed: \(error)")
-                        } else {
-                            self.logger.debug("Enterprise authenticator launched")
-                        }
+            self.messagePresenter?.hideCurrent()
+            self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
+            let interactor = self.interactor
+            button.inProgress = true
+            interactor.login { error in
+                Queue.main.async {
+                    button.inProgress = false
+                    form?.needsToUpdateState()
+                    if let error = error {
+                        self.messagePresenter?.showError(error)
+                        self.logger.error("Enterprise connection failed: \(error)")
+                    } else {
+                        self.logger.debug("Enterprise authenticator launched")
                     }
-                    
                 }
+                
             }
         }
         
@@ -98,5 +91,5 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         }
         return view
     }
-    
+
 }

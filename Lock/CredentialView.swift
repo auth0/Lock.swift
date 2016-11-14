@@ -92,4 +92,5 @@ public class CredentialView: UIView, Form {
         identifier.type = .Email
         password.type = .Password
     }
+    
 }
