@@ -26,18 +26,14 @@ class EnterprisePasswordPresenter: Presentable, Loggable {
     
     var interactor: EnterprisePasswordInteractor
     var customLogger: Logger?
-    var user: User
-
-    init(interactor: EnterprisePasswordInteractor, user: User) {
+    
+    init(interactor: EnterprisePasswordInteractor) {
         self.interactor = interactor
-        self.user = user
     }
     
     var messagePresenter: MessagePresenter?
     
     var view: View {
-        
-        interactor.isEnterprise(user.email)
         
         let email = self.interactor.validEmail ? self.interactor.email : nil
         let password = self.interactor.validPassword ? self.interactor.password : nil
@@ -47,17 +43,21 @@ class EnterprisePasswordPresenter: Presentable, Loggable {
         let view = EnterprisePasswordView(username: username)
         let form = view.form
         
-        view.infoBar?.title = self.interactor.connection?.domains.first
+        view.infoBar?.title = self.interactor.connection.domains.first
         
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
-
-            guard case .Email = input.type else { return }
+            
             do {
-                try self.interactor.updateEmail(input.text)
-                input.showValid()
-                if let connection = self.interactor.connection {
-                    self.logger.debug("Enterprise connection match: \(connection)")
+                switch input.type {
+                case .EmailOrUsername:
+                    try self.interactor.update(.Email, value: input.text)
+                    input.showValid()
+                case .Password:
+                    self.interactor.password = input.text
+                    self.interactor.validPassword = true
+                default:
+                    return
                 }
             } catch {
                 input.showError()
@@ -66,8 +66,9 @@ class EnterprisePasswordPresenter: Presentable, Loggable {
         
         let action = { (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
+            self.logger.info("Enterprise password connection started: \(self.interactor.email), \(self.interactor.connection)")
             let interactor = self.interactor
+            
             button.inProgress = true
             interactor.login { error in
                 Queue.main.async {
@@ -91,5 +92,5 @@ class EnterprisePasswordPresenter: Presentable, Loggable {
         }
         return view
     }
-
+    
 }

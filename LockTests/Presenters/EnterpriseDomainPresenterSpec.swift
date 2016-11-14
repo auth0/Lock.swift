@@ -36,18 +36,22 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
         var connections: OfflineConnections!
         var oauth2: MockOAuth2!
         var authPresenter: MockAuthPresenter!
+        var navigator: MockNavigator!
+        var user: User!
         
         beforeEach {
             messagePresenter = MockMessagePresenter()
             oauth2 = MockOAuth2()
             authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor(), customStyle: [:])
+            user = User()
+            navigator = MockNavigator()
             
             connections = OfflineConnections()
             connections.enterprise(name: "testAD", domains: ["test.com"])
             
             interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
             
-            presenter = EnterpriseDomainPresenter(interactor: interactor)
+            presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user)
             presenter.messagePresenter = messagePresenter
             
             view = presenter.view as! EnterpriseDomainView
@@ -58,7 +62,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             it("should use valid email") {
                 interactor.email = email
                 interactor.validEmail = true
-                presenter = EnterpriseDomainPresenter(interactor: interactor)
+                presenter = EnterpriseDomainPresenter(interactor: interactor,  navigator: navigator, user: user)
                 
                 let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseSingleInputView
                 expect(view.value).to(equal(email))
@@ -67,7 +71,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             it("should not use invalid email") {
                 interactor.email = email
                 interactor.validEmail = false
-                presenter = EnterpriseDomainPresenter(interactor: interactor)
+                presenter = EnterpriseDomainPresenter(interactor: interactor,  navigator: navigator, user: user)
                 
                 let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseSingleInputView
                 expect(view.value).toNot(equal(email))
@@ -143,7 +147,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             }
             
             it("should show yield oauth2 error on failure") {
-                presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"])
+                presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"], credentialAuth: false)
                 oauth2.onLogin = { return OAuth2AuthenticatableError.CouldNotAuthenticate }
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.CouldNotAuthenticate))

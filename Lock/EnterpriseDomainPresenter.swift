@@ -55,6 +55,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
             guard case .Email = input.type else { return }
             do {
                 try self.interactor.updateEmail(input.text)
+                self.user.email = self.interactor.email
                 input.showValid()
                 if let connection = self.interactor.connection {
                     self.logger.debug("Enterprise connection match: \(connection)")
@@ -67,28 +68,32 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         
         let action = { (button: PrimaryButton) in
             
-            if self.interactor.connection?.credentialAuth == true {
-                self.user.email = self.interactor.email
-                self.navigator?.navigate(.EnterprisePassword)
-            } else {
-                self.messagePresenter?.hideCurrent()
-                self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
-                let interactor = self.interactor
-                button.inProgress = true
-                interactor.login { error in
-                    Queue.main.async {
-                        button.inProgress = false
-                        form?.needsToUpdateState()
-                        if let error = error {
-                            self.messagePresenter?.showError(error)
-                            self.logger.error("Enterprise connection failed: \(error)")
-                        } else {
-                            self.logger.debug("Enterprise authenticator launched")
-                        }
-                    }
-                    
+            if let connection = self.interactor.connection {
+                if connection.credentialAuth == true {
+                    self.user.email = self.interactor.email
+                    self.navigator?.navigate(.EnterprisePassword(connection: connection))
+                    return
                 }
             }
+            
+            self.messagePresenter?.hideCurrent()
+            self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
+            let interactor = self.interactor
+            button.inProgress = true
+            interactor.login { error in
+                Queue.main.async {
+                    button.inProgress = false
+                    form?.needsToUpdateState()
+                    if let error = error {
+                        self.messagePresenter?.showError(error)
+                        self.logger.error("Enterprise connection failed: \(error)")
+                    } else {
+                        self.logger.debug("Enterprise authenticator launched")
+                    }
+                }
+                
+            }
+            
         }
         
         view.primaryButton?.onPress = action

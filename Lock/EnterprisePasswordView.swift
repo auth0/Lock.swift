@@ -73,7 +73,7 @@ class EnterprisePasswordView: UIView, View {
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
         
         credentialView.identityField.text = username
-        credentialView.identityField.type = .Username
+        credentialView.identityField.type = .EmailOrUsername
         credentialView.identityField.returnKey = .Next
         credentialView.identityField.nextField = credentialView.passwordField
         credentialView.passwordField.returnKey = .Done
