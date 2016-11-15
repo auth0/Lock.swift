@@ -15,7 +15,8 @@
 		5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */; };
 		5B4DE0171DD67064004C8AC2 /* EnterprisePasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0161DD67064004C8AC2 /* EnterprisePasswordPresenter.swift */; };
 		5B4DE0191DD670F7004C8AC2 /* EnterprisePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0181DD670F7004C8AC2 /* EnterprisePasswordView.swift */; };
-		5BA563F11DD117550002D3AB /* EnterpriseDomainInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA563EF1DD1171F0002D3AB /* EnterpriseDomainInteractorSpec.swift */; };
+		5B6631531DDB9B28001CB043 /* EnterpriseDomainInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */; };
+		5BA563F11DD117550002D3AB /* EnterprisePasswordInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA563EF1DD1171F0002D3AB /* EnterprisePasswordInteractorSpec.swift */; };
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
 		5F14565B1D5237180085DF9C /* LazyImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */; };
@@ -209,7 +210,8 @@
 		5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainInteractor.swift; path = Lock/EnterpriseDomainInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0161DD67064004C8AC2 /* EnterprisePasswordPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterprisePasswordPresenter.swift; path = Lock/EnterprisePasswordPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0181DD670F7004C8AC2 /* EnterprisePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterprisePasswordView.swift; path = Lock/EnterprisePasswordView.swift; sourceTree = SOURCE_ROOT; };
-		5BA563EF1DD1171F0002D3AB /* EnterpriseDomainInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainInteractorSpec.swift; sourceTree = "<group>"; };
+		5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainInteractorSpec.swift; sourceTree = "<group>"; };
+		5BA563EF1DD1171F0002D3AB /* EnterprisePasswordInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterprisePasswordInteractorSpec.swift; sourceTree = "<group>"; };
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Lock/Colors.swift; sourceTree = SOURCE_ROOT; };
 		5F14565D1D5237820085DF9C /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseView.swift; path = Lock/DatabaseView.swift; sourceTree = SOURCE_ROOT; };
@@ -400,7 +402,8 @@
 		5F508FF81D1DB01D00EAA650 /* Interactors */ = {
 			isa = PBXGroup;
 			children = (
-				5BA563EF1DD1171F0002D3AB /* EnterpriseDomainInteractorSpec.swift */,
+				5BA563EF1DD1171F0002D3AB /* EnterprisePasswordInteractorSpec.swift */,
+				5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */,
 				5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */,
 				5F73CDDB1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift */,
 				5FBE5CC11D3E5EF50038536D /* MultifactorInteractorSpec.swift */,
@@ -994,7 +997,7 @@
 				5F6C01551D91656100198ACD /* UsernameValidatorSpec.swift in Sources */,
 				5F2496BE1D67ADB300A1C6E2 /* EmailValidatorSpec.swift in Sources */,
 				5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */,
-				5BA563F11DD117550002D3AB /* EnterpriseDomainInteractorSpec.swift in Sources */,
+				5BA563F11DD117550002D3AB /* EnterprisePasswordInteractorSpec.swift in Sources */,
 				5F92C68D1D50E47100CCE6C0 /* AuthStyleSpec.swift in Sources */,
 				5F92C68B1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift in Sources */,
 				5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */,
@@ -1016,6 +1019,7 @@
 				5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */,
 				5FE50DBD1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift in Sources */,
 				5F390E8D1D63B99300FC549C /* LoggerSpec.swift in Sources */,
+				5B6631531DDB9B28001CB043 /* EnterpriseDomainInteractorSpec.swift in Sources */,
 				5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */,
 				5FE50DC11D7DED8C00D82290 /* OfflineConnectionsSpec.swift in Sources */,
 			);

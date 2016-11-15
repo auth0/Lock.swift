@@ -73,7 +73,6 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
             // Check for credential auth
             if let connection = self.interactor.connection {
                 if self.options.allowCredentialAuth.contains(connection.name) {
-                    self.user.email = self.interactor.email
                     self.navigator?.navigate(.EnterprisePassword(connection: connection))
                     return
                 }

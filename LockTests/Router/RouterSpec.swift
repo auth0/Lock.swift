@@ -260,6 +260,31 @@ class RouterSpec: QuickSpec {
             }
 
         }
+
+        describe("route equatable") {
+
+            it("root should should be equatable with root") {
+                let match = Route.Root == Route.Root
+                expect(match).to(beTrue())
+            }
+
+            it("Multifactor should should be equatable with Multifactor") {
+                let match = Route.Multifactor == Route.Multifactor
+                expect(match).to(beTrue())
+            }
+
+            it("ForgotPassword should should be equatable with ForgotPassword") {
+                let match = Route.ForgotPassword == Route.ForgotPassword
+                expect(match).to(beTrue())
+            }
+
+            it("EnterprisePassword should should be equatable with EnterprisePassword") {
+                let enterpriseConnection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
+                let match = Route.EnterprisePassword(connection: enterpriseConnection) == Route.EnterprisePassword(connection: enterpriseConnection)
+                expect(match).to(beTrue())
+            }
+
+        }
     }
 
 }

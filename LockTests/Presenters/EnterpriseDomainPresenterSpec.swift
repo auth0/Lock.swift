@@ -38,6 +38,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
         var authPresenter: MockAuthPresenter!
         var navigator: MockNavigator!
         var user: User!
+        var options: OptionBuildable!
         
         beforeEach {
             messagePresenter = MockMessagePresenter()
@@ -45,15 +46,14 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor(), customStyle: [:])
             user = User()
             navigator = MockNavigator()
+            options = LockOptions()
             
             connections = OfflineConnections()
-            connections.enterprise(name: "testAD", domains: ["test.com"])
+            connections.enterprise(name: "TestAD", domains: ["test.com"])
             
             interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
-            
-            presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user)
+            presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
             presenter.messagePresenter = messagePresenter
-            
             view = presenter.view as! EnterpriseDomainView
         }
         
@@ -62,7 +62,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             it("should use valid email") {
                 interactor.email = email
                 interactor.validEmail = true
-                presenter = EnterpriseDomainPresenter(interactor: interactor,  navigator: navigator, user: user)
+                presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
                 
                 let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseSingleInputView
                 expect(view.value).to(equal(email))
@@ -71,7 +71,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             it("should not use invalid email") {
                 interactor.email = email
                 interactor.validEmail = false
-                presenter = EnterpriseDomainPresenter(interactor: interactor,  navigator: navigator, user: user)
+                presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
                 
                 let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseSingleInputView
                 expect(view.value).toNot(equal(email))
@@ -104,7 +104,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 let input = mockInput(.Email, value: "valid@test.com")
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.connection).toNot(beNil())
-                expect(presenter.interactor.connection?.name).to(equal("testAD"))
+                expect(presenter.interactor.connection?.name).to(equal("TestAD"))
             }
             
             it("connection should not match with an invalid domain") {
@@ -159,7 +159,41 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(messagePresenter.error).toEventually(beNil())
             }
-            
+
+            it("should not navigate to enterprise passwod presenter") {
+                let input = mockInput(.Email, value: "user@test.com")
+                view.form?.onValueChange(input)
+                view.primaryButton?.onPress(view.primaryButton!)
+                expect(navigator.route).toEventually(beNil())
+            }
+
+            context("connection with credential auth flag set") {
+
+                beforeEach {
+                    options.allowCredentialAuth.append("TestAD")
+
+                    presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+                    presenter.messagePresenter = messagePresenter
+                    view = presenter.view as! EnterpriseDomainView
+                }
+
+                it("should navigate to enterprise passwod presenter") {
+                    let input = mockInput(.Email, value: "user@test.com")
+                    view.form?.onValueChange(input)
+                    view.primaryButton?.onPress(view.primaryButton!)
+
+                    expect(navigator.route).toEventually(equal(Route.EnterprisePassword(connection: presenter.interactor.connection!)))
+                }
+
+                it("should not navigate to enterprise passwod presenter") {
+                    let input = mockInput(.Email, value: "user@testfail.com")
+                    view.form?.onValueChange(input)
+                    view.primaryButton?.onPress(view.primaryButton!)
+
+                    expect(navigator.route).toEventually(beNil())
+                }
+
+            }
             
         }
         
