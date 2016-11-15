@@ -147,7 +147,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             }
             
             it("should show yield oauth2 error on failure") {
-                presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"], credentialAuth: false)
+                presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"])
                 oauth2.onLogin = { return OAuth2AuthenticatableError.CouldNotAuthenticate }
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.CouldNotAuthenticate))

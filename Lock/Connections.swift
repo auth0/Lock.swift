@@ -64,6 +64,5 @@ public struct SocialConnection: OAuth2Connection {
 public struct EnterpriseConnection : OAuth2Connection {
     public let name: String
     public let domains: [String]
-    public let credentialAuth: Bool
     public var style: AuthStyle { return AuthStyle(name: self.name) }
 }

@@ -30,7 +30,7 @@ class EnterprisePasswordView: UIView, View {
     
     private weak var container: UIStackView?
     
-    init(username: String?) {
+    init(identifer: String?, identifierAttribute: UserAttribute) {
         let primaryButton = PrimaryButton()
         let credentialView = CredentialView()
         let container = UIStackView()
@@ -38,7 +38,7 @@ class EnterprisePasswordView: UIView, View {
         
         self.primaryButton = primaryButton
         self.form = credentialView
-
+        
         super.init(frame: CGRectZero)
         
         self.addSubview(infoBar)
@@ -72,8 +72,14 @@ class EnterprisePasswordView: UIView, View {
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
         
-        credentialView.identityField.text = username
-        credentialView.identityField.type = .EmailOrUsername
+        credentialView.identityField.text = identifer
+        switch identifierAttribute {
+        case .Username:
+            credentialView.identityField.type = .Email
+        default:
+            credentialView.identityField.type = .Email
+        }
+        
         credentialView.identityField.returnKey = .Next
         credentialView.identityField.nextField = credentialView.passwordField
         credentialView.passwordField.returnKey = .Done

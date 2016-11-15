@@ -27,14 +27,16 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
     var interactor: EnterpriseDomainInteractor
     var customLogger: Logger?
     var user: User
+    var options: Options
     
     // Social connections
     var authPresenter: AuthPresenter?
     
-    init(interactor: EnterpriseDomainInteractor, navigator: Navigable, user: User) {
+    init(interactor: EnterpriseDomainInteractor, navigator: Navigable, user: User, options: Options) {
         self.interactor = interactor
         self.navigator = navigator
         self.user = user
+        self.options = options
     }
     
     var messagePresenter: MessagePresenter?
@@ -68,8 +70,9 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         
         let action = { (button: PrimaryButton) in
             
+            // Check for credential auth
             if let connection = self.interactor.connection {
-                if connection.credentialAuth == true {
+                if self.options.allowCredentialAuth.contains(connection.name) {
                     self.user.email = self.interactor.email
                     self.navigator?.navigate(.EnterprisePassword(connection: connection))
                     return

@@ -43,7 +43,7 @@ struct OfflineConnections: ConnectionBuildable {
     }
     
     mutating func enterprise(name name: String, domains: [String]) {
-        let enterprise = EnterpriseConnection(name: name, domains: domains, credentialAuth: true)
+        let enterprise = EnterpriseConnection(name: name, domains: domains)
         self.enterprise.append(enterprise)
     }
 

@@ -26,6 +26,7 @@ import Auth0
 struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
     
     var identifier: String? = nil
+    
     var email: String? = nil
     var username: String? = nil
     var password: String? = nil
@@ -44,6 +45,8 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
     let user: User
     let connection: EnterpriseConnection
     
+    var identifierAttribute: UserAttribute
+    
     init(connection: EnterpriseConnection, authentication: Authentication, user: User, options: Options, callback: Credentials -> ()) {
         self.authentication = authentication
         self.connection = connection
@@ -51,10 +54,22 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
         self.user = user
         self.options = options
         
-        updateEmail(user.email)
+        if self.options.activeDirectoryEmailAsUsername == false {
+            identifierAttribute = .Username
+            identifier = self.user.email?.componentsSeparatedByString("@").first
+        } else {
+            identifierAttribute = .Email
+            identifier = self.user.email
+        }
+        
+        do {
+            try update(identifierAttribute, value: identifier)
+        } catch {
+            self.logger.warn("Failed to set identifer")
+        }
     }
-
-
+    
+    
     mutating func update(attribute: UserAttribute, value: String?) throws {
         let error: ErrorType?
         
@@ -150,5 +165,5 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
             self.onAuthentication(credentials)
         }
     }
-
+    
 }

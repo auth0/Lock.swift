@@ -35,12 +35,15 @@ class EnterprisePasswordPresenter: Presentable, Loggable {
     
     var view: View {
         
-        let email = self.interactor.validEmail ? self.interactor.email : nil
-        let password = self.interactor.validPassword ? self.interactor.password : nil
+        var identifier: String?
         
-        let username = email?.componentsSeparatedByString("@").first
+        if let email = self.interactor.email where self.interactor.validEmail {
+            identifier = email
+        } else if let username = self.interactor.username where self.interactor.validUsername {
+            identifier = username
+        }
         
-        let view = EnterprisePasswordView(username: username)
+        let view = EnterprisePasswordView(identifer: identifier, identifierAttribute: self.interactor.identifierAttribute)
         let form = view.form
         
         view.infoBar?.title = self.interactor.connection.domains.first
@@ -50,13 +53,14 @@ class EnterprisePasswordPresenter: Presentable, Loggable {
             
             do {
                 switch input.type {
-                case .EmailOrUsername:
-                    try self.interactor.update(.Email, value: input.text)
+                case .Email, .Username:
+                    try self.interactor.update(self.interactor.identifierAttribute, value: input.text)
                     input.showValid()
                 case .Password:
-                    self.interactor.password = input.text
-                    self.interactor.validPassword = true
+                    try self.interactor.update(.Password, value: input.text)
+                    input.showValid()
                 default:
+                    self.logger.warn("Invalid user attribute")
                     return
                 }
             } catch {
@@ -66,7 +70,7 @@ class EnterprisePasswordPresenter: Presentable, Loggable {
         
         let action = { (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("Enterprise password connection started: \(self.interactor.email), \(self.interactor.connection)")
+            self.logger.info("Enterprise password connection started: \(self.interactor.identifier), \(self.interactor.connection)")
             let interactor = self.interactor
             
             button.inProgress = true
