@@ -110,7 +110,7 @@ public class DatabaseModeSwitcher: UIView {
     }
 
     public override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: 280, height: 55)
+        return CGSize(width: UIViewNoIntrinsicMetric, height: 55)
     }
 
     // MARK:- Internal

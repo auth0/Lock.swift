@@ -121,11 +121,12 @@ class DatabaseOnlyView: UIView, DatabaseView {
     }
     
     func presentEnterprise() {
-        if self.infoBar != nil { return }
+        guard let form = self.form as? CredentialView else { return }
 
-        let form = self.form as! CredentialView
+        print("presentEnterprise")
+
         let infoBar = InfoBarView()
-        let viewCount = self.container!.subviews.count
+        let viewCount = self.container?.subviews.count ?? 0
         let spacer = strutView(withHeight: 125 - CGFloat(viewCount) * 25)
         
         infoBar.title  = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
@@ -134,7 +135,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         self.container?.insertArrangedSubview(infoBar, atIndex: 0)
         self.container?.addArrangedSubview(spacer)
-        
+
         self.infoBar = infoBar
         self.spacer = spacer
         
@@ -148,9 +149,10 @@ class DatabaseOnlyView: UIView, DatabaseView {
     }
     
     func removeEnterprise() {
-        guard let infoBar = self.infoBar, spacer = self.spacer else { return }
-        let form = self.form as! CredentialView
-        
+        guard let infoBar = self.infoBar, spacer = self.spacer, form = self.form as? CredentialView else { return }
+
+        print("removeEnterprise")
+
         infoBar.removeFromSuperview()
         spacer.removeFromSuperview()
         

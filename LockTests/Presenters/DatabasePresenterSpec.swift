@@ -556,27 +556,22 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(presenter.enterpriseInteractor).toNot(beNil())
                 }
                 
-                it("should return false for invalid enterprise domain") {
-                    expect(presenter.enterpriseInteractor?.isEnterprise("user@invalid.com")).to(beFalse())
-                }
-                
-                it("should return true for valid enterprise domain") {
-                    expect(presenter.enterpriseInteractor?.isEnterprise("user@valid.com")).to(beTrue())
+                it("should return nil for invalid enterprise domain") {
+                    expect(presenter.enterpriseInteractor?.matchDomain("user@invalid.com")).to(beNil())
                 }
                 
                 it("should return connection for valid enterprise domain") {
-                    presenter.enterpriseInteractor?.isEnterprise("user@valid.com")
-                    expect(presenter.enterpriseInteractor?.connection).toNot(beNil())
+                    expect(presenter.enterpriseInteractor?.matchDomain("user@valid.com")).toNot(beNil())
+                }
+
+                it("should match connection name enterprise domain") {
+                    let connection = presenter.enterpriseInteractor?.matchDomain("user@valid.com")
+                    expect(connection?.name).to(equal("validAD"))
                 }
                 
                 it("should match connection name enterprise domain") {
-                    presenter.enterpriseInteractor?.isEnterprise("user@valid.com")
-                    expect(presenter.enterpriseInteractor?.connection?.name).to(equal("validAD"))
-                }
-                
-                it("should match connection name enterprise domain") {
-                    presenter.enterpriseInteractor?.isEnterprise("user@valid.com")
-                    expect(presenter.enterpriseInteractor?.connection?.name).to(equal("validAD"))
+                    let connection = presenter.enterpriseInteractor?.matchDomain("user@valid.com")
+                    expect(connection?.name).to(equal("validAD"))
                 }
                 
                 it("should modify display with enterprise changes") {
