@@ -123,8 +123,6 @@ class DatabaseOnlyView: UIView, DatabaseView {
     func presentEnterprise() {
         guard let form = self.form as? CredentialView else { return }
 
-        print("presentEnterprise")
-
         let infoBar = InfoBarView()
         let viewCount = self.container?.subviews.count ?? 0
         let spacer = strutView(withHeight: 125 - CGFloat(viewCount) * 25)
@@ -150,8 +148,6 @@ class DatabaseOnlyView: UIView, DatabaseView {
     
     func removeEnterprise() {
         guard let infoBar = self.infoBar, spacer = self.spacer, form = self.form as? CredentialView else { return }
-
-        print("removeEnterprise")
 
         infoBar.removeFromSuperview()
         spacer.removeFromSuperview()
