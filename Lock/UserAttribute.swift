@@ -22,10 +22,22 @@
 
 import Foundation
 
-enum UserAttribute {
+enum UserAttribute: Equatable {
     case Email
     case Username
     case Password
     case EmailOrUsername
     case Custom(name: String)
+}
+
+
+func ==(lhs: UserAttribute, rhs: UserAttribute) -> Bool {
+    switch((lhs, rhs)) {
+    case (.Email, .Email), (.Username, .Username), (.Password, .Password), (.EmailOrUsername, .EmailOrUsername):
+        return true
+    case (.Custom(let lhsConnection), .Custom(let rhsConnection)):
+        return lhsConnection == rhsConnection
+    default:
+        return false
+    }
 }

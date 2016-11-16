@@ -586,7 +586,7 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(view.infoBar).to(beNil())
                 }
                 
-                context("with existing enterprise display") {
+                context("enterprise mode") {
                     
                     beforeEach {
                         let input = mockInput(.Email, value: "user@valid.com")
@@ -615,11 +615,43 @@ class DatabasePresenterSpec: QuickSpec {
                         let form = view.form as! CredentialView
                         expect(form.identityField.returnKey).to(equal(UIReturnKeyType.Next))
                     }
-                    
-                    it("should launch OAuth") {
-                        
+
+                    it("should show no error on success") {
+                        let input = mockInput(.Email, value: "user@valid.com")
+                        view.form?.onValueChange(input)
+                        view.primaryButton?.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventually(beNil())
                     }
                     
+                }
+
+                context("enterprise mode with credential auth enabled") {
+
+                    beforeEach {
+                        var options = LockOptions()
+                        options.allowCredentialAuth = ["validAD"]
+
+                        connections = OfflineConnections()
+                        connections.enterprise(name: "validAD", domains: ["valid.com"])
+
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                        enterpriseInteractor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
+                        presenter.enterpriseInteractor = enterpriseInteractor
+
+                        view = presenter.view as! DatabaseOnlyView
+
+                        let input = mockInput(.Email, value: "user@valid.com")
+                        view.form?.onValueChange(input)
+
+                    }
+
+                    it("should navigate to enterprise password presenter") {
+                        view.primaryButton?.onPress(view.primaryButton!)
+                        let connection = presenter.enterpriseInteractor?.connection!
+                        expect(connection).toNot(beNil())
+                        expect(navigator.route).toEventually(equal(Route.EnterprisePassword(connection: connection!)))
+                    }
+
                 }
                 
             }

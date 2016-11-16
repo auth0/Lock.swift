@@ -35,7 +35,7 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
     var validUsername: Bool = false
     var validPassword: Bool = false
     
-    var usernameValidator: InputValidator = UsernameValidator()
+    let usernameValidator: InputValidator = UsernameValidator()
     let emailValidator: InputValidator = EmailValidator()
     let passwordValidator: InputValidator = NonEmptyValidator()
     
@@ -45,7 +45,7 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
     let user: User
     let connection: EnterpriseConnection
     
-    var identifierAttribute: UserAttribute
+    let identifierAttribute: UserAttribute
     
     init(connection: EnterpriseConnection, authentication: Authentication, user: User, options: Options, callback: Credentials -> ()) {
         self.authentication = authentication
@@ -68,7 +68,6 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
             self.logger.warn("Failed to set identifer")
         }
     }
-    
     
     mutating func update(attribute: UserAttribute, value: String?) throws {
         let error: ErrorType?

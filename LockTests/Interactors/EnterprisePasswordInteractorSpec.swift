@@ -28,7 +28,7 @@ import Auth0
 @testable import Lock
 
 class EnterprisePasswordInteractorSpec: QuickSpec {
-    
+
     override func spec() {
 
         let authentication = Auth0.authentication(clientId: clientId, domain: domain)
@@ -36,28 +36,116 @@ class EnterprisePasswordInteractorSpec: QuickSpec {
         var options: LockOptions!
         var interactor: EnterprisePasswordInteractor!
         var connection: EnterpriseConnection!
-        
-        beforeEach {
 
+        beforeEach {
             connection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
             user = User()
             options = LockOptions()
-
             interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
         }
-        
+
         afterEach {
             Auth0Stubs.cleanAll()
             Auth0Stubs.failUnknown()
         }
-        
+
         describe("init") {
-            
+
             it("should have an entperise object") {
                 expect(interactor).toNot(beNil())
             }
-            
+
+            it("should use username identifier and username will be nil") {
+                user = User()
+                user.email = nil
+                interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+
+                expect(interactor.identifierAttribute).to(equal(UserAttribute.Username))
+                expect(interactor.username).to(beNil())
+                expect(interactor.validUsername).to(beFalse())
+            }
+
+            it("should use username identifier and match username") {
+                user = User()
+                user.email = email
+                interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+
+                expect(interactor.identifierAttribute).to(equal(UserAttribute.Username))
+                expect(interactor.username).to(equal(username))
+                expect(interactor.validUsername).to(beTrue())
+            }
+
+            context("active directory use email") {
+
+                beforeEach {
+                    options = LockOptions()
+                    options.activeDirectoryEmailAsUsername = true
+                }
+
+                it("should use email identifier and match email") {
+                    user.email = email
+                    interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+
+                    expect(interactor.identifierAttribute).to(equal(UserAttribute.Email))
+                    expect(interactor.email).to(equal(email))
+                    expect(interactor.validEmail).to(beTrue())
+                }
+
+                it("should use email identifier and email will be nil") {
+                    user.email = nil
+                    interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+
+                    expect(interactor.identifierAttribute).to(equal(UserAttribute.Email))
+                    expect(interactor.email).to(beNil())
+                    expect(interactor.validEmail).to(beFalse())
+                }
+
+            }
+
         }
 
+        describe("user input") {
+
+            it("should update email") {
+                try! interactor.update(.Email, value: email)
+                expect(interactor.email).to(equal(email))
+                expect(interactor.validEmail).to(beTrue())
+            }
+
+            it("should update username") {
+                try! interactor.update(.Username, value:username)
+                expect(interactor.username).to(equal(username))
+                expect(interactor.validUsername).to(beTrue())
+            }
+
+            it("should update password") {
+                try! interactor.update(.Password, value: password)
+                expect(interactor.password).to(equal(password))
+                expect(interactor.validPassword).to(beTrue())
+            }
+        }
+
+        describe ("login") {
+
+            var error: DatabaseAuthenticatableError?
+
+            beforeEach {
+                user.email = email
+                interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+            }
+
+            it("should fail no password") {
+                interactor.login() { error = $0 }
+                expect(error).toEventually(equal(DatabaseAuthenticatableError.NonValidInput))
+            }
+
+            fit("should fail login with password") {
+                try! interactor.update(.Password, value: password)
+                interactor.login() { error = $0 }
+                expect(error).toEventually(equal(DatabaseAuthenticatableError.CouldNotLogin))
+            }
+
+        }
+        
     }
 }

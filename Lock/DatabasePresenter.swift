@@ -112,7 +112,13 @@ class DatabasePresenter: Presentable, Loggable {
             }
 
             // Enterprise Authentication
-            if self.enterpriseInteractor?.connection != nil {
+            if let connection = self.enterpriseInteractor?.connection {
+                // Credential Auth
+                if self.options.allowCredentialAuth.contains(connection.name) {
+                    self.navigator.navigate(.EnterprisePassword(connection: connection))
+                    return
+                }
+                // OAuth
                 self.enterpriseInteractor?.login(errorHandler)
             } else {
                 // Database Authentication
