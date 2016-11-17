@@ -34,9 +34,12 @@ class DatabasePresenter: Presentable, Loggable {
 
     var messagePresenter: MessagePresenter?
     var authPresenter: AuthPresenter?
+    var enterpriseInteractor: EnterpriseDomainInteractor?
 
     var initialEmail: String? { return self.authenticator.validEmail ? self.authenticator.email : nil }
     var initialUsername: String? { return self.authenticator.validUsername ? self.authenticator.username : nil }
+
+    weak var databaseView: DatabaseOnlyView?
 
     convenience init(interactor: DatabaseInteractor, connection: DatabaseConnection, navigator: Navigable, options: Options) {
         self.init(authenticator: interactor, creator: interactor, connection: connection, navigator: navigator, options: options)
@@ -74,6 +77,7 @@ class DatabasePresenter: Presentable, Loggable {
             database.switcher?.selected = .Signup
             showSignup(inView: database, username: initialUsername, email: initialEmail)
         }
+        self.databaseView = database
         return database
     }
 
@@ -87,17 +91,17 @@ class DatabasePresenter: Presentable, Loggable {
 
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("perform login for email \(self.authenticator.email)")
-            let interactor = self.authenticator
+            self.logger.info("Perform login for email: \(self.authenticator.email)")
             button.inProgress = true
-            interactor.login { error in
+
+            let errorHandler: LocalizableError? -> () = { error in
                 Queue.main.async {
                     button.inProgress = false
                     guard let error = error else {
                         self.logger.debug("Logged in!")
                         return
                     }
-                    if case .MultifactorRequired = error {
+                    if case DatabaseAuthenticatableError.MultifactorRequired = error {
                         self.navigator.navigate(.Multifactor)
                     } else {
                         form?.needsToUpdateState()
@@ -106,7 +110,17 @@ class DatabasePresenter: Presentable, Loggable {
                     }
                 }
             }
+
+            // Enterprise Authentication
+            if self.enterpriseInteractor?.connection != nil {
+                self.enterpriseInteractor?.login(errorHandler)
+            } else {
+                // Database Authentication
+                self.authenticator.login(errorHandler)
+            }
+            
         }
+
         view.form?.onReturn = { field in
             guard let button = view.primaryButton where field.returnKey == .Done else { return } // FIXME: Log warn
             action(button)
@@ -171,6 +185,7 @@ class DatabasePresenter: Presentable, Loggable {
 
     private func handleInput(input: InputField) {
         self.messagePresenter?.hideCurrent()
+
         self.logger.verbose("new value: \(input.text) for type: \(input.type)")
         let attribute: UserAttribute?
         switch input.type {
@@ -191,6 +206,14 @@ class DatabasePresenter: Presentable, Loggable {
         guard let attr = attribute else { return }
         do {
             try self.authenticator.update(attr, value: input.text)
+            // Check for Entperise domain match in login view
+            if self.enterpriseInteractor?.matchDomain(input.text) != nil, let mode = self.databaseView?.switcher?.selected where mode == .Login {
+                try self.enterpriseInteractor?.updateEmail(input.text)
+                self.logger.verbose("Enterprise connection detected: \(self.enterpriseInteractor?.connection)")
+                if self.databaseView?.infoBar == nil { self.databaseView?.presentEnterprise() }
+            } else {
+                self.databaseView?.removeEnterprise()
+            }
             input.showValid()
         } catch let error as InputValidationError {
             input.showError(error.localizedMessage(withConnection: self.database))
@@ -198,6 +221,7 @@ class DatabasePresenter: Presentable, Loggable {
             input.showError()
         }
     }
+
 }
 
 private func safariBuilder(forURL url: NSURL, navigator: Navigable) -> (UIAlertAction) -> () {
