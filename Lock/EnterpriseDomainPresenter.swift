@@ -48,7 +48,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let view = EnterpriseDomainView(email: email, authCollectionView: authCollectionView)
         let form = view.form
 
-        view.infoBar?.hidden = self.interactor.connection != nil
+        view.infoBar?.hidden = self.interactor.connection == nil
         
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
