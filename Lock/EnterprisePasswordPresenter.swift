@@ -34,7 +34,6 @@ class EnterprisePasswordPresenter: Presentable, Loggable {
     var messagePresenter: MessagePresenter?
     
     var view: View {
-        
         var identifier: String?
         
         if let email = self.interactor.email where self.interactor.validEmail {
@@ -45,7 +44,6 @@ class EnterprisePasswordPresenter: Presentable, Loggable {
         
         let view = EnterprisePasswordView(identifer: identifier, identifierAttribute: self.interactor.identifierAttribute)
         let form = view.form
-        
         view.infoBar?.title = self.interactor.connection.domains.first
         
         view.form?.onValueChange = { input in
@@ -82,7 +80,7 @@ class EnterprisePasswordPresenter: Presentable, Loggable {
                         self.messagePresenter?.showError(error)
                         self.logger.error("Enterprise connection failed: \(error)")
                     } else {
-                        self.logger.debug("Enterprise authenticator launched")
+                        self.logger.debug("Enterprise connection success")
                     }
                 }
                 

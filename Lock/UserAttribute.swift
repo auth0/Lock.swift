@@ -22,7 +22,7 @@
 
 import Foundation
 
-enum UserAttribute: Equatable {
+enum UserAttribute {
     case Email
     case Username
     case Password
@@ -30,14 +30,3 @@ enum UserAttribute: Equatable {
     case Custom(name: String)
 }
 
-
-func ==(lhs: UserAttribute, rhs: UserAttribute) -> Bool {
-    switch((lhs, rhs)) {
-    case (.Email, .Email), (.Username, .Username), (.Password, .Password), (.EmailOrUsername, .EmailOrUsername):
-        return true
-    case (.Custom(let lhsConnection), .Custom(let rhsConnection)):
-        return lhsConnection == rhsConnection
-    default:
-        return false
-    }
-}

@@ -51,7 +51,6 @@ class EnterpriseDomainView: UIView, View {
         infoBar.setIcon("ic_lock")
         infoBar.hidden = true
         self.infoBar = infoBar
-        
         container.alignment = .Fill
         container.axis = .Vertical
         container.distribution = .EqualSpacing

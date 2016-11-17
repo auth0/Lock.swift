@@ -23,81 +23,80 @@
 import UIKit
 
 class EnterprisePasswordView: UIView, View {
-    
+
     weak var form: Form?
     weak var infoBar: InfoBarView?
     weak var primaryButton: PrimaryButton?
-    
+
     private weak var container: UIStackView?
-    
+
     init(identifer: String?, identifierAttribute: UserAttribute) {
         let primaryButton = PrimaryButton()
         let credentialView = CredentialView()
         let container = UIStackView()
         let infoBar = InfoBarView()
-        
+
         self.primaryButton = primaryButton
         self.form = credentialView
-        
+
         super.init(frame: CGRectZero)
-        
+
         self.addSubview(infoBar)
         self.addSubview(primaryButton)
         self.addSubview(container)
-        
+
         infoBar.title = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
         infoBar.setIcon("ic_lock")
         self.infoBar = infoBar
-        
+
         container.alignment = .Fill
         container.axis = .Vertical
         container.distribution = .EqualSpacing
         container.spacing = 10
-        
+
         constraintEqual(anchor: infoBar.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: infoBar.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: infoBar.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: infoBar.bottomAnchor, toAnchor: container.topAnchor)
         infoBar.translatesAutoresizingMaskIntoConstraints = false
-        
+
         constraintEqual(anchor: container.topAnchor, toAnchor: infoBar.bottomAnchor)
         constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor)
         container.translatesAutoresizingMaskIntoConstraints = false
-        
+
         constraintEqual(anchor: primaryButton.topAnchor, toAnchor: container.bottomAnchor)
         constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
-        
+
         credentialView.identityField.text = identifer
         switch identifierAttribute {
         case .Username:
-            credentialView.identityField.type = .Email
+            credentialView.identityField.type = .Username
         default:
             credentialView.identityField.type = .Email
         }
-        
+
         credentialView.identityField.returnKey = .Next
         credentialView.identityField.nextField = credentialView.passwordField
         credentialView.passwordField.returnKey = .Done
-        
+
         container.addArrangedSubview(strutView())
         container.addArrangedSubview(credentialView)
         container.addArrangedSubview(strutView())
-        
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func apply(style style: Style) {
         self.primaryButton?.apply(style: style)
     }
-    
+
 }
 
 private func strutView(withHeight height: CGFloat = 50) -> UIView {

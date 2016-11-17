@@ -24,36 +24,36 @@ import Foundation
 import Auth0
 
 struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
-    
+
     var identifier: String? = nil
-    
+
     var email: String? = nil
     var username: String? = nil
     var password: String? = nil
-    
+
     var validEmail: Bool = false
     var validUsername: Bool = false
     var validPassword: Bool = false
-    
+
     let usernameValidator: InputValidator = UsernameValidator()
     let emailValidator: InputValidator = EmailValidator()
     let passwordValidator: InputValidator = NonEmptyValidator()
-    
+
     let authentication: Authentication
     let onAuthentication: Credentials -> ()
     let options: Options
     let user: User
     let connection: EnterpriseConnection
-    
+
     let identifierAttribute: UserAttribute
-    
+
     init(connection: EnterpriseConnection, authentication: Authentication, user: User, options: Options, callback: Credentials -> ()) {
         self.authentication = authentication
         self.connection = connection
         self.onAuthentication = callback
         self.user = user
         self.options = options
-        
+
         if self.options.activeDirectoryEmailAsUsername == false {
             identifierAttribute = .Username
             identifier = self.user.email?.componentsSeparatedByString("@").first
@@ -61,17 +61,17 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
             identifierAttribute = .Email
             identifier = self.user.email
         }
-        
+
         do {
             try update(identifierAttribute, value: identifier)
         } catch {
             self.logger.warn("Failed to set identifer")
         }
     }
-    
+
     mutating func update(attribute: UserAttribute, value: String?) throws {
         let error: ErrorType?
-        
+
         switch attribute {
         case .Email:
             error = updateEmail(value)
@@ -83,34 +83,34 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
             self.logger.warn("Ignoring unknown input type: \(attribute)")
             return
         }
-        
+
         if let error = error { throw error }
     }
-    
+
     private mutating func updateEmail(value: String?) -> ErrorType? {
         email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         let error = emailValidator.validate(value)
         validEmail = error == nil
         return error
     }
-    
+
     private mutating func updateUsername(value: String?) -> ErrorType? {
         username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         let error = usernameValidator.validate(value)
         validUsername = error == nil
         return error
     }
-    
+
     private mutating func updatePassword(value: String?) -> ErrorType? {
         password = value
         let error = passwordValidator.validate(value)
         validPassword = error == nil
         return error
     }
-    
+
     func login(callback: (DatabaseAuthenticatableError?) -> ()) {
         let identifier: String
-        
+
         if let email = self.email where self.validEmail {
             identifier = email
         } else if let username = self.username where self.validUsername {
@@ -118,9 +118,9 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
         } else {
             return callback(.NonValidInput)
         }
-        
+
         guard let password = self.password where self.validPassword else { return callback(.NonValidInput) }
-        
+
         self.authentication
             .login(
                 usernameOrEmail: identifier,
@@ -131,7 +131,7 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
             )
             .start { self.handleLoginResult($0, callback: callback) }
     }
-    
+
     private func handleLoginResult(result: Auth0.Result<Credentials>, callback: DatabaseAuthenticatableError? -> ()) {
         switch result {
         case .Failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
@@ -164,5 +164,5 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
             self.onAuthentication(credentials)
         }
     }
-    
+
 }
