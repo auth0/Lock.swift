@@ -49,7 +49,8 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             options = LockOptions()
 
             connections = OfflineConnections()
-            connections.enterprise(name: "TestAD", domains: ["test.com"])
+            connections.enterprise(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
+            connections.enterprise(name: "ValidAD", domains: ["validad.com"], style: AuthStyle(name: "adfs"))
 
             interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
             presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
@@ -147,7 +148,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             }
 
             it("should show yield oauth2 error on failure") {
-                presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"])
+                presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"], style: AuthStyle(name: "ad"))
                 oauth2.onLogin = { return OAuth2AuthenticatableError.CouldNotAuthenticate }
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.CouldNotAuthenticate))

@@ -26,7 +26,7 @@ import UIKit
 public class AuthStyle {
 
         /// Name that will be used for titles. e.g. 'Login with Auth0'
-    public let name: String
+    public var name: String
     let image: LazyImage
     let foregroundColor: UIColor
     let normalColor: UIColor
@@ -270,6 +270,8 @@ extension AuthStyle {
 
     static func style(forStrategy strategy: String, connectionName: String) -> AuthStyle {
         switch strategy.lowercaseString {
+        case "ad", "adfs":
+            return .Microsoft
         case "amazon":
             return .Amazon
         case "aol":
@@ -340,6 +342,8 @@ extension AuthStyle {
             return .Yammer
         case "yandex":
             return .Yandex
+        case "waad":
+            return .Google
         case "weibo":
             return .Weibo
         default:

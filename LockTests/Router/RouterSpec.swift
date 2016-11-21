@@ -73,8 +73,8 @@ class RouterSpec: QuickSpec {
 
             it("should return root for only enterprise connections") {
                 lock.withConnections {
-                    $0.enterprise(name: "testAD", domains: ["testAD.com"])
-                    $0.enterprise(name: "validAD", domains: ["validAD.com"])
+                    $0.enterprise(name: "testAD", domains: ["testAD.com"], style: AuthStyle(name: "ad"))
+                    $0.enterprise(name: "validAD", domains: ["validAD.com"], style: AuthStyle(name: "ad"))
                 }
                 expect(router.root as? EnterpriseDomainPresenter).toNot(beNil())
             }
@@ -212,7 +212,7 @@ class RouterSpec: QuickSpec {
             }
 
             it("should show enterprise active auth screen") {
-                router.navigate(.EnterpriseActiveAuth(connection: EnterpriseConnection(name: "testAD", domains: ["testad.com"])))
+                router.navigate(.EnterpriseActiveAuth(connection: EnterpriseConnection(name: "testAD", domains: ["testad.com"], style: AuthStyle(name: "ad"))))
                 expect(controller.presentable as? EnterpriseActiveAuthPresenter).toNot(beNil())
             }
         }
@@ -292,7 +292,7 @@ class RouterSpec: QuickSpec {
             }
 
             it("EnterpriseActiveAuth should should be equatable with EnterpriseActiveAuth") {
-                let enterpriseConnection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
+                let enterpriseConnection = EnterpriseConnection(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
                 let match = Route.EnterpriseActiveAuth(connection: enterpriseConnection) == Route.EnterpriseActiveAuth(connection: enterpriseConnection)
                 expect(match).to(beTrue())
             }

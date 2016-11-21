@@ -38,7 +38,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
         var connection: EnterpriseConnection!
 
         beforeEach {
-            connection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
+            connection = EnterpriseConnection(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
             user = User()
             options = LockOptions()
             interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})

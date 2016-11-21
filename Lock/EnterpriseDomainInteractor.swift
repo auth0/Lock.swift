@@ -36,8 +36,13 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
     init(connections: [EnterpriseConnection], authentication: OAuth2Authenticatable) {
         self.connections = connections
         self.authenticator = authentication
+
+        // Single Enterprise, defaulting connection
+        if self.connections.count == 1 {
+            self.connection = self.connections.first
+        }
     }
-    
+
     func matchDomain(value: String?) -> EnterpriseConnection? {
         guard let domain = value?.componentsSeparatedByString("@").last else { return nil }
         return connections.filter { $0.domains.contains(domain) }.first

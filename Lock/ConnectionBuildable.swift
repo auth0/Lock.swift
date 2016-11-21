@@ -62,7 +62,7 @@ public protocol ConnectionBuildable: Connections {
      - parameter name:  name of the connection
      - parameter domain: array of enterprise domains
      */
-    mutating func enterprise(name name: String, domains: [String])
+    mutating func enterprise(name name: String, domains: [String], style: AuthStyle)
 }
 
 public extension ConnectionBuildable {
