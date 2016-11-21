@@ -132,6 +132,25 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 expect(input.valid).to(equal(false))
             }
 
+            it("should update password if value is valid") {
+                let input = mockInput(.Password, value: password)
+                view.form?.onValueChange(input)
+                expect(presenter.interactor.password).to(equal(password))
+                expect(presenter.interactor.validPassword).to(beTrue())
+            }
+
+            it("should show field error for empty password") {
+                let input = mockInput(.Password, value: "")
+                view.form?.onValueChange(input)
+                expect(input.valid).to(equal(false))
+            }
+
+            it("should not process unsupported input type") {
+                let input = mockInput(.OneTimePassword, value: password)
+                view.form?.onValueChange(input)
+                expect(input.valid).to(beNil())
+            }
+
             context("use email as identifier option") {
 
                 beforeEach {
