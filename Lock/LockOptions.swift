@@ -39,5 +39,5 @@ struct LockOptions: OptionBuildable {
     
     // Enterprise
     var activeDirectoryEmailAsUsername: Bool = false
-    var allowCredentialAuth: [String] = []
+    var enterpriseConnectionUsingActiveAuth: [String] = []
 }

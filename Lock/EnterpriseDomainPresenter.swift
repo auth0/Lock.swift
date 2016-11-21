@@ -71,7 +71,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let action = { (button: PrimaryButton) in
             
             // Check for credential auth
-            if let connection = self.interactor.connection where self.options.allowCredentialAuth.contains(connection.name) {
+            if let connection = self.interactor.connection where self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 self.navigator?.navigate(.EnterpriseActiveAuth(connection: connection))
                 return
             }

@@ -629,7 +629,7 @@ class DatabasePresenterSpec: QuickSpec {
 
                     beforeEach {
                         var options = LockOptions()
-                        options.allowCredentialAuth = ["validAD"]
+                        options.enterpriseConnectionUsingActiveAuth = ["validAD"]
 
                         connections = OfflineConnections()
                         connections.enterprise(name: "validAD", domains: ["valid.com"])

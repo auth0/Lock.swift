@@ -1,4 +1,4 @@
-// EnterprisePasswordView.swift
+// EnterpriseActiveAuth.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,7 +22,7 @@
 
 import UIKit
 
-class EnterprisePasswordView: UIView, View {
+class EnterpriseActiveAuth: UIView, View {
 
     weak var form: Form?
     weak var infoBar: InfoBarView?

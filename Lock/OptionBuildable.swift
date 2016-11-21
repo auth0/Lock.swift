@@ -71,7 +71,7 @@ public protocol OptionBuildable: Options {
     var activeDirectoryEmailAsUsername: Bool { get set }
     
         /// Should an enterprise connection use credentials instead of WebAuth.  By default enterprise connections use WebAuth
-    var allowCredentialAuth: [String] { get set }
+    var enterpriseConnectionUsingActiveAuth: [String] { get set }
 }
 
 internal extension OptionBuildable {

@@ -170,7 +170,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             context("connection with credential auth flag set") {
 
                 beforeEach {
-                    options.allowCredentialAuth.append("TestAD")
+                    options.enterpriseConnectionUsingActiveAuth.append("TestAD")
 
                     presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
                     presenter.messagePresenter = messagePresenter

@@ -42,7 +42,7 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
             identifier = username
         }
         
-        let view = EnterprisePasswordView(identifer: identifier, identifierAttribute: self.interactor.identifierAttribute)
+        let view = EnterpriseActiveAuth(identifer: identifier, identifierAttribute: self.interactor.identifierAttribute)
         let form = view.form
         view.infoBar?.title = self.interactor.connection.domains.first
         

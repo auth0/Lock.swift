@@ -41,5 +41,5 @@ public protocol Options {
     
     // Enterprise
     var activeDirectoryEmailAsUsername: Bool { get }
-    var allowCredentialAuth: [String] { get }
+    var enterpriseConnectionUsingActiveAuth: [String] { get }
 }
