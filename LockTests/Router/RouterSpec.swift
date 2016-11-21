@@ -278,9 +278,9 @@ class RouterSpec: QuickSpec {
                 expect(match).to(beTrue())
             }
 
-            it("EnterprisePassword should should be equatable with EnterprisePassword") {
+            it("EnterpriseActiveAuth should should be equatable with EnterpriseActiveAuth") {
                 let enterpriseConnection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
-                let match = Route.EnterprisePassword(connection: enterpriseConnection) == Route.EnterprisePassword(connection: enterpriseConnection)
+                let match = Route.EnterpriseActiveAuth(connection: enterpriseConnection) == Route.EnterpriseActiveAuth(connection: enterpriseConnection)
                 expect(match).to(beTrue())
             }
 

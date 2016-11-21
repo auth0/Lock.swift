@@ -142,11 +142,11 @@ struct Router: Navigable {
         return presenter
     }
     
-    func enterprisePassword(connection: EnterpriseConnection) -> Presentable? {
+    func EnterpriseActiveAuth(connection: EnterpriseConnection) -> Presentable? {
         
         let authentication = self.lock.authentication
-        let interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: self.user, options: self.lock.options, callback: self.onAuthentication)
-        let presenter = EnterprisePasswordPresenter(interactor: interactor)
+        let interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: self.user, options: self.lock.options, callback: self.onAuthentication)
+        let presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
         presenter.customLogger = self.lock.logger
 
         return presenter
@@ -177,8 +177,8 @@ struct Router: Navigable {
             presentable = self.forgotPassword
         case .Multifactor:
             presentable = self.multifactor
-        case .EnterprisePassword(let connection):
-            presentable = self.enterprisePassword(connection)
+        case .EnterpriseActiveAuth(let connection):
+            presentable = self.EnterpriseActiveAuth(connection)
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")
             return

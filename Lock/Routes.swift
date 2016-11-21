@@ -48,14 +48,14 @@ enum Route: Equatable {
     case Root
     case ForgotPassword
     case Multifactor
-    case EnterprisePassword(connection: EnterpriseConnection)
+    case EnterpriseActiveAuth(connection: EnterpriseConnection)
 }
 
 func ==(lhs: Route, rhs: Route) -> Bool {
     switch((lhs, rhs)) {
     case (.Root, .Root), (.ForgotPassword, .ForgotPassword), (.Multifactor, .Multifactor):
         return true
-    case (.EnterprisePassword(let lhsConnection), .EnterprisePassword(let rhsConnection)):
+    case (.EnterpriseActiveAuth(let lhsConnection), .EnterpriseActiveAuth(let rhsConnection)):
         return lhsConnection.name == rhsConnection.name
     default:
         return false

@@ -71,13 +71,11 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let action = { (button: PrimaryButton) in
             
             // Check for credential auth
-            if let connection = self.interactor.connection {
-                if self.options.allowCredentialAuth.contains(connection.name) {
-                    self.navigator?.navigate(.EnterprisePassword(connection: connection))
-                    return
-                }
+            if let connection = self.interactor.connection where self.options.allowCredentialAuth.contains(connection.name) {
+                self.navigator?.navigate(.EnterpriseActiveAuth(connection: connection))
+                return
             }
-            
+
             self.messagePresenter?.hideCurrent()
             self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
             let interactor = self.interactor

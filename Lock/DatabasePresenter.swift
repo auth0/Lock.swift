@@ -115,16 +115,16 @@ class DatabasePresenter: Presentable, Loggable {
             if let connection = self.enterpriseInteractor?.connection {
                 // Credential Auth
                 if self.options.allowCredentialAuth.contains(connection.name) {
-                    self.navigator.navigate(.EnterprisePassword(connection: connection))
-                    return
+                    self.navigator.navigate(.EnterpriseActiveAuth(connection: connection))
+                } else {
+                    // OAuth
+                    self.enterpriseInteractor?.login(errorHandler)
                 }
-                // OAuth
-                self.enterpriseInteractor?.login(errorHandler)
             } else {
                 // Database Authentication
                 self.authenticator.login(errorHandler)
             }
-            
+
         }
 
         view.form?.onReturn = { field in

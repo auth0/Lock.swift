@@ -27,21 +27,21 @@ import Auth0
 
 @testable import Lock
 
-class EnterprisePasswordInteractorSpec: QuickSpec {
+class EnterpriseActiveAuthInteractorSpec: QuickSpec {
 
     override func spec() {
 
         let authentication = Auth0.authentication(clientId: clientId, domain: domain)
         var user: User!
         var options: LockOptions!
-        var interactor: EnterprisePasswordInteractor!
+        var interactor: EnterpriseActiveAuthInteractor!
         var connection: EnterpriseConnection!
 
         beforeEach {
             connection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
             user = User()
             options = LockOptions()
-            interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+            interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
         }
 
         afterEach {
@@ -61,7 +61,7 @@ class EnterprisePasswordInteractorSpec: QuickSpec {
             it("should use username identifier and username will be nil") {
                 user = User()
                 user.email = nil
-                interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
 
                 expect(interactor.identifierAttribute).to(equal(UserAttribute.Username))
                 expect(interactor.username).to(beNil())
@@ -71,7 +71,7 @@ class EnterprisePasswordInteractorSpec: QuickSpec {
             it("should use username identifier and match username") {
                 user = User()
                 user.email = email
-                interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
 
                 expect(interactor.identifierAttribute).to(equal(UserAttribute.Username))
                 expect(interactor.username).to(equal(username))
@@ -87,7 +87,7 @@ class EnterprisePasswordInteractorSpec: QuickSpec {
 
                 it("should use email identifier and match email") {
                     user.email = email
-                    interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
 
                     expect(interactor.identifierAttribute).to(equal(UserAttribute.Email))
                     expect(interactor.email).to(equal(email))
@@ -96,7 +96,7 @@ class EnterprisePasswordInteractorSpec: QuickSpec {
 
                 it("should use email identifier and email will be nil") {
                     user.email = nil
-                    interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
 
                     expect(interactor.identifierAttribute).to(equal(UserAttribute.Email))
                     expect(interactor.email).to(beNil())
@@ -134,7 +134,7 @@ class EnterprisePasswordInteractorSpec: QuickSpec {
 
             beforeEach {
                 user.email = email
-                interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
             }
 
             it("should fail with no input as password missing") {

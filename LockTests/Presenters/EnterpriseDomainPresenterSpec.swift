@@ -182,7 +182,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                     view.form?.onValueChange(input)
                     view.primaryButton?.onPress(view.primaryButton!)
 
-                    expect(navigator.route).toEventually(equal(Route.EnterprisePassword(connection: presenter.interactor.connection!)))
+                    expect(navigator.route).toEventually(equal(Route.EnterpriseActiveAuth(connection: presenter.interactor.connection!)))
                 }
 
                 it("should not navigate to enterprise passwod presenter") {

@@ -1,4 +1,4 @@
-// EnterprisePasswordPresenter.swift
+// EnterpriseActiveAuthPresenter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,12 +22,12 @@
 
 import Foundation
 
-class EnterprisePasswordPresenter: Presentable, Loggable {
+class EnterpriseActiveAuthPresenter: Presentable, Loggable {
     
-    var interactor: EnterprisePasswordInteractor
+    var interactor: EnterpriseActiveAuthInteractor
     var customLogger: Logger?
     
-    init(interactor: EnterprisePasswordInteractor) {
+    init(interactor: EnterpriseActiveAuthInteractor) {
         self.interactor = interactor
     }
     

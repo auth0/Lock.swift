@@ -26,13 +26,13 @@ import Auth0
 
 @testable import Lock
 
-class EnterprisePasswordPresenterSpec: QuickSpec {
+class EnterpriseActiveAuthPresenterSpec: QuickSpec {
 
     override func spec() {
         let authentication = Auth0.authentication(clientId: clientId, domain: domain)
 
-        var interactor: EnterprisePasswordInteractor!
-        var presenter: EnterprisePasswordPresenter!
+        var interactor: EnterpriseActiveAuthInteractor!
+        var presenter: EnterpriseActiveAuthPresenter!
         var messagePresenter: MockMessagePresenter!
         var view: EnterprisePasswordView!
         var options: LockOptions!
@@ -45,8 +45,8 @@ class EnterprisePasswordPresenterSpec: QuickSpec {
             messagePresenter = MockMessagePresenter()
 
             connection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
-            interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
-            presenter = EnterprisePasswordPresenter(interactor: interactor)
+            interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+            presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
             presenter.messagePresenter = messagePresenter
 
             view = presenter.view as! EnterprisePasswordView
@@ -73,7 +73,7 @@ class EnterprisePasswordPresenterSpec: QuickSpec {
             it("should return initial valid email") {
                 interactor.validEmail = true
                 interactor.email = email
-                presenter = EnterprisePasswordPresenter(interactor: interactor)
+                presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
                 let view = (presenter.view as! EnterprisePasswordView).form as! CredentialView
                 expect(view.identityField.text).to(equal(email))
             }
@@ -81,7 +81,7 @@ class EnterprisePasswordPresenterSpec: QuickSpec {
             it("should return initial username") {
                 interactor.validUsername = true
                 interactor.username = username
-                presenter = EnterprisePasswordPresenter(interactor: interactor)
+                presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
                 let view = (presenter.view as! EnterprisePasswordView).form as! CredentialView
                 expect(view.identityField.text).to(equal(username))
             }
@@ -97,8 +97,8 @@ class EnterprisePasswordPresenterSpec: QuickSpec {
                     options = LockOptions()
                     options.activeDirectoryEmailAsUsername = true
                     
-                    interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
-                    presenter = EnterprisePasswordPresenter(interactor: interactor)
+                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
                     presenter.messagePresenter = messagePresenter
                 }
 
@@ -138,8 +138,8 @@ class EnterprisePasswordPresenterSpec: QuickSpec {
                     options = LockOptions()
                     options.activeDirectoryEmailAsUsername = true
 
-                    interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
-                    presenter = EnterprisePasswordPresenter(interactor: interactor)
+                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
                     presenter.messagePresenter = messagePresenter
 
                     view = presenter.view as! EnterprisePasswordView
@@ -174,10 +174,10 @@ class EnterprisePasswordPresenterSpec: QuickSpec {
                 options = LockOptions()
                 options.activeDirectoryEmailAsUsername = true
 
-                interactor = EnterprisePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
                 try! interactor.update(.Username, value: username)
                 try! interactor.update(.Password, value: password)
-                presenter = EnterprisePasswordPresenter(interactor: interactor)
+                presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
                 presenter.messagePresenter = messagePresenter
 
                 view = presenter.view as! EnterprisePasswordView

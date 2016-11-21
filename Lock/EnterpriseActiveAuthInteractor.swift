@@ -1,4 +1,4 @@
-// EnterprisePasswordInteractor.swift
+// EnterpriseActiveAuthInteractor.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -23,7 +23,7 @@
 import Foundation
 import Auth0
 
-struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
+struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
 
     var identifier: String? = nil
 
@@ -54,7 +54,7 @@ struct EnterprisePasswordInteractor: DatabaseAuthenticatable, Loggable {
         self.user = user
         self.options = options
 
-        if self.options.activeDirectoryEmailAsUsername == false {
+        if !self.options.activeDirectoryEmailAsUsername {
             identifierAttribute = .Username
             identifier = self.user.email?.componentsSeparatedByString("@").first
         } else {

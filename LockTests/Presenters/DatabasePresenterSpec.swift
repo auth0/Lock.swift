@@ -649,7 +649,7 @@ class DatabasePresenterSpec: QuickSpec {
                         view.primaryButton?.onPress(view.primaryButton!)
                         let connection = presenter.enterpriseInteractor?.connection!
                         expect(connection).toNot(beNil())
-                        expect(navigator.route).toEventually(equal(Route.EnterprisePassword(connection: connection!)))
+                        expect(navigator.route).toEventually(equal(Route.EnterpriseActiveAuth(connection: connection!)))
                     }
 
                 }
