@@ -102,7 +102,7 @@ struct Router: Navigable {
         if !connections.enterprise.isEmpty {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
             let interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authInteractor)
-            // Single enterprise in credential auth mode
+            // Single enterprise in active auth mode
             if let connection = interactor.connection where self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 return EnterpriseActiveAuth(connection)
             }

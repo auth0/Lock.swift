@@ -29,6 +29,7 @@ class EnterpriseDomainView: UIView, View {
     weak var primaryButton: PrimaryButton?
     weak var authCollectionView: AuthCollectionView?
     weak var container: UIStackView?
+    weak var authButton: AuthButton?
     
     init(email: String?, authCollectionView: AuthCollectionView? = nil) {
         let primaryButton = PrimaryButton()
@@ -99,6 +100,7 @@ class EnterpriseDomainView: UIView, View {
         super.init(frame: CGRectZero)
 
         self.addSubview(container)
+        self.authButton = authButton
 
         container.alignment = .Fill
         container.axis = .Vertical

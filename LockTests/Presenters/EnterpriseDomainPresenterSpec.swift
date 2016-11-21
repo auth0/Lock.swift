@@ -58,6 +58,15 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             view = presenter.view as! EnterpriseDomainView
         }
 
+        describe("init") {
+
+            it("should have an entperise domain view") {
+                let view = presenter.view as? EnterpriseDomainView
+                expect(view).toNot(beNil())
+            }
+
+        }
+
         describe("email input validation") {
 
             it("should use valid email") {
@@ -205,7 +214,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 let view = presenter.view as? EnterpriseDomainView
                 expect(view?.authCollectionView).to(equal(authPresenter.authView))
             }
-
+            
             it("should init view with not social view") {
                 presenter.authPresenter = nil
                 let view = presenter.view as? EnterpriseDomainView
