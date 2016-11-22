@@ -14,7 +14,7 @@
 		5B2981781DD51A460062535C /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2981771DD51A460062535C /* InfoBarView.swift */; };
 		5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */; };
 		5B4DE0171DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */; };
-		5B4DE0191DD670F7004C8AC2 /* EnterprisePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0181DD670F7004C8AC2 /* EnterprisePasswordView.swift */; };
+		5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuth.swift */; };
 		5B6631531DDB9B28001CB043 /* EnterpriseDomainInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */; };
 		5BA563F11DD117550002D3AB /* EnterpriseActiveAuthInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA563EF1DD1171F0002D3AB /* EnterpriseActiveAuthInteractorSpec.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
@@ -210,7 +210,7 @@
 		5B2981771DD51A460062535C /* InfoBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoBarView.swift; path = Lock/InfoBarView.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainInteractor.swift; path = Lock/EnterpriseDomainInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthPresenter.swift; path = Lock/EnterpriseActiveAuthPresenter.swift; sourceTree = SOURCE_ROOT; };
-		5B4DE0181DD670F7004C8AC2 /* EnterprisePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterprisePasswordView.swift; path = Lock/EnterprisePasswordView.swift; sourceTree = SOURCE_ROOT; };
+		5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuth.swift; path = Lock/EnterpriseActiveAuth.swift; sourceTree = SOURCE_ROOT; };
 		5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainInteractorSpec.swift; sourceTree = "<group>"; };
 		5BA563EF1DD1171F0002D3AB /* EnterpriseActiveAuthInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthInteractorSpec.swift; sourceTree = "<group>"; };
 		5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthPresenterSpec.swift; sourceTree = "<group>"; };
@@ -432,7 +432,7 @@
 				5F1C49921D8360DF005B74FC /* LoadingView.swift */,
 				5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */,
 				5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */,
-				5B4DE0181DD670F7004C8AC2 /* EnterprisePasswordView.swift */,
+				5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuth.swift */,
 				5F50900D1D1DF40400EAA650 /* DatabaseOnlyView.swift */,
 				5FBE5CB91D3E59B90038536D /* MultifactorCodeView.swift */,
 				5FC434851D1DF769005188BC /* View.swift */,
@@ -963,7 +963,7 @@
 				5F2496BA1D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift in Sources */,
 				5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
 				5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */,
-				5B4DE0191DD670F7004C8AC2 /* EnterprisePasswordView.swift in Sources */,
+				5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuth.swift in Sources */,
 				5FBE5CC61D3E7F9D0038536D /* MultifactorPresenter.swift in Sources */,
 				5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */,
 				5F99AA8C1D1B3F1300D27842 /* InputField.swift in Sources */,

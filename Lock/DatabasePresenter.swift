@@ -216,7 +216,7 @@ class DatabasePresenter: Presentable, Loggable {
             if self.enterpriseInteractor?.matchDomain(input.text) != nil, let mode = self.databaseView?.switcher?.selected where mode == .Login {
                 try self.enterpriseInteractor?.updateEmail(input.text)
                 self.logger.verbose("Enterprise connection detected: \(self.enterpriseInteractor?.connection)")
-                if self.databaseView?.infoBar == nil { self.databaseView?.presentEnterprise() }
+                if self.databaseView?.ssoBar == nil { self.databaseView?.presentEnterprise() }
             } else {
                 self.databaseView?.removeEnterprise()
             }

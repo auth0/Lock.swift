@@ -44,7 +44,7 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
         
         let view = EnterpriseActiveAuth(identifer: identifier, identifierAttribute: self.interactor.identifierAttribute)
         let form = view.form
-        view.infoBar?.title = self.interactor.connection.domains.first
+        view.ssoBar?.title = self.interactor.connection.domains.first
         
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
@@ -59,7 +59,6 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
                     input.showValid()
                 default:
                     self.logger.warn("Invalid user attribute")
-                    return
                 }
             } catch {
                 input.showError()

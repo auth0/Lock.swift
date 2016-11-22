@@ -31,7 +31,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var authCollectionView: AuthCollectionView?
     weak var separator: UILabel?
     weak var secondaryStrut: UIView?
-    weak var infoBar: InfoBarView?
+    weak var ssoBar: InfoBarView?
     weak var spacer: UIView?
     
     private weak var container: UIStackView?
@@ -123,18 +123,18 @@ class DatabaseOnlyView: UIView, DatabaseView {
     func presentEnterprise() {
         guard let form = self.form as? CredentialView else { return }
 
-        let infoBar = InfoBarView()
+        let ssoBar = InfoBarView()
         let viewCount = self.container?.subviews.count ?? 0
         let spacer = strutView(withHeight: 125 - CGFloat(viewCount) * 25)
         
-        infoBar.title  = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
-        infoBar.setIcon("ic_lock")
-        infoBar.hidden = false
+        ssoBar.title  = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
+        ssoBar.setIcon("ic_lock")
+        ssoBar.hidden = false
 
-        self.container?.insertArrangedSubview(infoBar, atIndex: 0)
+        self.container?.insertArrangedSubview(ssoBar, atIndex: 0)
         self.container?.addArrangedSubview(spacer)
 
-        self.infoBar = infoBar
+        self.ssoBar = ssoBar
         self.spacer = spacer
         
         form.passwordField.hidden = true
@@ -147,9 +147,9 @@ class DatabaseOnlyView: UIView, DatabaseView {
     }
     
     func removeEnterprise() {
-        guard let infoBar = self.infoBar, spacer = self.spacer, form = self.form as? CredentialView else { return }
+        guard let ssoBar = self.ssoBar, spacer = self.spacer, form = self.form as? CredentialView else { return }
 
-        infoBar.removeFromSuperview()
+        ssoBar.removeFromSuperview()
         spacer.removeFromSuperview()
         
         form.passwordField.hidden = false
@@ -159,7 +159,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.switcher?.hidden = false
         self.secondaryButton?.hidden = false
         
-        self.infoBar = nil
+        self.ssoBar = nil
         self.spacer = nil
     }
     

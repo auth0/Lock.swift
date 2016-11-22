@@ -48,11 +48,11 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let view = EnterpriseDomainView(email: email, authCollectionView: authCollectionView)
         let form = view.form
 
-        view.infoBar?.hidden = self.interactor.connection == nil
+        view.ssoBar?.hidden = self.interactor.connection == nil
         
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
-            view.infoBar?.hidden = true
+            view.ssoBar?.hidden = true
             
             guard case .Email = input.type else { return }
             do {
@@ -61,7 +61,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
                 input.showValid()
                 if let connection = self.interactor.connection {
                     self.logger.debug("Enterprise connection match: \(connection)")
-                    view.infoBar?.hidden = false
+                    view.ssoBar?.hidden = false
                 }
             } catch {
                 input.showError()
@@ -69,7 +69,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         }
         
         let action = { (button: PrimaryButton) in
-            
+
             // Check for credential auth
             if let connection = self.interactor.connection where self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 self.navigator?.navigate(.EnterpriseActiveAuth(connection: connection))

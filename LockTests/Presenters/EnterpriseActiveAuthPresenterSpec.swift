@@ -59,11 +59,11 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             }
 
             it("should have info bar") {
-                expect(view.infoBar).toNot(beNil())
+                expect(view.ssoBar).toNot(beNil())
             }
 
             it("info bar should contain first connection domain") {
-                expect(view.infoBar!.title!.containsString(connection.domains.first!)).to(beTrue())
+                expect(view.ssoBar!.title!.containsString(connection.domains.first!)).to(beTrue())
             }
         }
 

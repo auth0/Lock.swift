@@ -577,13 +577,13 @@ class DatabasePresenterSpec: QuickSpec {
                 it("should modify display with enterprise changes") {
                     let input = mockInput(.Email, value: "user@valid.com")
                     view.form?.onValueChange(input)
-                    expect(view.infoBar).toNot(beNil())
+                    expect(view.ssoBar).toNot(beNil())
                 }
                 
                 it("should not modify display with enterprise changes") {
                     let input = mockInput(.Email, value: "user@invalid.com")
                     view.form?.onValueChange(input)
-                    expect(view.infoBar).to(beNil())
+                    expect(view.ssoBar).to(beNil())
                 }
                 
                 context("enterprise mode") {
@@ -593,14 +593,14 @@ class DatabasePresenterSpec: QuickSpec {
                         view.form?.onValueChange(input)
                     }
                     
-                    it("should show infobar") {
-                        expect(view.infoBar).toNot(beNil())
+                    it("should show ssoBar") {
+                        expect(view.ssoBar).toNot(beNil())
                     }
                     
-                    it("should not show infobar") {
+                    it("should not show ssoBar") {
                         let input = mockInput(.Email, value: "user@invalid.com")
                         view.form?.onValueChange(input)
-                        expect(view.infoBar).to(beNil())
+                        expect(view.ssoBar).to(beNil())
                     }
                     
                     it("should return identity returntype as .Done") {

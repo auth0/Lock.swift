@@ -25,7 +25,7 @@ import UIKit
 class EnterpriseDomainView: UIView, View {
     
     weak var form: Form?
-    weak var infoBar: InfoBarView?
+    weak var ssoBar: InfoBarView?
     weak var primaryButton: PrimaryButton?
     weak var authCollectionView: AuthCollectionView?
     
@@ -35,7 +35,7 @@ class EnterpriseDomainView: UIView, View {
         let primaryButton = PrimaryButton()
         let domainView = EnterpriseSingleInputView()
         let container = UIStackView()
-        let infoBar = InfoBarView()
+        let ssoBar = InfoBarView()
         
         self.primaryButton = primaryButton
         self.form = domainView
@@ -43,14 +43,14 @@ class EnterpriseDomainView: UIView, View {
         
         super.init(frame: CGRectZero)
         
-        self.addSubview(infoBar)
+        self.addSubview(ssoBar)
         self.addSubview(container)
         self.addSubview(primaryButton)
         
-        infoBar.title = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
-        infoBar.setIcon("ic_lock")
-        infoBar.hidden = true
-        self.infoBar = infoBar
+        ssoBar.title = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
+        ssoBar.setIcon("ic_lock")
+        ssoBar.hidden = true
+        self.ssoBar = ssoBar
         container.alignment = .Fill
         container.axis = .Vertical
         container.distribution = .EqualSpacing
@@ -70,13 +70,13 @@ class EnterpriseDomainView: UIView, View {
         container.addArrangedSubview(domainView)
         container.addArrangedSubview(strutView())
         
-        constraintEqual(anchor: infoBar.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: infoBar.leftAnchor, toAnchor: self.leftAnchor, constant: 0)
-        constraintEqual(anchor: infoBar.rightAnchor, toAnchor: self.rightAnchor, constant: 0)
-        constraintEqual(anchor: infoBar.bottomAnchor, toAnchor: container.topAnchor)
-        infoBar.translatesAutoresizingMaskIntoConstraints = false
+        constraintEqual(anchor: ssoBar.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: ssoBar.leftAnchor, toAnchor: self.leftAnchor, constant: 0)
+        constraintEqual(anchor: ssoBar.rightAnchor, toAnchor: self.rightAnchor, constant: 0)
+        constraintEqual(anchor: ssoBar.bottomAnchor, toAnchor: container.topAnchor)
+        ssoBar.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: container.topAnchor, toAnchor: infoBar.bottomAnchor)
+        constraintEqual(anchor: container.topAnchor, toAnchor: ssoBar.bottomAnchor)
         constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
         constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
         constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor)
