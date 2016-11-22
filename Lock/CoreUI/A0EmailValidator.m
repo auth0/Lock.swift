@@ -45,7 +45,7 @@ NSString * const A0EmailValidatorIdentifer = @"A0EmailValidatorIdentifer";
     self = [super init];
     if (self) {
         _emailSource = [source copy];
-        NSString *emailRegex = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+        NSString *emailRegex = @"[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?";
         _emailPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
         _identifier = A0EmailValidatorIdentifer;
     }
