@@ -26,9 +26,9 @@ import Nimble
 @testable import Lock
 
 class EnterpriseDomainPresenterSpec: QuickSpec {
-    
+
     override func spec() {
-        
+
         var interactor: EnterpriseDomainInteractor!
         var presenter: EnterpriseDomainPresenter!
         var view: EnterpriseDomainView!
@@ -36,96 +36,100 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
         var connections: OfflineConnections!
         var oauth2: MockOAuth2!
         var authPresenter: MockAuthPresenter!
-        
+        var navigator: MockNavigator!
+        var user: User!
+        var options: OptionBuildable!
+
         beforeEach {
             messagePresenter = MockMessagePresenter()
             oauth2 = MockOAuth2()
             authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor(), customStyle: [:])
-            
+            user = User()
+            navigator = MockNavigator()
+            options = LockOptions()
+
             connections = OfflineConnections()
-            connections.enterprise(name: "testAD", domains: ["test.com"])
-            
+            connections.enterprise(name: "TestAD", domains: ["test.com"])
+
             interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
-            
-            presenter = EnterpriseDomainPresenter(interactor: interactor)
+            presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
             presenter.messagePresenter = messagePresenter
-            
             view = presenter.view as! EnterpriseDomainView
         }
-        
+
         describe("email input validation") {
-            
+
             it("should use valid email") {
                 interactor.email = email
                 interactor.validEmail = true
-                presenter = EnterpriseDomainPresenter(interactor: interactor)
-                
+                presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+
                 let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseSingleInputView
                 expect(view.value).to(equal(email))
             }
-            
+
             it("should not use invalid email") {
                 interactor.email = email
                 interactor.validEmail = false
-                presenter = EnterpriseDomainPresenter(interactor: interactor)
-                
+                presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+
                 let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseSingleInputView
                 expect(view.value).toNot(equal(email))
             }
         }
-        
-        
-        
+
+
+
         describe("user input") {
-            
+
             it("email should update with valid email") {
                 let input = mockInput(.Email, value: "valid@email.com")
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.email).to(equal("valid@email.com"))
             }
-            
+
             it("email should be invalid when nil") {
                 let input = mockInput(.Email, value: nil)
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.validEmail).to(equal(false))
             }
-            
+
             it("email should be invalid when garbage") {
                 let input = mockInput(.Email, value: "       ")
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.validEmail).to(equal(false))
             }
-            
+
             it("connection should match with valid domain") {
                 let input = mockInput(.Email, value: "valid@test.com")
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.connection).toNot(beNil())
-                expect(presenter.interactor.connection?.name).to(equal("testAD"))
+                expect(presenter.interactor.connection?.name).to(equal("TestAD"))
             }
-            
+
             it("connection should not match with an invalid domain") {
                 let input = mockInput(.Email, value: "email@nomatchdomain.com")
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.connection).to(beNil())
             }
-            
+
             it("should hide the field error if value is valid") {
                 let input = mockInput(.Email, value: email)
                 view.form?.onValueChange(input)
                 expect(input.valid).to(equal(true))
             }
-            
+
             it("should show field error if value is invalid") {
                 let input = mockInput(.Email, value: "invalid")
                 view.form?.onValueChange(input)
                 expect(input.valid).to(equal(false))
             }
-            
+
         }
-        
-        
+
+
         describe("login action") {
-            
+
             it("should not trigger action with nil button") {
                 let input = mockInput(.Email, value: "invalid")
                 input.returnKey = .Done
@@ -134,39 +138,73 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 expect(messagePresenter.message).toEventually(beNil())
                 expect(messagePresenter.error).toEventually(beNil())
             }
-            
-            
+
+
             it("should fail when no connection is matched") {
                 presenter.interactor.connection = nil
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.NoConnectionAvailable))
             }
-            
+
             it("should show yield oauth2 error on failure") {
                 presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"])
                 oauth2.onLogin = { return OAuth2AuthenticatableError.CouldNotAuthenticate }
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.CouldNotAuthenticate))
             }
-            
+
             it("should show no error on success") {
                 let input = mockInput(.Email, value: "user@test.com")
                 view.form?.onValueChange(input)
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(messagePresenter.error).toEventually(beNil())
             }
-            
-            
+
+            it("should not navigate to enterprise passwod presenter") {
+                let input = mockInput(.Email, value: "user@test.com")
+                view.form?.onValueChange(input)
+                view.primaryButton?.onPress(view.primaryButton!)
+                expect(navigator.route).toEventually(beNil())
+            }
+
+            context("connection with credential auth flag set") {
+
+                beforeEach {
+                    options.enterpriseConnectionUsingActiveAuth.append("TestAD")
+
+                    presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+                    presenter.messagePresenter = messagePresenter
+                    view = presenter.view as! EnterpriseDomainView
+                }
+
+                it("should navigate to enterprise passwod presenter") {
+                    let input = mockInput(.Email, value: "user@test.com")
+                    view.form?.onValueChange(input)
+                    view.primaryButton?.onPress(view.primaryButton!)
+
+                    expect(navigator.route).toEventually(equal(Route.EnterpriseActiveAuth(connection: presenter.interactor.connection!)))
+                }
+
+                it("should not navigate to enterprise passwod presenter") {
+                    let input = mockInput(.Email, value: "user@testfail.com")
+                    view.form?.onValueChange(input)
+                    view.primaryButton?.onPress(view.primaryButton!)
+
+                    expect(navigator.route).toEventually(beNil())
+                }
+
+            }
+
         }
-        
+
         describe("auth buttons") {
-            
+
             it("should init view with social view") {
                 presenter.authPresenter = authPresenter
                 let view = presenter.view as? EnterpriseDomainView
                 expect(view?.authCollectionView).to(equal(authPresenter.authView))
             }
-            
+
             it("should init view with not social view") {
                 presenter.authPresenter = nil
                 let view = presenter.view as? EnterpriseDomainView

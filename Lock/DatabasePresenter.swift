@@ -112,13 +112,19 @@ class DatabasePresenter: Presentable, Loggable {
             }
 
             // Enterprise Authentication
-            if self.enterpriseInteractor?.connection != nil {
-                self.enterpriseInteractor?.login(errorHandler)
+            if let connection = self.enterpriseInteractor?.connection {
+                // Credential Auth
+                if self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+                    self.navigator.navigate(.EnterpriseActiveAuth(connection: connection))
+                } else {
+                    // OAuth
+                    self.enterpriseInteractor?.login(errorHandler)
+                }
             } else {
                 // Database Authentication
                 self.authenticator.login(errorHandler)
             }
-            
+
         }
 
         view.form?.onReturn = { field in
@@ -210,7 +216,7 @@ class DatabasePresenter: Presentable, Loggable {
             if self.enterpriseInteractor?.matchDomain(input.text) != nil, let mode = self.databaseView?.switcher?.selected where mode == .Login {
                 try self.enterpriseInteractor?.updateEmail(input.text)
                 self.logger.verbose("Enterprise connection detected: \(self.enterpriseInteractor?.connection)")
-                if self.databaseView?.infoBar == nil { self.databaseView?.presentEnterprise() }
+                if self.databaseView?.ssoBar == nil { self.databaseView?.presentEnterprise() }
             } else {
                 self.databaseView?.removeEnterprise()
             }

@@ -577,30 +577,30 @@ class DatabasePresenterSpec: QuickSpec {
                 it("should modify display with enterprise changes") {
                     let input = mockInput(.Email, value: "user@valid.com")
                     view.form?.onValueChange(input)
-                    expect(view.infoBar).toNot(beNil())
+                    expect(view.ssoBar).toNot(beNil())
                 }
                 
                 it("should not modify display with enterprise changes") {
                     let input = mockInput(.Email, value: "user@invalid.com")
                     view.form?.onValueChange(input)
-                    expect(view.infoBar).to(beNil())
+                    expect(view.ssoBar).to(beNil())
                 }
                 
-                context("with existing enterprise display") {
+                context("enterprise mode") {
                     
                     beforeEach {
                         let input = mockInput(.Email, value: "user@valid.com")
                         view.form?.onValueChange(input)
                     }
                     
-                    it("should show infobar") {
-                        expect(view.infoBar).toNot(beNil())
+                    it("should show ssoBar") {
+                        expect(view.ssoBar).toNot(beNil())
                     }
                     
-                    it("should not show infobar") {
+                    it("should not show ssoBar") {
                         let input = mockInput(.Email, value: "user@invalid.com")
                         view.form?.onValueChange(input)
-                        expect(view.infoBar).to(beNil())
+                        expect(view.ssoBar).to(beNil())
                     }
                     
                     it("should return identity returntype as .Done") {
@@ -615,11 +615,43 @@ class DatabasePresenterSpec: QuickSpec {
                         let form = view.form as! CredentialView
                         expect(form.identityField.returnKey).to(equal(UIReturnKeyType.Next))
                     }
-                    
-                    it("should launch OAuth") {
-                        
+
+                    it("should show no error on success") {
+                        let input = mockInput(.Email, value: "user@valid.com")
+                        view.form?.onValueChange(input)
+                        view.primaryButton?.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventually(beNil())
                     }
                     
+                }
+
+                context("enterprise mode with credential auth enabled") {
+
+                    beforeEach {
+                        var options = LockOptions()
+                        options.enterpriseConnectionUsingActiveAuth = ["validAD"]
+
+                        connections = OfflineConnections()
+                        connections.enterprise(name: "validAD", domains: ["valid.com"])
+
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                        enterpriseInteractor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
+                        presenter.enterpriseInteractor = enterpriseInteractor
+
+                        view = presenter.view as! DatabaseOnlyView
+
+                        let input = mockInput(.Email, value: "user@valid.com")
+                        view.form?.onValueChange(input)
+
+                    }
+
+                    it("should navigate to enterprise password presenter") {
+                        view.primaryButton?.onPress(view.primaryButton!)
+                        let connection = presenter.enterpriseInteractor?.connection!
+                        expect(connection).toNot(beNil())
+                        expect(navigator.route).toEventually(equal(Route.EnterpriseActiveAuth(connection: connection!)))
+                    }
+
                 }
                 
             }

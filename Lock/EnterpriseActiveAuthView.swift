@@ -1,4 +1,4 @@
-// EnterpriseDomainView.swift
+// EnterpriseActiveAuthView.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,85 +22,81 @@
 
 import UIKit
 
-class EnterpriseDomainView: UIView, View {
-    
+class EnterpriseActiveAuthView: UIView, View {
+
     weak var form: Form?
     weak var ssoBar: InfoBarView?
     weak var primaryButton: PrimaryButton?
-    weak var authCollectionView: AuthCollectionView?
-    
+
     private weak var container: UIStackView?
-    
-    init(email: String?, authCollectionView: AuthCollectionView? = nil) {
+
+    init(identifer: String?, identifierAttribute: UserAttribute) {
         let primaryButton = PrimaryButton()
-        let domainView = EnterpriseSingleInputView()
+        let credentialView = CredentialView()
         let container = UIStackView()
         let ssoBar = InfoBarView()
-        
+
         self.primaryButton = primaryButton
-        self.form = domainView
-        self.container = container
-        
+        self.form = credentialView
+
         super.init(frame: CGRectZero)
-        
+
         self.addSubview(ssoBar)
-        self.addSubview(container)
         self.addSubview(primaryButton)
-        
+        self.addSubview(container)
+
         ssoBar.title = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
         ssoBar.setIcon("ic_lock")
-        ssoBar.hidden = true
         self.ssoBar = ssoBar
+
         container.alignment = .Fill
         container.axis = .Vertical
         container.distribution = .EqualSpacing
-        container.spacing = 5
-        
-        container.addArrangedSubview(strutView(withHeight: 25))
-        if let authCollectionView = authCollectionView {
-            self.authCollectionView = authCollectionView
-            container.addArrangedSubview(authCollectionView)
-            let label = UILabel()
-            label.text = "or".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
-            label.font = mediumSystemFont(size: 13.75)
-            label.textColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54 )
-            label.textAlignment = .Center
-            container.addArrangedSubview(label)
-        }
-        container.addArrangedSubview(domainView)
-        container.addArrangedSubview(strutView())
-        
+        container.spacing = 10
+
         constraintEqual(anchor: ssoBar.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: ssoBar.leftAnchor, toAnchor: self.leftAnchor, constant: 0)
-        constraintEqual(anchor: ssoBar.rightAnchor, toAnchor: self.rightAnchor, constant: 0)
+        constraintEqual(anchor: ssoBar.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: ssoBar.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: ssoBar.bottomAnchor, toAnchor: container.topAnchor)
         ssoBar.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: container.topAnchor, toAnchor: ssoBar.bottomAnchor)
-        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
-        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
+        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor)
         container.translatesAutoresizingMaskIntoConstraints = false
-        
+
+        constraintEqual(anchor: primaryButton.topAnchor, toAnchor: container.bottomAnchor)
         constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        domainView.type = .Email
-        domainView.returnKey = .Done
-        domainView.value = email
-        
+
+        credentialView.identityField.text = identifer
+        switch identifierAttribute {
+        case .Username:
+            credentialView.identityField.type = .Username
+        default:
+            credentialView.identityField.type = .Email
+        }
+
+        credentialView.identityField.returnKey = .Next
+        credentialView.identityField.nextField = credentialView.passwordField
+        credentialView.passwordField.returnKey = .Done
+
+        container.addArrangedSubview(strutView())
+        container.addArrangedSubview(credentialView)
+        container.addArrangedSubview(strutView())
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func apply(style style: Style) {
         self.primaryButton?.apply(style: style)
     }
-    
+
 }
 
 private func strutView(withHeight height: CGFloat = 50) -> UIView {
@@ -108,11 +104,4 @@ private func strutView(withHeight height: CGFloat = 50) -> UIView {
     view.translatesAutoresizingMaskIntoConstraints = false
     dimension(view.heightAnchor, withValue: height)
     return view
-}
-
-public class EnterpriseSingleInputView : SingleInputView {
-    
-    public override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 50)
-    }
 }

@@ -1,4 +1,4 @@
-// EnterpriseDomainPresenter.swift
+// EnterpriseActiveAuthPresenter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,46 +22,43 @@
 
 import Foundation
 
-class EnterpriseDomainPresenter: Presentable, Loggable {
+class EnterpriseActiveAuthPresenter: Presentable, Loggable {
     
-    var interactor: EnterpriseDomainInteractor
+    var interactor: EnterpriseActiveAuthInteractor
     var customLogger: Logger?
-    var user: User
-    var options: Options
     
-    // Social connections
-    var authPresenter: AuthPresenter?
-    
-    init(interactor: EnterpriseDomainInteractor, navigator: Navigable, user: User, options: Options) {
+    init(interactor: EnterpriseActiveAuthInteractor) {
         self.interactor = interactor
-        self.navigator = navigator
-        self.user = user
-        self.options = options
     }
     
     var messagePresenter: MessagePresenter?
-    var navigator: Navigable?
     
     var view: View {
-        let email = self.interactor.validEmail ? self.interactor.email : nil
-        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 0, 0, 0), isLogin: true)
-        let view = EnterpriseDomainView(email: email, authCollectionView: authCollectionView)
+        var identifier: String?
+        
+        if let email = self.interactor.email where self.interactor.validEmail {
+            identifier = email
+        } else if let username = self.interactor.username where self.interactor.validUsername {
+            identifier = username
+        }
+        
+        let view = EnterpriseActiveAuthView(identifer: identifier, identifierAttribute: self.interactor.identifierAttribute)
         let form = view.form
-
-        view.ssoBar?.hidden = self.interactor.connection == nil
+        view.ssoBar?.title = self.interactor.connection.domains.first
         
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
-            view.ssoBar?.hidden = true
             
-            guard case .Email = input.type else { return }
             do {
-                try self.interactor.updateEmail(input.text)
-                self.user.email = self.interactor.email
-                input.showValid()
-                if let connection = self.interactor.connection {
-                    self.logger.debug("Enterprise connection match: \(connection)")
-                    view.ssoBar?.hidden = false
+                switch input.type {
+                case .Email, .Username:
+                    try self.interactor.update(self.interactor.identifierAttribute, value: input.text)
+                    input.showValid()
+                case .Password:
+                    try self.interactor.update(.Password, value: input.text)
+                    input.showValid()
+                default:
+                    self.logger.warn("Invalid user attribute")
                 }
             } catch {
                 input.showError()
@@ -69,15 +66,10 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         }
         
         let action = { (button: PrimaryButton) in
-
-            // Check for credential auth
-            if let connection = self.interactor.connection where self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                guard self.navigator?.navigate(.EnterpriseActiveAuth(connection: connection)) == nil else { return }
-            }
-
             self.messagePresenter?.hideCurrent()
-            self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
+            self.logger.info("Enterprise password connection started: \(self.interactor.identifier), \(self.interactor.connection)")
             let interactor = self.interactor
+            
             button.inProgress = true
             interactor.login { error in
                 Queue.main.async {
@@ -87,12 +79,11 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
                         self.messagePresenter?.showError(error)
                         self.logger.error("Enterprise connection failed: \(error)")
                     } else {
-                        self.logger.debug("Enterprise authenticator launched")
+                        self.logger.debug("Enterprise connection success")
                     }
                 }
                 
             }
-            
         }
         
         view.primaryButton?.onPress = action

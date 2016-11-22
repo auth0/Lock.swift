@@ -1,4 +1,4 @@
-// DatabasePasswordInteractorSpec.swift
+// EnterpriseDomainInteractorSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -27,21 +27,6 @@ import Auth0
 
 @testable import Lock
 
-private struct Enterprise {
-    struct Connection {
-        struct Single {
-            static let name = "TestAD"
-            static let domain = ["test.com"]
-            static let validDomain = "user@test.com"
-        }
-        struct MultiDomain {
-            static let name = "TestAD"
-            static let domain = ["test.com","pepe.com"]
-            static let validDomain = ["user@test.com", "user@pepe.com"]
-        }
-    }
-}
-
 class EnterpriseDomainInteractorSpec: QuickSpec {
     
     override func spec() {
@@ -54,7 +39,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
         
         beforeEach {
             connections = OfflineConnections()
-            connections.enterprise(name: Enterprise.Connection.Single.name, domains: Enterprise.Connection.Single.domain)
+            connections.enterprise(name: "TestAD", domains: ["test.com"])
             
             credentials = nil
             webAuth = MockWebAuth()
@@ -81,7 +66,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 
                 beforeEach {
                     connections = OfflineConnections()
-                    connections.enterprise(name: Enterprise.Connection.Single.name, domains: [])
+                    connections.enterprise(name: "TestAD", domains: [])
                     enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
                 }
                 
@@ -97,18 +82,18 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 
                 beforeEach {
                     connections = OfflineConnections()
-                    connections.enterprise(name: Enterprise.Connection.Single.name, domains: Enterprise.Connection.Single.domain)
+                    connections.enterprise(name: "TestAD", domains: ["test.com"])
                     enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
                 }
                 
                 it("should match email domain") {
-                    expect{ try enterprise.updateEmail(Enterprise.Connection.Single.validDomain) }.toNot(throwError())
-                    expect(enterprise.email) == Enterprise.Connection.Single.validDomain
+                    expect{ try enterprise.updateEmail("user@test.com") }.toNot(throwError())
+                    expect(enterprise.email) == "user@test.com"
                 }
                 
                 it("should match email domain and provide enteprise connection") {
-                    try! enterprise.updateEmail(Enterprise.Connection.Single.validDomain)
-                    expect(enterprise.connection?.name) == Enterprise.Connection.Single.name
+                    try! enterprise.updateEmail("user@test.com")
+                    expect(enterprise.connection?.name) == "TestAD"
                 }
                 
                 
@@ -131,19 +116,19 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 
                 beforeEach {
                     connections = OfflineConnections()
-                    connections.enterprise(name: Enterprise.Connection.MultiDomain.name, domains: Enterprise.Connection.MultiDomain.domain)
+                    connections.enterprise(name: "TestAD", domains: ["test.com","pepe.com"])
                     
                     enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
                 }
                 
                 it("should match first email domain and provide enteprise connection") {
-                    try! enterprise.updateEmail(Enterprise.Connection.MultiDomain.validDomain.first)
-                    expect(enterprise.connection?.name) == Enterprise.Connection.MultiDomain.name
+                    try! enterprise.updateEmail("user@test.com")
+                    expect(enterprise.connection?.name) == "TestAD"
                 }
                 
                 it("should match second email domain and provide enteprise connection") {
-                    try! enterprise.updateEmail(Enterprise.Connection.MultiDomain.validDomain.last)
-                    expect(enterprise.connection?.name) == Enterprise.Connection.MultiDomain.name
+                    try! enterprise.updateEmail("user@pepe.com")
+                    expect(enterprise.connection?.name) == "TestAD"
                 }
             }
             
@@ -157,7 +142,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 error = nil
                 
                 connections = OfflineConnections()
-                connections.enterprise(name: Enterprise.Connection.Single.name, domains: Enterprise.Connection.Single.domain)
+                connections.enterprise(name: "TestAD", domains: ["test.com"])
                 enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
             }
             
@@ -172,7 +157,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 
                 webAuth.result = { return .Success(result: mockCredentials()) }
                 
-                try! enterprise.updateEmail(Enterprise.Connection.Single.validDomain)
+                try! enterprise.updateEmail("user@test.com")
                 enterprise.login() { error = $0 }
                 expect(error).toEventually(beNil())
             }
@@ -181,7 +166,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 let expected = mockCredentials()
                 webAuth.result = { return .Success(result: expected) }
                 
-                try! enterprise.updateEmail(Enterprise.Connection.Single.validDomain)
+                try! enterprise.updateEmail("user@test.com")
                 enterprise.login() { error = $0 }
                 expect(credentials).toEventually(equal(expected))
             }

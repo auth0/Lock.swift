@@ -224,13 +224,13 @@ class CDNLoaderInteractorSpec: QuickSpec {
             it("should load enterprise connections") {
                 stub(isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([
                     mockStrategy("ad", connections: [
-                        mockEntepriseConnection("testAD", domain: ["test.com"]),
+                        mockEntepriseConnection("TestAD", domain: ["test.com"]),
                         mockEntepriseConnection("fakeAD", domain: ["fake.com"])]
                     )]) }
                 loader.load(callback)
                 expect(connections?.enterprise).toEventuallyNot(beNil())
                 expect(connections?.enterprise.count).toEventually(be(2))
-                expect(connections?.enterprise[0].name) == "testAD"
+                expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
             
@@ -238,7 +238,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 stub(isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([
                     mockStrategy("auth0", connections: [mockDatabaseConnection(databaseConnection)]),
                     mockStrategy("ad", connections: [
-                        mockEntepriseConnection("testAD", domain: ["test.com"]),
+                        mockEntepriseConnection("TestAD", domain: ["test.com"]),
                         mockEntepriseConnection("fakeAD", domain: ["fake.com"])]
                     )]) }
                 loader.load(callback)
@@ -246,7 +246,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 
                 expect(connections?.enterprise).toEventuallyNot(beNil())
                 expect(connections?.enterprise.count).toEventually(be(2))
-                expect(connections?.enterprise[0].name) == "testAD"
+                expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
             
@@ -256,7 +256,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                         mockOAuth2("facebook1"),
                         mockOAuth2("facebook2")]),
                     mockStrategy("ad", connections: [
-                        mockEntepriseConnection("testAD", domain: ["test.com"]),
+                        mockEntepriseConnection("TestAD", domain: ["test.com"]),
                         mockEntepriseConnection("fakeAD", domain: ["fake.com"])]
                     )]) }
                 loader.load(callback)
@@ -267,7 +267,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
 
                 expect(connections?.enterprise).toEventuallyNot(beNil())
                 expect(connections?.enterprise.count).toEventually(be(2))
-                expect(connections?.enterprise[0].name) == "testAD"
+                expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
             
@@ -278,7 +278,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                         mockOAuth2("facebook1"),
                         mockOAuth2("facebook2")]),
                     mockStrategy("ad", connections: [
-                        mockEntepriseConnection("testAD", domain: ["test.com"]),
+                        mockEntepriseConnection("TestAD", domain: ["test.com"]),
                         mockEntepriseConnection("fakeAD", domain: ["fake.com"])]
                     )]) }
                 loader.load(callback)
@@ -291,7 +291,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 
                 expect(connections?.enterprise).toEventuallyNot(beNil())
                 expect(connections?.enterprise.count).toEventually(be(2))
-                expect(connections?.enterprise[0].name) == "testAD"
+                expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
             

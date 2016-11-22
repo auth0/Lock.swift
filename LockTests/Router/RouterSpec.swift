@@ -71,6 +71,14 @@ class RouterSpec: QuickSpec {
                 expect(router.root as? AuthPresenter).toNot(beNil())
             }
 
+            it("should return root for only enterprise connections") {
+                lock.withConnections {
+                    $0.enterprise(name: "testAD", domains: ["testAD.com"])
+                    $0.enterprise(name: "validAD", domains: ["validAD.com"])
+                }
+                expect(router.root as? EnterpriseDomainPresenter).toNot(beNil())
+            }
+
             it("should return root for loading connection from CDN") {
                 expect(router.root as? ConnectionLoadingPresenter).toNot(beNil())
             }
@@ -202,6 +210,11 @@ class RouterSpec: QuickSpec {
                 router.navigate(.Multifactor)
                 expect(controller.presentable as? MultifactorPresenter).toNot(beNil())
             }
+
+            it("should show enterprise active auth screen") {
+                router.navigate(.EnterpriseActiveAuth(connection: EnterpriseConnection(name: "testAD", domains: ["testad.com"])))
+                expect(controller.presentable as? EnterpriseActiveAuthPresenter).toNot(beNil())
+            }
         }
 
         it("should present view controller") {
@@ -257,6 +270,36 @@ class RouterSpec: QuickSpec {
                     }
                     router.reload(withConnections: OfflineConnections())
                 }
+            }
+
+        }
+
+        describe("route equatable") {
+
+            it("root should should be equatable with root") {
+                let match = Route.Root == Route.Root
+                expect(match).to(beTrue())
+            }
+
+            it("Multifactor should should be equatable with Multifactor") {
+                let match = Route.Multifactor == Route.Multifactor
+                expect(match).to(beTrue())
+            }
+
+            it("ForgotPassword should should be equatable with ForgotPassword") {
+                let match = Route.ForgotPassword == Route.ForgotPassword
+                expect(match).to(beTrue())
+            }
+
+            it("EnterpriseActiveAuth should should be equatable with EnterpriseActiveAuth") {
+                let enterpriseConnection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
+                let match = Route.EnterpriseActiveAuth(connection: enterpriseConnection) == Route.EnterpriseActiveAuth(connection: enterpriseConnection)
+                expect(match).to(beTrue())
+            }
+
+            it("root should should not be equatable with Multifactor") {
+                let match = Route.Root == Route.Multifactor
+                expect(match).to(beFalse())
             }
 
         }
