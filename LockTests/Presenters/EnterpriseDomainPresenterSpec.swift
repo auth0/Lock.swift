@@ -267,26 +267,6 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
 
             }
 
-            context("single enterprise connection with auth flag set") {
-
-                beforeEach {
-                    connections = OfflineConnections()
-                    connections.enterprise(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
-                    options.enterpriseConnectionUsingActiveAuth.append("TestAD")
-
-                    interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
-                    presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
-                    presenter.messagePresenter = messagePresenter
-                    view = presenter.view as! EnterpriseDomainView
-                }
-
-                it("should navigate to enterprise passwod presenter") {
-                    view.authButton!.onPress(view.authButton!)
-                    expect(navigator.route).toEventually(equal(Route.EnterpriseActiveAuth(connection: presenter.interactor.connection!)))
-                }
-                
-            }
-
         }
         
         describe("auth buttons") {

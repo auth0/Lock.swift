@@ -48,8 +48,6 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
 
         // Single Enterprise Domain
         if let enterpriseButton = EnterpriseButton(forConnections: interactor.connections, customStyle: [:], isLogin: true, onAction: {
-            if self.authModeSwitch() { return }
-            
             self.interactor.login { error in
                 Queue.main.async {
                     if let error = error {
@@ -88,12 +86,11 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         }
 
         let action = { (button: PrimaryButton) in
-            
             // Check for credential auth
             if let connection = self.interactor.connection where self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 guard self.navigator?.navigate(.EnterpriseActiveAuth(connection: connection)) == nil else { return }
             }
-
+            
             self.messagePresenter?.hideCurrent()
             self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
             let interactor = self.interactor
