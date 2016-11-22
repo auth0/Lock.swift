@@ -120,17 +120,6 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         return view
     }
 
-    func authModeSwitch() -> Bool {
-        // Check for credential auth
-        if let connection = self.interactor.connection {
-            if self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                self.navigator?.navigate(.EnterpriseActiveAuth(connection: connection))
-                return true
-            }
-        }
-        return false
-    }
-
 }
 
 func EnterpriseButton(forConnections connections: [EnterpriseConnection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: () -> () ) -> AuthButton? {
