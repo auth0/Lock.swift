@@ -69,7 +69,6 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let form = view.form
 
         view.ssoBar?.hidden = self.interactor.connection == nil
-        
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
             view.ssoBar?.hidden = true
