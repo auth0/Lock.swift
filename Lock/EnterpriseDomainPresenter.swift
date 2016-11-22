@@ -72,8 +72,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
 
             // Check for credential auth
             if let connection = self.interactor.connection where self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                self.navigator?.navigate(.EnterpriseActiveAuth(connection: connection))
-                return
+                guard self.navigator?.navigate(.EnterpriseActiveAuth(connection: connection)) == nil else { return }
             }
 
             self.messagePresenter?.hideCurrent()

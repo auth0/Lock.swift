@@ -34,7 +34,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
         var interactor: EnterpriseActiveAuthInteractor!
         var presenter: EnterpriseActiveAuthPresenter!
         var messagePresenter: MockMessagePresenter!
-        var view: EnterpriseActiveAuth!
+        var view: EnterpriseActiveAuthView!
         var options: LockOptions!
         var user: User!
         var connection: EnterpriseConnection!
@@ -49,7 +49,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
             presenter.messagePresenter = messagePresenter
 
-            view = presenter.view as! EnterpriseActiveAuth
+            view = presenter.view as! EnterpriseActiveAuthView
         }
 
         describe("init") {
@@ -74,7 +74,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 interactor.validEmail = true
                 interactor.email = email
                 presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
-                let view = (presenter.view as! EnterpriseActiveAuth).form as! CredentialView
+                let view = (presenter.view as! EnterpriseActiveAuthView).form as! CredentialView
                 expect(view.identityField.text).to(equal(email))
             }
 
@@ -82,12 +82,12 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 interactor.validUsername = true
                 interactor.username = username
                 presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
-                let view = (presenter.view as! EnterpriseActiveAuth).form as! CredentialView
+                let view = (presenter.view as! EnterpriseActiveAuthView).form as! CredentialView
                 expect(view.identityField.text).to(equal(username))
             }
 
             it("should expect default identifier input type to be UserName") {
-                let view = (presenter.view as! EnterpriseActiveAuth).form as! CredentialView
+                let view = (presenter.view as! EnterpriseActiveAuthView).form as! CredentialView
                 expect(view.identityField.type).toEventually(equal(InputField.InputType.Username))
             }
 
@@ -103,7 +103,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 }
 
                 it("should expect default identifier type to be email") {
-                    let view = (presenter.view as! EnterpriseActiveAuth).form as! CredentialView
+                    let view = (presenter.view as! EnterpriseActiveAuthView).form as! CredentialView
                     expect(view.identityField.type).toEventually(equal(InputField.InputType.Email))
                 }
 
@@ -161,7 +161,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                     presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
                     presenter.messagePresenter = messagePresenter
 
-                    view = presenter.view as! EnterpriseActiveAuth
+                    view = presenter.view as! EnterpriseActiveAuthView
                 }
 
                 it("should update email if value is valid") {
@@ -199,7 +199,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
                 presenter.messagePresenter = messagePresenter
 
-                view = presenter.view as! EnterpriseActiveAuth
+                view = presenter.view as! EnterpriseActiveAuthView
             }
 
             it("should not trigger action with nil button") {

@@ -1,4 +1,4 @@
-// EnterpriseActiveAuth.swift
+// EnterpriseActiveAuthView.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,7 +22,7 @@
 
 import UIKit
 
-class EnterpriseActiveAuth: UIView, View {
+class EnterpriseActiveAuthView: UIView, View {
 
     weak var form: Form?
     weak var ssoBar: InfoBarView?

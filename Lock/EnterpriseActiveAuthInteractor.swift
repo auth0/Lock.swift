@@ -57,15 +57,11 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
         if !self.options.activeDirectoryEmailAsUsername {
             identifierAttribute = .Username
             identifier = self.user.email?.componentsSeparatedByString("@").first
+            updateUsername(identifier)
         } else {
             identifierAttribute = .Email
             identifier = self.user.email
-        }
-
-        do {
-            try update(identifierAttribute, value: identifier)
-        } catch {
-            self.logger.warn("Failed to set identifer")
+            updateEmail(identifier)
         }
     }
 
