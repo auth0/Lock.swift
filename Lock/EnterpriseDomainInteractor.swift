@@ -43,16 +43,16 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
         }
     }
 
-    func matchDomain(value: String?) -> EnterpriseConnection? {
-        guard let domain = value?.componentsSeparatedByString("@").last else { return nil }
+    func matchDomain(_ value: String?) -> EnterpriseConnection? {
+        guard let domain = value?.components(separatedBy: "@").last else { return nil }
         return connections.filter { $0.domains.contains(domain) }.first
     }
     
-    mutating func updateEmail(value: String?) throws {
+    mutating func updateEmail(_ value: String?) throws {
         validEmail = false
         connection = nil
 
-        email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        email = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         if let error = emailValidator.validate(value) {
             throw error
         }
@@ -61,8 +61,8 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
         connection = matchDomain(value)
     }
     
-    func login(callback: (OAuth2AuthenticatableError?) -> ()) {
-        guard let connection = self.connection else { return callback(.NoConnectionAvailable) }
+    func login(_ callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+        guard let connection = self.connection else { return callback(.noConnectionAvailable) }
         authenticator.login(connection.name, callback: callback)
     }
     

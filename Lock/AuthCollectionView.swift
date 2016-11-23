@@ -26,22 +26,22 @@ class AuthCollectionView: UIView, View {
 
     let connections: [OAuth2Connection]
     let mode: Mode
-    let onAction: String -> ()
+    let onAction: (String) -> ()
     let customStyle: [String : AuthStyle]
 
     enum Mode {
-        case Expanded(isLogin: Bool)
-        case Compact
+        case expanded(isLogin: Bool)
+        case compact
     }
 
     // MARK:- Initialisers
 
-    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: String -> ()) {
+    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: @escaping (String) -> ()) {
         self.connections = connections
         self.mode = mode
         self.onAction = onAction
         self.customStyle = customStyle
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         self.layout(connections, mode: mode, insets: insets)
     }
 
@@ -53,28 +53,28 @@ class AuthCollectionView: UIView, View {
 
     var height: CGFloat {
         guard !connections.isEmpty else { return 0 }
-        let sample = AuthButton(size: .Big)
-        let buttonHeight = Int(sample.intrinsicContentSize().height)
+        let sample = AuthButton(size: .big)
+        let buttonHeight = Int(sample.intrinsicContentSize.height)
         let count: Int
         switch self.mode {
-        case .Expanded:
+        case .expanded:
             count = connections.count
-        case .Compact:
+        case .compact:
             count = Int(ceil(Double(connections.count) / 5))
         }
         return CGFloat(buttonHeight * count + (8 * (count - 1)))
     }
 
-    override func intrinsicContentSize() -> CGSize {
+    override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: self.height)
     }
 
-    private func layout(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets) {
+    fileprivate func layout(_ connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets) {
         let stack: UIStackView
         switch mode {
-        case .Compact:
+        case .compact:
             stack = compactStack(forButtons: oauth2Buttons(forConnections: connections, customStyle: self.customStyle, isLogin: true, onAction: self.onAction))
-        case .Expanded(let login):
+        case .expanded(let login):
             stack = expandedStack(forButtons: oauth2Buttons(forConnections: connections, customStyle: self.customStyle, isLogin: login, onAction: self.onAction))
         }
         self.addSubview(stack)
@@ -84,64 +84,64 @@ class AuthCollectionView: UIView, View {
         constraintEqual(anchor: stack.rightAnchor, toAnchor: self.rightAnchor, constant: -insets.right)
         constraintGreaterOrEqual(anchor: stack.bottomAnchor, toAnchor: self.bottomAnchor, constant: -insets.bottom)
         constraintEqual(anchor: stack.centerYAnchor, toAnchor: self.centerYAnchor)
-        dimension(stack.heightAnchor, withValue: self.height)
+        dimension(dimension: stack.heightAnchor, withValue: self.height)
         stack.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    private func expandedStack(forButtons buttons: [AuthButton]) -> UIStackView {
-        buttons.forEach { $0.size = .Big }
+    fileprivate func expandedStack(forButtons buttons: [AuthButton]) -> UIStackView {
+        buttons.forEach { $0.size = .big }
         let stack = UIStackView(arrangedSubviews: buttons)
-        stack.axis = .Vertical
-        stack.alignment = .Fill
-        stack.distribution = .EqualSpacing
+        stack.axis = .vertical
+        stack.alignment = .fill
+        stack.distribution = .equalSpacing
         return stack
     }
 
-    private func compactStack(forButtons buttons: [AuthButton]) -> UIStackView {
-        let rows = 0.stride(to: buttons.count, by: 5).map { return Array(buttons[$0..<(min($0 + 5, buttons.count))]) }.map(rowView)
+    fileprivate func compactStack(forButtons buttons: [AuthButton]) -> UIStackView {
+        let rows = stride(from: 0, to: buttons.count, by: 5).map { return Array(buttons[$0..<(min($0 + 5, buttons.count))]) }.map(rowView)
         let stack = UIStackView(arrangedSubviews: rows)
-        stack.axis = .Vertical
-        stack.alignment = .Fill
-        stack.distribution = .FillEqually
+        stack.axis = .vertical
+        stack.alignment = .fill
+        stack.distribution = .fillEqually
         stack.spacing = 8
         return stack
     }
 
-    private func rowView(from buttons: [AuthButton]) -> UIView {
+    fileprivate func rowView(from buttons: [AuthButton]) -> UIView {
         let container = UIView()
         let guide = UILayoutGuide()
         container.addLayoutGuide(guide)
         buttons.forEach {
-            $0.size = .Small
+            $0.size = .small
             container.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.centerYAnchor.constraintEqualToAnchor(guide.centerYAnchor).active = true
+            $0.centerYAnchor.constraint(equalTo: guide.centerYAnchor).isActive = true
         }
 
-        NSLayoutConstraint.activateConstraints([
-            guide.centerYAnchor.constraintEqualToAnchor(container.centerYAnchor),
-            guide.centerXAnchor.constraintEqualToAnchor(container.centerXAnchor),
+        NSLayoutConstraint.activate([
+            guide.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            guide.centerXAnchor.constraint(equalTo: container.centerXAnchor),
             ])
 
-        buttons.enumerate().forEach { index, button in
+        buttons.enumerated().forEach { index, button in
             let nextIndex = index + 1
             guard buttons.count > nextIndex else { return }
             let next = buttons[nextIndex]
-            next.leftAnchor.constraintEqualToAnchor(button.rightAnchor, constant: 8).active = true
+            next.leftAnchor.constraint(equalTo: button.rightAnchor, constant: 8).isActive = true
 
         }
 
-        buttons.first?.leftAnchor.constraintEqualToAnchor(guide.leftAnchor).active = true
-        buttons.last?.rightAnchor.constraintEqualToAnchor(guide.rightAnchor).active = true
+        buttons.first?.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
+        buttons.last?.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
         return container
     }
 
-    func apply(style style: Style) {
+    func apply(style: Style) {
         
     }
 }
 
-func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: String -> ()) -> [AuthButton] {
+func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping (String) -> ()) -> [AuthButton] {
     return connections.map { connection -> AuthButton in
         let style = customStyle[connection.name] ?? connection.style
         let button = AuthButton(size: .Big)

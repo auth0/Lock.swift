@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class InputField: UIView, UITextFieldDelegate {
+open class InputField: UIView, UITextFieldDelegate {
 
     weak var containerView: UIView?
     weak var textField: UITextField?
@@ -31,13 +31,13 @@ public class InputField: UIView, UITextFieldDelegate {
 
     weak var nextField: InputField?
 
-    private weak var errorLabelTopPadding: NSLayoutConstraint?
+    fileprivate weak var errorLabelTopPadding: NSLayoutConstraint?
 
-    private(set) var state: State = .Invalid(nil)
+    fileprivate(set) var state: State = .invalid(nil)
 
-    private lazy var debounceShowError: () -> () = debounce(0.8, queue: dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), action: self.needsToUpdateState)
+    fileprivate lazy var debounceShowError: () -> () = debounce(0.8, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: self.needsToUpdateState)
 
-    public var text: String? {
+    open var text: String? {
         get {
             return self.textField?.text
         }
@@ -46,20 +46,20 @@ public class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    public var type: InputType = .Email {
+    open var type: InputType = .email {
         didSet {
             self.textField?.placeholder = type.placeholder
-            self.textField?.secureTextEntry = type.secure
-            self.textField?.autocorrectionType = .No
-            self.textField?.autocapitalizationType = .None
+            self.textField?.isSecureTextEntry = type.secure
+            self.textField?.autocorrectionType = .no
+            self.textField?.autocapitalizationType = .none
             self.textField?.keyboardType = type.keyboardType
             self.iconView?.image = type.icon.image(compatibleWithTraits: self.traitCollection)
         }
     }
 
-    public var returnKey: UIReturnKeyType {
+    open var returnKey: UIReturnKeyType {
         get {
-            return self.textField?.returnKeyType ?? .Default
+            return self.textField?.returnKeyType ?? .default
         }
         set {
             self.textField?.returnKeyType = newValue
@@ -67,14 +67,14 @@ public class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    public var onTextChange: InputField -> () = {_ in}
+    open var onTextChange: (InputField) -> () = {_ in}
 
-    public var onReturn: InputField -> () = {_ in}
+    open var onReturn: (InputField) -> () = {_ in}
 
     // MARK:- Initialisers
 
     public convenience init() {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
     }
 
     required override public init(frame: CGRect) {
@@ -89,8 +89,8 @@ public class InputField: UIView, UITextFieldDelegate {
 
     // MARK:- Error
 
-    public func showError(message: String? = nil, noDelay: Bool = false) {
-        self.state = .Invalid(message)
+    open func showError(_ message: String? = nil, noDelay: Bool = false) {
+        self.state = .invalid(message)
         if noDelay {
             self.needsToUpdateState()
         } else {
@@ -98,22 +98,22 @@ public class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    public func showValid() {
-        self.state = .Valid
+    open func showValid() {
+        self.state = .valid
         self.needsToUpdateState()
     }
 
-    public func needsToUpdateState() {
+    open func needsToUpdateState() {
         Queue.main.async {
             self.errorLabel?.text = self.state.text
-            self.containerView?.layer.borderColor = self.state.color.CGColor
+            self.containerView?.layer.borderColor = self.state.color.cgColor
             self.errorLabelTopPadding?.constant = self.state.padding
         }
     }
 
     // MARK:- Layout
 
-    private func layoutField() {
+    fileprivate func layoutField() {
         let container = UIView()
         let iconContainer = UIView()
         let textField = UITextField()
@@ -135,8 +135,8 @@ public class InputField: UIView, UITextFieldDelegate {
         constraintEqual(anchor: errorLabel.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: errorLabel.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: errorLabel.bottomAnchor, toAnchor: self.bottomAnchor)
-        errorLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Vertical)
-        errorLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Vertical)
+        errorLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
+        errorLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: iconContainer.leftAnchor, toAnchor: container.leftAnchor)
@@ -149,7 +149,7 @@ public class InputField: UIView, UITextFieldDelegate {
         constraintEqual(anchor: textField.topAnchor, toAnchor: container.topAnchor)
         constraintEqual(anchor: textField.rightAnchor, toAnchor: container.rightAnchor, constant: -16)
         constraintEqual(anchor: textField.bottomAnchor, toAnchor: container.bottomAnchor)
-        dimension(textField.heightAnchor, withValue: 50)
+        dimension(dimension: textField.heightAnchor, withValue: 50)
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: iconView.centerXAnchor, toAnchor: iconContainer.centerXAnchor)
@@ -158,10 +158,10 @@ public class InputField: UIView, UITextFieldDelegate {
 
         iconContainer.backgroundColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
         iconView.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
-        textField.addTarget(self, action: #selector(textChanged), forControlEvents: .EditingChanged)
+        textField.addTarget(self, action: #selector(textChanged), for: .editingChanged)
         textField.delegate = self
-        textField.font = UIFont.systemFontOfSize(17)
-        errorLabel.textColor = .redColor()
+        textField.font = UIFont.systemFont(ofSize: 17)
+        errorLabel.textColor = .red
         errorLabel.text = nil
         errorLabel.numberOfLines = 0
 
@@ -170,46 +170,46 @@ public class InputField: UIView, UITextFieldDelegate {
         self.containerView = container
         self.errorLabel = errorLabel
 
-        self.containerView?.backgroundColor = .whiteColor()
+        self.containerView?.backgroundColor = .white
         self.containerView?.layer.cornerRadius = 3.67
         self.containerView?.layer.masksToBounds = true
         self.containerView?.layer.borderWidth = 1
-        self.type = .Email
-        self.errorLabel?.text = State.Valid.text
-        self.containerView?.layer.borderColor = State.Valid.color.CGColor
+        self.type = .email
+        self.errorLabel?.text = State.valid.text
+        self.containerView?.layer.borderColor = State.valid.color.cgColor
     }
 
-    public override func intrinsicContentSize() -> CGSize {
+    open override var intrinsicContentSize : CGSize {
         return CGSize(width: 230, height: 50)
     }
 
     // MARK:- Internal
 
     enum State {
-        case Valid
-        case Invalid(String?)
+        case valid
+        case invalid(String?)
 
         var text: String? {
             switch self {
-            case .Valid:
+            case .valid:
                 return nil
-            case .Invalid(let error):
+            case .invalid(let error):
                 return error
             }
         }
 
         var color: UIColor {
             switch self {
-            case .Valid:
+            case .valid:
                 return UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
-            case .Invalid:
-                return UIColor.redColor()
+            case .invalid:
+                return UIColor.red
             }
         }
 
         var padding: CGFloat {
             switch self {
-            case .Invalid where self.text != nil:
+            case .invalid where self.text != nil:
                 return -10
             default:
                 return 0
@@ -217,7 +217,7 @@ public class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+    open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.onReturn(self)
         if let field = self.nextField?.textField {
             Queue.main.async {
@@ -231,45 +231,45 @@ public class InputField: UIView, UITextFieldDelegate {
         return true
     }
 
-    func textChanged(field: UITextField) {
+    func textChanged(_ field: UITextField) {
         self.onTextChange(self)
     }
 
     // MARK:- Types
     public enum InputType {
-        case Email
-        case Username
-        case EmailOrUsername
-        case Password
-        case Phone
-        case OneTimePassword
-        case Custom(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, secure: Bool)
+        case email
+        case username
+        case emailOrUsername
+        case password
+        case phone
+        case oneTimePassword
+        case custom(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, secure: Bool)
 
         var placeholder: String? {
             switch self {
-            case .Email:
+            case .email:
                 return "Email".i18n(key: "com.auth0.lock.input.placeholder.email", comment: "Email placeholder")
-            case .Username:
+            case .username:
                 return "Username".i18n(key: "com.auth0.lock.input.placeholder.username", comment: "Username placeholder")
-            case .EmailOrUsername:
+            case .emailOrUsername:
                 return "Username/Email".i18n(key: "com.auth0.lock.input.placeholder.email-username", comment: "Username or Email placeholder")
-            case .Password:
+            case .password:
                 return "Password".i18n(key: "com.auth0.lock.input.placeholder.password", comment: "Password placeholder")
-            case .Phone:
+            case .phone:
                 return "Phone Number".i18n(key: "com.auth0.lock.input.placeholder.phone", comment: "Phone placeholder")
-            case .OneTimePassword:
+            case .oneTimePassword:
                 return "Code".i18n(key: "com.auth0.lock.input.placeholder.otp", comment: "OTP placeholder")
-            case .Custom(_, let placeholder, _, _, _, _):
+            case .custom(_, let placeholder, _, _, _, _):
                 return placeholder
             }
         }
 
         var secure: Bool {
-            if case .Password = self {
+            if case .password = self {
                 return true
             }
 
-            if case .Custom(_, _, _, _, _, let secure) = self {
+            if case .custom(_, _, _, _, _, let secure) = self {
                 return secure
             }
             return false
@@ -277,48 +277,48 @@ public class InputField: UIView, UITextFieldDelegate {
 
         var icon: LazyImage {
             switch self {
-            case .Email:
+            case .email:
                 return lazyImage(named: "ic_mail")
-            case .Username:
+            case .username:
                 return lazyImage(named: "ic_person")
-            case .EmailOrUsername:
+            case .emailOrUsername:
                 return lazyImage(named: "ic_mail")
-            case .Password:
+            case .password:
                 return lazyImage(named: "ic_lock")
-            case .Phone:
+            case .phone:
                 return lazyImage(named: "ic_phone")
-            case .OneTimePassword:
+            case .oneTimePassword:
                 return lazyImage(named: "ic_lock")
-            case Custom(_, _, let icon, _, _, _):
+            case .custom(_, _, let icon, _, _, _):
                 return icon
             }
         }
 
         var keyboardType: UIKeyboardType {
             switch self {
-            case .Email:
-                return .EmailAddress
-            case .Username:
-                return .Default
-            case .EmailOrUsername:
-                return .EmailAddress
-            case .Password:
-                return .Default
-            case .Phone:
-                return .PhonePad
-            case .OneTimePassword:
-                return .DecimalPad
-            case Custom(_, _, _, let keyboardType, _, _):
+            case .email:
+                return .emailAddress
+            case .username:
+                return .default
+            case .emailOrUsername:
+                return .emailAddress
+            case .password:
+                return .default
+            case .phone:
+                return .phonePad
+            case .oneTimePassword:
+                return .decimalPad
+            case .custom(_, _, _, let keyboardType, _, _):
                 return keyboardType
             }
         }
 
         var autocorrectionType: UITextAutocorrectionType {
             switch self {
-            case Custom(_, _, _, _, let autocorrectionType, _):
+            case .custom(_, _, _, _, let autocorrectionType, _):
                 return autocorrectionType
             default:
-                return .No
+                return .no
             }
         }
     }

@@ -22,39 +22,90 @@
 
 import Foundation
 
-func constraintEqual<C: NSLayoutAnchor>(anchor anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
+// MARK:- NSLayoutXAxisAnchor
+@discardableResult func constraintEqual<C: NSLayoutAnchor<NSLayoutXAxisAnchor>>(anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
     let constraint: NSLayoutConstraint
     if let value = constant {
-        constraint = anchor.constraintEqualToAnchor(anotherAnchor, constant: value)
+        constraint = anchor.constraint(equalTo: anotherAnchor, constant: value)
     } else {
-        constraint = anchor.constraintEqualToAnchor(anotherAnchor)
+        constraint = anchor.constraint(equalTo: anotherAnchor)
     }
     constraint.priority = priority
-    constraint.active = true
+    constraint.isActive = true
     return constraint
 }
 
-func constraintGreaterOrEqual<C: NSLayoutAnchor>(anchor anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
+@discardableResult func constraintGreaterOrEqual<C: NSLayoutAnchor<NSLayoutXAxisAnchor>>(anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
     let constraint: NSLayoutConstraint
     if let value = constant {
-        constraint = anchor.constraintGreaterThanOrEqualToAnchor(anotherAnchor, constant: value)
+        constraint = anchor.constraint(greaterThanOrEqualTo: anotherAnchor, constant: value)
     } else {
-        constraint = anchor.constraintGreaterThanOrEqualToAnchor(anotherAnchor)
+        constraint = anchor.constraint(greaterThanOrEqualTo: anotherAnchor)
     }
     constraint.priority = priority
-    constraint.active = true
+    constraint.isActive = true
     return constraint
 }
 
-
-func dimension(dimension: NSLayoutDimension, withValue value: CGFloat) -> NSLayoutConstraint {
-    let constraint = dimension.constraintEqualToConstant(value)
-    constraint.active = true
+// MARK:- NSLayoutYAxisAnchor
+@discardableResult func constraintEqual<C: NSLayoutAnchor<NSLayoutYAxisAnchor>>(anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
+    let constraint: NSLayoutConstraint
+    if let value = constant {
+        constraint = anchor.constraint(equalTo: anotherAnchor, constant: value)
+    } else {
+        constraint = anchor.constraint(equalTo: anotherAnchor)
+    }
+    constraint.priority = priority
+    constraint.isActive = true
     return constraint
 }
 
-func dimension(dimension: NSLayoutDimension, greaterThanOrEqual value: CGFloat) -> NSLayoutConstraint {
-    let constraint = dimension.constraintGreaterThanOrEqualToConstant(value)
-    constraint.active = true
+@discardableResult func constraintGreaterOrEqual<C: NSLayoutAnchor<NSLayoutYAxisAnchor>>(anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
+    let constraint: NSLayoutConstraint
+    if let value = constant {
+        constraint = anchor.constraint(greaterThanOrEqualTo: anotherAnchor, constant: value)
+    } else {
+        constraint = anchor.constraint(greaterThanOrEqualTo: anotherAnchor)
+    }
+    constraint.priority = priority
+    constraint.isActive = true
+    return constraint
+}
+
+// MARK:- NSLayoutDimension
+@discardableResult func constraintEqual<C: NSLayoutAnchor<NSLayoutDimension>>(anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
+    let constraint: NSLayoutConstraint
+    if let value = constant {
+        constraint = anchor.constraint(equalTo: anotherAnchor, constant: value)
+    } else {
+        constraint = anchor.constraint(equalTo: anotherAnchor)
+    }
+    constraint.priority = priority
+    constraint.isActive = true
+    return constraint
+}
+
+@discardableResult func constraintGreaterOrEqual<C: NSLayoutAnchor<NSLayoutDimension>>(anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
+    let constraint: NSLayoutConstraint
+    if let value = constant {
+        constraint = anchor.constraint(greaterThanOrEqualTo: anotherAnchor, constant: value)
+    } else {
+        constraint = anchor.constraint(greaterThanOrEqualTo: anotherAnchor)
+    }
+    constraint.priority = priority
+    constraint.isActive = true
+    return constraint
+}
+
+// MARK:- NSLayoutDimension
+@discardableResult func dimension(dimension: NSLayoutDimension, withValue value: CGFloat) -> NSLayoutConstraint {
+    let constraint = dimension.constraint(equalToConstant: value)
+    constraint.isActive = true
+    return constraint
+}
+
+@discardableResult func dimension(dimension: NSLayoutDimension, greaterThanOrEqual value: CGFloat) -> NSLayoutConstraint {
+    let constraint = dimension.constraint(greaterThanOrEqualToConstant: value)
+    constraint.isActive = true
     return constraint
 }

@@ -24,7 +24,7 @@ import Foundation
 import Auth0
 
 struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
-
+    
     var identifier: String? = nil
 
     var email: String? = nil
@@ -40,14 +40,14 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
     let passwordValidator: InputValidator = NonEmptyValidator()
 
     let authentication: Authentication
-    let onAuthentication: Credentials -> ()
+    let onAuthentication: (Credentials) -> ()
     let options: Options
     let user: User
     let connection: EnterpriseConnection
 
     let identifierAttribute: UserAttribute
 
-    init(connection: EnterpriseConnection, authentication: Authentication, user: User, options: Options, callback: Credentials -> ()) {
+    init(connection: EnterpriseConnection, authentication: Authentication, user: User, options: Options, callback: @escaping (Credentials) -> ()) {
         self.authentication = authentication
         self.connection = connection
         self.onAuthentication = callback
@@ -55,25 +55,25 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
         self.options = options
 
         if !self.options.activeDirectoryEmailAsUsername {
-            identifierAttribute = .Username
-            identifier = self.user.email?.componentsSeparatedByString("@").first
-            updateUsername(identifier)
+            identifierAttribute = .username
+            identifier = self.user.email?.components(separatedBy: "@").first
+            _ = updateUsername(identifier)
         } else {
-            identifierAttribute = .Email
+            identifierAttribute = .email
             identifier = self.user.email
-            updateEmail(identifier)
+            _ = updateEmail(identifier)
         }
     }
 
-    mutating func update(attribute: UserAttribute, value: String?) throws {
-        let error: ErrorType?
+    mutating func update(_ attribute: UserAttribute, value: String?) throws {
+        let error: Error?
 
         switch attribute {
-        case .Email:
+        case .email:
             error = updateEmail(value)
-        case .Username:
+        case .username:
             error = updateUsername(value)
-        case .Password:
+        case .password:
             error = updatePassword(value)
         default:
             self.logger.warn("Ignoring unknown input type: \(attribute)")
@@ -83,39 +83,39 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
         if let error = error { throw error }
     }
 
-    private mutating func updateEmail(value: String?) -> ErrorType? {
-        email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    fileprivate mutating func updateEmail(_ value: String?) -> Error? {
+        email = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let error = emailValidator.validate(value)
         validEmail = error == nil
         return error
     }
 
-    private mutating func updateUsername(value: String?) -> ErrorType? {
-        username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    fileprivate mutating func updateUsername(_ value: String?) -> Error? {
+        username = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let error = usernameValidator.validate(value)
         validUsername = error == nil
         return error
     }
 
-    private mutating func updatePassword(value: String?) -> ErrorType? {
+    fileprivate mutating func updatePassword(_ value: String?) -> Error? {
         password = value
         let error = passwordValidator.validate(value)
         validPassword = error == nil
         return error
     }
 
-    func login(callback: (DatabaseAuthenticatableError?) -> ()) {
+    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ()) {
         let identifier: String
 
-        if let email = self.email where self.validEmail {
+        if let email = self.email, self.validEmail {
             identifier = email
-        } else if let username = self.username where self.validUsername {
+        } else if let username = self.username, self.validUsername {
             identifier = username
         } else {
-            return callback(.NonValidInput)
+            return callback(.nonValidInput)
         }
 
-        guard let password = self.password where self.validPassword else { return callback(.NonValidInput) }
+        guard let password = self.password, self.validPassword else { return callback(.nonValidInput) }
 
         self.authentication
             .login(
@@ -128,33 +128,33 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
             .start { self.handleLoginResult($0, callback: callback) }
     }
 
-    private func handleLoginResult(result: Auth0.Result<Credentials>, callback: DatabaseAuthenticatableError? -> ()) {
+    fileprivate func handleLoginResult(_ result: Auth0.Result<Credentials>, callback: (DatabaseAuthenticatableError?) -> ()) {
         switch result {
-        case .Failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
+        case .failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
             self.logger.error("Multifactor is required for user <\(self.identifier)>")
-            callback(.MultifactorRequired)
-        case .Failure(let cause as AuthenticationError) where cause.isTooManyAttempts:
+            callback(.multifactorRequired)
+        case .failure(let cause as AuthenticationError) where cause.isTooManyAttempts:
             self.logger.error("Blocked user <\(self.identifier)> for too many login attempts")
-            callback(.TooManyAttempts)
-        case .Failure(let cause as AuthenticationError) where cause.isInvalidCredentials:
+            callback(.tooManyAttempts)
+        case .failure(let cause as AuthenticationError) where cause.isInvalidCredentials:
             self.logger.error("Invalid credentials of user <\(self.identifier)>")
-            callback(.InvalidEmailPassword)
-        case .Failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
+            callback(.invalidEmailPassword)
+        case .failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
             self.logger.error("Multifactor code is invalid for user <\(self.identifier)>")
-            callback(.MultifactorInvalid)
-        case .Failure(let cause as AuthenticationError) where cause.isRuleError && cause.description.lowercaseString == "user is blocked":
+            callback(.multifactorInvalid)
+        case .failure(let cause as AuthenticationError) where cause.isRuleError && cause.description.lowercased() == "user is blocked":
             self.logger.error("Blocked user <\(self.identifier)>")
-            callback(.UserBlocked)
-        case .Failure(let cause as AuthenticationError) where cause.code == "password_change_required":
+            callback(.userBlocked)
+        case .failure(let cause as AuthenticationError) where cause.code == "password_change_required":
             self.logger.error("Change password required for user <\(self.identifier)>")
-            callback(.PasswordChangeRequired)
-        case .Failure(let cause as AuthenticationError) where cause.code == "password_leaked":
+            callback(.passwordChangeRequired)
+        case .failure(let cause as AuthenticationError) where cause.code == "password_leaked":
             self.logger.error("The password of user <\(self.identifier)> was leaked")
-            callback(.PasswordLeaked)
-        case .Failure(let cause):
+            callback(.passwordLeaked)
+        case .failure(let cause):
             self.logger.error("Failed login of user <\(self.identifier)> with error \(cause)")
-            callback(.CouldNotLogin)
-        case .Success(let credentials):
+            callback(.couldNotLogin)
+        case .success(let credentials):
             self.logger.info("Authenticated user <\(self.identifier)>")
             callback(nil)
             self.onAuthentication(credentials)

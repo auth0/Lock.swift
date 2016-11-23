@@ -31,10 +31,10 @@ public protocol OptionBuildable: Options {
     var closable: Bool { get set }
 
         /// ToS URL. By default is Auth0's.
-    var termsOfServiceURL: NSURL { get set }
+    var termsOfServiceURL: URL { get set }
 
         /// Privacy Policy URL. By default is Auth0's.
-    var privacyPolicyURL: NSURL { get set }
+    var privacyPolicyURL: URL { get set }
 
         /// Log level for Lock. By default is `Off`.
     var logLevel: LoggerLevel { get set }
@@ -76,8 +76,8 @@ public protocol OptionBuildable: Options {
 
 internal extension OptionBuildable {
     func validate() -> UnrecoverableError? {
-        guard !self.allow.isEmpty else { return UnrecoverableError.InvalidOptions(cause: "Must allow at least one database mode") }
-        guard !self.usernameStyle.isEmpty else { return UnrecoverableError.InvalidOptions(cause: "Must specify at least one username style") }
+        guard !self.allow.isEmpty else { return UnrecoverableError.invalidOptions(cause: "Must allow at least one database mode") }
+        guard !self.usernameStyle.isEmpty else { return UnrecoverableError.invalidOptions(cause: "Must specify at least one username style") }
         return nil
     }
 }
@@ -87,10 +87,10 @@ public extension OptionBuildable {
         /// ToS URL. By default is Auth0's
     var termsOfService: String {
         get {
-            return self.termsOfServiceURL.absoluteString! // FIXME: Better handling
+            return self.termsOfServiceURL.absoluteString // FIXME: Better handling
         }
         set {
-            guard let url = NSURL(string: newValue) else { return } // FIXME: log error
+            guard let url = URL(string: newValue) else { return } // FIXME: log error
             self.termsOfServiceURL = url
         }
     }
@@ -98,10 +98,10 @@ public extension OptionBuildable {
         /// Privacy Policy URL. By default is Auth0's
     var privacyPolicy: String {
         get {
-            return self.privacyPolicyURL.absoluteString! // FIXME: Better handling
+            return self.privacyPolicyURL.absoluteString // FIXME: Better handling
         }
         set {
-            guard let url = NSURL(string: newValue) else { return } // FIXME: log error
+            guard let url = URL(string: newValue) else { return } // FIXME: log error
             self.privacyPolicyURL = url
         }
     }

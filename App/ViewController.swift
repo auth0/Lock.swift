@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 
     override func loadView() {
         let view = UIView()
-        view.backgroundColor = .whiteColor()
+        view.backgroundColor = .white
         self.view = view
         let header = HeaderView()
         header.title = "Welcome to Lock"
@@ -36,11 +36,11 @@ class ViewController: UIViewController {
 
         view.addSubview(header)
 
-        NSLayoutConstraint.activateConstraints([
-            header.leftAnchor.constraintEqualToAnchor(view.leftAnchor),
-            header.topAnchor.constraintEqualToAnchor(view.topAnchor),
-            header.rightAnchor.constraintEqualToAnchor(view.rightAnchor),
-            header.heightAnchor.constraintEqualToConstant(154),
+        NSLayoutConstraint.activate([
+            header.leftAnchor.constraint(equalTo: view.leftAnchor),
+            header.topAnchor.constraint(equalTo: view.topAnchor),
+            header.rightAnchor.constraint(equalTo: view.rightAnchor),
+            header.heightAnchor.constraint(equalToConstant: 154),
             ])
         header.translatesAutoresizingMaskIntoConstraints = false
 
@@ -48,7 +48,7 @@ class ViewController: UIViewController {
             actionButton(withTitle: "LOGIN WITH CDN") {
                 return Lock
                     .classic()
-                    .options {
+                    .withOptions {
                         applyDefaultOptions(&$0)
                     }
                     .style {
@@ -62,12 +62,12 @@ class ViewController: UIViewController {
             actionButton(withTitle: "LOGIN WITH CUSTOM STYLE") {
                 return Lock
                     .classic()
-                    .options {
+                    .withOptions {
                         applyDefaultOptions(&$0)
                     }
                     .style {
                         $0.title = "Phantom Inc."
-                        $0.headerBlur = .ExtraLight
+                        $0.headerBlur = .extraLight
                         $0.logo = LazyImage(name: "icn_phantom")
                         $0.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
                     }
@@ -78,7 +78,7 @@ class ViewController: UIViewController {
             actionButton(withTitle: "LOGIN WITH DB") {
                 return Lock
                     .classic()
-                    .options {
+                    .withOptions {
                         applyDefaultOptions(&$0)
                         $0.customSignupFields = [
                             CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
@@ -93,7 +93,7 @@ class ViewController: UIViewController {
             actionButton(withTitle: "LOGIN ONLY WITH DB") {
                 return Lock
                     .classic()
-                    .options {
+                    .withOptions {
                         applyDefaultOptions(&$0)
                         $0.allow = [.Login]
                         $0.usernameStyle = [.Email]
@@ -105,7 +105,7 @@ class ViewController: UIViewController {
             actionButton(withTitle: "LOGIN WITH DB & SOCIAL") {
                 return Lock
                     .classic()
-                    .options {
+                    .withOptions {
                         applyDefaultOptions(&$0)
                     }
                     .withConnections { connections in
@@ -117,7 +117,7 @@ class ViewController: UIViewController {
             actionButton(withTitle: "LOGIN WITH SOCIAL") {
                 return Lock
                     .classic()
-                    .options {
+                    .withOptions {
                         applyDefaultOptions(&$0)
                     }
                     .allowedConnections(["facebook", "google-oauth2", "twitter", "dropbox", "bitbucket"])
@@ -135,23 +135,23 @@ class ViewController: UIViewController {
             ]
 
         let stack = UIStackView(arrangedSubviews: actions.map { wrap($0) })
-        stack.axis = .Vertical
-        stack.distribution = .FillProportionally
-        stack.alignment = .Fill
+        stack.axis = .vertical
+        stack.distribution = .fillProportionally
+        stack.alignment = .fill
 
         view.addSubview(stack)
 
-        NSLayoutConstraint.activateConstraints([
-            stack.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 18),
-            stack.topAnchor.constraintEqualToAnchor(header.bottomAnchor),
-            stack.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -18),
-            stack.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor),
+        NSLayoutConstraint.activate([
+            stack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 18),
+            stack.topAnchor.constraint(equalTo: header.bottomAnchor),
+            stack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -18),
+            stack.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             ])
         stack.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    private func actionButton(withTitle title: String, action: () -> Lock) -> AuthButton {
-        let button = AuthButton(size: .Big)
+    fileprivate func actionButton(withTitle title: String, action: @escaping () -> Lock) -> AuthButton {
+        let button = AuthButton(size: .big)
         button.title = title
         button.onPress = { [weak self] _ in
             self?.showLock(action())
@@ -159,27 +159,27 @@ class ViewController: UIViewController {
         return button
     }
 
-    private func wrap(button: AuthButton) -> UIView {
+    fileprivate func wrap(_ button: AuthButton) -> UIView {
         let wrapper = UIView()
-        wrapper.backgroundColor = .whiteColor()
+        wrapper.backgroundColor = .white
         wrapper.addSubview(button)
 
-        button.leftAnchor.constraintEqualToAnchor(wrapper.leftAnchor).active = true
-        button.rightAnchor.constraintEqualToAnchor(wrapper.rightAnchor).active = true
-        button.centerYAnchor.constraintEqualToAnchor(wrapper.centerYAnchor).active = true
+        button.leftAnchor.constraint(equalTo: wrapper.leftAnchor).isActive = true
+        button.rightAnchor.constraint(equalTo: wrapper.rightAnchor).isActive = true
+        button.centerYAnchor.constraint(equalTo: wrapper.centerYAnchor).isActive = true
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return wrapper
     }
 
-    private func showLock(lock: Lock) {
+    fileprivate func showLock(_ lock: Lock) {
         Log.enable(minimumSeverity: LogSeverity.verbose)
         lock
             .on { result in
                 switch result {
-                case .Success(let credentials):
+                case .success(let credentials):
                     Log.info?.message("Obtained credentials \(credentials)")
-                case .Failure(let cause):
+                case .failure(let cause):
                     Log.error?.message("Failed with \(cause)")
                 default:
                     Log.debug?.value(result)
@@ -189,27 +189,27 @@ class ViewController: UIViewController {
     }
 }
 
-private func applyDefaultOptions(inout options: OptionBuildable) {
+func applyDefaultOptions(_ options: inout OptionBuildable) {
     options.closable = true
-    options.logLevel = .All
+    options.logLevel = .all
     options.loggerOutput = CleanroomLockLogger()
     options.logHttpRequest = true
 }
 
 class CleanroomLockLogger: LoggerOutput {
 
-    func message(message: String, level: LoggerLevel, filename: String, line: Int) {
+    func message(_ message: String, level: LoggerLevel, filename: String, line: Int) {
         let channel: LogChannel?
         switch level {
-        case .Debug:
+        case .debug:
             channel = Log.debug
-        case .Error:
+        case .error:
             channel = Log.error
-        case .Info:
+        case .info:
             channel = Log.info
-        case .Verbose:
+        case .verbose:
             channel = Log.verbose
-        case .Warn:
+        case .warn:
             channel = Log.warning
         default:
             channel = nil

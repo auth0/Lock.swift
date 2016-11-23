@@ -35,7 +35,7 @@ class DatabaseForgotPasswordView: UIView, View {
         self.primaryButton = primaryButton
         self.form = forgotView
 
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
 
         self.addSubview(forgotView)
         self.addSubview(primaryButton)
@@ -58,8 +58,8 @@ class DatabaseForgotPasswordView: UIView, View {
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
 
-        forgotView.type = .Email
-        forgotView.returnKey = .Done
+        forgotView.type = .email
+        forgotView.returnKey = .done
         forgotView.title = "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
         forgotView.message = "Please enter your email and the new password. We will send you an email to confirm the password change.".i18n(key: "com.auth0.lock.forgot.message", comment: "Forgot Password message")
         forgotView.value = email
@@ -69,7 +69,7 @@ class DatabaseForgotPasswordView: UIView, View {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func apply(style style: Style) {
+    func apply(style: Style) {
         self.primaryButton?.apply(style: style)
     }
 }

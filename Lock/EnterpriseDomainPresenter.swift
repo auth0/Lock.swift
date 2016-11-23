@@ -66,19 +66,19 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let view = EnterpriseDomainView(email: email, authCollectionView: authCollectionView)
         let form = view.form
 
-        view.ssoBar?.hidden = self.interactor.connection == nil
+        view.ssoBar?.isHidden = self.interactor.connection == nil
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
-            view.ssoBar?.hidden = true
+            view.ssoBar?.isHidden = true
 
-            guard case .Email = input.type else { return }
+            guard case .email = input.type else { return }
             do {
                 try self.interactor.updateEmail(input.text)
                 self.user.email = self.interactor.email
                 input.showValid()
                 if let connection = self.interactor.connection {
                     self.logger.debug("Enterprise connection match: \(connection)")
-                    view.ssoBar?.hidden = false
+                    view.ssoBar?.isHidden = false
                 }
             } catch {
                 input.showError()
@@ -87,8 +87,8 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
 
         let action = { (button: PrimaryButton) in
             // Check for credential auth
-            if let connection = self.interactor.connection where self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                guard self.navigator?.navigate(.EnterpriseActiveAuth(connection: connection)) == nil else { return }
+            if let connection = self.interactor.connection, self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+                guard self.navigator?.navigate(.enterpriseActiveAuth(connection: connection)) == nil else { return }
             }
             
             self.messagePresenter?.hideCurrent()
@@ -122,8 +122,8 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
 
 }
 
-func EnterpriseButton(forConnections connections: [EnterpriseConnection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: () -> () ) -> AuthButton? {
-    guard let connection = connections.first where connections.count == 1 else { return nil }
+func EnterpriseButton(forConnections connections: [EnterpriseConnection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping () -> () ) -> AuthButton? {
+    guard let connection = connections.first, connections.count == 1 else { return nil }
     let style = customStyle[connection.name] ?? connection.style
     let button = AuthButton(size: .Big)
     button.title = style.localizedLoginTitle(connection.domains.first).uppercaseString

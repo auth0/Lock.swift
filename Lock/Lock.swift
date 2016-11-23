@@ -24,20 +24,20 @@ import Foundation
 import Auth0
 
 /// Lock main class to configure and show the native widget
-public class Lock: NSObject {
+open class Lock: NSObject {
 
         /// Callback used to notify lock authentication outcome
-    public typealias AuthenticationCallback = Result -> ()
+    public typealias AuthenticationCallback = (Result) -> ()
 
     static let sharedInstance = Lock()
 
-    private(set) var authentication: Authentication
-    private(set) var webAuth: WebAuth
+    fileprivate(set) var authentication: Authentication
+    fileprivate(set) var webAuth: WebAuth
 
     var connectionProvider: ConnectionProvider = ConnectionProvider(local: OfflineConnections(), allowed: [])
     var connections: Connections { return self.connectionProvider.connections }
 
-    private var optionsBuilder: OptionBuildable = LockOptions()
+    var optionsBuilder: OptionBuildable = LockOptions()
     var options: Options { return self.optionsBuilder }
 
     var callback: AuthenticationCallback = {_ in }
@@ -67,7 +67,7 @@ public class Lock: NSObject {
 
      - returns: a newly created Lock instance
      */
-    public static func classic() -> Lock {
+    open static func classic() -> Lock {
         return Lock()
     }
 
@@ -79,7 +79,7 @@ public class Lock: NSObject {
 
      - returns: a newly created Lock instance
      */
-    public static func classic(clientId clientId: String, domain: String) -> Lock {
+    open static func classic(clientId: String, domain: String) -> Lock {
         return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain), webAuth: Auth0.webAuth(clientId: clientId, domain: domain))
     }
 
@@ -101,11 +101,11 @@ public class Lock: NSObject {
 
      - parameter controller: controller from where Lock is presented
      */
-    public func present(from controller: UIViewController) {
+    open func present(from controller: UIViewController) {
         if let error = self.optionsBuilder.validate() {
-            self.callback(.Failure(error))
+            self.callback(.failure(error))
         } else {
-            controller.presentViewController(self.controller, animated: true, completion: nil)
+            controller.present(self.controller, animated: true, completion: nil)
         }
     }
 
@@ -116,7 +116,8 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func withConnections(closure: (inout ConnectionBuildable) -> ()) -> Lock {
+    @discardableResult
+    open func withConnections(_ closure: (inout ConnectionBuildable) -> ()) -> Lock {
         var connections: ConnectionBuildable = OfflineConnections()
         closure(&connections)
         let allowed = self.connectionProvider.allowed
@@ -132,7 +133,8 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func allowedConnections(allowedConnections: [String]) -> Lock {
+    @discardableResult
+    open func allowedConnections(_ allowedConnections: [String]) -> Lock {
         let connections = self.connectionProvider.connections
         self.connectionProvider = ConnectionProvider(local: connections, allowed: allowedConnections)
         return self
@@ -145,12 +147,13 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func options(closure: (inout OptionBuildable) -> ()) -> Lock {
+    @discardableResult
+    public func withOptions(_ closure: (inout OptionBuildable) -> ()) -> Lock {
         var builder: OptionBuildable = self.optionsBuilder
         closure(&builder)
         self.optionsBuilder = builder
-        self.authentication.logging(enabled: self.options.logHttpRequest)
-        self.webAuth.logging(enabled: self.options.logHttpRequest)
+        _ = self.authentication.logging(enabled: self.options.logHttpRequest)
+        _ = self.webAuth.logging(enabled: self.options.logHttpRequest)
         return self
     }
 
@@ -171,7 +174,8 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func style(closure: (inout Style) -> ()) -> Lock {
+    @discardableResult
+    open func style(_ closure: (inout Style) -> ()) -> Lock {
         var style = self.style
         closure(&style)
         self.style = style
@@ -185,13 +189,14 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func on(callback: AuthenticationCallback) -> Lock {
+    @discardableResult
+    open func on(_ callback: @escaping AuthenticationCallback) -> Lock {
         self.callback = callback
         return self
     }
 
         /// Lock's Bundle. Useful for getting bundled resources like images.
-    public static var bundle: NSBundle {
+    open static var bundle: Bundle {
         return bundleForLock()
     }
 
@@ -212,7 +217,7 @@ public class Lock: NSObject {
 
      - returns: true if the url matched an ongoing Auth session, false otherwise
      */
-    public static func resumeAuth(url: NSURL, options: [String: AnyObject]) -> Bool {
+    open static func resumeAuth(_ url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
         return Auth0.resumeAuth(url, options: options)
     }
 }
@@ -225,16 +230,16 @@ struct ConnectionProvider {
 }
 
 public enum Result {
-    case Success(Credentials)
-    case Failure(ErrorType)
-    case Cancelled
+    case success(Credentials)
+    case failure(Error)
+    case cancelled
 }
 
-public enum UnrecoverableError: ErrorType {
-    case InvalidClientOrDomain
-    case ClientWithNoConnections
-    case MissingDatabaseConnection
-    case InvalidOptions(cause: String)
+public enum UnrecoverableError: Error {
+    case invalidClientOrDomain
+    case clientWithNoConnections
+    case missingDatabaseConnection
+    case invalidOptions(cause: String)
 }
 
 private func telemetryFor(authenticaction authentication: Authentication, webAuth: WebAuth) -> (Authentication, WebAuth) {
@@ -245,7 +250,7 @@ private func telemetryFor(authenticaction authentication: Authentication, webAut
     //        let bundle = _BundleHack.bundle
     //        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.0.0-alpha.0"
     let version = "2.0.0-beta.2"
-    authentication.using(in: name, version: version)
-    webAuth.using(in: name, version: version)
+    authentication.using(inLibrary: name, version: version)
+    webAuth.using(inLibrary: name, version: version)
     return (authentication, webAuth)
 }

@@ -42,7 +42,7 @@ class LockSpec: QuickSpec {
         describe("options") {
 
             it("should allow settings options") {
-                lock.options { $0.closable = true }
+                lock.withOptions { $0.closable = true }
                 expect(lock.options.closable) == true
             }
 
@@ -51,13 +51,13 @@ class LockSpec: QuickSpec {
             }
 
             it("should use the latest options") {
-                lock.options { $0.closable = true }
-                lock.options { $0.closable = false }
+                lock.withOptions { $0.closable = true }
+                lock.withOptions { $0.closable = false }
                 expect(lock.options.closable) == false
             }
 
             it("should return itself") {
-                expect(lock.options { _ in } ) == lock
+                expect(lock.withOptions { _ in } ) == lock
             }
         }
 
@@ -67,7 +67,7 @@ class LockSpec: QuickSpec {
                 var called = false
                 let callback: Lock.AuthenticationCallback = { _ in called = true }
                 lock.on(callback)
-                lock.callback(.Cancelled)
+                lock.callback(.cancelled)
                 expect(called) == true
             }
 
@@ -113,7 +113,7 @@ class LockSpec: QuickSpec {
             }
 
             it("should fail if options are invalid") {
-                lock.options { $0.allow = [] }
+                lock.withOptions { $0.allow = [] }
                 waitUntil { done in
                     lock
                         .on {

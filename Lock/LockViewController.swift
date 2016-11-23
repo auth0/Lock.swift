@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class LockViewController: UIViewController, MessagePresenter {
+open class LockViewController: UIViewController, MessagePresenter {
 
     weak var headerView: HeaderView!
     weak var scrollView: UIScrollView!
@@ -44,7 +44,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         fatalError("Storyboard currently not supported")
     }
 
-    public override func loadView() {
+    open override func loadView() {
         let root = UIView()
         let style = self.router.lock.style
         root.backgroundColor = style.backgroundColor
@@ -52,7 +52,7 @@ public class LockViewController: UIViewController, MessagePresenter {
 
         let scrollView = UIScrollView()
         scrollView.bounces = false
-        scrollView.keyboardDismissMode = .Interactive
+        scrollView.keyboardDismissMode = .interactive
         self.view.addSubview(scrollView)
         constraintEqual(anchor: scrollView.leftAnchor, toAnchor: self.view.leftAnchor)
         constraintEqual(anchor: scrollView.topAnchor, toAnchor: self.view.topAnchor)
@@ -76,17 +76,17 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.headerView = header
     }
 
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
-        let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: #selector(keyboardWasShown), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(keyboardWasHidden), name: UIKeyboardWillHideNotification, object: nil)
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(keyboardWasShown), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(keyboardWasHidden), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
         self.present(self.router.root)
     }
 
-    func present(presentable: Presentable?) {
+    func present(_ presentable: Presentable?) {
         guard var presenter = presentable else { return }
         self.current?.remove()
         let view = presenter.view
@@ -96,25 +96,25 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.current = view
         self.headerView.showBack = self.router.showBack
         self.headerView.onBackPressed = self.router.onBack
-        self.scrollView.setContentOffset(CGPointZero, animated: false)
+        self.scrollView.setContentOffset(CGPoint.zero, animated: false)
     }
 
-    public override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         guard !self.keyboard else { return }
-        self.anchorConstraint?.active = self.traitCollection.verticalSizeClass != .Compact
-        self.scrollView.setContentOffset(CGPointZero, animated: true)
+        self.anchorConstraint?.isActive = self.traitCollection.verticalSizeClass != .compact
+        self.scrollView.setContentOffset(CGPoint.zero, animated: true)
         self.view.layoutIfNeeded()
     }
 
     // MARK:- MessagePresenter
 
-    func showError(error: LocalizableError) {
+    func showError(_ error: LocalizableError) {
         guard error.userVisible else { return }
-        show(message: error.localizableMessage, flavor: .Failure)
+        show(message: error.localizableMessage, flavor: .failure)
     }
 
-    func showSuccess(message: String) {
-        show(message: message, flavor: .Success)
+    func showSuccess(_ message: String) {
+        show(message: message, flavor: .success)
     }
 
     func hideCurrent() {
@@ -122,7 +122,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.messageView = nil
     }
 
-    private func show(message message: String, flavor: MessageView.Flavor) {
+    fileprivate func show(message: String, flavor: MessageView.Flavor) {
         let view = MessageView()
         view.type = flavor
         view.message = message
@@ -141,39 +141,39 @@ public class LockViewController: UIViewController, MessagePresenter {
 
     // MARK:- Keyboard
 
-    func keyboardWasShown(notification: NSNotification) {
+    func keyboardWasShown(_ notification: Notification) {
         guard
             let value = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue,
             let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
             let curveValue = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
         else { return }
-        let frame = value.CGRectValue()
+        let frame = value.cgRectValue
         let insets = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
 
         self.keyboard = true
         self.scrollView.contentInset = insets
-        let options = UIViewAnimationOptions(rawValue: UInt(curveValue.integerValue << 16))
-        UIView.animateWithDuration(
-            duration.doubleValue,
+        let options = UIViewAnimationOptions(rawValue: UInt(curveValue.intValue << 16))
+        UIView.animate(
+            withDuration: duration.doubleValue,
             delay: 0,
             options: options,
             animations: {
-                self.anchorConstraint?.active = false
+                self.anchorConstraint?.isActive = false
             },
             completion: nil)
     }
 
-    func keyboardWasHidden(notification: NSNotification) {
+    func keyboardWasHidden(_ notification: Notification) {
         guard
             let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
             let curveValue = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
             else { return }
-        self.scrollView.contentInset = UIEdgeInsetsZero
+        self.scrollView.contentInset = UIEdgeInsets.zero
 
         self.keyboard = false
-        let options = UIViewAnimationOptions(rawValue: UInt(curveValue.integerValue << 16))
-        UIView.animateWithDuration(
-            duration.doubleValue,
+        let options = UIViewAnimationOptions(rawValue: UInt(curveValue.intValue << 16))
+        UIView.animate(
+            withDuration: duration.doubleValue,
             delay: 0,
             options: options,
             animations: {

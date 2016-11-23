@@ -43,7 +43,7 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
 
-            guard case .Email = input.type else { return }
+            guard case .email = input.type else { return }
 
             do {
                 try self.interactor.updateEmail(input.text)

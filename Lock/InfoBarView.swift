@@ -22,13 +22,13 @@
 
 import UIKit
 
-public class InfoBarView: UIView {
+open class InfoBarView: UIView {
 
     weak var container: UIView?
     weak var iconView: UIImageView?
     weak var titleView: UILabel?
 
-    public var title: String? {
+    open var title: String? {
         get {
             return self.titleView?.text
         }
@@ -39,7 +39,7 @@ public class InfoBarView: UIView {
     }
     
     public convenience init() {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
     }
 
     required override public init(frame: CGRect) {
@@ -52,7 +52,7 @@ public class InfoBarView: UIView {
         self.layoutHeader()
     }
 
-    private func layoutHeader() {
+    fileprivate func layoutHeader() {
         let container = UIView()
         let titleView = UILabel()
         let iconView = UIImageView()
@@ -77,7 +77,7 @@ public class InfoBarView: UIView {
         
         container.backgroundColor = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
         
-        titleView.font = UIFont.systemFontOfSize(17)
+        titleView.font = UIFont.systemFont(ofSize: 17)
         titleView.textColor = UIColor(red:0.45, green:0.45, blue:0.45, alpha:1.0)
 
         self.titleView = titleView
@@ -86,12 +86,12 @@ public class InfoBarView: UIView {
         self.clipsToBounds = true
     }
     
-    func setIcon(name: String) {
+    func setIcon(_ name: String) {
         self.iconView?.image = image(named: name)
         self.iconView?.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
     }
 
-    public override func intrinsicContentSize() -> CGSize {
+    open override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 35)
     }
 

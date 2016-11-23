@@ -82,19 +82,19 @@ class DatabasePasswordInteractorSpec: QuickSpec {
                 }
 
                 it("should raise error if email is invalid") {
-                    expect{ try forgot.updateEmail("not an email") }.to(throwError(InputValidationError.NotAnEmailAddress))
+                    expect{ try forgot.updateEmail("not an email") }.to(throwError(InputValidationError.notAnEmailAddress))
                 }
 
                 it("should raise error if email is empty") {
-                    expect{ try forgot.updateEmail("") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                    expect{ try forgot.updateEmail("") }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
 
                 it("should raise error if email is only spaces") {
-                    expect{ try forgot.updateEmail("     ") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                    expect{ try forgot.updateEmail("     ") }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
 
                 it("should raise error if email is nil") {
-                    expect{ try forgot.updateEmail(nil) }.to(throwError(InputValidationError.MustNotBeEmpty))
+                    expect{ try forgot.updateEmail(nil) }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
             }
         }
@@ -106,14 +106,14 @@ class DatabasePasswordInteractorSpec: QuickSpec {
                 try! forgot.updateEmail(email)
                 waitUntil(timeout: 2) { done in
                     forgot.requestEmail { error in
-                        expect(error) == .NoDatabaseConnection
+                        expect(error) == .noDatabaseConnection
                         done()
                     }
                 }
             }
 
             it("should yield no error on success") {
-                stub(databaseForgotPassword(email: email, connection: connection)) { _ in return Auth0Stubs.forgotEmailSent() }
+                stub(condition: databaseForgotPassword(email: email, connection: connection)) { _ in return Auth0Stubs.forgotEmailSent() }
                 try! forgot.updateEmail(email)
                 waitUntil(timeout: 2) { done in
                     forgot.requestEmail { error in
@@ -124,11 +124,11 @@ class DatabasePasswordInteractorSpec: QuickSpec {
             }
 
             it("should yield error on failure") {
-                stub(databaseForgotPassword(email: email, connection: connection)) { _ in return Auth0Stubs.failure() }
+                stub(condition: databaseForgotPassword(email: email, connection: connection)) { _ in return Auth0Stubs.failure() }
                 try! forgot.updateEmail(email)
                 waitUntil(timeout: 2) { done in
                     forgot.requestEmail { error in
-                        expect(error) == .EmailNotSent
+                        expect(error) == .emailNotSent
                         done()
                     }
                 }
@@ -137,7 +137,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
             it("should yield error when input is not valid") {
                 waitUntil(timeout: 2) { done in
                     forgot.requestEmail { error in
-                        expect(error) == .NonValidInput
+                        expect(error) == .nonValidInput
                         done()
                     }
                 }

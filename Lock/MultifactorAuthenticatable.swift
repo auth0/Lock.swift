@@ -25,7 +25,7 @@ import Foundation
 protocol MultifactorAuthenticatable {
     var code: String? { get }
 
-    mutating func setMultifactorCode(code: String?) throws
+    mutating func setMultifactorCode(_ code: String?) throws
 
-    func login(callback: (DatabaseAuthenticatableError?) -> ())
+    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ())
 }

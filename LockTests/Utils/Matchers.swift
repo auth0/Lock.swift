@@ -27,7 +27,7 @@ import Nimble
 func beExpandedMode(isLogin login: Bool = true) -> MatcherFunc<AuthCollectionView.Mode> {
     return MatcherFunc { expression, failureMessage in
         failureMessage.postfixMessage = "be with expanded mode with isLogin: <\(login)>"
-        if let actual = try expression.evaluate(), case .Expanded(let isLogin) = actual where isLogin == login {
+        if let actual = try expression.evaluate(), case .expanded(let isLogin) = actual, isLogin == login {
             return true
         }
         return false
@@ -37,17 +37,17 @@ func beExpandedMode(isLogin login: Bool = true) -> MatcherFunc<AuthCollectionVie
 func beCompactMode() -> MatcherFunc<AuthCollectionView.Mode> {
     return MatcherFunc { expression, failureMessage in
         failureMessage.postfixMessage = "be with compact mode"
-        if let actual = try expression.evaluate(), case .Compact = actual {
+        if let actual = try expression.evaluate(), case .compact = actual {
             return true
         }
         return false
     }
 }
 
-func beError(error error: LocalizableError) -> MatcherFunc<LocalizableError> {
+func beError(error: LocalizableError) -> MatcherFunc<LocalizableError> {
     return MatcherFunc { expression, failureMessage in
         failureMessage.postfixMessage = "be error with message \(error.localizableMessage)"
-        if let actual = try expression.evaluate() where actual.localizableMessage == error.localizableMessage && actual.userVisible == error.userVisible {
+        if let actual = try expression.evaluate(), actual.localizableMessage == error.localizableMessage && actual.userVisible == error.userVisible {
             return true
         }
         return false
@@ -57,7 +57,7 @@ func beError(error error: LocalizableError) -> MatcherFunc<LocalizableError> {
 func beErrorResult() -> MatcherFunc<Result> {
     return MatcherFunc { expression, failureMessage in
         failureMessage.postfixMessage = "be an error result"
-        if let actual = try expression.evaluate(), case .Failure = actual {
+        if let actual = try expression.evaluate(), case .failure = actual {
             return true
         }
         return false

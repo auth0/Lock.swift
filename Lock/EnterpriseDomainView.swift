@@ -41,7 +41,7 @@ class EnterpriseDomainView: UIView, View {
         self.form = domainView
         self.container = container
         
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         
         self.addSubview(ssoBar)
         self.addSubview(container)
@@ -49,11 +49,11 @@ class EnterpriseDomainView: UIView, View {
         
         ssoBar.title = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
         ssoBar.setIcon("ic_lock")
-        ssoBar.hidden = true
+        ssoBar.isHidden = true
         self.ssoBar = ssoBar
-        container.alignment = .Fill
-        container.axis = .Vertical
-        container.distribution = .EqualSpacing
+        container.alignment = .fill
+        container.axis = .vertical
+        container.distribution = .equalSpacing
         container.spacing = 5
         
         container.addArrangedSubview(strutView(withHeight: 25))
@@ -64,7 +64,7 @@ class EnterpriseDomainView: UIView, View {
             label.text = "or".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
             label.font = mediumSystemFont(size: 13.75)
             label.textColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54 )
-            label.textAlignment = .Center
+            label.textAlignment = .center
             container.addArrangedSubview(label)
         }
         container.addArrangedSubview(domainView)
@@ -87,8 +87,8 @@ class EnterpriseDomainView: UIView, View {
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
         
-        domainView.type = .Email
-        domainView.returnKey = .Done
+        domainView.type = .email
+        domainView.returnKey = .done
         domainView.value = email
         
     }
@@ -97,14 +97,14 @@ class EnterpriseDomainView: UIView, View {
         let container = UIStackView()
         self.container = container
 
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
 
         self.addSubview(container)
         self.authButton = authButton
 
-        container.alignment = .Fill
-        container.axis = .Vertical
-        container.distribution = .EqualSpacing
+        container.alignment = .fill
+        container.axis = .vertical
+        container.distribution = .equalSpacing
         container.spacing = 5
 
         container.addArrangedSubview(strutView(withHeight: 25))
@@ -115,7 +115,7 @@ class EnterpriseDomainView: UIView, View {
             label.text = "or".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
             label.font = mediumSystemFont(size: 13.75)
             label.textColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54 )
-            label.textAlignment = .Center
+            label.textAlignment = .center
             container.addArrangedSubview(label)
         }
         container.addArrangedSubview(authButton)
@@ -132,7 +132,7 @@ class EnterpriseDomainView: UIView, View {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func apply(style style: Style) {
+    func apply(style: Style) {
         self.primaryButton?.apply(style: style)
     }
     
@@ -141,13 +141,13 @@ class EnterpriseDomainView: UIView, View {
 private func strutView(withHeight height: CGFloat = 50) -> UIView {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    dimension(view.heightAnchor, withValue: height)
+    dimension(dimension: view.heightAnchor, withValue: height)
     return view
 }
 
-public class EnterpriseSingleInputView : SingleInputView {
+open class EnterpriseSingleInputView : SingleInputView {
     
-    public override func intrinsicContentSize() -> CGSize {
+    open override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 50)
     }
 }

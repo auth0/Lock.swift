@@ -25,55 +25,55 @@ import Auth0
 
 struct MultifactorInteractor: MultifactorAuthenticatable {
 
-    private var connection: DatabaseConnection
-    private var user: DatabaseUser
-    private var authentication: Authentication
-    private var onAuthentication: Credentials -> ()
+    fileprivate var connection: DatabaseConnection
+    fileprivate var user: DatabaseUser
+    fileprivate var authentication: Authentication
+    fileprivate var onAuthentication: (Credentials) -> ()
 
-    private(set) var code: String? = nil
-    private(set) var validCode: Bool = false
+    fileprivate(set) var code: String? = nil
+    fileprivate(set) var validCode: Bool = false
 
-    private let validator = OneTimePasswordValidator()
+    fileprivate let validator = OneTimePasswordValidator()
 
-    init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, callback: Credentials -> ()) {
+    init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, callback: @escaping (Credentials) -> ()) {
         self.user = user
         self.authentication = authentication
         self.connection = connection
         self.onAuthentication = callback
     }
 
-    mutating func setMultifactorCode(code: String?) throws {
+    mutating func setMultifactorCode(_ code: String?) throws {
         self.validCode = false
-        self.code = code?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        self.code = code?.trimmingCharacters(in: CharacterSet.whitespaces)
         if let error = self.validator.validate(code) {
             throw error
         }
         self.validCode = true
     }
 
-    func login(callback: (DatabaseAuthenticatableError?) -> ()) {
+    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ()) {
         let identifier: String
 
-        if let email = self.user.email where self.user.validEmail {
+        if let email = self.user.email, self.user.validEmail {
             identifier = email
-        } else if let username = self.user.username where self.user.validUsername {
+        } else if let username = self.user.username, self.user.validUsername {
             identifier = username
         } else {
-            return callback(.NonValidInput)
+            return callback(.nonValidInput)
         }
 
-        guard let password = self.user.password where self.user.validPassword else { return callback(.NonValidInput) }
-        guard let code = self.code where self.validCode else { return callback(.NonValidInput) }
+        guard let password = self.user.password, self.user.validPassword else { return callback(.nonValidInput) }
+        guard let code = self.code, self.validCode else { return callback(.nonValidInput) }
         let database = self.connection.name
         self.authentication
             .login(usernameOrEmail: identifier, password: password, multifactorCode: code, connection: database)
             .start { result in
                 switch result {
-                case .Failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
-                    callback(.MultifactorInvalid)
-                case .Failure:
-                    callback(.CouldNotLogin)
-                case .Success(let credentials):
+                case .failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
+                    callback(.multifactorInvalid)
+                case .failure:
+                    callback(.couldNotLogin)
+                case .success(let credentials):
                     callback(nil)
                     self.onAuthentication(credentials)
                 }

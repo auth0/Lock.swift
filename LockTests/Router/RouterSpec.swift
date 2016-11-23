@@ -105,7 +105,7 @@ class RouterSpec: QuickSpec {
             it("should return root for one enterprise with actuve auth") {
                 lock.withConnections {
                     $0.enterprise(name: "testAD", domains: ["testAD.com"], style: AuthStyle(name: "ad"))
-                    }.options { $0.enterpriseConnectionUsingActiveAuth = ["testAD"] }
+                    }.withOptions { $0.enterpriseConnectionUsingActiveAuth = ["testAD"] }
                 expect(router.root as? EnterpriseActiveAuthPresenter).toNot(beNil())
             }
 
@@ -116,14 +116,14 @@ class RouterSpec: QuickSpec {
             it("should return root when only reset password is allowed and there is a database connection") {
                 lock
                     .withConnections { $0.database(name: connection, requiresUsername: false) }
-                    .options { $0.allow = [.ResetPassword] }
+                    .withOptions { $0.allow = [.ResetPassword] }
                 expect(router.root as? DatabaseForgotPasswordPresenter).toNot(beNil())
             }
 
             it("should return root when reset password is the initial screen and there is a database connection") {
                 lock
                     .withConnections { $0.database(name: connection, requiresUsername: false) }
-                    .options { $0.allow = [.ResetPassword] }
+                    .withOptions { $0.allow = [.ResetPassword] }
                 expect(router.root as? DatabaseForgotPasswordPresenter).toNot(beNil())
             }
 
@@ -136,7 +136,7 @@ class RouterSpec: QuickSpec {
                 let credentials = Credentials(accessToken: "ACCESS_TOKEN", tokenType: "bearer")
                 waitUntil(timeout: 2) { done in
                     lock.callback = { result in
-                        if case .Success(let actual) = result {
+                        if case .success(let actual) = result {
                             expect(actual) == credentials
                             done()
                         }
@@ -148,12 +148,12 @@ class RouterSpec: QuickSpec {
             describe("back") {
 
                 beforeEach {
-                    router.navigate(.Multifactor)
+                    router.navigate(.multifactor)
                 }
 
                 it("should navigate back to root") {
                     router.onBack()
-                    expect(controller.routes.current) == Route.Root
+                    expect(controller.routes.current) == Route.root
                 }
 
                 it("should clean user email") {
@@ -207,18 +207,18 @@ class RouterSpec: QuickSpec {
                 }
 
                 it("should dismiss controller") {
-                    router.exit(withError: UnrecoverableError.InvalidClientOrDomain)
+                    router.exit(withError: UnrecoverableError.invalidClientOrDomain)
                     expect(presenting.presented).toEventually(beNil())
                 }
 
                 it("should pass error in callback") {
                     waitUntil(timeout: 2) { done in
                         lock.callback = { result in
-                            if case .Failure(let cause) = result, case UnrecoverableError.InvalidClientOrDomain = cause {
+                            if case .failure(let cause) = result, case UnrecoverableError.invalidClientOrDomain = cause {
                                 done()
                             }
                         }
-                        router.exit(withError: UnrecoverableError.InvalidClientOrDomain)
+                        router.exit(withError: UnrecoverableError.invalidClientOrDomain)
                     }
                 }
             }
@@ -227,22 +227,22 @@ class RouterSpec: QuickSpec {
         describe("navigate") {
             it("should not show root again") {
                 expect(controller.routes.current).toNot(beNil())
-                router.navigate(.Root)
+                router.navigate(.root)
                 expect(controller.presentable).to(beNil())
             }
 
             it("should show forgot pwd screen") {
-                router.navigate(.ForgotPassword)
+                router.navigate(.forgotPassword)
                 expect(controller.presentable as? DatabaseForgotPasswordPresenter).toNot(beNil())
             }
 
             it("should show multifactor screen") {
-                router.navigate(.Multifactor)
+                router.navigate(.multifactor)
                 expect(controller.presentable as? MultifactorPresenter).toNot(beNil())
             }
 
             it("should show enterprise active auth screen") {
-                router.navigate(.EnterpriseActiveAuth(connection: EnterpriseConnection(name: "testAD", domains: ["testad.com"], style: AuthStyle(name: "ad"))))
+                router.navigate(.enterpriseActiveAuth(connection: EnterpriseConnection(name: "testAD", domains: ["testad.com"], style: AuthStyle(name: "ad"))))
                 expect(controller.presentable as? EnterpriseActiveAuthPresenter).toNot(beNil())
             }
         }
@@ -294,7 +294,7 @@ class RouterSpec: QuickSpec {
             it("should exit with error when connections are empty") {
                 waitUntil(timeout: 2) { done in
                     lock.callback = { result in
-                        if case .Failure(let cause) = result, case UnrecoverableError.ClientWithNoConnections = cause {
+                        if case .failure(let cause) = result, case UnrecoverableError.clientWithNoConnections = cause {
                             done()
                         }
                     }
@@ -307,28 +307,28 @@ class RouterSpec: QuickSpec {
         describe("route equatable") {
 
             it("root should should be equatable with root") {
-                let match = Route.Root == Route.Root
+                let match = Route.root == Route.root
                 expect(match).to(beTrue())
             }
 
             it("Multifactor should should be equatable with Multifactor") {
-                let match = Route.Multifactor == Route.Multifactor
+                let match = Route.multifactor == Route.multifactor
                 expect(match).to(beTrue())
             }
 
             it("ForgotPassword should should be equatable with ForgotPassword") {
-                let match = Route.ForgotPassword == Route.ForgotPassword
+                let match = Route.forgotPassword == Route.forgotPassword
                 expect(match).to(beTrue())
             }
 
             it("EnterpriseActiveAuth should should be equatable with EnterpriseActiveAuth") {
                 let enterpriseConnection = EnterpriseConnection(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
-                let match = Route.EnterpriseActiveAuth(connection: enterpriseConnection) == Route.EnterpriseActiveAuth(connection: enterpriseConnection)
+                let match = Route.enterpriseActiveAuth(connection: enterpriseConnection) == Route.enterpriseActiveAuth(connection: enterpriseConnection)
                 expect(match).to(beTrue())
             }
 
             it("root should should not be equatable with Multifactor") {
-                let match = Route.Root == Route.Multifactor
+                let match = Route.root == Route.multifactor
                 expect(match).to(beFalse())
             }
 

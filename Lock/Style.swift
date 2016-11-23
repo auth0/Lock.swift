@@ -34,7 +34,7 @@ public struct Style {
     public var primaryColor = UIColor.a0_orange
 
         /// Lock background color
-    public var backgroundColor = UIColor.whiteColor()
+    public var backgroundColor = UIColor.white
 
         /// Lock disabled component color
     public var disabledColor = UIColor ( red: 0.8902, green: 0.898, blue: 0.9059, alpha: 1.0 )
@@ -43,16 +43,16 @@ public struct Style {
     public var disabledTextColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
 
         /// Primary button tint color
-    public var buttonTintColor = UIColor.whiteColor()
+    public var buttonTintColor = UIColor.white
 
         /// Header background color. By default it has no color but a blur
     public var headerColor: UIColor? = nil
 
         /// Blur effect style used. It can be any value defined in `UIBlurEffectStyle`
-    public var headerBlur: UIBlurEffectStyle = .Light
+    public var headerBlur: UIBlurEffectStyle = .light
 
         /// Header title color
-    public var titleColor = UIColor.blackColor()
+    public var titleColor = UIColor.black
 
         /// Header logo image
     public var logo: LazyImage = lazyImage(named: "ic_auth0")
@@ -63,17 +63,17 @@ public struct Style {
     var headerMask: UIImage?  {
         let image = self.logo.image(compatibleWithTraits: nil)
         if Style.Auth0.logo == self.logo {
-            return image?.imageWithRenderingMode(.AlwaysTemplate)
+            return image?.withRenderingMode(.alwaysTemplate)
         }
         return image
     }
 
     func primaryButtonColor(forState state: UIControlState) -> UIColor {
-        if state.contains(.Highlighted) {
+        if state.contains(.highlighted) {
             return self.primaryColor.a0_darker(0.20)
         }
 
-        if state.contains(.Disabled) {
+        if state.contains(.disabled) {
             return self.disabledColor
         }
 
@@ -81,7 +81,7 @@ public struct Style {
     }
 
     func primaryButtonTintColor(forState state: UIControlState) -> UIColor {
-        if state.contains(.Disabled) {
+        if state.contains(.disabled) {
             return self.disabledTextColor
         }
 
@@ -93,5 +93,5 @@ public struct Style {
 
 
 protocol Stylable {
-    func apply(style style: Style)
+    func apply(style: Style)
 }

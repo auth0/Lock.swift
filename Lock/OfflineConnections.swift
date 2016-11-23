@@ -24,25 +24,25 @@ import Foundation
 
 struct OfflineConnections: ConnectionBuildable {
 
-    private (set) var databases: [DatabaseConnection] = []
+    fileprivate (set) var databases: [DatabaseConnection] = []
     var database: DatabaseConnection? { return self.databases.first }
-    private (set) var oauth2: [OAuth2Connection] = []
-    private (set) var enterprise: [EnterpriseConnection] = []
+    fileprivate (set) var oauth2: [OAuth2Connection] = []
+    fileprivate (set) var enterprise: [EnterpriseConnection] = []
 
-    mutating func database(name name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator()) {
+    mutating func database(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator()) {
         self.databases.append(DatabaseConnection(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator))
     }
 
-    mutating func social(name name: String, style: AuthStyle) {
+    mutating func social(name: String, style: AuthStyle) {
         self.oauth2(name: name, style: style)
     }
 
-    mutating func oauth2(name name: String, style: AuthStyle) {
+    mutating func oauth2(name: String, style: AuthStyle) {
         let social = SocialConnection(name: name, style: style)
         self.oauth2.append(social)
     }
     
-    mutating func enterprise(name name: String, domains: [String], style: AuthStyle) {
+    mutating func enterprise(name: String, domains: [String], style: AuthStyle) {
         let enterprise = EnterpriseConnection(name: name, domains: domains, style: style)
         self.enterprise.append(enterprise)
     }

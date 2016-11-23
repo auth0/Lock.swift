@@ -27,28 +27,28 @@ typealias JSONArray = [JSONObject]
 
 struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
 
-    let url: NSURL
+    let url: URL
 
-    init(baseURL: NSURL, clientId: String) {
-        self.url = NSURL(string: "client/\(clientId).js", relativeToURL: cdnURL(from: baseURL))!
+    init(baseURL: URL, clientId: String) {
+        self.url = URL(string: "client/\(clientId).js", relativeTo: cdnURL(from: baseURL))!
     }
 
-    func load(callback: Connections? -> ()) {
+    func load(_ callback: @escaping (Connections?) -> ()) {
         self.logger.info("Loading client info from \(self.url)")
-        let task = NSURLSession.sharedSession().dataTaskWithURL(self.url) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: self.url, completionHandler: { (data, response, error) in
             guard error == nil else {
                 self.logger.error("Failed to load with error \(error!)")
                 callback(nil)
                 return
             }
-            guard let response = response as? NSHTTPURLResponse else {
+            guard let response = response as? HTTPURLResponse else {
                 self.logger.error("Response was not NSHTTURLResponse")
                 return callback(nil)
             }
 
             let payload: String?
             if let data = data {
-                payload = String(data: data, encoding: NSUTF8StringEncoding)
+                payload = String(data: data, encoding: String.Encoding.utf8)
             } else {
                 payload = nil
             }
@@ -64,16 +64,16 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
 
             self.logger.verbose("Received jsonp \(jsonp)")
 
-            if let prefixRange = jsonp.rangeOfString("Auth0.setClient(") {
-                jsonp.removeRange(prefixRange)
+            if let prefixRange = jsonp.range(of: "Auth0.setClient(") {
+                jsonp.removeSubrange(prefixRange)
             }
-            if let suffixRange = jsonp.rangeOfString(");") {
-                jsonp.removeRange(suffixRange)
+            if let suffixRange = jsonp.range(of: ");") {
+                jsonp.removeSubrange(suffixRange)
             }
 
             do {
                 var connections = OfflineConnections()
-                let json = try NSJSONSerialization.JSONObjectWithData(jsonp.dataUsingEncoding(NSUTF8StringEncoding)!, options: []) as? JSONObject
+                let json = try JSONSerialization.jsonObject(with: jsonp.data(using: String.Encoding.utf8)!, options: []) as? JSONObject
                 self.logger.debug("Client configuration is \(json)")
                 let info = ClientInfo(json: json)
                 if let auth0 = info.auth0 {
@@ -96,7 +96,7 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
                 self.logger.error("Failed to parse \(jsonp) with error \(e)")
                 return callback(nil)
             }
-        }
+        }) 
         task.resume()
     }
 }
@@ -184,10 +184,10 @@ private struct ConnectionInfo {
     }
 }
 
-private func cdnURL(from url: NSURL) -> NSURL {
-    guard let host = url.host where host.hasSuffix(".auth0.com") else { return url }
-    let components = host.componentsSeparatedByString(".")
-    guard components.count == 4 else { return NSURL(string: "https://cdn.auth0.com")! }
+private func cdnURL(from url: URL) -> URL {
+    guard let host = url.host, host.hasSuffix(".auth0.com") else { return url }
+    let components = host.components(separatedBy: ".")
+    guard components.count == 4 else { return URL(string: "https://cdn.auth0.com")! }
     let region = components[1]
-    return NSURL(string: "https://cdn.\(region).auth0.com")!
+    return URL(string: "https://cdn.\(region).auth0.com")!
 }

@@ -76,19 +76,19 @@ class MultifactorInteractorSpec: QuickSpec {
                 }
 
                 it("should raise error if code is invalid") {
-                    expect{ try interactor.setMultifactorCode("not an email") }.to(throwError(InputValidationError.NotAOneTimePassword))
+                    expect{ try interactor.setMultifactorCode("not an email") }.to(throwError(InputValidationError.notAOneTimePassword))
                 }
 
                 it("should raise error if code is empty") {
-                    expect{ try interactor.setMultifactorCode("") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                    expect{ try interactor.setMultifactorCode("") }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
 
                 it("should raise error if email is only spaces") {
-                    expect{ try interactor.setMultifactorCode("     ") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                    expect{ try interactor.setMultifactorCode("     ") }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
 
                 it("should raise error if email is nil") {
-                    expect{ try interactor.setMultifactorCode(nil) }.to(throwError(InputValidationError.MustNotBeEmpty))
+                    expect{ try interactor.setMultifactorCode(nil) }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
             }
         }
@@ -96,7 +96,7 @@ class MultifactorInteractorSpec: QuickSpec {
         describe("login") {
 
             it("should yield no error on success") {
-                stub(databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
@@ -107,29 +107,29 @@ class MultifactorInteractorSpec: QuickSpec {
             }
 
             it("should yield credentials") {
-                stub(databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.setMultifactorCode(code)
                 interactor.login { _ in }
                 expect(credentials).toEventuallyNot(beNil())
             }
 
             it("should yield error on failure") {
-                stub(databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure() }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
-                        expect(error) == .CouldNotLogin
+                        expect(error) == .couldNotLogin
                         done()
                     }
                 }
             }
 
             it("should notify when code is invalid") {
-                stub(databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
-                        expect(error) == .MultifactorInvalid
+                        expect(error) == .multifactorInvalid
                         done()
                     }
                 }
@@ -138,7 +138,7 @@ class MultifactorInteractorSpec: QuickSpec {
             it("should yield error when input is not valid") {
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
-                        expect(error) == .NonValidInput
+                        expect(error) == .nonValidInput
                         done()
                     }
                 }

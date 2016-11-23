@@ -36,9 +36,9 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
     var view: View {
         var identifier: String?
         
-        if let email = self.interactor.email where self.interactor.validEmail {
+        if let email = self.interactor.email, self.interactor.validEmail {
             identifier = email
-        } else if let username = self.interactor.username where self.interactor.validUsername {
+        } else if let username = self.interactor.username, self.interactor.validUsername {
             identifier = username
         }
         
@@ -51,11 +51,11 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
             
             do {
                 switch input.type {
-                case .Email, .Username:
+                case .email, .username:
                     try self.interactor.update(self.interactor.identifierAttribute, value: input.text)
                     input.showValid()
-                case .Password:
-                    try self.interactor.update(.Password, value: input.text)
+                case .password:
+                    try self.interactor.update(.password, value: input.text)
                     input.showValid()
                 default:
                     self.logger.warn("Invalid user attribute")

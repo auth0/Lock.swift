@@ -22,19 +22,19 @@
 
 import UIKit
 
-public class PrimaryButton: UIView {
+open class PrimaryButton: UIView {
 
     weak var button: UIButton?
     weak var indicator: UIActivityIndicatorView?
 
-    public var onPress: (PrimaryButton) -> () = {_ in }
+    open var onPress: (PrimaryButton) -> () = {_ in }
 
-    public var inProgress: Bool {
+    open var inProgress: Bool {
         get {
-            return !(self.button?.enabled ?? true)
+            return !(self.button?.isEnabled ?? true)
         }
         set {
-            self.button?.enabled = !newValue
+            self.button?.isEnabled = !newValue
             if newValue {
                 self.indicator?.startAnimating()
             } else {
@@ -44,7 +44,7 @@ public class PrimaryButton: UIView {
     }
 
     public convenience init() {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
     }
 
     required override public init(frame: CGRect) {
@@ -57,9 +57,9 @@ public class PrimaryButton: UIView {
         self.layoutButton()
     }
 
-    private func layoutButton() {
-        let button = UIButton(type: .Custom)
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+    fileprivate func layoutButton() {
+        let button = UIButton(type: .custom)
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 
         self.addSubview(button)
         self.addSubview(indicator)
@@ -74,9 +74,9 @@ public class PrimaryButton: UIView {
         constraintEqual(anchor: indicator.centerYAnchor, toAnchor: self.centerYAnchor)
         indicator.translatesAutoresizingMaskIntoConstraints = false
 
-        button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), forState: .Normal)
-        button.setImage(UIImage(), forState: .Disabled)
-        button.addTarget(self, action: #selector(pressed), forControlEvents: .TouchUpInside)
+        button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), for: UIControlState())
+        button.setImage(UIImage(), for: .disabled)
+        button.addTarget(self, action: #selector(pressed), for: .touchUpInside)
 
         indicator.hidesWhenStopped = true
 
@@ -85,21 +85,21 @@ public class PrimaryButton: UIView {
         self.indicator = indicator
     }
 
-    public override func intrinsicContentSize() -> CGSize {
+    open override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 95)
     }
 
-    func pressed(sender: AnyObject) {
+    func pressed(_ sender: AnyObject) {
         self.onPress(self)
     }
 }
 
 extension PrimaryButton: Stylable {
 
-    func apply(style style: Style) {
-        self.button?.setBackgroundImage(image(withColor: style.primaryColor), forState: .Normal)
-        self.button?.setBackgroundImage(image(withColor: style.primaryColor.a0_darker(0.20)), forState: .Highlighted)
-        self.button?.setBackgroundImage(image(withColor: style.disabledColor), forState: .Disabled)
+    func apply(style: Style) {
+        self.button?.setBackgroundImage(image(withColor: style.primaryColor), for: UIControlState())
+        self.button?.setBackgroundImage(image(withColor: style.primaryColor.a0_darker(0.20)), for: .highlighted)
+        self.button?.setBackgroundImage(image(withColor: style.disabledColor), for: .disabled)
         self.button?.tintColor = style.buttonTintColor
         self.indicator?.color = style.disabledTextColor
     }

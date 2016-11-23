@@ -34,7 +34,7 @@ class ConnectionLoadingPresenter: Presentable, Loggable {
 
     var view: View {
         self.loader.load { connections in
-            guard let connections = connections where !connections.isEmpty else { return self.navigator.exit(withError: UnrecoverableError.ClientWithNoConnections) }
+            guard let connections = connections, !connections.isEmpty else { return self.navigator.exit(withError: UnrecoverableError.clientWithNoConnections) }
             Queue.main.async {
                 self.logger.debug("Loaded connections. Moving to root view")
                 self.navigator.reload(withConnections: connections)

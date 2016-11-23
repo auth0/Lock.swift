@@ -25,15 +25,15 @@ import Auth0
 
 struct LockOptions: OptionBuildable {
     var closable: Bool = false
-    var termsOfServiceURL: NSURL = NSURL(string: "https://auth0.com/terms")!
-    var privacyPolicyURL: NSURL = NSURL(string: "https://auth0.com/privacy")!
-    var logLevel: LoggerLevel = .Off
+    var termsOfServiceURL: URL = URL(string: "https://auth0.com/terms")!
+    var privacyPolicyURL: URL = URL(string: "https://auth0.com/privacy")!
+    var logLevel: LoggerLevel = .off
     var loggerOutput: LoggerOutput? = nil
     var logHttpRequest: Bool = false
     var scope: String = "openid"
     var parameters: [String : AnyObject] = [:]
     var allow: DatabaseMode = [.Login, .Signup, .ResetPassword]
-    var initialScreen: DatabaseScreen = .Login
+    var initialScreen: DatabaseScreen = .login
     var usernameStyle: DatabaseIdentifierStyle = [.Username, .Email]
     var customSignupFields: [CustomTextField] = []
     

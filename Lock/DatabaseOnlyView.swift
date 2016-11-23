@@ -34,7 +34,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var ssoBar: InfoBarView?
     weak var spacer: UIView?
     
-    private weak var container: UIStackView?
+    fileprivate weak var container: UIStackView?
     
     let allowedModes: DatabaseMode
     
@@ -46,14 +46,14 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.primaryButton = primaryButton
         self.container = container
         
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         
         self.addSubview(container)
         self.addSubview(primaryButton)
         
-        container.alignment = .Fill
-        container.axis = .Vertical
-        container.distribution = .EqualSpacing
+        container.alignment = .fill
+        container.axis = .vertical
+        container.distribution = .equalSpacing
         container.spacing = 10
         
         constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
@@ -76,11 +76,11 @@ class DatabaseOnlyView: UIView, DatabaseView {
     
     // MARK:- Layout
     
-    private let switcherIndex = 0
-    private let formOnlyIndex = 1
-    private let formBelowSocialIndex = 3
-    private let separatorIndex = 2
-    private let socialIndex = 1
+    fileprivate let switcherIndex = 0
+    fileprivate let formOnlyIndex = 1
+    fileprivate let formBelowSocialIndex = 3
+    fileprivate let separatorIndex = 2
+    fileprivate let socialIndex = 1
     
     func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil) {
         let form = CredentialView()
@@ -88,18 +88,18 @@ class DatabaseOnlyView: UIView, DatabaseView {
         let type: InputField.InputType
         switch style {
         case [.Email, .Username]:
-            type = .EmailOrUsername
+            type = .emailOrUsername
         case [.Username]:
-            type = .Username
+            type = .username
         default:
-            type = .Email
+            type = .email
         }
         
         form.identityField.text = identifier
         form.identityField.type = type
-        form.identityField.returnKey = .Next
+        form.identityField.returnKey = .next
         form.identityField.nextField = form.passwordField
-        form.passwordField.returnKey = .Done
+        form.passwordField.returnKey = .done
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(self.allowedModes.contains(.ResetPassword))
         self.form = form
@@ -109,12 +109,12 @@ class DatabaseOnlyView: UIView, DatabaseView {
         let form = SignUpView(additionalFields: additionalFields)
         form.showUsername = showUsername
         form.emailField.text = email
-        form.emailField.returnKey = .Next
+        form.emailField.returnKey = .next
         form.emailField.nextField = form.usernameField ?? form.passwordField
         form.usernameField?.text = username
-        form.usernameField?.returnKey = .Next
+        form.usernameField?.returnKey = .next
         form.usernameField?.nextField = form.passwordField
-        form.passwordField.returnKey = .Done
+        form.passwordField.returnKey = .done
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(true)
         self.form = form
@@ -129,41 +129,41 @@ class DatabaseOnlyView: UIView, DatabaseView {
         
         ssoBar.title  = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
         ssoBar.setIcon("ic_lock")
-        ssoBar.hidden = false
+        ssoBar.isHidden = false
 
-        self.container?.insertArrangedSubview(ssoBar, atIndex: 0)
+        self.container?.insertArrangedSubview(ssoBar, at: 0)
         self.container?.addArrangedSubview(spacer)
 
         self.ssoBar = ssoBar
         self.spacer = spacer
         
-        form.passwordField.hidden = true
+        form.passwordField.isHidden = true
         form.identityField.nextField = nil
-        form.identityField.returnKey = .Done
+        form.identityField.returnKey = .done
         form.identityField.onReturn = form.passwordField.onReturn
         
-        self.switcher?.hidden = true
-        self.secondaryButton?.hidden = true
+        self.switcher?.isHidden = true
+        self.secondaryButton?.isHidden = true
     }
     
     func removeEnterprise() {
-        guard let ssoBar = self.ssoBar, spacer = self.spacer, form = self.form as? CredentialView else { return }
+        guard let ssoBar = self.ssoBar, let spacer = self.spacer, let form = self.form as? CredentialView else { return }
 
         ssoBar.removeFromSuperview()
         spacer.removeFromSuperview()
         
-        form.passwordField.hidden = false
+        form.passwordField.isHidden = false
         form.identityField.nextField = form.passwordField
-        form.identityField.returnKey = .Next
+        form.identityField.returnKey = .next
         
-        self.switcher?.hidden = false
-        self.secondaryButton?.hidden = false
+        self.switcher?.isHidden = false
+        self.secondaryButton?.isHidden = false
         
         self.ssoBar = nil
         self.spacer = nil
     }
     
-    private func layoutSecondaryButton(enabled: Bool) {
+    fileprivate func layoutSecondaryButton(_ enabled: Bool) {
         self.secondaryStrut?.removeFromSuperview()
         self.secondaryButton?.removeFromSuperview()
         if enabled {
@@ -177,19 +177,19 @@ class DatabaseOnlyView: UIView, DatabaseView {
         }
     }
     
-    private func layoutSwitcher(enabled: Bool) {
+    fileprivate func layoutSwitcher(_ enabled: Bool) {
         self.container?.arrangedSubviews.first?.removeFromSuperview()
         if enabled {
             let switcher = DatabaseModeSwitcher()
-            self.container?.insertArrangedSubview(switcher, atIndex: switcherIndex)
+            self.container?.insertArrangedSubview(switcher, at: switcherIndex)
             self.switcher = switcher
         } else {
             let view = strutView()
-            self.container?.insertArrangedSubview(view, atIndex: switcherIndex)
+            self.container?.insertArrangedSubview(view, at: switcherIndex)
         }
     }
     
-    private func layoutInStack(view: UIView, authCollectionView: AuthCollectionView?) {
+    fileprivate func layoutInStack(_ view: UIView, authCollectionView: AuthCollectionView?) {
         if let current = self.form as? UIView {
             current.removeFromSuperview()
         }
@@ -201,20 +201,20 @@ class DatabaseOnlyView: UIView, DatabaseView {
             label.text = "or".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
             label.font = mediumSystemFont(size: 13.75)
             label.textColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54 )
-            label.textAlignment = .Center
-            self.container?.insertArrangedSubview(social, atIndex: socialIndex)
-            self.container?.insertArrangedSubview(label, atIndex: separatorIndex)
-            self.container?.insertArrangedSubview(view, atIndex: formBelowSocialIndex)
+            label.textAlignment = .center
+            self.container?.insertArrangedSubview(social, at: socialIndex)
+            self.container?.insertArrangedSubview(label, at: separatorIndex)
+            self.container?.insertArrangedSubview(view, at: formBelowSocialIndex)
             self.authCollectionView = social
             self.separator = label
         } else {
-            self.container?.insertArrangedSubview(view, atIndex: formOnlyIndex)
+            self.container?.insertArrangedSubview(view, at: formOnlyIndex)
         }
     }
     
     // MARK:- Styling
     
-    func apply(style style: Style) {
+    func apply(style: Style) {
         primaryButton?.apply(style: style)
     }
 }
@@ -222,6 +222,6 @@ class DatabaseOnlyView: UIView, DatabaseView {
 private func strutView(withHeight height: CGFloat = 50) -> UIView {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    dimension(view.heightAnchor, withValue: height)
+    dimension(dimension:view.heightAnchor, withValue: height)
     return view
 }

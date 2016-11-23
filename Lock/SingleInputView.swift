@@ -22,11 +22,11 @@
 
 import UIKit
 
-public class SingleInputView: UIView, Form {
-    private var inputField: InputField
-    private var titleView: UILabel
-    private var messageView: UILabel
-    private var stackView: UIStackView
+open class SingleInputView: UIView, Form {
+    fileprivate var inputField: InputField
+    fileprivate var titleView: UILabel
+    fileprivate var messageView: UILabel
+    fileprivate var stackView: UIStackView
 
     var value: String? {
         get {
@@ -37,13 +37,13 @@ public class SingleInputView: UIView, Form {
         }
     }
 
-    var type: InputField.InputType = .Email {
+    var type: InputField.InputType = .email {
         didSet {
             self.inputField.type = self.type
         }
     }
 
-    var returnKey: UIReturnKeyType = .Done {
+    var returnKey: UIReturnKeyType = .done {
         didSet {
             self.inputField.returnKey = self.returnKey
         }
@@ -98,16 +98,16 @@ public class SingleInputView: UIView, Form {
     }
 
     public convenience init() {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
     }
 
     // MARK:- Layout
 
-    private func layoutForm() {
+    fileprivate func layoutForm() {
         self.addSubview(self.stackView)
 
         constraintEqual(anchor: self.stackView.leftAnchor, toAnchor: self.leftAnchor)
@@ -116,21 +116,21 @@ public class SingleInputView: UIView, Form {
         constraintEqual(anchor: self.stackView.bottomAnchor, toAnchor: self.bottomAnchor)
         self.stackView.translatesAutoresizingMaskIntoConstraints = false
 
-        self.stackView.alignment = .Fill
-        self.stackView.axis = .Vertical
-        self.stackView.distribution = .EqualCentering
+        self.stackView.alignment = .fill
+        self.stackView.axis = .vertical
+        self.stackView.distribution = .equalCentering
 
-        titleView.textAlignment = .Center
+        titleView.textAlignment = .center
         titleView.font = regularSystemFont(size: 26)
         titleView.textColor = UIColor ( red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0 )
         messageView.numberOfLines = 4
-        messageView.textAlignment = .Center
+        messageView.textAlignment = .center
         messageView.font = regularSystemFont(size: 15)
         inputField.type = self.type
         inputField.returnKey = self.returnKey
     }
 
-    public override func intrinsicContentSize() -> CGSize {
+    open override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 244)
     }
 }

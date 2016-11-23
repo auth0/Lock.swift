@@ -25,8 +25,8 @@ import Foundation
 public protocol Options {
     var closable: Bool { get }
 
-    var termsOfServiceURL: NSURL { get }
-    var privacyPolicyURL: NSURL { get }
+    var termsOfServiceURL: URL { get }
+    var privacyPolicyURL: URL { get }
     
     var logLevel: LoggerLevel { get }
     var loggerOutput: LoggerOutput? { get }

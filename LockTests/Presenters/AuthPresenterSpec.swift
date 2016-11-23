@@ -57,31 +57,31 @@ class AuthPresenterSpec: QuickSpec {
         describe("embedded view") {
 
             it("should return view") {
-                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsetsZero)).toNot(beNil())
+                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero)).toNot(beNil())
             }
 
             it("should return view with expanded mode for single connection") {
                 let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 1), enterprise: [])
                 presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: [:])
-                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsetsZero).mode).to(beExpandedMode())
+                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero).mode).to(beExpandedMode())
             }
 
             it("should return view with expanded mode and signup flag") {
                 let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 1), enterprise: [])
                 presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: [:])
-                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsetsZero, isLogin: false).mode).to(beExpandedMode(isLogin: false))
+                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero, isLogin: false).mode).to(beExpandedMode(isLogin: false))
             }
 
             it("should return view with expanded mode for two connections") {
                 let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 2), enterprise: [])
                 presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: [:])
-                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsetsZero).mode).to(beExpandedMode())
+                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero).mode).to(beExpandedMode())
             }
 
             it("should return view with compact mode for more than three connecitons") {
                 let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: Int(arc4random_uniform(10)) + 3), enterprise: [])
                 presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: [:])
-                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsetsZero).mode).to(beCompactMode())
+                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero).mode).to(beCompactMode())
             }
 
         }
@@ -106,9 +106,9 @@ class AuthPresenterSpec: QuickSpec {
             }
 
             it("should show error") {
-                interactor.onLogin = { return .CouldNotAuthenticate }
+                interactor.onLogin = { return .couldNotAuthenticate }
                 view.onAction("social0")
-                expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.CouldNotAuthenticate))
+                expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
             }
 
         }

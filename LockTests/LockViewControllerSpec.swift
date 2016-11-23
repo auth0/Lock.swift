@@ -41,18 +41,18 @@ class LockViewControllerSpec: QuickSpec {
                 let message = "I.O.U. a message"
                 controller.showSuccess(message)
                 expect(controller.messageView?.message) == message
-                expect(controller.messageView?.type) == .Success
+                expect(controller.messageView?.type) == .success
             }
 
             it("should show error message") {
-                let error = DatabaseAuthenticatableError.CouldNotLogin
+                let error = DatabaseAuthenticatableError.couldNotLogin
                 controller.showError(error)
                 expect(controller.messageView?.message) == error.localizableMessage
-                expect(controller.messageView?.type) == .Failure
+                expect(controller.messageView?.type) == .failure
             }
 
             it("should hide message") {
-                let error = DatabaseAuthenticatableError.CouldNotLogin
+                let error = DatabaseAuthenticatableError.couldNotLogin
                 controller.showError(error)
                 controller.hideCurrent()
                 expect(controller.messageView).toEventually(beNil())
@@ -75,23 +75,23 @@ class LockViewControllerSpec: QuickSpec {
             }
 
             it("should have zero insets in scroll") {
-                expect(controller.scrollView?.contentInset) == UIEdgeInsetsZero
+                expect(controller.scrollView?.contentInset) == UIEdgeInsets.zero
             }
 
             context("show") {
 
                 var frame: CGRect!
-                var duration: NSTimeInterval!
+                var duration: TimeInterval!
                 var curve: UIViewAnimationOptions!
 
                 beforeEach {
                     frame = CGRect(x: randomInteger(0, to: 200), y: randomInteger(0, to: 200), width: randomInteger(0, to: 200), height: randomInteger(0, to: 200))
                     duration = randomTimeInterval(0, to: 60)
-                    curve = UIViewAnimationOptions.CurveEaseInOut
+                    curve = UIViewAnimationOptions()
                 }
 
                 it("should ignore invalid notification") {
-                    let notification = NSNotification(name: UIKeyboardWillShowNotification, object: nil)
+                    let notification = Notification(name: NSNotification.Name.UIKeyboardWillShow, object: nil)
                     controller.keyboardWasShown(notification)
                     expect(controller.keyboard) == false
                 }
@@ -111,23 +111,23 @@ class LockViewControllerSpec: QuickSpec {
                 it("should disable anchor constraint") {
                     let notification = willShowNotification(frame: frame, duration: duration, curve: curve)
                     controller.keyboardWasShown(notification)
-                    expect(controller.anchorConstraint?.active).toEventually(beFalse())
+                    expect(controller.anchorConstraint?.isActive).toEventually(beFalse())
                 }
 
             }
 
             context("hide") {
 
-                var duration: NSTimeInterval!
+                var duration: TimeInterval!
                 var curve: UIViewAnimationOptions!
 
                 beforeEach {
                     duration = randomTimeInterval(0, to: 60)
-                    curve = UIViewAnimationOptions.CurveEaseInOut
+                    curve = UIViewAnimationOptions()
                 }
 
                 it("should ignore invalid notification") {
-                    let notification = NSNotification(name: UIKeyboardWillHideNotification, object: nil)
+                    let notification = Notification(name: NSNotification.Name.UIKeyboardWillHide, object: nil)
                     controller.keyboardWasHidden(notification)
                     expect(controller.keyboard) == false
                 }
@@ -141,13 +141,13 @@ class LockViewControllerSpec: QuickSpec {
                 it("should reset insets in scroll") {
                     let notification = willHideNotification(duration: duration, curve: curve)
                     controller.keyboardWasHidden(notification)
-                    expect(controller.scrollView?.contentInset) == UIEdgeInsetsZero
+                    expect(controller.scrollView?.contentInset) == UIEdgeInsets.zero
                 }
 
                 it("should enable anchor constraint") {
                     let notification = willHideNotification(duration: duration, curve: curve)
                     controller.keyboardWasHidden(notification)
-                    expect(controller.anchorConstraint?.active).toEventually(beTrue())
+                    expect(controller.anchorConstraint?.isActive).toEventually(beTrue())
                 }
 
             }
@@ -157,35 +157,35 @@ class LockViewControllerSpec: QuickSpec {
 
 }
 
-func randomInteger(from: Int, to: Int) -> Int {
+func randomInteger(_ from: Int, to: Int) -> Int {
     return Int(arc4random_uniform(UInt32(to))) + from
 }
 
-func randomTimeInterval(from: Int, to: Int) -> NSTimeInterval {
+func randomTimeInterval(_ from: Int, to: Int) -> TimeInterval {
     let value: Int = Int(arc4random_uniform(UInt32(to))) + from
     return Double(value)
 }
 
-func willShowNotification(frame frame: CGRect, duration: NSTimeInterval, curve: UIViewAnimationOptions) -> NSNotification {
-    let notification = NSNotification(
-        name: UIKeyboardWillShowNotification,
+func willShowNotification(frame: CGRect, duration: TimeInterval, curve: UIViewAnimationOptions) -> Notification {
+    let notification = Notification(
+        name: NSNotification.Name.UIKeyboardWillShow,
         object: nil,
         userInfo: [
-            UIKeyboardFrameEndUserInfoKey: NSValue(CGRect: frame),
-            UIKeyboardAnimationDurationUserInfoKey: NSNumber(double: duration),
-            UIKeyboardAnimationCurveUserInfoKey: NSNumber(unsignedLong: curve.rawValue),
+            UIKeyboardFrameEndUserInfoKey: NSValue(cgRect: frame),
+            UIKeyboardAnimationDurationUserInfoKey: NSNumber(value: duration as Double),
+            UIKeyboardAnimationCurveUserInfoKey: NSNumber(value: curve.rawValue as UInt),
         ]
     )
     return notification
 }
 
-func willHideNotification(duration duration: NSTimeInterval, curve: UIViewAnimationOptions) -> NSNotification {
-    let notification = NSNotification(
-        name: UIKeyboardWillHideNotification,
+func willHideNotification(duration: TimeInterval, curve: UIViewAnimationOptions) -> Notification {
+    let notification = Notification(
+        name: NSNotification.Name.UIKeyboardWillHide,
         object: nil,
         userInfo: [
-            UIKeyboardAnimationDurationUserInfoKey: NSNumber(double: duration),
-            UIKeyboardAnimationCurveUserInfoKey: NSNumber(unsignedLong: curve.rawValue),
+            UIKeyboardAnimationDurationUserInfoKey: NSNumber(value: duration as Double),
+            UIKeyboardAnimationCurveUserInfoKey: NSNumber(value: curve.rawValue as UInt),
         ]
     )
     return notification

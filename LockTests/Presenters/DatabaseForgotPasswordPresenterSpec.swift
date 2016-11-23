@@ -66,34 +66,34 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
             describe("user input") {
 
                 it("should clear global message") {
-                    messagePresenter.showError(PasswordRecoverableError.EmailNotSent)
-                    let input = mockInput(.Email, value: email)
+                    messagePresenter.showError(PasswordRecoverableError.emailNotSent)
+                    let input = mockInput(.email, value: email)
                     view.form?.onValueChange(input)
                     expect(messagePresenter.error).to(beNil())
                     expect(messagePresenter.message).to(beNil())
                 }
 
                 it("should update email") {
-                    let input = mockInput(.Email, value: email)
+                    let input = mockInput(.email, value: email)
                     view.form?.onValueChange(input)
                     expect(interactor.email) == email
                 }
 
 
                 it("should not update if type is not valid for db connection") {
-                    let input = mockInput(.Phone, value: "+1234567890")
+                    let input = mockInput(.phone, value: "+1234567890")
                     view.form?.onValueChange(input)
                     expect(interactor.email).to(beNil())
                 }
 
                 it("should hide the field error if value is valid") {
-                    let input = mockInput(.Email, value: email)
+                    let input = mockInput(.email, value: email)
                     view.form?.onValueChange(input)
                     expect(input.valid) == true
                 }
 
                 it("should show field error if value is invalid") {
-                    let input = mockInput(.Email, value: "invalid")
+                    let input = mockInput(.email, value: "invalid")
                     view.form?.onValueChange(input)
                     expect(input.valid) == false
                 }
@@ -103,8 +103,8 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
             describe("request forgot email action") {
 
                 it("should trigger action on return of last field") {
-                    let input = mockInput(.Email, value: email)
-                    input.returnKey = .Done
+                    let input = mockInput(.email, value: email)
+                    input.returnKey = .done
                     waitUntil { done in
                         interactor.onRequest = {
                             done()
@@ -115,10 +115,10 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
                 }
 
                 it("should not trigger action with nil button") {
-                    let input = mockInput(.OneTimePassword, value: "123456")
-                    input.returnKey = .Done
+                    let input = mockInput(.oneTimePassword, value: "123456")
+                    input.returnKey = .done
                     interactor.onRequest = {
-                        return .EmailNotSent
+                        return .emailNotSent
                     }
                     view.primaryButton = nil
                     view.form?.onReturn(input)
@@ -128,10 +128,10 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
 
                 it("should show global error message") {
                     interactor.onRequest = {
-                        return .EmailNotSent
+                        return .emailNotSent
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(messagePresenter.error).toEventually(beError(error: PasswordRecoverableError.EmailNotSent))
+                    expect(messagePresenter.error).toEventually(beError(error: PasswordRecoverableError.emailNotSent))
                 }
 
                 it("should show global success message") {
@@ -183,11 +183,11 @@ class MockForgotInteractor: PasswordRecoverable {
     var email: String?
     var onRequest: () -> PasswordRecoverableError? = { return nil }
 
-    func requestEmail(callback: (PasswordRecoverableError?) -> ()) {
+    func requestEmail(_ callback: @escaping (PasswordRecoverableError?) -> ()) {
         callback(onRequest())
     }
 
-    func updateEmail(value: String?) throws {
+    func updateEmail(_ value: String?) throws {
         guard value != "invalid" else {
             self.validEmail = false
             throw NSError(domain: "", code: 0, userInfo: nil)

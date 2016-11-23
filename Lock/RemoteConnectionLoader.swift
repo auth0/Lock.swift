@@ -24,6 +24,6 @@ import Foundation
 
 protocol RemoteConnectionLoader {
 
-    func load(callback: Connections? -> ())
+    func load(_ callback: @escaping (Connections?) -> ())
 
 }

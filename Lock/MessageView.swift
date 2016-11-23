@@ -22,11 +22,11 @@
 
 import UIKit
 
-public class MessageView: UIView {
+open class MessageView: UIView {
 
     weak var messageLabel: UILabel?
 
-    public var message: String? {
+    open var message: String? {
         get {
             return self.messageLabel?.text
         }
@@ -35,7 +35,7 @@ public class MessageView: UIView {
         }
     }
 
-    public var type: Flavor = .Success {
+    open var type: Flavor = .success {
         didSet {
             self.backgroundColor = self.type.color
             self.messageLabel?.textColor = self.type.textColor
@@ -43,18 +43,18 @@ public class MessageView: UIView {
     }
 
     public enum Flavor {
-        case Success
-        case Failure
+        case success
+        case failure
 
         var textColor: UIColor {
-            return .whiteColor()
+            return .white
         }
 
         var color: UIColor {
             switch self {
-            case .Success:
+            case .success:
                 return UIColor ( red: 0.4941, green: 0.8275, blue: 0.1294, alpha: 1.0 )
-            case .Failure:
+            case .failure:
                 return UIColor ( red: 1.0, green: 0.2431, blue: 0.0, alpha: 1.0 )
             }
         }
@@ -66,16 +66,16 @@ public class MessageView: UIView {
     }
 
     public convenience init() {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
     }
 
     // MARK:- Layout
 
-    private func layoutMessage() {
+    fileprivate func layoutMessage() {
         let guide = UILayoutGuide()
 
         self.addLayoutGuide(guide)
@@ -87,8 +87,8 @@ public class MessageView: UIView {
 
         let messageLabel = UILabel()
         messageLabel.numberOfLines = 0
-        messageLabel.textAlignment = .Center
-        messageLabel.font = .systemFontOfSize(12, weight: UIFontWeightMedium)
+        messageLabel.textAlignment = .center
+        messageLabel.font = .systemFont(ofSize: 12, weight: UIFontWeightMedium)
         messageLabel.textColor = self.type.textColor
 
         self.addSubview(messageLabel)

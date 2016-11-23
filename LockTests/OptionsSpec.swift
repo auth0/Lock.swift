@@ -70,7 +70,7 @@ class OptionsSpec: QuickSpec {
             }
 
             it("should have login as the default db screen") {
-                expect(options.initialScreen) == DatabaseScreen.Login
+                expect(options.initialScreen) == DatabaseScreen.login
             }
 
             it("should accept both styles for identifier") {
@@ -95,19 +95,19 @@ class OptionsSpec: QuickSpec {
 
             it("should fail when login is initial screen and not allowed") {
                 options.allow = []
-                options.initialScreen = .Login
+                options.initialScreen = .login
                 expect(options.validate()).toNot(beNil())
             }
 
             it("should fail when signup is initial screen and not allowed") {
                 options.allow = []
-                options.initialScreen = .Signup
+                options.initialScreen = .signup
                 expect(options.validate()).toNot(beNil())
             }
 
             it("should fail when reset password is initial screen and not allowed") {
                 options.allow = []
-                options.initialScreen = .ResetPassword
+                options.initialScreen = .resetPassword
                 expect(options.validate()).toNot(beNil())
             }
 

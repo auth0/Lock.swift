@@ -63,25 +63,25 @@ class DatabasePresenter: Presentable, Loggable {
             self.logger.debug("selected \(selected)")
             self.navigator.resetScroll(false)
             switch selected {
-            case .Signup:
+            case .signup:
                 self.showSignup(inView: view, username: self.initialUsername, email: self.initialEmail)
-            case .Login:
+            case .login:
                 self.showLogin(inView: view, identifier: self.authenticator.identifier)
             }
         }
 
-        if allow.contains(.Login) && initialScreen == .Login {
-            database.switcher?.selected = .Login
+        if allow.contains(.Login) && initialScreen == .login {
+            database.switcher?.selected = .login
             showLogin(inView: database, identifier: authenticator.identifier)
-        } else if allow.contains(.Signup) && (initialScreen == .Signup || !allow.contains(.Login)) {
-            database.switcher?.selected = .Signup
+        } else if allow.contains(.Signup) && (initialScreen == .signup || !allow.contains(.Login)) {
+            database.switcher?.selected = .signup
             showSignup(inView: database, username: initialUsername, email: initialEmail)
         }
         self.databaseView = database
         return database
     }
 
-    private func showLogin(inView view: DatabaseView, identifier: String?) {
+    fileprivate func showLogin(inView view: DatabaseView, identifier: String?) {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), isLogin: true)
         let style = self.database.requiresUsername ? self.options.usernameStyle : [.Email]
@@ -94,15 +94,15 @@ class DatabasePresenter: Presentable, Loggable {
             self.logger.info("Perform login for email: \(self.authenticator.email)")
             button.inProgress = true
 
-            let errorHandler: LocalizableError? -> () = { error in
+            let errorHandler: (LocalizableError?) -> () = { error in
                 Queue.main.async {
                     button.inProgress = false
                     guard let error = error else {
                         self.logger.debug("Logged in!")
                         return
                     }
-                    if case DatabaseAuthenticatableError.MultifactorRequired = error {
-                        self.navigator.navigate(.Multifactor)
+                    if case DatabaseAuthenticatableError.multifactorRequired = error {
+                        self.navigator.navigate(.multifactor)
                     } else {
                         form?.needsToUpdateState()
                         self.messagePresenter?.showError(error)
@@ -115,7 +115,7 @@ class DatabasePresenter: Presentable, Loggable {
             if let connection = self.enterpriseInteractor?.connection {
                 // Credential Auth
                 if self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                    self.navigator.navigate(.EnterpriseActiveAuth(connection: connection))
+                    self.navigator.navigate(.enterpriseActiveAuth(connection: connection))
                 } else {
                     // OAuth
                     self.enterpriseInteractor?.login(errorHandler)
@@ -128,18 +128,18 @@ class DatabasePresenter: Presentable, Loggable {
         }
 
         view.form?.onReturn = { field in
-            guard let button = view.primaryButton where field.returnKey == .Done else { return } // FIXME: Log warn
+            guard let button = view.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
             action(button)
         }
         view.primaryButton?.onPress = action
         view.secondaryButton?.title = "Don’t remember your password?".i18n(key: "com.auth0.lock.database.button.forgot-password", comment: "Forgot password")
-        view.secondaryButton?.color = .clearColor()
+        view.secondaryButton?.color = .clear
         view.secondaryButton?.onPress = { button in
-            self.navigator.navigate(.ForgotPassword)
+            self.navigator.navigate(.forgotPassword)
         }
     }
 
-    private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
+    fileprivate func showSignup(inView view: DatabaseView, username: String?, email: String?) {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), isLogin: false)
         view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields)
@@ -158,8 +158,8 @@ class DatabasePresenter: Presentable, Loggable {
                         self.logger.debug("Logged in!")
                         return
                     }
-                    if let error = loginError, case .MultifactorRequired = error {
-                        self.navigator.navigate(.Multifactor)
+                    if let error = loginError, case .multifactorRequired = error {
+                        self.navigator.navigate(.multifactor)
                         return
                     }
 
@@ -173,38 +173,38 @@ class DatabasePresenter: Presentable, Loggable {
         }
 
         view.form?.onReturn = { field in
-            guard let button = view.primaryButton where field.returnKey == .Done else { return } // FIXME: Log warn
+            guard let button = view.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
             action(button)
         }
         view.primaryButton?.onPress = action
         view.secondaryButton?.title = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.tos.button.title", comment: "tos & privacy")
         view.secondaryButton?.color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
         view.secondaryButton?.onPress = { button in
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-            let cancel = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel.title", comment: "Cancel"), style: .Cancel, handler: nil)
-            let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.tos.title", comment: "ToS"), style: .Default, handler: safariBuilder(forURL: self.options.termsOfServiceURL, navigator: self.navigator))
-            let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy.title", comment: "Privacy"), style: .Default, handler: safariBuilder(forURL: self.options.privacyPolicyURL, navigator: self.navigator))
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let cancel = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel.title", comment: "Cancel"), style: .cancel, handler: nil)
+            let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.tos.title", comment: "ToS"), style: .default, handler: safariBuilder(forURL: self.options.termsOfServiceURL as URL, navigator: self.navigator))
+            let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy.title", comment: "Privacy"), style: .default, handler: safariBuilder(forURL: self.options.privacyPolicyURL as URL, navigator: self.navigator))
             [cancel, tos, privacy].forEach { alert.addAction($0) }
             self.navigator.present(alert)
         }
     }
 
-    private func handleInput(input: InputField) {
+    fileprivate func handleInput(_ input: InputField) {
         self.messagePresenter?.hideCurrent()
 
         self.logger.verbose("new value: \(input.text) for type: \(input.type)")
         let attribute: UserAttribute?
         switch input.type {
-        case .Email:
-            attribute = .Email
-        case .EmailOrUsername:
-            attribute = .EmailOrUsername
-        case .Password:
-            attribute = .Password
-        case .Username:
-            attribute = .Username
-        case .Custom(let name, _, _, _, _, _):
-            attribute = .Custom(name: name)
+        case .email:
+            attribute = .email
+        case .emailOrUsername:
+            attribute = .emailOrUsername
+        case .password:
+            attribute = .password
+        case .username:
+            attribute = .username
+        case .custom(let name, _, _, _, _, _):
+            attribute = .custom(name: name)
         default:
             attribute = nil
         }
@@ -213,7 +213,7 @@ class DatabasePresenter: Presentable, Loggable {
         do {
             try self.authenticator.update(attr, value: input.text)
             // Check for Entperise domain match in login view
-            if self.enterpriseInteractor?.matchDomain(input.text) != nil, let mode = self.databaseView?.switcher?.selected where mode == .Login {
+            if self.enterpriseInteractor?.matchDomain(input.text) != nil, let mode = self.databaseView?.switcher?.selected, mode == .login {
                 try self.enterpriseInteractor?.updateEmail(input.text)
                 self.logger.verbose("Enterprise connection detected: \(self.enterpriseInteractor?.connection)")
                 if self.databaseView?.ssoBar == nil { self.databaseView?.presentEnterprise() }
@@ -230,9 +230,9 @@ class DatabasePresenter: Presentable, Loggable {
 
 }
 
-private func safariBuilder(forURL url: NSURL, navigator: Navigable) -> (UIAlertAction) -> () {
+private func safariBuilder(forURL url: URL, navigator: Navigable) -> (UIAlertAction) -> () {
     return { _ in
-        let safari = SFSafariViewController(URL: url)
+        let safari = SFSafariViewController(url: url)
         navigator.present(safari)
     }
 }

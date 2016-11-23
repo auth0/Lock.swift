@@ -169,12 +169,12 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 
                 try! enterprise.updateEmail("user@domainnotmatched.com")
                 enterprise.login() { error = $0 }
-                expect(error).toEventually(equal(OAuth2AuthenticatableError.NoConnectionAvailable))
+                expect(error).toEventually(equal(OAuth2AuthenticatableError.noConnectionAvailable))
             }
             
             it("should not yield error on success") {
                 
-                webAuth.result = { return .Success(result: mockCredentials()) }
+                webAuth.result = { return .success(result: mockCredentials()) }
                 
                 try! enterprise.updateEmail("user@test.com")
                 enterprise.login() { error = $0 }
@@ -183,7 +183,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
             
             it("should call credentials callback") {
                 let expected = mockCredentials()
-                webAuth.result = { return .Success(result: expected) }
+                webAuth.result = { return .success(result: expected) }
                 
                 try! enterprise.updateEmail("user@test.com")
                 enterprise.login() { error = $0 }

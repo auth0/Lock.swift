@@ -47,33 +47,33 @@ class MultifactorPresenterSpec: QuickSpec {
         describe("user input") {
 
             it("should clear global message") {
-                messagePresenter.showError(DatabaseAuthenticatableError.CouldNotLogin)
-                let input = mockInput(.Email, value: email)
+                messagePresenter.showError(DatabaseAuthenticatableError.couldNotLogin)
+                let input = mockInput(.email, value: email)
                 view.form?.onValueChange(input)
                 expect(messagePresenter.error).to(beNil())
                 expect(messagePresenter.message).to(beNil())
             }
 
             it("should update code") {
-                let input = mockInput(.OneTimePassword, value: code)
+                let input = mockInput(.oneTimePassword, value: code)
                 view.form?.onValueChange(input)
                 expect(interactor.code) == code
             }
 
             it("should not update if type is not valid for db connection") {
-                let input = mockInput(.Phone, value: "not a code")
+                let input = mockInput(.phone, value: "not a code")
                 view.form?.onValueChange(input)
                 expect(interactor.code).to(beNil())
             }
 
             it("should hide the field error if value is valid") {
-                let input = mockInput(.OneTimePassword, value: code)
+                let input = mockInput(.oneTimePassword, value: code)
                 view.form?.onValueChange(input)
                 expect(input.valid) == true
             }
 
             it("should show field error if value is invalid") {
-                let input = mockInput(.OneTimePassword, value: "invalid")
+                let input = mockInput(.oneTimePassword, value: "invalid")
                 view.form?.onValueChange(input)
                 expect(input.valid) == false
             }
@@ -83,8 +83,8 @@ class MultifactorPresenterSpec: QuickSpec {
         describe("login action") {
 
             it("should trigger action on return of last field") {
-                let input = mockInput(.OneTimePassword, value: "123456")
-                input.returnKey = .Done
+                let input = mockInput(.oneTimePassword, value: "123456")
+                input.returnKey = .done
                 waitUntil { done in
                     interactor.onLogin = {
                         done()
@@ -95,10 +95,10 @@ class MultifactorPresenterSpec: QuickSpec {
             }
 
             it("should not trigger action with nil button") {
-                let input = mockInput(.OneTimePassword, value: "123456")
-                input.returnKey = .Done
+                let input = mockInput(.oneTimePassword, value: "123456")
+                input.returnKey = .done
                 interactor.onLogin = {
-                    return .CouldNotLogin
+                    return .couldNotLogin
                 }
                 view.primaryButton = nil
                 view.form?.onReturn(input)
@@ -107,7 +107,7 @@ class MultifactorPresenterSpec: QuickSpec {
             }
 
             it("should clear global message") {
-                messagePresenter.showError(DatabaseAuthenticatableError.CouldNotLogin)
+                messagePresenter.showError(DatabaseAuthenticatableError.couldNotLogin)
                 interactor.onLogin = {
                     return nil
                 }
@@ -118,10 +118,10 @@ class MultifactorPresenterSpec: QuickSpec {
 
             it("should show global error message") {
                 interactor.onLogin = {
-                    return .CouldNotLogin
+                    return .couldNotLogin
                 }
                 view.primaryButton?.onPress(view.primaryButton!)
-                expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.CouldNotLogin))
+                expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.couldNotLogin))
             }
 
             it("should trigger login on button press") {

@@ -26,19 +26,19 @@ protocol PasswordRecoverable {
     var email: String? { get }
     var validEmail: Bool { get }
 
-    mutating func updateEmail(value: String?) throws
+    mutating func updateEmail(_ value: String?) throws
 
-    func requestEmail(callback: (PasswordRecoverableError?) -> ())
+    func requestEmail(_ callback: @escaping (PasswordRecoverableError?) -> ())
 }
 
-enum PasswordRecoverableError: ErrorType, LocalizableError {
-    case NonValidInput
-    case NoDatabaseConnection
-    case EmailNotSent
+enum PasswordRecoverableError: Error, LocalizableError {
+    case nonValidInput
+    case noDatabaseConnection
+    case emailNotSent
 
     var localizableMessage: String {
         switch self {
-        case .EmailNotSent:
+        case .emailNotSent:
             return "We're sorry, something went wrong when requesting the password change.".i18n(key: "com.auth0.lock.error.forgot.fallback", comment: "Generic password error")
         default:
             return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
@@ -47,7 +47,7 @@ enum PasswordRecoverableError: ErrorType, LocalizableError {
 
     var userVisible: Bool {
         switch self {
-        case .EmailNotSent:
+        case .emailNotSent:
             return true
         default:
             return false

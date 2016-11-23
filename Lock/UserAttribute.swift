@@ -23,10 +23,10 @@
 import Foundation
 
 enum UserAttribute {
-    case Email
-    case Username
-    case Password
-    case EmailOrUsername
-    case Custom(name: String)
+    case email
+    case username
+    case password
+    case emailOrUsername
+    case custom(name: String)
 }
 

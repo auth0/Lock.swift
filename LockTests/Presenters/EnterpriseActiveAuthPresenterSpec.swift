@@ -62,7 +62,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             }
 
             it("info bar should contain first connection domain") {
-                expect(view.ssoBar!.title!.containsString(connection.domains.first!)).to(beTrue())
+                expect(view.ssoBar!.title!.contains(connection.domains.first!)).to(beTrue())
             }
         }
 
@@ -87,7 +87,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
 
             it("should expect default identifier input type to be UserName") {
                 let view = (presenter.view as! EnterpriseActiveAuthView).form as! CredentialView
-                expect(view.identityField.type).toEventually(equal(InputField.InputType.Username))
+                expect(view.identityField.type).toEventually(equal(InputField.InputType.username))
             }
 
             context("use email as identifier option") {
@@ -103,7 +103,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
 
                 it("should expect default identifier type to be email") {
                     let view = (presenter.view as! EnterpriseActiveAuthView).form as! CredentialView
-                    expect(view.identityField.type).toEventually(equal(InputField.InputType.Email))
+                    expect(view.identityField.type).toEventually(equal(InputField.InputType.email))
                 }
 
             }
@@ -113,39 +113,39 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
         describe("user input") {
 
             it("should update username if value is valid") {
-                let input = mockInput(.Username, value: username)
+                let input = mockInput(.username, value: username)
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.username).to(equal(username))
                 expect(presenter.interactor.validUsername).to(beTrue())
             }
 
             it("should hide the field error if value is valid") {
-                let input = mockInput(.Username, value: username)
+                let input = mockInput(.username, value: username)
                 view.form?.onValueChange(input)
                 expect(input.valid).to(equal(true))
             }
 
             it("should show field error for empty username") {
-                let input = mockInput(.Username, value: "")
+                let input = mockInput(.username, value: "")
                 view.form?.onValueChange(input)
                 expect(input.valid).to(equal(false))
             }
 
             it("should update password if value is valid") {
-                let input = mockInput(.Password, value: password)
+                let input = mockInput(.password, value: password)
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.password).to(equal(password))
                 expect(presenter.interactor.validPassword).to(beTrue())
             }
 
             it("should show field error for empty password") {
-                let input = mockInput(.Password, value: "")
+                let input = mockInput(.password, value: "")
                 view.form?.onValueChange(input)
                 expect(input.valid).to(equal(false))
             }
 
             it("should not process unsupported input type") {
-                let input = mockInput(.OneTimePassword, value: password)
+                let input = mockInput(.oneTimePassword, value: password)
                 view.form?.onValueChange(input)
                 expect(input.valid).to(beNil())
             }
@@ -164,20 +164,20 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 }
 
                 it("should update email if value is valid") {
-                    let input = mockInput(.Email, value: email)
+                    let input = mockInput(.email, value: email)
                     view.form?.onValueChange(input)
                     expect(presenter.interactor.email).to(equal(email))
                     expect(presenter.interactor.validEmail).to(beTrue())
                 }
 
                 it("should hide the field error if value is valid") {
-                    let input = mockInput(.Email, value: email)
+                    let input = mockInput(.email, value: email)
                     view.form?.onValueChange(input)
                     expect(input.valid).to(equal(true))
                 }
 
                 it("should show field error for invalid email") {
-                    let input = mockInput(.Email, value: "invalid")
+                    let input = mockInput(.email, value: "invalid")
                     view.form?.onValueChange(input)
                     expect(input.valid).to(equal(false))
                 }
@@ -193,8 +193,8 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 options.activeDirectoryEmailAsUsername = true
 
                 interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
-                try! interactor.update(.Username, value: username)
-                try! interactor.update(.Password, value: password)
+                try! interactor.update(.username, value: username)
+                try! interactor.update(.password, value: password)
                 presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
                 presenter.messagePresenter = messagePresenter
 
@@ -202,8 +202,8 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             }
 
             it("should not trigger action with nil button") {
-                let input = mockInput(.Username, value: username)
-                input.returnKey = .Done
+                let input = mockInput(.username, value: username)
+                input.returnKey = .done
                 view.primaryButton = nil
                 view.form?.onReturn(input)
                 expect(messagePresenter.message).toEventually(beNil())
@@ -212,7 +212,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
 
             it("should trigger login on button press and fail with with CouldNotLogin") {
                 view.primaryButton?.onPress(view.primaryButton!)
-                expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.CouldNotLogin))
+                expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.couldNotLogin))
             }
 
         }
@@ -224,7 +224,7 @@ extension InputField.InputType: Equatable {}
 
 public func ==(lhs: InputField.InputType, rhs: InputField.InputType) -> Bool {
     switch((lhs, rhs)) {
-    case (.Username, .Username), (.Email, .Email):
+    case (.username, .username), (.email, .email):
         return true
     default:
         return false

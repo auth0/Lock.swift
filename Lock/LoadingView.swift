@@ -28,7 +28,7 @@ class LoadingView: UIView, View {
 
     var inProgress: Bool {
         get {
-            return self.indicator?.isAnimating() ?? false
+            return self.indicator?.isAnimating ?? false
         }
         set {
             Queue.main.async { 
@@ -44,10 +44,10 @@ class LoadingView: UIView, View {
     // MARK:- Initialisers
 
     init() {
-        super.init(frame: CGRectZero)
-        self.backgroundColor = .whiteColor()
+        super.init(frame: CGRect.zero)
+        self.backgroundColor = .white
 
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         apply(style: Style.Auth0)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(activityIndicator)
@@ -63,7 +63,7 @@ class LoadingView: UIView, View {
     }
 
 
-    func apply(style style: Style) {
+    func apply(style: Style) {
         self.indicator?.color = style.disabledTextColor
     }
 }

@@ -36,7 +36,7 @@ public protocol ConnectionBuildable: Connections {
      - parameter usernameValidator: custom validator for username. Connection must allow username
      - important: Only **ONE** database connection can be used so subsequent calls will override the previous value
      */
-    mutating func database(name name: String, requiresUsername: Bool, usernameValidator: UsernameValidator)
+    mutating func database(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator)
 
     /**
      Adds a new social connection
@@ -45,7 +45,7 @@ public protocol ConnectionBuildable: Connections {
      - parameter style: style used for the button used to trigger authentication
      - seeAlso: AuthStyle
      */
-    mutating func social(name name: String, style: AuthStyle)
+    mutating func social(name: String, style: AuthStyle)
 
     /**
      Adds a new oauth2 connection
@@ -54,7 +54,7 @@ public protocol ConnectionBuildable: Connections {
      - parameter style: style used for the button used to trigger authentication
      - seeAlso: AuthStyle
      */
-    mutating func oauth2(name name: String, style: AuthStyle)
+    mutating func oauth2(name: String, style: AuthStyle)
     
     /**
      Adds a new enterprise connection
@@ -62,7 +62,7 @@ public protocol ConnectionBuildable: Connections {
      - parameter name:  name of the connection
      - parameter domain: array of enterprise domains
      */
-    mutating func enterprise(name name: String, domains: [String], style: AuthStyle)
+    mutating func enterprise(name: String, domains: [String], style: AuthStyle)
 }
 
 public extension ConnectionBuildable {
@@ -74,7 +74,7 @@ public extension ConnectionBuildable {
      - parameter usernameValidator: custom validator for username. Connection must allow username and defaults to 1..15 characters
      - important: Only **ONE** database connection can be used so subsequent calls will override the previous value
      */
-    public mutating func database(name name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator()) {
+    public mutating func database(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator()) {
         self.database(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator)
     }
 
