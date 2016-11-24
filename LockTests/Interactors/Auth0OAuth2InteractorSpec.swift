@@ -61,7 +61,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
             it("should set parameters") {
                 let state = UUID().uuidString
                 var options = LockOptions()
-                options.parameters = ["state": state as AnyObject]
+                options.parameters = ["state": state as Any]
                 interactor = Auth0OAuth2Interactor(webAuth: webAuth, onCredentials: {credentials = $0}, options: options)
                 interactor.login("facebook", callback: { _ in })
                 expect(webAuth.params["state"]) == state

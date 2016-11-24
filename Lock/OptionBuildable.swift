@@ -49,7 +49,7 @@ public protocol OptionBuildable: Options {
     var scope: String { get set }
 
         /// Authentication parameters sent with every authentication requests. By default is an empty dictionary.
-    var parameters: [String: AnyObject] { get set }
+    var parameters: [String: Any] { get set }
 
         /// What database modes are allowed and must be at least one. By default all modes are allowed.
     var allow: DatabaseMode { get set }

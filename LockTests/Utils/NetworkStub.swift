@@ -46,10 +46,10 @@ func databaseForgotPassword(email: String, connection: String) -> OHHTTPStubsTes
 // MARK:- Internal Matchers
 
 extension URLRequest {
-    var a0_payload: [String: AnyObject]? {
+    var a0_payload: [String: Any]? {
         guard
             let data = (self as NSURLRequest).ohhttpStubs_HTTPBody(),
-            let payload = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
+            let payload = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             else { return nil }
         return payload
     }
@@ -144,7 +144,7 @@ struct Auth0Stubs {
         return OHHTTPStubsResponse(jsonObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
     }
 
-    static func strategiesFromCDN(_ strategies: [[String: AnyObject]]) -> OHHTTPStubsResponse {
+    static func strategiesFromCDN(_ strategies: [[String: Any]]) -> OHHTTPStubsResponse {
         let json = [
             "strategies": strategies
         ]

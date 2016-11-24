@@ -301,7 +301,7 @@ class DatabaseInteractorSpec: QuickSpec {
             it("should send parameters") {
                 let state = UUID().uuidString
                 var options = LockOptions()
-                options.parameters = ["state": state as AnyObject]
+                options.parameters = ["state": state as Any]
                 database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
@@ -619,7 +619,7 @@ class DatabaseInteractorSpec: QuickSpec {
             it("should send parameters on login") {
                 let state = UUID().uuidString
                 var options = LockOptions()
-                options.parameters = ["state": state as AnyObject]
+                options.parameters = ["state": state as Any]
                 database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
                 stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }

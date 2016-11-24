@@ -141,7 +141,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
             // MARK: Database
             
             it("should load single database connection with custom username validation") {
-                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(databaseConnection, validation: (["username": ["min": 10, "max": 200]] as AnyObject) as! JSONObject )])]) }
+                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(databaseConnection, validation: (["username": ["min": 10, "max": 200]] as Any) as! JSONObject )])]) }
                 loader.load(callback)
                 expect(connections?.database).toEventuallyNot(beNil())
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
@@ -152,7 +152,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
             }
             
             it("should load single database connection with custom username validation with strings") {
-                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(databaseConnection, validation: (["username": ["min": "9", "max": "100"]] as AnyObject) as! JSONObject)])]) }
+                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(databaseConnection, validation: (["username": ["min": "9", "max": "100"]] as Any) as! JSONObject)])]) }
                 loader.load(callback)
                 expect(connections?.database).toEventuallyNot(beNil())
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
@@ -302,24 +302,24 @@ class CDNLoaderInteractorSpec: QuickSpec {
 }
 
 private func mockStrategy(_ name: String, connections: [JSONObject]) -> JSONObject {
-    return ["name": name as AnyObject, "connections": connections as AnyObject]
+    return ["name": name as Any, "connections": connections as Any]
 }
 
 private func mockOAuth2(_ name: String) -> JSONObject {
-    let json: JSONObject = ["name": name as AnyObject ]
+    let json: JSONObject = ["name": name as Any ]
     return json
 }
 
 private func mockDatabaseConnection(_ name: String, requiresUsername: Bool? = nil, validation: JSONObject = [:]) -> JSONObject {
-    var json: JSONObject = ["name": name as AnyObject ]
+    var json: JSONObject = ["name": name as Any ]
     if let requiresUsername = requiresUsername {
-        json["requires_username"] = requiresUsername as AnyObject?
+        json["requires_username"] = requiresUsername as Any?
     }
-    json["validation"] = validation as AnyObject?
+    json["validation"] = validation as Any?
     return json
 }
 
 private func mockEntepriseConnection(_ name: String, domain: [String] ) -> JSONObject {
-    let json: JSONObject = ["name" : name as AnyObject, "domain" : domain.first! as AnyObject, "domain_aliases" : domain as AnyObject]
+    let json: JSONObject = ["name" : name as Any, "domain" : domain.first! as Any, "domain_aliases" : domain as Any]
     return json
 }

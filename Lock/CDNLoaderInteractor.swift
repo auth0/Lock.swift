@@ -22,7 +22,7 @@
 
 import Foundation
 
-typealias JSONObject = [String: AnyObject]
+typealias JSONObject = [String: Any]
 typealias JSONArray = [JSONObject]
 
 struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {

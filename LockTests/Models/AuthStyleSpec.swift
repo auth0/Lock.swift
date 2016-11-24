@@ -34,8 +34,8 @@ private let FirstClassStyleExample = "style"
 func forStyle(_ style: AuthStyle, name: String, iconName: String) -> NSDictionary {
     return [
         StyleKey: style,
-        NameKey: name as AnyObject,
-        IconKey: iconName as AnyObject
+        NameKey: name as Any,
+        IconKey: iconName as Any
     ]
 }
 

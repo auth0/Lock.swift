@@ -184,7 +184,7 @@ public class AuthButton: UIView {
 
     // MARK:- Event
 
-    func buttonPressed(_ sender: AnyObject) {
+    func buttonPressed(_ sender: Any) {
         self.onPress(self)
     }
 }

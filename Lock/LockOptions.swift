@@ -31,7 +31,7 @@ struct LockOptions: OptionBuildable {
     var loggerOutput: LoggerOutput? = nil
     var logHttpRequest: Bool = false
     var scope: String = "openid"
-    var parameters: [String : AnyObject] = [:]
+    var parameters: [String : Any] = [:]
     var allow: DatabaseMode = [.Login, .Signup, .ResetPassword]
     var initialScreen: DatabaseScreen = .login
     var usernameStyle: DatabaseIdentifierStyle = [.Username, .Email]

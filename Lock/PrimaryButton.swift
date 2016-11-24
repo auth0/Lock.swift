@@ -89,7 +89,7 @@ public class PrimaryButton: UIView {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 95)
     }
 
-    func pressed(_ sender: AnyObject) {
+    func pressed(_ sender: Any) {
         self.onPress(self)
     }
 }

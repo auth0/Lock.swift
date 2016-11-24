@@ -206,7 +206,7 @@ public class Lock: NSObject {
      This method should be called from your `AppDelegate`
      
      ```
-     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+     func application(app: UIApplication, openURL url: NSURL, options: [String : Any]) -> Bool {
         return Lock.resumeAuth(url, options: options)
      }
 
