@@ -44,7 +44,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
 
     var view: View {
         let email = self.interactor.validEmail ? self.interactor.email : nil
-        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 0, 0, 0), isLogin: true)
+        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), isLogin: true)
 
         // Single Enterprise Domain
         if let enterpriseButton = EnterpriseButton(forConnections: interactor.connections, customStyle: [:], isLogin: true, onAction: {
@@ -90,7 +90,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
             if let connection = self.interactor.connection, self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 guard self.navigator?.navigate(.enterpriseActiveAuth(connection: connection)) == nil else { return }
             }
-            
+
             self.messagePresenter?.hideCurrent()
             self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
             let interactor = self.interactor

@@ -59,8 +59,8 @@ public struct Style {
 
         /// OAuth2 custom connection styles by mapping a connection name with an `AuthStyle`
     public var oauth2: [String: AuthStyle] = [:]
-    
-    var headerMask: UIImage?  {
+
+    var headerMask: UIImage? {
         let image = self.logo.image(compatibleWithTraits: nil)
         if Style.Auth0.logo == self.logo {
             return image?.withRenderingMode(.alwaysTemplate)
@@ -90,7 +90,6 @@ public struct Style {
 
     static let Auth0 = Style()
 }
-
 
 protocol Stylable {
     func apply(style: Style)

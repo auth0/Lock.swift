@@ -96,7 +96,7 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
                 self.logger.error("Failed to parse \(jsonp) with error \(e)")
                 return callback(nil)
             }
-        }) 
+        })
         task.resume()
     }
 }
@@ -114,7 +114,7 @@ private struct ClientInfo {
     var auth0: StrategyInfo? { return strategies.filter({ $0.name == "auth0" }).first }
 
     var oauth2: [StrategyInfo] { return strategies.filter { $0.name != "auth0" && !passwordlessStrategyNames.contains($0.name) && !enterpriseStrategyNames.contains($0.name) } }
-    
+
     var enterprise: [StrategyInfo] { return strategies.filter { $0.name != "auth0" && !passwordlessStrategyNames.contains($0.name) && enterpriseStrategyNames.contains($0.name) } }
 
     let passwordlessStrategyNames = [
@@ -136,7 +136,7 @@ private struct ClientInfo {
         "custom",
         "sharepoint",
     ]
-    
+
     let enterpriseCredentialAuthNames = [
         "waad",
         "adfs",

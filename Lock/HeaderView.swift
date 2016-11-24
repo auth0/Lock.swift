@@ -195,7 +195,7 @@ public class HeaderView: UIView {
         }
     }
 
-    // MARK:- Blur
+    // MARK: - Blur
 
     private var canBlur: Bool {
         return self.blurred && !UIAccessibilityIsReduceTransparencyEnabled()
@@ -231,7 +231,7 @@ public class HeaderView: UIView {
         maskView.contentMode = .scaleToFill
         maskView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
         maskView.tintColor = self.maskColor
-        
+
         self.maskImageView = maskView
         self.blurView = blurView
     }

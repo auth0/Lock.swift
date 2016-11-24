@@ -27,7 +27,7 @@ public protocol Options {
 
     var termsOfServiceURL: URL { get }
     var privacyPolicyURL: URL { get }
-    
+
     var logLevel: LoggerLevel { get }
     var loggerOutput: LoggerOutput? { get }
     var logHttpRequest: Bool { get }
@@ -38,7 +38,7 @@ public protocol Options {
     var initialScreen: DatabaseScreen { get }
     var usernameStyle: DatabaseIdentifierStyle { get }
     var customSignupFields: [CustomTextField] { get }
-    
+
     // Enterprise
     var activeDirectoryEmailAsUsername: Bool { get }
     var enterpriseConnectionUsingActiveAuth: [String] { get }

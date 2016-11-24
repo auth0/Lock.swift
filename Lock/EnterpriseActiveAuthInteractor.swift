@@ -24,7 +24,7 @@ import Foundation
 import Auth0
 
 struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
-    
+
     var identifier: String? = nil
 
     var email: String? = nil

@@ -31,7 +31,7 @@ class LoadingView: UIView, View {
             return self.indicator?.isAnimating ?? false
         }
         set {
-            Queue.main.async { 
+            Queue.main.async {
                 if newValue {
                     self.indicator?.startAnimating()
                 } else {
@@ -41,7 +41,7 @@ class LoadingView: UIView, View {
         }
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
 
     init() {
         super.init(frame: CGRect.zero)
@@ -61,7 +61,6 @@ class LoadingView: UIView, View {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 
     func apply(style: Style) {
         self.indicator?.color = style.disabledTextColor

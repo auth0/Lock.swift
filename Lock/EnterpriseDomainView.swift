@@ -23,30 +23,30 @@
 import UIKit
 
 class EnterpriseDomainView: UIView, View {
-    
+
     weak var form: Form?
     weak var ssoBar: InfoBarView?
     weak var primaryButton: PrimaryButton?
     weak var authCollectionView: AuthCollectionView?
     weak var container: UIStackView?
     weak var authButton: AuthButton?
-    
+
     init(email: String?, authCollectionView: AuthCollectionView? = nil) {
         let primaryButton = PrimaryButton()
         let domainView = EnterpriseSingleInputView()
         let container = UIStackView()
         let ssoBar = InfoBarView()
-        
+
         self.primaryButton = primaryButton
         self.form = domainView
         self.container = container
-        
+
         super.init(frame: CGRect.zero)
-        
+
         self.addSubview(ssoBar)
         self.addSubview(container)
         self.addSubview(primaryButton)
-        
+
         ssoBar.title = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
         ssoBar.setIcon("ic_lock")
         ssoBar.isHidden = true
@@ -55,7 +55,7 @@ class EnterpriseDomainView: UIView, View {
         container.axis = .vertical
         container.distribution = .equalSpacing
         container.spacing = 5
-        
+
         container.addArrangedSubview(strutView(withHeight: 25))
         if let authCollectionView = authCollectionView {
             self.authCollectionView = authCollectionView
@@ -69,7 +69,7 @@ class EnterpriseDomainView: UIView, View {
         }
         container.addArrangedSubview(domainView)
         container.addArrangedSubview(strutView())
-        
+
         constraintEqual(anchor: ssoBar.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: ssoBar.leftAnchor, toAnchor: self.leftAnchor, constant: 0)
         constraintEqual(anchor: ssoBar.rightAnchor, toAnchor: self.rightAnchor, constant: 0)
@@ -81,16 +81,16 @@ class EnterpriseDomainView: UIView, View {
         constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
         constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor)
         container.translatesAutoresizingMaskIntoConstraints = false
-        
+
         constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
-        
+
         domainView.type = .email
         domainView.returnKey = .done
         domainView.value = email
-        
+
     }
 
     init(authButton: AuthButton, authCollectionView: AuthCollectionView? = nil) {
@@ -131,11 +131,11 @@ class EnterpriseDomainView: UIView, View {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func apply(style: Style) {
         self.primaryButton?.apply(style: style)
     }
-    
+
 }
 
 private func strutView(withHeight height: CGFloat = 50) -> UIView {
@@ -146,7 +146,7 @@ private func strutView(withHeight height: CGFloat = 50) -> UIView {
 }
 
 public class EnterpriseSingleInputView : SingleInputView {
-    
+
     public override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 50)
     }

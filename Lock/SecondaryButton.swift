@@ -43,7 +43,7 @@ public class SecondaryButton: UIView {
         }
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
     public convenience init() {
         self.init(frame: CGRect.zero)
     }
@@ -58,7 +58,7 @@ public class SecondaryButton: UIView {
         self.layoutButton()
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     private func layoutButton() {
         let button = UIButton(type: .system)
@@ -83,7 +83,7 @@ public class SecondaryButton: UIView {
     public override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 76)
     }
-    
+
     func pressed(_ sender: Any) {
         self.onPress(self)
     }

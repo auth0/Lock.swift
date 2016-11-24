@@ -71,7 +71,7 @@ public class InputField: UIView, UITextFieldDelegate {
 
     var onReturn: (InputField) -> () = {_ in}
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
 
     public convenience init() {
         self.init(frame: CGRect.zero)
@@ -87,7 +87,7 @@ public class InputField: UIView, UITextFieldDelegate {
         self.layoutField()
     }
 
-    // MARK:- Error
+    // MARK: - Error
 
     func showError(_ message: String? = nil, noDelay: Bool = false) {
         self.state = .invalid(message)
@@ -111,7 +111,7 @@ public class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     private func layoutField() {
         let container = UIView()
@@ -183,7 +183,7 @@ public class InputField: UIView, UITextFieldDelegate {
         return CGSize(width: 230, height: 50)
     }
 
-    // MARK:- Internal
+    // MARK: - Internal
 
     enum State {
         case valid
@@ -235,7 +235,7 @@ public class InputField: UIView, UITextFieldDelegate {
         self.onTextChange(self)
     }
 
-    // MARK:- Types
+    // MARK: - Types
     public enum InputType {
         case email
         case username

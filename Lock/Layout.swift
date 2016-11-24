@@ -22,7 +22,7 @@
 
 import Foundation
 
-// MARK:- NSLayoutXAxisAnchor
+// MARK: - NSLayoutXAxisAnchor
 @discardableResult func constraintEqual<C: NSLayoutAnchor<NSLayoutXAxisAnchor>>(anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
     let constraint: NSLayoutConstraint
     if let value = constant {
@@ -47,7 +47,7 @@ import Foundation
     return constraint
 }
 
-// MARK:- NSLayoutYAxisAnchor
+// MARK: - NSLayoutYAxisAnchor
 @discardableResult func constraintEqual<C: NSLayoutAnchor<NSLayoutYAxisAnchor>>(anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
     let constraint: NSLayoutConstraint
     if let value = constant {
@@ -72,7 +72,7 @@ import Foundation
     return constraint
 }
 
-// MARK:- NSLayoutDimension
+// MARK: - NSLayoutDimension
 @discardableResult func constraintEqual<C: NSLayoutAnchor<NSLayoutDimension>>(anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
     let constraint: NSLayoutConstraint
     if let value = constant {
@@ -97,7 +97,7 @@ import Foundation
     return constraint
 }
 
-// MARK:- NSLayoutDimension
+// MARK: - NSLayoutDimension
 @discardableResult func dimension(dimension: NSLayoutDimension, withValue value: CGFloat) -> NSLayoutConstraint {
     let constraint = dimension.constraint(equalToConstant: value)
     constraint.isActive = true

@@ -64,7 +64,7 @@ public class SignUpView: UIView, Form {
             .forEach { $0.needsToUpdateState() }
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
 
     public init(additionalFields: [CustomTextField]) {
         self.emailField = inputField(withType: .email)
@@ -92,7 +92,7 @@ public class SignUpView: UIView, Form {
         self.layoutForm()
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     private func layoutForm() {
 
@@ -121,7 +121,6 @@ public class SignUpView: UIView, Form {
         fields.last?.returnKey = .done
     }
 }
-
 
 private func inputField(withType type: InputField.InputType) -> InputField {
     let field = InputField()

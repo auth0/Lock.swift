@@ -37,7 +37,7 @@ public class InfoBarView: UIView {
             self.setNeedsUpdateConstraints()
         }
     }
-    
+
     public convenience init() {
         self.init(frame: CGRect.zero)
     }
@@ -70,13 +70,13 @@ public class InfoBarView: UIView {
         constraintEqual(anchor: titleView.centerXAnchor, toAnchor: container.centerXAnchor)
         constraintEqual(anchor: titleView.centerYAnchor, toAnchor: container.centerYAnchor)
         titleView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         constraintEqual(anchor: iconView.rightAnchor, toAnchor: titleView.leftAnchor, constant: -5)
         constraintEqual(anchor: iconView.bottomAnchor, toAnchor: titleView.bottomAnchor, constant: -1)
         iconView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         container.backgroundColor = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
-        
+
         titleView.font = UIFont.systemFont(ofSize: 17)
         titleView.textColor = UIColor(red:0.45, green:0.45, blue:0.45, alpha:1.0)
 
@@ -85,7 +85,7 @@ public class InfoBarView: UIView {
 
         self.clipsToBounds = true
     }
-    
+
     func setIcon(_ name: String) {
         self.iconView?.image = image(named: name)
         self.iconView?.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
@@ -94,6 +94,5 @@ public class InfoBarView: UIView {
     public override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 35)
     }
-
 
 }

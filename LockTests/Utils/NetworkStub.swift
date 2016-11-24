@@ -23,7 +23,7 @@
 import Foundation
 import OHHTTPStubs
 
-// MARK:- Request Matchers
+// MARK: - Request Matchers
 
 func databaseLogin(identifier: String, password: String, code: String? = nil, connection: String) -> OHHTTPStubsTestBlock {
     var parameters = ["username": identifier, "password": password, "connection": connection]
@@ -43,7 +43,7 @@ func databaseForgotPassword(email: String, connection: String) -> OHHTTPStubsTes
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/dbconnections/change_password") && hasAtLeast(["email": email, "connection": connection])
 }
 
-// MARK:- Internal Matchers
+// MARK: - Internal Matchers
 
 extension URLRequest {
     var a0_payload: [String: Any]? {
@@ -108,7 +108,7 @@ func isCDN(forClientId clientId: String) -> OHHTTPStubsTestBlock {
     return isMethodGET() && isHost("cdn.auth0.com") && isPath("/client/\(clientId).js")
 }
 
-// MARK:- Response Stubs
+// MARK: - Response Stubs
 
 struct Auth0Stubs {
     static func cleanAll() { OHHTTPStubs.removeAllStubs() }

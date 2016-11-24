@@ -33,9 +33,8 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
         self.database = connections.database! // FIXME: Avoid the force unwrap
     }
 
-
     var messagePresenter: MessagePresenter?
-    
+
     var view: View {
         let email = self.interactor.validEmail ? self.interactor.email : nil
         let view = DatabaseForgotPasswordView(email: email)

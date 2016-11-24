@@ -53,6 +53,6 @@ public struct LazyImage: Equatable {
     }
 }
 
-public func ==(lhs: LazyImage, rhs: LazyImage) -> Bool {
+public func == (lhs: LazyImage, rhs: LazyImage) -> Bool {
     return lhs.name == rhs.name && lhs.bundle == rhs.bundle
 }

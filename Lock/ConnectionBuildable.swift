@@ -22,7 +22,6 @@
 
 import Foundation
 
-
 /**
  *  Allows to specify Lock connections
  */
@@ -55,7 +54,7 @@ public protocol ConnectionBuildable: Connections {
      - seeAlso: AuthStyle
      */
     mutating func oauth2(name: String, style: AuthStyle)
-    
+
     /**
      Adds a new enterprise connection
      

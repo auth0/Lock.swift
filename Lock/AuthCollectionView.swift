@@ -34,7 +34,7 @@ class AuthCollectionView: UIView, View {
         case compact
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
 
     init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: @escaping (String) -> ()) {
         self.connections = connections
@@ -49,7 +49,7 @@ class AuthCollectionView: UIView, View {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     var height: CGFloat {
         guard !connections.isEmpty else { return 0 }
@@ -137,7 +137,6 @@ class AuthCollectionView: UIView, View {
     }
 
     func apply(style: Style) {
-        
     }
 }
 

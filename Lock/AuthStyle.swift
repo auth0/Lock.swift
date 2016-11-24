@@ -79,7 +79,7 @@ public class AuthStyle {
     }
 }
 
-// MARK:- First class social connection styles
+// MARK: - First class social connection styles
 
 public extension AuthStyle {
 
@@ -264,7 +264,7 @@ public extension AuthStyle {
     }
 }
 
-// MARK:- AuthStyle from Strategy & Connection
+// MARK: - AuthStyle from Strategy & Connection
 
 extension AuthStyle {
 

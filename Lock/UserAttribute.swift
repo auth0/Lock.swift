@@ -29,4 +29,3 @@ enum UserAttribute {
     case emailOrUsername
     case custom(name: String)
 }
-

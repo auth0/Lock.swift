@@ -73,7 +73,7 @@ public class MessageView: UIView {
         self.init(frame: CGRect.zero)
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     private func layoutMessage() {
         let guide = UILayoutGuide()

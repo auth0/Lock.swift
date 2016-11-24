@@ -51,7 +51,7 @@ enum Route: Equatable {
     case enterpriseActiveAuth(connection: EnterpriseConnection)
 }
 
-func ==(lhs: Route, rhs: Route) -> Bool {
+func == (lhs: Route, rhs: Route) -> Bool {
     switch((lhs, rhs)) {
     case (.root, .root), (.forgotPassword, .forgotPassword), (.multifactor, .multifactor):
         return true

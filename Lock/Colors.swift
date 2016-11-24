@@ -31,11 +31,11 @@ extension UIColor {
 
         let hexString: String = string.substring(from: string.characters.index(string.startIndex, offsetBy: 1))
         var hexValue:  UInt32 = 0
-        
+
         guard Scanner(string: hexString).scanHexInt32(&hexValue) else {
             return defaultColor
         }
-        
+
         let divisor = CGFloat(255)
         let red = CGFloat((hexValue & 0xFF0000) >> 16) / divisor
         let green = CGFloat((hexValue & 0x00FF00) >>  8) / divisor
@@ -43,4 +43,3 @@ extension UIColor {
         return  UIColor(red: red, green: green, blue: blue, alpha: 1)
     }
 }
-

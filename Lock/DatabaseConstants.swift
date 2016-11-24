@@ -38,16 +38,15 @@ public enum DatabaseScreen: Int, Equatable {
     case resetPassword
 }
 
-
 public struct DatabaseIdentifierStyle: OptionSet {
     public let rawValue: Int
 
     public init(rawValue: Int) { self.rawValue = rawValue }
-    
+
     public static let Username = DatabaseIdentifierStyle(rawValue: 1 << 0)
     public static let Email = DatabaseIdentifierStyle(rawValue: 1 << 1)
 }
 
-public func ==(lhs: DatabaseScreen, rhs: DatabaseScreen) -> Bool {
+public func == (lhs: DatabaseScreen, rhs: DatabaseScreen) -> Bool {
     return lhs.rawValue == rhs.rawValue
 }

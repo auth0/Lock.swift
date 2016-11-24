@@ -55,7 +55,7 @@ class Logger {
     }
 }
 
-// MARK:- Level
+// MARK: - Level
 
 public enum LoggerLevel: Int {
     case off = 0
@@ -84,11 +84,11 @@ public enum LoggerLevel: Int {
     }
 }
 
-func >=(lhs: LoggerLevel, rhs: LoggerLevel) -> Bool {
+func >= (lhs: LoggerLevel, rhs: LoggerLevel) -> Bool {
     return lhs.rawValue >= rhs.rawValue
 }
 
-// MARK:- Loggable
+// MARK: - Loggable
 
 protocol Loggable { }
 
@@ -98,7 +98,7 @@ extension Loggable {
     }
 }
 
-// MARK:- LoggerOutput
+// MARK: - LoggerOutput
 
 public protocol LoggerOutput {
     func message(_ message: String, level: LoggerLevel, filename: String, line: Int)
@@ -112,7 +112,7 @@ struct DefaultLoggerOutput: LoggerOutput {
     var trace: (String, LoggerLevel, String) -> () = { print("\($1.label) | \($0) - \($2)") }
 
     private func heading(forFile file: String, line: Int) -> String {
-        let filename = URL(fileURLWithPath: file).lastPathComponent 
+        let filename = URL(fileURLWithPath: file).lastPathComponent
         return "\(filename):\(line)"
     }
 }

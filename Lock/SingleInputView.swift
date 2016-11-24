@@ -86,7 +86,7 @@ public class SingleInputView: UIView, Form {
         self.inputField.needsToUpdateState()
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
 
     required override public init(frame: CGRect) {
         self.inputField = InputField()
@@ -105,7 +105,7 @@ public class SingleInputView: UIView, Form {
         self.init(frame: CGRect.zero)
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     private func layoutForm() {
         self.addSubview(self.stackView)

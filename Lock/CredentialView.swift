@@ -48,7 +48,7 @@ public class CredentialView: UIView, Form {
         self.passwordField.needsToUpdateState()
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
 
     public convenience init() {
         self.init(frame: CGRect.zero)
@@ -68,7 +68,7 @@ public class CredentialView: UIView, Form {
         self.layoutForm()
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     private func layoutForm() {
 
@@ -92,5 +92,5 @@ public class CredentialView: UIView, Form {
         identifier.type = .email
         password.type = .password
     }
-    
+
 }

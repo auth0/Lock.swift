@@ -27,6 +27,6 @@ protocol HRDAuthenticatable {
     var validEmail: Bool { get }
 
     mutating func updateEmail(_ value: String?) throws
-    
+
     func login(_ callback: @escaping (OAuth2AuthenticatableError?) -> ())
 }

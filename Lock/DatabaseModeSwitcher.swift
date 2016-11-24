@@ -55,7 +55,7 @@ public class DatabaseModeSwitcher: UIView {
         }
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
 
     public convenience init() {
         self.init(frame: CGRect.zero)
@@ -71,7 +71,7 @@ public class DatabaseModeSwitcher: UIView {
         self.layoutSwitcher()
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     private func layoutSwitcher() {
         let segmented = UISegmentedControl(items: [Mode.login.title, Mode.signup.title])
@@ -113,7 +113,7 @@ public class DatabaseModeSwitcher: UIView {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 55)
     }
 
-    // MARK:- Internal
+    // MARK: - Internal
 
     func selectedIndex(_ sender: UISegmentedControl) {
         self.onSelectionChange(self)

@@ -50,7 +50,7 @@ struct DatabasePasswordInteractor: PasswordRecoverable {
     func requestEmail(_ callback: @escaping (PasswordRecoverableError?) -> ()) {
         guard let email = self.email else { return callback(.nonValidInput) }
         guard let connection = self.connections.database?.name else { return callback(.noDatabaseConnection) }
-        
+
         self.authentication
             .resetPassword(email: email, connection: connection)
             .start {

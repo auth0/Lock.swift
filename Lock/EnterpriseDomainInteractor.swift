@@ -47,7 +47,7 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
         guard let domain = value?.components(separatedBy: "@").last else { return nil }
         return connections.filter { $0.domains.contains(domain) }.first
     }
-    
+
     mutating func updateEmail(_ value: String?) throws {
         validEmail = false
         connection = nil
@@ -57,13 +57,13 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
             throw error
         }
         validEmail = true
-        
+
         connection = matchDomain(value)
     }
-    
+
     func login(_ callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         guard let connection = self.connection else { return callback(.noConnectionAvailable) }
         authenticator.login(connection.name, callback: callback)
     }
-    
+
 }

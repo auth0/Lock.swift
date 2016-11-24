@@ -31,7 +31,6 @@ public class LockViewController: UIViewController, MessagePresenter {
     var keyboard: Bool = false
     var routes: Routes = Routes()
 
-
     var anchorConstraint: NSLayoutConstraint?
     var router: Router!
 
@@ -106,7 +105,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.view.layoutIfNeeded()
     }
 
-    // MARK:- MessagePresenter
+    // MARK: - MessagePresenter
 
     func showError(_ error: LocalizableError) {
         guard error.userVisible else { return }
@@ -139,7 +138,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         Queue.main.after(4) { [weak view] in view?.removeFromSuperview() }
     }
 
-    // MARK:- Keyboard
+    // MARK: - Keyboard
 
     func keyboardWasShown(_ notification: Notification) {
         guard

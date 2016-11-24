@@ -32,5 +32,5 @@ protocol MessagePresenter {
     func showError(_ error: LocalizableError)
     func showSuccess(_ message: String)
     func hideCurrent()
-    
+
 }

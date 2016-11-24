@@ -80,7 +80,7 @@ public class AuthButton: UIView {
 
     public var onPress: (AuthButton) -> () = { _ in }
 
-    // MARK:- Style
+    // MARK: - Style
 
     public var size: Size {
         didSet {
@@ -94,7 +94,7 @@ public class AuthButton: UIView {
         case big
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
 
     public init(size: Size) {
         self.size = size
@@ -114,7 +114,7 @@ public class AuthButton: UIView {
         self.layout(size: self.size)
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     private func layout(size: Size) {
 
@@ -182,14 +182,14 @@ public class AuthButton: UIView {
         }
     }
 
-    // MARK:- Event
+    // MARK: - Event
 
     func buttonPressed(_ sender: Any) {
         self.onPress(self)
     }
 }
 
-// MARK:- Color Util
+// MARK: - Color Util
 extension UIColor {
     func a0_darker(_ percentage: CGFloat) -> UIColor {
         guard percentage >= 0 && percentage <= 1 else { return self }
