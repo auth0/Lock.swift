@@ -43,7 +43,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             options = LockOptions()
             user = User()
             messagePresenter = MockMessagePresenter()
-            connection = EnterpriseConnection(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
+            connection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
             interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
             presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
             presenter.messagePresenter = messagePresenter

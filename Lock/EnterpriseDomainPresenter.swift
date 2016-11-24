@@ -125,9 +125,8 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
 func EnterpriseButton(forConnections connections: [EnterpriseConnection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: () -> () ) -> AuthButton? {
     guard let connection = connections.first where connections.count == 1 else { return nil }
     let style = customStyle[connection.name] ?? connection.style
-    style.name = connection.domains.first!
     let button = AuthButton(size: .Big)
-    button.title = login ? style.localizedLoginTitle.uppercaseString : style.localizedSignUpTitle.uppercaseString
+    button.title = style.localizedLoginTitle(connection.domains.first).uppercaseString
     button.normalColor = style.normalColor
     button.highlightedColor = style.highlightedColor
     button.titleColor = style.foregroundColor
