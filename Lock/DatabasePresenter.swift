@@ -81,7 +81,7 @@ class DatabasePresenter: Presentable, Loggable {
         return database
     }
 
-    fileprivate func showLogin(inView view: DatabaseView, identifier: String?) {
+    private func showLogin(inView view: DatabaseView, identifier: String?) {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), isLogin: true)
         let style = self.database.requiresUsername ? self.options.usernameStyle : [.Email]
@@ -139,7 +139,7 @@ class DatabasePresenter: Presentable, Loggable {
         }
     }
 
-    fileprivate func showSignup(inView view: DatabaseView, username: String?, email: String?) {
+    private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsetsMake(0, 18, 0, 18), isLogin: false)
         view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields)
@@ -189,7 +189,7 @@ class DatabasePresenter: Presentable, Loggable {
         }
     }
 
-    fileprivate func handleInput(_ input: InputField) {
+    private func handleInput(_ input: InputField) {
         self.messagePresenter?.hideCurrent()
 
         self.logger.verbose("new value: \(input.text) for type: \(input.type)")

@@ -51,7 +51,7 @@ class AuthPresenter: Presentable, Loggable {
         return self.newView(withInsets: insets, mode: mode)
     }
 
-    fileprivate func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode) -> AuthCollectionView {
+    private func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode) -> AuthCollectionView {
         let view = AuthCollectionView(connections: self.connections, mode: mode, insets: insets, customStyle: self.customStyle) { name in
             self.interactor.login(name) { error in
                 guard let error = error else { return }

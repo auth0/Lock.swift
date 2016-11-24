@@ -60,7 +60,7 @@ open class SecondaryButton: UIView {
 
     // MARK:- Layout
 
-    fileprivate func layoutButton() {
+    private func layoutButton() {
         let button = UIButton(type: .system)
 
         self.addSubview(button)

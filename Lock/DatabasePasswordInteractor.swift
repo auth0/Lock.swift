@@ -25,7 +25,7 @@ import Auth0
 
 struct DatabasePasswordInteractor: PasswordRecoverable {
 
-    fileprivate var user: DatabaseUser
+    private var user: DatabaseUser
 
     var email: String? { return self.user.email }
     var validEmail: Bool { return self.user.validEmail }

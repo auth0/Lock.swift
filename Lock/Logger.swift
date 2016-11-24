@@ -111,7 +111,7 @@ struct DefaultLoggerOutput: LoggerOutput {
 
     var trace: (String, LoggerLevel, String) -> () = { print("\($1.label) | \($0) - \($2)") }
 
-    fileprivate func heading(forFile file: String, line: Int) -> String {
+    private func heading(forFile file: String, line: Int) -> String {
         let filename = URL(fileURLWithPath: file).lastPathComponent 
         return "\(filename):\(line)"
     }

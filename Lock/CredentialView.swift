@@ -70,7 +70,7 @@ open class CredentialView: UIView, Form {
 
     // MARK:- Layout
 
-    fileprivate func layoutForm() {
+    private func layoutForm() {
 
         let identifier = self.identityField
         let password = self.passwordField

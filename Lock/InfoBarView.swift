@@ -52,7 +52,7 @@ open class InfoBarView: UIView {
         self.layoutHeader()
     }
 
-    fileprivate func layoutHeader() {
+    private func layoutHeader() {
         let container = UIView()
         let titleView = UILabel()
         let iconView = UIImageView()

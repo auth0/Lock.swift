@@ -28,7 +28,7 @@ struct Routes {
         return self.history.first ?? .root
     }
 
-    fileprivate(set) var history: [Route] = []
+    private(set) var history: [Route] = []
 
     mutating func back() -> Route {
         self.history.removeLast(1)

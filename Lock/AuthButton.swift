@@ -116,7 +116,7 @@ open class AuthButton: UIView {
 
     // MARK:- Layout
 
-    fileprivate func layout(size: Size) {
+    private func layout(size: Size) {
 
         let button = UIButton(type: .custom)
         let iconView = UIImageView()

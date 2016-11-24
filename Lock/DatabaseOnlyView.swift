@@ -34,7 +34,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var ssoBar: InfoBarView?
     weak var spacer: UIView?
     
-    fileprivate weak var container: UIStackView?
+    private weak var container: UIStackView?
     
     let allowedModes: DatabaseMode
     
@@ -76,11 +76,11 @@ class DatabaseOnlyView: UIView, DatabaseView {
     
     // MARK:- Layout
     
-    fileprivate let switcherIndex = 0
-    fileprivate let formOnlyIndex = 1
-    fileprivate let formBelowSocialIndex = 3
-    fileprivate let separatorIndex = 2
-    fileprivate let socialIndex = 1
+    private let switcherIndex = 0
+    private let formOnlyIndex = 1
+    private let formBelowSocialIndex = 3
+    private let separatorIndex = 2
+    private let socialIndex = 1
     
     func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil) {
         let form = CredentialView()
@@ -163,7 +163,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.spacer = nil
     }
     
-    fileprivate func layoutSecondaryButton(_ enabled: Bool) {
+    private func layoutSecondaryButton(_ enabled: Bool) {
         self.secondaryStrut?.removeFromSuperview()
         self.secondaryButton?.removeFromSuperview()
         if enabled {
@@ -177,7 +177,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         }
     }
     
-    fileprivate func layoutSwitcher(_ enabled: Bool) {
+    private func layoutSwitcher(_ enabled: Bool) {
         self.container?.arrangedSubviews.first?.removeFromSuperview()
         if enabled {
             let switcher = DatabaseModeSwitcher()
@@ -189,7 +189,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         }
     }
     
-    fileprivate func layoutInStack(_ view: UIView, authCollectionView: AuthCollectionView?) {
+    private func layoutInStack(_ view: UIView, authCollectionView: AuthCollectionView?) {
         if let current = self.form as? UIView {
             current.removeFromSuperview()
         }

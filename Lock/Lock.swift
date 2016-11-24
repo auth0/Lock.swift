@@ -31,8 +31,8 @@ open class Lock: NSObject {
 
     static let sharedInstance = Lock()
 
-    fileprivate(set) var authentication: Authentication
-    fileprivate(set) var webAuth: WebAuth
+    private(set) var authentication: Authentication
+    private(set) var webAuth: WebAuth
 
     var connectionProvider: ConnectionProvider = ConnectionProvider(local: OfflineConnections(), allowed: [])
     var connections: Connections { return self.connectionProvider.connections }

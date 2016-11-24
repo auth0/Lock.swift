@@ -124,7 +124,7 @@ open class HeaderView: UIView {
         self.layoutHeader()
     }
 
-    fileprivate func layoutHeader() {
+    private func layoutHeader() {
         let titleView = UILabel()
         let logoView = UIImageView()
         let closeButton = UIButton(type: .system)
@@ -197,11 +197,11 @@ open class HeaderView: UIView {
 
     // MARK:- Blur
 
-    fileprivate var canBlur: Bool {
+    private var canBlur: Bool {
         return self.blurred && !UIAccessibilityIsReduceTransparencyEnabled()
     }
 
-    fileprivate func applyBackground() {
+    private func applyBackground() {
         self.maskImageView?.removeFromSuperview()
         self.blurView?.removeFromSuperview()
 

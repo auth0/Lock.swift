@@ -57,7 +57,7 @@ open class PrimaryButton: UIView {
         self.layoutButton()
     }
 
-    fileprivate func layoutButton() {
+    private func layoutButton() {
         let button = UIButton(type: .custom)
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 

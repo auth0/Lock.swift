@@ -122,7 +122,7 @@ open class LockViewController: UIViewController, MessagePresenter {
         self.messageView = nil
     }
 
-    fileprivate func show(message: String, flavor: MessageView.Flavor) {
+    private func show(message: String, flavor: MessageView.Flavor) {
         let view = MessageView()
         view.type = flavor
         view.message = message

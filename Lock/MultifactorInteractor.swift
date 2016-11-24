@@ -25,15 +25,15 @@ import Auth0
 
 struct MultifactorInteractor: MultifactorAuthenticatable {
 
-    fileprivate var connection: DatabaseConnection
-    fileprivate var user: DatabaseUser
-    fileprivate var authentication: Authentication
-    fileprivate var onAuthentication: (Credentials) -> ()
+    private var connection: DatabaseConnection
+    private var user: DatabaseUser
+    private var authentication: Authentication
+    private var onAuthentication: (Credentials) -> ()
 
-    fileprivate(set) var code: String? = nil
-    fileprivate(set) var validCode: Bool = false
+    private(set) var code: String? = nil
+    private(set) var validCode: Bool = false
 
-    fileprivate let validator = OneTimePasswordValidator()
+    private let validator = OneTimePasswordValidator()
 
     init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, callback: @escaping (Credentials) -> ()) {
         self.user = user

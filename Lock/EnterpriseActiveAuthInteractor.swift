@@ -83,21 +83,21 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
         if let error = error { throw error }
     }
 
-    fileprivate mutating func updateEmail(_ value: String?) -> Error? {
+    private mutating func updateEmail(_ value: String?) -> Error? {
         email = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let error = emailValidator.validate(value)
         validEmail = error == nil
         return error
     }
 
-    fileprivate mutating func updateUsername(_ value: String?) -> Error? {
+    private mutating func updateUsername(_ value: String?) -> Error? {
         username = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let error = usernameValidator.validate(value)
         validUsername = error == nil
         return error
     }
 
-    fileprivate mutating func updatePassword(_ value: String?) -> Error? {
+    private mutating func updatePassword(_ value: String?) -> Error? {
         password = value
         let error = passwordValidator.validate(value)
         validPassword = error == nil
@@ -128,7 +128,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
             .start { self.handleLoginResult($0, callback: callback) }
     }
 
-    fileprivate func handleLoginResult(_ result: Auth0.Result<Credentials>, callback: (DatabaseAuthenticatableError?) -> ()) {
+    private func handleLoginResult(_ result: Auth0.Result<Credentials>, callback: (DatabaseAuthenticatableError?) -> ()) {
         switch result {
         case .failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
             self.logger.error("Multifactor is required for user <\(self.identifier)>")

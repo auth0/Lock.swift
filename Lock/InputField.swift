@@ -31,11 +31,11 @@ open class InputField: UIView, UITextFieldDelegate {
 
     weak var nextField: InputField?
 
-    fileprivate weak var errorLabelTopPadding: NSLayoutConstraint?
+    private weak var errorLabelTopPadding: NSLayoutConstraint?
 
-    fileprivate(set) var state: State = .invalid(nil)
+    private(set) var state: State = .invalid(nil)
 
-    fileprivate lazy var debounceShowError: () -> () = debounce(0.8, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: self.needsToUpdateState)
+    private lazy var debounceShowError: () -> () = debounce(0.8, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: self.needsToUpdateState)
 
     open var text: String? {
         get {
@@ -113,7 +113,7 @@ open class InputField: UIView, UITextFieldDelegate {
 
     // MARK:- Layout
 
-    fileprivate func layoutField() {
+    private func layoutField() {
         let container = UIView()
         let iconContainer = UIView()
         let textField = UITextField()

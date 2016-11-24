@@ -150,7 +150,7 @@ class ViewController: UIViewController {
         stack.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    fileprivate func actionButton(withTitle title: String, action: @escaping () -> Lock) -> AuthButton {
+    private func actionButton(withTitle title: String, action: @escaping () -> Lock) -> AuthButton {
         let button = AuthButton(size: .big)
         button.title = title
         button.onPress = { [weak self] _ in
@@ -159,7 +159,7 @@ class ViewController: UIViewController {
         return button
     }
 
-    fileprivate func wrap(_ button: AuthButton) -> UIView {
+    private func wrap(_ button: AuthButton) -> UIView {
         let wrapper = UIView()
         wrapper.backgroundColor = .white
         wrapper.addSubview(button)
@@ -172,7 +172,7 @@ class ViewController: UIViewController {
         return wrapper
     }
 
-    fileprivate func showLock(_ lock: Lock) {
+    private func showLock(_ lock: Lock) {
         Log.enable(minimumSeverity: LogSeverity.verbose)
         lock
             .on { result in

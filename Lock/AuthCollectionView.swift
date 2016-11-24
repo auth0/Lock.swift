@@ -69,7 +69,7 @@ class AuthCollectionView: UIView, View {
         return CGSize(width: UIViewNoIntrinsicMetric, height: self.height)
     }
 
-    fileprivate func layout(_ connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets) {
+    private func layout(_ connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets) {
         let stack: UIStackView
         switch mode {
         case .compact:
@@ -88,7 +88,7 @@ class AuthCollectionView: UIView, View {
         stack.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    fileprivate func expandedStack(forButtons buttons: [AuthButton]) -> UIStackView {
+    private func expandedStack(forButtons buttons: [AuthButton]) -> UIStackView {
         buttons.forEach { $0.size = .big }
         let stack = UIStackView(arrangedSubviews: buttons)
         stack.axis = .vertical
@@ -97,7 +97,7 @@ class AuthCollectionView: UIView, View {
         return stack
     }
 
-    fileprivate func compactStack(forButtons buttons: [AuthButton]) -> UIStackView {
+    private func compactStack(forButtons buttons: [AuthButton]) -> UIStackView {
         let rows = stride(from: 0, to: buttons.count, by: 5).map { return Array(buttons[$0..<(min($0 + 5, buttons.count))]) }.map(rowView)
         let stack = UIStackView(arrangedSubviews: rows)
         stack.axis = .vertical
@@ -107,7 +107,7 @@ class AuthCollectionView: UIView, View {
         return stack
     }
 
-    fileprivate func rowView(from buttons: [AuthButton]) -> UIView {
+    private func rowView(from buttons: [AuthButton]) -> UIView {
         let container = UIView()
         let guide = UILayoutGuide()
         container.addLayoutGuide(guide)

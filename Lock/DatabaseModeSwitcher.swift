@@ -73,7 +73,7 @@ open class DatabaseModeSwitcher: UIView {
 
     // MARK:- Layout
 
-    fileprivate func layoutSwitcher() {
+    private func layoutSwitcher() {
         let segmented = UISegmentedControl(items: [Mode.login.title, Mode.signup.title])
 
         self.addSubview(segmented)

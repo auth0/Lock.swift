@@ -25,9 +25,9 @@ import Foundation
 struct Queue {
     static var main = Queue()
 
-    fileprivate let queue: DispatchQueue = DispatchQueue.main
+    private let queue: DispatchQueue = DispatchQueue.main
 
-    fileprivate init() {}
+    private init() {}
 
     func after(_ seconds: Int, closure: @escaping () -> ()) {
         let delayTime = DispatchTime.now() + Double(Int64(Double(seconds) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)

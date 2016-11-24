@@ -28,7 +28,7 @@ class EnterpriseActiveAuthView: UIView, View {
     weak var ssoBar: InfoBarView?
     weak var primaryButton: PrimaryButton?
 
-    fileprivate weak var container: UIStackView?
+    private weak var container: UIStackView?
 
     init(identifer: String?, identifierAttribute: UserAttribute) {
         let primaryButton = PrimaryButton()

@@ -94,7 +94,7 @@ open class SignUpView: UIView, Form {
 
     // MARK:- Layout
 
-    fileprivate func layoutForm() {
+    private func layoutForm() {
 
         let email = self.emailField
         let password = self.passwordField

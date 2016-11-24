@@ -75,7 +75,7 @@ open class MessageView: UIView {
 
     // MARK:- Layout
 
-    fileprivate func layoutMessage() {
+    private func layoutMessage() {
         let guide = UILayoutGuide()
 
         self.addLayoutGuide(guide)

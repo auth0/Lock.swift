@@ -23,10 +23,10 @@
 import UIKit
 
 open class SingleInputView: UIView, Form {
-    fileprivate var inputField: InputField
-    fileprivate var titleView: UILabel
-    fileprivate var messageView: UILabel
-    fileprivate var stackView: UIStackView
+    private var inputField: InputField
+    private var titleView: UILabel
+    private var messageView: UILabel
+    private var stackView: UIStackView
 
     var value: String? {
         get {
@@ -107,7 +107,7 @@ open class SingleInputView: UIView, Form {
 
     // MARK:- Layout
 
-    fileprivate func layoutForm() {
+    private func layoutForm() {
         self.addSubview(self.stackView)
 
         constraintEqual(anchor: self.stackView.leftAnchor, toAnchor: self.leftAnchor)

@@ -25,7 +25,7 @@ import Auth0
 
 struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggable {
 
-    fileprivate var user: DatabaseUser
+    private var user: DatabaseUser
 
     var identifier: String? { return self.user.identifier }
     var email: String? { return self.user.email }
@@ -156,28 +156,28 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             }
     }
 
-    fileprivate mutating func updateEmail(_ value: String?) -> Error? {
+    private mutating func updateEmail(_ value: String?) -> Error? {
         self.user.email = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let error = self.emailValidator.validate(value)
         self.user.validEmail = error == nil
         return error
     }
 
-    fileprivate mutating func updateUsername(_ value: String?) -> Error? {
+    private mutating func updateUsername(_ value: String?) -> Error? {
         self.user.username = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let error = self.usernameValidator.validate(value)
         self.user.validUsername = error == nil
         return error
     }
 
-    fileprivate mutating func updatePassword(_ value: String?) -> Error? {
+    private mutating func updatePassword(_ value: String?) -> Error? {
         self.user.password = value
         let error = self.passwordValidator.validate(value)
         self.user.validPassword = error == nil
         return error
     }
 
-    fileprivate func handleLoginResult(_ result: Auth0.Result<Credentials>, callback: (DatabaseAuthenticatableError?) -> ()) {
+    private func handleLoginResult(_ result: Auth0.Result<Credentials>, callback: (DatabaseAuthenticatableError?) -> ()) {
         switch result {
         case .failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
             self.logger.error("Multifactor is required for user <\(self.identifier)>")
