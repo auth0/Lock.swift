@@ -145,7 +145,7 @@ func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: 
     return connections.map { connection -> AuthButton in
         let style = customStyle[connection.name] ?? connection.style
         let button = AuthButton(size: .Big)
-        button.title = login ? style.localizedLoginTitle.uppercaseString : style.localizedSignUpTitle.uppercaseString
+        button.title = login ? style.localizedLoginTitle().uppercaseString : style.localizedSignUpTitle().uppercaseString
         button.normalColor = style.normalColor
         button.highlightedColor = style.highlightedColor
         button.titleColor = style.foregroundColor

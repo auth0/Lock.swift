@@ -102,10 +102,13 @@ struct Router: Navigable {
         if !connections.enterprise.isEmpty {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
             let interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authInteractor)
+            // Single enterprise in active auth mode
+            if let connection = interactor.connection where self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+                return EnterpriseActiveAuth(connection)
+            }
             let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, user: self.user, options: self.lock.options)
             if !connections.oauth2.isEmpty {
-                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
-                presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
+                presenter.authPresenter = AuthPresenter(connections: connections, interactor: authInteractor, customStyle: self.lock.style.oauth2)
             }
             return presenter
         }
@@ -141,14 +144,12 @@ struct Router: Navigable {
         presenter.customLogger = self.lock.logger
         return presenter
     }
-    
+
     func EnterpriseActiveAuth(connection: EnterpriseConnection) -> Presentable? {
-        
         let authentication = self.lock.authentication
         let interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: self.user, options: self.lock.options, callback: self.onAuthentication)
         let presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
         presenter.customLogger = self.lock.logger
-
         return presenter
     }
 

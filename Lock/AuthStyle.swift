@@ -26,20 +26,20 @@ import UIKit
 public class AuthStyle {
 
         /// Name that will be used for titles. e.g. 'Login with Auth0'
-    public let name: String
+    let name: String
     let image: LazyImage
     let foregroundColor: UIColor
     let normalColor: UIColor
     let highlightedColor: UIColor
 
-    var localizedLoginTitle: String {
+    func localizedLoginTitle(title: String? = nil) -> String {
         let format = "Log in with %@".i18n(key: "com.auth0.lock.strategy.login.title", comment: "Log in action format")
-        return String(format: format, self.name)
+        return String(format: format, title ?? self.name)
     }
 
-    var localizedSignUpTitle: String {
+    func localizedSignUpTitle(title: String? = nil) -> String {
         let format = "Sign up with %@".i18n(key: "com.auth0.lock.strategy.signup.title", comment: "Sign up action format")
-        return String(format: format, self.name)
+        return String(format: format, title ?? self.name)
     }
 
     /**
@@ -270,6 +270,8 @@ extension AuthStyle {
 
     static func style(forStrategy strategy: String, connectionName: String) -> AuthStyle {
         switch strategy.lowercaseString {
+        case "ad", "adfs":
+            return .Microsoft
         case "amazon":
             return .Amazon
         case "aol":
@@ -340,6 +342,8 @@ extension AuthStyle {
             return .Yammer
         case "yandex":
             return .Yandex
+        case "waad":
+            return .Google
         case "weibo":
             return .Weibo
         default:

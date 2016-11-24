@@ -539,7 +539,7 @@ class DatabasePresenterSpec: QuickSpec {
                 
                 beforeEach {
                     connections = OfflineConnections()
-                    connections.enterprise(name: "validAD", domains: ["valid.com"])
+                    connections.enterprise(name: "validAD", domains: ["valid.com"], style: AuthStyle(name: "ad"))
                     
                     enterpriseInteractor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
                     presenter.enterpriseInteractor = enterpriseInteractor
@@ -632,7 +632,7 @@ class DatabasePresenterSpec: QuickSpec {
                         options.enterpriseConnectionUsingActiveAuth = ["validAD"]
 
                         connections = OfflineConnections()
-                        connections.enterprise(name: "validAD", domains: ["valid.com"])
+                        connections.enterprise(name: "validAD", domains: ["valid.com"], style: AuthStyle(name: "ad"))
 
                         presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
                         enterpriseInteractor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)

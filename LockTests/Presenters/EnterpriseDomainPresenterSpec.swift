@@ -49,12 +49,55 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             options = LockOptions()
 
             connections = OfflineConnections()
-            connections.enterprise(name: "TestAD", domains: ["test.com"])
+            connections.enterprise(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
+            connections.enterprise(name: "ValidAD", domains: ["validad.com"], style: AuthStyle(name: "adfs"))
 
             interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
             presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! EnterpriseDomainView
+        }
+
+        describe("init") {
+
+            it("should have a presenter object") {
+                expect(presenter).toNot(beNil())
+            }
+
+            it("should have an entperise domain view") {
+                expect(view).toNot(beNil())
+            }
+
+            it("should have primary button when more than one domain") {
+                expect(view.primaryButton).toNot(beNil())
+            }
+
+            it("should not have auth button") {
+                expect(view.authButton).to(beNil())
+            }
+
+            context("single enterprise connection") {
+
+                beforeEach {
+                    connections = OfflineConnections()
+                    connections.enterprise(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
+
+                    interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
+                    presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+                    presenter.messagePresenter = messagePresenter
+                    view = presenter.view as! EnterpriseDomainView
+                }
+
+                it("should not have primary button") {
+                    expect(view.primaryButton).to(beNil())
+                }
+
+                it("should have auth button") {
+                    expect(view.authButton).toNot(beNil())
+                }
+
+            }
+
         }
 
         describe("email input validation") {
@@ -77,7 +120,6 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 expect(view.value).toNot(equal(email))
             }
         }
-
 
 
         describe("user input") {
@@ -147,7 +189,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             }
 
             it("should show yield oauth2 error on failure") {
-                presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"])
+                presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"], style: AuthStyle(name: "ad"))
                 oauth2.onLogin = { return OAuth2AuthenticatableError.CouldNotAuthenticate }
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.CouldNotAuthenticate))
@@ -195,16 +237,46 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
 
             }
 
+            context("single enterprise connection") {
+
+                beforeEach {
+                    connections = OfflineConnections()
+                    connections.enterprise(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
+
+                    interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
+                    presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+                    presenter.messagePresenter = messagePresenter
+                    view = presenter.view as! EnterpriseDomainView
+                }
+
+                it("should show no error on success") {
+                    view.authButton!.onPress(view.authButton!)
+                    expect(messagePresenter.error).toEventually(beNil())
+                }
+
+                it("should show yield oauth2 error on failure") {
+                    oauth2.onLogin = { return OAuth2AuthenticatableError.CouldNotAuthenticate }
+                    view.authButton!.onPress(view.authButton!)
+                    expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.CouldNotAuthenticate))
+                }
+
+                it("should not navigate to enterprise passwod presenter") {
+                    view.authButton!.onPress(view.authButton!)
+                    expect(navigator.route).toEventually(beNil())
+                }
+
+            }
+
         }
-
+        
         describe("auth buttons") {
-
+            
             it("should init view with social view") {
                 presenter.authPresenter = authPresenter
                 let view = presenter.view as? EnterpriseDomainView
                 expect(view?.authCollectionView).to(equal(authPresenter.authView))
             }
-
+            
             it("should init view with not social view") {
                 presenter.authPresenter = nil
                 let view = presenter.view as? EnterpriseDomainView
@@ -214,5 +286,5 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
         }
     }
     
-}
 
+}
