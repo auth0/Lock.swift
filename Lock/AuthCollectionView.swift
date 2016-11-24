@@ -143,8 +143,8 @@ class AuthCollectionView: UIView, View {
 func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping (String) -> ()) -> [AuthButton] {
     return connections.map { connection -> AuthButton in
         let style = customStyle[connection.name] ?? connection.style
-        let button = AuthButton(size: .Big)
-        button.title = login ? style.localizedLoginTitle().uppercaseString : style.localizedSignUpTitle().uppercaseString
+        let button = AuthButton(size: .big)
+        button.title = login ? style.localizedLoginTitle().uppercased() : style.localizedSignUpTitle().uppercased()
         button.normalColor = style.normalColor
         button.highlightedColor = style.highlightedColor
         button.titleColor = style.foregroundColor
