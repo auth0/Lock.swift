@@ -202,7 +202,7 @@ open class HeaderView: UIView {
     }
 
     fileprivate func applyBackground() {
-        self.mask?.removeFromSuperview()
+        self.maskImageView?.removeFromSuperview()
         self.blurView?.removeFromSuperview()
 
         self.backgroundColor = self.canBlur ? .white : UIColor ( red: 0.9451, green: 0.9451, blue: 0.9451, alpha: 1.0 )
@@ -231,7 +231,7 @@ open class HeaderView: UIView {
         maskView.contentMode = .scaleToFill
         maskView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
         maskView.tintColor = self.maskColor
-
+        
         self.maskImageView = maskView
         self.blurView = blurView
     }
