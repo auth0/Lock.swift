@@ -22,13 +22,13 @@
 
 import UIKit
 
-open class InfoBarView: UIView {
+public class InfoBarView: UIView {
 
     weak var container: UIView?
     weak var iconView: UIImageView?
     weak var titleView: UILabel?
 
-    open var title: String? {
+    var title: String? {
         get {
             return self.titleView?.text
         }
@@ -91,7 +91,7 @@ open class InfoBarView: UIView {
         self.iconView?.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
     }
 
-    open override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 35)
     }
 

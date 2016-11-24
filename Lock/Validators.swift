@@ -26,7 +26,7 @@ protocol InputValidator {
     func validate(_ value: String?) -> Error?
 }
 
-open class OneTimePasswordValidator: InputValidator {
+public class OneTimePasswordValidator: InputValidator {
     func validate(_ value: String?) -> Error? {
         guard let value = value?.trimmed, !value.isEmpty else { return InputValidationError.mustNotBeEmpty }
         guard value.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil else { return InputValidationError.notAOneTimePassword }
@@ -34,14 +34,14 @@ open class OneTimePasswordValidator: InputValidator {
     }
 }
 
-open class NonEmptyValidator: InputValidator {
+public class NonEmptyValidator: InputValidator {
     func validate(_ value: String?) -> Error? {
         guard let value = value?.trimmed, !value.isEmpty else { return InputValidationError.mustNotBeEmpty }
         return nil
     }
 }
 
-open class UsernameValidator: InputValidator {
+public class UsernameValidator: InputValidator {
 
     let invalidSet: CharacterSet?
     let range: CountableClosedRange<Int>
@@ -67,7 +67,7 @@ open class UsernameValidator: InputValidator {
         return nil
     }
 
-    open static var auth0: CharacterSet {
+    public static var auth0: CharacterSet {
         let set = NSMutableCharacterSet()
         set.formUnion(with: CharacterSet.alphanumerics)
         set.addCharacters(in: "_")
@@ -75,7 +75,7 @@ open class UsernameValidator: InputValidator {
     }
 }
 
-open class EmailValidator: InputValidator {
+public class EmailValidator: InputValidator {
     let predicate: NSPredicate
 
     public init() {

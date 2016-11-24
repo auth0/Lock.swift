@@ -22,7 +22,7 @@
 
 import UIKit
 
-open class SingleInputView: UIView, Form {
+public class SingleInputView: UIView, Form {
     private var inputField: InputField
     private var titleView: UILabel
     private var messageView: UILabel
@@ -130,7 +130,7 @@ open class SingleInputView: UIView, Form {
         inputField.returnKey = self.returnKey
     }
 
-    open override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 244)
     }
 }

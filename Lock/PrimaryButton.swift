@@ -22,14 +22,14 @@
 
 import UIKit
 
-open class PrimaryButton: UIView {
+public class PrimaryButton: UIView {
 
     weak var button: UIButton?
     weak var indicator: UIActivityIndicatorView?
 
-    open var onPress: (PrimaryButton) -> () = {_ in }
+    var onPress: (PrimaryButton) -> () = {_ in }
 
-    open var inProgress: Bool {
+    var inProgress: Bool {
         get {
             return !(self.button?.isEnabled ?? true)
         }
@@ -85,7 +85,7 @@ open class PrimaryButton: UIView {
         self.indicator = indicator
     }
 
-    open override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 95)
     }
 

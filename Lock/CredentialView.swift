@@ -22,12 +22,12 @@
 
 import UIKit
 
-open class CredentialView: UIView, Form {
+public class CredentialView: UIView, Form {
 
-    open var identityField: InputField
-    open var passwordField: InputField
+    var identityField: InputField
+    var passwordField: InputField
 
-    open var onValueChange: (InputField) -> () = {_ in} {
+    var onValueChange: (InputField) -> () = {_ in} {
         didSet {
             self.identityField.onTextChange = onValueChange
             self.passwordField.onTextChange = onValueChange

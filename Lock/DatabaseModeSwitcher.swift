@@ -22,11 +22,11 @@
 
 import UIKit
 
-open class DatabaseModeSwitcher: UIView {
+public class DatabaseModeSwitcher: UIView {
 
     weak var segmentedControl: UISegmentedControl?
 
-    open var onSelectionChange: (DatabaseModeSwitcher) -> () = { _ in }
+    var onSelectionChange: (DatabaseModeSwitcher) -> () = { _ in }
 
     public enum Mode: Int {
         case login = 0
@@ -42,7 +42,7 @@ open class DatabaseModeSwitcher: UIView {
         }
     }
 
-    open var selected: Mode {
+    var selected: Mode {
         get {
             guard
                 let index = self.segmentedControl?.selectedSegmentIndex,
@@ -109,7 +109,7 @@ open class DatabaseModeSwitcher: UIView {
         self.selected = .login
     }
 
-    open override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 55)
     }
 

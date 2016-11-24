@@ -22,7 +22,7 @@
 
 import UIKit
 
-open class InputField: UIView, UITextFieldDelegate {
+public class InputField: UIView, UITextFieldDelegate {
 
     weak var containerView: UIView?
     weak var textField: UITextField?
@@ -37,7 +37,7 @@ open class InputField: UIView, UITextFieldDelegate {
 
     private lazy var debounceShowError: () -> () = debounce(0.8, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: self.needsToUpdateState)
 
-    open var text: String? {
+    var text: String? {
         get {
             return self.textField?.text
         }
@@ -46,7 +46,7 @@ open class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    open var type: InputType = .email {
+    var type: InputType = .email {
         didSet {
             self.textField?.placeholder = type.placeholder
             self.textField?.isSecureTextEntry = type.secure
@@ -57,7 +57,7 @@ open class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    open var returnKey: UIReturnKeyType {
+    var returnKey: UIReturnKeyType {
         get {
             return self.textField?.returnKeyType ?? .default
         }
@@ -67,9 +67,9 @@ open class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    open var onTextChange: (InputField) -> () = {_ in}
+    var onTextChange: (InputField) -> () = {_ in}
 
-    open var onReturn: (InputField) -> () = {_ in}
+    var onReturn: (InputField) -> () = {_ in}
 
     // MARK:- Initialisers
 
@@ -89,7 +89,7 @@ open class InputField: UIView, UITextFieldDelegate {
 
     // MARK:- Error
 
-    open func showError(_ message: String? = nil, noDelay: Bool = false) {
+    func showError(_ message: String? = nil, noDelay: Bool = false) {
         self.state = .invalid(message)
         if noDelay {
             self.needsToUpdateState()
@@ -98,12 +98,12 @@ open class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    open func showValid() {
+    func showValid() {
         self.state = .valid
         self.needsToUpdateState()
     }
 
-    open func needsToUpdateState() {
+    func needsToUpdateState() {
         Queue.main.async {
             self.errorLabel?.text = self.state.text
             self.containerView?.layer.borderColor = self.state.color.cgColor
@@ -179,7 +179,7 @@ open class InputField: UIView, UITextFieldDelegate {
         self.containerView?.layer.borderColor = State.valid.color.cgColor
     }
 
-    open override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize : CGSize {
         return CGSize(width: 230, height: 50)
     }
 
@@ -217,7 +217,7 @@ open class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.onReturn(self)
         if let field = self.nextField?.textField {
             Queue.main.async {

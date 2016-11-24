@@ -22,7 +22,7 @@
 
 import UIKit
 
-open class HeaderView: UIView {
+public class HeaderView: UIView {
 
     weak var logoView: UIImageView?
     weak var titleView: UILabel?
@@ -31,9 +31,9 @@ open class HeaderView: UIView {
     weak var maskImageView: UIImageView?
     weak var blurView: UIVisualEffectView?
 
-    open var onClosePressed: () -> () = {}
+    public var onClosePressed: () -> () = {}
 
-    open var showClose: Bool {
+    public var showClose: Bool {
         get {
             return !(self.closeButton?.isHidden ?? true)
         }
@@ -42,9 +42,9 @@ open class HeaderView: UIView {
         }
     }
 
-    open var onBackPressed: () -> () = {}
+    public var onBackPressed: () -> () = {}
 
-    open var showBack: Bool {
+    public var showBack: Bool {
         get {
             return !(self.backButton?.isHidden ?? true)
         }
@@ -53,7 +53,7 @@ open class HeaderView: UIView {
         }
     }
 
-    open var title: String? {
+    public var title: String? {
         get {
             return self.titleView?.text
         }
@@ -63,14 +63,14 @@ open class HeaderView: UIView {
         }
     }
 
-    open var titleColor: UIColor = Style.Auth0.titleColor {
+    public var titleColor: UIColor = Style.Auth0.titleColor {
         didSet {
             self.titleView?.textColor = titleColor
             self.setNeedsUpdateConstraints()
         }
     }
 
-    open var logo: UIImage? {
+    public var logo: UIImage? {
         get {
             return self.logoView?.image
         }
@@ -80,7 +80,7 @@ open class HeaderView: UIView {
         }
     }
 
-    open var maskImage: UIImage? {
+    public var maskImage: UIImage? {
         get {
             return self.maskImageView?.image
         }
@@ -90,21 +90,21 @@ open class HeaderView: UIView {
         }
     }
 
-    open var blurred: Bool = Style.Auth0.headerColor == nil {
+    public var blurred: Bool = Style.Auth0.headerColor == nil {
         didSet {
             self.applyBackground()
             self.setNeedsDisplay()
         }
     }
 
-    open var blurStyle: UIBlurEffectStyle = .light {
+    public var blurStyle: UIBlurEffectStyle = .light {
         didSet {
             self.applyBackground()
             self.setNeedsDisplay()
         }
     }
 
-    open var maskColor: UIColor = UIColor ( red: 0.8745, green: 0.8745, blue: 0.8745, alpha: 1.0 ) {
+    public var maskColor: UIColor = UIColor ( red: 0.8745, green: 0.8745, blue: 0.8745, alpha: 1.0 ) {
         didSet {
             self.mask?.tintColor = self.maskColor
         }
@@ -181,7 +181,7 @@ open class HeaderView: UIView {
         self.clipsToBounds = true
     }
 
-    open override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize : CGSize {
         return CGSize(width: 200, height: 154)
     }
 

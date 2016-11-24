@@ -22,13 +22,13 @@
 
 import UIKit
 
-open class SignUpView: UIView, Form {
-    open var emailField: InputField
-    open var passwordField: InputField
-    open weak var usernameField: InputField?
+public class SignUpView: UIView, Form {
+    var emailField: InputField
+    var passwordField: InputField
+    var usernameField: InputField?
     var stackView: UIStackView
 
-    open var showUsername: Bool = false {
+    var showUsername: Bool = false {
         didSet {
             let field = inputField(withType: .username)
             field.onTextChange = onValueChange
@@ -41,7 +41,7 @@ open class SignUpView: UIView, Form {
         }
     }
 
-    open var onValueChange: (InputField) -> () = {_ in} {
+    var onValueChange: (InputField) -> () = {_ in} {
         didSet {
             self.stackView.arrangedSubviews
                 .map { $0 as! InputField }

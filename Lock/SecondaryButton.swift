@@ -22,19 +22,19 @@
 
 import UIKit
 
-open class SecondaryButton: UIView {
+public class SecondaryButton: UIView {
 
     weak var button: UIButton?
 
-    open var onPress: (SecondaryButton) -> () = {_ in }
+    var onPress: (SecondaryButton) -> () = {_ in }
 
-    open var color: UIColor = .clear {
+    var color: UIColor = .clear {
         didSet {
             self.backgroundColor = self.color
         }
     }
 
-    open var title: String? {
+    var title: String? {
         get {
             return self.button?.currentTitle
         }
@@ -80,7 +80,7 @@ open class SecondaryButton: UIView {
         self.button = button
     }
 
-    open override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 76)
     }
     

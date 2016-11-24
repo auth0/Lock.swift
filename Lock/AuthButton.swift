@@ -22,12 +22,12 @@
 
 import UIKit
 
-open class AuthButton: UIView {
+public class AuthButton: UIView {
 
     weak var button: UIButton?
     weak var iconView: UIImageView?
 
-    open var color: UIColor {
+    public var color: UIColor {
         get {
             return self.normalColor
         }
@@ -37,14 +37,14 @@ open class AuthButton: UIView {
         }
     }
 
-    open var normalColor: UIColor = UIColor.a0_orange {
+    public var normalColor: UIColor = UIColor.a0_orange {
         didSet {
             let normal = image(withColor: self.normalColor)
             self.button?.setBackgroundImage(normal, for: UIControlState())
         }
     }
 
-    open var highlightedColor: UIColor = UIColor.a0_orange.a0_darker(0.3) {
+    public var highlightedColor: UIColor = UIColor.a0_orange.a0_darker(0.3) {
         didSet {
             let highlighted = image(withColor: self.highlightedColor)
             self.button?.setBackgroundImage(highlighted, for: .highlighted)
@@ -54,7 +54,7 @@ open class AuthButton: UIView {
         }
     }
 
-    open var titleColor: UIColor = .white {
+    public var titleColor: UIColor = .white {
         didSet {
             self.iconView?.tintColor = self.titleColor
             self.button?.setTitleColor(self.titleColor, for: UIControlState())
@@ -62,14 +62,14 @@ open class AuthButton: UIView {
         }
     }
 
-    open var title: String? {
+    public var title: String? {
         didSet {
             guard case .big = self.size else { return }
             self.button?.setTitle(self.title, for: UIControlState())
         }
     }
 
-    open var icon: UIImage? {
+    public var icon: UIImage? {
         get {
             return self.iconView?.image
         }
@@ -78,11 +78,11 @@ open class AuthButton: UIView {
         }
     }
 
-    open var onPress: (AuthButton) -> () = { _ in }
+    public var onPress: (AuthButton) -> () = { _ in }
 
     // MARK:- Style
 
-    open var size: Size {
+    public var size: Size {
         didSet {
             self.subviews.forEach { $0.removeFromSuperview() }
             self.layout(size: self.size)
@@ -168,12 +168,12 @@ open class AuthButton: UIView {
         self.iconView = iconView
     }
 
-    open override func updateConstraints() {
+    public override func updateConstraints() {
         super.updateConstraints()
         self.button?.titleEdgeInsets = UIEdgeInsets(top: 0, left: max(self.frame.size.height, 50) + 18, bottom: 0, right: 18)
     }
 
-    open override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize : CGSize {
         switch self.size {
         case .big:
             return CGSize(width: 280, height: 50)

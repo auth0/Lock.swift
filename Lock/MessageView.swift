@@ -22,11 +22,11 @@
 
 import UIKit
 
-open class MessageView: UIView {
+public class MessageView: UIView {
 
     weak var messageLabel: UILabel?
 
-    open var message: String? {
+    var message: String? {
         get {
             return self.messageLabel?.text
         }
@@ -35,7 +35,7 @@ open class MessageView: UIView {
         }
     }
 
-    open var type: Flavor = .success {
+    var type: Flavor = .success {
         didSet {
             self.backgroundColor = self.type.color
             self.messageLabel?.textColor = self.type.textColor

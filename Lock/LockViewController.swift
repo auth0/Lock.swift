@@ -22,7 +22,7 @@
 
 import UIKit
 
-open class LockViewController: UIViewController, MessagePresenter {
+public class LockViewController: UIViewController, MessagePresenter {
 
     weak var headerView: HeaderView!
     weak var scrollView: UIScrollView!
@@ -44,7 +44,7 @@ open class LockViewController: UIViewController, MessagePresenter {
         fatalError("Storyboard currently not supported")
     }
 
-    open override func loadView() {
+    public override func loadView() {
         let root = UIView()
         let style = self.router.lock.style
         root.backgroundColor = style.backgroundColor
@@ -76,7 +76,7 @@ open class LockViewController: UIViewController, MessagePresenter {
         self.headerView = header
     }
 
-    open override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         let center = NotificationCenter.default
@@ -99,7 +99,7 @@ open class LockViewController: UIViewController, MessagePresenter {
         self.scrollView.setContentOffset(CGPoint.zero, animated: false)
     }
 
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         guard !self.keyboard else { return }
         self.anchorConstraint?.isActive = self.traitCollection.verticalSizeClass != .compact
         self.scrollView.setContentOffset(CGPoint.zero, animated: true)

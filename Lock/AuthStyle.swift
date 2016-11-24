@@ -23,7 +23,7 @@
 import UIKit
 
 /// Style for AuthButton
-open class AuthStyle {
+public class AuthStyle {
 
         /// Name that will be used for titles. e.g. 'Login with Auth0'
     let name: String
@@ -74,7 +74,7 @@ open class AuthStyle {
         self.foregroundColor = foregroundColor
         self.image = image
     }
-    open static func custom(_ name: String) -> AuthStyle {
+    static func custom(_ name: String) -> AuthStyle {
         return AuthStyle(name: name)
     }
 }

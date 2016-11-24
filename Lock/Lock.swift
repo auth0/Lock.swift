@@ -24,7 +24,7 @@ import Foundation
 import Auth0
 
 /// Lock main class to configure and show the native widget
-open class Lock: NSObject {
+public class Lock: NSObject {
 
         /// Callback used to notify lock authentication outcome
     public typealias AuthenticationCallback = (Result) -> ()
@@ -56,7 +56,7 @@ open class Lock: NSObject {
 
      - returns: a newly created Lock instance
      */
-    required public init(authentication: Authentication, webAuth: WebAuth) {
+    public required init(authentication: Authentication, webAuth: WebAuth) {
         let (authenticationWithTelemetry, webAuthWithTelemetry) = telemetryFor(authenticaction: authentication, webAuth: webAuth)
         self.authentication = authenticationWithTelemetry
         self.webAuth = webAuthWithTelemetry
@@ -67,7 +67,7 @@ open class Lock: NSObject {
 
      - returns: a newly created Lock instance
      */
-    open static func classic() -> Lock {
+    public static func classic() -> Lock {
         return Lock()
     }
 
@@ -79,11 +79,11 @@ open class Lock: NSObject {
 
      - returns: a newly created Lock instance
      */
-    open static func classic(clientId: String, domain: String) -> Lock {
+    public static func classic(clientId: String, domain: String) -> Lock {
         return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain), webAuth: Auth0.webAuth(clientId: clientId, domain: domain))
     }
 
-    var controller: LockViewController {
+    public var controller: LockViewController {
         return LockViewController(lock: self)
     }
 
@@ -101,7 +101,7 @@ open class Lock: NSObject {
 
      - parameter controller: controller from where Lock is presented
      */
-    open func present(from controller: UIViewController) {
+    public func present(from controller: UIViewController) {
         if let error = self.optionsBuilder.validate() {
             self.callback(.failure(error))
         } else {
@@ -117,7 +117,7 @@ open class Lock: NSObject {
      - returns: Lock itself for chaining
      */
     @discardableResult
-    open func withConnections(_ closure: (inout ConnectionBuildable) -> ()) -> Lock {
+    public func withConnections(_ closure: (inout ConnectionBuildable) -> ()) -> Lock {
         var connections: ConnectionBuildable = OfflineConnections()
         closure(&connections)
         let allowed = self.connectionProvider.allowed
@@ -134,7 +134,7 @@ open class Lock: NSObject {
      - returns: Lock itself for chaining
      */
     @discardableResult
-    open func allowedConnections(_ allowedConnections: [String]) -> Lock {
+    public func allowedConnections(_ allowedConnections: [String]) -> Lock {
         let connections = self.connectionProvider.connections
         self.connectionProvider = ConnectionProvider(local: connections, allowed: allowedConnections)
         return self
@@ -175,7 +175,7 @@ open class Lock: NSObject {
      - returns: Lock itself for chaining
      */
     @discardableResult
-    open func style(_ closure: (inout Style) -> ()) -> Lock {
+    public func style(_ closure: (inout Style) -> ()) -> Lock {
         var style = self.style
         closure(&style)
         self.style = style
@@ -190,13 +190,13 @@ open class Lock: NSObject {
      - returns: Lock itself for chaining
      */
     @discardableResult
-    open func on(_ callback: @escaping AuthenticationCallback) -> Lock {
+    public func on(_ callback: @escaping AuthenticationCallback) -> Lock {
         self.callback = callback
         return self
     }
 
         /// Lock's Bundle. Useful for getting bundled resources like images.
-    open static var bundle: Bundle {
+    public static var bundle: Bundle {
         return bundleForLock()
     }
 
@@ -217,7 +217,7 @@ open class Lock: NSObject {
 
      - returns: true if the url matched an ongoing Auth session, false otherwise
      */
-    open static func resumeAuth(_ url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
+    public static func resumeAuth(_ url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
         return Auth0.resumeAuth(url, options: options)
     }
 }
