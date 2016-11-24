@@ -31,7 +31,7 @@ private let StyleKey = "style"
 
 private let FirstClassStyleExample = "style"
 
-func forStyle(_ style: AuthStyle, name: String, iconName: String) -> [String: AnyObject] {
+func forStyle(_ style: AuthStyle, name: String, iconName: String) -> NSDictionary {
     return [
         StyleKey: style,
         NameKey: name as AnyObject,
@@ -152,7 +152,7 @@ class AuthStyleSpec: QuickSpec {
                 forStyle(.Yandex, name: "Yandex", iconName: "ic_auth_yandex"),
                 forStyle(.Weibo, name: "新浪微博", iconName: "ic_auth_weibo"),
                 ].forEach { style in
-                    //itBehavesLike(FirstClassStyleExample) { return style }
+                    itBehavesLike(FirstClassStyleExample) { return style }
             }
         }
 

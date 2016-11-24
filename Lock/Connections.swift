@@ -47,7 +47,7 @@ public struct DatabaseConnection {
     public init(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator()) {
         self.name = name
         self.requiresUsername =  requiresUsername
-        self.usernameValidator = UsernameValidator(withLength: 1...5, characterSet: UsernameValidator.auth0)
+        self.usernameValidator = usernameValidator
     }
 }
 
