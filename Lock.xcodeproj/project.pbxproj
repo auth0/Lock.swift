@@ -20,12 +20,9 @@
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
-		5F14565B1D5237180085DF9C /* LazyImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */; };
-		5F14565C1D5237210085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
 		5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F14565D1D5237820085DF9C /* DatabaseView.swift */; };
 		5F1C498E1D8360AA005B74FC /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C498D1D8360AA005B74FC /* Style.swift */; };
 		5F1C49901D8360BF005B74FC /* ConnectionLoadingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */; };
-		5F1C49911D8360C4005B74FC /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C498D1D8360AA005B74FC /* Style.swift */; };
 		5F1C49931D8360DF005B74FC /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C49921D8360DF005B74FC /* LoadingView.swift */; };
 		5F1C49961D8360F5005B74FC /* RemoteConnectionLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C49941D8360F5005B74FC /* RemoteConnectionLoader.swift */; };
 		5F1C49971D8360F5005B74FC /* CDNLoaderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C49951D8360F5005B74FC /* CDNLoaderInteractor.swift */; };
@@ -53,7 +50,6 @@
 		5F51EE681D1C88FC0024BCD6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */; };
 		5F51EE6A1D1CBC830024BCD6 /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */; };
 		5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFC51D4F79DD00C54DA8 /* AuthStyle.swift */; };
-		5F57DFC71D4F79DD00C54DA8 /* AuthStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFC51D4F79DD00C54DA8 /* AuthStyle.swift */; };
 		5F57DFC91D4F87CE00C54DA8 /* AuthCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFC81D4F87CE00C54DA8 /* AuthCollectionView.swift */; };
 		5F57DFCC1D4F93A000C54DA8 /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFCB1D4F93A000C54DA8 /* AuthPresenter.swift */; };
 		5F57DFCE1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFCD1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift */; };
@@ -116,7 +112,6 @@
 		5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4348B1D1DFC5A005188BC /* Form.swift */; };
 		5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4348E1D1E0A57005188BC /* DatabaseAuthenticable.swift */; };
 		5FD6772C1D4C303C004B87C4 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6772B1D4C303C004B87C4 /* AuthButton.swift */; };
-		5FD6772D1D4C303C004B87C4 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6772B1D4C303C004B87C4 /* AuthButton.swift */; };
 		5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CD1D2C79FD00166B67 /* Operations.swift */; };
 		5FDB41D01D2C95B100166B67 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CF1D2C95B100166B67 /* MessageView.swift */; };
 		5FDC876D1D46DAF200D28596 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC876C1D46DAF200D28596 /* Queue.swift */; };
@@ -133,23 +128,6 @@
 		5FEAE1CA1D1A5154005C0028 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEAE1C91D1A5154005C0028 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FEAE1D11D1A5154005C0028 /* Lock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FEAE1C61D1A5154005C0028 /* Lock.framework */; };
 		5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAE20F1D1A5691005C0028 /* HeaderView.swift */; };
-		5FF1FA3A1D4C13CC00158CD1 /* LockUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FF1FA341D4C12DF00158CD1 /* LockUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FF1FA3B1D4C14EF00158CD1 /* CredentialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA951D1C4AF400D27842 /* CredentialView.swift */; };
-		5FF1FA3C1D4C14EF00158CD1 /* DatabaseModeSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA8F1D1B9E7100D27842 /* DatabaseModeSwitcher.swift */; };
-		5FF1FA3D1D4C14EF00158CD1 /* DatabaseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA911D1BA5CA00D27842 /* DatabaseConstants.swift */; };
-		5FF1FA3E1D4C14EF00158CD1 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4348B1D1DFC5A005188BC /* Form.swift */; };
-		5FF1FA3F1D4C14EF00158CD1 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAE20F1D1A5691005C0028 /* HeaderView.swift */; };
-		5FF1FA401D4C14EF00158CD1 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA8B1D1B3F1300D27842 /* InputField.swift */; };
-		5FF1FA411D4C14EF00158CD1 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CF1D2C95B100166B67 /* MessageView.swift */; };
-		5FF1FA421D4C14EF00158CD1 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA891D1B360C00D27842 /* PrimaryButton.swift */; };
-		5FF1FA431D4C14EF00158CD1 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */; };
-		5FF1FA451D4C14EF00158CD1 /* SingleInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */; };
-		5FF1FA461D4C150100158CD1 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA871D1B0E2500D27842 /* Layout.swift */; };
-		5FF1FA471D4C151000158CD1 /* i18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA811D1B0A3900D27842 /* i18n.swift */; };
-		5FF1FA4B1D4C15DC00158CD1 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA851D1B0BF100D27842 /* Resources.swift */; };
-		5FF1FA4C1D4C15DC00158CD1 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC876C1D46DAF200D28596 /* Queue.swift */; };
-		5FF1FA4D1D4C15EA00158CD1 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB41CD1D2C79FD00166B67 /* Operations.swift */; };
-		5FF1FA4E1D4C174B00158CD1 /* Lock.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F99AA791D1B031500D27842 /* Lock.xcassets */; };
 		5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC54FD1D37E3F700579581 /* Routes.swift */; };
 /* End PBXBuildFile section */
 
@@ -324,8 +302,6 @@
 		5FEAE1D01D1A5154005C0028 /* LockTests.iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LockTests.iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FEAE1D71D1A5154005C0028 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FEAE20F1D1A5691005C0028 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeaderView.swift; path = Lock/HeaderView.swift; sourceTree = SOURCE_ROOT; };
-		5FF1FA321D4C12DF00158CD1 /* LockUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LockUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FF1FA341D4C12DF00158CD1 /* LockUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LockUI.h; path = Lock/LockUI.h; sourceTree = SOURCE_ROOT; };
 		5FFC54FD1D37E3F700579581 /* Routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Routes.swift; path = Lock/Routes.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -357,13 +333,6 @@
 				5F814FD71D1A72A6003670A4 /* OHHTTPStubs.framework in Frameworks */,
 				5F814FD51D1A72A6003670A4 /* Quick.framework in Frameworks */,
 				5FEAE1D11D1A5154005C0028 /* Lock.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5FF1FA2E1D4C12DF00158CD1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,7 +460,6 @@
 			children = (
 				5FEAE1CB1D1A5154005C0028 /* Info.plist */,
 				5FEAE1C91D1A5154005C0028 /* Lock.h */,
-				5FF1FA341D4C12DF00158CD1 /* LockUI.h */,
 				5F99AA791D1B031500D27842 /* Lock.xcassets */,
 			);
 			name = "Supporting Files";
@@ -591,7 +559,6 @@
 				5FEAE1C61D1A5154005C0028 /* Lock.framework */,
 				5FEAE1D01D1A5154005C0028 /* LockTests.iOS.xctest */,
 				5FEADCF41D1A7EBC0032D810 /* LockApp.app */,
-				5FF1FA321D4C12DF00158CD1 /* LockUI.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -695,14 +662,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5FF1FA2F1D4C12DF00158CD1 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FF1FA3A1D4C13CC00158CD1 /* LockUI.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -766,24 +725,6 @@
 			productReference = 5FEAE1D01D1A5154005C0028 /* LockTests.iOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		5FF1FA311D4C12DF00158CD1 /* LockUI.iOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5FF1FA391D4C12DF00158CD1 /* Build configuration list for PBXNativeTarget "LockUI.iOS" */;
-			buildPhases = (
-				5FF1FA2D1D4C12DF00158CD1 /* Sources */,
-				5FF1FA2E1D4C12DF00158CD1 /* Frameworks */,
-				5FF1FA2F1D4C12DF00158CD1 /* Headers */,
-				5FF1FA301D4C12DF00158CD1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = LockUI.iOS;
-			productName = "Lock-UI.iOS";
-			productReference = 5FF1FA321D4C12DF00158CD1 /* LockUI.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -797,6 +738,7 @@
 					5FEADCF31D1A7EBC0032D810 = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 0810;
+						ProvisioningStyle = Manual;
 					};
 					5FEAE1C51D1A5154005C0028 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -805,11 +747,8 @@
 					5FEAE1CF1D1A5154005C0028 = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 0810;
+						ProvisioningStyle = Manual;
 						TestTargetID = 5FEADCF31D1A7EBC0032D810;
-					};
-					5FF1FA311D4C12DF00158CD1 = {
-						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -827,7 +766,6 @@
 			projectRoot = "";
 			targets = (
 				5FEAE1C51D1A5154005C0028 /* Lock.iOS */,
-				5FF1FA311D4C12DF00158CD1 /* LockUI.iOS */,
 				5FEAE1CF1D1A5154005C0028 /* LockTests.iOS */,
 				5FEADCF31D1A7EBC0032D810 /* LockApp */,
 			);
@@ -860,14 +798,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5FF1FA301D4C12DF00158CD1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FF1FA4E1D4C174B00158CD1 /* Lock.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -882,7 +812,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nfi";
 		};
 		5FC4348D1D1E02EF005188BC /* Auth0 */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1043,33 +973,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5FF1FA2D1D4C12DF00158CD1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FF1FA431D4C14EF00158CD1 /* SecondaryButton.swift in Sources */,
-				5F14565C1D5237210085DF9C /* Colors.swift in Sources */,
-				5FF1FA3F1D4C14EF00158CD1 /* HeaderView.swift in Sources */,
-				5FF1FA3D1D4C14EF00158CD1 /* DatabaseConstants.swift in Sources */,
-				5FF1FA3E1D4C14EF00158CD1 /* Form.swift in Sources */,
-				5FF1FA451D4C14EF00158CD1 /* SingleInputView.swift in Sources */,
-				5FF1FA461D4C150100158CD1 /* Layout.swift in Sources */,
-				5FF1FA471D4C151000158CD1 /* i18n.swift in Sources */,
-				5FF1FA3C1D4C14EF00158CD1 /* DatabaseModeSwitcher.swift in Sources */,
-				5FF1FA3B1D4C14EF00158CD1 /* CredentialView.swift in Sources */,
-				5FF1FA4B1D4C15DC00158CD1 /* Resources.swift in Sources */,
-				5FF1FA4C1D4C15DC00158CD1 /* Queue.swift in Sources */,
-				5FD6772D1D4C303C004B87C4 /* AuthButton.swift in Sources */,
-				5FF1FA411D4C14EF00158CD1 /* MessageView.swift in Sources */,
-				5FF1FA421D4C14EF00158CD1 /* PrimaryButton.swift in Sources */,
-				5F57DFC71D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
-				5FF1FA401D4C14EF00158CD1 /* InputField.swift in Sources */,
-				5F14565B1D5237180085DF9C /* LazyImage.swift in Sources */,
-				5F1C49911D8360C4005B74FC /* Style.swift in Sources */,
-				5FF1FA4D1D4C15EA00158CD1 /* Operations.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1116,6 +1019,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1134,6 +1038,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1296,6 +1201,7 @@
 		5FEAE1DE1D1A5154005C0028 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1312,6 +1218,7 @@
 		5FEAE1DF1D1A5154005C0028 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1322,42 +1229,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LockApp.app/LockApp";
-			};
-			name = Release;
-		};
-		5FF1FA371D4C12DF00158CD1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Lock/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock.ui;
-				PRODUCT_NAME = LockUI;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
-			};
-			name = Debug;
-		};
-		5FF1FA381D4C12DF00158CD1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Lock/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock.ui;
-				PRODUCT_NAME = LockUI;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -1396,15 +1267,6 @@
 			buildConfigurations = (
 				5FEAE1DE1D1A5154005C0028 /* Debug */,
 				5FEAE1DF1D1A5154005C0028 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5FF1FA391D4C12DF00158CD1 /* Build configuration list for PBXNativeTarget "LockUI.iOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5FF1FA371D4C12DF00158CD1 /* Debug */,
-				5FF1FA381D4C12DF00158CD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
