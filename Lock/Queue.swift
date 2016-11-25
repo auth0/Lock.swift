@@ -25,16 +25,16 @@ import Foundation
 struct Queue {
     static var main = Queue()
 
-    private let queue: dispatch_queue_t = dispatch_get_main_queue()
+    private let queue: DispatchQueue = DispatchQueue.main
 
     private init() {}
 
-    func after(seconds: Int, closure: () -> ()) {
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(seconds) * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, queue, closure)
+    func after(_ seconds: Int, closure: @escaping () -> ()) {
+        let delayTime = DispatchTime.now() + Double(Int64(Double(seconds) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        queue.asyncAfter(deadline: delayTime, execute: closure)
     }
 
-    func async(closure: () -> ()) {
-        dispatch_async(queue, closure)
+    func async(_ closure: @escaping () -> ()) {
+        queue.async(execute: closure)
     }
 }

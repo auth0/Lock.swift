@@ -40,21 +40,21 @@ struct DatabasePasswordInteractor: PasswordRecoverable {
         self.user = user
     }
 
-    mutating func updateEmail(value: String?) throws {
-        self.user.email = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    mutating func updateEmail(_ value: String?) throws {
+        self.user.email = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let error = self.emailValidator.validate(value)
         self.user.validEmail = error == nil
         if let error = error { throw error }
     }
 
-    func requestEmail(callback: (PasswordRecoverableError?) -> ()) {
-        guard let email = self.email else { return callback(.NonValidInput) }
-        guard let connection = self.connections.database?.name else { return callback(.NoDatabaseConnection) }
-        
+    func requestEmail(_ callback: @escaping (PasswordRecoverableError?) -> ()) {
+        guard let email = self.email else { return callback(.nonValidInput) }
+        guard let connection = self.connections.database?.name else { return callback(.noDatabaseConnection) }
+
         self.authentication
             .resetPassword(email: email, connection: connection)
             .start {
-                guard case .Success = $0 else { return callback(.EmailNotSent) }
+                guard case .success = $0 else { return callback(.emailNotSent) }
                 callback(nil)
         }
     }

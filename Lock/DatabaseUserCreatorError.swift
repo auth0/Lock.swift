@@ -22,26 +22,26 @@
 
 import Foundation
 
-enum DatabaseUserCreatorError: ErrorType, LocalizableError {
-    case NonValidInput
-    case CouldNotCreateUser
-    case PasswordTooCommon
-    case PasswordTooWeak
-    case PasswordHasUserInfo
-    case PasswordInvalid
-    case PasswordAlreadyUsed
+enum DatabaseUserCreatorError: Error, LocalizableError {
+    case nonValidInput
+    case couldNotCreateUser
+    case passwordTooCommon
+    case passwordTooWeak
+    case passwordHasUserInfo
+    case passwordInvalid
+    case passwordAlreadyUsed
 
     var localizableMessage: String {
         switch self {
-        case .PasswordTooCommon:
+        case .passwordTooCommon:
             return "Password is too common.".i18n(key: "com.auth0.lock.error.signup.password_dictionary_error", comment: "password_dictionary_error")
-        case .PasswordTooWeak:
+        case .passwordTooWeak:
             return "Password is too weak.".i18n(key: "com.auth0.lock.error.signup.password_strength_error", comment: "password_strength_error")
-        case .PasswordHasUserInfo:
+        case .passwordHasUserInfo:
             return "Password is based on user information.".i18n(key: "com.auth0.lock.error.signup.password_no_user_info_error", comment: "password_no_user_info_error")
-        case .PasswordAlreadyUsed:
+        case .passwordAlreadyUsed:
             return "Password has previously been used.".i18n(key: "com.auth0.lock.error.signup.password_history", comment: "password_history")
-        case .PasswordInvalid:
+        case .passwordInvalid:
             return "Password is invalid.".i18n(key: "com.auth0.lock.error.signup.invalid_password", comment: "invalid_password")
         default:
             return "We're sorry, something went wrong when attempting to sign up.".i18n(key: "com.auth0.lock.error.signup.fallback", comment: "Generic sign up error")
@@ -50,7 +50,7 @@ enum DatabaseUserCreatorError: ErrorType, LocalizableError {
 
     var userVisible: Bool {
         switch self {
-        case .NonValidInput:
+        case .nonValidInput:
             return false
         default:
             return true

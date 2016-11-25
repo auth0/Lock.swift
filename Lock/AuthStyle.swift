@@ -52,7 +52,7 @@ public class AuthStyle {
 
      - returns: a new style
      */
-    public convenience init(name: String, color: UIColor = UIColor.a0_orange, foregroundColor: UIColor = .whiteColor(), withImage image: LazyImage = LazyImage(name: "ic_auth_auth0", bundle: bundleForLock())) {
+    public convenience init(name: String, color: UIColor = UIColor.a0_orange, foregroundColor: UIColor = .white, withImage image: LazyImage = LazyImage(name: "ic_auth_auth0", bundle: bundleForLock())) {
         self.init(name: name, normalColor: color, highlightedColor: color.a0_darker(0.3), foregroundColor: foregroundColor, withImage: image)
     }
 
@@ -74,12 +74,12 @@ public class AuthStyle {
         self.foregroundColor = foregroundColor
         self.image = image
     }
-    public static func custom(name: String) -> AuthStyle {
+    static func custom(_ name: String) -> AuthStyle {
         return AuthStyle(name: name)
     }
 }
 
-// MARK:- First class social connection styles
+// MARK: - First class social connection styles
 
 public extension AuthStyle {
 
@@ -264,12 +264,12 @@ public extension AuthStyle {
     }
 }
 
-// MARK:- AuthStyle from Strategy & Connection
+// MARK: - AuthStyle from Strategy & Connection
 
 extension AuthStyle {
 
     static func style(forStrategy strategy: String, connectionName: String) -> AuthStyle {
-        switch strategy.lowercaseString {
+        switch strategy.lowercased() {
         case "ad", "adfs":
             return .Microsoft
         case "amazon":

@@ -26,26 +26,26 @@ public class SecondaryButton: UIView {
 
     weak var button: UIButton?
 
-    public var onPress: (SecondaryButton) -> () = {_ in }
+    var onPress: (SecondaryButton) -> () = {_ in }
 
-    public var color: UIColor = .clearColor() {
+    var color: UIColor = .clear {
         didSet {
             self.backgroundColor = self.color
         }
     }
 
-    public var title: String? {
+    var title: String? {
         get {
             return self.button?.currentTitle
         }
         set {
-            self.button?.setTitle(newValue, forState: .Normal)
+            self.button?.setTitle(newValue, for: UIControlState())
         }
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
     public convenience init() {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
     }
 
     required override public init(frame: CGRect) {
@@ -58,10 +58,10 @@ public class SecondaryButton: UIView {
         self.layoutButton()
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     private func layoutButton() {
-        let button = UIButton(type: .System)
+        let button = UIButton(type: .system)
 
         self.addSubview(button)
 
@@ -71,20 +71,20 @@ public class SecondaryButton: UIView {
         constraintEqual(anchor: button.centerYAnchor, toAnchor: self.centerYAnchor)
         button.translatesAutoresizingMaskIntoConstraints = false
 
-        button.tintColor = .blackColor()
+        button.tintColor = .black
         button.titleLabel?.font = regularSystemFont(size: 15)
-        button.titleLabel?.lineBreakMode = .ByWordWrapping
-        button.titleLabel?.textAlignment = .Center
-        button.addTarget(self, action: #selector(pressed), forControlEvents: .TouchUpInside)
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.textAlignment = .center
+        button.addTarget(self, action: #selector(pressed), for: .touchUpInside)
 
         self.button = button
     }
 
-    public override func intrinsicContentSize() -> CGSize {
+    public override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 76)
     }
-    
-    func pressed(sender: AnyObject) {
+
+    func pressed(_ sender: Any) {
         self.onPress(self)
     }
 }

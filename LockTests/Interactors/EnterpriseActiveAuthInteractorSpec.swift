@@ -63,7 +63,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 user.email = nil
                 interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
 
-                expect(interactor.identifierAttribute).to(equal(UserAttribute.Username))
+                expect(interactor.identifierAttribute).to(equal(UserAttribute.username))
                 expect(interactor.username).to(beNil())
                 expect(interactor.validUsername).to(beFalse())
             }
@@ -73,7 +73,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 user.email = email
                 interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
 
-                expect(interactor.identifierAttribute).to(equal(UserAttribute.Username))
+                expect(interactor.identifierAttribute).to(equal(UserAttribute.username))
                 expect(interactor.username).to(equal(username))
                 expect(interactor.validUsername).to(beTrue())
             }
@@ -89,7 +89,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                     user.email = email
                     interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
 
-                    expect(interactor.identifierAttribute).to(equal(UserAttribute.Email))
+                    expect(interactor.identifierAttribute).to(equal(UserAttribute.email))
                     expect(interactor.email).to(equal(email))
                     expect(interactor.validEmail).to(beTrue())
                 }
@@ -98,7 +98,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                     user.email = nil
                     interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
 
-                    expect(interactor.identifierAttribute).to(equal(UserAttribute.Email))
+                    expect(interactor.identifierAttribute).to(equal(UserAttribute.email))
                     expect(interactor.email).to(beNil())
                     expect(interactor.validEmail).to(beFalse())
                 }
@@ -110,19 +110,19 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
         describe("user input") {
 
             it("should update email") {
-                try! interactor.update(.Email, value: email)
+                try! interactor.update(.email, value: email)
                 expect(interactor.email).to(equal(email))
                 expect(interactor.validEmail).to(beTrue())
             }
 
             it("should update username") {
-                try! interactor.update(.Username, value:username)
+                try! interactor.update(.username, value:username)
                 expect(interactor.username).to(equal(username))
                 expect(interactor.validUsername).to(beTrue())
             }
 
             it("should update password") {
-                try! interactor.update(.Password, value: password)
+                try! interactor.update(.password, value: password)
                 expect(interactor.password).to(equal(password))
                 expect(interactor.validPassword).to(beTrue())
             }
@@ -139,13 +139,13 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
 
             it("should fail with no input as password missing") {
                 interactor.login() { error = $0 }
-                expect(error).toEventually(equal(DatabaseAuthenticatableError.NonValidInput))
+                expect(error).toEventually(equal(DatabaseAuthenticatableError.nonValidInput))
             }
 
             it("should yield no error on success") {
-                stub(databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.authentication() }
-                try! interactor.update(.Email, value: email)
-                try! interactor.update(.Password, value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.authentication() }
+                try! interactor.update(.email, value: email)
+                try! interactor.update(.password, value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
                         expect(error).to(beNil())
@@ -155,60 +155,60 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             }
 
             it("should yield invalid credentials error on failure") {
-                stub(databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("invalid_user_password") }
-                try! interactor.update(.Email, value: email)
-                try! interactor.update(.Password, value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("invalid_user_password") }
+                try! interactor.update(.email, value: email)
+                try! interactor.update(.password, value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
-                        expect(error) == .InvalidEmailPassword
+                        expect(error) == .invalidEmailPassword
                         done()
                     }
                 }
             }
 
             it("should indicate that mfa is required") {
-                stub(databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
-                try! interactor.update(.Email, value: email)
-                try! interactor.update(.Password, value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
+                try! interactor.update(.email, value: email)
+                try! interactor.update(.password, value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
-                        expect(error) == .MultifactorRequired
+                        expect(error) == .multifactorRequired
                         done()
                     }
                 }
             }
 
             it("should indicate that mfa is required registration") {
-                stub(databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_registration_required") }
-                try! interactor.update(.Email, value: email)
-                try! interactor.update(.Password, value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_registration_required") }
+                try! interactor.update(.email, value: email)
+                try! interactor.update(.password, value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
-                        expect(error) == .MultifactorRequired
+                        expect(error) == .multifactorRequired
                         done()
                     }
                 }
             }
 
             it("should indicate the user is blocked") {
-                stub(databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "user is blocked") }
-                try! interactor.update(.Email, value: email)
-                try! interactor.update(.Password, value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "user is blocked") }
+                try! interactor.update(.email, value: email)
+                try! interactor.update(.password, value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
-                        expect(error) == .UserBlocked
+                        expect(error) == .userBlocked
                         done()
                     }
                 }
             }
 
             it("should indicate the password needs to be changed") {
-                stub(databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("password_change_required") }
-                try! interactor.update(.Email, value: email)
-                try! interactor.update(.Password, value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("password_change_required") }
+                try! interactor.update(.email, value: email)
+                try! interactor.update(.password, value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
-                        expect(error) == .PasswordChangeRequired
+                        expect(error) == .passwordChangeRequired
                         done()
                     }
                 }
@@ -221,11 +221,11 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
 
 extension UserAttribute: Equatable {}
 
-func ==(lhs: UserAttribute, rhs: UserAttribute) -> Bool {
+public func ==(lhs: UserAttribute, rhs: UserAttribute) -> Bool {
     switch((lhs, rhs)) {
-    case (.Email, .Email), (.Username, .Username), (.Password, .Password), (.EmailOrUsername, .EmailOrUsername):
+    case (.email, .email), (.username, .username), (.password, .password), (.emailOrUsername, .emailOrUsername):
         return true
-    case (.Custom(let lhsConnection), .Custom(let rhsConnection)):
+    case (.custom(let lhsConnection), .custom(let rhsConnection)):
         return lhsConnection == rhsConnection
     default:
         return false

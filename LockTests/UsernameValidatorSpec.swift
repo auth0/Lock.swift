@@ -33,7 +33,7 @@ class UsernameValidatorSpec: QuickSpec {
 
             ["", " ", "         ", "\n"].forEach { value in
                 it("should consider \(value!) an invalid username") {
-                    expect(validator.validate(value) as? InputValidationError) == .MustNotBeEmpty
+                    expect(validator.validate(value) as? InputValidationError) == .mustNotBeEmpty
                 }
             }
 
@@ -49,7 +49,7 @@ class UsernameValidatorSpec: QuickSpec {
 
             ["", " ", "         ", "\n"].forEach { value in
                 it("should consider \(value!) an invalid username") {
-                    expect(validator.validate(value) as? InputValidationError) == .MustNotBeEmpty
+                    expect(validator.validate(value) as? InputValidationError) == .mustNotBeEmpty
                 }
             }
 
@@ -61,7 +61,7 @@ class UsernameValidatorSpec: QuickSpec {
 
             ["verylongusernamevalue", "u", "@", "with spaces", "with-hyphen", "email@address.com", "with$pec|alchar"].forEach { value in
                 it("should consider \(value!) an invalid email") {
-                    expect(validator.validate(value) as? InputValidationError) == .NotAUsername
+                    expect(validator.validate(value) as? InputValidationError) == .notAUsername
                 }
             }
 

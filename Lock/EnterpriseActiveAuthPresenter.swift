@@ -23,39 +23,39 @@
 import Foundation
 
 class EnterpriseActiveAuthPresenter: Presentable, Loggable {
-    
+
     var interactor: EnterpriseActiveAuthInteractor
     var customLogger: Logger?
-    
+
     init(interactor: EnterpriseActiveAuthInteractor) {
         self.interactor = interactor
     }
-    
+
     var messagePresenter: MessagePresenter?
-    
+
     var view: View {
         var identifier: String?
-        
-        if let email = self.interactor.email where self.interactor.validEmail {
+
+        if let email = self.interactor.email, self.interactor.validEmail {
             identifier = email
-        } else if let username = self.interactor.username where self.interactor.validUsername {
+        } else if let username = self.interactor.username, self.interactor.validUsername {
             identifier = username
         }
-        
+
         let view = EnterpriseActiveAuthView(identifer: identifier, identifierAttribute: self.interactor.identifierAttribute)
         let form = view.form
         view.ssoBar?.title = self.interactor.connection.domains.first
-        
+
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
-            
+
             do {
                 switch input.type {
-                case .Email, .Username:
+                case .email, .username:
                     try self.interactor.update(self.interactor.identifierAttribute, value: input.text)
                     input.showValid()
-                case .Password:
-                    try self.interactor.update(.Password, value: input.text)
+                case .password:
+                    try self.interactor.update(.password, value: input.text)
                     input.showValid()
                 default:
                     self.logger.warn("Invalid user attribute")
@@ -64,12 +64,12 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
                 input.showError()
             }
         }
-        
+
         let action = { (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
             self.logger.info("Enterprise password connection started: \(self.interactor.identifier), \(self.interactor.connection)")
             let interactor = self.interactor
-            
+
             button.inProgress = true
             interactor.login { error in
                 Queue.main.async {
@@ -82,10 +82,10 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
                         self.logger.debug("Enterprise connection success")
                     }
                 }
-                
+
             }
         }
-        
+
         view.primaryButton?.onPress = action
         view.form?.onReturn = {_ in
             guard let button = view.primaryButton else { return }
@@ -93,5 +93,5 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
         }
         return view
     }
-    
+
 }

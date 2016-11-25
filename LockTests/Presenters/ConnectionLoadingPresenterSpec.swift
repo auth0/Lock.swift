@@ -50,19 +50,19 @@ class ConnectionLoadingPresenterSpec: QuickSpec {
             var connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: false)
             interactor.connections = connections
-            presenter.view
+            _ = presenter.view
             expect(navigator.connections).toEventuallyNot(beNil())
         }
 
         it("should exit with error when failed to get connections") {
             interactor.connections = nil
-            presenter.view
+            _ = presenter.view
             expect(navigator.unrecoverableError).toEventuallyNot(beNil())
         }
 
         it("should exit with error when there are no connections") {
             interactor.connections = OfflineConnections()
-            presenter.view
+            _ = presenter.view
             expect(navigator.unrecoverableError).toEventuallyNot(beNil())
         }
 

@@ -24,10 +24,10 @@ import UIKit
 
 public class CredentialView: UIView, Form {
 
-    public var identityField: InputField
-    public var passwordField: InputField
+    var identityField: InputField
+    var passwordField: InputField
 
-    public var onValueChange: (InputField) -> () = {_ in} {
+    var onValueChange: (InputField) -> () = {_ in} {
         didSet {
             self.identityField.onTextChange = onValueChange
             self.passwordField.onTextChange = onValueChange
@@ -48,10 +48,10 @@ public class CredentialView: UIView, Form {
         self.passwordField.needsToUpdateState()
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
 
     public convenience init() {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
     }
 
     required override public init(frame: CGRect) {
@@ -68,7 +68,7 @@ public class CredentialView: UIView, Form {
         self.layoutForm()
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     private func layoutForm() {
 
@@ -89,8 +89,8 @@ public class CredentialView: UIView, Form {
         constraintEqual(anchor: password.bottomAnchor, toAnchor: self.bottomAnchor)
         password.translatesAutoresizingMaskIntoConstraints = false
 
-        identifier.type = .Email
-        password.type = .Password
+        identifier.type = .email
+        password.type = .password
     }
-    
+
 }

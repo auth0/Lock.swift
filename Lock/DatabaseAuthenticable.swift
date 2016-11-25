@@ -30,7 +30,7 @@ protocol DatabaseAuthenticatable {
 
     var validEmail: Bool { get }
     var validUsername: Bool { get }
-    mutating func update(attribute: UserAttribute, value: String?) throws
+    mutating func update(_ attribute: UserAttribute, value: String?) throws
 
-    func login(callback: (DatabaseAuthenticatableError?) -> ())
+    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ())
 }

@@ -26,14 +26,16 @@ extension UIColor {
 
     static var a0_orange: UIColor { return UIColor ( red: 0.9176, green: 0.3255, blue: 0.1373, alpha: 1.0 ) }
 
-    static func a0_fromRGB(string: String, defaultColor: UIColor = .a0_orange) -> UIColor {
+    static func a0_fromRGB(_ string: String, defaultColor: UIColor = .a0_orange) -> UIColor {
         guard string.hasPrefix("#") else { return defaultColor }
 
-        guard let hexString: String = string.substringFromIndex(string.startIndex.advancedBy(1)),
-            var   hexValue:  UInt32 = 0
-            where hexString.characters.count == 6 && NSScanner(string: hexString).scanHexInt(&hexValue) else {
-                return defaultColor
+        let hexString: String = string.substring(from: string.characters.index(string.startIndex, offsetBy: 1))
+        var hexValue:  UInt32 = 0
+
+        guard Scanner(string: hexString).scanHexInt32(&hexValue) else {
+            return defaultColor
         }
+
         let divisor = CGFloat(255)
         let red = CGFloat((hexValue & 0xFF0000) >> 16) / divisor
         let green = CGFloat((hexValue & 0x00FF00) >>  8) / divisor
@@ -41,4 +43,3 @@ extension UIColor {
         return  UIColor(red: red, green: green, blue: blue, alpha: 1)
     }
 }
-

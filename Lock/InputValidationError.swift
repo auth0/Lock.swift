@@ -22,22 +22,22 @@
 
 import Foundation
 
-enum InputValidationError: ErrorType {
-    case MustNotBeEmpty
-    case NotAnEmailAddress
-    case NotAUsername
-    case NotAOneTimePassword
+enum InputValidationError: Error {
+    case mustNotBeEmpty
+    case notAnEmailAddress
+    case notAUsername
+    case notAOneTimePassword
 
     func localizedMessage(withConnection connection: DatabaseConnection) -> String {
         switch self {
-        case .NotAUsername:
+        case .notAUsername:
             let format = "Can only contain between %d to %d alphanumeric characters and \'_\'.".i18n(key: "com.auth0.lock.input.username.error", comment: "invalid username")
             return String(format: format, connection.usernameValidator.min, connection.usernameValidator.max)
-        case .NotAnEmailAddress:
+        case .notAnEmailAddress:
             return "Must be a valid email address".i18n(key: "com.auth0.lock.input.email.error", comment: "invalid email")
-        case .MustNotBeEmpty:
+        case .mustNotBeEmpty:
             return "Must not be empty".i18n(key: "com.auth0.lock.input.empty.error", comment: "empty input")
-        case .NotAOneTimePassword:
+        case .notAOneTimePassword:
             return "Must be a valid numeric code".i18n(key: "com.auth0.lock.input.otp.error", comment: "invalid otp")
         }
     }

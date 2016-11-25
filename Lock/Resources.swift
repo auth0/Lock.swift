@@ -22,38 +22,38 @@
 
 import Foundation
 
-func bundleForLock() -> NSBundle { return NSBundle(forClass: InputField.classForCoder()) }
+func bundleForLock() -> Bundle { return Bundle(for: InputField.classForCoder()) }
 
 func lazyImage(named name: String) -> LazyImage { return LazyImage(name: name, bundle: bundleForLock()) }
 
 func image(named name: String, compatibleWithTraitCollection traitCollection: UITraitCollection? = nil) -> UIImage? {
-    return UIImage(named: name, inBundle: bundleForLock(), compatibleWithTraitCollection: traitCollection)
+    return UIImage(named: name, in: bundleForLock(), compatibleWith: traitCollection)
 }
 
 func image(withColor color: UIColor) -> UIImage? {
     let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
     UIGraphicsBeginImageContext(rect.size)
     guard let context = UIGraphicsGetCurrentContext() else { return nil }
-    CGContextSetFillColorWithColor(context, color.CGColor)
+    context.setFillColor(color.cgColor)
 
-    CGContextFillRect(context, rect)
+    context.fill(rect)
     let image = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     return image
 }
 
-func semiBoldSystemFont(size size: CGFloat) -> UIFont {
-    return UIFont.systemFontOfSize(size, weight: UIFontWeightSemibold)
+func semiBoldSystemFont(size: CGFloat) -> UIFont {
+    return UIFont.systemFont(ofSize: size, weight: UIFontWeightSemibold)
 }
 
-func mediumSystemFont(size size: CGFloat) -> UIFont {
-    return UIFont.systemFontOfSize(size, weight: UIFontWeightMedium)
+func mediumSystemFont(size: CGFloat) -> UIFont {
+    return UIFont.systemFont(ofSize: size, weight: UIFontWeightMedium)
 }
 
-func lightSystemFont(size size: CGFloat) -> UIFont {
-    return UIFont.systemFontOfSize(size, weight: UIFontWeightLight)
+func lightSystemFont(size: CGFloat) -> UIFont {
+    return UIFont.systemFont(ofSize: size, weight: UIFontWeightLight)
 }
 
-func regularSystemFont(size size: CGFloat) -> UIFont {
-    return UIFont.systemFontOfSize(size, weight: UIFontWeightRegular)
+func regularSystemFont(size: CGFloat) -> UIFont {
+    return UIFont.systemFont(ofSize: size, weight: UIFontWeightRegular)
 }

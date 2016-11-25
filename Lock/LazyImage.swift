@@ -27,7 +27,7 @@ import Foundation
  *  Used to tell Lock to load an image from a specific bundle, e.g. when customising the Header logo.
  */
 public struct LazyImage: Equatable {
-    let bundle: NSBundle
+    let bundle: Bundle
     let name: String
 
     /**
@@ -43,16 +43,16 @@ public struct LazyImage: Equatable {
 
      - returns: a newly created `LazyImage`
      */
-    public init(name: String, bundle: NSBundle = NSBundle.mainBundle()) {
+    public init(name: String, bundle: Bundle = Bundle.main) {
         self.name = name
         self.bundle = bundle
     }
 
     func image(compatibleWithTraits traits: UITraitCollection? = nil) -> UIImage? {
-        return UIImage(named: self.name, inBundle: self.bundle, compatibleWithTraitCollection: traits)
+        return UIImage(named: self.name, in: self.bundle, compatibleWith: traits)
     }
 }
 
-public func ==(lhs: LazyImage, rhs: LazyImage) -> Bool {
+public func == (lhs: LazyImage, rhs: LazyImage) -> Bool {
     return lhs.name == rhs.name && lhs.bundle == rhs.bundle
 }

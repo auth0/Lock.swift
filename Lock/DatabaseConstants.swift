@@ -22,7 +22,7 @@
 
 import Foundation
 
-public struct DatabaseMode: OptionSetType {
+public struct DatabaseMode: OptionSet {
     public let rawValue: Int
 
     public init(rawValue: Int) { self.rawValue = rawValue }
@@ -33,21 +33,20 @@ public struct DatabaseMode: OptionSetType {
 }
 
 public enum DatabaseScreen: Int, Equatable {
-    case Login = 0
-    case Signup
-    case ResetPassword
+    case login = 0
+    case signup
+    case resetPassword
 }
 
-
-public struct DatabaseIdentifierStyle: OptionSetType {
+public struct DatabaseIdentifierStyle: OptionSet {
     public let rawValue: Int
 
     public init(rawValue: Int) { self.rawValue = rawValue }
-    
+
     public static let Username = DatabaseIdentifierStyle(rawValue: 1 << 0)
     public static let Email = DatabaseIdentifierStyle(rawValue: 1 << 1)
 }
 
-public func ==(lhs: DatabaseScreen, rhs: DatabaseScreen) -> Bool {
+public func == (lhs: DatabaseScreen, rhs: DatabaseScreen) -> Bool {
     return lhs.rawValue == rhs.rawValue
 }

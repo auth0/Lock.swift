@@ -23,55 +23,55 @@
 import Foundation
 
 protocol InputValidator {
-    func validate(value: String?) -> ErrorType?
+    func validate(_ value: String?) -> Error?
 }
 
 public class OneTimePasswordValidator: InputValidator {
-    func validate(value: String?) -> ErrorType? {
-        guard let value = value?.trimmed where !value.isEmpty else { return InputValidationError.MustNotBeEmpty }
-        guard value.rangeOfCharacterFromSet(NSCharacterSet.decimalDigitCharacterSet()) != nil else { return InputValidationError.NotAOneTimePassword }
+    func validate(_ value: String?) -> Error? {
+        guard let value = value?.trimmed, !value.isEmpty else { return InputValidationError.mustNotBeEmpty }
+        guard value.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil else { return InputValidationError.notAOneTimePassword }
         return nil
     }
 }
 
 public class NonEmptyValidator: InputValidator {
-    func validate(value: String?) -> ErrorType? {
-        guard let value = value?.trimmed where !value.isEmpty else { return InputValidationError.MustNotBeEmpty }
+    func validate(_ value: String?) -> Error? {
+        guard let value = value?.trimmed, !value.isEmpty else { return InputValidationError.mustNotBeEmpty }
         return nil
     }
 }
 
 public class UsernameValidator: InputValidator {
 
-    let invalidSet: NSCharacterSet?
-    let range: Range<Int>
+    let invalidSet: CharacterSet?
+    let range: CountableClosedRange<Int>
 
-    var min: Int { return self.range.startIndex }
-    var max: Int { return self.range.endIndex - 1 }
+    var min: Int { return self.range.lowerBound }
+    var max: Int { return self.range.upperBound }
 
     public init() {
-        self.range = 1..<Int.max
+        self.range = 1...Int.max
         self.invalidSet = nil
     }
 
-    public init(withLength range: Range<Int>, characterSet: NSCharacterSet) {
+    public init(withLength range: CountableClosedRange<Int>, characterSet: CharacterSet) {
         self.invalidSet = characterSet
         self.range = range
     }
 
-    func validate(value: String?) -> ErrorType? {
-        guard let username = value?.trimmed where !username.isEmpty else { return InputValidationError.MustNotBeEmpty }
-        guard self.range ~= username.characters.count else { return self.invalidSet == nil ? InputValidationError.MustNotBeEmpty : InputValidationError.NotAUsername }
+    func validate(_ value: String?) -> Error? {
+        guard let username = value?.trimmed, !username.isEmpty else { return InputValidationError.mustNotBeEmpty }
+        guard self.range ~= username.characters.count else { return self.invalidSet == nil ? InputValidationError.mustNotBeEmpty : InputValidationError.notAUsername }
         guard let characterSet = self.invalidSet else { return nil }
-        guard username.rangeOfCharacterFromSet(characterSet) == nil else { return InputValidationError.NotAUsername }
+        guard username.rangeOfCharacter(from: characterSet) == nil else { return InputValidationError.notAUsername }
         return nil
     }
 
-    public static var auth0: NSCharacterSet {
+    public static var auth0: CharacterSet {
         let set = NSMutableCharacterSet()
-        set.formUnionWithCharacterSet(NSCharacterSet.alphanumericCharacterSet())
-        set.addCharactersInString("_")
-        return set.invertedSet
+        set.formUnion(with: CharacterSet.alphanumerics)
+        set.addCharacters(in: "_")
+        return set.inverted
     }
 }
 
@@ -83,15 +83,15 @@ public class EmailValidator: InputValidator {
         self.predicate = NSPredicate(format: "SELF MATCHES %@", regex)
     }
 
-    func validate(value: String?) -> ErrorType? {
-        guard let email = value?.trimmed where !email.isEmpty else { return InputValidationError.MustNotBeEmpty }
-        guard self.predicate.evaluateWithObject(email) else { return InputValidationError.NotAnEmailAddress }
+    func validate(_ value: String?) -> Error? {
+        guard let email = value?.trimmed, !email.isEmpty else { return InputValidationError.mustNotBeEmpty }
+        guard self.predicate.evaluate(with: email) else { return InputValidationError.notAnEmailAddress }
         return nil
     }
 }
 
 private extension String {
     var trimmed: String {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 }

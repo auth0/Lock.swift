@@ -26,28 +26,28 @@ public class DatabaseModeSwitcher: UIView {
 
     weak var segmentedControl: UISegmentedControl?
 
-    public var onSelectionChange: (DatabaseModeSwitcher) -> () = { _ in }
+    var onSelectionChange: (DatabaseModeSwitcher) -> () = { _ in }
 
     public enum Mode: Int {
-        case Login = 0
-        case Signup
+        case login = 0
+        case signup
 
         var title: String {
             switch self {
-            case .Login:
+            case .login:
                 return "Log In".i18n(key: "com.auth0.lock.database.mode.switcher.login", comment: "Login Switch")
-            case .Signup:
+            case .signup:
                 return "Sign Up".i18n(key: "com.auth0.lock.database.mode.switcher.signup", comment: "Signup Switch")
             }
         }
     }
 
-    public var selected: Mode {
+    var selected: Mode {
         get {
             guard
                 let index = self.segmentedControl?.selectedSegmentIndex,
                 let mode = Mode(rawValue: index)
-                else { return .Login }
+                else { return .login }
             return mode
         }
         set {
@@ -55,10 +55,10 @@ public class DatabaseModeSwitcher: UIView {
         }
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
 
     public convenience init() {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
     }
 
     required override public init(frame: CGRect) {
@@ -71,51 +71,51 @@ public class DatabaseModeSwitcher: UIView {
         self.layoutSwitcher()
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
     private func layoutSwitcher() {
-        let segmented = UISegmentedControl(items: [Mode.Login.title, Mode.Signup.title])
+        let segmented = UISegmentedControl(items: [Mode.login.title, Mode.signup.title])
 
         self.addSubview(segmented)
 
         constraintEqual(anchor: segmented.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: segmented.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: segmented.leftAnchor, toAnchor: self.leftAnchor)
-        dimension(segmented.heightAnchor, withValue: 45)
+        dimension(dimension: segmented.heightAnchor, withValue: 45)
         segmented.translatesAutoresizingMaskIntoConstraints = false
 
-        segmented.setDividerImage(image(named: "ic_switcher_left", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Selected, rightSegmentState: .Normal, barMetrics: .Default)
-        segmented.setDividerImage(image(named: "ic_switcher_right", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Normal, rightSegmentState: .Selected, barMetrics: .Default)
-        segmented.setDividerImage(image(named: "ic_switcher_both", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Selected, rightSegmentState: .Selected, barMetrics: .Default)
-        segmented.setDividerImage(image(named: "ic_switcher_both", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Highlighted, rightSegmentState: .Selected, barMetrics: .Default)
-        segmented.setDividerImage(image(named: "ic_switcher_both", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Selected, rightSegmentState: .Highlighted, barMetrics: .Default)
-        segmented.setDividerImage(image(named: "ic_switcher_none", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .Normal, rightSegmentState: .Normal, barMetrics: .Default)
-        segmented.setBackgroundImage(image(named: "ic_switcher_selected", compatibleWithTraitCollection: self.traitCollection), forState: .Selected, barMetrics: .Default)
-        segmented.setBackgroundImage(image(named: "ic_switcher_selected", compatibleWithTraitCollection: self.traitCollection), forState: .Highlighted, barMetrics: .Default)
-        segmented.setBackgroundImage(image(named: "ic_switcher_normal", compatibleWithTraitCollection: self.traitCollection), forState: .Normal, barMetrics: .Default)
+        segmented.setDividerImage(image(named: "ic_switcher_left", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .selected, rightSegmentState: UIControlState(), barMetrics: .default)
+        segmented.setDividerImage(image(named: "ic_switcher_right", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: UIControlState(), rightSegmentState: .selected, barMetrics: .default)
+        segmented.setDividerImage(image(named: "ic_switcher_both", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .selected, rightSegmentState: .selected, barMetrics: .default)
+        segmented.setDividerImage(image(named: "ic_switcher_both", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .highlighted, rightSegmentState: .selected, barMetrics: .default)
+        segmented.setDividerImage(image(named: "ic_switcher_both", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .selected, rightSegmentState: .highlighted, barMetrics: .default)
+        segmented.setDividerImage(image(named: "ic_switcher_none", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: UIControlState(), rightSegmentState: UIControlState(), barMetrics: .default)
+        segmented.setBackgroundImage(image(named: "ic_switcher_selected", compatibleWithTraitCollection: self.traitCollection), for: .selected, barMetrics: .default)
+        segmented.setBackgroundImage(image(named: "ic_switcher_selected", compatibleWithTraitCollection: self.traitCollection), for: .highlighted, barMetrics: .default)
+        segmented.setBackgroundImage(image(named: "ic_switcher_normal", compatibleWithTraitCollection: self.traitCollection), for: UIControlState(), barMetrics: .default)
         segmented.setTitleTextAttributes([
             NSForegroundColorAttributeName: UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6 ),
             NSFontAttributeName: mediumSystemFont(size: 15),
-            ], forState: .Normal)
+            ], for: UIControlState())
         segmented.setTitleTextAttributes([
             NSForegroundColorAttributeName: UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 1.0 ),
             NSFontAttributeName: semiBoldSystemFont(size: 15),
-            ], forState: .Selected)
+            ], for: .selected)
         segmented.tintColor = UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 1.0 )
-        segmented.addTarget(self, action: #selector(selectedIndex), forControlEvents: .ValueChanged)
+        segmented.addTarget(self, action: #selector(selectedIndex), for: .valueChanged)
 
         self.segmentedControl = segmented
 
-        self.selected = .Login
+        self.selected = .login
     }
 
-    public override func intrinsicContentSize() -> CGSize {
+    public override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 55)
     }
 
-    // MARK:- Internal
+    // MARK: - Internal
 
-    func selectedIndex(sender: UISegmentedControl) {
+    func selectedIndex(_ sender: UISegmentedControl) {
         self.onSelectionChange(self)
     }
 }

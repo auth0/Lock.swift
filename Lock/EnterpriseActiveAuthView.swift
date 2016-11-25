@@ -30,7 +30,7 @@ class EnterpriseActiveAuthView: UIView, View {
 
     private weak var container: UIStackView?
 
-    init(identifer: String?, identifierAttribute: UserAttribute) {
+    init(identifer: String?, identifierAttribute:UserAttribute) {
         let primaryButton = PrimaryButton()
         let credentialView = CredentialView()
         let container = UIStackView()
@@ -39,7 +39,7 @@ class EnterpriseActiveAuthView: UIView, View {
         self.primaryButton = primaryButton
         self.form = credentialView
 
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
 
         self.addSubview(ssoBar)
         self.addSubview(primaryButton)
@@ -49,9 +49,9 @@ class EnterpriseActiveAuthView: UIView, View {
         ssoBar.setIcon("ic_lock")
         self.ssoBar = ssoBar
 
-        container.alignment = .Fill
-        container.axis = .Vertical
-        container.distribution = .EqualSpacing
+        container.alignment = .fill
+        container.axis = .vertical
+        container.distribution = .equalSpacing
         container.spacing = 10
 
         constraintEqual(anchor: ssoBar.topAnchor, toAnchor: self.topAnchor)
@@ -74,15 +74,15 @@ class EnterpriseActiveAuthView: UIView, View {
 
         credentialView.identityField.text = identifer
         switch identifierAttribute {
-        case .Username:
-            credentialView.identityField.type = .Username
+        case .username:
+            credentialView.identityField.type = .username
         default:
-            credentialView.identityField.type = .Email
+            credentialView.identityField.type = .email
         }
 
-        credentialView.identityField.returnKey = .Next
+        credentialView.identityField.returnKey = .next
         credentialView.identityField.nextField = credentialView.passwordField
-        credentialView.passwordField.returnKey = .Done
+        credentialView.passwordField.returnKey = .done
 
         container.addArrangedSubview(strutView())
         container.addArrangedSubview(credentialView)
@@ -93,7 +93,7 @@ class EnterpriseActiveAuthView: UIView, View {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func apply(style style: Style) {
+    func apply(style: Style) {
         self.primaryButton?.apply(style: style)
     }
 
@@ -102,6 +102,6 @@ class EnterpriseActiveAuthView: UIView, View {
 private func strutView(withHeight height: CGFloat = 50) -> UIView {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    dimension(view.heightAnchor, withValue: height)
+    dimension(dimension: view.heightAnchor, withValue: height)
     return view
 }

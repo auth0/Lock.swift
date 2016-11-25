@@ -34,7 +34,7 @@ class LazyImageSpec: QuickSpec {
             it("should use name only") {
                 let image = LazyImage(name: "image")
                 expect(image.name) == "image"
-                expect(image.bundle) == NSBundle.mainBundle()
+                expect(image.bundle) == Bundle.main
             }
 
             it("should use name and bundle") {

@@ -25,7 +25,7 @@ import Nimble
 
 @testable import Lock
 
-private let message = NSUUID().UUIDString
+private let message = UUID().uuidString
 
 class LoggerSpec: QuickSpec {
 
@@ -43,44 +43,44 @@ class LoggerSpec: QuickSpec {
         context("all enabled") {
 
             beforeEach {
-                logger.level = .All
+                logger.level = .all
             }
 
             it("should log verbose message") {
                 logger.verbose(message)
                 expect(output.message) == message
-                expect(output.level) == .Verbose
+                expect(output.level) == .verbose
             }
 
             it("should log debug message") {
                 logger.debug(message)
                 expect(output.message) == message
-                expect(output.level) == .Debug
+                expect(output.level) == .debug
             }
 
             it("should log info message") {
                 logger.info(message)
                 expect(output.message) == message
-                expect(output.level) == .Info
+                expect(output.level) == .info
             }
 
             it("should log warn message") {
                 logger.warn(message)
                 expect(output.message) == message
-                expect(output.level) == .Warn
+                expect(output.level) == .warn
             }
 
             it("should log error message") {
                 logger.error(message)
                 expect(output.message) == message
-                expect(output.level) == .Error
+                expect(output.level) == .error
             }
         }
 
         context("off") {
 
             beforeEach {
-                logger.level = .Off
+                logger.level = .off
             }
 
             it("should log verbose message") {
@@ -122,7 +122,7 @@ class MockLoggerOutput: LoggerOutput {
     var message: String? = nil
     var level: LoggerLevel? = nil
 
-    func message(message: String, level: LoggerLevel, filename: String, line: Int) {
+    func message(_ message: String, level: LoggerLevel, filename: String, line: Int) {
         self.message = message
         self.level = level
     }

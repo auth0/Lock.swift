@@ -125,44 +125,44 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
         describe("user input") {
 
             it("email should update with valid email") {
-                let input = mockInput(.Email, value: "valid@email.com")
+                let input = mockInput(.email, value: "valid@email.com")
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.email).to(equal("valid@email.com"))
             }
 
             it("email should be invalid when nil") {
-                let input = mockInput(.Email, value: nil)
+                let input = mockInput(.email, value: nil)
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.validEmail).to(equal(false))
             }
 
             it("email should be invalid when garbage") {
-                let input = mockInput(.Email, value: "       ")
+                let input = mockInput(.email, value: "       ")
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.validEmail).to(equal(false))
             }
 
             it("connection should match with valid domain") {
-                let input = mockInput(.Email, value: "valid@test.com")
+                let input = mockInput(.email, value: "valid@test.com")
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.connection).toNot(beNil())
                 expect(presenter.interactor.connection?.name).to(equal("TestAD"))
             }
 
             it("connection should not match with an invalid domain") {
-                let input = mockInput(.Email, value: "email@nomatchdomain.com")
+                let input = mockInput(.email, value: "email@nomatchdomain.com")
                 view.form?.onValueChange(input)
                 expect(presenter.interactor.connection).to(beNil())
             }
 
             it("should hide the field error if value is valid") {
-                let input = mockInput(.Email, value: email)
+                let input = mockInput(.email, value: email)
                 view.form?.onValueChange(input)
                 expect(input.valid).to(equal(true))
             }
 
             it("should show field error if value is invalid") {
-                let input = mockInput(.Email, value: "invalid")
+                let input = mockInput(.email, value: "invalid")
                 view.form?.onValueChange(input)
                 expect(input.valid).to(equal(false))
             }
@@ -173,8 +173,8 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
         describe("login action") {
 
             it("should not trigger action with nil button") {
-                let input = mockInput(.Email, value: "invalid")
-                input.returnKey = .Done
+                let input = mockInput(.email, value: "invalid")
+                input.returnKey = .done
                 view.primaryButton = nil
                 view.form?.onReturn(input)
                 expect(messagePresenter.message).toEventually(beNil())
@@ -185,25 +185,25 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             it("should fail when no connection is matched") {
                 presenter.interactor.connection = nil
                 view.primaryButton?.onPress(view.primaryButton!)
-                expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.NoConnectionAvailable))
+                expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.noConnectionAvailable))
             }
 
             it("should show yield oauth2 error on failure") {
                 presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"], style: AuthStyle(name: "ad"))
-                oauth2.onLogin = { return OAuth2AuthenticatableError.CouldNotAuthenticate }
+                oauth2.onLogin = { return OAuth2AuthenticatableError.couldNotAuthenticate }
                 view.primaryButton?.onPress(view.primaryButton!)
-                expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.CouldNotAuthenticate))
+                expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
             }
 
             it("should show no error on success") {
-                let input = mockInput(.Email, value: "user@test.com")
+                let input = mockInput(.email, value: "user@test.com")
                 view.form?.onValueChange(input)
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(messagePresenter.error).toEventually(beNil())
             }
 
             it("should not navigate to enterprise passwod presenter") {
-                let input = mockInput(.Email, value: "user@test.com")
+                let input = mockInput(.email, value: "user@test.com")
                 view.form?.onValueChange(input)
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(navigator.route).toEventually(beNil())
@@ -220,15 +220,15 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 }
 
                 it("should navigate to enterprise passwod presenter") {
-                    let input = mockInput(.Email, value: "user@test.com")
+                    let input = mockInput(.email, value: "user@test.com")
                     view.form?.onValueChange(input)
                     view.primaryButton?.onPress(view.primaryButton!)
 
-                    expect(navigator.route).toEventually(equal(Route.EnterpriseActiveAuth(connection: presenter.interactor.connection!)))
+                    expect(navigator.route).toEventually(equal(Route.enterpriseActiveAuth(connection: presenter.interactor.connection!)))
                 }
 
                 it("should not navigate to enterprise passwod presenter") {
-                    let input = mockInput(.Email, value: "user@testfail.com")
+                    let input = mockInput(.email, value: "user@testfail.com")
                     view.form?.onValueChange(input)
                     view.primaryButton?.onPress(view.primaryButton!)
 
@@ -255,9 +255,9 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 }
 
                 it("should show yield oauth2 error on failure") {
-                    oauth2.onLogin = { return OAuth2AuthenticatableError.CouldNotAuthenticate }
+                    oauth2.onLogin = { return OAuth2AuthenticatableError.couldNotAuthenticate }
                     view.authButton!.onPress(view.authButton!)
-                    expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.CouldNotAuthenticate))
+                    expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
                 }
 
                 it("should not navigate to enterprise passwod presenter") {

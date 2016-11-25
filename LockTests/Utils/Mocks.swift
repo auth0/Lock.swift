@@ -30,16 +30,16 @@ class MockLockController: LockViewController {
     var presented: UIViewController?
     var presentable: Presentable?
 
-    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+    override func dismiss(animated flag: Bool, completion: (() -> Void)?) {
         completion?()
     }
 
-    override func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
         completion?()
         self.presented = viewControllerToPresent
     }
 
-    override func present(presentable: Presentable?) {
+    override func present(_ presentable: Presentable?) {
         self.presentable = presentable
     }
 
@@ -50,7 +50,7 @@ class MockLockController: LockViewController {
 
 class MockAuthPresenter: AuthPresenter {
 
-    var authView = AuthCollectionView(connections: [], mode: .Compact, insets: UIEdgeInsetsZero, customStyle: [:])  { _ in }
+    var authView = AuthCollectionView(connections: [], mode: .compact, insets: UIEdgeInsets.zero, customStyle: [:])  { _ in }
 
     override func newViewToEmbed(withInsets insets: UIEdgeInsets, isLogin: Bool) -> AuthCollectionView {
         return self.authView
@@ -63,17 +63,17 @@ class MockNavigator: Navigable {
     var resetted: Bool = false
     var presented: UIViewController? = nil
     var connections: Connections? = nil
-    var unrecoverableError: ErrorType? = nil
+    var unrecoverableError: Error? = nil
 
-    func navigate(route: Route) {
+    func navigate(_ route: Route) {
         self.route = route
     }
 
-    func resetScroll(animated: Bool) {
+    func resetScroll(_ animated: Bool) {
         self.resetted = true
     }
 
-    func present(controller: UIViewController) {
+    func present(_ controller: UIViewController) {
         self.presented = controller
     }
 
@@ -81,12 +81,12 @@ class MockNavigator: Navigable {
         self.connections = connections
     }
 
-    func exit(withError error: ErrorType) {
+    func exit(withError error: Error) {
         self.unrecoverableError = error
     }
 }
 
-func mockInput(type: InputField.InputType, value: String? = nil) -> MockInputField {
+func mockInput(_ type: InputField.InputType, value: String? = nil) -> MockInputField {
     let input = MockInputField()
     input.type = type
     input.text = value
@@ -97,11 +97,11 @@ class MockMessagePresenter: MessagePresenter {
     var message: String? = nil
     var error: LocalizableError? = nil
 
-    func showSuccess(message: String) {
+    func showSuccess(_ message: String) {
         self.message = message
     }
 
-    func showError(error: LocalizableError) {
+    func showError(_ error: LocalizableError) {
         self.error = error
     }
 
@@ -114,7 +114,7 @@ class MockMessagePresenter: MessagePresenter {
 class MockInputField: InputField {
     var valid: Bool? = nil
 
-    override func showError(error: String?, noDelay: Bool) {
+    override func showError(_ error: String?, noDelay: Bool) {
         self.valid = false
     }
 
@@ -128,18 +128,18 @@ class MockMultifactorInteractor: MultifactorAuthenticatable {
 
     var onLogin: () -> DatabaseAuthenticatableError? = { return nil }
 
-    func login(callback: (DatabaseAuthenticatableError?) -> ()) {
+    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ()) {
         callback(onLogin())
     }
 
-    func setMultifactorCode(code: String?) throws {
+    func setMultifactorCode(_ code: String?) throws {
         guard code != "invalid" else { throw NSError(domain: "", code: 0, userInfo: nil) }
         self.code = code
     }
 }
 
 class MockAuthInteractor: OAuth2Authenticatable {
-    func login(connection: String, callback: (OAuth2AuthenticatableError?) -> ()) {
+    func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
     }
 }
 
@@ -157,35 +157,35 @@ class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
     var onLogin: () -> DatabaseAuthenticatableError? = { return nil }
     var onSignUp: () -> DatabaseUserCreatorError? = { return nil }
 
-    func login(callback: (DatabaseAuthenticatableError?) -> ()) {
+    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ()) {
         callback(onLogin())
     }
 
-    func create(callback: (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ()) {
+    func create(_ callback: @escaping (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ()) {
         callback(onSignUp(), onLogin())
     }
 
-    func update(attribute: UserAttribute, value: String?) throws {
+    func update(_ attribute: UserAttribute, value: String?) throws {
         guard value != "invalid" else {
-            if case .Email = attribute {
+            if case .email = attribute {
                 self.validEmail = false
             }
-            if case .Username = attribute {
+            if case .username = attribute {
                 self.validUsername = false
             }
             throw NSError(domain: "", code: 0, userInfo: nil)
         }
         switch attribute {
-        case .Email:
+        case .email:
             self.email = value
-        case .Username:
+        case .username:
             self.username = value
-        case .Password:
+        case .password:
             self.password = value
-        case .EmailOrUsername:
+        case .emailOrUsername:
             self.email = value
             self.username = value
-        case .Custom(let name):
+        case .custom(let name):
             self.custom[name] = value
         }
     }
@@ -195,7 +195,7 @@ class MockConnectionsLoader: RemoteConnectionLoader {
 
     var connections: Connections? = nil
 
-    func load(callback: Connections? -> ()) {
+    func load(_ callback: @escaping (Connections?) -> ()) {
         callback(connections)
     }
 }
@@ -203,15 +203,15 @@ class MockConnectionsLoader: RemoteConnectionLoader {
 class MockWebAuth: WebAuth {
 
     var clientId: String = "CLIENT_ID"
-    var url: NSURL = .a0_url(domain)
+    var url: URL = .a0_url(domain)
 
     var connection: String? = nil
     var params: [String: String] = [:]
     var scope: String? = nil
-    var result: () -> Auth0.Result<Credentials> = { _ in return Auth0.Result.Failure(error: AuthenticationError(string: "FAILED", statusCode: 500)) }
+    var result: () -> Auth0.Result<Credentials> = { _ in return Auth0.Result.failure(error: AuthenticationError(string: "FAILED", statusCode: 500)) }
     var telemetry: Telemetry = Telemetry()
 
-    func connection(connection: String) -> Self {
+    func connection(_ connection: String) -> Self {
         self.connection = connection
         return self
     }
@@ -220,11 +220,11 @@ class MockWebAuth: WebAuth {
         return self
     }
 
-    func state(state: String) -> Self {
+    func state(_ state: String) -> Self {
         return self
     }
 
-    func parameters(parameters: [String : String]) -> Self {
+    func parameters(_ parameters: [String : String]) -> Self {
         self.params = parameters
         return self
     }
@@ -233,12 +233,12 @@ class MockWebAuth: WebAuth {
         return self
     }
 
-    func scope(scope: String) -> Self {
+    func scope(_ scope: String) -> Self {
         self.scope = scope
         return self
     }
 
-    func start(callback: Auth0.Result<Credentials> -> ()) {
+    func start(_ callback: @escaping (Auth0.Result<Credentials>) -> ()) {
         callback(self.result())
     }
 
@@ -248,7 +248,7 @@ class MockWebAuth: WebAuth {
 class MockOAuth2: OAuth2Authenticatable {
     var connection: String? = nil
     var onLogin: () -> OAuth2AuthenticatableError? = { _ in return nil }
-    func login(connection: String, callback: (OAuth2AuthenticatableError?) -> ()) {
+    func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         self.connection = connection
         callback(self.onLogin())
     }
@@ -258,11 +258,11 @@ class MockController: UIViewController {
 
     var presented: UIViewController?
 
-    override func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
         self.presented = viewControllerToPresent
     }
 
-    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+    override func dismiss(animated flag: Bool, completion: (() -> Void)?) {
         self.presented = nil
         completion?()
     }

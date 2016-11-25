@@ -38,15 +38,15 @@ class AuthPresenter: Presentable, Loggable {
     }
 
     var view: View {
-        return self.newView(withInsets: UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18), mode: .Expanded(isLogin: true))
+        return self.newView(withInsets: UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18), mode: .expanded(isLogin: true))
     }
 
     func newViewToEmbed(withInsets insets: UIEdgeInsets, isLogin: Bool = true) -> AuthCollectionView {
         let mode: AuthCollectionView.Mode
         if (self.connections.count < compactModeThreshold) {
-            mode = .Expanded(isLogin: isLogin)
+            mode = .expanded(isLogin: isLogin)
         } else {
-            mode = .Compact
+            mode = .compact
         }
         return self.newView(withInsets: insets, mode: mode)
     }

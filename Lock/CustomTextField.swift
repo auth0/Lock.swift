@@ -30,9 +30,9 @@ public struct CustomTextField {
     let keyboardType: UIKeyboardType
     let autocorrectionType: UITextAutocorrectionType
     let secure: Bool
-    let validation: String? -> ErrorType?
+    let validation: (String?) -> Error?
 
-    public init(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType = .Default, autocorrectionType: UITextAutocorrectionType = .Default, secure: Bool = false, validation: String? -> ErrorType? = nonEmpty) {
+    public init(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType = .default, autocorrectionType: UITextAutocorrectionType = .default, secure: Bool = false, validation: @escaping (String?) -> Error? = nonEmpty) {
         self.name = name
         self.placeholder = placeholder
         self.icon = icon
@@ -43,11 +43,11 @@ public struct CustomTextField {
     }
 
     var type: InputField.InputType {
-        return .Custom(name: name, placeholder: placeholder, icon: icon, keyboardType: keyboardType, autocorrectionType: self.autocorrectionType, secure: secure)
+        return .custom(name: name, placeholder: placeholder, icon: icon, keyboardType: keyboardType, autocorrectionType: self.autocorrectionType, secure: secure)
     }
 }
 
-private func nonEmpty(value: String?) -> ErrorType? {
-    guard let username = value?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) where !username.isEmpty else { return InputValidationError.MustNotBeEmpty }
+private func nonEmpty(_ value: String?) -> Error? {
+    guard let username = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), !username.isEmpty else { return InputValidationError.mustNotBeEmpty }
     return nil
 }

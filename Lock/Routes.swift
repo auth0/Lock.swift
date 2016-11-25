@@ -25,7 +25,7 @@ import Foundation
 struct Routes {
 
     var current: Route {
-        return self.history.first ?? .Root
+        return self.history.first ?? .root
     }
 
     private(set) var history: [Route] = []
@@ -35,7 +35,7 @@ struct Routes {
         return self.current
     }
 
-    mutating func go(route: Route) {
+    mutating func go(_ route: Route) {
         self.history.append(route)
     }
 
@@ -45,17 +45,17 @@ struct Routes {
 }
 
 enum Route: Equatable {
-    case Root
-    case ForgotPassword
-    case Multifactor
-    case EnterpriseActiveAuth(connection: EnterpriseConnection)
+    case root
+    case forgotPassword
+    case multifactor
+    case enterpriseActiveAuth(connection: EnterpriseConnection)
 }
 
-func ==(lhs: Route, rhs: Route) -> Bool {
+func == (lhs: Route, rhs: Route) -> Bool {
     switch((lhs, rhs)) {
-    case (.Root, .Root), (.ForgotPassword, .ForgotPassword), (.Multifactor, .Multifactor):
+    case (.root, .root), (.forgotPassword, .forgotPassword), (.multifactor, .multifactor):
         return true
-    case (.EnterpriseActiveAuth(let lhsConnection), .EnterpriseActiveAuth(let rhsConnection)):
+    case (.enterpriseActiveAuth(let lhsConnection), .enterpriseActiveAuth(let rhsConnection)):
         return lhsConnection.name == rhsConnection.name
     default:
         return false

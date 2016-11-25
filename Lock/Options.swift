@@ -25,20 +25,20 @@ import Foundation
 public protocol Options {
     var closable: Bool { get }
 
-    var termsOfServiceURL: NSURL { get }
-    var privacyPolicyURL: NSURL { get }
-    
+    var termsOfServiceURL: URL { get }
+    var privacyPolicyURL: URL { get }
+
     var logLevel: LoggerLevel { get }
     var loggerOutput: LoggerOutput? { get }
     var logHttpRequest: Bool { get }
 
     var scope: String { get }
-    var parameters: [String: AnyObject] { get }
+    var parameters: [String: Any] { get }
     var allow: DatabaseMode { get }
     var initialScreen: DatabaseScreen { get }
     var usernameStyle: DatabaseIdentifierStyle { get }
     var customSignupFields: [CustomTextField] { get }
-    
+
     // Enterprise
     var activeDirectoryEmailAsUsername: Bool { get }
     var enterpriseConnectionUsingActiveAuth: [String] { get }

@@ -25,13 +25,13 @@ import Auth0
 
 protocol Navigable {
     func reload(withConnections connections: Connections)
-    func navigate(route: Route)
-    func resetScroll(animated: Bool)
-    func present(controller: UIViewController)
-    func exit(withError error: ErrorType)
+    func navigate(_ route: Route)
+    func resetScroll(_ animated: Bool)
+    func present(_ controller: UIViewController)
+    func exit(withError error: Error)
 }
 
-struct Router: Navigable {
+class Router: Navigable {
     weak var controller: LockViewController?
 
     let user = User()
@@ -44,15 +44,15 @@ struct Router: Navigable {
         self.lock = lock
         self.onDismiss = { [weak controller] in
             Queue.main.async {
-                controller?.presentingViewController?.dismissViewControllerAnimated(true, completion: { _ in
-                    lock.callback(.Cancelled)
+                controller?.presentingViewController?.dismiss(animated: true, completion: { _ in
+                    lock.callback(.cancelled)
                 })
             }
         }
         self.onAuthentication = { [weak controller] credentials in
             Queue.main.async {
-                controller?.presentingViewController?.dismissViewControllerAnimated(true, completion: { _ in
-                    lock.callback(.Success(credentials))
+                controller?.presentingViewController?.dismiss(animated: true, completion: { _ in
+                    lock.callback(.success(credentials))
                 })
             }
         }
@@ -64,9 +64,9 @@ struct Router: Navigable {
 
             self.lock.logger.debug("Back pressed. Showing \(current)")
             switch current {
-            case .ForgotPassword:
+            case .forgotPassword:
                 self.controller?.present(self.forgotPassword)
-            case .Root:
+            case .root:
                 self.controller?.present(self.root)
             default:
                 break
@@ -82,7 +82,7 @@ struct Router: Navigable {
             return ConnectionLoadingPresenter(loader: interactor, navigator: self)
         }
         if let database = connections.database {
-            guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .ResetPassword else { return forgotPassword }
+            guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .resetPassword else { return forgotPassword }
             let authentication = self.lock.authentication
             let interactor = DatabaseInteractor(connection: database, authentication: authentication, user: self.user, options: self.lock.options, callback: self.onAuthentication)
             let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
@@ -103,7 +103,7 @@ struct Router: Navigable {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
             let interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authInteractor)
             // Single enterprise in active auth mode
-            if let connection = interactor.connection where self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+            if let connection = interactor.connection, self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 return EnterpriseActiveAuth(connection)
             }
             let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, user: self.user, options: self.lock.options)
@@ -123,7 +123,7 @@ struct Router: Navigable {
     var forgotPassword: Presentable? {
         let connections = self.lock.connections
         guard !connections.isEmpty else {
-            exit(withError: UnrecoverableError.ClientWithNoConnections)
+            exit(withError: UnrecoverableError.clientWithNoConnections)
             return nil
         }
         let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication, user: self.user)
@@ -135,7 +135,7 @@ struct Router: Navigable {
     var multifactor: Presentable? {
         let connections = self.lock.connections
         guard let database = connections.database else {
-            exit(withError: UnrecoverableError.MissingDatabaseConnection)
+            exit(withError: UnrecoverableError.missingDatabaseConnection)
             return nil
         }
         let authentication = self.lock.authentication
@@ -145,7 +145,7 @@ struct Router: Navigable {
         return presenter
     }
 
-    func EnterpriseActiveAuth(connection: EnterpriseConnection) -> Presentable? {
+    func EnterpriseActiveAuth(_ connection: EnterpriseConnection) -> Presentable? {
         let authentication = self.lock.authentication
         let interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: self.user, options: self.lock.options, callback: self.onAuthentication)
         let presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
@@ -164,21 +164,21 @@ struct Router: Navigable {
         self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed)
         let connections = self.lock.connections
         self.lock.logger.debug("Reloading Lock with connections \(connections).")
-        guard !connections.isEmpty else { return exit(withError: UnrecoverableError.ClientWithNoConnections) }
+        guard !connections.isEmpty else { return exit(withError: UnrecoverableError.clientWithNoConnections) }
         self.controller?.routes.reset()
         self.controller?.present(self.root)
     }
 
-    func navigate(route: Route) {
+    func navigate(_ route: Route) {
         let presentable: Presentable?
         switch route {
-        case .Root where self.controller?.routes.current != .Root:
+        case .root where self.controller?.routes.current != .root:
             presentable = self.root
-        case .ForgotPassword:
+        case .forgotPassword:
             presentable = self.forgotPassword
-        case .Multifactor:
+        case .multifactor:
             presentable = self.multifactor
-        case .EnterpriseActiveAuth(let connection):
+        case .enterpriseActiveAuth(let connection):
             presentable = self.EnterpriseActiveAuth(connection)
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")
@@ -189,21 +189,21 @@ struct Router: Navigable {
         self.controller?.present(presentable)
     }
 
-    func present(controller: UIViewController) {
-        self.controller?.presentViewController(controller, animated: true, completion: nil)
+    func present(_ controller: UIViewController) {
+        self.controller?.present(controller, animated: true, completion: nil)
     }
 
-    func resetScroll(animated: Bool) {
-        self.controller?.scrollView.setContentOffset(CGPointZero, animated: animated)
+    func resetScroll(_ animated: Bool) {
+        self.controller?.scrollView.setContentOffset(CGPoint.zero, animated: animated)
     }
 
-    func exit(withError error: ErrorType) {
+    func exit(withError error: Error) {
         let controller = self.controller?.presentingViewController
         let lock = self.lock
         self.lock.logger.debug("Dismissing Lock with error \(error)")
         Queue.main.async {
-            controller?.dismissViewControllerAnimated(true, completion: { _ in
-                lock.callback(.Failure(error))
+            controller?.dismiss(animated: true, completion: { _ in
+                lock.callback(.failure(error))
             })
         }
     }

@@ -26,57 +26,57 @@ class Logger {
 
     static let sharedInstance = Logger()
 
-    var level: LoggerLevel = .Off
+    var level: LoggerLevel = .off
     var output: LoggerOutput = DefaultLoggerOutput()
 
-    func debug(message: String, filename: String = #file, line: Int = #line) {
-        guard self.level >= .Debug else { return }
-        output.message(message, level: .Debug, filename: filename, line: line)
+    func debug(_ message: String, filename: String = #file, line: Int = #line) {
+        guard self.level >= .debug else { return }
+        output.message(message, level: .debug, filename: filename, line: line)
     }
 
-    func info(message: String, filename: String = #file, line: Int = #line) {
-        guard self.level >= .Info else { return }
-        output.message(message, level: .Info, filename: filename, line: line)
+    func info(_ message: String, filename: String = #file, line: Int = #line) {
+        guard self.level >= .info else { return }
+        output.message(message, level: .info, filename: filename, line: line)
     }
 
-    func error(message: String, filename: String = #file, line: Int = #line) {
-        guard self.level >= .Error else { return }
-        output.message(message, level: .Error, filename: filename, line: line)
+    func error(_ message: String, filename: String = #file, line: Int = #line) {
+        guard self.level >= .error else { return }
+        output.message(message, level: .error, filename: filename, line: line)
     }
 
-    func warn(message: String, filename: String = #file, line: Int = #line) {
-        guard self.level >= .Warn else { return }
-        output.message(message, level: .Warn, filename: filename, line: line)
+    func warn(_ message: String, filename: String = #file, line: Int = #line) {
+        guard self.level >= .warn else { return }
+        output.message(message, level: .warn, filename: filename, line: line)
     }
 
-    func verbose(message: String, filename: String = #file, line: Int = #line) {
-        guard self.level >= .Verbose else { return }
-        output.message(message, level: .Verbose, filename: filename, line: line)
+    func verbose(_ message: String, filename: String = #file, line: Int = #line) {
+        guard self.level >= .verbose else { return }
+        output.message(message, level: .verbose, filename: filename, line: line)
     }
 }
 
-// MARK:- Level
+// MARK: - Level
 
 public enum LoggerLevel: Int {
-    case Off = 0
-    case Error
-    case Warn
-    case Info
-    case Debug
-    case Verbose
-    case All
+    case off = 0
+    case error
+    case warn
+    case info
+    case debug
+    case verbose
+    case all
 
     var label: String {
         switch self {
-        case .Error:
+        case .error:
             return "ERROR"
-        case Warn:
+        case .warn:
             return "WARN"
-        case .Info:
+        case .info:
             return "INFO"
-        case .Debug:
+        case .debug:
             return "DEBUG"
-        case .Verbose:
+        case .verbose:
             return "VERBOSE"
         default:
             return "INVALID"
@@ -84,11 +84,11 @@ public enum LoggerLevel: Int {
     }
 }
 
-func >=(lhs: LoggerLevel, rhs: LoggerLevel) -> Bool {
+func >= (lhs: LoggerLevel, rhs: LoggerLevel) -> Bool {
     return lhs.rawValue >= rhs.rawValue
 }
 
-// MARK:- Loggable
+// MARK: - Loggable
 
 protocol Loggable { }
 
@@ -98,21 +98,21 @@ extension Loggable {
     }
 }
 
-// MARK:- LoggerOutput
+// MARK: - LoggerOutput
 
 public protocol LoggerOutput {
-    func message(message: String, level: LoggerLevel, filename: String, line: Int)
+    func message(_ message: String, level: LoggerLevel, filename: String, line: Int)
 }
 
 struct DefaultLoggerOutput: LoggerOutput {
-    func message(message: String, level: LoggerLevel, filename: String, line: Int) {
+    func message(_ message: String, level: LoggerLevel, filename: String, line: Int) {
         trace("\(heading(forFile: filename, line: line))", level, message)
     }
 
     var trace: (String, LoggerLevel, String) -> () = { print("\($1.label) | \($0) - \($2)") }
 
     private func heading(forFile file: String, line: Int) -> String {
-        let filename = NSURL(fileURLWithPath: file).lastPathComponent ?? ""
+        let filename = URL(fileURLWithPath: file).lastPathComponent
         return "\(filename):\(line)"
     }
 }

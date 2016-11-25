@@ -33,8 +33,8 @@ protocol DatabaseUser {
     var validUsername: Bool { get set }
     var validPassword: Bool { get set }
 
-    func validAdditionaAttribute(name: String) -> Bool
-    func validAdditionaAttribute(name: String, valid: Bool)
+    func validAdditionaAttribute(_ name: String) -> Bool
+    func validAdditionaAttribute(_ name: String, valid: Bool)
 }
 
 class User: DatabaseUser {
@@ -61,11 +61,11 @@ class User: DatabaseUser {
         self.additionalAttributes = [:]
     }
 
-    func validAdditionaAttribute(name: String) -> Bool {
+    func validAdditionaAttribute(_ name: String) -> Bool {
         return self.additionalAttributesStatus[name] ?? false
     }
 
-    func validAdditionaAttribute(name: String, valid: Bool) {
+    func validAdditionaAttribute(_ name: String, valid: Bool) {
         self.additionalAttributesStatus[name] = valid
     }
 }

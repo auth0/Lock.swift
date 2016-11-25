@@ -65,7 +65,7 @@ public struct EnterpriseConnection : OAuth2Connection {
     public let name: String
     public let domains: [String]
     public let style: AuthStyle
-    
+
     init(name: String, domains: [String], style: AuthStyle? = nil) {
         self.name = name
         self.domains = domains

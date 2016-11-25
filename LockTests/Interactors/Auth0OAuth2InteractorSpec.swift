@@ -59,37 +59,37 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
             }
 
             it("should set parameters") {
-                let state = NSUUID().UUIDString
+                let state = UUID().uuidString
                 var options = LockOptions()
-                options.parameters = ["state": state]
+                options.parameters = ["state": state as Any]
                 interactor = Auth0OAuth2Interactor(webAuth: webAuth, onCredentials: {credentials = $0}, options: options)
                 interactor.login("facebook", callback: { _ in })
                 expect(webAuth.params["state"]) == state
             }
 
             it("should not yield error on success") {
-                webAuth.result = { return .Success(result: mockCredentials()) }
+                webAuth.result = { return .success(result: mockCredentials()) }
                 interactor.login("facebook") { error = $0 }
                 expect(error).toEventually(beNil())
             }
 
             it("should call credentials callback") {
                 let expected = mockCredentials()
-                webAuth.result = { return .Success(result: expected) }
+                webAuth.result = { return .success(result: expected) }
                 interactor.login("facebook") { error = $0 }
                 expect(credentials).toEventually(equal(expected))
             }
 
             it("should handle cancel error") {
-                webAuth.result = { return .Failure(error: WebAuthError.UserCancelled) }
+                webAuth.result = { return .failure(error: WebAuthError.userCancelled) }
                 interactor.login("facebook") { error = $0 }
-                expect(error).toEventually(equal(OAuth2AuthenticatableError.Cancelled))
+                expect(error).toEventually(equal(OAuth2AuthenticatableError.cancelled))
             }
 
             it("should handle generic error") {
-                webAuth.result = { return .Failure(error: WebAuthError.NoBundleIdentifierFound) }
+                webAuth.result = { return .failure(error: WebAuthError.noBundleIdentifierFound) }
                 interactor.login("facebook") { error = $0 }
-                expect(error).toEventually(equal(OAuth2AuthenticatableError.CouldNotAuthenticate))
+                expect(error).toEventually(equal(OAuth2AuthenticatableError.couldNotAuthenticate))
             }
 
         }
@@ -97,5 +97,5 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
 }
 
 func mockCredentials() -> Credentials {
-    return Credentials(accessToken: NSUUID().UUIDString, tokenType: "Bearer")
+    return Credentials(accessToken: UUID().uuidString, tokenType: "Bearer")
 }

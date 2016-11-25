@@ -41,7 +41,7 @@ class MultifactorPresenter: Presentable, Loggable {
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
 
-            guard case .OneTimePassword = input.type else { return }
+            guard case .oneTimePassword = input.type else { return }
 
             do {
                 try self.interactor.setMultifactorCode(input.text)

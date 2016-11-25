@@ -26,10 +26,10 @@ import Auth0
 struct Auth0OAuth2Interactor: OAuth2Authenticatable {
 
     let webAuth: Auth0.WebAuth
-    let onCredentials: Credentials -> ()
+    let onCredentials: (Credentials) -> ()
     let options: Options
 
-    func login(connection: String, callback: (OAuth2AuthenticatableError?) -> ()) {
+    func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         var parameters: [String: String] = [:]
         self.options.parameters.forEach { parameters[$0] = "\($1)" }
         self.webAuth
@@ -38,13 +38,13 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
             .parameters(parameters)
             .start { result in
                 switch result {
-                case .Success(let credentials):
+                case .success(let credentials):
                     self.onCredentials(credentials)
                     callback(nil)
-                case .Failure(WebAuthError.UserCancelled):
-                    callback(.Cancelled)
-                case .Failure:
-                    callback(.CouldNotAuthenticate)
+                case .failure(WebAuthError.userCancelled):
+                    callback(.cancelled)
+                case .failure:
+                    callback(.couldNotAuthenticate)
                 }
             }
     }

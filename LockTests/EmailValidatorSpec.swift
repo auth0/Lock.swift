@@ -33,7 +33,7 @@ class EmailValidatorSpec: QuickSpec {
 
         ["", " ", "         ", "\n"].forEach { value in
             it("should consider \(value) an invalid email") {
-                expect(validator.validate(value) as? InputValidationError) == .MustNotBeEmpty
+                expect(validator.validate(value) as? InputValidationError) == .mustNotBeEmpty
             }
         }
 
@@ -45,7 +45,7 @@ class EmailValidatorSpec: QuickSpec {
 
         ["test", "@", "test@", "@io", "@iana.org", ".test@iana.org", "test.@iana.org", "test..iana.org", "test_exa-mple.com", "test\\@test@iana.org", "test@-iana.org", "test@iana.org.", "test@iana..com"].forEach { value in
             it("should consider \(value) an invalid email") {
-                expect(validator.validate(value) as? InputValidationError) == .NotAnEmailAddress
+                expect(validator.validate(value) as? InputValidationError) == .notAnEmailAddress
             }
         }
     }

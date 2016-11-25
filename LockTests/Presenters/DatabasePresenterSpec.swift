@@ -69,7 +69,7 @@ class DatabasePresenterSpec: QuickSpec {
             it("should set a new one when switching tabs") {
                 presenter.authPresenter = authPresenter
                 let view = presenter.view as? DatabaseView
-                let newView = AuthCollectionView(connections: [], mode: .Expanded(isLogin: true), insets: UIEdgeInsetsZero, customStyle: [:])  { _ in }
+                let newView = AuthCollectionView(connections: [], mode: .expanded(isLogin: true), insets: UIEdgeInsets.zero, customStyle: [:])  { _ in }
                 authPresenter.authView = newView
                 view?.switcher?.onSelectionChange((view?.switcher)!)
                 expect(view?.authCollectionView) == newView
@@ -105,7 +105,7 @@ class DatabasePresenterSpec: QuickSpec {
             
             it("should set identifier default in login") {
                 interactor.identifier = email
-                view.switcher?.selected = .Login
+                view.switcher?.selected = .login
                 view.switcher?.onSelectionChange(view.switcher!)
                 let view = view.form as! CredentialView
                 expect(view.identityField.text) == email
@@ -116,7 +116,7 @@ class DatabasePresenterSpec: QuickSpec {
                 interactor.email = email
                 interactor.validUsername = true
                 interactor.username = username
-                view.switcher?.selected = .Signup
+                view.switcher?.selected = .signup
                 view.switcher?.onSelectionChange(view.switcher!)
                 let view = view.form as! SignUpView
                 expect(view.emailField.text) == email
@@ -154,7 +154,7 @@ class DatabasePresenterSpec: QuickSpec {
             it("should show login if is allowed and is initial screen") {
                 var options = LockOptions()
                 options.allow = [.Login]
-                options.initialScreen = .Login
+                options.initialScreen = .login
                 presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
                 view = presenter.view as! DatabaseOnlyView
                 expect(view.form as? CredentialView).toNot(beNil())
@@ -171,7 +171,7 @@ class DatabasePresenterSpec: QuickSpec {
             it("should show signup if is the initial screen") {
                 var options = LockOptions()
                 options.allow = [.Signup, .Login]
-                options.initialScreen = .Signup
+                options.initialScreen = .signup
                 presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
                 view = presenter.view as! DatabaseOnlyView
                 expect(view.form as? SignUpView).toNot(beNil())
@@ -190,7 +190,7 @@ class DatabasePresenterSpec: QuickSpec {
         describe("login") {
             
             beforeEach {
-                view.switcher?.selected = .Login
+                view.switcher?.selected = .login
                 view.switcher?.onSelectionChange(view.switcher!)
             }
             
@@ -205,39 +205,39 @@ class DatabasePresenterSpec: QuickSpec {
             describe("user input") {
                 
                 it("should clear global message") {
-                    messagePresenter.showError(DatabaseAuthenticatableError.CouldNotLogin)
-                    let input = mockInput(.Email, value: email)
+                    messagePresenter.showError(DatabaseAuthenticatableError.couldNotLogin)
+                    let input = mockInput(.email, value: email)
                     view.form?.onValueChange(input)
                     expect(messagePresenter.error).to(beNil())
                     expect(messagePresenter.message).to(beNil())
                 }
                 
                 it("should update email") {
-                    let input = mockInput(.Email, value: email)
+                    let input = mockInput(.email, value: email)
                     view.form?.onValueChange(input)
                     expect(interactor.email) == email
                 }
                 
                 it("should update username") {
-                    let input = mockInput(.Username, value: username)
+                    let input = mockInput(.username, value: username)
                     view.form?.onValueChange(input)
                     expect(interactor.username) == username
                 }
                 
                 it("should update password") {
-                    let input = mockInput(.Password, value: password)
+                    let input = mockInput(.password, value: password)
                     view.form?.onValueChange(input)
                     expect(interactor.password) == password
                 }
                 
                 it("should update username or email") {
-                    let input = mockInput(.EmailOrUsername, value: username)
+                    let input = mockInput(.emailOrUsername, value: username)
                     view.form?.onValueChange(input)
                     expect(interactor.username) == username
                 }
                 
                 it("should not update if type is not valid for db connection") {
-                    let input = mockInput(.Phone, value: "+1234567890")
+                    let input = mockInput(.phone, value: "+1234567890")
                     view.form?.onValueChange(input)
                     expect(interactor.username).to(beNil())
                     expect(interactor.email).to(beNil())
@@ -245,13 +245,13 @@ class DatabasePresenterSpec: QuickSpec {
                 }
                 
                 it("should hide the field error if value is valid") {
-                    let input = mockInput(.Username, value: username)
+                    let input = mockInput(.username, value: username)
                     view.form?.onValueChange(input)
                     expect(input.valid) == true
                 }
                 
                 it("should show field error if value is invalid") {
-                    let input = mockInput(.Username, value: "invalid")
+                    let input = mockInput(.username, value: "invalid")
                     view.form?.onValueChange(input)
                     expect(input.valid) == false
                 }
@@ -261,8 +261,8 @@ class DatabasePresenterSpec: QuickSpec {
             describe("login action") {
                 
                 it("should trigger action on return of last field") {
-                    let input = mockInput(.Password, value: password)
-                    input.returnKey = .Done
+                    let input = mockInput(.password, value: password)
+                    input.returnKey = .done
                     waitUntil { done in
                         interactor.onLogin = {
                             done()
@@ -273,10 +273,10 @@ class DatabasePresenterSpec: QuickSpec {
                 }
                 
                 it("should not trigger action if return key is not .Done") {
-                    let input = mockInput(.Password, value: password)
-                    input.returnKey = .Next
+                    let input = mockInput(.password, value: password)
+                    input.returnKey = .next
                     interactor.onLogin = {
-                        return .CouldNotLogin
+                        return .couldNotLogin
                     }
                     view.form?.onReturn(input)
                     expect(messagePresenter.message).toEventually(beNil())
@@ -284,7 +284,7 @@ class DatabasePresenterSpec: QuickSpec {
                 }
                 
                 it("should clear global message") {
-                    messagePresenter.showError(DatabaseAuthenticatableError.CouldNotLogin)
+                    messagePresenter.showError(DatabaseAuthenticatableError.couldNotLogin)
                     interactor.onLogin = {
                         return nil
                     }
@@ -295,18 +295,18 @@ class DatabasePresenterSpec: QuickSpec {
                 
                 it("should show global error message") {
                     interactor.onLogin = {
-                        return .CouldNotLogin
+                        return .couldNotLogin
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.CouldNotLogin))
+                    expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.couldNotLogin))
                 }
                 
                 it("should navigate to multifactor required screen") {
                     interactor.onLogin = {
-                        return .MultifactorRequired
+                        return .multifactorRequired
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(navigator.route).toEventually(equal(Route.Multifactor))
+                    expect(navigator.route).toEventually(equal(Route.multifactor))
                 }
                 
                 it("should trigger login on button press") {
@@ -340,7 +340,7 @@ class DatabasePresenterSpec: QuickSpec {
                 it("should navigate to forgot password") {
                     let button = view.secondaryButton!
                     button.onPress(button)
-                    expect(navigator.route).toEventually(equal(Route.ForgotPassword))
+                    expect(navigator.route).toEventually(equal(Route.forgotPassword))
                 }
             }
         }
@@ -348,7 +348,7 @@ class DatabasePresenterSpec: QuickSpec {
         describe("sign up") {
             
             beforeEach {
-                view.switcher?.selected = .Signup
+                view.switcher?.selected = .signup
                 view.switcher?.onSelectionChange(view.switcher!)
             }
             
@@ -359,40 +359,40 @@ class DatabasePresenterSpec: QuickSpec {
             describe("user input") {
                 
                 it("should clear global message") {
-                    messagePresenter.showError(DatabaseUserCreatorError.CouldNotCreateUser)
-                    let input = mockInput(.Email, value: email)
+                    messagePresenter.showError(DatabaseUserCreatorError.couldNotCreateUser)
+                    let input = mockInput(.email, value: email)
                     view.form?.onValueChange(input)
                     expect(messagePresenter.error).to(beNil())
                     expect(messagePresenter.message).to(beNil())
                 }
                 
                 it("should update email") {
-                    let input = mockInput(.Email, value: email)
+                    let input = mockInput(.email, value: email)
                     view.form?.onValueChange(input)
                     expect(interactor.email) == email
                 }
                 
                 it("should update username") {
-                    let input = mockInput(.Username, value: username)
+                    let input = mockInput(.username, value: username)
                     view.form?.onValueChange(input)
                     expect(interactor.username) == username
                 }
                 
                 it("should update password") {
-                    let input = mockInput(.Password, value: password)
+                    let input = mockInput(.password, value: password)
                     view.form?.onValueChange(input)
                     expect(interactor.password) == password
                 }
                 
                 it("should custom field") {
                     let name = "Auth0"
-                    let input = mockInput(.Custom(name: "first_name", placeholder: "Name", icon: LazyImage(name: "ic_auth0", bundle: Lock.bundle), keyboardType: .Default, autocorrectionType: .No, secure: false), value: name)
+                    let input = mockInput(.custom(name: "first_name", placeholder: "Name", icon: LazyImage(name: "ic_auth0", bundle: Lock.bundle), keyboardType: .default, autocorrectionType: .no, secure: false), value: name)
                     view.form?.onValueChange(input)
                     expect(interactor.custom["first_name"]) == name
                 }
                 
                 it("should not update if type is not valid for db connection") {
-                    let input = mockInput(.Phone, value: "+1234567890")
+                    let input = mockInput(.phone, value: "+1234567890")
                     view.form?.onValueChange(input)
                     expect(interactor.username).to(beNil())
                     expect(interactor.email).to(beNil())
@@ -400,13 +400,13 @@ class DatabasePresenterSpec: QuickSpec {
                 }
                 
                 it("should hide the field error if value is valid") {
-                    let input = mockInput(.Username, value: username)
+                    let input = mockInput(.username, value: username)
                     view.form?.onValueChange(input)
                     expect(input.valid) == true
                 }
                 
                 it("should show field error if value is invalid") {
-                    let input = mockInput(.Username, value: "invalid")
+                    let input = mockInput(.username, value: "invalid")
                     view.form?.onValueChange(input)
                     expect(input.valid) == false
                 }
@@ -416,8 +416,8 @@ class DatabasePresenterSpec: QuickSpec {
             describe("sign up action") {
                 
                 it("should trigger action on return of last field") {
-                    let input = mockInput(.Password, value: password)
-                    input.returnKey = .Done
+                    let input = mockInput(.password, value: password)
+                    input.returnKey = .done
                     waitUntil { done in
                         interactor.onSignUp = {
                             done()
@@ -428,10 +428,10 @@ class DatabasePresenterSpec: QuickSpec {
                 }
                 
                 it("should not trigger action if return key is not .Done") {
-                    let input = mockInput(.Password, value: password)
-                    input.returnKey = .Next
+                    let input = mockInput(.password, value: password)
+                    input.returnKey = .next
                     interactor.onSignUp = {
-                        return .CouldNotCreateUser
+                        return .couldNotCreateUser
                     }
                     view.form?.onReturn(input)
                     expect(messagePresenter.message).toEventually(beNil())
@@ -439,10 +439,10 @@ class DatabasePresenterSpec: QuickSpec {
                 }
                 
                 it("should not trigger action with nil button") {
-                    let input = mockInput(.OneTimePassword, value: "123456")
-                    input.returnKey = .Done
+                    let input = mockInput(.oneTimePassword, value: "123456")
+                    input.returnKey = .done
                     interactor.onLogin = {
-                        return .CouldNotLogin
+                        return .couldNotLogin
                     }
                     view.primaryButton = nil
                     view.form?.onReturn(input)
@@ -451,7 +451,7 @@ class DatabasePresenterSpec: QuickSpec {
                 }
                 
                 it("should clear global message") {
-                    messagePresenter.showError(DatabaseUserCreatorError.CouldNotCreateUser)
+                    messagePresenter.showError(DatabaseUserCreatorError.couldNotCreateUser)
                     interactor.onSignUp = {
                         return nil
                     }
@@ -462,26 +462,26 @@ class DatabasePresenterSpec: QuickSpec {
                 
                 it("should show global error message") {
                     interactor.onSignUp = {
-                        return .CouldNotCreateUser
+                        return .couldNotCreateUser
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(messagePresenter.error).toEventually(beError(error: DatabaseUserCreatorError.CouldNotCreateUser))
+                    expect(messagePresenter.error).toEventually(beError(error: DatabaseUserCreatorError.couldNotCreateUser))
                 }
                 
                 it("should show global error message for login") {
                     interactor.onLogin = {
-                        return .CouldNotLogin
+                        return .couldNotLogin
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.CouldNotLogin))
+                    expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.couldNotLogin))
                 }
                 
                 it("should navigate to multifactor required screen") {
                     interactor.onLogin = {
-                        return .MultifactorRequired
+                        return .multifactorRequired
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
-                    expect(navigator.route).toEventually(equal(Route.Multifactor))
+                    expect(navigator.route).toEventually(equal(Route.multifactor))
                 }
                 
                 it("should trigger sign up on button press") {
@@ -528,10 +528,10 @@ class DatabasePresenterSpec: QuickSpec {
                 it("should have actions") {
                     let alert = navigator.presented as? UIAlertController
                     expect(alert?.message).toEventually(beNil())
-                    expect(alert?.preferredStyle) == UIAlertControllerStyle.ActionSheet
-                    expect(alert?.actions).to(haveAction("Cancel", style: .Cancel))
-                    expect(alert?.actions).to(haveAction("Terms of Service", style: .Default))
-                    expect(alert?.actions).to(haveAction("Privacy Policy", style: .Default))
+                    expect(alert?.preferredStyle) == UIAlertControllerStyle.actionSheet
+                    expect(alert?.actions).to(haveAction("Cancel", style: .cancel))
+                    expect(alert?.actions).to(haveAction("Terms of Service", style: .default))
+                    expect(alert?.actions).to(haveAction("Privacy Policy", style: .default))
                 }
             }
             
@@ -575,13 +575,13 @@ class DatabasePresenterSpec: QuickSpec {
                 }
                 
                 it("should modify display with enterprise changes") {
-                    let input = mockInput(.Email, value: "user@valid.com")
+                    let input = mockInput(.email, value: "user@valid.com")
                     view.form?.onValueChange(input)
                     expect(view.ssoBar).toNot(beNil())
                 }
                 
                 it("should not modify display with enterprise changes") {
-                    let input = mockInput(.Email, value: "user@invalid.com")
+                    let input = mockInput(.email, value: "user@invalid.com")
                     view.form?.onValueChange(input)
                     expect(view.ssoBar).to(beNil())
                 }
@@ -589,7 +589,7 @@ class DatabasePresenterSpec: QuickSpec {
                 context("enterprise mode") {
                     
                     beforeEach {
-                        let input = mockInput(.Email, value: "user@valid.com")
+                        let input = mockInput(.email, value: "user@valid.com")
                         view.form?.onValueChange(input)
                     }
                     
@@ -598,26 +598,26 @@ class DatabasePresenterSpec: QuickSpec {
                     }
                     
                     it("should not show ssoBar") {
-                        let input = mockInput(.Email, value: "user@invalid.com")
+                        let input = mockInput(.email, value: "user@invalid.com")
                         view.form?.onValueChange(input)
                         expect(view.ssoBar).to(beNil())
                     }
                     
                     it("should return identity returntype as .Done") {
                         let form = view.form as! CredentialView
-                        expect(form.identityField.returnKey).to(equal(UIReturnKeyType.Done))
+                        expect(form.identityField.returnKey).to(equal(UIReturnKeyType.done))
                     }
                     
                     it("should restore identity returntype as .Next") {
-                        let input = mockInput(.Email, value: "user@invalid.com")
+                        let input = mockInput(.email, value: "user@invalid.com")
                         view.form?.onValueChange(input)
                         
                         let form = view.form as! CredentialView
-                        expect(form.identityField.returnKey).to(equal(UIReturnKeyType.Next))
+                        expect(form.identityField.returnKey).to(equal(UIReturnKeyType.next))
                     }
 
                     it("should show no error on success") {
-                        let input = mockInput(.Email, value: "user@valid.com")
+                        let input = mockInput(.email, value: "user@valid.com")
                         view.form?.onValueChange(input)
                         view.primaryButton?.onPress(view.primaryButton!)
                         expect(messagePresenter.error).toEventually(beNil())
@@ -640,7 +640,7 @@ class DatabasePresenterSpec: QuickSpec {
 
                         view = presenter.view as! DatabaseOnlyView
 
-                        let input = mockInput(.Email, value: "user@valid.com")
+                        let input = mockInput(.email, value: "user@valid.com")
                         view.form?.onValueChange(input)
 
                     }
@@ -649,7 +649,7 @@ class DatabasePresenterSpec: QuickSpec {
                         view.primaryButton?.onPress(view.primaryButton!)
                         let connection = presenter.enterpriseInteractor?.connection!
                         expect(connection).toNot(beNil())
-                        expect(navigator.route).toEventually(equal(Route.EnterpriseActiveAuth(connection: connection!)))
+                        expect(navigator.route).toEventually(equal(Route.enterpriseActiveAuth(connection: connection!)))
                     }
 
                 }
@@ -660,7 +660,7 @@ class DatabasePresenterSpec: QuickSpec {
     }
 }
 
-func haveAction(title: String, style: UIAlertActionStyle) -> MatcherFunc<[UIAlertAction]> {
+func haveAction(_ title: String, style: UIAlertActionStyle) -> MatcherFunc<[UIAlertAction]> {
     return MatcherFunc { expression, failureMessage in
         failureMessage.postfixMessage = "have action with title \(title) and style \(style)"
         if let actions = try expression.evaluate() {

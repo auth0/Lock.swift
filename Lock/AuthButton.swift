@@ -40,32 +40,32 @@ public class AuthButton: UIView {
     public var normalColor: UIColor = UIColor.a0_orange {
         didSet {
             let normal = image(withColor: self.normalColor)
-            self.button?.setBackgroundImage(normal, forState: .Normal)
+            self.button?.setBackgroundImage(normal, for: UIControlState())
         }
     }
 
     public var highlightedColor: UIColor = UIColor.a0_orange.a0_darker(0.3) {
         didSet {
             let highlighted = image(withColor: self.highlightedColor)
-            self.button?.setBackgroundImage(highlighted, forState: .Highlighted)
-            if case .Big = size {
+            self.button?.setBackgroundImage(highlighted, for: .highlighted)
+            if case .big = size {
                 self.iconView?.backgroundColor = self.highlightedColor
             }
         }
     }
 
-    public var titleColor: UIColor = .whiteColor() {
+    public var titleColor: UIColor = .white {
         didSet {
             self.iconView?.tintColor = self.titleColor
-            self.button?.setTitleColor(self.titleColor, forState: .Normal)
+            self.button?.setTitleColor(self.titleColor, for: .normal)
             self.button?.tintColor = self.titleColor
         }
     }
 
     public var title: String? {
         didSet {
-            guard case .Big = self.size else { return }
-            self.button?.setTitle(self.title, forState: .Normal)
+            guard case .big = self.size else { return }
+            self.button?.setTitle(self.title, for: .normal)
         }
     }
 
@@ -78,9 +78,9 @@ public class AuthButton: UIView {
         }
     }
 
-    public var onPress: AuthButton -> () = { _ in }
+    public var onPress: (AuthButton) -> () = { _ in }
 
-    // MARK:- Style
+    // MARK: - Style
 
     public var size: Size {
         didSet {
@@ -90,35 +90,35 @@ public class AuthButton: UIView {
     }
 
     public enum Size {
-        case Small
-        case Big
+        case small
+        case big
     }
 
-    // MARK:- Initialisers
+    // MARK: - Initialisers
 
     public init(size: Size) {
         self.size = size
-        super.init(frame: CGRectZero)
+        super.init(frame: .zero)
         self.layout(size: self.size)
     }
 
     required override public init(frame: CGRect) {
-        self.size = .Big
+        self.size = .big
         super.init(frame: frame)
         self.layout(size: self.size)
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        self.size = .Big
+        self.size = .big
         super.init(coder: aDecoder)
         self.layout(size: self.size)
     }
 
-    // MARK:- Layout
+    // MARK: - Layout
 
-    private func layout(size size: Size) {
+    private func layout(size: Size) {
 
-        let button = UIButton(type: .Custom)
+        let button = UIButton(type: .custom)
         let iconView = UIImageView()
 
         self.addSubview(button)
@@ -134,34 +134,34 @@ public class AuthButton: UIView {
         constraintEqual(anchor: button.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: button.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: button.bottomAnchor, toAnchor: self.bottomAnchor)
-        if case .Small = size {
+        if case .small = size {
             constraintEqual(anchor: button.widthAnchor, toAnchor: button.heightAnchor)
         }
-        dimension(button.heightAnchor, greaterThanOrEqual: 50)
+        dimension(dimension: button.heightAnchor, greaterThanOrEqual: 50)
         button.translatesAutoresizingMaskIntoConstraints = false
 
         button.layer.cornerRadius = 3
         button.layer.masksToBounds = true
 
-        if case .Big = size {
+        if case .big = size {
             iconView.backgroundColor = self.highlightedColor
         }
         iconView.image = self.icon ?? image(named: "ic_auth_auth0", compatibleWithTraitCollection: self.traitCollection)
-        iconView.contentMode = .Center
+        iconView.contentMode = .center
         iconView.tintColor = self.titleColor
 
-        button.setBackgroundImage(image(withColor: self.color), forState: .Normal)
-        button.setBackgroundImage(image(withColor: self.color.a0_darker(0.3)), forState: .Highlighted)
-        button.setTitleColor(self.titleColor, forState: .Normal)
-        button.titleLabel?.font = .systemFontOfSize(13.33, weight: UIFontWeightMedium)
+        button.setBackgroundImage(image(withColor: self.color), for: UIControlState())
+        button.setBackgroundImage(image(withColor: self.color.a0_darker(0.3)), for: .highlighted)
+        button.setTitleColor(self.titleColor, for: UIControlState())
+        button.titleLabel?.font = .systemFont(ofSize: 13.33, weight: UIFontWeightMedium)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.5
-        button.contentVerticalAlignment = .Center
-        button.contentHorizontalAlignment = .Left
-        button.addTarget(self, action: #selector(buttonPressed), forControlEvents: .TouchUpInside)
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .left
+        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
 
-        if case .Big = self.size {
-            button.setTitle(self.title, forState: .Normal)
+        if case .big = self.size {
+            button.setTitle(self.title, for: UIControlState())
         }
 
         self.button = button
@@ -173,25 +173,25 @@ public class AuthButton: UIView {
         self.button?.titleEdgeInsets = UIEdgeInsets(top: 0, left: max(self.frame.size.height, 50) + 18, bottom: 0, right: 18)
     }
 
-    public override func intrinsicContentSize() -> CGSize {
+    public override var intrinsicContentSize : CGSize {
         switch self.size {
-        case .Big:
+        case .big:
             return CGSize(width: 280, height: 50)
-        case .Small:
+        case .small:
             return CGSize(width: 50, height: 50)
         }
     }
 
-    // MARK:- Event
+    // MARK: - Event
 
-    func buttonPressed(sender: AnyObject) {
+    func buttonPressed(_ sender: Any) {
         self.onPress(self)
     }
 }
 
-// MARK:- Color Util
+// MARK: - Color Util
 extension UIColor {
-    func a0_darker(percentage: CGFloat) -> UIColor {
+    func a0_darker(_ percentage: CGFloat) -> UIColor {
         guard percentage >= 0 && percentage <= 1 else { return self }
         var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0
         guard self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) else { return self }
