@@ -85,18 +85,6 @@ import Foundation
     return constraint
 }
 
-@discardableResult func constraintGreaterOrEqual<C: NSLayoutAnchor<NSLayoutDimension>>(anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriorityRequired) -> NSLayoutConstraint {
-    let constraint: NSLayoutConstraint
-    if let value = constant {
-        constraint = anchor.constraint(greaterThanOrEqualTo: anotherAnchor, constant: value)
-    } else {
-        constraint = anchor.constraint(greaterThanOrEqualTo: anotherAnchor)
-    }
-    constraint.priority = priority
-    constraint.isActive = true
-    return constraint
-}
-
 // MARK: - NSLayoutDimension
 @discardableResult func dimension(dimension: NSLayoutDimension, withValue value: CGFloat) -> NSLayoutConstraint {
     let constraint = dimension.constraint(equalToConstant: value)

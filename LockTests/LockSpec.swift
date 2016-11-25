@@ -126,6 +126,30 @@ class LockSpec: QuickSpec {
 
         }
 
+        describe("style") {
+
+            beforeEach {
+                _ = lock.withStyle {
+                    $0.title = "Test Title"
+                    $0.primaryColor = UIColor.green
+                    $0.logo = LazyImage(name: "icn_auth0")
+                }
+            }
+
+            it("title should be match custom title") {
+                expect(lock.style.title).to(equal("Test Title"))
+            }
+
+            it("primary color should be match custom color") {
+                expect(lock.style.primaryColor).to(equal(UIColor.green))
+            }
+
+            it("logo should be match custom LazyImage") {
+                expect(lock.style.logo).to(equal(LazyImage(name: "icn_auth0")))
+            }
+
+        }
+
         it("should allow to resume Auth") {
             expect(Lock.resumeAuth(.a0_url("samples.auth0.com"), options: [:])) == false
         }
