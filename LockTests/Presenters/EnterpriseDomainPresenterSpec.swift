@@ -49,8 +49,8 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             options = LockOptions()
 
             connections = OfflineConnections()
-            connections.enterprise(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
-            connections.enterprise(name: "ValidAD", domains: ["validad.com"], style: AuthStyle(name: "adfs"))
+            connections.enterprise(name: "TestAD", domains: ["test.com"])
+            connections.enterprise(name: "ValidAD", domains: ["validad.com"])
 
             interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
             presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
@@ -80,7 +80,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
 
                 beforeEach {
                     connections = OfflineConnections()
-                    connections.enterprise(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
+                    connections.enterprise(name: "TestAD", domains: ["test.com"])
 
                     interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
                     presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
@@ -189,7 +189,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             }
 
             it("should show yield oauth2 error on failure") {
-                presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"], style: AuthStyle(name: "ad"))
+                presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"])
                 oauth2.onLogin = { return OAuth2AuthenticatableError.couldNotAuthenticate }
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
@@ -241,8 +241,8 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
 
                 beforeEach {
                     connections = OfflineConnections()
-                    connections.enterprise(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
-
+                    connections.enterprise(name: "TestAD", domains: ["test.com"])
+                    
                     interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
                     presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
                     presenter.messagePresenter = messagePresenter
