@@ -48,7 +48,7 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
 
             let payload: String?
             if let data = data {
-                payload = String(data: data, encoding: String.Encoding.utf8)
+                payload = String(data: data, encoding: .utf8)
             } else {
                 payload = nil
             }

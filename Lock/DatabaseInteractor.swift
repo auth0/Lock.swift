@@ -60,14 +60,14 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         let error: Error?
         switch attribute {
         case .email:
-            error = self.updateEmail(value)
+            error = self.update(email: value)
         case .username:
-            error = self.updateUsername(value)
+            error = self.update(username: value)
         case .password:
-            error = self.updatePassword(value)
+            error = self.update(password: value)
         case .emailOrUsername:
-            let emailError = self.updateEmail(value)
-            let usernameError = self.updateUsername(value)
+            let emailError = self.update(email: value)
+            let usernameError = self.update(username: value)
             if emailError != nil && usernameError != nil {
                 error = emailError
             } else {
@@ -104,7 +104,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                 scope: self.options.scope,
                 parameters: self.options.parameters
             )
-            .start { self.handleLoginResult($0, callback: callback) }
+            .start { self.handle(result: $0, callback: callback) }
     }
 
     func create(_ callback: @escaping (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ()) {
@@ -139,7 +139,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             .start {
                 switch $0 {
                 case .success:
-                    login.start { self.handleLoginResult($0, callback: { callback(nil, $0) }) }
+                    login.start { self.handle(result: $0, callback: { callback(nil, $0) }) }
                 case .failure(let cause as AuthenticationError) where cause.isPasswordNotStrongEnough:
                     callback(.passwordTooWeak, nil)
                 case .failure(let cause as AuthenticationError) where cause.isPasswordAlreadyUsed:
@@ -156,28 +156,28 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             }
     }
 
-    private mutating func updateEmail(_ value: String?) -> Error? {
-        self.user.email = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        let error = self.emailValidator.validate(value)
+    private mutating func update(email: String?) -> Error? {
+        self.user.email = email?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let error = self.emailValidator.validate(email)
         self.user.validEmail = error == nil
         return error
     }
 
-    private mutating func updateUsername(_ value: String?) -> Error? {
-        self.user.username = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        let error = self.usernameValidator.validate(value)
+    private mutating func update(username: String?) -> Error? {
+        self.user.username = username?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let error = self.usernameValidator.validate(username)
         self.user.validUsername = error == nil
         return error
     }
 
-    private mutating func updatePassword(_ value: String?) -> Error? {
-        self.user.password = value
-        let error = self.passwordValidator.validate(value)
+    private mutating func update(password: String?) -> Error? {
+        self.user.password = password
+        let error = self.passwordValidator.validate(password)
         self.user.validPassword = error == nil
         return error
     }
 
-    private func handleLoginResult(_ result: Auth0.Result<Credentials>, callback: (DatabaseAuthenticatableError?) -> ()) {
+    private func handle(result: Auth0.Result<Credentials>, callback: (DatabaseAuthenticatableError?) -> ()) {
         switch result {
         case .failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
             self.logger.error("Multifactor is required for user <\(self.identifier)>")

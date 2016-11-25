@@ -36,7 +36,7 @@ class RouterSpec: QuickSpec {
 
         beforeEach {
             lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
-            lock.withConnections { $0.database(name: "connection", requiresUsername: false) }
+            _ = lock.withConnections { $0.database(name: "connection", requiresUsername: false) }
             controller = MockLockController(lock: lock)
             router = Router(lock: lock, controller: controller)
         }
@@ -50,14 +50,14 @@ class RouterSpec: QuickSpec {
             }
 
             it("should return root for single database connection") {
-                lock.withConnections { $0.database(name: connection, requiresUsername: true) }
+                _ = lock.withConnections { $0.database(name: connection, requiresUsername: true) }
                 let root = router.root as? DatabasePresenter
                 expect(root).toNot(beNil())
                 expect(root?.authPresenter).to(beNil())
             }
 
             it("should return root for single database connection and social") {
-                lock.withConnections {
+                _ = lock.withConnections {
                     $0.database(name: connection, requiresUsername: true)
                     $0.social(name: "facebook", style: .Facebook)
                 }
@@ -67,7 +67,7 @@ class RouterSpec: QuickSpec {
             }
 
             it("should return root for single database connection and social and enterprise") {
-                lock.withConnections {
+                _ = lock.withConnections {
                     $0.database(name: connection, requiresUsername: true)
                     $0.social(name: "facebook", style: .Facebook)
                     $0.enterprise(name: "testAD", domains: ["testAD.com"], style: AuthStyle(name: "ad"))
@@ -79,7 +79,7 @@ class RouterSpec: QuickSpec {
             }
 
             it("should return root for single enterprise and social") {
-                lock.withConnections {
+                _ = lock.withConnections {
                     $0.social(name: "facebook", style: .Facebook)
                     $0.enterprise(name: "testAD", domains: ["testAD.com"], style: AuthStyle(name: "ad"))
                 }
@@ -90,12 +90,12 @@ class RouterSpec: QuickSpec {
 
 
             it("should return root for only social connections") {
-                lock.withConnections { $0.social(name: "dropbox", style: AuthStyle(name: "Dropbox")) }
+                _ = lock.withConnections { $0.social(name: "dropbox", style: AuthStyle(name: "Dropbox")) }
                 expect(router.root as? AuthPresenter).toNot(beNil())
             }
 
             it("should return root for only enterprise connections") {
-                lock.withConnections {
+                _ = lock.withConnections {
                     $0.enterprise(name: "testAD", domains: ["testAD.com"], style: AuthStyle(name: "ad"))
                     $0.enterprise(name: "validAD", domains: ["validAD.com"], style: AuthStyle(name: "ad"))
                 }
@@ -103,7 +103,7 @@ class RouterSpec: QuickSpec {
             }
 
             it("should return root for one enterprise with actuve auth") {
-                lock.withConnections {
+                _ = lock.withConnections {
                     $0.enterprise(name: "testAD", domains: ["testAD.com"], style: AuthStyle(name: "ad"))
                     }.withOptions { $0.enterpriseConnectionUsingActiveAuth = ["testAD"] }
                 expect(router.root as? EnterpriseActiveAuthPresenter).toNot(beNil())
@@ -114,14 +114,14 @@ class RouterSpec: QuickSpec {
             }
 
             it("should return root when only reset password is allowed and there is a database connection") {
-                lock
+                _ = lock
                     .withConnections { $0.database(name: connection, requiresUsername: false) }
                     .withOptions { $0.allow = [.ResetPassword] }
                 expect(router.root as? DatabaseForgotPasswordPresenter).toNot(beNil())
             }
 
             it("should return root when reset password is the initial screen and there is a database connection") {
-                lock
+                _ = lock
                     .withConnections { $0.database(name: connection, requiresUsername: false) }
                     .withOptions { $0.allow = [.ResetPassword] }
                 expect(router.root as? DatabaseForgotPasswordPresenter).toNot(beNil())

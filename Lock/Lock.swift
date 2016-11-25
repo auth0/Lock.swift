@@ -116,7 +116,6 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    @discardableResult
     public func withConnections(_ closure: (inout ConnectionBuildable) -> ()) -> Lock {
         var connections: ConnectionBuildable = OfflineConnections()
         closure(&connections)
@@ -133,7 +132,6 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    @discardableResult
     public func allowedConnections(_ allowedConnections: [String]) -> Lock {
         let connections = self.connectionProvider.connections
         self.connectionProvider = ConnectionProvider(local: connections, allowed: allowedConnections)
@@ -147,7 +145,6 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    @discardableResult
     public func withOptions(_ closure: (inout OptionBuildable) -> ()) -> Lock {
         var builder: OptionBuildable = self.optionsBuilder
         closure(&builder)
@@ -174,8 +171,7 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    @discardableResult
-    public func style(_ closure: (inout Style) -> ()) -> Lock {
+    public func withStyle(_ closure: (inout Style) -> ()) -> Lock {
         var style = self.style
         closure(&style)
         self.style = style
@@ -189,7 +185,6 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    @discardableResult
     public func on(_ callback: @escaping AuthenticationCallback) -> Lock {
         self.callback = callback
         return self

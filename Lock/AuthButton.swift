@@ -57,7 +57,7 @@ public class AuthButton: UIView {
     public var titleColor: UIColor = .white {
         didSet {
             self.iconView?.tintColor = self.titleColor
-            self.button?.setTitleColor(self.titleColor, for: UIControlState())
+            self.button?.setTitleColor(self.titleColor, for: .normal)
             self.button?.tintColor = self.titleColor
         }
     }
@@ -65,7 +65,7 @@ public class AuthButton: UIView {
     public var title: String? {
         didSet {
             guard case .big = self.size else { return }
-            self.button?.setTitle(self.title, for: UIControlState())
+            self.button?.setTitle(self.title, for: .normal)
         }
     }
 
@@ -98,7 +98,7 @@ public class AuthButton: UIView {
 
     public init(size: Size) {
         self.size = size
-        super.init(frame: CGRect.zero)
+        super.init(frame: .zero)
         self.layout(size: self.size)
     }
 

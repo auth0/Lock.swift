@@ -42,7 +42,7 @@ class LockSpec: QuickSpec {
         describe("options") {
 
             it("should allow settings options") {
-                lock.withOptions { $0.closable = true }
+                _ = lock.withOptions { $0.closable = true }
                 expect(lock.options.closable) == true
             }
 
@@ -51,8 +51,8 @@ class LockSpec: QuickSpec {
             }
 
             it("should use the latest options") {
-                lock.withOptions { $0.closable = true }
-                lock.withOptions { $0.closable = false }
+                _ = lock.withOptions { $0.closable = true }
+                _ = lock.withOptions { $0.closable = false }
                 expect(lock.options.closable) == false
             }
 
@@ -66,7 +66,7 @@ class LockSpec: QuickSpec {
             it("should keep callback") {
                 var called = false
                 let callback: Lock.AuthenticationCallback = { _ in called = true }
-                lock.on(callback)
+                _ = lock.on(callback)
                 lock.callback(.cancelled)
                 expect(called) == true
             }
@@ -79,7 +79,7 @@ class LockSpec: QuickSpec {
         describe("withConnections") {
 
             it("should allow settings connections") {
-                lock.withConnections { $0.database(name: "MyDB", requiresUsername: false) }
+                _ = lock.withConnections { $0.database(name: "MyDB", requiresUsername: false) }
                 expect(lock.connections.database?.name) == "MyDB"
             }
 
@@ -88,8 +88,8 @@ class LockSpec: QuickSpec {
             }
 
             it("should use the latest options") {
-                lock.withConnections { $0.database(name: "MyDB", requiresUsername: false) }
-                lock.withConnections { $0.database(name: "AnotherDB", requiresUsername: false) }
+                _ = lock.withConnections { $0.database(name: "MyDB", requiresUsername: false) }
+                _ = lock.withConnections { $0.database(name: "AnotherDB", requiresUsername: false) }
                 expect(lock.connections.database?.name) == "AnotherDB"
             }
 
@@ -113,7 +113,7 @@ class LockSpec: QuickSpec {
             }
 
             it("should fail if options are invalid") {
-                lock.withOptions { $0.allow = [] }
+                _ = lock.withOptions { $0.allow = [] }
                 waitUntil { done in
                     lock
                         .on {

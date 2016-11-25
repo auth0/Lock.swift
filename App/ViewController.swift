@@ -51,7 +51,7 @@ class ViewController: UIViewController {
                     .withOptions {
                         applyDefaultOptions(&$0)
                     }
-                    .style {
+                    .withStyle {
                         $0.oauth2["slack"] = AuthStyle(
                             name: "Slack",
                             color: UIColor ( red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0 ),
@@ -65,7 +65,7 @@ class ViewController: UIViewController {
                     .withOptions {
                         applyDefaultOptions(&$0)
                     }
-                    .style {
+                    .withStyle {
                         $0.title = "Phantom Inc."
                         $0.headerBlur = .extraLight
                         $0.logo = LazyImage(name: "icn_phantom")
