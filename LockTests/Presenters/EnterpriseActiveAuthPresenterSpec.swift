@@ -215,6 +215,14 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.couldNotLogin))
             }
 
+            it("should trigger submission of form") {
+                let input = mockInput(.password, value: password)
+                input.returnKey = .done
+                view.form?.onReturn(input)
+                expect(messagePresenter.message).toEventually(beNil())
+                expect(messagePresenter.error).toEventually(beNil())
+            }
+
         }
 
     }

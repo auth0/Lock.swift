@@ -50,30 +50,35 @@ class LoggerSpec: QuickSpec {
                 logger.verbose(message)
                 expect(output.message) == message
                 expect(output.level) == .verbose
+                expect(output.level?.label) == "VERBOSE"
             }
 
             it("should log debug message") {
                 logger.debug(message)
                 expect(output.message) == message
                 expect(output.level) == .debug
+                expect(output.level?.label) == "DEBUG"
             }
 
             it("should log info message") {
                 logger.info(message)
                 expect(output.message) == message
                 expect(output.level) == .info
+                expect(output.level?.label) == "INFO"
             }
 
             it("should log warn message") {
                 logger.warn(message)
                 expect(output.message) == message
                 expect(output.level) == .warn
+                expect(output.level?.label) == "WARN"
             }
 
             it("should log error message") {
                 logger.error(message)
                 expect(output.message) == message
                 expect(output.level) == .error
+                expect(output.level?.label) == "ERROR"
             }
         }
 

@@ -181,6 +181,15 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 expect(messagePresenter.error).toEventually(beNil())
             }
 
+            it("should trigger submission of form") {
+                presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"], style: AuthStyle(name: "ad"))
+                oauth2.onLogin = { return OAuth2AuthenticatableError.couldNotAuthenticate }
+                let input = mockInput(.email, value: "user@test.com")
+                input.returnKey = .done
+                view.form?.onReturn(input)
+                expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
+            }
+
 
             it("should fail when no connection is matched") {
                 presenter.interactor.connection = nil
