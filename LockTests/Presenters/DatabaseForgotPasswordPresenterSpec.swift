@@ -128,6 +128,22 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
 
                 it("should show global error message") {
                     interactor.onRequest = {
+                        return .noDatabaseConnection
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(messagePresenter.error).toEventually(beError(error: PasswordRecoverableError.noDatabaseConnection))
+                }
+
+                it("should show global error message") {
+                    interactor.onRequest = {
+                        return .nonValidInput
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(messagePresenter.error).toEventually(beError(error: PasswordRecoverableError.nonValidInput))
+                }
+
+                it("should show global error message") {
+                    interactor.onRequest = {
                         return .emailNotSent
                     }
                     view.primaryButton?.onPress(view.primaryButton!)
