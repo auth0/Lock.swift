@@ -145,6 +145,20 @@ class RouterSpec: QuickSpec {
                 }
             }
 
+            it("should call callback with auth result when lock was displayed without present") {
+                controller.presenting = nil
+                let credentials = Credentials(accessToken: "ACCESS_TOKEN", tokenType: "bearer")
+                waitUntil(timeout: 2) { done in
+                    lock.callback = { result in
+                        if case .success(let actual) = result {
+                            expect(actual) == credentials
+                            done()
+                        }
+                    }
+                    router.onAuthentication(credentials)
+                }
+            }
+
             describe("back") {
 
                 beforeEach {
