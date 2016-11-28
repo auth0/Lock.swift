@@ -165,6 +165,8 @@ class AuthStyleSpec: QuickSpec {
             }
 
             [
+                ("ad", AuthStyle.Microsoft),
+                ("adfs", AuthStyle.Microsoft),
                 ("amazon", AuthStyle.Amazon),
                 ("aol", AuthStyle.Aol),
                 ("baidu", AuthStyle.Baidu),
@@ -200,6 +202,7 @@ class AuthStyleSpec: QuickSpec {
                 ("yahoo", AuthStyle.Yahoo),
                 ("yammer", AuthStyle.Yammer),
                 ("yandex", AuthStyle.Yandex),
+                ("waad", AuthStyle.Google),
                 ("weibo", AuthStyle.Weibo),
             ].forEach { (strategy, expected) in
                 it("should match \(strategy) style") {
@@ -207,6 +210,33 @@ class AuthStyleSpec: QuickSpec {
                     expect(style) == expected
                 }
             }
+        }
+
+        describe("style button color states") {
+
+            let style: Style = Style.Auth0
+
+            it("should have orange for normal") {
+                expect(style.primaryButtonColor(forState: .normal)) == UIColor.a0_orange
+            }
+
+            it("should be darker for highlighted") {
+                let baseColor = UIColor.a0_orange
+                expect(style.primaryButtonColor(forState: .highlighted)) == baseColor.a0_darker(0.20)
+            }
+
+            it("should match disabled color") {
+                expect(style.primaryButtonColor(forState: .disabled)) == UIColor(red: 0.8902, green: 0.898, blue: 0.9059, alpha: 1.0 )
+            }
+
+            it("should match disabled color") {
+                expect(style.primaryButtonTintColor(forState: .disabled)) == UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
+            }
+
+            it("should match tint disabled color") {
+                expect(style.primaryButtonTintColor(forState: .normal)) == UIColor.white
+            }
+
         }
     }
 }

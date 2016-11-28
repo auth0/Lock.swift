@@ -245,6 +245,26 @@ class RouterSpec: QuickSpec {
                 router.navigate(.enterpriseActiveAuth(connection: EnterpriseConnection(name: "testAD", domains: ["testad.com"])))
                 expect(controller.presentable as? EnterpriseActiveAuthPresenter).toNot(beNil())
             }
+
+            context("no connection") {
+                beforeEach {
+                    lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
+                    controller = MockLockController(lock: lock)
+                    router = Router(lock: lock, controller: controller)
+                }
+
+                it("should fail multifactor screen") {
+                    router.navigate(.multifactor)
+                    expect(controller.presentable).to(beNil())
+                }
+
+                it("should fail forgotPassword screen") {
+                    router.navigate(.forgotPassword)
+                    expect(controller.presentable).to(beNil())
+                }
+            }
+
+
         }
 
         it("should present view controller") {

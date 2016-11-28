@@ -11,6 +11,9 @@
 		5B09717E1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717D1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift */; };
 		5B0971801DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */; };
 		5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */; };
+		5B0CF2D61DE9AE0F00F82BF4 /* InputValidationErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */; };
+		5B0CF2D91DE9B1DB00F82BF4 /* DatabaseAuthenticatableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */; };
+		5B0CF2DE1DE9B4AF00F82BF4 /* DatabaseUserCreatorErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */; };
 		5B2981781DD51A460062535C /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2981771DD51A460062535C /* InfoBarView.swift */; };
 		5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */; };
 		5B4DE0171DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */; };
@@ -185,6 +188,9 @@
 		5B09717D1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthInteractor.swift; path = Lock/EnterpriseActiveAuthInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainPresenter.swift; path = Lock/EnterpriseDomainPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainView.swift; path = Lock/EnterpriseDomainView.swift; sourceTree = SOURCE_ROOT; };
+		5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidationErrorSpec.swift; sourceTree = "<group>"; };
+		5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseAuthenticatableErrorSpec.swift; sourceTree = "<group>"; };
+		5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseUserCreatorErrorSpec.swift; sourceTree = "<group>"; };
 		5B2981771DD51A460062535C /* InfoBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoBarView.swift; path = Lock/InfoBarView.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainInteractor.swift; path = Lock/EnterpriseDomainInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthPresenter.swift; path = Lock/EnterpriseActiveAuthPresenter.swift; sourceTree = SOURCE_ROOT; };
@@ -339,6 +345,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B0CF2DA1DE9B3C400F82BF4 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */,
+				5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */,
+				5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */,
+			);
+			name = Errors;
+			sourceTree = "<group>";
+		};
+		5B0CF2DB1DE9B3D300F82BF4 /* Validators */ = {
+			isa = PBXGroup;
+			children = (
+				5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */,
+				5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */,
+			);
+			name = Validators;
+			sourceTree = "<group>";
+		};
 		5F2496B41D665A9700A1C6E2 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -596,8 +621,8 @@
 				5F92C6901D510AFE00CCE6C0 /* LazyImageSpec.swift */,
 				5F390E8C1D63B99300FC549C /* LoggerSpec.swift */,
 				5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */,
-				5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */,
-				5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */,
+				5B0CF2DB1DE9B3D300F82BF4 /* Validators */,
+				5B0CF2DA1DE9B3C400F82BF4 /* Errors */,
 			);
 			path = LockTests;
 			sourceTree = "<group>";
@@ -943,6 +968,7 @@
 				5FE50DBF1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift in Sources */,
 				5F6C01551D91656100198ACD /* UsernameValidatorSpec.swift in Sources */,
 				5F2496BE1D67ADB300A1C6E2 /* EmailValidatorSpec.swift in Sources */,
+				5B0CF2D61DE9AE0F00F82BF4 /* InputValidationErrorSpec.swift in Sources */,
 				5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */,
 				5BA563F11DD117550002D3AB /* EnterpriseActiveAuthInteractorSpec.swift in Sources */,
 				5F92C68D1D50E47100CCE6C0 /* AuthStyleSpec.swift in Sources */,
@@ -964,10 +990,12 @@
 				5F57DFCE1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift in Sources */,
 				5F92C6911D510AFE00CCE6C0 /* LazyImageSpec.swift in Sources */,
 				5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */,
+				5B0CF2D91DE9B1DB00F82BF4 /* DatabaseAuthenticatableErrorSpec.swift in Sources */,
 				5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */,
 				5FE50DBD1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift in Sources */,
 				5F390E8D1D63B99300FC549C /* LoggerSpec.swift in Sources */,
 				5B6631531DDB9B28001CB043 /* EnterpriseDomainInteractorSpec.swift in Sources */,
+				5B0CF2DE1DE9B4AF00F82BF4 /* DatabaseUserCreatorErrorSpec.swift in Sources */,
 				5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */,
 				5FE50DC11D7DED8C00D82290 /* OfflineConnectionsSpec.swift in Sources */,
 			);

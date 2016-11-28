@@ -126,6 +126,10 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 expect(interactor.password).to(equal(password))
                 expect(interactor.validPassword).to(beTrue())
             }
+
+            it("should ignore unsupported atrribute") {
+                expect{ try interactor.update(.emailOrUsername, value: "asdfsdafasdfasdfasdfasdffds") }.toNot(throwError())
+            }
         }
 
         describe ("login") {
