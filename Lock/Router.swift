@@ -50,11 +50,17 @@ class Router: Navigable {
             }
         }
         self.onAuthentication = { [weak controller] credentials in
-            Queue.main.async {
-                controller?.presentingViewController?.dismiss(animated: true, completion: { _ in
-                    lock.callback(.success(credentials))
-                })
+            let closure: () -> ()
+            if let presentingController = controller?.presentingViewController {
+                closure = {
+                    presentingController.dismiss(animated: true, completion: { _ in
+                        lock.callback(.success(credentials))
+                    })
+                }
+            } else {
+                closure = { lock.callback(.success(credentials)) }
             }
+            Queue.main.async(closure)
         }
 
         self.onBack = {
