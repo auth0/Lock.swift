@@ -32,14 +32,14 @@ public class AuthStyle {
     let normalColor: UIColor
     let highlightedColor: UIColor
 
-    func localizedLoginTitle(title: String? = nil) -> String {
+    var localizedLoginTitle: String {
         let format = "Log in with %@".i18n(key: "com.auth0.lock.strategy.login.title", comment: "Log in action format")
-        return String(format: format, title ?? self.name)
+        return String(format: format, self.name)
     }
 
-    func localizedSignUpTitle(title: String? = nil) -> String {
+    var localizedSignUpTitle: String {
         let format = "Sign up with %@".i18n(key: "com.auth0.lock.strategy.signup.title", comment: "Sign up action format")
-        return String(format: format, title ?? self.name)
+        return String(format: format, self.name)
     }
 
     /**

@@ -126,7 +126,7 @@ func EnterpriseButton(forConnections connections: [EnterpriseConnection], custom
     guard let connection = connections.first, connections.count == 1 else { return nil }
     let style = customStyle[connection.name] ?? connection.style
     let button = AuthButton(size: .big)
-    button.title = style.localizedLoginTitle(title: connection.domains.first).uppercased()
+    button.title = style.localizedLoginTitle.uppercased()
     button.normalColor = style.normalColor
     button.highlightedColor = style.highlightedColor
     button.titleColor = style.foregroundColor

@@ -39,8 +39,8 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
         
         beforeEach {
             connections = OfflineConnections()
-            connections.enterprise(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
-            connections.enterprise(name: "validAD", domains: ["valid.com"], style: AuthStyle(name: "ad"))
+            connections.enterprise(name: "TestAD", domains: ["test.com"])
+            connections.enterprise(name: "validAD", domains: ["valid.com"])
             
             credentials = nil
             webAuth = MockWebAuth()
@@ -67,7 +67,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
 
                 beforeEach {
                     connections = OfflineConnections()
-                    connections.enterprise(name: "TestAD", domains: [], style: AuthStyle(name: "ad"))
+                    connections.enterprise(name: "TestAD", domains: [])
 
                     enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
                 }
@@ -86,7 +86,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 
                 beforeEach {
                     connections = OfflineConnections()
-                    connections.enterprise(name: "TestAD", domains: [], style: AuthStyle(name: "ad"))
+                    connections.enterprise(name: "TestAD", domains: [])
                     enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
                 }
                 
@@ -101,7 +101,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
 
                 beforeEach {
                     connections = OfflineConnections()
-                    connections.enterprise(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
+                    connections.enterprise(name: "TestAD", domains: ["test.com"])
                     enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
                 }
                 
@@ -135,7 +135,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 
                 beforeEach {
                     connections = OfflineConnections()
-                    connections.enterprise(name: "TestAD", domains: ["test.com","pepe.com"], style: AuthStyle(name: "ad"))
+                    connections.enterprise(name: "TestAD", domains: ["test.com","pepe.com"])
                     
                     enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
                 }
@@ -161,7 +161,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 error = nil
                 
                 connections = OfflineConnections()
-                connections.enterprise(name: "TestAD", domains: ["test.com"], style: AuthStyle(name: "ad"))
+                connections.enterprise(name: "TestAD", domains: ["test.com"])
                 enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
             }
             

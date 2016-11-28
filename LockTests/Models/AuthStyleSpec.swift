@@ -102,12 +102,12 @@ class AuthStyleSpec: QuickSpec {
 
             it("should provide login title") {
                 let strategy = AuthStyle(name: "facebook")
-                expect(strategy.localizedLoginTitle()) == "Log in with facebook"
+                expect(strategy.localizedLoginTitle) == "Log in with facebook"
             }
 
             it("should provide signup title") {
                 let strategy = AuthStyle(name: "facebook")
-                expect(strategy.localizedSignUpTitle()) == "Sign up with facebook"
+                expect(strategy.localizedSignUpTitle) == "Sign up with facebook"
             }
 
         }
