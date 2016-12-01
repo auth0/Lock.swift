@@ -60,7 +60,7 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
  *
  *  @return if login requires an additional step or not
  */
-- (BOOL)a0_mfaRequired;
+- (BOOL)a0_mfaRegistrationRequired;
 
 @end
 

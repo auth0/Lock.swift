@@ -38,8 +38,8 @@ NSString * const A0JSONResponseSerializerErrorDataKey = @"com.auth0.authenticati
     return [self a0_payload][@"error_description"];
 }
 
-- (BOOL)a0_mfaRequired {
-    return [[self a0_error] isEqualToString:@"a0.mfa_required"];
+- (BOOL)a0_mfaRegistrationRequired {
+    return [[self a0_error] isEqualToString:@"a0.mfa_registration_required"];
 }
 
 @end
