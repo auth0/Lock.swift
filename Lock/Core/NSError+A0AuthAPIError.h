@@ -62,6 +62,13 @@ FOUNDATION_EXPORT NSString * const A0JSONResponseSerializerErrorDataKey;
  */
 - (BOOL)a0_mfaRequired;
 
+/**
+ *  If Auth0 error for authentication indicates that a MFA registration is required
+ *
+ *  @return if login requires MFA
+ */
+- (BOOL)a0_mfaRegistrationRequired;
+
 @end
 
 NS_ASSUME_NONNULL_END
