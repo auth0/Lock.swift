@@ -172,7 +172,7 @@
         A0APIClientError failure = ^(NSError *error) {
             [self postSignUpErrorNotificationWithError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
-                if ([error a0_mfaRequired]) {
+                if ([error a0_mfaRequired] || [error a0_mfaRegistrationRequired]) {
                     completionHandler(YES);
                     self.onMFARequired();
                     return;

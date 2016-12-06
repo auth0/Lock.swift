@@ -243,7 +243,7 @@
             [self postLoginErrorNotificationWithError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(NO);
-                if ([error a0_mfaRequired]) {
+                if ([error a0_mfaRequired] || [error a0_mfaRegistrationRequired]) {
                     self.onMFARequired(self.defaultConnection.name, username, password);
                 } else {
                     NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error logging in");
