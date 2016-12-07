@@ -1,4 +1,12 @@
 # Change Log
+
+## [1.28.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.28.0) (2016-12-07)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.27.1...1.28.0)
+
+**Changed**
+- Handle a0.mfa_registration_required when MFA needs enroll [\#352](https://github.com/auth0/Lock.iOS-OSX/pull/352) ([cocojoe](https://github.com/cocojoe))
+- Update A0EmailValidator.m [\#344](https://github.com/auth0/Lock.iOS-OSX/pull/344) ([f2m2rd](https://github.com/f2m2rd))
+
 ## [1.27.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.27.1) (2016-10-06)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.27.0...1.27.1)
 
