@@ -202,7 +202,7 @@ class DatabasePresenter: Presentable, Loggable {
         case .emailOrUsername:
             attribute = .emailOrUsername
         case .password:
-            attribute = .password(enforcePolicy: self.currentMode == .Signup)
+            attribute = .password(enforcePolicy: self.currentMode == .signup)
         case .username:
             attribute = .username
         case .custom(let name, _, _, _, _, _):

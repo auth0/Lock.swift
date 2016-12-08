@@ -39,13 +39,13 @@ class PasswordPolicySpec: QuickSpec {
 
             ["1", "a random password", "with 1 number", "bad", "password", "a very strong password with more than 10 chars."].forEach { password in
                 it("is a valid password") {
-                    expect(policy.on(password)).to(beRuleResult(true, forPassword: password))
+                    expect(policy.on(password)).to(beRuleResult(valid: true, forPassword: password))
                 }
             }
 
             ["", nil].forEach { password in
                 it("is an invalid password") {
-                    expect(policy.on(password)).to(beRuleResult(false, forPassword: password))
+                    expect(policy.on(password)).to(beRuleResult(valid: false, forPassword: password))
                 }
             }
 
@@ -56,13 +56,13 @@ class PasswordPolicySpec: QuickSpec {
 
             ["123456", "a random password", "password", "a very strong password with more than 10 chars."].forEach { password in
                 it("is a valid password") {
-                    expect(policy.on(password)).to(beRuleResult(true, forPassword: password))
+                    expect(policy.on(password)).to(beRuleResult(valid: true, forPassword: password))
                 }
             }
 
             ["", nil, "short", "bad"].forEach { password in
                 it("is an invalid password") {
-                    expect(policy.on(password)).to(beRuleResult(false, forPassword: password))
+                    expect(policy.on(password)).to(beRuleResult(valid: false, forPassword: password))
                 }
             }
             
@@ -73,13 +73,13 @@ class PasswordPolicySpec: QuickSpec {
 
             ["1ValidPassword", "A very strong password with more than 10 chars.", "ONEtwo34"].forEach { password in
                 it("is a valid password") {
-                    expect(policy.on(password)).to(beRuleResult(true, forPassword: password))
+                    expect(policy.on(password)).to(beRuleResult(valid: true, forPassword: password))
                 }
             }
 
             ["", nil, "short", "bad", "only lowercase letters", "ONLY UPPERCASE LETTERS", "123456789", "missing 1 uppercase", "MISSING 1 LOWERCASE", "missing A digit"].forEach { password in
                 it("is an invalid password") {
-                    expect(policy.on(password)).to(beRuleResult(false, forPassword: password))
+                    expect(policy.on(password)).to(beRuleResult(valid: false, forPassword: password))
                 }
             }
             
@@ -90,13 +90,13 @@ class PasswordPolicySpec: QuickSpec {
 
             ["1ValidPassword", "ValidPassword!", "A very strong password with more than 10 chars.", "ONEtwo3&", "password1*", "PASSWORD2_"].forEach { password in
                 it("is a valid password") {
-                    expect(policy.on(password)).to(beRuleResult(true, forPassword: password))
+                    expect(policy.on(password)).to(beRuleResult(valid: true, forPassword: password))
                 }
             }
 
             ["", nil, "short", "bad", "only lowercase letters", "ONLY UPPERCASE LETTERS", "123456789", "missing 1 uppercase or symbol", "MISSING 1 LOWERCASE OR SYMBOL", "missing A digit or symbol", "1234567890+_)*^"].forEach { password in
                 it("is an invalid password") {
-                    expect(policy.on(password)).to(beRuleResult(false, forPassword: password))
+                    expect(policy.on(password)).to(beRuleResult(valid: false, forPassword: password))
                 }
             }
             
@@ -107,13 +107,13 @@ class PasswordPolicySpec: QuickSpec {
 
             ["1ValidPassword", "ValidPassword!", "A very strong password with more than 10 chars.", "ONEtwo3&()", "password1*", "PASSWORD2_"].forEach { password in
                 it("is a valid password") {
-                    expect(policy.on(password)).to(beRuleResult(true, forPassword: password))
+                    expect(policy.on(password)).to(beRuleResult(valid: true, forPassword: password))
                 }
             }
 
             ["", nil, "short", "bad", "only lowercase letters", "ONLY UPPERCASE LETTERS", "123456789", "missing 1 uppercase or symbol", "MISSING 1 LOWERCASE OR SYMBOL", "missing A digit or symbol", "1234567890+_)*^", "multipleAAA"].forEach { password in
                 it("is an invalid password") {
-                    expect(policy.on(password)).to(beRuleResult(false, forPassword: password))
+                    expect(policy.on(password)).to(beRuleResult(valid: false, forPassword: password))
                 }
             }
             

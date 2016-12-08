@@ -154,7 +154,7 @@ class ViewController: UIViewController {
         let button = AuthButton(size: .big)
         button.title = title
         button.onPress = { [weak self] _ in
-            self?.showLock(action())
+            self?.showLock(lock: action())
         }
         return button
     }

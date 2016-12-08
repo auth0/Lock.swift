@@ -136,13 +136,13 @@ private struct ClientInfo {
         "ip",
         "mscrm",
         "custom",
-        "sharepoint",
+        "sharepoint"
     ]
 
     let enterpriseCredentialAuthNames = [
         "waad",
         "adfs",
-        "ad",
+        "ad"
         ]
 
 }

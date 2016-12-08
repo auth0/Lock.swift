@@ -45,54 +45,54 @@ public struct PasswordPolicy {
         case excellent = "excellent"
     }
 
-    public func on(password: String?) -> [RuleResult] {
+    public func on(_ password: String?) -> [RuleResult] {
         return rules.map { $0.evaluate(on: password) }
     }
 
     public static var none: PasswordPolicy {
-        return PasswordPolicy(name: Auth0.none.rawValue, rules: [withPassword(lengthInRange: 1..<Int.max, message: nonEmpty)])
+        return PasswordPolicy(name: Auth0.none.rawValue, rules: [withPassword(lengthInRange: 1...Int.max, message: nonEmpty)])
     }
 
     public static var low: PasswordPolicy {
         let message = String(format: atLeast, 6)
-        return PasswordPolicy(name: Auth0.low.rawValue, rules: [withPassword(lengthInRange: 6..<Int.max, message: message)])
+        return PasswordPolicy(name: Auth0.low.rawValue, rules: [withPassword(lengthInRange: 6...Int.max, message: message)])
     }
 
     public static var fair: PasswordPolicy {
         return PasswordPolicy(name: Auth0.fair.rawValue, rules: [
-            withPassword(lengthInRange: 8..<Int.max, message: String(format: atLeast, 8)),
+            withPassword(lengthInRange: 8...Int.max, message: String(format: atLeast, 8)),
             AtLeastRule(minimum: 3, rules: [
-                    withPassword(havingCharactersIn: .lowercaseLetterCharacterSet(), message: lowercase),
-                    withPassword(havingCharactersIn: .uppercaseLetterCharacterSet(), message: upperCase),
-                    withPassword(havingCharactersIn: .decimalDigitCharacterSet(), message: numbers),
-                ], message: shouldContain),
+                    withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
+                    withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
+                    withPassword(havingCharactersIn: .decimalDigits, message: numbers)
+                ], message: shouldContain)
             ])
     }
 
     public static var good: PasswordPolicy {
-        let specialCharacterSet = NSMutableCharacterSet.punctuationCharacterSet()
-        specialCharacterSet.formUnionWithCharacterSet(.symbolCharacterSet())
+        var specialCharacterSet = CharacterSet.punctuationCharacters
+        specialCharacterSet.formUnion(.symbols)
         return PasswordPolicy(name: Auth0.good.rawValue, rules: [
-            withPassword(lengthInRange: 8..<Int.max, message: String(format: atLeast, 8)),
+            withPassword(lengthInRange: 8...Int.max, message: String(format: atLeast, 8)),
             AtLeastRule(minimum: 3, rules: [
-                    withPassword(havingCharactersIn: .lowercaseLetterCharacterSet(), message: lowercase),
-                    withPassword(havingCharactersIn: .uppercaseLetterCharacterSet(), message: upperCase),
-                    withPassword(havingCharactersIn: .decimalDigitCharacterSet(), message: numbers),
-                    withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters),
-                ], message: String(format: containAtLeast, 3, 4)),
+                    withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
+                    withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
+                    withPassword(havingCharactersIn: .decimalDigits, message: numbers),
+                    withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters)
+                ], message: String(format: containAtLeast, 3, 4))
             ])
     }
 
     public static var excellent: PasswordPolicy {
-        let specialCharacterSet = NSMutableCharacterSet.punctuationCharacterSet()
-        specialCharacterSet.formUnionWithCharacterSet(.symbolCharacterSet())
+        var specialCharacterSet = CharacterSet.punctuationCharacters
+        specialCharacterSet.formUnion(.symbols)
         return PasswordPolicy(name: Auth0.excellent.rawValue, rules: [
             withPassword(lengthInRange: 10...128, message: String(format: atLeast, 10)),
             AtLeastRule(minimum: 3, rules: [
-                    withPassword(havingCharactersIn: .lowercaseLetterCharacterSet(), message: lowercase),
-                    withPassword(havingCharactersIn: .uppercaseLetterCharacterSet(), message: upperCase),
-                    withPassword(havingCharactersIn: .decimalDigitCharacterSet(), message: numbers),
-                    withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters),
+                    withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
+                    withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
+                    withPassword(havingCharactersIn: .decimalDigits, message: numbers),
+                    withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters)
             ], message: String(format: containAtLeast, 3, 4)),
             withPassword(havingMaxConsecutiveRepeats: 2, message: String(format: noMoreThanSimilar, 2, "aaa"))
             ])

@@ -101,11 +101,7 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should update password") {
-<<<<<<< 08fd6a6cfba85402cefd9e08f95ebe27e28fdd07
-                expect{ try database.update(.password, value: password) }.toNot(throwError())
-=======
-                expect{ try database.update(.Password(enforcePolicy: false), value: password) }.toNot(throwError())
->>>>>>> Enforce police only on signup
+                expect{ try database.update(.password(enforcePolicy: false), value: password) }.toNot(throwError())
                 expect(database.password) == password
                 expect(database.username).to(beNil())
                 expect(database.email).to(beNil())
@@ -203,24 +199,24 @@ class DatabaseInteractorSpec: QuickSpec {
             describe("password validation") {
 
                 it("should always store value") {
-                    let _ = try? database.update(.Password(enforcePolicy: false), value: "pass")
+                    let _ = try? database.update(.password(enforcePolicy: false), value: "pass")
                     expect(database.password) == "pass"
                 }
 
                 it("should raise error if password is empty not enforcing policy") {
-                    expect{ try database.update(.Password(enforcePolicy: false), value: "") }.to(throwError(InputValidationError.MustNotBeEmpty))
+                    expect{ try database.update(.password(enforcePolicy: false), value: "") }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
 
                 it("should raise error if password is nil not enforcing policy") {
-                    expect{ try database.update(.Password(enforcePolicy: false), value: nil) }.to(throwError(InputValidationError.MustNotBeEmpty))
+                    expect{ try database.update(.password(enforcePolicy: false), value: nil) }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
 
                 it("should raise error if password is empty") {
-                    expect{ try database.update(.Password(enforcePolicy: true), value: "") }.to(throwError(InputValidationError.PasswordPolicyViolation(result: [])))
+                    expect{ try database.update(.password(enforcePolicy: true), value: "") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
                 }
 
                 it("should raise error if password is nil") {
-                    expect{ try database.update(.Password(enforcePolicy: true), value: nil) }.to(throwError(InputValidationError.PasswordPolicyViolation(result: [])))
+                    expect{ try database.update(.password(enforcePolicy: true), value: nil) }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
                 }
                 
             }
@@ -265,9 +261,9 @@ class DatabaseInteractorSpec: QuickSpec {
         describe("login") {
 
             it("should yield no error on success") {
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
-                try! database.update(.Email, value: email)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error).to(beNil())
@@ -277,10 +273,10 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should prefer email over username") {
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error).to(beNil())
@@ -294,10 +290,10 @@ class DatabaseInteractorSpec: QuickSpec {
                 var options = LockOptions()
                 options.scope = scope
                 database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
-                stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error).to(beNil())
@@ -311,10 +307,10 @@ class DatabaseInteractorSpec: QuickSpec {
                 var options = LockOptions()
                 options.parameters = ["state": state as Any]
                 database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
-                stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error).to(beNil())
@@ -324,9 +320,9 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should use username") {
-                stub(databaseLogin(identifier: username, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: username, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error).to(beNil())
@@ -336,9 +332,9 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield error on failure") {
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
-                try! database.update(.Email, value: email)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error) == .couldNotLogin
@@ -348,9 +344,9 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield invalid credentials error on failure") {
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_user_password") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_user_password") }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error) == .invalidEmailPassword
@@ -360,9 +356,9 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should indicate that mfa is required") {
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error) == .multifactorRequired
@@ -372,9 +368,9 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should indicate that mfa is required") {
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_registration_required") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_registration_required") }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error) == .multifactorRequired
@@ -393,9 +389,9 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should indicate the user is blocked for too many attempts") {
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("too_many_attempts") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("too_many_attempts") }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error) == .tooManyAttempts
@@ -405,9 +401,9 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should indicate the user is blocked") {
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("unauthorized", description: "user is blocked") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("unauthorized", description: "user is blocked") }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error) == .userBlocked
@@ -417,9 +413,9 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should indicate the password needs to be changed") {
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("password_change_required") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("password_change_required") }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error) == .passwordChangeRequired
@@ -429,9 +425,9 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should indicate the password is leaked") {
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("password_leaked") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("password_leaked") }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error) == .passwordLeaked
@@ -445,11 +441,11 @@ class DatabaseInteractorSpec: QuickSpec {
         describe("signup") {
 
             it("should yield no error on success") {
-                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
@@ -462,11 +458,11 @@ class DatabaseInteractorSpec: QuickSpec {
             it("should not send username") {
                 let username = "AN INVALID USERNAME"
                 database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: false), authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
-                stub(databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
-                try! database.update(.Email, value: email)
-                let _ = try? database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.email, value: email)
+                let _ = try? database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
@@ -477,11 +473,11 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should indicate that mfa is required") {
-                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
@@ -492,11 +488,11 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield error on login failure") {
-                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
-                stub(databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
@@ -507,10 +503,10 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield error on signup failure") {
-                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create) == .couldNotCreateUser
@@ -520,10 +516,10 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield invalid password") {
-                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password") }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create) == .passwordInvalid
@@ -533,10 +529,10 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield password too weak") {
-                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordStrengthError") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordStrengthError") }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create) == .passwordTooWeak
@@ -546,10 +542,10 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield password already used") {
-                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordHistoryError") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordHistoryError") }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create) == .passwordAlreadyUsed
@@ -559,10 +555,10 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield password too common") {
-                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordDictionaryError") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordDictionaryError") }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create) == .passwordTooCommon
@@ -572,10 +568,10 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield password has user info") {
-                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordNoUserInfoError") }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordNoUserInfoError") }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create) == .passwordHasUserInfo
@@ -594,8 +590,8 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield error when username is not valid and required") {
-                try! database.update(.Email, value: email)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create) == .nonValidInput
@@ -610,11 +606,11 @@ class DatabaseInteractorSpec: QuickSpec {
                 var options = LockOptions()
                 options.scope = scope
                 database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
-                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
-                stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
@@ -629,11 +625,11 @@ class DatabaseInteractorSpec: QuickSpec {
                 var options = LockOptions()
                 options.parameters = ["state": state as Any]
                 database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
-                stub(databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
-                stub(databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
-                try! database.update(.Email, value: email)
-                try! database.update(.Username, value: username)
-                try! database.update(.Password(enforcePolicy: false), value: password)
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
                         expect(create).to(beNil())

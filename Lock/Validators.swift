@@ -67,7 +67,7 @@ public class UsernameValidator: InputValidator {
         return nil
     }
 
-    public static var auth0: CharacterSet {
+    open static var auth0: CharacterSet {
         let set = NSMutableCharacterSet()
         set.formUnion(with: CharacterSet.alphanumerics)
         set.addCharacters(in: "_")
@@ -97,11 +97,11 @@ public class PasswordPolicyValidator: InputValidator {
         self.policy = policy
     }
 
-    func validate(value: String?) -> ErrorType? {
+    func validate(_ value: String?) -> Error? {
         let result = self.policy.on(value)
         let valid = result.reduce(true) { $0 && $1.valid }
         guard !valid else { return nil }
-        return InputValidationError.PasswordPolicyViolation(result: result)
+        return InputValidationError.passwordPolicyViolation(result: result)
     }
 }
 

@@ -36,7 +36,7 @@ public protocol ConnectionBuildable: Connections {
      - parameter passwordValidator: password validator for the connection.
      - important: Only **ONE** database connection can be used so subsequent calls will override the previous value
      */
-    mutating func database(name name: String, requiresUsername: Bool, usernameValidator: UsernameValidator, passwordValidator: PasswordPolicyValidator)
+    mutating func database(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator, passwordValidator: PasswordPolicyValidator)
 
     /**
      Adds a new social connection
@@ -84,13 +84,8 @@ public extension ConnectionBuildable {
      - parameter passwordPolicy:    password policy for the database
      - important: Only **ONE** database connection can be used so subsequent calls will override the previous value
      */
-<<<<<<< ebf66765b057c54ad9456c4cf530cac761a9ccbb
-    public mutating func database(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator()) {
-        self.database(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator)
-=======
-    public mutating func database(name name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator(), passwordPolicy: PasswordPolicy = .none) {
+    public mutating func database(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator(), passwordPolicy: PasswordPolicy = .none) {
         self.database(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator, passwordValidator: PasswordPolicyValidator(policy: passwordPolicy))
->>>>>>> Allow to configure password validator or policy
     }
 
 }

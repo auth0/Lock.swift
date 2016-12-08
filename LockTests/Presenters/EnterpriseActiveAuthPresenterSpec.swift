@@ -194,7 +194,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
 
                 interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
                 try! interactor.update(.username, value: username)
-                try! interactor.update(.password, value: password)
+                try! interactor.update(.password(enforcePolicy: false), value: password)
                 presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
                 presenter.messagePresenter = messagePresenter
 

@@ -34,12 +34,12 @@ public protocol RuleResult {
     var valid: Bool { get }
 }
 
-func withPassword(lengthInRange range: Range<Int>, message: String) -> Rule {
+func withPassword(lengthInRange range: CountableClosedRange<Int>, message: String) -> Rule {
     return SimpleRule(message: message) { range ~= $0.characters.count }
 }
 
-func withPassword(havingCharactersIn characterSet: NSCharacterSet, message: String) -> Rule {
-    return SimpleRule(message: message) { $0.rangeOfCharacterFromSet(characterSet) != nil }
+func withPassword(havingCharactersIn characterSet: CharacterSet, message: String) -> Rule {
+    return SimpleRule(message: message) { $0.rangeOfCharacter(from: characterSet) != nil }
 }
 
 func withPassword(havingMaxConsecutiveRepeats count: Int, message: String) -> Rule {

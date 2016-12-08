@@ -20,10 +20,10 @@
 		5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */; };
 		5B6631531DDB9B28001CB043 /* EnterpriseDomainInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */; };
 		5BA563F11DD117550002D3AB /* EnterpriseActiveAuthInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA563EF1DD1171F0002D3AB /* EnterpriseActiveAuthInteractorSpec.swift */; };
+		5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
-		5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F14565D1D5237820085DF9C /* DatabaseView.swift */; };
 		5F1C498E1D8360AA005B74FC /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C498D1D8360AA005B74FC /* Style.swift */; };
 		5F1C49901D8360BF005B74FC /* ConnectionLoadingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */; };
 		5F1C49931D8360DF005B74FC /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C49921D8360DF005B74FC /* LoadingView.swift */; };
@@ -136,7 +136,6 @@
 		5FEEE81A1DB6AF3800B4DFED /* RuleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE8191DB6AF3800B4DFED /* RuleSpec.swift */; };
 		5FEEE81C1DB80D6800B4DFED /* PasswordPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE81B1DB80D6800B4DFED /* PasswordPolicy.swift */; };
 		5FEEE81E1DB84BBB00B4DFED /* PasswordPolicySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE81D1DB84BBB00B4DFED /* PasswordPolicySpec.swift */; };
-		5FF1FA3A1D4C13CC00158CD1 /* LockUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FF1FA341D4C12DF00158CD1 /* LockUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC54FD1D37E3F700579581 /* Routes.swift */; };
 		B73CCF98908698EC6FE6B978 /* PasswordPolicyValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */; };
 /* End PBXBuildFile section */
@@ -204,10 +203,10 @@
 		5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthView.swift; path = Lock/EnterpriseActiveAuthView.swift; sourceTree = SOURCE_ROOT; };
 		5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainInteractorSpec.swift; sourceTree = "<group>"; };
 		5BA563EF1DD1171F0002D3AB /* EnterpriseActiveAuthInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthInteractorSpec.swift; sourceTree = "<group>"; };
+		5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
 		5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthPresenterSpec.swift; sourceTree = "<group>"; };
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Lock/Colors.swift; sourceTree = SOURCE_ROOT; };
-		5F14565D1D5237820085DF9C /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseView.swift; path = Lock/DatabaseView.swift; sourceTree = SOURCE_ROOT; };
 		5F1C498D1D8360AA005B74FC /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Style.swift; path = Lock/Style.swift; sourceTree = SOURCE_ROOT; };
 		5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionLoadingPresenter.swift; path = Lock/ConnectionLoadingPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5F1C49921D8360DF005B74FC /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingView.swift; path = Lock/LoadingView.swift; sourceTree = SOURCE_ROOT; };
@@ -320,8 +319,6 @@
 		5FEEE8191DB6AF3800B4DFED /* RuleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuleSpec.swift; sourceTree = "<group>"; };
 		5FEEE81B1DB80D6800B4DFED /* PasswordPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordPolicy.swift; path = Lock/PasswordPolicy.swift; sourceTree = SOURCE_ROOT; };
 		5FEEE81D1DB84BBB00B4DFED /* PasswordPolicySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicySpec.swift; sourceTree = "<group>"; };
-		5FF1FA321D4C12DF00158CD1 /* LockUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LockUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FF1FA341D4C12DF00158CD1 /* LockUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LockUI.h; path = Lock/LockUI.h; sourceTree = SOURCE_ROOT; };
 		5FFC54FD1D37E3F700579581 /* Routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Routes.swift; path = Lock/Routes.swift; sourceTree = SOURCE_ROOT; };
 		B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicyValidatorSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -373,8 +370,6 @@
 		5B0CF2DB1DE9B3D300F82BF4 /* Validators */ = {
 			isa = PBXGroup;
 			children = (
-				5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */,
-				5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */,
 			);
 			name = Validators;
 			sourceTree = "<group>";
@@ -440,6 +435,7 @@
 		5F50900C1D1DF3ED00EAA650 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */,
 				5F1C49921D8360DF005B74FC /* LoadingView.swift */,
 				5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */,
 				5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */,
@@ -804,8 +800,8 @@
 				TargetAttributes = {
 					5FEADCF31D1A7EBC0032D810 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0810;
 						DevelopmentTeam = 86WQXF56BC;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Manual;
 					};
 					5FEAE1C51D1A5154005C0028 = {
@@ -942,6 +938,7 @@
 				5F70F1E31D79057A004698DA /* OfflineConnections.swift in Sources */,
 				5F2496B31D665A5600A1C6E2 /* DatabaseUserCreator.swift in Sources */,
 				5F1C499B1D836190005B74FC /* CustomTextField.swift in Sources */,
+				5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */,
 				5F70F1E71D790773004698DA /* OptionBuildable.swift in Sources */,
 				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
@@ -996,7 +993,6 @@
 				5F50900E1D1DF40400EAA650 /* DatabaseOnlyView.swift in Sources */,
 				5F70F1E91D7907D5004698DA /* LockOptions.swift in Sources */,
 				5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */,
-				5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */,
 				5F70F1EE1D790BBE004698DA /* LockViewController.swift in Sources */,
 				5F5D4A261DC3FB34002A38EB /* PasswordPolicyView.swift in Sources */,
 				5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */,

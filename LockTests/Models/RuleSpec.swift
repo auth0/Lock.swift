@@ -63,7 +63,7 @@ class RuleSpec: QuickSpec {
 
         describe("character set") {
 
-            let rule = withPassword(havingCharactersIn: .alphanumericCharacterSet(), message: "character set")
+            let rule = withPassword(havingCharactersIn: .alphanumerics, message: "character set")
 
             it("should pass message in result") {
                 expect(rule.evaluate(on: "password").message) == "character set"

@@ -36,9 +36,9 @@ class PolicyView: UIStackView {
         }
         super.init(frame: .zero)
         self.views.forEach { self.addArrangedSubview($0) }
-        self.axis = .Vertical
-        self.distribution = .EqualSpacing
-        self.alignment = .Fill
+        self.axis = .vertical
+        self.distribution = .equalSpacing
+        self.alignment = .fill
     }
 
     required init(coder: NSCoder) {
@@ -52,13 +52,13 @@ class PolicyView: UIStackView {
             rule.conditions.forEach { statuses.append($0.valid ? .ok : .none) }
             return statuses
         }
-        for (index, status) in statuses.enumerate() {
+        for (index, status) in statuses.enumerated() {
             guard index < self.views.count else { break }
             self.views[index].status = status
         }
     }
 
-    override func intrinsicContentSize() -> CGSize {
+    override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: CGFloat(self.views.count * 24))
     }
 }
@@ -83,11 +83,11 @@ class RuleView: UIView {
 
         self.addSubview(self.label)
         let margin = 20 * level
-        NSLayoutConstraint.activateConstraints([
-            self.label.leftAnchor.constraintEqualToAnchor(self.leftAnchor, constant: CGFloat(margin)),
-            self.label.topAnchor.constraintEqualToAnchor(self.topAnchor),
-            self.label.rightAnchor.constraintEqualToAnchor(self.rightAnchor),
-            self.label.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor),
+        NSLayoutConstraint.activate([
+            self.label.leftAnchor.constraint(equalTo: self.leftAnchor, constant: CGFloat(margin)),
+            self.label.topAnchor.constraint(equalTo: self.topAnchor),
+            self.label.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.label.bottomAnchor.constraint(equalTo: self.bottomAnchor)
             ])
 
         self.label.translatesAutoresizingMaskIntoConstraints = false
@@ -121,22 +121,22 @@ class RuleView: UIView {
             case .error:
                 return UIColor(red:0.867, green:0.294, blue:0.224, alpha:1)
             case .none:
-                return .blackColor()
+                return .black
 
             }
         }
     }
 
-    private func render(text text: String, withStatus status: Status) {
+    fileprivate func render(text: String, withStatus status: Status) {
         //        let attachment = NSTextAttachment()
         //        attachment.image = UIImage(named: "ic_pwd_policy_error")
         let attributedText = NSMutableAttributedString()
         //        attributedText.append(NSAttributedString(attachment: attachment))
-        attributedText.appendAttributedString(NSAttributedString(
+        attributedText.append(NSAttributedString(
             string: text,
             attributes: [
                 NSForegroundColorAttributeName: status.color,
-                NSFontAttributeName: UIFont.systemFontOfSize(13),
+                NSFontAttributeName: UIFont.systemFont(ofSize: 13)
             ]
             ))
         self.label.attributedText = attributedText

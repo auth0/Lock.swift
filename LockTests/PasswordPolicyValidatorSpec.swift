@@ -45,7 +45,7 @@ class PasswordPolicyValidatorSpec: QuickSpec {
             let validator = PasswordPolicyValidator(policy: policy)
             let error = validator.validate(password) as? InputValidationError
             expect(error).toNot(beNil())
-            if case .PasswordPolicyViolation(let result) = error! {
+            if case .passwordPolicyViolation(let result) = error! {
                 expect(result.first?.valid) == false
                 expect(result.first?.message) == "MOCK"
             } else {
@@ -58,7 +58,7 @@ class PasswordPolicyValidatorSpec: QuickSpec {
             let validator = PasswordPolicyValidator(policy: policy)
             let error = validator.validate(password) as? InputValidationError
             expect(error).toNot(beNil())
-            if case .PasswordPolicyViolation(let result) = error! {
+            if case .passwordPolicyViolation(let result) = error! {
                 expect(result).to(haveCount(2))
             } else {
                 fail("Invalid error. Expected PasswordPolicyViolation")

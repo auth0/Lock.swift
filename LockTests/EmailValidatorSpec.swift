@@ -54,6 +54,6 @@ class EmailValidatorSpec: QuickSpec {
 
 extension InputValidationError: Equatable {}
 
-func ==(lhs: InputValidationError, rhs: InputValidationError) -> Bool {
+public func ==(lhs: InputValidationError, rhs: InputValidationError) -> Bool {
     return (lhs as NSError) == (rhs as NSError)
 }
