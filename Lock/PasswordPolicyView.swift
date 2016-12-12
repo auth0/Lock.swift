@@ -121,8 +121,7 @@ class RuleView: UIView {
             case .error:
                 return UIColor(red: 0.745, green: 0.271, blue: 0.153, alpha: 1)
             case .none:
-                return .black
-
+                return UIColor(red: 0.016, green: 0.016, blue: 0.016, alpha: 1)
             }
         }
     }
@@ -137,12 +136,12 @@ class RuleView: UIView {
         let attributedText = NSMutableAttributedString()
         attributedText.append(NSAttributedString(attachment: attachment))
         attributedText.append(NSAttributedString(
-            string: " " + text,
+            string: "  " + text,
             attributes: [
                 NSForegroundColorAttributeName: status.color,
                 NSFontAttributeName: font
             ]
-            ))
+        ))
         self.label.attributedText = attributedText
     }
 }
