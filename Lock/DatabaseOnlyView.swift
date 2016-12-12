@@ -128,8 +128,12 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         passwordPolicyView.isHidden = true
         form.passwordField.errorLabel?.removeFromSuperview()
-        form.passwordField.onBeginEditing = { _ in passwordPolicyView.isHidden = false }
-        form.passwordField.onEndEditing = { _ in passwordPolicyView.isHidden = true }
+        form.passwordField.onBeginEditing = { [weak passwordPolicyView] _ in
+            passwordPolicyView?.isHidden = false
+        }
+        form.passwordField.onEndEditing = { [weak passwordPolicyView] _ in
+            passwordPolicyView?.isHidden = true
+        }
     }
 
     func presentEnterprise() {
