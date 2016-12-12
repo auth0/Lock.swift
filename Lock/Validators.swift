@@ -90,8 +90,13 @@ public class EmailValidator: InputValidator {
     }
 }
 
+protocol PasswordPolicyValidatorDelegate: class {
+    func update(withRules rules: [RuleResult])
+}
+
 public class PasswordPolicyValidator: InputValidator {
     let policy: PasswordPolicy
+    weak var delegate:PasswordPolicyValidatorDelegate?
 
     init(policy: PasswordPolicy) {
         self.policy = policy
@@ -99,6 +104,7 @@ public class PasswordPolicyValidator: InputValidator {
 
     func validate(_ value: String?) -> Error? {
         let result = self.policy.on(value)
+        self.delegate?.update(withRules: result)
         let valid = result.reduce(true) { $0 && $1.valid }
         guard !valid else { return nil }
         return InputValidationError.passwordPolicyViolation(result: result)

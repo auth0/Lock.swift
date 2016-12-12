@@ -189,6 +189,10 @@ class DatabasePresenter: Presentable, Loggable {
             [cancel, tos, privacy].forEach { alert.addAction($0) }
             self.navigator.present(alert)
         }
+
+        guard let interactor = self.authenticator as? DatabaseInteractor, let passwordPolicyValidator = interactor.passwordValidator as? PasswordPolicyValidator, passwordPolicyValidator.policy.name != "none" else { return }
+
+        view.showPasswordHelper(withPolicy: passwordPolicyValidator)
     }
 
     private func handleInput(_ input: InputField) {

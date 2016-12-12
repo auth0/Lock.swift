@@ -163,6 +163,34 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.spacer = nil
     }
 
+    func showPasswordHelper(withPolicy passwordPolicyValidator: PasswordPolicyValidator) {
+        guard let form = self.form as? SignUpView else { return }
+
+        let passwordPolicyHelperView = PasswordPolicyHelperView(rules: passwordPolicyValidator.policy.rules)
+        passwordPolicyValidator.delegate = passwordPolicyHelperView.policyView
+
+        if let parentView = self.superview {
+            parentView.addSubview(passwordPolicyHelperView)
+            constraintEqual(anchor: passwordPolicyHelperView.leftAnchor, toAnchor: parentView.leftAnchor, constant: 20)
+            constraintEqual(anchor: passwordPolicyHelperView.rightAnchor, toAnchor: parentView.rightAnchor, constant: -20)
+            constraintEqual(anchor: passwordPolicyHelperView.bottomAnchor, toAnchor: form.passwordField.topAnchor, constant: -10)
+            passwordPolicyHelperView.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        passwordPolicyHelperView.alpha = 0
+        form.passwordField.onBeginEditing = { _ in
+            UIView.animate(withDuration: 0.20) {
+                passwordPolicyHelperView.alpha = 1.0
+            }
+        }
+        form.passwordField.onEndEditing = { _ in
+            UIView.animate(withDuration: 0.20) {
+                passwordPolicyHelperView.alpha = 0.0
+            }
+        }
+
+    }
+
     private func layoutSecondaryButton(_ enabled: Bool) {
         self.secondaryStrut?.removeFromSuperview()
         self.secondaryButton?.removeFromSuperview()

@@ -71,6 +71,10 @@ public class InputField: UIView, UITextFieldDelegate {
 
     var onReturn: (InputField) -> () = {_ in}
 
+    var onBeginEditing: (InputField) -> () = {_ in}
+
+    var onEndEditing: (InputField) -> () = {_ in}
+
     // MARK: - Initialisers
 
     public convenience init() {
@@ -215,6 +219,14 @@ public class InputField: UIView, UITextFieldDelegate {
                 return 0
             }
         }
+    }
+
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.onBeginEditing(self)
+    }
+
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        self.onEndEditing(self)
     }
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {

@@ -562,8 +562,8 @@
 			isa = PBXGroup;
 			children = (
 				5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */,
-				5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */,
 				5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */,
+				5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */,
 				5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */,
 				5FC434891D1DF82A005188BC /* DatabasePresenter.swift */,
 				5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */,
