@@ -144,7 +144,10 @@ class DatabasePresenter: Presentable, Loggable {
     private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18), isLogin: false)
-        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields)
+        let interactor = self.authenticator as? DatabaseInteractor
+        let passwordPolicyValidator = interactor?.passwordValidator as? PasswordPolicyValidator
+
+        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator)
         let form = view.form
         view.form?.onValueChange = self.handleInput
         let action = { [weak form] (button: PrimaryButton) in
@@ -189,10 +192,6 @@ class DatabasePresenter: Presentable, Loggable {
             [cancel, tos, privacy].forEach { alert.addAction($0) }
             self.navigator.present(alert)
         }
-
-        guard let interactor = self.authenticator as? DatabaseInteractor, let passwordPolicyValidator = interactor.passwordValidator as? PasswordPolicyValidator, passwordPolicyValidator.policy.name != "none" else { return }
-
-        view.showPasswordHelper(withPolicy: passwordPolicyValidator)
     }
 
     private func handleInput(_ input: InputField) {

@@ -105,7 +105,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.form = form
     }
 
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField]) {
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil) {
         let form = SignUpView(additionalFields: additionalFields)
         form.showUsername = showUsername
         form.emailField.text = email
@@ -118,6 +118,18 @@ class DatabaseOnlyView: UIView, DatabaseView {
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(true)
         self.form = form
+
+        guard let passwordPolicyValidator = passwordPolicyValidator else { return }
+
+        let passwordPolicyView = PolicyView(rules: passwordPolicyValidator.policy.rules)
+        passwordPolicyValidator.delegate = passwordPolicyView
+        let passwordIndex = form.stackView.arrangedSubviews.index(of: form.passwordField)
+        form.stackView.insertArrangedSubview(passwordPolicyView, at:passwordIndex!)
+
+        passwordPolicyView.isHidden = true
+        form.passwordField.errorLabel?.removeFromSuperview()
+        form.passwordField.onBeginEditing = { _ in passwordPolicyView.isHidden = false }
+        form.passwordField.onEndEditing = { _ in passwordPolicyView.isHidden = true }
     }
 
     func presentEnterprise() {
@@ -161,34 +173,6 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         self.ssoBar = nil
         self.spacer = nil
-    }
-
-    func showPasswordHelper(withPolicy passwordPolicyValidator: PasswordPolicyValidator) {
-        guard let form = self.form as? SignUpView else { return }
-
-        let passwordPolicyHelperView = PasswordPolicyHelperView(rules: passwordPolicyValidator.policy.rules)
-        passwordPolicyValidator.delegate = passwordPolicyHelperView.policyView
-
-        if let parentView = self.superview {
-            parentView.addSubview(passwordPolicyHelperView)
-            constraintEqual(anchor: passwordPolicyHelperView.leftAnchor, toAnchor: parentView.leftAnchor, constant: 20)
-            constraintEqual(anchor: passwordPolicyHelperView.rightAnchor, toAnchor: parentView.rightAnchor, constant: -20)
-            constraintEqual(anchor: passwordPolicyHelperView.bottomAnchor, toAnchor: form.passwordField.topAnchor, constant: -10)
-            passwordPolicyHelperView.translatesAutoresizingMaskIntoConstraints = false
-        }
-
-        passwordPolicyHelperView.alpha = 0
-        form.passwordField.onBeginEditing = { _ in
-            UIView.animate(withDuration: 0.20) {
-                passwordPolicyHelperView.alpha = 1.0
-            }
-        }
-        form.passwordField.onEndEditing = { _ in
-            UIView.animate(withDuration: 0.20) {
-                passwordPolicyHelperView.alpha = 0.0
-            }
-        }
-
     }
 
     private func layoutSecondaryButton(_ enabled: Bool) {

@@ -44,8 +44,8 @@ public class SignUpView: UIView, Form {
     var onValueChange: (InputField) -> () = {_ in} {
         didSet {
             self.stackView.arrangedSubviews
-                .map { $0 as! InputField }
-                .forEach { $0.onTextChange = onValueChange }
+                .map { $0 as? InputField }
+                .forEach { $0?.onTextChange = onValueChange }
         }
     }
 
@@ -60,8 +60,8 @@ public class SignUpView: UIView, Form {
 
     func needsToUpdateState() {
         self.stackView.arrangedSubviews
-            .map { $0 as! InputField }
-            .forEach { $0.needsToUpdateState() }
+            .map { $0 as? InputField }
+            .forEach { $0?.needsToUpdateState() }
     }
 
     // MARK: - Initialisers
@@ -110,7 +110,7 @@ public class SignUpView: UIView, Form {
 
         stackView.axis = .vertical
         stackView.spacing = 16
-        stackView.distribution = .equalCentering
+        stackView.distribution = .fillProportionally
         stackView.alignment = .fill
 
         email.type = .email
