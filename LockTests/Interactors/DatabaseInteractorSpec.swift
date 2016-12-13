@@ -136,7 +136,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 it("should raise error if email/username is nil") {
                     expect{ try database.update(.emailOrUsername, value: nil) }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
-                
+
             }
             describe("email validation") {
 
@@ -193,7 +193,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 it("should raise error if email is nil") {
                     expect{ try database.update(.username, value: nil) }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
-                
+
             }
 
             describe("password validation") {
@@ -218,7 +218,114 @@ class DatabaseInteractorSpec: QuickSpec {
                 it("should raise error if password is nil") {
                     expect{ try database.update(.password(enforcePolicy: true), value: nil) }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
                 }
-                
+
+                context("password low, 6 char min") {
+
+                    beforeEach {
+                        Auth0Stubs.failUnknown()
+                        user = User()
+                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .low))
+                        database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
+                    }
+
+                    it("should raise error if password is <6 characters") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "12345") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should pass if password is 6 characters") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "123456") }.toNot(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+                }
+
+                context("password fair, 8 char min, 3/3 rules") {
+
+                    beforeEach {
+                        Auth0Stubs.failUnknown()
+                        user = User()
+                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .fair))
+                        database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
+                    }
+
+                    it("should raise error if password is <8 characters") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "12345") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should raise error, length good, does not meet 3/4 rules") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "12345678") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should raise error, length good, includes numbers, includes lower, missing upper") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "123a5678") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should pass, length good, includes numbers, includes lower, includes upper") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "123a5A78") }.toNot(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+                }
+
+                context("password good, 8 min, 3/4 rules") {
+
+                    beforeEach {
+                        Auth0Stubs.failUnknown()
+                        user = User()
+                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+                        database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
+                    }
+
+                    it("should raise error if password is <8 characters") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "12345") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should raise error, length good, but does not meet 3/4 rules") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "12345678") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should raise error, length good, includes numbers, includes lower, missing upper") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "123a5678") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should pass, length good, includes numbers, includes lower, includes upper, no special") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "123a5A78") }.toNot(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should pass, length good, includes numbers, includes lower, no upper, includes special") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "123a5b78$") }.toNot(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+                }
+
+                context("password excellent, 10 min, 3/4 rules, no more than 2 identical characters in a row") {
+
+                    beforeEach {
+                        Auth0Stubs.failUnknown()
+                        user = User()
+                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .excellent))
+                        database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), callback: { _ in })
+                    }
+
+                    it("should raise error if password is <10 characters") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "12345") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should raise error, length good, but does not meet 3/4 rules") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "12345678") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should raise error, length good, includes numbers, includes lower, missing upper") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "123456789a") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should pass, length good, includes numbers, includes lower, includes upper, no special") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "12345678aA") }.toNot(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should pass, length good, includes numbers, includes lower, no upper, includes special") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "12345678a$") }.toNot(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+
+                    it("should raise error, 3 char in a row, length good, includes numbers, includes lower, no upper, includes special") {
+                        expect{ try database.update(.password(enforcePolicy: true), value: "1aaa5678a$9") }.to(throwError(InputValidationError.passwordPolicyViolation(result: [])))
+                    }
+                }
             }
 
             describe("custom attribute validation") {
@@ -619,7 +726,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
-
+            
             it("should send parameters on login") {
                 let state = UUID().uuidString
                 var options = LockOptions()
@@ -638,9 +745,9 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
-
-
+            
+            
         }
-
+        
     }
 }

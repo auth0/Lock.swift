@@ -107,7 +107,7 @@ public class PasswordPolicyValidator: InputValidator {
         self.delegate?.update(withRules: result)
         let valid = result.reduce(true) { $0 && $1.valid }
         guard !valid else { return nil }
-        return InputValidationError.passwordPolicyViolation(result: result)
+        return InputValidationError.passwordPolicyViolation(result: result.filter { !$0.valid })
     }
 }
 

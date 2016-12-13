@@ -40,10 +40,8 @@ enum InputValidationError: Error {
             return "Must not be empty".i18n(key: "com.auth0.lock.input.empty.error", comment: "empty input")
         case .notAOneTimePassword:
             return "Must be a valid numeric code".i18n(key: "com.auth0.lock.input.otp.error", comment: "invalid otp")
-        case .passwordPolicyViolation(let result) where result.count < 2:
-            return "Must not be empty".i18n(key: "com.auth0.lock.input.empty.error", comment: "empty input")
         case .passwordPolicyViolation(let result):
-            return result.first?.message ?? "Must not be empty".i18n(key: "com.auth0.lock.input.empty.error", comment: "empty input")
+            return result.first?.message ?? "Must not be empty".i18n(key: "com.auth0.lock.input.policy.violation", comment: "policy violation")
         }
     }
 }
