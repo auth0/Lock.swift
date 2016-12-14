@@ -110,7 +110,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         form.showUsername = showUsername
         form.emailField.text = email
         form.emailField.returnKey = .next
-        form.emailField.nextField = form.usernameField ?? form.passwordField
+        form.emailField.nextField = showUsername ? form.usernameField : form.passwordField
         form.usernameField?.text = username
         form.usernameField?.returnKey = .next
         form.usernameField?.nextField = form.passwordField
@@ -128,11 +128,27 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         passwordPolicyView.isHidden = true
         form.passwordField.errorLabel?.removeFromSuperview()
-        form.passwordField.onBeginEditing = { [weak passwordPolicyView] _ in
-            passwordPolicyView?.isHidden = false
+        form.passwordField.onBeginEditing = { [unowned passwordPolicyView] _ in
+            passwordPolicyView.isHidden = false
         }
-        form.passwordField.onEndEditing = { [weak passwordPolicyView] _ in
-            passwordPolicyView?.isHidden = true
+        form.passwordField.onEndEditing = { [unowned passwordPolicyView] _ in
+            passwordPolicyView.isHidden = true
+        }
+
+        if !showUsername {
+            form.emailField.onReturn = { [unowned form, unowned passwordPolicyView] _ in
+                if form.emailField.nextField == form.passwordField {
+                    passwordPolicyView.isHidden = false
+                    form.passwordField.becomeFirstResponder()
+                }
+            }
+        } else {
+            form.usernameField?.onReturn = { _ in
+                if form.usernameField?.nextField == form.passwordField {
+                    passwordPolicyView.isHidden = false
+                    form.passwordField.becomeFirstResponder()
+                }
+            }
         }
     }
 
