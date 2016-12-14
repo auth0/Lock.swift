@@ -27,6 +27,7 @@ protocol Navigable {
     func reload(withConnections connections: Connections)
     func navigate(_ route: Route)
     func resetScroll(_ animated: Bool)
+    func scroll(toPosition: CGPoint, animated: Bool)
     func present(_ controller: UIViewController)
     func exit(withError error: Error)
 }
@@ -201,6 +202,10 @@ class Router: Navigable {
 
     func resetScroll(_ animated: Bool) {
         self.controller?.scrollView.setContentOffset(CGPoint.zero, animated: animated)
+    }
+
+    func scroll(toPosition: CGPoint, animated: Bool) {
+        self.controller?.scrollView.setContentOffset(toPosition, animated: animated)
     }
 
     func exit(withError error: Error) {

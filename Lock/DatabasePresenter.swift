@@ -58,6 +58,7 @@ class DatabasePresenter: Presentable, Loggable {
         let initialScreen = self.options.initialScreen
         let allow = self.options.allow
         let database = DatabaseOnlyView(allowedModes: allow)
+        database.navigator = self.navigator
         database.switcher?.onSelectionChange = { [weak database] switcher in
             let selected = switcher.selected
             guard let view = database else { return }

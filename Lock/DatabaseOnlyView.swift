@@ -33,6 +33,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var secondaryStrut: UIView?
     weak var ssoBar: InfoBarView?
     weak var spacer: UIView?
+    var navigator: Navigable?
 
     private weak var container: UIStackView?
 
@@ -135,19 +136,15 @@ class DatabaseOnlyView: UIView, DatabaseView {
             passwordPolicyView.isHidden = true
         }
 
-        if !showUsername {
-            form.emailField.onReturn = { [unowned form, unowned passwordPolicyView] _ in
-                if form.emailField.nextField == form.passwordField {
-                    passwordPolicyView.isHidden = false
-                    form.passwordField.becomeFirstResponder()
-                }
+        form.emailField.onReturn = { [unowned form, unowned passwordPolicyView] _ in
+            if form.emailField.nextField == form.passwordField {
+                self.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
             }
-        } else {
-            form.usernameField?.onReturn = { _ in
-                if form.usernameField?.nextField == form.passwordField {
-                    passwordPolicyView.isHidden = false
-                    form.passwordField.becomeFirstResponder()
-                }
+        }
+
+        form.usernameField?.onReturn = { [unowned form, unowned passwordPolicyView] _ in
+            if form.usernameField?.nextField == form.passwordField {
+                self.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
             }
         }
     }

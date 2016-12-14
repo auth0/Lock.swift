@@ -73,6 +73,9 @@ class MockNavigator: Navigable {
         self.resetted = true
     }
 
+    func scroll(toPosition: CGPoint, animated: Bool) {
+    }
+
     func present(_ controller: UIViewController) {
         self.presented = controller
     }
