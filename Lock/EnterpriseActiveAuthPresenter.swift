@@ -55,7 +55,7 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
                     try self.interactor.update(self.interactor.identifierAttribute, value: input.text)
                     input.showValid()
                 case .password:
-                    try self.interactor.update(.password, value: input.text)
+                    try self.interactor.update(.password(enforcePolicy: false), value: input.text)
                     input.showValid()
                 default:
                     self.logger.warn("Invalid user attribute")

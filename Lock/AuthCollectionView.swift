@@ -120,7 +120,7 @@ class AuthCollectionView: UIView, View {
 
         NSLayoutConstraint.activate([
             guide.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-            guide.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            guide.centerXAnchor.constraint(equalTo: container.centerXAnchor)
             ])
 
         buttons.enumerated().forEach { index, button in

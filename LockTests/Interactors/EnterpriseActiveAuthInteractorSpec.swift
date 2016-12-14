@@ -122,7 +122,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             }
 
             it("should update password") {
-                try! interactor.update(.password, value: password)
+                try! interactor.update(.password(enforcePolicy: false), value: password)
                 expect(interactor.password).to(equal(password))
                 expect(interactor.validPassword).to(beTrue())
             }
@@ -149,7 +149,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             it("should yield no error on success") {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.update(.email, value: email)
-                try! interactor.update(.password, value: password)
+                try! interactor.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
                         expect(error).to(beNil())
@@ -161,7 +161,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             it("should yield invalid credentials error on failure") {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("invalid_user_password") }
                 try! interactor.update(.email, value: email)
-                try! interactor.update(.password, value: password)
+                try! interactor.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
                         expect(error) == .invalidEmailPassword
@@ -173,7 +173,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             it("should indicate that mfa is required") {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
                 try! interactor.update(.email, value: email)
-                try! interactor.update(.password, value: password)
+                try! interactor.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
                         expect(error) == .multifactorRequired
@@ -185,7 +185,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             it("should indicate that mfa is required registration") {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_registration_required") }
                 try! interactor.update(.email, value: email)
-                try! interactor.update(.password, value: password)
+                try! interactor.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
                         expect(error) == .multifactorRequired
@@ -197,7 +197,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             it("should indicate the user is blocked") {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "user is blocked") }
                 try! interactor.update(.email, value: email)
-                try! interactor.update(.password, value: password)
+                try! interactor.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
                         expect(error) == .userBlocked
@@ -209,7 +209,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             it("should indicate the password needs to be changed") {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("password_change_required") }
                 try! interactor.update(.email, value: email)
-                try! interactor.update(.password, value: password)
+                try! interactor.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
                         expect(error) == .passwordChangeRequired

@@ -67,7 +67,7 @@ public class UsernameValidator: InputValidator {
         return nil
     }
 
-    public static var auth0: CharacterSet {
+    open static var auth0: CharacterSet {
         let set = NSMutableCharacterSet()
         set.formUnion(with: CharacterSet.alphanumerics)
         set.addCharacters(in: "_")
@@ -87,6 +87,27 @@ public class EmailValidator: InputValidator {
         guard let email = value?.trimmed, !email.isEmpty else { return InputValidationError.mustNotBeEmpty }
         guard self.predicate.evaluate(with: email) else { return InputValidationError.notAnEmailAddress }
         return nil
+    }
+}
+
+protocol PasswordPolicyValidatorDelegate: class {
+    func update(withRules rules: [RuleResult])
+}
+
+public class PasswordPolicyValidator: InputValidator {
+    let policy: PasswordPolicy
+    weak var delegate:PasswordPolicyValidatorDelegate?
+
+    init(policy: PasswordPolicy) {
+        self.policy = policy
+    }
+
+    func validate(_ value: String?) -> Error? {
+        let result = self.policy.on(value)
+        self.delegate?.update(withRules: result)
+        let valid = result.reduce(true) { $0 && $1.valid }
+        guard !valid else { return nil }
+        return InputValidationError.passwordPolicyViolation(result: result.filter { !$0.valid })
     }
 }
 

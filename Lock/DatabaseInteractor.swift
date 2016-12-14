@@ -36,11 +36,12 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     var validUsername: Bool { return self.user.validUsername }
     var validPassword: Bool { return self.user.validPassword }
     var usernameValidator: InputValidator { return self.connection.usernameValidator }
+    var passwordValidator: InputValidator { return self.connection.passwordValidator }
+    var requiredValidator = NonEmptyValidator()
 
     let authentication: Authentication
     let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
-    let passwordValidator: InputValidator = NonEmptyValidator()
     let onAuthentication: (Credentials) -> ()
     let options: Options
     let customFields: [String: CustomTextField]
@@ -63,8 +64,8 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             error = self.update(email: value)
         case .username:
             error = self.update(username: value)
-        case .password:
-            error = self.update(password: value)
+        case .password(let enforcePolicy):
+            error = self.update(password: value, enforcingPolicy: enforcePolicy)
         case .emailOrUsername:
             let emailError = self.update(email: value)
             let usernameError = self.update(username: value)
@@ -170,9 +171,9 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         return error
     }
 
-    private mutating func update(password: String?) -> Error? {
+    private mutating func update(password: String?, enforcingPolicy: Bool) -> Error? {
         self.user.password = password
-        let error = self.passwordValidator.validate(password)
+        let error = enforcingPolicy ? self.passwordValidator.validate(password) : self.requiredValidator.validate(password)
         self.user.validPassword = error == nil
         return error
     }

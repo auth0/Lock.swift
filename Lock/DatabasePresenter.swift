@@ -40,6 +40,7 @@ class DatabasePresenter: Presentable, Loggable {
     var initialUsername: String? { return self.authenticator.validUsername ? self.authenticator.username : nil }
 
     weak var databaseView: DatabaseOnlyView?
+    var currentMode: DatabaseModeSwitcher.Mode?
 
     convenience init(interactor: DatabaseInteractor, connection: DatabaseConnection, navigator: Navigable, options: Options) {
         self.init(authenticator: interactor, creator: interactor, connection: connection, navigator: navigator, options: options)
@@ -57,6 +58,7 @@ class DatabasePresenter: Presentable, Loggable {
         let initialScreen = self.options.initialScreen
         let allow = self.options.allow
         let database = DatabaseOnlyView(allowedModes: allow)
+        database.navigator = self.navigator
         database.switcher?.onSelectionChange = { [weak database] switcher in
             let selected = switcher.selected
             guard let view = database else { return }
@@ -68,6 +70,7 @@ class DatabasePresenter: Presentable, Loggable {
             case .login:
                 self.showLogin(inView: view, identifier: self.authenticator.identifier)
             }
+            self.currentMode = switcher.selected
         }
 
         if allow.contains(.Login) && initialScreen == .login {
@@ -142,7 +145,10 @@ class DatabasePresenter: Presentable, Loggable {
     private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18), isLogin: false)
-        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields)
+        let interactor = self.authenticator as? DatabaseInteractor
+        let passwordPolicyValidator = interactor?.passwordValidator as? PasswordPolicyValidator
+
+        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator)
         let form = view.form
         view.form?.onValueChange = self.handleInput
         let action = { [weak form] (button: PrimaryButton) in
@@ -200,7 +206,7 @@ class DatabasePresenter: Presentable, Loggable {
         case .emailOrUsername:
             attribute = .emailOrUsername
         case .password:
-            attribute = .password
+            attribute = .password(enforcePolicy: self.currentMode == .signup)
         case .username:
             attribute = .username
         case .custom(let name, _, _, _, _, _):

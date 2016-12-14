@@ -33,6 +33,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var secondaryStrut: UIView?
     weak var ssoBar: InfoBarView?
     weak var spacer: UIView?
+    var navigator: Navigable?
 
     private weak var container: UIStackView?
 
@@ -105,12 +106,12 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.form = form
     }
 
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField]) {
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil) {
         let form = SignUpView(additionalFields: additionalFields)
         form.showUsername = showUsername
         form.emailField.text = email
         form.emailField.returnKey = .next
-        form.emailField.nextField = form.usernameField ?? form.passwordField
+        form.emailField.nextField = showUsername ? form.usernameField : form.passwordField
         form.usernameField?.text = username
         form.usernameField?.returnKey = .next
         form.usernameField?.nextField = form.passwordField
@@ -118,6 +119,34 @@ class DatabaseOnlyView: UIView, DatabaseView {
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(true)
         self.form = form
+
+        guard let passwordPolicyValidator = passwordPolicyValidator else { return }
+
+        let passwordPolicyView = PolicyView(rules: passwordPolicyValidator.policy.rules)
+        passwordPolicyValidator.delegate = passwordPolicyView
+        let passwordIndex = form.stackView.arrangedSubviews.index(of: form.passwordField)
+        form.stackView.insertArrangedSubview(passwordPolicyView, at:passwordIndex!)
+
+        passwordPolicyView.isHidden = true
+        form.passwordField.errorLabel?.removeFromSuperview()
+        form.passwordField.onBeginEditing = { [unowned passwordPolicyView] _ in
+            passwordPolicyView.isHidden = false
+        }
+        form.passwordField.onEndEditing = { [unowned passwordPolicyView] _ in
+            passwordPolicyView.isHidden = true
+        }
+
+        form.emailField.onReturn = { [unowned form, unowned passwordPolicyView] _ in
+            if form.emailField.nextField == form.passwordField {
+                self.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
+            }
+        }
+
+        form.usernameField?.onReturn = { [unowned form, unowned passwordPolicyView] _ in
+            if form.usernameField?.nextField == form.passwordField {
+                self.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
+            }
+        }
     }
 
     func presentEnterprise() {

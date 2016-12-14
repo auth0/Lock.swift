@@ -87,7 +87,7 @@ class ViewController: UIViewController {
                     }
                     .withConnections { connections in
                         let usernameValidator = UsernameValidator(withLength: 1...20, characterSet: UsernameValidator.auth0)
-                        connections.database(name: "Username-Password-Authentication", requiresUsername: true, usernameValidator: usernameValidator)
+                        connections.database(name: "Username-Password-Authentication", requiresUsername: true, usernameValidator: usernameValidator, passwordPolicy: .excellent)
                 }
             },
             actionButton(withTitle: "LOGIN ONLY WITH DB") {
@@ -154,7 +154,7 @@ class ViewController: UIViewController {
         let button = AuthButton(size: .big)
         button.title = title
         button.onPress = { [weak self] _ in
-            self?.showLock(action())
+            self?.showLock(lock: action())
         }
         return button
     }
@@ -172,8 +172,8 @@ class ViewController: UIViewController {
         return wrapper
     }
 
-    private func showLock(_ lock: Lock) {
-        Log.enable(minimumSeverity: LogSeverity.verbose)
+    private func showLock(lock: Lock) {
+        Log.enable(minimumSeverity: LogSeverity.verbose, suppressColors: true)
         lock
             .on { result in
                 switch result {

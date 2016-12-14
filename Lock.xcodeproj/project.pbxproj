@@ -20,10 +20,10 @@
 		5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */; };
 		5B6631531DDB9B28001CB043 /* EnterpriseDomainInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */; };
 		5BA563F11DD117550002D3AB /* EnterpriseActiveAuthInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA563EF1DD1171F0002D3AB /* EnterpriseActiveAuthInteractorSpec.swift */; };
+		5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
-		5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F14565D1D5237820085DF9C /* DatabaseView.swift */; };
 		5F1C498E1D8360AA005B74FC /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C498D1D8360AA005B74FC /* Style.swift */; };
 		5F1C49901D8360BF005B74FC /* ConnectionLoadingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */; };
 		5F1C49931D8360DF005B74FC /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C49921D8360DF005B74FC /* LoadingView.swift */; };
@@ -58,6 +58,7 @@
 		5F57DFCE1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFCD1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift */; };
 		5F57DFD21D4FE59800C54DA8 /* OAuth2Authenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */; };
 		5F57DFD41D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */; };
+		5F5D4A261DC3FB34002A38EB /* PasswordPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5D4A251DC3FB34002A38EB /* PasswordPolicyView.swift */; };
 		5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */; };
 		5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D71D22ED120016FC22 /* Presentable.swift */; };
 		5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D91D22EF490016FC22 /* Router.swift */; };
@@ -131,7 +132,12 @@
 		5FEAE1CA1D1A5154005C0028 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEAE1C91D1A5154005C0028 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FEAE1D11D1A5154005C0028 /* Lock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FEAE1C61D1A5154005C0028 /* Lock.framework */; };
 		5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAE20F1D1A5691005C0028 /* HeaderView.swift */; };
+		5FEEE8181DB6AC8E00B4DFED /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE8171DB6AC8E00B4DFED /* Rule.swift */; };
+		5FEEE81A1DB6AF3800B4DFED /* RuleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE8191DB6AF3800B4DFED /* RuleSpec.swift */; };
+		5FEEE81C1DB80D6800B4DFED /* PasswordPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE81B1DB80D6800B4DFED /* PasswordPolicy.swift */; };
+		5FEEE81E1DB84BBB00B4DFED /* PasswordPolicySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE81D1DB84BBB00B4DFED /* PasswordPolicySpec.swift */; };
 		5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC54FD1D37E3F700579581 /* Routes.swift */; };
+		B73CCF98908698EC6FE6B978 /* PasswordPolicyValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,10 +203,10 @@
 		5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthView.swift; path = Lock/EnterpriseActiveAuthView.swift; sourceTree = SOURCE_ROOT; };
 		5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainInteractorSpec.swift; sourceTree = "<group>"; };
 		5BA563EF1DD1171F0002D3AB /* EnterpriseActiveAuthInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthInteractorSpec.swift; sourceTree = "<group>"; };
+		5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
 		5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthPresenterSpec.swift; sourceTree = "<group>"; };
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Lock/Colors.swift; sourceTree = SOURCE_ROOT; };
-		5F14565D1D5237820085DF9C /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseView.swift; path = Lock/DatabaseView.swift; sourceTree = SOURCE_ROOT; };
 		5F1C498D1D8360AA005B74FC /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Style.swift; path = Lock/Style.swift; sourceTree = SOURCE_ROOT; };
 		5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionLoadingPresenter.swift; path = Lock/ConnectionLoadingPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5F1C49921D8360DF005B74FC /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingView.swift; path = Lock/LoadingView.swift; sourceTree = SOURCE_ROOT; };
@@ -232,6 +238,7 @@
 		5F57DFCD1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthPresenterSpec.swift; sourceTree = "<group>"; };
 		5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OAuth2Authenticatable.swift; path = Lock/OAuth2Authenticatable.swift; sourceTree = SOURCE_ROOT; };
 		5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Auth0OAuth2Interactor.swift; path = Lock/Auth0OAuth2Interactor.swift; sourceTree = SOURCE_ROOT; };
+		5F5D4A251DC3FB34002A38EB /* PasswordPolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicyView.swift; sourceTree = "<group>"; };
 		5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenterSpec.swift; sourceTree = "<group>"; };
 		5F5F98D71D22ED120016FC22 /* Presentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Presentable.swift; path = Lock/Presentable.swift; sourceTree = SOURCE_ROOT; };
 		5F5F98D91D22EF490016FC22 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Lock/Router.swift; sourceTree = SOURCE_ROOT; };
@@ -308,7 +315,12 @@
 		5FEAE1D01D1A5154005C0028 /* LockTests.iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LockTests.iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FEAE1D71D1A5154005C0028 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FEAE20F1D1A5691005C0028 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeaderView.swift; path = Lock/HeaderView.swift; sourceTree = SOURCE_ROOT; };
+		5FEEE8171DB6AC8E00B4DFED /* Rule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Rule.swift; path = Lock/Rule.swift; sourceTree = SOURCE_ROOT; };
+		5FEEE8191DB6AF3800B4DFED /* RuleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuleSpec.swift; sourceTree = "<group>"; };
+		5FEEE81B1DB80D6800B4DFED /* PasswordPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordPolicy.swift; path = Lock/PasswordPolicy.swift; sourceTree = SOURCE_ROOT; };
+		5FEEE81D1DB84BBB00B4DFED /* PasswordPolicySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicySpec.swift; sourceTree = "<group>"; };
 		5FFC54FD1D37E3F700579581 /* Routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Routes.swift; path = Lock/Routes.swift; sourceTree = SOURCE_ROOT; };
+		B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicyValidatorSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -358,8 +370,6 @@
 		5B0CF2DB1DE9B3D300F82BF4 /* Validators */ = {
 			isa = PBXGroup;
 			children = (
-				5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */,
-				5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */,
 			);
 			name = Validators;
 			sourceTree = "<group>";
@@ -372,7 +382,8 @@
 				5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */,
 			);
 			name = Errors;
-			sourceTree = "<group>";
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
 		};
 		5F508FF21D1D863400EAA650 /* Interactors */ = {
 			isa = PBXGroup;
@@ -392,8 +403,9 @@
 				5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */,
 				5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */,
 			);
-			path = Interactors;
-			sourceTree = "<group>";
+			name = Interactors;
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
 		};
 		5F508FF81D1DB01D00EAA650 /* Interactors */ = {
 			isa = PBXGroup;
@@ -423,6 +435,7 @@
 		5F50900C1D1DF3ED00EAA650 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */,
 				5F1C49921D8360DF005B74FC /* LoadingView.swift */,
 				5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */,
 				5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */,
@@ -431,18 +444,19 @@
 				5FBE5CB91D3E59B90038536D /* MultifactorCodeView.swift */,
 				5FC434851D1DF769005188BC /* View.swift */,
 				5F57DFC81D4F87CE00C54DA8 /* AuthCollectionView.swift */,
-				5F14565D1D5237820085DF9C /* DatabaseView.swift */,
 			);
-			path = Views;
-			sourceTree = "<group>";
+			name = Views;
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
 		};
 		5F51EE6B1D1CE6110024BCD6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				5F70F1ED1D790BBE004698DA /* LockViewController.swift */,
 			);
-			path = Controllers;
-			sourceTree = "<group>";
+			name = Controllers;
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
 		};
 		5F5F98D11D21E3710016FC22 /* Presenters */ = {
 			isa = PBXGroup;
@@ -466,7 +480,8 @@
 				5F70F1E21D79057A004698DA /* OfflineConnections.swift */,
 			);
 			name = Connections;
-			sourceTree = "<group>";
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
 		};
 		5F70F1EB1D7909DC004698DA /* Options */ = {
 			isa = PBXGroup;
@@ -478,7 +493,8 @@
 				5F1C499A1D836190005B74FC /* CustomTextField.swift */,
 			);
 			name = Options;
-			sourceTree = "<group>";
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
 		};
 		5F70F1EC1D790A6D004698DA /* Supporting Files */ = {
 			isa = PBXGroup;
@@ -511,12 +527,14 @@
 				5F1456591D5130E80085DF9C /* Colors.swift */,
 				5F390E861D638A6D00FC549C /* Logger.swift */,
 			);
-			path = Utils;
-			sourceTree = "<group>";
+			name = Utils;
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
 		};
 		5FBE5CB51D3D8EE70038536D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5FEEE8161DB6AC6C00B4DFED /* PasswordPolicy */,
 				5F2496B71D665AC500A1C6E2 /* UserAttribute.swift */,
 				5FBE5CB71D3D8F030038536D /* User.swift */,
 				5F57DFC51D4F79DD00C54DA8 /* AuthStyle.swift */,
@@ -524,8 +542,9 @@
 				5F70F1EA1D7909C4004698DA /* Connections */,
 				5F70F1EB1D7909DC004698DA /* Options */,
 			);
-			path = Models;
-			sourceTree = "<group>";
+			name = Models;
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
 		};
 		5FBE5CCB1D3ED9210038536D /* Models */ = {
 			isa = PBXGroup;
@@ -533,6 +552,8 @@
 				5FBE5CCC1D3EDF960038536D /* UserSpec.swift */,
 				5F92C68C1D50E47100CCE6C0 /* AuthStyleSpec.swift */,
 				5FE50DC01D7DED8C00D82290 /* OfflineConnectionsSpec.swift */,
+				5FEEE8191DB6AF3800B4DFED /* RuleSpec.swift */,
+				5FEEE81D1DB84BBB00B4DFED /* PasswordPolicySpec.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -541,8 +562,8 @@
 			isa = PBXGroup;
 			children = (
 				5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */,
-				5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */,
 				5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */,
+				5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */,
 				5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */,
 				5FC434891D1DF82A005188BC /* DatabasePresenter.swift */,
 				5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */,
@@ -550,8 +571,9 @@
 				5F5F98D71D22ED120016FC22 /* Presentable.swift */,
 				5F57DFCB1D4F93A000C54DA8 /* AuthPresenter.swift */,
 			);
-			path = Presenters;
-			sourceTree = "<group>";
+			name = Presenters;
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
 		};
 		5FEADCF51D1A7EBC0032D810 /* App */ = {
 			isa = PBXGroup;
@@ -623,6 +645,9 @@
 				5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */,
 				5B0CF2DB1DE9B3D300F82BF4 /* Validators */,
 				5B0CF2DA1DE9B3C400F82BF4 /* Errors */,
+				5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */,
+				5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */,
+				B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */,
 			);
 			path = LockTests;
 			sourceTree = "<group>";
@@ -642,9 +667,11 @@
 				5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */,
 				5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */,
 				5FD6772B1D4C303C004B87C4 /* AuthButton.swift */,
+				5F5D4A251DC3FB34002A38EB /* PasswordPolicyView.swift */,
 			);
-			path = Components;
-			sourceTree = "<group>";
+			name = Components;
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
 		};
 		5FEAE2111D1A5716005C0028 /* Frameworks */ = {
 			isa = PBXGroup;
@@ -659,14 +686,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5FEEE8161DB6AC6C00B4DFED /* PasswordPolicy */ = {
+			isa = PBXGroup;
+			children = (
+				5FEEE8171DB6AC8E00B4DFED /* Rule.swift */,
+				5FEEE81B1DB80D6800B4DFED /* PasswordPolicy.swift */,
+			);
+			name = PasswordPolicy;
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
+		};
 		5FFC54FC1D37E3E400579581 /* Router */ = {
 			isa = PBXGroup;
 			children = (
 				5F5F98D91D22EF490016FC22 /* Router.swift */,
 				5FFC54FD1D37E3F700579581 /* Routes.swift */,
 			);
-			path = Router;
-			sourceTree = "<group>";
+			name = Router;
+			path = Lock;
+			sourceTree = SOURCE_ROOT;
 		};
 		5FFC54FF1D3803EC00579581 /* Router */ = {
 			isa = PBXGroup;
@@ -762,8 +800,9 @@
 				TargetAttributes = {
 					5FEADCF31D1A7EBC0032D810 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 86WQXF56BC;
 						LastSwiftMigration = 0810;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					5FEAE1C51D1A5154005C0028 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -899,6 +938,7 @@
 				5F70F1E31D79057A004698DA /* OfflineConnections.swift in Sources */,
 				5F2496B31D665A5600A1C6E2 /* DatabaseUserCreator.swift in Sources */,
 				5F1C499B1D836190005B74FC /* CustomTextField.swift in Sources */,
+				5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */,
 				5F70F1E71D790773004698DA /* OptionBuildable.swift in Sources */,
 				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
@@ -907,6 +947,7 @@
 				5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */,
 				5FD6772C1D4C303C004B87C4 /* AuthButton.swift in Sources */,
 				5F99AA8A1D1B360C00D27842 /* PrimaryButton.swift in Sources */,
+				5FEEE81C1DB80D6800B4DFED /* PasswordPolicy.swift in Sources */,
 				5F1C49971D8360F5005B74FC /* CDNLoaderInteractor.swift in Sources */,
 				5FBE5CC41D3E67320038536D /* Validators.swift in Sources */,
 				5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */,
@@ -926,6 +967,7 @@
 				5F57DFD21D4FE59800C54DA8 /* OAuth2Authenticatable.swift in Sources */,
 				5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */,
 				5F99AA921D1BA5CA00D27842 /* DatabaseConstants.swift in Sources */,
+				5FEEE8181DB6AC8E00B4DFED /* Rule.swift in Sources */,
 				5FDC876D1D46DAF200D28596 /* Queue.swift in Sources */,
 				5F70F1E11D790500004698DA /* Connections.swift in Sources */,
 				5F92C68F1D50EAC200CCE6C0 /* LazyImage.swift in Sources */,
@@ -951,8 +993,8 @@
 				5F50900E1D1DF40400EAA650 /* DatabaseOnlyView.swift in Sources */,
 				5F70F1E91D7907D5004698DA /* LockOptions.swift in Sources */,
 				5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */,
-				5F14565E1D5237820085DF9C /* DatabaseView.swift in Sources */,
 				5F70F1EE1D790BBE004698DA /* LockViewController.swift in Sources */,
+				5F5D4A261DC3FB34002A38EB /* PasswordPolicyView.swift in Sources */,
 				5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */,
 				5F73CDD41D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift in Sources */,
 				5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */,
@@ -997,7 +1039,10 @@
 				5B6631531DDB9B28001CB043 /* EnterpriseDomainInteractorSpec.swift in Sources */,
 				5B0CF2DE1DE9B4AF00F82BF4 /* DatabaseUserCreatorErrorSpec.swift in Sources */,
 				5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */,
+				5FEEE81E1DB84BBB00B4DFED /* PasswordPolicySpec.swift in Sources */,
+				5FEEE81A1DB6AF3800B4DFED /* RuleSpec.swift in Sources */,
 				5FE50DC11D7DED8C00D82290 /* OfflineConnectionsSpec.swift in Sources */,
+				B73CCF98908698EC6FE6B978 /* PasswordPolicyValidatorSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1047,6 +1092,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1057,6 +1103,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1066,6 +1114,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
