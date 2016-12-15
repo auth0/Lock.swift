@@ -245,6 +245,18 @@ class MockWebAuth: WebAuth {
         callback(self.result())
     }
 
+    func responseType(_ response: [ResponseType]) -> Self {
+        return self
+    }
+
+    func nonce(_ nonce: String) -> Self {
+        return self
+    }
+
+    func audience(_ audience: String) -> Self {
+        return self
+    }
+
     var logger: Auth0.Logger? = nil
 }
 

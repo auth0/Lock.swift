@@ -15,6 +15,7 @@
 		5B0CF2D91DE9B1DB00F82BF4 /* DatabaseAuthenticatableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */; };
 		5B0CF2DE1DE9B4AF00F82BF4 /* DatabaseUserCreatorErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */; };
 		5B2981781DD51A460062535C /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2981771DD51A460062535C /* InfoBarView.swift */; };
+		5B30EC521E02EAAF00126F82 /* JWTDecode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B15CB241E02CEC100738FFC /* JWTDecode.framework */; };
 		5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */; };
 		5B4DE0171DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */; };
 		5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */; };
@@ -197,6 +198,7 @@
 		5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidationErrorSpec.swift; sourceTree = "<group>"; };
 		5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseAuthenticatableErrorSpec.swift; sourceTree = "<group>"; };
 		5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseUserCreatorErrorSpec.swift; sourceTree = "<group>"; };
+		5B15CB241E02CEC100738FFC /* JWTDecode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JWTDecode.framework; path = Carthage/Build/iOS/JWTDecode.framework; sourceTree = "<group>"; };
 		5B2981771DD51A460062535C /* InfoBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoBarView.swift; path = Lock/InfoBarView.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainInteractor.swift; path = Lock/EnterpriseDomainInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthPresenter.swift; path = Lock/EnterpriseActiveAuthPresenter.swift; sourceTree = SOURCE_ROOT; };
@@ -328,6 +330,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B30EC521E02EAAF00126F82 /* JWTDecode.framework in Frameworks */,
 				5F390E8A1D63A5B800FC549C /* CleanroomLogger.framework in Frameworks */,
 				5F99AA761D1A7FA100D27842 /* Auth0.framework in Frameworks */,
 				5F390E8B1D63A5B800FC549C /* CleanroomASL.framework in Frameworks */,
@@ -676,6 +679,7 @@
 		5FEAE2111D1A5716005C0028 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5B15CB241E02CEC100738FFC /* JWTDecode.framework */,
 				5F390E881D63A5B800FC549C /* CleanroomLogger.framework */,
 				5F390E891D63A5B800FC549C /* CleanroomASL.framework */,
 				5F814FD21D1A7294003670A4 /* Auth0.framework */,
@@ -901,6 +905,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Auth0.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CleanroomLogger.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CleanroomASL.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/JWTDecode.framework",
 			);
 			name = Carthage;
 			outputPaths = (

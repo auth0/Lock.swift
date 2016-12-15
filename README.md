@@ -18,37 +18,37 @@ Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 
 - iOS 9 or later
 - Xcode 8
-- Swift 2.3
+- Swift 3.0
 
 ## Install
 
 ### Carthage
 
-In your cartfile add
+In your `Cartfile` add
 
 ```
-github "auth0/Lock.iOS-OSX" "2.0.0-beta.2"
+github "auth0/Lock.iOS-OSX" "2.0.0-beta.3"
 ```
 
 ## Usage
 
-First to import **Lock.swift**
+First import **Lock.swift**
 
 ```swift
 import Lock
 ```
 
-then in your `AppDelegate.swift` add the following
+Next in your `AppDelegate.swift` add the following:
 
 ```swift
-func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-    return Lock.resumeAuth(url, options: options)
+func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+  return Lock.resumeAuth(url, options: options)
 }
 ```
 
 ### Configuration
 
-In order to use Lock you need to provide your Auth0 Client Id and Domain, either with a *Property List* file
+In order to use Lock you need to provide your Auth0 Client Id and Domain.
 
 > Auth0 ClientId & Domain can be found in your [Auth0 Dashboard](https://manage.auth0.com)
 
@@ -69,30 +69,25 @@ In your application bundle you can add a `plist` file named `Auth0.plist` with t
 </plist>
 ```
 
-### Classic 
+### Classic
 
 Lock Classic handles authentication using Database, Social & Enterprise connections.
-
-> Currenty Lock.swift only supports Database & Social authentication and you need to tell Lock what connections it should use
 
 To show **Lock.swift**, add the following snippet in any of your `UIViewController`
 
 ```swift
 Lock
     .classic()
-    .connections {
-        $0.database(name: "Username-Password-Authentication", requiresUsername: true)
-    }
-    .options {
+    .withOptions {
         $0.closable = false
     }
     .on { result in
         switch result {
-        case .Success(let credentials):
+        case .success(let credentials):
             print("Obtained credentials \(credentials)")
-        case .Failure(let cause):
+        case .failure(let cause):
             print("Failed with \(cause)")
-        case .Cancelled:
+        case .cancelled:
             print("User cancelled")
         }
     }
@@ -101,26 +96,29 @@ Lock
 
 #### Specify Connections
 
-> Eventually **Lock.swift** will be able to load your client configuration automatically, but until then you should describe what connections it should use.
+**Lock.swift** will automatically load your client configuration automatically, if you wish to override this you can manually specify which of your connections to use.
 
-Before presenting **Lock.swift** you can tell it what connections it should display and use to authenticate an user. You can do that by calling the method and supply a closure that can specify the connections
+Before presenting **Lock.swift** you can tell it what connections it should display and use to authenticate an user. You can do that by calling the method and supply a closure that can specify the connections.
+
+Adding a database connection:
 
 ```swift
-.connections { connections in
-    // Your connections
+.withConnections {
+    $0.database(name: "Username-Password-Authentication", requiresUsername: true)
 }
 ```
 
-So if you need a database connection you can call
+Adding multiple social connections:
 
 ```swift
 connections.database(name: "{CONNECTION_NAME}", requiresUsername: true)
 ```
 
-Or a social connection
-
 ```swift
-connections.social(name: "{CONNECTION_NAME}", style: .Facebook)
+.withConnections { connections in
+    connections.social(name: "facebook", style: .Facebook)
+    connections.social(name: "google-oauth2", style: .Google)
+}
 ```
 
 ### Logging
@@ -130,7 +128,7 @@ In **Lock.swift** options you can turn on/off logging capabilities
 ```swift
 Lock
     .classic()
-    .options {
+    .withOptions {
         $0.logLevel = .All
         $0.logHttpRequest = true
     }
