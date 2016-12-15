@@ -23,7 +23,7 @@
 import UIKit
 
 /// Style for AuthButton
-public class AuthStyle {
+public struct AuthStyle {
 
         /// Name that will be used for titles. e.g. 'Login with Auth0'
     let name: String
@@ -52,7 +52,7 @@ public class AuthStyle {
 
      - returns: a new style
      */
-    public convenience init(name: String, color: UIColor = UIColor.a0_orange, foregroundColor: UIColor = .white, withImage image: LazyImage = LazyImage(name: "ic_auth_auth0", bundle: bundleForLock())) {
+    public init(name: String, color: UIColor = UIColor.a0_orange, foregroundColor: UIColor = .white, withImage image: LazyImage = LazyImage(name: "ic_auth_auth0", bundle: bundleForLock())) {
         self.init(name: name, normalColor: color, highlightedColor: color.a0_darker(0.3), foregroundColor: foregroundColor, withImage: image)
     }
 
