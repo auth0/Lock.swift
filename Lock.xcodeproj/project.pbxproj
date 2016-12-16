@@ -15,7 +15,6 @@
 		5B0CF2D91DE9B1DB00F82BF4 /* DatabaseAuthenticatableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */; };
 		5B0CF2DE1DE9B4AF00F82BF4 /* DatabaseUserCreatorErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */; };
 		5B2981781DD51A460062535C /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2981771DD51A460062535C /* InfoBarView.swift */; };
-		5B30EC521E02EAAF00126F82 /* JWTDecode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B15CB241E02CEC100738FFC /* JWTDecode.framework */; };
 		5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */; };
 		5B4DE0171DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */; };
 		5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */; };
@@ -330,7 +329,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B30EC521E02EAAF00126F82 /* JWTDecode.framework in Frameworks */,
 				5F390E8A1D63A5B800FC549C /* CleanroomLogger.framework in Frameworks */,
 				5F99AA761D1A7FA100D27842 /* Auth0.framework in Frameworks */,
 				5F390E8B1D63A5B800FC549C /* CleanroomASL.framework in Frameworks */,
@@ -905,7 +903,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Auth0.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CleanroomLogger.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CleanroomASL.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/JWTDecode.framework",
 			);
 			name = Carthage;
 			outputPaths = (
