@@ -52,7 +52,7 @@ class MultifactorPresenter: Presentable, Loggable {
                 input.showError()
             }
         }
-        let action = { (button: PrimaryButton) in
+        let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
             self.logger.debug("resuming with mutifactor code \(self.interactor.code)")
             let interactor = self.interactor
@@ -68,7 +68,7 @@ class MultifactorPresenter: Presentable, Loggable {
                 }
             }
         }
-        view.form?.onReturn = { _ in
+        view.form?.onReturn = { [unowned view]_ in
             guard let button = view.primaryButton else { return }
             action(button)
         }

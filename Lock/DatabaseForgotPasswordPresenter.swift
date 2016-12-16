@@ -53,7 +53,7 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
                 input.showError()
             }
         }
-        let action = { (button: PrimaryButton) in
+        let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
             self.logger.info("request forgot password for email \(self.interactor.email)")
             let interactor = self.interactor
@@ -73,7 +73,7 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
             }
         }
         view.primaryButton?.onPress = action
-        view.form?.onReturn = {_ in
+        view.form?.onReturn = { [unowned view] _ in
             guard let button = view.primaryButton else { return }
             action(button)
         }

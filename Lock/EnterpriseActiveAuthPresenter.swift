@@ -65,7 +65,7 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
             }
         }
 
-        let action = { (button: PrimaryButton) in
+        let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
             self.logger.info("Enterprise password connection started: \(self.interactor.identifier), \(self.interactor.connection)")
             let interactor = self.interactor
@@ -87,7 +87,7 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
         }
 
         view.primaryButton?.onPress = action
-        view.form?.onReturn = {_ in
+        view.form?.onReturn = { [unowned view] _ in
             guard let button = view.primaryButton else { return }
             action(button)
         }

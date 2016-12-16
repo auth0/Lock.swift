@@ -67,7 +67,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let form = view.form
 
         view.ssoBar?.isHidden = self.interactor.connection == nil
-        view.form?.onValueChange = { input in
+        view.form?.onValueChange = { [unowned view ] input in
             self.messagePresenter?.hideCurrent()
             view.ssoBar?.isHidden = true
 
@@ -85,7 +85,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
             }
         }
 
-        let action = { (button: PrimaryButton) in
+        let action = { [weak form] (button: PrimaryButton) in
             // Check for credential auth
             if let connection = self.interactor.connection, self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 guard self.navigator?.navigate(.enterpriseActiveAuth(connection: connection)) == nil else { return }
@@ -112,7 +112,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         }
 
         view.primaryButton?.onPress = action
-        view.form?.onReturn = {_ in
+        view.form?.onReturn = { [unowned view] _ in
             guard let button = view.primaryButton else { return }
             action(button)
         }

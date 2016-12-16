@@ -59,7 +59,7 @@ class DatabasePresenter: Presentable, Loggable {
         let allow = self.options.allow
         let database = DatabaseOnlyView(allowedModes: allow)
         database.navigator = self.navigator
-        database.switcher?.onSelectionChange = { [weak database] switcher in
+        database.switcher?.onSelectionChange = { [unowned self, weak database] switcher in
             let selected = switcher.selected
             guard let view = database else { return }
             self.logger.debug("selected \(selected)")
@@ -130,8 +130,9 @@ class DatabasePresenter: Presentable, Loggable {
 
         }
 
-        view.form?.onReturn = { field in
-            guard let button = view.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
+        let primaryButton = view.primaryButton
+        view.form?.onReturn = { [weak primaryButton] field in
+            guard let button = primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
             action(button)
         }
         view.primaryButton?.onPress = action

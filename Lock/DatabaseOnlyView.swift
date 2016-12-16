@@ -129,21 +129,21 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         passwordPolicyView.isHidden = true
         form.passwordField.errorLabel?.removeFromSuperview()
-        form.passwordField.onBeginEditing = { [unowned passwordPolicyView] _ in
+        form.passwordField.onBeginEditing = { _ in
             passwordPolicyView.isHidden = false
         }
-        form.passwordField.onEndEditing = { [unowned passwordPolicyView] _ in
+        form.passwordField.onEndEditing = { _ in
             passwordPolicyView.isHidden = true
         }
 
-        form.emailField.onReturn = { [unowned form, unowned passwordPolicyView] _ in
-            if form.emailField.nextField == form.passwordField {
+        form.emailField.onReturn = { [weak form] _ in
+            if form?.emailField.nextField == form?.passwordField {
                 self.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
             }
         }
 
-        form.usernameField?.onReturn = { [unowned form, unowned passwordPolicyView] _ in
-            if form.usernameField?.nextField == form.passwordField {
+        form.usernameField?.onReturn = { [weak form] _ in
+            if form?.usernameField?.nextField == form?.passwordField {
                 self.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
             }
         }
