@@ -22,12 +22,20 @@ Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 
 ## Install
 
+### CocoaPods
+ 
+ Add the following line to your Podfile:
+ 
+ ```ruby
+ pod "Lock", "~> 2.0.0-rc.1"
+ ```
+
 ### Carthage
 
 In your `Cartfile` add
 
 ```
-github "auth0/Lock.iOS-OSX" "2.0.0-beta.3"
+github "auth0/Lock.iOS-OSX" "2.0.0-rc.1"
 ```
 
 ## Usage

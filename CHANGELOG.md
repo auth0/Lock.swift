@@ -1,5 +1,24 @@
 # Change Log
 
+## [2.0.0-rc.1](https://github.com/auth0/Lock.iOS-OSX/tree/2.0.0-rc.1) (2016-12-16)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/2.0.0-beta.2...2.0.0-rc.1)
+
+**Added**
+- Feature password policy [\#354](https://github.com/auth0/Lock.iOS-OSX/pull/354) ([cocojoe](https://github.com/cocojoe))
+- Enterprise single domain support [\#343](https://github.com/auth0/Lock.iOS-OSX/pull/343) ([cocojoe](https://github.com/cocojoe))
+- Enterprise Active Auth [\#342](https://github.com/auth0/Lock.iOS-OSX/pull/342) ([cocojoe](https://github.com/cocojoe))
+- Enterprise support with db [\#340](https://github.com/auth0/Lock.iOS-OSX/pull/340) ([cocojoe](https://github.com/cocojoe))
+- Enterprise support with social [\#339](https://github.com/auth0/Lock.iOS-OSX/pull/339) ([cocojoe](https://github.com/cocojoe))
+- Enterprise Connection only authentication [\#336](https://github.com/auth0/Lock.iOS-OSX/pull/336) ([cocojoe](https://github.com/cocojoe))
+
+**Changed**
+- Compatibility updates against latest Auth0.Swift [\#356](https://github.com/auth0/Lock.iOS-OSX/pull/356) ([cocojoe](https://github.com/cocojoe))
+- Allow developer to get controller to show lock. [\#349](https://github.com/auth0/Lock.iOS-OSX/pull/349) ([hzalaz](https://github.com/hzalaz))
+- Migrate codebase to Swift 3.0 [\#345](https://github.com/auth0/Lock.iOS-OSX/pull/345) ([cocojoe](https://github.com/cocojoe))
+
+**Fixed**
+- Fixed retain issues between presenter and views [\#355](https://github.com/auth0/Lock.iOS-OSX/pull/355) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.0.0-beta.2](https://github.com/auth0/Lock.iOS-OSX/tree/2.0.0-beta.2) (2016-09-20)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/2.0.0-beta.1...2.0.0-beta.2)
 
