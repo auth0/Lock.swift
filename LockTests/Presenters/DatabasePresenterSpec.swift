@@ -42,7 +42,7 @@ class DatabasePresenterSpec: QuickSpec {
             oauth2 = MockOAuth2()
             connections = OfflineConnections()
             
-            enterpriseInteractor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
+            enterpriseInteractor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
             authPresenter = MockAuthPresenter(connections: connections, interactor: MockAuthInteractor(), customStyle: [:])
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
@@ -541,7 +541,7 @@ class DatabasePresenterSpec: QuickSpec {
                     connections = OfflineConnections()
                     connections.enterprise(name: "validAD", domains: ["valid.com"])
                     
-                    enterpriseInteractor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
+                    enterpriseInteractor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
                     presenter.enterpriseInteractor = enterpriseInteractor
                     
                     view = presenter.view as! DatabaseOnlyView
@@ -635,7 +635,7 @@ class DatabasePresenterSpec: QuickSpec {
                         connections.enterprise(name: "validAD", domains: ["valid.com"])
 
                         presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
-                        enterpriseInteractor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
+                        enterpriseInteractor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
                         presenter.enterpriseInteractor = enterpriseInteractor
 
                         view = presenter.view as! DatabaseOnlyView

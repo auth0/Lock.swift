@@ -52,7 +52,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             connections.enterprise(name: "TestAD", domains: ["test.com"])
             connections.enterprise(name: "ValidAD", domains: ["validad.com"])
 
-            interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
+            interactor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
             presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! EnterpriseDomainView
@@ -82,7 +82,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                     connections = OfflineConnections()
                     connections.enterprise(name: "TestAD", domains: ["test.com"])
 
-                    interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
+                    interactor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
                     presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
                     presenter.messagePresenter = messagePresenter
                     view = presenter.view as! EnterpriseDomainView
@@ -252,7 +252,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                     connections = OfflineConnections()
                     connections.enterprise(name: "TestAD", domains: ["test.com"])
                     
-                    interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: oauth2)
+                    interactor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
                     presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
                     presenter.messagePresenter = messagePresenter
                     view = presenter.view as! EnterpriseDomainView

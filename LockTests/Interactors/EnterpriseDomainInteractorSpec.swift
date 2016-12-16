@@ -45,7 +45,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
             credentials = nil
             webAuth = MockWebAuth()
             authentication = Auth0OAuth2Interactor(webAuth: webAuth, onCredentials: {credentials = $0}, options: LockOptions())
-            enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
+            enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
         }
         
         afterEach {
@@ -69,7 +69,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                     connections = OfflineConnections()
                     connections.enterprise(name: "TestAD", domains: [])
 
-                    enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
+                    enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
                 }
 
                 it("connection should not default to single connection") {
@@ -87,7 +87,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 beforeEach {
                     connections = OfflineConnections()
                     connections.enterprise(name: "TestAD", domains: [])
-                    enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
+                    enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
                 }
                 
                 it("should raise no error but no connection provided") {
@@ -102,7 +102,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 beforeEach {
                     connections = OfflineConnections()
                     connections.enterprise(name: "TestAD", domains: ["test.com"])
-                    enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
+                    enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
                 }
                 
                 it("should match email domain") {
@@ -137,7 +137,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                     connections = OfflineConnections()
                     connections.enterprise(name: "TestAD", domains: ["test.com","pepe.com"])
                     
-                    enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
+                    enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
                 }
                 
                 it("should match first email domain and provide enteprise connection") {
@@ -162,7 +162,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 
                 connections = OfflineConnections()
                 connections.enterprise(name: "TestAD", domains: ["test.com"])
-                enterprise = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authentication)
+                enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
             }
             
             it("should fail to launch on no valid connection") {

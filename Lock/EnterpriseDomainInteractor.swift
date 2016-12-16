@@ -33,12 +33,12 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
     let emailValidator: InputValidator = EmailValidator()
     let authenticator: OAuth2Authenticatable
 
-    init(connections: [EnterpriseConnection], authentication: OAuth2Authenticatable) {
-        self.connections = connections
+    init(connections: Connections, authentication: OAuth2Authenticatable) {
+        self.connections = connections.enterprise
         self.authenticator = authentication
 
         // Single Enterprise, defaulting connection
-        if self.connections.count == 1 {
+        if self.connections.count == 1 && connections.oauth2.isEmpty && connections.database == nil {
             self.connection = self.connections.first
         }
     }

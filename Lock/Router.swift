@@ -101,14 +101,14 @@ class Router: Navigable {
             // Add Enterprise
             if !connections.enterprise.isEmpty {
                 let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
-                let interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authInteractor)
+                let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
                 presenter.enterpriseInteractor = interactor
             }
             return presenter
         }
         if !connections.enterprise.isEmpty {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
-            let interactor = EnterpriseDomainInteractor(connections: connections.enterprise, authentication: authInteractor)
+            let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
             // Single enterprise in active auth mode
             if let connection = interactor.connection, self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 return EnterpriseActiveAuth(connection)
