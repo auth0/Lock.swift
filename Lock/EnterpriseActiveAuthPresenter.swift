@@ -46,7 +46,7 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
         let form = view.form
         view.ssoBar?.title = self.interactor.connection.domains.first
 
-        view.form?.onValueChange = { input in
+        view.form?.onValueChange = { [unowned self] input in
             self.messagePresenter?.hideCurrent()
 
             do {
@@ -65,21 +65,21 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
             }
         }
 
-        let action = { [weak form] (button: PrimaryButton) in
-            self.messagePresenter?.hideCurrent()
-            self.logger.info("Enterprise password connection started: \(self.interactor.identifier), \(self.interactor.connection)")
-            let interactor = self.interactor
-
+        let action = { [weak self, weak form] (button: PrimaryButton) in
+            guard let strongSelf = self else { return }
+            strongSelf.messagePresenter?.hideCurrent()
+            strongSelf.logger.info("Enterprise password connection started: \(strongSelf.interactor.identifier), \(strongSelf.interactor.connection)")
+            let interactor = strongSelf.interactor
             button.inProgress = true
             interactor.login { error in
                 Queue.main.async {
                     button.inProgress = false
                     form?.needsToUpdateState()
                     if let error = error {
-                        self.messagePresenter?.showError(error)
-                        self.logger.error("Enterprise connection failed: \(error)")
+                        strongSelf.messagePresenter?.showError(error)
+                        strongSelf.logger.error("Enterprise connection failed: \(error)")
                     } else {
-                        self.logger.debug("Enterprise connection success")
+                        strongSelf.logger.debug("Enterprise connection success")
                     }
                 }
 
@@ -87,8 +87,8 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
         }
 
         view.primaryButton?.onPress = action
-        view.form?.onReturn = { [unowned view] _ in
-            guard let button = view.primaryButton else { return }
+        view.form?.onReturn = { [weak view] _ in
+            guard let button = view?.primaryButton else { return }
             action(button)
         }
         return view

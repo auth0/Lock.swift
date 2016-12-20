@@ -27,7 +27,8 @@ public class LockViewController: UIViewController, MessagePresenter {
     weak var headerView: HeaderView!
     weak var scrollView: UIScrollView!
     weak var messageView: MessageView?
-    var current: View?
+    var currentView: View?
+    var currentPresenter: Presentable?
     var keyboard: Bool = false
     var routes: Routes = Routes()
 
@@ -87,12 +88,13 @@ public class LockViewController: UIViewController, MessagePresenter {
 
     func present(_ presentable: Presentable?) {
         guard var presenter = presentable else { return }
-        self.current?.remove()
+        self.currentView?.remove()
         let view = presenter.view
         view.apply(style: self.router.lock.style)
         self.anchorConstraint = view.layout(inView: self.scrollView, below: self.headerView)
         presenter.messagePresenter = self
-        self.current = view
+        self.currentView = view
+        self.currentPresenter = presenter
         self.headerView.showBack = self.router.showBack
         self.headerView.onBackPressed = self.router.onBack
         self.scrollView.setContentOffset(CGPoint.zero, animated: false)

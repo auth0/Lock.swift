@@ -48,6 +48,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
 
         // Single Enterprise Domain
         if let enterpriseButton = EnterpriseButton(forConnections: interactor.connections, customStyle: [:], isLogin: true, onAction: {
+            [unowned self] in
             self.interactor.login { error in
                 Queue.main.async {
                     if let error = error {
@@ -67,7 +68,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let form = view.form
 
         view.ssoBar?.isHidden = self.interactor.connection == nil
-        view.form?.onValueChange = { [unowned view ] input in
+        view.form?.onValueChange = { [unowned self] input in
             self.messagePresenter?.hideCurrent()
             view.ssoBar?.isHidden = true
 
@@ -85,25 +86,26 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
             }
         }
 
-        let action = { [weak form] (button: PrimaryButton) in
+        let action = { [weak self, weak form] (button: PrimaryButton) in
+            guard let strongSelf = self else { return }
             // Check for credential auth
-            if let connection = self.interactor.connection, self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                guard self.navigator?.navigate(.enterpriseActiveAuth(connection: connection)) == nil else { return }
+            if let connection = strongSelf.interactor.connection, strongSelf.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+                guard strongSelf.navigator?.navigate(.enterpriseActiveAuth(connection: connection)) == nil else { return }
             }
 
-            self.messagePresenter?.hideCurrent()
-            self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
-            let interactor = self.interactor
+            strongSelf.messagePresenter?.hideCurrent()
+            strongSelf.logger.info("Enterprise connection started: \(strongSelf.interactor.email), \(strongSelf.interactor.connection)")
+            let interactor = strongSelf.interactor
             button.inProgress = true
             interactor.login { error in
                 Queue.main.async {
                     button.inProgress = false
                     form?.needsToUpdateState()
                     if let error = error {
-                        self.messagePresenter?.showError(error)
-                        self.logger.error("Enterprise connection failed: \(error)")
+                        strongSelf.messagePresenter?.showError(error)
+                        strongSelf.logger.error("Enterprise connection failed: \(error)")
                     } else {
-                        self.logger.debug("Enterprise authenticator launched")
+                        strongSelf.logger.debug("Enterprise authenticator launched")
                     }
                 }
 
@@ -112,8 +114,8 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         }
 
         view.primaryButton?.onPress = action
-        view.form?.onReturn = { [unowned view] _ in
-            guard let button = view.primaryButton else { return }
+        view.form?.onReturn = { [weak view] _ in
+            guard let button = view?.primaryButton else { return }
             action(button)
         }
 
