@@ -23,9 +23,9 @@ Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 ## Install
 
 ### CocoaPods
- 
+
  Add the following line to your Podfile:
- 
+
  ```ruby
  pod "Lock", "~> 2.0.0-rc.1"
  ```
@@ -40,7 +40,7 @@ github "auth0/Lock.iOS-OSX" "2.0.0-rc.1"
 
 ## Usage
 
-First import **Lock.swift**
+First import **Lock**
 
 ```swift
 import Lock
@@ -81,13 +81,16 @@ In your application bundle you can add a `plist` file named `Auth0.plist` with t
 
 Lock Classic handles authentication using Database, Social & Enterprise connections.
 
-To show **Lock.swift**, add the following snippet in any of your `UIViewController`
+To show Lock, add the following snippet in your `UIViewController`
 
 ```swift
 Lock
     .classic()
     .withOptions {
         $0.closable = false
+    }
+    .withStyle {
+      $0.title = "Company LLC"
     }
     .on { result in
         switch result {
@@ -104,9 +107,9 @@ Lock
 
 #### Specify Connections
 
-**Lock.swift** will automatically load your client configuration automatically, if you wish to override this you can manually specify which of your connections to use.
+Lock will automatically load your client configuration automatically, if you wish to override this behaviour you can manually specify which of your connections to use.  
 
-Before presenting **Lock.swift** you can tell it what connections it should display and use to authenticate an user. You can do that by calling the method and supply a closure that can specify the connections.
+Before presenting Lock you can tell it what connections it should display and use to authenticate an user. You can do that by calling the method and supply a closure that can specify the connections.
 
 Adding a database connection:
 
@@ -131,25 +134,167 @@ connections.database(name: "{CONNECTION_NAME}", requiresUsername: true)
 
 ### Logging
 
-In **Lock.swift** options you can turn on/off logging capabilities
+You can easily turn on/off logging capabilities.
 
 ```swift
 Lock
     .classic()
     .withOptions {
-        $0.logLevel = .All
+        $0.logLevel = .all
         $0.logHttpRequest = true
     }
 ```
+
+## Styling Lock
+
+Lock provides many styling options to help you apply your own brand identity to Lock.
+
+### Customize your header and primary color
+
+```swift
+.withStyle {
+  $0.title = "Company LLC"
+  $0.logo = LazyImage(name: "company_logo")
+  $0.primaryColor = UIColor(red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0)
+}
+```
+
+> You can explore the full range of styling options in [Style.swift](https://github.com/auth0/Lock.iOS-OSX/blob/v2/Lock/Style.swift)
+
+### Styling a custom OAuth2 connection
+
+```swift
+.withStyle {
+  $0.oauth2["slack"] = AuthStyle(
+      name: "Slack",
+      color: UIColor(red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0),
+      withImage: LazyImage(name: "ic_slack")
+  )
+}
+```
+
+## Lock options
+
+Lock provides numerous options to customize the Lock experience.
+
+#### Closable
+
+Allows Lock to be dismissed by the user. By default this is `false`.
+
+```swift
+.withOptions {
+    $0.closable = true
+}
+```
+
+#### Terms of Service
+
+By default Lock will use Auth0's [Terms of Service](https://auth0.com/terms) and [Privacy Policy](https://auth0.com/privacy)
+
+```swift
+.withOptions {
+  $0.termsOfService = "https://mycompany.com/terms"
+  $0.privacyPolicy = "https://mycompany.com/privacy"
+}
+```
+
+#### Logging
+
+* *logLevel*: By default this is `.off`, *Syslog* logging levels are supported.
+* *logHttpRequest*: Log Auth0.swift network requests. By default this is `false`
+* *loggerOutput*: Specify output hander, by default this uses the `print` statement.
+
+```swift
+.withOptions {
+    $0.logLevel = .all
+    $0.logHttpRequest = true
+    $0.loggerOutput = CleanroomLockLogger()
+}
+```
+
+In the code above, the *loggerOutput* has been set to use [CleanroomLogger](https://github.com/emaloney/CleanroomLogger). This can typically
+be achieved by subclassing *loggerOutput*.
+
+```swift
+class CleanroomLockLogger: LoggerOutput {
+  func message(_ message: String, level: LoggerLevel, filename: String, line: Int) {
+    let channel: LogChannel?
+    switch level {
+    case .debug:
+        channel = Log.debug
+    case .error:
+        channel = Log.error
+    case .info:
+        channel = Log.info
+    case .verbose:
+        channel = Log.verbose
+    case .warn:
+        channel = Log.warning
+    default:
+        channel = nil
+    }
+    channel?.message(message, filePath: filename, fileLine: line)
+  }
+}
+```
+
+#### Scope
+
+Scope used for authentication. By default is `openid`. It will return not only the **access_token**, but also an **id_token** which is a [JSON Web Token (JWT)](https://jwt.io/).
+You can add additional attributes to your claim, in this case returning the users `name, email and picture` in the **id_token**.
+
+```swift
+.withOptions {
+  $0.scope = "openid name email picture"
+}
+```
+
+#### Database Ux
+
+* *allow*: Which database screens will be accessible, the default is enable all screens e.g. `.Login, .Signup, .ResetPassword`
+* *initialScreen*: The first screen to present to the user, the default is `.login`.
+* *usernameStyle*: Specify the type of identifier the login will require.  The default is either `[.Username, .Email]`.  However it's important to note that this option is only active if you have set the **requires_username** flag to `true` in your [Auth0 Dashboard](https://manage.auth0.com/#/)
+
+```swift
+.withOptions {
+  $0.allow = [.Login, .ResetPassword]
+  $0.initialScreen = .login
+  $0.usernameStyle = [.Username]
+}
+```
+
+#### Custom Signup Fields
+
+When signing up the default information requirements are the user's *email* and *password*. You can expand your data capture requirements as needed.
+
+```swift
+.withOptions {
+  $0.customSignupFields = [
+    CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
+    CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
+  ]
+}
+```
+
+#### Enterprise
+
+* *enterpriseConnectionUsingActiveAuth*: By default Enterprise connections will use Web Authentication. However you can specify which connections will alternatively use credential authentication and prompt for a username and password.
+* *activeDirectoryEmailAsUsername*: When in credential authentication mode, should the user require their email as an identifier.  The default is `false`, use **Username**.
+
+.withOptions {
+  $0.activeDirectoryEmailAsUsername = true
+  $0.enterpriseConnectionUsingActiveAuth = ["enterprisedomain.com"]
+}
 
 ## What is Auth0?
 
 Auth0 helps you to:
 
 * Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, amont others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
+* Add support for [Custom OAuth2 Connections](https://auth0.com/docs/connections/social/oauth2).
 * Add authentication through more traditional **[username/password databases](https://docs.auth0.com/mysql-connection-tutorial)**.
 * Add support for **[linking different user accounts](https://docs.auth0.com/link-accounts)** with the same user.
-* Support for generating signed [Json Web Tokens](https://docs.auth0.com/jwt) to call your APIs and **flow the user identity** securely.
+* Support for generating signed [JSON Web Tokens](https://docs.auth0.com/jwt) to call your APIs and **flow the user identity** securely.
 * Analytics of how, when and where users are logging in.
 * Pull data from other sources and add it to the user profile, through [JavaScript rules](https://docs.auth0.com/rules).
 
