@@ -200,9 +200,9 @@ By default Lock will use Auth0's [Terms of Service](https://auth0.com/terms) and
 
 #### Logging
 
-* *logLevel*: By default this is `.off`, *Syslog* logging levels are supported.
-* *logHttpRequest*: Log Auth0.swift network requests. By default this is `false`
-* *loggerOutput*: Specify output hander, by default this uses the `print` statement.
+* **logLevel**: By default this is `.off`, *Syslog* logging levels are supported.
+* **logHttpRequest**: Log Auth0.swift network requests. By default this is `false`
+* **loggerOutput**: Specify output hander, by default this uses the `print` statement.
 
 ```swift
 .withOptions {
@@ -241,7 +241,7 @@ class CleanroomLockLogger: LoggerOutput {
 #### Scope
 
 Scope used for authentication. By default is `openid`. It will return not only the **access_token**, but also an **id_token** which is a [JSON Web Token (JWT)](https://jwt.io/).
-You can add additional attributes to your claim, in this case returning the users `name, email and picture` in the **id_token**.
+You can add additional attributes to your claim, in this case returning the users `name, email and picture` in the **id_token**. [Scope Resources](https://auth0.com/docs/libraries/lock/v10/sending-authentication-parameters#scope-string-)
 
 ```swift
 .withOptions {
@@ -249,11 +249,25 @@ You can add additional attributes to your claim, in this case returning the user
 }
 ```
 
+#### Parameters
+
+You can specify additional parameters that will be sent during an authentication request. [Lock Parameters](https://auth0.com/docs/libraries/lock/v10/sending-authentication-parameters)
+
+* **nonce**: This can be used to help prevent [Replay Attacks](https://en.wikipedia.org/wiki/Replay_attack).
+* **state**: The state parameter is an arbitrary state value that will be maintained across redirects. It can be used to help prevent [XSRF Attacks](http://en.wikipedia.org/wiki/Cross-site_request_forgery). *It should be noted that `state` will be auto generated if not specified.*
+
+```swift
+.withOptions {
+  $0.parameters = ["nonce" : "13245678",
+                   "state" : "ANDD4920502AJAKLFLDFOFMNCA0"]
+}
+```
+
 #### Database Ux
 
-* *allow*: Which database screens will be accessible, the default is enable all screens e.g. `.Login, .Signup, .ResetPassword`
-* *initialScreen*: The first screen to present to the user, the default is `.login`.
-* *usernameStyle*: Specify the type of identifier the login will require.  The default is either `[.Username, .Email]`.  However it's important to note that this option is only active if you have set the **requires_username** flag to `true` in your [Auth0 Dashboard](https://manage.auth0.com/#/)
+* **allow**: Which database screens will be accessible, the default is enable all screens e.g. `.Login, .Signup, .ResetPassword`
+* **initialScreen**: The first screen to present to the user, the default is `.login`.
+* **usernameStyle**: Specify the type of identifier the login will require.  The default is either `[.Username, .Email]`.  However it's important to note that this option is only active if you have set the **requires_username** flag to `true` in your [Auth0 Dashboard](https://manage.auth0.com/#/)
 
 ```swift
 .withOptions {
