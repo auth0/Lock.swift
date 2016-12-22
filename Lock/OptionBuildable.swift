@@ -72,6 +72,9 @@ public protocol OptionBuildable: Options {
 
         /// Should an enterprise connection use credentials instead of WebAuth.  By default enterprise connections use WebAuth
     var enterpriseConnectionUsingActiveAuth: [String] { get set }
+
+    var legacyMode: Bool { get set }
+    var audience: String? { get set }
 }
 
 internal extension OptionBuildable {

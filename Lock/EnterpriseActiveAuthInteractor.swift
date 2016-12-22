@@ -117,15 +117,27 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
 
         guard let password = self.password, self.validPassword else { return callback(.nonValidInput) }
 
-        self.authentication
-            .login(
-                usernameOrEmail: identifier,
-                password: password,
-                connection: self.connection.name,
-                scope: self.options.scope,
-                parameters: self.options.parameters
-            )
-            .start { self.handleLoginResult($0, callback: callback) }
+        if self.options.legacyMode {
+            self.authentication
+                .login(
+                    usernameOrEmail: identifier,
+                    password: password,
+                    connection: self.connection.name,
+                    scope: self.options.scope,
+                    parameters: self.options.parameters
+                )
+                .start { self.handleLoginResult($0, callback: callback) }
+        } else {
+            self.authentication
+                .login(
+                    usernameOrEmail: identifier,
+                    password: password,
+                    realm: self.connection.name,
+                    audience: self.options.audience,
+                    scope: self.options.scope
+                )
+                .start { self.handleLoginResult($0, callback: callback) }
+        }
     }
 
     private func handleLoginResult(_ result: Auth0.Result<Credentials>, callback: (DatabaseAuthenticatableError?) -> ()) {

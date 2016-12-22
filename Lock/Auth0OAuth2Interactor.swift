@@ -36,6 +36,7 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
             .connection(connection)
             .scope(self.options.scope)
             .parameters(parameters)
+            .audience(self.options.audience ?? "")
             .start { result in
                 switch result {
                 case .success(let credentials):

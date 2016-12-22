@@ -80,6 +80,14 @@ class OptionsSpec: QuickSpec {
             it("should have no custom fields") {
                 expect(options.customSignupFields).to(beEmpty())
             }
+
+            it("should have true legacyMode") {
+                expect(options.legacyMode).to(beTrue())
+            }
+
+            it("should have nil audience") {
+                expect(options.audience).to(beNil())
+            }
         }
 
         describe("validation") {
@@ -122,6 +130,16 @@ class OptionsSpec: QuickSpec {
             it("should set closable") {
                 options.closable = true
                 expect(options.closable) == true
+            }
+
+            it("should set legacyMode") {
+                options.legacyMode = false
+                expect(options.legacyMode) == false
+            }
+
+            it("should set audience") {
+                options.audience = "http://myapi.com/"
+                expect(options.audience) == "http://myapi.com/"
             }
 
             it("should set tos") {

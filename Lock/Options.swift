@@ -42,4 +42,7 @@ public protocol Options {
     // Enterprise
     var activeDirectoryEmailAsUsername: Bool { get }
     var enterpriseConnectionUsingActiveAuth: [String] { get }
+
+    var legacyMode: Bool { get }
+    var audience: String? { get }
 }

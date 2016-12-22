@@ -97,15 +97,27 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         guard let password = self.password, self.validPassword else { return callback(.nonValidInput) }
 
-        self.authentication
-            .login(
-                usernameOrEmail: identifier,
-                password: password,
-                connection: self.connection.name,
-                scope: self.options.scope,
-                parameters: self.options.parameters
-            )
-            .start { self.handle(result: $0, callback: callback) }
+        if self.options.legacyMode {
+            self.authentication
+                .login(
+                    usernameOrEmail: identifier,
+                    password: password,
+                    connection: self.connection.name,
+                    scope: self.options.scope,
+                    parameters: self.options.parameters
+                )
+                .start { self.handle(result: $0, callback: callback) }
+        } else {
+            self.authentication
+                .login(
+                    usernameOrEmail: identifier,
+                    password: password,
+                    realm: self.connection.name,
+                    audience: self.options.audience,
+                    scope: self.options.scope
+                )
+                .start { self.handle(result: $0, callback: callback) }
+        }
     }
 
     func create(_ callback: @escaping (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ()) {
@@ -122,13 +134,26 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         let metadata: [String: String]? = self.user.additionalAttributes.isEmpty ? nil : self.user.additionalAttributes
 
         let authentication = self.authentication
-        let login = authentication.login(
-                usernameOrEmail: email,
-                password: password,
-                connection: databaseName,
-                scope: self.options.scope,
-                parameters: self.options.parameters
-            )
+        var login: Auth0.Request<Auth0.Credentials, Auth0.AuthenticationError>
+        if self.options.legacyMode {
+            login = authentication
+                        .login(
+                            usernameOrEmail: email,
+                            password: password,
+                            connection: databaseName,
+                            scope: self.options.scope,
+                            parameters: self.options.parameters
+                        )
+        } else {
+            login = authentication
+                        .login(
+                            usernameOrEmail: email,
+                            password: password,
+                            realm: databaseName,
+                            audience: self.options.audience,
+                            scope: self.options.scope
+                        )
+        }
         authentication
             .createUser(
                 email: email,
