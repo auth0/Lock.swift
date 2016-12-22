@@ -34,6 +34,7 @@ class MultifactorInteractorSpec: QuickSpec {
         var interactor: MultifactorInteractor!
         var connection: DatabaseConnection!
         var credentials: Credentials?
+        var options: OptionBuildable!
 
         beforeEach {
             user = User()
@@ -41,9 +42,10 @@ class MultifactorInteractorSpec: QuickSpec {
             user.validEmail = true
             user.password = password
             user.validPassword = true
+            options = LockOptions()
             credentials = nil
             connection = DatabaseConnection(name: "myConnection", requiresUsername: true)
-            interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection) { credentials = $0 }
+            interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options) { credentials = $0 }
         }
 
         describe("updateCode") {
@@ -93,10 +95,17 @@ class MultifactorInteractorSpec: QuickSpec {
             }
         }
 
-        describe("login") {
+        // TODO: Login Pipeline Tests
+        describe("login legacy") {
+
+            beforeEach {
+                options.legacyMode = true
+                interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options) { credentials = $0 }
+            }
+
 
             it("should yield no error on success") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, legacyMode: options.legacyMode)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
@@ -107,14 +116,14 @@ class MultifactorInteractorSpec: QuickSpec {
             }
 
             it("should yield credentials") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, legacyMode: options.legacyMode)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.setMultifactorCode(code)
                 interactor.login { _ in }
                 expect(credentials).toEventuallyNot(beNil())
             }
 
             it("should yield error on failure") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, legacyMode: options.legacyMode)) { _ in return Auth0Stubs.failure() }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
@@ -125,7 +134,7 @@ class MultifactorInteractorSpec: QuickSpec {
             }
 
             it("should notify when code is invalid") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, legacyMode: options.legacyMode)) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in

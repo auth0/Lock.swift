@@ -35,11 +35,14 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
 
     private let validator = OneTimePasswordValidator()
 
-    init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, callback: @escaping (Credentials) -> ()) {
+    private let options: Options
+
+    init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, options: Options, callback: @escaping (Credentials) -> ()) {
         self.user = user
         self.authentication = authentication
         self.connection = connection
         self.onAuthentication = callback
+        self.options = options
     }
 
     mutating func setMultifactorCode(_ code: String?) throws {
@@ -65,8 +68,31 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
         guard let password = self.user.password, self.user.validPassword else { return callback(.nonValidInput) }
         guard let code = self.code, self.validCode else { return callback(.nonValidInput) }
         let database = self.connection.name
-        self.authentication
-            .login(usernameOrEmail: identifier, password: password, multifactorCode: code, connection: database)
+
+        var login: Auth0.Request<Auth0.Credentials, Auth0.AuthenticationError>
+        if self.options.legacyMode {
+            login = authentication
+                .login(
+                    usernameOrEmail: identifier,
+                    password: password,
+                    multifactorCode: code,
+                    connection: database,
+                    scope: self.options.scope,
+                    parameters: self.options.parameters
+            )
+        } else {
+            // TODO: MFA Support once finalised in Auth0
+            login = authentication
+                .login(
+                    usernameOrEmail: identifier,
+                    password: password,
+                    realm: database,
+                    audience: self.options.audience,
+                    scope: self.options.scope
+            )
+        }
+
+        login
             .start { result in
                 switch result {
                 case .failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
