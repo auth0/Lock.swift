@@ -30,6 +30,7 @@ protocol Navigable {
     func scroll(toPosition: CGPoint, animated: Bool)
     func present(_ controller: UIViewController)
     func exit(withError error: Error)
+    func header(withTitle title: String, animated: Bool)
 }
 
 struct Router: Navigable {
@@ -118,7 +119,7 @@ struct Router: Navigable {
             return nil
         }
         let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication, user: self.user)
-        let presenter =  DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
+        let presenter =  DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: self, options: self.lock.options)
         presenter.customLogger = self.lock.logger
         return presenter
     }
@@ -215,5 +216,9 @@ struct Router: Navigable {
                 lock.callback(.failure(error))
             })
         }
+    }
+
+    func header(withTitle title: String, animated: Bool = false) {
+        self.controller?.headerView.setTitle(title, animated: animated)
     }
 }

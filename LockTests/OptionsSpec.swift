@@ -81,12 +81,16 @@ class OptionsSpec: QuickSpec {
                 expect(options.customSignupFields).to(beEmpty())
             }
 
-            it("should have false OIDC Conformant") {
+            it("should not be OIDC conformant") {
                 expect(options.oidcConformant).to(beFalse())
             }
 
-            it("should have nil audience") {
+            it("should have no audience") {
                 expect(options.audience).to(beNil())
+            }
+
+            it("should not use contextual header title") {
+                expect(options.contextualHeaderTitles) == false
             }
         }
 
@@ -160,6 +164,11 @@ class OptionsSpec: QuickSpec {
             it("should ignore invalid privacy policy") {
                 options.privacyPolicy = "not a url"
                 expect(options.privacyPolicyURL.absoluteString) == "https://auth0.com/privacy"
+            }
+
+            it("should set contextual header titles") {
+                options.contextualHeaderTitles = true
+                expect(options.contextualHeaderTitles) == true
             }
 
         }

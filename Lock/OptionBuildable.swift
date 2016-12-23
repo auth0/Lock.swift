@@ -67,6 +67,9 @@ public protocol OptionBuildable: Options {
         /// Additional fields showed for Database Sign Up. By default the list is empty
     var customSignupFields: [CustomTextField] { get set }
 
+        /// Use contextual header titles. By default is false
+    var contextualHeaderTitles: Bool { get set }
+
         /// Should enterprise credential auth require email instead of username.  By default is false
     var activeDirectoryEmailAsUsername: Bool { get set }
 

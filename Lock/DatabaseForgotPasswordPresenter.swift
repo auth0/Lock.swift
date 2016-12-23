@@ -27,10 +27,14 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
     var interactor: PasswordRecoverable
     let database: DatabaseConnection
     var customLogger: Logger?
+    var navigator: Navigable
+    let options: Options
 
-    init(interactor: PasswordRecoverable, connections: Connections) {
+    init(interactor: PasswordRecoverable, connections: Connections, navigator: Navigable, options: Options) {
         self.interactor = interactor
         self.database = connections.database! // FIXME: Avoid the force unwrap
+        self.navigator = navigator
+        self.options = options
     }
 
     var messagePresenter: MessagePresenter?
@@ -39,6 +43,13 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
         let email = self.interactor.validEmail ? self.interactor.email : nil
         let view = DatabaseForgotPasswordView(email: email)
         let form = view.form
+        if options.contextualHeaderTitles {
+            let headerTitle = "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
+            navigator.header(withTitle: headerTitle, animated: true)
+            let forgetView = form as? SingleInputView
+            forgetView?.title?.removeAll()
+        }
+
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
 

@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         self.view = view
         let header = HeaderView()
-        header.title = "Welcome to Lock"
+        header.setTitle("Welcome to Lock")
         header.showClose = false
 
         view.addSubview(header)

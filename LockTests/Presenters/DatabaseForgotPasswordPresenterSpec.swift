@@ -34,13 +34,17 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
         var view: DatabaseForgotPasswordView!
         var messagePresenter: MockMessagePresenter!
         var connections: OfflineConnections!
+        var navigator: MockNavigator!
+        var options: OptionBuildable!
 
         beforeEach {
+            options = LockOptions()
+            navigator = MockNavigator()
             messagePresenter = MockMessagePresenter()
             interactor = MockForgotInteractor()
             connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
-            presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
+            presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseForgotPasswordView
         }
@@ -48,7 +52,7 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
         it("should use valid email") {
             interactor.email = email
             interactor.validEmail = true
-            presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
+            presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
             let view = (presenter.view as! DatabaseForgotPasswordView).form as! SingleInputView
             expect(view.value) == email
         }
@@ -56,7 +60,7 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
         it("should not use invalid email") {
             interactor.email = email
             interactor.validEmail = false
-            presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
+            presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
             let view = (presenter.view as! DatabaseForgotPasswordView).form as! SingleInputView
             expect(view.value) != email
         }
@@ -187,6 +191,46 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
                 }
 
             }
+
+            describe("contextual header titles") {
+
+                var view: SingleInputView!
+
+                context("disabled") {
+
+                    beforeEach {
+                        options.contextualHeaderTitles = false
+                        presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
+                        view = (presenter.view as! DatabaseForgotPasswordView).form as! SingleInputView
+                    }
+
+                    it("should show Auth0 header title by default") {
+                        expect(navigator.headerTitle) == "Auth0"
+                    }
+
+                    it("should show view title") {
+                        expect(view.title) == "Reset Password"
+                    }
+
+                }
+
+                context("enabled") {
+
+                    beforeEach {
+                        options.contextualHeaderTitles = true
+                        presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
+                        view = (presenter.view as! DatabaseForgotPasswordView).form as! SingleInputView
+                    }
+
+                    it("should show contextual header") {
+                        expect(navigator.headerTitle) == "Reset Password"
+                    }
+
+                    it("should remove view title") {
+                        expect(view.title) == ""
+                    }
+                }
+            }
         }
 
     }
@@ -198,11 +242,11 @@ class MockForgotInteractor: PasswordRecoverable {
     var validEmail: Bool = false
     var email: String?
     var onRequest: () -> PasswordRecoverableError? = { return nil }
-
+    
     func requestEmail(_ callback: @escaping (PasswordRecoverableError?) -> ()) {
         callback(onRequest())
     }
-
+    
     func updateEmail(_ value: String?) throws {
         guard value != "invalid" else {
             self.validEmail = false
