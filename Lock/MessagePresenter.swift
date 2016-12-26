@@ -27,7 +27,7 @@ protocol LocalizableError {
     var userVisible: Bool { get }
 }
 
-protocol MessagePresenter {
+protocol MessagePresenter: NSObjectProtocol {
 
     func showError(_ error: LocalizableError)
     func showSuccess(_ message: String)
