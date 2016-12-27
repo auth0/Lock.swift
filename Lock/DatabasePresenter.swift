@@ -32,7 +32,7 @@ class DatabasePresenter: Presentable, Loggable {
     var creator: DatabaseUserCreator
     var navigator: Navigable
 
-    weak var messagePresenter: MessagePresenter?
+    var messagePresenter: MessagePresenter?
     var authPresenter: AuthPresenter?
     var enterpriseInteractor: EnterpriseDomainInteractor?
 

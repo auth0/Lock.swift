@@ -96,7 +96,7 @@ func mockInput(_ type: InputField.InputType, value: String? = nil) -> MockInputF
     return input
 }
 
-class MockMessagePresenter: NSObject, MessagePresenter {
+class MockMessagePresenter: MessagePresenter {
     var message: String? = nil
     var error: LocalizableError? = nil
 

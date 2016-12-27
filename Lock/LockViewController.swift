@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class LockViewController: UIViewController, MessagePresenter {
+public class LockViewController: UIViewController {
 
     weak var headerView: HeaderView!
     weak var scrollView: UIScrollView!
@@ -30,6 +30,7 @@ public class LockViewController: UIViewController, MessagePresenter {
     var current: View?
     var keyboard: Bool = false
     var routes: Routes = Routes()
+    var messagePresenter: MessagePresenter!
 
     var anchorConstraint: NSLayoutConstraint?
     var router: Router!
@@ -73,6 +74,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         header.apply(style: style)
 
         self.headerView = header
+        self.messagePresenter = BannerMessagePresenter(root: root, messageView: nil)
     }
 
     public override func viewDidLoad() {
@@ -91,7 +93,7 @@ public class LockViewController: UIViewController, MessagePresenter {
         let view = presenter.view
         view.apply(style: self.router.lock.style)
         self.anchorConstraint = view.layout(inView: self.scrollView, below: self.headerView)
-        presenter.messagePresenter = self
+        presenter.messagePresenter = self.messagePresenter
         self.current = view
         self.headerView.showBack = self.router.showBack
         self.headerView.onBackPressed = self.router.onBack
@@ -103,39 +105,6 @@ public class LockViewController: UIViewController, MessagePresenter {
         self.anchorConstraint?.isActive = self.traitCollection.verticalSizeClass != .compact
         self.scrollView.setContentOffset(CGPoint.zero, animated: true)
         self.view.layoutIfNeeded()
-    }
-
-    // MARK: - MessagePresenter
-
-    func showError(_ error: LocalizableError) {
-        guard error.userVisible else { return }
-        show(message: error.localizableMessage, flavor: .failure)
-    }
-
-    func showSuccess(_ message: String) {
-        show(message: message, flavor: .success)
-    }
-
-    func hideCurrent() {
-        self.messageView?.removeFromSuperview()
-        self.messageView = nil
-    }
-
-    private func show(message: String, flavor: MessageView.Flavor) {
-        let view = MessageView()
-        view.type = flavor
-        view.message = message
-
-        self.view.addSubview(view)
-
-        constraintEqual(anchor: view.topAnchor, toAnchor: self.view.topAnchor)
-        constraintEqual(anchor: view.leftAnchor, toAnchor: self.view.leftAnchor)
-        constraintEqual(anchor: view.rightAnchor, toAnchor: self.view.rightAnchor)
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        self.messageView = view
-
-        Queue.main.after(4) { [weak view] in view?.removeFromSuperview() }
     }
 
     // MARK: - Keyboard
