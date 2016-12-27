@@ -43,14 +43,14 @@ struct Router: Navigable {
     init(lock: Lock, controller: LockViewController) {
         self.controller = controller
         self.lock = lock
-        self.onDismiss = { [weak controller] in
+        self.onDismiss = { [weak controller, unowned lock] in
             Queue.main.async {
                 controller?.presentingViewController?.dismiss(animated: true, completion: { _ in
                     lock.callback(.cancelled)
                 })
             }
         }
-        self.onAuthentication = { [weak controller] credentials in
+        self.onAuthentication = { [weak controller, unowned lock] credentials in
             let closure: () -> ()
             if let presentingController = controller?.presentingViewController {
                 closure = {
