@@ -35,7 +35,7 @@ public class InputField: UIView, UITextFieldDelegate {
 
     private(set) var state: State = .invalid(nil)
 
-    private lazy var debounceShowError: () -> () = debounce(0.8, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: self.needsToUpdateState)
+    private lazy var debounceShowError: () -> () = debounce(0.8, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: { [weak self] in self?.needsToUpdateState() })
 
     var text: String? {
         get {
