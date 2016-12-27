@@ -90,55 +90,57 @@ class DatabasePresenter: Presentable, Loggable {
         let style = self.database.requiresUsername ? self.options.usernameStyle : [.Email]
         view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView)
         let form = view.form
-        form?.onValueChange = self.handleInput
+        form?.onValueChange = { [unowned self] input in
+            self.handleInput(input)
+        }
 
-        let action = { [weak form] (button: PrimaryButton) in
-            self.messagePresenter?.hideCurrent()
-            self.logger.info("Perform login for email: \(self.authenticator.email)")
+        let action = { [weak self, weak form] (button: PrimaryButton) in
+            guard let strongSelf = self else { return }
+            strongSelf.messagePresenter?.hideCurrent()
+            strongSelf.logger.info("Perform login for email: \(strongSelf.authenticator.email)")
             button.inProgress = true
 
             let errorHandler: (LocalizableError?) -> () = { error in
                 Queue.main.async {
                     button.inProgress = false
                     guard let error = error else {
-                        self.logger.debug("Logged in!")
+                        strongSelf.logger.debug("Logged in!")
                         return
                     }
                     if case DatabaseAuthenticatableError.multifactorRequired = error {
-                        self.navigator.navigate(.multifactor)
+                        strongSelf.navigator.navigate(.multifactor)
                     } else {
                         form?.needsToUpdateState()
-                        self.messagePresenter?.showError(error)
-                        self.logger.error("Failed with error \(error)")
+                        strongSelf.messagePresenter?.showError(error)
+                        strongSelf.logger.error("Failed with error \(error)")
                     }
                 }
             }
 
             // Enterprise Authentication
-            if let connection = self.enterpriseInteractor?.connection {
+            if let connection = strongSelf.enterpriseInteractor?.connection {
                 // Credential Auth
-                if self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                    self.navigator.navigate(.enterpriseActiveAuth(connection: connection))
+                if strongSelf.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+                    strongSelf.navigator.navigate(.enterpriseActiveAuth(connection: connection))
                 } else {
                     // OAuth
-                    self.enterpriseInteractor?.login(errorHandler)
+                    strongSelf.enterpriseInteractor?.login(errorHandler)
                 }
             } else {
                 // Database Authentication
-                self.authenticator.login(errorHandler)
+                strongSelf.authenticator.login(errorHandler)
             }
 
         }
 
-        let primaryButton = view.primaryButton
-        view.form?.onReturn = { [weak primaryButton] field in
-            guard let button = primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
+        view.form?.onReturn = { [weak view] field in
+            guard let button = view?.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
             action(button)
         }
         view.primaryButton?.onPress = action
         view.secondaryButton?.title = "Don’t remember your password?".i18n(key: "com.auth0.lock.database.button.forgot-password", comment: "Forgot password")
         view.secondaryButton?.color = .clear
-        view.secondaryButton?.onPress = { button in
+        view.secondaryButton?.onPress = { [unowned self] button in
             self.navigator.navigate(.forgotPassword)
         }
     }
@@ -151,42 +153,44 @@ class DatabasePresenter: Presentable, Loggable {
 
         view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator)
         let form = view.form
-        view.form?.onValueChange = self.handleInput
-        let action = { [weak form] (button: PrimaryButton) in
-            self.messagePresenter?.hideCurrent()
-            self.logger.info("perform sign up for email \(self.creator.email)")
-            let interactor = self.creator
+        view.form?.onValueChange = { [unowned self] input in
+            self.handleInput(input)
+        }
+        let action = { [weak self, weak form] (button: PrimaryButton) in
+            guard let strongSelf = self else { return }
+            strongSelf.messagePresenter?.hideCurrent()
+            strongSelf.logger.info("perform sign up for email \(strongSelf.creator.email)")
+            let interactor = strongSelf.creator
             button.inProgress = true
             interactor.create { createError, loginError in
                 Queue.main.async {
                     button.inProgress = false
 
                     guard createError != nil || loginError != nil else {
-                        self.logger.debug("Logged in!")
+                        strongSelf.logger.debug("Logged in!")
                         return
                     }
                     if let error = loginError, case .multifactorRequired = error {
-                        self.navigator.navigate(.multifactor)
+                        strongSelf.navigator.navigate(.multifactor)
                         return
                     }
 
                     let error: LocalizableError = createError ?? loginError!
                     form?.needsToUpdateState()
-                    self.messagePresenter?.showError(error)
-                    self.logger.error("Failed with error \(error)")
-
+                    strongSelf.messagePresenter?.showError(error)
+                    strongSelf.logger.error("Failed with error \(error)")
                 }
             }
         }
 
-        view.form?.onReturn = { field in
-            guard let button = view.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
+        view.form?.onReturn = { [weak view] field in
+            guard let button = view?.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
             action(button)
         }
         view.primaryButton?.onPress = action
         view.secondaryButton?.title = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.tos.button.title", comment: "tos & privacy")
         view.secondaryButton?.color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
-        view.secondaryButton?.onPress = { button in
+        view.secondaryButton?.onPress = { [unowned self] button in
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let cancel = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel.title", comment: "Cancel"), style: .cancel, handler: nil)
             let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.tos.title", comment: "ToS"), style: .default, handler: safariBuilder(forURL: self.options.termsOfServiceURL as URL, navigator: self.navigator))

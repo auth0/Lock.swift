@@ -136,13 +136,13 @@ class DatabaseOnlyView: UIView, DatabaseView {
             passwordPolicyView.isHidden = true
         }
 
-        form.emailField.onReturn = { [weak form] _ in
+        form.emailField.onReturn = { [unowned self, weak form] _ in
             if form?.emailField.nextField == form?.passwordField {
                 self.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
             }
         }
 
-        form.usernameField?.onReturn = { [weak form] _ in
+        form.usernameField?.onReturn = { [unowned self, weak form] _ in
             if form?.usernameField?.nextField == form?.passwordField {
                 self.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
             }

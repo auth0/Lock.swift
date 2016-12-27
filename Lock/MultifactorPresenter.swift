@@ -38,7 +38,7 @@ class MultifactorPresenter: Presentable, Loggable {
     var view: View {
         let view = MultifactorCodeView()
         let form = view.form
-        view.form?.onValueChange = { input in
+        view.form?.onValueChange = { [unowned self] input in
             self.messagePresenter?.hideCurrent()
 
             guard case .oneTimePassword = input.type else { return }
@@ -52,7 +52,7 @@ class MultifactorPresenter: Presentable, Loggable {
                 input.showError()
             }
         }
-        let action = { [weak form] (button: PrimaryButton) in
+        let action = { [unowned self, weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
             self.logger.debug("resuming with mutifactor code \(self.interactor.code)")
             let interactor = self.interactor
@@ -68,8 +68,9 @@ class MultifactorPresenter: Presentable, Loggable {
                 }
             }
         }
-        view.form?.onReturn = { [unowned view]_ in
-            guard let button = view.primaryButton else { return }
+
+        view.form?.onReturn = { [weak view] _ in
+            guard let button = view?.primaryButton else { return }
             action(button)
         }
         view.primaryButton?.onPress = action

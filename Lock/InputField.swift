@@ -35,7 +35,10 @@ public class InputField: UIView, UITextFieldDelegate {
 
     private(set) var state: State = .invalid(nil)
 
-    private lazy var debounceShowError: () -> () = debounce(0.8, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: self.needsToUpdateState)
+    private lazy var debounceShowError: () -> () = debounce(0.8, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: { [weak self] _ in
+        guard let strongSelf = self else { return }
+        strongSelf.needsToUpdateState()
+    })
 
     var text: String? {
         get {
@@ -108,10 +111,11 @@ public class InputField: UIView, UITextFieldDelegate {
     }
 
     func needsToUpdateState() {
-        Queue.main.async {
-            self.errorLabel?.text = self.state.text
-            self.containerView?.layer.borderColor = self.state.color.cgColor
-            self.errorLabelTopPadding?.constant = self.state.padding
+        Queue.main.async { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.errorLabel?.text = strongSelf.state.text
+            strongSelf.containerView?.layer.borderColor = strongSelf.state.color.cgColor
+            strongSelf.errorLabelTopPadding?.constant = strongSelf.state.padding
         }
     }
 

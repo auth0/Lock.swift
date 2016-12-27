@@ -39,7 +39,7 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
         let email = self.interactor.validEmail ? self.interactor.email : nil
         let view = DatabaseForgotPasswordView(email: email)
         let form = view.form
-        view.form?.onValueChange = { input in
+        view.form?.onValueChange = { [unowned self] input in
             self.messagePresenter?.hideCurrent()
 
             guard case .email = input.type else { return }
@@ -53,28 +53,29 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
                 input.showError()
             }
         }
-        let action = { [weak form] (button: PrimaryButton) in
-            self.messagePresenter?.hideCurrent()
-            self.logger.info("request forgot password for email \(self.interactor.email)")
-            let interactor = self.interactor
+        let action = { [weak self, weak form] (button: PrimaryButton) in
+            guard let strongSelf = self else { return }
+            strongSelf.messagePresenter?.hideCurrent()
+            strongSelf.logger.info("request forgot password for email \(strongSelf.interactor.email)")
+            let interactor = strongSelf.interactor
             button.inProgress = true
             interactor.requestEmail { error in
                 Queue.main.async {
                     button.inProgress = false
                     form?.needsToUpdateState()
                     if let error = error {
-                        self.messagePresenter?.showError(error)
-                        self.logger.error("Failed with error \(error)")
+                        strongSelf.messagePresenter?.showError(error)
+                        strongSelf.logger.error("Failed with error \(error)")
                     } else {
                         let message = "We've just sent you an email to reset your password".i18n(key: "com.auth0.lock.database.forgot.success.message", comment: "forgot password email sent")
-                        self.messagePresenter?.showSuccess(message)
+                        strongSelf.messagePresenter?.showSuccess(message)
                     }
                 }
             }
         }
         view.primaryButton?.onPress = action
-        view.form?.onReturn = { [unowned view] _ in
-            guard let button = view.primaryButton else { return }
+        view.form?.onReturn = { [weak view] _ in
+            guard let button = view?.primaryButton else { return }
             action(button)
         }
         return view

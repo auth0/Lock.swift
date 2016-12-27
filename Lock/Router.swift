@@ -45,6 +45,7 @@ class Router: Navigable {
         self.lock = lock
         self.onDismiss = { [weak controller] in
             Queue.main.async {
+                controller?.currentPresenter = nil
                 controller?.presentingViewController?.dismiss(animated: true, completion: { _ in
                     lock.callback(.cancelled)
                 })
@@ -54,6 +55,7 @@ class Router: Navigable {
             let closure: () -> ()
             if let presentingController = controller?.presentingViewController {
                 closure = {
+                    controller?.currentPresenter = nil
                     presentingController.dismiss(animated: true, completion: { _ in
                         lock.callback(.success(credentials))
                     })
@@ -64,7 +66,7 @@ class Router: Navigable {
             Queue.main.async(closure)
         }
 
-        self.onBack = {
+        self.onBack = { [unowned self] in
             guard let current = self.controller?.routes.back() else { return }
 
             self.user.reset()
@@ -211,8 +213,9 @@ class Router: Navigable {
     func exit(withError error: Error) {
         let controller = self.controller?.presentingViewController
         let lock = self.lock
+        self.controller?.currentPresenter = nil
         self.lock.logger.debug("Dismissing Lock with error \(error)")
-        Queue.main.async {
+        Queue.main.async { [weak controller] in
             controller?.dismiss(animated: true, completion: { _ in
                 lock.callback(.failure(error))
             })
