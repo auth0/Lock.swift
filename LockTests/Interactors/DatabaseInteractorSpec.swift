@@ -812,6 +812,144 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
+            context("Auto log in after sign up") {
+
+                var options = LockOptions()
+
+                beforeEach {
+                    options.loginAfterSignup = true
+                    let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+                    database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, callback: { _ in })
+                }
+
+                it("should yield no error on success") {
+                    stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                    stub(condition: databaseLogin(identifier: email, password: password, connection: connection, oidcConformant: false)) { _ in return Auth0Stubs.authentication() }
+                    try! database.update(.email, value: email)
+                    try! database.update(.username, value: username)
+                    try! database.update(.password(enforcePolicy: false), value: password)
+                    waitUntil(timeout: 2) { done in
+                        database.create { create, login in
+                            expect(create).to(beNil())
+                            expect(login).to(beNil())
+                            done()
+                        }
+                    }
+                }
+
+                it("should not send username") {
+                    let username = "AN INVALID USERNAME"
+                    database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: false), authentication: authentication, user: user, options: options, callback: { _ in })
+                    stub(condition: databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
+                    stub(condition: databaseLogin(identifier: email, password: password, connection: connection, oidcConformant: false)) { _ in return Auth0Stubs.authentication() }
+                    try! database.update(.email, value: email)
+                    let _ = try? database.update(.username, value: username)
+                    try! database.update(.password(enforcePolicy: false), value: password)
+                    waitUntil(timeout: 2) { done in
+                        database.create { create, login in
+                            expect(create).to(beNil())
+                            expect(login).to(beNil())
+                            done()
+                        }
+                    }
+                }
+
+                it("should indicate that mfa is required") {
+                    stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                    stub(condition: databaseLogin(identifier: email, password: password, connection: connection, oidcConformant: false)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
+                    try! database.update(.email, value: email)
+                    try! database.update(.username, value: username)
+                    try! database.update(.password(enforcePolicy: false), value: password)
+                    waitUntil(timeout: 2) { done in
+                        database.create { create, login in
+                            expect(create).to(beNil())
+                            expect(login) == .multifactorRequired
+                            done()
+                        }
+                    }
+                }
+
+                it("should yield error on login failure") {
+                    stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                    stub(condition: databaseLogin(identifier: email, password: password, connection: connection, oidcConformant: false)) { _ in return Auth0Stubs.failure() }
+                    try! database.update(.email, value: email)
+                    try! database.update(.username, value: username)
+                    try! database.update(.password(enforcePolicy: false), value: password)
+                    waitUntil(timeout: 2) { done in
+                        database.create { create, login in
+                            expect(create).to(beNil())
+                            expect(login) == .couldNotLogin
+                            done()
+                        }
+                    }
+                }
+
+                it("should yield error on signup failure") {
+                    stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
+                    try! database.update(.email, value: email)
+                    try! database.update(.username, value: username)
+                    try! database.update(.password(enforcePolicy: false), value: password)
+                    waitUntil(timeout: 2) { done in
+                        database.create { create, login in
+                            expect(create) == .couldNotCreateUser
+                            done()
+                        }
+                    }
+                }
+
+                it("should yield invalid password") {
+                    stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password") }
+                    try! database.update(.email, value: email)
+                    try! database.update(.username, value: username)
+                    try! database.update(.password(enforcePolicy: false), value: password)
+                    waitUntil(timeout: 2) { done in
+                        database.create { create, login in
+                            expect(create) == .passwordInvalid
+                            done()
+                        }
+                    }
+                }
+
+                it("should yield password too weak") {
+                    stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordStrengthError") }
+                    try! database.update(.email, value: email)
+                    try! database.update(.username, value: username)
+                    try! database.update(.password(enforcePolicy: false), value: password)
+                    waitUntil(timeout: 2) { done in
+                        database.create { create, login in
+                            expect(create) == .passwordTooWeak
+                            done()
+                        }
+                    }
+                }
+
+                it("should yield password already used") {
+                    stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordHistoryError") }
+                    try! database.update(.email, value: email)
+                    try! database.update(.username, value: username)
+                    try! database.update(.password(enforcePolicy: false), value: password)
+                    waitUntil(timeout: 2) { done in
+                        database.create { create, login in
+                            expect(create) == .passwordAlreadyUsed
+                            done()
+                        }
+                    }
+                }
+
+                it("should yield password too common") {
+                    stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordDictionaryError") }
+                    try! database.update(.email, value: email)
+                    try! database.update(.username, value: username)
+                    try! database.update(.password(enforcePolicy: false), value: password)
+                    waitUntil(timeout: 2) { done in
+                        database.create { create, login in
+                            expect(create) == .passwordTooCommon
+                            done()
+                        }
+                    }
+                }
+            }
+
             it("should yield error on login failure") {
                 stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection, oidcConformant: options.oidcConformant)) { _ in return Auth0Stubs.failure() }
@@ -822,71 +960,6 @@ class DatabaseInteractorSpec: QuickSpec {
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login) == .couldNotLogin
-                        done()
-                    }
-                }
-            }
-
-            it("should yield error on signup failure") {
-                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
-                try! database.update(.email, value: email)
-                try! database.update(.username, value: username)
-                try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
-                    database.create { create, login in
-                        expect(create) == .couldNotCreateUser
-                        done()
-                    }
-                }
-            }
-
-            it("should yield invalid password") {
-                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password") }
-                try! database.update(.email, value: email)
-                try! database.update(.username, value: username)
-                try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
-                    database.create { create, login in
-                        expect(create) == .passwordInvalid
-                        done()
-                    }
-                }
-            }
-
-            it("should yield password too weak") {
-                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordStrengthError") }
-                try! database.update(.email, value: email)
-                try! database.update(.username, value: username)
-                try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
-                    database.create { create, login in
-                        expect(create) == .passwordTooWeak
-                        done()
-                    }
-                }
-            }
-
-            it("should yield password already used") {
-                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordHistoryError") }
-                try! database.update(.email, value: email)
-                try! database.update(.username, value: username)
-                try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
-                    database.create { create, login in
-                        expect(create) == .passwordAlreadyUsed
-                        done()
-                    }
-                }
-            }
-
-            it("should yield password too common") {
-                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_password", name: "PasswordDictionaryError") }
-                try! database.update(.email, value: email)
-                try! database.update(.username, value: username)
-                try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
-                    database.create { create, login in
-                        expect(create) == .passwordTooCommon
                         done()
                     }
                 }
@@ -925,6 +998,68 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
+
+            it("should send scope on login") {
+                let scope = "openid email"
+                options.scope = scope
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection, oidcConformant: options.oidcConformant) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { create, login in
+                        expect(create).to(beNil())
+                        expect(login).to(beNil())
+                        done()
+                    }
+                }
+            }
+
+            it("should send parameters on login") {
+                let state = UUID().uuidString
+                options.parameters = ["state": state as Any]
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, callback: { _ in })
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection, oidcConformant: options.oidcConformant) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { create, login in
+                        expect(create).to(beNil())
+                        expect(login).to(beNil())
+                        done()
+                    }
+                }
+            }
+        }
+
+            context("No auto log in after sign up") {
+
+                var options = LockOptions()
+
+                beforeEach {
+                    options.loginAfterSignup = false
+                    let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+                    database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, callback: { _ in })
+                }
+
+                it("should not auto login after signup") {
+                    stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
+                    stub(condition: databaseLogin(identifier: email, password: password, connection: connection, oidcConformant: options.oidcConformant)) { _ in return Auth0Stubs.authentication() }
+                    try! database.update(.email, value: email)
+                    try! database.update(.username, value: username)
+                    try! database.update(.password(enforcePolicy: false), value: password)
+                    waitUntil(timeout: 2) { done in
+                        database.create { create, login in
+                            expect(create).to(beNil())
+                            expect(login) == DatabaseAuthenticatableError.noLoginAfterSignup
+                            done()
+                        }
+                    }
+                }
 
             it("should send scope on login") {
                 let scope = "openid email"
@@ -1177,8 +1312,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
-            
-            
+
         }
         
     }

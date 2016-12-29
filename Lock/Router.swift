@@ -149,6 +149,12 @@ struct Router: Navigable {
         return presenter
     }
 
+    func notification(_ status: NotificationStatus) -> Presentable? {
+        let presenter = NotificationPresenter(status: status)
+        presenter.customLogger = self.lock.logger
+        return presenter
+    }
+
     var showBack: Bool {
         guard let routes = self.controller?.routes else { return false }
         return !routes.history.isEmpty
@@ -192,6 +198,8 @@ struct Router: Navigable {
             presentable = self.multifactor
         case .enterpriseActiveAuth(let connection):
             presentable = self.EnterpriseActiveAuth(connection)
+        case .notification(let status):
+            presentable = self.notification(status)
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")
             return

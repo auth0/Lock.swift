@@ -128,7 +128,11 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             .start {
                 switch $0 {
                 case .success:
-                    login.start { self.handle(result: $0, callback: { callback(nil, $0) }) }
+                    if self.options.loginAfterSignup {
+                        login.start { self.handle(result: $0, callback: { callback(nil, $0) }) }
+                    } else {
+                        callback(nil,.noLoginAfterSignup)
+                    }
                 case .failure(let cause as AuthenticationError) where cause.isPasswordNotStrongEnough:
                     callback(.passwordTooWeak, nil)
                 case .failure(let cause as AuthenticationError) where cause.isPasswordAlreadyUsed:

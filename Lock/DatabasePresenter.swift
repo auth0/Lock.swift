@@ -160,7 +160,6 @@ class DatabasePresenter: Presentable, Loggable {
             interactor.create { createError, loginError in
                 Queue.main.async {
                     button.inProgress = false
-
                     guard createError != nil || loginError != nil else {
                         self.logger.debug("Logged in!")
                         return
@@ -169,7 +168,10 @@ class DatabasePresenter: Presentable, Loggable {
                         self.navigator.navigate(.multifactor)
                         return
                     }
-
+                    if let error = loginError, case .noLoginAfterSignup = error {
+                        self.navigator.navigate(.notification(status: .signedup))
+                        return
+                    }
                     let error: LocalizableError = createError ?? loginError!
                     form?.needsToUpdateState()
                     self.messagePresenter?.showError(error)
