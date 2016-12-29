@@ -89,8 +89,12 @@ class OptionsSpec: QuickSpec {
                 expect(options.audience).to(beNil())
             }
 
-            it("should not use contextual header title") {
+            it("should not use contextual header titles") {
                 expect(options.contextualHeaderTitles) == false
+            }
+
+            it("should not use contextual CTAs") {
+                expect(options.contextualCTA) == false
             }
         }
 
@@ -127,6 +131,18 @@ class OptionsSpec: QuickSpec {
                 options.usernameStyle = []
                 expect(options.validate()).toNot(beNil())
             }
+
+            it("should use contextual CTAs") {
+                options.contextualCTA = true
+                expect(options.contextualCTA) == true
+            }
+
+            it("should use contextual header titles") {
+                options.contextualHeaderTitles = true
+                expect(options.contextualHeaderTitles) == true
+                expect(options.contextualCTA) == true
+            }
+
         }
 
         describe("builder") {

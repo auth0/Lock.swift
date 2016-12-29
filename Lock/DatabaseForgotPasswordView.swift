@@ -27,7 +27,7 @@ class DatabaseForgotPasswordView: UIView, View {
     weak var form: Form?
     weak var primaryButton: PrimaryButton?
 
-    init(email: String?) {
+    init(email: String?, options: Options) {
         let primaryButton = PrimaryButton()
         let forgotView = SingleInputView()
         let center = UILayoutGuide()
@@ -48,9 +48,8 @@ class DatabaseForgotPasswordView: UIView, View {
 
         constraintEqual(anchor: forgotView.leftAnchor, toAnchor: center.leftAnchor)
         constraintEqual(anchor: forgotView.rightAnchor, toAnchor: center.rightAnchor)
-        constraintEqual(anchor: forgotView.centerYAnchor, toAnchor: center.centerYAnchor)
-        constraintGreaterOrEqual(anchor: forgotView.topAnchor, toAnchor: center.topAnchor, constant: 10, priority: UILayoutPriorityDefaultLow - 1)
-        constraintGreaterOrEqual(anchor: forgotView.bottomAnchor, toAnchor: center.bottomAnchor, constant: -10, priority: UILayoutPriorityDefaultLow - 1)
+        constraintEqual(anchor: forgotView.centerYAnchor, toAnchor: center.centerYAnchor, constant: -20)
+        constraintGreaterOrEqual(anchor: forgotView.topAnchor, toAnchor: center.topAnchor)
         forgotView.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
@@ -60,9 +59,13 @@ class DatabaseForgotPasswordView: UIView, View {
 
         forgotView.type = .email
         forgotView.returnKey = .done
-        forgotView.title = "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
         forgotView.message = "Please enter your email and the new password. We will send you an email to confirm the password change.".i18n(key: "com.auth0.lock.forgot.message", comment: "Forgot Password message")
         forgotView.value = email
+
+        if options.contextualCTA {
+            let title = "Send Email".i18n(key: "com.auth0.lock.forgot.sendemail", comment: "Send Email").uppercased()
+            primaryButton.setTitle(title)
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {

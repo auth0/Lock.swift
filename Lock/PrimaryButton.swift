@@ -57,6 +57,25 @@ public class PrimaryButton: UIView {
         self.layoutButton()
     }
 
+    func setTitle(_ title: String) {
+        let font = mediumSystemFont(size: 16)
+        let attachment = NSTextAttachment()
+        attachment.image = LazyImage(name: "ic_chevron", bundle: bundleForLock()).image()
+        attachment.bounds = CGRect(x: 0.0, y: font.descender / 2.0, width: attachment.image!.size.width, height: attachment.image!.size.height)
+
+        let attributedText = NSMutableAttributedString()
+        attributedText.append(NSAttributedString(
+            string: title + "  ",
+            attributes: [
+                NSForegroundColorAttributeName: UIColor.white,
+                NSFontAttributeName: font
+            ]
+        ))
+        attributedText.append(NSAttributedString(attachment: attachment))
+        button?.setImage(nil, for: .normal)
+        button?.setAttributedTitle(attributedText, for: .normal)
+    }
+
     private func layoutButton() {
         let button = UIButton(type: .custom)
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)

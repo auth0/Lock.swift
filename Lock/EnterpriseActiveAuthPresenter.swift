@@ -26,9 +26,11 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
 
     var interactor: EnterpriseActiveAuthInteractor
     var customLogger: Logger?
+    let options: Options
 
-    init(interactor: EnterpriseActiveAuthInteractor) {
+    init(interactor: EnterpriseActiveAuthInteractor, options: Options) {
         self.interactor = interactor
+        self.options = options
     }
 
     var messagePresenter: MessagePresenter?
@@ -42,7 +44,7 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
             identifier = username
         }
 
-        let view = EnterpriseActiveAuthView(identifer: identifier, identifierAttribute: self.interactor.identifierAttribute)
+        let view = EnterpriseActiveAuthView(identifer: identifier, identifierAttribute: self.interactor.identifierAttribute, options: self.options)
         let form = view.form
         view.ssoBar?.title = self.interactor.connection.domains.first
 

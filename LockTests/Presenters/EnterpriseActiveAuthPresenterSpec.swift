@@ -45,7 +45,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             messagePresenter = MockMessagePresenter()
             connection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
             interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
-            presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+            presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
             presenter.messagePresenter = messagePresenter
 
             view = presenter.view as! EnterpriseActiveAuthView
@@ -72,7 +72,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             it("should return initial valid email") {
                 interactor.validEmail = true
                 interactor.email = email
-                presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+                presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                 let view = (presenter.view as! EnterpriseActiveAuthView).form as! CredentialView
                 expect(view.identityField.text).to(equal(email))
             }
@@ -80,7 +80,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             it("should return initial username") {
                 interactor.validUsername = true
                 interactor.username = username
-                presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+                presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                 let view = (presenter.view as! EnterpriseActiveAuthView).form as! CredentialView
                 expect(view.identityField.text).to(equal(username))
             }
@@ -97,7 +97,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                     options.activeDirectoryEmailAsUsername = true
                     
                     interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
-                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                     presenter.messagePresenter = messagePresenter
                 }
 
@@ -157,7 +157,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                     options.activeDirectoryEmailAsUsername = true
 
                     interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
-                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                     presenter.messagePresenter = messagePresenter
 
                     view = presenter.view as! EnterpriseActiveAuthView
@@ -195,7 +195,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
                 try! interactor.update(.username, value: username)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+                presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                 presenter.messagePresenter = messagePresenter
 
                 view = presenter.view as! EnterpriseActiveAuthView
@@ -222,6 +222,35 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.couldNotLogin))
             }
 
+        }
+
+        describe("Contextual CTA Titles") {
+
+            context("Disabled") {
+
+                beforeEach {
+                    options.contextualCTA = false
+                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
+                    view = presenter.view as! EnterpriseActiveAuthView
+                }
+
+                it("should have image for primary button") {
+                    expect(view.primaryButton?.button?.imageView?.image).toNot(beNil())
+                }
+            }
+
+            context("Enabled") {
+
+                beforeEach {
+                    options.contextualCTA = true
+                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
+                    view = presenter.view as! EnterpriseActiveAuthView
+                }
+
+                it("should show primary button contextual title") {
+                    expect(view.primaryButton?.button?.titleLabel?.attributedText?.string.contains("LOG IN")).to(beTrue())
+                }
+            }
         }
 
     }

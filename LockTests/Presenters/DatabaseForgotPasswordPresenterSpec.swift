@@ -192,45 +192,66 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
 
             }
 
-            describe("contextual header titles") {
+            describe("Contextual Header Title(s)") {
 
-                var view: SingleInputView!
-
-                context("disabled") {
+                context("Disabled") {
 
                     beforeEach {
                         options.contextualHeaderTitles = false
                         presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
-                        view = (presenter.view as! DatabaseForgotPasswordView).form as! SingleInputView
+                        _ = presenter.view as! DatabaseForgotPasswordView
                     }
 
                     it("should show Auth0 header title by default") {
                         expect(navigator.headerTitle) == "Auth0"
                     }
 
-                    it("should show view title") {
-                        expect(view.title) == "Reset Password"
-                    }
-
                 }
 
-                context("enabled") {
+                context("Enabled") {
 
                     beforeEach {
                         options.contextualHeaderTitles = true
                         presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
-                        view = (presenter.view as! DatabaseForgotPasswordView).form as! SingleInputView
+                        _ = presenter.view as! DatabaseForgotPasswordView
                     }
 
                     it("should show contextual header") {
                         expect(navigator.headerTitle) == "Reset Password"
                     }
+                }
+            }
 
-                    it("should remove view title") {
-                        expect(view.title) == ""
+            describe("Contextual CTA Titles") {
+
+                context("Disabled") {
+
+                    beforeEach {
+                        options.contextualCTA = false
+                        presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
+                        view = presenter.view as! DatabaseForgotPasswordView
+                    }
+
+                    it("should have image for primary button") {
+                        expect(view.primaryButton?.button?.imageView?.image).toNot(beNil())
+                    }
+
+                }
+
+                context("Enabled") {
+
+                    beforeEach {
+                        options.contextualCTA = true
+                        presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
+                        view = presenter.view as! DatabaseForgotPasswordView
+                    }
+
+                    it("should show contextual title") {
+                        expect(view.primaryButton?.button?.titleLabel?.attributedText?.string.contains("SEND EMAIL")).to(beTrue())
                     }
                 }
             }
+
         }
 
     }

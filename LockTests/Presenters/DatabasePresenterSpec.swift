@@ -259,7 +259,8 @@ class DatabasePresenterSpec: QuickSpec {
                 }
                 
             }
-            
+
+            // MARK:- Log In
             describe("login action") {
                 
                 it("should trigger action on return of last field") {
@@ -345,8 +346,39 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(navigator.route).toEventually(equal(Route.forgotPassword))
                 }
             }
+
+            describe("Contextual CTA Titles") {
+
+                context("Disabled") {
+
+                    beforeEach {
+                        options.contextualCTA = false
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                        view = presenter.view as! DatabaseOnlyView
+                    }
+
+                    it("should have image for primary button") {
+                        expect(view.primaryButton?.button?.imageView?.image).toNot(beNil())
+                    }
+
+                }
+
+                context("Enabled") {
+
+                    beforeEach {
+                        options.contextualCTA = true
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                        view = presenter.view as! DatabaseOnlyView
+                    }
+
+                    it("should show primary contextual title") {
+                        expect(view.primaryButton?.button?.titleLabel?.attributedText?.string.contains("LOG IN")).to(beTrue())
+                    }
+                }
+            }
         }
-        
+
+        // MARK: - Sign Up
         describe("sign up") {
             
             beforeEach {
@@ -513,8 +545,39 @@ class DatabasePresenterSpec: QuickSpec {
                     button.onPress(button)
                     expect(button.inProgress).toEventually(beFalse())
                 }
+
+                describe("Contextual CTA Titles") {
+
+                    context("Disabled") {
+
+                        beforeEach {
+                            options.allow = [.Signup]
+                            options.contextualCTA = false
+                            presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                            view = presenter.view as! DatabaseOnlyView
+                        }
+
+                        it("should have image for primary button") {
+                            expect(view.primaryButton?.button?.imageView?.image).toNot(beNil())
+                        }
+                    }
+
+                    context("Enabled") {
+
+                        beforeEach {
+                            options.allow = [.Signup]
+                            options.contextualCTA = true
+                            presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                            view = presenter.view as! DatabaseOnlyView
+                        }
+
+                        it("should show primary button contextual title") {
+                            expect(view.primaryButton?.button?.titleLabel?.attributedText?.string.contains("SIGN UP")).to(beTrue())
+                        }
+                    }
+                }
             }
-            
+
             describe("tos action") {
                 
                 beforeEach {

@@ -140,7 +140,7 @@ struct Router: Navigable {
     func EnterpriseActiveAuth(_ connection: EnterpriseConnection) -> Presentable? {
         let authentication = self.lock.authentication
         let interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: self.user, options: self.lock.options, callback: self.onAuthentication)
-        let presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+        let presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: self.lock.options)
         presenter.customLogger = self.lock.logger
         return presenter
     }

@@ -70,6 +70,9 @@ public protocol OptionBuildable: Options {
         /// Use contextual header titles. By default is false
     var contextualHeaderTitles: Bool { get set }
 
+        /// Should primary call to action with contextual titles instead of a button. By default is false
+    var contextualCTA: Bool { get set }
+
         /// Should enterprise credential auth require email instead of username.  By default is false
     var activeDirectoryEmailAsUsername: Bool { get set }
 
