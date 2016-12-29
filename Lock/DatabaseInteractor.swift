@@ -97,17 +97,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         guard let password = self.password, self.validPassword else { return callback(.nonValidInput) }
 
-        if self.options.legacyMode {
-            self.authentication
-                .login(
-                    usernameOrEmail: identifier,
-                    password: password,
-                    connection: self.connection.name,
-                    scope: self.options.scope,
-                    parameters: self.options.parameters
-                )
-                .start { self.handle(result: $0, callback: callback) }
-        } else {
+        if self.options.oidcConformant {
             self.authentication
                 .login(
                     usernameOrEmail: identifier,
@@ -115,6 +105,16 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                     realm: self.connection.name,
                     audience: self.options.audience,
                     scope: self.options.scope
+                )
+                .start { self.handle(result: $0, callback: callback) }
+        } else {
+            self.authentication
+                .login(
+                    usernameOrEmail: identifier,
+                    password: password,
+                    connection: self.connection.name,
+                    scope: self.options.scope,
+                    parameters: self.options.parameters
                 )
                 .start { self.handle(result: $0, callback: callback) }
         }
@@ -135,24 +135,24 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         let authentication = self.authentication
         var login: Auth0.Request<Auth0.Credentials, Auth0.AuthenticationError>
-        if self.options.legacyMode {
+        if self.options.oidcConformant {
             login = authentication
-                        .login(
-                            usernameOrEmail: email,
-                            password: password,
-                            connection: databaseName,
-                            scope: self.options.scope,
-                            parameters: self.options.parameters
-                        )
+                .login(
+                    usernameOrEmail: email,
+                    password: password,
+                    realm: databaseName,
+                    audience: self.options.audience,
+                    scope: self.options.scope
+            )
         } else {
             login = authentication
-                        .login(
-                            usernameOrEmail: email,
-                            password: password,
-                            realm: databaseName,
-                            audience: self.options.audience,
-                            scope: self.options.scope
-                        )
+                .login(
+                    usernameOrEmail: email,
+                    password: password,
+                    connection: databaseName,
+                    scope: self.options.scope,
+                    parameters: self.options.parameters
+            )
         }
         authentication
             .createUser(
@@ -179,7 +179,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                 case .failure:
                     callback(.couldNotCreateUser, nil)
                 }
-            }
+        }
     }
 
     private mutating func update(email: String?) -> Error? {

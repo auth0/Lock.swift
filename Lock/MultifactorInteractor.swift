@@ -70,7 +70,17 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
         let database = self.connection.name
 
         var login: Auth0.Request<Auth0.Credentials, Auth0.AuthenticationError>
-        if self.options.legacyMode {
+        if self.options.oidcConformant {
+            // TODO: Add MFA Support once available in Auth0.Swift
+            login = authentication
+                .login(
+                    usernameOrEmail: identifier,
+                    password: password,
+                    realm: database,
+                    audience: self.options.audience,
+                    scope: self.options.scope
+            )
+        } else {
             login = authentication
                 .login(
                     usernameOrEmail: identifier,
@@ -79,16 +89,6 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
                     connection: database,
                     scope: self.options.scope,
                     parameters: self.options.parameters
-            )
-        } else {
-            // TODO: MFA Support once finalised in Auth0
-            login = authentication
-                .login(
-                    usernameOrEmail: identifier,
-                    password: password,
-                    realm: database,
-                    audience: self.options.audience,
-                    scope: self.options.scope
             )
         }
 
@@ -103,7 +103,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
                     callback(nil)
                     self.onAuthentication(credentials)
                 }
-            }
+        }
 
     }
 }

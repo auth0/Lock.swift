@@ -81,8 +81,8 @@ class OptionsSpec: QuickSpec {
                 expect(options.customSignupFields).to(beEmpty())
             }
 
-            it("should have true legacyMode") {
-                expect(options.legacyMode).to(beTrue())
+            it("should have false OIDC Conformant") {
+                expect(options.oidcConformant).to(beFalse())
             }
 
             it("should have nil audience") {
@@ -132,9 +132,9 @@ class OptionsSpec: QuickSpec {
                 expect(options.closable) == true
             }
 
-            it("should set legacyMode") {
-                options.legacyMode = false
-                expect(options.legacyMode) == false
+            it("should set OIDC Conformant") {
+                options.oidcConformant = true
+                expect(options.oidcConformant) == true
             }
 
             it("should set audience") {

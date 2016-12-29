@@ -117,17 +117,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
 
         guard let password = self.password, self.validPassword else { return callback(.nonValidInput) }
 
-        if self.options.legacyMode {
-            self.authentication
-                .login(
-                    usernameOrEmail: identifier,
-                    password: password,
-                    connection: self.connection.name,
-                    scope: self.options.scope,
-                    parameters: self.options.parameters
-                )
-                .start { self.handleLoginResult($0, callback: callback) }
-        } else {
+        if self.options.oidcConformant {
             self.authentication
                 .login(
                     usernameOrEmail: identifier,
@@ -135,6 +125,16 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
                     realm: self.connection.name,
                     audience: self.options.audience,
                     scope: self.options.scope
+                )
+                .start { self.handleLoginResult($0, callback: callback) }
+        } else {
+            self.authentication
+                .login(
+                    usernameOrEmail: identifier,
+                    password: password,
+                    connection: self.connection.name,
+                    scope: self.options.scope,
+                    parameters: self.options.parameters
                 )
                 .start { self.handleLoginResult($0, callback: callback) }
         }
