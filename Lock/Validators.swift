@@ -96,7 +96,7 @@ protocol PasswordPolicyValidatorDelegate: class {
 
 public class PasswordPolicyValidator: InputValidator {
     let policy: PasswordPolicy
-    weak var delegate:PasswordPolicyValidatorDelegate?
+    weak var delegate: PasswordPolicyValidatorDelegate?
 
     init(policy: PasswordPolicy) {
         self.policy = policy

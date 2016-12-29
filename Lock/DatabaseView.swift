@@ -22,7 +22,7 @@
 
 import UIKit
 
-protocol DatabaseView: View {
+protocol DatabaseView: View, NSObjectProtocol {
     weak var form: Form? { get }
     weak var secondaryButton: SecondaryButton? { get }
     weak var primaryButton: PrimaryButton? { get }
