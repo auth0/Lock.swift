@@ -35,30 +35,6 @@ class LockViewControllerSpec: QuickSpec {
             controller = Lock.classic(clientId: clientId, domain: domain).withConnections { $0.database(name: "db", requiresUsername: false) }.controller
         }
 
-        describe("message presenter") {
-
-            it("should show success message") {
-                let message = "I.O.U. a message"
-                controller.showSuccess(message)
-                expect(controller.messageView?.message) == message
-                expect(controller.messageView?.type) == .success
-            }
-
-            it("should show error message") {
-                let error = DatabaseAuthenticatableError.couldNotLogin
-                controller.showError(error)
-                expect(controller.messageView?.message) == error.localizableMessage
-                expect(controller.messageView?.type) == .failure
-            }
-
-            it("should hide message") {
-                let error = DatabaseAuthenticatableError.couldNotLogin
-                controller.showError(error)
-                controller.hideCurrent()
-                expect(controller.messageView).toEventually(beNil())
-            }
-        }
-
         describe("keyboard") {
 
             beforeEach {

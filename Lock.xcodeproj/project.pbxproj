@@ -101,6 +101,8 @@
 		5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F99AA951D1C4AF400D27842 /* CredentialView.swift */; };
 		5FA250501D48E2A200C544FA /* OptionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA2504F1D48E2A200C544FA /* OptionsSpec.swift */; };
 		5FA250521D48F08200C544FA /* LockSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA250511D48F08200C544FA /* LockSpec.swift */; };
+		5FB06A401E131D0300E62F36 /* BannerMessagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB06A3F1E131D0300E62F36 /* BannerMessagePresenter.swift */; };
+		5FB06A421E1329FA00E62F36 /* BannerMessagePresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB06A411E1329FA00E62F36 /* BannerMessagePresenterSpec.swift */; };
 		5FBE5CB81D3D8F030038536D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CB71D3D8F030038536D /* User.swift */; };
 		5FBE5CBA1D3E59B90038536D /* MultifactorCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CB91D3E59B90038536D /* MultifactorCodeView.swift */; };
 		5FBE5CBE1D3E5C7B0038536D /* MultifactorAuthenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBE5CBD1D3E5C7B0038536D /* MultifactorAuthenticatable.swift */; };
@@ -280,6 +282,8 @@
 		5F99AA951D1C4AF400D27842 /* CredentialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CredentialView.swift; path = Lock/CredentialView.swift; sourceTree = SOURCE_ROOT; };
 		5FA2504F1D48E2A200C544FA /* OptionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsSpec.swift; sourceTree = "<group>"; };
 		5FA250511D48F08200C544FA /* LockSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockSpec.swift; sourceTree = "<group>"; };
+		5FB06A3F1E131D0300E62F36 /* BannerMessagePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerMessagePresenter.swift; sourceTree = "<group>"; };
+		5FB06A411E1329FA00E62F36 /* BannerMessagePresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerMessagePresenterSpec.swift; sourceTree = "<group>"; };
 		5FBE5CB31D3D52EE0038536D /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = SOURCE_ROOT; };
 		5FBE5CB71D3D8F030038536D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Lock/User.swift; sourceTree = SOURCE_ROOT; };
 		5FBE5CB91D3E59B90038536D /* MultifactorCodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultifactorCodeView.swift; path = Lock/MultifactorCodeView.swift; sourceTree = SOURCE_ROOT; };
@@ -468,6 +472,7 @@
 				5FBE5CC91D3EA1380038536D /* MultifactorPresenterSpec.swift */,
 				5F57DFCD1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift */,
 				5FE50DBE1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift */,
+				5FB06A411E1329FA00E62F36 /* BannerMessagePresenterSpec.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -570,6 +575,7 @@
 				5FBE5CC51D3E7F9D0038536D /* MultifactorPresenter.swift */,
 				5F5F98D71D22ED120016FC22 /* Presentable.swift */,
 				5F57DFCB1D4F93A000C54DA8 /* AuthPresenter.swift */,
+				5FB06A3F1E131D0300E62F36 /* BannerMessagePresenter.swift */,
 			);
 			name = Presenters;
 			path = Lock;
@@ -939,6 +945,7 @@
 				5F2496B31D665A5600A1C6E2 /* DatabaseUserCreator.swift in Sources */,
 				5F1C499B1D836190005B74FC /* CustomTextField.swift in Sources */,
 				5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */,
+				5FB06A401E131D0300E62F36 /* BannerMessagePresenter.swift in Sources */,
 				5F70F1E71D790773004698DA /* OptionBuildable.swift in Sources */,
 				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
@@ -1041,6 +1048,7 @@
 				5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */,
 				5FEEE81E1DB84BBB00B4DFED /* PasswordPolicySpec.swift in Sources */,
 				5FEEE81A1DB6AF3800B4DFED /* RuleSpec.swift in Sources */,
+				5FB06A421E1329FA00E62F36 /* BannerMessagePresenterSpec.swift in Sources */,
 				5FE50DC11D7DED8C00D82290 /* OfflineConnectionsSpec.swift in Sources */,
 				B73CCF98908698EC6FE6B978 /* PasswordPolicyValidatorSpec.swift in Sources */,
 			);

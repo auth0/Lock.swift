@@ -32,7 +32,7 @@ protocol Navigable {
     func exit(withError error: Error)
 }
 
-class Router: Navigable {
+struct Router: Navigable {
     weak var controller: LockViewController?
 
     let user = User()
@@ -43,14 +43,14 @@ class Router: Navigable {
     init(lock: Lock, controller: LockViewController) {
         self.controller = controller
         self.lock = lock
-        self.onDismiss = { [weak controller] in
+        self.onDismiss = { [weak controller, unowned lock] in
             Queue.main.async {
                 controller?.presentingViewController?.dismiss(animated: true, completion: { _ in
                     lock.callback(.cancelled)
                 })
             }
         }
-        self.onAuthentication = { [weak controller] credentials in
+        self.onAuthentication = { [weak controller, unowned lock] credentials in
             let closure: () -> ()
             if let presentingController = controller?.presentingViewController {
                 closure = {
@@ -62,22 +62,6 @@ class Router: Navigable {
                 closure = { lock.callback(.success(credentials)) }
             }
             Queue.main.async(closure)
-        }
-
-        self.onBack = {
-            guard let current = self.controller?.routes.back() else { return }
-
-            self.user.reset()
-
-            self.lock.logger.debug("Back pressed. Showing \(current)")
-            switch current {
-            case .forgotPassword:
-                self.controller?.present(self.forgotPassword)
-            case .root:
-                self.controller?.present(self.root)
-            default:
-                break
-            }
         }
     }
 
@@ -165,7 +149,21 @@ class Router: Navigable {
         return !routes.history.isEmpty
     }
 
-    var onBack: () -> () = {}
+    func onBack() -> () {
+        guard let current = self.controller?.routes.back() else { return }
+
+        self.user.reset()
+
+        self.lock.logger.debug("Back pressed. Showing \(current)")
+        switch current {
+        case .forgotPassword:
+            self.controller?.present(self.forgotPassword)
+        case .root:
+            self.controller?.present(self.root)
+        default:
+            break
+        }
+    }
 
     func reload(withConnections connections: Connections) {
         self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed)

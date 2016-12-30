@@ -29,8 +29,8 @@ protocol LocalizableError {
 
 protocol MessagePresenter {
 
-    func showError(_ error: LocalizableError)
-    func showSuccess(_ message: String)
-    func hideCurrent()
+    mutating func showError(_ error: LocalizableError)
+    mutating func showSuccess(_ message: String)
+    mutating func hideCurrent()
 
 }

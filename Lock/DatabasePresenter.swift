@@ -179,8 +179,8 @@ class DatabasePresenter: Presentable, Loggable {
             }
         }
 
-        view.form?.onReturn = { field in
-            guard let button = view.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
+        view.form?.onReturn = { [weak view] field in
+            guard let button = view?.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
             action(button)
         }
         view.primaryButton?.onPress = action
