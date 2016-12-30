@@ -43,10 +43,8 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
         let email = self.interactor.validEmail ? self.interactor.email : nil
         let view = DatabaseForgotPasswordView(email: email, options: options)
         let form = view.form
-        if options.contextualHeaderTitles {
-            let headerTitle = "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
-            navigator.header(withTitle: headerTitle, animated: true)
-        }
+        let headerTitle = "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
+        navigator.header(withTitle: headerTitle, animated: true)
 
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()

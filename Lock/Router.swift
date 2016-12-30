@@ -132,7 +132,7 @@ struct Router: Navigable {
         }
         let authentication = self.lock.authentication
         let interactor = MultifactorInteractor(user: self.user, authentication: authentication, connection: database, options: self.lock.options, callback: self.onAuthentication)
-        let presenter = MultifactorPresenter(interactor: interactor, connection: database)
+        let presenter = MultifactorPresenter(interactor: interactor, connection: database, navigator: self)
         presenter.customLogger = self.lock.logger
         return presenter
     }

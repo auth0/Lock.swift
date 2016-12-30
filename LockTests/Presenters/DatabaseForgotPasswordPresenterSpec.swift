@@ -192,36 +192,6 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
 
             }
 
-            describe("Contextual Header Title(s)") {
-
-                context("Disabled") {
-
-                    beforeEach {
-                        options.contextualHeaderTitles = false
-                        presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
-                        _ = presenter.view as! DatabaseForgotPasswordView
-                    }
-
-                    it("should show Auth0 header title by default") {
-                        expect(navigator.headerTitle) == "Auth0"
-                    }
-
-                }
-
-                context("Enabled") {
-
-                    beforeEach {
-                        options.contextualHeaderTitles = true
-                        presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
-                        _ = presenter.view as! DatabaseForgotPasswordView
-                    }
-
-                    it("should show contextual header") {
-                        expect(navigator.headerTitle) == "Reset Password"
-                    }
-                }
-            }
-
             describe("Contextual CTA Titles") {
 
                 context("Disabled") {

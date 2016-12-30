@@ -38,7 +38,7 @@ public protocol Options {
     var initialScreen: DatabaseScreen { get }
     var usernameStyle: DatabaseIdentifierStyle { get }
     var customSignupFields: [CustomTextField] { get }
-    var contextualHeaderTitles: Bool { get }
+    var hideFirstScreenTitle: Bool { get }
     var contextualCTA: Bool { get }
 
     // Enterprise

@@ -36,11 +36,7 @@ struct LockOptions: OptionBuildable {
     var initialScreen: DatabaseScreen = .login
     var usernameStyle: DatabaseIdentifierStyle = [.Username, .Email]
     var customSignupFields: [CustomTextField] = []
-    var contextualHeaderTitles: Bool = false {
-        didSet {
-            self.contextualCTA = true
-        }
-    }
+    var hideFirstScreenTitle: Bool = false
     var contextualCTA: Bool = false
 
     // Enterprise

@@ -67,8 +67,8 @@ public protocol OptionBuildable: Options {
         /// Additional fields showed for Database Sign Up. By default the list is empty
     var customSignupFields: [CustomTextField] { get set }
 
-        /// Use contextual header titles. By default is false
-    var contextualHeaderTitles: Bool { get set }
+        /// Hide first screen title. By default is false
+    var hideFirstScreenTitle: Bool { get set }
 
         /// Should primary call to action with contextual titles instead of a button. By default is false
     var contextualCTA: Bool { get set }

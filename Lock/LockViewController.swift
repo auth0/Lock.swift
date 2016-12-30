@@ -89,7 +89,7 @@ public class LockViewController: UIViewController {
 
     func present(_ presentable: Presentable?) {
         guard var presenter = presentable else { return }
-        if self.router.lock.options.contextualHeaderTitles { self.router.header(withTitle: "") }
+        self.router.header(withTitle: self.router.lock.options.hideFirstScreenTitle ? "" : self.router.lock.style.title)
         self.current?.remove()
         let view = presenter.view
         view.apply(style: self.router.lock.style)

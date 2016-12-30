@@ -58,7 +58,7 @@ public class HeaderView: UIView {
         guard animated else { return }
         self.titleView?.alpha = 0.0
         self.titleView?.center.y += 30
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.20, delay: 0.0, options: .curveEaseInOut, animations: {
             self.titleView?.alpha = 1.0
             self.titleView?.center.y -= 30
             self.layoutIfNeeded()

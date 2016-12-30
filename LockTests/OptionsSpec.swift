@@ -82,15 +82,15 @@ class OptionsSpec: QuickSpec {
             }
 
             it("should not be OIDC conformant") {
-                expect(options.oidcConformant).to(beFalse())
+                expect(options.oidcConformant) == false
             }
 
             it("should have no audience") {
                 expect(options.audience).to(beNil())
             }
 
-            it("should not use contextual header titles") {
-                expect(options.contextualHeaderTitles) == false
+            it("should not hide first screen title") {
+                expect(options.hideFirstScreenTitle) == false
             }
 
             it("should not use contextual CTAs") {
@@ -137,10 +137,9 @@ class OptionsSpec: QuickSpec {
                 expect(options.contextualCTA) == true
             }
 
-            it("should use contextual header titles") {
-                options.contextualHeaderTitles = true
-                expect(options.contextualHeaderTitles) == true
-                expect(options.contextualCTA) == true
+            it("should hide first screen title") {
+                options.hideFirstScreenTitle = true
+                expect(options.hideFirstScreenTitle) == true
             }
 
         }
@@ -181,12 +180,6 @@ class OptionsSpec: QuickSpec {
                 options.privacyPolicy = "not a url"
                 expect(options.privacyPolicyURL.absoluteString) == "https://auth0.com/privacy"
             }
-
-            it("should set contextual header titles") {
-                options.contextualHeaderTitles = true
-                expect(options.contextualHeaderTitles) == true
-            }
-
         }
     }
 }
