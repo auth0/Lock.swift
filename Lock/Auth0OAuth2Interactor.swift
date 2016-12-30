@@ -32,11 +32,16 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         var parameters: [String: String] = [:]
         self.options.parameters.forEach { parameters[$0] = "\($1)" }
-        self.webAuth
+        var auth = self.webAuth
             .connection(connection)
             .scope(self.options.scope)
             .parameters(parameters)
-            .audience(self.options.audience ?? "")
+
+        if let audience = self.options.audience {
+            auth = auth.audience(audience)
+        }
+
+        auth
             .start { result in
                 switch result {
                 case .success(let credentials):
