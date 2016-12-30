@@ -97,27 +97,9 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         guard let password = self.password, self.validPassword else { return callback(.nonValidInput) }
 
-        if self.options.oidcConformant {
-            self.authentication
-                .login(
-                    usernameOrEmail: identifier,
-                    password: password,
-                    realm: self.connection.name,
-                    audience: self.options.audience,
-                    scope: self.options.scope
-                )
-                .start { self.handle(result: $0, callback: callback) }
-        } else {
-            self.authentication
-                .login(
-                    usernameOrEmail: identifier,
-                    password: password,
-                    connection: self.connection.name,
-                    scope: self.options.scope,
-                    parameters: self.options.parameters
-                )
-                .start { self.handle(result: $0, callback: callback) }
-        }
+        let auth = self.authenticate(forDatabase: self.connection.name, oidc: self.options.oidcConformant)
+        auth(identifier, password, self.options)
+            .start { self.handle(result: $0, callback: callback) }
     }
 
     func create(_ callback: @escaping (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ()) {
@@ -134,26 +116,8 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         let metadata: [String: String]? = self.user.additionalAttributes.isEmpty ? nil : self.user.additionalAttributes
 
         let authentication = self.authentication
-        var login: Auth0.Request<Auth0.Credentials, Auth0.AuthenticationError>
-        if self.options.oidcConformant {
-            login = authentication
-                .login(
-                    usernameOrEmail: email,
-                    password: password,
-                    realm: databaseName,
-                    audience: self.options.audience,
-                    scope: self.options.scope
-            )
-        } else {
-            login = authentication
-                .login(
-                    usernameOrEmail: email,
-                    password: password,
-                    connection: databaseName,
-                    scope: self.options.scope,
-                    parameters: self.options.parameters
-            )
-        }
+        let auth = self.authenticate(forDatabase: self.connection.name, oidc: self.options.oidcConformant)
+        let login = auth(email, password, self.options)
         authentication
             .createUser(
                 email: email,
@@ -179,6 +143,32 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                 case .failure:
                     callback(.couldNotCreateUser, nil)
                 }
+        }
+    }
+
+    typealias AuthenticationRequest = (String, String, Options) -> Request<Credentials, AuthenticationError>
+
+    private func authenticate(forDatabase name: String, oidc: Bool) -> AuthenticationRequest {
+        if oidc {
+            return { identifier, password, options in
+                return self.authentication.login(
+                    usernameOrEmail: identifier,
+                    password: password,
+                    realm: name,
+                    audience: options.audience,
+                    scope: options.scope
+                )
+            }
+        } else {
+            return { identifier, password, options in
+                return self.authentication.login(
+                    usernameOrEmail: identifier,
+                    password: password,
+                    connection: name,
+                    scope: options.scope,
+                    parameters: options.parameters
+                )
+            }
         }
     }
 

@@ -69,31 +69,16 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
         guard let code = self.code, self.validCode else { return callback(.nonValidInput) }
         let database = self.connection.name
 
-        var login: Auth0.Request<Auth0.Credentials, Auth0.AuthenticationError>
-        if self.options.oidcConformant {
-            // TODO: Add MFA Support once available in Auth0.Swift
-            login = authentication
-                .login(
-                    usernameOrEmail: identifier,
-                    password: password,
-                    realm: database,
-                    audience: self.options.audience,
-                    scope: self.options.scope
-            )
-        } else {
-            login = authentication
-                .login(
-                    usernameOrEmail: identifier,
-                    password: password,
-                    multifactorCode: code,
-                    connection: database,
-                    scope: self.options.scope,
-                    parameters: self.options.parameters
-            )
-        }
-
-        login
-            .start { result in
+        // FIXME: MFA support for password-realm
+        guard !self.options.oidcConformant else { return callback(.couldNotLogin) }
+        authentication.login(
+                usernameOrEmail: identifier,
+                password: password,
+                multifactorCode: code,
+                connection: database,
+                scope: self.options.scope,
+                parameters: self.options.parameters
+            ).start { result in
                 switch result {
                 case .failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
                     callback(.multifactorInvalid)
@@ -104,6 +89,5 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
                     self.onAuthentication(credentials)
                 }
         }
-
     }
 }
