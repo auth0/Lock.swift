@@ -137,9 +137,10 @@ class OptionsSpec: QuickSpec {
                 expect(options.contextualCTA) == true
             }
 
-            it("should hide first screen title") {
+            it("should hide first screen title and enable cta") {
                 options.hideFirstScreenTitle = true
                 expect(options.hideFirstScreenTitle) == true
+                expect(options.contextualCTA) == true
             }
 
         }
