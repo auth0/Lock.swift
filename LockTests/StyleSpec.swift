@@ -46,7 +46,7 @@ class StyleSpec: QuickSpec {
             }
 
             it("should not hide button title") {
-                expect(style.hideButtonTitle) == true
+                expect(style.hideButtonTitle) == false
             }
 
         }
