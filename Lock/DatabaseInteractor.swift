@@ -39,7 +39,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     var passwordValidator: InputValidator { return self.connection.passwordValidator }
     var requiredValidator = NonEmptyValidator()
 
-    let authentication: Authentication
+    let credentialAuth: CredentialAuth
     let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
     let onAuthentication: (Credentials) -> ()
@@ -47,7 +47,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     let customFields: [String: CustomTextField]
 
     init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, callback: @escaping (Credentials) -> ()) {
-        self.authentication = authentication
+        self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
         self.connection = connection
         self.onAuthentication = callback
         self.user = user
@@ -97,8 +97,8 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         guard let password = self.password, self.validPassword else { return callback(.nonValidInput) }
 
-        let auth = self.authenticate(forDatabase: self.connection.name, oidc: self.options.oidcConformant)
-        auth(identifier, password, self.options)
+        self.credentialAuth
+            .request(withIdentifier: identifier, password: password, options: self.options)
             .start { self.handle(result: $0, callback: callback) }
     }
 
@@ -115,10 +115,9 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         let username = connection.requiresUsername ? self.username : nil
         let metadata: [String: String]? = self.user.additionalAttributes.isEmpty ? nil : self.user.additionalAttributes
 
-        let authentication = self.authentication
-        let auth = self.authenticate(forDatabase: self.connection.name, oidc: self.options.oidcConformant)
-        let login = auth(email, password, self.options)
-        authentication
+        let login = self.credentialAuth.request(withIdentifier: email, password: password, options: self.options)
+        self.credentialAuth
+            .authentication
             .createUser(
                 email: email,
                 username: username,
@@ -143,32 +142,6 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                 case .failure:
                     callback(.couldNotCreateUser, nil)
                 }
-        }
-    }
-
-    typealias AuthenticationRequest = (String, String, Options) -> Request<Credentials, AuthenticationError>
-
-    private func authenticate(forDatabase name: String, oidc: Bool) -> AuthenticationRequest {
-        if oidc {
-            return { identifier, password, options in
-                return self.authentication.login(
-                    usernameOrEmail: identifier,
-                    password: password,
-                    realm: name,
-                    audience: options.audience,
-                    scope: options.scope
-                )
-            }
-        } else {
-            return { identifier, password, options in
-                return self.authentication.login(
-                    usernameOrEmail: identifier,
-                    password: password,
-                    connection: name,
-                    scope: options.scope,
-                    parameters: options.parameters
-                )
-            }
         }
     }
 

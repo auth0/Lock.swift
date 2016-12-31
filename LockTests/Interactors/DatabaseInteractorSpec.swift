@@ -45,8 +45,10 @@ class DatabaseInteractorSpec: QuickSpec {
 
             it("should have authentication object") {
                 let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, user: User(), options: LockOptions(), callback: {_ in})
-                expect(database.authentication.clientId) == "CLIENT_ID"
-                expect(database.authentication.url.host) == "samples.auth0.com"
+                expect(database.credentialAuth.authentication.clientId) == "CLIENT_ID"
+                expect(database.credentialAuth.authentication.url.host) == "samples.auth0.com"
+                expect(database.credentialAuth.oidc) == false
+                expect(database.credentialAuth.realm) == "db"
             }
         }
 
