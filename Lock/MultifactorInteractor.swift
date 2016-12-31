@@ -35,11 +35,14 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
 
     private let validator = OneTimePasswordValidator()
 
-    init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, callback: @escaping (Credentials) -> ()) {
+    private let options: Options
+
+    init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, options: Options, callback: @escaping (Credentials) -> ()) {
         self.user = user
         self.authentication = authentication
         self.connection = connection
         self.onAuthentication = callback
+        self.options = options
     }
 
     mutating func setMultifactorCode(_ code: String?) throws {
@@ -65,9 +68,17 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
         guard let password = self.user.password, self.user.validPassword else { return callback(.nonValidInput) }
         guard let code = self.code, self.validCode else { return callback(.nonValidInput) }
         let database = self.connection.name
-        self.authentication
-            .login(usernameOrEmail: identifier, password: password, multifactorCode: code, connection: database)
-            .start { result in
+
+        // FIXME: MFA support for password-realm
+        guard !self.options.oidcConformant else { return callback(.couldNotLogin) }
+        authentication.login(
+                usernameOrEmail: identifier,
+                password: password,
+                multifactorCode: code,
+                connection: database,
+                scope: self.options.scope,
+                parameters: self.options.parameters
+            ).start { result in
                 switch result {
                 case .failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
                     callback(.multifactorInvalid)
@@ -77,7 +88,6 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
                     callback(nil)
                     self.onAuthentication(credentials)
                 }
-            }
-
+        }
     }
 }

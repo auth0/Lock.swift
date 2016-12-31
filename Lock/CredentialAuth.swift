@@ -1,4 +1,4 @@
-// Options.swift
+// CredentialAuth.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -21,28 +21,31 @@
 // THE SOFTWARE.
 
 import Foundation
+import Auth0
 
-public protocol Options {
-    var closable: Bool { get }
+struct CredentialAuth {
 
-    var termsOfServiceURL: URL { get }
-    var privacyPolicyURL: URL { get }
+    let oidc: Bool
+    let realm: String
+    let authentication: Authentication
 
-    var logLevel: LoggerLevel { get }
-    var loggerOutput: LoggerOutput? { get }
-    var logHttpRequest: Bool { get }
-
-    var scope: String { get }
-    var parameters: [String: Any] { get }
-    var allow: DatabaseMode { get }
-    var initialScreen: DatabaseScreen { get }
-    var usernameStyle: DatabaseIdentifierStyle { get }
-    var customSignupFields: [CustomTextField] { get }
-
-    // Enterprise
-    var activeDirectoryEmailAsUsername: Bool { get }
-    var enterpriseConnectionUsingActiveAuth: [String] { get }
-
-    var oidcConformant: Bool { get }
-    var audience: String? { get }
+    func request(withIdentifier identifier: String, password: String, options: Options) -> Request<Credentials, AuthenticationError> {
+        if oidc {
+            return self.authentication.login(
+                usernameOrEmail: identifier,
+                password: password,
+                realm: realm,
+                audience: options.audience,
+                scope: options.scope
+            )
+        } else {
+            return self.authentication.login(
+                usernameOrEmail: identifier,
+                password: password,
+                connection: realm,
+                scope: options.scope,
+                parameters: options.parameters
+            )
+        }
+    }
 }

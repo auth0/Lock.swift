@@ -40,4 +40,7 @@ struct LockOptions: OptionBuildable {
     // Enterprise
     var activeDirectoryEmailAsUsername: Bool = false
     var enterpriseConnectionUsingActiveAuth: [String] = []
+
+    var oidcConformant: Bool = false
+    var audience: String? = nil
 }

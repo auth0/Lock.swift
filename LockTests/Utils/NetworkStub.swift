@@ -25,12 +25,18 @@ import OHHTTPStubs
 
 // MARK: - Request Matchers
 
-func databaseLogin(identifier: String, password: String, code: String? = nil, connection: String) -> OHHTTPStubsTestBlock {
-    var parameters = ["username": identifier, "password": password, "connection": connection]
+func databaseLogin(identifier: String, password: String, code: String? = nil, connection: String, oidcConformant: Bool) -> OHHTTPStubsTestBlock {
+    var parameters = ["username": identifier, "password": password]
     if let code = code {
         parameters["mfa_code"] = code
     }
-    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/ro") && hasAtLeast(parameters)
+    guard oidcConformant else {
+        parameters["connection"] = connection
+        return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/ro") && hasAtLeast(parameters)
+    }
+
+    parameters["realm"] = connection
+    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
 }
 
 func databaseSignUp(email: String, username: String? = nil, password: String, connection: String) -> OHHTTPStubsTestBlock {

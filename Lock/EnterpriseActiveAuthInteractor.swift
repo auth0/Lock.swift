@@ -39,7 +39,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
     let emailValidator: InputValidator = EmailValidator()
     let passwordValidator: InputValidator = NonEmptyValidator()
 
-    let authentication: Authentication
+    let authentication: CredentialAuth
     let onAuthentication: (Credentials) -> ()
     let options: Options
     let user: User
@@ -48,7 +48,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
     let identifierAttribute: UserAttribute
 
     init(connection: EnterpriseConnection, authentication: Authentication, user: User, options: Options, callback: @escaping (Credentials) -> ()) {
-        self.authentication = authentication
+        self.authentication = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
         self.connection = connection
         self.onAuthentication = callback
         self.user = user
@@ -118,13 +118,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
         guard let password = self.password, self.validPassword else { return callback(.nonValidInput) }
 
         self.authentication
-            .login(
-                usernameOrEmail: identifier,
-                password: password,
-                connection: self.connection.name,
-                scope: self.options.scope,
-                parameters: self.options.parameters
-            )
+            .request(withIdentifier: identifier, password: password, options: self.options)
             .start { self.handleLoginResult($0, callback: callback) }
     }
 

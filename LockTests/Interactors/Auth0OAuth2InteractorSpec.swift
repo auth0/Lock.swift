@@ -30,14 +30,18 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
 
     override func spec() {
 
-        var interactor: Auth0OAuth2Interactor!
         var webAuth: MockWebAuth!
         var credentials: Credentials?
+        var options: LockOptions!
+
+        var interactor: Auth0OAuth2Interactor {
+            return Auth0OAuth2Interactor(webAuth: webAuth, onCredentials: {credentials = $0}, options: options)
+        }
 
         beforeEach {
             credentials = nil
             webAuth = MockWebAuth()
-            interactor = Auth0OAuth2Interactor(webAuth: webAuth, onCredentials: {credentials = $0}, options: LockOptions())
+            options = LockOptions()
         }
 
         describe("login") {
@@ -58,11 +62,21 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
                 expect(webAuth.scope) == "openid"
             }
 
+            it("should not set audience if nil") {
+                options.audience = nil
+                interactor.login("facebook", callback: { _ in })
+                expect(webAuth.audience).to(beNil())
+            }
+
+            it("should set audience") {
+                options.audience = "https://myapi.com/v1"
+                interactor.login("facebook", callback: { _ in })
+                expect(webAuth.audience) == "https://myapi.com/v1"
+            }
+
             it("should set parameters") {
                 let state = UUID().uuidString
-                var options = LockOptions()
                 options.parameters = ["state": state as Any]
-                interactor = Auth0OAuth2Interactor(webAuth: webAuth, onCredentials: {credentials = $0}, options: options)
                 interactor.login("facebook", callback: { _ in })
                 expect(webAuth.params["state"]) == state
             }

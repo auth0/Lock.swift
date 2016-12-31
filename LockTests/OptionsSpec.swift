@@ -80,6 +80,14 @@ class OptionsSpec: QuickSpec {
             it("should have no custom fields") {
                 expect(options.customSignupFields).to(beEmpty())
             }
+
+            it("should have false OIDC Conformant") {
+                expect(options.oidcConformant).to(beFalse())
+            }
+
+            it("should have nil audience") {
+                expect(options.audience).to(beNil())
+            }
         }
 
         describe("validation") {
@@ -122,6 +130,16 @@ class OptionsSpec: QuickSpec {
             it("should set closable") {
                 options.closable = true
                 expect(options.closable) == true
+            }
+
+            it("should set OIDC Conformant") {
+                options.oidcConformant = true
+                expect(options.oidcConformant) == true
+            }
+
+            it("should set audience") {
+                options.audience = "http://myapi.com/"
+                expect(options.audience) == "http://myapi.com/"
             }
 
             it("should set tos") {

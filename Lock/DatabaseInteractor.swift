@@ -39,7 +39,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     var passwordValidator: InputValidator { return self.connection.passwordValidator }
     var requiredValidator = NonEmptyValidator()
 
-    let authentication: Authentication
+    let credentialAuth: CredentialAuth
     let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
     let onAuthentication: (Credentials) -> ()
@@ -47,7 +47,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     let customFields: [String: CustomTextField]
 
     init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, callback: @escaping (Credentials) -> ()) {
-        self.authentication = authentication
+        self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
         self.connection = connection
         self.onAuthentication = callback
         self.user = user
@@ -97,14 +97,8 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         guard let password = self.password, self.validPassword else { return callback(.nonValidInput) }
 
-        self.authentication
-            .login(
-                usernameOrEmail: identifier,
-                password: password,
-                connection: self.connection.name,
-                scope: self.options.scope,
-                parameters: self.options.parameters
-            )
+        self.credentialAuth
+            .request(withIdentifier: identifier, password: password, options: self.options)
             .start { self.handle(result: $0, callback: callback) }
     }
 
@@ -121,15 +115,9 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         let username = connection.requiresUsername ? self.username : nil
         let metadata: [String: String]? = self.user.additionalAttributes.isEmpty ? nil : self.user.additionalAttributes
 
-        let authentication = self.authentication
-        let login = authentication.login(
-                usernameOrEmail: email,
-                password: password,
-                connection: databaseName,
-                scope: self.options.scope,
-                parameters: self.options.parameters
-            )
-        authentication
+        let login = self.credentialAuth.request(withIdentifier: email, password: password, options: self.options)
+        self.credentialAuth
+            .authentication
             .createUser(
                 email: email,
                 username: username,
@@ -154,7 +142,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                 case .failure:
                     callback(.couldNotCreateUser, nil)
                 }
-            }
+        }
     }
 
     private mutating func update(email: String?) -> Error? {

@@ -72,6 +72,12 @@ public protocol OptionBuildable: Options {
 
         /// Should an enterprise connection use credentials instead of WebAuth.  By default enterprise connections use WebAuth
     var enterpriseConnectionUsingActiveAuth: [String] { get set }
+
+        /// Specifies if Lock should use OIDC conformant authentication endpoints. By default is false
+    var oidcConformant: Bool { get set }
+
+        /// Specify the intended resource server of the token. By default no audience is specified.
+    var audience: String? { get set }
 }
 
 internal extension OptionBuildable {
