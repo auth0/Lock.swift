@@ -106,11 +106,11 @@ class RuleView: UIView {
         var icon: UIImage? {
             switch self {
             case .ok:
-                return LazyImage(name: "ic_pwd_policy_ok", bundle: bundleForLock()).image()
+                return image(named: "ic_pwd_policy_ok")
             case .error:
-                return LazyImage(name: "ic_pwd_policy_error", bundle: bundleForLock()).image()
+                return image(named: "ic_pwd_policy_error")
             case .none:
-                return LazyImage(name: "ic_pwd_policy_none", bundle: bundleForLock()).image()
+                return image(named: "ic_pwd_policy_none")
             }
         }
 
