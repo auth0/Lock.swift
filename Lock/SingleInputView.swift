@@ -49,15 +49,6 @@ public class SingleInputView: UIView, Form {
         }
     }
 
-    var title: String? {
-        get {
-            return self.titleView.text
-        }
-        set {
-            self.titleView.text = newValue
-        }
-    }
-
     var message: String? {
         get {
             return self.messageView.text

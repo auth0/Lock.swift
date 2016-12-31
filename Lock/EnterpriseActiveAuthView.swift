@@ -72,6 +72,7 @@ class EnterpriseActiveAuthView: UIView, View {
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
 
+        primaryButton.title = "Log in".i18n(key: "com.auth0.lock.submit.login.title", comment: "Login Button title")
         credentialView.identityField.text = identifer
         switch identifierAttribute {
         case .username:
@@ -87,11 +88,6 @@ class EnterpriseActiveAuthView: UIView, View {
         container.addArrangedSubview(strutView())
         container.addArrangedSubview(credentialView)
         container.addArrangedSubview(strutView())
-
-        if options.contextualCTA {
-            let title = "Log In".i18n(key: "com.auth0.lock.database.mode.switcher.login", comment: "Login Switch").uppercased()
-            primaryButton.setTitle(title)
-        }
     }
 
     required init?(coder aDecoder: NSCoder) {

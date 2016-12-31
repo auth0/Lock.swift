@@ -101,14 +101,11 @@ class DatabaseOnlyView: UIView, DatabaseView {
         form.identityField.returnKey = .next
         form.identityField.nextField = form.passwordField
         form.passwordField.returnKey = .done
+        primaryButton?.title = "Log in".i18n(key: "com.auth0.lock.submit.login.title", comment: "Login Button title")
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(self.allowedModes.contains(.ResetPassword))
         self.form = form
 
-        if let button = primaryButton, options.contextualCTA {
-            let title = "Log In".i18n(key: "com.auth0.lock.database.mode.switcher.login", comment: "Login Switch").uppercased()
-            button.setTitle(title)
-        }
     }
 
     func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil, options: Options) {
@@ -121,14 +118,10 @@ class DatabaseOnlyView: UIView, DatabaseView {
         form.usernameField?.returnKey = .next
         form.usernameField?.nextField = form.passwordField
         form.passwordField.returnKey = .done
+        primaryButton?.title = "Sign up".i18n(key: "com.auth0.lock.submit.signup.title", comment: "Signup Button title")
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(true)
         self.form = form
-
-        if let button = primaryButton, options.contextualCTA {
-            let title = "Sign Up".i18n(key: "com.auth0.lock.database.mode.switcher.signup", comment: "Signup Switch").uppercased()
-            button.setTitle(title)
-        }
 
         guard let passwordPolicyValidator = passwordPolicyValidator else { return }
 

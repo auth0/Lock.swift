@@ -46,6 +46,10 @@ class MultifactorPresenterSpec: QuickSpec {
             view = presenter.view as! MultifactorCodeView
         }
 
+        it("should have button title") {
+            expect(view.primaryButton?.title) == "Send"
+        }
+
         describe("user input") {
 
             it("should clear global message") {

@@ -54,6 +54,14 @@ public struct Style {
         /// Header title color
     public var titleColor = UIColor.black
 
+    public var hideTitle = false {
+        didSet {
+            hideButtonTitle = false
+        }
+    }
+
+    public var hideButtonTitle = true
+
         /// Header logo image
     public var logo: LazyImage = lazyImage(named: "ic_auth0")
 

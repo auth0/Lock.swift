@@ -57,15 +57,11 @@ class DatabaseForgotPasswordView: UIView, View {
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
 
+        primaryButton.title = "Send Email".i18n(key: "com.auth0.lock.submit.send-email.title", comment: "Send Email button title")
         forgotView.type = .email
         forgotView.returnKey = .done
         forgotView.message = "Please enter your email and the new password. We will send you an email to confirm the password change.".i18n(key: "com.auth0.lock.forgot.message", comment: "Forgot Password message")
         forgotView.value = email
-
-        if options.contextualCTA {
-            let title = "Send Email".i18n(key: "com.auth0.lock.forgot.sendemail", comment: "Send Email").uppercased()
-            primaryButton.setTitle(title)
-        }
     }
 
     required init?(coder aDecoder: NSCoder) {

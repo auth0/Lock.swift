@@ -1,4 +1,4 @@
-// Options.swift
+// StyleSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,29 +20,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import Quick
+import Nimble
 
-public protocol Options {
-    var closable: Bool { get }
+@testable import Lock
 
-    var termsOfServiceURL: URL { get }
-    var privacyPolicyURL: URL { get }
+class StyleSpec: QuickSpec {
 
-    var logLevel: LoggerLevel { get }
-    var loggerOutput: LoggerOutput? { get }
-    var logHttpRequest: Bool { get }
+    override func spec() {
 
-    var scope: String { get }
-    var parameters: [String: Any] { get }
-    var allow: DatabaseMode { get }
-    var initialScreen: DatabaseScreen { get }
-    var usernameStyle: DatabaseIdentifierStyle { get }
-    var customSignupFields: [CustomTextField] { get }
+        describe("style Auth0") {
 
-    // Enterprise
-    var activeDirectoryEmailAsUsername: Bool { get }
-    var enterpriseConnectionUsingActiveAuth: [String] { get }
+            let style = Style.Auth0
 
-    var oidcConformant: Bool { get }
-    var audience: String? { get }
+            it("should have primary color") {
+                expect(style.primaryColor) == UIColor.a0_orange
+            }
+
+            it("should have background color") {
+                expect(style.backgroundColor) == UIColor.white
+            }
+
+            it("should not hide title") {
+                expect(style.hideTitle) == false
+            }
+
+            it("should not hide button title") {
+                expect(style.hideButtonTitle) == true
+            }
+
+        }
+    }
 }

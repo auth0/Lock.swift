@@ -139,6 +139,7 @@
 		5FEEE81C1DB80D6800B4DFED /* PasswordPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE81B1DB80D6800B4DFED /* PasswordPolicy.swift */; };
 		5FEEE81E1DB84BBB00B4DFED /* PasswordPolicySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE81D1DB84BBB00B4DFED /* PasswordPolicySpec.swift */; };
 		5FF0B2281E1726C400A73257 /* CredentialAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF0B2271E1726C400A73257 /* CredentialAuth.swift */; };
+		5FF0B22A1E1864FE00A73257 /* StyleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF0B2291E1864FE00A73257 /* StyleSpec.swift */; };
 		5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC54FD1D37E3F700579581 /* Routes.swift */; };
 		B73CCF98908698EC6FE6B978 /* PasswordPolicyValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */; };
 /* End PBXBuildFile section */
@@ -325,6 +326,7 @@
 		5FEEE81B1DB80D6800B4DFED /* PasswordPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordPolicy.swift; path = Lock/PasswordPolicy.swift; sourceTree = SOURCE_ROOT; };
 		5FEEE81D1DB84BBB00B4DFED /* PasswordPolicySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicySpec.swift; sourceTree = "<group>"; };
 		5FF0B2271E1726C400A73257 /* CredentialAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialAuth.swift; sourceTree = "<group>"; };
+		5FF0B2291E1864FE00A73257 /* StyleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleSpec.swift; sourceTree = "<group>"; };
 		5FFC54FD1D37E3F700579581 /* Routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Routes.swift; path = Lock/Routes.swift; sourceTree = SOURCE_ROOT; };
 		B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicyValidatorSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -657,6 +659,7 @@
 				5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */,
 				5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */,
 				B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */,
+				5FF0B2291E1864FE00A73257 /* StyleSpec.swift */,
 			);
 			path = LockTests;
 			sourceTree = "<group>";
@@ -1044,6 +1047,7 @@
 				5F92C6911D510AFE00CCE6C0 /* LazyImageSpec.swift in Sources */,
 				5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */,
 				5B0CF2D91DE9B1DB00F82BF4 /* DatabaseAuthenticatableErrorSpec.swift in Sources */,
+				5FF0B22A1E1864FE00A73257 /* StyleSpec.swift in Sources */,
 				5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */,
 				5FE50DBD1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift in Sources */,
 				5F390E8D1D63B99300FC549C /* LoggerSpec.swift in Sources */,

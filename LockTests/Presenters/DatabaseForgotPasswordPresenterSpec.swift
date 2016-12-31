@@ -65,7 +65,11 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
             expect(view.value) != email
         }
 
-        describe("login") {
+        it("should have button title") {
+            expect(view.primaryButton?.title) == "Send Email"
+        }
+
+        describe("forgot") {
 
             describe("user input") {
 
@@ -190,36 +194,6 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
                     expect(button.inProgress).toEventually(beFalse())
                 }
 
-            }
-
-            describe("Contextual CTA Titles") {
-
-                context("Disabled") {
-
-                    beforeEach {
-                        options.contextualCTA = false
-                        presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
-                        view = presenter.view as! DatabaseForgotPasswordView
-                    }
-
-                    it("should have image for primary button") {
-                        expect(view.primaryButton?.button?.imageView?.image).toNot(beNil())
-                    }
-
-                }
-
-                context("Enabled") {
-
-                    beforeEach {
-                        options.contextualCTA = true
-                        presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
-                        view = presenter.view as! DatabaseForgotPasswordView
-                    }
-
-                    it("should show contextual title") {
-                        expect(view.primaryButton?.button?.titleLabel?.attributedText?.string.contains("SEND EMAIL")).to(beTrue())
-                    }
-                }
             }
 
         }

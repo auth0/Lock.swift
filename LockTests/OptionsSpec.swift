@@ -88,14 +88,6 @@ class OptionsSpec: QuickSpec {
             it("should have no audience") {
                 expect(options.audience).to(beNil())
             }
-
-            it("should not hide first screen title") {
-                expect(options.hideFirstScreenTitle) == false
-            }
-
-            it("should not use contextual CTAs") {
-                expect(options.contextualCTA) == false
-            }
         }
 
         describe("validation") {
@@ -130,17 +122,6 @@ class OptionsSpec: QuickSpec {
             it("should fail when username style is empty") {
                 options.usernameStyle = []
                 expect(options.validate()).toNot(beNil())
-            }
-
-            it("should use contextual CTAs") {
-                options.contextualCTA = true
-                expect(options.contextualCTA) == true
-            }
-
-            it("should hide first screen title and enable cta") {
-                options.hideFirstScreenTitle = true
-                expect(options.hideFirstScreenTitle) == true
-                expect(options.contextualCTA) == true
             }
 
         }

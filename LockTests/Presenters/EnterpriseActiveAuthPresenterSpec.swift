@@ -62,7 +62,11 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             }
 
             it("info bar should contain first connection domain") {
-                expect(view.ssoBar!.title!.contains(connection.domains.first!)).to(beTrue())
+                expect(view.ssoBar?.title?.contains(connection.domains.first!)).to(beTrue())
+            }
+
+            it("should set button title") {
+                expect(view.primaryButton?.title) == "Log in"
             }
         }
 
@@ -222,35 +226,6 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.couldNotLogin))
             }
 
-        }
-
-        describe("Contextual CTA Titles") {
-
-            context("Disabled") {
-
-                beforeEach {
-                    options.contextualCTA = false
-                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
-                    view = presenter.view as! EnterpriseActiveAuthView
-                }
-
-                it("should have image for primary button") {
-                    expect(view.primaryButton?.button?.imageView?.image).toNot(beNil())
-                }
-            }
-
-            context("Enabled") {
-
-                beforeEach {
-                    options.contextualCTA = true
-                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
-                    view = presenter.view as! EnterpriseActiveAuthView
-                }
-
-                it("should show primary button contextual title") {
-                    expect(view.primaryButton?.button?.titleLabel?.attributedText?.string.contains("LOG IN")).to(beTrue())
-                }
-            }
         }
 
     }
