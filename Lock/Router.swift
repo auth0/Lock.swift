@@ -24,13 +24,14 @@ import Foundation
 import Auth0
 
 protocol Navigable {
+    var headerTitle: String? { get set }
+
     func reload(withConnections connections: Connections)
     func navigate(_ route: Route)
     func resetScroll(_ animated: Bool)
     func scroll(toPosition: CGPoint, animated: Bool)
     func present(_ controller: UIViewController)
     func exit(withError error: Error)
-    func header(withTitle title: String, animated: Bool)
 }
 
 struct Router: Navigable {
@@ -63,6 +64,15 @@ struct Router: Navigable {
                 closure = { lock.callback(.success(credentials)) }
             }
             Queue.main.async(closure)
+        }
+    }
+
+    var headerTitle: String? {
+        get {
+            return self.controller?.headerView.title
+        }
+        set {
+            self.controller?.headerView.title = newValue
         }
     }
 
@@ -216,9 +226,5 @@ struct Router: Navigable {
                 lock.callback(.failure(error))
             })
         }
-    }
-
-    func header(withTitle title: String, animated: Bool = false) {
-        self.controller?.headerView.setTitle(title, animated: animated)
     }
 }

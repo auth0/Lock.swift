@@ -50,5 +50,19 @@ class StyleSpec: QuickSpec {
             }
 
         }
+
+        describe("custom style") {
+
+            var style: Style!
+
+            beforeEach {
+                style = Style.Auth0
+            }
+
+            it("should show button title when header title is hidden") {
+                style.hideTitle = true
+                expect(style.hideButtonTitle) == false
+            }
+        }
     }
 }

@@ -40,8 +40,7 @@ class MultifactorPresenter: Presentable, Loggable {
     var view: View {
         let view = MultifactorCodeView()
         let form = view.form
-        let headerTitle = "Two Step Verification".i18n(key: "com.auth0.lock.multifactor.title", comment: "Multifactor title")
-        navigator.header(withTitle: headerTitle, animated: true)
+        navigator.headerTitle = "Two Step Verification".i18n(key: "com.auth0.lock.multifactor.title", comment: "Multifactor title")
 
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()

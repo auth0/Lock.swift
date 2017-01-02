@@ -53,21 +53,13 @@ public class HeaderView: UIView {
         }
     }
 
-    public func setTitle(_ title: String, animated: Bool = false) {
-        self.titleView?.text = title
-        guard animated else { return }
-        self.titleView?.alpha = 0.0
-        self.titleView?.center.y += 30
-        UIView.animate(withDuration: 0.20, delay: 0.0, options: .curveEaseInOut, animations: {
-            self.titleView?.alpha = 1.0
-            self.titleView?.center.y -= 30
-            self.layoutIfNeeded()
-            self.setNeedsUpdateConstraints()
-        }, completion: nil)
-    }
-
     public var title: String? {
-        return self.titleView?.text
+        get {
+            return self.titleView?.text
+        }
+        set {
+            self.titleView?.text = newValue
+        }
     }
 
     public var titleColor: UIColor = Style.Auth0.titleColor {
@@ -253,7 +245,7 @@ extension HeaderView: Stylable {
             self.blurred = true
             self.blurStyle = style.headerBlur
         }
-        self.setTitle(style.title)
+        self.title = style.title
         self.titleColor = style.titleColor
         self.logo = style.logo.image(compatibleWithTraits: self.traitCollection)
         self.maskImage = style.headerMask

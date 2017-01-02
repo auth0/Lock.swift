@@ -277,8 +277,13 @@ class RouterSpec: QuickSpec {
                     expect(controller.presentable).to(beNil())
                 }
             }
+        }
 
-
+        it("should allow to change header title") {
+            let header = HeaderView()
+            controller.headerView = header
+            router.headerTitle = "Guten Tag!"
+            expect(controller.headerView.title) == "Guten Tag!"
         }
 
         it("should present view controller") {
