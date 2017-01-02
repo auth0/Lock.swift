@@ -123,31 +123,25 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.layoutSecondaryButton(true)
         self.form = form
 
-        guard let passwordPolicyValidator = passwordPolicyValidator else { return }
+        if let passwordPolicyValidator = passwordPolicyValidator {
+            let passwordPolicyView = PolicyView(rules: passwordPolicyValidator.policy.rules)
+            passwordPolicyValidator.delegate = passwordPolicyView
+            let passwordIndex = form.stackView.arrangedSubviews.index(of: form.passwordField)
+            form.stackView.insertArrangedSubview(passwordPolicyView, at:passwordIndex!)
 
-        let passwordPolicyView = PolicyView(rules: passwordPolicyValidator.policy.rules)
-        passwordPolicyValidator.delegate = passwordPolicyView
-        let passwordIndex = form.stackView.arrangedSubviews.index(of: form.passwordField)
-        form.stackView.insertArrangedSubview(passwordPolicyView, at:passwordIndex!)
-
-        passwordPolicyView.isHidden = true
-        form.passwordField.errorLabel?.removeFromSuperview()
-        form.passwordField.onBeginEditing = { [weak passwordPolicyView] _ in
-            passwordPolicyView?.isHidden = false
-        }
-        form.passwordField.onEndEditing = { [weak passwordPolicyView] _ in
-            passwordPolicyView?.isHidden = true
-        }
-
-        form.emailField.onReturn = { [weak form, weak self] _ in
-            if form?.emailField.nextField == form?.passwordField {
-                self?.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
+            passwordPolicyView.isHidden = true
+            form.passwordField.errorLabel?.removeFromSuperview()
+            form.passwordField.onBeginEditing = { [weak self, weak passwordPolicyView] _ in
+                guard let view = passwordPolicyView else { return  }
+                Queue.main.async {
+                    view.isHidden = false
+                    self?.navigator?.scroll(toPosition: CGPoint(x: 0, y: view.intrinsicContentSize.height), animated: false)
+                }
             }
-        }
 
-        form.usernameField?.onReturn = { [weak form, weak self] _ in
-            if form?.usernameField?.nextField == form?.passwordField {
-                self?.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
+            form.passwordField.onEndEditing = { [weak passwordPolicyView] _ in
+                guard let view = passwordPolicyView else { return  }
+                view.isHidden = true
             }
         }
     }
