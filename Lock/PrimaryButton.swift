@@ -27,6 +27,20 @@ public class PrimaryButton: UIView {
     weak var button: UIButton?
     weak var indicator: UIActivityIndicatorView?
 
+    var hideTitle: Bool = false {
+        didSet {
+            guard let button = self.button else { return }
+            self.layout(title: self.title, inButton: button)
+        }
+    }
+
+    var title: String? = nil {
+        didSet {
+            guard let button = self.button else { return }
+            self.layout(title: self.title, inButton: button)
+        }
+    }
+
     var onPress: (PrimaryButton) -> () = {_ in }
 
     var inProgress: Bool {
@@ -74,8 +88,7 @@ public class PrimaryButton: UIView {
         constraintEqual(anchor: indicator.centerYAnchor, toAnchor: self.centerYAnchor)
         indicator.translatesAutoresizingMaskIntoConstraints = false
 
-        button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), for: UIControlState())
-        button.setImage(UIImage(), for: .disabled)
+        layout(title: self.title, inButton: button)
         button.addTarget(self, action: #selector(pressed), for: .touchUpInside)
 
         indicator.hidesWhenStopped = true
@@ -84,6 +97,35 @@ public class PrimaryButton: UIView {
         self.button = button
         self.indicator = indicator
     }
+
+    private func layout(title: String?, inButton button: UIButton) {
+        button.setImage(nil, for: .normal)
+        button.setImage(nil, for: .disabled)
+        button.setAttributedTitle(nil, for: .normal)
+        button.setAttributedTitle(nil, for: .disabled)
+        guard let title = title?.uppercased(), !self.hideTitle else {
+            button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), for: UIControlState())
+            button.setImage(UIImage(), for: .disabled)
+            return
+        }
+
+        let font = mediumSystemFont(size: 16)
+        let attachment = NSTextAttachment()
+        attachment.image = image(named: "ic_chevron_right", compatibleWithTraitCollection: self.traitCollection)
+        attachment.bounds = CGRect(x: 0.0, y: font.descender / 2.0, width: attachment.image!.size.width, height: attachment.image!.size.height)
+
+        let attributedText = NSMutableAttributedString()
+        attributedText.append(NSAttributedString(
+            string: "\(title)  ",
+            attributes: [
+                NSForegroundColorAttributeName: UIColor.white,
+                NSFontAttributeName: font
+            ]
+        ))
+        attributedText.append(NSAttributedString(attachment: attachment))
+        button.setAttributedTitle(attributedText, for: .normal)
+        button.setAttributedTitle(NSAttributedString(), for: .disabled)
+}
 
     public override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 95)
@@ -102,5 +144,6 @@ extension PrimaryButton: Stylable {
         self.button?.setBackgroundImage(image(withColor: style.disabledColor), for: .disabled)
         self.button?.tintColor = style.buttonTintColor
         self.indicator?.color = style.disabledTextColor
+        self.hideTitle = style.hideButtonTitle
     }
 }

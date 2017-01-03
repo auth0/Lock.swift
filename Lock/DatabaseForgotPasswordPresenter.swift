@@ -27,18 +27,23 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
     var interactor: PasswordRecoverable
     let database: DatabaseConnection
     var customLogger: Logger?
+    var navigator: Navigable
+    let options: Options
 
-    init(interactor: PasswordRecoverable, connections: Connections) {
+    init(interactor: PasswordRecoverable, connections: Connections, navigator: Navigable, options: Options) {
         self.interactor = interactor
         self.database = connections.database! // FIXME: Avoid the force unwrap
+        self.navigator = navigator
+        self.options = options
     }
 
     var messagePresenter: MessagePresenter?
 
     var view: View {
         let email = self.interactor.validEmail ? self.interactor.email : nil
-        let view = DatabaseForgotPasswordView(email: email)
+        let view = DatabaseForgotPasswordView(email: email, options: options)
         let form = view.form
+
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
 

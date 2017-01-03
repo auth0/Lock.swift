@@ -1,4 +1,4 @@
-// DatabaseView.swift
+// StyleSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,19 +20,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import UIKit
+import Quick
+import Nimble
 
-protocol DatabaseView: View, NSObjectProtocol {
-    weak var form: Form? { get }
-    weak var secondaryButton: SecondaryButton? { get }
-    weak var primaryButton: PrimaryButton? { get }
-    weak var switcher: DatabaseModeSwitcher? { get }
+@testable import Lock
 
-    var traitCollection: UITraitCollection { get }
+class StyleSpec: QuickSpec {
 
-    var allowedModes: DatabaseMode { get }
+    override func spec() {
 
-    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String?, authCollectionView: AuthCollectionView?)
-    // swiftlint:disable:next function_parameter_count
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView?, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator?)
+        describe("style Auth0") {
+
+            let style = Style.Auth0
+
+            it("should have primary color") {
+                expect(style.primaryColor) == UIColor.a0_orange
+            }
+
+            it("should have background color") {
+                expect(style.backgroundColor) == UIColor.white
+            }
+
+            it("should not hide title") {
+                expect(style.hideTitle) == false
+            }
+
+            it("should not hide button title") {
+                expect(style.hideButtonTitle) == false
+            }
+
+        }
+
+        describe("custom style") {
+
+            var style: Style!
+
+            beforeEach {
+                style = Style.Auth0
+            }
+
+            it("should show button title when header title is hidden") {
+                style.hideTitle = true
+                expect(style.hideButtonTitle) == false
+            }
+        }
+    }
 }

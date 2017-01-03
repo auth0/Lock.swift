@@ -81,11 +81,11 @@ class OptionsSpec: QuickSpec {
                 expect(options.customSignupFields).to(beEmpty())
             }
 
-            it("should have false OIDC Conformant") {
-                expect(options.oidcConformant).to(beFalse())
+            it("should not be OIDC conformant") {
+                expect(options.oidcConformant) == false
             }
 
-            it("should have nil audience") {
+            it("should have no audience") {
                 expect(options.audience).to(beNil())
             }
         }
@@ -123,6 +123,7 @@ class OptionsSpec: QuickSpec {
                 options.usernameStyle = []
                 expect(options.validate()).toNot(beNil())
             }
+
         }
 
         describe("builder") {
@@ -161,7 +162,6 @@ class OptionsSpec: QuickSpec {
                 options.privacyPolicy = "not a url"
                 expect(options.privacyPolicyURL.absoluteString) == "https://auth0.com/privacy"
             }
-
         }
     }
 }

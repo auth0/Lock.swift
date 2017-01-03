@@ -59,7 +59,6 @@ public class HeaderView: UIView {
         }
         set {
             self.titleView?.text = newValue
-            self.setNeedsUpdateConstraints()
         }
     }
 
@@ -246,7 +245,7 @@ extension HeaderView: Stylable {
             self.blurred = true
             self.blurStyle = style.headerBlur
         }
-        self.title = style.title
+        self.title = style.hideTitle ? nil : style.title
         self.titleColor = style.titleColor
         self.logo = style.logo.image(compatibleWithTraits: self.traitCollection)
         self.maskImage = style.headerMask

@@ -34,14 +34,20 @@ class MultifactorPresenterSpec: QuickSpec {
         var view: MultifactorCodeView!
         var messagePresenter: MockMessagePresenter!
         var connection: DatabaseConnection!
+        var navigator: Navigable!
 
         beforeEach {
+            navigator = MockNavigator()
             messagePresenter = MockMessagePresenter()
             interactor = MockMultifactorInteractor()
             connection = DatabaseConnection(name: "my-connection", requiresUsername: true)
-            presenter = MultifactorPresenter(interactor: interactor, connection: connection)
+            presenter = MultifactorPresenter(interactor: interactor, connection: connection, navigator: navigator)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! MultifactorCodeView
+        }
+
+        it("should have button title") {
+            expect(view.primaryButton?.title) == "Send"
         }
 
         describe("user input") {

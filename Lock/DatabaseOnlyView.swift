@@ -33,6 +33,8 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var secondaryStrut: UIView?
     weak var ssoBar: InfoBarView?
     weak var spacer: UIView?
+
+    // FIXME: Remove this from the view since it should not even know it exists
     var navigator: Navigable?
 
     private weak var container: UIStackView?
@@ -101,9 +103,11 @@ class DatabaseOnlyView: UIView, DatabaseView {
         form.identityField.returnKey = .next
         form.identityField.nextField = form.passwordField
         form.passwordField.returnKey = .done
+        primaryButton?.title = "Log in".i18n(key: "com.auth0.lock.submit.login.title", comment: "Login Button title")
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(self.allowedModes.contains(.ResetPassword))
         self.form = form
+
     }
 
     func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil) {
@@ -116,35 +120,30 @@ class DatabaseOnlyView: UIView, DatabaseView {
         form.usernameField?.returnKey = .next
         form.usernameField?.nextField = form.passwordField
         form.passwordField.returnKey = .done
+        primaryButton?.title = "Sign up".i18n(key: "com.auth0.lock.submit.signup.title", comment: "Signup Button title")
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(true)
         self.form = form
 
-        guard let passwordPolicyValidator = passwordPolicyValidator else { return }
+        if let passwordPolicyValidator = passwordPolicyValidator {
+            let passwordPolicyView = PolicyView(rules: passwordPolicyValidator.policy.rules)
+            passwordPolicyValidator.delegate = passwordPolicyView
+            let passwordIndex = form.stackView.arrangedSubviews.index(of: form.passwordField)
+            form.stackView.insertArrangedSubview(passwordPolicyView, at:passwordIndex!)
 
-        let passwordPolicyView = PolicyView(rules: passwordPolicyValidator.policy.rules)
-        passwordPolicyValidator.delegate = passwordPolicyView
-        let passwordIndex = form.stackView.arrangedSubviews.index(of: form.passwordField)
-        form.stackView.insertArrangedSubview(passwordPolicyView, at:passwordIndex!)
-
-        passwordPolicyView.isHidden = true
-        form.passwordField.errorLabel?.removeFromSuperview()
-        form.passwordField.onBeginEditing = { [weak passwordPolicyView] _ in
-            passwordPolicyView?.isHidden = false
-        }
-        form.passwordField.onEndEditing = { [weak passwordPolicyView] _ in
-            passwordPolicyView?.isHidden = true
-        }
-
-        form.emailField.onReturn = { [weak form, weak self] _ in
-            if form?.emailField.nextField == form?.passwordField {
-                self?.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
+            passwordPolicyView.isHidden = true
+            form.passwordField.errorLabel?.removeFromSuperview()
+            form.passwordField.onBeginEditing = { [weak self, weak passwordPolicyView] _ in
+                guard let view = passwordPolicyView else { return  }
+                Queue.main.async {
+                    view.isHidden = false
+                    self?.navigator?.scroll(toPosition: CGPoint(x: 0, y: view.intrinsicContentSize.height), animated: false)
+                }
             }
-        }
 
-        form.usernameField?.onReturn = { [weak form, weak self] _ in
-            if form?.usernameField?.nextField == form?.passwordField {
-                self?.navigator?.scroll(toPosition: CGPoint(x: 0, y: passwordPolicyView.intrinsicContentSize.height), animated: true)
+            form.passwordField.onEndEditing = { [weak passwordPolicyView] _ in
+                guard let view = passwordPolicyView else { return  }
+                view.isHidden = true
             }
         }
     }

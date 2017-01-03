@@ -39,8 +39,9 @@ class MockLockController: LockViewController {
         self.presented = viewControllerToPresent
     }
 
-    override func present(_ presentable: Presentable?) {
+    override func present(_ presentable: Presentable?, title: String?) {
         self.presentable = presentable
+        self.headerView.title = title
     }
 
     override var presentingViewController: UIViewController? {
@@ -64,6 +65,7 @@ class MockNavigator: Navigable {
     var presented: UIViewController? = nil
     var connections: Connections? = nil
     var unrecoverableError: Error? = nil
+    var headerTitle: String? = "Auth0"
 
     func navigate(_ route: Route) {
         self.route = route
@@ -76,6 +78,7 @@ class MockNavigator: Navigable {
     func scroll(toPosition: CGPoint, animated: Bool) {
     }
 
+
     func present(_ controller: UIViewController) {
         self.presented = controller
     }
@@ -86,6 +89,10 @@ class MockNavigator: Navigable {
 
     func exit(withError error: Error) {
         self.unrecoverableError = error
+    }
+
+    func header(withTitle title: String, animated: Bool) {
+        self.headerTitle = title
     }
 }
 

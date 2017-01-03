@@ -166,6 +166,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
             }
 
+            // MARK:- Username Validation
             describe("username validation") {
 
                 it("should always store value") {
@@ -199,6 +200,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
             }
 
+            // MARK:- Password Validation
             describe("password validation") {
 
                 it("should always store value") {
@@ -331,6 +333,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
+            // MARK:- Attribute Validation
             describe("custom attribute validation") {
 
                 beforeEach {
@@ -368,6 +371,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
         }
 
+        // MARK: - Login
         describe("login") {
 
             beforeEach {
@@ -748,6 +752,7 @@ class DatabaseInteractorSpec: QuickSpec {
             
         }
 
+        // MARK: - Signup
         describe("signup") {
 
             beforeEach {

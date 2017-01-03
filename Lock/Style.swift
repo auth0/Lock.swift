@@ -54,6 +54,16 @@ public struct Style {
         /// Header title color
     public var titleColor = UIColor.black
 
+        /// Hide header title (show only logo). By default is false
+    public var hideTitle = false {
+        didSet {
+            hideButtonTitle = false
+        }
+    }
+
+        /// Hide primary bytton title (show only icon). By default is false
+    public var hideButtonTitle = false
+
         /// Header logo image
     public var logo: LazyImage = lazyImage(named: "ic_auth0")
 

@@ -45,7 +45,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             messagePresenter = MockMessagePresenter()
             connection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
             interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
-            presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+            presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
             presenter.messagePresenter = messagePresenter
 
             view = presenter.view as! EnterpriseActiveAuthView
@@ -62,7 +62,11 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             }
 
             it("info bar should contain first connection domain") {
-                expect(view.ssoBar!.title!.contains(connection.domains.first!)).to(beTrue())
+                expect(view.ssoBar?.title?.contains(connection.domains.first!)).to(beTrue())
+            }
+
+            it("should set button title") {
+                expect(view.primaryButton?.title) == "Log in"
             }
         }
 
@@ -72,7 +76,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             it("should return initial valid email") {
                 interactor.validEmail = true
                 interactor.email = email
-                presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+                presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                 let view = (presenter.view as! EnterpriseActiveAuthView).form as! CredentialView
                 expect(view.identityField.text).to(equal(email))
             }
@@ -80,7 +84,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             it("should return initial username") {
                 interactor.validUsername = true
                 interactor.username = username
-                presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+                presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                 let view = (presenter.view as! EnterpriseActiveAuthView).form as! CredentialView
                 expect(view.identityField.text).to(equal(username))
             }
@@ -97,7 +101,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                     options.activeDirectoryEmailAsUsername = true
                     
                     interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
-                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                     presenter.messagePresenter = messagePresenter
                 }
 
@@ -157,7 +161,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                     options.activeDirectoryEmailAsUsername = true
 
                     interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
-                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+                    presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                     presenter.messagePresenter = messagePresenter
 
                     view = presenter.view as! EnterpriseActiveAuthView
@@ -195,7 +199,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
                 try! interactor.update(.username, value: username)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+                presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                 presenter.messagePresenter = messagePresenter
 
                 view = presenter.view as! EnterpriseActiveAuthView

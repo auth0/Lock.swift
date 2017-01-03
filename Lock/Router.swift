@@ -24,12 +24,17 @@ import Foundation
 import Auth0
 
 protocol Navigable {
+
     func reload(withConnections connections: Connections)
     func navigate(_ route: Route)
+
+    func present(_ controller: UIViewController)
+
+    func exit(withError error: Error)
+
     func resetScroll(_ animated: Bool)
     func scroll(toPosition: CGPoint, animated: Bool)
-    func present(_ controller: UIViewController)
-    func exit(withError error: Error)
+
 }
 
 struct Router: Navigable {
@@ -118,7 +123,7 @@ struct Router: Navigable {
             return nil
         }
         let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication, user: self.user)
-        let presenter =  DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections)
+        let presenter =  DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: self, options: self.lock.options)
         presenter.customLogger = self.lock.logger
         return presenter
     }
@@ -131,7 +136,7 @@ struct Router: Navigable {
         }
         let authentication = self.lock.authentication
         let interactor = MultifactorInteractor(user: self.user, authentication: authentication, connection: database, options: self.lock.options, callback: self.onAuthentication)
-        let presenter = MultifactorPresenter(interactor: interactor, connection: database)
+        let presenter = MultifactorPresenter(interactor: interactor, connection: database, navigator: self)
         presenter.customLogger = self.lock.logger
         return presenter
     }
@@ -139,7 +144,7 @@ struct Router: Navigable {
     func EnterpriseActiveAuth(_ connection: EnterpriseConnection) -> Presentable? {
         let authentication = self.lock.authentication
         let interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: self.user, options: self.lock.options, callback: self.onAuthentication)
-        let presenter = EnterpriseActiveAuthPresenter(interactor: interactor)
+        let presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: self.lock.options)
         presenter.customLogger = self.lock.logger
         return presenter
     }
@@ -154,12 +159,14 @@ struct Router: Navigable {
 
         self.user.reset()
 
+        let style = self.lock.style
+
         self.lock.logger.debug("Back pressed. Showing \(current)")
         switch current {
         case .forgotPassword:
-            self.controller?.present(self.forgotPassword)
+            self.controller?.present(self.forgotPassword, title: current.title(withStyle: style))
         case .root:
-            self.controller?.present(self.root)
+            self.controller?.present(self.root, title: style.hideTitle ? nil : style.title)
         default:
             break
         }
@@ -171,7 +178,7 @@ struct Router: Navigable {
         self.lock.logger.debug("Reloading Lock with connections \(connections).")
         guard !connections.isEmpty else { return exit(withError: UnrecoverableError.clientWithNoConnections) }
         self.controller?.routes.reset()
-        self.controller?.present(self.root)
+        self.controller?.present(self.root, title: self.controller?.routes.current.title(withStyle: self.lock.style))
     }
 
     func navigate(_ route: Route) {
@@ -191,7 +198,7 @@ struct Router: Navigable {
         }
         self.lock.logger.debug("Navigating to \(route)")
         self.controller?.routes.go(route)
-        self.controller?.present(presentable)
+        self.controller?.present(presentable, title: route.title(withStyle: self.lock.style))
     }
 
     func present(_ controller: UIViewController) {

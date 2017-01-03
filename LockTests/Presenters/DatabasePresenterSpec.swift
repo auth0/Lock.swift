@@ -37,17 +37,19 @@ class DatabasePresenterSpec: QuickSpec {
         var messagePresenter: MockMessagePresenter!
         var authPresenter: MockAuthPresenter!
         var navigator: MockNavigator!
+        var options: OptionBuildable!
         
         beforeEach {
             oauth2 = MockOAuth2()
             connections = OfflineConnections()
+            options = LockOptions()
             
             enterpriseInteractor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
             authPresenter = MockAuthPresenter(connections: connections, interactor: MockAuthInteractor(), customStyle: [:])
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
             navigator = MockNavigator()
-            presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: LockOptions())
+            presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! DatabaseOnlyView
         }
@@ -56,19 +58,19 @@ class DatabasePresenterSpec: QuickSpec {
             
             it("should init view with social view") {
                 presenter.authPresenter = authPresenter
-                let view = presenter.view as? DatabaseView
+                let view = presenter.view as? DatabaseOnlyView
                 expect(view?.authCollectionView) == authPresenter.authView
             }
             
             it("should init view with not social view") {
                 presenter.authPresenter = nil
-                let view = presenter.view as? DatabaseView
+                let view = presenter.view as? DatabaseOnlyView
                 expect(view?.authCollectionView).to(beNil())
             }
             
             it("should set a new one when switching tabs") {
                 presenter.authPresenter = authPresenter
-                let view = presenter.view as? DatabaseView
+                let view = presenter.view as? DatabaseOnlyView
                 let newView = AuthCollectionView(connections: [], mode: .expanded(isLogin: true), insets: UIEdgeInsets.zero, customStyle: [:])  { _ in }
                 authPresenter.authView = newView
                 view?.switcher?.onSelectionChange((view?.switcher)!)
@@ -201,7 +203,11 @@ class DatabasePresenterSpec: QuickSpec {
             it("should reset scroll") {
                 expect(navigator.resetted) == true
             }
-            
+
+            it("should set button title") {
+                expect(view.primaryButton?.title) == "Log in"
+            }
+
             describe("user input") {
                 
                 it("should clear global message") {
@@ -257,7 +263,8 @@ class DatabasePresenterSpec: QuickSpec {
                 }
                 
             }
-            
+
+            // MARK:- Log In
             describe("login action") {
                 
                 it("should trigger action on return of last field") {
@@ -344,7 +351,8 @@ class DatabasePresenterSpec: QuickSpec {
                 }
             }
         }
-        
+
+        // MARK: - Sign Up
         describe("sign up") {
             
             beforeEach {
@@ -355,7 +363,11 @@ class DatabasePresenterSpec: QuickSpec {
             it("should set title for secondary button") {
                 expect(view.secondaryButton?.title).notTo(beNil())
             }
-            
+
+            it("should set button title") {
+                expect(view.primaryButton?.title) == "Sign up"
+            }
+
             describe("user input") {
                 
                 it("should clear global message") {
@@ -512,7 +524,7 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(button.inProgress).toEventually(beFalse())
                 }
             }
-            
+
             describe("tos action") {
                 
                 beforeEach {

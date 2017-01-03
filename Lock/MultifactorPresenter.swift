@@ -27,10 +27,12 @@ class MultifactorPresenter: Presentable, Loggable {
     var interactor: MultifactorAuthenticatable
     let database: DatabaseConnection
     var customLogger: Logger?
+    var navigator: Navigable
 
-    init(interactor: MultifactorAuthenticatable, connection: DatabaseConnection) {
+    init(interactor: MultifactorAuthenticatable, connection: DatabaseConnection, navigator: Navigable) {
         self.interactor = interactor
         self.database = connection
+        self.navigator = navigator
     }
 
     var messagePresenter: MessagePresenter?
@@ -38,11 +40,10 @@ class MultifactorPresenter: Presentable, Loggable {
     var view: View {
         let view = MultifactorCodeView()
         let form = view.form
+
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
-
             guard case .oneTimePassword = input.type else { return }
-
             do {
                 try self.interactor.setMultifactorCode(input.text)
                 input.showValid()
