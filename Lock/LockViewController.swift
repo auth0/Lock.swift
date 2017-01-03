@@ -84,18 +84,18 @@ public class LockViewController: UIViewController {
         center.addObserver(self, selector: #selector(keyboardWasShown), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         center.addObserver(self, selector: #selector(keyboardWasHidden), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
-        self.present(self.router.root)
+        self.present(self.router.root, title: Route.root.title(withStyle: self.router.lock.style))
     }
 
-    func present(_ presentable: Presentable?) {
+    func present(_ presentable: Presentable?, title: String?) {
         guard var presenter = presentable else { return }
-        self.router.headerTitle = self.router.lock.style.hideTitle ? nil : self.router.lock.style.title
         self.current?.remove()
         let view = presenter.view
         view.apply(style: self.router.lock.style)
         self.anchorConstraint = view.layout(inView: self.scrollView, below: self.headerView)
         presenter.messagePresenter = self.messagePresenter
         self.current = view
+        self.headerView.title = title
         self.headerView.showBack = self.router.showBack
         self.headerView.onBackPressed = self.router.onBack
         self.scrollView.setContentOffset(CGPoint.zero, animated: false)

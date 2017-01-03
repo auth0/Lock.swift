@@ -33,11 +33,14 @@ class RouterSpec: QuickSpec {
         var lock: Lock!
         var controller: MockLockController!
         var router: Router!
+        var header: HeaderView!
 
         beforeEach {
             lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
             _ = lock.withConnections { $0.database(name: "connection", requiresUsername: false) }
             controller = MockLockController(lock: lock)
+            header = HeaderView()
+            controller.headerView = header
             router = Router(lock: lock, controller: controller)
         }
 
@@ -239,6 +242,13 @@ class RouterSpec: QuickSpec {
         }
 
         describe("navigate") {
+
+            it("should set title for root") {
+                router.navigate(.forgotPassword)
+                router.navigate(.root)
+                expect(controller.headerView.title) == Style.Auth0.title
+            }
+
             it("should not show root again") {
                 expect(controller.routes.current).toNot(beNil())
                 router.navigate(.root)
@@ -248,22 +258,26 @@ class RouterSpec: QuickSpec {
             it("should show forgot pwd screen") {
                 router.navigate(.forgotPassword)
                 expect(controller.presentable as? DatabaseForgotPasswordPresenter).toNot(beNil())
+                expect(controller.headerView.title) == "Reset Password"
             }
 
             it("should show multifactor screen") {
                 router.navigate(.multifactor)
                 expect(controller.presentable as? MultifactorPresenter).toNot(beNil())
+                expect(controller.headerView.title) == "Two Step Verification"
             }
 
             it("should show enterprise active auth screen") {
                 router.navigate(.enterpriseActiveAuth(connection: EnterpriseConnection(name: "testAD", domains: ["testad.com"])))
                 expect(controller.presentable as? EnterpriseActiveAuthPresenter).toNot(beNil())
+                expect(controller.headerView.title) == "Corporate Login"
             }
 
             context("no connection") {
                 beforeEach {
                     lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
                     controller = MockLockController(lock: lock)
+                    controller.headerView = header
                     router = Router(lock: lock, controller: controller)
                 }
 
@@ -279,12 +293,6 @@ class RouterSpec: QuickSpec {
             }
         }
 
-        it("should allow to change header title") {
-            let header = HeaderView()
-            controller.headerView = header
-            router.headerTitle = "Guten Tag!"
-            expect(controller.headerView.title) == "Guten Tag!"
-        }
 
         it("should present view controller") {
             let presented = UIViewController()
@@ -320,6 +328,7 @@ class RouterSpec: QuickSpec {
             it("should select when overriding connections") {
                 lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth()).allowedConnections(["facebook"])
                 controller = MockLockController(lock: lock)
+                controller.headerView = header
                 router = Router(lock: lock, controller: controller)
                 var connections = OfflineConnections()
                 connections.social(name: "facebook", style: .Facebook)

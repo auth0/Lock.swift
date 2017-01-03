@@ -39,8 +39,9 @@ class MockLockController: LockViewController {
         self.presented = viewControllerToPresent
     }
 
-    override func present(_ presentable: Presentable?) {
+    override func present(_ presentable: Presentable?, title: String?) {
         self.presentable = presentable
+        self.headerView.title = title
     }
 
     override var presentingViewController: UIViewController? {
