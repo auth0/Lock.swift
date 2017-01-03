@@ -33,6 +33,8 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var secondaryStrut: UIView?
     weak var ssoBar: InfoBarView?
     weak var spacer: UIView?
+
+    // FIXME: Remove this from the view since it should not even know it exists
     var navigator: Navigable?
 
     private weak var container: UIStackView?

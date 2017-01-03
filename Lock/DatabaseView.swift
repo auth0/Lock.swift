@@ -27,7 +27,6 @@ protocol DatabaseView: View, NSObjectProtocol {
     weak var secondaryButton: SecondaryButton? { get }
     weak var primaryButton: PrimaryButton? { get }
     weak var switcher: DatabaseModeSwitcher? { get }
-    weak var authCollectionView: AuthCollectionView? { get }
 
     var traitCollection: UITraitCollection { get }
 
