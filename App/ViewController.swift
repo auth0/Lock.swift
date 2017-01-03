@@ -52,7 +52,6 @@ class ViewController: UIViewController {
                         applyDefaultOptions(&$0)
                     }
                     .withStyle {
-                        $0.hideTitle = true
                         $0.oauth2["slack"] = AuthStyle(
                             name: "Slack",
                             color: UIColor ( red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0 ),

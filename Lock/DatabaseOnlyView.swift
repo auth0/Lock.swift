@@ -83,7 +83,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     private let separatorIndex = 2
     private let socialIndex = 1
 
-    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil, options: Options) {
+    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil) {
         let form = CredentialView()
 
         let type: InputField.InputType
@@ -108,7 +108,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
     }
 
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil, options: Options) {
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil) {
         let form = SignUpView(additionalFields: additionalFields)
         form.showUsername = showUsername
         form.emailField.text = email

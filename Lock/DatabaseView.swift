@@ -33,7 +33,7 @@ protocol DatabaseView: View, NSObjectProtocol {
 
     var allowedModes: DatabaseMode { get }
 
-    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String?, authCollectionView: AuthCollectionView?, options: Options)
+    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String?, authCollectionView: AuthCollectionView?)
     // swiftlint:disable:next function_parameter_count
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView?, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator?, options: Options)
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView?, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator?)
 }
