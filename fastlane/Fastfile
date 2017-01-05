@@ -15,8 +15,12 @@ platform :ios do
     match(git_url: "git@github.com:auth0/apple-certificates.git", type: "development")
   end
 
-  lane :synx do
-    sh "synx -e App ../Lock.xcodeproj"
+  lane :perform_release do
+    publish_release()
+  end
+
+  lane :prepare_next_version do |options|
+    prepare_release(bump: options[:bump], repository: 'Lock.iOS-OSX', version: options[:version], xcodeproj: 'Lock.xcodeproj')
   end
 
   lane :cache_update do
