@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.28.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.28.1) (2017-01-05)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.28.0...1.28.1)
+
+**Fixed**
+- Fix `messageLabel` autolayout [\#363](https://github.com/auth0/Lock.iOS-OSX/pull/363) ([pvzig](https://github.com/pvzig))
+
 ## [1.28.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.28.0) (2016-12-07)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.27.1...1.28.0)
 
