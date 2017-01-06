@@ -134,34 +134,6 @@ class RouterSpec: QuickSpec {
 
         describe("events") {
 
-            it("should call callback with auth result") {
-                controller.presenting = MockController()
-                let credentials = Credentials(accessToken: "ACCESS_TOKEN", tokenType: "bearer")
-                waitUntil(timeout: 2) { done in
-                    lock.callback = { result in
-                        if case .success(let actual) = result {
-                            expect(actual) == credentials
-                            done()
-                        }
-                    }
-                    router.onAuthentication(credentials)
-                }
-            }
-
-            it("should call callback with auth result when lock was displayed without present") {
-                controller.presenting = nil
-                let credentials = Credentials(accessToken: "ACCESS_TOKEN", tokenType: "bearer")
-                waitUntil(timeout: 2) { done in
-                    lock.callback = { result in
-                        if case .success(let actual) = result {
-                            expect(actual) == credentials
-                            done()
-                        }
-                    }
-                    router.onAuthentication(credentials)
-                }
-            }
-
             describe("back") {
 
                 beforeEach {
@@ -230,8 +202,8 @@ class RouterSpec: QuickSpec {
 
                 it("should pass error in callback") {
                     waitUntil(timeout: 2) { done in
-                        lock.callback = { result in
-                            if case .failure(let cause) = result, case UnrecoverableError.invalidClientOrDomain = cause {
+                        lock.observerStore.onFailure = { cause in
+                            if  case UnrecoverableError.invalidClientOrDomain = cause {
                                 done()
                             }
                         }
@@ -341,8 +313,8 @@ class RouterSpec: QuickSpec {
 
             it("should exit with error when connections are empty") {
                 waitUntil(timeout: 2) { done in
-                    lock.callback = { result in
-                        if case .failure(let cause) = result, case UnrecoverableError.clientWithNoConnections = cause {
+                    lock.observerStore.onFailure = { cause in
+                        if case UnrecoverableError.clientWithNoConnections = cause {
                             done()
                         }
                     }

@@ -28,7 +28,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
     private var connection: DatabaseConnection
     private var user: DatabaseUser
     private var authentication: Authentication
-    private var onAuthentication: (Credentials) -> ()
+    private let dispatcher: Dispatcher
 
     private(set) var code: String? = nil
     private(set) var validCode: Bool = false
@@ -37,11 +37,11 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
 
     private let options: Options
 
-    init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, options: Options, callback: @escaping (Credentials) -> ()) {
+    init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, options: Options, dispatcher: Dispatcher) {
         self.user = user
         self.authentication = authentication
         self.connection = connection
-        self.onAuthentication = callback
+        self.dispatcher = dispatcher
         self.options = options
     }
 
@@ -86,7 +86,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
                     callback(.couldNotLogin)
                 case .success(let credentials):
                     callback(nil)
-                    self.onAuthentication(credentials)
+                    self.dispatcher.dispatch(result: .success(credentials))
                 }
         }
     }

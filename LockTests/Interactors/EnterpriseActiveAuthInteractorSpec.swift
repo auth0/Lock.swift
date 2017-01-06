@@ -41,7 +41,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             connection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
             user = User()
             options = LockOptions()
-            interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+            interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
         }
 
         afterEach {
@@ -61,7 +61,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             it("should use username identifier and username will be nil") {
                 user = User()
                 user.email = nil
-                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
 
                 expect(interactor.identifierAttribute).to(equal(UserAttribute.username))
                 expect(interactor.username).to(beNil())
@@ -71,7 +71,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             it("should use username identifier and match username") {
                 user = User()
                 user.email = email
-                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
 
                 expect(interactor.identifierAttribute).to(equal(UserAttribute.username))
                 expect(interactor.username).to(equal(username))
@@ -87,7 +87,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
 
                 it("should use email identifier and match email") {
                     user.email = email
-                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
 
                     expect(interactor.identifierAttribute).to(equal(UserAttribute.email))
                     expect(interactor.email).to(equal(email))
@@ -96,7 +96,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
 
                 it("should use email identifier and email will be nil") {
                     user.email = nil
-                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
 
                     expect(interactor.identifierAttribute).to(equal(UserAttribute.email))
                     expect(interactor.email).to(beNil())
@@ -139,7 +139,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             beforeEach {
                 options.oidcConformant = false
                 user.email = email
-                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
             }
 
             it("should fail with no input as password missing") {
@@ -228,7 +228,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
             beforeEach {
                 options.oidcConformant = true
                 user.email = email
-                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
             }
 
             it("should fail with no input as password missing") {

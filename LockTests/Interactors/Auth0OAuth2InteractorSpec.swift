@@ -31,11 +31,13 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
     override func spec() {
 
         var webAuth: MockWebAuth!
-        var credentials: Credentials?
         var options: LockOptions!
+        var credentials: Credentials?
 
         var interactor: Auth0OAuth2Interactor {
-            return Auth0OAuth2Interactor(webAuth: webAuth, onCredentials: {credentials = $0}, options: options)
+            var dispatcher = ObserverStore()
+            dispatcher.onAuth = { credentials = $0 }
+            return Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options)
         }
 
         beforeEach {

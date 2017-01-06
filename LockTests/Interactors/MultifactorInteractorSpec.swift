@@ -44,8 +44,10 @@ class MultifactorInteractorSpec: QuickSpec {
             user.validPassword = true
             options = LockOptions()
             credentials = nil
+            var dispatcher = ObserverStore()
+            dispatcher.onAuth = { credentials = $0 }
             connection = DatabaseConnection(name: "myConnection", requiresUsername: true)
-            interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options) { credentials = $0 }
+            interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options, dispatcher: dispatcher)
         }
 
         describe("updateCode") {
@@ -99,7 +101,9 @@ class MultifactorInteractorSpec: QuickSpec {
 
             beforeEach {
                 options.oidcConformant = false
-                interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options) { credentials = $0 }
+                var dispatcher = ObserverStore()
+                dispatcher.onAuth = { credentials = $0 }
+                interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options, dispatcher: dispatcher)
             }
 
 

@@ -42,14 +42,14 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     let credentialAuth: CredentialAuth
     let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
-    let onAuthentication: (Credentials) -> ()
+    let dispatcher: Dispatcher
     let options: Options
     let customFields: [String: CustomTextField]
 
-    init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, callback: @escaping (Credentials) -> ()) {
+    init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
         self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
         self.connection = connection
-        self.onAuthentication = callback
+        self.dispatcher = dispatcher
         self.user = user
         self.options = options
         var fields: [String: CustomTextField] = [:]
@@ -199,7 +199,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         case .success(let credentials):
             self.logger.info("Authenticated user <\(self.identifier)>")
             callback(nil)
-            self.onAuthentication(credentials)
+            self.dispatcher.dispatch(result: .success(credentials))
         }
     }
 }

@@ -49,6 +49,7 @@ class MockLockController: LockViewController {
     }
 }
 
+
 class MockAuthPresenter: AuthPresenter {
 
     var authView = AuthCollectionView(connections: [], mode: .compact, insets: UIEdgeInsets.zero, customStyle: [:])  { _ in }

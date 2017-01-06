@@ -61,21 +61,6 @@ class LockSpec: QuickSpec {
             }
         }
 
-        describe("on") {
-
-            it("should keep callback") {
-                var called = false
-                let callback: Lock.AuthenticationCallback = { _ in called = true }
-                _ = lock.on(callback)
-                lock.callback(.cancelled)
-                expect(called) == true
-            }
-
-            it("should return itself") {
-                expect(lock.on { _ in } ) == lock
-            }
-        }
-
         describe("withConnections") {
 
             it("should allow settings connections") {

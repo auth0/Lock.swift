@@ -26,7 +26,7 @@ import Auth0
 struct Auth0OAuth2Interactor: OAuth2Authenticatable {
 
     let webAuth: Auth0.WebAuth
-    let onCredentials: (Credentials) -> ()
+    let dispatcher: Dispatcher
     let options: Options
 
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
@@ -45,7 +45,7 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
             .start { result in
                 switch result {
                 case .success(let credentials):
-                    self.onCredentials(credentials)
+                    self.dispatcher.dispatch(result: .success(credentials))
                     callback(nil)
                 case .failure(WebAuthError.userCancelled):
                     callback(.cancelled)

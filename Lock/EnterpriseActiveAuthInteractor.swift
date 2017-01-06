@@ -40,17 +40,17 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
     let passwordValidator: InputValidator = NonEmptyValidator()
 
     let authentication: CredentialAuth
-    let onAuthentication: (Credentials) -> ()
+    let dispatcher: Dispatcher
     let options: Options
     let user: User
     let connection: EnterpriseConnection
 
     let identifierAttribute: UserAttribute
 
-    init(connection: EnterpriseConnection, authentication: Authentication, user: User, options: Options, callback: @escaping (Credentials) -> ()) {
+    init(connection: EnterpriseConnection, authentication: Authentication, user: User, options: Options, dispatcher: Dispatcher) {
         self.authentication = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
         self.connection = connection
-        self.onAuthentication = callback
+        self.dispatcher = dispatcher
         self.user = user
         self.options = options
 
@@ -151,7 +151,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
         case .success(let credentials):
             self.logger.info("Authenticated user <\(self.identifier)>")
             callback(nil)
-            self.onAuthentication(credentials)
+            self.dispatcher.dispatch(result: .success(credentials))
         }
     }
 
