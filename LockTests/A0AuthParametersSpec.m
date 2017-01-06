@@ -105,7 +105,7 @@ describe(@"A0AuthParameters", ^{
         itBehavesLike(@"valid parameter with scope", ^{
             return @{
                      @"params": [[A0AuthParameters alloc] initWithDictionary:@{
-                                                                               A0ParameterScope: @[@"openid profile", @"offline_access"],
+                                                                               A0ParameterScope: @[@"openid name email", @"offline_access"],
                                                                                }],
                      @"scopes": @[A0ScopeProfile, A0ScopeOfflineAccess],
                      };
@@ -220,7 +220,7 @@ describe(@"A0AuthParameters", ^{
         });
 
         it(@"should coalesce scopes in a NSString", ^{
-            expect(dict[A0ParameterScope]).to(equal(@"openid profile offline_access"));
+            expect(dict[A0ParameterScope]).to(equal(@"openid name email offline_access"));
         });
 
         it(@"should include specified scopes for connection", ^{
