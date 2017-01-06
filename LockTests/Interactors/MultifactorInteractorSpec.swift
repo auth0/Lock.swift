@@ -104,7 +104,7 @@ class MultifactorInteractorSpec: QuickSpec {
 
 
             it("should yield no error on success") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, oidcConformant: options.oidcConformant)) { _ in return Auth0Stubs.authentication() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
@@ -115,14 +115,14 @@ class MultifactorInteractorSpec: QuickSpec {
             }
 
             it("should yield credentials") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, oidcConformant: options.oidcConformant)) { _ in return Auth0Stubs.authentication() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.setMultifactorCode(code)
                 interactor.login { _ in }
                 expect(credentials).toEventuallyNot(beNil())
             }
 
             it("should yield error on failure") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, oidcConformant: options.oidcConformant)) { _ in return Auth0Stubs.failure() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure() }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
@@ -133,7 +133,7 @@ class MultifactorInteractorSpec: QuickSpec {
             }
 
             it("should notify when code is invalid") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, oidcConformant: options.oidcConformant)) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
