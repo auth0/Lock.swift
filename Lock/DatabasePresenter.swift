@@ -163,6 +163,9 @@ class DatabasePresenter: Presentable, Loggable {
                     guard createError != nil || loginError != nil else {
                         if !self.options.loginAfterSignup {
                             let message = "Thanks for signing up.".i18n(key: "com.auth0.lock.database.signup.success.message", comment: "User signed up")
+                            if let databaseView = self.databaseView {
+                                self.showLogin(inView: databaseView, identifier: self.creator.identifier)
+                            }
                             self.messagePresenter?.showSuccess(message)
                         }
                         return
