@@ -48,18 +48,18 @@ class ObserverStoreSpec: QuickSpec {
             }
 
             it("should dispatch errors") {
-                dispatcher.dispatch(result: .failure(UnrecoverableError.invalidClientOrDomain))
+                dispatcher.dispatch(result: .error(UnrecoverableError.invalidClientOrDomain))
                 expect(error).toEventuallyNot(beNil())
             }
 
             it("should dispatch credentials") {
                 let value = mockCredentials()
-                dispatcher.dispatch(result: .success(value))
+                dispatcher.dispatch(result: .auth(value))
                 expect(credentials).toEventually(equal(value))
             }
 
             it("should dispatch when lock is dismissed") {
-                dispatcher.dispatch(result: .cancelled)
+                dispatcher.dispatch(result: .cancel)
                 expect(closed).toEventually(beTrue())
             }
         }

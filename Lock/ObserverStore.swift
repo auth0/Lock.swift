@@ -27,12 +27,14 @@ struct ObserverStore: Dispatcher {
     var onAuth: (Credentials) -> () = { _ in }
     var onFailure: (Error) -> () = { _ in }
     var onCancel: () -> () = {  }
+    var onSignUp: (String, [String: Any]) -> () = { _ in }
+
     weak var controller: UIViewController?
 
     func dispatch(result: Result) {
         let closure: () -> ()
         switch result {
-        case .success(let credentials):
+        case .auth(let credentials):
             if let presentingController = controller?.presentingViewController {
                 closure = {
                     presentingController.dismiss(animated: true, completion: { _ in
@@ -42,9 +44,9 @@ struct ObserverStore: Dispatcher {
             } else {
                 closure = { self.onAuth(credentials) }
             }
-        case .failure(let error):
+        case .error(let error):
             closure = { self.onFailure(error) }
-        case .cancelled:
+        case .cancel:
             if let presentingController = controller?.presentingViewController {
                 closure = {
                     presentingController.dismiss(animated: true, completion: { _ in
@@ -54,15 +56,21 @@ struct ObserverStore: Dispatcher {
             } else {
                 closure = { self.onCancel() }
             }
+        case .signUp(let email, let attributes):
+            closure = { self.onSignUp(email, attributes) }
+        default:
+            closure = {}
         }
         Queue.main.async(closure)
     }
 }
 
 enum Result {
-    case success(Credentials)
-    case failure(Error)
-    case cancelled
+    case auth(Credentials)
+    case error(Error)
+    case cancel
+    case signUp(String, [String: Any])
+    case forgotPassword(String)
 }
 
 protocol Dispatcher {

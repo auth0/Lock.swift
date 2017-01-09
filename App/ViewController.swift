@@ -50,6 +50,7 @@ class ViewController: UIViewController {
                     .classic()
                     .withOptions {
                         applyDefaultOptions(&$0)
+                        $0.loginAfterSignup = false
                     }
                     .withStyle {
                         $0.oauth2["slack"] = AuthStyle(

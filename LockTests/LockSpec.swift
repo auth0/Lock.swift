@@ -101,8 +101,7 @@ class LockSpec: QuickSpec {
                 _ = lock.withOptions { $0.allow = [] }
                 waitUntil { done in
                     lock
-                        .on {
-                            expect($0).to(beErrorResult())
+                        .onError { _ in
                             done()
                         }
                         .present(from: controller)

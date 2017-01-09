@@ -127,11 +127,16 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             )
             .start {
                 switch $0 {
-                case .success:
+                case .success(let user):
                     if self.options.loginAfterSignup {
                         login.start { self.handle(result: $0, callback: { callback(nil, $0) }) }
                     } else {
-                        callback(nil,.noLoginAfterSignup)
+                        var extra: [String: Any] = [
+                            "verified": user.verified
+                        ]
+                        extra["username"] = user.username
+                        self.dispatcher.dispatch(result: .signUp(user.email, extra))
+                        callback(nil, nil)
                     }
                 case .failure(let cause as AuthenticationError) where cause.isPasswordNotStrongEnough:
                     callback(.passwordTooWeak, nil)
@@ -199,7 +204,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         case .success(let credentials):
             self.logger.info("Authenticated user <\(self.identifier)>")
             callback(nil)
-            self.dispatcher.dispatch(result: .success(credentials))
+            self.dispatcher.dispatch(result: .auth(credentials))
         }
     }
 }

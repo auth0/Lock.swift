@@ -23,5 +23,5 @@
 import Foundation
 
 enum NotificationStatus {
-    case signedup
+    case signedUp
 }

@@ -101,6 +101,7 @@ public class Lock: NSObject {
     public func present(from controller: UIViewController) {
         if let error = self.optionsBuilder.validate() {
             self.observerStore.onFailure(error)
+            // FIXME: Fail violently
         } else {
             controller.present(self.controller, animated: true, completion: nil)
         }

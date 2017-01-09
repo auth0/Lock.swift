@@ -348,7 +348,7 @@ class RouterSpec: QuickSpec {
             }
 
             it("Notification should should be equatable with Notification") {
-                let status = NotificationStatus.signedup
+                let status = NotificationStatus.signedUp
                 let match = Route.notification(status: status) == Route.notification(status: status)
                 expect(match).to(beTrue())
             }

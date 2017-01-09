@@ -1020,38 +1020,26 @@ class DatabaseInteractorSpec: QuickSpec {
             }
         }
 
-            context("No auto log in after sign up") {
+        context("auto login disabled") {
 
-                var options = LockOptions()
+            var options: LockOptions!
+            var newUserEmail: String?
 
-                beforeEach {
-                    options.loginAfterSignup = false
-                    let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
-                    database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+            beforeEach {
+                newUserEmail = nil
+                options = LockOptions()
+                options.loginAfterSignup = false
+                var dispatcher = ObserverStore()
+                dispatcher.onSignUp = { email, _ in
+                    newUserEmail = email
                 }
-
-                it("should not auto login after signup") {
-                    stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
-                    stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
-                    try! database.update(.email, value: email)
-                    try! database.update(.username, value: username)
-                    try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
-                        database.create { create, login in
-                            expect(create).to(beNil())
-                            expect(login) == DatabaseAuthenticatableError.noLoginAfterSignup
-                            done()
-                        }
-                    }
-                }
-
-            it("should send scope on login") {
-                let scope = "openid email"
-                var options = LockOptions()
-                options.scope = scope
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+                database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
                 stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
-                stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
+            }
+
+            it("should only signup user") {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
@@ -1063,27 +1051,15 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
-            
-            it("should send parameters on login") {
-                let state = UUID().uuidString
-                var options = LockOptions()
-                options.parameters = ["state": state as Any]
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
-                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
-                stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
+
+            it("should dispatch signup event") {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
-                    database.create { create, login in
-                        expect(create).to(beNil())
-                        expect(login).to(beNil())
-                        done()
-                    }
-                }
+                database.create { _ in }
+                expect(newUserEmail).toEventually(equal(email))
             }
-            
-            
+
         }
 
         describe("signup OIDC Conformnant") {

@@ -53,7 +53,7 @@ class NotificationView: UIView, View {
         messageLabel.font = regularSystemFont(size: 15)
 
         switch(status) {
-        case .signedup:
+        case .signedUp:
             messageLabel.text = "Thanks for signing up.".i18n(key: "com.auth0.lock.notification.signup", comment: "Signed Up")
             imageView.image = LazyImage(name: "ic_email_sent", bundle: bundleForLock()).image()
         }

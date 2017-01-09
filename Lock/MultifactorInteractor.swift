@@ -86,7 +86,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
                     callback(.couldNotLogin)
                 case .success(let credentials):
                     callback(nil)
-                    self.dispatcher.dispatch(result: .success(credentials))
+                    self.dispatcher.dispatch(result: .auth(credentials))
                 }
         }
     }
