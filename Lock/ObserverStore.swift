@@ -35,33 +35,22 @@ struct ObserverStore: Dispatcher {
         let closure: () -> ()
         switch result {
         case .auth(let credentials):
-            if let presentingController = controller?.presentingViewController {
-                closure = {
-                    presentingController.dismiss(animated: true, completion: { _ in
-                        self.onAuth(credentials)
-                    })
-                }
-            } else {
-                closure = { self.onAuth(credentials) }
-            }
+            closure = dismiss(from: controller?.presentingViewController, completion: { self.onAuth(credentials) })
         case .error(let error):
             closure = { self.onFailure(error) }
         case .cancel:
-            if let presentingController = controller?.presentingViewController {
-                closure = {
-                    presentingController.dismiss(animated: true, completion: { _ in
-                        self.onCancel()
-                    })
-                }
-            } else {
-                closure = { self.onCancel() }
-            }
+            closure = dismiss(from: controller?.presentingViewController, completion: { self.onCancel() })
         case .signUp(let email, let attributes):
             closure = { self.onSignUp(email, attributes) }
         default:
             closure = {}
         }
         Queue.main.async(closure)
+    }
+
+    private func dismiss(from controller: UIViewController?, completion: @escaping () -> ()) -> () -> () {
+        guard let controller = controller else { return completion }
+        return { controller.dismiss(animated: true, completion: completion) }
     }
 }
 

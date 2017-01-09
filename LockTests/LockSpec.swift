@@ -107,6 +107,43 @@ class LockSpec: QuickSpec {
                         .present(from: controller)
                 }
             }
+        }
+
+        describe("onAction") {
+
+            it("should register onAuth callback") {
+                var credentials: Credentials? = nil
+                let callback: (Credentials) -> () = { credentials = $0 }
+                let _ = lock.onAuth(callback: callback)
+                lock.observerStore.onAuth(mockCredentials())
+                expect(credentials).toNot(beNil())
+            }
+
+            it("should register onError callback") {
+                var error: Error? = nil
+                let callback: (Error) -> () = { error = $0 }
+                let _ = lock.onError(callback: callback)
+                lock.observerStore.onFailure(NSError(domain: "com.auth0", code: 0, userInfo: [:]))
+                expect(error).toNot(beNil())
+            }
+
+            it("should register onSignUp callback") {
+                var email: String? = nil
+                var attributes: [String: Any]? = nil
+                let callback: (String, [String: Any]) -> () = { email = $0; attributes = $1 }
+                let _ = lock.onSignUp(callback: callback)
+                lock.observerStore.onSignUp("mail@mail.com", [:])
+                expect(email).toNot(beNil())
+                expect(attributes).toNot(beNil())
+            }
+
+            it("should register onCancel callback") {
+                var executed = false
+                let callback: () -> () = { executed = true }
+                let _ = lock.onCancel(callback: callback)
+                lock.observerStore.onCancel()
+                expect(executed) == true
+            }
 
         }
 
