@@ -212,6 +212,19 @@ public class Lock: NSObject {
         return self
     }
 
+    /**
+     Register a callback to be notified when a user signs up when login after signup is disabled.
+     The callback will yield the new user email and additional attributes like username.
+     
+     - parameter callback: called when a user signs up
+     
+     - returns: Lock itself for chaining
+    */
+    public func onSignUp(callback: @escaping (String, [String: Any]) -> ()) -> Lock {
+        self.observerStore.onSignUp = callback
+        return self
+    }
+
         /// Lock's Bundle. Useful for getting bundled resources like images.
     public static var bundle: Bundle {
         return bundleForLock()

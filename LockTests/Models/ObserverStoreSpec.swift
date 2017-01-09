@@ -35,15 +35,20 @@ class ObserverStoreSpec: QuickSpec {
             var credentials: Credentials?
             var closed: Bool = false
             var dispatcher: Dispatcher!
+            var newEmail: String?
+            var newAttributes: [String: Any]?
 
             beforeEach {
                 closed = false
                 error = nil
                 credentials = nil
+                newEmail = nil
+                newAttributes = nil
                 var store = ObserverStore()
                 store.onFailure = { error = $0 }
                 store.onAuth = { credentials = $0 }
                 store.onCancel = { closed = true }
+                store.onSignUp = { newEmail = $0; newAttributes = $1 }
                 dispatcher = store
             }
 
@@ -61,6 +66,12 @@ class ObserverStoreSpec: QuickSpec {
             it("should dispatch when lock is dismissed") {
                 dispatcher.dispatch(result: .cancel)
                 expect(closed).toEventually(beTrue())
+            }
+
+            it("should disptach when user signs up") {
+                dispatcher.dispatch(result: .signUp(email, ["username": username]))
+                expect(newEmail).toEventually(equal(email))
+                expect(newAttributes?["username"] as? String).toEventually(equal(username))
             }
         }
     }
