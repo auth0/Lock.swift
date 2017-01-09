@@ -162,7 +162,8 @@ class DatabasePresenter: Presentable, Loggable {
                     button.inProgress = false
                     guard createError != nil || loginError != nil else {
                         if !self.options.loginAfterSignup {
-                            self.navigator.navigate(.notification(status: .signedUp))
+                            let message = "Thanks for signing up.".i18n(key: "com.auth0.lock.database.signup.success.message", comment: "User signed up")
+                            self.messagePresenter?.showSuccess(message)
                         }
                         return
                     }

@@ -347,12 +347,6 @@ class RouterSpec: QuickSpec {
                 expect(match).to(beTrue())
             }
 
-            it("Notification should should be equatable with Notification") {
-                let status = NotificationStatus.signedUp
-                let match = Route.notification(status: status) == Route.notification(status: status)
-                expect(match).to(beTrue())
-            }
-
             it("root should should not be equatable with Multifactor") {
                 let match = Route.root == Route.multifactor
                 expect(match).to(beFalse())

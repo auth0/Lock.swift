@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5B011CDE1E13E16500543F12 /* NotificationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B011CDD1E13E16500543F12 /* NotificationStatus.swift */; };
-		5B011CE01E13E3DB00543F12 /* NotificationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B011CDF1E13E3DB00543F12 /* NotificationPresenter.swift */; };
-		5B011CE21E13F2EF00543F12 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B011CE11E13F2EF00543F12 /* NotificationView.swift */; };
 		5B09717C1DC8F229003AA88F /* EnterpriseDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717B1DC8F229003AA88F /* EnterpriseDomain.swift */; };
 		5B09717E1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717D1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift */; };
 		5B0971801DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */; };
@@ -200,8 +198,6 @@
 
 /* Begin PBXFileReference section */
 		5B011CDD1E13E16500543F12 /* NotificationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationStatus.swift; sourceTree = "<group>"; };
-		5B011CDF1E13E3DB00543F12 /* NotificationPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPresenter.swift; sourceTree = "<group>"; };
-		5B011CE11E13F2EF00543F12 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		5B09717B1DC8F229003AA88F /* EnterpriseDomain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomain.swift; path = Lock/EnterpriseDomain.swift; sourceTree = SOURCE_ROOT; };
 		5B09717D1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthInteractor.swift; path = Lock/EnterpriseActiveAuthInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainPresenter.swift; path = Lock/EnterpriseDomainPresenter.swift; sourceTree = SOURCE_ROOT; };
@@ -455,7 +451,6 @@
 			children = (
 				5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */,
 				5F1C49921D8360DF005B74FC /* LoadingView.swift */,
-				5B011CE11E13F2EF00543F12 /* NotificationView.swift */,
 				5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */,
 				5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */,
 				5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */,
@@ -588,7 +583,6 @@
 				5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */,
 				5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */,
 				5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */,
-				5B011CDF1E13E3DB00543F12 /* NotificationPresenter.swift */,
 				5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */,
 				5FC434891D1DF82A005188BC /* DatabasePresenter.swift */,
 				5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */,
@@ -967,7 +961,6 @@
 				5F1C499B1D836190005B74FC /* CustomTextField.swift in Sources */,
 				5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */,
 				5FB06A401E131D0300E62F36 /* BannerMessagePresenter.swift in Sources */,
-				5B011CE01E13E3DB00543F12 /* NotificationPresenter.swift in Sources */,
 				5F70F1E71D790773004698DA /* OptionBuildable.swift in Sources */,
 				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5FF0B2281E1726C400A73257 /* CredentialAuth.swift in Sources */,
@@ -983,7 +976,6 @@
 				5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */,
 				5F73CDD01D30250900D8D8D1 /* MessagePresenter.swift in Sources */,
 				5F70F1E51D790735004698DA /* Options.swift in Sources */,
-				5B011CE21E13F2EF00543F12 /* NotificationView.swift in Sources */,
 				5FDB41D01D2C95B100166B67 /* MessageView.swift in Sources */,
 				5F2496B61D665AA800A1C6E2 /* InputValidationError.swift in Sources */,
 				5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */,
