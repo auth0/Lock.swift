@@ -22,13 +22,13 @@
 
 import UIKit
 
-public class DatabaseModeSwitcher: UIView {
+class DatabaseModeSwitcher: UIView {
 
     weak var segmentedControl: UISegmentedControl?
 
     var onSelectionChange: (DatabaseModeSwitcher) -> () = { _ in }
 
-    public enum Mode: Int {
+    enum Mode: Int {
         case login = 0
         case signup
 
@@ -57,16 +57,16 @@ public class DatabaseModeSwitcher: UIView {
 
     // MARK: - Initialisers
 
-    public convenience init() {
+    convenience init() {
         self.init(frame: CGRect.zero)
     }
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
         self.layoutSwitcher()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.layoutSwitcher()
     }
@@ -109,7 +109,7 @@ public class DatabaseModeSwitcher: UIView {
         self.selected = .login
     }
 
-    public override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 55)
     }
 

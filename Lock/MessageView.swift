@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class MessageView: UIView {
+class MessageView: UIView {
 
     weak var messageLabel: UILabel?
 
@@ -42,7 +42,7 @@ public class MessageView: UIView {
         }
     }
 
-    public enum Flavor {
+    enum Flavor {
         case success
         case failure
 
@@ -60,16 +60,16 @@ public class MessageView: UIView {
         }
     }
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
         self.layoutMessage()
     }
 
-    public convenience init() {
+    convenience init() {
         self.init(frame: CGRect.zero)
     }
 
-    public required convenience init?(coder aDecoder: NSCoder) {
+    required convenience init?(coder aDecoder: NSCoder) {
         self.init(frame: CGRect.zero)
     }
 

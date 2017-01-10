@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class InputField: UIView, UITextFieldDelegate {
+class InputField: UIView, UITextFieldDelegate {
 
     weak var containerView: UIView?
     weak var textField: UITextField?
@@ -77,16 +77,16 @@ public class InputField: UIView, UITextFieldDelegate {
 
     // MARK: - Initialisers
 
-    public convenience init() {
+    convenience init() {
         self.init(frame: CGRect.zero)
     }
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
         self.layoutField()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.layoutField()
     }
@@ -183,7 +183,7 @@ public class InputField: UIView, UITextFieldDelegate {
         self.containerView?.layer.borderColor = State.valid.color.cgColor
     }
 
-    public override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize : CGSize {
         return CGSize(width: 230, height: 50)
     }
 
@@ -221,15 +221,15 @@ public class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    public func textFieldDidBeginEditing(_ textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         self.onBeginEditing(self)
     }
 
-    public func textFieldDidEndEditing(_ textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         self.onEndEditing(self)
     }
 
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.onReturn(self)
         if let field = self.nextField?.textField {
             Queue.main.async {
@@ -248,7 +248,7 @@ public class InputField: UIView, UITextFieldDelegate {
     }
 
     // MARK: - Types
-    public enum InputType {
+    enum InputType {
         case email
         case username
         case emailOrUsername

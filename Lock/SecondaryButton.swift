@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class SecondaryButton: UIView {
+class SecondaryButton: UIView {
 
     weak var button: UIButton?
 
@@ -44,16 +44,16 @@ public class SecondaryButton: UIView {
     }
 
     // MARK: - Initialisers
-    public convenience init() {
+    convenience init() {
         self.init(frame: CGRect.zero)
     }
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
         self.layoutButton()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.layoutButton()
     }
@@ -80,7 +80,7 @@ public class SecondaryButton: UIView {
         self.button = button
     }
 
-    public override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 76)
     }
 
