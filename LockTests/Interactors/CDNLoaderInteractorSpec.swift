@@ -63,12 +63,15 @@ class CDNLoaderInteractorSpec: QuickSpec {
 
             var loader: CDNLoaderInteractor!
             var connections: Connections?
-            var callback: ((Connections?) -> ())!
+            var error: RemoteConnectionLoaderError?
+            var callback: ((Connections?, RemoteConnectionLoaderError?) -> ())!
 
             beforeEach {
                 loader = CDNLoaderInteractor(baseURL: URL(string: "https://overmind.auth0.com")!, clientId: clientId)
-                callback = { connections = $0 }
+                callback = { connections = $0
+                             error = $1 }
                 connections = nil
+                error = nil
             }
 
             context("failure") {
@@ -99,6 +102,33 @@ class CDNLoaderInteractorSpec: QuickSpec {
                     loader.load(callback)
                     expect(connections).toEventually(beNil())
                 }
+            }
+
+            context("remote connection errors") {
+
+                it("should return invalid client error") {
+                    stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: Data(), statusCode: 403, headers: [:]) }
+                    loader.load(callback)
+                    expect(error).toEventually(beError(error: RemoteConnectionLoaderError.invalidClient))
+                }
+
+                it("should return invalid client info error") {
+                    stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: "not a json object".data(using: String.Encoding.utf8)!, statusCode: 200, headers: [:]) }
+                    loader.load(callback)
+                    expect(error).toEventually(beError(error: RemoteConnectionLoaderError.invalidClientInfo))
+                }
+
+                it("should return connection timeout error") {
+                    loader.load(callback)
+                    expect(error).toEventually(beError(error: RemoteConnectionLoaderError.connectionTimeout))
+                }
+
+                it("should return no connections error") {
+                    stub(condition: isCDN(forClientId: clientId)) { _ in Auth0Stubs.strategiesFromCDN([[:]]) }
+                    loader.load(callback)
+                    expect(error).toEventually(beError(error: RemoteConnectionLoaderError.noConnections))
+                }
+
             }
 
             let databaseConnection = "DB Connection"

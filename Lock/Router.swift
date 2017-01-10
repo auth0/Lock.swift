@@ -53,7 +53,7 @@ struct Router: Navigable {
         guard !connections.isEmpty else {
             self.lock.logger.debug("No connections configured. Loading client info from Auth0...")
             let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
-            return ConnectionLoadingPresenter(loader: interactor, navigator: self)
+            return ConnectionLoadingPresenter(loader: interactor, navigator: self, options: self.lock.options)
         }
         if let database = connections.database {
             guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .resetPassword else { return forgotPassword }
@@ -127,6 +127,11 @@ struct Router: Navigable {
         return presenter
     }
 
+    func connectionError(_ error: RemoteConnectionLoaderError) -> Presentable? {
+        let presenter = ConnectionErrorPresenter(error: error, navigator: self)
+        return presenter
+    }
+
     var showBack: Bool {
         guard let routes = self.controller?.routes else { return false }
         return !routes.history.isEmpty
@@ -170,6 +175,8 @@ struct Router: Navigable {
             presentable = self.multifactor
         case .enterpriseActiveAuth(let connection):
             presentable = self.EnterpriseActiveAuth(connection)
+        case .connectionError(let error):
+            presentable = self.connectionError(error)
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")
             return

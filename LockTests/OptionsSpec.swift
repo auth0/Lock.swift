@@ -41,6 +41,10 @@ class OptionsSpec: QuickSpec {
                 expect(options.closable) == false
             }
 
+            it("should present critical errors") {
+                expect(options.presentCriticalErrors) == true
+            }
+
             it("should have Auth0 tos as String") {
                 expect(options.termsOfService) == "https://auth0.com/terms"
             }
@@ -131,6 +135,11 @@ class OptionsSpec: QuickSpec {
             it("should set closable") {
                 options.closable = true
                 expect(options.closable) == true
+            }
+
+            it("should set presentable critical errors") {
+                options.presentCriticalErrors = false
+                expect(options.presentCriticalErrors) == false
             }
 
             it("should set OIDC Conformant") {

@@ -245,6 +245,11 @@ class RouterSpec: QuickSpec {
                 expect(controller.headerView.title) == "Corporate Login"
             }
 
+            it("should show connection error screen") {
+                router.navigate(.connectionError(error: RemoteConnectionLoaderError.connectionTimeout))
+                expect(controller.presentable as? ConnectionErrorPresenter).toNot(beNil())
+            }
+
             context("no connection") {
                 beforeEach {
                     lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
@@ -344,6 +349,12 @@ class RouterSpec: QuickSpec {
             it("EnterpriseActiveAuth should should be equatable with EnterpriseActiveAuth") {
                 let enterpriseConnection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
                 let match = Route.enterpriseActiveAuth(connection: enterpriseConnection) == Route.enterpriseActiveAuth(connection: enterpriseConnection)
+                expect(match).to(beTrue())
+            }
+
+            it("connectionError should should be equatable with connectionError") {
+                let error = RemoteConnectionLoaderError.connectionTimeout
+                let match = Route.connectionError(error: error) == Route.connectionError(error: error)
                 expect(match).to(beTrue())
             }
 

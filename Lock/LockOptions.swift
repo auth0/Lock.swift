@@ -25,6 +25,7 @@ import Auth0
 
 struct LockOptions: OptionBuildable {
     var closable: Bool = false
+    var presentCriticalErrors: Bool = true
     var termsOfServiceURL: URL = URL(string: "https://auth0.com/terms")!
     var privacyPolicyURL: URL = URL(string: "https://auth0.com/privacy")!
     var logLevel: LoggerLevel = .off

@@ -1,4 +1,4 @@
-// ConnectionLoadingPresenter.swift
+// ConnectionErrorPresenter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,32 +22,22 @@
 
 import Foundation
 
-class ConnectionLoadingPresenter: Presentable, Loggable {
-    var messagePresenter: MessagePresenter?
-    let loader: RemoteConnectionLoader
+class ConnectionErrorPresenter: Presentable, Loggable {
     let navigator: Navigable
-    let options: Options
+    let error: RemoteConnectionLoaderError
 
-    init(loader: RemoteConnectionLoader, navigator: Navigable, options: Options) {
-        self.loader = loader
+    var messagePresenter: MessagePresenter?
+
+    init(error: RemoteConnectionLoaderError, navigator: Navigable) {
         self.navigator = navigator
-        self.options = options
+        self.error = error
     }
 
     var view: View {
-        self.loader.load { connections, error in
-            guard error == nil || !self.options.presentCriticalErrors else {
-                Queue.main.async {
-                    self.navigator.navigate(.connectionError(error: error!))
-                }
-                return
-            }
-            guard let connections = connections, !connections.isEmpty else { return self.navigator.exit(withError: UnrecoverableError.clientWithNoConnections) }
-            Queue.main.async {
-                self.logger.debug("Loaded connections. Moving to root view")
-                self.navigator.reload(withConnections: connections)
-            }
+        let view = ConnectionErrorView(message: self.error.localizableMessage)
+        view.primaryButton?.onPress = { _ in
+            self.navigator.navigate(.root)
         }
-        return LoadingView()
+        return view
     }
 }

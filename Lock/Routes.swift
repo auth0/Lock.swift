@@ -49,6 +49,7 @@ enum Route: Equatable {
     case forgotPassword
     case multifactor
     case enterpriseActiveAuth(connection: EnterpriseConnection)
+    case connectionError(error: RemoteConnectionLoaderError)
 
     func title(withStyle style: Style) -> String? {
         switch self {
@@ -58,7 +59,7 @@ enum Route: Equatable {
             return "Two Step Verification".i18n(key: "com.auth0.lock.multifactor.title", comment: "Multifactor title")
         case .enterpriseActiveAuth:
             return "Corporate Login".i18n(key: "com.auth0.lock.corporate.title", comment: "Corporate Login title")
-        case .root:
+        case .root, .connectionError:
             return style.hideTitle ? nil : style.title
         }
     }
@@ -70,6 +71,8 @@ func == (lhs: Route, rhs: Route) -> Bool {
         return true
     case (.enterpriseActiveAuth(let lhsConnection), .enterpriseActiveAuth(let rhsConnection)):
         return lhsConnection.name == rhsConnection.name
+    case (.connectionError(let lhsError), .connectionError(let rhsError)):
+        return lhsError == rhsError
     default:
         return false
     }
