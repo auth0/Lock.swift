@@ -1,5 +1,15 @@
 # Change Log
 
+## [2.0.0-rc.2](https://github.com/auth0/Lock.iOS-OSX/tree/2.0.0-rc.2) (2017-01-10)
+
+**Added**
+- Disable log in after sign up [\#365](https://github.com/auth0/Lock.iOS-OSX/pull/365) ([cocojoe](https://github.com/cocojoe))
+- Allow to hide main screen title [\#362](https://github.com/auth0/Lock.iOS-OSX/pull/362) ([cocojoe](https://github.com/cocojoe))
+- OIDC Conformant toggle [\#361](https://github.com/auth0/Lock.iOS-OSX/pull/361) ([cocojoe](https://github.com/cocojoe))
+
+**Fixed**
+- Clean memory leaks [\#364](https://github.com/auth0/Lock.iOS-OSX/pull/364) ([hzalaz](https://github.com/hzalaz))
+
 ## [2.0.0-rc.1](https://github.com/auth0/Lock.iOS-OSX/tree/2.0.0-rc.1) (2016-12-16)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/2.0.0-beta.2...2.0.0-rc.1)
 

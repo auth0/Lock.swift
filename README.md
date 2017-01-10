@@ -90,17 +90,16 @@ Lock
         $0.closable = false
     }
     .withStyle {
-      $0.title = "Company LLC"
+      $0.title = "Welcome to my App!"
     }
-    .on { result in
-        switch result {
-        case .success(let credentials):
-            print("Obtained credentials \(credentials)")
-        case .failure(let cause):
-            print("Failed with \(cause)")
-        case .cancelled:
-            print("User cancelled")
-        }
+    .onAuth {
+      print("Obtained credentials \($0)")
+    }
+    .onError {
+      print("Failed with \($0)")
+    }
+    onCancel {
+      print("User cancelled")
     }
     .present(from: self)
 ```

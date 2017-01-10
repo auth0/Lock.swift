@@ -273,7 +273,7 @@ private func telemetryFor(authentication: Authentication, webAuth: WebAuth) -> (
     // FIXME:- Uncomment when stable is ready since XCode wont' accept a tag in the version
     //        let bundle = _BundleHack.bundle
     //        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.0.0-alpha.0"
-    let version = "2.0.0-rc.1"
+    let version = "2.0.0-rc.2"
     authentication.using(inLibrary: name, version: version)
     webAuth.using(inLibrary: name, version: version)
     return (authentication, webAuth)
