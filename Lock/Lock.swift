@@ -26,9 +26,6 @@ import Auth0
 /// Lock main class to configure and show the native widget
 public class Lock: NSObject {
 
-        /// Callback used to notify lock authentication outcome
-    public typealias AuthenticationCallback = (Result) -> ()
-
     static let sharedInstance = Lock()
 
     private(set) var authentication: Authentication
@@ -40,7 +37,7 @@ public class Lock: NSObject {
     var optionsBuilder: OptionBuildable = LockOptions()
     var options: Options { return self.optionsBuilder }
 
-    var callback: AuthenticationCallback = {_ in }
+    var observerStore = ObserverStore()
 
     var style: Style = Style()
 
@@ -103,7 +100,8 @@ public class Lock: NSObject {
      */
     public func present(from controller: UIViewController) {
         if let error = self.optionsBuilder.validate() {
-            self.callback(.failure(error))
+            self.observerStore.onFailure(error)
+            // FIXME: Fail violently
         } else {
             controller.present(self.controller, animated: true, completion: nil)
         }
@@ -179,14 +177,51 @@ public class Lock: NSObject {
     }
 
     /**
-     Register a callback for the outcome of the Authentication
+     Register a callback to recieve the result of a successful AuthN/AuthZ.
+     
+     - parameter callback: called on successful AuthN/AuthZ
+     
+     - returns: Lock itself for chaining
+    */
+    public func onAuth(callback: @escaping (Credentials) -> ()) -> Lock {
+        self.observerStore.onAuth = callback
+        return self
+    }
 
-     - parameter callback: callback called when the user is authenticated, lock is dismissed or an unrecoverable error ocurrs
+    /**
+     Register a callback to recieve Lock unrecoverable errors
+
+     - parameter callback: called on every unrecoverable error
 
      - returns: Lock itself for chaining
      */
-    public func on(_ callback: @escaping AuthenticationCallback) -> Lock {
-        self.callback = callback
+    public func onError(callback: @escaping (Error) -> ()) -> Lock {
+        self.observerStore.onFailure = callback
+        return self
+    }
+
+    /**
+     Register a callback to be notified when the user closes Lock when `closable` option is `true`
+
+     - parameter callback: called when the user closes Lock
+
+     - returns: Lock itself for chaining
+     */
+    public func onCancel(callback: @escaping () -> ()) -> Lock {
+        self.observerStore.onCancel = callback
+        return self
+    }
+
+    /**
+     Register a callback to be notified when a user signs up when login after signup is disabled.
+     The callback will yield the new user email and additional attributes like username.
+     
+     - parameter callback: called when a user signs up
+     
+     - returns: Lock itself for chaining
+    */
+    public func onSignUp(callback: @escaping (String, [String: Any]) -> ()) -> Lock {
+        self.observerStore.onSignUp = callback
         return self
     }
 
@@ -222,12 +257,6 @@ struct ConnectionProvider {
     let allowed: [String]
 
     var connections: Connections { return local.select(byNames: allowed) }
-}
-
-public enum Result {
-    case success(Credentials)
-    case failure(Error)
-    case cancelled
 }
 
 public enum UnrecoverableError: Error {

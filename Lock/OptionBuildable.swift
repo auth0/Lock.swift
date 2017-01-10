@@ -67,6 +67,9 @@ public protocol OptionBuildable: Options {
         /// Additional fields showed for Database Sign Up. By default the list is empty
     var customSignupFields: [CustomTextField] { get set }
 
+        /// Automatically log user in after sign up.  By default true
+    var loginAfterSignup: Bool { get set }
+
         /// Should enterprise credential auth require email instead of username.  By default is false
     var activeDirectoryEmailAsUsername: Bool { get set }
 

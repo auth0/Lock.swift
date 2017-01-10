@@ -31,7 +31,7 @@ public class MessageView: UIView {
             return self.messageLabel?.text
         }
         set {
-            self.messageLabel?.text = newValue
+            self.messageLabel?.text = newValue?.uppercased()
         }
     }
 
@@ -88,7 +88,7 @@ public class MessageView: UIView {
         let messageLabel = UILabel()
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
-        messageLabel.font = .systemFont(ofSize: 12, weight: UIFontWeightMedium)
+        messageLabel.font = .systemFont(ofSize: 11, weight: UIFontWeightMedium)
         messageLabel.textColor = self.type.textColor
 
         self.addSubview(messageLabel)

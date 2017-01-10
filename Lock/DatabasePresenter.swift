@@ -160,16 +160,20 @@ class DatabasePresenter: Presentable, Loggable {
             interactor.create { createError, loginError in
                 Queue.main.async {
                     button.inProgress = false
-
                     guard createError != nil || loginError != nil else {
-                        self.logger.debug("Logged in!")
+                        if !self.options.loginAfterSignup {
+                            let message = "Thanks for signing up.".i18n(key: "com.auth0.lock.database.signup.success.message", comment: "User signed up")
+                            if let databaseView = self.databaseView {
+                                self.showLogin(inView: databaseView, identifier: self.creator.identifier)
+                            }
+                            self.messagePresenter?.showSuccess(message)
+                        }
                         return
                     }
                     if let error = loginError, case .multifactorRequired = error {
                         self.navigator.navigate(.multifactor)
                         return
                     }
-
                     let error: LocalizableError = createError ?? loginError!
                     form?.needsToUpdateState()
                     self.messagePresenter?.showError(error)

@@ -44,7 +44,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             user = User()
             messagePresenter = MockMessagePresenter()
             connection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
-            interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+            interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
             presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
             presenter.messagePresenter = messagePresenter
 
@@ -100,7 +100,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                     options = LockOptions()
                     options.activeDirectoryEmailAsUsername = true
                     
-                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
                     presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                     presenter.messagePresenter = messagePresenter
                 }
@@ -160,7 +160,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                     options = LockOptions()
                     options.activeDirectoryEmailAsUsername = true
 
-                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                    interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
                     presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)
                     presenter.messagePresenter = messagePresenter
 
@@ -196,7 +196,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 options = LockOptions()
                 options.activeDirectoryEmailAsUsername = true
 
-                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, callback: {_ in})
+                interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
                 try! interactor.update(.username, value: username)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
                 presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options)

@@ -42,32 +42,10 @@ struct Router: Navigable {
 
     let user = User()
     let lock: Lock
-    let onDismiss: () -> ()
-    let onAuthentication: (Credentials) -> ()
 
     init(lock: Lock, controller: LockViewController) {
         self.controller = controller
         self.lock = lock
-        self.onDismiss = { [weak controller, unowned lock] in
-            Queue.main.async {
-                controller?.presentingViewController?.dismiss(animated: true, completion: { _ in
-                    lock.callback(.cancelled)
-                })
-            }
-        }
-        self.onAuthentication = { [weak controller, unowned lock] credentials in
-            let closure: () -> ()
-            if let presentingController = controller?.presentingViewController {
-                closure = {
-                    presentingController.dismiss(animated: true, completion: { _ in
-                        lock.callback(.success(credentials))
-                    })
-                }
-            } else {
-                closure = { lock.callback(.success(credentials)) }
-            }
-            Queue.main.async(closure)
-        }
     }
 
     var root: Presentable? {
@@ -80,23 +58,23 @@ struct Router: Navigable {
         if let database = connections.database {
             guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .resetPassword else { return forgotPassword }
             let authentication = self.lock.authentication
-            let interactor = DatabaseInteractor(connection: database, authentication: authentication, user: self.user, options: self.lock.options, callback: self.onAuthentication)
+            let interactor = DatabaseInteractor(connection: database, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
             let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
             // Add Social
             if !connections.oauth2.isEmpty {
-                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
+                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
                 presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
             }
             // Add Enterprise
             if !connections.enterprise.isEmpty {
-                let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
+                let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
                 let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
                 presenter.enterpriseInteractor = interactor
             }
             return presenter
         }
         if !connections.enterprise.isEmpty {
-            let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
+            let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
             let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
             // Single enterprise in active auth mode
             if let connection = interactor.connection, self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
@@ -109,7 +87,7 @@ struct Router: Navigable {
             return presenter
         }
         if !connections.oauth2.isEmpty {
-            let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, onCredentials: self.onAuthentication, options: self.lock.options)
+            let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
             let presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
             return presenter
         }
@@ -135,7 +113,7 @@ struct Router: Navigable {
             return nil
         }
         let authentication = self.lock.authentication
-        let interactor = MultifactorInteractor(user: self.user, authentication: authentication, connection: database, options: self.lock.options, callback: self.onAuthentication)
+        let interactor = MultifactorInteractor(user: self.user, authentication: authentication, connection: database, options: self.lock.options, dispatcher: lock.observerStore)
         let presenter = MultifactorPresenter(interactor: interactor, connection: database, navigator: self)
         presenter.customLogger = self.lock.logger
         return presenter
@@ -143,7 +121,7 @@ struct Router: Navigable {
 
     func EnterpriseActiveAuth(_ connection: EnterpriseConnection) -> Presentable? {
         let authentication = self.lock.authentication
-        let interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: self.user, options: self.lock.options, callback: self.onAuthentication)
+        let interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
         let presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: self.lock.options)
         presenter.customLogger = self.lock.logger
         return presenter
@@ -219,7 +197,7 @@ struct Router: Navigable {
         self.lock.logger.debug("Dismissing Lock with error \(error)")
         Queue.main.async {
             controller?.dismiss(animated: true, completion: { _ in
-                lock.callback(.failure(error))
+                lock.observerStore.onFailure(error)
             })
         }
     }

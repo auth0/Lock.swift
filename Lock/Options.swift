@@ -38,6 +38,7 @@ public protocol Options {
     var initialScreen: DatabaseScreen { get }
     var usernameStyle: DatabaseIdentifierStyle { get }
     var customSignupFields: [CustomTextField] { get }
+    var loginAfterSignup: Bool { get }
 
     // Enterprise
     var activeDirectoryEmailAsUsername: Bool { get }

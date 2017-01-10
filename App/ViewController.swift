@@ -50,6 +50,7 @@ class ViewController: UIViewController {
                     .classic()
                     .withOptions {
                         applyDefaultOptions(&$0)
+                        $0.loginAfterSignup = false
                     }
                     .withStyle {
                         $0.oauth2["slack"] = AuthStyle(
@@ -175,16 +176,9 @@ class ViewController: UIViewController {
     private func showLock(lock: Lock) {
         Log.enable(minimumSeverity: LogSeverity.verbose, suppressColors: true)
         lock
-            .on { result in
-                switch result {
-                case .success(let credentials):
-                    Log.info?.message("Obtained credentials \(credentials)")
-                case .failure(let cause):
-                    Log.error?.message("Failed with \(cause)")
-                default:
-                    Log.debug?.value(result)
-                }
-            }
+            .onAuth { Log.info?.message("Obtained credentials \($0)") }
+            .onError { Log.error?.message("Failed with \($0)") }
+            .onCancel { Log.debug?.message("User closed lock") }
             .present(from: self)
     }
 }

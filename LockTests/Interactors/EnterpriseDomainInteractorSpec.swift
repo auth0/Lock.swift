@@ -44,7 +44,9 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
             
             credentials = nil
             webAuth = MockWebAuth()
-            authentication = Auth0OAuth2Interactor(webAuth: webAuth, onCredentials: {credentials = $0}, options: LockOptions())
+            var dispatcher = ObserverStore()
+            dispatcher.onAuth = {credentials = $0}
+            authentication = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: LockOptions())
             enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
         }
         

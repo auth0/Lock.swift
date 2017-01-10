@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B011CDE1E13E16500543F12 /* NotificationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B011CDD1E13E16500543F12 /* NotificationStatus.swift */; };
 		5B09717C1DC8F229003AA88F /* EnterpriseDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717B1DC8F229003AA88F /* EnterpriseDomain.swift */; };
 		5B09717E1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717D1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift */; };
 		5B0971801DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */; };
@@ -23,6 +24,8 @@
 		5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
+		5F0FCF901E20117E00E3D53B /* ObserverStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */; };
+		5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
 		5F1C498E1D8360AA005B74FC /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C498D1D8360AA005B74FC /* Style.swift */; };
 		5F1C49901D8360BF005B74FC /* ConnectionLoadingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */; };
@@ -194,6 +197,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5B011CDD1E13E16500543F12 /* NotificationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationStatus.swift; sourceTree = "<group>"; };
 		5B09717B1DC8F229003AA88F /* EnterpriseDomain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomain.swift; path = Lock/EnterpriseDomain.swift; sourceTree = SOURCE_ROOT; };
 		5B09717D1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthInteractor.swift; path = Lock/EnterpriseActiveAuthInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainPresenter.swift; path = Lock/EnterpriseDomainPresenter.swift; sourceTree = SOURCE_ROOT; };
@@ -210,6 +214,8 @@
 		5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
 		5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthPresenterSpec.swift; sourceTree = "<group>"; };
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
+		5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverStore.swift; sourceTree = "<group>"; };
+		5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverStoreSpec.swift; sourceTree = "<group>"; };
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Lock/Colors.swift; sourceTree = SOURCE_ROOT; };
 		5F1C498D1D8360AA005B74FC /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Style.swift; path = Lock/Style.swift; sourceTree = SOURCE_ROOT; };
 		5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionLoadingPresenter.swift; path = Lock/ConnectionLoadingPresenter.swift; sourceTree = SOURCE_ROOT; };
@@ -546,11 +552,13 @@
 			children = (
 				5FEEE8161DB6AC6C00B4DFED /* PasswordPolicy */,
 				5F2496B71D665AC500A1C6E2 /* UserAttribute.swift */,
+				5B011CDD1E13E16500543F12 /* NotificationStatus.swift */,
 				5FBE5CB71D3D8F030038536D /* User.swift */,
 				5F57DFC51D4F79DD00C54DA8 /* AuthStyle.swift */,
 				5F1C498D1D8360AA005B74FC /* Style.swift */,
 				5F70F1EA1D7909C4004698DA /* Connections */,
 				5F70F1EB1D7909DC004698DA /* Options */,
+				5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */,
 			);
 			name = Models;
 			path = Lock;
@@ -564,6 +572,7 @@
 				5FE50DC01D7DED8C00D82290 /* OfflineConnectionsSpec.swift */,
 				5FEEE8191DB6AF3800B4DFED /* RuleSpec.swift */,
 				5FEEE81D1DB84BBB00B4DFED /* PasswordPolicySpec.swift */,
+				5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1004,6 +1013,7 @@
 				5FBE5CBE1D3E5C7B0038536D /* MultifactorAuthenticatable.swift in Sources */,
 				5B2981781DD51A460062535C /* InfoBarView.swift in Sources */,
 				5FBE5CC01D3E5E0A0038536D /* MultifactorInteractor.swift in Sources */,
+				5F0FCF901E20117E00E3D53B /* ObserverStore.swift in Sources */,
 				5F50900E1D1DF40400EAA650 /* DatabaseOnlyView.swift in Sources */,
 				5F70F1E91D7907D5004698DA /* LockOptions.swift in Sources */,
 				5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */,
@@ -1013,6 +1023,7 @@
 				5F73CDD41D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift in Sources */,
 				5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */,
 				5F1C498E1D8360AA005B74FC /* Style.swift in Sources */,
+				5B011CDE1E13E16500543F12 /* NotificationStatus.swift in Sources */,
 				5F73CDDA1D30957900D8D8D1 /* DatabasePasswordInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1030,6 +1041,7 @@
 				5F92C68D1D50E47100CCE6C0 /* AuthStyleSpec.swift in Sources */,
 				5F92C68B1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift in Sources */,
 				5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */,
+				5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */,
 				5F73CDDC1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift in Sources */,
 				5F2496AF1D66210500A1C6E2 /* LockViewControllerSpec.swift in Sources */,
 				5FA250501D48E2A200C544FA /* OptionsSpec.swift in Sources */,

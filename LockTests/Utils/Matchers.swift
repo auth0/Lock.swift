@@ -57,7 +57,7 @@ func beError(error: LocalizableError) -> MatcherFunc<LocalizableError> {
 func beErrorResult() -> MatcherFunc<Result> {
     return MatcherFunc { expression, failureMessage in
         failureMessage.postfixMessage = "be an error result"
-        if let actual = try expression.evaluate(), case .failure = actual {
+        if let actual = try expression.evaluate(), case .error = actual {
             return true
         }
         return false

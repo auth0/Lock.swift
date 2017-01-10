@@ -1,4 +1,4 @@
-// Auth0OAuth2Interactor.swift
+// NotificationStatus.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -21,37 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
-import Auth0
 
-struct Auth0OAuth2Interactor: OAuth2Authenticatable {
-
-    let webAuth: Auth0.WebAuth
-    let dispatcher: Dispatcher
-    let options: Options
-
-    func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
-        var parameters: [String: String] = [:]
-        self.options.parameters.forEach { parameters[$0] = "\($1)" }
-        var auth = self.webAuth
-            .connection(connection)
-            .scope(self.options.scope)
-            .parameters(parameters)
-
-        if let audience = self.options.audience {
-            auth = auth.audience(audience)
-        }
-
-        auth
-            .start { result in
-                switch result {
-                case .success(let credentials):
-                    self.dispatcher.dispatch(result: .auth(credentials))
-                    callback(nil)
-                case .failure(WebAuthError.userCancelled):
-                    callback(.cancelled)
-                case .failure:
-                    callback(.couldNotAuthenticate)
-                }
-            }
-    }
+enum NotificationStatus {
+    case signedUp
 }

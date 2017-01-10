@@ -42,14 +42,14 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     let credentialAuth: CredentialAuth
     let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
-    let onAuthentication: (Credentials) -> ()
+    let dispatcher: Dispatcher
     let options: Options
     let customFields: [String: CustomTextField]
 
-    init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, callback: @escaping (Credentials) -> ()) {
+    init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
         self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
         self.connection = connection
-        self.onAuthentication = callback
+        self.dispatcher = dispatcher
         self.user = user
         self.options = options
         var fields: [String: CustomTextField] = [:]
@@ -127,8 +127,17 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             )
             .start {
                 switch $0 {
-                case .success:
-                    login.start { self.handle(result: $0, callback: { callback(nil, $0) }) }
+                case .success(let user):
+                    if self.options.loginAfterSignup {
+                        login.start { self.handle(result: $0, callback: { callback(nil, $0) }) }
+                    } else {
+                        var extra: [String: Any] = [
+                            "verified": user.verified
+                        ]
+                        extra["username"] = user.username
+                        self.dispatcher.dispatch(result: .signUp(user.email, extra))
+                        callback(nil, nil)
+                    }
                 case .failure(let cause as AuthenticationError) where cause.isPasswordNotStrongEnough:
                     callback(.passwordTooWeak, nil)
                 case .failure(let cause as AuthenticationError) where cause.isPasswordAlreadyUsed:
@@ -195,7 +204,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         case .success(let credentials):
             self.logger.info("Authenticated user <\(self.identifier)>")
             callback(nil)
-            self.onAuthentication(credentials)
+            self.dispatcher.dispatch(result: .auth(credentials))
         }
     }
 }

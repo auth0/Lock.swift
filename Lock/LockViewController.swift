@@ -30,13 +30,15 @@ public class LockViewController: UIViewController {
     var current: View?
     var keyboard: Bool = false
     var routes: Routes = Routes()
-    var messagePresenter: MessagePresenter!
 
     var anchorConstraint: NSLayoutConstraint?
+
+    var messagePresenter: MessagePresenter!
     var router: Router!
 
     public required init(lock: Lock) {
         super.init(nibName: nil, bundle: nil)
+        lock.observerStore.controller = self
         self.router = Router(lock: lock, controller: self)
     }
 
@@ -70,7 +72,9 @@ public class LockViewController: UIViewController {
         header.translatesAutoresizingMaskIntoConstraints = false
 
         header.showClose = self.router.lock.options.closable
-        header.onClosePressed = self.router.onDismiss
+        header.onClosePressed = { [weak self] in
+            self?.router.lock.observerStore.dispatch(result: .cancel)
+        }
         header.apply(style: style)
 
         self.headerView = header

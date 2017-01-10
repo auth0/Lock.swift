@@ -44,8 +44,10 @@ class MultifactorInteractorSpec: QuickSpec {
             user.validPassword = true
             options = LockOptions()
             credentials = nil
+            var dispatcher = ObserverStore()
+            dispatcher.onAuth = { credentials = $0 }
             connection = DatabaseConnection(name: "myConnection", requiresUsername: true)
-            interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options) { credentials = $0 }
+            interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options, dispatcher: dispatcher)
         }
 
         describe("updateCode") {
@@ -99,12 +101,14 @@ class MultifactorInteractorSpec: QuickSpec {
 
             beforeEach {
                 options.oidcConformant = false
-                interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options) { credentials = $0 }
+                var dispatcher = ObserverStore()
+                dispatcher.onAuth = { credentials = $0 }
+                interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options, dispatcher: dispatcher)
             }
 
 
             it("should yield no error on success") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, oidcConformant: options.oidcConformant)) { _ in return Auth0Stubs.authentication() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
@@ -115,14 +119,14 @@ class MultifactorInteractorSpec: QuickSpec {
             }
 
             it("should yield credentials") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, oidcConformant: options.oidcConformant)) { _ in return Auth0Stubs.authentication() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.setMultifactorCode(code)
                 interactor.login { _ in }
                 expect(credentials).toEventuallyNot(beNil())
             }
 
             it("should yield error on failure") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, oidcConformant: options.oidcConformant)) { _ in return Auth0Stubs.failure() }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure() }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
@@ -133,7 +137,7 @@ class MultifactorInteractorSpec: QuickSpec {
             }
 
             it("should notify when code is invalid") {
-                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name, oidcConformant: options.oidcConformant)) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
                     interactor.login { error in
