@@ -246,8 +246,8 @@ class RouterSpec: QuickSpec {
             }
 
             it("should show connection error screen") {
-                router.navigate(.connectionError(error: RemoteConnectionLoaderError.connectionTimeout))
-                expect(controller.presentable as? ConnectionErrorPresenter).toNot(beNil())
+                router.navigate(.unrecoverableError(error: UnrecoverableError.connectionTimeout))
+                expect(controller.presentable as? UnrecoverableErrorPresenter).toNot(beNil())
             }
 
             context("no connection") {
@@ -352,9 +352,9 @@ class RouterSpec: QuickSpec {
                 expect(match).to(beTrue())
             }
 
-            it("connectionError should should be equatable with connectionError") {
-                let error = RemoteConnectionLoaderError.connectionTimeout
-                let match = Route.connectionError(error: error) == Route.connectionError(error: error)
+            it("UnrecoverableError should should be equatable with UnrecoverableError") {
+                let error = UnrecoverableError.connectionTimeout
+                let match = Route.unrecoverableError(error: error) == Route.unrecoverableError(error: error)
                 expect(match).to(beTrue())
             }
 

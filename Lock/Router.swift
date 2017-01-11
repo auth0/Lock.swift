@@ -127,8 +127,8 @@ struct Router: Navigable {
         return presenter
     }
 
-    func connectionError(_ error: RemoteConnectionLoaderError) -> Presentable? {
-        let presenter = ConnectionErrorPresenter(error: error, navigator: self)
+    func unrecoverableError(_ error: UnrecoverableError) -> Presentable? {
+        let presenter = UnrecoverableErrorPresenter(error: error, navigator: self)
         return presenter
     }
 
@@ -175,8 +175,8 @@ struct Router: Navigable {
             presentable = self.multifactor
         case .enterpriseActiveAuth(let connection):
             presentable = self.EnterpriseActiveAuth(connection)
-        case .connectionError(let error):
-            presentable = self.connectionError(error)
+        case .unrecoverableError(let error):
+            presentable = self.unrecoverableError(error)
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")
             return

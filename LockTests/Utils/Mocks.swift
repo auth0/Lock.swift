@@ -205,10 +205,10 @@ class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
 class MockConnectionsLoader: RemoteConnectionLoader {
 
     var connections: Connections? = nil
-    var error: RemoteConnectionLoaderError? = nil
+    var error: UnrecoverableError? = nil
 
-    func load(_ callback: @escaping (Connections?, RemoteConnectionLoaderError?) -> ()) {
-        callback(connections, error)
+    func load(_ callback: @escaping (UnrecoverableError?, Connections?) -> ()) {
+        callback(error, connections)
     }
 }
 

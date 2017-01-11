@@ -63,13 +63,13 @@ class CDNLoaderInteractorSpec: QuickSpec {
 
             var loader: CDNLoaderInteractor!
             var connections: Connections?
-            var error: RemoteConnectionLoaderError?
-            var callback: ((Connections?, RemoteConnectionLoaderError?) -> ())!
+            var error: UnrecoverableError?
+            var callback: ((UnrecoverableError?, Connections?) -> ())!
 
             beforeEach {
                 loader = CDNLoaderInteractor(baseURL: URL(string: "https://overmind.auth0.com")!, clientId: clientId)
-                callback = { connections = $0
-                             error = $1 }
+                callback = { error = $0
+                             connections = $1 }
                 connections = nil
                 error = nil
             }
@@ -109,24 +109,24 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 it("should return invalid client error") {
                     stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: Data(), statusCode: 403, headers: [:]) }
                     loader.load(callback)
-                    expect(error).toEventually(beError(error: RemoteConnectionLoaderError.invalidClient))
+                    expect(error).toEventually(beError(error: UnrecoverableError.invalidClientOrDomain))
                 }
 
                 it("should return invalid client info error") {
                     stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: "not a json object".data(using: String.Encoding.utf8)!, statusCode: 200, headers: [:]) }
                     loader.load(callback)
-                    expect(error).toEventually(beError(error: RemoteConnectionLoaderError.invalidClientInfo))
+                    expect(error).toEventually(beError(error: UnrecoverableError.invalidClientOrDomain))
                 }
 
                 it("should return connection timeout error") {
                     loader.load(callback)
-                    expect(error).toEventually(beError(error: RemoteConnectionLoaderError.connectionTimeout))
+                    expect(error).toEventually(beError(error: UnrecoverableError.connectionTimeout))
                 }
 
                 it("should return no connections error") {
                     stub(condition: isCDN(forClientId: clientId)) { _ in Auth0Stubs.strategiesFromCDN([[:]]) }
                     loader.load(callback)
-                    expect(error).toEventually(beError(error: RemoteConnectionLoaderError.noConnections))
+                    expect(error).toEventually(beError(error: UnrecoverableError.clientWithNoConnections))
                 }
 
             }

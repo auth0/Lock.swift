@@ -1,4 +1,4 @@
-// ConnectionErrorView.swift
+// UnrecoverableErrorView.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -22,7 +22,7 @@
 
 import UIKit
 
-class ConnectionErrorView: UIView, View {
+class UnrecoverableErrorView: UIView, View {
 
     weak var primaryButton: PrimaryButton?
     weak var label: UILabel?

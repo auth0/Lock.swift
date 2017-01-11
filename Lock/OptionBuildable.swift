@@ -30,9 +30,6 @@ public protocol OptionBuildable: Options {
         /// Allows Lock to be dismissed. By default is false.
     var closable: Bool { get set }
 
-        /// Allows Lock to present critical errors. By default is true
-    var presentCriticalErrors: Bool { get set }
-
         /// ToS URL. By default is Auth0's.
     var termsOfServiceURL: URL { get set }
 

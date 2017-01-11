@@ -1,4 +1,4 @@
-// ConnectionErrorPresenterSpec.swift
+// UnrecoverableErrorPresenterSpec.swift
 
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
@@ -26,26 +26,26 @@ import Nimble
 
 @testable import Lock
 
-class ConnectionErrorPresenterSpec: QuickSpec {
+class UnrecoverableErrorPresenterSpec: QuickSpec {
 
     override func spec() {
 
-        var presenter: ConnectionErrorPresenter!
+        var presenter: UnrecoverableErrorPresenter!
         var navigator: MockNavigator!
-        var error: RemoteConnectionLoaderError!
-        var view: ConnectionErrorView!
+        var error: UnrecoverableError!
+        var view: UnrecoverableErrorView!
 
         beforeEach {
-            error = RemoteConnectionLoaderError.connectionTimeout
+            error = UnrecoverableError.connectionTimeout
             navigator = MockNavigator()
-            presenter = ConnectionErrorPresenter(error: error, navigator: navigator)
-            view = presenter.view as? ConnectionErrorView
+            presenter = UnrecoverableErrorPresenter(error: error, navigator: navigator)
+            view = presenter.view as? UnrecoverableErrorView
         }
 
         describe("init") {
 
-            it("should build ConnectionErrorView") {
-                expect(presenter.view as? ConnectionErrorView).toNot(beNil())
+            it("should build UnrecoverableErrorView") {
+                expect(presenter.view as? UnrecoverableErrorView).toNot(beNil())
             }
 
             it("should have button title") {

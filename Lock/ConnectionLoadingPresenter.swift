@@ -35,12 +35,11 @@ class ConnectionLoadingPresenter: Presentable, Loggable {
     }
 
     var view: View {
-        self.loader.load { connections, error in
-            guard error == nil || !self.options.presentCriticalErrors else {
-                Queue.main.async {
-                    self.navigator.navigate(.connectionError(error: error!))
+        self.loader.load { error, connections in
+            guard error == nil else {
+                return Queue.main.async {
+                    self.navigator.navigate(.unrecoverableError(error: error!))
                 }
-                return
             }
             guard let connections = connections, !connections.isEmpty else { return self.navigator.exit(withError: UnrecoverableError.clientWithNoConnections) }
             Queue.main.async {

@@ -33,25 +33,18 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
         self.url = URL(string: "client/\(clientId).js", relativeTo: cdnURL(from: baseURL))!
     }
 
-    func load(_ callback: @escaping (Connections?, RemoteConnectionLoaderError?) -> ()) {
-        let sessionConfiguration = URLSessionConfiguration.default
-        sessionConfiguration.timeoutIntervalForRequest = 30 // Default 60
-        let session = URLSession(configuration: sessionConfiguration)
-
+    func load(_ callback: @escaping (UnrecoverableError?, Connections?) -> ()) {
         self.logger.info("Loading client info from \(self.url)")
-        let task = session.dataTask(with: self.url, completionHandler: { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: self.url, completionHandler: { (data, response, error) in
+            guard error?._code != NSURLErrorTimedOut else { return callback(.connectionTimeout, nil) }
             guard error == nil else {
                 self.logger.error("Failed to load with error \(error!)")
-                if let error = error, error._code == NSURLErrorTimedOut {
-                    callback(nil, .connectionTimeout)
-                } else {
-                    callback(nil, .requestIssue)
-                }
-                return
+                return callback(.requestIssue, nil)
             }
+
             guard let response = response as? HTTPURLResponse else {
                 self.logger.error("Response was not NSHTTURLResponse")
-                return callback(nil, RemoteConnectionLoaderError.responseIssue)
+                return callback(.requestIssue, nil)
             }
 
             let payload: String?
@@ -60,17 +53,16 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
             } else {
                 payload = nil
             }
+
             guard 200...299 ~= response.statusCode else {
                 self.logger.error("HTTP response was not successful. HTTP \(response.statusCode) <\(payload ?? "No Body")>")
-                if response.statusCode == 403 {
-                    return callback(nil, RemoteConnectionLoaderError.invalidClient)
-                }
-                return callback(nil, RemoteConnectionLoaderError.responseIssue)
+                guard response.statusCode != 403 else { return callback(.invalidClientOrDomain, nil) }
+                return callback(.requestIssue, nil)
             }
 
             guard var jsonp = payload else {
                 self.logger.error("HTTP response had no jsonp \(payload ?? "No Body")")
-                return callback(nil, RemoteConnectionLoaderError.invalidClientInfo)
+                return callback(.invalidClientOrDomain, nil)
             }
 
             self.logger.verbose("Received jsonp \(jsonp)")
@@ -104,14 +96,12 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
                 info.oauth2.forEach { strategy in
                     strategy.connections.forEach { connections.social(name: $0.name, style: AuthStyle.style(forStrategy: strategy.name, connectionName: $0.name)) }
                 }
-                if connections.isEmpty {
-                    callback(connections, .noConnections)
-                } else {
-                    callback(connections, nil)
-                }
+
+                guard !connections.isEmpty else { return callback(.clientWithNoConnections, connections) }
+                callback(nil, connections)
             } catch let e {
                 self.logger.error("Failed to parse \(jsonp) with error \(e)")
-                return callback(nil, .invalidClientInfo)
+                return callback(.invalidClientOrDomain, nil)
             }
         })
         task.resume()

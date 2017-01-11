@@ -24,7 +24,6 @@ import Foundation
 
 public protocol Options {
     var closable: Bool { get }
-    var presentCriticalErrors: Bool { get }
 
     var termsOfServiceURL: URL { get }
     var privacyPolicyURL: URL { get }

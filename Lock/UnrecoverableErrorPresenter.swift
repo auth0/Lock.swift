@@ -1,4 +1,4 @@
-// ConnectionErrorPresenter.swift
+// UnrecoverableErrorPresenter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,19 +22,19 @@
 
 import Foundation
 
-class ConnectionErrorPresenter: Presentable, Loggable {
+class UnrecoverableErrorPresenter: Presentable, Loggable {
     let navigator: Navigable
-    let error: RemoteConnectionLoaderError
+    let error: UnrecoverableError
 
     var messagePresenter: MessagePresenter?
 
-    init(error: RemoteConnectionLoaderError, navigator: Navigable) {
+    init(error: UnrecoverableError, navigator: Navigable) {
         self.navigator = navigator
         self.error = error
     }
 
     var view: View {
-        let view = ConnectionErrorView(message: self.error.localizableMessage)
+        let view = UnrecoverableErrorView(message: self.error.localizableMessage)
         view.primaryButton?.onPress = { _ in
             self.navigator.navigate(.root)
         }
