@@ -196,6 +196,34 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
 
             }
 
+            describe("navigation on success") {
+
+                it("should navigate to .root") {
+                    let button = view.primaryButton!
+                    interactor.onRequest = {
+                        return nil
+                    }
+                    button.onPress(button)
+                    expect(navigator.route).toEventually(equal(Route.root))
+                }
+
+                it("should not navigate to .root") {
+                    options.allow = .ResetPassword
+                    navigator.route = .forgotPassword
+
+                    presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
+                    view = presenter.view as! DatabaseForgotPasswordView
+
+                    let button = view.primaryButton!
+                    interactor.onRequest = {
+                        return nil
+                    }
+                    button.onPress(button)
+                    expect(navigator.route).toEventuallyNot(equal(Route.root))
+                }
+
+            }
+
         }
 
     }
