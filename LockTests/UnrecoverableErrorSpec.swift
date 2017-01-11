@@ -30,34 +30,34 @@ class UnrecoverableErrorSpec: QuickSpec {
 
         describe("localised message response") {
 
-            it(".invalidClientOrDomain should return relevant string") {
+            it(".invalidClientOrDomain should default error message") {
                 let error = UnrecoverableError.invalidClientOrDomain
-                expect(error.localizableMessage).to(contain("No client information found"))
+                expect(error.localizableMessage).to(contain("Something went wrong"))
             }
 
-            it(".clientWithNoConnections should return relevant string") {
+            it(".clientWithNoConnections should return relevant error message") {
                 let error = UnrecoverableError.clientWithNoConnections
-                expect(error.localizableMessage).to(contain("No connections available"))
+                expect(error.localizableMessage).to(contain("No authentication methods found"))
             }
 
-            it(".connectionTimeout should return default string") {
+            it(".connectionTimeout should return default error message") {
                 let error = UnrecoverableError.connectionTimeout
-                expect(error.localizableMessage).to(contain("problem with your request"))
+                expect(error.localizableMessage).to(contain("Something went wrong"))
             }
 
-            it(".requestIssue should return default string") {
+            it(".requestIssue should return default error message") {
                 let error = UnrecoverableError.requestIssue
-                expect(error.localizableMessage).to(contain("problem with your request"))
+                expect(error.localizableMessage).to(contain("Something went wrong"))
             }
 
-            it(".missingDatabaseConnection should return relevant string") {
+            it(".missingDatabaseConnection should return default error message") {
                 let error = UnrecoverableError.missingDatabaseConnection
-                expect(error.localizableMessage).to(contain("No database connection was found"))
+                expect(error.localizableMessage).to(contain("Something went wrong"))
             }
 
-            it(".invalidOptions should return relevant string") {
+            it(".invalidOptions should return default error message") {
                 let error = UnrecoverableError.invalidOptions(cause: "bad options")
-                expect(error.localizableMessage).to(contain("bad options"))
+                expect(error.localizableMessage).to(contain("Something went wrong"))
             }
 
         }

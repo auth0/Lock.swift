@@ -32,26 +32,15 @@ enum UnrecoverableError: Equatable, Error, LocalizableError {
 
     var localizableMessage: String {
         switch self {
-        case .invalidClientOrDomain:
-            return "No client information found, please check your Auth0 client credentials.".i18n(key: "com.auth0.lock.error.invalidclient", comment: "Invalid client")
         case .clientWithNoConnections:
-            return "No connections available for this client, please check your Auth0 client setup.".i18n(key: "com.auth0.lock.error.noconnections", comment: "No client connections")
-        case .connectionTimeout, .requestIssue:
-            return "There was a problem with your request, please try again later.".i18n(key: "com.auth0.lock.error.requestfailed", comment: "Generic request failure")
-        case .missingDatabaseConnection:
-            return "No database connection was found, please check your Auth0 client setup".i18n(key: "com.auth0.lock.error.missingdatabase", comment: "No database connection")
-        case .invalidOptions(let cause):
-            return "Option configuration issue: \(cause)".i18n(key: "com.auth0.lock.error.options", comment: "Option configuration issue.")
+            return "No authentication methods found for this client. Please check your client setup.".i18n(key: "com.auth0.lock.error.unrecoverable.no_connections", comment: "No connections")
+        case .invalidClientOrDomain, .connectionTimeout, .requestIssue, .missingDatabaseConnection, .invalidOptions:
+            return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.unrecoverable.default", comment: "Default error")
         }
     }
 
     var userVisible: Bool {
-        switch self {
-        case .missingDatabaseConnection, .invalidOptions:
-            return false
-        default:
-            return true
-        }
+        return true
     }
 }
 
