@@ -23,7 +23,5 @@
 import Foundation
 
 protocol RemoteConnectionLoader {
-
-    func load(_ callback: @escaping (Connections?) -> ())
-
+    func load(_ callback: @escaping (UnrecoverableError?, Connections?) -> ())
 }

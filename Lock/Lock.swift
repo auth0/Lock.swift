@@ -259,13 +259,6 @@ struct ConnectionProvider {
     var connections: Connections { return local.select(byNames: allowed) }
 }
 
-public enum UnrecoverableError: Error {
-    case invalidClientOrDomain
-    case clientWithNoConnections
-    case missingDatabaseConnection
-    case invalidOptions(cause: String)
-}
-
 private func telemetryFor(authentication: Authentication, webAuth: WebAuth) -> (Authentication, WebAuth) {
     var authentication = authentication
     var webAuth = webAuth

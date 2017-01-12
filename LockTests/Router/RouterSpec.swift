@@ -245,6 +245,11 @@ class RouterSpec: QuickSpec {
                 expect(controller.headerView.title) == "Corporate Login"
             }
 
+            it("should show connection error screen") {
+                router.navigate(.unrecoverableError(error: UnrecoverableError.connectionTimeout))
+                expect(controller.presentable as? UnrecoverableErrorPresenter).toNot(beNil())
+            }
+
             context("no connection") {
                 beforeEach {
                     lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
@@ -344,6 +349,12 @@ class RouterSpec: QuickSpec {
             it("EnterpriseActiveAuth should should be equatable with EnterpriseActiveAuth") {
                 let enterpriseConnection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
                 let match = Route.enterpriseActiveAuth(connection: enterpriseConnection) == Route.enterpriseActiveAuth(connection: enterpriseConnection)
+                expect(match).to(beTrue())
+            }
+
+            it("UnrecoverableError should should be equatable with UnrecoverableError") {
+                let error = UnrecoverableError.connectionTimeout
+                let match = Route.unrecoverableError(error: error) == Route.unrecoverableError(error: error)
                 expect(match).to(beTrue())
             }
 
