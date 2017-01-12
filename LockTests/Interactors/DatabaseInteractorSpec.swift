@@ -733,7 +733,6 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
-            
         }
 
         // MARK: - Signup
@@ -1024,16 +1023,28 @@ class DatabaseInteractorSpec: QuickSpec {
 
             var options: LockOptions!
             var newUserEmail: String?
+            var controller: MockLockController!
+            var presenter: MockController!
+            var dispatcher: ObserverStore!
+            var db: DatabaseConnection!
 
             beforeEach {
+                options = LockOptions()
+                dispatcher = ObserverStore()
+                presenter = MockController()
+                controller = MockLockController(lock: Lock())
+                presenter.presented = controller
+                controller.presenting = presenter
+                dispatcher.controller = controller
+
                 newUserEmail = nil
                 options = LockOptions()
                 options.loginAfterSignup = false
-                var dispatcher = ObserverStore()
+
                 dispatcher.onSignUp = { email, _ in
                     newUserEmail = email
                 }
-                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+                db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
                 database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
                 stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
@@ -1058,6 +1069,29 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.password(enforcePolicy: false), value: password)
                 database.create { _ in }
                 expect(newUserEmail).toEventually(equal(email))
+                expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+            }
+
+            it("should dispatch signup event and dimiss Lock") {
+                options.allow = .Signup
+                database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
+                database.create { _ in }
+                expect(newUserEmail).toEventually(equal(email))
+                expect(presenter.presented).toEventually(beNil(), timeout: 2)
+            }
+
+            it("should dispatch signup event and dimiss Lock") {
+                options.allow = [.Signup, .ResetPassword]
+                database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
+                database.create { _ in }
+                expect(newUserEmail).toEventually(equal(email))
+                expect(presenter.presented).toEventually(beNil(), timeout: 2)
             }
 
         }

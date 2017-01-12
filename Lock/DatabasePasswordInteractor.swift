@@ -26,18 +26,22 @@ import Auth0
 struct DatabasePasswordInteractor: PasswordRecoverable {
 
     private var user: DatabaseUser
+    private let dispatcher: Dispatcher
 
     var email: String? { return self.user.email }
     var validEmail: Bool { return self.user.validEmail }
 
     let authentication: Authentication
+    let options: Options
     let connections: Connections
     let emailValidator: InputValidator = EmailValidator()
 
-    init(connections: Connections, authentication: Authentication, user: DatabaseUser) {
+    init(connections: Connections, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
         self.authentication = authentication
         self.connections = connections
         self.user = user
+        self.options = options
+        self.dispatcher = dispatcher
     }
 
     mutating func updateEmail(_ value: String?) throws {
@@ -55,6 +59,7 @@ struct DatabasePasswordInteractor: PasswordRecoverable {
             .resetPassword(email: email, connection: connection)
             .start {
                 guard case .success = $0 else { return callback(.emailNotSent) }
+                self.dispatcher.dispatch(result: .forgotPassword(email, !self.options.allow.contains(.Login)))
                 callback(nil)
         }
     }

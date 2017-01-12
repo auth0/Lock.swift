@@ -28,6 +28,7 @@ struct ObserverStore: Dispatcher {
     var onFailure: (Error) -> () = { _ in }
     var onCancel: () -> () = {  }
     var onSignUp: (String, [String: Any]) -> () = { _ in }
+    var onForgetPassword: (String) -> () = { _ in }
 
     weak var controller: UIViewController?
 
@@ -40,10 +41,10 @@ struct ObserverStore: Dispatcher {
             closure = { self.onFailure(error) }
         case .cancel:
             closure = dismiss(from: controller?.presentingViewController, completion: { self.onCancel() })
-        case .signUp(let email, let attributes):
-            closure = { self.onSignUp(email, attributes) }
-        default:
-            closure = {}
+        case .signUp(let email, let attributes, let dismissLock):
+            closure = dismissLock ? dismiss(from: controller?.presentingViewController, completion: { self.onSignUp(email, attributes) }) : { self.onSignUp(email, attributes) }
+        case .forgotPassword(let email, let dismissLock):
+            closure = dismissLock ? dismiss(from: controller?.presentingViewController, completion: { self.onForgetPassword(email) }) : { self.onForgetPassword(email) }
         }
         Queue.main.async(closure)
     }
@@ -58,8 +59,8 @@ enum Result {
     case auth(Credentials)
     case error(Error)
     case cancel
-    case signUp(String, [String: Any])
-    case forgotPassword(String)
+    case signUp(String, [String: Any], Bool)
+    case forgotPassword(String, Bool)
 }
 
 protocol Dispatcher {
