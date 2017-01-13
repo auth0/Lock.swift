@@ -561,7 +561,7 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             // TODO: Check why it fails only in travis
-            pending("login dispatch") {
+            describe("login dispatch") {
 
                 var options: LockOptions!
                 var auth: Credentials?
@@ -596,7 +596,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     try! database.update(.password(enforcePolicy: false), value: password)
                     database.login { _ in }
                     expect(auth?.accessToken).toEventually(equal("token"))
-                    expect(presenter.presented).toEventually(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventually(beNil(), timeout: 10)
                 }
                 
             }
