@@ -34,6 +34,10 @@ enum UnrecoverableError: Equatable, Error, LocalizableError {
         switch self {
         case .clientWithNoConnections:
             return "No authentication methods found for this client. Please check your client setup.".i18n(key: "com.auth0.lock.error.unrecoverable.no_connections", comment: "No connections")
+        case .invalidClientOrDomain where self.isFatal:
+            return "Your Auth0 credentials ClientId and/or Domain are invalid.".i18n(key: "com.auth0.lock.error.unrecoverable.invalid_credentials", comment: "Invalid client or domain")
+        case .invalidOptions(let cause) where self.isFatal:
+            return "Your options configuration failed with: \(cause)".i18n(key: "com.auth0.lock.error.unrecoverable.invalid_options", comment: "Options configuration issue")
         case .invalidClientOrDomain, .connectionTimeout, .requestIssue, .missingDatabaseConnection, .invalidOptions:
             return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.unrecoverable.default", comment: "Default error")
         }
@@ -41,6 +45,19 @@ enum UnrecoverableError: Equatable, Error, LocalizableError {
 
     var userVisible: Bool {
         return true
+    }
+
+    var isFatal: Bool {
+        #if DEBUG
+            switch self {
+            case .invalidClientOrDomain, .invalidOptions:
+                return true
+            default:
+                return false
+            }
+        #else
+            return false
+        #endif
     }
 }
 

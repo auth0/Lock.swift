@@ -30,9 +30,17 @@ class UnrecoverableErrorSpec: QuickSpec {
 
         describe("localised message response") {
 
-            it(".invalidClientOrDomain should default error message") {
-                let error = UnrecoverableError.invalidClientOrDomain
-                expect(error.localizableMessage).to(contain("Something went wrong"))
+            context("when fatal") {
+
+                it(".invalidClientOrDomain should default error message") {
+                    let error = UnrecoverableError.invalidClientOrDomain
+                    expect(error.localizableMessage).to(contain("ClientId and/or Domain are invalid"))
+                }
+
+                it(".invalidOptions should return default error message") {
+                    let error = UnrecoverableError.invalidOptions(cause: "bad options")
+                    expect(error.localizableMessage).to(contain("Your options configuration failed with"))
+                }
             }
 
             it(".clientWithNoConnections should return relevant error message") {
@@ -52,11 +60,6 @@ class UnrecoverableErrorSpec: QuickSpec {
 
             it(".missingDatabaseConnection should return default error message") {
                 let error = UnrecoverableError.missingDatabaseConnection
-                expect(error.localizableMessage).to(contain("Something went wrong"))
-            }
-
-            it(".invalidOptions should return default error message") {
-                let error = UnrecoverableError.invalidOptions(cause: "bad options")
                 expect(error.localizableMessage).to(contain("Something went wrong"))
             }
 
