@@ -194,6 +194,40 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
                     expect(button.inProgress).toEventually(beFalse())
                 }
 
+                context("no login screen") {
+
+                    beforeEach {
+                        options.allow = .ResetPassword
+                        presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
+                        presenter.messagePresenter = messagePresenter
+                        view = presenter.view as! DatabaseForgotPasswordView
+                    }
+
+                    it("should not show global success message") {
+                        interactor.onRequest = {
+                            return nil
+                        }
+                        view.primaryButton?.onPress(view.primaryButton!)
+                        expect(messagePresenter.message).toEventually(beNil())
+                    }
+
+                    it("should show global success message") {
+                        options.allow = .ResetPassword
+                        options.autoClose = []
+                        presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
+                        presenter.messagePresenter = messagePresenter
+                        view = presenter.view as! DatabaseForgotPasswordView
+
+                        interactor.onRequest = {
+                            return nil
+                        }
+                        view.primaryButton?.onPress(view.primaryButton!)
+                        expect(messagePresenter.message).toEventuallyNot(beNil())
+                    }
+
+                }
+
+
             }
 
             describe("navigation on success") {

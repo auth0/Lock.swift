@@ -73,7 +73,7 @@ public class LockViewController: UIViewController {
 
         header.showClose = self.router.lock.options.closable
         header.onClosePressed = { [weak self] in
-            self?.router.lock.observerStore.dispatch(result: .cancel)
+            self?.router.lock.observerStore.dispatch(result: .cancel, dismissLock: true)
         }
         header.apply(style: style)
 

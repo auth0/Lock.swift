@@ -32,21 +32,22 @@ struct ObserverStore: Dispatcher {
 
     weak var controller: UIViewController?
 
-    func dispatch(result: Result) {
+    func dispatch(result: Result, dismissLock: Bool) {
         let closure: () -> ()
         switch result {
         case .auth(let credentials):
-            closure = dismiss(from: controller?.presentingViewController, completion: { self.onAuth(credentials) })
+            closure = { self.onAuth(credentials) }
         case .error(let error):
             closure = { self.onFailure(error) }
         case .cancel:
-            closure = dismiss(from: controller?.presentingViewController, completion: { self.onCancel() })
-        case .signUp(let email, let attributes, let dismissLock):
-            closure = dismissLock ? dismiss(from: controller?.presentingViewController, completion: { self.onSignUp(email, attributes) }) : { self.onSignUp(email, attributes) }
-        case .forgotPassword(let email, let dismissLock):
-            closure = dismissLock ? dismiss(from: controller?.presentingViewController, completion: { self.onForgetPassword(email) }) : { self.onForgetPassword(email) }
+            closure = { self.onCancel() }
+        case .signUp(let email, let attributes):
+            closure = { self.onSignUp(email, attributes) }
+        case .forgotPassword(let email):
+            closure = { self.onForgetPassword(email) }
         }
-        Queue.main.async(closure)
+
+        Queue.main.async(dismissLock ? dismiss(from: controller?.presentingViewController, completion: closure) : closure)
     }
 
     private func dismiss(from controller: UIViewController?, completion: @escaping () -> ()) -> () -> () {
@@ -59,10 +60,10 @@ enum Result {
     case auth(Credentials)
     case error(Error)
     case cancel
-    case signUp(String, [String: Any], Bool)
-    case forgotPassword(String, Bool)
+    case signUp(String, [String: Any])
+    case forgotPassword(String)
 }
 
 protocol Dispatcher {
-    func dispatch(result: Result)
+    func dispatch(result: Result, dismissLock: Bool)
 }

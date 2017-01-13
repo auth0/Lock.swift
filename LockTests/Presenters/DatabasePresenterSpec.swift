@@ -471,6 +471,14 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(messagePresenter.error).toEventually(beNil())
                     expect(messagePresenter.message).toEventually(beNil())
                 }
+
+                it("should show no success message") {
+                    interactor.onSignUp = {
+                        return nil
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(messagePresenter.message).toEventually(beNil())
+                }
                 
                 it("should show global error message") {
                     interactor.onSignUp = {
@@ -555,7 +563,26 @@ class DatabasePresenterSpec: QuickSpec {
                         expect(button.title).toEventually(contain("Sign up"))
                     }
 
+                context("no auto login or auto close") {
 
+                    beforeEach {
+                        options.loginAfterSignup = false
+                        options.allow = [.Signup]
+                        options.autoClose = []
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                        presenter.messagePresenter = messagePresenter
+                        view = presenter.view as! DatabaseOnlyView
+                    }
+
+                    it("should show no success message") {
+                        interactor.onSignUp = {
+                            return nil
+                        }
+                        view.primaryButton?.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventually(beNil())
+                        expect(messagePresenter.message).toEventuallyNot(beNil())
+                    }
+                }
                 }
             }
 

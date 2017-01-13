@@ -72,7 +72,9 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
                         self.logger.error("Failed with error \(error)")
                     } else {
                         let message = "We've just sent you an email to reset your password".i18n(key: "com.auth0.lock.database.forgot.success.message", comment: "forgot password email sent")
-                        self.messagePresenter?.showSuccess(message)
+                        if self.options.allow.contains(.Login) || !self.options.autoClose.contains(.ResetPassword) {
+                            self.messagePresenter?.showSuccess(message)
+                        }
                         guard self.options.allow.contains(.Login) else { return }
                         self.navigator.navigate(.root)
                     }

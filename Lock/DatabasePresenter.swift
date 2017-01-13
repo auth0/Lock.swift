@@ -162,7 +162,9 @@ class DatabasePresenter: Presentable, Loggable {
                             if let databaseView = self.databaseView, self.options.allow.contains(.Login) {
                                 self.showLogin(inView: databaseView, identifier: self.creator.identifier)
                             }
-                            self.messagePresenter?.showSuccess(message)
+                            if self.options.allow.contains(.Login) || !self.options.autoClose.contains(.Signup) {
+                                self.messagePresenter?.showSuccess(message)
+                            }
                         }
                         return
                     }
