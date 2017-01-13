@@ -40,7 +40,6 @@ public protocol Options {
     var customSignupFields: [CustomTextField] { get }
     var loginAfterSignup: Bool { get }
 
-    // Enterprise
     var activeDirectoryEmailAsUsername: Bool { get }
     var enterpriseConnectionUsingActiveAuth: [String] { get }
 
