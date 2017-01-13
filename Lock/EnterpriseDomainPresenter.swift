@@ -28,8 +28,6 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
     var customLogger: Logger?
     var user: User
     var options: Options
-
-    // Social connections
     var authPresenter: AuthPresenter?
 
     init(interactor: EnterpriseDomainInteractor, navigator: Navigable, user: User, options: Options) {
@@ -46,7 +44,6 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let email = self.interactor.validEmail ? self.interactor.email : nil
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), isLogin: true)
 
-        // Single Enterprise Domain
         if let enterpriseButton = EnterpriseButton(forConnections: interactor.connections, customStyle: [:], isLogin: true, onAction: {
             self.interactor.login { error in
                 Queue.main.async {
@@ -57,7 +54,6 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
                         self.logger.debug("Enterprise authenticator launched")
                     }
                 }
-
         }}) {
             let view = EnterpriseDomainView(authButton: enterpriseButton, authCollectionView: authCollectionView)
             return view
@@ -86,7 +82,6 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         }
 
         let action = { [weak form] (button: PrimaryButton) in
-            // Check for credential auth
             if let connection = self.interactor.connection, self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 guard self.navigator?.navigate(.enterpriseActiveAuth(connection: connection)) == nil else { return }
             }
@@ -106,9 +101,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
                         self.logger.debug("Enterprise authenticator launched")
                     }
                 }
-
             }
-
         }
 
         view.primaryButton?.onPress = action

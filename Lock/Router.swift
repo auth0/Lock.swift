@@ -60,12 +60,10 @@ struct Router: Navigable {
             let authentication = self.lock.authentication
             let interactor = DatabaseInteractor(connection: database, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
             let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
-            // Add Social
             if !connections.oauth2.isEmpty {
                 let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
                 presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
             }
-            // Add Enterprise
             if !connections.enterprise.isEmpty {
                 let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
                 let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
@@ -76,9 +74,8 @@ struct Router: Navigable {
         if !connections.enterprise.isEmpty {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
             let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
-            // Single enterprise in active auth mode
             if let connection = interactor.connection, self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                return EnterpriseActiveAuth(connection)
+                return enterpriseActiveAuth(connection)
             }
             let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, user: self.user, options: self.lock.options)
             if !connections.oauth2.isEmpty {
@@ -119,7 +116,7 @@ struct Router: Navigable {
         return presenter
     }
 
-    func EnterpriseActiveAuth(_ connection: EnterpriseConnection) -> Presentable? {
+    func enterpriseActiveAuth(_ connection: EnterpriseConnection) -> Presentable? {
         let authentication = self.lock.authentication
         let interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
         let presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: self.lock.options)
@@ -174,7 +171,7 @@ struct Router: Navigable {
         case .multifactor:
             presentable = self.multifactor
         case .enterpriseActiveAuth(let connection):
-            presentable = self.EnterpriseActiveAuth(connection)
+            presentable = self.enterpriseActiveAuth(connection)
         case .unrecoverableError(let error):
             presentable = self.unrecoverableError(error)
         default:
