@@ -34,13 +34,15 @@ class ConnectionLoadingPresenterSpec: QuickSpec {
         var messagePresenter: MockMessagePresenter!
         var navigator: MockNavigator!
         var options: OptionBuildable!
+        var dispatcher: Dispatcher!
 
         beforeEach {
             options = LockOptions()
             messagePresenter = MockMessagePresenter()
             interactor = MockConnectionsLoader()
             navigator = MockNavigator()
-            presenter = ConnectionLoadingPresenter(loader: interactor, navigator: navigator, options: options)
+            dispatcher = ObserverStore()
+            presenter = ConnectionLoadingPresenter(loader: interactor, navigator: navigator, dispatcher: dispatcher, options: options)
             presenter.messagePresenter = messagePresenter
         }
 

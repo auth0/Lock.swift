@@ -34,7 +34,6 @@ struct DatabasePasswordInteractor: PasswordRecoverable {
     let authentication: Authentication
     let connections: Connections
     let emailValidator: InputValidator = EmailValidator()
-    let dispatcher: Dispatcher
 
     init(connections: Connections, authentication: Authentication, user: DatabaseUser, dispatcher: Dispatcher) {
         self.authentication = authentication
@@ -57,11 +56,11 @@ struct DatabasePasswordInteractor: PasswordRecoverable {
         self.authentication
             .resetPassword(email: email, connection: connection)
             .start {
-                guard case .success = $0 else { return callback(.emailNotSent) }
-                self.dispatcher.dispatch(result: .forgotPassword(email))
                 guard case .success = $0 else {
+                    callback(.emailNotSent)
                     return self.dispatcher.dispatch(result: .error(PasswordRecoverableError.emailNotSent))
                 }
+                self.dispatcher.dispatch(result: .forgotPassword(email))
                 callback(nil)
         }
     }

@@ -45,12 +45,14 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
             .start { result in
                 switch result {
                 case .success(let credentials):
-                    self.dispatcher.dispatch(result: .auth(credentials))
                     callback(nil)
+                    self.dispatcher.dispatch(result: .auth(credentials))
                 case .failure(WebAuthError.userCancelled):
                     callback(.cancelled)
+                    self.dispatcher.dispatch(result: .error(WebAuthError.userCancelled))
                 case .failure:
                     callback(.couldNotAuthenticate)
+                    self.dispatcher.dispatch(result: .error(OAuth2AuthenticatableError.couldNotAuthenticate))
                 }
             }
     }

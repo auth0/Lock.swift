@@ -82,8 +82,10 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
                 switch result {
                 case .failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
                     callback(.multifactorInvalid)
+                    self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.multifactorInvalid))
                 case .failure:
                     callback(.couldNotLogin)
+                    self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.couldNotLogin))
                 case .success(let credentials):
                     callback(nil)
                     self.dispatcher.dispatch(result: .auth(credentials))

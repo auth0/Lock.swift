@@ -45,9 +45,8 @@ class ConnectionLoadingPresenter: Presentable, Loggable {
                     }
                 #endif
                 return Queue.main.async {
-                    self.dispatcher.dispatch(result: .error(error!, {
-                        self.navigator.navigate(.unrecoverableError(error: error!))
-                    }))
+                    self.navigator.navigate(.unrecoverableError(error: error!))
+                    self.dispatcher.dispatch(result: .error(error!))
                 }
             }
             guard let connections = connections, !connections.isEmpty else {
