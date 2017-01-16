@@ -523,6 +523,40 @@ class DatabasePresenterSpec: QuickSpec {
                     button.onPress(button)
                     expect(button.inProgress).toEventually(beFalse())
                 }
+
+                context("no login after signup") {
+
+                    beforeEach {
+                        options.loginAfterSignup = false
+                    }
+
+                    it("should switch to login on success") {
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                        view = presenter.view as! DatabaseOnlyView
+                        
+                        let button = view.primaryButton!
+                        interactor.onSignUp = {
+                            return nil
+                        }
+                        button.onPress(button)
+                        expect(view.switcher!.selected).toEventually(equal(DatabaseModeSwitcher.Mode.login))
+                    }
+
+                    it("should remain on signup on success") {
+                        options.allow = .Signup
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                        view = presenter.view as! DatabaseOnlyView
+
+                        let button = view.primaryButton!
+                        interactor.onSignUp = {
+                            return nil
+                        }
+                        button.onPress(button)
+                        expect(button.title).toEventually(contain("Sign up"))
+                    }
+
+
+                }
             }
 
             describe("tos action") {
