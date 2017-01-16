@@ -149,7 +149,9 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                 case .failure(let cause as AuthenticationError) where cause.code == "invalid_password":
                     callback(.passwordInvalid, nil)
                 case .failure:
-                    callback(.couldNotCreateUser, nil)
+                    self.dispatcher.dispatch(result: .error(DatabaseUserCreatorError.couldNotCreateUser, {
+                        callback(.couldNotCreateUser, nil)
+                    }))
                 }
         }
     }
