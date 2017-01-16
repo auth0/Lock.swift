@@ -29,36 +29,38 @@ struct ObserverStore: Dispatcher {
     var onCancel: () -> () = {  }
     var onSignUp: (String, [String: Any]) -> () = { _ in }
     var onForgotPassword: (String) -> () = { _ in }
-    var options: Options
+    var options: Options = LockOptions()
 
     weak var controller: UIViewController?
 
-    init(options: Options = LockOptions()) {
-        self.options = options
-    }
-
     func dispatch(result: Result) {
-        let dismissLock: Bool
         let closure: () -> ()
         switch result {
         case .auth(let credentials):
-            dismissLock = true
-            closure = { self.onAuth(credentials) }
+            if self.options.autoClose {
+                closure = dismiss(from: controller?.presentingViewController, completion: { self.onAuth(credentials) })
+            } else {
+                closure = { self.onAuth(credentials) }
+            }
         case .error(let error):
-            dismissLock = false
             closure = { self.onFailure(error) }
         case .cancel:
-            dismissLock = true
-            closure = { self.onCancel() }
+            closure = dismiss(from: controller?.presentingViewController, completion: { self.onCancel() })
         case .signUp(let email, let attributes):
-            dismissLock = !self.options.allow.contains(.Login) && self.options.autoClose.contains(.Signup)
-            closure = { self.onSignUp(email, attributes) }
+            if !self.options.allow.contains(.Login) && self.options.autoClose {
+                closure = dismiss(from: controller?.presentingViewController, completion: { self.onSignUp(email, attributes) })
+            } else {
+                closure = { self.onSignUp(email, attributes) }
+            }
         case .forgotPassword(let email):
-            dismissLock = !self.options.allow.contains(.Login) && self.options.autoClose.contains(.ResetPassword)
-            closure = { self.onForgotPassword(email) }
+            if !self.options.allow.contains(.Login) && self.options.autoClose {
+                closure = dismiss(from: controller?.presentingViewController, completion: { self.onForgotPassword(email) })
+            } else {
+                closure = { self.onForgotPassword(email) }
+            }
         }
 
-        Queue.main.async(dismissLock ? dismiss(from: controller?.presentingViewController, completion: closure) : closure)
+        Queue.main.async(closure)
     }
 
     private func dismiss(from controller: UIViewController?, completion: @escaping () -> ()) -> () -> () {

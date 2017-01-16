@@ -35,7 +35,7 @@ public protocol Options {
     var scope: String { get }
     var parameters: [String: Any] { get }
     var allow: DatabaseMode { get }
-    var autoClose: DatabaseMode { get }
+    var autoClose: Bool { get }
     var initialScreen: DatabaseScreen { get }
     var usernameStyle: DatabaseIdentifierStyle { get }
     var customSignupFields: [CustomTextField] { get }

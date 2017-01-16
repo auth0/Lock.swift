@@ -307,7 +307,16 @@ class DatabasePresenterSpec: QuickSpec {
                     view.primaryButton?.onPress(view.primaryButton!)
                     expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.couldNotLogin))
                 }
-                
+
+                it("should show no success message") {
+                    interactor.onLogin = {
+                        return nil
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(messagePresenter.error).toEventually(beNil())
+                    expect(messagePresenter.message).toEventually(beNil())
+                }
+
                 it("should navigate to multifactor required screen") {
                     interactor.onLogin = {
                         return .multifactorRequired
@@ -348,6 +357,20 @@ class DatabasePresenterSpec: QuickSpec {
                     let button = view.secondaryButton!
                     button.onPress(button)
                     expect(navigator.route).toEventually(equal(Route.forgotPassword))
+                }
+
+                it("should always show terms button in signup") {
+                    var options = LockOptions()
+                    options.autoClose = false
+                    presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                    presenter.messagePresenter = messagePresenter
+                    view = presenter.view as! DatabaseOnlyView
+                    interactor.onLogin = {
+                        return nil
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(messagePresenter.error).toEventually(beNil())
+                    expect(messagePresenter.message).toEventuallyNot(beNil())
                 }
             }
         }
@@ -568,7 +591,7 @@ class DatabasePresenterSpec: QuickSpec {
                     beforeEach {
                         options.loginAfterSignup = false
                         options.allow = [.Signup]
-                        options.autoClose = []
+                        options.autoClose = false
                         presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
                         presenter.messagePresenter = messagePresenter
                         view = presenter.view as! DatabaseOnlyView

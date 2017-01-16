@@ -89,8 +89,8 @@ class OptionsSpec: QuickSpec {
                 expect(options.audience).to(beNil())
             }
 
-            it("should have all database modes auto close enabled") {
-                expect(options.autoClose) == [.Login, .Signup, .ResetPassword]
+            it("should be auto closeable") {
+                expect(options.autoClose) == true
             }
         }
 
@@ -131,20 +131,20 @@ class OptionsSpec: QuickSpec {
             context("auto close") {
 
                 it("should fail when autoclose is empty and no .Login allowed") {
-                    options.autoClose = []
+                    options.autoClose = false
                     options.allow = [.Signup, .ResetPassword]
                     expect(options.validate()).toNot(beNil())
                 }
 
-                it("should pass when autoclose has single screen and matching allowed screen") {
-                    options.autoClose = [.ResetPassword]
+                it("should fail autoclose disabled and single screen") {
+                    options.autoClose = false
                     options.allow = [.ResetPassword]
-                    expect(options.validate()).to(beNil())
+                    expect(options.validate()).toNot(beNil())
                 }
 
                 it("should pass when autoclose empty, no login, but closeable set") {
                     options.closable = true
-                    options.autoClose = []
+                    options.autoClose = false
                     options.allow = [.Signup, .ResetPassword]
                     expect(options.validate()).to(beNil())
                 }

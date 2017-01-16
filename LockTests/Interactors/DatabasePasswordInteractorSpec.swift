@@ -39,7 +39,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
         }
 
         describe("init") {
-            let database = DatabasePasswordInteractor(connections: OfflineConnections(), authentication: authentication, user: User(), options: LockOptions(), dispatcher: ObserverStore())
+            let database = DatabasePasswordInteractor(connections: OfflineConnections(), authentication: authentication, user: User(), dispatcher: ObserverStore())
 
             it("should build with authentication") {
                 expect(database).toNot(beNil())
@@ -54,16 +54,14 @@ class DatabasePasswordInteractorSpec: QuickSpec {
         var user: User!
         var connections: OfflineConnections!
         var forgot: DatabasePasswordInteractor!
-        var options: OptionBuildable!
         var dispatcher: Dispatcher!
 
         beforeEach {
-            options = LockOptions()
             dispatcher = ObserverStore()
             connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
             user = User()
-            forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
+            forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, dispatcher: dispatcher)
         }
 
         describe("updateEmail") {
@@ -106,7 +104,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
         describe("request email") {
 
             it("should fail if no db connection is found") {
-                forgot = DatabasePasswordInteractor(connections: OfflineConnections(), authentication: authentication, user: user, options: options, dispatcher: dispatcher)
+                forgot = DatabasePasswordInteractor(connections: OfflineConnections(), authentication: authentication, user: user, dispatcher: dispatcher)
                 try! forgot.updateEmail(email)
                 waitUntil(timeout: 2) { done in
                     forgot.requestEmail { error in
@@ -145,92 +143,6 @@ class DatabasePasswordInteractorSpec: QuickSpec {
                         done()
                     }
                 }
-            }
-
-            // TODO: Check why it fails only in travis
-            pending("controller displayed") {
-
-                var userEmail: String?
-                var controller: MockLockController!
-                var presenter: MockController!
-                var dispatcher: ObserverStore!
-
-                beforeEach {
-                    options = LockOptions()
-                    dispatcher = ObserverStore()
-                    presenter = MockController()
-                    controller = MockLockController(lock: Lock())
-                    presenter.presented = controller
-                    controller.presenting = presenter
-                    dispatcher.controller = controller
-
-                    userEmail = nil
-                    dispatcher.onForgotPassword = { email in
-                        userEmail = email
-                    }
-                    forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
-                    stub(condition: databaseForgotPassword(email: email, connection: connection)) { _ in return Auth0Stubs.forgotEmailSent() }
-                }
-
-                it("should dispatch forgotPassword event") {
-                    try! forgot.updateEmail(email)
-                    forgot.requestEmail { _ in }
-                    expect(userEmail).toEventually(equal(email))
-                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 4)
-                }
-
-                context("no login screen") {
-
-                    it("should dispatch forgotPassword event and dismiss lock") {
-                        options.allow = .ResetPassword
-                        dispatcher.options = options
-                        forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
-                        
-                        try! forgot.updateEmail(email)
-                        forgot.requestEmail { _ in }
-                        expect(userEmail).toEventually(equal(email))
-                        expect(presenter.presented).toEventually(beNil(), timeout: 2)
-                    }
-
-                    it("should dispatch forgotPassword event and dismiss lock") {
-                        options.allow = [.ResetPassword, .Signup]
-                        dispatcher.options = options
-                        forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
-
-                        try! forgot.updateEmail(email)
-                        forgot.requestEmail { _ in }
-                        expect(userEmail).toEventually(equal(email))
-                        expect(presenter.presented).toEventually(beNil(), timeout: 2)
-                    }
-
-                    context("disable auto close") {
-
-                        it("should dispatch forgotPassword and stay on screen") {
-                            options.autoClose = []
-                            dispatcher.options = options
-                            forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
-
-                            try! forgot.updateEmail(email)
-                            forgot.requestEmail { _ in }
-                            expect(userEmail).toEventually(equal(email))
-                            expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
-                        }
-
-                        it("should dispatch forgotPassword event and stay on screen") {
-                            options.allow = [.ResetPassword]
-                            options.autoClose = []
-                            dispatcher.options = options
-                            forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
-
-                            try! forgot.updateEmail(email)
-                            forgot.requestEmail { _ in }
-                            expect(userEmail).toEventually(equal(email))
-                            expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
-                        }
-                    }
-
-                }
-                
             }
         }
     }

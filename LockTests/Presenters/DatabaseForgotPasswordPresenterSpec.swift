@@ -213,7 +213,7 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
 
                     it("should show global success message") {
                         options.allow = .ResetPassword
-                        options.autoClose = []
+                        options.autoClose = false
                         presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
                         presenter.messagePresenter = messagePresenter
                         view = presenter.view as! DatabaseForgotPasswordView

@@ -32,15 +32,13 @@ struct DatabasePasswordInteractor: PasswordRecoverable {
     var validEmail: Bool { return self.user.validEmail }
 
     let authentication: Authentication
-    let options: Options
     let connections: Connections
     let emailValidator: InputValidator = EmailValidator()
 
-    init(connections: Connections, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
+    init(connections: Connections, authentication: Authentication, user: DatabaseUser, dispatcher: Dispatcher) {
         self.authentication = authentication
         self.connections = connections
         self.user = user
-        self.options = options
         self.dispatcher = dispatcher
     }
 

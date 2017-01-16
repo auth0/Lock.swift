@@ -54,8 +54,8 @@ public protocol OptionBuildable: Options {
         /// What database modes are allowed and must be at least one. By default all modes are allowed.
     var allow: DatabaseMode { get set }
 
-        /// What database modes can be automatically closed upon success. By default all modes are auto closable.
-    var autoClose: DatabaseMode { get set }
+        /// Should Lock close if only mode available. By default is true
+    var autoClose: Bool { get set }
 
         /// Initial screen displayed by Lock when a database connection is available. By default is Login
     var initialScreen: DatabaseScreen { get set }
@@ -90,7 +90,7 @@ internal extension OptionBuildable {
     func validate() -> UnrecoverableError? {
         guard !self.allow.isEmpty else { return UnrecoverableError.invalidOptions(cause: "Must allow at least one database mode") }
         guard !self.usernameStyle.isEmpty else { return UnrecoverableError.invalidOptions(cause: "Must specify at least one username style") }
-        guard self.allow.contains(.Login) || self.closable || self.autoClose.contains(self.allow) else { return UnrecoverableError.invalidOptions(cause: "Must enable autoclose for database mode or enable closable") }
+        guard self.allow.contains(.Login) || self.closable || self.autoClose else { return UnrecoverableError.invalidOptions(cause: "Must enable autoclose or enable closable") }
         return nil
     }
 }

@@ -37,7 +37,7 @@ public class Lock: NSObject {
     var optionsBuilder: OptionBuildable = LockOptions()
     var options: Options { return self.optionsBuilder }
 
-    var observerStore = ObserverStore(options: LockOptions())
+    var observerStore = ObserverStore()
 
     var style: Style = Style()
 

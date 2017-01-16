@@ -100,12 +100,40 @@ class ObserverStoreSpec: QuickSpec {
                     expect(presenter.presented).toEventually(beNil(), timeout: 2)
                 }
 
+                it("should not dismiss onAuth when autoclose disabled") {
+                    let value = mockCredentials()
+                    var options = LockOptions()
+                    options.autoClose = false
+                    dispatcher.options = options
+                    dispatcher.dispatch(result: .auth(value))
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+                }
+
                 it("should dismiss onCancel") {
                     dispatcher.dispatch(result: .cancel)
                     expect(presenter.presented).toEventually(beNil(), timeout: 2)
                 }
-                
+
                 it("should not dismiss onSignUp") {
+                    dispatcher.dispatch(result: .signUp(email, ["username": username]))
+                    expect(newEmail).toEventually(equal(email))
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+                }
+
+                it("should dismiss onSignUp when single screen") {
+                    var options = LockOptions()
+                    options.allow = [.Signup]
+                    dispatcher.options = options
+                    dispatcher.dispatch(result: .signUp(email, ["username": username]))
+                    expect(newEmail).toEventually(equal(email))
+                    expect(presenter.presented).toEventually(beNil(), timeout: 2)
+                }
+
+                it("should not dismiss onSignUp when single screen but autoclose disabled") {
+                    var options = LockOptions()
+                    options.allow = [.Signup]
+                    options.autoClose = false
+                    dispatcher.options = options
                     dispatcher.dispatch(result: .signUp(email, ["username": username]))
                     expect(newEmail).toEventually(equal(email))
                     expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
@@ -115,6 +143,26 @@ class ObserverStoreSpec: QuickSpec {
                     dispatcher.dispatch(result: .forgotPassword(email))
                     expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
                 }
+
+                it("should dismiss forgotPassword when single screen") {
+                    var options = LockOptions()
+                    options.allow = [.ResetPassword]
+                    dispatcher.options = options
+                    dispatcher.dispatch(result: .forgotPassword(email))
+                    expect(newEmail).toEventually(equal(email))
+                    expect(presenter.presented).toEventually(beNil(), timeout: 2)
+                }
+
+                it("should not dismiss forgotPassword when single screen but autoclose disabled") {
+                    var options = LockOptions()
+                    options.allow = [.ResetPassword]
+                    options.autoClose = false
+                    dispatcher.options = options
+                    dispatcher.dispatch(result: .forgotPassword(email))
+                    expect(newEmail).toEventually(equal(email))
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+                }
+
             }
         }
     }

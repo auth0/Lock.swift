@@ -102,6 +102,10 @@ class DatabasePresenter: Presentable, Loggable {
                     button.inProgress = false
                     guard let error = error else {
                         self.logger.debug("Logged in!")
+                        let message = "You have logged in successfully.".i18n(key: "com.auth0.lock.database.login.success.message", comment: "User logged in")
+                        if !self.options.autoClose {
+                            self.messagePresenter?.showSuccess(message)
+                        }
                         return
                     }
                     if case DatabaseAuthenticatableError.multifactorRequired = error {
@@ -162,7 +166,7 @@ class DatabasePresenter: Presentable, Loggable {
                             if let databaseView = self.databaseView, self.options.allow.contains(.Login) {
                                 self.showLogin(inView: databaseView, identifier: self.creator.identifier)
                             }
-                            if self.options.allow.contains(.Login) || !self.options.autoClose.contains(.Signup) {
+                            if self.options.allow.contains(.Login) || !self.options.autoClose {
                                 self.messagePresenter?.showSuccess(message)
                             }
                         }
