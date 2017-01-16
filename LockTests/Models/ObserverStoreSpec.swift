@@ -49,34 +49,34 @@ class ObserverStoreSpec: QuickSpec {
                 store.onAuth = { credentials = $0 }
                 store.onCancel = { closed = true }
                 store.onSignUp = { newEmail = $0; newAttributes = $1 }
-                store.onForgetPassword = { newEmail = $0 }
+                store.onForgotPassword = { newEmail = $0 }
                 dispatcher = store
             }
 
             it("should dispatch errors") {
-                dispatcher.dispatch(result: .error(UnrecoverableError.invalidClientOrDomain), dismissLock: false)
+                dispatcher.dispatch(result: .error(UnrecoverableError.invalidClientOrDomain))
                 expect(error).toEventuallyNot(beNil())
             }
 
             it("should dispatch credentials") {
                 let value = mockCredentials()
-                dispatcher.dispatch(result: .auth(value), dismissLock: false)
+                dispatcher.dispatch(result: .auth(value))
                 expect(credentials).toEventually(equal(value))
             }
 
             it("should dispatch when lock is dismissed") {
-                dispatcher.dispatch(result: .cancel, dismissLock: false)
+                dispatcher.dispatch(result: .cancel)
                 expect(closed).toEventually(beTrue())
             }
 
             it("should disptach when user signs up") {
-                dispatcher.dispatch(result: .signUp(email, ["username": username]), dismissLock: false)
+                dispatcher.dispatch(result: .signUp(email, ["username": username]))
                 expect(newEmail).toEventually(equal(email))
                 expect(newAttributes?["username"] as? String).toEventually(equal(username))
             }
 
             it("should disptach when user requests password") {
-                dispatcher.dispatch(result: .forgotPassword(email), dismissLock: false)
+                dispatcher.dispatch(result: .forgotPassword(email))
                 expect(newEmail).toEventually(equal(email))
             }
 
@@ -96,24 +96,24 @@ class ObserverStoreSpec: QuickSpec {
 
                 it("should dismiss onAuth") {
                     let value = mockCredentials()
-                    dispatcher.dispatch(result: .auth(value), dismissLock: true)
+                    dispatcher.dispatch(result: .auth(value))
                     expect(presenter.presented).toEventually(beNil(), timeout: 2)
                 }
 
                 it("should dismiss onCancel") {
-                    dispatcher.dispatch(result: .cancel, dismissLock: true)
+                    dispatcher.dispatch(result: .cancel)
                     expect(presenter.presented).toEventually(beNil(), timeout: 2)
                 }
                 
-                it("should dismiss onSignUp") {
-                    dispatcher.dispatch(result: .signUp(email, ["username": username]), dismissLock: true)
+                it("should not dismiss onSignUp") {
+                    dispatcher.dispatch(result: .signUp(email, ["username": username]))
                     expect(newEmail).toEventually(equal(email))
-                    expect(presenter.presented).toEventually(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
                 }
 
-                it("should dismiss forgotPassword") {
-                    dispatcher.dispatch(result: .forgotPassword(email), dismissLock: true)
-                    expect(presenter.presented).toEventually(beNil(), timeout: 2)
+                it("should not dismiss forgotPassword") {
+                    dispatcher.dispatch(result: .forgotPassword(email))
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
                 }
             }
         }

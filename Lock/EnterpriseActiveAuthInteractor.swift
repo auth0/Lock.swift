@@ -151,7 +151,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
         case .success(let credentials):
             self.logger.info("Authenticated user <\(self.identifier)>")
             callback(nil)
-            self.dispatcher.dispatch(result: .auth(credentials), dismissLock: true)
+            self.dispatcher.dispatch(result: .auth(credentials))
         }
     }
 

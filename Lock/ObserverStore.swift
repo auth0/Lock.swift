@@ -28,23 +28,34 @@ struct ObserverStore: Dispatcher {
     var onFailure: (Error) -> () = { _ in }
     var onCancel: () -> () = {  }
     var onSignUp: (String, [String: Any]) -> () = { _ in }
-    var onForgetPassword: (String) -> () = { _ in }
+    var onForgotPassword: (String) -> () = { _ in }
+    var options: Options
 
     weak var controller: UIViewController?
 
-    func dispatch(result: Result, dismissLock: Bool) {
+    init(options: Options = LockOptions()) {
+        self.options = options
+    }
+
+    func dispatch(result: Result) {
+        let dismissLock: Bool
         let closure: () -> ()
         switch result {
         case .auth(let credentials):
+            dismissLock = true
             closure = { self.onAuth(credentials) }
         case .error(let error):
+            dismissLock = false
             closure = { self.onFailure(error) }
         case .cancel:
+            dismissLock = true
             closure = { self.onCancel() }
         case .signUp(let email, let attributes):
+            dismissLock = !self.options.allow.contains(.Login) && self.options.autoClose.contains(.Signup)
             closure = { self.onSignUp(email, attributes) }
         case .forgotPassword(let email):
-            closure = { self.onForgetPassword(email) }
+            dismissLock = !self.options.allow.contains(.Login) && self.options.autoClose.contains(.ResetPassword)
+            closure = { self.onForgotPassword(email) }
         }
 
         Queue.main.async(dismissLock ? dismiss(from: controller?.presentingViewController, completion: closure) : closure)
@@ -65,5 +76,5 @@ enum Result {
 }
 
 protocol Dispatcher {
-    func dispatch(result: Result, dismissLock: Bool)
+    func dispatch(result: Result)
 }

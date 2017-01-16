@@ -156,6 +156,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
                 var dispatcher: ObserverStore!
 
                 beforeEach {
+                    options = LockOptions()
                     dispatcher = ObserverStore()
                     presenter = MockController()
                     controller = MockLockController(lock: Lock())
@@ -164,8 +165,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
                     dispatcher.controller = controller
 
                     userEmail = nil
-                    options = LockOptions()
-                    dispatcher.onForgetPassword = { email in
+                    dispatcher.onForgotPassword = { email in
                         userEmail = email
                     }
                     forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
@@ -183,6 +183,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
 
                     it("should dispatch forgotPassword event and dismiss lock") {
                         options.allow = .ResetPassword
+                        dispatcher.options = options
                         forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
                         
                         try! forgot.updateEmail(email)
@@ -193,6 +194,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
 
                     it("should dispatch forgotPassword event and dismiss lock") {
                         options.allow = [.ResetPassword, .Signup]
+                        dispatcher.options = options
                         forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
 
                         try! forgot.updateEmail(email)
@@ -205,6 +207,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
 
                         it("should dispatch forgotPassword and stay on screen") {
                             options.autoClose = []
+                            dispatcher.options = options
                             forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
 
                             try! forgot.updateEmail(email)
@@ -216,6 +219,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
                         it("should dispatch forgotPassword event and stay on screen") {
                             options.allow = [.ResetPassword]
                             options.autoClose = []
+                            dispatcher.options = options
                             forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
 
                             try! forgot.updateEmail(email)

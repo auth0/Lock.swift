@@ -135,7 +135,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                             "verified": user.verified
                         ]
                         extra["username"] = user.username
-                        self.dispatcher.dispatch(result: .signUp(user.email, extra), dismissLock: !self.options.allow.contains(.Login) && self.options.autoClose.contains(.Signup))
+                        self.dispatcher.dispatch(result: .signUp(user.email, extra))
                         callback(nil, nil)
                     }
                 case .failure(let cause as AuthenticationError) where cause.isPasswordNotStrongEnough:
@@ -204,7 +204,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         case .success(let credentials):
             self.logger.info("Authenticated user <\(self.identifier)>")
             callback(nil)
-            self.dispatcher.dispatch(result: .auth(credentials), dismissLock: true)
+            self.dispatcher.dispatch(result: .auth(credentials))
         }
     }
 }

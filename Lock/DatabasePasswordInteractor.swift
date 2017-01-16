@@ -59,7 +59,7 @@ struct DatabasePasswordInteractor: PasswordRecoverable {
             .resetPassword(email: email, connection: connection)
             .start {
                 guard case .success = $0 else { return callback(.emailNotSent) }
-                self.dispatcher.dispatch(result: .forgotPassword(email), dismissLock: !self.options.allow.contains(.Login) && self.options.autoClose.contains(.ResetPassword))
+                self.dispatcher.dispatch(result: .forgotPassword(email))
                 callback(nil)
         }
     }

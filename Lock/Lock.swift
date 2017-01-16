@@ -37,7 +37,7 @@ public class Lock: NSObject {
     var optionsBuilder: OptionBuildable = LockOptions()
     var options: Options { return self.optionsBuilder }
 
-    var observerStore = ObserverStore()
+    var observerStore = ObserverStore(options: LockOptions())
 
     var style: Style = Style()
 
@@ -147,6 +147,7 @@ public class Lock: NSObject {
         var builder: OptionBuildable = self.optionsBuilder
         closure(&builder)
         self.optionsBuilder = builder
+        self.observerStore.options = self.options
         _ = self.authentication.logging(enabled: self.options.logHttpRequest)
         _ = self.webAuth.logging(enabled: self.options.logHttpRequest)
         return self
