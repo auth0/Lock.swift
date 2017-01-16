@@ -1,6 +1,6 @@
-// DatabaseForgotPasswordView.swift
+// UnrecoverableErrorView.swift
 //
-// Copyright (c) 2016 Auth0 (http://auth0.com)
+// Copyright (c) 2017 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,23 @@
 
 import UIKit
 
-class DatabaseForgotPasswordView: UIView, View {
+class UnrecoverableErrorView: UIView, View {
 
-    weak var form: Form?
     weak var primaryButton: PrimaryButton?
+    weak var label: UILabel?
 
-    init(email: String?) {
+    init(message: String) {
         let primaryButton = PrimaryButton()
-        let forgotView = SingleInputView()
         let center = UILayoutGuide()
+        let label = UILabel()
 
         self.primaryButton = primaryButton
-        self.form = forgotView
+        self.label = label
 
         super.init(frame: CGRect.zero)
 
-        self.addSubview(forgotView)
         self.addSubview(primaryButton)
+        self.addSubview(label)
         self.addLayoutGuide(center)
 
         constraintEqual(anchor: center.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
@@ -46,22 +46,21 @@ class DatabaseForgotPasswordView: UIView, View {
         constraintEqual(anchor: center.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
         constraintEqual(anchor: center.bottomAnchor, toAnchor: primaryButton.topAnchor)
 
-        constraintEqual(anchor: forgotView.leftAnchor, toAnchor: center.leftAnchor)
-        constraintEqual(anchor: forgotView.rightAnchor, toAnchor: center.rightAnchor)
-        constraintEqual(anchor: forgotView.centerYAnchor, toAnchor: center.centerYAnchor, constant: -20)
-        constraintGreaterOrEqual(anchor: forgotView.topAnchor, toAnchor: center.topAnchor)
-        forgotView.translatesAutoresizingMaskIntoConstraints = false
+        constraintEqual(anchor: label.leftAnchor, toAnchor: center.leftAnchor)
+        constraintEqual(anchor: label.rightAnchor, toAnchor: center.rightAnchor)
+        constraintEqual(anchor: label.centerYAnchor, toAnchor: center.centerYAnchor, constant: -20)
+        label.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
 
-        primaryButton.title = "Send Email".i18n(key: "com.auth0.lock.submit.send-email.title", comment: "Send Email button title")
-        forgotView.type = .email
-        forgotView.returnKey = .done
-        forgotView.message = "Please enter your email and the new password. We will send you an email to confirm the password change.".i18n(key: "com.auth0.lock.forgot.message", comment: "Forgot Password message")
-        forgotView.value = email
+        label.text = message
+        label.textAlignment = .center
+        label.numberOfLines = 3
+        label.font = mediumSystemFont(size: 16)
+        primaryButton.title = "Retry".i18n(key: "com.auth0.lock.submit.retry", comment: "Retry")
     }
 
     required init?(coder aDecoder: NSCoder) {

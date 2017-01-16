@@ -1,4 +1,4 @@
-// Options.swift
+// UnrecoverableErrorPresenter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,27 +22,22 @@
 
 import Foundation
 
-public protocol Options {
-    var closable: Bool { get }
+class UnrecoverableErrorPresenter: Presentable, Loggable {
+    let navigator: Navigable
+    let error: UnrecoverableError
 
-    var termsOfServiceURL: URL { get }
-    var privacyPolicyURL: URL { get }
+    var messagePresenter: MessagePresenter?
 
-    var logLevel: LoggerLevel { get }
-    var loggerOutput: LoggerOutput? { get }
-    var logHttpRequest: Bool { get }
+    init(error: UnrecoverableError, navigator: Navigable) {
+        self.navigator = navigator
+        self.error = error
+    }
 
-    var scope: String { get }
-    var parameters: [String: Any] { get }
-    var allow: DatabaseMode { get }
-    var initialScreen: DatabaseScreen { get }
-    var usernameStyle: DatabaseIdentifierStyle { get }
-    var customSignupFields: [CustomTextField] { get }
-    var loginAfterSignup: Bool { get }
-
-    var activeDirectoryEmailAsUsername: Bool { get }
-    var enterpriseConnectionUsingActiveAuth: [String] { get }
-
-    var oidcConformant: Bool { get }
-    var audience: String? { get }
+    var view: View {
+        let view = UnrecoverableErrorView(message: self.error.localizableMessage)
+        view.primaryButton?.onPress = { _ in
+            self.navigator.navigate(.root)
+        }
+        return view
+    }
 }

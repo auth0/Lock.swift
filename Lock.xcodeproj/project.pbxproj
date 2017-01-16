@@ -19,6 +19,11 @@
 		5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */; };
 		5B4DE0171DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */; };
 		5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */; };
+		5B54CDC41E25200900F0AFFF /* UnrecoverableErrorPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54CDC31E25200900F0AFFF /* UnrecoverableErrorPresenterSpec.swift */; };
+		5B55F3C91E24273D00B75CF5 /* UnrecoverableErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B55F3C81E24273D00B75CF5 /* UnrecoverableErrorView.swift */; };
+		5B55F3CB1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B55F3CA1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift */; };
+		5B55F3D11E244B8700B75CF5 /* UnrecoverableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B55F3D01E244B8700B75CF5 /* UnrecoverableError.swift */; };
+		5B55F3D41E24FFD000B75CF5 /* UnrecoverableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B55F3D21E24F3F000B75CF5 /* UnrecoverableErrorSpec.swift */; };
 		5B6631531DDB9B28001CB043 /* EnterpriseDomainInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */; };
 		5BA563F11DD117550002D3AB /* EnterpriseActiveAuthInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA563EF1DD1171F0002D3AB /* EnterpriseActiveAuthInteractorSpec.swift */; };
 		5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */; };
@@ -209,6 +214,11 @@
 		5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainInteractor.swift; path = Lock/EnterpriseDomainInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthPresenter.swift; path = Lock/EnterpriseActiveAuthPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthView.swift; path = Lock/EnterpriseActiveAuthView.swift; sourceTree = SOURCE_ROOT; };
+		5B54CDC31E25200900F0AFFF /* UnrecoverableErrorPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnrecoverableErrorPresenterSpec.swift; sourceTree = "<group>"; };
+		5B55F3C81E24273D00B75CF5 /* UnrecoverableErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnrecoverableErrorView.swift; sourceTree = "<group>"; };
+		5B55F3CA1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UnrecoverableErrorPresenter.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		5B55F3D01E244B8700B75CF5 /* UnrecoverableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnrecoverableError.swift; sourceTree = "<group>"; };
+		5B55F3D21E24F3F000B75CF5 /* UnrecoverableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnrecoverableErrorSpec.swift; sourceTree = "<group>"; };
 		5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainInteractorSpec.swift; sourceTree = "<group>"; };
 		5BA563EF1DD1171F0002D3AB /* EnterpriseActiveAuthInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthInteractorSpec.swift; sourceTree = "<group>"; };
 		5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
@@ -221,7 +231,7 @@
 		5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionLoadingPresenter.swift; path = Lock/ConnectionLoadingPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5F1C49921D8360DF005B74FC /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingView.swift; path = Lock/LoadingView.swift; sourceTree = SOURCE_ROOT; };
 		5F1C49941D8360F5005B74FC /* RemoteConnectionLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteConnectionLoader.swift; path = Lock/RemoteConnectionLoader.swift; sourceTree = SOURCE_ROOT; };
-		5F1C49951D8360F5005B74FC /* CDNLoaderInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CDNLoaderInteractor.swift; path = Lock/CDNLoaderInteractor.swift; sourceTree = SOURCE_ROOT; };
+		5F1C49951D8360F5005B74FC /* CDNLoaderInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = CDNLoaderInteractor.swift; path = Lock/CDNLoaderInteractor.swift; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5F1C499A1D836190005B74FC /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTextField.swift; path = Lock/CustomTextField.swift; sourceTree = SOURCE_ROOT; };
 		5F2037C11D5D02880005D2E2 /* Matchers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matchers.swift; sourceTree = "<group>"; };
 		5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockViewControllerSpec.swift; sourceTree = "<group>"; };
@@ -311,7 +321,7 @@
 		5FDB41CD1D2C79FD00166B67 /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Operations.swift; path = Lock/Operations.swift; sourceTree = SOURCE_ROOT; };
 		5FDB41CF1D2C95B100166B67 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageView.swift; path = Lock/MessageView.swift; sourceTree = SOURCE_ROOT; };
 		5FDC876C1D46DAF200D28596 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Queue.swift; path = Lock/Queue.swift; sourceTree = SOURCE_ROOT; };
-		5FE50DBC1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNLoaderInteractorSpec.swift; sourceTree = "<group>"; };
+		5FE50DBC1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CDNLoaderInteractorSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5FE50DBE1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionLoadingPresenterSpec.swift; sourceTree = "<group>"; };
 		5FE50DC01D7DED8C00D82290 /* OfflineConnectionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineConnectionsSpec.swift; sourceTree = "<group>"; };
 		5FEADCF41D1A7EBC0032D810 /* LockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -377,6 +387,7 @@
 				5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */,
 				5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */,
 				5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */,
+				5B55F3D21E24F3F000B75CF5 /* UnrecoverableErrorSpec.swift */,
 			);
 			name = Errors;
 			sourceTree = "<group>";
@@ -392,6 +403,7 @@
 			isa = PBXGroup;
 			children = (
 				5F2496B51D665AA800A1C6E2 /* InputValidationError.swift */,
+				5B55F3D01E244B8700B75CF5 /* UnrecoverableError.swift */,
 				5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */,
 				5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */,
 			);
@@ -451,6 +463,7 @@
 			children = (
 				5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */,
 				5F1C49921D8360DF005B74FC /* LoadingView.swift */,
+				5B55F3C81E24273D00B75CF5 /* UnrecoverableErrorView.swift */,
 				5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */,
 				5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */,
 				5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */,
@@ -482,6 +495,7 @@
 				5FBE5CC91D3EA1380038536D /* MultifactorPresenterSpec.swift */,
 				5F57DFCD1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift */,
 				5FE50DBE1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift */,
+				5B54CDC31E25200900F0AFFF /* UnrecoverableErrorPresenterSpec.swift */,
 				5FB06A411E1329FA00E62F36 /* BannerMessagePresenterSpec.swift */,
 			);
 			path = Presenters;
@@ -581,6 +595,7 @@
 			isa = PBXGroup;
 			children = (
 				5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */,
+				5B55F3CA1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift */,
 				5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */,
 				5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */,
 				5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */,
@@ -961,6 +976,7 @@
 				5F1C499B1D836190005B74FC /* CustomTextField.swift in Sources */,
 				5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */,
 				5FB06A401E131D0300E62F36 /* BannerMessagePresenter.swift in Sources */,
+				5B55F3D11E244B8700B75CF5 /* UnrecoverableError.swift in Sources */,
 				5F70F1E71D790773004698DA /* OptionBuildable.swift in Sources */,
 				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5FF0B2281E1726C400A73257 /* CredentialAuth.swift in Sources */,
@@ -983,6 +999,7 @@
 				5B0971801DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift in Sources */,
 				5FC434861D1DF769005188BC /* View.swift in Sources */,
 				5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */,
+				5B55F3C91E24273D00B75CF5 /* UnrecoverableErrorView.swift in Sources */,
 				5B09717C1DC8F229003AA88F /* EnterpriseDomain.swift in Sources */,
 				5F51EE681D1C88FC0024BCD6 /* SignUpView.swift in Sources */,
 				5F57DFD41D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift in Sources */,
@@ -995,6 +1012,7 @@
 				5F70F1E11D790500004698DA /* Connections.swift in Sources */,
 				5F92C68F1D50EAC200CCE6C0 /* LazyImage.swift in Sources */,
 				5F2496BA1D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift in Sources */,
+				5B55F3CB1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift in Sources */,
 				5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
 				5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */,
 				5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */,
@@ -1042,6 +1060,7 @@
 				5F92C68B1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift in Sources */,
 				5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */,
 				5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */,
+				5B55F3D41E24FFD000B75CF5 /* UnrecoverableErrorSpec.swift in Sources */,
 				5F73CDDC1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift in Sources */,
 				5F2496AF1D66210500A1C6E2 /* LockViewControllerSpec.swift in Sources */,
 				5FA250501D48E2A200C544FA /* OptionsSpec.swift in Sources */,
@@ -1051,6 +1070,7 @@
 				5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */,
 				5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */,
 				5FA250521D48F08200C544FA /* LockSpec.swift in Sources */,
+				5B54CDC41E25200900F0AFFF /* UnrecoverableErrorPresenterSpec.swift in Sources */,
 				5F5F98DC1D22F0B40016FC22 /* RouterSpec.swift in Sources */,
 				5FBE5CCD1D3EDF960038536D /* UserSpec.swift in Sources */,
 				5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */,

@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class SignUpView: UIView, Form {
+class SignUpView: UIView, Form {
     var emailField: InputField
     var passwordField: InputField
     var usernameField: InputField?
@@ -66,7 +66,7 @@ public class SignUpView: UIView, Form {
 
     // MARK: - Initialisers
 
-    public init(additionalFields: [CustomTextField]) {
+    init(additionalFields: [CustomTextField]) {
         self.emailField = inputField(withType: .email)
         self.passwordField = inputField(withType: .password)
         var fields = [emailField, passwordField]
@@ -76,7 +76,7 @@ public class SignUpView: UIView, Form {
         self.layoutForm()
     }
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         self.emailField = inputField(withType: .email)
         self.passwordField = inputField(withType: .password)
         self.stackView = UIStackView(arrangedSubviews: [emailField, passwordField])
@@ -84,7 +84,7 @@ public class SignUpView: UIView, Form {
         self.layoutForm()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         self.emailField = inputField(withType: .email)
         self.passwordField = inputField(withType: .password)
         self.stackView = UIStackView(arrangedSubviews: [emailField, passwordField])

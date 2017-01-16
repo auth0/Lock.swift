@@ -53,19 +53,17 @@ struct Router: Navigable {
         guard !connections.isEmpty else {
             self.lock.logger.debug("No connections configured. Loading client info from Auth0...")
             let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
-            return ConnectionLoadingPresenter(loader: interactor, navigator: self)
+            return ConnectionLoadingPresenter(loader: interactor, navigator: self, options: self.lock.options)
         }
         if let database = connections.database {
             guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .resetPassword else { return forgotPassword }
             let authentication = self.lock.authentication
             let interactor = DatabaseInteractor(connection: database, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
             let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
-            // Add Social
             if !connections.oauth2.isEmpty {
                 let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
                 presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
             }
-            // Add Enterprise
             if !connections.enterprise.isEmpty {
                 let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
                 let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
@@ -76,9 +74,8 @@ struct Router: Navigable {
         if !connections.enterprise.isEmpty {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
             let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
-            // Single enterprise in active auth mode
             if let connection = interactor.connection, self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                return EnterpriseActiveAuth(connection)
+                return enterpriseActiveAuth(connection)
             }
             let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, user: self.user, options: self.lock.options)
             if !connections.oauth2.isEmpty {
@@ -119,11 +116,16 @@ struct Router: Navigable {
         return presenter
     }
 
-    func EnterpriseActiveAuth(_ connection: EnterpriseConnection) -> Presentable? {
+    func enterpriseActiveAuth(_ connection: EnterpriseConnection) -> Presentable? {
         let authentication = self.lock.authentication
         let interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
         let presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: self.lock.options)
         presenter.customLogger = self.lock.logger
+        return presenter
+    }
+
+    func unrecoverableError(_ error: UnrecoverableError) -> Presentable? {
+        let presenter = UnrecoverableErrorPresenter(error: error, navigator: self)
         return presenter
     }
 
@@ -169,7 +171,9 @@ struct Router: Navigable {
         case .multifactor:
             presentable = self.multifactor
         case .enterpriseActiveAuth(let connection):
-            presentable = self.EnterpriseActiveAuth(connection)
+            presentable = self.enterpriseActiveAuth(connection)
+        case .unrecoverableError(let error):
+            presentable = self.unrecoverableError(error)
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")
             return

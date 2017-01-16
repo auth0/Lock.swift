@@ -114,17 +114,13 @@ class DatabasePresenter: Presentable, Loggable {
                 }
             }
 
-            // Enterprise Authentication
             if let connection = self.enterpriseInteractor?.connection {
-                // Credential Auth
                 if self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                     self.navigator.navigate(.enterpriseActiveAuth(connection: connection))
                 } else {
-                    // OAuth
                     self.enterpriseInteractor?.login(errorHandler)
                 }
             } else {
-                // Database Authentication
                 self.authenticator.login(errorHandler)
             }
 
@@ -223,7 +219,7 @@ class DatabasePresenter: Presentable, Loggable {
         guard let attr = attribute else { return }
         do {
             try self.authenticator.update(attr, value: input.text)
-            // Check for Entperise domain match in login view
+
             if self.enterpriseInteractor?.matchDomain(input.text) != nil, let mode = self.databaseView?.switcher?.selected, mode == .login {
                 try self.enterpriseInteractor?.updateEmail(input.text)
                 self.logger.verbose("Enterprise connection detected: \(self.enterpriseInteractor?.connection)")

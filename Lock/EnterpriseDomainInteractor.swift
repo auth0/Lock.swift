@@ -37,7 +37,6 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
         self.connections = connections.enterprise
         self.authenticator = authentication
 
-        // Single Enterprise, defaulting connection
         if self.connections.count == 1 && connections.oauth2.isEmpty && connections.database == nil {
             self.connection = self.connections.first
         }
@@ -57,7 +56,6 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
             throw error
         }
         validEmail = true
-
         connection = matchDomain(value)
     }
 
