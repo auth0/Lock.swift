@@ -30,7 +30,7 @@ class EnterpriseActiveAuthView: UIView, View {
 
     private weak var container: UIStackView?
 
-    init(identifer: String?, identifierAttribute:UserAttribute, options: Options) {
+    init(identifer: String?, identifierAttribute:UserAttribute) {
         let primaryButton = PrimaryButton()
         let credentialView = CredentialView()
         let container = UIStackView()

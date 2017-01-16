@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class CredentialView: UIView, Form {
+class CredentialView: UIView, Form {
 
     var identityField: InputField
     var passwordField: InputField
@@ -50,18 +50,18 @@ public class CredentialView: UIView, Form {
 
     // MARK: - Initialisers
 
-    public convenience init() {
+    convenience init() {
         self.init(frame: CGRect.zero)
     }
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         self.identityField = InputField()
         self.passwordField = InputField()
         super.init(frame: frame)
         self.layoutForm()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         self.identityField = InputField()
         self.passwordField = InputField()
         super.init(coder: aDecoder)

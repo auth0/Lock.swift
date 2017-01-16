@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class InfoBarView: UIView {
+class InfoBarView: UIView {
 
     weak var container: UIView?
     weak var iconView: UIImageView?
@@ -38,16 +38,16 @@ public class InfoBarView: UIView {
         }
     }
 
-    public convenience init() {
+    convenience init() {
         self.init(frame: CGRect.zero)
     }
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
         self.layoutHeader()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.layoutHeader()
     }
@@ -91,7 +91,7 @@ public class InfoBarView: UIView {
         self.iconView?.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
     }
 
-    public override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 35)
     }
 

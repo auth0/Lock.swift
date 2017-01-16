@@ -22,7 +22,7 @@
 
 import UIKit
 
-public class SingleInputView: UIView, Form {
+class SingleInputView: UIView, Form {
     private var inputField: InputField
     private var titleView: UILabel
     private var messageView: UILabel
@@ -79,7 +79,7 @@ public class SingleInputView: UIView, Form {
 
     // MARK: - Initialisers
 
-    required override public init(frame: CGRect) {
+    required override init(frame: CGRect) {
         self.inputField = InputField()
         self.titleView = UILabel()
         self.messageView = UILabel()
@@ -88,11 +88,11 @@ public class SingleInputView: UIView, Form {
         self.layoutForm()
     }
 
-    public convenience init() {
+    convenience init() {
         self.init(frame: CGRect.zero)
     }
 
-    public required convenience init?(coder aDecoder: NSCoder) {
+    required convenience init?(coder aDecoder: NSCoder) {
         self.init(frame: CGRect.zero)
     }
 
@@ -121,7 +121,7 @@ public class SingleInputView: UIView, Form {
         inputField.returnKey = self.returnKey
     }
 
-    public override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize : CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 244)
     }
 }

@@ -27,7 +27,7 @@ class DatabaseForgotPasswordView: UIView, View {
     weak var form: Form?
     weak var primaryButton: PrimaryButton?
 
-    init(email: String?, options: Options) {
+    init(email: String?) {
         let primaryButton = PrimaryButton()
         let forgotView = SingleInputView()
         let center = UILayoutGuide()

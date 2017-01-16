@@ -41,7 +41,7 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
 
     var view: View {
         let email = self.interactor.validEmail ? self.interactor.email : nil
-        let view = DatabaseForgotPasswordView(email: email, options: options)
+        let view = DatabaseForgotPasswordView(email: email)
         let form = view.form
 
         view.form?.onValueChange = { input in
