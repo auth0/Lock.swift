@@ -37,9 +37,11 @@ class ConnectionLoadingPresenter: Presentable, Loggable {
     var view: View {
         self.loader.load { error, connections in
             guard error == nil else {
-                if let error = error as UnrecoverableError!, error.isFatal {
-                    assertionFailure(error.localizableMessage)
-                }
+                #if DEBUG
+                    if let error = error {
+                        assertionFailure(error.localizableMessage)
+                    }
+                #endif
                 return Queue.main.async {
                     self.navigator.navigate(.unrecoverableError(error: error!))
                 }
