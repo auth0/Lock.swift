@@ -104,7 +104,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 }
             }
 
-            context("remote connection errors") {
+            context("remote connectin errors") {
 
                 it("should return invalid client error") {
                     stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: Data(), statusCode: 403, headers: [:]) }

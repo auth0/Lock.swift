@@ -56,7 +56,10 @@ struct DatabasePasswordInteractor: PasswordRecoverable {
         self.authentication
             .resetPassword(email: email, connection: connection)
             .start {
-                guard case .success = $0 else { return callback(.emailNotSent) }
+                guard case .success = $0 else {
+                    callback(.emailNotSent)
+                    return self.dispatcher.dispatch(result: .error(PasswordRecoverableError.emailNotSent))
+                }
                 self.dispatcher.dispatch(result: .forgotPassword(email))
                 callback(nil)
         }

@@ -27,11 +27,13 @@ class ConnectionLoadingPresenter: Presentable, Loggable {
     let loader: RemoteConnectionLoader
     let navigator: Navigable
     let options: Options
+    let dispatcher: Dispatcher
 
-    init(loader: RemoteConnectionLoader, navigator: Navigable, options: Options) {
+    init(loader: RemoteConnectionLoader, navigator: Navigable, dispatcher: Dispatcher, options: Options) {
         self.loader = loader
         self.navigator = navigator
         self.options = options
+        self.dispatcher = dispatcher
     }
 
     var view: View {
@@ -44,9 +46,12 @@ class ConnectionLoadingPresenter: Presentable, Loggable {
                 #endif
                 return Queue.main.async {
                     self.navigator.navigate(.unrecoverableError(error: error!))
+                    self.dispatcher.dispatch(result: .error(error!))
                 }
             }
-            guard let connections = connections, !connections.isEmpty else { return self.navigator.exit(withError: UnrecoverableError.clientWithNoConnections) }
+            guard let connections = connections, !connections.isEmpty else {
+                return self.navigator.exit(withError: UnrecoverableError.clientWithNoConnections)
+            }
             Queue.main.async {
                 self.logger.debug("Loaded connections. Moving to root view")
                 self.navigator.reload(withConnections: connections)
