@@ -97,7 +97,7 @@ struct Router: Navigable {
             exit(withError: UnrecoverableError.clientWithNoConnections)
             return nil
         }
-        let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication, user: self.user)
+        let interactor = DatabasePasswordInteractor(connections: connections, authentication: self.lock.authentication, user: self.user, dispatcher: lock.observerStore)
         let presenter =  DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: self, options: self.lock.options)
         presenter.customLogger = self.lock.logger
         return presenter

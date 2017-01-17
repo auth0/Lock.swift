@@ -39,7 +39,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
         }
 
         describe("init") {
-            let database = DatabasePasswordInteractor(connections: OfflineConnections(), authentication: authentication, user: User())
+            let database = DatabasePasswordInteractor(connections: OfflineConnections(), authentication: authentication, user: User(), dispatcher: ObserverStore())
 
             it("should build with authentication") {
                 expect(database).toNot(beNil())
@@ -54,12 +54,14 @@ class DatabasePasswordInteractorSpec: QuickSpec {
         var user: User!
         var connections: OfflineConnections!
         var forgot: DatabasePasswordInteractor!
+        var dispatcher: Dispatcher!
 
         beforeEach {
+            dispatcher = ObserverStore()
             connections = OfflineConnections()
             connections.database(name: connection, requiresUsername: true)
             user = User()
-            forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user)
+            forgot = DatabasePasswordInteractor(connections: connections, authentication: authentication, user: user, dispatcher: dispatcher)
         }
 
         describe("updateEmail") {
@@ -102,7 +104,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
         describe("request email") {
 
             it("should fail if no db connection is found") {
-                forgot = DatabasePasswordInteractor(connections: OfflineConnections(), authentication: authentication, user: user)
+                forgot = DatabasePasswordInteractor(connections: OfflineConnections(), authentication: authentication, user: user, dispatcher: dispatcher)
                 try! forgot.updateEmail(email)
                 waitUntil(timeout: 2) { done in
                     forgot.requestEmail { error in
@@ -142,8 +144,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
                     }
                 }
             }
-
         }
     }
-
+    
 }

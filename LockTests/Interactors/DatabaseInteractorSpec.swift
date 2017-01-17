@@ -38,13 +38,16 @@ class DatabaseInteractorSpec: QuickSpec {
 
         describe("init") {
 
+            let options = LockOptions()
+            let dispatcher = ObserverStore()
+
             it("should build with authentication") {
-                let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, user: User(), options: LockOptions(), dispatcher: ObserverStore())
+                let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, user: User(), options: options, dispatcher: dispatcher)
                 expect(database).toNot(beNil())
             }
 
             it("should have authentication object") {
-                let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, user: User(), options: LockOptions(), dispatcher: ObserverStore())
+                let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, user: User(), options: options, dispatcher: dispatcher)
                 expect(database.credentialAuth.authentication.clientId) == "CLIENT_ID"
                 expect(database.credentialAuth.authentication.url.host) == "samples.auth0.com"
                 expect(database.credentialAuth.oidc) == false
@@ -56,12 +59,16 @@ class DatabaseInteractorSpec: QuickSpec {
         var database: DatabaseInteractor!
         var user: User!
         var options: OptionBuildable!
+        var dispatcher: ObserverStore!
 
         beforeEach {
+            options = LockOptions()
+            dispatcher = ObserverStore()
+
             Auth0Stubs.failUnknown()
             user = User()
             let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
-            database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
+            database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
         }
 
         describe("updateAttribute") {
@@ -559,7 +566,6 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
-            
         }
 
         describe("login OIDC Conformant") {
@@ -733,7 +739,6 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
-            
         }
 
         // MARK: - Signup
@@ -796,7 +801,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
-            context("Auto log in after sign up") {
+            context("auto log in after sign up") {
 
                 var options = LockOptions()
 
@@ -1020,48 +1025,6 @@ class DatabaseInteractorSpec: QuickSpec {
             }
         }
 
-        context("auto login disabled") {
-
-            var options: LockOptions!
-            var newUserEmail: String?
-
-            beforeEach {
-                newUserEmail = nil
-                options = LockOptions()
-                options.loginAfterSignup = false
-                var dispatcher = ObserverStore()
-                dispatcher.onSignUp = { email, _ in
-                    newUserEmail = email
-                }
-                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
-                database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
-                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
-                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
-            }
-
-            it("should only signup user") {
-                try! database.update(.email, value: email)
-                try! database.update(.username, value: username)
-                try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
-                    database.create { create, login in
-                        expect(create).to(beNil())
-                        expect(login).to(beNil())
-                        done()
-                    }
-                }
-            }
-
-            it("should dispatch signup event") {
-                try! database.update(.email, value: email)
-                try! database.update(.username, value: username)
-                try! database.update(.password(enforcePolicy: false), value: password)
-                database.create { _ in }
-                expect(newUserEmail).toEventually(equal(email))
-            }
-
-        }
-
         describe("signup OIDC Conformnant") {
 
             beforeEach {
@@ -1253,7 +1216,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
-
+            
             it("should send parameters on login") {
                 let state = UUID().uuidString
                 var options = LockOptions()
@@ -1272,7 +1235,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
-
+            
         }
         
     }

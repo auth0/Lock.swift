@@ -88,6 +88,10 @@ class OptionsSpec: QuickSpec {
             it("should have no audience") {
                 expect(options.audience).to(beNil())
             }
+
+            it("should be auto closeable") {
+                expect(options.autoClose) == true
+            }
         }
 
         describe("validation") {
@@ -123,6 +127,30 @@ class OptionsSpec: QuickSpec {
                 options.usernameStyle = []
                 expect(options.validate()).toNot(beNil())
             }
+
+            context("auto close") {
+
+                it("should fail when autoclose is empty and no .Login allowed") {
+                    options.autoClose = false
+                    options.allow = [.Signup, .ResetPassword]
+                    expect(options.validate()).toNot(beNil())
+                }
+
+                it("should fail autoclose disabled and single screen") {
+                    options.autoClose = false
+                    options.allow = [.ResetPassword]
+                    expect(options.validate()).toNot(beNil())
+                }
+
+                it("should pass when autoclose empty, no login, but closeable set") {
+                    options.closable = true
+                    options.autoClose = false
+                    options.allow = [.Signup, .ResetPassword]
+                    expect(options.validate()).to(beNil())
+                }
+
+            }
+
 
         }
 

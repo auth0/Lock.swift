@@ -28,6 +28,8 @@ struct ObserverStore: Dispatcher {
     var onFailure: (Error) -> () = { _ in }
     var onCancel: () -> () = {  }
     var onSignUp: (String, [String: Any]) -> () = { _ in }
+    var onForgotPassword: (String) -> () = { _ in }
+    var options: Options = LockOptions()
 
     weak var controller: UIViewController?
 
@@ -35,16 +37,29 @@ struct ObserverStore: Dispatcher {
         let closure: () -> ()
         switch result {
         case .auth(let credentials):
-            closure = dismiss(from: controller?.presentingViewController, completion: { self.onAuth(credentials) })
+            if self.options.autoClose {
+                closure = dismiss(from: controller?.presentingViewController, completion: { self.onAuth(credentials) })
+            } else {
+                closure = { self.onAuth(credentials) }
+            }
         case .error(let error):
             closure = { self.onFailure(error) }
         case .cancel:
             closure = dismiss(from: controller?.presentingViewController, completion: { self.onCancel() })
         case .signUp(let email, let attributes):
-            closure = { self.onSignUp(email, attributes) }
-        default:
-            closure = {}
+            if !self.options.allow.contains(.Login) && self.options.autoClose {
+                closure = dismiss(from: controller?.presentingViewController, completion: { self.onSignUp(email, attributes) })
+            } else {
+                closure = { self.onSignUp(email, attributes) }
+            }
+        case .forgotPassword(let email):
+            if !self.options.allow.contains(.Login) && self.options.autoClose {
+                closure = dismiss(from: controller?.presentingViewController, completion: { self.onForgotPassword(email) })
+            } else {
+                closure = { self.onForgotPassword(email) }
+            }
         }
+
         Queue.main.async(closure)
     }
 

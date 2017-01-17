@@ -33,6 +33,7 @@ struct LockOptions: OptionBuildable {
     var scope: String = "openid"
     var parameters: [String : Any] = [:]
     var allow: DatabaseMode = [.Login, .Signup, .ResetPassword]
+    var autoClose: Bool = true
     var initialScreen: DatabaseScreen = .login
     var usernameStyle: DatabaseIdentifierStyle = [.Username, .Email]
     var customSignupFields: [CustomTextField] = []
