@@ -134,7 +134,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
             passwordPolicyView.isHidden = true
             form.passwordField.errorLabel?.removeFromSuperview()
             form.passwordField.onBeginEditing = { [weak self, weak passwordPolicyView] _ in
-                guard let view = passwordPolicyView else { return  }
+                guard let view = passwordPolicyView else { return }
                 Queue.main.async {
                     view.isHidden = false
                     self?.navigator?.scroll(toPosition: CGPoint(x: 0, y: view.intrinsicContentSize.height), animated: false)
@@ -142,7 +142,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
             }
 
             form.passwordField.onEndEditing = { [weak passwordPolicyView] _ in
-                guard let view = passwordPolicyView else { return  }
+                guard let view = passwordPolicyView else { return }
                 view.isHidden = true
             }
         }

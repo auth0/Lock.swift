@@ -40,7 +40,7 @@ class DatabasePresenter: Presentable, Loggable {
     var initialUsername: String? { return self.authenticator.validUsername ? self.authenticator.username : nil }
 
     weak var databaseView: DatabaseOnlyView?
-    var currentMode: DatabaseModeSwitcher.Mode?
+    var currentScreen: DatabaseScreen?
 
     convenience init(interactor: DatabaseInteractor, connection: DatabaseConnection, navigator: Navigable, options: Options) {
         self.init(authenticator: interactor, creator: interactor, connection: connection, navigator: navigator, options: options)
@@ -70,7 +70,6 @@ class DatabasePresenter: Presentable, Loggable {
             case .login:
                 self.showLogin(inView: view, identifier: self.authenticator.identifier)
             }
-            self.currentMode = switcher.selected
         }
 
         if allow.contains(.Login) && initialScreen == .login {
@@ -89,6 +88,7 @@ class DatabasePresenter: Presentable, Loggable {
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18), isLogin: true)
         let style = self.database.requiresUsername ? self.options.usernameStyle : [.Email]
         view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView)
+        self.currentScreen = .login
         let form = view.form
         form?.onValueChange = self.handleInput
 
@@ -148,6 +148,7 @@ class DatabasePresenter: Presentable, Loggable {
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18), isLogin: false)
         let interactor = self.authenticator as? DatabaseInteractor
         let passwordPolicyValidator = interactor?.passwordValidator as? PasswordPolicyValidator
+        self.currentScreen = .signup
 
         view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator)
         let form = view.form
@@ -213,7 +214,7 @@ class DatabasePresenter: Presentable, Loggable {
         case .emailOrUsername:
             attribute = .emailOrUsername
         case .password:
-            attribute = .password(enforcePolicy: self.currentMode == .signup)
+            attribute = .password(enforcePolicy: self.currentScreen == .signup)
         case .username:
             attribute = .username
         case .custom(let name, _, _, _, _, _):
