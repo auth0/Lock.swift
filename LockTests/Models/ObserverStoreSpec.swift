@@ -81,7 +81,7 @@ class ObserverStoreSpec: QuickSpec {
             }
 
             // TODO: Check why it fails only in travis
-            pending("controller displayed") {
+            describe("controller displayed") {
 
                 var controller: MockLockController!
                 var presenter: MockController!
