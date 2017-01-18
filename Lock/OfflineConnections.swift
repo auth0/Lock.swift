@@ -33,12 +33,12 @@ struct OfflineConnections: ConnectionBuildable {
         self.databases.append(DatabaseConnection(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator, passwordValidator: passwordValidator))
     }
 
-    mutating func social(name: String, style: AuthStyle) {
-        self.oauth2(name: name, style: style)
+    mutating func social(name: String, style: AuthStyle, onAction: NativeAuthClosure? = nil) {
+        self.oauth2(name: name, style: style, onAction: onAction)
     }
 
-    mutating func oauth2(name: String, style: AuthStyle) {
-        let social = SocialConnection(name: name, style: style)
+    mutating func oauth2(name: String, style: AuthStyle, onAction: NativeAuthClosure? = nil) {
+        let social = SocialConnection(name: name, style: style, onAction: onAction)
         self.oauth2.append(social)
     }
 
@@ -61,6 +61,18 @@ struct OfflineConnections: ConnectionBuildable {
         connections.databases = self.databases.filter { isWhitelisted(connectionName: $0.name, inList: names) }
         connections.oauth2 = self.oauth2.filter { isWhitelisted(connectionName: $0.name, inList: names) }
         connections.enterprise = self.enterprise.filter { isWhitelisted(connectionName: $0.name, inList: names) }
+        return connections
+    }
+
+    func registerNative(_ native: Connections) -> OfflineConnections {
+        var connections = OfflineConnections()
+        connections.databases = self.databases
+        connections.oauth2 = native.oauth2 + self.oauth2.filter { connection in
+            native.oauth2.contains { native in
+                native.name != connection.name
+            }
+        }
+        connections.enterprise = self.enterprise
         return connections
     }
 }

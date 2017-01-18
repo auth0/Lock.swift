@@ -153,6 +153,15 @@ public class Lock: NSObject {
         return self
     }
 
+    // TODO: Doc
+    public func registerNativeConnections(_ closure: (inout ConnectionBuildable) -> ()) -> Lock {
+        var native: ConnectionBuildable = OfflineConnections()
+        closure(&native)
+        let allowed = self.connectionProvider.allowed
+        self.connectionProvider = ConnectionProvider(local: OfflineConnections(), allowed: allowed, registerNative: native)
+        return self
+    }
+
     /**
      Customise Lock style
 
@@ -251,13 +260,39 @@ public class Lock: NSObject {
     public static func resumeAuth(_ url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
         return Auth0.resumeAuth(url, options: options)
     }
+
+    // TODO: Doc
+    public func socialIdPAuth(connection: String, accessToken: String) {
+        authentication.loginSocial(token: accessToken, connection: connection, scope: self.options.scope, parameters: self.options.parameters)
+            .start {
+                switch $0 {
+                case .success(let credentials):
+                    self.observerStore.dispatch(result: .auth(credentials))
+                case .failure(let error):
+                    self.observerStore.dispatch(result: .error(error))
+                }
+        }
+    }
 }
 
 struct ConnectionProvider {
     let local: Connections
     let allowed: [String]
+    let native: Connections?
 
-    var connections: Connections { return local.select(byNames: allowed) }
+    init(local: Connections, allowed: [String], registerNative native: Connections? = nil) {
+        self.local = local
+        self.allowed = allowed
+        self.native = native
+    }
+
+    var connections: Connections {
+        if let native = native, !self.local.isEmpty {
+            return local.registerNative(native).select(byNames: allowed)
+        } else {
+            return local.select(byNames: allowed)
+        }
+    }
 }
 
 private func telemetryFor(authentication: Authentication, webAuth: WebAuth) -> (Authentication, WebAuth) {

@@ -153,7 +153,7 @@ struct Router: Navigable {
     }
 
     func reload(withConnections connections: Connections) {
-        self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed)
+        self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed, registerNative: self.lock.connectionProvider.native)
         let connections = self.lock.connections
         self.lock.logger.debug("Reloading Lock with connections \(connections).")
         guard !connections.isEmpty else { return exit(withError: UnrecoverableError.clientWithNoConnections) }

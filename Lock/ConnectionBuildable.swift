@@ -45,7 +45,7 @@ public protocol ConnectionBuildable: Connections {
      - parameter style: style used for the button used to trigger authentication
      - seeAlso: AuthStyle
      */
-    mutating func social(name: String, style: AuthStyle)
+    mutating func social(name: String, style: AuthStyle, onAction: NativeAuthClosure?)
 
     /**
      Adds a new oauth2 connection
@@ -54,7 +54,7 @@ public protocol ConnectionBuildable: Connections {
      - parameter style: style used for the button used to trigger authentication
      - seeAlso: AuthStyle
      */
-    mutating func oauth2(name: String, style: AuthStyle)
+    mutating func oauth2(name: String, style: AuthStyle, onAction: NativeAuthClosure?)
 
     /**
      Adds a new enterprise connection
