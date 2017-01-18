@@ -26,7 +26,7 @@ import Auth0
 /// Lock main class to configure and show the native widget
 public class Lock: NSObject {
 
-    static let sharedInstance = Lock()
+    static let shared = Lock()
 
     private(set) var authentication: Authentication
     private(set) var webAuth: WebAuth
@@ -38,6 +38,8 @@ public class Lock: NSObject {
     var options: Options { return self.optionsBuilder }
 
     var observerStore = ObserverStore()
+
+    var nativeHandlers: [NativeHandler] = []
 
     var style: Style = Style()
 
@@ -255,6 +257,21 @@ public class Lock: NSObject {
      */
     public static func resumeAuth(_ url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
         return Auth0.resumeAuth(url, options: options)
+    }
+
+    /**
+     Register an AuthProvider to be used for connection, e.g. When using native social integration plugins such as
+     Lock-Facebook to provide native authentication.
+
+     - parameter name: connection name that will use the specified auth provider
+     - paramater handler: the auth provider to use
+     
+     - returns: Lock itself for chaining
+     */
+    public func handlerAuthentication(forConnectionName name: String, handler: AuthProvider) -> Lock {
+        let nativeHandler = NativeHandler(name: [name], handler: handler)
+        self.nativeHandlers.append(nativeHandler)
+        return self
     }
 }
 

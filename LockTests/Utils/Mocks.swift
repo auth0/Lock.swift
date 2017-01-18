@@ -156,6 +156,8 @@ class MockMultifactorInteractor: MultifactorAuthenticatable {
 class MockAuthInteractor: OAuth2Authenticatable {
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
     }
+    func socialIdPAuth(connection: String, accessToken: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    }
 }
 
 class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
@@ -299,4 +301,21 @@ class MockController: UIViewController {
         self.presented = nil
         completion?()
     }
+}
+
+
+class MockNativeAuthHandler: AuthProvider, OAuth2Session {
+    var state: String?
+    var onLogin: () -> Auth0.Result<Credentials> = { _ in
+        return Auth0.Result.success(result: mockCredentials())
+    }
+    func login(_ connection: String, scope: String, parameters: [String : Any], callback: @escaping (Auth0.Result<Auth0.Credentials>) -> ()) -> OAuth2Session {
+        callback(onLogin())
+        return self
+    }
+    func resume(_ url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        return true
+    }
+    func cancel() { }
+    func clear() { }
 }

@@ -15,7 +15,9 @@
 		5B0CF2D61DE9AE0F00F82BF4 /* InputValidationErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */; };
 		5B0CF2D91DE9B1DB00F82BF4 /* DatabaseAuthenticatableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */; };
 		5B0CF2DE1DE9B4AF00F82BF4 /* DatabaseUserCreatorErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */; };
+		5B2826431E32297E00E48467 /* NativeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2826421E32297E00E48467 /* NativeHandler.swift */; };
 		5B2981781DD51A460062535C /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2981771DD51A460062535C /* InfoBarView.swift */; };
+		5B36D8C61E38C8540030DA8C /* NativeAuthenticatableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B36D8C51E38C8540030DA8C /* NativeAuthenticatableError.swift */; };
 		5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */; };
 		5B4DE0171DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */; };
 		5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */; };
@@ -211,13 +213,15 @@
 		5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidationErrorSpec.swift; sourceTree = "<group>"; };
 		5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseAuthenticatableErrorSpec.swift; sourceTree = "<group>"; };
 		5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseUserCreatorErrorSpec.swift; sourceTree = "<group>"; };
+		5B2826421E32297E00E48467 /* NativeHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeHandler.swift; sourceTree = "<group>"; };
 		5B2981771DD51A460062535C /* InfoBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoBarView.swift; path = Lock/InfoBarView.swift; sourceTree = SOURCE_ROOT; };
+		5B36D8C51E38C8540030DA8C /* NativeAuthenticatableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeAuthenticatableError.swift; sourceTree = "<group>"; };
 		5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainInteractor.swift; path = Lock/EnterpriseDomainInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthPresenter.swift; path = Lock/EnterpriseActiveAuthPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthView.swift; path = Lock/EnterpriseActiveAuthView.swift; sourceTree = SOURCE_ROOT; };
 		5B54CDC31E25200900F0AFFF /* UnrecoverableErrorPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnrecoverableErrorPresenterSpec.swift; sourceTree = "<group>"; };
 		5B55F3C81E24273D00B75CF5 /* UnrecoverableErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnrecoverableErrorView.swift; sourceTree = "<group>"; };
-		5B55F3CA1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UnrecoverableErrorPresenter.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		5B55F3CA1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UnrecoverableErrorPresenter.swift; sourceTree = "<group>"; };
 		5B55F3D01E244B8700B75CF5 /* UnrecoverableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnrecoverableError.swift; sourceTree = "<group>"; };
 		5B55F3D21E24F3F000B75CF5 /* UnrecoverableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnrecoverableErrorSpec.swift; sourceTree = "<group>"; };
 		5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainInteractorSpec.swift; sourceTree = "<group>"; };
@@ -232,7 +236,7 @@
 		5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionLoadingPresenter.swift; path = Lock/ConnectionLoadingPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5F1C49921D8360DF005B74FC /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingView.swift; path = Lock/LoadingView.swift; sourceTree = SOURCE_ROOT; };
 		5F1C49941D8360F5005B74FC /* RemoteConnectionLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteConnectionLoader.swift; path = Lock/RemoteConnectionLoader.swift; sourceTree = SOURCE_ROOT; };
-		5F1C49951D8360F5005B74FC /* CDNLoaderInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = CDNLoaderInteractor.swift; path = Lock/CDNLoaderInteractor.swift; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		5F1C49951D8360F5005B74FC /* CDNLoaderInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = CDNLoaderInteractor.swift; path = Lock/CDNLoaderInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5F1C499A1D836190005B74FC /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTextField.swift; path = Lock/CustomTextField.swift; sourceTree = SOURCE_ROOT; };
 		5F2037C11D5D02880005D2E2 /* Matchers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matchers.swift; sourceTree = "<group>"; };
 		5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockViewControllerSpec.swift; sourceTree = "<group>"; };
@@ -401,6 +405,14 @@
 			name = Validators;
 			sourceTree = "<group>";
 		};
+		5BBF34761E38E18200008730 /* Native Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				5B2826421E32297E00E48467 /* NativeHandler.swift */,
+			);
+			name = "Native Authentication";
+			sourceTree = "<group>";
+		};
 		5F2496B41D665A9700A1C6E2 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -408,6 +420,7 @@
 				5B55F3D01E244B8700B75CF5 /* UnrecoverableError.swift */,
 				5F2496B91D665AE900A1C6E2 /* CredentialAuthError.swift */,
 				5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */,
+				5B36D8C51E38C8540030DA8C /* NativeAuthenticatableError.swift */,
 			);
 			name = Errors;
 			path = Lock;
@@ -416,20 +429,22 @@
 		5F508FF21D1D863400EAA650 /* Interactors */ = {
 			isa = PBXGroup;
 			children = (
-				5F1C49941D8360F5005B74FC /* RemoteConnectionLoader.swift */,
+				5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */,
 				5F1C49951D8360F5005B74FC /* CDNLoaderInteractor.swift */,
 				5FC4348E1D1E0A57005188BC /* DatabaseAuthenticable.swift */,
 				5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */,
 				5F73CDD91D30957900D8D8D1 /* DatabasePasswordInteractor.swift */,
+				5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */,
 				5B09717D1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift */,
+				5B09717B1DC8F229003AA88F /* EnterpriseDomain.swift */,
 				5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */,
 				5FBE5CBD1D3E5C7B0038536D /* MultifactorAuthenticatable.swift */,
 				5FBE5CBF1D3E5E0A0038536D /* MultifactorInteractor.swift */,
 				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
 				5B09717B1DC8F229003AA88F /* HRDAuthenticatable.swift */,
 				5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */,
-				5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */,
-				5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */,
+				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
+				5F1C49941D8360F5005B74FC /* RemoteConnectionLoader.swift */,
 			);
 			name = Interactors;
 			path = Lock;
@@ -567,6 +582,7 @@
 		5FBE5CB51D3D8EE70038536D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5BBF34761E38E18200008730 /* Native Authentication */,
 				5FEEE8161DB6AC6C00B4DFED /* PasswordPolicy */,
 				5F2496B71D665AC500A1C6E2 /* UserAttribute.swift */,
 				5B011CDD1E13E16500543F12 /* NotificationStatus.swift */,
@@ -997,6 +1013,7 @@
 				5F73CDD01D30250900D8D8D1 /* MessagePresenter.swift in Sources */,
 				5F70F1E51D790735004698DA /* Options.swift in Sources */,
 				5FDB41D01D2C95B100166B67 /* MessageView.swift in Sources */,
+				5B2826431E32297E00E48467 /* NativeHandler.swift in Sources */,
 				5F2496B61D665AA800A1C6E2 /* InputValidationError.swift in Sources */,
 				5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */,
 				5F1C49931D8360DF005B74FC /* LoadingView.swift in Sources */,

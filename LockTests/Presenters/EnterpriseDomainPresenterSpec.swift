@@ -44,6 +44,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             messagePresenter = MockMessagePresenter()
             oauth2 = MockOAuth2()
             authPresenter = MockAuthPresenter(connections: [], interactor: MockAuthInteractor(), customStyle: [:])
+            user = User()
             navigator = MockNavigator()
             options = LockOptions()
             user = User()
@@ -51,8 +52,6 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             connections = OfflineConnections()
             connections.enterprise(name: "TestAD", domains: ["test.com"])
             connections.enterprise(name: "ValidAD", domains: ["validad.com"])
-
-            interactor = EnterpriseDomainInteractor(connections: connections, user: user, authentication: oauth2)
             presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! EnterpriseDomainView
