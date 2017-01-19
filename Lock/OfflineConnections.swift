@@ -73,8 +73,8 @@ struct OfflineConnections: ConnectionBuildable {
         var connections = OfflineConnections()
         connections.databases = self.databases
         connections.oauth2 = native.oauth2 + self.oauth2.filter { connection in
-            native.oauth2.contains { native in
-                native.name != connection.name
+            !native.oauth2.contains { native in
+                native.name == connection.name
             }
         }
         connections.enterprise = self.enterprise
