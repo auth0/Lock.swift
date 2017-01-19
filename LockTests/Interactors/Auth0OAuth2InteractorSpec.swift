@@ -30,6 +30,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
 
     override func spec() {
 
+        let auth = Auth0.authentication(clientId: clientId, domain: domain)
         var webAuth: MockWebAuth!
         var options: LockOptions!
         var credentials: Credentials?
@@ -37,7 +38,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
         var interactor: Auth0OAuth2Interactor {
             var dispatcher = ObserverStore()
             dispatcher.onAuth = { credentials = $0 }
-            return Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options)
+            return Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options, authentication: auth)
         }
 
         beforeEach {

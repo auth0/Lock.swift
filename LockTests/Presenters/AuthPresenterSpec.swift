@@ -96,18 +96,18 @@ class AuthPresenterSpec: QuickSpec {
             }
 
             it("should login with connection") {
-                view.onAction("social0")
+                view.onAction("social0", nil, nil)
                 expect(interactor.connection) == "social0"
             }
 
             it("should hide current message on start") {
-                view.onAction("social0")
+                view.onAction("social0", nil, nil)
                 expect(messagePresenter.message).toEventually(beNil())
             }
 
             it("should show error") {
                 interactor.onLogin = { return .couldNotAuthenticate }
-                view.onAction("social0")
+                view.onAction("social0", nil, nil)
                 expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
             }
 

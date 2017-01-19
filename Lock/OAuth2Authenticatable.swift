@@ -24,12 +24,14 @@ import Foundation
 
 protocol OAuth2Authenticatable {
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ())
+    func socialIdPAuth(connection: String, accessToken: String, callback: @escaping (OAuth2AuthenticatableError?) -> ())
 }
 
 enum OAuth2AuthenticatableError: Error, LocalizableError {
     case noConnectionAvailable
     case couldNotAuthenticate
     case cancelled
+    case nativeConnectionFailed
 
     var localizableMessage: String {
         switch self {

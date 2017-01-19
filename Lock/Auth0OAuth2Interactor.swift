@@ -28,6 +28,7 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
     let webAuth: Auth0.WebAuth
     let dispatcher: Dispatcher
     let options: Options
+    let authentication: Authentication
 
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         var parameters: [String: String] = [:]
@@ -55,5 +56,19 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
                     self.dispatcher.dispatch(result: .error(OAuth2AuthenticatableError.couldNotAuthenticate))
                 }
             }
+    }
+
+    func socialIdPAuth(connection: String, accessToken: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+        authentication.loginSocial(token: accessToken, connection: connection, scope: self.options.scope, parameters: self.options.parameters)
+            .start { result in
+                switch result {
+                case .success(let credentials):
+                    callback(nil)
+                    self.dispatcher.dispatch(result: .auth(credentials))
+                case .failure(let error):
+                    callback(.couldNotAuthenticate)
+                    self.dispatcher.dispatch(result: .error(error))
+                }
+        }
     }
 }

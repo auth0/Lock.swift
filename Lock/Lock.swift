@@ -260,19 +260,6 @@ public class Lock: NSObject {
     public static func resumeAuth(_ url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
         return Auth0.resumeAuth(url, options: options)
     }
-
-    // TODO: Doc
-    public func socialIdPAuth(connection: String, accessToken: String) {
-        authentication.loginSocial(token: accessToken, connection: connection, scope: self.options.scope, parameters: self.options.parameters)
-            .start {
-                switch $0 {
-                case .success(let credentials):
-                    self.observerStore.dispatch(result: .auth(credentials))
-                case .failure(let error):
-                    self.observerStore.dispatch(result: .error(error))
-                }
-        }
-    }
 }
 
 struct ConnectionProvider {

@@ -61,18 +61,18 @@ struct Router: Navigable {
             let interactor = DatabaseInteractor(connection: database, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
             let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
             if !connections.oauth2.isEmpty {
-                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options, authentication: self.lock.authentication)
                 presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
             }
             if !connections.enterprise.isEmpty {
-                let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+                let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options, authentication: self.lock.authentication)
                 let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
                 presenter.enterpriseInteractor = interactor
             }
             return presenter
         }
         if !connections.enterprise.isEmpty {
-            let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+            let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options, authentication: self.lock.authentication)
             let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
             if let connection = interactor.connection, self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 return enterpriseActiveAuth(connection)
@@ -84,7 +84,7 @@ struct Router: Navigable {
             return presenter
         }
         if !connections.oauth2.isEmpty {
-            let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+            let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options, authentication: self.lock.authentication)
             let presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
             return presenter
         }

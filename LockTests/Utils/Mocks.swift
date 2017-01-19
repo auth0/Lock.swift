@@ -152,6 +152,8 @@ class MockMultifactorInteractor: MultifactorAuthenticatable {
 class MockAuthInteractor: OAuth2Authenticatable {
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
     }
+    func socialIdPAuth(connection: String, accessToken: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    }
 }
 
 class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
@@ -277,6 +279,9 @@ class MockOAuth2: OAuth2Authenticatable {
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         self.connection = connection
         callback(self.onLogin())
+    }
+    // TODO: Implement
+    func socialIdPAuth(connection: String, accessToken: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
     }
 }
 

@@ -33,13 +33,18 @@ struct OfflineConnections: ConnectionBuildable {
         self.databases.append(DatabaseConnection(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator, passwordValidator: passwordValidator))
     }
 
-    mutating func social(name: String, style: AuthStyle, onAction: NativeAuthClosure? = nil) {
-        self.oauth2(name: name, style: style, onAction: onAction)
+    mutating func social(name: String, style: AuthStyle) {
+        self.oauth2(name: name, style: style)
     }
 
-    mutating func oauth2(name: String, style: AuthStyle, onAction: NativeAuthClosure? = nil) {
-        let social = SocialConnection(name: name, style: style, onAction: onAction)
+    mutating func oauth2(name: String, style: AuthStyle) {
+        let social = SocialConnection(name: name, style: style)
         self.oauth2.append(social)
+    }
+
+    mutating func native(name: String, style: AuthStyle, onAction: NativeClosure?) {
+        let native = NativeConnection(name: name, style: style, onAction: onAction)
+        self.oauth2.append(native)
     }
 
     mutating func enterprise(name: String, domains: [String]) {

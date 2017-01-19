@@ -22,8 +22,6 @@
 
 import Foundation
 
-public typealias NativeAuthClosure = (String) -> ()
-
 public protocol Connections {
     var database: DatabaseConnection? { get }
     var oauth2: [OAuth2Connection] { get }
@@ -61,31 +59,30 @@ public struct DatabaseConnection {
 public protocol OAuth2Connection {
     var name: String { get }
     var style: AuthStyle { get }
-    var onAction: NativeAuthClosure? { get }
+    var onAction: NativeClosure? { get }
 }
 
 public struct SocialConnection: OAuth2Connection {
     public let name: String
     public let style: AuthStyle
-    public let onAction: NativeAuthClosure?
+    public let onAction: NativeClosure? = nil
+}
 
-    init(name: String, style: AuthStyle, onAction: NativeAuthClosure?) {
-        self.name = name
-        self.style = style
-        self.onAction = onAction
-    }
+public struct NativeConnection: OAuth2Connection {
+    public let name: String
+    public let style: AuthStyle
+    public let onAction: NativeClosure?
 }
 
 public struct EnterpriseConnection : OAuth2Connection {
     public let name: String
     public let domains: [String]
     public let style: AuthStyle
-    public let onAction: NativeAuthClosure?
+    public let onAction: NativeClosure? = nil
 
-    init(name: String, domains: [String], style: AuthStyle? = nil, onAction: NativeAuthClosure? = nil) {
+    init(name: String, domains: [String], style: AuthStyle? = nil) {
         self.name = name
         self.domains = domains
         self.style = style ?? AuthStyle(name: name)
-        self.onAction = onAction
     }
 }

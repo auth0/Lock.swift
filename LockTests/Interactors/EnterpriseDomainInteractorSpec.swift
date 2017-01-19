@@ -36,6 +36,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
         var credentials: Credentials?
         var connections: OfflineConnections!
         var enterprise: EnterpriseDomainInteractor!
+        let auth = Auth0.authentication(clientId: clientId, domain: domain)
         
         beforeEach {
             connections = OfflineConnections()
@@ -46,7 +47,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
             webAuth = MockWebAuth()
             var dispatcher = ObserverStore()
             dispatcher.onAuth = {credentials = $0}
-            authentication = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: LockOptions())
+            authentication = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: LockOptions(), authentication: auth)
             enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
         }
         

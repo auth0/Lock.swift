@@ -26,7 +26,7 @@ class AuthCollectionView: UIView, View {
 
     let connections: [OAuth2Connection]
     let mode: Mode
-    let onAction: (String) -> ()
+    let onAction: (String, Error?, String?) -> ()
     let customStyle: [String : AuthStyle]
 
     enum Mode {
@@ -35,8 +35,8 @@ class AuthCollectionView: UIView, View {
     }
 
     // MARK: - Initialisers
-
-    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: @escaping (String) -> ()) {
+    // swiftlint:disable:next function_parameter_count
+    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: @escaping (String, Error?, String?) -> ()) {
         self.connections = connections
         self.mode = mode
         self.onAction = onAction
@@ -140,7 +140,7 @@ class AuthCollectionView: UIView, View {
     }
 }
 
-func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping (String) -> ()) -> [AuthButton] {
+func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping (String, Error?, String?) -> ()) -> [AuthButton] {
     return connections.map { connection -> AuthButton in
         let style = customStyle[connection.name] ?? connection.style
         let button = AuthButton(size: .big)
@@ -150,11 +150,16 @@ func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: 
         button.highlightedColor = style.highlightedColor
         button.titleColor = style.foregroundColor
         button.icon = style.image.image(compatibleWithTraits: button.traitCollection)
-        button.onPress = { _ in
-            if let onAction = connection.onAction {
-                onAction(connection.name)
-            } else {
-                onAction(connection.name)
+        if let nativeCallback = connection.onAction {
+            button.onPress = { _ in
+                nativeCallback({ error, accessToken in
+                    onAction(connection.name, error, accessToken)
+                })
+            }
+        } else {
+            button.onPress = { _ in
+                // FIXME: Ugly
+                onAction(connection.name, nil, nil)
             }
         }
         return button
