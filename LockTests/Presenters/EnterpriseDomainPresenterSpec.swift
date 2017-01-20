@@ -39,11 +39,11 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
         var navigator: MockNavigator!
         var user: User!
         var options: OptionBuildable!
+        var nativeInteractor: NativeAuthInteractor!
 
         beforeEach {
             messagePresenter = MockMessagePresenter()
             oauth2 = MockOAuth2()
-            authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor(), customStyle: [:])
             user = User()
             navigator = MockNavigator()
             options = LockOptions()
@@ -52,6 +52,8 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             connections.enterprise(name: "TestAD", domains: ["test.com"])
             connections.enterprise(name: "ValidAD", domains: ["validad.com"])
 
+            nativeInteractor = NativeAuthInteractor(dispatcher: ObserverStore(), options: options)
+            authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor(), nativeInteractor: nativeInteractor, nativeHandlers: [], customStyle: [:])
             interactor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
             presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
             presenter.messagePresenter = messagePresenter

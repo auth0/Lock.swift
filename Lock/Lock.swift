@@ -39,6 +39,8 @@ public class Lock: NSObject {
 
     var observerStore = ObserverStore()
 
+    var nativeHandlers: [NativeAuthHandler] = []
+
     var style: Style = Style()
 
     override convenience init() {
@@ -153,15 +155,6 @@ public class Lock: NSObject {
         return self
     }
 
-    // TODO: Doc
-    public func registerNativeConnections(_ closure: (inout ConnectionBuildable) -> ()) -> Lock {
-        var native: ConnectionBuildable = OfflineConnections()
-        closure(&native)
-        let allowed = self.connectionProvider.allowed
-        self.connectionProvider = ConnectionProvider(local: OfflineConnections(), allowed: allowed, registerNative: native)
-        return self
-    }
-
     /**
      Customise Lock style
 
@@ -260,26 +253,26 @@ public class Lock: NSObject {
     public static func resumeAuth(_ url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
         return Auth0.resumeAuth(url, options: options)
     }
+
+    /**
+     Regstier native authentication plugins, e.g. When using native social integration
+     plugins such as LockFacebook.
+     
+     - paramater name:    name of the connection to use
+     - paramater handler: name of the NativeHandler plugin
+     */
+    public func nativeAuth(for name: String, handler: NativeHandler) -> Lock {
+        let nativeAuthHandler = NativeAuthHandler(name: name, handler: handler)
+        self.nativeHandlers.append(nativeAuthHandler)
+        return self
+    }
 }
 
 struct ConnectionProvider {
     let local: Connections
     let allowed: [String]
-    let native: Connections?
 
-    init(local: Connections, allowed: [String], registerNative native: Connections? = nil) {
-        self.local = local
-        self.allowed = allowed
-        self.native = native
-    }
-
-    var connections: Connections {
-        if let native = native, !self.local.isEmpty {
-            return local.registerNative(native).select(byNames: allowed)
-        } else {
-            return local.select(byNames: allowed)
-        }
-    }
+    var connections: Connections { return local.select(byNames: allowed) }
 }
 
 private func telemetryFor(authentication: Authentication, webAuth: WebAuth) -> (Authentication, WebAuth) {

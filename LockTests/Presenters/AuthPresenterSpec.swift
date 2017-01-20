@@ -32,13 +32,16 @@ class AuthPresenterSpec: QuickSpec {
         var presenter: AuthPresenter!
         var interactor: MockOAuth2!
         var messagePresenter: MockMessagePresenter!
+        var nativeInteractor: NativeAuthInteractor!
+        let nativeHandlers: [NativeAuthHandler] = []
 
         beforeEach {
+            nativeInteractor = NativeAuthInteractor(dispatcher: ObserverStore(), options: LockOptions())
             var connections = OfflineConnections()
             connections.social(name: "social0", style: AuthStyle(name: "custom"))
             interactor = MockOAuth2()
             messagePresenter = MockMessagePresenter()
-            presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: [:])
+            presenter = AuthPresenter(connections: connections, interactor: interactor, nativeInteractor: nativeInteractor, nativeHandlers: nativeHandlers, customStyle: [:])
             presenter.messagePresenter = messagePresenter
         }
 
@@ -62,25 +65,25 @@ class AuthPresenterSpec: QuickSpec {
 
             it("should return view with expanded mode for single connection") {
                 let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 1), enterprise: [])
-                presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: [:])
+                presenter = AuthPresenter(connections: connections, interactor: interactor, nativeInteractor: nativeInteractor, nativeHandlers: nativeHandlers, customStyle: [:])
                 expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero).mode).to(beExpandedMode())
             }
 
             it("should return view with expanded mode and signup flag") {
                 let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 1), enterprise: [])
-                presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: [:])
+                presenter = AuthPresenter(connections: connections, interactor: interactor, nativeInteractor: nativeInteractor, nativeHandlers: nativeHandlers, customStyle: [:])
                 expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero, isLogin: false).mode).to(beExpandedMode(isLogin: false))
             }
 
             it("should return view with expanded mode for two connections") {
                 let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 2), enterprise: [])
-                presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: [:])
+                presenter = AuthPresenter(connections: connections, interactor: interactor, nativeInteractor: nativeInteractor, nativeHandlers: nativeHandlers, customStyle: [:])
                 expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero).mode).to(beExpandedMode())
             }
 
             it("should return view with compact mode for more than three connecitons") {
                 let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: Int(arc4random_uniform(10)) + 3), enterprise: [])
-                presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: [:])
+                presenter = AuthPresenter(connections: connections, interactor: interactor, nativeInteractor: nativeInteractor, nativeHandlers: nativeHandlers, customStyle: [:])
                 expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero).mode).to(beCompactMode())
             }
 
@@ -96,18 +99,18 @@ class AuthPresenterSpec: QuickSpec {
             }
 
             it("should login with connection") {
-                view.onAction("social0", nil, nil)
+                view.onAction("social0", nil)
                 expect(interactor.connection) == "social0"
             }
 
             it("should hide current message on start") {
-                view.onAction("social0", nil, nil)
+                view.onAction("social0", nil)
                 expect(messagePresenter.message).toEventually(beNil())
             }
 
             it("should show error") {
                 interactor.onLogin = { return .couldNotAuthenticate }
-                view.onAction("social0", nil, nil)
+                view.onAction("social0", nil)
                 expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
             }
 

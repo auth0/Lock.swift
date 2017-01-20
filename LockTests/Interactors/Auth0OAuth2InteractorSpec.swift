@@ -38,7 +38,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
         var interactor: Auth0OAuth2Interactor {
             var dispatcher = ObserverStore()
             dispatcher.onAuth = { credentials = $0 }
-            return Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options, authentication: auth)
+            return Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options)
         }
 
         beforeEach {

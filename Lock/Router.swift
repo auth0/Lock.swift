@@ -59,33 +59,36 @@ struct Router: Navigable {
             guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .resetPassword else { return forgotPassword }
             let authentication = self.lock.authentication
             let interactor = DatabaseInteractor(connection: database, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
+            let nativeInteractor = NativeAuthInteractor(dispatcher: lock.observerStore, options: self.lock.options)
             let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
             if !connections.oauth2.isEmpty {
-                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options, authentication: self.lock.authentication)
-                presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
+                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+                presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, nativeInteractor: nativeInteractor, nativeHandlers: self.lock.nativeHandlers, customStyle: self.lock.style.oauth2)
             }
             if !connections.enterprise.isEmpty {
-                let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options, authentication: self.lock.authentication)
+                let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
                 let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
                 presenter.enterpriseInteractor = interactor
             }
             return presenter
         }
         if !connections.enterprise.isEmpty {
-            let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options, authentication: self.lock.authentication)
+            let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
             let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
+            let nativeInteractor = NativeAuthInteractor(dispatcher: lock.observerStore, options: self.lock.options)
             if let connection = interactor.connection, self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 return enterpriseActiveAuth(connection)
             }
             let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, user: self.user, options: self.lock.options)
             if !connections.oauth2.isEmpty {
-                presenter.authPresenter = AuthPresenter(connections: connections, interactor: authInteractor, customStyle: self.lock.style.oauth2)
+                presenter.authPresenter = AuthPresenter(connections: connections, interactor: authInteractor, nativeInteractor: nativeInteractor, nativeHandlers: self.lock.nativeHandlers, customStyle: self.lock.style.oauth2)
             }
             return presenter
         }
         if !connections.oauth2.isEmpty {
-            let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options, authentication: self.lock.authentication)
-            let presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
+            let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+            let nativeInteractor = NativeAuthInteractor(dispatcher: lock.observerStore, options: self.lock.options)
+            let presenter = AuthPresenter(connections: connections, interactor: interactor, nativeInteractor: nativeInteractor,  nativeHandlers: self.lock.nativeHandlers, customStyle: self.lock.style.oauth2)
             return presenter
         }
         return nil
@@ -153,7 +156,7 @@ struct Router: Navigable {
     }
 
     func reload(withConnections connections: Connections) {
-        self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed, registerNative: self.lock.connectionProvider.native)
+        self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed)
         let connections = self.lock.connections
         self.lock.logger.debug("Reloading Lock with connections \(connections).")
         guard !connections.isEmpty else { return exit(withError: UnrecoverableError.clientWithNoConnections) }

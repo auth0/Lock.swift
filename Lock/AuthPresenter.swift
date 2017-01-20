@@ -27,14 +27,18 @@ class AuthPresenter: Presentable, Loggable {
     let compactModeThreshold = 3
     let connections: [OAuth2Connection]
     let interactor: OAuth2Authenticatable
+    let nativeInteractor: NativeAuthenticatable
     let customStyle: [String: AuthStyle]
+    let nativeHandlers: [NativeAuthHandler]
 
     var messagePresenter: MessagePresenter?
 
-    init(connections: Connections, interactor: OAuth2Authenticatable, customStyle: [String: AuthStyle]) {
+    init(connections: Connections, interactor: OAuth2Authenticatable, nativeInteractor: NativeAuthenticatable, nativeHandlers: [NativeAuthHandler], customStyle: [String: AuthStyle]) {
         self.connections = connections.oauth2
         self.interactor = interactor
         self.customStyle = customStyle
+        self.nativeInteractor = nativeInteractor
+        self.nativeHandlers = nativeHandlers
     }
 
     var view: View {
@@ -52,13 +56,12 @@ class AuthPresenter: Presentable, Loggable {
     }
 
     private func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode) -> AuthCollectionView {
-        let view = AuthCollectionView(connections: self.connections, mode: mode, insets: insets, customStyle: self.customStyle) { (name, error, token) in
-            guard error == nil else {
-                self.messagePresenter?.showError(OAuth2AuthenticatableError.nativeConnectionFailed)
-                return
-            }
-            if let token = token {
-                self.interactor.socialIdPAuth(connection: name, accessToken: token) { error in
+
+        let connections = assignNativeHandlers(self.nativeHandlers, connections: self.connections)
+
+        let view = AuthCollectionView(connections: connections, mode: mode, insets: insets, customStyle: self.customStyle) { name, handler in
+            if let handler = handler {
+                self.nativeInteractor.login(name, nativeAuth: handler) { error in
                     guard let error = error else { return }
                     self.messagePresenter?.showError(error)
                 }
@@ -70,5 +73,18 @@ class AuthPresenter: Presentable, Loggable {
             }
         }
         return view
+    }
+
+    private func assignNativeHandlers(_ nativeHandlers: [NativeAuthHandler], connections: [OAuth2Connection]) -> [OAuth2Connection] {
+        var socialConnections: [SocialConnection] = []
+
+        for connection in self.connections {
+            if let authHandler = self.nativeHandlers.filter({ $0.name == connection.name }).first {
+                socialConnections.append(SocialConnection(name: connection.name, style: connection.style, handler: authHandler.handler))
+            } else {
+                socialConnections.append(SocialConnection(name: connection.name, style: connection.style))
+            }
+        }
+        return socialConnections
     }
 }

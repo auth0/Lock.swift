@@ -26,7 +26,7 @@ class AuthCollectionView: UIView, View {
 
     let connections: [OAuth2Connection]
     let mode: Mode
-    let onAction: (String, Error?, String?) -> ()
+    let onAction: (String, NativeHandler?) -> ()
     let customStyle: [String : AuthStyle]
 
     enum Mode {
@@ -35,8 +35,8 @@ class AuthCollectionView: UIView, View {
     }
 
     // MARK: - Initialisers
-    // swiftlint:disable:next function_parameter_count
-    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: @escaping (String, Error?, String?) -> ()) {
+
+    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: @escaping (String, NativeHandler?) -> ()) {
         self.connections = connections
         self.mode = mode
         self.onAction = onAction
@@ -140,27 +140,17 @@ class AuthCollectionView: UIView, View {
     }
 }
 
-func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping (String, Error?, String?) -> ()) -> [AuthButton] {
+func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping (String, NativeHandler?) -> ()) -> [AuthButton] {
     return connections.map { connection -> AuthButton in
         let style = customStyle[connection.name] ?? connection.style
         let button = AuthButton(size: .big)
-
         button.title = login ? style.localizedLoginTitle.uppercased() : style.localizedSignUpTitle.uppercased()
         button.normalColor = style.normalColor
         button.highlightedColor = style.highlightedColor
         button.titleColor = style.foregroundColor
         button.icon = style.image.image(compatibleWithTraits: button.traitCollection)
-        if let nativeCallback = connection.onAction {
-            button.onPress = { _ in
-                nativeCallback({ error, accessToken in
-                    onAction(connection.name, error, accessToken)
-                })
-            }
-        } else {
-            button.onPress = { _ in
-                // FIXME: Ugly
-                onAction(connection.name, nil, nil)
-            }
+        button.onPress = { _ in
+            onAction(connection.name, connection.handler)
         }
         return button
     }

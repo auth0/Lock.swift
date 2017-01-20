@@ -22,8 +22,6 @@
 
 import Foundation
 
-public typealias NativeClosure = (@escaping (Error?,String?) ->()) -> ()
-
 /**
  *  Allows to specify Lock connections
  */
@@ -57,9 +55,6 @@ public protocol ConnectionBuildable: Connections {
      - seeAlso: AuthStyle
      */
     mutating func oauth2(name: String, style: AuthStyle)
-
-    // TODO: Doc
-    mutating func native(name: String, style: AuthStyle, onAction: NativeClosure?)
 
     /**
      Adds a new enterprise connection

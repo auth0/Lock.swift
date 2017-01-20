@@ -1,4 +1,4 @@
-// OAuth2Authenticatable.swift
+// NativeHandler.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -21,33 +21,17 @@
 // THE SOFTWARE.
 
 import Foundation
+import Auth0
 
-protocol OAuth2Authenticatable {
-    func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ())
+public protocol NativeHandler {
+    var onAuth: (Credentials) -> () { get set }
+    var onError: (Error) -> () { get set }
+    var onSuccess: (Credentials, Any) -> () { get set }
+
+    func login(_ connection: String, scope: String, parameters: [String: Any])
 }
 
-enum OAuth2AuthenticatableError: Error, LocalizableError {
-    case noConnectionAvailable
-    case couldNotAuthenticate
-    case cancelled
-
-    var localizableMessage: String {
-        switch self {
-        case .noConnectionAvailable:
-            return "We're sorry, we could not find a valid connection for this user.".i18n(key: "com.auth0.lock.error.authentication.noconnection", comment: "No valid connection")
-        case .couldNotAuthenticate:
-            return "We're sorry, something went wrong when attempting to log in.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
-        default:
-            return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
-        }
-    }
-
-    var userVisible: Bool {
-        switch self {
-        case .couldNotAuthenticate:
-            return true
-        default:
-            return false
-        }
-    }
+struct NativeAuthHandler {
+    var name: String
+    var handler: NativeHandler
 }
