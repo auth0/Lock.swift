@@ -39,7 +39,7 @@ public class Lock: NSObject {
 
     var observerStore = ObserverStore()
 
-    var nativeHandlers: [NativeHandler] = []
+    static var nativeHandlers: [NativeHandler] = []
 
     var style: Style = Style()
 
@@ -250,7 +250,10 @@ public class Lock: NSObject {
 
      - returns: true if the url matched an ongoing Auth session, false otherwise
      */
-    public static func resumeAuth(_ url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
+    public static func resumeAuth(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        for nativeAuth in nativeHandlers {
+            if nativeAuth.handler.resumeAuth(app, open: url, options: options) { return true }
+        }
         return Auth0.resumeAuth(url, options: options)
     }
 
@@ -265,7 +268,7 @@ public class Lock: NSObject {
      */
     public func nativeAuth(for name: String, handler: NativeAuthHandler) -> Lock {
         let nativeHandler = NativeHandler(name: name, handler: handler)
-        self.nativeHandlers.append(nativeHandler)
+        Lock.nativeHandlers.append(nativeHandler)
         return self
     }
 }

@@ -153,7 +153,7 @@ class LockSpec: QuickSpec {
                 let nativeHandler = MockNativeAuthHandler()
                 let name = "facebook"
                 _ = lock.nativeAuth(for: name, handler: nativeHandler)
-                expect(lock.nativeHandlers.filter({ $0.name == name })).toNot(beEmpty())
+                expect(Lock.nativeHandlers.filter({ $0.name == name })).toNot(beEmpty())
             }
 
         }
@@ -183,7 +183,7 @@ class LockSpec: QuickSpec {
         }
 
         it("should allow to resume Auth") {
-            expect(Lock.resumeAuth(.a0_url("samples.auth0.com"), options: [:])) == false
+            expect(Lock.resumeAuth(UIApplication.shared, open: .a0_url("samples.auth0.com"), options: [:])) == false
         }
 
     }

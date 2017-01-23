@@ -49,7 +49,7 @@ struct Router: Navigable {
     }
 
     var root: Presentable? {
-        let connections = self.lock.connections.registerNativeHandlers(lock.nativeHandlers)
+        let connections = self.lock.connections.registerNativeHandlers(Lock.nativeHandlers)
         guard !connections.isEmpty else {
             self.lock.logger.debug("No connections configured. Loading client info from Auth0...")
             let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
@@ -157,7 +157,7 @@ struct Router: Navigable {
 
     func reload(withConnections connections: Connections) {
         self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed)
-        let connections = self.lock.connections.registerNativeHandlers(self.lock.nativeHandlers)
+        let connections = self.lock.connections.registerNativeHandlers(Lock.nativeHandlers)
         self.lock.logger.debug("Reloading Lock with connections \(connections).")
         guard !connections.isEmpty else { return exit(withError: UnrecoverableError.clientWithNoConnections) }
         self.controller?.routes.reset()

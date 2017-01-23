@@ -316,4 +316,7 @@ class MockNativeAuthHandler: NativeAuthHandler {
     func login(_ connection: String, scope: String, parameters: [String : Any]) {
         onLogin()
     }
+    func resumeAuth(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        return true
+    }
 }

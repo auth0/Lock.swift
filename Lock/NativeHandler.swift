@@ -29,6 +29,7 @@ public protocol NativeAuthHandler {
     var onSuccess: (Credentials, Any) -> () { get set }
 
     func login(_ connection: String, scope: String, parameters: [String: Any])
+    func resumeAuth(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool
 }
 
 public struct NativeHandler {
