@@ -24,8 +24,12 @@
 
 @implementation A0DeviceNameProvider
 
-+ (NSString *)deviceName {
-    return [[NSHost currentHost] name];
++ (NSString *)deviceName
+{
+	// This causes long delays (~ 20 seconds) on some machines.
+//	return [[NSHost currentHost] name];
+	
+	return [[NSHost currentHost] localizedName];
 }
 
 @end
