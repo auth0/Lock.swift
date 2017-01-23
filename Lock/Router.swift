@@ -49,7 +49,7 @@ struct Router: Navigable {
     }
 
     var root: Presentable? {
-        let connections = self.lock.connections
+        let connections = self.lock.connections.registerNativeHandlers(lock.nativeHandlers)
         guard !connections.isEmpty else {
             self.lock.logger.debug("No connections configured. Loading client info from Auth0...")
             let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
@@ -63,7 +63,7 @@ struct Router: Navigable {
             let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
             if !connections.oauth2.isEmpty {
                 let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
-                presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, nativeInteractor: nativeInteractor, nativeHandlers: self.lock.nativeHandlers, customStyle: self.lock.style.oauth2)
+                presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, nativeInteractor: nativeInteractor, customStyle: self.lock.style.oauth2)
             }
             if !connections.enterprise.isEmpty {
                 let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
@@ -81,14 +81,14 @@ struct Router: Navigable {
             }
             let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, user: self.user, options: self.lock.options)
             if !connections.oauth2.isEmpty {
-                presenter.authPresenter = AuthPresenter(connections: connections, interactor: authInteractor, nativeInteractor: nativeInteractor, nativeHandlers: self.lock.nativeHandlers, customStyle: self.lock.style.oauth2)
+                presenter.authPresenter = AuthPresenter(connections: connections, interactor: authInteractor, nativeInteractor: nativeInteractor, customStyle: self.lock.style.oauth2)
             }
             return presenter
         }
         if !connections.oauth2.isEmpty {
             let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
             let nativeInteractor = NativeAuthInteractor(dispatcher: lock.observerStore, options: self.lock.options)
-            let presenter = AuthPresenter(connections: connections, interactor: interactor, nativeInteractor: nativeInteractor,  nativeHandlers: self.lock.nativeHandlers, customStyle: self.lock.style.oauth2)
+            let presenter = AuthPresenter(connections: connections, interactor: interactor, nativeInteractor: nativeInteractor,customStyle: self.lock.style.oauth2)
             return presenter
         }
         return nil
@@ -157,7 +157,7 @@ struct Router: Navigable {
 
     func reload(withConnections connections: Connections) {
         self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed)
-        let connections = self.lock.connections
+        let connections = self.lock.connections.registerNativeHandlers(self.lock.nativeHandlers)
         self.lock.logger.debug("Reloading Lock with connections \(connections).")
         guard !connections.isEmpty else { return exit(withError: UnrecoverableError.clientWithNoConnections) }
         self.controller?.routes.reset()

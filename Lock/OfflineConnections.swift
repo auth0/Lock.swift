@@ -37,8 +37,8 @@ struct OfflineConnections: ConnectionBuildable {
         self.oauth2(name: name, style: style)
     }
 
-    mutating func oauth2(name: String, style: AuthStyle) {
-        let social = SocialConnection(name: name, style: style)
+    mutating func oauth2(name: String, style: AuthStyle, handler: NativeAuthHandler? = nil) {
+        let social = SocialConnection(name: name, style: style, handler: handler)
         self.oauth2.append(social)
     }
 
@@ -64,15 +64,18 @@ struct OfflineConnections: ConnectionBuildable {
         return connections
     }
 
-    func registerNative(_ native: Connections) -> OfflineConnections {
+    func registerNativeHandlers(_ nativeHandlers: [NativeHandler]) -> OfflineConnections {
         var connections = OfflineConnections()
         connections.databases = self.databases
-        connections.oauth2 = native.oauth2 + self.oauth2.filter { connection in
-            !native.oauth2.contains { native in
-                native.name == connection.name
+        connections.enterprise = self.enterprise
+
+        for connection in self.oauth2 {
+            if let authHandler = nativeHandlers.filter({ $0.name == connection.name }).first {
+                connections.oauth2.append(SocialConnection(name: connection.name, style: connection.style, handler: authHandler.handler))
+            } else {
+                 connections.oauth2.append(SocialConnection(name: connection.name, style: connection.style))
             }
         }
-        connections.enterprise = self.enterprise
         return connections
     }
 }

@@ -280,9 +280,6 @@ class MockOAuth2: OAuth2Authenticatable {
         self.connection = connection
         callback(self.onLogin())
     }
-    // TODO: Implement
-    func socialIdPAuth(connection: String, accessToken: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
-    }
 }
 
 class MockController: UIViewController {
@@ -296,5 +293,27 @@ class MockController: UIViewController {
     override func dismiss(animated flag: Bool, completion: (() -> Void)?) {
         self.presented = nil
         completion?()
+    }
+}
+
+class MockNativeAuthInteractor: NativeAuthenticatable {
+    var connection: String? = nil
+    var handler: NativeAuthHandler? = nil
+    var onLogin: () -> NativeAuthenticatableError? = { _ in return nil }
+    func login(_ connection: String, nativeAuth: NativeAuthHandler, callback: @escaping (NativeAuthenticatableError?) -> ()) {
+        self.connection = connection
+        self.handler = nativeAuth
+        callback(self.onLogin())
+    }
+}
+
+class MockNativeAuthHandler: NativeAuthHandler {
+    var onAuth: (Credentials) -> () = { _ in }
+    var onError: (Error) -> () = { _ in }
+    var onSuccess: (Credentials, Any) -> () = { _ in }
+
+    var onLogin: () -> () = { _ in }
+    func login(_ connection: String, scope: String, parameters: [String : Any]) {
+        onLogin()
     }
 }

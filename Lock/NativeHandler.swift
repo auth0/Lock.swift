@@ -23,7 +23,7 @@
 import Foundation
 import Auth0
 
-public protocol NativeHandler {
+public protocol NativeAuthHandler {
     var onAuth: (Credentials) -> () { get set }
     var onError: (Error) -> () { get set }
     var onSuccess: (Credentials, Any) -> () { get set }
@@ -31,7 +31,7 @@ public protocol NativeHandler {
     func login(_ connection: String, scope: String, parameters: [String: Any])
 }
 
-struct NativeAuthHandler {
+public struct NativeHandler {
     var name: String
-    var handler: NativeHandler
+    var handler: NativeAuthHandler
 }

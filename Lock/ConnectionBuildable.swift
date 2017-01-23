@@ -52,9 +52,10 @@ public protocol ConnectionBuildable: Connections {
 
      - parameter name:  name of the connection
      - parameter style: style used for the button used to trigger authentication
+     - parameter handler: use a native plugin handler
      - seeAlso: AuthStyle
      */
-    mutating func oauth2(name: String, style: AuthStyle)
+    mutating func oauth2(name: String, style: AuthStyle, handler: NativeAuthHandler?)
 
     /**
      Adds a new enterprise connection

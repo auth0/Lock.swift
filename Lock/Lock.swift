@@ -39,7 +39,7 @@ public class Lock: NSObject {
 
     var observerStore = ObserverStore()
 
-    var nativeHandlers: [NativeAuthHandler] = []
+    var nativeHandlers: [NativeHandler] = []
 
     var style: Style = Style()
 
@@ -260,10 +260,12 @@ public class Lock: NSObject {
      
      - paramater name:    name of the connection to use
      - paramater handler: name of the NativeHandler plugin
+     
+     - returns: Lock itself for chaining
      */
-    public func nativeAuth(for name: String, handler: NativeHandler) -> Lock {
-        let nativeAuthHandler = NativeAuthHandler(name: name, handler: handler)
-        self.nativeHandlers.append(nativeAuthHandler)
+    public func nativeAuth(for name: String, handler: NativeAuthHandler) -> Lock {
+        let nativeHandler = NativeHandler(name: name, handler: handler)
+        self.nativeHandlers.append(nativeHandler)
         return self
     }
 }

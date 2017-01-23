@@ -24,7 +24,7 @@ import Foundation
 import Auth0
 
 protocol NativeAuthenticatable {
-    func login(_ connection: String, nativeAuth: NativeHandler, callback: @escaping (NativeAuthenticatableError?) -> ())
+    func login(_ connection: String, nativeAuth: NativeAuthHandler, callback: @escaping (NativeAuthenticatableError?) -> ())
 }
 
 public enum NativeAuthenticatableError: Error, LocalizableError {

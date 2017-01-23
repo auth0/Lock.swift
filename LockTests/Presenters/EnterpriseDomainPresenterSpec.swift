@@ -53,7 +53,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             connections.enterprise(name: "ValidAD", domains: ["validad.com"])
 
             nativeInteractor = NativeAuthInteractor(dispatcher: ObserverStore(), options: options)
-            authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor(), nativeInteractor: nativeInteractor, nativeHandlers: [], customStyle: [:])
+            authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor(), nativeInteractor: nativeInteractor, customStyle: [:])
             interactor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
             presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
             presenter.messagePresenter = messagePresenter

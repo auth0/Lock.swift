@@ -28,7 +28,7 @@ struct NativeAuthInteractor: NativeAuthenticatable {
     let dispatcher: Dispatcher
     let options: Options
 
-    func login(_ connection: String, nativeAuth: NativeHandler, callback: @escaping (NativeAuthenticatableError?) -> ()) {
+    func login(_ connection: String, nativeAuth: NativeAuthHandler, callback: @escaping (NativeAuthenticatableError?) -> ()) {
         var auth = nativeAuth
 
         auth.onAuth = { credentials in

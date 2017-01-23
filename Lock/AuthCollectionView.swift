@@ -26,7 +26,7 @@ class AuthCollectionView: UIView, View {
 
     let connections: [OAuth2Connection]
     let mode: Mode
-    let onAction: (String, NativeHandler?) -> ()
+    let onAction: (String, NativeAuthHandler?) -> ()
     let customStyle: [String : AuthStyle]
 
     enum Mode {
@@ -36,7 +36,7 @@ class AuthCollectionView: UIView, View {
 
     // MARK: - Initialisers
 
-    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: @escaping (String, NativeHandler?) -> ()) {
+    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: @escaping (String, NativeAuthHandler?) -> ()) {
         self.connections = connections
         self.mode = mode
         self.onAction = onAction
@@ -140,7 +140,7 @@ class AuthCollectionView: UIView, View {
     }
 }
 
-func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping (String, NativeHandler?) -> ()) -> [AuthButton] {
+func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping (String, NativeAuthHandler?) -> ()) -> [AuthButton] {
     return connections.map { connection -> AuthButton in
         let style = customStyle[connection.name] ?? connection.style
         let button = AuthButton(size: .big)

@@ -47,7 +47,7 @@ class DatabasePresenterSpec: QuickSpec {
 
             nativeInteractor = NativeAuthInteractor(dispatcher: ObserverStore(), options: options)
             enterpriseInteractor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
-            authPresenter = MockAuthPresenter(connections: connections, interactor: MockAuthInteractor(), nativeInteractor: nativeInteractor, nativeHandlers: [], customStyle: [:])
+            authPresenter = MockAuthPresenter(connections: connections, interactor: MockAuthInteractor(), nativeInteractor: nativeInteractor, customStyle: [:])
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
             navigator = MockNavigator()

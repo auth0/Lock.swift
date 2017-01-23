@@ -130,6 +130,12 @@ class RouterSpec: QuickSpec {
                 expect(router.root as? DatabaseForgotPasswordPresenter).toNot(beNil())
             }
 
+            it("should return root for single native social") {
+                _ = lock.withConnections {
+                    $0.social(name: "facebook", style: .Facebook)
+                }.nativeAuth(for: "facebook", handler: MockNativeAuthHandler())
+                expect(router.root as? AuthPresenter).toNot(beNil())
+            }
         }
 
         describe("events") {
