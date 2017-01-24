@@ -57,10 +57,6 @@ struct AuthenticatableResultHandler: Loggable {
             self.logger.error("The password of user <\(identifier)> was leaked")
             callback(.passwordLeaked)
             self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.passwordLeaked))
-        case .failure(let cause as AuthenticationError) where cause.code == "invalid_request" && cause.description.lowercased().contains("oidc conformant"):
-            self.logger.error("Please check your OIDC conformant client settings.")
-            callback(.invalidRequest)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.invalidRequest))
         case .failure(let cause):
             self.logger.error("Failed login of user <\(identifier)> with error \(cause)")
             callback(.couldNotLogin)

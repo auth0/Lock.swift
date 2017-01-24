@@ -121,52 +121,6 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
 
         self.authentication
             .request(withIdentifier: identifier, password: password, options: self.options)
-            .start { self.handleLoginResult($0, callback: callback) }
+            .start { self.resultHandler.handle(identifier: identifier, result: $0, callback: callback) }
     }
-
-    private func handleLoginResult(_ result: Auth0.Result<Credentials>, callback: (DatabaseAuthenticatableError?) -> ()) {
-        switch result {
-        case .failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
-            self.logger.error("Multifactor is required for user <\(self.identifier)>")
-            callback(.multifactorRequired)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.multifactorRequired))
-        case .failure(let cause as AuthenticationError) where cause.isTooManyAttempts:
-            self.logger.error("Blocked user <\(self.identifier)> for too many login attempts")
-            callback(.tooManyAttempts)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.tooManyAttempts))
-        case .failure(let cause as AuthenticationError) where cause.isInvalidCredentials:
-            self.logger.error("Invalid credentials of user <\(self.identifier)>")
-            callback(.invalidEmailPassword)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.invalidEmailPassword))
-        case .failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
-            self.logger.error("Multifactor code is invalid for user <\(self.identifier)>")
-            callback(.multifactorInvalid)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.multifactorInvalid))
-        case .failure(let cause as AuthenticationError) where cause.isRuleError && cause.description.lowercased() == "user is blocked":
-            self.logger.error("Blocked user <\(self.identifier)>")
-            callback(.userBlocked)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.userBlocked))
-        case .failure(let cause as AuthenticationError) where cause.code == "password_change_required":
-            self.logger.error("Change password required for user <\(self.identifier)>")
-            callback(.passwordChangeRequired)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.passwordChangeRequired))
-        case .failure(let cause as AuthenticationError) where cause.code == "password_leaked":
-            self.logger.error("The password of user <\(self.identifier)> was leaked")
-            callback(.passwordLeaked)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.passwordLeaked))
-        case .failure(let cause as AuthenticationError) where cause.code == "invalid_request" && cause.description.lowercased().contains("oidc conformant"):
-            self.logger.error("Please check your OIDC conformant client settings.")
-            callback(.invalidRequest)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.invalidRequest))
-        case .failure(let cause):
-            self.logger.error("Failed login of user <\(self.identifier)> with error \(cause)")
-            callback(.couldNotLogin)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.couldNotLogin))
-        case .success(let credentials):
-            self.logger.info("Authenticated user <\(self.identifier)>")
-            callback(nil)
-            self.dispatcher.dispatch(result: .auth(credentials))
-        }
-    }
-
 }
