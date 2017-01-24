@@ -40,7 +40,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     var requiredValidator = NonEmptyValidator()
 
     let credentialAuth: CredentialAuth
-    let resultHandler: DatabaseResultHandler
+    let resultHandler: AuthenticatableResultHandler
     let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
     let dispatcher: Dispatcher
@@ -49,7 +49,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
     init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
         self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
-        self.resultHandler = DatabaseResultHandler(dispatcher: dispatcher)
+        self.resultHandler = AuthenticatableResultHandler(dispatcher: dispatcher)
         self.connection = connection
         self.dispatcher = dispatcher
         self.user = user

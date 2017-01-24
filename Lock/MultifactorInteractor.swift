@@ -29,7 +29,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
     private var user: DatabaseUser
     private var authentication: Authentication
     private let dispatcher: Dispatcher
-    private let resultHandler: DatabaseResultHandler
+    private let resultHandler: AuthenticatableResultHandler
 
     private(set) var code: String? = nil
     private(set) var validCode: Bool = false
@@ -39,7 +39,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
     private let options: Options
 
     init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, options: Options, dispatcher: Dispatcher) {
-        self.resultHandler = DatabaseResultHandler(dispatcher: dispatcher)
+        self.resultHandler = AuthenticatableResultHandler(dispatcher: dispatcher)
         self.user = user
         self.authentication = authentication
         self.connection = connection

@@ -1,4 +1,4 @@
-// DatabaseResultHandler.swift
+// AuthenticatableResultHandler.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -23,7 +23,7 @@
 import Foundation
 import Auth0
 
-struct DatabaseResultHandler: Loggable {
+struct AuthenticatableResultHandler: Loggable {
 
     let dispatcher: Dispatcher
 
