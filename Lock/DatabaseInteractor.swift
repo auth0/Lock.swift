@@ -40,7 +40,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     var requiredValidator = NonEmptyValidator()
 
     let credentialAuth: CredentialAuth
-    let resultHandler: AuthenticatableResultHandler
+    let resultHandler: CredentialAuthResultHandler
     let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
     let dispatcher: Dispatcher
@@ -49,7 +49,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
     init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
         self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
-        self.resultHandler = AuthenticatableResultHandler(dispatcher: dispatcher)
+        self.resultHandler = CredentialAuthResultHandler(dispatcher: dispatcher)
         self.connection = connection
         self.dispatcher = dispatcher
         self.user = user
@@ -86,7 +86,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         if let error = error { throw error }
     }
 
-    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ()) {
+    func login(_ callback: @escaping (CredentialAuthError?) -> ()) {
         let identifier: String
 
         if let email = self.email, self.validEmail {
@@ -104,7 +104,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             .start { self.resultHandler.handle(identifier: identifier, result: $0, callback: callback) }
     }
 
-    func create(_ callback: @escaping (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ()) {
+    func create(_ callback: @escaping (DatabaseUserCreatorError?, CredentialAuthError?) -> ()) {
         let databaseName = connection.name
 
         guard

@@ -27,5 +27,5 @@ protocol MultifactorAuthenticatable {
 
     mutating func setMultifactorCode(_ code: String?) throws
 
-    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ())
+    func login(_ callback: @escaping (CredentialAuthError?) -> ())
 }

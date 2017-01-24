@@ -47,14 +47,14 @@ class BannerMessagePresenterSpec: QuickSpec {
             }
 
             it("should show error message") {
-                let error = DatabaseAuthenticatableError.couldNotLogin
+                let error = CredentialAuthError.couldNotLogin
                 presenter.showError(error)
                 expect(presenter.messageView?.message) == error.localizableMessage.uppercased()
                 expect(presenter.messageView?.type) == .failure
             }
 
             it("should hide message") {
-                let error = DatabaseAuthenticatableError.couldNotLogin
+                let error = CredentialAuthError.couldNotLogin
                 presenter.showError(error)
                 presenter.hideCurrent()
                 expect(presenter.messageView).toEventually(beNil())

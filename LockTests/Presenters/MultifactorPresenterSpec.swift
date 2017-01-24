@@ -53,7 +53,7 @@ class MultifactorPresenterSpec: QuickSpec {
         describe("user input") {
 
             it("should clear global message") {
-                messagePresenter.showError(DatabaseAuthenticatableError.couldNotLogin)
+                messagePresenter.showError(CredentialAuthError.couldNotLogin)
                 let input = mockInput(.email, value: email)
                 view.form?.onValueChange(input)
                 expect(messagePresenter.error).to(beNil())
@@ -113,7 +113,7 @@ class MultifactorPresenterSpec: QuickSpec {
             }
 
             it("should clear global message") {
-                messagePresenter.showError(DatabaseAuthenticatableError.couldNotLogin)
+                messagePresenter.showError(CredentialAuthError.couldNotLogin)
                 interactor.onLogin = {
                     return nil
                 }
@@ -127,7 +127,7 @@ class MultifactorPresenterSpec: QuickSpec {
                     return .couldNotLogin
                 }
                 view.primaryButton?.onPress(view.primaryButton!)
-                expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.couldNotLogin))
+                expect(messagePresenter.error).toEventually(beError(error: CredentialAuthError.couldNotLogin))
             }
 
             it("should trigger login on button press") {

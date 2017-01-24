@@ -207,14 +207,14 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
 
             it("should trigger login on button press and fail with with CouldNotLogin") {
                 view.primaryButton?.onPress(view.primaryButton!)
-                expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.couldNotLogin))
+                expect(messagePresenter.error).toEventually(beError(error: CredentialAuthError.couldNotLogin))
             }
 
             it("should trigger submission of form") {
                 let input = mockInput(.password, value: password)
                 input.returnKey = .done
                 view.form?.onReturn(input)
-                expect(messagePresenter.error).toEventually(beError(error: DatabaseAuthenticatableError.couldNotLogin))
+                expect(messagePresenter.error).toEventually(beError(error: CredentialAuthError.couldNotLogin))
             }
 
         }

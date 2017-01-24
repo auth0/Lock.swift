@@ -1,4 +1,4 @@
-// DatabaseAuthenticatableError.swift
+// CredentialAuthError.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,7 +22,7 @@
 
 import Foundation
 
-enum DatabaseAuthenticatableError: Error, LocalizableError {
+enum CredentialAuthError: Error, LocalizableError {
     case nonValidInput
     case userBlocked
     case invalidEmailPassword

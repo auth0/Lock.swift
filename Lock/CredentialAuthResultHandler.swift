@@ -1,4 +1,4 @@
-// AuthenticatableResultHandler.swift
+// CredentialAuthResultHandler.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -23,44 +23,44 @@
 import Foundation
 import Auth0
 
-struct AuthenticatableResultHandler: Loggable {
+struct CredentialAuthResultHandler: Loggable {
 
     let dispatcher: Dispatcher
 
-    func handle(identifier: String, result: Auth0.Result<Credentials>, callback: (DatabaseAuthenticatableError?) -> ()) {
+    func handle(identifier: String, result: Auth0.Result<Credentials>, callback: (CredentialAuthError?) -> ()) {
         switch result {
         case .failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
             self.logger.error("Multifactor is required for user <\(identifier)>")
             callback(.multifactorRequired)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.multifactorRequired))
+            self.dispatcher.dispatch(result: .error(CredentialAuthError.multifactorRequired))
         case .failure(let cause as AuthenticationError) where cause.isTooManyAttempts:
             self.logger.error("Blocked user <\(identifier)> for too many login attempts")
             callback(.tooManyAttempts)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.tooManyAttempts))
+            self.dispatcher.dispatch(result: .error(CredentialAuthError.tooManyAttempts))
         case .failure(let cause as AuthenticationError) where cause.isInvalidCredentials:
             self.logger.error("Invalid credentials of user <\(identifier)>")
             callback(.invalidEmailPassword)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.invalidEmailPassword))
+            self.dispatcher.dispatch(result: .error(CredentialAuthError.invalidEmailPassword))
         case .failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
             self.logger.error("Multifactor code is invalid for user <\(identifier)>")
             callback(.multifactorInvalid)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.multifactorInvalid))
+            self.dispatcher.dispatch(result: .error(CredentialAuthError.multifactorInvalid))
         case .failure(let cause as AuthenticationError) where cause.isRuleError && cause.description.lowercased() == "user is blocked":
             self.logger.error("Blocked user <\(identifier)>")
             callback(.userBlocked)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.userBlocked))
+            self.dispatcher.dispatch(result: .error(CredentialAuthError.userBlocked))
         case .failure(let cause as AuthenticationError) where cause.code == "password_change_required":
             self.logger.error("Change password required for user <\(identifier)>")
             callback(.passwordChangeRequired)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.passwordChangeRequired))
+            self.dispatcher.dispatch(result: .error(CredentialAuthError.passwordChangeRequired))
         case .failure(let cause as AuthenticationError) where cause.code == "password_leaked":
             self.logger.error("The password of user <\(identifier)> was leaked")
             callback(.passwordLeaked)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.passwordLeaked))
+            self.dispatcher.dispatch(result: .error(CredentialAuthError.passwordLeaked))
         case .failure(let cause):
             self.logger.error("Failed login of user <\(identifier)> with error \(cause)")
             callback(.couldNotLogin)
-            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.couldNotLogin))
+            self.dispatcher.dispatch(result: .error(CredentialAuthError.couldNotLogin))
         case .success(let credentials):
             self.logger.info("Authenticated user <\(identifier)>")
             callback(nil)

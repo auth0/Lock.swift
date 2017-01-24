@@ -40,7 +40,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
     let passwordValidator: InputValidator = NonEmptyValidator()
 
     let authentication: CredentialAuth
-    let resultHandler: AuthenticatableResultHandler
+    let resultHandler: CredentialAuthResultHandler
     let dispatcher: Dispatcher
     let options: Options
     let user: User
@@ -50,7 +50,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
 
     init(connection: EnterpriseConnection, authentication: Authentication, user: User, options: Options, dispatcher: Dispatcher) {
         self.authentication = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
-        self.resultHandler = AuthenticatableResultHandler(dispatcher: dispatcher)
+        self.resultHandler = CredentialAuthResultHandler(dispatcher: dispatcher)
         self.connection = connection
         self.dispatcher = dispatcher
         self.user = user
@@ -106,7 +106,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
         return error
     }
 
-    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ()) {
+    func login(_ callback: @escaping (CredentialAuthError?) -> ()) {
         let identifier: String
 
         if let email = self.email, self.validEmail {

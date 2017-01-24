@@ -27,7 +27,7 @@
 		5B6631531DDB9B28001CB043 /* EnterpriseDomainInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */; };
 		5BA563F11DD117550002D3AB /* EnterpriseActiveAuthInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA563EF1DD1171F0002D3AB /* EnterpriseActiveAuthInteractorSpec.swift */; };
 		5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */; };
-		5BBCC37F1E37BCAA002C7854 /* AuthenticatableResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBCC37E1E37BCAA002C7854 /* AuthenticatableResultHandler.swift */; };
+		5BBCC37F1E37BCAA002C7854 /* CredentialAuthResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBCC37E1E37BCAA002C7854 /* CredentialAuthResultHandler.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
 		5F0FCF901E20117E00E3D53B /* ObserverStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */; };
@@ -44,7 +44,7 @@
 		5F2496B31D665A5600A1C6E2 /* DatabaseUserCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */; };
 		5F2496B61D665AA800A1C6E2 /* InputValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B51D665AA800A1C6E2 /* InputValidationError.swift */; };
 		5F2496B81D665AC500A1C6E2 /* UserAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B71D665AC500A1C6E2 /* UserAttribute.swift */; };
-		5F2496BA1D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */; };
+		5F2496BA1D665AE900A1C6E2 /* CredentialAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496B91D665AE900A1C6E2 /* CredentialAuthError.swift */; };
 		5F2496BC1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */; };
 		5F2496BE1D67ADB300A1C6E2 /* EmailValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */; };
 		5F390E871D638A6D00FC549C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F390E861D638A6D00FC549C /* Logger.swift */; };
@@ -223,7 +223,7 @@
 		5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainInteractorSpec.swift; sourceTree = "<group>"; };
 		5BA563EF1DD1171F0002D3AB /* EnterpriseActiveAuthInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthInteractorSpec.swift; sourceTree = "<group>"; };
 		5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
-		5BBCC37E1E37BCAA002C7854 /* AuthenticatableResultHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticatableResultHandler.swift; sourceTree = "<group>"; };
+		5BBCC37E1E37BCAA002C7854 /* CredentialAuthResultHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialAuthResultHandler.swift; sourceTree = "<group>"; };
 		5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthPresenterSpec.swift; sourceTree = "<group>"; };
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
 		5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverStore.swift; sourceTree = "<group>"; };
@@ -240,7 +240,7 @@
 		5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseUserCreator.swift; path = Lock/DatabaseUserCreator.swift; sourceTree = SOURCE_ROOT; };
 		5F2496B51D665AA800A1C6E2 /* InputValidationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputValidationError.swift; path = Lock/InputValidationError.swift; sourceTree = SOURCE_ROOT; };
 		5F2496B71D665AC500A1C6E2 /* UserAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserAttribute.swift; path = Lock/UserAttribute.swift; sourceTree = SOURCE_ROOT; };
-		5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseAuthenticatableError.swift; path = Lock/DatabaseAuthenticatableError.swift; sourceTree = SOURCE_ROOT; };
+		5F2496B91D665AE900A1C6E2 /* CredentialAuthError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CredentialAuthError.swift; path = Lock/CredentialAuthError.swift; sourceTree = SOURCE_ROOT; };
 		5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseUserCreatorError.swift; path = Lock/DatabaseUserCreatorError.swift; sourceTree = SOURCE_ROOT; };
 		5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailValidatorSpec.swift; sourceTree = "<group>"; };
 		5F390E861D638A6D00FC549C /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Lock/Logger.swift; sourceTree = SOURCE_ROOT; };
@@ -406,7 +406,7 @@
 			children = (
 				5F2496B51D665AA800A1C6E2 /* InputValidationError.swift */,
 				5B55F3D01E244B8700B75CF5 /* UnrecoverableError.swift */,
-				5F2496B91D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift */,
+				5F2496B91D665AE900A1C6E2 /* CredentialAuthError.swift */,
 				5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */,
 			);
 			name = Errors;
@@ -558,7 +558,7 @@
 				5F1456591D5130E80085DF9C /* Colors.swift */,
 				5F390E861D638A6D00FC549C /* Logger.swift */,
 				5FF0B2271E1726C400A73257 /* CredentialAuth.swift */,
-				5BBCC37E1E37BCAA002C7854 /* AuthenticatableResultHandler.swift */,
+				5BBCC37E1E37BCAA002C7854 /* CredentialAuthResultHandler.swift */,
 			);
 			name = Utils;
 			path = Lock;
@@ -995,7 +995,7 @@
 				5FC4348C1D1DFC5A005188BC /* Form.swift in Sources */,
 				5F73CDD01D30250900D8D8D1 /* MessagePresenter.swift in Sources */,
 				5F70F1E51D790735004698DA /* Options.swift in Sources */,
-				5BBCC37F1E37BCAA002C7854 /* AuthenticatableResultHandler.swift in Sources */,
+				5BBCC37F1E37BCAA002C7854 /* CredentialAuthResultHandler.swift in Sources */,
 				5FDB41D01D2C95B100166B67 /* MessageView.swift in Sources */,
 				5F2496B61D665AA800A1C6E2 /* InputValidationError.swift in Sources */,
 				5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */,
@@ -1015,7 +1015,7 @@
 				5FDC876D1D46DAF200D28596 /* Queue.swift in Sources */,
 				5F70F1E11D790500004698DA /* Connections.swift in Sources */,
 				5F92C68F1D50EAC200CCE6C0 /* LazyImage.swift in Sources */,
-				5F2496BA1D665AE900A1C6E2 /* DatabaseAuthenticatableError.swift in Sources */,
+				5F2496BA1D665AE900A1C6E2 /* CredentialAuthError.swift in Sources */,
 				5B55F3CB1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift in Sources */,
 				5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
 				5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */,

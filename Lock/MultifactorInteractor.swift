@@ -29,7 +29,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
     private var user: DatabaseUser
     private var authentication: Authentication
     private let dispatcher: Dispatcher
-    private let resultHandler: AuthenticatableResultHandler
+    private let resultHandler: CredentialAuthResultHandler
 
     private(set) var code: String? = nil
     private(set) var validCode: Bool = false
@@ -39,7 +39,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
     private let options: Options
 
     init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, options: Options, dispatcher: Dispatcher) {
-        self.resultHandler = AuthenticatableResultHandler(dispatcher: dispatcher)
+        self.resultHandler = CredentialAuthResultHandler(dispatcher: dispatcher)
         self.user = user
         self.authentication = authentication
         self.connection = connection
@@ -56,7 +56,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
         self.validCode = true
     }
 
-    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ()) {
+    func login(_ callback: @escaping (CredentialAuthError?) -> ()) {
         let identifier: String
 
         if let email = self.user.email, self.user.validEmail {

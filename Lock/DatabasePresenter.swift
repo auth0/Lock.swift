@@ -108,7 +108,7 @@ class DatabasePresenter: Presentable, Loggable {
                         }
                         return
                     }
-                    if case DatabaseAuthenticatableError.multifactorRequired = error {
+                    if case CredentialAuthError.multifactorRequired = error {
                         self.navigator.navigate(.multifactor)
                     } else {
                         form?.needsToUpdateState()
