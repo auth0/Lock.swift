@@ -29,6 +29,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
     private var user: DatabaseUser
     private var authentication: Authentication
     private let dispatcher: Dispatcher
+    private let resultHandler: DatabaseResultHandler
 
     private(set) var code: String? = nil
     private(set) var validCode: Bool = false
@@ -38,6 +39,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
     private let options: Options
 
     init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, options: Options, dispatcher: Dispatcher) {
+        self.resultHandler = DatabaseResultHandler(dispatcher: dispatcher)
         self.user = user
         self.authentication = authentication
         self.connection = connection
@@ -78,18 +80,6 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
                 connection: database,
                 scope: self.options.scope,
                 parameters: self.options.parameters
-            ).start { result in
-                switch result {
-                case .failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
-                    callback(.multifactorInvalid)
-                    self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.multifactorInvalid))
-                case .failure:
-                    callback(.couldNotLogin)
-                    self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.couldNotLogin))
-                case .success(let credentials):
-                    callback(nil)
-                    self.dispatcher.dispatch(result: .auth(credentials))
-                }
-        }
+            ).start { self.resultHandler.handle(identifier: identifier, result: $0, callback: callback) }
     }
 }

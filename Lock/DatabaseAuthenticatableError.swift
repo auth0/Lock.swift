@@ -32,6 +32,7 @@ enum DatabaseAuthenticatableError: Error, LocalizableError {
     case tooManyAttempts
     case multifactorRequired
     case multifactorInvalid
+    case invalidRequest
 
     var localizableMessage: String {
         switch self {

@@ -40,6 +40,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
     let passwordValidator: InputValidator = NonEmptyValidator()
 
     let authentication: CredentialAuth
+    let resultHandler: DatabaseResultHandler
     let dispatcher: Dispatcher
     let options: Options
     let user: User
@@ -49,6 +50,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
 
     init(connection: EnterpriseConnection, authentication: Authentication, user: User, options: Options, dispatcher: Dispatcher) {
         self.authentication = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
+        self.resultHandler = DatabaseResultHandler(dispatcher: dispatcher)
         self.connection = connection
         self.dispatcher = dispatcher
         self.user = user
@@ -152,6 +154,10 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
             self.logger.error("The password of user <\(self.identifier)> was leaked")
             callback(.passwordLeaked)
             self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.passwordLeaked))
+        case .failure(let cause as AuthenticationError) where cause.code == "invalid_request" && cause.description.lowercased().contains("oidc conformant"):
+            self.logger.error("Please check your OIDC conformant client settings.")
+            callback(.invalidRequest)
+            self.dispatcher.dispatch(result: .error(DatabaseAuthenticatableError.invalidRequest))
         case .failure(let cause):
             self.logger.error("Failed login of user <\(self.identifier)> with error \(cause)")
             callback(.couldNotLogin)

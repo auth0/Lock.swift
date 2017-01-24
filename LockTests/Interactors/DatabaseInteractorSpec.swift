@@ -566,6 +566,21 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
+
+            context("OIDC conformant enabled in dashboard") {
+
+                it("should fail with invalid request") {
+                    stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_request", description: "OIDC conformant clients cannot use /oauth/ro") }
+                    try! database.update(.email, value: email)
+                    try! database.update(.password(enforcePolicy: false), value: password)
+                    waitUntil(timeout: 2) { done in
+                        database.login { error in
+                            expect(error) == .invalidRequest
+                            done()
+                        }
+                    }
+                }
+            }
         }
 
         describe("login OIDC Conformant") {
