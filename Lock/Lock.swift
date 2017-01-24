@@ -261,12 +261,12 @@ public class Lock: NSObject {
      Regstier native authentication plugins, e.g. When using native social integration
      plugins such as LockFacebook.
      
-     - paramater name:    name of the connection to use
+     - paramater name:    name of the connection to use native plugin
      - paramater handler: name of the NativeHandler plugin
      
      - returns: Lock itself for chaining
      */
-    public func nativeAuth(for name: String, handler: NativeAuthHandler) -> Lock {
+    public func nativeAuth(for name: [String], handler: NativeAuthHandler) -> Lock {
         let nativeHandler = NativeHandler(name: name, handler: handler)
         Lock.nativeHandlers.append(nativeHandler)
         return self

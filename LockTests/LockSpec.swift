@@ -152,8 +152,8 @@ class LockSpec: QuickSpec {
             it("should regsiter native handler") {
                 let nativeHandler = MockNativeAuthHandler()
                 let name = "facebook"
-                _ = lock.nativeAuth(for: name, handler: nativeHandler)
-                expect(Lock.nativeHandlers.filter({ $0.name == name })).toNot(beEmpty())
+                _ = lock.nativeAuth(for: [name], handler: nativeHandler)
+                expect(Lock.nativeHandlers.filter({ $0.name.contains(name)})).toNot(beEmpty())
             }
 
         }

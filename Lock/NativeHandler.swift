@@ -24,15 +24,11 @@ import Foundation
 import Auth0
 
 public protocol NativeAuthHandler {
-    var onAuth: (Credentials) -> () { get set }
-    var onError: (Error) -> () { get set }
-    var onSuccess: (Credentials, Any) -> () { get set }
-
-    func login(_ connection: String, scope: String, parameters: [String: Any])
+    func login(_ connection: String, scope: String, parameters: [String: Any], callback: @escaping (Error?, Credentials?) -> ())
     func resumeAuth(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool
 }
 
 public struct NativeHandler {
-    var name: String
+    var name: [String]
     var handler: NativeAuthHandler
 }

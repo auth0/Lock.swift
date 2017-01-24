@@ -117,7 +117,7 @@ class OfflineConnectionsSpec: QuickSpec {
                 let handler = MockNativeAuthHandler()
                 var connections = OfflineConnections()
                 connections.social(name: "facebook", style: .Facebook)
-                let nativeHandler: [NativeHandler] = [ NativeHandler(name: "facebook", handler: handler) ]
+                let nativeHandler: [NativeHandler] = [ NativeHandler(name: ["facebook"], handler: handler) ]
                 connections = connections.registerNativeHandlers(nativeHandler)
                 expect(connections.oauth2.count) == 1
             }
@@ -126,7 +126,7 @@ class OfflineConnectionsSpec: QuickSpec {
                 let handler = MockNativeAuthHandler()
                 var connections = OfflineConnections()
                 connections.social(name: "facebook", style: .Facebook)
-                let nativeHandler: [NativeHandler] = [ NativeHandler(name: "facebook", handler: handler) ]
+                let nativeHandler: [NativeHandler] = [ NativeHandler(name: ["facebook"], handler: handler) ]
                 connections = connections.registerNativeHandlers(nativeHandler)
                 let nativeConnection = connections.oauth2.first
                 expect(nativeConnection!.handler).toNot(beNil())

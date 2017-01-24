@@ -70,7 +70,7 @@ struct OfflineConnections: ConnectionBuildable {
         connections.enterprise = self.enterprise
 
         for connection in self.oauth2 {
-            if let authHandler = nativeHandlers.filter({ $0.name == connection.name }).first {
+            if let authHandler = nativeHandlers.filter({ $0.name.contains(connection.name)}).first {
                 connections.oauth2.append(SocialConnection(name: connection.name, style: connection.style, handler: authHandler.handler))
             } else {
                  connections.oauth2.append(SocialConnection(name: connection.name, style: connection.style))

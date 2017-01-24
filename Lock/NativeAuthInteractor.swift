@@ -29,18 +29,16 @@ struct NativeAuthInteractor: NativeAuthenticatable {
     let options: Options
 
     func login(_ connection: String, nativeAuth: NativeAuthHandler, callback: @escaping (NativeAuthenticatableError?) -> ()) {
-        var auth = nativeAuth
 
-        auth.onAuth = { credentials in
+        nativeAuth.login(connection, scope: self.options.scope, parameters: self.options.parameters) { error, credentials in
+            guard error == nil, let credentials = credentials else {
+                callback(NativeAuthenticatableError.nativeIssue)
+                return self.dispatcher.dispatch(result: .error(error!))
+            }
+
             callback(nil)
             self.dispatcher.dispatch(result: .auth(credentials))
         }
 
-        auth.onError = { error in
-            callback(NativeAuthenticatableError.nativeIssue)
-            self.dispatcher.dispatch(result: .error(error))
-        }
-
-        auth.login(connection, scope: self.options.scope, parameters: self.options.parameters)
     }
 }

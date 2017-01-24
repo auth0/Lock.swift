@@ -37,7 +37,6 @@ class NativeAuthInteractorSpec: QuickSpec {
         var dispatchError: Error?
         var credentials: Credentials?
 
-
         beforeEach {
             options = LockOptions()
             options.autoClose = false
@@ -58,7 +57,7 @@ class NativeAuthInteractorSpec: QuickSpec {
 
             it("should not yield error on success") {
                 authHandler.onLogin = {
-                    authHandler.onAuth(mockCredentials())
+                    return (nil, mockCredentials())
                 }
                 interactor.login("facebook", nativeAuth: authHandler) { error = $0 }
                 expect(error).toEventually(beNil())
@@ -66,7 +65,7 @@ class NativeAuthInteractorSpec: QuickSpec {
 
             it("should yield error on handler failure") {
                 authHandler.onLogin = {
-                    authHandler.onError(NativeAuthenticatableError.nativeIssue)
+                    return (NativeAuthenticatableError.nativeIssue, nil)
                 }
                 interactor.login("facebook", nativeAuth: authHandler) { error = $0 }
                 expect(error).toEventually(equal(NativeAuthenticatableError.nativeIssue))
@@ -82,7 +81,7 @@ class NativeAuthInteractorSpec: QuickSpec {
                 it("should dispatch auth") {
                     let expected = mockCredentials()
                     authHandler.onLogin = {
-                        authHandler.onAuth(expected)
+                        return (nil, expected)
                     }
                     interactor.login("facebook", nativeAuth: authHandler) { _ in }
                     expect(dispatchError).toEventually(beNil())
@@ -91,7 +90,7 @@ class NativeAuthInteractorSpec: QuickSpec {
 
                 it("should dispatch error") {
                     authHandler.onLogin = {
-                        authHandler.onError(NativeAuthenticatableError.nativeIssue)
+                        return (NativeAuthenticatableError.nativeIssue, nil)
                     }
                     interactor.login("facebook", nativeAuth: authHandler) { _ in }
                     expect(dispatchError).toEventuallyNot(beNil())
