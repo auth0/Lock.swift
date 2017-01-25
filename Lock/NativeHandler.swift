@@ -24,7 +24,7 @@ import Foundation
 import Auth0
 
 public protocol NativeAuthHandler {
-    func login(_ connection: String, scope: String, parameters: [String: Any], callback: @escaping (NativeAuthenticatableError?, Credentials?) -> ())
+    func login(_ connection: String, scope: String, parameters: [String: Any], callback: @escaping (Auth0.Result<Auth0.Credentials>) -> ())
     func resumeAuth(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool
 }
 

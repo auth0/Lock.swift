@@ -129,7 +129,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
 
             it("should not yield error on success") {
                 authHandler.onLogin = {
-                    return (nil, mockCredentials())
+                    return (Auth0.Result.success(result: mockCredentials()))
                 }
                 interactor.login("facebook") { error = $0 }
                 expect(error).toEventually(beNil())
@@ -137,7 +137,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
 
             it("should yield error on handler failure") {
                 authHandler.onLogin = {
-                    return (NativeAuthenticatableError.nativeIssue, nil)
+                    return (Auth0.Result.failure(error: NativeAuthenticatableError.nativeIssue))
                 }
                 interactor.login("facebook") { error = $0 }
                 expect(error).toEventually(equal(OAuth2AuthenticatableError.couldNotAuthenticate))
@@ -153,7 +153,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
                 it("should dispatch auth") {
                     let expected = mockCredentials()
                     authHandler.onLogin = {
-                        return (nil, expected)
+                        return (Auth0.Result.success(result: expected))
                     }
                     interactor.login("facebook") { _ in }
                     expect(dispatchError).toEventually(beNil())
@@ -162,7 +162,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
 
                 it("should dispatch error") {
                     authHandler.onLogin = {
-                        return (NativeAuthenticatableError.nativeIssue, nil)
+                        return (Auth0.Result.failure(error: NativeAuthenticatableError.nativeIssue))
                     }
                     interactor.login("facebook") { _ in }
                     expect(dispatchError).toEventuallyNot(beNil())

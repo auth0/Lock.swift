@@ -69,27 +69,19 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
 
     private func nativeAuth(_ connection: String, nativeAuth: NativeAuthHandler, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         self.nativeSessionStore.store(nativeAuth)
-        nativeAuth.login(connection, scope: self.options.scope, parameters: self.options.parameters) { error, credentials in
-            guard error == nil else {
+        nativeAuth.login(connection, scope: self.options.scope, parameters: self.options.parameters) { result in
+            switch result {
+            case .success(let credentials):
+                callback(nil)
+                self.dispatcher.dispatch(result: .auth(credentials))
+            case .failure(NativeAuthenticatableError.cancelled):
+                callback(.cancelled)
                 self.nativeSessionStore.cancel()
-                switch error! {
-                case .cancelled:
-                    callback(.cancelled)
-                    self.dispatcher.dispatch(result: .error(NativeAuthenticatableError.cancelled))
-                default:
-                    callback(.couldNotAuthenticate)
-                    self.dispatcher.dispatch(result: .error(error!))
-                }
-                return
-            }
-
-            guard let credentials = credentials else {
+                self.dispatcher.dispatch(result: .error(NativeAuthenticatableError.cancelled))
+            case .failure(let error):
                 callback(.couldNotAuthenticate)
-                return self.dispatcher.dispatch(result: .error(OAuth2AuthenticatableError.couldNotAuthenticate))
+                self.dispatcher.dispatch(result: .error(error))
             }
-
-            callback(nil)
-            self.dispatcher.dispatch(result: .auth(credentials))
         }
     }
 }
