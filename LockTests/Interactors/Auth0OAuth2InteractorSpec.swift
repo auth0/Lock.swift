@@ -24,6 +24,7 @@ import Quick
 import Nimble
 
 import Auth0
+import LockNative
 @testable import Lock
 
 class Auth0OAuth2InteractorSpec: QuickSpec {

@@ -23,6 +23,7 @@
 import Foundation
 import Auth0
 @testable import Lock
+import LockNative
 
 class MockLockController: LockViewController {
 
