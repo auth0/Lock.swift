@@ -26,7 +26,7 @@ class AuthCollectionView: UIView, View {
 
     let connections: [OAuth2Connection]
     let mode: Mode
-    let onAction: (String, NativeAuthHandler?) -> ()
+    let onAction: (String) -> ()
     let customStyle: [String : AuthStyle]
 
     enum Mode {
@@ -36,7 +36,7 @@ class AuthCollectionView: UIView, View {
 
     // MARK: - Initialisers
 
-    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: @escaping (String, NativeAuthHandler?) -> ()) {
+    init(connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets, customStyle: [String: AuthStyle], onAction: @escaping (String) -> ()) {
         self.connections = connections
         self.mode = mode
         self.onAction = onAction
@@ -140,7 +140,7 @@ class AuthCollectionView: UIView, View {
     }
 }
 
-func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping (String, NativeAuthHandler?) -> ()) -> [AuthButton] {
+func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping (String) -> ()) -> [AuthButton] {
     return connections.map { connection -> AuthButton in
         let style = customStyle[connection.name] ?? connection.style
         let button = AuthButton(size: .big)
@@ -150,7 +150,7 @@ func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: 
         button.titleColor = style.foregroundColor
         button.icon = style.image.image(compatibleWithTraits: button.traitCollection)
         button.onPress = { _ in
-            onAction(connection.name, connection.handler)
+            onAction(connection.name)
         }
         return button
     }

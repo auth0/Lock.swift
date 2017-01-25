@@ -37,11 +37,6 @@ public protocol Connections {
      - returns: filtered connections
      */
     func select(byNames names: [String]) -> Self
-
-    /**
-     Register connections that have been supplied with native handlers.
-     */
-    func registerNativeHandlers(_ nativeHandlers: [NativeHandler]) -> Self
 }
 
 public struct DatabaseConnection {
@@ -61,31 +56,21 @@ public struct DatabaseConnection {
 public protocol OAuth2Connection {
     var name: String { get }
     var style: AuthStyle { get }
-    var handler: NativeAuthHandler? { get }
 }
 
 public struct SocialConnection: OAuth2Connection {
     public let name: String
     public let style: AuthStyle
-    public let handler: NativeAuthHandler?
-
-    init(name: String, style: AuthStyle, handler: NativeAuthHandler? = nil) {
-        self.name = name
-        self.style = style
-        self.handler = handler
-    }
 }
 
 public struct EnterpriseConnection : OAuth2Connection {
     public let name: String
     public let domains: [String]
     public let style: AuthStyle
-    public let handler: NativeAuthHandler?
 
-    init(name: String, domains: [String], style: AuthStyle? = nil, handler: NativeAuthHandler? = nil) {
+    init(name: String, domains: [String], style: AuthStyle? = nil) {
         self.name = name
         self.domains = domains
         self.style = style ?? AuthStyle(name: name)
-        self.handler = handler
     }
 }

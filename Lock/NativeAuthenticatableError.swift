@@ -1,4 +1,4 @@
-// NativeHandler.swift
+// NativeAuthenticatableError.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -21,14 +21,29 @@
 // THE SOFTWARE.
 
 import Foundation
-import Auth0
 
-public protocol NativeAuthHandler {
-    func login(_ connection: String, scope: String, parameters: [String: Any], callback: @escaping (NativeAuthenticatableError?, Credentials?) -> ())
-    func resumeAuth(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool
-}
+public enum NativeAuthenticatableError: Error, LocalizableError {
 
-public struct NativeHandler {
-    var name: [String]
-    var handler: NativeAuthHandler
+    case cancelled
+    case couldNotAuthenticate
+    case nativeIssue
+    case configuration
+
+    var localizableMessage: String {
+        switch self {
+        case .couldNotAuthenticate:
+            return "We're sorry, something went wrong when attempting to log in.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
+        default:
+            return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
+        }
+    }
+
+    var userVisible: Bool {
+        switch self {
+        case .couldNotAuthenticate:
+            return true
+        default:
+            return false
+        }
+    }
 }

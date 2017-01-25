@@ -28,8 +28,18 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
     let webAuth: Auth0.WebAuth
     let dispatcher: Dispatcher
     let options: Options
+    let nativeHandlers: [NativeHandler]
+    let nativeSessionStore: NativeSession
 
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+        if let nativeHandler = nativeHandlers.filter({ $0.name.contains(connection)}).first {
+            self.nativeAuth(connection, nativeAuth: nativeHandler.handler, callback: callback)
+        } else {
+            self.webAuth(connection, callback: callback)
+        }
+    }
+
+    private func webAuth(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         var parameters: [String: String] = [:]
         self.options.parameters.forEach { parameters[$0] = "\($1)" }
         var auth = self.webAuth
@@ -54,6 +64,32 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
                     callback(.couldNotAuthenticate)
                     self.dispatcher.dispatch(result: .error(OAuth2AuthenticatableError.couldNotAuthenticate))
                 }
+        }
+    }
+
+    private func nativeAuth(_ connection: String, nativeAuth: NativeAuthHandler, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+        self.nativeSessionStore.store(nativeAuth)
+        nativeAuth.login(connection, scope: self.options.scope, parameters: self.options.parameters) { error, credentials in
+            guard error == nil else {
+                self.nativeSessionStore.cancel()
+                switch error! {
+                case .cancelled:
+                    callback(.cancelled)
+                    self.dispatcher.dispatch(result: .error(NativeAuthenticatableError.cancelled))
+                default:
+                    callback(.couldNotAuthenticate)
+                    self.dispatcher.dispatch(result: .error(error!))
+                }
+                return
             }
+
+            guard let credentials = credentials else {
+                callback(.couldNotAuthenticate)
+                return self.dispatcher.dispatch(result: .error(OAuth2AuthenticatableError.couldNotAuthenticate))
+            }
+
+            callback(nil)
+            self.dispatcher.dispatch(result: .auth(credentials))
+        }
     }
 }

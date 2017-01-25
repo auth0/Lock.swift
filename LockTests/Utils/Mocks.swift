@@ -296,22 +296,12 @@ class MockController: UIViewController {
     }
 }
 
-class MockNativeAuthInteractor: NativeAuthenticatable {
-    var connection: String? = nil
-    var handler: NativeAuthHandler? = nil
-    var onLogin: () -> NativeAuthenticatableError? = { _ in return nil }
-    func login(_ connection: String, nativeAuth: NativeAuthHandler, callback: @escaping (NativeAuthenticatableError?) -> ()) {
-        self.connection = connection
-        self.handler = nativeAuth
-        callback(self.onLogin())
-    }
-}
 
 class MockNativeAuthHandler: NativeAuthHandler {
-    var onLogin: () -> (Error?, Credentials?) = { _ in
+    var onLogin: () -> (NativeAuthenticatableError?, Credentials?) = { _ in
         return (nil, nil)
     }
-    func login(_ connection: String, scope: String, parameters: [String : Any], callback: @escaping (Error?, Credentials?) -> ()) {
+    func login(_ connection: String, scope: String, parameters: [String : Any], callback: @escaping (NativeAuthenticatableError?, Credentials?) -> ()) {
         callback(self.onLogin().0,self.onLogin().1)
     }
     func resumeAuth(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {

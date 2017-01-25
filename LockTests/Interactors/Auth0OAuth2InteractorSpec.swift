@@ -30,24 +30,27 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
 
     override func spec() {
 
-        let auth = Auth0.authentication(clientId: clientId, domain: domain)
         var webAuth: MockWebAuth!
         var options: LockOptions!
         var credentials: Credentials?
-
-        var interactor: Auth0OAuth2Interactor {
-            var dispatcher = ObserverStore()
-            dispatcher.onAuth = { credentials = $0 }
-            return Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options)
-        }
+        var nativeHandlers: [NativeHandler] = []
+        var dispatchError: Error?
+        var authHandler: MockNativeAuthHandler!
+        var interactor: OAuth2Authenticatable!
+        var dispatcher: ObserverStore!
 
         beforeEach {
             credentials = nil
             webAuth = MockWebAuth()
             options = LockOptions()
+            authHandler = MockNativeAuthHandler()
+            dispatcher = ObserverStore()
+            dispatcher.onAuth = { credentials = $0 }
+            dispatcher.onFailure = { dispatchError = $0 }
+            interactor = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers, nativeSessionStore: NativeSessionStorage())
         }
 
-        describe("login") {
+        describe("web auth login") {
 
             var error: OAuth2AuthenticatableError?
 
@@ -73,6 +76,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
 
             it("should set audience") {
                 options.audience = "https://myapi.com/v1"
+                interactor = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers, nativeSessionStore: NativeSessionStorage())
                 interactor.login("facebook", callback: { _ in })
                 expect(webAuth.audience) == "https://myapi.com/v1"
             }
@@ -80,6 +84,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
             it("should set parameters") {
                 let state = UUID().uuidString
                 options.parameters = ["state": state as Any]
+                interactor = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers, nativeSessionStore: NativeSessionStorage())
                 interactor.login("facebook", callback: { _ in })
                 expect(webAuth.params["state"]) == state
             }
@@ -109,6 +114,62 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
                 expect(error).toEventually(equal(OAuth2AuthenticatableError.couldNotAuthenticate))
             }
 
+        }
+
+        describe("native auth login") {
+
+            var error: OAuth2AuthenticatableError?
+
+            beforeEach {
+                nativeHandlers.removeAll()
+                nativeHandlers.append(NativeHandler(name: ["facebook"], handler: authHandler))
+                interactor = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers, nativeSessionStore: NativeSessionStorage())
+                error = nil
+            }
+
+            it("should not yield error on success") {
+                authHandler.onLogin = {
+                    return (nil, mockCredentials())
+                }
+                interactor.login("facebook") { error = $0 }
+                expect(error).toEventually(beNil())
+            }
+
+            it("should yield error on handler failure") {
+                authHandler.onLogin = {
+                    return (NativeAuthenticatableError.nativeIssue, nil)
+                }
+                interactor.login("facebook") { error = $0 }
+                expect(error).toEventually(equal(OAuth2AuthenticatableError.couldNotAuthenticate))
+            }
+
+            context("dispatch") {
+
+                beforeEach {
+                    credentials = nil
+                    dispatchError = nil
+                }
+
+                it("should dispatch auth") {
+                    let expected = mockCredentials()
+                    authHandler.onLogin = {
+                        return (nil, expected)
+                    }
+                    interactor.login("facebook") { _ in }
+                    expect(dispatchError).toEventually(beNil())
+                    expect(credentials).toEventually(equal(expected))
+                }
+
+                it("should dispatch error") {
+                    authHandler.onLogin = {
+                        return (NativeAuthenticatableError.nativeIssue, nil)
+                    }
+                    interactor.login("facebook") { _ in }
+                    expect(dispatchError).toEventuallyNot(beNil())
+                    expect(credentials).toEventually(beNil())
+                }
+                
+            }
         }
     }
 }

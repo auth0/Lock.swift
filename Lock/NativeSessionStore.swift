@@ -1,4 +1,4 @@
-// NativeAuthInteractor.swift
+// NativeSessionStore.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -21,24 +21,23 @@
 // THE SOFTWARE.
 
 import Foundation
-import Auth0
 
-struct NativeAuthInteractor: NativeAuthenticatable {
+public class NativeSessionStorage: NativeSession {
+    static let sharedInstance = NativeSessionStorage()
 
-    let dispatcher: Dispatcher
-    let options: Options
+    private(set) var current: NativeAuthHandler? = nil
 
-    func login(_ connection: String, nativeAuth: NativeAuthHandler, callback: @escaping (NativeAuthenticatableError?) -> ()) {
+    func resumeAuth(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        let resumed = self.current?.resumeAuth(app, open: url, options: options) ?? false
+        if resumed { self.current = nil }
+        return resumed
+    }
 
-        nativeAuth.login(connection, scope: self.options.scope, parameters: self.options.parameters) { error, credentials in
-            guard error == nil, let credentials = credentials else {
-                callback(NativeAuthenticatableError.nativeIssue)
-                return self.dispatcher.dispatch(result: .error(error!))
-            }
+    func store(_ handler: NativeAuthHandler) {
+        self.current = handler
+    }
 
-            callback(nil)
-            self.dispatcher.dispatch(result: .auth(credentials))
-        }
-
+    func cancel() {
+        self.current = nil
     }
 }

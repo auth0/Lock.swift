@@ -27,16 +27,14 @@ class AuthPresenter: Presentable, Loggable {
     let compactModeThreshold = 3
     let connections: [OAuth2Connection]
     let interactor: OAuth2Authenticatable
-    let nativeInteractor: NativeAuthenticatable
     let customStyle: [String: AuthStyle]
 
     var messagePresenter: MessagePresenter?
 
-    init(connections: Connections, interactor: OAuth2Authenticatable, nativeInteractor: NativeAuthenticatable, customStyle: [String: AuthStyle]) {
+    init(connections: Connections, interactor: OAuth2Authenticatable, customStyle: [String: AuthStyle]) {
         self.connections = connections.oauth2
         self.interactor = interactor
         self.customStyle = customStyle
-        self.nativeInteractor = nativeInteractor
     }
 
     var view: View {
@@ -54,18 +52,10 @@ class AuthPresenter: Presentable, Loggable {
     }
 
     private func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode) -> AuthCollectionView {
-
-        let view = AuthCollectionView(connections: self.connections, mode: mode, insets: insets, customStyle: self.customStyle) { name, handler in
-            if let handler = handler {
-                self.nativeInteractor.login(name, nativeAuth: handler) { error in
-                    guard let error = error else { return }
-                    self.messagePresenter?.showError(error)
-                }
-            } else {
-                self.interactor.login(name) { error in
-                    guard let error = error else { return }
-                    self.messagePresenter?.showError(error)
-                }
+        let view = AuthCollectionView(connections: self.connections, mode: mode, insets: insets, customStyle: self.customStyle) { name in
+            self.interactor.login(name) { error in
+                guard let error = error else { return }
+                self.messagePresenter?.showError(error)
             }
         }
         return view

@@ -39,7 +39,8 @@ public class Lock: NSObject {
 
     var observerStore = ObserverStore()
 
-    static var nativeHandlers: [NativeHandler] = []
+    var nativeHandlers: [NativeHandler] = []
+    let nativeSessionStore: NativeSession = NativeSessionStorage.sharedInstance
 
     var style: Style = Style()
 
@@ -251,9 +252,7 @@ public class Lock: NSObject {
      - returns: true if the url matched an ongoing Auth session, false otherwise
      */
     public static func resumeAuth(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
-        for nativeAuth in nativeHandlers {
-            if nativeAuth.handler.resumeAuth(app, open: url, options: options) { return true }
-        }
+        if NativeSessionStorage.sharedInstance.resumeAuth(app, open: url, options: options) { return true }
         return Auth0.resumeAuth(url, options: options)
     }
 
@@ -261,14 +260,27 @@ public class Lock: NSObject {
      Regstier native authentication plugins, e.g. When using native social integration
      plugins such as LockFacebook.
      
-     - paramater name:    name of the connection to use native plugin
-     - paramater handler: name of the NativeHandler plugin
+     - paramater name:    name of the connection to use with the native handler.
+     - paramater handler: name of the Nntive authentication handler
      
+     - returns: Lock itself for chaining
+     */
+    public func nativeAuth(for name: String, handler: NativeAuthHandler) -> Lock {
+        return self.nativeAuth(for: [name], handler: handler)
+    }
+
+    /**
+     Regstier native authentication plugins, e.g. When using native social integration
+     plugins such as LockFacebook.
+
+     - paramater name:    names of the connections to use with the native handler.
+     - paramater handler: name of the Nntive authentication handler
+
      - returns: Lock itself for chaining
      */
     public func nativeAuth(for name: [String], handler: NativeAuthHandler) -> Lock {
         let nativeHandler = NativeHandler(name: name, handler: handler)
-        Lock.nativeHandlers.append(nativeHandler)
+        self.nativeHandlers.append(nativeHandler)
         return self
     }
 }

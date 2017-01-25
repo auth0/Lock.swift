@@ -36,17 +36,19 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
         var credentials: Credentials?
         var connections: OfflineConnections!
         var enterprise: EnterpriseDomainInteractor!
+        var nativeSessionStore: NativeSession!
         
         beforeEach {
             connections = OfflineConnections()
             connections.enterprise(name: "TestAD", domains: ["test.com"])
             connections.enterprise(name: "validAD", domains: ["valid.com"])
+            nativeSessionStore = NativeSessionStorage()
             
             credentials = nil
             webAuth = MockWebAuth()
             var dispatcher = ObserverStore()
             dispatcher.onAuth = {credentials = $0}
-            authentication = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: LockOptions())
+            authentication = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: LockOptions(), nativeHandlers: [], nativeSessionStore: nativeSessionStore)
             enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
         }
         

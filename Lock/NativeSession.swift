@@ -1,4 +1,4 @@
-// NativeAuthenticatable.swift
+// NativeSession.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -21,27 +21,9 @@
 // THE SOFTWARE.
 
 import Foundation
-import Auth0
 
-protocol NativeAuthenticatable {
-    func login(_ connection: String, nativeAuth: NativeAuthHandler, callback: @escaping (NativeAuthenticatableError?) -> ())
-}
-
-public enum NativeAuthenticatableError: Error, LocalizableError {
-
-    case nativeIssue
-
-    var localizableMessage: String {
-        switch self {
-        default:
-            return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
-        }
-    }
-
-    var userVisible: Bool {
-        switch self {
-        default:
-            return true
-        }
-    }
+protocol NativeSession {
+    func resumeAuth(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool
+    func store(_ handler: NativeAuthHandler)
+    func cancel()
 }

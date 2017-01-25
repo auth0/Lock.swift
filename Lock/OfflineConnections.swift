@@ -37,8 +37,8 @@ struct OfflineConnections: ConnectionBuildable {
         self.oauth2(name: name, style: style)
     }
 
-    mutating func oauth2(name: String, style: AuthStyle, handler: NativeAuthHandler? = nil) {
-        let social = SocialConnection(name: name, style: style, handler: handler)
+    mutating func oauth2(name: String, style: AuthStyle) {
+        let social = SocialConnection(name: name, style: style)
         self.oauth2.append(social)
     }
 
@@ -61,21 +61,6 @@ struct OfflineConnections: ConnectionBuildable {
         connections.databases = self.databases.filter { isWhitelisted(connectionName: $0.name, inList: names) }
         connections.oauth2 = self.oauth2.filter { isWhitelisted(connectionName: $0.name, inList: names) }
         connections.enterprise = self.enterprise.filter { isWhitelisted(connectionName: $0.name, inList: names) }
-        return connections
-    }
-
-    func registerNativeHandlers(_ nativeHandlers: [NativeHandler]) -> OfflineConnections {
-        var connections = OfflineConnections()
-        connections.databases = self.databases
-        connections.enterprise = self.enterprise
-
-        for connection in self.oauth2 {
-            if let authHandler = nativeHandlers.filter({ $0.name.contains(connection.name)}).first {
-                connections.oauth2.append(SocialConnection(name: connection.name, style: connection.style, handler: authHandler.handler))
-            } else {
-                 connections.oauth2.append(SocialConnection(name: connection.name, style: connection.style))
-            }
-        }
         return connections
     }
 }
