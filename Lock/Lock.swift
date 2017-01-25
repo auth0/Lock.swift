@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
+import LockNative
 import Auth0
 
 /// Lock main class to configure and show the native widget

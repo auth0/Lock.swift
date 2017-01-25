@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
+import LockNative
 import Auth0
 
 struct Auth0OAuth2Interactor: OAuth2Authenticatable {

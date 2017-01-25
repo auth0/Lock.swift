@@ -24,7 +24,7 @@ import Quick
 import Nimble
 import OHHTTPStubs
 import Auth0
-
+import LockNative
 @testable import Lock
 
 class EnterpriseDomainInteractorSpec: QuickSpec {
