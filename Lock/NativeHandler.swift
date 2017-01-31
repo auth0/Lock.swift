@@ -23,10 +23,6 @@
 import Foundation
 import Auth0
 
-public protocol AuthProvider {
-    func login(_ connection: String, scope: String, parameters: [String: Any], callback: @escaping (Auth0.Result<Auth0.Credentials>) -> ()) -> OAuth2Session
-}
-
 struct NativeHandler {
     var name: [String]
     var handler: AuthProvider

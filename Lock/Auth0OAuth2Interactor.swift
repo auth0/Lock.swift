@@ -68,19 +68,19 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
 
     private func nativeAuth(_ connection: String, nativeAuth: AuthProvider, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
 
-        let session = nativeAuth.login(connection, scope: self.options.scope, parameters: self.options.parameters) { result in
-            switch result {
-            case .success(let credentials):
-                callback(nil)
-                self.dispatcher.dispatch(result: .auth(credentials))
-            case .failure(NativeAuthenticatableError.cancelled):
-                callback(.cancelled)
-                self.dispatcher.dispatch(result: .error(NativeAuthenticatableError.cancelled))
-            case .failure(let error):
-                callback(.couldNotAuthenticate)
-                self.dispatcher.dispatch(result: .error(error))
-            }
+        nativeAuth.login(withConnection: connection, scope: self.options.scope, parameters: self.options.parameters)
+            .start { result in
+                switch result {
+                case .success(let credentials):
+                    callback(nil)
+                    self.dispatcher.dispatch(result: .auth(credentials))
+                case .failure(WebAuthError.userCancelled):
+                    callback(.cancelled)
+                    self.dispatcher.dispatch(result: .error(WebAuthError.userCancelled))
+                case .failure(let error):
+                    callback(.couldNotAuthenticate)
+                    self.dispatcher.dispatch(result: .error(error))
+                }
         }
-        Auth0.storeAuth(session: session)
     }
 }

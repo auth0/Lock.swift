@@ -17,7 +17,7 @@
 		5B0CF2DE1DE9B4AF00F82BF4 /* DatabaseUserCreatorErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */; };
 		5B2826431E32297E00E48467 /* NativeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2826421E32297E00E48467 /* NativeHandler.swift */; };
 		5B2981781DD51A460062535C /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2981771DD51A460062535C /* InfoBarView.swift */; };
-		5B36D8C61E38C8540030DA8C /* NativeAuthenticatableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B36D8C51E38C8540030DA8C /* NativeAuthenticatableError.swift */; };
+		5B4177431E44827B007843EA /* Auth0OAuth2InteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */; };
 		5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */; };
 		5B4DE0171DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */; };
 		5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */; };
@@ -92,7 +92,6 @@
 		5F814FD61D1A72A6003670A4 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD11D1A7294003670A4 /* Nimble.framework */; };
 		5F814FD71D1A72A6003670A4 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F814FD31D1A7294003670A4 /* OHHTTPStubs.framework */; };
 		5F9231D51D5B6C5E00D92580 /* AuthCollectionViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9231D41D5B6C5E00D92580 /* AuthCollectionViewSpec.swift */; };
-		5F92C68B1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */; };
 		5F92C68D1D50E47100CCE6C0 /* AuthStyleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68C1D50E47100CCE6C0 /* AuthStyleSpec.swift */; };
 		5F92C68F1D50EAC200CCE6C0 /* LazyImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68E1D50EAC200CCE6C0 /* LazyImage.swift */; };
 		5F92C6911D510AFE00CCE6C0 /* LazyImageSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C6901D510AFE00CCE6C0 /* LazyImageSpec.swift */; };
@@ -215,7 +214,6 @@
 		5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseUserCreatorErrorSpec.swift; sourceTree = "<group>"; };
 		5B2826421E32297E00E48467 /* NativeHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeHandler.swift; sourceTree = "<group>"; };
 		5B2981771DD51A460062535C /* InfoBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoBarView.swift; path = Lock/InfoBarView.swift; sourceTree = SOURCE_ROOT; };
-		5B36D8C51E38C8540030DA8C /* NativeAuthenticatableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeAuthenticatableError.swift; sourceTree = "<group>"; };
 		5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainInteractor.swift; path = Lock/EnterpriseDomainInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthPresenter.swift; path = Lock/EnterpriseActiveAuthPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthView.swift; path = Lock/EnterpriseActiveAuthView.swift; sourceTree = SOURCE_ROOT; };
@@ -405,14 +403,6 @@
 			name = Validators;
 			sourceTree = "<group>";
 		};
-		5BBF34761E38E18200008730 /* Native Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				5B2826421E32297E00E48467 /* NativeHandler.swift */,
-			);
-			name = "Native Authentication";
-			sourceTree = "<group>";
-		};
 		5F2496B41D665A9700A1C6E2 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,7 +410,6 @@
 				5B55F3D01E244B8700B75CF5 /* UnrecoverableError.swift */,
 				5F2496B91D665AE900A1C6E2 /* CredentialAuthError.swift */,
 				5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */,
-				5B36D8C51E38C8540030DA8C /* NativeAuthenticatableError.swift */,
 			);
 			name = Errors;
 			path = Lock;
@@ -582,10 +571,10 @@
 		5FBE5CB51D3D8EE70038536D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5BBF34761E38E18200008730 /* Native Authentication */,
 				5FEEE8161DB6AC6C00B4DFED /* PasswordPolicy */,
 				5F2496B71D665AC500A1C6E2 /* UserAttribute.swift */,
 				5B011CDD1E13E16500543F12 /* NotificationStatus.swift */,
+				5B2826421E32297E00E48467 /* NativeHandler.swift */,
 				5FBE5CB71D3D8F030038536D /* User.swift */,
 				5F57DFC51D4F79DD00C54DA8 /* AuthStyle.swift */,
 				5F1C498D1D8360AA005B74FC /* Style.swift */,
@@ -1075,10 +1064,10 @@
 				5F6C01551D91656100198ACD /* UsernameValidatorSpec.swift in Sources */,
 				5F2496BE1D67ADB300A1C6E2 /* EmailValidatorSpec.swift in Sources */,
 				5B0CF2D61DE9AE0F00F82BF4 /* InputValidationErrorSpec.swift in Sources */,
+				5B4177431E44827B007843EA /* Auth0OAuth2InteractorSpec.swift in Sources */,
 				5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */,
 				5BA563F11DD117550002D3AB /* EnterpriseActiveAuthInteractorSpec.swift in Sources */,
 				5F92C68D1D50E47100CCE6C0 /* AuthStyleSpec.swift in Sources */,
-				5F92C68B1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift in Sources */,
 				5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */,
 				5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */,
 				5B55F3D41E24FFD000B75CF5 /* UnrecoverableErrorSpec.swift in Sources */,

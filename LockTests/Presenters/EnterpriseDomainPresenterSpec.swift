@@ -52,6 +52,8 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             connections = OfflineConnections()
             connections.enterprise(name: "TestAD", domains: ["test.com"])
             connections.enterprise(name: "ValidAD", domains: ["validad.com"])
+
+            interactor = EnterpriseDomainInteractor(connections: connections, user: user, authentication: oauth2)
             presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! EnterpriseDomainView

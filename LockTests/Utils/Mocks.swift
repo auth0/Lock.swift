@@ -304,18 +304,54 @@ class MockController: UIViewController {
 }
 
 
-class MockNativeAuthHandler: AuthProvider, OAuth2Session {
-    var state: String?
-    var onLogin: () -> Auth0.Result<Credentials> = { _ in
-        return Auth0.Result.success(result: mockCredentials())
+class MockNativeAuthHandler: AuthProvider {
+
+    var transaction: MockNativeAuthTransaction!
+    var authentication: Authentication!
+
+    func login(withConnection connection: String, scope: String, parameters: [String : Any]) -> NativeAuthTransaction {
+        let transaction = MockNativeAuthTransaction(connection: connection, scope: scope, parameters: parameters, authentication: self.authentication)
+        self.transaction = transaction
+        return transaction
     }
-    func login(_ connection: String, scope: String, parameters: [String : Any], callback: @escaping (Auth0.Result<Auth0.Credentials>) -> ()) -> OAuth2Session {
-        callback(onLogin())
-        return self
+}
+
+class MockNativeAuthTransaction: NativeAuthTransaction {
+    var connection: String
+    var scope: String
+    var parameters: [String : Any]
+    var authentication: Authentication
+
+    init(connection: String, scope: String, parameters: [String: Any], authentication: Authentication) {
+        self.connection = connection
+        self.scope = scope
+        self.parameters = parameters
+        self.authentication = authentication
     }
+
+    var delayed: NativeAuthTransaction.Callback = { _ in }
+
+    func auth(callback: @escaping NativeAuthTransaction.Callback) {
+        self.delayed = callback
+    }
+
+    func cancel() {
+        self.delayed(.failure(error: WebAuthError.userCancelled))
+        self.delayed = { _ in }
+    }
+
     func resume(_ url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        self.delayed(self.onNativeAuth())
+        self.delayed = { _ in }
         return true
     }
-    func cancel() { }
-    func clear() { }
+
+    /// Test Hooks
+    var onNativeAuth: () -> Auth0.Result<NativeAuthCredentials> = {
+        return .success(result: NativeAuthCredentials(token: "SocialToken", extras: [:]))
+    }
+}
+
+func mockCredentials() -> Credentials {
+    return Credentials(accessToken: UUID().uuidString, tokenType: "Bearer")
 }

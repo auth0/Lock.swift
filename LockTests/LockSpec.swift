@@ -189,10 +189,10 @@ class LockSpec: QuickSpec {
             }
 
         }
-// TODO: Will fix once Auth0 Storage latest spec sorted.
-//        it("should allow to resume Auth") {
-//            expect(Lock.resumeAuth(.a0_url("samples.auth0.com"), options: [:])) == false
-//        }
+
+        it("should allow to resume Auth") {
+            expect(Lock.resumeAuth(.a0_url("samples.auth0.com"), options: [:])) == false
+        }
 
     }
 

@@ -46,7 +46,7 @@ class DatabasePresenterSpec: QuickSpec {
             options = LockOptions()
             user = User()
             enterpriseInteractor = EnterpriseDomainInteractor(connections: connections, user: user, authentication: oauth2)
-            authPresenter = MockAuthPresenter(connections: connections, interactor: MockAuthInteractor(), customStyle: [:])
+            authPresenter = MockAuthPresenter(connections: [], interactor: MockAuthInteractor(), customStyle: [:])
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
             navigator = MockNavigator()
