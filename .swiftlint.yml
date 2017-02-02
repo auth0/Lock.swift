@@ -1,10 +1,5 @@
 disabled_rules: # rule identifiers to exclude from running
-  - colon
-  - comma
-  - control_statement
   - missing_docs
-  - force_cast
-  - variable_name
   - cyclomatic_complexity
   - function_body_length
   - todo
@@ -46,9 +41,11 @@ type_name:
   excluded: iPhone # excluded via string
 variable_name:
   min_length: # only min_length
-    error: 4 # only error
+    error: 3 # only error
   excluded: # excluded via string array
     - id
     - URL
     - GlobalAPIKey
+    - lhs
+    - rhs
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit)
