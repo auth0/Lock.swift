@@ -46,7 +46,7 @@ class EnterpriseActiveAuthView: UIView, View {
         self.addSubview(container)
 
         ssoBar.title = "Single Sign-On Enabled".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header").uppercased()
-        ssoBar.setIcon("ic_lock")
+        ssoBar.icon = image(named: "ic_lock_full")
         self.ssoBar = ssoBar
 
         container.alignment = .fill

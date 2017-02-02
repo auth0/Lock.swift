@@ -156,7 +156,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         let spacer = strutView(withHeight: 125 - CGFloat(viewCount) * 25)
 
         ssoBar.title  = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
-        ssoBar.setIcon("ic_lock")
+        ssoBar.icon = image(named: "ic_lock_full")
         ssoBar.isHidden = false
 
         self.container?.insertArrangedSubview(ssoBar, at: 0)
