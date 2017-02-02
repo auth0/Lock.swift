@@ -30,11 +30,11 @@ class EnterpriseActiveAuthView: UIView, View {
 
     private weak var container: UIStackView?
 
-    init(identifer: String?, identifierAttribute:UserAttribute) {
+    init(identifier: String?, identifierAttribute:UserAttribute) {
         let primaryButton = PrimaryButton()
         let credentialView = CredentialView()
         let container = UIStackView()
-        let ssoBar = InfoBarView()
+        let ssoBar = InfoBarView.ssoInfoBar
 
         self.primaryButton = primaryButton
         self.form = credentialView
@@ -45,8 +45,6 @@ class EnterpriseActiveAuthView: UIView, View {
         self.addSubview(primaryButton)
         self.addSubview(container)
 
-        ssoBar.title = "Single Sign-On Enabled".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header").uppercased()
-        ssoBar.icon = image(named: "ic_lock_full")
         self.ssoBar = ssoBar
 
         container.alignment = .fill
@@ -73,7 +71,7 @@ class EnterpriseActiveAuthView: UIView, View {
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
 
         primaryButton.title = "Log in".i18n(key: "com.auth0.lock.submit.login.title", comment: "Login Button title")
-        credentialView.identityField.text = identifer
+        credentialView.identityField.text = identifier
         switch identifierAttribute {
         case .username:
             credentialView.identityField.type = .username

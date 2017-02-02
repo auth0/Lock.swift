@@ -100,4 +100,10 @@ class InfoBarView: UIView {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 35)
     }
 
+    static var ssoInfoBar: InfoBarView {
+        let ssoBar = InfoBarView()
+        ssoBar.title  = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
+        ssoBar.icon = image(named: "ic_lock_full")
+        return ssoBar
+    }
 }
