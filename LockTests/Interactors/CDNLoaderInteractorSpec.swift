@@ -104,7 +104,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 }
             }
 
-            context("remote connectin errors") {
+            context("remote connection errors") {
 
                 it("should return invalid client error") {
                     stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: Data(), statusCode: 403, headers: [:]) }
@@ -161,7 +161,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
             }
 
             it("should load single database connection") {
-                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(name: databaseConnection)])]) }
+                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabase(name: databaseConnection)])]) }
                 loader.load(callback)
                 expect(connections?.database).toEventuallyNot(beNil())
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
@@ -169,27 +169,27 @@ class CDNLoaderInteractorSpec: QuickSpec {
             }
 
             it("should load single database connection with no pwd policy") {
-                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(name: databaseConnection)])]) }
+                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabase(name: databaseConnection)])]) }
                 loader.load(callback)
                 expect(connections?.database?.passwordValidator.policy.name).toEventually(equal("none"))
             }
 
             it("should load single database connection with unknown pwd policy") {
-                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(name: databaseConnection, passwordPolicy: "random")])]) }
+                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabase(name: databaseConnection, passwordPolicy: "random")])]) }
                 loader.load(callback)
                 expect(connections?.database?.passwordValidator.policy.name).toEventually(equal("none"))
             }
 
             ["none", "low", "fair", "good", "excellent"].forEach { name in
                 it("should load single database connection with policy \(name))") {
-                    stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(name: databaseConnection, passwordPolicy: name)])]) }
+                    stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabase(name: databaseConnection, passwordPolicy: name)])]) }
                     loader.load(callback)
                     expect(connections?.database?.passwordValidator.policy.name).toEventually(equal(name))
                 }
             }
 
             it("should load single database connection with custom username validation") {
-                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(name: databaseConnection, validation: (["username": ["min": 10, "max": 200]] as Any) as! JSONObject )])]) }
+                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabase(name: databaseConnection, validation: (["username": ["min": 10, "max": 200]] as Any) as! JSONObject )])]) }
                 loader.load(callback)
                 expect(connections?.database).toEventuallyNot(beNil())
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
@@ -200,7 +200,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
             }
 
             it("should load single database connection with custom username validation with strings") {
-                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(name: databaseConnection, validation: (["username": ["min": "9", "max": "100"]] as Any) as! JSONObject)])]) }
+                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabase(name: databaseConnection, validation: (["username": ["min": "9", "max": "100"]] as Any) as! JSONObject)])]) }
                 loader.load(callback)
                 expect(connections?.database).toEventuallyNot(beNil())
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
@@ -211,14 +211,14 @@ class CDNLoaderInteractorSpec: QuickSpec {
             }
 
             it("should load multiple database connections but pick the first") {
-                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(name: databaseConnection), mockDatabaseConnection(name: "another one")])]) }
+                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabase(name: databaseConnection), mockDatabase(name: "another one")])]) }
                 loader.load(callback)
                 expect(connections?.database).toEventuallyNot(beNil())
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
             }
 
             it("should load single database connection with requires_username") {
-                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabaseConnection(name: databaseConnection, requiresUsername: true)])]) }
+                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("auth0", connections: [mockDatabase(name: databaseConnection, requiresUsername: true)])]) }
                 loader.load(callback)
                 expect(connections?.database).toEventuallyNot(beNil())
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
@@ -250,7 +250,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("facebook", connections: [mockOAuth2("facebook1"), mockOAuth2("facebook2")])]) }
                 loader.load(callback)
                 expect(connections?.oauth2).toEventuallyNot(beNil())
-                //expect(connections?.oauth2.count).toEventually(be(2))
+                expect(connections?.oauth2.count).toEventually(equal(2))
                 expect(connections?.oauth2[0].name) == "facebook1"
                 expect(connections?.oauth2[1].name) == "facebook2"
             }
@@ -258,7 +258,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
             it("should load database & oauth2 connection") {
                 stub(condition: isCDN(forClientId: clientId)) { _ in
                     return Auth0Stubs.strategiesFromCDN([
-                        mockStrategy("auth0", connections: [mockDatabaseConnection(name: databaseConnection)]),
+                        mockStrategy("auth0", connections: [mockDatabase(name: databaseConnection)]),
                         mockStrategy("facebook", connections: [mockOAuth2("facebook")])
                         ])
                 }
@@ -269,31 +269,73 @@ class CDNLoaderInteractorSpec: QuickSpec {
 
             // MARK: Enterprise
 
-            it("should load enterprise connections") {
-                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([
-                    mockStrategy("ad", connections: [
-                        mockEntepriseConnection("TestAD", domain: ["test.com"]),
-                        mockEntepriseConnection("fakeAD", domain: ["fake.com"])]
-                    )]) }
+            it("should load single enterprise connection") {
+                stub(condition: isCDN(forClientId: clientId)) { _ in
+                    return Auth0Stubs.strategiesFromCDN([
+                    mockStrategy("ad", connections: [mockEnterprise(name: "TestAD", domains: ["test.com"]) ])
+                    ])
+                }
                 loader.load(callback)
-                expect(connections?.enterprise).toEventuallyNot(beNil())
-                //expect(connections?.enterprise.count).toEventually(be(2))
+                expect(connections?.enterprise).toEventually(haveCount(1))
+                expect(connections?.enterprise.first?.name) == "TestAD"
+                expect(connections?.enterprise.first?.domains) == ["test.com"]
+                expect(connections?.enterprise.first?.style.name) == "test.com"
+            }
+
+            it("should load single enterprise connection with no domain") {
+                stub(condition: isCDN(forClientId: clientId)) { _ in
+                    return Auth0Stubs.strategiesFromCDN([
+                            mockStrategy("ad", connections: [mockEnterprise(name: "TestAD", domains: []) ])
+                    ])
+                }
+                loader.load(callback)
+                expect(connections?.enterprise).toEventually(haveCount(1))
+                expect(connections?.enterprise.first?.name) == "TestAD"
+                expect(connections?.enterprise.first?.domains).toEventually(beEmpty())
+                expect(connections?.enterprise.first?.style.name) == "ad"
+            }
+
+            it("should load multiple ad enterprise connections") {
+                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([
+                        mockStrategy("ad", connections: [
+                                mockEnterprise(name: "TestAD", domains: ["test.com"]),
+                                mockEnterprise(name: "fakeAD", domains: ["fake.com"])]
+                        )]) }
+                loader.load(callback)
+                expect(connections?.enterprise).toEventually(haveCount(2))
                 expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
 
+            it("should load multiple enterprise connections") {
+                stub(condition: isCDN(forClientId: clientId)) { _ in
+                    return Auth0Stubs.strategiesFromCDN([
+                        mockStrategy("ad", connections: [
+                                mockEnterprise(name: "fakeAD", domains: ["fake.com"])]
+                        ),
+                        mockStrategy("samlp", connections: [
+                                mockEnterprise(name: "fakeSAML", domains: ["false.com"])]
+                        )
+                    ])
+                }
+                loader.load(callback)
+                expect(connections?.enterprise).toEventually(haveCount(2))
+                expect(connections?.enterprise[0].name) == "fakeAD"
+                expect(connections?.enterprise[1].name) == "fakeSAML"
+            }
+
             it("should load database & enterprise connections") {
                 stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([
-                    mockStrategy("auth0", connections: [mockDatabaseConnection(name: databaseConnection)]),
+                    mockStrategy("auth0", connections: [mockDatabase(name: databaseConnection)]),
                     mockStrategy("ad", connections: [
-                        mockEntepriseConnection("TestAD", domain: ["test.com"]),
-                        mockEntepriseConnection("fakeAD", domain: ["fake.com"])]
+                            mockEnterprise(name: "TestAD", domains: ["test.com"]),
+                            mockEnterprise(name: "fakeAD", domains: ["fake.com"])]
                     )]) }
                 loader.load(callback)
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
 
                 expect(connections?.enterprise).toEventuallyNot(beNil())
-                //expect(connections?.enterprise.count).toEventually(be(2))
+                expect(connections?.enterprise.count).toEventually(equal(2))
                 expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
@@ -304,41 +346,41 @@ class CDNLoaderInteractorSpec: QuickSpec {
                         mockOAuth2("facebook1"),
                         mockOAuth2("facebook2")]),
                     mockStrategy("ad", connections: [
-                        mockEntepriseConnection("TestAD", domain: ["test.com"]),
-                        mockEntepriseConnection("fakeAD", domain: ["fake.com"])]
+                            mockEnterprise(name: "TestAD", domains: ["test.com"]),
+                            mockEnterprise(name: "fakeAD", domains: ["fake.com"])]
                     )]) }
                 loader.load(callback)
                 expect(connections?.oauth2).toEventuallyNot(beNil())
-                //expect(connections?.oauth2.count).toEventually(be(2))
+                expect(connections?.oauth2.count).toEventually(equal(2))
                 expect(connections?.oauth2[0].name) == "facebook1"
                 expect(connections?.oauth2[1].name) == "facebook2"
 
                 expect(connections?.enterprise).toEventuallyNot(beNil())
-                //expect(connections?.enterprise.count).toEventually(be(2))
+                expect(connections?.enterprise.count).toEventually(equal(2))
                 expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
 
             it("should load enterprise, database & social connections") {
                 stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([
-                    mockStrategy("auth0", connections: [mockDatabaseConnection(name: databaseConnection)]),
+                    mockStrategy("auth0", connections: [mockDatabase(name: databaseConnection)]),
                     mockStrategy("facebook", connections: [
                         mockOAuth2("facebook1"),
                         mockOAuth2("facebook2")]),
                     mockStrategy("ad", connections: [
-                        mockEntepriseConnection("TestAD", domain: ["test.com"]),
-                        mockEntepriseConnection("fakeAD", domain: ["fake.com"])]
+                            mockEnterprise(name: "TestAD", domains: ["test.com"]),
+                            mockEnterprise(name: "fakeAD", domains: ["fake.com"])]
                     )]) }
                 loader.load(callback)
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
 
                 expect(connections?.oauth2).toEventuallyNot(beNil())
-                //expect(connections?.oauth2.count).toEventually(be(2))
+                expect(connections?.oauth2.count).toEventually(equal(2))
                 expect(connections?.oauth2[0].name) == "facebook1"
                 expect(connections?.oauth2[1].name) == "facebook2"
 
                 expect(connections?.enterprise).toEventuallyNot(beNil())
-                //expect(connections?.enterprise.count).toEventually(be(2))
+                expect(connections?.enterprise.count).toEventually(equal(2))
                 expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
@@ -358,7 +400,7 @@ private func mockOAuth2(_ name: String) -> JSONObject {
     return json
 }
 
-private func mockDatabaseConnection(name: String, requiresUsername: Bool? = nil, validation: JSONObject = [:], passwordPolicy: String? = nil) -> JSONObject {
+private func mockDatabase(name: String, requiresUsername: Bool? = nil, validation: JSONObject = [:], passwordPolicy: String? = nil) -> JSONObject {
     var json: JSONObject = ["name": name ]
     if let requiresUsername = requiresUsername {
         json["requires_username"] = requiresUsername
@@ -370,7 +412,10 @@ private func mockDatabaseConnection(name: String, requiresUsername: Bool? = nil,
     return json
 }
 
-private func mockEntepriseConnection(_ name: String, domain: [String] ) -> JSONObject {
-    let json: JSONObject = ["name" : name as Any, "domain" : domain.first! as Any, "domain_aliases" : domain as Any]
+private func mockEnterprise(name: String, domains: [String] ) -> JSONObject {
+    var json: JSONObject = ["name": name, "domain_aliases": domains]
+    if let domain = domains.first {
+        json["domain"] = domain
+    }
     return json
 }
