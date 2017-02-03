@@ -104,7 +104,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 }
             }
 
-            context("remote connectin errors") {
+            context("remote connection errors") {
 
                 it("should return invalid client error") {
                     stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: Data(), statusCode: 403, headers: [:]) }
@@ -250,7 +250,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([mockStrategy("facebook", connections: [mockOAuth2("facebook1"), mockOAuth2("facebook2")])]) }
                 loader.load(callback)
                 expect(connections?.oauth2).toEventuallyNot(beNil())
-                //expect(connections?.oauth2.count).toEventually(be(2))
+                expect(connections?.oauth2.count).toEventually(equal(2))
                 expect(connections?.oauth2[0].name) == "facebook1"
                 expect(connections?.oauth2[1].name) == "facebook2"
             }
@@ -277,7 +277,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                     )]) }
                 loader.load(callback)
                 expect(connections?.enterprise).toEventuallyNot(beNil())
-                //expect(connections?.enterprise.count).toEventually(be(2))
+                expect(connections?.enterprise.count).toEventually(equal(2))
                 expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
@@ -293,7 +293,7 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
 
                 expect(connections?.enterprise).toEventuallyNot(beNil())
-                //expect(connections?.enterprise.count).toEventually(be(2))
+                expect(connections?.enterprise.count).toEventually(equal(2))
                 expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
@@ -309,12 +309,12 @@ class CDNLoaderInteractorSpec: QuickSpec {
                     )]) }
                 loader.load(callback)
                 expect(connections?.oauth2).toEventuallyNot(beNil())
-                //expect(connections?.oauth2.count).toEventually(be(2))
+                expect(connections?.oauth2.count).toEventually(equal(2))
                 expect(connections?.oauth2[0].name) == "facebook1"
                 expect(connections?.oauth2[1].name) == "facebook2"
 
                 expect(connections?.enterprise).toEventuallyNot(beNil())
-                //expect(connections?.enterprise.count).toEventually(be(2))
+                expect(connections?.enterprise.count).toEventually(equal(2))
                 expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
@@ -333,12 +333,12 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 expect(connections?.database?.name).toEventually(equal(databaseConnection))
 
                 expect(connections?.oauth2).toEventuallyNot(beNil())
-                //expect(connections?.oauth2.count).toEventually(be(2))
+                expect(connections?.oauth2.count).toEventually(equal(2))
                 expect(connections?.oauth2[0].name) == "facebook1"
                 expect(connections?.oauth2[1].name) == "facebook2"
 
                 expect(connections?.enterprise).toEventuallyNot(beNil())
-                //expect(connections?.enterprise.count).toEventually(be(2))
+                expect(connections?.enterprise.count).toEventually(equal(2))
                 expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
             }
