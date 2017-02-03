@@ -57,9 +57,7 @@ enum Route: Equatable {
             return "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
         case .multifactor:
             return "Two Step Verification".i18n(key: "com.auth0.lock.multifactor.title", comment: "Multifactor title")
-        case .enterpriseActiveAuth:
-            return "Corporate Login".i18n(key: "com.auth0.lock.corporate.title", comment: "Corporate Login title")
-        case .root, .unrecoverableError:
+        case .root, .unrecoverableError, .enterpriseActiveAuth:
             return style.hideTitle ? nil : style.title
         }
     }

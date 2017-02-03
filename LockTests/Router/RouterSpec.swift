@@ -242,7 +242,7 @@ class RouterSpec: QuickSpec {
             it("should show enterprise active auth screen") {
                 router.navigate(.enterpriseActiveAuth(connection: EnterpriseConnection(name: "testAD", domains: ["testad.com"]), domain: "testad.com"))
                 expect(controller.presentable as? EnterpriseActiveAuthPresenter).toNot(beNil())
-                expect(controller.headerView.title) == "Corporate Login"
+                expect(controller.headerView.title) == Style.Auth0.title
             }
 
             it("should show connection error screen") {
