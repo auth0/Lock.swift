@@ -40,7 +40,7 @@ class ViewController: UIViewController {
             header.leftAnchor.constraint(equalTo: view.leftAnchor),
             header.topAnchor.constraint(equalTo: view.topAnchor),
             header.rightAnchor.constraint(equalTo: view.rightAnchor),
-            header.heightAnchor.constraint(equalToConstant: 154),
+            header.heightAnchor.constraint(equalToConstant: 154)
             ])
         header.translatesAutoresizingMaskIntoConstraints = false
 
@@ -48,7 +48,6 @@ class ViewController: UIViewController {
             actionButton(withTitle: "LOGIN WITH CDN") {
                 return Lock
                     .classic()
-                        .allowedConnections(["contoso-ad", "fake-saml", "facebook", "google-oauth2"])
                         .withOptions {
                             applyDefaultOptions(&$0)
                             $0.loginAfterSignup = false

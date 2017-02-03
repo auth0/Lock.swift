@@ -87,9 +87,9 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
                 }
                 info.enterprise.forEach { strategy in
                     strategy.connections.forEach { connection in
-                        let domains = connection.json["domain_aliases"] as! [String]
+                        let domains = connection.json["domain_aliases"] as? [String] ?? []
                         let template = AuthStyle.style(forStrategy: strategy.name, connectionName: connection.name)
-                        let style = AuthStyle(name: domains.first!, color: template.normalColor, withImage: template.image)
+                        let style = AuthStyle(name: domains.first ?? strategy.name, color: template.normalColor, withImage: template.image)
                         connections.enterprise(name: connection.name, domains: domains, style: style)
                     }
                 }
