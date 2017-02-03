@@ -27,9 +27,9 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
     var interactor: EnterpriseActiveAuthInteractor
     var customLogger: Logger?
     let options: Options
-    let domain: String
+    let domain: String?
 
-    init(interactor: EnterpriseActiveAuthInteractor, options: Options, domain: String) {
+    init(interactor: EnterpriseActiveAuthInteractor, options: Options, domain: String? = nil) {
         self.interactor = interactor
         self.options = options
         self.domain = domain

@@ -29,7 +29,7 @@ class EnterpriseActiveAuthView: UIView, View {
 
     private weak var container: UIStackView?
 
-    init(identifier: String?, identifierAttribute: UserAttribute, domain: String) {
+    init(identifier: String?, identifierAttribute: UserAttribute, domain: String? = nil) {
         let primaryButton = PrimaryButton()
         let credentialView = CredentialView()
         let titleView = UILabel()
@@ -72,10 +72,15 @@ class EnterpriseActiveAuthView: UIView, View {
         credentialView.identityField.nextField = credentialView.passwordField
         credentialView.passwordField.returnKey = .done
 
-        titleView.text = String(
-                format: "Please enter your corporate credentials at %1$@".i18n(key: "com.auth0.lock.enterprise.sso.message", comment: "enter corporate credentials of domain %@{email domain}"),
-                domain
-        )
+        if let domain = domain {
+            titleView.text = String(
+                    format: "Please enter your corporate credentials at %1$@".i18n(key: "com.auth0.lock.enterprise.sso.message_at", comment: "enter corporate credentials of domain %@{email domain}"),
+                    domain
+            )
+        } else {
+            titleView.text = "Please enter your corporate credentials".i18n(key: "com.auth0.lock.enterprise.sso.message", comment: "enter corporate credentials")
+        }
+
         titleView.numberOfLines = 4
         titleView.textAlignment = .center
         titleView.font = regularSystemFont(size: 15)

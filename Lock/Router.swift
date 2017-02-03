@@ -75,7 +75,7 @@ struct Router: Navigable {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
             let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
             if let connection = interactor.connection, self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                return enterpriseActiveAuth(connection: connection, domain: "THIS IS REALLY WRONG")
+                return enterpriseActiveAuth(connection: connection, domain: connection.domains.first)
             }
             let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, user: self.user, options: self.lock.options)
             if !connections.oauth2.isEmpty {
@@ -116,7 +116,7 @@ struct Router: Navigable {
         return presenter
     }
 
-    func enterpriseActiveAuth(connection: EnterpriseConnection, domain: String) -> Presentable? {
+    func enterpriseActiveAuth(connection: EnterpriseConnection, domain: String?) -> Presentable? {
         let authentication = self.lock.authentication
         let interactor = EnterpriseActiveAuthInteractor(connection: connection, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
         let presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: self.lock.options, domain: domain)
