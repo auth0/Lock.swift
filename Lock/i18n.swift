@@ -22,13 +22,13 @@
 
 import Foundation
 
-private let TableName = "Lock"
+private let tableName = "Lock"
 
 extension String {
     func i18n(key: String, comment: String) -> String {
         let bundle = bundleForLock()
-        let defaultLocalizable = NSLocalizedString(key, tableName: TableName, bundle: bundle, value: self, comment: comment)
-        let localizable = NSLocalizedString(key, tableName: TableName, value: defaultLocalizable, comment: comment)
+        let defaultLocalizable = NSLocalizedString(key, tableName: tableName, bundle: bundle, value: self, comment: comment)
+        let localizable = NSLocalizedString(key, tableName: tableName, value: defaultLocalizable, comment: comment)
         return localizable
     }
 }

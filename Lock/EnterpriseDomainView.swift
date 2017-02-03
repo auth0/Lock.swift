@@ -35,7 +35,7 @@ class EnterpriseDomainView: UIView, View {
         let primaryButton = PrimaryButton()
         let domainView = EnterpriseSingleInputView()
         let container = UIStackView()
-        let ssoBar = InfoBarView()
+        let ssoBar = InfoBarView.ssoInfoBar
 
         self.primaryButton = primaryButton
         self.form = domainView
@@ -47,8 +47,6 @@ class EnterpriseDomainView: UIView, View {
         self.addSubview(container)
         self.addSubview(primaryButton)
 
-        ssoBar.title = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
-        ssoBar.setIcon("ic_lock")
         ssoBar.isHidden = true
         self.ssoBar = ssoBar
         container.alignment = .fill

@@ -48,7 +48,7 @@ enum Route: Equatable {
     case root
     case forgotPassword
     case multifactor
-    case enterpriseActiveAuth(connection: EnterpriseConnection)
+    case enterpriseActiveAuth(connection: EnterpriseConnection, domain: String)
     case unrecoverableError(error: UnrecoverableError)
 
     func title(withStyle style: Style) -> String? {
@@ -57,9 +57,7 @@ enum Route: Equatable {
             return "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
         case .multifactor:
             return "Two Step Verification".i18n(key: "com.auth0.lock.multifactor.title", comment: "Multifactor title")
-        case .enterpriseActiveAuth:
-            return "Corporate Login".i18n(key: "com.auth0.lock.corporate.title", comment: "Corporate Login title")
-        case .root, .unrecoverableError:
+        case .root, .unrecoverableError, .enterpriseActiveAuth:
             return style.hideTitle ? nil : style.title
         }
     }
@@ -69,8 +67,8 @@ func == (lhs: Route, rhs: Route) -> Bool {
     switch((lhs, rhs)) {
     case (.root, .root), (.forgotPassword, .forgotPassword), (.multifactor, .multifactor):
         return true
-    case (.enterpriseActiveAuth(let lhsConnection), .enterpriseActiveAuth(let rhsConnection)):
-        return lhsConnection.name == rhsConnection.name
+    case (.enterpriseActiveAuth(let lhsConnection, let lhsDomain), .enterpriseActiveAuth(let rhsConnection, let rhsDomain)):
+        return lhsConnection.name == rhsConnection.name && lhsDomain == rhsDomain
     case (.unrecoverableError(let lhsError), .unrecoverableError(let rhsError)):
         return lhsError == rhsError
     default:

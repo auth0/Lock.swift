@@ -1,10 +1,5 @@
 disabled_rules: # rule identifiers to exclude from running
-  - colon
-  - comma
-  - control_statement
   - missing_docs
-  - force_cast
-  - variable_name
   - cyclomatic_complexity
   - function_body_length
   - todo
@@ -17,8 +12,6 @@ included: # paths to include during linting. `--path` is ignored if present.
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Carthage
   - Pods
-  - Source/ExcludedFolder
-  - Source/ExcludedFile.swift
 
 # configurable rules can be customized from this configuration file
 # binary rules can set their severity level
@@ -46,9 +39,12 @@ type_name:
   excluded: iPhone # excluded via string
 variable_name:
   min_length: # only min_length
-    error: 4 # only error
+    error: 3 # only error
   excluded: # excluded via string array
     - id
     - URL
     - GlobalAPIKey
+    - lhs
+    - rhs
+    - a0_orange
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit)

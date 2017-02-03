@@ -25,55 +25,42 @@ import UIKit
 class EnterpriseActiveAuthView: UIView, View {
 
     weak var form: Form?
-    weak var ssoBar: InfoBarView?
     weak var primaryButton: PrimaryButton?
 
     private weak var container: UIStackView?
 
-    init(identifer: String?, identifierAttribute:UserAttribute) {
+    init(identifier: String?, identifierAttribute: UserAttribute, domain: String? = nil) {
         let primaryButton = PrimaryButton()
         let credentialView = CredentialView()
+        let titleView = UILabel()
         let container = UIStackView()
-        let ssoBar = InfoBarView()
 
         self.primaryButton = primaryButton
         self.form = credentialView
 
         super.init(frame: CGRect.zero)
 
-        self.addSubview(ssoBar)
-        self.addSubview(primaryButton)
         self.addSubview(container)
+        self.addSubview(primaryButton)
 
-        ssoBar.title = "Single Sign-On Enabled".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header").uppercased()
-        ssoBar.setIcon("ic_lock")
-        self.ssoBar = ssoBar
+        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor)
+        container.translatesAutoresizingMaskIntoConstraints = false
+
+        constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
+        primaryButton.translatesAutoresizingMaskIntoConstraints = false
 
         container.alignment = .fill
         container.axis = .vertical
         container.distribution = .equalSpacing
         container.spacing = 10
 
-        constraintEqual(anchor: ssoBar.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: ssoBar.leftAnchor, toAnchor: self.leftAnchor)
-        constraintEqual(anchor: ssoBar.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: ssoBar.bottomAnchor, toAnchor: container.topAnchor)
-        ssoBar.translatesAutoresizingMaskIntoConstraints = false
-
-        constraintEqual(anchor: container.topAnchor, toAnchor: ssoBar.bottomAnchor)
-        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
-        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor)
-        container.translatesAutoresizingMaskIntoConstraints = false
-
-        constraintEqual(anchor: primaryButton.topAnchor, toAnchor: container.bottomAnchor)
-        constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
-        constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
-        primaryButton.translatesAutoresizingMaskIntoConstraints = false
-
         primaryButton.title = "Log in".i18n(key: "com.auth0.lock.submit.login.title", comment: "Login Button title")
-        credentialView.identityField.text = identifer
+        credentialView.identityField.text = identifier
         switch identifierAttribute {
         case .username:
             credentialView.identityField.type = .username
@@ -85,7 +72,21 @@ class EnterpriseActiveAuthView: UIView, View {
         credentialView.identityField.nextField = credentialView.passwordField
         credentialView.passwordField.returnKey = .done
 
-        container.addArrangedSubview(strutView())
+        if let domain = domain {
+            titleView.text = String(
+                    format: "Please enter your corporate credentials at %1$@".i18n(key: "com.auth0.lock.enterprise.sso.message_at", comment: "enter corporate credentials of domain %@{email domain}"),
+                    domain
+            )
+        } else {
+            titleView.text = "Please enter your corporate credentials".i18n(key: "com.auth0.lock.enterprise.sso.message", comment: "enter corporate credentials")
+        }
+
+        titleView.numberOfLines = 4
+        titleView.textAlignment = .center
+        titleView.font = regularSystemFont(size: 15)
+
+        container.addArrangedSubview(strutView(withHeight: 10))
+        container.addArrangedSubview(titleView)
         container.addArrangedSubview(credentialView)
         container.addArrangedSubview(strutView())
     }

@@ -121,7 +121,7 @@ class SingleInputView: UIView, Form {
         inputField.returnKey = self.returnKey
     }
 
-    override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 244)
     }
 }

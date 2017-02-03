@@ -228,12 +228,12 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                     view = presenter.view as! EnterpriseDomainView
                 }
 
-                it("should navigate to enterprise passwod presenter") {
+                it("should navigate to enterprise password presenter") {
                     let input = mockInput(.email, value: "user@test.com")
                     view.form?.onValueChange(input)
                     view.primaryButton?.onPress(view.primaryButton!)
 
-                    expect(navigator.route).toEventually(equal(Route.enterpriseActiveAuth(connection: presenter.interactor.connection!)))
+                    expect(navigator.route).toEventually(equal(Route.enterpriseActiveAuth(connection: presenter.interactor.connection!, domain: presenter.interactor.domain!)))
                 }
 
                 it("should not navigate to enterprise passwod presenter") {
@@ -251,7 +251,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 beforeEach {
                     connections = OfflineConnections()
                     connections.enterprise(name: "TestAD", domains: ["test.com"])
-                    
+
                     interactor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
                     presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
                     presenter.messagePresenter = messagePresenter
@@ -277,23 +277,23 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             }
 
         }
-        
+
         describe("auth buttons") {
-            
+
             it("should init view with social view") {
                 presenter.authPresenter = authPresenter
                 let view = presenter.view as? EnterpriseDomainView
                 expect(view?.authCollectionView).to(equal(authPresenter.authView))
             }
-            
+
             it("should init view with not social view") {
                 presenter.authPresenter = nil
                 let view = presenter.view as? EnterpriseDomainView
                 expect(view?.authCollectionView).to(beNil())
             }
-            
+
         }
     }
-    
+
 
 }

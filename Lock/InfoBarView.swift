@@ -38,6 +38,15 @@ class InfoBarView: UIView {
         }
     }
 
+    var icon: UIImage? {
+        get {
+            return self.iconView?.image
+        }
+        set {
+            self.iconView?.image = newValue
+        }
+    }
+
     convenience init() {
         self.init(frame: CGRect.zero)
     }
@@ -71,14 +80,15 @@ class InfoBarView: UIView {
         constraintEqual(anchor: titleView.centerYAnchor, toAnchor: container.centerYAnchor)
         titleView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: iconView.rightAnchor, toAnchor: titleView.leftAnchor, constant: -5)
-        constraintEqual(anchor: iconView.bottomAnchor, toAnchor: titleView.bottomAnchor, constant: -1)
+        constraintEqual(anchor: iconView.rightAnchor, toAnchor: titleView.leftAnchor, constant: -7)
+        constraintEqual(anchor: iconView.centerYAnchor, toAnchor: titleView.centerYAnchor)
         iconView.translatesAutoresizingMaskIntoConstraints = false
 
         container.backgroundColor = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
 
-        titleView.font = UIFont.systemFont(ofSize: 17)
-        titleView.textColor = UIColor(red:0.45, green:0.45, blue:0.45, alpha:1.0)
+        titleView.font = UIFont.systemFont(ofSize: 12.5)
+        titleView.textColor = UIColor.black.withAlphaComponent(0.56)
+        iconView.tintColor = UIColor( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
 
         self.titleView = titleView
         self.iconView = iconView
@@ -86,13 +96,14 @@ class InfoBarView: UIView {
         self.clipsToBounds = true
     }
 
-    func setIcon(_ name: String) {
-        self.iconView?.image = image(named: name)
-        self.iconView?.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
-    }
-
-    override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 35)
     }
 
+    static var ssoInfoBar: InfoBarView {
+        let ssoBar = InfoBarView()
+        ssoBar.title  = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso", comment: "SSO Header")
+        ssoBar.icon = image(named: "ic_lock_full")
+        return ssoBar
+    }
 }
