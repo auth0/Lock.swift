@@ -269,17 +269,45 @@ class CDNLoaderInteractorSpec: QuickSpec {
 
             // MARK: Enterprise
 
-            it("should load enterprise connections") {
-                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([
-                    mockStrategy("ad", connections: [
-                        mockEntepriseConnection("TestAD", domain: ["test.com"]),
-                        mockEntepriseConnection("fakeAD", domain: ["fake.com"])]
-                    )]) }
+            it("should load single enterprise connections") {
+                stub(condition: isCDN(forClientId: clientId)) { _ in
+                    return Auth0Stubs.strategiesFromCDN([
+                    mockStrategy("ad", connections: [ mockEntepriseConnection("TestAD", domain: ["test.com"]) ])
+                    ])
+                }
                 loader.load(callback)
-                expect(connections?.enterprise).toEventuallyNot(beNil())
-                expect(connections?.enterprise.count).toEventually(equal(2))
+                expect(connections?.enterprise).toEventually(haveCount(1))
+                expect(connections?.enterprise.first?.name) == "TestAD"
+                expect(connections?.enterprise.first?.domains) == ["test.com"]
+            }
+
+            it("should load multiple ad enterprise connections") {
+                stub(condition: isCDN(forClientId: clientId)) { _ in return Auth0Stubs.strategiesFromCDN([
+                        mockStrategy("ad", connections: [
+                                mockEntepriseConnection("TestAD", domain: ["test.com"]),
+                                mockEntepriseConnection("fakeAD", domain: ["fake.com"])]
+                        )]) }
+                loader.load(callback)
+                expect(connections?.enterprise).toEventually(haveCount(2))
                 expect(connections?.enterprise[0].name) == "TestAD"
                 expect(connections?.enterprise[1].name) == "fakeAD"
+            }
+
+            it("should load multiple enterprise connections") {
+                stub(condition: isCDN(forClientId: clientId)) { _ in
+                    return Auth0Stubs.strategiesFromCDN([
+                        mockStrategy("ad", connections: [
+                                mockEntepriseConnection("fakeAD", domain: ["fake.com"])]
+                        ),
+                        mockStrategy("samlp", connections: [
+                                mockEntepriseConnection("fakeSAML", domain: ["false.com"])]
+                        )
+                    ])
+                }
+                loader.load(callback)
+                expect(connections?.enterprise).toEventually(haveCount(2))
+                expect(connections?.enterprise[0].name) == "fakeAD"
+                expect(connections?.enterprise[1].name) == "fakeSAML"
             }
 
             it("should load database & enterprise connections") {
