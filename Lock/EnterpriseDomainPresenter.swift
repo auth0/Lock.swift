@@ -82,8 +82,8 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         }
 
         let action = { [weak form] (button: PrimaryButton) in
-            if let connection = self.interactor.connection, self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                guard self.navigator?.navigate(.enterpriseActiveAuth(connection: connection)) == nil else { return }
+            if let connection = self.interactor.connection, let domain = self.interactor.domain, self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+                guard self.navigator?.navigate(.enterpriseActiveAuth(connection: connection, domain: domain)) == nil else { return }
             }
 
             self.messagePresenter?.hideCurrent()

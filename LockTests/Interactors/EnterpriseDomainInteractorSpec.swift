@@ -28,20 +28,18 @@ import Auth0
 @testable import Lock
 
 class EnterpriseDomainInteractorSpec: QuickSpec {
-    
     override func spec() {
-        
+
         var authentication: Auth0OAuth2Interactor!
         var webAuth: MockWebAuth!
         var credentials: Credentials?
         var connections: OfflineConnections!
         var enterprise: EnterpriseDomainInteractor!
-        
+
         beforeEach {
             connections = OfflineConnections()
             connections.enterprise(name: "TestAD", domains: ["test.com"])
             connections.enterprise(name: "validAD", domains: ["valid.com"])
-            
             credentials = nil
             webAuth = MockWebAuth()
             var dispatcher = ObserverStore()
@@ -49,14 +47,14 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
             authentication = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: LockOptions())
             enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
         }
-        
+
         afterEach {
             Auth0Stubs.cleanAll()
             Auth0Stubs.failUnknown()
         }
-        
+
         describe("init") {
-            
+
             it("should have an entperise object") {
                 expect(enterprise).toNot(beNil())
             }
@@ -79,26 +77,26 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 }
 
             }
-            
+
         }
-        
+
         describe("updateEmail") {
-            
+
             context("connection with no domain") {
-                
+
                 beforeEach {
                     connections = OfflineConnections()
                     connections.enterprise(name: "TestAD", domains: [])
                     enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
                 }
-                
+
                 it("should raise no error but no connection provided") {
                     expect{ try enterprise.updateEmail("user@domainnotmatched.com") }.toNot(throwError())
                     expect(enterprise.connection).to(beNil())
                 }
-                
+
             }
-            
+
             context("connection with one domain") {
 
                 beforeEach {
@@ -106,93 +104,94 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                     connections.enterprise(name: "TestAD", domains: ["test.com"])
                     enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
                 }
-                
+
                 it("should match email domain") {
                     expect{ try enterprise.updateEmail("user@test.com") }.toNot(throwError())
                     expect(enterprise.email) == "user@test.com"
+                    expect(enterprise.domain) == "test.com"
                 }
-                
+
                 it("should match email domain and provide enteprise connection") {
                     try! enterprise.updateEmail("user@test.com")
                     expect(enterprise.connection?.name) == "TestAD"
                 }
-                
-                
-                it("should not match connection with uknown domain") {
+
+                it("should not match connection with unknown domain") {
                     try! enterprise.updateEmail("user@domainnotmatched.com")
                     expect(enterprise.connection).to(beNil())
+                    expect(enterprise.domain) == "domainnotmatched.com"
                 }
-                
+
                 it("should raise error if email is nil") {
                     expect{ try enterprise.updateEmail(nil)}.to(throwError())
                 }
-                
+
                 it("should not match a connection with nil email") {
                     expect{ try enterprise.updateEmail(nil)}.to(throwError())
                     expect(enterprise.connection).to(beNil())
                 }
             }
-            
+
             context("connection with multiple domains") {
-                
+
                 beforeEach {
                     connections = OfflineConnections()
-                    connections.enterprise(name: "TestAD", domains: ["test.com","pepe.com"])
-                    
+                    connections.enterprise(name: "TestAD", domains: ["test.com", "pepe.com"])
+
                     enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
                 }
-                
+
                 it("should match first email domain and provide enteprise connection") {
                     try! enterprise.updateEmail("user@test.com")
                     expect(enterprise.connection?.name) == "TestAD"
                 }
-                
+
                 it("should match second email domain and provide enteprise connection") {
                     try! enterprise.updateEmail("user@pepe.com")
                     expect(enterprise.connection?.name) == "TestAD"
                 }
             }
-            
+
         }
-        
+
         describe("login") {
-            
+
             var error: OAuth2AuthenticatableError?
-            
+
             beforeEach {
                 error = nil
-                
+
                 connections = OfflineConnections()
                 connections.enterprise(name: "TestAD", domains: ["test.com"])
                 enterprise = EnterpriseDomainInteractor(connections: connections, authentication: authentication)
             }
-            
+
             it("should fail to launch on no valid connection") {
-                
+
                 try! enterprise.updateEmail("user@domainnotmatched.com")
                 enterprise.login() { error = $0 }
                 expect(error).toEventually(equal(OAuth2AuthenticatableError.noConnectionAvailable))
             }
-            
+
             it("should not yield error on success") {
-                
+
                 webAuth.result = { return .success(result: mockCredentials()) }
-                
+
                 try! enterprise.updateEmail("user@test.com")
                 enterprise.login() { error = $0 }
                 expect(error).toEventually(beNil())
             }
-            
+
             it("should call credentials callback") {
                 let expected = mockCredentials()
                 webAuth.result = { return .success(result: expected) }
-                
+
                 try! enterprise.updateEmail("user@test.com")
                 enterprise.login() { error = $0 }
                 expect(credentials).toEventually(equal(expected))
             }
-            
-            
+
+
         }
     }
 }

@@ -48,7 +48,7 @@ enum Route: Equatable {
     case root
     case forgotPassword
     case multifactor
-    case enterpriseActiveAuth(connection: EnterpriseConnection)
+    case enterpriseActiveAuth(connection: EnterpriseConnection, domain: String)
     case unrecoverableError(error: UnrecoverableError)
 
     func title(withStyle style: Style) -> String? {
@@ -69,8 +69,8 @@ func == (lhs: Route, rhs: Route) -> Bool {
     switch((lhs, rhs)) {
     case (.root, .root), (.forgotPassword, .forgotPassword), (.multifactor, .multifactor):
         return true
-    case (.enterpriseActiveAuth(let lhsConnection), .enterpriseActiveAuth(let rhsConnection)):
-        return lhsConnection.name == rhsConnection.name
+    case (.enterpriseActiveAuth(let lhsConnection, let lhsDomain), .enterpriseActiveAuth(let rhsConnection, let rhsDomain)):
+        return lhsConnection.name == rhsConnection.name && lhsDomain == rhsDomain
     case (.unrecoverableError(let lhsError), .unrecoverableError(let rhsError)):
         return lhsError == rhsError
     default:

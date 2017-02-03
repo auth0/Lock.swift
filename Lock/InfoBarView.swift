@@ -96,7 +96,7 @@ class InfoBarView: UIView {
         self.clipsToBounds = true
     }
 
-    override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 35)
     }
 

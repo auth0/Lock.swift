@@ -1,4 +1,4 @@
-// EnterpriseDomain.swift
+// HRDAuthenticatable.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -25,6 +25,7 @@ import Foundation
 protocol HRDAuthenticatable {
     var email: String? { get }
     var validEmail: Bool { get }
+    var domain: String? { get }
 
     mutating func updateEmail(_ value: String?) throws
 

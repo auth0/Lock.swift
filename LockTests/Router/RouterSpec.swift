@@ -240,7 +240,7 @@ class RouterSpec: QuickSpec {
             }
 
             it("should show enterprise active auth screen") {
-                router.navigate(.enterpriseActiveAuth(connection: EnterpriseConnection(name: "testAD", domains: ["testad.com"])))
+                router.navigate(.enterpriseActiveAuth(connection: EnterpriseConnection(name: "testAD", domains: ["testad.com"]), domain: "testad.com"))
                 expect(controller.presentable as? EnterpriseActiveAuthPresenter).toNot(beNil())
                 expect(controller.headerView.title) == "Corporate Login"
             }
@@ -269,7 +269,6 @@ class RouterSpec: QuickSpec {
                 }
             }
         }
-
 
         it("should present view controller") {
             let presented = UIViewController()
@@ -348,7 +347,7 @@ class RouterSpec: QuickSpec {
 
             it("EnterpriseActiveAuth should should be equatable with EnterpriseActiveAuth") {
                 let enterpriseConnection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
-                let match = Route.enterpriseActiveAuth(connection: enterpriseConnection) == Route.enterpriseActiveAuth(connection: enterpriseConnection)
+                let match = Route.enterpriseActiveAuth(connection: enterpriseConnection, domain: "test.com") == Route.enterpriseActiveAuth(connection: enterpriseConnection, domain: "test.com")
                 expect(match).to(beTrue())
             }
 

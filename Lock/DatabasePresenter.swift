@@ -118,9 +118,9 @@ class DatabasePresenter: Presentable, Loggable {
                 }
             }
 
-            if let connection = self.enterpriseInteractor?.connection {
+            if let connection = self.enterpriseInteractor?.connection, let domain = self.enterpriseInteractor?.domain {
                 if self.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
-                    self.navigator.navigate(.enterpriseActiveAuth(connection: connection))
+                    self.navigator.navigate(.enterpriseActiveAuth(connection: connection, domain: domain))
                 } else {
                     self.enterpriseInteractor?.login(errorHandler)
                 }
@@ -207,7 +207,7 @@ class DatabasePresenter: Presentable, Loggable {
         self.messagePresenter?.hideCurrent()
 
         self.logger.verbose("new value: \(input.text) for type: \(input.type)")
-        let attribute: UserAttribute?
+        let attribute: UserAttribute
         switch input.type {
         case .email:
             attribute = .email
@@ -220,21 +220,24 @@ class DatabasePresenter: Presentable, Loggable {
         case .custom(let name, _, _, _, _, _):
             attribute = .custom(name: name)
         default:
-            attribute = nil
+            return
         }
 
-        guard let attr = attribute else { return }
         do {
-            try self.authenticator.update(attr, value: input.text)
+            try self.authenticator.update(attribute, value: input.text)
+            input.showValid()
 
-            if self.enterpriseInteractor?.matchDomain(input.text) != nil, let mode = self.databaseView?.switcher?.selected, mode == .login {
-                try self.enterpriseInteractor?.updateEmail(input.text)
-                self.logger.verbose("Enterprise connection detected: \(self.enterpriseInteractor?.connection)")
+            guard
+                    let mode = self.databaseView?.switcher?.selected,
+                    mode == .login
+                    else { return }
+            try? self.enterpriseInteractor?.updateEmail(input.text)
+            if let connection = self.enterpriseInteractor?.connection {
+                self.logger.verbose("Enterprise connection detected: \(connection)")
                 if self.databaseView?.ssoBar == nil { self.databaseView?.presentEnterprise() }
             } else {
                 self.databaseView?.removeEnterprise()
             }
-            input.showValid()
         } catch let error as InputValidationError {
             input.showError(error.localizedMessage(withConnection: self.database))
         } catch {
