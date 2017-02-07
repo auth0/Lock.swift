@@ -37,10 +37,6 @@ class AuthPresenter: Presentable, Loggable {
         self.customStyle = customStyle
     }
 
-    convenience init(connections: Connections, interactor: OAuth2Authenticatable, customStyle: [String: AuthStyle]) {
-        self.init(connections: connections.oauth2, interactor: interactor, customStyle: customStyle)
-    }
-
     var view: View {
         return self.newView(withInsets: UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18), mode: .expanded(isLogin: true))
     }

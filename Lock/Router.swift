@@ -62,7 +62,7 @@ struct Router: Navigable {
             let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
             if !connections.oauth2.isEmpty {
                 let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
-                presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
+                presenter.authPresenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
             }
             if !connections.enterprise.isEmpty {
                 let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
@@ -110,14 +110,14 @@ struct Router: Navigable {
             }
             let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, options: self.lock.options)
             if !connections.oauth2.isEmpty {
-                presenter.authPresenter = AuthPresenter(connections: connections, interactor: authInteractor, customStyle: self.lock.style.oauth2)
+                presenter.authPresenter = AuthPresenter(connections: connections.oauth2, interactor: authInteractor, customStyle: self.lock.style.oauth2)
             }
             return presenter
         }
 
         if !connections.oauth2.isEmpty {
             let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
-            let presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
+            let presenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
             return presenter
         }
         return nil

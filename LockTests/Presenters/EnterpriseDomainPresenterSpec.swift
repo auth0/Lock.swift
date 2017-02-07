@@ -43,7 +43,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
         beforeEach {
             messagePresenter = MockMessagePresenter()
             oauth2 = MockOAuth2()
-            authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor(), customStyle: [:])
+            authPresenter = MockAuthPresenter(connections: [], interactor: MockAuthInteractor(), customStyle: [:])
             navigator = MockNavigator()
             options = LockOptions()
             user = User()
