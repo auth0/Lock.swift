@@ -66,18 +66,18 @@ struct Router: Navigable {
             }
             if !connections.enterprise.isEmpty {
                 let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
-                let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
+                let interactor = EnterpriseDomainInteractor(connections: connections, user: self.user, authentication: authInteractor)
                 presenter.enterpriseInteractor = interactor
             }
             return presenter
         }
         if !connections.enterprise.isEmpty {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
-            let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
+            let interactor = EnterpriseDomainInteractor(connections: connections, user: self.user, authentication: authInteractor)
             if let connection = interactor.connection, self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
                 return enterpriseActiveAuth(connection: connection, domain: connection.domains.first)
             }
-            let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, user: self.user, options: self.lock.options)
+            let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, options: self.lock.options)
             if !connections.oauth2.isEmpty {
                 presenter.authPresenter = AuthPresenter(connections: connections, interactor: authInteractor, customStyle: self.lock.style.oauth2)
             }

@@ -25,15 +25,12 @@ import Foundation
 class EnterpriseDomainPresenter: Presentable, Loggable {
 
     var interactor: EnterpriseDomainInteractor
-    var customLogger: Logger?
-    var user: User
     var options: Options
     var authPresenter: AuthPresenter?
 
-    init(interactor: EnterpriseDomainInteractor, navigator: Navigable, user: User, options: Options) {
+    init(interactor: EnterpriseDomainInteractor, navigator: Navigable, options: Options) {
         self.interactor = interactor
         self.navigator = navigator
-        self.user = user
         self.options = options
     }
 
@@ -70,7 +67,6 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
             guard case .email = input.type else { return }
             do {
                 try self.interactor.updateEmail(input.text)
-                self.user.email = self.interactor.email
                 input.showValid()
                 if let connection = self.interactor.connection {
                     self.logger.debug("Enterprise connection match: \(connection)")

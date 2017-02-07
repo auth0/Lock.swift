@@ -37,23 +37,23 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
         var oauth2: MockOAuth2!
         var authPresenter: MockAuthPresenter!
         var navigator: MockNavigator!
-        var user: User!
         var options: OptionBuildable!
+        var user: User!
 
         beforeEach {
             messagePresenter = MockMessagePresenter()
             oauth2 = MockOAuth2()
             authPresenter = MockAuthPresenter(connections: OfflineConnections(), interactor: MockAuthInteractor(), customStyle: [:])
-            user = User()
             navigator = MockNavigator()
             options = LockOptions()
+            user = User()
 
             connections = OfflineConnections()
             connections.enterprise(name: "TestAD", domains: ["test.com"])
             connections.enterprise(name: "ValidAD", domains: ["validad.com"])
 
-            interactor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
-            presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+            interactor = EnterpriseDomainInteractor(connections: connections, user: user, authentication: oauth2)
+            presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as! EnterpriseDomainView
         }
@@ -82,8 +82,8 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                     connections = OfflineConnections()
                     connections.enterprise(name: "TestAD", domains: ["test.com"])
 
-                    interactor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
-                    presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+                    interactor = EnterpriseDomainInteractor(connections: connections, user: user, authentication: oauth2)
+                    presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
                     presenter.messagePresenter = messagePresenter
                     view = presenter.view as! EnterpriseDomainView
                 }
@@ -103,24 +103,23 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
         describe("email input validation") {
 
             it("should use valid email") {
-                interactor.email = email
-                interactor.validEmail = true
-                presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+                user.email = email
+                user.validEmail = true
+                presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
 
-                let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseSingleInputView
-                expect(view.value).to(equal(email))
+                let view = (presenter.view as? EnterpriseDomainView)?.form as? EnterpriseSingleInputView
+                expect(view?.value) == email
             }
 
             it("should not use invalid email") {
-                interactor.email = email
-                interactor.validEmail = false
-                presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+                user.email = email
+                user.validEmail = false
+                presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
 
-                let view = (presenter.view as! EnterpriseDomainView).form as! EnterpriseSingleInputView
-                expect(view.value).toNot(equal(email))
+                let view = (presenter.view as? EnterpriseDomainView)?.form as? EnterpriseSingleInputView
+                expect(view?.value) != email
             }
         }
-
 
         describe("user input") {
 
@@ -169,7 +168,6 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
 
         }
 
-
         describe("login action") {
 
             it("should not trigger action with nil button") {
@@ -189,7 +187,6 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 view.form?.onReturn(input)
                 expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
             }
-
 
             it("should fail when no connection is matched") {
                 presenter.interactor.connection = nil
@@ -223,7 +220,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 beforeEach {
                     options.enterpriseConnectionUsingActiveAuth.append("TestAD")
 
-                    presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+                    presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
                     presenter.messagePresenter = messagePresenter
                     view = presenter.view as! EnterpriseDomainView
                 }
@@ -252,8 +249,8 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                     connections = OfflineConnections()
                     connections.enterprise(name: "TestAD", domains: ["test.com"])
 
-                    interactor = EnterpriseDomainInteractor(connections: connections, authentication: oauth2)
-                    presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, user: user, options: options)
+                    interactor = EnterpriseDomainInteractor(connections: connections, user: user, authentication: oauth2)
+                    presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
                     presenter.messagePresenter = messagePresenter
                     view = presenter.view as! EnterpriseDomainView
                 }
@@ -294,6 +291,5 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
 
         }
     }
-
 
 }

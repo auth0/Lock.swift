@@ -25,22 +25,30 @@ import Auth0
 
 struct EnterpriseDomainInteractor: HRDAuthenticatable {
 
-    var email: String? = nil
-    var validEmail: Bool = false
+    var email: String? {
+        return self.user.email
+    }
+
+    var validEmail: Bool {
+        return self.user.validEmail
+    }
+
     var connection: EnterpriseConnection? = nil
     var domain: String? = nil
 
+    let user: User
     let connections: [EnterpriseConnection]
     let emailValidator: InputValidator = EmailValidator()
     let authenticator: OAuth2Authenticatable
 
-    init(connections: Connections, authentication: OAuth2Authenticatable) {
+    init(connections: Connections, user: User, authentication: OAuth2Authenticatable) {
         self.connections = connections.enterprise
         self.authenticator = authentication
 
         if self.connections.count == 1 && connections.oauth2.isEmpty && connections.database == nil {
             self.connection = self.connections.first
         }
+        self.user = user
     }
 
     func match(domain: String) -> EnterpriseConnection? {
@@ -48,14 +56,14 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
     }
 
     mutating func updateEmail(_ value: String?) throws {
-        self.validEmail = false
         self.connection = nil
-
-        email = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        if let error = emailValidator.validate(value) {
+        self.user.email = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let error = emailValidator.validate(self.email)
+        self.user.validEmail = error == nil
+        if let error = error {
             throw error
         }
-        self.validEmail = true
+
         self.connection = nil
         if let domain = value?.components(separatedBy: "@").last {
             self.connection = match(domain: domain)
