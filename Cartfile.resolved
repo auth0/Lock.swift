@@ -1,6 +1,5 @@
-github "auth0/Auth0.swift" "1.1.0"
-github "emaloney/CleanroomASL" "2.0.0"
+github "auth0/Auth0.swift" "1.2.0"
+github "emaloney/CleanroomLogger" "5.0.2"
 github "Quick/Nimble" "v5.1.1"
 github "AliSoftware/OHHTTPStubs" "5.2.2-swift3"
 github "Quick/Quick" "v1.0.0"
-github "emaloney/CleanroomLogger" "3.0.0"
