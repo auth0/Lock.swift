@@ -243,7 +243,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
 
             }
 
-            context("single enterprise connection") {
+            context("single enterprise connection for passive flow") {
 
                 beforeEach {
                     connections = OfflineConnections()
@@ -266,13 +266,11 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                     expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
                 }
 
-                it("should not navigate to enterprise passwod presenter") {
+                it("should not navigate to enterprise password presenter") {
                     view.authButton!.onPress(view.authButton!)
                     expect(navigator.route).toEventually(beNil())
                 }
-
             }
-
         }
 
         describe("auth buttons") {

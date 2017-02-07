@@ -41,7 +41,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         let email = self.interactor.validEmail ? self.interactor.email : nil
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), isLogin: true)
 
-        if let enterpriseButton = EnterpriseButton(forConnections: interactor.connections, customStyle: [:], isLogin: true, onAction: {
+        if let enterpriseButton = EnterpriseButton(forConnections: interactor.connections, options: self.options, customStyle: [:], isLogin: true, onAction: {
             self.interactor.login { error in
                 Queue.main.async {
                     if let error = error {
@@ -111,8 +111,8 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
 
 }
 
-func EnterpriseButton(forConnections connections: [EnterpriseConnection], customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping () -> () ) -> AuthButton? {
-    guard let connection = connections.first, connections.count == 1 else { return nil }
+func EnterpriseButton(forConnections connections: [EnterpriseConnection], options: Options, customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping () -> () ) -> AuthButton? {
+    guard let connection = connections.first, connections.count == 1, !options.enterpriseConnectionUsingActiveAuth.contains(connection.name) else { return nil }
     let style = customStyle[connection.name] ?? connection.style
     let button = AuthButton(size: .big)
     button.title = style.localizedLoginTitle.uppercased()

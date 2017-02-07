@@ -58,7 +58,7 @@ public protocol ConnectionBuildable: Connections {
 
     /**
      Adds a new enterprise connection
-     
+
      - parameter name:  name of the connection
      - parameter domain: array of enterprise domains
      - paramater style: style used when displayed as button
@@ -75,6 +75,7 @@ public protocol ConnectionBuildable: Connections {
 }
 
 public extension ConnectionBuildable {
+
     /**
      Configure a database connection
 
@@ -87,5 +88,4 @@ public extension ConnectionBuildable {
     public mutating func database(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator(), passwordPolicy: PasswordPolicy = .none) {
         self.database(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator, passwordValidator: PasswordPolicyValidator(policy: passwordPolicy))
     }
-
 }
