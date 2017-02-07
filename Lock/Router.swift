@@ -76,8 +76,18 @@ struct Router: Navigable {
         if let connection = connections.enterprise.first,
            connections.oauth2.isEmpty,
            connections.enterprise.count == 1,
-           !self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+           self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
             return enterpriseActiveAuth(connection: connection, domain: connection.domains.first)
+        }
+
+        // Single Enterprise connection that only works with Passive Auth (WebAuth)
+        if let connection = connections.enterprise.first,
+           connections.oauth2.isEmpty, connections.enterprise.count == 1,
+           !self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+            let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+            let interactor = EnterpriseDomainInteractor(connections: connections, user: self.user, authentication: authInteractor)
+            let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, options: self.lock.options)
+            return presenter
         }
 
         if !connections.enterprise.isEmpty {
