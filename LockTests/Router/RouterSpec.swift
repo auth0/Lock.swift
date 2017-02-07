@@ -86,9 +86,8 @@ class RouterSpec: QuickSpec {
                     $0.social(name: "facebook", style: .Facebook)
                     $0.enterprise(name: "testAD", domains: ["testAD.com"])
                 }
-                let root = router.root as? EnterpriseDomainPresenter
+                let root = router.root as? AuthPresenter
                 expect(root).toNot(beNil())
-                expect(root?.authPresenter).toNot(beNil())
             }
 
             it("should return root for only social connections") {

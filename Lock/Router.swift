@@ -82,11 +82,23 @@ struct Router: Navigable {
 
         // Single Enterprise connection that only works with Passive Auth (WebAuth)
         if let connection = connections.enterprise.first,
-           connections.oauth2.isEmpty, connections.enterprise.count == 1,
+           connections.oauth2.isEmpty,
+           connections.enterprise.count == 1,
            !self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
             let interactor = EnterpriseDomainInteractor(connections: connections, user: self.user, authentication: authInteractor)
             let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, options: self.lock.options)
+            return presenter
+        }
+
+        // Social connections and a single enterprise with Passive Auth (WebAuth)
+        if let connection = connections.enterprise.first,
+           !connections.oauth2.isEmpty,
+           connections.enterprise.count == 1,
+           !self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+            let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+            let connections: [OAuth2Connection] = connections.oauth2 + connections.enterprise
+            let presenter = AuthPresenter(connections: connections, interactor: authInteractor, customStyle: self.lock.style.oauth2)
             return presenter
         }
 
@@ -102,6 +114,7 @@ struct Router: Navigable {
             }
             return presenter
         }
+
         if !connections.oauth2.isEmpty {
             let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
             let presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)

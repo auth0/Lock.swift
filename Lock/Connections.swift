@@ -63,7 +63,7 @@ public struct SocialConnection: OAuth2Connection {
     public let style: AuthStyle
 }
 
-public struct EnterpriseConnection : OAuth2Connection {
+public struct EnterpriseConnection: OAuth2Connection {
     public let name: String
     public let domains: [String]
     public let style: AuthStyle
