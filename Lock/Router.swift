@@ -71,6 +71,15 @@ struct Router: Navigable {
             }
             return presenter
         }
+
+        // Single Enterprise connection that allows Active Auth
+        if let connection = connections.enterprise.first,
+           connections.oauth2.isEmpty,
+           connections.enterprise.count == 1,
+           !self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+            return enterpriseActiveAuth(connection: connection, domain: connection.domains.first)
+        }
+
         if !connections.enterprise.isEmpty {
             let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
             let interactor = EnterpriseDomainInteractor(connections: connections, user: self.user, authentication: authInteractor)

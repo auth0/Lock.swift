@@ -91,7 +91,6 @@ class RouterSpec: QuickSpec {
                 expect(root?.authPresenter).toNot(beNil())
             }
 
-
             it("should return root for only social connections") {
                 _ = lock.withConnections { $0.social(name: "dropbox", style: AuthStyle(name: "Dropbox")) }
                 expect(router.root as? AuthPresenter).toNot(beNil())
@@ -105,7 +104,7 @@ class RouterSpec: QuickSpec {
                 expect(router.root as? EnterpriseDomainPresenter).toNot(beNil())
             }
 
-            it("should return root for one enterprise with actuve auth") {
+            it("should return root for one enterprise with active auth") {
                 _ = lock.withConnections {
                     $0.enterprise(name: "testAD", domains: ["testAD.com"])
                     }.withOptions { $0.enterpriseConnectionUsingActiveAuth = ["testAD"] }
