@@ -1,6 +1,6 @@
-// LockOptions.swift
+// PasswordlessMode.swift
 //
-// Copyright (c) 2016 Auth0 (http://auth0.com)
+// Copyright (c) 2017 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,31 +21,14 @@
 // THE SOFTWARE.
 
 import Foundation
-import Auth0
 
-struct LockOptions: OptionBuildable {
-    var closable: Bool = false
-    var termsOfServiceURL: URL = URL(string: "https://auth0.com/terms")!
-    var privacyPolicyURL: URL = URL(string: "https://auth0.com/privacy")!
-    var logLevel: LoggerLevel = .off
-    var loggerOutput: LoggerOutput?
-    var logHttpRequest: Bool = false
-    var scope: String = "openid"
-    var connectionScope: [String: String] = [:]
-    var parameters: [String : Any] = [:]
-    var allow: DatabaseMode = [.Login, .Signup, .ResetPassword]
-    var autoClose: Bool = true
-    var initialScreen: DatabaseScreen = .login
-    var usernameStyle: DatabaseIdentifierStyle = [.Username, .Email]
-    var customSignupFields: [CustomTextField] = []
-    var loginAfterSignup: Bool = true
+enum PasswordlessScreen {
+    case request
+    case code
+    case linkSent
+}
 
-    // Enterprise
-    var activeDirectoryEmailAsUsername: Bool = false
-    var enterpriseConnectionUsingActiveAuth: [String] = []
-
-    var oidcConformant: Bool = false
-    var audience: String?
-
-    var passwordlessMethod: PasswordlessMethod = .code
+public enum PasswordlessMethod: Int, Equatable {
+    case code = 0
+    case magicLink
 }

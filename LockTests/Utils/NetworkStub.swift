@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
+import Auth0
 import OHHTTPStubs
 
 // MARK: - Request Matchers
@@ -48,6 +49,10 @@ func databaseSignUp(email: String, username: String? = nil, password: String, co
 
 func databaseForgotPassword(email: String, connection: String) -> OHHTTPStubsTestBlock {
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/dbconnections/change_password") && hasAtLeast(["email": email, "connection": connection])
+}
+
+func passwordlessStart(email: String, connection: String) -> OHHTTPStubsTestBlock {
+    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/passwordless/start") && hasAtLeast(["email": email, "connection": connection])
 }
 
 // MARK: - Internal Matchers
@@ -147,6 +152,13 @@ struct Auth0Stubs {
         let json = [
             "access_token": "token",
             "token_type": "bearer",
+            ]
+        return OHHTTPStubsResponse(jsonObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
+    }
+
+    static func passwordlessSent(_ email: String) -> OHHTTPStubsResponse {
+        let json = [
+            "email": email,
             ]
         return OHHTTPStubsResponse(jsonObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
     }

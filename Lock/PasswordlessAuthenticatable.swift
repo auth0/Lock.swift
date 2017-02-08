@@ -1,6 +1,6 @@
-// LockOptions.swift
+// PasswordlessAuthenticatable.swift
 //
-// Copyright (c) 2016 Auth0 (http://auth0.com)
+// Copyright (c) 2017 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,29 +23,20 @@
 import Foundation
 import Auth0
 
-struct LockOptions: OptionBuildable {
-    var closable: Bool = false
-    var termsOfServiceURL: URL = URL(string: "https://auth0.com/terms")!
-    var privacyPolicyURL: URL = URL(string: "https://auth0.com/privacy")!
-    var logLevel: LoggerLevel = .off
-    var loggerOutput: LoggerOutput?
-    var logHttpRequest: Bool = false
-    var scope: String = "openid"
-    var connectionScope: [String: String] = [:]
-    var parameters: [String : Any] = [:]
-    var allow: DatabaseMode = [.Login, .Signup, .ResetPassword]
-    var autoClose: Bool = true
-    var initialScreen: DatabaseScreen = .login
-    var usernameStyle: DatabaseIdentifierStyle = [.Username, .Email]
-    var customSignupFields: [CustomTextField] = []
-    var loginAfterSignup: Bool = true
+protocol PasswordlessAuthenticatable: CredentialAuthenticatable {
+    var identifier: String? { get }
+    var validIdentifier: Bool { get }
+    var code: String? { get }
+    var validCode: Bool { get }
 
-    // Enterprise
-    var activeDirectoryEmailAsUsername: Bool = false
-    var enterpriseConnectionUsingActiveAuth: [String] = []
+    mutating func update(_ type: InputField.InputType, value: String?) throws
 
-    var oidcConformant: Bool = false
-    var audience: String?
+    func request(_ connection: String, callback: @escaping (PasswordlessAuthenticatableError?) -> ())
+    func login(_ connection: String, callback: @escaping (CredentialAuthError?) -> ())
+}
 
-    var passwordlessMethod: PasswordlessMethod = .code
+protocol PasswordlessUserActivity {
+    func withMessagePresenter(_ messagePresenter: MessagePresenter?) -> Self
+    func onActivity(callback: @escaping (String, inout MessagePresenter?) -> ())
+    func continueAuth(withActivity userActivity: NSUserActivity) -> Bool
 }

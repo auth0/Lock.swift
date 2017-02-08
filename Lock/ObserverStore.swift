@@ -24,11 +24,13 @@ import Foundation
 import Auth0
 
 struct ObserverStore: Dispatcher {
-    var onAuth: (Credentials) -> Void = { _ in }
-    var onFailure: (Error) -> Void = { _ in }
-    var onCancel: () -> Void = {  }
-    var onSignUp: (String, [String: Any]) -> Void = { _ in }
-    var onForgotPassword: (String) -> Void = { _ in }
+    var onAuth: (Credentials) -> () = { _ in }
+    var onFailure: (Error) -> () = { _ in }
+    var onCancel: () -> () = {  }
+    var onSignUp: (String, [String: Any]) -> () = { _ in }
+    var onForgotPassword: (String) -> () = { _ in }
+    var onPasswordless: (String, PasswordlessMethod) -> () = { _ in }
+
     var options: Options = LockOptions()
 
     weak var controller: UIViewController?
@@ -58,6 +60,8 @@ struct ObserverStore: Dispatcher {
             } else {
                 closure = { self.onForgotPassword(email) }
             }
+        case .passwordless(let identifier, let method):
+            closure = { self.onPasswordless(identifier, method) }
         }
 
         Queue.main.async(closure)
@@ -75,6 +79,7 @@ enum Result {
     case cancel
     case signUp(String, [String: Any])
     case forgotPassword(String)
+    case passwordless(String, PasswordlessMethod)
 }
 
 protocol Dispatcher {

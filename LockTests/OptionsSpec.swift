@@ -92,6 +92,10 @@ class OptionsSpec: QuickSpec {
             it("should be auto closeable") {
                 expect(options.autoClose) == true
             }
+
+            it("should be passwordless code method") {
+                expect(options.passwordlessMethod).to(equal(PasswordlessMethod.code))
+            }
         }
 
         describe("validation") {

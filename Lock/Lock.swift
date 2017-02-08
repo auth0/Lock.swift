@@ -233,6 +233,19 @@ public class Lock: NSObject {
         }
     }
 
+    /**
+     Register a callback to be notified when a user requests passwordless authentication.
+     The callback will yield the user identifier email or mobile and the method used.
+
+     - parameter callback: called when a user signs up
+
+     - returns: Lock itself for chaining
+     */
+    public func onPasswordless(callback: @escaping (String, PasswordlessMethod) -> ()) -> Lock {
+        self.observerStore.onPasswordless = callback
+        return self
+    }
+
         /// Lock's Bundle. Useful for getting bundled resources like images.
     public static var bundle: Bundle {
         return bundleForLock()
@@ -271,6 +284,26 @@ public class Lock: NSObject {
     public func nativeAuthentication(forConnection name: String, handler: AuthProvider) -> Lock {
         self.nativeHandlers[name] = handler
         return self
+    }
+
+    /**
+     Continues an activity from a universal link.
+
+     This method should be called from your `AppDelegate`
+
+     ```
+     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        return Lock.continueActivity(userActivity, restorationHandler: restorationHandler)
+     }
+
+     ```
+
+     - parameter userActivity: the NSUserActivity to handle.
+
+     - returns: true if the link is of the appropriate format, false otherwise
+     */
+    public static func continueActivity(_ userActivity: NSUserActivity) -> Bool {
+        return PasswordlessActivity.shared.continueAuth(withActivity: userActivity)
     }
 }
 

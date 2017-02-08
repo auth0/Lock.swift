@@ -56,7 +56,7 @@ class ViewController: UIViewController {
                         ]
                     }
                     .withStyle {
-                        $0.oauth2["slack"] = AuthStyle(
+                            $0.oauth2["slack"] = AuthStyle(
                             name: "Slack",
                             color: UIColor ( red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0 ),
                             withImage: LazyImage(name: "ic_slack")
@@ -182,6 +182,7 @@ class ViewController: UIViewController {
             .onError { Log.error?.message("Failed with \($0)") }
             .onSignUp { email, _ in  Log.debug?.message("New user \(email)") }
             .onCancel { Log.debug?.message("User closed lock") }
+            .onPasswordless { Log.debug?.message("Passwordless \($1) requested for \($0)") }
             .present(from: self)
     }
 }

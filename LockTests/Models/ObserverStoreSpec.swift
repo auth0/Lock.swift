@@ -37,6 +37,7 @@ class ObserverStoreSpec: QuickSpec {
             var dispatcher: ObserverStore!
             var newEmail: String?
             var newAttributes: [String: Any]?
+            var passwordlessMethod: PasswordlessMethod?
 
             beforeEach {
                 closed = false
@@ -44,12 +45,14 @@ class ObserverStoreSpec: QuickSpec {
                 credentials = nil
                 newEmail = nil
                 newAttributes = nil
+                passwordlessMethod = nil
                 var store = ObserverStore()
                 store.onFailure = { error = $0 }
                 store.onAuth = { credentials = $0 }
                 store.onCancel = { closed = true }
                 store.onSignUp = { newEmail = $0; newAttributes = $1 }
                 store.onForgotPassword = { newEmail = $0 }
+                store.onPasswordless = { newEmail = $0; passwordlessMethod = $1 }
                 dispatcher = store
             }
 
@@ -78,6 +81,12 @@ class ObserverStoreSpec: QuickSpec {
             it("should disptach when user requests password") {
                 dispatcher.dispatch(result: .forgotPassword(email))
                 expect(newEmail).toEventually(equal(email))
+            }
+
+            it("should disptach when user requests password") {
+                dispatcher.dispatch(result: .passwordless(email, .code))
+                expect(newEmail).toEventually(equal(email))
+                expect(passwordlessMethod).toEventually(equal(PasswordlessMethod.code))
             }
 
             // TODO: Check why it fails only in travis
@@ -160,6 +169,11 @@ class ObserverStoreSpec: QuickSpec {
                     dispatcher.options = options
                     dispatcher.dispatch(result: .forgotPassword(email))
                     expect(newEmail).toEventually(equal(email))
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+                }
+
+                it("should not dismiss onPasswordless") {
+                    dispatcher.dispatch(result: .passwordless(email, .code))
                     expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
                 }
 

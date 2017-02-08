@@ -35,6 +35,7 @@ protocol Navigable {
     func resetScroll(_ animated: Bool)
     func scroll(toPosition: CGPoint, animated: Bool)
 
+    func onBack() -> ()
 }
 
 struct Router: Navigable {
@@ -56,9 +57,17 @@ struct Router: Navigable {
             return ConnectionLoadingPresenter(loader: interactor, navigator: self, dispatcher: lock.observerStore, options: self.lock.options)
         }
         let whitelistForActiveAuth = self.lock.options.enterpriseConnectionUsingActiveAuth
-        switch (connections.database, connections.oauth2, connections.enterprise) {
+
+        switch (connections.database, connections.oauth2, connections.enterprise, connections.passwordless) {
+                // Passwordless
+            case (nil, let oauth2, let enterprise, let passwordless) where oauth2.isEmpty && enterprise.isEmpty && !passwordless.isEmpty:
+                guard let connection = passwordless.filter({ $0.name == "email" }).first else { return nil }
+                let passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(self.controller?.messagePresenter)
+                let interactor = PasswordlessInteractor(authentication: self.lock.authentication, dispatcher: lock.observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
+                let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options)
+                return presenter
                 // Database root
-            case (.some(let database), let oauth2, let enterprise):
+            case (.some(let database), let oauth2, let enterprise, _):
                 guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .resetPassword else { return forgotPassword }
                 let authentication = self.lock.authentication
                 let interactor = DatabaseInteractor(connection: database, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
@@ -74,23 +83,23 @@ struct Router: Navigable {
                 }
                 return presenter
                 // Single Enterprise with active auth support (e.g. AD)
-            case (nil, let oauth2, let enterprise) where oauth2.isEmpty && enterprise.hasJustOne(andIn: whitelistForActiveAuth):
+            case (nil, let oauth2, let enterprise, _) where oauth2.isEmpty && enterprise.hasJustOne(andIn: whitelistForActiveAuth):
                 guard let connection = enterprise.first else { return nil }
                 return enterpriseActiveAuth(connection: connection, domain: connection.domains.first)
                 // Single Enterprise with support for passive auth only (web auth) and some social connections
-            case (nil, let oauth2, let enterprise) where enterprise.hasJustOne(andNotIn: whitelistForActiveAuth):
+            case (nil, let oauth2, let enterprise, _) where enterprise.hasJustOne(andNotIn: whitelistForActiveAuth):
                 guard let connection = enterprise.first else { return nil }
                 let authInteractor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: lock.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
                 let connections: [OAuth2Connection] = oauth2 + [connection]
                 return AuthPresenter(connections: connections, interactor: authInteractor, customStyle: self.lock.style.oauth2)
                 // Social connections only
-            case (nil, let oauth2, let enterprise) where enterprise.isEmpty:
-                let interactor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: lock.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
+            case (nil, let oauth2, let enterprise, _) where enterprise.isEmpty:
+                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
                 let presenter = AuthPresenter(connections: oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
                 return presenter
                 // Multiple enterprise connections and maybe some social
-            case (nil, let oauth2, let enterprise) where !enterprise.isEmpty:
-                let authInteractor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: lock.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
+            case (nil, let oauth2, let enterprise, _) where !enterprise.isEmpty:
+                let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
                 let interactor = EnterpriseDomainInteractor(connections: connections, user: self.user, authentication: authInteractor)
                 let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, options: self.lock.options)
                 if !oauth2.isEmpty {
@@ -141,6 +150,13 @@ struct Router: Navigable {
         return presenter
     }
 
+    func passwordless(withScreen screen: PasswordlessScreen, connection: PasswordlessConnection) -> Presentable? {
+        let passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(self.controller?.messagePresenter)
+        let interactor = PasswordlessInteractor(authentication: self.lock.authentication, dispatcher: lock.observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
+        let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options, screen: screen)
+        return presenter
+    }
+
     var showBack: Bool {
         guard let routes = self.controller?.routes else { return false }
         return !routes.history.isEmpty
@@ -186,6 +202,8 @@ struct Router: Navigable {
             presentable = self.enterpriseActiveAuth(connection: connection, domain: domain)
         case .unrecoverableError(let error):
             presentable = self.unrecoverableError(error)
+        case .passwordlessEmail(let screen, let connection):
+            presentable = self.passwordless(withScreen: screen, connection: connection)
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")
             return

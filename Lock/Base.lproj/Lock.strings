@@ -64,6 +64,10 @@
 "com.auth0.lock.error.password.special_characters" = "Special characters (e.g. !@#$%^&*)";
 // Uppercase letters
 "com.auth0.lock.error.password.uppercase_letters" = "Upper case letters (A-Z)";
+// Passwordless link invalid.
+"com.auth0.lock.error.passwordless.invalid_link" = "WE'RE SORRY, THERE WAS A PROBLEM WITH YOUR LINK. PLEASE REQUEST A NEW ONE.";
+// Passwordless sign ups disabled.
+"com.auth0.lock.error.passwordless.signup_disabled" = "NEW SIGN UPS ARE DISABLED FOR THIS ACCOUNT, PLEASE CONTACT YOUR ADMINISTRATOR.";
 // Generic sign up error
 "com.auth0.lock.error.signup.fallback" = "WE'RE SORRY, SOMETHING WENT WRONG WHEN ATTEMPTING TO SIGN UP.";
 // invalid_password
@@ -202,3 +206,13 @@
 "com.auth0.lock.submit.send_email.title" = "SEND EMAIL";
 // Signup Button title
 "com.auth0.lock.submit.signup.title" = "SIGN UP";
+// Passwordless code reminder action
+"com.auth0.passwordless.code.reminder" = "Did not get the code?";
+// Passwordless email code sent title
+"com.auth0.passwordless.email.code.sent" = "An email with the code has been sent to ";
+// Passwordless email link sent title
+"com.auth0.passwordless.email.link.sent" = "We sent you a link to sign in to ";
+// Passwordless email title
+"com.auth0.passwordless.email.title" = "Enter your email address to sign in or create an account";
+// Passwordless link reminder action
+"com.auth0.passwordless.link.reminder" = "Did not receive the link?";

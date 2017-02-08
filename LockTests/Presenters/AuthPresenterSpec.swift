@@ -61,25 +61,25 @@ class AuthPresenterSpec: QuickSpec {
             }
 
             it("should return view with expanded mode for single connection") {
-                let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 1), enterprise: [])
+                let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 1), enterprise: [], passwordless: [])
                 presenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: [:])
                 expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero).mode).to(beExpandedMode())
             }
 
             it("should return view with expanded mode and signup flag") {
-                let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 1), enterprise: [])
+                let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 1), enterprise: [], passwordless: [])
                 presenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: [:])
                 expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero, isLogin: false).mode).to(beExpandedMode(isLogin: false))
             }
 
             it("should return view with expanded mode for two connections") {
-                let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 2), enterprise: [])
+                let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: 2), enterprise: [], passwordless: [])
                 presenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: [:])
                 expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero).mode).to(beExpandedMode())
             }
 
             it("should return view with compact mode for more than three connecitons") {
-                let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: Int(arc4random_uniform(10)) + 3), enterprise: [])
+                let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: Int(arc4random_uniform(10)) + 3), enterprise: [], passwordless: [])
                 presenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: [:])
                 expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero).mode).to(beCompactMode())
             }
