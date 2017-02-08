@@ -40,22 +40,6 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
     var view: View {
         let email = self.interactor.validEmail ? self.interactor.email : nil
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), isLogin: true)
-
-        if let enterpriseButton = EnterpriseButton(forConnections: interactor.connections, options: self.options, customStyle: [:], isLogin: true, onAction: {
-            self.interactor.login { error in
-                Queue.main.async {
-                    if let error = error {
-                        self.messagePresenter?.showError(error)
-                        self.logger.error("Enterprise connection failed: \(error)")
-                    } else {
-                        self.logger.debug("Enterprise authenticator launched")
-                    }
-                }
-        }}) {
-            let view = EnterpriseDomainView(authButton: enterpriseButton, authCollectionView: authCollectionView)
-            return view
-        }
-
         let view = EnterpriseDomainView(email: email, authCollectionView: authCollectionView)
         let form = view.form
 
@@ -109,19 +93,4 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         return view
     }
 
-}
-
-func EnterpriseButton(forConnections connections: [EnterpriseConnection], options: Options, customStyle: [String: AuthStyle], isLogin login: Bool, onAction: @escaping () -> () ) -> AuthButton? {
-    guard let connection = connections.first, connections.count == 1, !options.enterpriseConnectionUsingActiveAuth.contains(connection.name) else { return nil }
-    let style = customStyle[connection.name] ?? connection.style
-    let button = AuthButton(size: .big)
-    button.title = style.localizedLoginTitle.uppercased()
-    button.normalColor = style.normalColor
-    button.highlightedColor = style.highlightedColor
-    button.titleColor = style.foregroundColor
-    button.icon = style.image.image(compatibleWithTraits: button.traitCollection)
-    button.onPress = { _ in
-        onAction()
-    }
-    return button
 }

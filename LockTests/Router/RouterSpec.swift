@@ -107,7 +107,7 @@ class RouterSpec: QuickSpec {
                 _ = lock.withConnections {
                     $0.enterprise(name: "testAD", domains: ["testAD.com"])
                 }
-                expect(router.root as? EnterpriseDomainPresenter).toNot(beNil())
+                expect(router.root as? AuthPresenter).toNot(beNil())
             }
 
             it("should return root for one enterprise with active auth") {
