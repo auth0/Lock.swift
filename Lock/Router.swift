@@ -55,40 +55,53 @@ struct Router: Navigable {
             let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
             return ConnectionLoadingPresenter(loader: interactor, navigator: self, dispatcher: lock.observerStore, options: self.lock.options)
         }
-        if let database = connections.database {
-            guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .resetPassword else { return forgotPassword }
-            let authentication = self.lock.authentication
-            let interactor = DatabaseInteractor(connection: database, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
-            let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
-            if !connections.oauth2.isEmpty {
-                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
-                presenter.authPresenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
-            }
-            if !connections.enterprise.isEmpty {
-                let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
-                let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
-                presenter.enterpriseInteractor = interactor
-            }
-            return presenter
-        }
-        if !connections.enterprise.isEmpty {
-            let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
-            let interactor = EnterpriseDomainInteractor(connections: connections, authentication: authInteractor)
-            if let connection = interactor.connection, self.lock.options.enterpriseConnectionUsingActiveAuth.contains(connection.name) {
+
+        let whitelistForActiveAuth = self.lock.options.enterpriseConnectionUsingActiveAuth
+        switch (connections.database, connections.oauth2, connections.enterprise) {
+                // Database root
+            case (.some(let database), let oauth2, let enterprise):
+                guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .resetPassword else { return forgotPassword }
+                let authentication = self.lock.authentication
+                let interactor = DatabaseInteractor(connection: database, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
+                let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
+                if !oauth2.isEmpty {
+                    let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+                    presenter.authPresenter = AuthPresenter(connections: oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
+                }
+                if !enterprise.isEmpty {
+                    let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+                    let interactor = EnterpriseDomainInteractor(connections: connections, user: self.user, authentication: authInteractor)
+                    presenter.enterpriseInteractor = interactor
+                }
+                return presenter
+                // Single Enterprise with active auth support (e.g. AD)
+            case (nil, let oauth2, let enterprise) where oauth2.isEmpty && enterprise.hasJustOne(andIn: whitelistForActiveAuth):
+                guard let connection = enterprise.first else { return nil }
                 return enterpriseActiveAuth(connection: connection, domain: connection.domains.first)
-            }
-            let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, user: self.user, options: self.lock.options)
-            if !connections.oauth2.isEmpty {
-                presenter.authPresenter = AuthPresenter(connections: connections, interactor: authInteractor, customStyle: self.lock.style.oauth2)
-            }
-            return presenter
+                // Single Enterprise with support for passive auth only (web auth) and some social connections
+            case (nil, let oauth2, let enterprise) where enterprise.hasJustOne(andNotIn: whitelistForActiveAuth):
+                guard let connection = enterprise.first else { return nil }
+                let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+                let connections: [OAuth2Connection] = oauth2 + [connection]
+                return AuthPresenter(connections: connections, interactor: authInteractor, customStyle: self.lock.style.oauth2)
+                // Social connections only
+            case (nil, let oauth2, let enterprise) where enterprise.isEmpty:
+                let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+                let presenter = AuthPresenter(connections: oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
+                return presenter
+                // Multiple enterprise connections and maybe some social
+            case (nil, let oauth2, let enterprise) where !enterprise.isEmpty:
+                let authInteractor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
+                let interactor = EnterpriseDomainInteractor(connections: connections, user: self.user, authentication: authInteractor)
+                let presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: self, options: self.lock.options)
+                if !oauth2.isEmpty {
+                    presenter.authPresenter = AuthPresenter(connections: connections.oauth2, interactor: authInteractor, customStyle: self.lock.style.oauth2)
+                }
+                return presenter
+                // Not supported connections configuration
+            default:
+                return nil
         }
-        if !connections.oauth2.isEmpty {
-            let interactor = Auth0OAuth2Interactor(webAuth: self.lock.webAuth, dispatcher: lock.observerStore, options: self.lock.options)
-            let presenter = AuthPresenter(connections: connections, interactor: interactor, customStyle: self.lock.style.oauth2)
-            return presenter
-        }
-        return nil
     }
 
     var forgotPassword: Presentable? {
@@ -205,4 +218,17 @@ struct Router: Navigable {
             })
         }
     }
+}
+
+private extension Array where Element: OAuth2Connection {
+    func hasJustOne(andIn list: [String]) -> Bool {
+        guard let connection = self.first, self.count == 1 else { return false }
+        return list.contains(connection.name)
+    }
+
+    func hasJustOne(andNotIn list: [String]) -> Bool {
+        guard let connection = self.first, self.count == 1 else { return false }
+        return !list.contains(connection.name)
+    }
+
 }

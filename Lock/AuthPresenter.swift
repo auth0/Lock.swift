@@ -31,8 +31,8 @@ class AuthPresenter: Presentable, Loggable {
 
     var messagePresenter: MessagePresenter?
 
-    init(connections: Connections, interactor: OAuth2Authenticatable, customStyle: [String: AuthStyle]) {
-        self.connections = connections.oauth2
+    init(connections: [OAuth2Connection], interactor: OAuth2Authenticatable, customStyle: [String: AuthStyle]) {
+        self.connections = connections
         self.interactor = interactor
         self.customStyle = customStyle
     }
