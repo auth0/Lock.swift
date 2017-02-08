@@ -1,4 +1,4 @@
-// DatabaseAuthenticatableErrorSpec.swift
+// CredentialAuthErrorSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -24,44 +24,44 @@ import Quick
 import Nimble
 @testable import Lock
 
-class DatabaseAuthenticatableErrorSpec: QuickSpec {
+class CredentialAuthErrorSpec: QuickSpec {
 
     override func spec() {
 
         describe("localised message response") {
 
             it(".userBlocked should return relevant string") {
-                let error = DatabaseAuthenticatableError.userBlocked
+                let error = CredentialAuthError.userBlocked
                 expect(error.localizableMessage).to(contain("The user is blocked"))
             }
 
             it(".invalidEmailPassword should return relevant string") {
-                let error = DatabaseAuthenticatableError.invalidEmailPassword
+                let error = CredentialAuthError.invalidEmailPassword
                 expect(error.localizableMessage).to(contain("Wrong credentials"))
             }
 
             it(".passwordChangeRequired should return relevant string") {
-                let error = DatabaseAuthenticatableError.passwordChangeRequired
+                let error = CredentialAuthError.passwordChangeRequired
                 expect(error.localizableMessage).to(contain("You need to update your password"))
             }
 
             it(".passwordLeaked should return relevant string") {
-                let error = DatabaseAuthenticatableError.passwordLeaked
+                let error = CredentialAuthError.passwordLeaked
                 expect(error.localizableMessage).to(contain("This login has been blocked"))
             }
 
             it(".tooManyAttempts should return relevant string") {
-                let error = DatabaseAuthenticatableError.tooManyAttempts
+                let error = CredentialAuthError.tooManyAttempts
                 expect(error.localizableMessage).to(contain("Your account has been blocked"))
             }
 
             it(".multifactorInvalid should return relevant string") {
-                let error = DatabaseAuthenticatableError.multifactorInvalid
+                let error = CredentialAuthError.multifactorInvalid
                 expect(error.localizableMessage).to(contain("Wrong code."))
             }
 
             it(".nonValidInput should return generic string") {
-                let error = DatabaseAuthenticatableError.nonValidInput
+                let error = CredentialAuthError.nonValidInput
                 expect(error.localizableMessage).to(contain("something went wrong"))
             }
 
@@ -70,17 +70,17 @@ class DatabaseAuthenticatableErrorSpec: QuickSpec {
         describe("user visibility") {
 
             it("should return false") {
-                let error = DatabaseAuthenticatableError.multifactorRequired
+                let error = CredentialAuthError.multifactorRequired
                 expect(error.userVisible).to(beFalse())
             }
 
             it("should return false") {
-                let error = DatabaseAuthenticatableError.nonValidInput
+                let error = CredentialAuthError.nonValidInput
                 expect(error.userVisible).to(beFalse())
             }
 
             it("should return true") {
-                let error = DatabaseAuthenticatableError.invalidEmailPassword
+                let error = CredentialAuthError.invalidEmailPassword
                 expect(error.userVisible).to(beTrue())
             }
         }

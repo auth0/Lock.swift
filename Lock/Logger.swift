@@ -22,7 +22,7 @@
 
 import Foundation
 
-class Logger {
+public class Logger {
 
     static let sharedInstance = Logger()
 

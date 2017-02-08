@@ -134,7 +134,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
 
         describe ("login") {
 
-            var error: DatabaseAuthenticatableError?
+            var error: CredentialAuthError?
 
             beforeEach {
                 options.oidcConformant = false
@@ -144,7 +144,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
 
             it("should fail with no input as password missing") {
                 interactor.login() { error = $0 }
-                expect(error).toEventually(equal(DatabaseAuthenticatableError.nonValidInput))
+                expect(error).toEventually(equal(CredentialAuthError.nonValidInput))
             }
 
             it("should yield no error on success") {
@@ -223,7 +223,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
 
         describe ("login OIDC Conformnat") {
 
-            var error: DatabaseAuthenticatableError?
+            var error: CredentialAuthError?
 
             beforeEach {
                 options.oidcConformant = true
@@ -233,7 +233,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
 
             it("should fail with no input as password missing") {
                 interactor.login() { error = $0 }
-                expect(error).toEventually(equal(DatabaseAuthenticatableError.nonValidInput))
+                expect(error).toEventually(equal(CredentialAuthError.nonValidInput))
             }
 
             it("should yield no error on success") {

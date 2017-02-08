@@ -22,10 +22,10 @@
 
 import Foundation
 
-protocol MultifactorAuthenticatable {
+protocol MultifactorAuthenticatable: CredentialAuthenticatable {
     var code: String? { get }
 
     mutating func setMultifactorCode(_ code: String?) throws
 
-    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ())
+    func login(_ callback: @escaping (CredentialAuthError?) -> ())
 }

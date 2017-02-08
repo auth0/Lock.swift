@@ -135,11 +135,15 @@ class MockInputField: InputField {
 }
 
 class MockMultifactorInteractor: MultifactorAuthenticatable {
+
+    let dispatcher: Dispatcher = ObserverStore()
+    let logger = Logger()
+
     var code: String? = nil
 
-    var onLogin: () -> DatabaseAuthenticatableError? = { return nil }
+    var onLogin: () -> CredentialAuthError? = { return nil }
 
-    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ()) {
+    func login(_ callback: @escaping (CredentialAuthError?) -> ()) {
         callback(onLogin())
     }
 
@@ -156,6 +160,9 @@ class MockAuthInteractor: OAuth2Authenticatable {
 
 class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
 
+    let dispatcher: Dispatcher = ObserverStore()
+    let logger = Logger()
+
     var identifier: String? = nil
     var email: String? = nil
     var password: String? = nil
@@ -165,14 +172,14 @@ class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
     var validEmail: Bool = false
     var validUsername: Bool = false
 
-    var onLogin: () -> DatabaseAuthenticatableError? = { return nil }
+    var onLogin: () -> CredentialAuthError? = { return nil }
     var onSignUp: () -> DatabaseUserCreatorError? = { return nil }
 
-    func login(_ callback: @escaping (DatabaseAuthenticatableError?) -> ()) {
+    func login(_ callback: @escaping (CredentialAuthError?) -> ()) {
         callback(onLogin())
     }
 
-    func create(_ callback: @escaping (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ()) {
+    func create(_ callback: @escaping (DatabaseUserCreatorError?, CredentialAuthError?) -> ()) {
         callback(onSignUp(), onLogin())
     }
 

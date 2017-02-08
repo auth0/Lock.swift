@@ -32,5 +32,5 @@ protocol DatabaseUserCreator {
     var validUsername: Bool { get }
     mutating func update(_ attribute: UserAttribute, value: String?) throws
 
-    func create(_ callback: @escaping (DatabaseUserCreatorError?, DatabaseAuthenticatableError?) -> ())
+    func create(_ callback: @escaping (DatabaseUserCreatorError?, CredentialAuthError?) -> ())
 }
