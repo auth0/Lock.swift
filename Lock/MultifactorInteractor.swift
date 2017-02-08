@@ -23,23 +23,21 @@
 import Foundation
 import Auth0
 
-struct MultifactorInteractor: MultifactorAuthenticatable {
+struct MultifactorInteractor: MultifactorAuthenticatable, Loggable {
 
     private var connection: DatabaseConnection
     private var user: DatabaseUser
     private var authentication: Authentication
-    private let dispatcher: Dispatcher
-    private let resultHandler: CredentialAuthResultHandler
 
     private(set) var code: String? = nil
     private(set) var validCode: Bool = false
+    let dispatcher: Dispatcher
 
     private let validator = OneTimePasswordValidator()
 
     private let options: Options
 
     init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, options: Options, dispatcher: Dispatcher) {
-        self.resultHandler = CredentialAuthResultHandler(dispatcher: dispatcher)
         self.user = user
         self.authentication = authentication
         self.connection = connection
@@ -80,6 +78,6 @@ struct MultifactorInteractor: MultifactorAuthenticatable {
                 connection: database,
                 scope: self.options.scope,
                 parameters: self.options.parameters
-            ).start { self.resultHandler.handle(identifier: identifier, result: $0, callback: callback) }
+            ).start { self.handle(identifier: identifier, result: $0, callback: callback) }
     }
 }

@@ -135,6 +135,10 @@ class MockInputField: InputField {
 }
 
 class MockMultifactorInteractor: MultifactorAuthenticatable {
+
+    let dispatcher: Dispatcher = ObserverStore()
+    let logger = Logger()
+
     var code: String? = nil
 
     var onLogin: () -> CredentialAuthError? = { return nil }
@@ -155,6 +159,9 @@ class MockAuthInteractor: OAuth2Authenticatable {
 }
 
 class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
+
+    let dispatcher: Dispatcher = ObserverStore()
+    let logger = Logger()
 
     var identifier: String? = nil
     var email: String? = nil

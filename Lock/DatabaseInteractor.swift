@@ -40,7 +40,6 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     var requiredValidator = NonEmptyValidator()
 
     let credentialAuth: CredentialAuth
-    let resultHandler: CredentialAuthResultHandler
     let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
     let dispatcher: Dispatcher
@@ -49,7 +48,6 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
     init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
         self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
-        self.resultHandler = CredentialAuthResultHandler(dispatcher: dispatcher)
         self.connection = connection
         self.dispatcher = dispatcher
         self.user = user
@@ -101,7 +99,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         self.credentialAuth
             .request(withIdentifier: identifier, password: password, options: self.options)
-            .start { self.resultHandler.handle(identifier: identifier, result: $0, callback: callback) }
+            .start { self.handle(identifier: identifier, result: $0, callback: callback) }
     }
 
     func create(_ callback: @escaping (DatabaseUserCreatorError?, CredentialAuthError?) -> ()) {
@@ -131,7 +129,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                 switch $0 {
                 case .success(let user):
                     if self.options.loginAfterSignup {
-                        login.start { self.resultHandler.handle(identifier: email, result: $0, callback: { callback(nil, $0) }) }
+                        login.start { self.handle(identifier: email, result: $0, callback: { callback(nil, $0) }) }
                     } else {
                         var extra: [String: Any] = [
                             "verified": user.verified
