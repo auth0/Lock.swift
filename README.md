@@ -311,6 +311,16 @@ Allows you to set provider scopes for oauth2/social connections with a comma sep
 ```swift
 .withOptions {
   $0.connectionScope = ["facebook": "user_friends,email"]
+
+#### Passwordless Method
+
+If you are using email passwordless connections, the default method is `.code` which sends the user a one time passcode to login. If you want to use universal links you can use:
+
+```swift
+.withOptions {
+  $0.passwordlessMethod = .magicLink
+
+}
 ```
 
 #### Database
@@ -351,6 +361,16 @@ When signing up the default information requirements are the user's *email* and 
 .withOptions {
   $0.activeDirectoryEmailAsUsername = true
   $0.enterpriseConnectionUsingActiveAuth = ["enterprisedomain.com"]
+}
+```
+
+#### Passwordless
+
+If you are using passwordless connections and have specified the `.magicLink` option to send the user universal links then you will need to add the following to your `AppDelegate.swift`:
+
+```swift
+func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+  return Lock.continueActivity(userActivity)
 }
 ```
 

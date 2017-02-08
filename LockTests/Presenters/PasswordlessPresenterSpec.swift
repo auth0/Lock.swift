@@ -68,8 +68,8 @@ class PasswordlessPresenterSpec: QuickSpec {
                 expect(form.type) == InputField.InputType.email
             }
 
-            it("should expect no secondary button") {
-                expect(view.secondaryButton).to(beNil())
+            it("should expect no title on secondary button") {
+                expect(view.secondaryButton!.title).to(beNil())
             }
 
             describe("input") {
@@ -133,7 +133,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                 var interactor: MockPasswordlessInteractor!
 
                 beforeEach {
-                    options.passwordlessMethod = .emailLink
+                    options.passwordlessMethod = .magicLink
                     interactor = MockPasswordlessInteractor()
                     interactor.onLogin = { return nil }
                     interactor.onRequest = { return nil }

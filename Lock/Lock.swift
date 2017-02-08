@@ -321,6 +321,26 @@ public class Lock: NSObject {
 
      ```
      func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        return Lock.continueActivity(userActivity, restorationHandler: restorationHandler)
+     }
+
+     ```
+
+     - parameter userActivity: the NSUserActivity to handle.
+
+     - returns: true if the link is of the appropriate format, false otherwise
+     */
+    public static func continueActivity(_ userActivity: NSUserActivity) -> Bool {
+        return PasswordlessActivity.shared.continueAuth(withActivity: userActivity)
+    }
+
+    /**
+     Continues an activity from a universal link.
+
+     This method should be called from your `AppDelegate`
+
+     ```
+     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         return return Lock.continueAuth(using: userActivity)
      }
 

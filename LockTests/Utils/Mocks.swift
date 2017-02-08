@@ -383,6 +383,7 @@ class MockController: UIViewController {
     }
 }
 
+<<<<<<< HEAD
 class MockNativeAuthHandler: AuthProvider {
 
     var transaction: MockNativeAuthTransaction!

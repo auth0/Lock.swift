@@ -24,11 +24,11 @@ import Foundation
 import Auth0
 
 struct ObserverStore: Dispatcher {
-    var onAuth: (Credentials) -> Void = { _ in }
-    var onFailure: (Error) -> Void = { _ in }
-    var onCancel: () -> Void = {  }
-    var onSignUp: (String, [String: Any]) -> Void = { _ in }
-    var onForgotPassword: (String) -> Void = { _ in }
+    var onAuth: (Credentials) -> () = { _ in }
+    var onFailure: (Error) -> () = { _ in }
+    var onCancel: () -> () = {  }
+    var onSignUp: (String, [String: Any]) -> () = { _ in }
+    var onForgotPassword: (String) -> () = { _ in }
     var onPasswordless: (String) -> Void = { _ in }
 
     var options: Options = LockOptions()

@@ -153,6 +153,8 @@ class LockSpec: QuickSpec {
                 expect(email) == "mail@mail.com"
             }
 
+            }
+
         }
 
         describe("native handler") {
