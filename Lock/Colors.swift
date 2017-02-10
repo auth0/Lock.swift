@@ -30,7 +30,7 @@ extension UIColor {
         guard string.hasPrefix("#") else { return defaultColor }
 
         let hexString: String = string.substring(from: string.characters.index(string.startIndex, offsetBy: 1))
-        var hexValue:  UInt32 = 0
+        var hexValue: UInt32 = 0
 
         guard Scanner(string: hexString).scanHexInt32(&hexValue) else {
             return defaultColor

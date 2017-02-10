@@ -65,7 +65,7 @@ class AuthCollectionView: UIView, View {
         return CGFloat(buttonHeight * count + (8 * (count - 1)))
     }
 
-    public override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: self.height)
     }
 

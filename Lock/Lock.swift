@@ -41,6 +41,19 @@ public class Lock: NSObject {
 
     var style: Style = Style()
 
+    public var controller: LockViewController {
+        return LockViewController(lock: self)
+    }
+
+    var logger: Logger {
+        let logger = Logger.sharedInstance
+        if let output = options.loggerOutput {
+            logger.output = output
+        }
+        logger.level = options.logLevel
+        return logger
+    }
+
     override convenience init() {
         self.init(authentication: Auth0.authentication(), webAuth: Auth0.webAuth())
     }
@@ -60,7 +73,12 @@ public class Lock: NSObject {
     }
 
     /**
-     Creates a new Lock instance loading Auth0 client info from `Auth0.plist` file in main bundle
+     Creates a new Lock instance loading Auth0 client info from `Auth0.plist` file in main bundle.
+
+     The property list file should contain the following sections:
+
+     - CliendId: your Auth0 client identifier
+     - Domain: your Auth0 domain
 
      - returns: a newly created Lock instance
      */
@@ -80,33 +98,6 @@ public class Lock: NSObject {
         return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain), webAuth: Auth0.webAuth(clientId: clientId, domain: domain))
     }
 
-    public var controller: LockViewController {
-        return LockViewController(lock: self)
-    }
-
-    var logger: Logger {
-        let logger = Logger.sharedInstance
-        if let output = options.loggerOutput {
-            logger.output = output
-        }
-        logger.level = options.logLevel
-        return logger
-    }
-
-    /**
-     Presents Lock from the given controller
-
-     - parameter controller: controller from where Lock is presented
-     */
-    public func present(from controller: UIViewController) {
-        if let error = self.optionsBuilder.validate() {
-            self.observerStore.onFailure(error)
-            // FIXME: Fail violently
-        } else {
-            controller.present(self.controller, animated: true, completion: nil)
-        }
-    }
-
     /**
      Specify what connections Lock should use programatically
 
@@ -123,7 +114,7 @@ public class Lock: NSObject {
     }
 
     /**
-     Specify what connections should be used by Lock. 
+     Specify what connections should be used by Lock.
      By default it will use all connections enabled or if an empty list is used
 
      - parameter allowedConnections: list of connection names to use
@@ -178,10 +169,10 @@ public class Lock: NSObject {
     }
 
     /**
-     Register a callback to recieve the result of a successful AuthN/AuthZ.
-     
+     Register a callback to receive the result of a successful AuthN/AuthZ.
+
      - parameter callback: called on successful AuthN/AuthZ
-     
+
      - returns: Lock itself for chaining
     */
     public func onAuth(callback: @escaping (Credentials) -> ()) -> Lock {
@@ -190,7 +181,7 @@ public class Lock: NSObject {
     }
 
     /**
-     Register a callback to recieve Lock unrecoverable errors
+     Register a callback to receive Lock unrecoverable errors
 
      - parameter callback: called on every unrecoverable error
 
@@ -216,14 +207,28 @@ public class Lock: NSObject {
     /**
      Register a callback to be notified when a user signs up when login after signup is disabled.
      The callback will yield the new user email and additional attributes like username.
-     
+
      - parameter callback: called when a user signs up
-     
+
      - returns: Lock itself for chaining
     */
     public func onSignUp(callback: @escaping (String, [String: Any]) -> ()) -> Lock {
         self.observerStore.onSignUp = callback
         return self
+    }
+
+    /**
+     Presents Lock from the given controller
+
+     - parameter controller: controller from where Lock is presented
+     */
+    public func present(from controller: UIViewController) {
+        if let error = self.optionsBuilder.validate() {
+            self.observerStore.onFailure(error)
+            // FIXME: Fail violently
+        } else {
+            controller.present(self.controller, animated: true, completion: nil)
+        }
     }
 
         /// Lock's Bundle. Useful for getting bundled resources like images.
@@ -233,9 +238,9 @@ public class Lock: NSObject {
 
     /**
      Resumes an Auth session from Safari, e.g. when authenticating with Facebook.
-     
+
      This method should be called from your `AppDelegate`
-     
+
      ```
      func application(app: UIApplication, openURL url: NSURL, options: [String : Any]) -> Bool {
         return Lock.resumeAuth(url, options: options)

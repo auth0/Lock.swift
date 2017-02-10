@@ -51,11 +51,17 @@ class SignUpView: UIView, Form {
 
     var onReturn: (InputField) -> () {
         get {
-            return (self.stackView.arrangedSubviews.last as! InputField).onReturn
+            guard let last = self.lastField else { return {_ in } } // FIXME: Track this somehow
+            return last.onReturn
         }
         set {
-            (self.stackView.arrangedSubviews.last as! InputField).onReturn = newValue
+            guard let last = self.lastField else { return }
+            return last.onReturn = newValue
         }
+    }
+
+    var lastField: InputField? {
+        return self.stackView.arrangedSubviews.last as? InputField
     }
 
     func needsToUpdateState() {
@@ -116,7 +122,7 @@ class SignUpView: UIView, Form {
         email.type = .email
         password.type = .password
 
-        let fields = self.stackView.arrangedSubviews.map { $0 as! InputField }
+        let fields = self.stackView.arrangedSubviews.map { $0 as? InputField }.filter { $0 != nil }.map { $0! }
         fields.forEach { $0.returnKey = .next }
         fields.last?.returnKey = .done
     }

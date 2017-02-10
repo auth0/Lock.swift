@@ -43,7 +43,7 @@ class AuthPresenter: Presentable, Loggable {
 
     func newViewToEmbed(withInsets insets: UIEdgeInsets, isLogin: Bool = true) -> AuthCollectionView {
         let mode: AuthCollectionView.Mode
-        if (self.connections.count < compactModeThreshold) {
+        if self.connections.count < compactModeThreshold {
             mode = .expanded(isLogin: isLogin)
         } else {
             mode = .compact

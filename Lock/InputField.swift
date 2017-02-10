@@ -183,7 +183,7 @@ class InputField: UIView, UITextFieldDelegate {
         self.containerView?.layer.borderColor = State.valid.color.cgColor
     }
 
-    override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize: CGSize {
         return CGSize(width: 230, height: 50)
     }
 

@@ -92,5 +92,4 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
 
         return view
     }
-
 }

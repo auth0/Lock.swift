@@ -114,8 +114,9 @@ private struct ClientInfo {
     var strategies: [StrategyInfo] {
         let list = json?["strategies"] as? JSONArray ?? []
         return list
-            .filter { $0["name"] != nil }
             .map { StrategyInfo(json: $0) }
+            .filter { $0 != nil }
+            .map { $0! }
     }
 
     var auth0: StrategyInfo? { return strategies.filter({ $0.name == "auth0" }).first }
@@ -154,22 +155,27 @@ private struct ClientInfo {
 
 private struct StrategyInfo {
     let json: JSONObject
-
-    var name: String { return json["name"] as! String }
+    let name: String
 
     var connections: [ConnectionInfo] {
         let list = json["connections"] as? JSONArray ?? []
         return list
-            .filter { $0["name"] != nil }
             .map { ConnectionInfo(json: $0) }
+            .filter { $0 != nil }
+            .map { $0! }
+    }
+
+    init?(json: JSONObject) {
+        guard let name = json["name"] as? String else { return nil }
+        self.json = json
+        self.name = name
     }
 }
 
 private struct ConnectionInfo {
 
     let json: JSONObject
-
-    var name: String { return json["name"] as! String }
+    let name: String
 
     func booleanValue(forKey key: String, defaultValue: Bool = false) -> Bool { return json[key] as? Bool ?? defaultValue }
 
@@ -205,6 +211,12 @@ private struct ConnectionInfo {
         case .none:
             return .none
         }
+    }
+
+    init?(json: JSONObject) {
+        guard let name = json["name"] as? String else { return nil }
+        self.json = json
+        self.name = name
     }
 }
 

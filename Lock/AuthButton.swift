@@ -173,7 +173,7 @@ public class AuthButton: UIView {
         self.button?.titleEdgeInsets = UIEdgeInsets(top: 0, left: max(self.frame.size.height, 50) + 18, bottom: 0, right: 18)
     }
 
-    public override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize: CGSize {
         switch self.size {
         case .big:
             return CGSize(width: 280, height: 50)

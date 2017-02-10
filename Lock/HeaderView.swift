@@ -180,7 +180,7 @@ public class HeaderView: UIView {
         self.clipsToBounds = true
     }
 
-    public override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize: CGSize {
         return CGSize(width: 200, height: 154)
     }
 

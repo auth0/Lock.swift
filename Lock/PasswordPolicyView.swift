@@ -58,7 +58,7 @@ class PolicyView: UIStackView, PasswordPolicyValidatorDelegate {
         }
     }
 
-    override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: CGFloat(self.views.count * 24))
     }
 }

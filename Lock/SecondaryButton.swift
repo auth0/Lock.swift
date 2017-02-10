@@ -80,7 +80,7 @@ class SecondaryButton: UIView {
         self.button = button
     }
 
-    override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 76)
     }
 

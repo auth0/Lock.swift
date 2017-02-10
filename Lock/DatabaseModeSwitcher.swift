@@ -109,7 +109,7 @@ class DatabaseModeSwitcher: UIView {
         self.selected = .login
     }
 
-    override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 55)
     }
 

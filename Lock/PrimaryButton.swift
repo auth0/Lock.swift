@@ -127,7 +127,7 @@ class PrimaryButton: UIView {
         button.setAttributedTitle(NSAttributedString(), for: .disabled)
 }
 
-    override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 95)
     }
 

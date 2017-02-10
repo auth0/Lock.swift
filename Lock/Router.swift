@@ -230,5 +230,4 @@ private extension Array where Element: OAuth2Connection {
         guard let connection = self.first, self.count == 1 else { return false }
         return !list.contains(connection.name)
     }
-
 }

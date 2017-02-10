@@ -143,9 +143,9 @@ private func strutView(withHeight height: CGFloat = 50) -> UIView {
     return view
 }
 
-class EnterpriseSingleInputView : SingleInputView {
+class EnterpriseSingleInputView: SingleInputView {
 
-    public override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 50)
     }
 }

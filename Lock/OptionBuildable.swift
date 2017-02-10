@@ -100,7 +100,7 @@ public extension OptionBuildable {
         /// ToS URL. By default is Auth0's
     var termsOfService: String {
         get {
-            return self.termsOfServiceURL.absoluteString // FIXME: Better handling
+            return self.termsOfServiceURL.absoluteString
         }
         set {
             guard let url = URL(string: newValue) else { return } // FIXME: log error
@@ -111,7 +111,7 @@ public extension OptionBuildable {
         /// Privacy Policy URL. By default is Auth0's
     var privacyPolicy: String {
         get {
-            return self.privacyPolicyURL.absoluteString // FIXME: Better handling
+            return self.privacyPolicyURL.absoluteString
         }
         set {
             guard let url = URL(string: newValue) else { return } // FIXME: log error
