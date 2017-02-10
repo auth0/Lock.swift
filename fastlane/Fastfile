@@ -1,37 +1,47 @@
 opt_out_usage
 
-fastlane_version "1.95.0"
+fastlane_version "1.103.0"
 
 default_platform :ios
 
 platform :ios do
 
-  private_lane :dependencies do
-    carthage(platform: "iOS", use_binaries: false, platform: "iOS")
+  desc "Install dependencies from cache"
+  lane :prepare_cache do
+    Dir.chdir ".." do
+      sh "export AWS_REGION=#{ENV["AWS_REGION"]};carthage_cache install --bucket-name #{ENV["CARTHAGE_CACHE_BUCKET_NAME"]}"
+    end
   end
 
-  lane :bootstrap do
-    dependencies()
-    match(git_url: "git@github.com:auth0/apple-certificates.git", type: "development")
+  desc "Run code linter"
+  lane :lint do
+    swiftlint(
+      mode: :lint,
+      config_file: '.swiftlint.yml'
+    )
   end
 
-  lane :perform_release do
-    publish_release()
+  desc "Runs all the tests"
+  lane :test do |options|
+    scheme = options[:scheme]
+    device = options[:device]
+    scan(
+      scheme: scheme,
+      device: device,
+      clean: true,
+      output_types: 'junit'
+      )
   end
 
-  lane :prepare_next_version do |options|
-    prepare_release(bump: options[:bump], repository: 'Lock.iOS-OSX', version: options[:version], xcodeproj: 'Lock.xcodeproj')
-  end
-
-  lane :cache_update do
-    sh "cd ..; bundle exec carthage_cache publish -f --bucket-name #{ENV["CARTHAGE_CACHE_BUCKET_NAME"]}"
-  end
-
-  private_lane :carthage_cache_exist do
-    sh "cd ..; bundle exec carthage_cache exist --bucket-name #{ENV["CARTHAGE_CACHE_BUCKET_NAME"]}"
-  end
-
-  private_lane :carthage_cache_install do
-    sh "cd ..; bundle exec carthage_cache install --verbose --bucket-name #{ENV["CARTHAGE_CACHE_BUCKET_NAME"]}"
+  desc "Runs all the tests in a CI environment"
+  lane :ci do
+    scheme = ENV["SCHEME"]
+    UI.user_error!("You must supply a valid scheme in 'SCHEME' env variable") if scheme.nil?
+    options = {
+      scheme: scheme,
+      device: ENV["DEVICE"]
+    }
+    prepare_cache
+    test(options)
   end
 end

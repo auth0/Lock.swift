@@ -41,6 +41,7 @@ Auth0.plist
 
 #Fastlane
 fastlane/report.xml
+fastlane/test_output/
 .env
 
 #AppCode
