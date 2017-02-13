@@ -96,7 +96,8 @@
     self.codeFieldView = codeField;
     self.messageLabel = messageLabel;
     self.loginButton = loginButton;
-
+    self.messageLabel.numberOfLines = 0;
+    
     self.title = A0LocalizedString(@"Enter SMS code");
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.loginButton];
