@@ -207,12 +207,17 @@ class DatabasePresenter: Presentable, Loggable {
         self.messagePresenter?.hideCurrent()
 
         self.logger.verbose("new value: \(input.text) for type: \(input.type)")
+        var updateHRD: Bool = false
+
+        // FIXME: enum mapping outlived its usefulness
         let attribute: UserAttribute
         switch input.type {
         case .email:
             attribute = .email
+            updateHRD = true
         case .emailOrUsername:
             attribute = .emailOrUsername
+            updateHRD = true
         case .password:
             attribute = .password(enforcePolicy: self.currentScreen == .signup)
         case .username:
@@ -229,7 +234,7 @@ class DatabasePresenter: Presentable, Loggable {
 
             guard
                     let mode = self.databaseView?.switcher?.selected,
-                    mode == .login
+                    mode == .login && updateHRD
                     else { return }
             try? self.enterpriseInteractor?.updateEmail(input.text)
             if let connection = self.enterpriseInteractor?.connection {

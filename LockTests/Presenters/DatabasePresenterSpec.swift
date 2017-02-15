@@ -645,15 +645,6 @@ class DatabasePresenterSpec: QuickSpec {
                     view = presenter.view as! DatabaseOnlyView
                 }
 
-                it("should not have enterprise support") {
-                    presenter.enterpriseInteractor = nil
-                    expect(presenter.enterpriseInteractor).to(beNil())
-                }
-
-                it("should have enterprise support") {
-                    expect(presenter.enterpriseInteractor).toNot(beNil())
-                }
-
                 it("should modify display with enterprise changes") {
                     let input = mockInput(.email, value: "user@valid.com")
                     view.form?.onValueChange(input)
@@ -664,6 +655,29 @@ class DatabasePresenterSpec: QuickSpec {
                     let input = mockInput(.email, value: "user@invalid.com")
                     view.form?.onValueChange(input)
                     expect(view.ssoBar).to(beNil())
+                }
+
+                it("should modify email attribute") {
+                    let input = mockInput(.email, value: "user@valid.com")
+                    view.form?.onValueChange(input)
+                    expect(enterpriseInteractor.email) == "user@valid.com"
+                    expect(interactor.email) == "user@valid.com"
+                }
+
+                it("should modify email attribute when username is allowed") {
+                    let input = mockInput(.emailOrUsername, value: "user@valid.com")
+                    view.form?.onValueChange(input)
+                    expect(enterpriseInteractor.email) == "user@valid.com"
+                    expect(interactor.email) == "user@valid.com"
+                    expect(interactor.username) == "user@valid.com"
+                }
+
+                it("should ignore password input") {
+                    let input = mockInput(.password, value: "random password")
+                    view.form?.onValueChange(input)
+                    expect(enterpriseInteractor.email).to(beNil())
+                    expect(interactor.email).to(beNil())
+                    expect(interactor.username).to(beNil())
                 }
 
                 context("enterprise mode") {
