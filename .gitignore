@@ -46,3 +46,6 @@ fastlane/test_output/
 
 #AppCode
 .idea/
+
+#CircleCI
+vendor/
