@@ -35,6 +35,8 @@ platform :ios do
 
   desc "Runs all the tests in a CI environment"
   lane :ci do
+    i18n(silent: true) # Generate base strings file
+    ensure_git_status_clean # Until we add dangerfile check if there are changes this way
     scheme = ENV["SCHEME"]
     UI.user_error!("You must supply a valid scheme in 'SCHEME' env variable") if scheme.nil?
     options = {
@@ -43,5 +45,38 @@ platform :ios do
     }
     prepare_cache
     test(options)
+  end
+
+  lane :i18n do |options|
+    require 'set'
+
+    Entry = Struct.new(:key, :value, :comment)
+
+    keys = Set.new
+
+    matches = Dir['../Lock/**/*.swift']
+      .map { |file| File.read(file).scan(/\"(.+)".i18n\(key:\s{0,1}"(.+)",\s{0,1}comment:\s{0,1}"(.+)"\)/) }
+      .select { |l| !l.empty? }
+      .flatten(1)
+      .map { |l| Entry.new(l[1], l[0], l[2]) }
+      .sort { |x,y| x.key <=> y.key }
+
+    UI.message "Matched #{matches.count} i18n strings" unless options[:silent]
+
+    unique = matches.select { |x| keys.add?(x.key) }
+    UI.message "Found #{unique.count} unique i18n strings" unless options[:silent]
+
+    UI.header "Base.lproj/Lock.strings" unless options[:silent]
+    ENV["FASTLANE_HIDE_TIMESTAMP"] = "true"
+    lines = unique.map do |entry|
+      "// #{entry.comment}\n\"#{entry.key}\" = \"#{entry.value}\";"
+    end
+    File.open("../Lock/Base.lproj/Lock.strings", "w") do |f|
+      lines.each do |line|
+        f.puts line
+        UI.message line unless options[:silent]
+      end
+    end
+    ENV["FASTLANE_HIDE_TIMESTAMP"] = "false"
   end
 end
