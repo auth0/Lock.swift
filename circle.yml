@@ -1,0 +1,12 @@
+machine:
+  xcode:
+    version: 8.1
+  environment:
+    SCHEME: Lock-iOS
+    CARTHAGE_BUILD_PLATFORM: iOS
+    IOS_DESTINATION_VERSION: 10.0
+    CLIENT_ID: RANDOM
+    DOMAIN: samples.auth0.com
+test:
+  override:
+    - script/cibuild
