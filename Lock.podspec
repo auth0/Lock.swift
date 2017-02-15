@@ -25,7 +25,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
 
   s.subspec 'Classic' do |classic|
     classic.ios.source_files = "Lock/**/*.swift"
-    classic.ios.resource = "Lock/*.xcassets"
+    classic.ios.resource = ["Lock/*.xcassets", "Lock/*.lproj"]
   end
 
 end

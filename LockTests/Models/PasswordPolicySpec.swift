@@ -23,7 +23,7 @@
 import Quick
 import Nimble
 
-import Lock
+@testable import Lock
 
 let aValidPassword = "valid password"
 let anInvalidPassword = "invalid password"
@@ -65,7 +65,7 @@ class PasswordPolicySpec: QuickSpec {
                     expect(policy.on(password)).to(beRuleResult(valid: false, forPassword: password))
                 }
             }
-            
+
         }
 
         describe("fair") {
@@ -82,7 +82,7 @@ class PasswordPolicySpec: QuickSpec {
                     expect(policy.on(password)).to(beRuleResult(valid: false, forPassword: password))
                 }
             }
-            
+
         }
 
         describe("good") {
@@ -99,7 +99,7 @@ class PasswordPolicySpec: QuickSpec {
                     expect(policy.on(password)).to(beRuleResult(valid: false, forPassword: password))
                 }
             }
-            
+
         }
 
         describe("excellent") {
@@ -116,7 +116,7 @@ class PasswordPolicySpec: QuickSpec {
                     expect(policy.on(password)).to(beRuleResult(valid: false, forPassword: password))
                 }
             }
-            
+
         }
 
     }

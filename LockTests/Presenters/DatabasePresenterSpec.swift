@@ -207,7 +207,7 @@ class DatabasePresenterSpec: QuickSpec {
             }
 
             it("should set button title") {
-                expect(view.primaryButton?.title) == "Log in"
+                expect(view.primaryButton?.title) == "LOG IN"
             }
 
             describe("user input") {
@@ -390,7 +390,7 @@ class DatabasePresenterSpec: QuickSpec {
             }
 
             it("should set button title") {
-                expect(view.primaryButton?.title) == "Sign up"
+                expect(view.primaryButton?.title) == "SIGN UP"
             }
 
             describe("user input") {
@@ -585,7 +585,7 @@ class DatabasePresenterSpec: QuickSpec {
                             return nil
                         }
                         button.onPress(button)
-                        expect(button.title).toEventually(contain("Sign up"))
+                        expect(button.title).toEventually(contain("SIGN UP"))
                     }
 
                 context("no auto login or auto close") {

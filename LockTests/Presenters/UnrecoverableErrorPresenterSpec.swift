@@ -49,10 +49,10 @@ class UnrecoverableErrorPresenterSpec: QuickSpec {
             }
 
             it("should have button title") {
-                expect(view.primaryButton?.title) == "Retry"
+                expect(view.primaryButton?.title) == "RETRY"
             }
 
-            it("should diplay relevant error message") {
+            it("should display relevant error message") {
                 expect(view.label?.text) == error.localizableMessage
             }
         }

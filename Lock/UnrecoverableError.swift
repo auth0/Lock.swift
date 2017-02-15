@@ -22,7 +22,7 @@
 
 import Foundation
 
-enum UnrecoverableError: Equatable, Error, LocalizableError {
+enum UnrecoverableError: Equatable, Error {
     case connectionTimeout
     case invalidClientOrDomain
     case clientWithNoConnections
@@ -33,18 +33,14 @@ enum UnrecoverableError: Equatable, Error, LocalizableError {
     var localizableMessage: String {
         switch self {
         case .clientWithNoConnections:
-            return "No authentication methods found for this client. Please check your client setup.".i18n(key: "com.auth0.lock.error.unrecoverable.no_connections", comment: "No connections")
+            return "No authentication methods found for this client. please check your client setup.".i18n(key: "com.auth0.lock.error.unrecoverable.no_connections", comment: "No connections")
         case .invalidClientOrDomain:
             return "Your Auth0 credentials ClientId and/or Domain are invalid.".i18n(key: "com.auth0.lock.error.unrecoverable.invalid_credentials", comment: "Invalid client or domain")
         case .invalidOptions(let cause):
-            return "Your options configuration failed with: \(cause)".i18n(key: "com.auth0.lock.error.unrecoverable.invalid_options", comment: "Options configuration issue")
+            return String(format: "Your options configuration failed with: %1$@".i18n(key: "com.auth0.lock.error.unrecoverable.invalid_options", comment: "Your options configuration failed with: %@{error}"), cause)
         case .connectionTimeout, .requestIssue, .missingDatabaseConnection:
             return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.unrecoverable.default", comment: "Default error")
         }
-    }
-
-    var userVisible: Bool {
-        return true
     }
 }
 

@@ -36,19 +36,19 @@ enum CredentialAuthError: Error, LocalizableError {
     var localizableMessage: String {
         switch self {
         case .userBlocked:
-            return "The user is blocked.".i18n(key: "com.auth0.lock.error.authentication.blocked_user", comment: "user is blocked")
+            return "THE USER IS BLOCKED.".i18n(key: "com.auth0.lock.error.authentication.blocked_user", comment: "user is blocked")
         case .invalidEmailPassword:
-            return "Wrong credentials.".i18n(key: "com.auth0.lock.error.authentication.invalid_user_password", comment: "invalid_user_password")
+            return "WRONG EMAIL OR PASSWORD.".i18n(key: "com.auth0.lock.error.authentication.invalid_user_password", comment: "invalid_user_password")
         case .passwordChangeRequired:
-            return "You need to update your password because this is the first time you are logging in, or because your password has expired.".i18n(key: "com.auth0.lock.error.authentication.password_change_required", comment: "password_change_required")
+            return "YOU NEED TO UPDATE YOUR PASSWORD BECAUSE THIS IS THE FIRST TIME YOU ARE LOGGING IN, OR BECAUSE YOUR PASSWORD HAS EXPIRED.".i18n(key: "com.auth0.lock.error.authentication.password_change_required", comment: "password_change_required")
         case .passwordLeaked:
-            return "This login has been blocked because your password has been leaked in another website. We’ve sent you an email with instructions on how to unblock it.".i18n(key: "com.auth0.lock.error.authentication.password_leaked", comment: "password_leaked")
+            return "THIS LOGIN HAS BEEN BLOCKED BECAUSE YOUR PASSWORD HAS BEEN LEAKED IN ANOTHER WEBSITE. WE’VE SENT YOU AN EMAIL WITH INSTRUCTIONS ON HOW TO UNBLOCK IT.".i18n(key: "com.auth0.lock.error.authentication.password_leaked", comment: "password_leaked")
         case .tooManyAttempts:
-            return "Your account has been blocked after multiple consecutive login attempts.".i18n(key: "com.auth0.lock.error.authentication.too_many_attempts", comment: "too_many_attempts")
+            return "YOUR ACCOUNT HAS BEEN BLOCKED AFTER MULTIPLE CONSECUTIVE LOGIN ATTEMPTS.".i18n(key: "com.auth0.lock.error.authentication.too_many_attempts", comment: "too_many_attempts")
         case .multifactorInvalid:
-            return "Wrong code.".i18n(key: "com.auth0.lock.error.authentication.mfa_invalid_code", comment: "a0.mfa_invalid_code")
+            return "WRONG CODE.".i18n(key: "com.auth0.lock.error.authentication.mfa_invalid_code", comment: "a0.mfa_invalid_code")
         default:
-            return "We're sorry, something went wrong when attempting to log in.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
+            return "WE'RE SORRY, SOMETHING WENT WRONG WHEN ATTEMPTING TO LOG IN.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
         }
     }
 

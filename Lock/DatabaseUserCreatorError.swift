@@ -34,17 +34,17 @@ enum DatabaseUserCreatorError: Error, LocalizableError {
     var localizableMessage: String {
         switch self {
         case .passwordTooCommon:
-            return "Password is too common.".i18n(key: "com.auth0.lock.error.signup.password_dictionary_error", comment: "password_dictionary_error")
+            return "PASSWORD IS TOO COMMON.".i18n(key: "com.auth0.lock.error.signup.password_dictionary_error", comment: "password_dictionary_error")
         case .passwordTooWeak:
-            return "Password is too weak.".i18n(key: "com.auth0.lock.error.signup.password_strength_error", comment: "password_strength_error")
+            return "PASSWORD IS TOO WEAK.".i18n(key: "com.auth0.lock.error.signup.password_strength_error", comment: "password_strength_error")
         case .passwordHasUserInfo:
-            return "Password is based on user information.".i18n(key: "com.auth0.lock.error.signup.password_no_user_info_error", comment: "password_no_user_info_error")
+            return "PASSWORD IS BASED ON USER INFORMATION.".i18n(key: "com.auth0.lock.error.signup.password_no_user_info_error", comment: "password_no_user_info_error")
         case .passwordAlreadyUsed:
-            return "Password has previously been used.".i18n(key: "com.auth0.lock.error.signup.password_history", comment: "password_history")
+            return "PASSWORD HAS PREVIOUSLY BEEN USED.".i18n(key: "com.auth0.lock.error.signup.password_history", comment: "password_history")
         case .passwordInvalid:
-            return "Password is invalid.".i18n(key: "com.auth0.lock.error.signup.invalid_password", comment: "invalid_password")
+            return "PASSWORD IS INVALID.".i18n(key: "com.auth0.lock.error.signup.invalid_password", comment: "invalid_password")
         default:
-            return "We're sorry, something went wrong when attempting to sign up.".i18n(key: "com.auth0.lock.error.signup.fallback", comment: "Generic sign up error")
+            return "WE'RE SORRY, SOMETHING WENT WRONG WHEN ATTEMPTING TO SIGN UP.".i18n(key: "com.auth0.lock.error.signup.fallback", comment: "Generic sign up error")
         }
     }
 

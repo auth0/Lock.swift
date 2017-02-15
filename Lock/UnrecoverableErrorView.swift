@@ -60,7 +60,7 @@ class UnrecoverableErrorView: UIView, View {
         label.textAlignment = .center
         label.numberOfLines = 3
         label.font = mediumSystemFont(size: 16)
-        primaryButton.title = "Retry".i18n(key: "com.auth0.lock.submit.retry", comment: "Retry")
+        primaryButton.title = "RETRY".i18n(key: "com.auth0.lock.submit.retry.title", comment: "Retry")
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -42,14 +42,14 @@ class BannerMessagePresenterSpec: QuickSpec {
             it("should show success message") {
                 let message = "I.O.U. a message"
                 presenter.showSuccess(message)
-                expect(presenter.messageView?.message) == message.uppercased()
+                expect(presenter.messageView?.message) == message
                 expect(presenter.messageView?.type) == .success
             }
 
             it("should show error message") {
                 let error = CredentialAuthError.couldNotLogin
                 presenter.showError(error)
-                expect(presenter.messageView?.message) == error.localizableMessage.uppercased()
+                expect(presenter.messageView?.message) == error.localizableMessage
                 expect(presenter.messageView?.type) == .failure
             }
 

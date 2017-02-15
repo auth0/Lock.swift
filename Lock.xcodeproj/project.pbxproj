@@ -148,6 +148,7 @@
 		5FEEE81E1DB84BBB00B4DFED /* PasswordPolicySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE81D1DB84BBB00B4DFED /* PasswordPolicySpec.swift */; };
 		5FF0B2281E1726C400A73257 /* CredentialAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF0B2271E1726C400A73257 /* CredentialAuth.swift */; };
 		5FF0B22A1E1864FE00A73257 /* StyleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF0B2291E1864FE00A73257 /* StyleSpec.swift */; };
+		5FF45EA81E549EA2008224C8 /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FF45EAA1E549EA2008224C8 /* Lock.strings */; };
 		5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC54FD1D37E3F700579581 /* Routes.swift */; };
 		B73CCF98908698EC6FE6B978 /* PasswordPolicyValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */; };
 /* End PBXBuildFile section */
@@ -343,6 +344,7 @@
 		5FEEE81D1DB84BBB00B4DFED /* PasswordPolicySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicySpec.swift; sourceTree = "<group>"; };
 		5FF0B2271E1726C400A73257 /* CredentialAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialAuth.swift; sourceTree = "<group>"; };
 		5FF0B2291E1864FE00A73257 /* StyleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleSpec.swift; sourceTree = "<group>"; };
+		5FF45EA91E549EA2008224C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Lock.strings; sourceTree = "<group>"; };
 		5FFC54FD1D37E3F700579581 /* Routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Routes.swift; path = Lock/Routes.swift; sourceTree = SOURCE_ROOT; };
 		B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicyValidatorSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -531,6 +533,7 @@
 				5FEAE1CB1D1A5154005C0028 /* Info.plist */,
 				5FEAE1C91D1A5154005C0028 /* Lock.h */,
 				5F99AA791D1B031500D27842 /* Lock.xcassets */,
+				5FF45EAA1E549EA2008224C8 /* Lock.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -888,6 +891,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F99AA7A1D1B031500D27842 /* Lock.xcassets in Resources */,
+				5FF45EA81E549EA2008224C8 /* Lock.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1131,6 +1135,14 @@
 			);
 			name = LaunchScreen.storyboard;
 			path = .;
+			sourceTree = "<group>";
+		};
+		5FF45EAA1E549EA2008224C8 /* Lock.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5FF45EA91E549EA2008224C8 /* Base */,
+			);
+			name = Lock.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

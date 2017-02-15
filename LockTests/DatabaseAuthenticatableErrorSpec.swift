@@ -32,37 +32,37 @@ class CredentialAuthErrorSpec: QuickSpec {
 
             it(".userBlocked should return relevant string") {
                 let error = CredentialAuthError.userBlocked
-                expect(error.localizableMessage).to(contain("The user is blocked"))
+                expect(error.localizableMessage).to(contain("THE USER IS BLOCKED"))
             }
 
             it(".invalidEmailPassword should return relevant string") {
                 let error = CredentialAuthError.invalidEmailPassword
-                expect(error.localizableMessage).to(contain("Wrong credentials"))
+                expect(error.localizableMessage).to(contain("WRONG EMAIL OR PASSWORD"))
             }
 
             it(".passwordChangeRequired should return relevant string") {
                 let error = CredentialAuthError.passwordChangeRequired
-                expect(error.localizableMessage).to(contain("You need to update your password"))
+                expect(error.localizableMessage).to(contain("YOU NEED TO UPDATE YOUR PASSWORD"))
             }
 
             it(".passwordLeaked should return relevant string") {
                 let error = CredentialAuthError.passwordLeaked
-                expect(error.localizableMessage).to(contain("This login has been blocked"))
+                expect(error.localizableMessage).to(contain("THIS LOGIN HAS BEEN BLOCKED"))
             }
 
             it(".tooManyAttempts should return relevant string") {
                 let error = CredentialAuthError.tooManyAttempts
-                expect(error.localizableMessage).to(contain("Your account has been blocked"))
+                expect(error.localizableMessage).to(contain("YOUR ACCOUNT HAS BEEN BLOCKED"))
             }
 
             it(".multifactorInvalid should return relevant string") {
                 let error = CredentialAuthError.multifactorInvalid
-                expect(error.localizableMessage).to(contain("Wrong code."))
+                expect(error.localizableMessage).to(contain("WRONG CODE."))
             }
 
             it(".nonValidInput should return generic string") {
                 let error = CredentialAuthError.nonValidInput
-                expect(error.localizableMessage).to(contain("something went wrong"))
+                expect(error.localizableMessage).to(contain("SOMETHING WENT WRONG"))
             }
 
         }
@@ -84,6 +84,6 @@ class CredentialAuthErrorSpec: QuickSpec {
                 expect(error.userVisible).to(beTrue())
             }
         }
-        
+
     }
 }

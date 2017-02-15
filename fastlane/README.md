@@ -49,6 +49,11 @@ Runs all the tests
 fastlane ios ci
 ```
 Runs all the tests in a CI environment
+### ios i18n
+```
+fastlane ios i18n
+```
+
 
 ----
 

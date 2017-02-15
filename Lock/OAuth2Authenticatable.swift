@@ -34,11 +34,11 @@ enum OAuth2AuthenticatableError: Error, LocalizableError {
     var localizableMessage: String {
         switch self {
         case .noConnectionAvailable:
-            return "We're sorry, we could not find a valid connection for this user.".i18n(key: "com.auth0.lock.error.authentication.noconnection", comment: "No valid connection")
+            return "WE'RE SORRY, WE COULD NOT FIND A VALID CONNECTION FOR THIS USER.".i18n(key: "com.auth0.lock.error.authentication.no_connection", comment: "No valid connection")
         case .couldNotAuthenticate:
-            return "We're sorry, something went wrong when attempting to log in.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
+            return "WE'RE SORRY, SOMETHING WENT WRONG WHEN ATTEMPTING TO LOG IN.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
         default:
-            return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
+            return "SOMETHING WENT WRONG.\nPLEASE CONTACT TECHNICAL SUPPORT.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
         }
     }
 

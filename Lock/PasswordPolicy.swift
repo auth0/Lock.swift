@@ -22,15 +22,15 @@
 
 import Foundation
 
-private let lowercase = "Lower case letters (a-z)".i18n(key: "com.auth0.lock.error.password.lowercase-letters", comment: "Lowercase letters")
-private let upperCase = "Upper case letters (A-Z)".i18n(key: "com.auth0.lock.error.password.uppercase-letters", comment: "Uppercase letters")
+private let lowercase = "Lower case letters (a-z)".i18n(key: "com.auth0.lock.error.password.lowercase_letters", comment: "Lowercase letters")
+private let upperCase = "Upper case letters (A-Z)".i18n(key: "com.auth0.lock.error.password.uppercase_letters", comment: "Uppercase letters")
 private let numbers = "Numbers (i.e. 0-9)".i18n(key: "com.auth0.lock.error.password.numbers", comment: "Numbers")
-private let specialCharacters = "Special characters (e.g. !@#$%^&*)".i18n(key: "com.auth0.lock.error.password.special-characters", comment: "Special Characters")
-private let containAtLeast = "Contain at least %d of the following %d types of characters:".i18n(key: "com.auth0.lock.error.password.contain-at-least", comment: "At least n groups")
-private let shouldContain = "Should contain:".i18n(key: "com.auth0.lock.error.password.should-contain", comment: "N groups")
-private let nonEmpty = "Non-empty password required".i18n(key: "com.auth0.lock.error.password.non-empty", comment: "Must no be empty")
-private let atLeast = "At least %d characters in length".i18n(key: "com.auth0.lock.error.password.at-least-length", comment: "At least N characters")
-private let noMoreThanSimilar = "No more than %d identical characters in a row (e.g., \"%@\" not allowed)".i18n(key: "com.auth0.lock.error.password.no-more-identical", comment: "No more than N identical characters")
+private let specialCharacters = "Special characters (e.g. !@#$%^&*)".i18n(key: "com.auth0.lock.error.password.special_characters", comment: "Special Characters")
+private let containAtLeast = "Contain at least %d of the following %d types of characters:".i18n(key: "com.auth0.lock.error.password.contain_at_least", comment: "At least n groups")
+private let shouldContain = "Should contain:".i18n(key: "com.auth0.lock.error.password.should_contain", comment: "N groups")
+private let nonEmpty = "Non-empty password required".i18n(key: "com.auth0.lock.error.password.non_empty", comment: "Must no be empty")
+private let atLeast = "At least %d characters in length".i18n(key: "com.auth0.lock.error.password.at_least_length", comment: "At least N characters")
+private let noMoreThanSimilar = "No more than %1$d identical characters in a row (e.g., \"%2$@\" not allowed)".i18n(key: "com.auth0.lock.error.password.no_more_identical", comment: "No more than %@{count} identical characters in a row (e.g., \"%@{identical sample}\" not allowed)")
 
 public struct PasswordPolicy {
 
@@ -45,7 +45,7 @@ public struct PasswordPolicy {
         case excellent = "excellent"
     }
 
-    public func on(_ password: String?) -> [RuleResult] {
+    func on(_ password: String?) -> [RuleResult] {
         return rules.map { $0.evaluate(on: password) }
     }
 

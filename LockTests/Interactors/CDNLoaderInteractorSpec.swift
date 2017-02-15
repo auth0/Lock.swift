@@ -109,24 +109,24 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 it("should return invalid client error") {
                     stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: Data(), statusCode: 403, headers: [:]) }
                     loader.load(callback)
-                    expect(error).toEventually(beError(error: UnrecoverableError.invalidClientOrDomain))
+                    expect(error).toEventually(equal(UnrecoverableError.invalidClientOrDomain))
                 }
 
                 it("should return invalid client info error") {
                     stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: "not a json object".data(using: String.Encoding.utf8)!, statusCode: 200, headers: [:]) }
                     loader.load(callback)
-                    expect(error).toEventually(beError(error: UnrecoverableError.invalidClientOrDomain))
+                    expect(error).toEventually(equal(UnrecoverableError.invalidClientOrDomain))
                 }
 
-                it("should return connection timeout error") {
+                it("should return request issue") {
                     loader.load(callback)
-                    expect(error).toEventually(beError(error: UnrecoverableError.connectionTimeout))
+                    expect(error).toEventually(equal(UnrecoverableError.requestIssue))
                 }
 
                 it("should return no connections error") {
                     stub(condition: isCDN(forClientId: clientId)) { _ in Auth0Stubs.strategiesFromCDN([[:]]) }
                     loader.load(callback)
-                    expect(error).toEventually(beError(error: UnrecoverableError.clientWithNoConnections))
+                    expect(error).toEventually(equal(UnrecoverableError.clientWithNoConnections))
                 }
 
             }
