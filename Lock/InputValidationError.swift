@@ -41,7 +41,7 @@ enum InputValidationError: Error {
         case .notAOneTimePassword:
             return "Must be a valid numeric code".i18n(key: "com.auth0.lock.input.otp.error", comment: "invalid otp")
         case .passwordPolicyViolation(let result):
-            return result.first?.message ?? "Must not be empty".i18n(key: "com.auth0.lock.input.policy.violation", comment: "policy violation")
+            return result.first?.message ?? "Password does not fulfill policy".i18n(key: "com.auth0.lock.input.policy.error", comment: "policy violation")
         }
     }
 }

@@ -28,7 +28,7 @@ import Foundation
 public struct Style {
 
         /// Title used in Header
-    public var title = "Auth0".i18n(key: "com.auth0.lock.header.default-title", comment: "Header Title")
+    public var title = "Auth0".i18n(key: "com.auth0.lock.header.default_title", comment: "Header Title")
 
         /// Primary color of Lock used in the principal components like the Primary Button
     public var primaryColor = UIColor.a0_orange
