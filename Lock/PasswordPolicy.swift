@@ -30,7 +30,7 @@ private let containAtLeast = "Contain at least %d of the following %d types of c
 private let shouldContain = "Should contain:".i18n(key: "com.auth0.lock.error.password.should_contain", comment: "N groups")
 private let nonEmpty = "Non-empty password required".i18n(key: "com.auth0.lock.error.password.non_empty", comment: "Must no be empty")
 private let atLeast = "At least %d characters in length".i18n(key: "com.auth0.lock.error.password.at_least_length", comment: "At least N characters")
-private let noMoreThanSimilar = "No more than %d identical characters in a row (e.g., \"%@\" not allowed)".i18n(key: "com.auth0.lock.error.password.no_more_identical", comment: "No more than N identical characters")
+private let noMoreThanSimilar = "No more than %1$d identical characters in a row (e.g., \"%2$@\" not allowed)".i18n(key: "com.auth0.lock.error.password.no_more_identical", comment: "No more than %@{count} identical characters in a row (e.g., \"%@{identical sample}\" not allowed)")
 
 public struct PasswordPolicy {
 

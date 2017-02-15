@@ -33,12 +33,12 @@ public struct AuthStyle {
     let highlightedColor: UIColor
 
     var localizedLoginTitle: String {
-        let format = "LOG IN WITH %@".i18n(key: "com.auth0.lock.strategy.login.title", comment: "Log in action format")
+        let format = "LOG IN WITH %1$@".i18n(key: "com.auth0.lock.strategy.login.title", comment: "Log in with %@{strategy}")
         return String(format: format, self.name)
     }
 
     var localizedSignUpTitle: String {
-        let format = "SIGN UP WITH %@".i18n(key: "com.auth0.lock.strategy.signup.title", comment: "Sign up action format")
+        let format = "SIGN UP WITH %1$@".i18n(key: "com.auth0.lock.strategy.signup.title", comment: "Sign up with %@{strategy}")
         return String(format: format, self.name)
     }
 

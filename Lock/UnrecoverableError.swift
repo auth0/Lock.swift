@@ -37,7 +37,7 @@ enum UnrecoverableError: Equatable, Error {
         case .invalidClientOrDomain:
             return "Your Auth0 credentials ClientId and/or Domain are invalid.".i18n(key: "com.auth0.lock.error.unrecoverable.invalid_credentials", comment: "Invalid client or domain")
         case .invalidOptions(let cause):
-            return String(format: "Your options configuration failed with: %$1@".i18n(key: "com.auth0.lock.error.unrecoverable.invalid_options", comment: "Options configuration issue"), cause)
+            return String(format: "Your options configuration failed with: %1$@".i18n(key: "com.auth0.lock.error.unrecoverable.invalid_options", comment: "Your options configuration failed with: %@{error}"), cause)
         case .connectionTimeout, .requestIssue, .missingDatabaseConnection:
             return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.unrecoverable.default", comment: "Default error")
         }
