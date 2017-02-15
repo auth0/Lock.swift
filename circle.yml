@@ -10,3 +10,7 @@ machine:
 test:
   override:
     - script/cibuild
+general:
+  branches:
+    ignore:
+      - master
