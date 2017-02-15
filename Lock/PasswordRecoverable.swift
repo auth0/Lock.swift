@@ -39,9 +39,9 @@ enum PasswordRecoverableError: Error, LocalizableError {
     var localizableMessage: String {
         switch self {
         case .emailNotSent:
-            return "We're sorry, something went wrong when requesting the password change.".i18n(key: "com.auth0.lock.error.forgot.fallback", comment: "Generic password error")
+            return "WE'RE SORRY, SOMETHING WENT WRONG WHEN REQUESTING THE PASSWORD CHANGE.".i18n(key: "com.auth0.lock.error.forgot.fallback", comment: "Generic password error")
         default:
-            return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
+            return "SOMETHING WENT WRONG.\nPLEASE CONTACT TECHNICAL SUPPORT.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
         }
     }
 

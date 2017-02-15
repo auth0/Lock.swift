@@ -32,32 +32,32 @@ class DatabaseUserCreatorErrorSpec: QuickSpec {
 
             it(".passwordTooCommon should return relevant string") {
                 let error = DatabaseUserCreatorError.passwordTooCommon
-                expect(error.localizableMessage).to(contain("Password is too common"))
+                expect(error.localizableMessage).to(contain("PASSWORD IS TOO COMMON"))
             }
 
             it(".passwordTooWeak should return relevant string") {
                 let error = DatabaseUserCreatorError.passwordTooWeak
-                expect(error.localizableMessage).to(contain("Password is too weak."))
+                expect(error.localizableMessage).to(contain("PASSWORD IS TOO WEAK."))
             }
 
             it(".passwordHasUserInfo should return relevant string") {
                 let error = DatabaseUserCreatorError.passwordHasUserInfo
-                expect(error.localizableMessage).to(contain("Password is based on user information"))
+                expect(error.localizableMessage).to(contain("PASSWORD IS BASED ON USER INFORMATION"))
             }
 
             it(".passwordAlreadyUsed should return relevant string") {
                 let error = DatabaseUserCreatorError.passwordAlreadyUsed
-                expect(error.localizableMessage).to(contain("Password has previously been used"))
+                expect(error.localizableMessage).to(contain("PASSWORD HAS PREVIOUSLY BEEN USED"))
             }
 
             it(".passwordInvalid should return relevant string") {
                 let error = DatabaseUserCreatorError.passwordInvalid
-                expect(error.localizableMessage).to(contain("Password is invalid."))
+                expect(error.localizableMessage).to(contain("PASSWORD IS INVALID."))
             }
 
             it(".nonValidInput should return default string") {
                 let error = DatabaseUserCreatorError.nonValidInput
-                expect(error.localizableMessage).to(contain("something went wrong"))
+                expect(error.localizableMessage).to(contain("SOMETHING WENT WRONG"))
             }
 
         }
@@ -73,6 +73,6 @@ class DatabaseUserCreatorErrorSpec: QuickSpec {
                 expect(error.userVisible).to(beTrue())
             }
         }
-        
+
     }
 }
