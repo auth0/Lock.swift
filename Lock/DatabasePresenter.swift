@@ -207,8 +207,10 @@ class DatabasePresenter: Presentable, Loggable {
         self.messagePresenter?.hideCurrent()
 
         self.logger.verbose("new value: \(input.text) for type: \(input.type)")
-        let attribute: UserAttribute
         var updateHRD: Bool = false
+
+        // FIXME: enum mapping outlived its usefulness
+        let attribute: UserAttribute
         switch input.type {
         case .email:
             attribute = .email

@@ -1,7 +1,3 @@
 machine:
   xcode:
     version: 8.2
-general:
-  branches:
-    only:
-      - v2
