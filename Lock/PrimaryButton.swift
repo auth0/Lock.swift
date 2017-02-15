@@ -103,7 +103,7 @@ class PrimaryButton: UIView {
         button.setImage(nil, for: .disabled)
         button.setAttributedTitle(nil, for: .normal)
         button.setAttributedTitle(nil, for: .disabled)
-        guard let title = title?.uppercased(), !self.hideTitle else {
+        guard let title = title, !self.hideTitle else {
             button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), for: UIControlState())
             button.setImage(UIImage(), for: .disabled)
             return

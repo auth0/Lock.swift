@@ -58,7 +58,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             }
 
             it("should set button title") {
-                expect(view.primaryButton?.title) == "Log in"
+                expect(view.primaryButton?.title) == "LOG IN"
             }
         }
 

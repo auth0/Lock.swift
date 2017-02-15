@@ -31,7 +31,7 @@ class MessageView: UIView {
             return self.messageLabel?.text
         }
         set {
-            self.messageLabel?.text = newValue?.uppercased()
+            self.messageLabel?.text = newValue
         }
     }
 

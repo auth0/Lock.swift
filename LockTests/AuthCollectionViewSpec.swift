@@ -82,7 +82,7 @@ class AuthCollectionViewSpec: QuickSpec {
                     expect(view.height) == CGFloat(expected)
                 }
             }
-            
+
         }
 
         describe("styling") {
@@ -117,10 +117,10 @@ class AuthCollectionViewSpec: QuickSpec {
             it("should use custom style") {
                 let style = ["steam": AuthStyle(name: "Steam", color: .white)]
                 let button = oauth2Buttons(forConnections: [SocialConnection(name: "steam", style: AuthStyle(name: "steam"))], customStyle: style, isLogin: true, onAction: {_ in }).first!
-                expect(button.title) == "LOG IN WITH STEAM"
+                expect(button.title) == "LOG IN WITH Steam"
                 expect(button.color) == UIColor.white
             }
-            
+
         }
     }
 }

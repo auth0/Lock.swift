@@ -66,7 +66,7 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
         }
 
         it("should have button title") {
-            expect(view.primaryButton?.title) == "Send Email"
+            expect(view.primaryButton?.title) == "SEND EMAIL"
         }
 
         describe("forgot") {
@@ -269,11 +269,11 @@ class MockForgotInteractor: PasswordRecoverable {
     var validEmail: Bool = false
     var email: String?
     var onRequest: () -> PasswordRecoverableError? = { return nil }
-    
+
     func requestEmail(_ callback: @escaping (PasswordRecoverableError?) -> ()) {
         callback(onRequest())
     }
-    
+
     func updateEmail(_ value: String?) throws {
         guard value != "invalid" else {
             self.validEmail = false

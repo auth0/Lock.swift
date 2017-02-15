@@ -59,7 +59,7 @@ class EnterpriseActiveAuthView: UIView, View {
         container.distribution = .equalSpacing
         container.spacing = 10
 
-        primaryButton.title = "Log in".i18n(key: "com.auth0.lock.submit.login.title", comment: "Login Button title")
+        primaryButton.title = "LOG IN".i18n(key: "com.auth0.lock.submit.login.title", comment: "Login Button title")
         credentialView.identityField.text = identifier
         switch identifierAttribute {
         case .username:

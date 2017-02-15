@@ -47,7 +47,7 @@ class MultifactorPresenterSpec: QuickSpec {
         }
 
         it("should have button title") {
-            expect(view.primaryButton?.title) == "Send"
+            expect(view.primaryButton?.title) == "SEND"
         }
 
         describe("user input") {
