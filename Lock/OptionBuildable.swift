@@ -91,6 +91,7 @@ internal extension OptionBuildable {
         guard !self.allow.isEmpty else { return UnrecoverableError.invalidOptions(cause: "Must allow at least one database mode") }
         guard !self.usernameStyle.isEmpty else { return UnrecoverableError.invalidOptions(cause: "Must specify at least one username style") }
         guard self.allow.contains(.Login) || self.closable || self.autoClose else { return UnrecoverableError.invalidOptions(cause: "Must enable autoclose or enable closable") }
+        guard self.oidcConformant || self.audience == nil else { return UnrecoverableError.invalidOptions(cause: "Must set OIDC-Conformant flag in Lock to use audience option") }
         return nil
     }
 }

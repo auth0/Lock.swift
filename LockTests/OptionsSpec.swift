@@ -128,6 +128,24 @@ class OptionsSpec: QuickSpec {
                 expect(options.validate()).toNot(beNil())
             }
 
+            it("should fail setting audience in non OIDC mode") {
+                options.oidcConformant = false
+                options.audience = "https://myapi.com"
+                expect(options.validate()).toNot(beNil())
+            }
+
+            it("should allow no audience in OIDC mode") {
+                options.oidcConformant = true
+                options.audience = nil
+                expect(options.validate()).to(beNil())
+            }
+
+            it("should allow audience in OIDC mode") {
+                options.oidcConformant = true
+                options.audience = "https://myapi.com"
+                expect(options.validate()).to(beNil())
+            }
+
             context("auto close") {
 
                 it("should fail when autoclose is empty and no .Login allowed") {
