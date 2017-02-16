@@ -4,67 +4,63 @@ Lock 2.0 is the latest major release of Lock iOS-OSX, Lock provides a simple way
 
 This guide is provided in order to ease the transition of existing applications using Lock 1.x to the latest APIs.
 
-- [Requirements](#requirements)
-- [Benefits of Upgrading](#benefits-of-upgrading)
-- [Breaking Changes](#breaking-changes)
-	- [Integrate with your Application](#integrate-with-your-Application)
-	- [Usage](#usage)
-- [New Features](#new-features)
-- [Support](#support)
-- [Author](#author)
-- [License](#license)
-
 ## Requirements
 
 - iOS 9.0+
 - Xcode 8.0+
 - Swift 3.0+
 
-For those of you who require Objective-C support or iOS 8 support we recommend sticking with Lock 1.
-At time of writing, SMS, Email and Touch ID support are not available but coming very soon.
+### Objective-C Support
+
+Lock v2 cannot be used from Objective-C since it's public API relies in Swift features and that makes them unavailable in ObjC codebase.
+
+If you are willing to have some Swift code in your existing application you can follow this [guide](https://developer.apple.com/library/content/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html) on how to mix Objective-C and Swift and then use Lock v2 from the Swift files.
+
+If that's not an option we recommend sticking with Lock v1 or using [Auth0.swift](https://github.com/auth0/Auth0.swift) to build your own Lock
 
 ## Benefits of Upgrading
 
-- **Complete Swift 3 Compatibility:** includes the adoption of the new [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/).
-- **OIDC Compliance:** @TODO: Do we have a nice benefit snippet for this?
-- **HRD Discovery:** solving the home realm discovery challenge with enterprise users.
-- **Improved UI:** having a professional looking login dialog that displays well on any device.
-- **Extensive configuration:** lock provides extensive configuration options to help customize the experience to your users needs.
-- **Native web auth:** remove additional setup of `Lock/Safari` for some connections.
-@TODO: More benefits?
+- **Complete Swift 3 Compatibility:** The new version includes the adoption of the new [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/).
+- **Improved UI:** having a professional looking login box that displays well on any device.
+- **Extensive configuration:** lock provides improved configuration options to help customize the experience to your users needs.
+- **Safari controller for web-based Auth:** Following Google's recent ban of WebView based auth, Lock (and Auth0.swift) will always use `SFSafariViewController` when web auth is needed.
+- **API Authorization support:** Adds support for Auth0 [API Authorization](https://auth0.com/docs/api-auth)
 
-## Breaking Changes
+## Changes from v1
 
 Lock 2.0 has adopted all the new Swift 3 changes and conventions, including the new [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/). Because of this, almost every API in Lock has been modified in some way. So we're going to attempt to identify the most common usage and how they have changed to help you get started with Lock 2.0.
 
-### Integrate with your Application
+### Integration with your Application
 
 Lock needs to be notified for some of your application state changes and some events/notifications your application receives from the OS. You can do all these things in the `AppDelegate`
 
 #### Application finished launching
 
+In Lock v1 you'd add the following
+
 ```swift
-// Lock 1
 func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 	A0Lock.sharedLock().applicationLaunchedWithOptions(launchOptions)
 	//Your code
 	return true
 }
-
-// Lock 2 - No longer required.
 ```
+
+but in Lock v2 is no longer required.
 
 #### Application is asked to open URL
 
-```swift
-// Lock 1
-func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-	A0Lock.sharedLock().applicationLaunchedWithOptions(launchOptions)
-	//Your code
-	return true
-}
+In Lock v1 you'd add the following
 
-// Lock 2
+```swift
+func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    return A0Lock.sharedLock().handleURL(url, sourceApplication: sourceApplication)
+}
+```
+
+and in Lock v2 you need to
+
+```swift
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
   return Lock.resumeAuth(url, options: options)
 }
@@ -72,60 +68,73 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 
 #### Application is asked to continue a User Activity
 
-```swift
-// Lock 1
-func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
-	return A0Lock.sharedLock().continueUserActivity(userActivity, restorationHandler:restorationHandler)
-}
-
-// Lock 2 - No longer required.
-```
+Lock v2 does not have support for Universal iOS Links (for now) so there is no need to notify Lock of this application event.
 
 ### Usage
 
 `Lock` by default will handle Email/Password, Enterprise & Social authentication based on your Application's connections enabled in your Auth0 Dashboard.
 
-#### Email/Password, Enterprise & Social authentication
+#### Auth0 credentials
+
+Like in v1, in your application bundle you can add a `plist` file named `Auth0.plist` with the following format
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>ClientId</key>
+  <string>{YOUR_CLIENT_ID}</string>
+  <key>Domain</key>
+  <string>{YOUR_DOMAIN}</string>
+</dict>
+</plist>
+```
+
+and it will load your Auth0 credentials, and if you prefer you can specify your credentials when showing Lock v2 like
 
 ```swift
-// Lock 1
+Lock
+    .classic(clientId: "{YOUR_CLIENT_ID}", domain: "{YOUR_DOMAIN}")
+```
+
+#### Classic mode (Database, Enterprise & Social authentication)
+
+In v1 to show Lock from a `UIViewController` you'd add the following code
+
+```swift
 let lock = A0Lock.sharedLock()
 let controller = lock.newLockViewController()
 controller.onAuthenticationBlock = {(profile, token) in
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
     // And dismiss the UIViewController.
-    self.dismissViewControllerAnimated(true, completion: nil)
+    self.dismissViewController(animated: true, completion: nil)
 }
 lock.presentLockController(controller, fromController: self)
+```
 
-// Lock 2
+and in v2 it can be changed for the following
+
+```swift
 Lock
     .classic()
     .onAuth { credentials in
-      // Lock will no longer return the users profile upon authentication
-      // Lock will not save the Credentials object for you.
-      // Lock will dismiss itself upon successful authentication unless you disable this in your configuration.
+      print("Authenticated!")
     }
     .present(from: self)
 ```
 
-## New Features
+so in the `onAuth` callback you'd only recieve the credentials of the user when the authentication is successful. In the case you need to know about the errors or signup there are the corresponding `onError` and `onSignUp` callbacks to be notified. 
 
-- [Lock Events](./README.md#classic)
-- [Specify Connections](./README.md#specify-connections)
-- [Logging](./README.md#logging)
-- [Styling](./README.md#styling_lock)
-- [Customization Options](./README.md#customization-options)
+In constrast with Lock v1, now Lock will dismiss itself so there is no need to call `dismissViewController(animated:, completion:)`
 
-## Support
+## In the Roadmap
 
-@TODO General support info?
-
-## Author
-
-[Auth0](auth0.com)
-
-## License
-
-This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
+- [ ] Native Authentication with third party SDKs (Facebook, Google, Twitter)
+- [ ] 1Password support
+- [ ] Passwordless Authentication (SMS & Email)
+- [ ] Secure Token storage and automatic token refresh
+- [ ] Remember me like feature using TouchID
+- [ ] Universal Link support for browser based Auth
+- [ ] Improved UI Styling
