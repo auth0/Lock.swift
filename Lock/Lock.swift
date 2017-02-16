@@ -152,7 +152,7 @@ public class Lock: NSObject {
         .classic()
         .style {
             $0.title = "Auth0 Inc."
-            $0.primaryColor = UIColor.orangeColor()
+            $0.primaryColor = .orange
             $0.logo = LazyImage(name: "icn_auth0")
         }
      ```
@@ -269,10 +269,7 @@ private func telemetryFor(authentication: Authentication, webAuth: WebAuth) -> (
     var authentication = authentication
     var webAuth = webAuth
     let name = "Lock.swift"
-    // FIXME:- Uncomment when stable is ready since XCode wont' accept a tag in the version
-    //        let bundle = _BundleHack.bundle
-    //        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.0.0-alpha.0"
-    let version = "2.0.0-rc.2"
+    let version = bundleForLock().infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.0.0"
     authentication.using(inLibrary: name, version: version)
     webAuth.using(inLibrary: name, version: version)
     return (authentication, webAuth)

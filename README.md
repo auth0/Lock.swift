@@ -14,6 +14,8 @@ Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 * Solving the home realm discovery challenge with enterprise users (i.e.: asking the enterprise user the email, and redirecting to the right enterprise identity provider).
 * Implementing a standard sign in protocol (OpenID Connect / OAuth2 Login)
 
+Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
+
 ## Requirements
 
 - iOS 9 or later
@@ -274,17 +276,19 @@ When signing up the default information requirements are the user's *email* and 
 }
 ```
 
-*Note: You must specify the icon to use with your custom text field.*
+*Note: You must specify the icon to use with your custom text field and store it in your App's bundle.*
 
 #### Enterprise
 
 * *enterpriseConnectionUsingActiveAuth*: By default Enterprise connections will use Web Authentication. However you can specify which connections will alternatively use credential authentication and prompt for a username and password.
-* *activeDirectoryEmailAsUsername*: When in credential authentication mode, should the user require their email as an identifier.  The default is `false`, use **Username**.
+* *activeDirectoryEmailAsUsername*: When Lock request your enterprise credentials after performing Home Realm Discovery (HRD), e.g. for Active Directory, it will try to prefill the username for you. By default it will parse the email's local part and use that as the username, e.g. `john.doe@auth0.com` will be `john.doe`. If you don't want that you can turn on this flag and it will just use the email address.
 
+```swift
 .withOptions {
   $0.activeDirectoryEmailAsUsername = true
   $0.enterpriseConnectionUsingActiveAuth = ["enterprisedomain.com"]
 }
+```
 
 ## What is Auth0?
 
