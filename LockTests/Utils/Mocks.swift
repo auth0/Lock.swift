@@ -30,6 +30,16 @@ class MockLockController: LockViewController {
     var presented: UIViewController?
     var presentable: Presentable?
 
+    required init(lock: Lock) {
+        super.init(lock: lock)
+        lock.observerStore.controller = nil
+        self.router = nil
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func dismiss(animated flag: Bool, completion: (() -> Void)?) {
         completion?()
     }
