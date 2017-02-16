@@ -1,9 +1,9 @@
-# Lock.swift (BETA)
+# Lock.swift
 
-[![Build Status](https://travis-ci.org/auth0/Lock.iOS-OSX.svg?branch=v2)](https://travis-ci.org/auth0/Lock.iOS-OSX)
-[![Version](https://img.shields.io/cocoapods/v/Lock.svg?style=flat)](http://cocoadocs.org/docsets/Lock)
-[![License](https://img.shields.io/cocoapods/l/Lock.svg?style=flat)](http://cocoadocs.org/docsets/Lock)
-[![Platform](https://img.shields.io/cocoapods/p/Lock.svg?style=flat)](http://cocoadocs.org/docsets/Lock)
+[![CircleCI](https://img.shields.io/circleci/project/github/auth0/Lock.swift.svg?style=flat-square)](https://circleci.com/gh/auth0/Lock.swift/tree/master)
+[![Version](https://img.shields.io/cocoapods/v/Lock.svg?style=flat-square)](http://cocoadocs.org/docsets/Lock)
+[![License](https://img.shields.io/cocoapods/l/Lock.svg?style=flat-square)](http://cocoadocs.org/docsets/Lock)
+[![Platform](https://img.shields.io/cocoapods/p/Lock.svg?style=flat-square)](http://cocoadocs.org/docsets/Lock)
 
 [Auth0](https://auth0.com) is an authentication broker that supports social identity providers as well as enterprise identity providers such as Active Directory, LDAP, Google Apps and Salesforce.
 
@@ -27,7 +27,7 @@ Lock makes it easy to integrate SSO in your app. You won't have to worry about:
  Add the following line to your Podfile:
 
  ```ruby
- pod "Lock", "~> 2.0.0-rc.1"
+ pod "Lock", "~> 2.0.0"
  ```
 
 ### Carthage
@@ -35,7 +35,7 @@ Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 In your `Cartfile` add
 
 ```
-github "auth0/Lock.iOS-OSX" "2.0.0-rc.1"
+github "auth0/Lock.swift" "2.0.0"
 ```
 
 ## Usage
