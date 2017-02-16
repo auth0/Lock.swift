@@ -1,4 +1,4 @@
-# Lock iOS 2.0 Migration Guide
+# Migrating from Lock iOS 1 to 2
 
 Lock 2.0 is the latest major release of Lock iOS-OSX, Lock provides a simple way to integrate Auth0 into existing projects and provide the frictionless login and signup experience that you want for your app. Lock provides extensive authentication options and customizable UI for your users to use to authenticate with your app.
 
@@ -54,7 +54,7 @@ In Lock v1 you'd add the following
 
 ```swift
 func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-    return A0Lock.sharedLock().handleURL(url, sourceApplication: sourceApplication)
+    return A0Lock.shared().handle(url, sourceApplication: sourceApplication)
 }
 ```
 
@@ -103,7 +103,7 @@ Lock
 In v1 to show Lock from a `UIViewController` you'd add the following code
 
 ```swift
-let lock = A0Lock.sharedLock()
+let lock = A0Lock.shared()
 let controller = lock.newLockViewController()
 controller.onAuthenticationBlock = {(profile, token) in
     // Do something with token & profile. e.g.: save them.
@@ -111,7 +111,7 @@ controller.onAuthenticationBlock = {(profile, token) in
     // And dismiss the UIViewController.
     self.dismissViewController(animated: true, completion: nil)
 }
-lock.presentLockController(controller, fromController: self)
+lock.present(controller, from: self)
 ```
 
 and in v2 it can be changed for the following
@@ -125,9 +125,71 @@ Lock
     .present(from: self)
 ```
 
-so in the `onAuth` callback you'd only recieve the credentials of the user when the authentication is successful. In the case you need to know about the errors or signup there are the corresponding `onError` and `onSignUp` callbacks to be notified. 
+so in the `onAuth` callback you'd only recieve the credentials of the user when the authentication is successful. 
+> In constrast with Lock v1, now Lock will dismiss itself so there is no need to call `dismissViewController(animated:, completion:)` in any of the callbacks.
 
-In constrast with Lock v1, now Lock will dismiss itself so there is no need to call `dismissViewController(animated:, completion:)`
+In the case you need to know about the errors or signup there are the corresponding `onError` and `onSignUp` callbacks to be notified.
+
+```swift
+Lock
+    .classic()
+    .onAuth { credentials in
+      print("Authenticated!")
+    }
+    .onSignUp { email, attributes in
+      print("New user with email \(email)!")
+    }
+    .onError { error in
+      print("Failed with error \(error.localizedString)")
+    }
+    .present(from: self)
+```
+
+> The callback `onSignUp` is only called when the login after signup is disabled
+
+#### Configuration Options
+
+If you needed to tweak Lock behaviour using it's options in v1 you'd do something like
+
+```swift
+let controller = A0Lock.shared().newLockViewController()
+controller?.closable = true
+controller?.connections = ["facebook", "github", "my-database"]
+```
+
+in Lock v2 you can do it all before presenting Lock by calling
+
+```swift
+Lock
+    .withOptions { options in
+      options.closable = true
+      options.allowedConnections = ["facebook", "github", "my-database"]
+    }
+    // continue configuring and then present Lock
+```
+
+
+#### UI Customizations
+
+In v1 all UI customizations were performed using the `A0Theme` object where you'd do something like
+
+```swift
+let theme = A0Theme()
+theme.register(.blue, forKey: A0ThemeTitleTextColor)
+A0Theme.sharedInstance().register(theme)
+```
+
+in Lock v2 the UI customization is done using the `withStyle` function
+
+```swift
+Lock
+    .classic()
+    .withStyle { style in
+      style.titleColor = .blue
+    }
+    // other customizations
+    .present(from: self)
+```
 
 ## In the Roadmap
 
@@ -138,3 +200,4 @@ In constrast with Lock v1, now Lock will dismiss itself so there is no need to c
 - [ ] Remember me like feature using TouchID
 - [ ] Universal Link support for browser based Auth
 - [ ] Improved UI Styling
+- [ ] Bundle more i18n translation in Lock.framework
