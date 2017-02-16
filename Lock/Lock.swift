@@ -208,7 +208,7 @@ public class Lock: NSObject {
      Register a callback to be notified when a user signs up when login after signup is disabled.
      The callback will yield the new user email and additional attributes like username.
 
-     - parameter callback: called when a user signs up
+     - parameter callback: called when a user signs up with the email and user attributes.
 
      - returns: Lock itself for chaining
     */
