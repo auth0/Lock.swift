@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.28.2](https://github.com/auth0/Lock.iOS-OSX/tree/1.28.2) (2017-02-16)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.28.1...1.28.2)
+
+**Fixed**
+- Allow multiline message for SMS controller [\#389](https://github.com/auth0/Lock.swift/pull/389) ([bourgois](https://github.com/bourgois))
+- Fixing long delay on macOS [\#378](https://github.com/auth0/Lock.swift/pull/378) ([robbiehanson](https://github.com/robbiehanson))
+
 ## [1.28.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.28.1) (2017-01-05)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.28.0...1.28.1)
 
