@@ -100,7 +100,7 @@ Lock
     .onError {
       print("Failed with \($0)")
     }
-    onCancel {
+    .onCancel {
       print("User cancelled")
     }
     .present(from: self)
@@ -249,6 +249,26 @@ Scope used for authentication. By default is `openid`. It will return not only t
 }
 ```
 
+#### OIDC Conformant
+
+Specifies if Lock should use OIDC conformant authentication endpoints. By default is false.
+
+```swift
+.withOptions {
+    $0.oidcConformant = true
+}
+```
+
+#### Audience
+
+Specify the intended resource server of the token. By default no audience is specified.
+
+```swift
+.withOptions {
+    $0.audience = "http://mycustom.com/api"
+}
+```
+
 #### Database
 
 * **allow**: Which database screens will be accessible, the default is enable all screens e.g. `.Login, .Signup, .ResetPassword`
@@ -277,6 +297,16 @@ When signing up the default information requirements are the user's *email* and 
 ```
 
 *Note: You must specify the icon to use with your custom text field and store it in your App's bundle.*
+
+#### Log in after sign up
+
+Automatically log the user in after sign up.  By default true.
+
+```swift
+.withOptions {
+    $0.loginAfterSignup = false
+}
+```
 
 #### Enterprise
 
