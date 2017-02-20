@@ -50,7 +50,6 @@ class ViewController: UIViewController {
                     .classic()
                         .withOptions {
                             applyDefaultOptions(&$0)
-                            $0.enterpriseConnectionUsingActiveAuth = ["contoso-ad"]
                         }
                         .withStyle {
                             $0.oauth2["slack"] = AuthStyle(
