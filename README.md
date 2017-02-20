@@ -100,7 +100,7 @@ Lock
     .onError {
       print("Failed with \($0)")
     }
-    onCancel {
+    .onCancel {
       print("User cancelled")
     }
     .present(from: self)
