@@ -34,7 +34,7 @@ You'll need iOS 7 or later, if you need to use it with an older version please u
 The Lock is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Lock", "~> 1.28"
+pod 'Lock', '~> 1.28'
 ```
 
 ## Before Getting Started
@@ -54,7 +54,7 @@ Create a file named `Auth0.plist` and add it to your Application Target, this fi
 </plist>
 ```
 
-Whenever you need to use Lock, you'll have to import either the ObjC header or a Swift module in your source code, the differents ways to do it are detailed next:
+Whenever you need to use Lock, you'll have to import either the ObjC header or a Swift module in your source code, the different ways to do it are detailed next:
 
 ### Objective-C
 Just import in your source file Lock's header:
@@ -96,10 +96,9 @@ Lock needs to be notified for some of your application state changes and some ev
 ```
 
 ```swift
-func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-	A0Lock.sharedLock().applicationLaunchedWithOptions(launchOptions)
-	//Your code
-	return true
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    A0Lock.shared().applicationLaunched(options: launchOptions)
+    return true
 }
 ```
 
@@ -111,8 +110,8 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 }
 ```
 ```swift
-func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-    return A0Lock.sharedLock().handleURL(url, sourceApplication: sourceApplication)
+func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    return A0Lock.shared().handle(url, sourceApplication: sourceApplication)
 }
 ```
 
@@ -125,8 +124,8 @@ func application(application: UIApplication, openURL url: NSURL, sourceApplicati
 ```
 
 ```swift
-func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
-	return A0Lock.sharedLock().continueUserActivity(userActivity, restorationHandler:restorationHandler)
+func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    return A0Lock.shared().continue(userActivity, restorationHandler: restorationHandler)
 }
 ```
 
@@ -150,15 +149,15 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 [lock presentLockController:controller fromController:self];
 ```
 ```swift
-let lock = A0Lock.sharedLock()
-let controller = lock.newLockViewController()
-controller.onAuthenticationBlock = {(profile, token) in
+let lock = A0Lock.shared()
+let controller: A0LockViewController = lock.newLockViewController()
+controller.onAuthenticationBlock = { (profile, token) in
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
     // And dismiss the UIViewController.
-    self.dismissViewControllerAnimated(true, completion: nil)
+    self.dismiss(animated: true, completion: nil)
 }
-lock.presentLockController(controller, fromController: self)
+lock.present(controller, from: self)
 ```
 And you'll see our native login screen
 
@@ -214,7 +213,7 @@ lock.registerAuthenticators([safari])
 Add the following line to your Podfile:
 
 ```ruby
-pod "Lock/TouchID", "~> 1.28"
+pod 'Lock/TouchID', '~> 1.28'
 ```
 
 First instantiate `A0TouchIDLockViewController` and register the authentication callback that will receive the authenticated user's credentials. Finally present it to the user:
@@ -232,15 +231,15 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 ```
 
 ```swift
-let lock = A0Lock.sharedLock()
-let controller = lock.newTouchIDViewController()
-controller.onAuthenticationBlock = {(profile, token) in
+let lock = A0Lock.shared()
+let controller: A0TouchIDLockViewController = lock.newTouchIDViewController()
+controller.onAuthenticationBlock = { (profile, token) in
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
     // And dismiss the UIViewController.
-    self.dismissViewControllerAnimated(true, completion: nil)
+    self.dismiss(animated: true, completion: nil)
 }
-lock.presentTouchIDController(controller, fromController: self)
+lock.presentTouchIDController(controller, from: self)
 ```
 And you'll see TouchID login screen
 
@@ -255,7 +254,7 @@ And you'll see TouchID login screen
 Add the following line to your Podfile:
 
 ```ruby
-pod "Lock/SMS", "~> 1.28"
+pod 'Lock/SMS', '~> 1.28'
 ```
 
 First instantiate `A0SMSLockViewController` and register the authentication callback that will receive the authenticated user's credentials.
@@ -276,16 +275,16 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 ```
 
 ```swift
-let lock = A0Lock.sharedLock()
-let controller = lock.newSMSViewController()
+let lock = A0Lock.shared()
+let controller: A0SMSLockViewController = lock.newSMSViewController()
 controller.useMagicLink = true
-controller.onAuthenticationBlock = {(profile, token) in
+controller.onAuthenticationBlock = { (profile, token) in
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
     // And dismiss the UIViewController.
-    self.dismissViewControllerAnimated(true, completion: nil)
+    self.dismiss(animated: true, completion: nil)
 }
-lock.presentSMSController(controller, fromController: self)
+lock.presentSMSController(controller, from: self)
 ```
 And you'll see SMS login screen
 
@@ -298,7 +297,7 @@ And you'll see SMS login screen
 Add the following line to your Podfile:
 
 ```ruby
-pod "Lock/Email", "~> 1.28"
+pod 'Lock/Email', '~> 1.28'
 ```
 
 First instantiate `A0EmailLockViewController` and register the authentication callback that will receive the authenticated user's credentials.
@@ -319,16 +318,16 @@ controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
 ```
 
 ```swift
-let lock = A0Lock.sharedLock()
-let controller = lock.newEmailViewController()
+let lock = A0Lock.shared()
+let controller: A0EmailLockViewController = lock.newEmailViewController()
 controller.useMagicLink = true
-lock.onAuthenticationBlock = {(profile, token) in
+controller.onAuthenticationBlock = { (profile, token) in
     // Do something with token & profile. e.g.: save them.
     // Lock will not save the Token and the profile for you.
     // And dismiss the UIViewController.
-    self.dismissViewControllerAnimated(true, completion: nil)
+    self.dismiss(animated: true, completion: nil)
 }
-lock.presentEmailController(controller, fromController: self)
+lock.presentEmailController(controller, from: self)
 ```
 
 ## SSO
