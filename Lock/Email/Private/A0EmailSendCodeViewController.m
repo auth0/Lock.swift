@@ -116,12 +116,12 @@
         A0LogDebug(@"Registering email %@", self.emailFieldView.textField.text);
         [self.registerButton setInProgress:YES];
         __weak A0EmailSendCodeViewController *weakSelf = self;
-        A0LogDebug(@"About to send Email code to %@", self.viewModel.identifier);
+        A0LogDebug(@"About to send Passcode to %@", self.viewModel.identifier);
         [self.viewModel requestVerificationCodeWithCallback:^(NSError * _Nullable error) {
             if (error) {
-                A0LogError(@"Failed to send SMS code with error %@", error);
-                NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the email code");
-                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send the email with your login code. Please try again later.");
+                A0LogError(@"Failed to send Passcode with error %@", error);
+                NSString *title = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedDescription : A0LocalizedString(@"There was an error sending the passcode");
+                NSString *message = [error a0_auth0ErrorWithCode:A0ErrorCodeNotConnectedToInternet] ? error.localizedFailureReason : A0LocalizedString(@"Couldn't send the email with your passcode. Please try again later.");
                 [A0Alert showInController:weakSelf errorAlert:^(A0Alert *alert) {
                     alert.title = title;
                     alert.message = message;
@@ -129,7 +129,7 @@
                 [weakSelf.registerButton setInProgress:NO];
                 return;
             }
-            A0LogDebug(@"Email code sent to %@", weakSelf.viewModel.identifier);
+            A0LogDebug(@"Passcode sent to %@", weakSelf.viewModel.identifier);
             [weakSelf.registerButton setInProgress:NO];
             if (weakSelf.didRequestVerificationCode) {
                 weakSelf.didRequestVerificationCode();
