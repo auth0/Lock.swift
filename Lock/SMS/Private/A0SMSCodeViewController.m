@@ -118,6 +118,7 @@
     self.messageLabel.textAlignment = NSTextAlignmentCenter;
     self.codeFieldView.type = A0CredentialFieldViewOTPCode;
     self.codeFieldView.returnKeyType = UIReturnKeyGo;
+    self.codeFieldView.textField.keyboardType = UIKeyboardTypePhonePad;
     [self.codeFieldView setFieldPlaceholderText:A0LocalizedString(@"SMS Code")];
     [self.codeFieldView.textField addTarget:self action:@selector(login:) forControlEvents:UIControlEventEditingDidEndOnExit];
 }
