@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5B011CDE1E13E16500543F12 /* NotificationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B011CDD1E13E16500543F12 /* NotificationStatus.swift */; };
-		5B09717C1DC8F229003AA88F /* HRDAuthenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717B1DC8F229003AA88F /* HRDAuthenticatable.swift */; };
 		5B09717E1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717D1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift */; };
 		5B0971801DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */; };
 		5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */; };
@@ -31,6 +30,8 @@
 		5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
+		5BE4344E1E64820800950FA1 /* HRDAuthenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */; };
+		5BE4344F1E64820800950FA1 /* PasswordRecoverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */; };
 		5F0FCF901E20117E00E3D53B /* ObserverStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */; };
 		5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
@@ -84,7 +85,6 @@
 		5F73CDD01D30250900D8D8D1 /* MessagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */; };
 		5F73CDD41D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */; };
 		5F73CDD61D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */; };
-		5F73CDD81D3093BF00D8D8D1 /* PasswordRecoverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */; };
 		5F73CDDA1D30957900D8D8D1 /* DatabasePasswordInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDD91D30957900D8D8D1 /* DatabasePasswordInteractor.swift */; };
 		5F73CDDC1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDDB1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift */; };
 		5F73CDDE1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F73CDDD1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift */; };
@@ -205,7 +205,6 @@
 
 /* Begin PBXFileReference section */
 		5B011CDD1E13E16500543F12 /* NotificationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationStatus.swift; sourceTree = "<group>"; };
-		5B09717B1DC8F229003AA88F /* HRDAuthenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HRDAuthenticatable.swift; path = Lock/HRDAuthenticatable.swift; sourceTree = SOURCE_ROOT; };
 		5B09717D1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthInteractor.swift; path = Lock/EnterpriseActiveAuthInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainPresenter.swift; path = Lock/EnterpriseDomainPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainView.swift; path = Lock/EnterpriseDomainView.swift; sourceTree = SOURCE_ROOT; };
@@ -227,6 +226,8 @@
 		5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
 		5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthPresenterSpec.swift; sourceTree = "<group>"; };
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
+		5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRDAuthenticatable.swift; sourceTree = "<group>"; };
+		5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordRecoverable.swift; sourceTree = "<group>"; };
 		5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverStore.swift; sourceTree = "<group>"; };
 		5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ObserverStoreSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Lock/Colors.swift; sourceTree = SOURCE_ROOT; };
@@ -277,7 +278,6 @@
 		5F73CDCF1D30250900D8D8D1 /* MessagePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagePresenter.swift; path = Lock/MessagePresenter.swift; sourceTree = SOURCE_ROOT; };
 		5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseForgotPasswordView.swift; path = Lock/DatabaseForgotPasswordView.swift; sourceTree = SOURCE_ROOT; };
 		5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseForgotPasswordPresenter.swift; path = Lock/DatabaseForgotPasswordPresenter.swift; sourceTree = SOURCE_ROOT; };
-		5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordRecoverable.swift; path = Lock/PasswordRecoverable.swift; sourceTree = SOURCE_ROOT; };
 		5F73CDD91D30957900D8D8D1 /* DatabasePasswordInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabasePasswordInteractor.swift; path = Lock/DatabasePasswordInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5F73CDDB1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePasswordInteractorSpec.swift; sourceTree = "<group>"; };
 		5F73CDDD1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseForgotPasswordPresenterSpec.swift; sourceTree = "<group>"; };
@@ -418,6 +418,8 @@
 		5F508FF21D1D863400EAA650 /* Interactors */ = {
 			isa = PBXGroup;
 			children = (
+				5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */,
+				5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */,
 				5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */,
 				5F1C49951D8360F5005B74FC /* CDNLoaderInteractor.swift */,
 				5FC4348E1D1E0A57005188BC /* DatabaseAuthenticable.swift */,
@@ -425,14 +427,10 @@
 				5F73CDD91D30957900D8D8D1 /* DatabasePasswordInteractor.swift */,
 				5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */,
 				5B09717D1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift */,
-				5B09717B1DC8F229003AA88F /* EnterpriseDomain.swift */,
 				5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */,
 				5FBE5CBD1D3E5C7B0038536D /* MultifactorAuthenticatable.swift */,
 				5FBE5CBF1D3E5E0A0038536D /* MultifactorInteractor.swift */,
-				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
-				5B09717B1DC8F229003AA88F /* HRDAuthenticatable.swift */,
 				5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */,
-				5F73CDD71D3093BF00D8D8D1 /* PasswordRecoverable.swift */,
 				5F1C49941D8360F5005B74FC /* RemoteConnectionLoader.swift */,
 			);
 			name = Interactors;
@@ -987,12 +985,14 @@
 				5FB06A401E131D0300E62F36 /* BannerMessagePresenter.swift in Sources */,
 				5B55F3D11E244B8700B75CF5 /* UnrecoverableError.swift in Sources */,
 				5F70F1E71D790773004698DA /* OptionBuildable.swift in Sources */,
+				5BE4344E1E64820800950FA1 /* HRDAuthenticatable.swift in Sources */,
 				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5FF0B2281E1726C400A73257 /* CredentialAuth.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
 				5F2496B81D665AC500A1C6E2 /* UserAttribute.swift in Sources */,
 				5F70F1DF1D7904A3004698DA /* ConnectionBuildable.swift in Sources */,
 				5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */,
+				5BE4344F1E64820800950FA1 /* PasswordRecoverable.swift in Sources */,
 				5FD6772C1D4C303C004B87C4 /* AuthButton.swift in Sources */,
 				5F99AA8A1D1B360C00D27842 /* PrimaryButton.swift in Sources */,
 				5FEEE81C1DB80D6800B4DFED /* PasswordPolicy.swift in Sources */,
@@ -1010,7 +1010,6 @@
 				5FC434861D1DF769005188BC /* View.swift in Sources */,
 				5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */,
 				5B55F3C91E24273D00B75CF5 /* UnrecoverableErrorView.swift in Sources */,
-				5B09717C1DC8F229003AA88F /* HRDAuthenticatable.swift in Sources */,
 				5F51EE681D1C88FC0024BCD6 /* SignUpView.swift in Sources */,
 				5F57DFD41D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift in Sources */,
 				5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */,
@@ -1035,7 +1034,6 @@
 				5F99AA881D1B0E2500D27842 /* Layout.swift in Sources */,
 				5F2496BC1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift in Sources */,
 				5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */,
-				5F73CDD81D3093BF00D8D8D1 /* PasswordRecoverable.swift in Sources */,
 				5B4DE0171DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift in Sources */,
 				5F99AA841D1B0BCE00D27842 /* Lock.swift in Sources */,
 				5FBE5CBE1D3E5C7B0038536D /* MultifactorAuthenticatable.swift in Sources */,
