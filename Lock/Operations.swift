@@ -22,7 +22,7 @@
 
 import Foundation
 
-typealias DebounceAction = () -> ()
+typealias DebounceAction = () -> Void
 
 func debounce(_ delay: TimeInterval, queue: DispatchQueue, action: @escaping DebounceAction) -> DebounceAction {
     let delayTime = Int64(delay * Double(NSEC_PER_SEC))

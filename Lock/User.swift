@@ -38,9 +38,9 @@ protocol DatabaseUser {
 }
 
 class User: DatabaseUser {
-    var email: String? = nil
-    var username: String? = nil
-    var password: String? = nil
+    var email: String?
+    var username: String?
+    var password: String?
     var additionalAttributes: [String : String] = [:]
     var additionalAttributesStatus: [String: Bool] = [:]
 

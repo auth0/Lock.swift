@@ -35,7 +35,7 @@ class InputField: UIView, UITextFieldDelegate {
 
     private(set) var state: State = .invalid(nil)
 
-    private lazy var debounceShowError: () -> () = debounce(0.8, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: { [weak self] in self?.needsToUpdateState() })
+    private lazy var debounceShowError: () -> Void = debounce(0.8, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: { [weak self] in self?.needsToUpdateState() })
 
     var text: String? {
         get {
@@ -67,13 +67,13 @@ class InputField: UIView, UITextFieldDelegate {
         }
     }
 
-    var onTextChange: (InputField) -> () = {_ in}
+    var onTextChange: (InputField) -> Void = {_ in}
 
-    var onReturn: (InputField) -> () = {_ in}
+    var onReturn: (InputField) -> Void = {_ in}
 
-    var onBeginEditing: (InputField) -> () = {_ in}
+    var onBeginEditing: (InputField) -> Void = {_ in}
 
-    var onEndEditing: (InputField) -> () = {_ in}
+    var onEndEditing: (InputField) -> Void = {_ in}
 
     // MARK: - Initialisers
 

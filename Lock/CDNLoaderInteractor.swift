@@ -33,7 +33,7 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
         self.url = URL(string: "client/\(clientId).js", relativeTo: cdnURL(from: baseURL))!
     }
 
-    func load(_ callback: @escaping (UnrecoverableError?, Connections?) -> ()) {
+    func load(_ callback: @escaping (UnrecoverableError?, Connections?) -> Void) {
         self.logger.info("Loading client info from \(self.url)")
         let task = URLSession.shared.dataTask(with: self.url, completionHandler: { (data, response, error) in
             guard error?._code != NSURLErrorTimedOut else { return callback(.connectionTimeout, nil) }

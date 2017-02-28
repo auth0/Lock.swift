@@ -26,7 +26,7 @@ class SecondaryButton: UIView {
 
     weak var button: UIButton?
 
-    var onPress: (SecondaryButton) -> () = {_ in }
+    var onPress: (SecondaryButton) -> Void = {_ in }
 
     var color: UIColor = .clear {
         didSet {

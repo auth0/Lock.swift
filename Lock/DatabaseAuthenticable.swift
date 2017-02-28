@@ -34,7 +34,7 @@ protocol DatabaseAuthenticatable: CredentialAuthenticatable {
     var validUsername: Bool { get }
     mutating func update(_ attribute: UserAttribute, value: String?) throws
 
-    func login(_ callback: @escaping (CredentialAuthError?) -> ())
+    func login(_ callback: @escaping (CredentialAuthError?) -> Void)
 }
 
 protocol CredentialAuthenticatable {
@@ -44,7 +44,7 @@ protocol CredentialAuthenticatable {
 
 extension CredentialAuthenticatable {
 
-    func handle(identifier: String, result: Auth0.Result<Credentials>, callback: (CredentialAuthError?) -> ()) {
+    func handle(identifier: String, result: Auth0.Result<Credentials>, callback: (CredentialAuthError?) -> Void) {
         switch result {
         case .failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
             self.logger.error("Multifactor is required for user <\(identifier)>")

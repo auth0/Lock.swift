@@ -58,13 +58,13 @@ class SingleInputView: UIView, Form {
         }
     }
 
-    var onValueChange: (InputField) -> () = { _ in } {
+    var onValueChange: (InputField) -> Void = { _ in } {
         didSet {
             self.inputField.onTextChange = self.onValueChange
         }
     }
 
-    var onReturn: (InputField) -> () {
+    var onReturn: (InputField) -> Void {
         get {
             return self.inputField.onReturn
         }

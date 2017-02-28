@@ -31,7 +31,7 @@ public class HeaderView: UIView {
     weak var maskImageView: UIImageView?
     weak var blurView: UIVisualEffectView?
 
-    public var onClosePressed: () -> () = {}
+    public var onClosePressed: () -> Void = {}
 
     public var showClose: Bool {
         get {
@@ -42,7 +42,7 @@ public class HeaderView: UIView {
         }
     }
 
-    public var onBackPressed: () -> () = {}
+    public var onBackPressed: () -> Void = {}
 
     public var showBack: Bool {
         get {

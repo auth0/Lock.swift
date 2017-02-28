@@ -23,7 +23,7 @@
 import Foundation
 
 @objc protocol Form {
-    var onValueChange: (InputField) -> () { get set }
-    var onReturn: (InputField) -> () { get set }
+    var onValueChange: (InputField) -> Void { get set }
+    var onReturn: (InputField) -> Void { get set }
     func needsToUpdateState()
 }

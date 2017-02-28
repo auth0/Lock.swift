@@ -38,11 +38,11 @@ public struct PasswordPolicy {
     let rules: [Rule]
 
     enum Auth0: String {
-        case none = "none"
-        case low = "low"
-        case fair = "fair"
-        case good = "good"
-        case excellent = "excellent"
+        case none
+        case low
+        case fair
+        case good
+        case excellent
     }
 
     func on(_ password: String?) -> [RuleResult] {

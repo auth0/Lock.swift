@@ -28,7 +28,7 @@ protocol PasswordRecoverable {
 
     mutating func updateEmail(_ value: String?) throws
 
-    func requestEmail(_ callback: @escaping (PasswordRecoverableError?) -> ())
+    func requestEmail(_ callback: @escaping (PasswordRecoverableError?) -> Void)
 }
 
 enum PasswordRecoverableError: Error, LocalizableError {

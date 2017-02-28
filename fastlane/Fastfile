@@ -46,6 +46,7 @@ platform :ios do
     }
     prepare_cache
     test(options)
+    lint
   end
 
   lane :i18n do |options|

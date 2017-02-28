@@ -46,7 +46,7 @@ public struct Style {
     public var buttonTintColor = UIColor.white
 
         /// Header background color. By default it has no color but a blur
-    public var headerColor: UIColor? = nil
+    public var headerColor: UIColor?
 
         /// Blur effect style used. It can be any value defined in `UIBlurEffectStyle`
     public var headerBlur: UIBlurEffectStyle = .light

@@ -78,7 +78,7 @@ public class AuthButton: UIView {
         }
     }
 
-    public var onPress: (AuthButton) -> () = { _ in }
+    public var onPress: (AuthButton) -> Void = { _ in }
 
     // MARK: - Style
 

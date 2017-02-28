@@ -27,14 +27,14 @@ class CredentialView: UIView, Form {
     var identityField: InputField
     var passwordField: InputField
 
-    var onValueChange: (InputField) -> () = {_ in} {
+    var onValueChange: (InputField) -> Void = {_ in} {
         didSet {
             self.identityField.onTextChange = onValueChange
             self.passwordField.onTextChange = onValueChange
         }
     }
 
-    var onReturn: (InputField) -> () {
+    var onReturn: (InputField) -> Void {
         get {
             return self.passwordField.onReturn
         }

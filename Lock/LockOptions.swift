@@ -28,7 +28,7 @@ struct LockOptions: OptionBuildable {
     var termsOfServiceURL: URL = URL(string: "https://auth0.com/terms")!
     var privacyPolicyURL: URL = URL(string: "https://auth0.com/privacy")!
     var logLevel: LoggerLevel = .off
-    var loggerOutput: LoggerOutput? = nil
+    var loggerOutput: LoggerOutput?
     var logHttpRequest: Bool = false
     var scope: String = "openid"
     var parameters: [String : Any] = [:]
@@ -44,5 +44,5 @@ struct LockOptions: OptionBuildable {
     var enterpriseConnectionUsingActiveAuth: [String] = []
 
     var oidcConformant: Bool = false
-    var audience: String? = nil
+    var audience: String?
 }
