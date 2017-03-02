@@ -68,6 +68,7 @@ class ViewController: UIViewController {
                     .passwordless()
                     .withOptions {
                         applyDefaultOptions(&$0)
+                        //$0.passwordlessMethod = .magicLink
                     }
                     .withStyle {
                         $0.oauth2["slack"] = AuthStyle(

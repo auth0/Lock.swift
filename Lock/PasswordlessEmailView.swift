@@ -88,7 +88,9 @@ class PasswordlessEmailView: UIView, View {
             case .code:
                 formView.type = .oneTimePassword
                 formView.returnKey = .done
-                formView.message = "An email with the code has been sent to ".i18n(key: "com.auth0.passwordless.email.code.sent", comment: "Passwordless email code sent title") + (email ?? "")
+                formView.message = String(
+                    format: "An email with the code has been sent to %1$@".i18n(key: "com.auth0.passwordless.email.code.sent", comment: "Passwordless email code sent to %@{email}")
+                    , email ?? "")
                 secondaryButton.title = "Did not get the code?".i18n(key: "com.auth0.passwordless.code.reminder", comment: "Passwordless code reminder action")
                 container.addArrangedSubview(secondaryButton)
         default:
@@ -134,8 +136,8 @@ class PasswordlessEmailView: UIView, View {
         messageLabel.textAlignment = .center
         messageLabel.font = .systemFont(ofSize: 16, weight: UIFontWeightSemibold)
         messageLabel.textColor = .black
-        messageLabel.text = "We sent you a link to sign in to ".i18n(key: "com.auth0.passwordless.email.link.sent", comment: "Passwordless email link sent title") + (email ?? "")
-
+        messageLabel.text = String(format: "We sent you a link to sign in to %1$@".i18n(key: "com.auth0.passwordless.email.link.sent", comment: "Passwordless email link sent to %@{email}")
+            , email ?? "")
         secondaryButton.title = "Did not receive the link?".i18n(key: "com.auth0.passwordless.link.reminder", comment: "Passwordless link reminder action")
     }
 

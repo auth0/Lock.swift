@@ -208,10 +208,10 @@
 "com.auth0.lock.submit.signup.title" = "SIGN UP";
 // Passwordless code reminder action
 "com.auth0.passwordless.code.reminder" = "Did not get the code?";
-// Passwordless email code sent title
-"com.auth0.passwordless.email.code.sent" = "An email with the code has been sent to ";
-// Passwordless email link sent title
-"com.auth0.passwordless.email.link.sent" = "We sent you a link to sign in to ";
+// Passwordless email code sent to %@{email}
+"com.auth0.passwordless.email.code.sent" = "An email with the code has been sent to %1$@";
+// Passwordless email link sent to %@{email}
+"com.auth0.passwordless.email.link.sent" = "We sent you a link to sign in to %1$@";
 // Passwordless email title
 "com.auth0.passwordless.email.title" = "Enter your email to sign in or create an account.";
 // Passwordless email title with social
