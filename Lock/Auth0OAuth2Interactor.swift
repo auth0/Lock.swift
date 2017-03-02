@@ -70,17 +70,19 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
 
         nativeAuth.login(withConnection: connection, scope: self.options.scope, parameters: self.options.parameters)
             .start { result in
-                switch result {
-                case .success(let credentials):
-                    callback(nil)
-                    self.dispatcher.dispatch(result: .auth(credentials))
-                case .failure(WebAuthError.userCancelled):
-                    callback(.cancelled)
-                    self.dispatcher.dispatch(result: .error(WebAuthError.userCancelled))
-                case .failure(let error):
-                    callback(.couldNotAuthenticate)
-                    self.dispatcher.dispatch(result: .error(error))
+                Queue.main.async {
+                    switch result {
+                    case .success(let credentials):
+                        callback(nil)
+                        self.dispatcher.dispatch(result: .auth(credentials))
+                    case .failure(WebAuthError.userCancelled):
+                        callback(.cancelled)
+                        self.dispatcher.dispatch(result: .error(WebAuthError.userCancelled))
+                    case .failure(let error):
+                        callback(.couldNotAuthenticate)
+                        self.dispatcher.dispatch(result: .error(error))
+                    }
                 }
-        }
+            }
     }
 }
