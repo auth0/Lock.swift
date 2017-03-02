@@ -26,6 +26,14 @@ protocol InputValidator {
     func validate(_ value: String?) -> Error?
 }
 
+public class PhoneValidator: InputValidator {
+    func validate(_ value: String?) -> Error? {
+        guard let value = value?.trimmed, !value.isEmpty else { return InputValidationError.mustNotBeEmpty }
+        guard value.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil else { return InputValidationError.notAOneTimePassword }
+        return nil
+    }
+}
+
 public class OneTimePasswordValidator: InputValidator {
     func validate(_ value: String?) -> Error? {
         guard let value = value?.trimmed, !value.isEmpty else { return InputValidationError.mustNotBeEmpty }

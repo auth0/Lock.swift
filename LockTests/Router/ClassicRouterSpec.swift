@@ -149,6 +149,80 @@ class ClassicRouterSpec: QuickSpec {
                 expect(router.root as? PasswordlessPresenter).to(beNil())
             }
 
+            describe("passwordless") {
+
+                beforeEach {
+                    lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth()).withOptions{ $0.passwordless = true }
+                    controller = MockLockController(lock: lock)
+                    header = HeaderView()
+                    controller.headerView = header
+                    router = Router(lock: lock, controller: controller)
+                }
+
+                it("should be passwordless enabled") {
+                    expect(lock.options.passwordless) == true
+                }
+
+                it("should return root for passwordless email connection") {
+                    _ = lock.withConnections {
+                        $0.passwordless(name: "email")
+                    }
+                    let presenter = router.root as? PasswordlessPresenter
+                    expect(presenter).toNot(beNil())
+                }
+
+                it("should not return root for passwordless sms connection") {
+                    _ = lock.withConnections {
+                        $0.passwordless(name: "sms")
+                    }
+                    let presenter = router.root as? PasswordlessPresenter
+                    expect(presenter).to(beNil())
+                }
+
+                it("should return for only social connections") {
+                    _ = lock.withConnections {
+                        $0.social(name: "facebook", style: .Facebook)
+                    }
+                    let presenter = router.root as? AuthPresenter
+                    expect(presenter).toNot(beNil())
+                }
+
+                it("should return root for social connections and passwordless email") {
+                    _ = lock.withConnections {
+                        $0.social(name: "facebook", style: .Facebook)
+                        $0.passwordless(name: "email")
+                    }
+                    let presenter = router.root as? PasswordlessPresenter
+                    expect(presenter).toNot(beNil())
+                    expect(presenter?.authPresenter).toNot(beNil())
+                }
+
+                it("should not return root for social connections and passwordless sms") {
+                    _ = lock.withConnections {
+                        $0.social(name: "facebook", style: .Facebook)
+                        $0.passwordless(name: "sms")
+                    }
+                    let presenter = router.root as? PasswordlessPresenter
+                    expect(presenter).to(beNil())
+                }
+
+                it("should not return root for single database connection") {
+                    _ = lock.withConnections { $0.database(name: connection, requiresUsername: true) }
+                    let root = router.root as? DatabasePresenter
+                    expect(root).to(beNil())
+                }
+
+                it("should not return root for only enterprise connections") {
+                    _ = lock.withConnections {
+                        $0.enterprise(name: "testAD", domains: ["testAD.com"])
+                        $0.enterprise(name: "validAD", domains: ["validAD.com"])
+                    }
+                    expect(router.root as? EnterpriseDomainPresenter).to(beNil())
+                }
+
+            }
+
+
         }
 
         describe("events") {

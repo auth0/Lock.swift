@@ -1,4 +1,4 @@
-// PasswordlessView.swift
+// PasswordlessEmailView.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -22,7 +22,7 @@
 
 import UIKit
 
-class PasswordlessEmailView: UIView, View {
+class PasswordlessView: UIView, View {
 
     weak var form: Form?
     weak var primaryButton: PrimaryButton?
@@ -93,6 +93,72 @@ class PasswordlessEmailView: UIView, View {
                     email ?? "")
                 secondaryButton.title = "Did not get the code?".i18n(key: "com.auth0.passwordless.code.reminder", comment: "Passwordless code reminder action")
                 container.addArrangedSubview(secondaryButton)
+        default:
+            break
+        }
+
+    }
+
+    func showForm(phone: String?, screen: PasswordlessScreen, authCollectionView: AuthCollectionView?) {
+        let primaryButton = PrimaryButton()
+        let secondaryButton = SecondaryButton()
+        let formView = SingleInputView()
+        let container = UIStackView()
+        let center = UILayoutGuide()
+
+        self.primaryButton = primaryButton
+        self.secondaryButton = secondaryButton
+        self.form = formView
+
+        self.addSubview(container)
+        self.addSubview(primaryButton)
+        self.addLayoutGuide(center)
+
+        container.alignment = .fill
+        container.axis = .vertical
+        container.distribution = .equalSpacing
+        container.spacing = 10
+
+        constraintEqual(anchor: center.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: center.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: center.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: center.bottomAnchor, toAnchor: primaryButton.topAnchor)
+
+        constraintEqual(anchor: container.leftAnchor, toAnchor: center.leftAnchor)
+        constraintEqual(anchor: container.rightAnchor, toAnchor: center.rightAnchor)
+        constraintEqual(anchor: container.centerYAnchor, toAnchor: center.centerYAnchor)
+        constraintGreaterOrEqual(anchor: container.topAnchor, toAnchor: center.topAnchor)
+        container.translatesAutoresizingMaskIntoConstraints = false
+
+        constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
+        primaryButton.translatesAutoresizingMaskIntoConstraints = false
+
+        container.addArrangedSubview(strutView(withHeight: 25))
+        if let authView = authCollectionView {
+            container.addArrangedSubview(authView)
+        }
+        container.addArrangedSubview(formView)
+
+        switch screen {
+        case .request:
+            formView.type = .phone
+            formView.returnKey = .done
+            if authCollectionView != nil {
+                formView.message = "Otherwise, enter your phone to sign in or create an account.".i18n(key: "com.auth0.passwordless.sms.title.social", comment: "Passwordless sms title with social")
+            } else {
+                formView.message = "Enter your phone to sign in or create an account.".i18n(key: "com.auth0.passwordless.sms.title", comment: "Passwordless sms title")
+            }
+            formView.value = phone
+            container.addArrangedSubview(strutView(withHeight: 25))
+        case .code:
+            formView.type = .oneTimePassword
+            formView.returnKey = .done
+            formView.message = String(
+                format: "An SMS with the code has been sent to %1$@".i18n(key: "com.auth0.passwordless.sms.code.sent", comment: "Passwordless email code sent to %@{phone}"), phone ?? "")
+            secondaryButton.title = "Did not get the code?".i18n(key: "com.auth0.passwordless.code.reminder", comment: "Passwordless code reminder action")
+            container.addArrangedSubview(secondaryButton)
         default:
             break
         }

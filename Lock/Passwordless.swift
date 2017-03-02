@@ -31,4 +31,15 @@ enum PasswordlessScreen {
 public enum PasswordlessMethod: Int, Equatable {
     case emailCode = 0
     case emailLink
+    case smsCode
+    case smsLink
+
+    var mode: String {
+        switch self {
+        case .emailCode, .emailLink:
+            return "email"
+        case .smsCode, .smsLink:
+            return "sms"
+        }
+    }
 }

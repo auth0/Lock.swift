@@ -53,16 +53,18 @@ class PasswordlessPresenter: Presentable, Loggable {
     private func showForm(screen: PasswordlessScreen) -> View {
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18), isLogin: true)
 
-        let view = PasswordlessEmailView()
-        view.showForm(email: self.interactor.identifier, screen: screen, authCollectionView: authCollectionView)
+        let view = PasswordlessView()
+        if self.options.passwordlessMethod.mode == "email" {
+            view.showForm(email: self.interactor.identifier, screen: screen, authCollectionView: authCollectionView)
+        } else {
+            view.showForm(phone: self.interactor.identifier, screen: screen, authCollectionView: authCollectionView)
+        }
         let form = view.form
-
-        let inputMode = screen == .request ? InputField.InputType.email : InputField.InputType.oneTimePassword
 
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
             do {
-                try self.interactor.update(inputMode, value: input.text)
+                try self.interactor.update(input.type, value: input.text)
                 input.showValid()
             } catch {
                 input.showError()
@@ -84,10 +86,10 @@ class PasswordlessPresenter: Presentable, Loggable {
                             self.messagePresenter?.showError(error)
                             self.logger.error("Failed with error \(error)")
                         } else {
-                            if self.options.passwordlessMethod == .emailCode {
-                                self.navigator.navigate(Route.passwordlessEmail(screen: .code, connection: connection))
+                            if self.options.passwordlessMethod == .emailCode || self.options.passwordlessMethod == .smsCode {
+                                self.navigator.navigate(Route.passwordless(screen: .code, connection: connection))
                             } else {
-                                self.navigator.navigate(Route.passwordlessEmail(screen: .linkSent, connection: connection))
+                                self.navigator.navigate(Route.passwordless(screen: .linkSent, connection: connection))
                             }
                         }
                     }
@@ -122,7 +124,7 @@ class PasswordlessPresenter: Presentable, Loggable {
     }
 
     private func showLinkSent() -> View {
-        let view = PasswordlessEmailView()
+        let view = PasswordlessView()
         view.showLinkSent(email: self.interactor.identifier)
         view.secondaryButton?.onPress = { button in
             self.navigator.onBack()

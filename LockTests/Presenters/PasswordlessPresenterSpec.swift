@@ -68,8 +68,8 @@ class PasswordlessPresenterSpec: QuickSpec {
                 expect(form.type) == InputField.InputType.email
             }
 
-            it("should expect no title on secondary button") {
-                expect(view.secondaryButton!.title).to(beNil())
+            it("should expect no secondary button") {
+                expect(view.secondaryButton).to(beNil())
             }
 
             describe("input") {

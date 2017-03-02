@@ -330,7 +330,7 @@ public class Lock: NSObject {
 
      - returns: true if the link is of the appropriate format, false otherwise
      */
-    public static func continueActivity(_ userActivity: NSUserActivity) -> Bool {
+    public static func continueAuth(withActivity userActivity: NSUserActivity) -> Bool {
         return PasswordlessActivity.shared.continueAuth(withActivity: userActivity)
     }
 
