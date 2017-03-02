@@ -268,7 +268,7 @@ public class Lock: NSObject {
      
      - returns: Lock itself for chaining
      */
-    public func handlerAuthentication(forConnectionName name: String, handler: AuthProvider) -> Lock {
+    public func nativeAuthentication(forConnection name: String, handler: AuthProvider) -> Lock {
         self.nativeHandlers[name] = handler
         return self
     }
