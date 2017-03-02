@@ -155,13 +155,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5F99AA771D1A7FB600D27842 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5FEAE1BD1D1A5154005C0028 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5FEADCF31D1A7EBC0032D810;
-			remoteInfo = LockApp;
-		};
 		5FEADD081D1A7F010032D810 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5FEAE1BD1D1A5154005C0028 /* Project object */;
@@ -823,7 +816,6 @@
 			);
 			dependencies = (
 				5FEAE1D31D1A5154005C0028 /* PBXTargetDependency */,
-				5F99AA781D1A7FB600D27842 /* PBXTargetDependency */,
 			);
 			name = LockTests.iOS;
 			productName = LockTests;
@@ -1105,11 +1097,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5F99AA781D1A7FB600D27842 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5FEADCF31D1A7EBC0032D810 /* LockApp */;
-			targetProxy = 5F99AA771D1A7FB600D27842 /* PBXContainerItemProxy */;
-		};
 		5FEADD091D1A7F010032D810 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5FEAE1C51D1A5154005C0028 /* Lock.iOS */;

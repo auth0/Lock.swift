@@ -152,14 +152,14 @@ class LockSpec: QuickSpec {
             it("should regsiter native handler") {
                 let nativeHandler = MockNativeAuthHandler()
                 let name = "facebook"
-                _ = lock.handlerAuthentication(forConnectionName: name, handler: nativeHandler)
+                _ = lock.nativeAuthentication(forConnection: name, handler: nativeHandler)
                 expect(lock.nativeHandlers[name]).toNot(beNil())
             }
 
             it("should regsiter native handler to multiple connections") {
                 let nativeHandler = MockNativeAuthHandler()
-                _ = lock.handlerAuthentication(forConnectionName: "facebook", handler: nativeHandler)
-                _ = lock.handlerAuthentication(forConnectionName: "facebookcorp", handler: nativeHandler)
+                _ = lock.nativeAuthentication(forConnection: "facebook", handler: nativeHandler)
+                _ = lock.nativeAuthentication(forConnection: "facebookcorp", handler: nativeHandler)
                 expect(lock.nativeHandlers["facebook"]).toNot(beNil())
                 expect(lock.nativeHandlers["facebookcorp"]).toNot(beNil())
             }

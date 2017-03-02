@@ -138,7 +138,7 @@ class RouterSpec: QuickSpec {
             it("should return root for single native social") {
                 _ = lock.withConnections {
                     $0.social(name: "facebook", style: .Facebook)
-                }.handlerAuthentication(forConnectionName: "facebook", handler: MockNativeAuthHandler())
+                }.nativeAuthentication(forConnection: "facebook", handler: MockNativeAuthHandler())
                 expect(router.root as? AuthPresenter).toNot(beNil())
             }
         }
