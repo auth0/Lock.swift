@@ -85,7 +85,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 user.validEmail = true
                 presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
 
-                let view = (presenter.view as? EnterpriseDomainView)?.form as? EnterpriseSingleInputView
+                let view = (presenter.view as? EnterpriseDomainView)?.form as? SingleInputView
                 expect(view?.value) == email
             }
 
@@ -94,7 +94,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 user.validEmail = false
                 presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
 
-                let view = (presenter.view as? EnterpriseDomainView)?.form as? EnterpriseSingleInputView
+                let view = (presenter.view as? EnterpriseDomainView)?.form as? SingleInputView
                 expect(view?.value) != email
             }
         }

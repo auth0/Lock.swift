@@ -33,7 +33,7 @@ class EnterpriseDomainView: UIView, View {
 
     init(email: String?, authCollectionView: AuthCollectionView? = nil) {
         let primaryButton = PrimaryButton()
-        let domainView = EnterpriseSingleInputView()
+        let domainView = SingleInputView()
         let container = UIStackView()
         let ssoBar = InfoBarView.ssoInfoBar
 
@@ -120,8 +120,8 @@ class EnterpriseDomainView: UIView, View {
         container.addArrangedSubview(strutView())
 
         constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
-        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
+        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: container.bottomAnchor, toAnchor: self.bottomAnchor)
         container.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -134,18 +134,4 @@ class EnterpriseDomainView: UIView, View {
         self.primaryButton?.apply(style: style)
     }
 
-}
-
-private func strutView(withHeight height: CGFloat = 50) -> UIView {
-    let view = UIView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    dimension(dimension: view.heightAnchor, withValue: height)
-    return view
-}
-
-class EnterpriseSingleInputView: SingleInputView {
-
-    public override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 50)
-    }
 }

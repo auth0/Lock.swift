@@ -29,6 +29,7 @@ class PasswordlessPresenter: Presentable, Loggable {
     let navigator: Navigable
     let options: Options
     let screen: PasswordlessScreen
+    var authPresenter: AuthPresenter?
 
     init(interactor: PasswordlessAuthenticatable, connection: PasswordlessConnection, navigator: Navigable, options: Options, screen: PasswordlessScreen = .request) {
         self.interactor = interactor
@@ -50,7 +51,10 @@ class PasswordlessPresenter: Presentable, Loggable {
     }
 
     private func showForm(screen: PasswordlessScreen) -> View {
-        let view = PasswordlessEmailView(withView: screen, email: self.interactor.identifier)
+        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18), isLogin: true)
+
+        let view = PasswordlessEmailView()
+        view.showForm(email: self.interactor.identifier, screen: screen, authCollectionView: authCollectionView)
         let form = view.form
 
         let inputMode = screen == .request ? InputField.InputType.email : InputField.InputType.oneTimePassword
@@ -118,7 +122,8 @@ class PasswordlessPresenter: Presentable, Loggable {
     }
 
     private func showLinkSent() -> View {
-        let view = PasswordlessEmailView(withView: .linkSent, email: self.interactor.identifier)
+        let view = PasswordlessEmailView()
+        view.showLinkSent(email: self.interactor.identifier)
         view.secondaryButton?.onPress = { button in
             self.navigator.onBack()
         }

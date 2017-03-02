@@ -205,7 +205,7 @@ class LockSpec: QuickSpec {
         }
 
         it("should allow to continue activity") {
-            expect(Lock.continueActivity(NSUserActivity(activityType: "test"))) == false
+            expect(Lock.continueAuth(withActivity: NSUserActivity(activityType: "test"))) == false
         }
 
     }

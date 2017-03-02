@@ -49,4 +49,5 @@ public protocol Options {
     var audience: String? { get }
 
     var passwordlessMethod: PasswordlessMethod { get }
+    var passwordless: Bool { get }
 }

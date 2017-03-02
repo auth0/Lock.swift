@@ -174,6 +174,53 @@ Lock provides many styling options to help you apply your own brand identity to 
 }
 ```
 
+## Passwordless
+
+Lock Passwordless handles authentication using Passwordless & Social Connections.
+
+To show Lock, add the following snippet in your `UIViewController`
+
+```swift
+Lock
+    .passwordless()
+    .withOptions {
+        $0.closable = false
+    }
+    .withStyle {
+      $0.title = "Welcome to my App!"
+    }
+    .onAuth {
+      print("Obtained credentials \($0)")
+    }
+    .onError {
+      print("Failed with \($0)")
+    }
+    .onCancel {
+      print("User cancelled")
+    }
+    .present(from: self)
+```
+
+#### Passwordless Method
+
+When using passworldess the default method is `.code` which sends the user a one time passcode to login. If you want to use universal links you can use:
+
+```swift
+.withOptions {
+  $0.passwordlessMethod = .magicLink
+}
+```
+
+#### Activity callback
+
+If you are using passwordless connections and have specified the `.magicLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
+
+```swift
+func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    return Lock.continueAuth(withActivity: userActivity)
+}
+```
+
 ## Customization options
 
 Lock provides numerous options to customize the Lock experience.
@@ -306,16 +353,6 @@ When signing up the default information requirements are the user's *email* and 
 .withOptions {
   $0.activeDirectoryEmailAsUsername = true
   $0.enterpriseConnectionUsingActiveAuth = ["enterprisedomain.com"]
-}
-```
-
-#### Passwordless
-
-If you are using passwordless connections and have specified the `.magicLink` option to send the user universal links then you will need to add the following to your `AppDelegate.swift`:
-
-```swift
-func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-  return Lock.continueActivity(userActivity)
 }
 ```
 

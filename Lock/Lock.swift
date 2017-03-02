@@ -75,7 +75,7 @@ public class Lock: NSObject {
     }
 
     /**
-     Creates a new Lock instance loading Auth0 client info from `Auth0.plist` file in main bundle.
+     Creates a new Classic Lock instance loading Auth0 client info from `Auth0.plist` file in main bundle.
 
      The property list file should contain the following sections:
 
@@ -86,6 +86,21 @@ public class Lock: NSObject {
      */
     public static func classic() -> Lock {
         return Lock()
+    }
+
+    /**
+     Creates a new Passwordless Lock instance loading Auth0 client info from `Auth0.plist` file in main bundle.
+
+     The property list file should contain the following sections:
+
+     - CliendId: your Auth0 client identifier
+     - Domain: your Auth0 domain
+
+     - returns: a newly created Lock instance
+     */
+    public static func passwordless() -> Lock {
+        let newLock = Lock()
+        return newLock.withOptions { $0.passwordless = true }
     }
 
     /**
@@ -302,7 +317,7 @@ public class Lock: NSObject {
 
      - returns: true if the link is of the appropriate format, false otherwise
      */
-    public static func continueActivity(_ userActivity: NSUserActivity) -> Bool {
+    public static func continueAuth(withActivity userActivity: NSUserActivity) -> Bool {
         return PasswordlessActivity.shared.continueAuth(withActivity: userActivity)
     }
 }

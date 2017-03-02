@@ -96,6 +96,10 @@ class OptionsSpec: QuickSpec {
             it("should be passwordless code method") {
                 expect(options.passwordlessMethod).to(equal(PasswordlessMethod.code))
             }
+
+            it("should be false by default") {
+                expect(options.passwordless) == false
+            }
         }
 
         describe("validation") {
@@ -148,6 +152,12 @@ class OptionsSpec: QuickSpec {
                 options.oidcConformant = true
                 options.audience = "https://myapi.com"
                 expect(options.validate()).to(beNil())
+            }
+
+            it("should fail setting audience in passwordless mode") {
+                options.passwordless = true
+                options.audience = "https://myapi.com"
+                expect(options.validate()).toNot(beNil())
             }
 
             context("auto close") {

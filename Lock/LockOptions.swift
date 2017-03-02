@@ -40,7 +40,6 @@ struct LockOptions: OptionBuildable {
     var customSignupFields: [CustomTextField] = []
     var loginAfterSignup: Bool = true
 
-    // Enterprise
     var activeDirectoryEmailAsUsername: Bool = false
     var enterpriseConnectionUsingActiveAuth: [String] = []
 
@@ -48,4 +47,5 @@ struct LockOptions: OptionBuildable {
     var audience: String?
 
     var passwordlessMethod: PasswordlessMethod = .code
+    var passwordless: Bool = false
 }

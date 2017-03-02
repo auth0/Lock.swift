@@ -545,6 +545,7 @@
 				5F70F1E41D790735004698DA /* Options.swift */,
 				5F70F1E81D7907D5004698DA /* LockOptions.swift */,
 				5F1C499A1D836190005B74FC /* CustomTextField.swift */,
+				5F70F1E61D790773004698DA /* OptionBuildable.swift */,
 			);
 			name = Options;
 			path = Lock;
@@ -626,7 +627,6 @@
 				5F1C498F1D8360BF005B74FC /* ConnectionLoadingPresenter.swift */,
 				5B55F3CA1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift */,
 				5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */,
-				5F70F1E61D790773004698DA /* OptionBuildable.swift */,
 				5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */,
 				5B9A54491E4B354A004B5454 /* PasswordlessPresenter.swift */,
 				5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */,
