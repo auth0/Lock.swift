@@ -39,7 +39,7 @@ public class Lock: NSObject {
 
     var observerStore = ObserverStore()
 
-    var nativeHandlers: [NativeHandler] = []
+    var nativeHandlers: [String: AuthProvider] = [:]
 
     var style: Style = Style()
 
@@ -264,13 +264,12 @@ public class Lock: NSObject {
      Lock-Facebook to provide native authentication.
 
      - parameter name: connection name that will use the specified auth provider
-     - paramater handler: the auth provider to use
+     - parameter handler: the auth provider to use
      
      - returns: Lock itself for chaining
      */
     public func handlerAuthentication(forConnectionName name: String, handler: AuthProvider) -> Lock {
-        let nativeHandler = NativeHandler(name: [name], handler: handler)
-        self.nativeHandlers.append(nativeHandler)
+        self.nativeHandlers[name] = handler
         return self
     }
 }

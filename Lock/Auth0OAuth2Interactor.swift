@@ -28,11 +28,11 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
     let webAuth: Auth0.WebAuth
     let dispatcher: Dispatcher
     let options: Options
-    let nativeHandlers: [NativeHandler]
+    let nativeHandlers: [String: AuthProvider]
 
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
-        if let nativeHandler = nativeHandlers.filter({ $0.name.contains(connection)}).first {
-            self.nativeAuth(connection, nativeAuth: nativeHandler.handler, callback: callback)
+        if let nativeHandler = self.nativeHandlers[connection] {
+            self.nativeAuth(connection, nativeAuth: nativeHandler, callback: callback)
         } else {
             self.webAuth(connection, callback: callback)
         }
