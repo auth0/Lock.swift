@@ -32,13 +32,13 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
 
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         if let nativeHandler = self.nativeHandlers[connection] {
-            self.nativeAuth(connection, nativeAuth: nativeHandler, callback: callback)
+            self.nativeAuth(withConnection: connection, nativeAuth: nativeHandler, callback: callback)
         } else {
-            self.webAuth(connection, callback: callback)
+            self.webAuth(withConnection: connection, callback: callback)
         }
     }
 
-    private func webAuth(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    private func webAuth(withConnection connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         var parameters: [String: String] = [:]
         self.options.parameters.forEach { parameters[$0] = "\($1)" }
         var auth = self.webAuth
@@ -66,7 +66,7 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
         }
     }
 
-    private func nativeAuth(_ connection: String, nativeAuth: AuthProvider, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    private func nativeAuth(withConnection connection: String, nativeAuth: AuthProvider, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
 
         nativeAuth.login(withConnection: connection, scope: self.options.scope, parameters: self.options.parameters)
             .start { result in
