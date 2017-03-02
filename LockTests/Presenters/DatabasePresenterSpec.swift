@@ -78,6 +78,12 @@ class DatabasePresenterSpec: QuickSpec {
                 expect(view?.authCollectionView) == newView
             }
 
+            it("should set message presenter") {
+                let messagePresenter = MockMessagePresenter()
+                presenter.authPresenter = authPresenter
+                presenter.messagePresenter = messagePresenter
+                expect(authPresenter.messagePresenter).toNot(beNil())
+            }
         }
 
         describe("user state") {

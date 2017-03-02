@@ -42,7 +42,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
         var webAuth: MockWebAuth!
         var options: LockOptions!
         var credentials: Credentials?
-        var nativeHandlers: [NativeHandler] = []
+        var nativeHandlers: [String: AuthProvider] = [:]
         var authHandler: MockNativeAuthHandler!
         var interactor: OAuth2Authenticatable!
         var dispatcher: ObserverStore!
@@ -132,7 +132,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
 
             beforeEach {
                 nativeHandlers.removeAll()
-                nativeHandlers.append(NativeHandler(name: ["facebook"], handler: authHandler))
+                nativeHandlers["facebook"] = authHandler
                 interactor = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
             }
 
