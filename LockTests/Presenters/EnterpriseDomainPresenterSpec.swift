@@ -44,6 +44,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             messagePresenter = MockMessagePresenter()
             oauth2 = MockOAuth2()
             authPresenter = MockAuthPresenter(connections: [], interactor: MockAuthInteractor(), customStyle: [:])
+            user = User()
             navigator = MockNavigator()
             options = LockOptions()
             user = User()
@@ -234,6 +235,12 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
                 expect(view?.authCollectionView).to(beNil())
             }
 
+            it("should set message presenter") {
+                let messagePresenter = MockMessagePresenter()
+                presenter.authPresenter = authPresenter
+                presenter.messagePresenter = messagePresenter
+                expect(authPresenter.messagePresenter).toNot(beNil())
+            }
         }
     }
 

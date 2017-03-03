@@ -28,8 +28,17 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
     let webAuth: Auth0.WebAuth
     let dispatcher: Dispatcher
     let options: Options
+    let nativeHandlers: [String: AuthProvider]
 
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+        if let nativeHandler = self.nativeHandlers[connection] {
+            self.nativeAuth(withConnection: connection, nativeAuth: nativeHandler, callback: callback)
+        } else {
+            self.webAuth(withConnection: connection, callback: callback)
+        }
+    }
+
+    private func webAuth(withConnection connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         var parameters: [String: String] = [:]
         self.options.parameters.forEach { parameters[$0] = "\($1)" }
         var auth = self.webAuth
@@ -53,6 +62,23 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
                 case .failure:
                     callback(.couldNotAuthenticate)
                     self.dispatcher.dispatch(result: .error(OAuth2AuthenticatableError.couldNotAuthenticate))
+                }
+        }
+    }
+
+    private func nativeAuth(withConnection connection: String, nativeAuth: AuthProvider, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+
+        nativeAuth.login(withConnection: connection, scope: self.options.scope, parameters: self.options.parameters)
+            .start { result in
+                Queue.main.async {
+                    switch result {
+                    case .success(let credentials):
+                        callback(nil)
+                        self.dispatcher.dispatch(result: .auth(credentials))
+                    case .failure(let error):
+                        callback(.couldNotAuthenticate)
+                        self.dispatcher.dispatch(result: .error(error))
+                    }
                 }
             }
     }

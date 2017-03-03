@@ -32,7 +32,12 @@ class DatabasePresenter: Presentable, Loggable {
     var creator: DatabaseUserCreator
     var navigator: Navigable
 
-    var messagePresenter: MessagePresenter?
+    var messagePresenter: MessagePresenter? {
+        didSet {
+            self.authPresenter?.messagePresenter = self.messagePresenter
+        }
+    }
+
     var authPresenter: AuthPresenter?
     var enterpriseInteractor: EnterpriseDomainInteractor?
 

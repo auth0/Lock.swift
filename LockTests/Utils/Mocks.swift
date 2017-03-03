@@ -156,6 +156,8 @@ class MockMultifactorInteractor: MultifactorAuthenticatable {
 class MockAuthInteractor: OAuth2Authenticatable {
     func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
     }
+    func socialIdPAuth(connection: String, accessToken: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    }
 }
 
 class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
@@ -299,4 +301,57 @@ class MockController: UIViewController {
         self.presented = nil
         completion?()
     }
+}
+
+
+class MockNativeAuthHandler: AuthProvider {
+
+    var transaction: MockNativeAuthTransaction!
+    var authentication: Authentication!
+
+    func login(withConnection connection: String, scope: String, parameters: [String : Any]) -> NativeAuthTransaction {
+        let transaction = MockNativeAuthTransaction(connection: connection, scope: scope, parameters: parameters, authentication: self.authentication)
+        self.transaction = transaction
+        return transaction
+    }
+}
+
+class MockNativeAuthTransaction: NativeAuthTransaction {
+    var connection: String
+    var scope: String
+    var parameters: [String : Any]
+    var authentication: Authentication
+
+    init(connection: String, scope: String, parameters: [String: Any], authentication: Authentication) {
+        self.connection = connection
+        self.scope = scope
+        self.parameters = parameters
+        self.authentication = authentication
+    }
+
+    var delayed: NativeAuthTransaction.Callback = { _ in }
+
+    func auth(callback: @escaping NativeAuthTransaction.Callback) {
+        self.delayed = callback
+    }
+
+    func cancel() {
+        self.delayed(.failure(error: WebAuthError.userCancelled))
+        self.delayed = { _ in }
+    }
+
+    func resume(_ url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        self.delayed(self.onNativeAuth())
+        self.delayed = { _ in }
+        return true
+    }
+
+    /// Test Hooks
+    var onNativeAuth: () -> Auth0.Result<NativeAuthCredentials> = {
+        return .success(result: NativeAuthCredentials(token: "SocialToken", extras: [:]))
+    }
+}
+
+func mockCredentials() -> Credentials {
+    return Credentials(accessToken: UUID().uuidString, tokenType: "Bearer")
 }

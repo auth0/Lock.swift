@@ -48,17 +48,16 @@ class ViewController: UIViewController {
             actionButton(withTitle: "LOGIN WITH CDN") {
                 return Lock
                     .classic()
-                        .withOptions {
-                            applyDefaultOptions(&$0)
-                            $0.enterpriseConnectionUsingActiveAuth = ["contoso-ad"]
-                        }
-                        .withStyle {
-                            $0.oauth2["slack"] = AuthStyle(
+                    .withOptions {
+                        applyDefaultOptions(&$0)
+                    }
+                    .withStyle {
+                        $0.oauth2["slack"] = AuthStyle(
                             name: "Slack",
                             color: UIColor ( red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0 ),
                             withImage: LazyImage(name: "ic_slack")
-                            )
-                        }
+                        )
+                    }
             },
             actionButton(withTitle: "LOGIN WITH CUSTOM STYLE") {
                 return Lock

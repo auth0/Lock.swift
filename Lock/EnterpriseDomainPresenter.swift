@@ -34,7 +34,12 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
         self.options = options
     }
 
-    var messagePresenter: MessagePresenter?
+    var messagePresenter: MessagePresenter? {
+        didSet {
+            self.authPresenter?.messagePresenter = messagePresenter
+        }
+    }
+
     var navigator: Navigable?
 
     var view: View {

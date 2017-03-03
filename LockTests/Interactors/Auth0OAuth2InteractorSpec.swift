@@ -22,31 +22,47 @@
 
 import Quick
 import Nimble
+import OHHTTPStubs
 
 import Auth0
 @testable import Lock
+
+private let DomainURL = URL(fileURLWithPath: domain)
+private let Timeout = 2.0
+private let AccessToken = UUID().uuidString.replacingOccurrences(of: "-", with: "")
+private let IdToken = UUID().uuidString.replacingOccurrences(of: "-", with: "")
+private let FacebookToken = UUID().uuidString.replacingOccurrences(of: "-", with: "")
 
 class Auth0OAuth2InteractorSpec: QuickSpec {
 
     override func spec() {
 
+        let authentication = Auth0.authentication(clientId: clientId, domain: domain)
+
         var webAuth: MockWebAuth!
         var options: LockOptions!
         var credentials: Credentials?
-
-        var interactor: Auth0OAuth2Interactor {
-            var dispatcher = ObserverStore()
-            dispatcher.onAuth = { credentials = $0 }
-            return Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options)
-        }
+        var nativeHandlers: [String: AuthProvider] = [:]
+        var authHandler: MockNativeAuthHandler!
+        var interactor: OAuth2Authenticatable!
+        var dispatcher: ObserverStore!
 
         beforeEach {
             credentials = nil
             webAuth = MockWebAuth()
             options = LockOptions()
+            authHandler = MockNativeAuthHandler()
+            authHandler.authentication = authentication
+            dispatcher = ObserverStore()
+            dispatcher.onAuth = { credentials = $0 }
+            interactor = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
         }
 
-        describe("login") {
+        afterEach {
+            Auth0Stubs.cleanAll()
+        }
+
+        describe("web auth login") {
 
             var error: OAuth2AuthenticatableError?
 
@@ -72,6 +88,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
 
             it("should set audience") {
                 options.audience = "https://myapi.com/v1"
+                interactor = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
                 interactor.login("facebook", callback: { _ in })
                 expect(webAuth.audience) == "https://myapi.com/v1"
             }
@@ -79,6 +96,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
             it("should set parameters") {
                 let state = UUID().uuidString
                 options.parameters = ["state": state as Any]
+                interactor = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
                 interactor.login("facebook", callback: { _ in })
                 expect(webAuth.params["state"]) == state
             }
@@ -109,9 +127,42 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
             }
 
         }
+
+        describe("native auth login") {
+
+            beforeEach {
+                nativeHandlers.removeAll()
+                nativeHandlers["facebook"] = authHandler
+                interactor = Auth0OAuth2Interactor(webAuth: webAuth, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
+            }
+
+            afterEach {
+                _ = Auth0.resumeAuth(DomainURL, options: [:])
+            }
+
+            it("should yield no error on success") {
+                stub(condition: isOAuthAccessToken(domain) && hasAtLeast(["access_token": "SocialToken", "connection": "facebook"])) { _ in return Auth0Stubs.authentication() }.name = "Social Auth"
+                waitUntil(timeout: Timeout) { done in
+                    interactor.login("facebook") { error in
+                        expect(error).to(beNil())
+                        done()
+                    }
+                    _ = authHandler.transaction.resume(DomainURL, options: [:])
+                }
+            }
+
+            it("should yield error on failure") {
+                stub(condition: isOAuthAccessToken(domain) && hasAtLeast(["access_token": "SocialToken", "connection": "facebook"])) { _ in return Auth0Stubs.failure() }.name = "Social Auth Fail"
+                waitUntil(timeout: Timeout) { done in
+                    interactor.login("facebook") { error in
+                        expect(error).toNot(beNil())
+                        done()
+                    }
+                    _ = authHandler.transaction.resume(DomainURL, options: [:])
+                }
+            }
+            
+        }
     }
 }
 
-func mockCredentials() -> Credentials {
-    return Credentials(accessToken: UUID().uuidString, tokenType: "Bearer")
-}

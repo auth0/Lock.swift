@@ -88,29 +88,31 @@ class AuthPresenterSpec: QuickSpec {
 
         describe("action") {
 
-            var view: AuthCollectionView!
+            context("oauth2") {
 
-            beforeEach {
-                view = presenter.view as! AuthCollectionView
+                var view: AuthCollectionView!
 
+                beforeEach {
+                    view = presenter.view as! AuthCollectionView
+
+                }
+
+                it("should login with connection") {
+                    view.onAction("social0")
+                    expect(interactor.connection) == "social0"
+                }
+
+                it("should hide current message on start") {
+                    view.onAction("social0")
+                    expect(messagePresenter.message).toEventually(beNil())
+                }
+
+                it("should show error") {
+                    interactor.onLogin = { return .couldNotAuthenticate }
+                    view.onAction("social0")
+                    expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
+                }
             }
-
-            it("should login with connection") {
-                view.onAction("social0")
-                expect(interactor.connection) == "social0"
-            }
-
-            it("should hide current message on start") {
-                view.onAction("social0")
-                expect(messagePresenter.message).toEventually(beNil())
-            }
-
-            it("should show error") {
-                interactor.onLogin = { return .couldNotAuthenticate }
-                view.onAction("social0")
-                expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
-            }
-
         }
     }
 
