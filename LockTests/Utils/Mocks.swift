@@ -158,9 +158,7 @@ class MockMultifactorInteractor: MultifactorAuthenticatable {
 }
 
 class MockAuthInteractor: OAuth2Authenticatable {
-    func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
-    }
-    func socialIdPAuth(connection: String, accessToken: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    func login(_ connection: String, parameters: [String: String], callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
     }
 }
 
@@ -358,10 +356,14 @@ class MockWebAuth: WebAuth {
 }
 
 class MockOAuth2: OAuth2Authenticatable {
+
     var connection: String? = nil
     var onLogin: () -> OAuth2AuthenticatableError? = { _ in return nil }
-    func login(_ connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    var parameters: [String: String] = [:]
+
+    func login(_ connection: String, parameters: [String: String] = [:], callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         self.connection = connection
+        self.parameters = parameters
         callback(self.onLogin())
     }
 }
