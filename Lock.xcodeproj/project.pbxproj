@@ -912,7 +912,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null && [[ `swiftlint version` =~ \"0.16\" ]] && [[ \"${CONFIGURATION}\" = \"Debug\" ]]; then\nswiftlint\nfi";
+			shellScript = "if [[ \"${CONFIGURATION}\" = \"Debug\" ]] && [ -z ${CIRCLECI} ] && which swiftlint >/dev/null; then\nswiftlint\nfi";
 		};
 		5FC4348D1D1E02EF005188BC /* Auth0 */ = {
 			isa = PBXShellScriptBuildPhase;
