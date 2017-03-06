@@ -107,7 +107,7 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func withConnections(_ closure: (inout ConnectionBuildable) -> ()) -> Lock {
+    public func withConnections(_ closure: (inout ConnectionBuildable) -> Void) -> Lock {
         var connections: ConnectionBuildable = OfflineConnections()
         closure(&connections)
         let allowed = self.connectionProvider.allowed
@@ -136,7 +136,7 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func withOptions(_ closure: (inout OptionBuildable) -> ()) -> Lock {
+    public func withOptions(_ closure: (inout OptionBuildable) -> Void) -> Lock {
         var builder: OptionBuildable = self.optionsBuilder
         closure(&builder)
         self.optionsBuilder = builder
@@ -163,7 +163,7 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func withStyle(_ closure: (inout Style) -> ()) -> Lock {
+    public func withStyle(_ closure: (inout Style) -> Void) -> Lock {
         var style = self.style
         closure(&style)
         self.style = style
@@ -177,7 +177,7 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
     */
-    public func onAuth(callback: @escaping (Credentials) -> ()) -> Lock {
+    public func onAuth(callback: @escaping (Credentials) -> Void) -> Lock {
         self.observerStore.onAuth = callback
         return self
     }
@@ -189,7 +189,7 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func onError(callback: @escaping (Error) -> ()) -> Lock {
+    public func onError(callback: @escaping (Error) -> Void) -> Lock {
         self.observerStore.onFailure = callback
         return self
     }
@@ -201,7 +201,7 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func onCancel(callback: @escaping () -> ()) -> Lock {
+    public func onCancel(callback: @escaping () -> Void) -> Lock {
         self.observerStore.onCancel = callback
         return self
     }
@@ -214,7 +214,7 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
     */
-    public func onSignUp(callback: @escaping (String, [String: Any]) -> ()) -> Lock {
+    public func onSignUp(callback: @escaping (String, [String: Any]) -> Void) -> Lock {
         self.observerStore.onSignUp = callback
         return self
     }

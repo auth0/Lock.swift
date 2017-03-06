@@ -29,12 +29,12 @@ struct Queue {
 
     private init() {}
 
-    func after(_ seconds: Int, closure: @escaping () -> ()) {
+    func after(_ seconds: Int, closure: @escaping () -> Void) {
         let delayTime = DispatchTime.now() + Double(Int64(Double(seconds) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         queue.asyncAfter(deadline: delayTime, execute: closure)
     }
 
-    func async(_ closure: @escaping () -> ()) {
+    func async(_ closure: @escaping () -> Void) {
         queue.async(execute: closure)
     }
 }

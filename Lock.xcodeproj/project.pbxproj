@@ -792,7 +792,7 @@
 				5FEAE1C21D1A5154005C0028 /* Frameworks */,
 				5FEAE1C31D1A5154005C0028 /* Headers */,
 				5FEAE1C41D1A5154005C0028 /* Resources */,
-				5B73CCAE1DE742F60050963E /* ShellScript */,
+				5B73CCAE1DE742F60050963E /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -900,18 +900,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5B73CCAE1DE742F60050963E /* ShellScript */ = {
+		5B73CCAE1DE742F60050963E /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nfi";
+			shellScript = "if [[ \"${CONFIGURATION}\" = \"Debug\" ]] && [ -z ${CIRCLECI} ] && which swiftlint >/dev/null; then\nswiftlint\nfi";
 		};
 		5FC4348D1D1E02EF005188BC /* Auth0 */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -84,7 +84,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         if let error = error { throw error }
     }
 
-    func login(_ callback: @escaping (CredentialAuthError?) -> ()) {
+    func login(_ callback: @escaping (CredentialAuthError?) -> Void) {
         let identifier: String
 
         if let email = self.email, self.validEmail {
@@ -102,7 +102,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             .start { self.handle(identifier: identifier, result: $0, callback: callback) }
     }
 
-    func create(_ callback: @escaping (DatabaseUserCreatorError?, CredentialAuthError?) -> ()) {
+    func create(_ callback: @escaping (DatabaseUserCreatorError?, CredentialAuthError?) -> Void) {
         let databaseName = connection.name
 
         guard

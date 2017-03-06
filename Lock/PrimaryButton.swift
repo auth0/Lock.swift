@@ -41,7 +41,7 @@ class PrimaryButton: UIView {
         }
     }
 
-    var onPress: (PrimaryButton) -> () = {_ in }
+    var onPress: (PrimaryButton) -> Void = {_ in }
 
     var inProgress: Bool {
         get {

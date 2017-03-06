@@ -146,7 +146,7 @@ struct Router: Navigable {
         return !routes.history.isEmpty
     }
 
-    func onBack() -> () {
+    func onBack() {
         guard let current = self.controller?.routes.back() else { return }
 
         self.user.reset()

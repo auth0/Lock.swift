@@ -26,7 +26,7 @@ class DatabaseModeSwitcher: UIView {
 
     weak var segmentedControl: UISegmentedControl?
 
-    var onSelectionChange: (DatabaseModeSwitcher) -> () = { _ in }
+    var onSelectionChange: (DatabaseModeSwitcher) -> Void = { _ in }
 
     enum Mode: Int {
         case login = 0

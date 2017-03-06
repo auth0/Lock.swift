@@ -29,7 +29,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable, Loggable {
     private var user: DatabaseUser
     private var authentication: Authentication
 
-    private(set) var code: String? = nil
+    private(set) var code: String?
     private(set) var validCode: Bool = false
     let dispatcher: Dispatcher
 
@@ -54,7 +54,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable, Loggable {
         self.validCode = true
     }
 
-    func login(_ callback: @escaping (CredentialAuthError?) -> ()) {
+    func login(_ callback: @escaping (CredentialAuthError?) -> Void) {
         let identifier: String
 
         if let email = self.user.email, self.user.validEmail {

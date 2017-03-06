@@ -33,8 +33,8 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
         return self.user.validEmail
     }
 
-    var connection: EnterpriseConnection? = nil
-    var domain: String? = nil
+    var connection: EnterpriseConnection?
+    var domain: String?
 
     let user: User
     let connections: [EnterpriseConnection]
@@ -71,7 +71,7 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
         }
     }
 
-    func login(_ callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    func login(_ callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
         guard let connection = self.connection else { return callback(.noConnectionAvailable) }
         authenticator.login(connection.name, callback: callback)
     }

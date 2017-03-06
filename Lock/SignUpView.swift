@@ -41,7 +41,7 @@ class SignUpView: UIView, Form {
         }
     }
 
-    var onValueChange: (InputField) -> () = {_ in} {
+    var onValueChange: (InputField) -> Void = {_ in} {
         didSet {
             self.stackView.arrangedSubviews
                 .map { $0 as? InputField }
@@ -49,7 +49,7 @@ class SignUpView: UIView, Form {
         }
     }
 
-    var onReturn: (InputField) -> () {
+    var onReturn: (InputField) -> Void {
         get {
             guard let last = self.lastField else { return {_ in } } // FIXME: Track this somehow
             return last.onReturn

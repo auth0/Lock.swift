@@ -25,11 +25,11 @@ import Auth0
 
 struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
 
-    var identifier: String? = nil
+    var identifier: String?
 
-    var email: String? = nil
-    var username: String? = nil
-    var password: String? = nil
+    var email: String?
+    var username: String?
+    var password: String?
 
     var validEmail: Bool = false
     var validUsername: Bool = false
@@ -104,7 +104,7 @@ struct EnterpriseActiveAuthInteractor: DatabaseAuthenticatable, Loggable {
         return error
     }
 
-    func login(_ callback: @escaping (CredentialAuthError?) -> ()) {
+    func login(_ callback: @escaping (CredentialAuthError?) -> Void) {
         let identifier: String
 
         if let email = self.email, self.validEmail {
