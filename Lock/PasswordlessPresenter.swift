@@ -51,7 +51,7 @@ class PasswordlessPresenter: Presentable, Loggable {
     }
 
     private func showForm(screen: PasswordlessScreen) -> View {
-        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18), isLogin: true)
+        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), isLogin: true)
 
         let view = PasswordlessView()
         if self.options.passwordlessMethod.mode == "email" {

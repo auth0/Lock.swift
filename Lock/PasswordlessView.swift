@@ -25,6 +25,7 @@ import UIKit
 class PasswordlessView: UIView, View {
 
     weak var form: Form?
+    weak var countrySelector: CountrySelectorView?
     weak var primaryButton: PrimaryButton?
     weak var secondaryButton: SecondaryButton?
 
@@ -102,7 +103,9 @@ class PasswordlessView: UIView, View {
     func showForm(phone: String?, screen: PasswordlessScreen, authCollectionView: AuthCollectionView?) {
         let primaryButton = PrimaryButton()
         let secondaryButton = SecondaryButton()
-        let formView = SingleInputView()
+        let countrySelector = CountrySelectorView()
+        let formView = InputField()
+        let messageView = UILabel()
         let container = UIStackView()
         let center = UILayoutGuide()
 
@@ -119,9 +122,9 @@ class PasswordlessView: UIView, View {
         container.distribution = .equalSpacing
         container.spacing = 10
 
-        constraintEqual(anchor: center.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: center.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
         constraintEqual(anchor: center.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: center.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: center.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
         constraintEqual(anchor: center.bottomAnchor, toAnchor: primaryButton.topAnchor)
 
         constraintEqual(anchor: container.leftAnchor, toAnchor: center.leftAnchor)
@@ -139,37 +142,33 @@ class PasswordlessView: UIView, View {
         if let authView = authCollectionView {
             container.addArrangedSubview(authView)
         }
+        container.addArrangedSubview(strutView(withHeight: 10))
+        container.addArrangedSubview(messageView)
+        container.addArrangedSubview(strutView(withHeight: 10))
+        container.addArrangedSubview(countrySelector)
         container.addArrangedSubview(formView)
 
-        switch screen {
-        case .request:
-            formView.type = .phone
-            formView.returnKey = .done
-            if authCollectionView != nil {
-                formView.message = "Otherwise, enter your phone to sign in or create an account.".i18n(key: "com.auth0.passwordless.sms.title.social", comment: "Passwordless sms title with social")
-            } else {
-                formView.message = "Enter your phone to sign in or create an account.".i18n(key: "com.auth0.passwordless.sms.title", comment: "Passwordless sms title")
-            }
-            formView.value = phone
-            container.addArrangedSubview(strutView(withHeight: 25))
-        case .code:
-            formView.type = .oneTimePassword
-            formView.returnKey = .done
-            formView.message = String(
-                format: "An SMS with the code has been sent to %1$@".i18n(key: "com.auth0.passwordless.sms.code.sent", comment: "Passwordless email code sent to %@{phone}"), phone ?? "")
-            secondaryButton.title = "Did not get the code?".i18n(key: "com.auth0.passwordless.code.reminder", comment: "Passwordless code reminder action")
-            container.addArrangedSubview(secondaryButton)
-        default:
-            break
-        }
+        messageView.numberOfLines = 2
+        messageView.textAlignment = .center
+        messageView.font = regularSystemFont(size: 15)
 
+        countrySelector.country = ("United States", "+1")
+
+        formView.type = .phone
+        formView.returnKey = .done
+        if authCollectionView != nil {
+            messageView.text = "Otherwise, enter your phone to sign in or create an account.".i18n(key: "com.auth0.passwordless.sms.title.social", comment: "Passwordless sms title with social")
+        } else {
+            messageView.text  = "Enter your phone to sign in or create an account.".i18n(key: "com.auth0.passwordless.sms.title", comment: "Passwordless sms title")
+        }
+        formView.text = phone
+        container.addArrangedSubview(strutView(withHeight: 25))
     }
 
     func showLinkSent(email: String?) {
         let secondaryButton = SecondaryButton()
         let center = UILayoutGuide()
-        let image = LazyImage(name: "ic_email_sent", bundle: bundleForLock()).image(compatibleWithTraits: self.traitCollection)
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
         let messageLabel = UILabel()
 
         self.secondaryButton = secondaryButton
@@ -197,6 +196,8 @@ class PasswordlessView: UIView, View {
         constraintEqual(anchor: secondaryButton.rightAnchor, toAnchor: center.rightAnchor)
         constraintEqual(anchor: secondaryButton.topAnchor, toAnchor: messageLabel.bottomAnchor, constant: 10)
         secondaryButton.translatesAutoresizingMaskIntoConstraints = false
+
+        imageView.image = LazyImage(name: "ic_email_sent", bundle: bundleForLock()).image(compatibleWithTraits: self.traitCollection)
 
         messageLabel.numberOfLines = 2
         messageLabel.textAlignment = .center
