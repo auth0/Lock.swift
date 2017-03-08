@@ -43,25 +43,22 @@ class PasswordlessPresenter: Presentable, Loggable {
 
     var view: View {
         switch self.screen {
-        case .request, .code:
-            return self.showForm(screen: self.screen)
+        case .request:
+            return self.showRequestForm()
+        case .code:
+            return self.showCodeForm()
         case .linkSent:
             return self.showLinkSent()
         }
     }
 
-    private func showForm(screen: PasswordlessScreen) -> View {
-        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), isLogin: true)
-
+    private func showCodeForm() -> View {
         let view = PasswordlessView()
-        if self.options.passwordlessMethod.mode == "email" {
-            view.showForm(email: self.interactor.identifier, screen: screen, authCollectionView: authCollectionView)
-        } else {
-            view.showForm(phone: self.interactor.identifier, screen: screen, authCollectionView: authCollectionView)
-        }
+        view.showCodeForm(sentTo: self.interactor.identifier)
+
         let form = view.form
 
-        view.form?.onValueChange = { input in
+        form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
             do {
                 try self.interactor.update(input.type, value: input.text)
@@ -76,56 +73,89 @@ class PasswordlessPresenter: Presentable, Loggable {
             let interactor = self.interactor
             let connection = self.connection
             button.inProgress = true
-            if screen == .request {
-                self.logger.info("Request passwordless \(self.interactor.identifier)")
-                interactor.request(connection.name) { error in
-                    Queue.main.async {
-                        button.inProgress = false
-                        form?.needsToUpdateState()
-                        if let error = error {
-                            self.messagePresenter?.showError(error)
-                            self.logger.error("Failed with error \(error)")
-                        } else {
-                            if self.options.passwordlessMethod == .emailCode || self.options.passwordlessMethod == .smsCode {
-                                self.navigator.navigate(Route.passwordless(screen: .code, connection: connection))
-                            } else {
-                                self.navigator.navigate(Route.passwordless(screen: .linkSent, connection: connection))
-                            }
-                        }
-                    }
-                }
-            } else {
-                self.logger.info("Login passwordless \(self.interactor.identifier)")
-                interactor.login(connection.name) { error in
-                    Queue.main.async {
-                        button.inProgress = false
-                        form?.needsToUpdateState()
-                        if let error = error {
-                            self.messagePresenter?.showError(error)
-                            self.logger.error("Failed with error \(error)")
-                        }
+            self.logger.info("Login passwordless \(self.interactor.identifier)")
+            interactor.login(connection.name) { error in
+                Queue.main.async {
+                    button.inProgress = false
+                    form?.needsToUpdateState()
+                    if let error = error {
+                        self.messagePresenter?.showError(error)
+                        self.logger.error("Failed with error \(error)")
                     }
                 }
             }
         }
 
-        view.primaryButton?.onPress = action
-        view.form?.onReturn = { [unowned view] _ in
+        form?.onReturn = { [unowned view] _ in
             guard let button = view.primaryButton else { return }
             action(button)
         }
 
-        if screen == .code {
-            view.secondaryButton?.onPress = { button in
-                self.navigator.onBack()
+        view.secondaryButton?.onPress = { button in
+            self.navigator.onBack()
+        }
+
+        return view
+    }
+
+    private func showRequestForm() -> View {
+        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18), isLogin: true)
+        let view = PasswordlessView()
+
+        if self.options.passwordlessMethod.mode == "email" {
+            view.showForm(withEmail: self.interactor.identifier, authCollectionView: authCollectionView)
+        } else {
+            view.showForm(withPhone: self.interactor.identifier, countryCode: self.interactor.countryCode, authCollectionView: authCollectionView)
+        }
+        let form = view.form
+        //form?.onCountryChange = { self.interactor.countryCode = $0 }
+
+        form?.onValueChange = { input in
+            self.messagePresenter?.hideCurrent()
+            do {
+                try self.interactor.update(input.type, value: input.text)
+                input.showValid()
+            } catch {
+                input.showError()
             }
+        }
+
+        let action = { [weak form] (button: PrimaryButton) in
+            self.messagePresenter?.hideCurrent()
+            let interactor = self.interactor
+            let connection = self.connection
+            button.inProgress = true
+            self.logger.info("Request passwordless \(self.interactor.identifier)")
+            interactor.request(connection.name) { error in
+                Queue.main.async {
+                    button.inProgress = false
+                    form?.needsToUpdateState()
+                    if let error = error {
+                        self.messagePresenter?.showError(error)
+                        self.logger.error("Failed with error \(error)")
+                    } else {
+                        if self.options.passwordlessMethod == .emailCode || self.options.passwordlessMethod == .smsCode {
+                            self.navigator.navigate(Route.passwordless(screen: .code, connection: connection))
+                        } else {
+                            self.navigator.navigate(Route.passwordless(screen: .linkSent, connection: connection))
+                        }
+                    }
+                }
+            }
+
+        }
+
+        view.primaryButton?.onPress = action
+        form?.onReturn = { [unowned view] _ in
+            guard let button = view.primaryButton else { return }
+            action(button)
         }
         return view
     }
 
     private func showLinkSent() -> View {
         let view = PasswordlessView()
-        view.showLinkSent(email: self.interactor.identifier)
+        view.showLinkSent(identifier: self.interactor.identifier)
         view.secondaryButton?.onPress = { button in
             self.navigator.onBack()
         }

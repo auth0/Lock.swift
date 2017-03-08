@@ -1,4 +1,4 @@
-// TableViewController.swift
+// CountryCodeStore.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -20,12 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import UIKit
+import Foundation
 
-class TableViewController: UITableViewController {
+struct CountryCodeStore {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    var countryCodes: [CountryCode] = []
+
+    init() {
+        guard
+            let url = bundleForLock().url(forResource: "passwordless_sms_countries", withExtension: "json"),
+            let jsonData = try? Data(contentsOf: url),
+            let jsonResult = try? JSONSerialization.jsonObject(with: jsonData) as! [String: String]
+            else { return }
+
+        countryCodes = jsonResult.flatMap { key, value in
+            let name = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: key)
+            return CountryCode(id: key, prefix: value, name: name!)
+            }.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending }
     }
 
+    func countryCode(forId id: String) -> CountryCode {
+        return self.countryCodes.filter { $0.id == id }.first!
+    }
+}
+
+struct CountryCode {
+    let id: String
+    let prefix: String
+    let name: String
 }

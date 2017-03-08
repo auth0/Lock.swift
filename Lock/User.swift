@@ -43,6 +43,7 @@ class User: DatabaseUser {
     var password: String?
     var additionalAttributes: [String : String] = [:]
     var additionalAttributesStatus: [String: Bool] = [:]
+    var countryCode: CountryCode?
 
     var validEmail: Bool = false
     var validUsername: Bool = false

@@ -23,7 +23,7 @@
 import Foundation
 import Auth0
 
-protocol PasswordlessAuthenticatable: CredentialAuthenticatable {
+protocol PasswordlessAuthenticatable: CredentialAuthenticatable, PasswordlessSMS {
     var identifier: String? { get }
     var validIdentifier: Bool { get }
     var code: String? { get }
@@ -39,4 +39,8 @@ protocol PasswordlessUserActivity {
     func withMessagePresenter(_ messagePresenter: MessagePresenter?) -> Self
     func onActivity(callback: @escaping (String, inout MessagePresenter?) -> Void)
     func continueAuth(withActivity userActivity: NSUserActivity) -> Bool
+}
+
+protocol PasswordlessSMS {
+    var countryCode: CountryCode? { get set }
 }

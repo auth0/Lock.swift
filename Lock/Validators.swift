@@ -27,9 +27,16 @@ protocol InputValidator {
 }
 
 public class PhoneValidator: InputValidator {
+    let predicate: NSPredicate
+
+    public init() {
+        let regex = "^[0-9]{8,15}$"
+        self.predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+    }
+
     func validate(_ value: String?) -> Error? {
-        guard let value = value?.trimmed, !value.isEmpty else { return InputValidationError.mustNotBeEmpty }
-        guard value.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil else { return InputValidationError.notAOneTimePassword }
+        guard let email = value?.trimmed, !email.isEmpty else { return InputValidationError.mustNotBeEmpty }
+        guard self.predicate.evaluate(with: email) else { return InputValidationError.notAPhoneNumber }
         return nil
     }
 }

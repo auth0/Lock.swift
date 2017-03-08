@@ -22,7 +22,7 @@
 
 import UIKit
 
-class InputField: UIView, UITextFieldDelegate, Form {
+class InputField: UIView, UITextFieldDelegate {
 
     weak var containerView: UIView?
     weak var textField: UITextField?
@@ -74,8 +74,6 @@ class InputField: UIView, UITextFieldDelegate, Form {
     var onBeginEditing: (InputField) -> Void = {_ in}
 
     var onEndEditing: (InputField) -> Void = {_ in}
-
-    var onValueChange: (InputField) -> Void = {_ in}
 
     // MARK: - Initialisers
 

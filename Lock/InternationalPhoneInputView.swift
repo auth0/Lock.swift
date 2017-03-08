@@ -1,4 +1,4 @@
-// CountrySelectorView.swift
+// InternationalPhoneInputView.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -22,52 +22,69 @@
 
 import UIKit
 
-class CountrySelectorView: UIView {
+class InternationalPhoneInputView: UIView, PasswordlessSMSForm {
 
-    weak var containerView: UIView?
-    weak var countryLabel: UILabel?
-    weak var codeLabel: UILabel?
+    var container: UIView
+    var countryLabel: UILabel
+    var codeLabel: UILabel
+    var inputField: InputField
+    var stackView: UIStackView
+    var countryStore: CountryCodeStore
 
-    convenience init() {
-        self.init(frame: CGRect.zero)
-    }
-
-    required override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.layoutField()
+    init(withCountryData data: CountryCodeStore) {
+        self.container = UIView()
+        self.countryLabel = UILabel()
+        self.codeLabel = UILabel()
+        self.inputField = InputField()
+        self.stackView = UIStackView()
+        self.countryStore = data
+        super.init(frame: CGRect.zero)
+        self.isUserInteractionEnabled = true
+        self.layoutForm()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.layoutField()
+        fatalError("init(coder:) has not been implemented")
     }
 
-    var country: (String?, String?) {
+    func updateCountry(_ countryCode: CountryCode) {
+        self.countryLabel.text = countryCode.name
+        self.codeLabel.text = countryCode.prefix
+    }
+
+    // MARK: - PasswordlessForm
+
+    var onCountryChange: (CountryCode) -> Void = { _ in }
+
+    // MARK: - Form
+
+    var onValueChange: (InputField) -> Void = { _ in } {
+        didSet {
+            self.inputField.onTextChange = self.onValueChange
+        }
+    }
+
+    var onReturn: (InputField) -> Void {
         get {
-            return (self.countryLabel?.text, self.codeLabel?.text)
+            return self.inputField.onReturn
         }
         set {
-            self.countryLabel?.text = newValue.0
-            self.codeLabel?.text = newValue.1
+            self.inputField.onReturn = newValue
         }
+    }
+
+    func needsToUpdateState() {
+        self.inputField.needsToUpdateState()
     }
 
     // MARK: - Layout
 
-    private func layoutField() {
+    private func layoutForm() {
 
-        self.isUserInteractionEnabled = true
-
-        let container = UIView()
         let iconContainer = UIView()
         let iconView = UIImageView()
-        let countryLabel = UILabel()
-        let codeLabel = UILabel()
         let actionIconContainer = UIImageView()
         let actionIconView = UIImageView()
-
-        self.countryLabel = countryLabel
-        self.codeLabel = codeLabel
 
         iconContainer.addSubview(iconView)
         container.addSubview(iconContainer)
@@ -75,12 +92,17 @@ class CountrySelectorView: UIView {
         container.addSubview(codeLabel)
         container.addSubview(actionIconContainer)
         actionIconContainer.addSubview(actionIconView)
-        self.addSubview(container)
+        self.addSubview(stackView)
 
-        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor, constant: 0)
-        constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor, constant: 0)
-        constraintEqual(anchor: container.bottomAnchor, toAnchor: self.bottomAnchor)
+        stackView.addArrangedSubview(container)
+        stackView.addArrangedSubview(inputField)
+
+        constraintEqual(anchor: stackView.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: stackView.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: stackView.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: stackView.bottomAnchor, toAnchor: self.bottomAnchor)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
         dimension(dimension: container.heightAnchor, withValue: 50)
         container.translatesAutoresizingMaskIntoConstraints = false
 
@@ -92,19 +114,21 @@ class CountrySelectorView: UIView {
 
         constraintEqual(anchor: countryLabel.leftAnchor, toAnchor: iconContainer.rightAnchor, constant: 16)
         constraintEqual(anchor: countryLabel.topAnchor, toAnchor: container.topAnchor)
-        constraintEqual(anchor: countryLabel.rightAnchor, toAnchor: codeLabel.leftAnchor)
+        constraintEqual(anchor: countryLabel.rightAnchor, toAnchor: codeLabel.leftAnchor, priority: UILayoutPriorityDefaultHigh)
         constraintEqual(anchor: countryLabel.bottomAnchor, toAnchor: container.bottomAnchor)
         countryLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: codeLabel.leftAnchor, toAnchor: countryLabel.rightAnchor, constant: 0)
+        constraintEqual(anchor: codeLabel.leftAnchor, toAnchor: countryLabel.rightAnchor)
         constraintEqual(anchor: codeLabel.topAnchor, toAnchor: container.topAnchor)
-        constraintEqual(anchor: codeLabel.rightAnchor, toAnchor: actionIconContainer.leftAnchor, constant: -10)
+        constraintEqual(anchor: codeLabel.rightAnchor, toAnchor: actionIconContainer.leftAnchor)
         constraintEqual(anchor: codeLabel.bottomAnchor, toAnchor: container.bottomAnchor)
+        dimension(dimension: codeLabel.widthAnchor, withValue: 60.0)
+        codeLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         codeLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintGreaterOrEqual(anchor: actionIconContainer.leftAnchor, toAnchor: codeLabel.rightAnchor, constant: 0)
+        constraintGreaterOrEqual(anchor: actionIconContainer.leftAnchor, toAnchor: codeLabel.rightAnchor)
         constraintEqual(anchor: actionIconContainer.topAnchor, toAnchor: container.topAnchor)
-        constraintEqual(anchor: actionIconContainer.rightAnchor, toAnchor: container.rightAnchor, constant: 0)
+        constraintEqual(anchor: actionIconContainer.rightAnchor, toAnchor: container.rightAnchor)
         constraintEqual(anchor: actionIconContainer.bottomAnchor, toAnchor: container.bottomAnchor)
         constraintEqual(anchor: actionIconContainer.widthAnchor, toAnchor: actionIconContainer.heightAnchor)
         actionIconContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -117,11 +141,17 @@ class CountrySelectorView: UIView {
         constraintEqual(anchor: iconView.centerYAnchor, toAnchor: iconContainer.centerYAnchor)
         iconView.translatesAutoresizingMaskIntoConstraints = false
 
+        stackView.alignment = .fill
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 10
+
         iconView.image = lazyImage(named: "ic_globe").image()
         actionIconView.image = lazyImage(named: "ic_chevron_right").image()
 
         countryLabel.textColor = UIColor(red:0.73, green:0.73, blue:0.73, alpha:1.0)
         codeLabel.textColor = countryLabel.textColor
+        codeLabel.textAlignment = .right
         iconContainer.backgroundColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
         iconView.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
         actionIconView.tintColor = UIColor.black
@@ -134,7 +164,12 @@ class CountrySelectorView: UIView {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("Hello")
+        let countryTableView = CountryTableViewController(withData: self.countryStore)
+        countryTableView.onDidSelect = {
+            self.updateCountry($0)
+            self.onCountryChange($0)
+        }
+        ControllerModalPresenter().present(controller: countryTableView)
     }
 
 }

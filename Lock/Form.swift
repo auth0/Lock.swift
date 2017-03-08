@@ -27,3 +27,7 @@ import Foundation
     var onReturn: (InputField) -> Void { get set }
     func needsToUpdateState()
 }
+
+protocol PasswordlessSMSForm: Form {
+    var onCountryChange: (CountryCode) -> Void { get set }
+}
