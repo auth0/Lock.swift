@@ -254,7 +254,6 @@ class DatabasePresenter: Presentable, Loggable {
             input.showError()
         }
     }
-
 }
 
 private func safariBuilder(forURL url: URL, navigator: Navigable) -> (UIAlertAction) -> Void {

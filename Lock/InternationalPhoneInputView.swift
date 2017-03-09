@@ -22,7 +22,7 @@
 
 import UIKit
 
-class InternationalPhoneInputView: UIView, PasswordlessSMSForm {
+class InternationalPhoneInputView: UIView, Form {
 
     var container: UIView
     var countryLabel: UILabel
@@ -97,9 +97,9 @@ class InternationalPhoneInputView: UIView, PasswordlessSMSForm {
         stackView.addArrangedSubview(container)
         stackView.addArrangedSubview(inputField)
 
-        constraintEqual(anchor: stackView.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: stackView.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
         constraintEqual(anchor: stackView.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: stackView.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: stackView.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
         constraintEqual(anchor: stackView.bottomAnchor, toAnchor: self.bottomAnchor)
         stackView.translatesAutoresizingMaskIntoConstraints = false
 

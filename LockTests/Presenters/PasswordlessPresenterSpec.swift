@@ -41,20 +41,21 @@ class PasswordlessPresenterSpec: QuickSpec {
         var connection: PasswordlessConnection!
         var navigator: MockNavigator!
         var dispatcher: Dispatcher!
-        var view: PasswordlessEmailView!
+        var view: PasswordlessView!
 
         beforeEach {
             navigator = MockNavigator()
             connection = PasswordlessConnection(name: "email")
             messagePresenter = MockMessagePresenter()
             options = LockOptions()
+            options.passwordlessMethod = .emailCode
             user = User()
             passwordlessActivity = MockPasswordlessActivity()
             dispatcher = ObserverStore()
             interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
             presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
             presenter.messagePresenter = messagePresenter
-            view = presenter.view as! PasswordlessEmailView
+            view = presenter.view as! PasswordlessView
         }
 
         describe("request screen") {
@@ -99,7 +100,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                     interactor.onRequest = { return nil }
                     presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                     presenter.messagePresenter = messagePresenter
-                    view = presenter.view as! PasswordlessEmailView
+                    view = presenter.view as! PasswordlessView
                 }
 
                 it("should trigger action on return of field") {
@@ -117,7 +118,7 @@ class PasswordlessPresenterSpec: QuickSpec {
 
                 it("should route to code screen upon success") {
                     view.primaryButton!.onPress(view.primaryButton!)
-                    expect(navigator.route).toEventually(equal(Route.passwordlessEmail(screen: .code, connection: connection)))
+                    expect(navigator.route).toEventually(equal(Route.passwordless(screen: .code, connection: connection)))
                 }
 
                 it("should show error on failure") {
@@ -128,18 +129,18 @@ class PasswordlessPresenterSpec: QuickSpec {
 
             }
 
-            describe("request magic link") {
+            describe("request email link") {
 
                 var interactor: MockPasswordlessInteractor!
 
                 beforeEach {
-                    options.passwordlessMethod = .magicLink
+                    options.passwordlessMethod = .emailLink
                     interactor = MockPasswordlessInteractor()
                     interactor.onLogin = { return nil }
                     interactor.onRequest = { return nil }
                     presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                     presenter.messagePresenter = messagePresenter
-                    view = presenter.view as! PasswordlessEmailView
+                    view = presenter.view as! PasswordlessView
                 }
 
                 it("should trigger action on return of field") {
@@ -157,7 +158,7 @@ class PasswordlessPresenterSpec: QuickSpec {
 
                 it("should route to link sent screen upon success") {
                     view.primaryButton!.onPress(view.primaryButton!)
-                    expect(navigator.route).toEventually(equal(Route.passwordlessEmail(screen: .linkSent, connection: connection)))
+                    expect(navigator.route).toEventually(equal(Route.passwordless(screen: .linkSent, connection: connection)))
                 }
 
                 it("should show error on failure") {
@@ -177,7 +178,7 @@ class PasswordlessPresenterSpec: QuickSpec {
             beforeEach {
                 presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
                 presenter.messagePresenter = messagePresenter
-                view = presenter.view as! PasswordlessEmailView
+                view = presenter.view as! PasswordlessView
             }
 
             it("should show code screen") {
@@ -220,7 +221,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                     interactor.onRequest = { return nil }
                     presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
                     presenter.messagePresenter = messagePresenter
-                    view = presenter.view as! PasswordlessEmailView
+                    view = presenter.view as! PasswordlessView
                 }
 
                 it("should trigger action on return of field") {
@@ -254,7 +255,7 @@ class PasswordlessPresenterSpec: QuickSpec {
             beforeEach {
                 presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
                 presenter.messagePresenter = messagePresenter
-                view = presenter.view as! PasswordlessEmailView
+                view = presenter.view as! PasswordlessView
             }
             
             it("should show code screen") {

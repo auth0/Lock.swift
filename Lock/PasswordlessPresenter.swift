@@ -54,7 +54,7 @@ class PasswordlessPresenter: Presentable, Loggable {
 
     private func showCodeForm() -> View {
         let view = PasswordlessView()
-        view.showCodeForm(sentTo: self.interactor.identifier)
+        view.showCodeForm(sentTo: self.interactor.identifier, mode: self.options.passwordlessMethod.mode)
 
         let form = view.form
 
@@ -86,11 +86,11 @@ class PasswordlessPresenter: Presentable, Loggable {
             }
         }
 
+        view.primaryButton?.onPress = action
         form?.onReturn = { [unowned view] _ in
             guard let button = view.primaryButton else { return }
             action(button)
         }
-
         view.secondaryButton?.onPress = { button in
             self.navigator.onBack()
         }
@@ -108,7 +108,7 @@ class PasswordlessPresenter: Presentable, Loggable {
             view.showForm(withPhone: self.interactor.identifier, countryCode: self.interactor.countryCode, authCollectionView: authCollectionView)
         }
         let form = view.form
-        //form?.onCountryChange = { self.interactor.countryCode = $0 }
+        form?.onCountryChange = { self.interactor.countryCode = $0 }
 
         form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()

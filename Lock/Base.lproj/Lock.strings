@@ -108,6 +108,8 @@
 "com.auth0.lock.input.otp.placeholder" = "Code";
 // Password placeholder
 "com.auth0.lock.input.password.placeholder" = "Password";
+// invalid phone
+"com.auth0.lock.input.phone.error" = "Must be a valid phone number";
 // Phone placeholder
 "com.auth0.lock.input.phone.placeholder" = "Phone Number";
 // policy violation
@@ -208,13 +210,19 @@
 "com.auth0.lock.submit.signup.title" = "SIGN UP";
 // Passwordless code reminder action
 "com.auth0.passwordless.code.reminder" = "Did not get the code?";
-// Passwordless email code sent to %@{email}
+// Passwordless code sent by email to %@{identifier}
 "com.auth0.passwordless.email.code.sent" = "An email with the code has been sent to %1$@";
-// Passwordless email link sent to %@{email}
-"com.auth0.passwordless.email.link.sent" = "We sent you a link to sign in to %1$@";
 // Passwordless email title
 "com.auth0.passwordless.email.title" = "Enter your email to sign in or create an account.";
 // Passwordless email title with social
 "com.auth0.passwordless.email.title.social" = "Otherwise, enter your email to sign in or create an account.";
 // Passwordless link reminder action
 "com.auth0.passwordless.link.reminder" = "Did not receive the link?";
+// Passwordless link sent to %@{identifier}
+"com.auth0.passwordless.link.sent" = "We sent you a link to sign in to %1$@";
+// Passwordless code sent by sms to %@{identifier}
+"com.auth0.passwordless.sms.code.sent" = "An sms with the code has been sent to %1$@";
+// Passwordless sms title
+"com.auth0.passwordless.sms.title" = "Enter your phone to sign in or create an account.";
+// Passwordless sms title with social
+"com.auth0.passwordless.sms.title.social" = "Otherwise, enter your phone to sign in or create an account.";

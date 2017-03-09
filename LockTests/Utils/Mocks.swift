@@ -470,6 +470,7 @@ class MockPasswordlessInteractor: PasswordlessAuthenticatable {
     var validIdentifier: Bool = false
     var code: String? = nil
     var validCode: Bool = false
+    var countryCode: CountryCode? 
 
     var onLogin: () -> CredentialAuthError? = { return nil }
     var onRequest: () -> PasswordlessAuthenticatableError? = { return nil }

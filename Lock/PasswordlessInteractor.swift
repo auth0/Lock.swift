@@ -56,14 +56,12 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
     func request(_ connection: String, callback: @escaping (PasswordlessAuthenticatableError?) -> Void) {
         guard var identifier = self.identifier, self.validIdentifier else { return callback(.nonValidInput) }
 
-        let type = (self.options.passwordlessMethod == .emailCode || self.options.passwordlessMethod == .smsCode) ? PasswordlessType.Code : PasswordlessType.iOSLink
+        let type = self.options.passwordlessMethod == .emailCode || self.options.passwordlessMethod == .smsCode ? PasswordlessType.Code : PasswordlessType.iOSLink
 
         var authenticator: Request<Void, AuthenticationError>
         if self.options.passwordlessMethod.mode == "email" {
-            // Email
             authenticator =  self.authentication.startPasswordless(email: identifier, type: type, connection: connection, parameters: self.options.parameters)
         } else {
-            // SMS
             guard let countryCode = self.countryCode else { return callback(.nonValidInput) }
             identifier = countryCode.prefix + identifier
             authenticator =  self.authentication.startPasswordless(phoneNumber: identifier, type: type, connection: connection)
@@ -76,7 +74,6 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
                 self.dispatcher.dispatch(result: .passwordless(identifier))
 
                 if type == .iOSLink {
-
                     self.passwordlessActivity.onActivity { password, messagePresenter in
                         guard self.codeValidator.validate(password) == nil else {
                             messagePresenter?.showError(PasswordlessAuthenticatableError.invalidLink)
@@ -105,8 +102,12 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
     }
 
     func login(_ connection: String, callback: @escaping (CredentialAuthError?) -> Void) {
-        guard let password = self.code, self.validCode, let identifier = self.identifier, self.validIdentifier
+        guard let password = self.code, self.validCode, var identifier = self.identifier, self.validIdentifier
             else { return callback(.nonValidInput) }
+
+        if let countryCode = self.countryCode {
+            identifier = countryCode.prefix + identifier
+        }
 
         CredentialAuth(oidc: options.oidcConformant, realm: connection, authentication: authentication)
             .request(withIdentifier: identifier, password: password, options: self.options)
