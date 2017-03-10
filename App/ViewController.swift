@@ -185,33 +185,33 @@ class ViewController: UIViewController {
             .onCancel { Log.debug?.message("User closed lock") }
             .present(from: self)
     }
+}
 
-    func applyDefaultOptions(_ options: inout OptionBuildable) {
-        options.closable = true
-        options.logLevel = .all
-        options.loggerOutput = CleanroomLockLogger()
-        options.logHttpRequest = true
-    }
+func applyDefaultOptions(_ options: inout OptionBuildable) {
+    options.closable = true
+    options.logLevel = .all
+    options.loggerOutput = CleanroomLockLogger()
+    options.logHttpRequest = true
+}
 
-    class CleanroomLockLogger: LoggerOutput {
+class CleanroomLockLogger: LoggerOutput {
 
-        func message(_ message: String, level: LoggerLevel, filename: String, line: Int) {
-            let channel: LogChannel?
-            switch level {
-            case .debug:
-                channel = Log.debug
-            case .error:
-                channel = Log.error
-            case .info:
-                channel = Log.info
-            case .verbose:
-                channel = Log.verbose
-            case .warn:
-                channel = Log.warning
-            default:
-                channel = nil
-            }
-            channel?.message(message, filePath: filename, fileLine: line)
+    func message(_ message: String, level: LoggerLevel, filename: String, line: Int) {
+        let channel: LogChannel?
+        switch level {
+        case .debug:
+            channel = Log.debug
+        case .error:
+            channel = Log.error
+        case .info:
+            channel = Log.info
+        case .verbose:
+            channel = Log.verbose
+        case .warn:
+            channel = Log.warning
+        default:
+            channel = nil
         }
+        channel?.message(message, filePath: filename, fileLine: line)
     }
 }
