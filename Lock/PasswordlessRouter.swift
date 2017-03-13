@@ -99,7 +99,7 @@ struct PasswordlessRouter: Router {
             presentable = self.root
         case .unrecoverableError(let error):
             presentable = self.unrecoverableError(for: error)
-        case .passwordlessEmail(let screen, let connection):
+        case .passwordless(let screen, let connection):
             presentable = self.passwordless(withScreen: screen, connection: connection)
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")

@@ -54,15 +54,18 @@ class PasswordlessPresenter: Presentable, Loggable {
 
     private func showCodeForm() -> View {
         let view = PasswordlessView()
-        view.showCodeForm(sentTo: self.interactor.identifier, mode: self.options.passwordlessMethod.mode)
+        view.showCodeForm(sentTo: self.interactor.identifier, countryCode: self.interactor.countryCode, mode: self.options.passwordlessMethod.mode)
 
         let form = view.form
 
         form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
+            self.logger.verbose("Inputn value: \(input.text) for type: \(input.type)")
             do {
                 try self.interactor.update(input.type, value: input.text)
                 input.showValid()
+            } catch let error as InputValidationError {
+                input.showError(error.localizedMessage())
             } catch {
                 input.showError()
             }
@@ -99,7 +102,7 @@ class PasswordlessPresenter: Presentable, Loggable {
     }
 
     private func showRequestForm() -> View {
-        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18), isLogin: true)
+        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20), isLogin: true)
         let view = PasswordlessView()
 
         if self.options.passwordlessMethod.mode == "email" {
@@ -107,14 +110,21 @@ class PasswordlessPresenter: Presentable, Loggable {
         } else {
             view.showForm(withPhone: self.interactor.identifier, countryCode: self.interactor.countryCode, authCollectionView: authCollectionView)
         }
+
         let form = view.form
-        form?.onCountryChange = { self.interactor.countryCode = $0 }
+        form?.onCountryChange = {
+            self.interactor.countryCode = $0
+            self.logger.verbose("SMS Country: \($0.name), Prefix: \($0.prefix)")
+        }
 
         form?.onValueChange = { input in
+            self.logger.verbose("Input value: \(input.text) for type: \(input.type)")
             self.messagePresenter?.hideCurrent()
             do {
                 try self.interactor.update(input.type, value: input.text)
                 input.showValid()
+            } catch let error as InputValidationError {
+                input.showError(error.localizedMessage())
             } catch {
                 input.showError()
             }
@@ -155,7 +165,7 @@ class PasswordlessPresenter: Presentable, Loggable {
 
     private func showLinkSent() -> View {
         let view = PasswordlessView()
-        view.showLinkSent(identifier: self.interactor.identifier)
+        view.showLinkSent(identifier: self.interactor.identifier, countryCode: self.interactor.countryCode)
         view.secondaryButton?.onPress = { button in
             self.navigator.onBack()
         }

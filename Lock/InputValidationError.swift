@@ -35,6 +35,13 @@ enum InputValidationError: Error {
         case .notAUsername:
             let format = "Can only contain between %d to %d alphanumeric characters and \'_\'.".i18n(key: "com.auth0.lock.input.username.error", comment: "invalid username")
             return String(format: format, connection.usernameValidator.min, connection.usernameValidator.max)
+        default:
+            return self.localizedMessage()
+        }
+    }
+
+    func localizedMessage() -> String {
+        switch self {
         case .notAnEmailAddress:
             return "Must be a valid email address".i18n(key: "com.auth0.lock.input.email.error", comment: "invalid email")
         case .mustNotBeEmpty:
@@ -45,6 +52,8 @@ enum InputValidationError: Error {
             return "Must be a valid phone number".i18n(key: "com.auth0.lock.input.phone.error", comment: "invalid phone")
         case .passwordPolicyViolation(let result):
             return result.first?.message ?? "Password does not fulfill policy".i18n(key: "com.auth0.lock.input.policy.error", comment: "policy violation")
+        case .notAUsername:
+            return "Must bve a valiud username".i18n(key: "com.auth0.lock.input.username.error.generic", comment: "invalid username generic")
         }
     }
 }

@@ -93,9 +93,11 @@ class OptionsSpec: QuickSpec {
                 expect(options.autoClose) == true
             }
 
-            it("should be passwordless emailCode method") {
+
+            it("should be passwordless emailCode method by default") {
                 expect(options.passwordlessMethod).to(equal(PasswordlessMethod.emailCode))
             }
+
         }
 
         describe("validation") {

@@ -44,7 +44,7 @@ public class PhoneValidator: InputValidator {
 public class OneTimePasswordValidator: InputValidator {
     func validate(_ value: String?) -> Error? {
         guard let value = value?.trimmed, !value.isEmpty else { return InputValidationError.mustNotBeEmpty }
-        guard value.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil else { return InputValidationError.notAOneTimePassword }
+        guard value.characters.count > 3, value.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil else { return InputValidationError.notAOneTimePassword }
         return nil
     }
 }

@@ -47,6 +47,27 @@ class InternationalPhoneInputView: UIView, Form {
         fatalError("init(coder:) has not been implemented")
     }
 
+    var type: InputField.InputType = .phone {
+        didSet {
+            self.inputField.type = self.type
+        }
+    }
+
+    var returnKey: UIReturnKeyType = .done {
+        didSet {
+            self.inputField.returnKey = self.returnKey
+        }
+    }
+
+    var value: String? {
+        get {
+            return self.inputField.text
+        }
+        set {
+            self.inputField.text = newValue
+        }
+    }
+
     func updateCountry(_ countryCode: CountryCode) {
         self.countryLabel.text = countryCode.name
         self.codeLabel.text = countryCode.prefix
@@ -169,7 +190,12 @@ class InternationalPhoneInputView: UIView, Form {
             self.updateCountry($0)
             self.onCountryChange($0)
         }
-        ControllerModalPresenter().present(controller: countryTableView)
+        let navigationModal = ModalNavigationController(rootViewController: countryTableView)
+        navigationModal.header = "Calling codes".i18n(key: "com.auth0.lock.passwordless.sms.country.header", comment: "Country tableview navigation header")
+        navigationModal.addBackButton {
+            navigationModal.dismiss(animated: true, completion: nil)
+        }
+        navigationModal.present()
     }
 
 }

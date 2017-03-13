@@ -90,7 +90,7 @@ class DatabasePresenter: Presentable, Loggable {
 
     private func showLogin(inView view: DatabaseView, identifier: String?) {
         self.messagePresenter?.hideCurrent()
-        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18), isLogin: true)
+        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20), isLogin: true)
         let style = self.database.requiresUsername ? self.options.usernameStyle : [.Email]
         view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView)
         self.currentScreen = .login
@@ -150,7 +150,7 @@ class DatabasePresenter: Presentable, Loggable {
 
     private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
         self.messagePresenter?.hideCurrent()
-        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18), isLogin: false)
+        let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20), isLogin: false)
         let interactor = self.authenticator as? DatabaseInteractor
         let passwordPolicyValidator = interactor?.passwordValidator as? PasswordPolicyValidator
         self.currentScreen = .signup

@@ -24,7 +24,8 @@ import Foundation
 
 struct CountryCodeStore {
 
-    var countryCodes: [CountryCode] = []
+    private var countryCodes: [CountryCode] = []
+    private var filter: String?
 
     init() {
         guard
@@ -39,8 +40,17 @@ struct CountryCodeStore {
             }.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending }
     }
 
-    func countryCode(forId id: String) -> CountryCode {
-        return self.countryCodes.filter { $0.id == id }.first!
+    func filteredData() -> [CountryCode] {
+        guard let filter = self.filter, !filter.isEmpty else { return self.countryCodes }
+        return self.countryCodes.filter { $0.name.lowercased().contains(filter.lowercased()) }
+    }
+
+    mutating func updateFilter(_ filter: String) {
+        self.filter = filter
+    }
+
+    func countryCode(forId id: String) -> CountryCode? {
+        return self.countryCodes.filter { $0.id == id }.first
     }
 }
 

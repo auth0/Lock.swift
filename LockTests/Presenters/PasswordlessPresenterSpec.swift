@@ -26,6 +26,8 @@ import Auth0
 
 @testable import Lock
 
+private let phone = "01234567891"
+
 class PasswordlessPresenterSpec: QuickSpec {
 
     override func spec() {
@@ -43,229 +45,465 @@ class PasswordlessPresenterSpec: QuickSpec {
         var dispatcher: Dispatcher!
         var view: PasswordlessView!
 
-        beforeEach {
-            navigator = MockNavigator()
-            connection = PasswordlessConnection(name: "email")
-            messagePresenter = MockMessagePresenter()
-            options = LockOptions()
-            options.passwordlessMethod = .emailCode
-            user = User()
-            passwordlessActivity = MockPasswordlessActivity()
-            dispatcher = ObserverStore()
-            interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-            presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
-            presenter.messagePresenter = messagePresenter
-            view = presenter.view as! PasswordlessView
-        }
-
-        describe("request screen") {
-
-            it("should show request screen") {
-                expect(presenter.screen) == PasswordlessScreen.request
-            }
-
-            it("should expect email input in form") {
-                let form = view.form as! SingleInputView
-                expect(form.type) == InputField.InputType.email
-            }
-
-            it("should expect no secondary button") {
-                expect(view.secondaryButton).to(beNil())
-            }
-
-            describe("input") {
-
-                it("should update email") {
-                    let input = mockInput(.email, value: email)
-                    view.form?.onValueChange(input)
-                    expect(interactor.identifier) == email
-                    expect(interactor.validIdentifier) == true
-                }
-
-                it("should show field error if email is invalid") {
-                    let input = mockInput(.email, value: "invalid_email")
-                    view.form?.onValueChange(input)
-                    expect(input.valid) == false
-                }
-
-            }
-
-            describe("request code") {
-
-                var interactor: MockPasswordlessInteractor!
-
-                beforeEach {
-                    interactor = MockPasswordlessInteractor()
-                    interactor.onLogin = { return nil }
-                    interactor.onRequest = { return nil }
-                    presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
-                    presenter.messagePresenter = messagePresenter
-                    view = presenter.view as! PasswordlessView
-                }
-
-                it("should trigger action on return of field") {
-                    let input = mockInput(.email, value: email)
-                    input.returnKey = .done
-                    interactor.onRequest = { return nil }
-                    view.form?.onReturn(input)
-                    expect(messagePresenter.error).toEventually(beNil())
-                }
-
-                it("should trigger action on primary button press") {
-                    view.primaryButton!.onPress(view.primaryButton!)
-                    expect(messagePresenter.error).toEventually(beNil())
-                }
-
-                it("should route to code screen upon success") {
-                    view.primaryButton!.onPress(view.primaryButton!)
-                    expect(navigator.route).toEventually(equal(Route.passwordless(screen: .code, connection: connection)))
-                }
-
-                it("should show error on failure") {
-                    interactor.onRequest = { return .codeNotSent }
-                    view.primaryButton!.onPress(view.primaryButton!)
-                    expect(messagePresenter.error).toEventuallyNot(beNil())
-                }
-
-            }
-
-            describe("request email link") {
-
-                var interactor: MockPasswordlessInteractor!
-
-                beforeEach {
-                    options.passwordlessMethod = .emailLink
-                    interactor = MockPasswordlessInteractor()
-                    interactor.onLogin = { return nil }
-                    interactor.onRequest = { return nil }
-                    presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
-                    presenter.messagePresenter = messagePresenter
-                    view = presenter.view as! PasswordlessView
-                }
-
-                it("should trigger action on return of field") {
-                    let input = mockInput(.email, value: email)
-                    input.returnKey = .done
-                    interactor.onRequest = { return nil }
-                    view.form?.onReturn(input)
-                    expect(messagePresenter.error).toEventually(beNil())
-                }
-
-                it("should trigger action on primary button press") {
-                    view.primaryButton!.onPress(view.primaryButton!)
-                    expect(messagePresenter.error).toEventually(beNil())
-                }
-
-                it("should route to link sent screen upon success") {
-                    view.primaryButton!.onPress(view.primaryButton!)
-                    expect(navigator.route).toEventually(equal(Route.passwordless(screen: .linkSent, connection: connection)))
-                }
-
-                it("should show error on failure") {
-                    interactor.onRequest = { return .codeNotSent }
-                    view.primaryButton!.onPress(view.primaryButton!)
-                    expect(messagePresenter.error).toEventuallyNot(beNil())
-                }
-
-            }
-
-        }
-
-        describe("code login screen") {
-
-            let screen = PasswordlessScreen.code
+        context("email") {
 
             beforeEach {
-                presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
+                navigator = MockNavigator()
+                connection = PasswordlessConnection(name: "email")
+                messagePresenter = MockMessagePresenter()
+                options = LockOptions()
+                options.passwordlessMethod = .emailCode
+                user = User()
+                passwordlessActivity = MockPasswordlessActivity()
+                dispatcher = ObserverStore()
+                interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                 presenter.messagePresenter = messagePresenter
                 view = presenter.view as! PasswordlessView
             }
 
-            it("should show code screen") {
-                expect(presenter.screen) == PasswordlessScreen.code
-            }
+            describe("request screen") {
 
-            it("should expect code input in form") {
-                let form = view.form as! SingleInputView
-                expect(form.type) == InputField.InputType.oneTimePassword
-            }
-
-            it("should expect title on secondary button") {
-                expect(view.secondaryButton!.title).to(contain("Did not get the code"))
-            }
-
-            describe("input") {
-
-                it("should update code") {
-                    let input = mockInput(.oneTimePassword, value: "123456")
-                    view.form?.onValueChange(input)
-                    expect(presenter.interactor.code) == "123456"
-                    expect(presenter.interactor.validCode) == true
+                it("should show request screen") {
+                    expect(presenter.screen) == PasswordlessScreen.request
                 }
 
-                it("should show field error if code is invalid") {
-                    let input = mockInput(.oneTimePassword, value: "ABC")
-                    view.form?.onValueChange(input)
-                    expect(input.valid) == false
+                it("should expect email input in form") {
+                    let form = view.form as! SingleInputView
+                    expect(form.type) == InputField.InputType.email
+                }
+
+                it("should expect no secondary button") {
+                    expect(view.secondaryButton).to(beNil())
+                }
+
+                describe("input") {
+
+                    it("should update email") {
+                        let input = mockInput(.email, value: email)
+                        view.form?.onValueChange(input)
+                        expect(interactor.identifier) == email
+                        expect(interactor.validIdentifier) == true
+                    }
+
+                    it("should show field error if email is invalid") {
+                        let input = mockInput(.email, value: "invalid_email")
+                        view.form?.onValueChange(input)
+                        expect(input.valid) == false
+                    }
+
+                }
+
+                describe("request code") {
+
+                    var interactor: MockPasswordlessInteractor!
+
+                    beforeEach {
+                        interactor = MockPasswordlessInteractor()
+                        interactor.onLogin = { return nil }
+                        interactor.onRequest = { return nil }
+                        presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
+                        presenter.messagePresenter = messagePresenter
+                        view = presenter.view as! PasswordlessView
+                    }
+
+                    it("should trigger action on return of field") {
+                        let input = mockInput(.email, value: email)
+                        input.returnKey = .done
+                        interactor.onRequest = { return nil }
+                        view.form?.onReturn(input)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should trigger action on primary button press") {
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should route to code screen upon success") {
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(navigator.route).toEventually(equal(Route.passwordless(screen: .code, connection: connection)))
+                    }
+
+                    it("should show error on failure") {
+                        interactor.onRequest = { return .codeNotSent }
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventuallyNot(beNil())
+                    }
+
+                }
+
+                describe("request link") {
+
+                    var interactor: MockPasswordlessInteractor!
+
+                    beforeEach {
+                        options.passwordlessMethod = .emailLink
+                        interactor = MockPasswordlessInteractor()
+                        interactor.onLogin = { return nil }
+                        interactor.onRequest = { return nil }
+                        presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
+                        presenter.messagePresenter = messagePresenter
+                        view = presenter.view as! PasswordlessView
+                    }
+
+                    it("should trigger action on return of field") {
+                        let input = mockInput(.email, value: email)
+                        input.returnKey = .done
+                        interactor.onRequest = { return nil }
+                        view.form?.onReturn(input)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should trigger action on primary button press") {
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should route to link sent screen upon success") {
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(navigator.route).toEventually(equal(Route.passwordless(screen: .linkSent, connection: connection)))
+                    }
+
+                    it("should show error on failure") {
+                        interactor.onRequest = { return .codeNotSent }
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventuallyNot(beNil())
+                    }
+
                 }
 
             }
 
-            describe("login with code") {
+            describe("code auth screen") {
 
-                var interactor: MockPasswordlessInteractor!
+                let screen = PasswordlessScreen.code
 
                 beforeEach {
-                    interactor = MockPasswordlessInteractor()
-                    interactor.onLogin = { return nil }
-                    interactor.onRequest = { return nil }
                     presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
                     presenter.messagePresenter = messagePresenter
                     view = presenter.view as! PasswordlessView
                 }
 
-                it("should trigger action on return of field") {
-                    messagePresenter.error = CredentialAuthError.couldNotLogin
-                    let input = mockInput(.oneTimePassword, value: "123456")
-                    input.returnKey = .done
-                    view.form?.onReturn(input)
-                    expect(messagePresenter.error).toEventually(beNil())
+                it("should show code screen") {
+                    expect(presenter.screen) == PasswordlessScreen.code
                 }
 
-                it("should show no error upon success") {
-                    messagePresenter.error = CredentialAuthError.couldNotLogin
-                    view.primaryButton!.onPress(view.primaryButton!)
-                    expect(messagePresenter.error).toEventually(beNil())
+                it("should expect code input in form") {
+                    let form = view.form as! SingleInputView
+                    expect(form.type) == InputField.InputType.oneTimePassword
                 }
 
-                it("should show error on failure") {
-                    interactor.onLogin = { return .couldNotLogin }
-                    view.primaryButton!.onPress(view.primaryButton!)
-                    expect(messagePresenter.error).toEventuallyNot(beNil())
+                it("should expect title on secondary button") {
+                    expect(view.secondaryButton!.title).to(contain("Did not get the code"))
                 }
 
+                describe("input") {
+
+                    it("should update code") {
+                        let input = mockInput(.oneTimePassword, value: "123456")
+                        view.form?.onValueChange(input)
+                        expect(presenter.interactor.code) == "123456"
+                        expect(presenter.interactor.validCode) == true
+                    }
+
+                    it("should show field error if code is invalid") {
+                        let input = mockInput(.oneTimePassword, value: "ABC")
+                        view.form?.onValueChange(input)
+                        expect(input.valid) == false
+                    }
+
+                }
+
+                describe("login") {
+
+                    var interactor: MockPasswordlessInteractor!
+
+                    beforeEach {
+                        interactor = MockPasswordlessInteractor()
+                        interactor.onLogin = { return nil }
+                        interactor.onRequest = { return nil }
+                        presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
+                        presenter.messagePresenter = messagePresenter
+                        view = presenter.view as! PasswordlessView
+                    }
+
+                    it("should trigger action on return of field") {
+                        messagePresenter.error = CredentialAuthError.couldNotLogin
+                        let input = mockInput(.oneTimePassword, value: "123456")
+                        input.returnKey = .done
+                        view.form?.onReturn(input)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should show no error upon success") {
+                        messagePresenter.error = CredentialAuthError.couldNotLogin
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+                    
+                    it("should show error on failure") {
+                        interactor.onLogin = { return .couldNotLogin }
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventuallyNot(beNil())
+                    }
+                    
+                }
+                
             }
-
+            
+            describe("link sent screen") {
+                
+                let screen = PasswordlessScreen.linkSent
+                
+                beforeEach {
+                    presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
+                    presenter.messagePresenter = messagePresenter
+                    view = presenter.view as! PasswordlessView
+                }
+                
+                it("should show code screen") {
+                    expect(presenter.screen) == PasswordlessScreen.linkSent
+                }
+                
+                it("should expect title on secondary button") {
+                    expect(view.secondaryButton!.title).to(contain("Did not receive the link"))
+                }
+                
+            }
         }
 
-        describe("link sent screen") {
-
-            let screen = PasswordlessScreen.linkSent
+        context("sms") {
 
             beforeEach {
-                presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
+                navigator = MockNavigator()
+                connection = PasswordlessConnection(name: "sms")
+                messagePresenter = MockMessagePresenter()
+                options = LockOptions()
+                options.passwordlessMethod = .smsCode
+                user = User()
+                passwordlessActivity = MockPasswordlessActivity()
+                dispatcher = ObserverStore()
+                interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                 presenter.messagePresenter = messagePresenter
                 view = presenter.view as! PasswordlessView
             }
-            
-            it("should show code screen") {
-                expect(presenter.screen) == PasswordlessScreen.linkSent
+
+            describe("request screen") {
+
+                it("should show request screen") {
+                    expect(presenter.screen) == PasswordlessScreen.request
+                }
+
+                it("should expect phone input in form") {
+                    let form = view.form as! InternationalPhoneInputView
+                    expect(form.type) == InputField.InputType.phone
+                }
+
+                it("should expect country store data in form") {
+                    let form = view.form as! InternationalPhoneInputView
+                    expect(form.countryStore).toNot(beNil())
+                }
+
+                it("should expect no secondary button") {
+                    expect(view.secondaryButton).to(beNil())
+                }
+
+                describe("input") {
+
+                    it("should update sms") {
+                        let input = mockInput(.phone, value: phone)
+                        view.form?.onValueChange(input)
+                        expect(interactor.identifier) == phone
+                        expect(interactor.validIdentifier) == true
+                    }
+
+                    it("should show field error if email is invalid") {
+                        let input = mockInput(.phone, value: "0")
+                        view.form?.onValueChange(input)
+                        expect(input.valid) == false
+                    }
+
+                }
+
+                describe("request code") {
+
+                    var interactor: MockPasswordlessInteractor!
+
+                    beforeEach {
+                        interactor = MockPasswordlessInteractor()
+                        interactor.onLogin = { return nil }
+                        interactor.onRequest = { return nil }
+                        presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
+                        presenter.messagePresenter = messagePresenter
+                        view = presenter.view as! PasswordlessView
+                    }
+
+                    it("should trigger action on return of field") {
+                        let input = mockInput(.phone, value: phone)
+                        input.returnKey = .done
+                        interactor.onRequest = { return nil }
+                        view.form?.onReturn(input)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should trigger action on primary button press") {
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should route to code screen upon success") {
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(navigator.route).toEventually(equal(Route.passwordless(screen: .code, connection: connection)))
+                    }
+
+                    it("should show error on failure") {
+                        interactor.onRequest = { return .codeNotSent }
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventuallyNot(beNil())
+                    }
+
+                }
+
+                describe("request link") {
+
+                    var interactor: MockPasswordlessInteractor!
+
+                    beforeEach {
+                        options.passwordlessMethod = .smsLink
+                        interactor = MockPasswordlessInteractor()
+                        interactor.onLogin = { return nil }
+                        interactor.onRequest = { return nil }
+                        presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
+                        presenter.messagePresenter = messagePresenter
+                        view = presenter.view as! PasswordlessView
+                    }
+
+                    it("should trigger action on return of field") {
+                        let input = mockInput(.phone, value: phone)
+                        input.returnKey = .done
+                        interactor.onRequest = { return nil }
+                        view.form?.onReturn(input)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should trigger action on primary button press") {
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should route to link sent screen upon success") {
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(navigator.route).toEventually(equal(Route.passwordless(screen: .linkSent, connection: connection)))
+                    }
+
+                    it("should show error on failure") {
+                        interactor.onRequest = { return .codeNotSent }
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventuallyNot(beNil())
+                    }
+
+                }
+
             }
-            
-            it("should expect title on secondary button") {
-                expect(view.secondaryButton!.title).to(contain("Did not receive the link"))
+
+            describe("code auth screen") {
+
+                let screen = PasswordlessScreen.code
+
+                beforeEach {
+                    presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
+                    presenter.messagePresenter = messagePresenter
+                    view = presenter.view as! PasswordlessView
+                }
+
+                it("should show code screen") {
+                    expect(presenter.screen) == PasswordlessScreen.code
+                }
+
+                it("should expect code input in form") {
+                    let form = view.form as! SingleInputView
+                    expect(form.type) == InputField.InputType.oneTimePassword
+                }
+
+                it("should expect title on secondary button") {
+                    expect(view.secondaryButton!.title).to(contain("Did not get the code"))
+                }
+
+                describe("input") {
+
+                    it("should update code") {
+                        let input = mockInput(.oneTimePassword, value: "123456")
+                        view.form?.onValueChange(input)
+                        expect(presenter.interactor.code) == "123456"
+                        expect(presenter.interactor.validCode) == true
+                    }
+
+                    it("should show field error if code is invalid") {
+                        let input = mockInput(.oneTimePassword, value: "ABC")
+                        view.form?.onValueChange(input)
+                        expect(input.valid) == false
+                    }
+
+                }
+
+                describe("login") {
+
+                    var interactor: MockPasswordlessInteractor!
+
+                    beforeEach {
+                        interactor = MockPasswordlessInteractor()
+                        interactor.onLogin = { return nil }
+                        interactor.onRequest = { return nil }
+                        presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
+                        presenter.messagePresenter = messagePresenter
+                        view = presenter.view as! PasswordlessView
+                    }
+
+                    it("should trigger action on return of field") {
+                        messagePresenter.error = CredentialAuthError.couldNotLogin
+                        let input = mockInput(.oneTimePassword, value: "123456")
+                        input.returnKey = .done
+                        view.form?.onReturn(input)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should show no error upon success") {
+                        messagePresenter.error = CredentialAuthError.couldNotLogin
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should show error on failure") {
+                        interactor.onLogin = { return .couldNotLogin }
+                        view.primaryButton!.onPress(view.primaryButton!)
+                        expect(messagePresenter.error).toEventuallyNot(beNil())
+                    }
+
+                }
+
             }
-            
+
+            describe("link sent screen") {
+
+                let screen = PasswordlessScreen.linkSent
+
+                beforeEach {
+                    presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
+                    presenter.messagePresenter = messagePresenter
+                    view = presenter.view as! PasswordlessView
+                }
+                
+                it("should show code screen") {
+                    expect(presenter.screen) == PasswordlessScreen.linkSent
+                }
+                
+                it("should expect title on secondary button") {
+                    expect(view.secondaryButton!.title).to(contain("Did not receive the link"))
+                }
+                
+            }
         }
     }
 }

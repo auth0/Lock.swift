@@ -28,7 +28,7 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
 
     let authentication: Authentication
     let dispatcher: Dispatcher
-    let user: User
+    private var user: PasswordlessUser
     let options: Options
     let passwordlessActivity: PasswordlessUserActivity
 
@@ -45,7 +45,7 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
         set { self.user.countryCode = newValue }
     }
 
-    init(authentication: Authentication, dispatcher: Dispatcher, user: User, options: Options, passwordlessActivity: PasswordlessUserActivity) {
+    init(authentication: Authentication, dispatcher: Dispatcher, user: PasswordlessUser, options: Options, passwordlessActivity: PasswordlessUserActivity) {
         self.authentication = authentication
         self.dispatcher = dispatcher
         self.user = user

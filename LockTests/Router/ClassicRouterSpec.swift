@@ -151,12 +151,17 @@ class ClassicRouterSpec: QuickSpec {
 
             describe("passwordless") {
 
+                var router: PasswordlessRouter!
+
                 beforeEach {
-                    lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth()).withOptions{ $0.passwordlessMethod = .emailCode }
-                    controller = MockLockController(lock: lock)
+                    lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth(), classic: false)
                     header = HeaderView()
                     controller.headerView = header
-                    router = Router(lock: lock, controller: controller)
+                    router = PasswordlessRouter(lock: lock, controller: controller)
+                }
+
+                it("should not be in classic mode") {
+                    expect(lock.classicMode) == false
                 }
 
                 it("should return root for passwordless email connection") {

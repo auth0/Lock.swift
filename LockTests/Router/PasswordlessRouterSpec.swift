@@ -101,7 +101,7 @@ class PasswordlessRouterSpec: QuickSpec {
             describe("back") {
 
                 beforeEach {
-                    router.navigate(.passwordlessEmail(screen: .request, connection: PasswordlessConnection(name: "email")))
+                    router.navigate(.passwordless(screen: .request, connection: PasswordlessConnection(name: "email")))
                 }
 
                 it("should navigate back to root") {
@@ -235,7 +235,7 @@ class PasswordlessRouterSpec: QuickSpec {
 
             it("PasswordlessConnection should should be equatable with PasswordlessConnection") {
                 let passwordlessConnection = PasswordlessConnection(name: "email")
-                let match = Route.passwordlessEmail(screen: .code, connection: passwordlessConnection) ==  Route.passwordlessEmail(screen: .code, connection: passwordlessConnection)
+                let match = Route.passwordless(screen: .code, connection: passwordlessConnection) ==  Route.passwordless(screen: .code, connection: passwordlessConnection)
                 expect(match).to(beTrue())
             }
 

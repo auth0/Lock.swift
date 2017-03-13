@@ -37,7 +37,6 @@ class ObserverStoreSpec: QuickSpec {
             var dispatcher: ObserverStore!
             var newEmail: String?
             var newAttributes: [String: Any]?
-            var passwordlessMethod: PasswordlessMethod?
 
             beforeEach {
                 closed = false
@@ -45,7 +44,6 @@ class ObserverStoreSpec: QuickSpec {
                 credentials = nil
                 newEmail = nil
                 newAttributes = nil
-                passwordlessMethod = nil
                 var store = ObserverStore()
                 store.onFailure = { error = $0 }
                 store.onAuth = { credentials = $0 }
