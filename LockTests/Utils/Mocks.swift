@@ -221,15 +221,83 @@ class MockConnectionsLoader: RemoteConnectionLoader {
     }
 }
 
+class MockAuthentication: Authentication {
+
+    private var authentication: Authentication
+
+    public var clientId: String
+
+    public var url: URL
+
+    var logger: Auth0.Logger?
+
+    var telemetry: Telemetry
+
+    var webAuth: MockWebAuth!
+    var webAuthResult: () -> Auth0.Result<Credentials> = { _ in return Auth0.Result.failure(error: AuthenticationError(string: "FAILED", statusCode: 500)) }
+
+    required init(clientId: String, domain: String) {
+        self.authentication = Auth0.authentication(clientId: clientId, domain: domain)
+        self.url = self.authentication.url
+        self.clientId = self.authentication.clientId
+        self.telemetry = self.authentication.telemetry
+    }
+
+    func webAuth(withConnection connection: String) -> WebAuth {
+        let mockWebAuth = MockWebAuth().connection(connection)
+        self.webAuth = mockWebAuth.connection(connection)
+        self.webAuth.result = self.webAuthResult
+        return self.webAuth
+    }
+
+    func tokenInfo(token: String) -> Request<Profile, AuthenticationError> {
+        return self.userInfo(token: token)
+    }
+
+    func resetPassword(email: String, connection: String) -> Request<Void, AuthenticationError> {
+        return self.authentication.resetPassword(email: email, connection: connection)
+    }
+
+    func userInfo(token: String) -> Request<Profile, AuthenticationError> {
+        return self.authentication.userInfo(token: token)
+    }
+
+    func tokenExchange(withParameters parameters: [String : Any]) -> Request<Credentials, AuthenticationError> {
+        return self.authentication.tokenExchange(withParameters: parameters)
+    }
+
+
+    func tokenExchange(withCode code: String, codeVerifier: String, redirectURI: String) -> Request<Credentials, AuthenticationError> {
+        return self.authentication.tokenExchange(withCode: code, codeVerifier: codeVerifier, redirectURI: redirectURI)
+    }
+
+    func renew(withRefreshToken refreshToken: String) -> Request<Credentials, AuthenticationError> {
+        return self.renew(withRefreshToken: refreshToken)
+    }
+
+    func login(usernameOrEmail username: String, password: String, multifactorCode: String?, connection: String, scope: String, parameters: [String : Any]) -> Request<Credentials, AuthenticationError> {
+        return self.authentication.login(usernameOrEmail: username, password: password, multifactorCode: multifactorCode, connection: connection, scope: scope, parameters: parameters)
+    }
+
+    func delegation(withParameters parameters: [String : Any]) -> Request<[String : Any], AuthenticationError> {
+        return self.authentication.delegation(withParameters: parameters)
+    }
+
+    func loginSocial(token: String, connection: String, scope: String, parameters: [String : Any]) -> Request<Credentials, AuthenticationError> {
+        return self.authentication.loginSocial(token: token, connection: connection, scope: scope, parameters: parameters)
+    }
+}
+
 class MockWebAuth: WebAuth {
 
     var clientId: String = "CLIENT_ID"
     var url: URL = .a0_url(domain)
 
     var connection: String? = nil
-    var params: [String: String] = [:]
+    var parameters: [String: String] = [:]
     var scope: String? = nil
     var audience: String? = nil
+
     var result: () -> Auth0.Result<Credentials> = { _ in return Auth0.Result.failure(error: AuthenticationError(string: "FAILED", statusCode: 500)) }
     var telemetry: Telemetry = Telemetry()
 
@@ -246,8 +314,13 @@ class MockWebAuth: WebAuth {
         return self
     }
 
+    func connectionScope(_ connectionScope: String) -> Self {
+        self.parameters["connection_scope"] = connectionScope
+        return self
+    }
+
     func parameters(_ parameters: [String : String]) -> Self {
-        self.params = parameters
+        parameters.forEach { self.parameters[$0] = $1 }
         return self
     }
 
@@ -276,7 +349,7 @@ class MockWebAuth: WebAuth {
         self.audience = audience
         return self
     }
-
+    
     var logger: Auth0.Logger? = nil
 }
 

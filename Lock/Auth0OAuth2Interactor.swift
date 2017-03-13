@@ -25,7 +25,7 @@ import Auth0
 
 struct Auth0OAuth2Interactor: OAuth2Authenticatable {
 
-    let webAuth: Auth0.WebAuth
+    let authentication: Authentication
     let dispatcher: Dispatcher
     let options: Options
     let nativeHandlers: [String: AuthProvider]
@@ -41,13 +41,19 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
     private func webAuth(withConnection connection: String, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
         var parameters: [String: String] = [:]
         self.options.parameters.forEach { parameters[$0] = "\($1)" }
-        var auth = self.webAuth
-            .connection(connection)
+
+        var auth = authentication.webAuth(withConnection: connection)
             .scope(self.options.scope)
             .parameters(parameters)
 
+        auth = auth.logging(enabled: self.options.logHttpRequest)
+
         if let audience = self.options.audience {
             auth = auth.audience(audience)
+        }
+
+        if let connectionScope = self.options.connectionScope[connection] {
+            auth = auth.connectionScope(connectionScope)
         }
 
         auth

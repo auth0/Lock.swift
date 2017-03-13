@@ -50,6 +50,10 @@ class ViewController: UIViewController {
                     .classic()
                     .withOptions {
                         applyDefaultOptions(&$0)
+                        $0.customSignupFields = [
+                            CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
+                            CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
+                        ]
                     }
                     .withStyle {
                         $0.oauth2["slack"] = AuthStyle(
@@ -57,7 +61,7 @@ class ViewController: UIViewController {
                             color: UIColor ( red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0 ),
                             withImage: LazyImage(name: "ic_slack")
                         )
-                    }
+                }
             },
             actionButton(withTitle: "LOGIN WITH CUSTOM STYLE") {
                 return Lock

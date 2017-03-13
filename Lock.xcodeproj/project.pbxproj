@@ -16,7 +16,7 @@
 		5B0CF2DE1DE9B4AF00F82BF4 /* DatabaseUserCreatorErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */; };
 		5B2826431E32297E00E48467 /* NativeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2826421E32297E00E48467 /* NativeHandler.swift */; };
 		5B2981781DD51A460062535C /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2981771DD51A460062535C /* InfoBarView.swift */; };
-		5B4177431E44827B007843EA /* Auth0OAuth2InteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */; };
+		5B3DA2561E6ED92F00370C17 /* Auth0OAuth2InteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */; };
 		5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */; };
 		5B4DE0171DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */; };
 		5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */; };
@@ -25,7 +25,7 @@
 		5B55F3CB1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B55F3CA1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift */; };
 		5B55F3D11E244B8700B75CF5 /* UnrecoverableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B55F3D01E244B8700B75CF5 /* UnrecoverableError.swift */; };
 		5B55F3D41E24FFD000B75CF5 /* UnrecoverableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B55F3D21E24F3F000B75CF5 /* UnrecoverableErrorSpec.swift */; };
-		5B6631531DDB9B28001CB043 /* EnterpriseDomainInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */; };
+		5B889AEC1E6EE8C400C9FBAF /* EnterpriseDomainInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */; };
 		5BA563F11DD117550002D3AB /* EnterpriseActiveAuthInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA563EF1DD1171F0002D3AB /* EnterpriseActiveAuthInteractorSpec.swift */; };
 		5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
@@ -1055,11 +1055,12 @@
 				5F6C01551D91656100198ACD /* UsernameValidatorSpec.swift in Sources */,
 				5F2496BE1D67ADB300A1C6E2 /* EmailValidatorSpec.swift in Sources */,
 				5B0CF2D61DE9AE0F00F82BF4 /* InputValidationErrorSpec.swift in Sources */,
-				5B4177431E44827B007843EA /* Auth0OAuth2InteractorSpec.swift in Sources */,
+				5B3DA2561E6ED92F00370C17 /* Auth0OAuth2InteractorSpec.swift in Sources */,
 				5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */,
 				5BA563F11DD117550002D3AB /* EnterpriseActiveAuthInteractorSpec.swift in Sources */,
 				5F92C68D1D50E47100CCE6C0 /* AuthStyleSpec.swift in Sources */,
 				5F5090081D1DE7BA00EAA650 /* NetworkStub.swift in Sources */,
+				5B889AEC1E6EE8C400C9FBAF /* EnterpriseDomainInteractorSpec.swift in Sources */,
 				5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */,
 				5B55F3D41E24FFD000B75CF5 /* UnrecoverableErrorSpec.swift in Sources */,
 				5F73CDDC1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift in Sources */,
@@ -1084,7 +1085,6 @@
 				5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */,
 				5FE50DBD1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift in Sources */,
 				5F390E8D1D63B99300FC549C /* LoggerSpec.swift in Sources */,
-				5B6631531DDB9B28001CB043 /* EnterpriseDomainInteractorSpec.swift in Sources */,
 				5B0CF2DE1DE9B4AF00F82BF4 /* DatabaseUserCreatorErrorSpec.swift in Sources */,
 				5F2037C21D5D02880005D2E2 /* Matchers.swift in Sources */,
 				5FEEE81E1DB84BBB00B4DFED /* PasswordPolicySpec.swift in Sources */,
