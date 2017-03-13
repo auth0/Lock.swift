@@ -54,6 +54,13 @@ Runs all the tests in a CI environment
 fastlane ios i18n
 ```
 
+### ios release
+```
+fastlane ios release
+```
+Releases the library to Cocoapods & Github Releases and updates README/CHANGELOG
+
+You need to specify the type of release with the `bump` parameter with the values [major|minor|patch]
 
 ----
 
