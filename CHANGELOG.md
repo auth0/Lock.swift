@@ -1,5 +1,15 @@
 # Change Log
 
+## [2.1.0](https://github.com/auth0/Lock.swift/tree/2.1.0) (2017-03-13)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.0.0...2.1.0)
+
+**Added**
+- Added Connection Scope support for OAuth2 connections [\#386](https://github.com/auth0/Lock.swift/pull/386) ([cocojoe](https://github.com/cocojoe))
+- Native authentication handler support [\#377](https://github.com/auth0/Lock.swift/pull/377) ([cocojoe](https://github.com/cocojoe))
+
+**Changed**
+- Update evernote color to match branding [\#411](https://github.com/auth0/Lock.swift/pull/411) ([hzalaz](https://github.com/hzalaz))
+
 ## [2.0.0](https://github.com/auth0/Lock.swift/tree/2.0.0) (2017-02-16)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.0.0-rc.2...2.0.0)
 

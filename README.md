@@ -29,7 +29,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
  Add the following line to your Podfile:
 
  ```ruby
- pod "Lock", "~> 2.0.0"
+ pod "Lock", "~> 2.1.0"
  ```
 
 ### Carthage
