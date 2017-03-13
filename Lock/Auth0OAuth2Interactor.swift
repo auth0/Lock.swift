@@ -46,7 +46,7 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
             .scope(self.options.scope)
             .parameters(parameters)
 
-        _ = auth.logging(enabled: self.options.logHttpRequest)
+        auth = auth.logging(enabled: self.options.logHttpRequest)
 
         if let audience = self.options.audience {
             auth = auth.audience(audience)
