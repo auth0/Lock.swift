@@ -42,14 +42,12 @@ class PasswordlessInteractorSpec: QuickSpec {
         var dispatchCredentials: Credentials?
         var dispatchError: Error?
         var dispatchPasswordlessEmail: String?
-        var dispatchPasswordlessType: PasswordlessMethod?
         let connection = "email"
 
         beforeEach {
             dispatchCredentials = nil
             dispatchError = nil
             dispatchPasswordlessEmail = nil
-            dispatchPasswordlessType = nil
             messagePresenter = MockMessagePresenter()
             options = LockOptions()
             user = User()
@@ -57,7 +55,7 @@ class PasswordlessInteractorSpec: QuickSpec {
             dispatcher = ObserverStore()
             dispatcher.onAuth = { dispatchCredentials = $0 }
             dispatcher.onFailure = { dispatchError = $0 }
-            dispatcher.onPasswordless = { dispatchPasswordlessEmail = $0; dispatchPasswordlessType = $1 }
+            dispatcher.onPasswordless = { dispatchPasswordlessEmail = $0 }
             interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
         }
 
@@ -229,7 +227,6 @@ class PasswordlessInteractorSpec: QuickSpec {
                     }
                 }
                 expect(dispatchPasswordlessEmail).toEventuallyNot(beNil())
-                expect(dispatchPasswordlessType).toEventuallyNot(beNil())
             }
 
             describe("magic link") {
@@ -241,7 +238,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                     user = User()
                     user.email = email
                     user.validEmail = true
-                    options.passwordlessMethod = .magicLink
+                    options.passwordlessMethod = .emailLink
                     interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                     stub(condition: passwordlessStart(email: email, connection: connection)) { _ in return Auth0Stubs.passwordlessSent(email) }
                     stub(condition: databaseLogin(identifier: email, password: code, connection: connection)) { _ in return Auth0Stubs.authentication() }

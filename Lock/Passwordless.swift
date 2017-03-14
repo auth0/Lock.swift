@@ -29,6 +29,6 @@ enum PasswordlessScreen {
 }
 
 public enum PasswordlessMethod: Int, Equatable {
-    case code = 0
-    case magicLink
+    case emailCode = 0
+    case emailLink
 }

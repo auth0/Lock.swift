@@ -44,8 +44,7 @@ class PasswordlessActivity: PasswordlessUserActivity {
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb, let url = userActivity.webpageURL,
             let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return false }
 
-        guard components.path.lowercased().contains(Bundle.main.bundleIdentifier!.lowercased()),
-            let items = components.queryItems else { return false }
+        guard let bundlerIdentifier = Bundle.main.bundleIdentifier, components.path.lowercased().contains(bundlerIdentifier.lowercased()), let items = components.queryItems else { return false }
 
         guard let key = items.filter({ $0.name == "code" }).first, let code = key.value else { return false }
 

@@ -84,7 +84,7 @@ class PasswordlessPresenter: Presentable, Loggable {
                             self.messagePresenter?.showError(error)
                             self.logger.error("Failed with error \(error)")
                         } else {
-                            if self.options.passwordlessMethod == .code {
+                            if self.options.passwordlessMethod == .emailCode {
                                 self.navigator.navigate(Route.passwordlessEmail(screen: .code, connection: connection))
                             } else {
                                 self.navigator.navigate(Route.passwordlessEmail(screen: .linkSent, connection: connection))

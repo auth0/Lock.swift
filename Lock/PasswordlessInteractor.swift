@@ -51,13 +51,13 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
     func request(_ connection: String, callback: @escaping (PasswordlessAuthenticatableError?) -> Void) {
         guard let identifier = self.identifier, self.validIdentifier else { return callback(.nonValidInput) }
 
-        let type = self.options.passwordlessMethod == .code ? PasswordlessType.Code : PasswordlessType.iOSLink
+        let type = self.options.passwordlessMethod == .emailCode ? PasswordlessType.Code : PasswordlessType.iOSLink
 
         self.authentication.startPasswordless(email: identifier, type: type, connection: connection, parameters: self.options.parameters).start {
             switch $0 {
             case .success:
                 callback(nil)
-                self.dispatcher.dispatch(result: .passwordless(identifier, self.options.passwordlessMethod))
+                self.dispatcher.dispatch(result: .passwordless(identifier))
 
                 if type == .iOSLink {
 

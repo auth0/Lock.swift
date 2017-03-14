@@ -147,12 +147,10 @@ class LockSpec: QuickSpec {
 
             it("should register onPasswordless callback") {
                 var email: String? = nil
-                var method: PasswordlessMethod? = nil
-                let callback: (String, PasswordlessMethod) -> () = { email = $0; method = $1 }
+                let callback: (String) -> () = { email = $0 }
                 let _ = lock.onPasswordless(callback: callback)
-                lock.observerStore.onPasswordless("mail@mail.com", .code)
+                lock.observerStore.onPasswordless("mail@mail.com")
                 expect(email) == "mail@mail.com"
-                expect(method) == PasswordlessMethod.code
             }
 
         }
@@ -205,7 +203,7 @@ class LockSpec: QuickSpec {
         }
 
         it("should allow to continue activity") {
-            expect(Lock.continueAuth(withActivity: NSUserActivity(activityType: "test"))) == false
+            expect(Lock.continueAuth(using: NSUserActivity(activityType: "test"))) == false
         }
 
     }

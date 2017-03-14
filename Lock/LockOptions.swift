@@ -46,6 +46,5 @@ struct LockOptions: OptionBuildable {
     var oidcConformant: Bool = false
     var audience: String?
 
-    var passwordlessMethod: PasswordlessMethod = .code
-    var passwordless: Bool = false
+    var passwordlessMethod: PasswordlessMethod = .emailCode
 }

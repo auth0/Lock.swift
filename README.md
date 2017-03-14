@@ -198,26 +198,29 @@ Lock
     .onCancel {
       print("User cancelled")
     }
+    .onPasswordless {
+      print("Passwordless requested for \($0)")
+    }
     .present(from: self)
 ```
 
 #### Passwordless Method
 
-When using passworldess the default method is `.code` which sends the user a one time passcode to login. If you want to use universal links you can use:
+When using Lock passworldess the default passwordless method is `.emailCode` which sends the user a one time passcode to login. If you want to use universal links you can use:
 
 ```swift
 .withOptions {
-  $0.passwordlessMethod = .magicLink
+    $0.passwordlessMethod = .emailLink
 }
 ```
 
 #### Activity callback
 
-If you are using passwordless connections and have specified the `.magicLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
+If you are using Lock passwordless and have specified the `.emailLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
 
 ```swift
 func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-    return Lock.continueAuth(withActivity: userActivity)
+    return Lock.continueAuth(using: userActivity)
 }
 ```
 
@@ -303,16 +306,6 @@ Allows you to set provider scopes for oauth2/social connections with a comma sep
 ```swift
 .withOptions {
   $0.connectionScope = ["facebook": "user_friends,email"]
-```
-
-#### Passwordless Method
-
-If you are using email passwordless connections, the default method is `.code` which sends the user a one time passcode to login. If you want to use universal links you can use:
-
-```swift
-.withOptions {
-  $0.passwordlessMethod = .magicLink
-}
 ```
 
 #### Database

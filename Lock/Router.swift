@@ -58,7 +58,7 @@ struct Router: Navigable {
         }
         let whitelistForActiveAuth = self.lock.options.enterpriseConnectionUsingActiveAuth
 
-        if self.lock.options.passwordless {
+        if !self.lock.classicMode {
             // Passwordless Email
             if let connection = connections.passwordless.filter({ $0.name == "email" }).first {
                 let passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(self.controller?.messagePresenter)

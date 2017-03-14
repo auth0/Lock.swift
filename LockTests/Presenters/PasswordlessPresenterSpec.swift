@@ -133,7 +133,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                 var interactor: MockPasswordlessInteractor!
 
                 beforeEach {
-                    options.passwordlessMethod = .magicLink
+                    options.passwordlessMethod = .emailLink
                     interactor = MockPasswordlessInteractor()
                     interactor.onLogin = { return nil }
                     interactor.onRequest = { return nil }

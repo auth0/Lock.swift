@@ -37,6 +37,8 @@ public class Lock: NSObject {
     var optionsBuilder: OptionBuildable = LockOptions()
     var options: Options { return self.optionsBuilder }
 
+    var classicMode: Bool
+
     var observerStore = ObserverStore()
 
     var nativeHandlers: [String: AuthProvider] = [:]
@@ -61,17 +63,18 @@ public class Lock: NSObject {
     }
 
     /**
-     Creates a new Lock instance
+     Creates a new Lock classic instance
 
      - parameter authentication: Auth0 authentication API client
      - parameter webAuth:        Auth0 webAuth client
 
      - returns: a newly created Lock instance
      */
-    required public init(authentication: Authentication, webAuth: WebAuth) {
+    required public init(authentication: Authentication, webAuth: WebAuth, classic: Bool = true) {
         let (authenticationWithTelemetry, webAuthWithTelemetry) = telemetryFor(authentication: authentication, webAuth: webAuth)
         self.authentication = authenticationWithTelemetry
         self.webAuth = webAuthWithTelemetry
+        self.classicMode = classic
     }
 
     /**
@@ -89,27 +92,38 @@ public class Lock: NSObject {
     }
 
     /**
-     Creates a new Passwordless Lock instance loading Auth0 client info from `Auth0.plist` file in main bundle.
+     Creates a new Lock passwordless instance loading Auth0 client info from `Auth0.plist` file in main bundle.
 
      The property list file should contain the following sections:
 
      - CliendId: your Auth0 client identifier
      - Domain: your Auth0 domain
 
-     - returns: a newly created Lock instance
+     - returns: a newly created Lock Passwordless instance
      */
     public static func passwordless() -> Lock {
-        let newLock = Lock()
-        return newLock.withOptions { $0.passwordless = true }
+        return self.init(authentication: Auth0.authentication(), webAuth: Auth0.webAuth(), classic: false)
     }
 
     /**
-     Creates a new Lock instance using clientId and domain
+     Creates a new Lock passwordless instance using clientId and domain
 
      - parameter clientId: Auth0 clientId of your application
      - parameter domain:   Your Auth0 account domain
 
-     - returns: a newly created Lock instance
+     - returns: a newly created Lock passwordless instance
+     */
+    public static func passwordless(clientId: String, domain: String) -> Lock {
+        return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain), webAuth: Auth0.webAuth(clientId: clientId, domain: domain), classic: false)
+    }
+
+    /**
+     Creates a new Lock classic instance using clientId and domain
+
+     - parameter clientId: Auth0 clientId of your application
+     - parameter domain:   Your Auth0 account domain
+
+     - returns: a newly created Lock classic instance
      */
     public static func classic(clientId: String, domain: String) -> Lock {
         return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain), webAuth: Auth0.webAuth(clientId: clientId, domain: domain))
@@ -240,7 +254,7 @@ public class Lock: NSObject {
      - parameter controller: controller from where Lock is presented
      */
     public func present(from controller: UIViewController) {
-        if let error = self.optionsBuilder.validate() {
+        if let error = self.optionsBuilder.validate(classic: self.classicMode) {
             self.observerStore.onFailure(error)
             // FIXME: Fail violently
         } else {
@@ -250,13 +264,13 @@ public class Lock: NSObject {
 
     /**
      Register a callback to be notified when a user requests passwordless authentication.
-     The callback will yield the user identifier email or mobile and the method used.
+     The callback will yield the user identifier.
 
-     - parameter callback: called when a user signs up
+     - parameter callback: called when a user attempts passwordless authentication
 
      - returns: Lock itself for chaining
      */
-    public func onPasswordless(callback: @escaping (String, PasswordlessMethod) -> Void) -> Lock {
+    public func onPasswordless(callback: @escaping (String) -> Void) -> Lock {
         self.observerStore.onPasswordless = callback
         return self
     }
@@ -308,7 +322,7 @@ public class Lock: NSObject {
 
      ```
      func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-        return Lock.continueActivity(userActivity, restorationHandler: restorationHandler)
+        return return Lock.continueAuth(using: userActivity)
      }
 
      ```
@@ -317,7 +331,7 @@ public class Lock: NSObject {
 
      - returns: true if the link is of the appropriate format, false otherwise
      */
-    public static func continueAuth(withActivity userActivity: NSUserActivity) -> Bool {
+    public static func continueAuth(using userActivity: NSUserActivity) -> Bool {
         return PasswordlessActivity.shared.continueAuth(withActivity: userActivity)
     }
 }

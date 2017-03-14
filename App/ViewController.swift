@@ -68,7 +68,7 @@ class ViewController: UIViewController {
                     .passwordless()
                     .withOptions {
                         applyDefaultOptions(&$0)
-                        //$0.passwordlessMethod = .magicLink
+                        $0.passwordlessMethod = .emailLink
                     }
                     .withStyle {
                         $0.oauth2["slack"] = AuthStyle(
@@ -197,7 +197,7 @@ class ViewController: UIViewController {
             .onError { Log.error?.message("Failed with \($0)") }
             .onSignUp { email, _ in  Log.debug?.message("New user \(email)") }
             .onCancel { Log.debug?.message("User closed lock") }
-            .onPasswordless { Log.debug?.message("Passwordless \($1) requested for \($0)") }
+            .onPasswordless { Log.debug?.message("Passwordless requested for \($0)") }
             .present(from: self)
     }
 }
