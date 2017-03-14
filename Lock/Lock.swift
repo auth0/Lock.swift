@@ -256,7 +256,7 @@ public class Lock: NSObject {
 
      - returns: Lock itself for chaining
      */
-    public func onPasswordless(callback: @escaping (String, PasswordlessMethod) -> ()) -> Lock {
+    public func onPasswordless(callback: @escaping (String, PasswordlessMethod) -> Void) -> Lock {
         self.observerStore.onPasswordless = callback
         return self
     }

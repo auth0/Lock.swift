@@ -31,12 +31,12 @@ protocol PasswordlessAuthenticatable: CredentialAuthenticatable {
 
     mutating func update(_ type: InputField.InputType, value: String?) throws
 
-    func request(_ connection: String, callback: @escaping (PasswordlessAuthenticatableError?) -> ())
-    func login(_ connection: String, callback: @escaping (CredentialAuthError?) -> ())
+    func request(_ connection: String, callback: @escaping (PasswordlessAuthenticatableError?) -> Void)
+    func login(_ connection: String, callback: @escaping (CredentialAuthError?) -> Void)
 }
 
 protocol PasswordlessUserActivity {
     func withMessagePresenter(_ messagePresenter: MessagePresenter?) -> Self
-    func onActivity(callback: @escaping (String, inout MessagePresenter?) -> ())
+    func onActivity(callback: @escaping (String, inout MessagePresenter?) -> Void)
     func continueAuth(withActivity userActivity: NSUserActivity) -> Bool
 }

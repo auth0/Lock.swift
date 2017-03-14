@@ -26,12 +26,12 @@ class PasswordlessActivity: PasswordlessUserActivity {
 
     static let shared = PasswordlessActivity()
 
-    private(set) var onActivity: (String, inout MessagePresenter?) -> () = { _ in }
+    private(set) var onActivity: (String, inout MessagePresenter?) -> Void = { _ in }
     private(set) var messagePresenter: MessagePresenter?
 
     private init() {}
 
-    func onActivity(callback: @escaping (String, inout MessagePresenter?) -> ()) {
+    func onActivity(callback: @escaping (String, inout MessagePresenter?) -> Void) {
         self.onActivity = callback
     }
 
