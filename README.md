@@ -37,7 +37,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
 In your `Cartfile` add
 
 ```
-github "auth0/Lock.swift" "2.0.0"
+github "auth0/Lock.swift" ~>2.1.0
 ```
 
 ## Usage
