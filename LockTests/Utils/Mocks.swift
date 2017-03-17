@@ -361,9 +361,9 @@ class MockOAuth2: OAuth2Authenticatable {
     var onLogin: () -> OAuth2AuthenticatableError? = { _ in return nil }
     var parameters: [String: String] = [:]
 
-    func login(_ connection: String, parameters: [String: String] = [:], callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    func login(_ connection: String, loginHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         self.connection = connection
-        self.parameters = parameters
+        self.parameters["login_hint"] = loginHint
         callback(self.onLogin())
     }
 }

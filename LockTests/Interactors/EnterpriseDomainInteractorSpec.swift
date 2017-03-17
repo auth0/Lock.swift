@@ -182,7 +182,7 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 expect(error).toEventually(beNil())
             }
 
-            it("should add login_hint to login") {
+            it("should add login_hint to parameters") {
                 authentication.webAuthResult = { return .success(result: mockCredentials()) }
                 try! enterprise.updateEmail("user@test.com")
                 enterprise.login() { error = $0 }

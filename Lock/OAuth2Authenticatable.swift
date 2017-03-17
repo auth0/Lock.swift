@@ -23,12 +23,12 @@
 import Foundation
 
 protocol OAuth2Authenticatable {
-    func login(_ connection: String, parameters: [String: String], callback: @escaping (OAuth2AuthenticatableError?) -> Void)
+    func login(_ connection: String, loginHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void)
 }
 
 extension OAuth2Authenticatable {
-    func login(_ connection: String, parameters: [String: String] = [:], callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
-        self.login(connection, parameters: parameters, callback: callback)
+    func login(_ connection: String, loginHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
+        self.login(connection, loginHint: loginHint, callback: callback)
     }
 }
 

@@ -30,20 +30,20 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
     let options: Options
     let nativeHandlers: [String: AuthProvider]
 
-    func login(_ connection: String, parameters: [String: String] = [:], callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
+    func login(_ connection: String, loginHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
         if let nativeHandler = self.nativeHandlers[connection] {
             self.nativeAuth(withConnection: connection, nativeAuth: nativeHandler, callback: callback)
         } else {
-            self.webAuth(withConnection: connection, parameters: parameters, callback: callback)
+            self.webAuth(withConnection: connection, loginHint: loginHint, callback: callback)
         }
     }
 
-    private func webAuth(withConnection connection: String, parameters authParameters: [String: String], callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
+    private func webAuth(withConnection connection: String, loginHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
 
         var parameters: [String: String] = [:]
-        authParameters.forEach { parameters[$0] = "\($1)" }
-
         self.options.parameters.forEach { parameters[$0] = "\($1)" }
+        parameters["login_hint"] = loginHint
+
         var auth = authentication
             .webAuth(withConnection: connection)
             .scope(self.options.scope)
