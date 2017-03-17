@@ -1,4 +1,4 @@
-// Router.swift
+// Navigable.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -23,25 +23,17 @@
 import Foundation
 import Auth0
 
-protocol Router: Navigable {
-    var lock: Lock { get }
-    var root: Presentable? { get }
-    var showBack: Bool { get }
-}
+protocol Navigable {
 
-enum RouterMode {
-    case classic
-    case passwordless
-}
+    func reload(withConnections connections: Connections)
+    func navigate(_ route: Route)
 
-struct RouterFactory {
+    func present(_ controller: UIViewController)
 
-    static func router(with mode: RouterMode, lock: Lock, controller: LockViewController) -> Router {
-        switch mode {
-        case .classic:
-            return RouterClassic(lock: lock, controller: controller)
-        case .passwordless:
-            return RouterPasswordless(lock: lock, controller: controller)
-        }
-    }
+    func exit(withError error: Error)
+
+    func resetScroll(_ animated: Bool)
+    func scroll(toPosition: CGPoint, animated: Bool)
+
+    func onBack()
 }

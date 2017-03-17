@@ -39,7 +39,7 @@ public class LockViewController: UIViewController {
     public required init(lock: Lock) {
         super.init(nibName: nil, bundle: nil)
         lock.observerStore.controller = self
-        self.router = Router(lock: lock, controller: self)
+        self.router = RouterFactory.router(with: lock.classicMode ? .classic : .passwordless, lock: lock, controller: self)
     }
 
     public required init?(coder aDecoder: NSCoder) {

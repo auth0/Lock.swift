@@ -92,7 +92,7 @@ public protocol OptionBuildable: Options {
     var passwordlessMethod: PasswordlessMethod { get set }
 }
 
-extension OptionBuildable {
+internal extension OptionBuildable {
 
     func validate(classic: Bool = true) -> UnrecoverableError? {
         return classic ? validateClassic() : validatePasswordless()

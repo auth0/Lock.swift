@@ -1,4 +1,4 @@
-// Router.swift
+// RouterSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -20,28 +20,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import Nimble
+import Quick
 import Auth0
 
-protocol Router: Navigable {
-    var lock: Lock { get }
-    var root: Presentable? { get }
-    var showBack: Bool { get }
-}
+@testable import Lock
 
-enum RouterMode {
-    case classic
-    case passwordless
-}
+class RouterSpec: QuickSpec {
 
-struct RouterFactory {
+    override func spec() {
 
-    static func router(with mode: RouterMode, lock: Lock, controller: LockViewController) -> Router {
-        switch mode {
-        case .classic:
-            return RouterClassic(lock: lock, controller: controller)
-        case .passwordless:
-            return RouterPasswordless(lock: lock, controller: controller)
+        var lock: Lock!
+        var controller: MockLockController!
+
+        beforeEach {
+            lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
+            controller = MockLockController(lock: lock)
+        }
+
+        describe("router factory") {
+
+            it("should return router classic") {
+                let router = RouterFactory.router(with: .classic, lock: lock, controller: controller)
+                expect(router as? RouterClassic).toNot(beNil())
+            }
+
+            it("should return router passwordless") {
+                let router = RouterFactory.router(with: .passwordless, lock: lock, controller: controller)
+                expect(router as? RouterPasswordless).toNot(beNil())
+            }
+
         }
     }
+
 }

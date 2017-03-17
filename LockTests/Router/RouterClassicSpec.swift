@@ -1,4 +1,4 @@
-// RouterSpec.swift
+// RouterClassicSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -26,13 +26,13 @@ import Auth0
 
 @testable import Lock
 
-class RouterSpec: QuickSpec {
+class RouterClassicSpec: QuickSpec {
 
     override func spec() {
 
         var lock: Lock!
         var controller: MockLockController!
-        var router: Router!
+        var router: RouterClassic!
         var header: HeaderView!
 
         beforeEach {
@@ -41,7 +41,7 @@ class RouterSpec: QuickSpec {
             controller = MockLockController(lock: lock)
             header = HeaderView()
             controller.headerView = header
-            router = Router(lock: lock, controller: controller)
+            router = RouterClassic(lock: lock, controller: controller)
         }
 
         describe("root") {
@@ -49,7 +49,7 @@ class RouterSpec: QuickSpec {
             beforeEach {
                 lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
                 controller = MockLockController(lock: lock)
-                router = Router(lock: lock, controller: controller)
+                router = RouterClassic(lock: lock, controller: controller)
             }
 
             it("should return root for single database connection") {
@@ -148,79 +148,6 @@ class RouterSpec: QuickSpec {
                 }
                 expect(router.root as? PasswordlessPresenter).to(beNil())
             }
-
-            describe("passwordless") {
-
-                beforeEach {
-                    lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth(), classic: false)
-                    header = HeaderView()
-                    controller.headerView = header
-                    router = Router(lock: lock, controller: controller)
-                }
-
-                it("should not be in classic mode") {
-                    expect(lock.classicMode) == false
-                }
-
-                it("should return root for passwordless email connection") {
-                    _ = lock.withConnections {
-                        $0.passwordless(name: "email")
-                    }
-                    let presenter = router.root as? PasswordlessPresenter
-                    expect(presenter).toNot(beNil())
-                }
-
-                it("should not return root for passwordless sms connection") {
-                    _ = lock.withConnections {
-                        $0.passwordless(name: "sms")
-                    }
-                    let presenter = router.root as? PasswordlessPresenter
-                    expect(presenter).to(beNil())
-                }
-
-                it("should return for only social connections") {
-                    _ = lock.withConnections {
-                        $0.social(name: "facebook", style: .Facebook)
-                    }
-                    let presenter = router.root as? AuthPresenter
-                    expect(presenter).toNot(beNil())
-                }
-
-                it("should return root for social connections and passwordless email") {
-                    _ = lock.withConnections {
-                        $0.social(name: "facebook", style: .Facebook)
-                        $0.passwordless(name: "email")
-                    }
-                    let presenter = router.root as? PasswordlessPresenter
-                    expect(presenter).toNot(beNil())
-                    expect(presenter?.authPresenter).toNot(beNil())
-                }
-
-                it("should not return root for social connections and passwordless sms") {
-                    _ = lock.withConnections {
-                        $0.social(name: "facebook", style: .Facebook)
-                        $0.passwordless(name: "sms")
-                    }
-                    let presenter = router.root as? PasswordlessPresenter
-                    expect(presenter).to(beNil())
-                }
-
-                it("should not return root for single database connection") {
-                    _ = lock.withConnections { $0.database(name: connection, requiresUsername: true) }
-                    let root = router.root as? DatabasePresenter
-                    expect(root).to(beNil())
-                }
-
-                it("should not return root for only enterprise connections") {
-                    _ = lock.withConnections {
-                        $0.enterprise(name: "testAD", domains: ["testAD.com"])
-                        $0.enterprise(name: "validAD", domains: ["validAD.com"])
-                    }
-                    expect(router.root as? EnterpriseDomainPresenter).to(beNil())
-                }
-
-            }
-
 
         }
 
@@ -347,7 +274,7 @@ class RouterSpec: QuickSpec {
                     lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
                     controller = MockLockController(lock: lock)
                     controller.headerView = header
-                    router = Router(lock: lock, controller: controller)
+                    router = RouterClassic(lock: lock, controller: controller)
                 }
 
                 it("should fail multifactor screen") {
@@ -397,7 +324,7 @@ class RouterSpec: QuickSpec {
                 lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth()).allowedConnections(["facebook"])
                 controller = MockLockController(lock: lock)
                 controller.headerView = header
-                router = Router(lock: lock, controller: controller)
+                router = RouterClassic(lock: lock, controller: controller)
                 var connections = OfflineConnections()
                 connections.social(name: "facebook", style: .Facebook)
                 connections.social(name: "twitter", style: .Twitter)
