@@ -67,6 +67,7 @@ class MockNavigator: Navigable {
     var connections: Connections? = nil
     var unrecoverableError: Error? = nil
     var headerTitle: String? = "Auth0"
+    var root: Presentable? = nil
 
     func navigate(_ route: Route) {
         self.route = route

@@ -128,11 +128,6 @@ struct RouterClassic: Router {
         return presenter
     }
 
-    var showBack: Bool {
-        guard let routes = self.controller?.routes else { return false }
-        return !routes.history.isEmpty
-    }
-
     func onBack() {
         guard let current = self.controller?.routes.back() else { return }
 

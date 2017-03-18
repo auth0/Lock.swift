@@ -88,7 +88,6 @@
 		5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */; };
 		5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D71D22ED120016FC22 /* Presentable.swift */; };
 		5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D91D22EF490016FC22 /* Router.swift */; };
-		5F5F98DC1D22F0B40016FC22 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98DB1D22F0B40016FC22 /* Router.swift */; };
 		5F6C01551D91656100198ACD /* UsernameValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */; };
 		5F70F1DF1D7904A3004698DA /* ConnectionBuildable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F70F1DE1D7904A3004698DA /* ConnectionBuildable.swift */; };
 		5F70F1E11D790500004698DA /* Connections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F70F1E01D790500004698DA /* Connections.swift */; };
@@ -290,7 +289,6 @@
 		5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenterSpec.swift; sourceTree = "<group>"; };
 		5F5F98D71D22ED120016FC22 /* Presentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Presentable.swift; path = Lock/Presentable.swift; sourceTree = SOURCE_ROOT; };
 		5F5F98D91D22EF490016FC22 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Lock/Router.swift; sourceTree = SOURCE_ROOT; };
-		5F5F98DB1D22F0B40016FC22 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		5F6C01541D91656100198ACD /* UsernameValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsernameValidatorSpec.swift; sourceTree = "<group>"; };
 		5F70F1DE1D7904A3004698DA /* ConnectionBuildable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionBuildable.swift; path = Lock/ConnectionBuildable.swift; sourceTree = SOURCE_ROOT; };
 		5F70F1E01D790500004698DA /* Connections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Connections.swift; path = Lock/Connections.swift; sourceTree = SOURCE_ROOT; };
@@ -789,7 +787,6 @@
 		5FFC54FF1D3803EC00579581 /* Router */ = {
 			isa = PBXGroup;
 			children = (
-				5F5F98DB1D22F0B40016FC22 /* Router.swift */,
 				5B3440C91E7C11E5009F8BF7 /* RouterClassicSpec.swift */,
 				5B3440C61E7C0D6E009F8BF7 /* RouterPasswordlessSpec.swift */,
 			);
@@ -1137,7 +1134,6 @@
 				5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */,
 				5FA250521D48F08200C544FA /* LockSpec.swift in Sources */,
 				5B54CDC41E25200900F0AFFF /* UnrecoverableErrorPresenterSpec.swift in Sources */,
-				5F5F98DC1D22F0B40016FC22 /* Router.swift in Sources */,
 				5FBE5CCD1D3EDF960038536D /* UserSpec.swift in Sources */,
 				5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */,
 				5FBE5CC81D3EA0EA0038536D /* Mocks.swift in Sources */,

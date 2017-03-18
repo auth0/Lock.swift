@@ -25,6 +25,8 @@ import Auth0
 
 protocol Navigable {
 
+    var root: Presentable? { get }
+
     func reload(withConnections connections: Connections)
     func navigate(_ route: Route)
 

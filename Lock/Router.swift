@@ -23,25 +23,4 @@
 import Foundation
 import Auth0
 
-protocol Router: Navigable {
-    var lock: Lock { get }
-    var root: Presentable? { get }
-    var showBack: Bool { get }
-}
-
-enum RouterMode {
-    case classic
-    case passwordless
-}
-
-struct RouterFactory {
-
-    static func router(with mode: RouterMode, lock: Lock, controller: LockViewController) -> Router {
-        switch mode {
-        case .classic:
-            return RouterClassic(lock: lock, controller: controller)
-        case .passwordless:
-            return RouterPasswordless(lock: lock, controller: controller)
-        }
-    }
-}
+protocol Router: Navigable {}

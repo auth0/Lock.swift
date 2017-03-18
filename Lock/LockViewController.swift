@@ -35,11 +35,13 @@ public class LockViewController: UIViewController {
 
     var messagePresenter: MessagePresenter!
     var router: Router!
+    let lock: Lock
 
     public required init(lock: Lock) {
+        self.lock = lock
         super.init(nibName: nil, bundle: nil)
         lock.observerStore.controller = self
-        self.router = RouterFactory.router(with: lock.classicMode ? .classic : .passwordless, lock: lock, controller: self)
+        self.router = lock.classicMode ? RouterClassic(lock: lock, controller: self) : RouterPasswordless(lock: lock, controller: self)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -48,7 +50,7 @@ public class LockViewController: UIViewController {
 
     public override func loadView() {
         let root = UIView()
-        let style = self.router.lock.style
+        let style = self.lock.style
         root.backgroundColor = style.backgroundColor
         self.view = root
 
@@ -71,9 +73,9 @@ public class LockViewController: UIViewController {
         constraintEqual(anchor: header.widthAnchor, toAnchor: scrollView.widthAnchor)
         header.translatesAutoresizingMaskIntoConstraints = false
 
-        header.showClose = self.router.lock.options.closable
+        header.showClose = self.lock.options.closable
         header.onClosePressed = { [weak self] in
-            self?.router.lock.observerStore.dispatch(result: .cancel)
+            self?.lock.observerStore.dispatch(result: .cancel)
         }
         header.apply(style: style)
 
@@ -88,19 +90,20 @@ public class LockViewController: UIViewController {
         center.addObserver(self, selector: #selector(keyboardWasShown), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         center.addObserver(self, selector: #selector(keyboardWasHidden), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
-        self.present(self.router.root, title: Route.root.title(withStyle: self.router.lock.style))
+        self.present(self.router.root, title: Route.root.title(withStyle: self.lock.style))
     }
 
     func present(_ presentable: Presentable?, title: String?) {
         guard var presenter = presentable else { return }
         self.current?.remove()
         let view = presenter.view
-        view.apply(style: self.router.lock.style)
+        view.apply(style: self.lock.style)
         self.anchorConstraint = view.layout(inView: self.scrollView, below: self.headerView)
         presenter.messagePresenter = self.messagePresenter
         self.current = view
         self.headerView.title = title
-        self.headerView.showBack = self.router.showBack
+
+        self.headerView.showBack = !self.routes.history.isEmpty
         self.headerView.onBackPressed = self.router.onBack
         self.scrollView.setContentOffset(CGPoint.zero, animated: false)
     }
