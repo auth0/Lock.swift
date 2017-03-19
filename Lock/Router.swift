@@ -23,4 +23,41 @@
 import Foundation
 import Auth0
 
-protocol Router: Navigable {}
+protocol Router: Navigable {
+    var observerStore: ObserverStore { get }
+    var controller: LockViewController? { get }
+    var root: Presentable? { get }
+}
+
+extension Router {
+    func present(_ controller: UIViewController) {
+        self.controller?.present(controller, animated: true, completion: nil)
+    }
+
+    func resetScroll(_ animated: Bool) {
+        self.controller?.scrollView.setContentOffset(CGPoint.zero, animated: animated)
+    }
+
+    func scroll(toPosition: CGPoint, animated: Bool) {
+        self.controller?.scrollView.setContentOffset(toPosition, animated: animated)
+    }
+
+    func exit(withError error: Error) {
+        let controller = self.controller?.presentingViewController
+        let observerStore = self.observerStore
+        Queue.main.async {
+            controller?.dismiss(animated: true, completion: { _ in
+                observerStore.onFailure(error)
+            })
+        }
+    }
+
+    func reload(with connections: Connections) {
+        self.controller?.reload(connections: connections)
+    }
+
+    func unrecoverableError(for error: UnrecoverableError) -> Presentable? {
+        let presenter = UnrecoverableErrorPresenter(error: error, navigator: self)
+        return presenter
+    }
+}

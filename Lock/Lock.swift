@@ -31,8 +31,9 @@ public class Lock: NSObject {
     private(set) var authentication: Authentication
     private(set) var webAuth: WebAuth
 
-    var connectionProvider: ConnectionProvider = ConnectionProvider(local: OfflineConnections(), allowed: [])
-    var connections: Connections { return self.connectionProvider.connections }
+    private(set) var allowedConnectionNames: [String] = []
+    var clientConnections: Connections = OfflineConnections()
+    var connections: Connections { return self.clientConnections.select(byNames: self.allowedConnectionNames) }
 
     var optionsBuilder: OptionBuildable = LockOptions()
     var options: Options { return self.optionsBuilder }
@@ -139,8 +140,7 @@ public class Lock: NSObject {
     public func withConnections(_ closure: (inout ConnectionBuildable) -> Void) -> Lock {
         var connections: ConnectionBuildable = OfflineConnections()
         closure(&connections)
-        let allowed = self.connectionProvider.allowed
-        self.connectionProvider = ConnectionProvider(local: connections, allowed: allowed)
+        self.clientConnections = connections
         return self
     }
 
@@ -153,8 +153,7 @@ public class Lock: NSObject {
      - returns: Lock itself for chaining
      */
     public func allowedConnections(_ allowedConnections: [String]) -> Lock {
-        let connections = self.connectionProvider.connections
-        self.connectionProvider = ConnectionProvider(local: connections, allowed: allowedConnections)
+        self.allowedConnectionNames = allowedConnections
         return self
     }
 
@@ -334,13 +333,6 @@ public class Lock: NSObject {
     public static func continueAuth(using userActivity: NSUserActivity) -> Bool {
         return PasswordlessActivity.shared.continueAuth(withActivity: userActivity)
     }
-}
-
-struct ConnectionProvider {
-    let local: Connections
-    let allowed: [String]
-
-    var connections: Connections { return local.select(byNames: allowed) }
 }
 
 private func telemetryFor(authentication: Authentication, webAuth: WebAuth) -> (Authentication, WebAuth) {

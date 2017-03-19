@@ -1,4 +1,4 @@
-// RouterClassicSpec.swift
+// ClassicRouterSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -26,13 +26,13 @@ import Auth0
 
 @testable import Lock
 
-class RouterClassicSpec: QuickSpec {
+class ClassicRouterSpec: QuickSpec {
 
     override func spec() {
 
         var lock: Lock!
         var controller: MockLockController!
-        var router: RouterClassic!
+        var router: ClassicRouter!
         var header: HeaderView!
 
         beforeEach {
@@ -41,7 +41,7 @@ class RouterClassicSpec: QuickSpec {
             controller = MockLockController(lock: lock)
             header = HeaderView()
             controller.headerView = header
-            router = RouterClassic(lock: lock, controller: controller)
+            router = ClassicRouter(lock: lock, controller: controller)
         }
 
         describe("root") {
@@ -49,7 +49,7 @@ class RouterClassicSpec: QuickSpec {
             beforeEach {
                 lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
                 controller = MockLockController(lock: lock)
-                router = RouterClassic(lock: lock, controller: controller)
+                router = ClassicRouter(lock: lock, controller: controller)
             }
 
             it("should return root for single database connection") {
@@ -274,7 +274,7 @@ class RouterClassicSpec: QuickSpec {
                     lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
                     controller = MockLockController(lock: lock)
                     controller.headerView = header
-                    router = RouterClassic(lock: lock, controller: controller)
+                    router = ClassicRouter(lock: lock, controller: controller)
                 }
 
                 it("should fail multifactor screen") {
@@ -306,8 +306,8 @@ class RouterClassicSpec: QuickSpec {
             it("should override connections") {
                 var connections = OfflineConnections()
                 connections.social(name: "facebook", style: .Facebook)
-                router.reload(withConnections: connections)
-                let actual = router.lock.connectionProvider.connections
+                router.reload(with: connections)
+                let actual = router.lock.connections
                 expect(actual.isEmpty) == false
                 expect(actual.oauth2.map { $0.name }).to(contain("facebook"))
             }
@@ -315,7 +315,7 @@ class RouterClassicSpec: QuickSpec {
             it("should show root") {
                 var connections = OfflineConnections()
                 connections.social(name: "facebook", style: .Facebook)
-                router.reload(withConnections: connections)
+                router.reload(with: connections)
                 expect(controller.presentable).toNot(beNil())
                 expect(controller.routes.history).to(beEmpty())
             }
@@ -324,12 +324,12 @@ class RouterClassicSpec: QuickSpec {
                 lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth()).allowedConnections(["facebook"])
                 controller = MockLockController(lock: lock)
                 controller.headerView = header
-                router = RouterClassic(lock: lock, controller: controller)
+                router = ClassicRouter(lock: lock, controller: controller)
                 var connections = OfflineConnections()
                 connections.social(name: "facebook", style: .Facebook)
                 connections.social(name: "twitter", style: .Twitter)
-                router.reload(withConnections: connections)
-                let actual = router.lock.connectionProvider.connections
+                router.reload(with: connections)
+                let actual = router.lock.connections
                 expect(actual.oauth2.map { $0.name }).toNot(contain("twitter"))
                 expect(actual.oauth2.map { $0.name }).to(contain("facebook"))
             }
@@ -341,7 +341,7 @@ class RouterClassicSpec: QuickSpec {
                             done()
                         }
                     }
-                    router.reload(withConnections: OfflineConnections())
+                    router.reload(with: OfflineConnections())
                 }
             }
 

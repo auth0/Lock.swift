@@ -1,4 +1,4 @@
-// RouterClassic.swift
+// ClassicRouter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -23,11 +23,13 @@
 import Foundation
 import Auth0
 
-struct RouterClassic: Router {
+struct ClassicRouter: Router {
     weak var controller: LockViewController?
 
     let user = User()
     let lock: Lock
+
+    var observerStore: ObserverStore { return self.lock.observerStore }
 
     init(lock: Lock, controller: LockViewController) {
         self.controller = controller
@@ -123,11 +125,6 @@ struct RouterClassic: Router {
         return presenter
     }
 
-    func unrecoverableError(_ error: UnrecoverableError) -> Presentable? {
-        let presenter = UnrecoverableErrorPresenter(error: error, navigator: self)
-        return presenter
-    }
-
     func onBack() {
         guard let current = self.controller?.routes.back() else { return }
 
@@ -146,15 +143,6 @@ struct RouterClassic: Router {
         }
     }
 
-    func reload(withConnections connections: Connections) {
-        self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed)
-        let connections = self.lock.connections
-        self.lock.logger.debug("Reloading Lock with connections \(connections).")
-        guard !connections.isEmpty else { return exit(withError: UnrecoverableError.clientWithNoConnections) }
-        self.controller?.routes.reset()
-        self.controller?.present(self.root, title: self.controller?.routes.current.title(withStyle: self.lock.style))
-    }
-
     func navigate(_ route: Route) {
         let presentable: Presentable?
         switch route {
@@ -167,7 +155,7 @@ struct RouterClassic: Router {
         case .enterpriseActiveAuth(let connection, let domain):
             presentable = self.enterpriseActiveAuth(connection: connection, domain: domain)
         case .unrecoverableError(let error):
-            presentable = self.unrecoverableError(error)
+            presentable = self.unrecoverableError(for: error)
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")
             return
@@ -175,29 +163,6 @@ struct RouterClassic: Router {
         self.lock.logger.debug("Navigating to \(route)")
         self.controller?.routes.go(route)
         self.controller?.present(presentable, title: route.title(withStyle: self.lock.style))
-    }
-
-    func present(_ controller: UIViewController) {
-        self.controller?.present(controller, animated: true, completion: nil)
-    }
-
-    func resetScroll(_ animated: Bool) {
-        self.controller?.scrollView.setContentOffset(CGPoint.zero, animated: animated)
-    }
-
-    func scroll(toPosition: CGPoint, animated: Bool) {
-        self.controller?.scrollView.setContentOffset(toPosition, animated: animated)
-    }
-
-    func exit(withError error: Error) {
-        let controller = self.controller?.presentingViewController
-        let lock = self.lock
-        self.lock.logger.debug("Dismissing Lock with error \(error)")
-        Queue.main.async {
-            controller?.dismiss(animated: true, completion: { _ in
-                lock.observerStore.onFailure(error)
-            })
-        }
     }
 }
 

@@ -1,4 +1,4 @@
-// RouterPasswordlessSpec.swift
+// PasswordlessRouterSpec.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -26,13 +26,13 @@ import Auth0
 
 @testable import Lock
 
-class RouterPasswordlessSpec: QuickSpec {
+class PasswordlessRouterSpec: QuickSpec {
 
     override func spec() {
 
         var lock: Lock!
         var controller: MockLockController!
-        var router: RouterPasswordless!
+        var router: PasswordlessRouter!
         var header: HeaderView!
 
         beforeEach {
@@ -41,7 +41,7 @@ class RouterPasswordlessSpec: QuickSpec {
             controller = MockLockController(lock: lock)
             header = HeaderView()
             controller.headerView = header
-            router = RouterPasswordless(lock: lock, controller: controller)
+            router = PasswordlessRouter(lock: lock, controller: controller)
         }
 
         describe("root") {
@@ -49,7 +49,7 @@ class RouterPasswordlessSpec: QuickSpec {
             beforeEach {
                 lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
                 controller = MockLockController(lock: lock)
-                router = RouterPasswordless(lock: lock, controller: controller)
+                router = PasswordlessRouter(lock: lock, controller: controller)
             }
 
             it("should return root for passwordless email connection") {
@@ -185,8 +185,8 @@ class RouterPasswordlessSpec: QuickSpec {
             it("should override connections") {
                 var connections = OfflineConnections()
                 connections.passwordless(name: "email")
-                router.reload(withConnections: connections)
-                let actual = router.lock.connectionProvider.connections
+                router.reload(with: connections)
+                let actual = router.lock.connections
                 expect(actual.isEmpty) == false
                 expect(actual.passwordless.map { $0.name }).to(contain("email"))
             }
@@ -194,7 +194,7 @@ class RouterPasswordlessSpec: QuickSpec {
             it("should show root") {
                 var connections = OfflineConnections()
                 connections.passwordless(name: "email")
-                router.reload(withConnections: connections)
+                router.reload(with: connections)
                 expect(controller.presentable).toNot(beNil())
                 expect(controller.routes.history).to(beEmpty())
             }
@@ -203,12 +203,12 @@ class RouterPasswordlessSpec: QuickSpec {
                 lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth(), classic: false).allowedConnections(["email"])
                 controller = MockLockController(lock: lock)
                 controller.headerView = header
-                router = RouterPasswordless(lock: lock, controller: controller)
+                router = PasswordlessRouter(lock: lock, controller: controller)
                 var connections = OfflineConnections()
                 connections.passwordless(name: "email")
                 connections.passwordless(name: "sms")
-                router.reload(withConnections: connections)
-                let actual = router.lock.connectionProvider.connections
+                router.reload(with: connections)
+                let actual = router.lock.connections
                 expect(actual.passwordless.map { $0.name }).toNot(contain("sms"))
                  expect(actual.passwordless.map { $0.name }).to(contain("email"))
             }
@@ -220,7 +220,7 @@ class RouterPasswordlessSpec: QuickSpec {
                             done()
                         }
                     }
-                    router.reload(withConnections: OfflineConnections())
+                    router.reload(with: OfflineConnections())
                 }
             }
 

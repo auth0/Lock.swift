@@ -1,4 +1,4 @@
-// RouterPasswordless.swift
+// PasswordlessRouter.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -23,12 +23,14 @@
 import Foundation
 import Auth0
 
-struct RouterPasswordless: Router {
+struct PasswordlessRouter: Router {
 
     weak var controller: LockViewController?
 
     let user = User()
     let lock: Lock
+
+    var observerStore: ObserverStore { return self.lock.observerStore }
 
     init(lock: Lock, controller: LockViewController) {
         self.controller = controller
@@ -40,17 +42,17 @@ struct RouterPasswordless: Router {
         guard !connections.isEmpty else {
             self.lock.logger.debug("No connections configured. Loading client info from Auth0...")
             let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
-            return ConnectionLoadingPresenter(loader: interactor, navigator: self, dispatcher: lock.observerStore, options: self.lock.options)
+            return ConnectionLoadingPresenter(loader: interactor, navigator: self, dispatcher: observerStore, options: self.lock.options)
         }
 
         // Passwordless Email
         if let connection = connections.passwordless.filter({ $0.name == "email" }).first {
             let passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(self.controller?.messagePresenter)
-            let interactor = PasswordlessInteractor(authentication: self.lock.authentication, dispatcher: lock.observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
+            let interactor = PasswordlessInteractor(authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
             let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options)
             // +Social
             if !connections.oauth2.isEmpty {
-                let interactor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: lock.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
+                let interactor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
                 presenter.authPresenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
             }
             return presenter
@@ -59,7 +61,7 @@ struct RouterPasswordless: Router {
         }
         // Social Only
         if !connections.oauth2.isEmpty {
-            let interactor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: lock.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
+            let interactor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
             let presenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
             return presenter
         }
@@ -67,21 +69,11 @@ struct RouterPasswordless: Router {
         return nil
     }
 
-    func unrecoverableError(_ error: UnrecoverableError) -> Presentable? {
-        let presenter = UnrecoverableErrorPresenter(error: error, navigator: self)
-        return presenter
-    }
-
     func passwordless(withScreen screen: PasswordlessScreen, connection: PasswordlessConnection) -> Presentable? {
         let passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(self.controller?.messagePresenter)
-        let interactor = PasswordlessInteractor(authentication: self.lock.authentication, dispatcher: lock.observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
+        let interactor = PasswordlessInteractor(authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
         let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options, screen: screen)
         return presenter
-    }
-
-    var showBack: Bool {
-        guard let routes = self.controller?.routes else { return false }
-        return !routes.history.isEmpty
     }
 
     func onBack() {
@@ -100,22 +92,13 @@ struct RouterPasswordless: Router {
         }
     }
 
-    func reload(withConnections connections: Connections) {
-        self.lock.connectionProvider = ConnectionProvider(local: connections, allowed: self.lock.connectionProvider.allowed)
-        let connections = self.lock.connections
-        self.lock.logger.debug("Reloading Lock with connections \(connections).")
-        guard !connections.isEmpty else { return exit(withError: UnrecoverableError.clientWithNoConnections) }
-        self.controller?.routes.reset()
-        self.controller?.present(self.root, title: self.controller?.routes.current.title(withStyle: self.lock.style))
-    }
-
     func navigate(_ route: Route) {
         let presentable: Presentable?
         switch route {
         case .root where self.controller?.routes.current != .root:
             presentable = self.root
         case .unrecoverableError(let error):
-            presentable = self.unrecoverableError(error)
+            presentable = self.unrecoverableError(for: error)
         case .passwordlessEmail(let screen, let connection):
             presentable = self.passwordless(withScreen: screen, connection: connection)
         default:
@@ -125,28 +108,5 @@ struct RouterPasswordless: Router {
         self.lock.logger.debug("Navigating to \(route)")
         self.controller?.routes.go(route)
         self.controller?.present(presentable, title: route.title(withStyle: self.lock.style))
-    }
-
-    func present(_ controller: UIViewController) {
-        self.controller?.present(controller, animated: true, completion: nil)
-    }
-
-    func resetScroll(_ animated: Bool) {
-        self.controller?.scrollView.setContentOffset(CGPoint.zero, animated: animated)
-    }
-
-    func scroll(toPosition: CGPoint, animated: Bool) {
-        self.controller?.scrollView.setContentOffset(toPosition, animated: animated)
-    }
-
-    func exit(withError error: Error) {
-        let controller = self.controller?.presentingViewController
-        let lock = self.lock
-        self.lock.logger.debug("Dismissing Lock with error \(error)")
-        Queue.main.async {
-            controller?.dismiss(animated: true, completion: { _ in
-                lock.observerStore.onFailure(error)
-            })
-        }
     }
 }

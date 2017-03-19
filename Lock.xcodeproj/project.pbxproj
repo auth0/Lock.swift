@@ -20,10 +20,10 @@
 		5B2826431E32297E00E48467 /* NativeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2826421E32297E00E48467 /* NativeHandler.swift */; };
 		5B2981781DD51A460062535C /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2981771DD51A460062535C /* InfoBarView.swift */; };
 		5B3440C11E7C0955009F8BF7 /* Navigable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3440C01E7C0955009F8BF7 /* Navigable.swift */; };
-		5B3440C31E7C0987009F8BF7 /* RouterClassic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3440C21E7C0987009F8BF7 /* RouterClassic.swift */; };
-		5B3440C51E7C09A1009F8BF7 /* RouterPasswordless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3440C41E7C09A1009F8BF7 /* RouterPasswordless.swift */; };
-		5B3440CB1E7C11E7009F8BF7 /* RouterClassicSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3440C91E7C11E5009F8BF7 /* RouterClassicSpec.swift */; };
-		5B3440CC1E7C11EB009F8BF7 /* RouterPasswordlessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3440C61E7C0D6E009F8BF7 /* RouterPasswordlessSpec.swift */; };
+		5B3440C31E7C0987009F8BF7 /* ClassicRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3440C21E7C0987009F8BF7 /* ClassicRouter.swift */; };
+		5B3440C51E7C09A1009F8BF7 /* PasswordlessRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3440C41E7C09A1009F8BF7 /* PasswordlessRouter.swift */; };
+		5B3440CB1E7C11E7009F8BF7 /* ClassicRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3440C91E7C11E5009F8BF7 /* ClassicRouterSpec.swift */; };
+		5B3440CC1E7C11EB009F8BF7 /* PasswordlessRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3440C61E7C0D6E009F8BF7 /* PasswordlessRouterSpec.swift */; };
 		5B3DA2561E6ED92F00370C17 /* Auth0OAuth2InteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */; };
 		5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */; };
 		5B4DE0171DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */; };
@@ -224,10 +224,10 @@
 		5B2826421E32297E00E48467 /* NativeHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeHandler.swift; sourceTree = "<group>"; };
 		5B2981771DD51A460062535C /* InfoBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoBarView.swift; path = Lock/InfoBarView.swift; sourceTree = SOURCE_ROOT; };
 		5B3440C01E7C0955009F8BF7 /* Navigable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigable.swift; sourceTree = "<group>"; };
-		5B3440C21E7C0987009F8BF7 /* RouterClassic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterClassic.swift; sourceTree = "<group>"; };
-		5B3440C41E7C09A1009F8BF7 /* RouterPasswordless.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterPasswordless.swift; sourceTree = "<group>"; };
-		5B3440C61E7C0D6E009F8BF7 /* RouterPasswordlessSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterPasswordlessSpec.swift; sourceTree = "<group>"; };
-		5B3440C91E7C11E5009F8BF7 /* RouterClassicSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterClassicSpec.swift; sourceTree = "<group>"; };
+		5B3440C21E7C0987009F8BF7 /* ClassicRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassicRouter.swift; sourceTree = "<group>"; };
+		5B3440C41E7C09A1009F8BF7 /* PasswordlessRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessRouter.swift; sourceTree = "<group>"; };
+		5B3440C61E7C0D6E009F8BF7 /* PasswordlessRouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessRouterSpec.swift; sourceTree = "<group>"; };
+		5B3440C91E7C11E5009F8BF7 /* ClassicRouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassicRouterSpec.swift; sourceTree = "<group>"; };
 		5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainInteractor.swift; path = Lock/EnterpriseDomainInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthPresenter.swift; path = Lock/EnterpriseActiveAuthPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseActiveAuthView.swift; path = Lock/EnterpriseActiveAuthView.swift; sourceTree = SOURCE_ROOT; };
@@ -775,8 +775,8 @@
 			isa = PBXGroup;
 			children = (
 				5F5F98D91D22EF490016FC22 /* Router.swift */,
-				5B3440C21E7C0987009F8BF7 /* RouterClassic.swift */,
-				5B3440C41E7C09A1009F8BF7 /* RouterPasswordless.swift */,
+				5B3440C21E7C0987009F8BF7 /* ClassicRouter.swift */,
+				5B3440C41E7C09A1009F8BF7 /* PasswordlessRouter.swift */,
 				5B3440C01E7C0955009F8BF7 /* Navigable.swift */,
 				5FFC54FD1D37E3F700579581 /* Routes.swift */,
 			);
@@ -787,8 +787,8 @@
 		5FFC54FF1D3803EC00579581 /* Router */ = {
 			isa = PBXGroup;
 			children = (
-				5B3440C91E7C11E5009F8BF7 /* RouterClassicSpec.swift */,
-				5B3440C61E7C0D6E009F8BF7 /* RouterPasswordlessSpec.swift */,
+				5B3440C91E7C11E5009F8BF7 /* ClassicRouterSpec.swift */,
+				5B3440C61E7C0D6E009F8BF7 /* PasswordlessRouterSpec.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -1065,7 +1065,7 @@
 				5FDC876D1D46DAF200D28596 /* Queue.swift in Sources */,
 				5F70F1E11D790500004698DA /* Connections.swift in Sources */,
 				5B568F821E4B6506004B3D98 /* PasswordlessAuthenticatableError.swift in Sources */,
-				5B3440C51E7C09A1009F8BF7 /* RouterPasswordless.swift in Sources */,
+				5B3440C51E7C09A1009F8BF7 /* PasswordlessRouter.swift in Sources */,
 				5F92C68F1D50EAC200CCE6C0 /* LazyImage.swift in Sources */,
 				5F2496BA1D665AE900A1C6E2 /* CredentialAuthError.swift in Sources */,
 				5B9A54461E4B2CB4004B5454 /* PasswordlessAuthenticatable.swift in Sources */,
@@ -1080,7 +1080,7 @@
 				5FBE5CBA1D3E59B90038536D /* MultifactorCodeView.swift in Sources */,
 				5F1C49901D8360BF005B74FC /* ConnectionLoadingPresenter.swift in Sources */,
 				5F51EE6A1D1CBC830024BCD6 /* SingleInputView.swift in Sources */,
-				5B3440C31E7C0987009F8BF7 /* RouterClassic.swift in Sources */,
+				5B3440C31E7C0987009F8BF7 /* ClassicRouter.swift in Sources */,
 				5F99AA881D1B0E2500D27842 /* Layout.swift in Sources */,
 				5F2496BC1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift in Sources */,
 				5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */,
@@ -1115,7 +1115,7 @@
 				5F2496BE1D67ADB300A1C6E2 /* EmailValidatorSpec.swift in Sources */,
 				5B0CF2D61DE9AE0F00F82BF4 /* InputValidationErrorSpec.swift in Sources */,
 				5B3DA2561E6ED92F00370C17 /* Auth0OAuth2InteractorSpec.swift in Sources */,
-				5B3440CC1E7C11EB009F8BF7 /* RouterPasswordlessSpec.swift in Sources */,
+				5B3440CC1E7C11EB009F8BF7 /* PasswordlessRouterSpec.swift in Sources */,
 				5FBE5CCA1D3EA1380038536D /* MultifactorPresenterSpec.swift in Sources */,
 				5BA563F11DD117550002D3AB /* EnterpriseActiveAuthInteractorSpec.swift in Sources */,
 				5BB78CC51E54BD530074DFE3 /* PasswordlessPresenterSpec.swift in Sources */,
@@ -1143,7 +1143,7 @@
 				5B0CF2D91DE9B1DB00F82BF4 /* DatabaseAuthenticatableErrorSpec.swift in Sources */,
 				5FF0B22A1E1864FE00A73257 /* StyleSpec.swift in Sources */,
 				5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */,
-				5B3440CB1E7C11E7009F8BF7 /* RouterClassicSpec.swift in Sources */,
+				5B3440CB1E7C11E7009F8BF7 /* ClassicRouterSpec.swift in Sources */,
 				5B1FD9701E4E2F170055C1AC /* PasswordlessActivitySpec.swift in Sources */,
 				5FE50DBD1D79B8AD00D82290 /* CDNLoaderInteractorSpec.swift in Sources */,
 				5F390E8D1D63B99300FC549C /* LoggerSpec.swift in Sources */,

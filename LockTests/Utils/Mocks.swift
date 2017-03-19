@@ -85,7 +85,7 @@ class MockNavigator: Navigable {
         self.presented = controller
     }
 
-    func reload(withConnections connections: Connections) {
+    func reload(with connections: Connections) {
         self.connections = connections
     }
 

@@ -41,7 +41,7 @@ public class LockViewController: UIViewController {
         self.lock = lock
         super.init(nibName: nil, bundle: nil)
         lock.observerStore.controller = self
-        self.router = lock.classicMode ? RouterClassic(lock: lock, controller: self) : RouterPasswordless(lock: lock, controller: self)
+        self.router = lock.classicMode ? ClassicRouter(lock: lock, controller: self) : PasswordlessRouter(lock: lock, controller: self)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -106,6 +106,15 @@ public class LockViewController: UIViewController {
         self.headerView.showBack = !self.routes.history.isEmpty
         self.headerView.onBackPressed = self.router.onBack
         self.scrollView.setContentOffset(CGPoint.zero, animated: false)
+    }
+
+    func reload(connections: Connections) {
+        self.lock.clientConnections = connections
+        let connections = self.lock.connections
+        self.lock.logger.debug("Reloaded Lock with connections \(connections).")
+        guard !self.lock.connections.isEmpty else { return router.exit(withError: UnrecoverableError.clientWithNoConnections) }
+        self.routes.reset()
+        self.present(self.router.root, title: self.routes.current.title(withStyle: self.lock.style))
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
