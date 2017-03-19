@@ -41,9 +41,9 @@ class DatabaseForgotPasswordView: UIView, View {
         self.addSubview(primaryButton)
         self.addLayoutGuide(center)
 
-        constraintEqual(anchor: center.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: center.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: center.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: center.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
+        constraintEqual(anchor: center.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: center.bottomAnchor, toAnchor: primaryButton.topAnchor)
 
         constraintEqual(anchor: forgotView.leftAnchor, toAnchor: center.leftAnchor)

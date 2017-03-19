@@ -45,7 +45,7 @@ class ViewController: UIViewController {
         header.translatesAutoresizingMaskIntoConstraints = false
 
         let actions = [
-            actionButton(withTitle: "LOGIN WITH CDN") {
+            actionButton(withTitle: "LOGIN WITH CDN CLASSIC") {
                 return Lock
                     .classic()
                     .withOptions {
@@ -54,6 +54,20 @@ class ViewController: UIViewController {
                             CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
                             CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
                         ]
+                    }
+                    .withStyle {
+                            $0.oauth2["slack"] = AuthStyle(
+                            name: "Slack",
+                            color: UIColor ( red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0 ),
+                            withImage: LazyImage(name: "ic_slack")
+                        )
+                }
+            },
+            actionButton(withTitle: "LOGIN WITH CDN PASSWORDLESS") {
+                return Lock
+                    .passwordless()
+                    .withOptions {
+                        applyDefaultOptions(&$0)
                     }
                     .withStyle {
                         $0.oauth2["slack"] = AuthStyle(
@@ -182,6 +196,7 @@ class ViewController: UIViewController {
             .onError { Log.error?.message("Failed with \($0)") }
             .onSignUp { email, _ in  Log.debug?.message("New user \(email)") }
             .onCancel { Log.debug?.message("User closed lock") }
+            .onPasswordless { Log.debug?.message("Passwordless requested for \($0)") }
             .present(from: self)
     }
 }

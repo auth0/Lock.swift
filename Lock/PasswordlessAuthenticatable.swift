@@ -1,6 +1,6 @@
-// Options.swift
+// PasswordlessAuthenticatable.swift
 //
-// Copyright (c) 2016 Auth0 (http://auth0.com)
+// Copyright (c) 2017 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,32 +21,22 @@
 // THE SOFTWARE.
 
 import Foundation
+import Auth0
 
-public protocol Options {
-    var closable: Bool { get }
+protocol PasswordlessAuthenticatable: CredentialAuthenticatable {
+    var identifier: String? { get }
+    var validIdentifier: Bool { get }
+    var code: String? { get }
+    var validCode: Bool { get }
 
-    var termsOfServiceURL: URL { get }
-    var privacyPolicyURL: URL { get }
+    mutating func update(_ type: InputField.InputType, value: String?) throws
 
-    var logLevel: LoggerLevel { get }
-    var loggerOutput: LoggerOutput? { get }
-    var logHttpRequest: Bool { get }
+    func request(_ connection: String, callback: @escaping (PasswordlessAuthenticatableError?) -> Void)
+    func login(_ connection: String, callback: @escaping (CredentialAuthError?) -> Void)
+}
 
-    var scope: String { get }
-    var connectionScope: [String: String] { get }
-    var parameters: [String: Any] { get }
-    var allow: DatabaseMode { get }
-    var autoClose: Bool { get }
-    var initialScreen: DatabaseScreen { get }
-    var usernameStyle: DatabaseIdentifierStyle { get }
-    var customSignupFields: [CustomTextField] { get }
-    var loginAfterSignup: Bool { get }
-
-    var activeDirectoryEmailAsUsername: Bool { get }
-    var enterpriseConnectionUsingActiveAuth: [String] { get }
-
-    var oidcConformant: Bool { get }
-    var audience: String? { get }
-
-    var passwordlessMethod: PasswordlessMethod { get }
+protocol PasswordlessUserActivity {
+    func withMessagePresenter(_ messagePresenter: MessagePresenter?) -> Self
+    func onActivity(callback: @escaping (String, inout MessagePresenter?) -> Void)
+    func continueAuth(withActivity userActivity: NSUserActivity) -> Bool
 }

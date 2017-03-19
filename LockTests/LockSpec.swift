@@ -145,6 +145,14 @@ class LockSpec: QuickSpec {
                 expect(executed) == true
             }
 
+            it("should register onPasswordless callback") {
+                var email: String? = nil
+                let callback: (String) -> () = { email = $0 }
+                let _ = lock.onPasswordless(callback: callback)
+                lock.observerStore.onPasswordless("mail@mail.com")
+                expect(email) == "mail@mail.com"
+            }
+
         }
 
         describe("native handler") {
@@ -192,6 +200,10 @@ class LockSpec: QuickSpec {
 
         it("should allow to resume Auth") {
             expect(Lock.resumeAuth(.a0_url("samples.auth0.com"), options: [:])) == false
+        }
+
+        it("should allow to continue activity") {
+            expect(Lock.continueAuth(using: NSUserActivity(activityType: "test"))) == false
         }
 
     }

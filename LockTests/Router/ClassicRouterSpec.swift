@@ -1,4 +1,4 @@
-// RouterSpec.swift
+// ClassicRouterSpec.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //
@@ -26,13 +26,13 @@ import Auth0
 
 @testable import Lock
 
-class RouterSpec: QuickSpec {
+class ClassicRouterSpec: QuickSpec {
 
     override func spec() {
 
         var lock: Lock!
         var controller: MockLockController!
-        var router: Router!
+        var router: ClassicRouter!
         var header: HeaderView!
 
         beforeEach {
@@ -41,7 +41,7 @@ class RouterSpec: QuickSpec {
             controller = MockLockController(lock: lock)
             header = HeaderView()
             controller.headerView = header
-            router = Router(lock: lock, controller: controller)
+            router = ClassicRouter(lock: lock, controller: controller)
         }
 
         describe("root") {
@@ -49,7 +49,7 @@ class RouterSpec: QuickSpec {
             beforeEach {
                 lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
                 controller = MockLockController(lock: lock)
-                router = Router(lock: lock, controller: controller)
+                router = ClassicRouter(lock: lock, controller: controller)
             }
 
             it("should return root for single database connection") {
@@ -141,6 +141,14 @@ class RouterSpec: QuickSpec {
                 }.nativeAuthentication(forConnection: "facebook", handler: MockNativeAuthHandler())
                 expect(router.root as? AuthPresenter).toNot(beNil())
             }
+
+            it("should not return root for passwordless connection") {
+                _ = lock.withConnections {
+                    $0.passwordless(name: "email")
+                }
+                expect(router.root as? PasswordlessPresenter).to(beNil())
+            }
+
         }
 
         describe("events") {
@@ -266,7 +274,7 @@ class RouterSpec: QuickSpec {
                     lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
                     controller = MockLockController(lock: lock)
                     controller.headerView = header
-                    router = Router(lock: lock, controller: controller)
+                    router = ClassicRouter(lock: lock, controller: controller)
                 }
 
                 it("should fail multifactor screen") {
@@ -298,8 +306,8 @@ class RouterSpec: QuickSpec {
             it("should override connections") {
                 var connections = OfflineConnections()
                 connections.social(name: "facebook", style: .Facebook)
-                router.reload(withConnections: connections)
-                let actual = router.lock.connectionProvider.connections
+                router.reload(with: connections)
+                let actual = router.lock.connections
                 expect(actual.isEmpty) == false
                 expect(actual.oauth2.map { $0.name }).to(contain("facebook"))
             }
@@ -307,7 +315,7 @@ class RouterSpec: QuickSpec {
             it("should show root") {
                 var connections = OfflineConnections()
                 connections.social(name: "facebook", style: .Facebook)
-                router.reload(withConnections: connections)
+                router.reload(with: connections)
                 expect(controller.presentable).toNot(beNil())
                 expect(controller.routes.history).to(beEmpty())
             }
@@ -316,12 +324,12 @@ class RouterSpec: QuickSpec {
                 lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth()).allowedConnections(["facebook"])
                 controller = MockLockController(lock: lock)
                 controller.headerView = header
-                router = Router(lock: lock, controller: controller)
+                router = ClassicRouter(lock: lock, controller: controller)
                 var connections = OfflineConnections()
                 connections.social(name: "facebook", style: .Facebook)
                 connections.social(name: "twitter", style: .Twitter)
-                router.reload(withConnections: connections)
-                let actual = router.lock.connectionProvider.connections
+                router.reload(with: connections)
+                let actual = router.lock.connections
                 expect(actual.oauth2.map { $0.name }).toNot(contain("twitter"))
                 expect(actual.oauth2.map { $0.name }).to(contain("facebook"))
             }
@@ -333,7 +341,7 @@ class RouterSpec: QuickSpec {
                             done()
                         }
                     }
-                    router.reload(withConnections: OfflineConnections())
+                    router.reload(with: OfflineConnections())
                 }
             }
 
@@ -359,6 +367,12 @@ class RouterSpec: QuickSpec {
             it("EnterpriseActiveAuth should should be equatable with EnterpriseActiveAuth") {
                 let enterpriseConnection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
                 let match = Route.enterpriseActiveAuth(connection: enterpriseConnection, domain: "test.com") == Route.enterpriseActiveAuth(connection: enterpriseConnection, domain: "test.com")
+                expect(match).to(beTrue())
+            }
+
+            it("PasswordlessConnection should should be equatable with PasswordlessConnection") {
+                let passwordlessConnection = PasswordlessConnection(name: "email")
+                let match = Route.passwordlessEmail(screen: .code, connection: passwordlessConnection) ==  Route.passwordlessEmail(screen: .code, connection: passwordlessConnection)
                 expect(match).to(beTrue())
             }
 

@@ -1,6 +1,6 @@
-// Options.swift
+// PasswordlessMode.swift
 //
-// Copyright (c) 2016 Auth0 (http://auth0.com)
+// Copyright (c) 2017 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,31 +22,13 @@
 
 import Foundation
 
-public protocol Options {
-    var closable: Bool { get }
+enum PasswordlessScreen {
+    case request
+    case code
+    case linkSent
+}
 
-    var termsOfServiceURL: URL { get }
-    var privacyPolicyURL: URL { get }
-
-    var logLevel: LoggerLevel { get }
-    var loggerOutput: LoggerOutput? { get }
-    var logHttpRequest: Bool { get }
-
-    var scope: String { get }
-    var connectionScope: [String: String] { get }
-    var parameters: [String: Any] { get }
-    var allow: DatabaseMode { get }
-    var autoClose: Bool { get }
-    var initialScreen: DatabaseScreen { get }
-    var usernameStyle: DatabaseIdentifierStyle { get }
-    var customSignupFields: [CustomTextField] { get }
-    var loginAfterSignup: Bool { get }
-
-    var activeDirectoryEmailAsUsername: Bool { get }
-    var enterpriseConnectionUsingActiveAuth: [String] { get }
-
-    var oidcConformant: Bool { get }
-    var audience: String? { get }
-
-    var passwordlessMethod: PasswordlessMethod { get }
+public enum PasswordlessMethod: Int, Equatable {
+    case emailCode = 0
+    case emailLink
 }

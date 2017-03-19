@@ -67,6 +67,7 @@ class MockNavigator: Navigable {
     var connections: Connections? = nil
     var unrecoverableError: Error? = nil
     var headerTitle: String? = "Auth0"
+    var root: Presentable? = nil
 
     func navigate(_ route: Route) {
         self.route = route
@@ -84,7 +85,7 @@ class MockNavigator: Navigable {
         self.presented = controller
     }
 
-    func reload(withConnections connections: Connections) {
+    func reload(with connections: Connections) {
         self.connections = connections
     }
 
@@ -94,6 +95,9 @@ class MockNavigator: Navigable {
 
     func header(withTitle title: String, animated: Bool) {
         self.headerTitle = title
+    }
+
+    func onBack() -> () {
     }
 }
 
@@ -376,7 +380,6 @@ class MockController: UIViewController {
     }
 }
 
-
 class MockNativeAuthHandler: AuthProvider {
 
     var transaction: MockNativeAuthTransaction!
@@ -427,4 +430,50 @@ class MockNativeAuthTransaction: NativeAuthTransaction {
 
 func mockCredentials() -> Credentials {
     return Credentials(accessToken: UUID().uuidString, tokenType: "Bearer")
+}
+
+class MockPasswordlessActivity: PasswordlessUserActivity {
+
+    var messagePresenter: MessagePresenter?
+    var onActivity: (String, inout MessagePresenter?) -> () = { _ in }
+    var code: String = "123456"
+
+    func withMessagePresenter(_ messagePresenter: MessagePresenter?) -> Self {
+        self.messagePresenter = messagePresenter
+        return self
+    }
+
+    func onActivity(callback: @escaping (String, inout MessagePresenter?) -> ()) {
+        self.onActivity = callback
+    }
+
+    func continueAuth(withActivity userActivity: NSUserActivity) -> Bool {
+        self.onActivity(code, &messagePresenter)
+        return true
+    }
+}
+
+class MockPasswordlessInteractor: PasswordlessAuthenticatable {
+
+    let dispatcher: Dispatcher = ObserverStore()
+    let logger = Logger()
+
+    var identifier: String? = nil
+    var validIdentifier: Bool = false
+    var code: String? = nil
+    var validCode: Bool = false
+
+    var onLogin: () -> CredentialAuthError? = { return nil }
+    var onRequest: () -> PasswordlessAuthenticatableError? = { return nil }
+
+    func update(_ type: InputField.InputType, value: String?) throws {
+    }
+
+    func request(_ connection: String, callback: @escaping (PasswordlessAuthenticatableError?) -> ()) {
+        callback(onRequest())
+    }
+
+    func login(_ connection: String, callback: @escaping (CredentialAuthError?) -> ()) {
+        callback(onLogin())
+    }
 }

@@ -50,6 +50,7 @@ class ObserverStoreSpec: QuickSpec {
                 store.onCancel = { closed = true }
                 store.onSignUp = { newEmail = $0; newAttributes = $1 }
                 store.onForgotPassword = { newEmail = $0 }
+                store.onPasswordless = { newEmail = $0 }
                 dispatcher = store
             }
 
@@ -77,6 +78,11 @@ class ObserverStoreSpec: QuickSpec {
 
             it("should disptach when user requests password") {
                 dispatcher.dispatch(result: .forgotPassword(email))
+                expect(newEmail).toEventually(equal(email))
+            }
+
+            it("should disptach when user requests password") {
+                dispatcher.dispatch(result: .passwordless(email))
                 expect(newEmail).toEventually(equal(email))
             }
 
@@ -160,6 +166,11 @@ class ObserverStoreSpec: QuickSpec {
                     dispatcher.options = options
                     dispatcher.dispatch(result: .forgotPassword(email))
                     expect(newEmail).toEventually(equal(email))
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+                }
+
+                it("should not dismiss onPasswordless") {
+                    dispatcher.dispatch(result: .passwordless(email))
                     expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
                 }
 
