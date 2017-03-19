@@ -96,6 +96,9 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
                 info.oauth2.forEach { strategy in
                     strategy.connections.forEach { connections.social(name: $0.name, style: AuthStyle.style(forStrategy: strategy.name, connectionName: $0.name)) }
                 }
+                info.passwordless.forEach { strategy in
+                    strategy.connections.forEach { connections.passwordless(name: $0.name) }
+                }
 
                 guard !connections.isEmpty else { return callback(.clientWithNoConnections, connections) }
                 callback(nil, connections)
@@ -124,6 +127,8 @@ private struct ClientInfo {
     var oauth2: [StrategyInfo] { return strategies.filter { $0.name != "auth0" && !passwordlessStrategyNames.contains($0.name) && !enterpriseStrategyNames.contains($0.name) } }
 
     var enterprise: [StrategyInfo] { return strategies.filter { $0.name != "auth0" && !passwordlessStrategyNames.contains($0.name) && enterpriseStrategyNames.contains($0.name) } }
+
+    var passwordless: [StrategyInfo] { return strategies.filter { passwordlessStrategyNames.contains($0.name) } }
 
     let passwordlessStrategyNames = [
         "email",

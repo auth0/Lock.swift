@@ -31,11 +31,14 @@ public class Lock: NSObject {
     private(set) var authentication: Authentication
     private(set) var webAuth: WebAuth
 
-    var connectionProvider: ConnectionProvider = ConnectionProvider(local: OfflineConnections(), allowed: [])
-    var connections: Connections { return self.connectionProvider.connections }
+    private(set) var allowedConnectionNames: [String] = []
+    var clientConnections: Connections = OfflineConnections()
+    var connections: Connections { return self.clientConnections.select(byNames: self.allowedConnectionNames) }
 
     var optionsBuilder: OptionBuildable = LockOptions()
     var options: Options { return self.optionsBuilder }
+
+    var classicMode: Bool
 
     var observerStore = ObserverStore()
 
@@ -61,21 +64,22 @@ public class Lock: NSObject {
     }
 
     /**
-     Creates a new Lock instance
+     Creates a new Lock classic instance
 
      - parameter authentication: Auth0 authentication API client
      - parameter webAuth:        Auth0 webAuth client
 
      - returns: a newly created Lock instance
      */
-    required public init(authentication: Authentication, webAuth: WebAuth) {
+    required public init(authentication: Authentication, webAuth: WebAuth, classic: Bool = true) {
         let (authenticationWithTelemetry, webAuthWithTelemetry) = telemetryFor(authentication: authentication, webAuth: webAuth)
         self.authentication = authenticationWithTelemetry
         self.webAuth = webAuthWithTelemetry
+        self.classicMode = classic
     }
 
     /**
-     Creates a new Lock instance loading Auth0 client info from `Auth0.plist` file in main bundle.
+     Creates a new Classic Lock instance loading Auth0 client info from `Auth0.plist` file in main bundle.
 
      The property list file should contain the following sections:
 
@@ -89,12 +93,38 @@ public class Lock: NSObject {
     }
 
     /**
-     Creates a new Lock instance using clientId and domain
+     Creates a new Lock passwordless instance loading Auth0 client info from `Auth0.plist` file in main bundle.
+
+     The property list file should contain the following sections:
+
+     - CliendId: your Auth0 client identifier
+     - Domain: your Auth0 domain
+
+     - returns: a newly created Lock Passwordless instance
+     */
+    public static func passwordless() -> Lock {
+        return self.init(authentication: Auth0.authentication(), webAuth: Auth0.webAuth(), classic: false)
+    }
+
+    /**
+     Creates a new Lock passwordless instance using clientId and domain
 
      - parameter clientId: Auth0 clientId of your application
      - parameter domain:   Your Auth0 account domain
 
-     - returns: a newly created Lock instance
+     - returns: a newly created Lock passwordless instance
+     */
+    public static func passwordless(clientId: String, domain: String) -> Lock {
+        return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain), webAuth: Auth0.webAuth(clientId: clientId, domain: domain), classic: false)
+    }
+
+    /**
+     Creates a new Lock classic instance using clientId and domain
+
+     - parameter clientId: Auth0 clientId of your application
+     - parameter domain:   Your Auth0 account domain
+
+     - returns: a newly created Lock classic instance
      */
     public static func classic(clientId: String, domain: String) -> Lock {
         return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain), webAuth: Auth0.webAuth(clientId: clientId, domain: domain))
@@ -110,8 +140,7 @@ public class Lock: NSObject {
     public func withConnections(_ closure: (inout ConnectionBuildable) -> Void) -> Lock {
         var connections: ConnectionBuildable = OfflineConnections()
         closure(&connections)
-        let allowed = self.connectionProvider.allowed
-        self.connectionProvider = ConnectionProvider(local: connections, allowed: allowed)
+        self.clientConnections = connections
         return self
     }
 
@@ -124,8 +153,7 @@ public class Lock: NSObject {
      - returns: Lock itself for chaining
      */
     public func allowedConnections(_ allowedConnections: [String]) -> Lock {
-        let connections = self.connectionProvider.connections
-        self.connectionProvider = ConnectionProvider(local: connections, allowed: allowedConnections)
+        self.allowedConnectionNames = allowedConnections
         return self
     }
 
@@ -225,12 +253,25 @@ public class Lock: NSObject {
      - parameter controller: controller from where Lock is presented
      */
     public func present(from controller: UIViewController) {
-        if let error = self.optionsBuilder.validate() {
+        if let error = self.optionsBuilder.validate(classic: self.classicMode) {
             self.observerStore.onFailure(error)
             // FIXME: Fail violently
         } else {
             controller.present(self.controller, animated: true, completion: nil)
         }
+    }
+
+    /**
+     Register a callback to be notified when a user requests passwordless authentication.
+     The callback will yield the user identifier.
+
+     - parameter callback: called when a user attempts passwordless authentication
+
+     - returns: Lock itself for chaining
+     */
+    public func onPasswordless(callback: @escaping (String) -> Void) -> Lock {
+        self.observerStore.onPasswordless = callback
+        return self
     }
 
         /// Lock's Bundle. Useful for getting bundled resources like images.
@@ -272,13 +313,26 @@ public class Lock: NSObject {
         self.nativeHandlers[name] = handler
         return self
     }
-}
 
-struct ConnectionProvider {
-    let local: Connections
-    let allowed: [String]
+    /**
+     Continues an activity from a universal link.
 
-    var connections: Connections { return local.select(byNames: allowed) }
+     This method should be called from your `AppDelegate`
+
+     ```
+     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        return return Lock.continueAuth(using: userActivity)
+     }
+
+     ```
+
+     - parameter userActivity: the NSUserActivity to handle.
+
+     - returns: true if the link is of the appropriate format, false otherwise
+     */
+    public static func continueAuth(using userActivity: NSUserActivity) -> Bool {
+        return PasswordlessActivity.shared.continueAuth(withActivity: userActivity)
+    }
 }
 
 private func telemetryFor(authentication: Authentication, webAuth: WebAuth) -> (Authentication, WebAuth) {

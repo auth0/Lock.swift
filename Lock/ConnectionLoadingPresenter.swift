@@ -54,7 +54,7 @@ class ConnectionLoadingPresenter: Presentable, Loggable {
             }
             Queue.main.async {
                 self.logger.debug("Loaded connections. Moving to root view")
-                self.navigator.reload(withConnections: connections)
+                self.navigator.reload(with: connections)
             }
         }
         return LoadingView()

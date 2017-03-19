@@ -72,6 +72,13 @@ public protocol ConnectionBuildable: Connections {
      - parameter domain: array of enterprise domains
      */
     mutating func enterprise(name: String, domains: [String])
+
+    /**
+     Adds a new passwordless connection
+
+     - parameter name:  name of the connection
+     */
+    mutating func passwordless(name: String)
 }
 
 public extension ConnectionBuildable {

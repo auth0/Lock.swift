@@ -49,3 +49,6 @@ fastlane/test_output/
 
 #CircleCI
 vendor/
+
+#Entitlements
+LockApp.entitlements

@@ -40,10 +40,11 @@ struct LockOptions: OptionBuildable {
     var customSignupFields: [CustomTextField] = []
     var loginAfterSignup: Bool = true
 
-    // Enterprise
     var activeDirectoryEmailAsUsername: Bool = false
     var enterpriseConnectionUsingActiveAuth: [String] = []
 
     var oidcConformant: Bool = false
     var audience: String?
+
+    var passwordlessMethod: PasswordlessMethod = .emailCode
 }

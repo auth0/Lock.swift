@@ -29,7 +29,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
  Add the following line to your Podfile:
 
  ```ruby
- pod "Lock", "~> 2.0.0"
+ pod "Lock", "~> 2.1.0"
  ```
 
 ### Carthage
@@ -37,7 +37,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
 In your `Cartfile` add
 
 ```
-github "auth0/Lock.swift" "2.0.0"
+github "auth0/Lock.swift" ~>2.1.0
 ```
 
 ## Usage
@@ -100,7 +100,7 @@ Lock
     .onError {
       print("Failed with \($0)")
     }
-    onCancel {
+    .onCancel {
       print("User cancelled")
     }
     .present(from: self)
@@ -171,6 +171,56 @@ Lock provides many styling options to help you apply your own brand identity to 
       color: UIColor(red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0),
       withImage: LazyImage(name: "ic_slack")
   )
+}
+```
+
+## Passwordless
+
+Lock Passwordless handles authentication using Passwordless & Social Connections.
+
+To show Lock, add the following snippet in your `UIViewController`
+
+```swift
+Lock
+    .passwordless()
+    .withOptions {
+        $0.closable = false
+    }
+    .withStyle {
+      $0.title = "Welcome to my App!"
+    }
+    .onAuth {
+      print("Obtained credentials \($0)")
+    }
+    .onError {
+      print("Failed with \($0)")
+    }
+    .onCancel {
+      print("User cancelled")
+    }
+    .onPasswordless {
+      print("Passwordless requested for \($0)")
+    }
+    .present(from: self)
+```
+
+#### Passwordless Method
+
+When using Lock passworldess the default passwordless method is `.emailCode` which sends the user a one time passcode to login. If you want to use universal links you can use:
+
+```swift
+.withOptions {
+    $0.passwordlessMethod = .emailLink
+}
+```
+
+#### Activity callback
+
+If you are using Lock passwordless and have specified the `.emailLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
+
+```swift
+func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    return Lock.continueAuth(using: userActivity)
 }
 ```
 
@@ -256,7 +306,6 @@ Allows you to set provider scopes for oauth2/social connections with a comma sep
 ```swift
 .withOptions {
   $0.connectionScope = ["facebook": "user_friends,email"]
-}
 ```
 
 #### Database
