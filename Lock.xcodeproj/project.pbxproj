@@ -66,7 +66,6 @@
 		5F2496BE1D67ADB300A1C6E2 /* EmailValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */; };
 		5F390E871D638A6D00FC549C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F390E861D638A6D00FC549C /* Logger.swift */; };
 		5F390E8A1D63A5B800FC549C /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F390E881D63A5B800FC549C /* CleanroomLogger.framework */; };
-		5F390E8B1D63A5B800FC549C /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F390E891D63A5B800FC549C /* CleanroomASL.framework */; };
 		5F390E8D1D63B99300FC549C /* LoggerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F390E8C1D63B99300FC549C /* LoggerSpec.swift */; };
 		5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */; };
 		5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */; };
@@ -380,7 +379,6 @@
 			files = (
 				5F390E8A1D63A5B800FC549C /* CleanroomLogger.framework in Frameworks */,
 				5F99AA761D1A7FA100D27842 /* Auth0.framework in Frameworks */,
-				5F390E8B1D63A5B800FC549C /* CleanroomASL.framework in Frameworks */,
 				5FEADD071D1A7EFC0032D810 /* Lock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -985,7 +983,6 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Auth0.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CleanroomLogger.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/CleanroomASL.framework",
 			);
 			name = Carthage;
 			outputPaths = (
