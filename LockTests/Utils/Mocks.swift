@@ -158,7 +158,7 @@ class MockMultifactorInteractor: MultifactorAuthenticatable {
 }
 
 class MockAuthInteractor: OAuth2Authenticatable {
-    func login(_ connection: String, parameters: [String: String], callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    func login(_ connection: String, loginHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
     }
 }
 

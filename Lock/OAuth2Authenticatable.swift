@@ -26,12 +26,6 @@ protocol OAuth2Authenticatable {
     func login(_ connection: String, loginHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void)
 }
 
-extension OAuth2Authenticatable {
-    func login(_ connection: String, loginHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
-        self.login(connection, loginHint: loginHint, callback: callback)
-    }
-}
-
 enum OAuth2AuthenticatableError: Error, LocalizableError {
     case noConnectionAvailable
     case couldNotAuthenticate
