@@ -27,6 +27,7 @@ import Auth0
 @testable import Lock
 
 private let phone = "01234567891"
+private let countryData = CountryCode(id: "UK", prefix: "+44", name: "United Kingdom")
 
 class PasswordlessPresenterSpec: QuickSpec {
 
@@ -49,14 +50,14 @@ class PasswordlessPresenterSpec: QuickSpec {
 
             beforeEach {
                 navigator = MockNavigator()
-                connection = PasswordlessConnection(name: "email")
+                connection = PasswordlessConnection(name: "custom-email", strategy: "email")
                 messagePresenter = MockMessagePresenter()
                 options = LockOptions()
-                options.passwordlessMethod = .emailCode
+                options.passwordlessMethod = .code
                 user = User()
                 passwordlessActivity = MockPasswordlessActivity()
                 dispatcher = ObserverStore()
-                interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                 presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                 presenter.messagePresenter = messagePresenter
                 view = presenter.view as! PasswordlessView
@@ -115,6 +116,18 @@ class PasswordlessPresenterSpec: QuickSpec {
                         expect(messagePresenter.error).toEventually(beNil())
                     }
 
+
+                    it("should not trigger action with nil button") {
+                        let input = mockInput(.email, value: email)
+                        input.returnKey = .done
+                        interactor.onRequest = { return nil }
+                        view.primaryButton = nil
+                        view.form?.onReturn(input)
+                        expect(messagePresenter.message).toEventually(beNil())
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+
                     it("should trigger action on primary button press") {
                         view.primaryButton!.onPress(view.primaryButton!)
                         expect(messagePresenter.error).toEventually(beNil())
@@ -138,7 +151,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                     var interactor: MockPasswordlessInteractor!
 
                     beforeEach {
-                        options.passwordlessMethod = .emailLink
+                        options.passwordlessMethod = .magicLink
                         interactor = MockPasswordlessInteractor()
                         interactor.onLogin = { return nil }
                         interactor.onRequest = { return nil }
@@ -277,14 +290,14 @@ class PasswordlessPresenterSpec: QuickSpec {
 
             beforeEach {
                 navigator = MockNavigator()
-                connection = PasswordlessConnection(name: "sms")
+                connection = PasswordlessConnection(name: "custom-sms", strategy: "sms")
                 messagePresenter = MockMessagePresenter()
                 options = LockOptions()
-                options.passwordlessMethod = .smsCode
+                options.passwordlessMethod = .code
                 user = User()
                 passwordlessActivity = MockPasswordlessActivity()
                 dispatcher = ObserverStore()
-                interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                 presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                 presenter.messagePresenter = messagePresenter
                 view = presenter.view as! PasswordlessView
@@ -325,6 +338,17 @@ class PasswordlessPresenterSpec: QuickSpec {
                         expect(input.valid) == false
                     }
 
+                    it("should update country") {
+                        view.form?.onCountryChange(countryData)
+                        expect(interactor.countryCode?.name) ==  countryData.name
+                    }
+
+                    it("should show field error if invalid input type") {
+                        let input = mockInput(.username, value: "0")
+                        view.form?.onValueChange(input)
+                        expect(input.valid) == false
+                    }
+
                 }
 
                 describe("request code") {
@@ -345,6 +369,16 @@ class PasswordlessPresenterSpec: QuickSpec {
                         input.returnKey = .done
                         interactor.onRequest = { return nil }
                         view.form?.onReturn(input)
+                        expect(messagePresenter.error).toEventually(beNil())
+                    }
+
+                    it("should not trigger action with nil button") {
+                        let input = mockInput(.phone, value: phone)
+                        input.returnKey = .done
+                        interactor.onRequest = { return nil }
+                        view.primaryButton = nil
+                        view.form?.onReturn(input)
+                        expect(messagePresenter.message).toEventually(beNil())
                         expect(messagePresenter.error).toEventually(beNil())
                     }
 
@@ -371,7 +405,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                     var interactor: MockPasswordlessInteractor!
 
                     beforeEach {
-                        options.passwordlessMethod = .smsLink
+                        options.passwordlessMethod = .magicLink
                         interactor = MockPasswordlessInteractor()
                         interactor.onLogin = { return nil }
                         interactor.onRequest = { return nil }

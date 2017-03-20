@@ -88,7 +88,7 @@ public protocol OptionBuildable: Options {
         /// Specify the intended resource server of the token. By default no audience is specified.
     var audience: String? { get set }
 
-        /// Specify the passwordless method, send a passcode or send a magic link by email or SMS. By default is .emailCode
+        /// Specify the passwordless method, send a passcode or magic link. By default is .code
     var passwordlessMethod: PasswordlessMethod { get set }
 }
 

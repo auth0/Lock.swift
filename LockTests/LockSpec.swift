@@ -33,6 +33,19 @@ class LockSpec: QuickSpec {
         var authentication: Authentication!
         var webAuth: WebAuth!
 
+        describe("init") {
+
+            it("should init clasic mode") {
+                lock = Lock.classic(clientId: clientId, domain: domain)
+                expect(lock.classicMode) == true
+            }
+
+            it("should init passwordless mode") {
+                lock = Lock.passwordless(clientId: clientId, domain: domain)
+                expect(lock.classicMode) == false
+            }
+        }
+
         beforeEach {
             authentication = Auth0.authentication(clientId: clientId, domain: domain)
             webAuth = MockWebAuth()
@@ -86,10 +99,10 @@ class LockSpec: QuickSpec {
 
         describe("present") {
 
-            var controller: MockController!
+            var controller: MockViewController!
 
             beforeEach {
-                controller = MockController()
+                controller = MockViewController()
             }
 
             it("should present lock viewcontroller") {

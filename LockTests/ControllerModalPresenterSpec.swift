@@ -25,18 +25,6 @@ import Nimble
 
 @testable import Lock
 
-class MockViewController: UIViewController {
-    var presented: UIViewController? = nil
-
-    override var presentedViewController: UIViewController? {
-        return presented ?? super.presentedViewController
-    }
-
-    override func dismiss(animated flag: Bool, completion: (() -> Void)?) {
-        completion?()
-    }
-}
-
 class ControllerModalPresenterSpec: QuickSpec {
 
     override func spec() {

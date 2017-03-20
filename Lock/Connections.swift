@@ -78,8 +78,10 @@ public struct EnterpriseConnection: OAuth2Connection {
 
 public struct PasswordlessConnection {
     public let name: String
+    public let strategy: String
 
-    public init(name: String) {
+    public init(name: String, strategy: String) {
         self.name = name
+        self.strategy = strategy
     }
 }

@@ -37,7 +37,7 @@ class PasswordlessRouterSpec: QuickSpec {
 
         beforeEach {
             lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth(), classic: false)
-            _ = lock.withConnections { $0.passwordless(name: "email") }
+            _ = lock.withConnections { $0.passwordless(name: "custom-email", strategy: "email") }
             controller = MockLockController(lock: lock)
             header = HeaderView()
             controller.headerView = header
@@ -46,26 +46,24 @@ class PasswordlessRouterSpec: QuickSpec {
 
         describe("root") {
 
-            beforeEach {
-                lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
-                controller = MockLockController(lock: lock)
-                router = PasswordlessRouter(lock: lock, controller: controller)
+            it("should not be in classic mode") {
+                expect(lock.classicMode) == false
             }
 
             it("should return root for passwordless email connection") {
                 _ = lock.withConnections {
-                    $0.passwordless(name: "email")
+                    $0.passwordless(name: "custom-email", strategy: "email")
                 }
                 let presenter = router.root as? PasswordlessPresenter
                 expect(presenter).toNot(beNil())
             }
 
-            it("should not return root for passwordless sms connection") {
+            it("should return root for passwordless sms connection") {
                 _ = lock.withConnections {
-                    $0.passwordless(name: "sms")
+                    $0.passwordless(name: "custom-sms", strategy: "sms")
                 }
                 let presenter = router.root as? PasswordlessPresenter
-                expect(presenter).to(beNil())
+                expect(presenter).toNot(beNil())
             }
 
             it("should return for only social connections") {
@@ -79,20 +77,39 @@ class PasswordlessRouterSpec: QuickSpec {
             it("should return root for social connections and passwordless email") {
                 _ = lock.withConnections {
                     $0.social(name: "facebook", style: .Facebook)
-                    $0.passwordless(name: "email")
+                    $0.passwordless(name: "custom-email", strategy: "email")
                 }
                 let presenter = router.root as? PasswordlessPresenter
                 expect(presenter).toNot(beNil())
                 expect(presenter?.authPresenter).toNot(beNil())
             }
 
-            it("should not return root for social connections and passwordless sms") {
+            it("should return root for social connections and passwordless sms") {
                 _ = lock.withConnections {
                     $0.social(name: "facebook", style: .Facebook)
-                    $0.passwordless(name: "sms")
+                    $0.passwordless(name: "custom-sms", strategy: "sms")
                 }
                 let presenter = router.root as? PasswordlessPresenter
-                expect(presenter).to(beNil())
+                expect(presenter).toNot(beNil())
+            }
+
+            describe("classic") {
+
+                it("should not return root for single database connection") {
+                    _ = lock.withConnections { $0.database(name: connection, requiresUsername: true) }
+                    let root = router.root as? DatabasePresenter
+                    expect(root).to(beNil())
+                }
+
+                it("should not return root for only enterprise connections") {
+                    _ = lock.withConnections {
+                        $0.enterprise(name: "testAD", domains: ["testAD.com"])
+                        $0.enterprise(name: "validAD", domains: ["validAD.com"])
+                    }
+                    expect(router.root as? EnterpriseDomainPresenter).to(beNil())
+                }
+
+
             }
         }
 
@@ -101,7 +118,7 @@ class PasswordlessRouterSpec: QuickSpec {
             describe("back") {
 
                 beforeEach {
-                    router.navigate(.passwordless(screen: .request, connection: PasswordlessConnection(name: "email")))
+                    router.navigate(.passwordless(screen: .request, connection: PasswordlessConnection(name: "custom-email", strategy: "email")))
                 }
 
                 it("should navigate back to root") {
@@ -127,10 +144,10 @@ class PasswordlessRouterSpec: QuickSpec {
 
             describe("exit") {
 
-                var presenting: MockController!
+                var presenting: MockViewController!
 
                 beforeEach {
-                    presenting = MockController()
+                    presenting = MockViewController()
                     presenting.presented = controller
                     controller.presenting = presenting
                 }
@@ -177,40 +194,40 @@ class PasswordlessRouterSpec: QuickSpec {
         describe("reload") {
 
             beforeEach {
-                let presenting = MockController()
+                let presenting = MockViewController()
                 presenting.presented = controller
                 controller.presenting = presenting
             }
 
             it("should override connections") {
                 var connections = OfflineConnections()
-                connections.passwordless(name: "email")
+                connections.passwordless(name: "custom-email", strategy: "email")
                 router.reload(with: connections)
                 let actual = router.lock.connections
                 expect(actual.isEmpty) == false
-                expect(actual.passwordless.map { $0.name }).to(contain("email"))
+                expect(actual.passwordless.map { $0.name }).to(contain("custom-email"))
             }
 
             it("should show root") {
                 var connections = OfflineConnections()
-                connections.passwordless(name: "email")
+                connections.passwordless(name: "custom-email", strategy: "email")
                 router.reload(with: connections)
                 expect(controller.presentable).toNot(beNil())
                 expect(controller.routes.history).to(beEmpty())
             }
 
             it("should select when overriding connections") {
-                lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth(), classic: false).allowedConnections(["email"])
+                lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth(), classic: false).allowedConnections(["custom-email"])
                 controller = MockLockController(lock: lock)
                 controller.headerView = header
                 router = PasswordlessRouter(lock: lock, controller: controller)
                 var connections = OfflineConnections()
-                connections.passwordless(name: "email")
-                connections.passwordless(name: "sms")
+                connections.passwordless(name: "custom-email", strategy: "email")
+                connections.passwordless(name: "custom-sms", strategy: "sms")
                 router.reload(with: connections)
                 let actual = router.lock.connections
                 expect(actual.passwordless.map { $0.name }).toNot(contain("sms"))
-                 expect(actual.passwordless.map { $0.name }).to(contain("email"))
+                expect(actual.passwordless.map { $0.name }).to(contain("custom-email"))
             }
 
             it("should exit with error when connections are empty") {
@@ -234,7 +251,7 @@ class PasswordlessRouterSpec: QuickSpec {
             }
 
             it("PasswordlessConnection should should be equatable with PasswordlessConnection") {
-                let passwordlessConnection = PasswordlessConnection(name: "email")
+                let passwordlessConnection = PasswordlessConnection(name: "custom-email", strategy: "email")
                 let match = Route.passwordless(screen: .code, connection: passwordlessConnection) ==  Route.passwordless(screen: .code, connection: passwordlessConnection)
                 expect(match).to(beTrue())
             }

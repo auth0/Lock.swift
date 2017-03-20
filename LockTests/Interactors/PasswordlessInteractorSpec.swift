@@ -46,7 +46,7 @@ class PasswordlessInteractorSpec: QuickSpec {
         var dispatchCredentials: Credentials?
         var dispatchError: Error?
         var dispatchPasswordlessIdentifier: String?
-        var connection: String!
+        var connection: PasswordlessConnection!
 
         afterEach {
             Auth0Stubs.cleanAll()
@@ -56,20 +56,20 @@ class PasswordlessInteractorSpec: QuickSpec {
         context("email") {
 
             beforeEach {
-                connection = "email"
+                connection = PasswordlessConnection(name: "custom-email", strategy: "email")
                 dispatchCredentials = nil
                 dispatchError = nil
                 dispatchPasswordlessIdentifier = nil
                 messagePresenter = MockMessagePresenter()
                 options = LockOptions()
-                options.passwordlessMethod = .emailCode
+                options.passwordlessMethod = .code
                 user = User()
                 passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(messagePresenter)
                 dispatcher = ObserverStore()
                 dispatcher.onAuth = { dispatchCredentials = $0 }
                 dispatcher.onFailure = { dispatchError = $0 }
                 dispatcher.onPasswordless = { dispatchPasswordlessIdentifier = $0 }
-                interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
             }
 
         describe("identifier validation") {
@@ -144,11 +144,11 @@ class PasswordlessInteractorSpec: QuickSpec {
         describe("login") {
 
             it("should yield no error and dipsatch credentials on success") {
-                stub(condition: databaseLogin(identifier: email, password: code, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                stub(condition: databaseLogin(identifier: email, password: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.oneTimePassword, value: code)
                 waitUntil(timeout: 2) { done in
-                    interactor.login(connection) { error in
+                    interactor.login(connection.name) { error in
                         expect(error).to(beNil())
                         done()
                     }
@@ -159,9 +159,9 @@ class PasswordlessInteractorSpec: QuickSpec {
             it("should yield error when email input invalid") {
                 let user = User()
                 user.validEmail = false
-                interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                 waitUntil(timeout: 2) { done in
-                    interactor.login(connection) { error in
+                    interactor.login(connection.name) { error in
                         expect(error) == .nonValidInput
                         done()
                     }
@@ -172,9 +172,9 @@ class PasswordlessInteractorSpec: QuickSpec {
                 let user = User()
                 user.validEmail = true
                 user.validPassword = false
-                interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                 waitUntil(timeout: 2) { done in
-                    interactor.login(connection) { error in
+                    interactor.login(connection.name) { error in
                         expect(error) == .nonValidInput
                         done()
                     }
@@ -187,15 +187,15 @@ class PasswordlessInteractorSpec: QuickSpec {
             beforeEach {
                 user.email = email
                 user.validEmail = true
-                interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
             }
 
             it("should yield error on invalid input") {
                 user = User()
                 user.validEmail = false
-                interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                 waitUntil(timeout: 2) { done in
-                    interactor.request(connection) { error in
+                    interactor.request(connection.name) { error in
                         expect(error) == .nonValidInput
                         done()
                     }
@@ -204,9 +204,9 @@ class PasswordlessInteractorSpec: QuickSpec {
 
 
             it("should yield specific error when new signups disabled") {
-                stub(condition: passwordlessStart(email: email, connection: connection)) { _ in return Auth0Stubs.failure("bad.connection", name: "no_signup") }
+                stub(condition: passwordlessStart(email: email, connection: connection.name)) { _ in return Auth0Stubs.failure("bad.connection", name: "no_signup") }
                 waitUntil(timeout: 2) { done in
-                    interactor.request(connection) { error in
+                    interactor.request(connection.name) { error in
                         expect(error) == .noSignup
                         done()
                     }
@@ -215,9 +215,9 @@ class PasswordlessInteractorSpec: QuickSpec {
             }
 
             it("should yield error on response error") {
-                stub(condition: passwordlessStart(email: email, connection: connection)) { _ in return Auth0Stubs.failure("unknown.error", name: "Generic error") }
+                stub(condition: passwordlessStart(email: email, connection: connection.name)) { _ in return Auth0Stubs.failure("unknown.error", name: "Generic error") }
                 waitUntil(timeout: 2) { done in
-                    interactor.request(connection) { error in
+                    interactor.request(connection.name) { error in
                         expect(error) == .codeNotSent
                         done()
                     }
@@ -226,9 +226,9 @@ class PasswordlessInteractorSpec: QuickSpec {
             }
 
             it("should yield success on response success") {
-                stub(condition: passwordlessStart(email: email, connection: connection)) { _ in return Auth0Stubs.passwordlessSent(email) }
+                stub(condition: passwordlessStart(email: email, connection: connection.name)) { _ in return Auth0Stubs.passwordlessSent(email) }
                 waitUntil(timeout: 2) { done in
-                    interactor.request(connection) { error in
+                    interactor.request(connection.name) { error in
                         expect(error).to(beNil())
                         done()
                     }
@@ -245,16 +245,16 @@ class PasswordlessInteractorSpec: QuickSpec {
                     user = User()
                     user.email = email
                     user.validEmail = true
-                    options.passwordlessMethod = .emailLink
-                    interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                    stub(condition: passwordlessStart(email: email, connection: connection)) { _ in return Auth0Stubs.passwordlessSent(email) }
-                    stub(condition: databaseLogin(identifier: email, password: code, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                    options.passwordlessMethod = .magicLink
+                    interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                    stub(condition: passwordlessStart(email: email, connection: connection.name)) { _ in return Auth0Stubs.passwordlessSent(email) }
+                    stub(condition: databaseLogin(identifier: email, password: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                 }
                 
                 it("should error on invalid code in url") {
                     activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=")
                     waitUntil(timeout: 2) { done in
-                        interactor.request(connection) { error in
+                        interactor.request(connection.name) { error in
                             expect(error).to(beNil())
                             done()
                         }
@@ -267,7 +267,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                 it("should yield auth on success") {
                     activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=" + code)
                     waitUntil(timeout: 2) { done in
-                        interactor.request(connection) { error in
+                        interactor.request(connection.name) { error in
                             expect(error).to(beNil())
                             done()
                         }
@@ -285,20 +285,20 @@ class PasswordlessInteractorSpec: QuickSpec {
         context("sms") {
 
             beforeEach {
-                connection = "sms"
+                connection = PasswordlessConnection(name: "custom-sms", strategy: "sms")
                 dispatchCredentials = nil
                 dispatchError = nil
                 dispatchPasswordlessIdentifier = nil
                 messagePresenter = MockMessagePresenter()
                 options = LockOptions()
-                options.passwordlessMethod = .smsCode
+                options.passwordlessMethod = .code
                 user = User()
                 passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(messagePresenter)
                 dispatcher = ObserverStore()
                 dispatcher.onAuth = { dispatchCredentials = $0 }
                 dispatcher.onFailure = { dispatchError = $0 }
                 dispatcher.onPasswordless = { dispatchPasswordlessIdentifier = $0 }
-                interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
             }
 
             describe("identifier validation") {
@@ -370,14 +370,22 @@ class PasswordlessInteractorSpec: QuickSpec {
                 }
             }
 
+            describe("country access") {
+
+                it("should set get country") {
+                    interactor.countryCode = countryData
+                    expect(interactor.countryCode?.name) == countryData.name
+                }
+            }
+
             describe("login") {
 
                 it("should yield no error and dipsatch credentials on success") {
-                    stub(condition: databaseLogin(identifier: phone, password: code, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                    stub(condition: databaseLogin(identifier: phone, password: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                     try! interactor.update(.phone, value: phone)
                     try! interactor.update(.oneTimePassword, value: code)
                     waitUntil(timeout: 2) { done in
-                        interactor.login(connection) { error in
+                        interactor.login(connection.name) { error in
                             expect(error).to(beNil())
                             done()
                         }
@@ -388,9 +396,9 @@ class PasswordlessInteractorSpec: QuickSpec {
                 it("should yield error when email input invalid") {
                     let user = User()
                     user.validEmail = false
-                    interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                    interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                     waitUntil(timeout: 2) { done in
-                        interactor.login(connection) { error in
+                        interactor.login(connection.name) { error in
                             expect(error) == .nonValidInput
                             done()
                         }
@@ -401,9 +409,9 @@ class PasswordlessInteractorSpec: QuickSpec {
                     let user = User()
                     user.validEmail = true
                     user.validPassword = false
-                    interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                    interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                     waitUntil(timeout: 2) { done in
-                        interactor.login(connection) { error in
+                        interactor.login(connection.name) { error in
                             expect(error) == .nonValidInput
                             done()
                         }
@@ -417,15 +425,15 @@ class PasswordlessInteractorSpec: QuickSpec {
                     user.email = phone
                     user.validEmail = true
                     user.countryCode = countryData
-                    interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                    interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                 }
 
                 it("should yield error on invalid input") {
                     user = User()
                     user.validEmail = false
-                    interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                    interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                     waitUntil(timeout: 2) { done in
-                        interactor.request(connection) { error in
+                        interactor.request(connection.name) { error in
                             expect(error) == .nonValidInput
                             done()
                         }
@@ -434,9 +442,9 @@ class PasswordlessInteractorSpec: QuickSpec {
 
                 it("should yield error on no country code") {
                     user.countryCode = nil
-                    interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                    interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                     waitUntil(timeout: 2) { done in
-                        interactor.request(connection) { error in
+                        interactor.request(connection.name) { error in
                             expect(error) == .nonValidInput
                             done()
                         }
@@ -445,12 +453,12 @@ class PasswordlessInteractorSpec: QuickSpec {
 
 
                 it("should yield specific error when new signups disabled") {
-                    stub(condition: passwordlessStart(phone: phoneInternational, connection: connection)) { _ in
+                    stub(condition: passwordlessStart(phone: phoneInternational, connection: connection.name)) { _ in
                         return Auth0Stubs.failure("bad.connection", name: "no_signup")
                     }
                     print(phoneInternational)
                     waitUntil(timeout: 2) { done in
-                        interactor.request(connection) { error in
+                        interactor.request(connection.name) { error in
                             expect(error) == .noSignup
                             done()
                         }
@@ -459,9 +467,9 @@ class PasswordlessInteractorSpec: QuickSpec {
                 }
 
                 it("should yield error on response error") {
-                    stub(condition: passwordlessStart(phone: phoneInternational, connection: connection)) { _ in return Auth0Stubs.failure("unknown.error", name: "Generic error") }
+                    stub(condition: passwordlessStart(phone: phoneInternational, connection: connection.name)) { _ in return Auth0Stubs.failure("unknown.error", name: "Generic error") }
                     waitUntil(timeout: 2) { done in
-                        interactor.request(connection) { error in
+                        interactor.request(connection.name) { error in
                             expect(error) == .codeNotSent
                             done()
                         }
@@ -470,9 +478,9 @@ class PasswordlessInteractorSpec: QuickSpec {
                 }
 
                 it("should yield success on response success") {
-                    stub(condition: passwordlessStart(phone: phoneInternational, connection: connection)) { _ in return Auth0Stubs.passwordlessSent(email) }
+                    stub(condition: passwordlessStart(phone: phoneInternational, connection: connection.name)) { _ in return Auth0Stubs.passwordlessSent(email) }
                     waitUntil(timeout: 2) { done in
-                        interactor.request(connection) { error in
+                        interactor.request(connection.name) { error in
                             expect(error).to(beNil())
                             done()
                         }
@@ -490,17 +498,17 @@ class PasswordlessInteractorSpec: QuickSpec {
                         user.email = phone
                         user.validEmail = true
                         user.countryCode = countryData
-                        options.passwordlessMethod = .smsLink
-                        interactor = PasswordlessInteractor(authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                        stub(condition: passwordlessStart(phone: phoneInternational, connection: connection)) { _ in return Auth0Stubs.passwordlessSent(phoneInternational)
+                        options.passwordlessMethod = .magicLink
+                        interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                        stub(condition: passwordlessStart(phone: phoneInternational, connection: connection.name)) { _ in return Auth0Stubs.passwordlessSent(phoneInternational)
                         }
-                        stub(condition: databaseLogin(identifier: phoneInternational, password: code, connection: connection)) { _ in return Auth0Stubs.authentication() }
+                        stub(condition: databaseLogin(identifier: phoneInternational, password: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                     }
 
                     it("should error on invalid code in url") {
                         activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=")
                         waitUntil(timeout: 2) { done in
-                            interactor.request(connection) { error in
+                            interactor.request(connection.name) { error in
                                 expect(error).to(beNil())
                                 done()
                             }
@@ -513,7 +521,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                     it("should yield auth on success") {
                         activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=" + code)
                         waitUntil(timeout: 2) { done in
-                            interactor.request(connection) { error in
+                            interactor.request(connection.name) { error in
                                 expect(error).to(beNil())
                                 done()
                             }

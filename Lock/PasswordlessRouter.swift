@@ -46,9 +46,9 @@ struct PasswordlessRouter: Router {
         }
 
         // Passwordless Email
-        if let connection = connections.passwordless.filter({ $0.name == "email" }).first {
+        if let connection = connections.passwordless.filter({ $0.strategy == "email" }).first ?? connections.passwordless.filter({ $0.strategy == "sms" }).first {
             let passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(self.controller?.messagePresenter)
-            let interactor = PasswordlessInteractor(authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
+            let interactor = PasswordlessInteractor(connection: connection, authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
             let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options)
             // +Social
             if !connections.oauth2.isEmpty {
@@ -56,8 +56,6 @@ struct PasswordlessRouter: Router {
                 presenter.authPresenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
             }
             return presenter
-        } else {
-            self.lock.logger.debug("Currently only Passwordless Email is supported.")
         }
         // Social Only
         if !connections.oauth2.isEmpty {
@@ -71,7 +69,7 @@ struct PasswordlessRouter: Router {
 
     func passwordless(withScreen screen: PasswordlessScreen, connection: PasswordlessConnection) -> Presentable? {
         let passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(self.controller?.messagePresenter)
-        let interactor = PasswordlessInteractor(authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
+        let interactor = PasswordlessInteractor(connection: connection, authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
         let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options, screen: screen)
         return presenter
     }

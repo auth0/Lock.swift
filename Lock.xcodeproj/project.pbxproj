@@ -56,6 +56,8 @@
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
 		5BE4344E1E64820800950FA1 /* HRDAuthenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */; };
 		5BE4344F1E64820800950FA1 /* PasswordRecoverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */; };
+		5BE9781E1E82D37A0090EC07 /* ModalNavigiationControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE9781C1E82D37A0090EC07 /* ModalNavigiationControllerSpec.swift */; };
+		5BE978201E82E7FA0090EC07 /* CountryTableViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE9781F1E82E7FA0090EC07 /* CountryTableViewControllerSpec.swift */; };
 		5F0FCF901E20117E00E3D53B /* ObserverStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */; };
 		5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
@@ -267,6 +269,8 @@
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
 		5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRDAuthenticatable.swift; sourceTree = "<group>"; };
 		5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordRecoverable.swift; sourceTree = "<group>"; };
+		5BE9781C1E82D37A0090EC07 /* ModalNavigiationControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalNavigiationControllerSpec.swift; sourceTree = "<group>"; };
+		5BE9781F1E82E7FA0090EC07 /* CountryTableViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryTableViewControllerSpec.swift; sourceTree = "<group>"; };
 		5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverStore.swift; sourceTree = "<group>"; };
 		5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ObserverStoreSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Lock/Colors.swift; sourceTree = SOURCE_ROOT; };
@@ -441,6 +445,16 @@
 			name = Validators;
 			sourceTree = "<group>";
 		};
+		5BE978191E82CFA00090EC07 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */,
+				5BE9781C1E82D37A0090EC07 /* ModalNavigiationControllerSpec.swift */,
+				5BE9781F1E82E7FA0090EC07 /* CountryTableViewControllerSpec.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		5F2496B41D665A9700A1C6E2 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -526,6 +540,8 @@
 		5F51EE6B1D1CE6110024BCD6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5B3DA2541E6EB9F800370C17 /* CountryTableViewController.swift */,
+				5B5D5B491E76C8BE00D23765 /* ModalNavigiationController.swift */,
 				5F70F1ED1D790BBE004698DA /* LockViewController.swift */,
 			);
 			name = Controllers;
@@ -735,7 +751,7 @@
 				5FA250511D48F08200C544FA /* LockSpec.swift */,
 				5F92C6901D510AFE00CCE6C0 /* LazyImageSpec.swift */,
 				5F390E8C1D63B99300FC549C /* LoggerSpec.swift */,
-				5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */,
+				5BE978191E82CFA00090EC07 /* Controllers */,
 				5BBEED391E79AB8500B3308D /* ControllerModalPresenterSpec.swift */,
 				5B0CF2DB1DE9B3D300F82BF4 /* Validators */,
 				5B0CF2DA1DE9B3C400F82BF4 /* Errors */,
@@ -764,8 +780,6 @@
 				5FD6772B1D4C303C004B87C4 /* AuthButton.swift */,
 				5F5D4A251DC3FB34002A38EB /* PasswordPolicyView.swift */,
 				5B3DA2521E6DE88900370C17 /* InternationalPhoneInputView.swift */,
-				5B3DA2541E6EB9F800370C17 /* CountryTableViewController.swift */,
-				5B5D5B491E76C8BE00D23765 /* ModalNavigiationController.swift */,
 			);
 			name = Components;
 			path = Lock;
@@ -1157,6 +1171,7 @@
 				5FBE5CC21D3E5EF50038536D /* MultifactorInteractorSpec.swift in Sources */,
 				5B1FD9721E546F500055C1AC /* PasswordlessInteractorSpec.swift in Sources */,
 				5F73CDDE1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift in Sources */,
+				5BE978201E82E7FA0090EC07 /* CountryTableViewControllerSpec.swift in Sources */,
 				5F9231D51D5B6C5E00D92580 /* AuthCollectionViewSpec.swift in Sources */,
 				5F508FFB1D1DB1E700EAA650 /* DatabaseInteractorSpec.swift in Sources */,
 				5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */,
@@ -1168,6 +1183,7 @@
 				5FBE5CC81D3EA0EA0038536D /* Mocks.swift in Sources */,
 				5F57DFCE1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift in Sources */,
 				5F92C6911D510AFE00CCE6C0 /* LazyImageSpec.swift in Sources */,
+				5BE9781E1E82D37A0090EC07 /* ModalNavigiationControllerSpec.swift in Sources */,
 				5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */,
 				5B0CF2D91DE9B1DB00F82BF4 /* DatabaseAuthenticatableErrorSpec.swift in Sources */,
 				5FF0B22A1E1864FE00A73257 /* StyleSpec.swift in Sources */,

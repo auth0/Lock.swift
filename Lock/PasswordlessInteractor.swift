@@ -26,6 +26,7 @@ import Auth0
 
 struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
 
+    let connection: PasswordlessConnection
     let authentication: Authentication
     let dispatcher: Dispatcher
     private var user: PasswordlessUser
@@ -45,21 +46,22 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
         set { self.user.countryCode = newValue }
     }
 
-    init(authentication: Authentication, dispatcher: Dispatcher, user: PasswordlessUser, options: Options, passwordlessActivity: PasswordlessUserActivity) {
+    init(connection: PasswordlessConnection, authentication: Authentication, dispatcher: Dispatcher, user: PasswordlessUser, options: Options, passwordlessActivity: PasswordlessUserActivity) {
         self.authentication = authentication
         self.dispatcher = dispatcher
         self.user = user
         self.options = options
         self.passwordlessActivity = passwordlessActivity
+        self.connection = connection
     }
 
     func request(_ connection: String, callback: @escaping (PasswordlessAuthenticatableError?) -> Void) {
         guard var identifier = self.identifier, self.validIdentifier else { return callback(.nonValidInput) }
 
-        let type = self.options.passwordlessMethod == .emailCode || self.options.passwordlessMethod == .smsCode ? PasswordlessType.Code : PasswordlessType.iOSLink
+        let type = self.options.passwordlessMethod == .code ? PasswordlessType.Code : PasswordlessType.iOSLink
 
         var authenticator: Request<Void, AuthenticationError>
-        if self.options.passwordlessMethod.mode == "email" {
+        if self.connection.strategy == "email" {
             authenticator =  self.authentication.startPasswordless(email: identifier, type: type, connection: connection, parameters: self.options.parameters)
         } else {
             guard let countryCode = self.countryCode else { return callback(.nonValidInput) }

@@ -369,12 +369,16 @@ class MockOAuth2: OAuth2Authenticatable {
     }
 }
 
-class MockController: UIViewController {
+class MockViewController: UIViewController {
 
     var presented: UIViewController?
 
     override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
         self.presented = viewControllerToPresent
+    }
+
+    override var presentedViewController: UIViewController? {
+        return self.presented ?? super.presentedViewController
     }
 
     override func dismiss(animated flag: Bool, completion: (() -> Void)?) {

@@ -209,20 +209,17 @@ Lock
     .present(from: self)
 ```
 
+Passwordless can only be use with a single connection and will prioritize the use of email connections over sms. 
+
 #### Passwordless Method
 
-When using Lock passworldess the default passwordless method is `.emailCode` which sends the user a one time passcode to login. If you want to use email [Universal Links](https://auth0.com/docs/clients/enable-universal-links) you can use:
+When using Lock passworldess the default passwordless method is `.code` which sends the user a one time passcode to login. If you want to use email [Universal Links](https://auth0.com/docs/clients/enable-universal-links) you can use:
 
 ```swift
 .withOptions {
-    $0.passwordlessMethod = .emailLink
+    $0.passwordlessMethod = .magicLink
 }
 ```
-
-To send a passcode over SMS you have the following `passwordlessMethod` options.
-
-* .smsCode
-* .smsLink
 
 #### Activity callback
 

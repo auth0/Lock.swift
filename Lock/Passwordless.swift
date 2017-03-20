@@ -28,18 +28,12 @@ enum PasswordlessScreen {
     case linkSent
 }
 
+/**
+ The method of Passwordless authentication to use:
+ - code: Send a one time passcode
+ - magicLink: Send a univeral link
+ */
 public enum PasswordlessMethod: Int, Equatable {
-    case emailCode = 0
-    case emailLink
-    case smsCode
-    case smsLink
-
-    var mode: String {
-        switch self {
-        case .emailCode, .emailLink:
-            return "email"
-        case .smsCode, .smsLink:
-            return "sms"
-        }
-    }
+    case code = 0
+    case magicLink
 }

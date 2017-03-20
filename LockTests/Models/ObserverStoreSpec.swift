@@ -91,10 +91,10 @@ class ObserverStoreSpec: QuickSpec {
             pending("controller displayed") {
 
                 var controller: MockLockController!
-                var presenter: MockController!
+                var presenter: MockViewController!
 
                 beforeEach {
-                    presenter = MockController()
+                    presenter = MockViewController()
                     controller = MockLockController(lock: Lock())
                     presenter.presented = controller
                     controller.presenting = presenter

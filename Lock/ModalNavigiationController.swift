@@ -29,18 +29,29 @@ class ModalNavigationController: UINavigationController {
         set { self.navigationBar.topItem?.title = newValue }
     }
 
-    var onBack: () -> Void = {}
+    var onClose: () -> Void = { }
 
-    func navigateBack() {
-        self.onBack()
+    func close() {
+        self.dismiss(animated: true, completion: nil)
     }
 
-    func addBackButton(withCallback callback: @escaping () -> Void) {
-        self.navigationBar.topItem?.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action:#selector(navigateBack))
-        self.onBack = callback
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        self.onClose()
+        super.dismiss(animated: flag, completion: completion)
     }
 
-    func present() {
-        ControllerModalPresenter().present(controller: self)
+    override init(rootViewController viewController: UIViewController) {
+        super.init(rootViewController: viewController)
     }
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+
+        self.navigationBar.topItem?.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action:#selector(close))
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 }

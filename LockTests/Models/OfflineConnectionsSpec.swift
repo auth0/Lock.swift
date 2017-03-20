@@ -63,9 +63,9 @@ class OfflineConnectionsSpec: QuickSpec {
 
         it("should add a passwordless connection") {
             var connections = OfflineConnections()
-            connections.passwordless(name: "email")
+            connections.passwordless(name: "custom-email", strategy: "email")
             expect(connections.isEmpty) == false
-            expect(connections.passwordless.first?.name) == "email"
+            expect(connections.passwordless.first?.name) == "custom-email"
         }
 
         describe("select") {
@@ -121,9 +121,9 @@ class OfflineConnectionsSpec: QuickSpec {
                 connections.database(name: connection, requiresUsername: false)
                 connections.database(name: "another-connection", requiresUsername: false)
                 connections.social(name: "facebook", style: .Facebook)
-                connections.passwordless(name: "email")
-                connections.passwordless(name: "sms")
-                let filtered = connections.select(byNames: ["email"])
+                connections.passwordless(name: "custom-email", strategy: "email")
+                connections.passwordless(name: "custom-sms", strategy: "sms")
+                let filtered = connections.select(byNames: ["custom-email"])
                 expect(filtered.database).to(beNil())
                 expect(filtered.oauth2).to(beEmpty())
                 expect(filtered.passwordless).to(haveCount(1))

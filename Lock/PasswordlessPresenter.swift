@@ -54,7 +54,7 @@ class PasswordlessPresenter: Presentable, Loggable {
 
     private func showCodeForm() -> View {
         let view = PasswordlessView()
-        view.showCodeForm(sentTo: self.interactor.identifier, countryCode: self.interactor.countryCode, mode: self.options.passwordlessMethod.mode)
+        view.showCodeForm(sentTo: self.interactor.identifier, countryCode: self.interactor.countryCode, mode: self.connection.strategy)
 
         let form = view.form
 
@@ -105,7 +105,7 @@ class PasswordlessPresenter: Presentable, Loggable {
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20), isLogin: true)
         let view = PasswordlessView()
 
-        if self.options.passwordlessMethod.mode == "email" {
+        if self.connection.strategy == "email" {
             view.showForm(withEmail: self.interactor.identifier, authCollectionView: authCollectionView)
         } else {
             view.showForm(withPhone: self.interactor.identifier, countryCode: self.interactor.countryCode, authCollectionView: authCollectionView)
@@ -144,7 +144,7 @@ class PasswordlessPresenter: Presentable, Loggable {
                         self.messagePresenter?.showError(error)
                         self.logger.error("Failed with error \(error)")
                     } else {
-                        if self.options.passwordlessMethod == .emailCode || self.options.passwordlessMethod == .smsCode {
+                        if self.options.passwordlessMethod == .code {
                             self.navigator.navigate(Route.passwordless(screen: .code, connection: connection))
                         } else {
                             self.navigator.navigate(Route.passwordless(screen: .linkSent, connection: connection))

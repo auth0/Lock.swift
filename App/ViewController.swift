@@ -66,6 +66,9 @@ class ViewController: UIViewController {
             actionButton(withTitle: "LOGIN WITH CDN PASSWORDLESS") {
                 return Lock
                     .passwordless()
+                    .withConnections { connections in
+                        connections.passwordless(name: "custom", strategy: "sms")
+                    }
                     .withOptions {
                         applyDefaultOptions(&$0)
                     }
