@@ -22,6 +22,8 @@
 
 import Quick
 import Nimble
+import Auth0
+import OHHTTPStubs
 
 @testable import Lock
 
@@ -29,33 +31,33 @@ class PasswordlessActivitySpec: QuickSpec {
 
     override func spec() {
 
-        var messagePresenter: MessagePresenter?
-        var mockMessagePresenter: MockMessagePresenter!
+        let authentication = Auth0.authentication(clientId: clientId, domain: domain)
+
+        var messagePresenter: MockMessagePresenter!
         let passwordlessActivity: PasswordlessActivity = PasswordlessActivity.shared
-        var newCode: String?
+        var passwordlessTransaction: PasswordlessAuthTransaction!
+        var dispatcher: ObserverStore!
+        var options: OptionBuildable!
+        var identifier: String!
+        var errorCode: Error?
+        var credentials: Credentials?
 
         beforeEach {
-            newCode = nil
-            mockMessagePresenter = MockMessagePresenter()
+            errorCode = nil
+            credentials = nil
+            dispatcher = ObserverStore()
+            dispatcher.onFailure = { errorCode = $0 }
+            dispatcher.onAuth = { credentials = $0 }
+            identifier = email
+            options = LockOptions()
             messagePresenter = MockMessagePresenter()
+            passwordlessActivity.messagePresenter = messagePresenter
+            passwordlessActivity.dispatcher = dispatcher
+            passwordlessTransaction = PasswordlessLinkTransaction(connection: "customsms", options: options, identifier: identifier, authentication: authentication, dispatcher: dispatcher)
         }
 
-        describe("setters") {
-
-            it("should set message presenter") {
-                let passwordless = passwordlessActivity.withMessagePresenter(mockMessagePresenter)
-                expect(passwordless).toNot(beNil())
-                expect(passwordless.messagePresenter).toNot(beNil())
-            }
-
-
-            it("should set activity callback") {
-                passwordlessActivity.onActivity() { code, messagePresenter in
-                    newCode = code
-                }
-                passwordlessActivity.onActivity("1234", &messagePresenter)
-                expect(newCode) == "1234"
-            }
+        afterEach {
+            Auth0Stubs.cleanAll()
         }
 
         describe("user activity validator") {
@@ -64,9 +66,6 @@ class PasswordlessActivitySpec: QuickSpec {
 
             beforeEach {
                 activity = NSUserActivity(activityType: NSUserActivityTypeBrowsingWeb)
-                passwordlessActivity.onActivity() { code, messagePresenter in
-                    newCode = code
-                }
             }
 
             it("should fail validation no url") {
@@ -83,17 +82,45 @@ class PasswordlessActivitySpec: QuickSpec {
                 expect(passwordlessActivity.continueAuth(withActivity: activity)) == false
             }
 
-            it("should pass validation with code") {
-                activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=PASSCODE")
+            it("should pass validation with numeric code") {
+                activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=123456")
                 expect(passwordlessActivity.continueAuth(withActivity: activity)) == true
             }
 
-            it("should use code from url in activity") {
-                activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=OTPASSCODE")
-                expect(passwordlessActivity.continueAuth(withActivity: activity)) == true
-                expect(newCode) == "OTPASSCODE"
+            it("should fail validation with invalid code") {
+                activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=PASSCODE")
+                expect(passwordlessActivity.continueAuth(withActivity: activity)) == false
+                expect(errorCode).toEventuallyNot(beNil())
             }
         }
-        
+
+        describe("auth") {
+
+            var activity: NSUserActivity!
+
+            beforeEach {
+                activity = NSUserActivity(activityType: NSUserActivityTypeBrowsingWeb)
+            }
+
+            it("should use passcode in transaction auth and yield credentials") {
+                stub(condition: databaseLogin(identifier: identifier, password: "12345678", connection: "customsms")) { _ in return Auth0Stubs.authentication() }
+                passwordlessActivity.store(passwordlessTransaction)
+                activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=12345678")
+                expect(passwordlessActivity.continueAuth(withActivity: activity)) == true
+                expect(credentials).toEventuallyNot(beNil())
+                expect(errorCode).toEventually(beNil())
+            }
+
+            it("should use passcode in transaction auth and fail") {
+                stub(condition: databaseLogin(identifier: identifier, password: "12345678", connection: "customsms")) { _ in return Auth0Stubs.failure("invalid_user_password")}
+                passwordlessActivity.store(passwordlessTransaction)
+                activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=12345678")
+                expect(passwordlessActivity.continueAuth(withActivity: activity)) == true
+                expect(credentials).toEventually(beNil())
+                expect(errorCode).toEventuallyNot(beNil())
+            }
+
+        }
+
     }
 }

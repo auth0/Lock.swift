@@ -47,7 +47,9 @@ struct PasswordlessRouter: Router {
 
         // Passwordless Email
         if let connection = connections.passwordless.filter({ $0.strategy == "email" }).first ?? connections.passwordless.filter({ $0.strategy == "sms" }).first {
-            let passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(self.controller?.messagePresenter)
+            let passwordlessActivity = PasswordlessActivity.shared
+            passwordlessActivity.dispatcher = self.lock.observerStore
+            passwordlessActivity.messagePresenter = self.controller?.messagePresenter
             let interactor = PasswordlessInteractor(connection: connection, authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
             let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options)
             // +Social
@@ -68,7 +70,9 @@ struct PasswordlessRouter: Router {
     }
 
     func passwordless(withScreen screen: PasswordlessScreen, connection: PasswordlessConnection) -> Presentable? {
-        let passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(self.controller?.messagePresenter)
+        let passwordlessActivity = PasswordlessActivity.shared
+        passwordlessActivity.dispatcher = self.lock.observerStore
+        passwordlessActivity.messagePresenter = self.controller?.messagePresenter
         let interactor = PasswordlessInteractor(connection: connection, authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
         let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options, screen: screen)
         return presenter

@@ -58,15 +58,15 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
     func request(_ connection: String, callback: @escaping (PasswordlessAuthenticatableError?) -> Void) {
         guard var identifier = self.identifier, self.validIdentifier else { return callback(.nonValidInput) }
 
-        let type = self.options.passwordlessMethod == .code ? PasswordlessType.Code : PasswordlessType.iOSLink
+        let passwordlessType = self.options.passwordlessMethod == .code ? PasswordlessType.Code : PasswordlessType.iOSLink
 
         var authenticator: Request<Void, AuthenticationError>
         if self.connection.strategy == "email" {
-            authenticator =  self.authentication.startPasswordless(email: identifier, type: type, connection: connection, parameters: self.options.parameters)
+            authenticator =  self.authentication.startPasswordless(email: identifier, type: passwordlessType, connection: connection, parameters: self.options.parameters)
         } else {
             guard let countryCode = self.countryCode else { return callback(.nonValidInput) }
             identifier = countryCode.prefix + identifier
-            authenticator =  self.authentication.startPasswordless(phoneNumber: identifier, type: type, connection: connection)
+            authenticator =  self.authentication.startPasswordless(phoneNumber: identifier, type: passwordlessType, connection: connection)
         }
 
         authenticator.start {
@@ -75,23 +75,8 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
                 callback(nil)
                 self.dispatcher.dispatch(result: .passwordless(identifier))
 
-                if type == .iOSLink {
-                    self.passwordlessActivity.onActivity { password, messagePresenter in
-                        guard self.codeValidator.validate(password) == nil else {
-                            messagePresenter?.showError(PasswordlessAuthenticatableError.invalidLink)
-                            return self.dispatcher.dispatch(result: .error(PasswordlessAuthenticatableError.invalidLink))
-                        }
-
-                        CredentialAuth(oidc: self.options.oidcConformant, realm: connection, authentication: self.authentication)
-                            .request(withIdentifier: identifier, password: password, options: self.options)
-                            .start { result in
-                                self.handle(identifier: identifier, result: result) { error in
-                                    if let error = error {
-                                         messagePresenter?.showError(error)
-                                    }
-                                }
-                        }
-                    }
+                if passwordlessType == .iOSLink {
+                    self.passwordlessActivity.store(PasswordlessLinkTransaction(connection: connection, options: self.options, identifier: identifier, authentication: self.authentication, dispatcher: self.dispatcher))
                 }
             case .failure(let cause as AuthenticationError) where cause.code == "bad.connection":
                 callback(.noSignup)

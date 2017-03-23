@@ -52,12 +52,14 @@
 		5BB78CC51E54BD530074DFE3 /* PasswordlessPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB78CC31E54BD440074DFE3 /* PasswordlessPresenterSpec.swift */; };
 		5BBEED381E79A9F900B3308D /* CountryCodeStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBEED361E79A96C00B3308D /* CountryCodeStoreSpec.swift */; };
 		5BBEED3B1E79AB8C00B3308D /* ControllerModalPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBEED391E79AB8500B3308D /* ControllerModalPresenterSpec.swift */; };
+		5BCB26861E8437BC00CFBF9A /* PolicyViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB26851E8437BC00CFBF9A /* PolicyViewSpec.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
 		5BE4344E1E64820800950FA1 /* HRDAuthenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */; };
 		5BE4344F1E64820800950FA1 /* PasswordRecoverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */; };
 		5BE9781E1E82D37A0090EC07 /* ModalNavigiationControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE9781C1E82D37A0090EC07 /* ModalNavigiationControllerSpec.swift */; };
 		5BE978201E82E7FA0090EC07 /* CountryTableViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE9781F1E82E7FA0090EC07 /* CountryTableViewControllerSpec.swift */; };
+		5BE978241E8405C70090EC07 /* PasswordlessAuthTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE978231E8405C70090EC07 /* PasswordlessAuthTransaction.swift */; };
 		5F0FCF901E20117E00E3D53B /* ObserverStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */; };
 		5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
@@ -94,7 +96,7 @@
 		5F57DFCE1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFCD1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift */; };
 		5F57DFD21D4FE59800C54DA8 /* OAuth2Authenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */; };
 		5F57DFD41D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */; };
-		5F5D4A261DC3FB34002A38EB /* PasswordPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5D4A251DC3FB34002A38EB /* PasswordPolicyView.swift */; };
+		5F5D4A261DC3FB34002A38EB /* PolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5D4A251DC3FB34002A38EB /* PolicyView.swift */; };
 		5F5F98D41D21E3890016FC22 /* DatabasePresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */; };
 		5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D71D22ED120016FC22 /* Presentable.swift */; };
 		5F5F98DA1D22EF490016FC22 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5F98D91D22EF490016FC22 /* Router.swift */; };
@@ -265,12 +267,14 @@
 		5BB78CC31E54BD440074DFE3 /* PasswordlessPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessPresenterSpec.swift; sourceTree = "<group>"; };
 		5BBEED361E79A96C00B3308D /* CountryCodeStoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCodeStoreSpec.swift; sourceTree = "<group>"; };
 		5BBEED391E79AB8500B3308D /* ControllerModalPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerModalPresenterSpec.swift; sourceTree = "<group>"; };
+		5BCB26851E8437BC00CFBF9A /* PolicyViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyViewSpec.swift; sourceTree = "<group>"; };
 		5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthPresenterSpec.swift; sourceTree = "<group>"; };
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
 		5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRDAuthenticatable.swift; sourceTree = "<group>"; };
 		5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordRecoverable.swift; sourceTree = "<group>"; };
 		5BE9781C1E82D37A0090EC07 /* ModalNavigiationControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalNavigiationControllerSpec.swift; sourceTree = "<group>"; };
 		5BE9781F1E82E7FA0090EC07 /* CountryTableViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryTableViewControllerSpec.swift; sourceTree = "<group>"; };
+		5BE978231E8405C70090EC07 /* PasswordlessAuthTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessAuthTransaction.swift; sourceTree = "<group>"; };
 		5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverStore.swift; sourceTree = "<group>"; };
 		5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ObserverStoreSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Lock/Colors.swift; sourceTree = SOURCE_ROOT; };
@@ -305,7 +309,7 @@
 		5F57DFCD1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthPresenterSpec.swift; sourceTree = "<group>"; };
 		5F57DFD11D4FE59800C54DA8 /* OAuth2Authenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OAuth2Authenticatable.swift; path = Lock/OAuth2Authenticatable.swift; sourceTree = SOURCE_ROOT; };
 		5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Auth0OAuth2Interactor.swift; path = Lock/Auth0OAuth2Interactor.swift; sourceTree = SOURCE_ROOT; };
-		5F5D4A251DC3FB34002A38EB /* PasswordPolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicyView.swift; sourceTree = "<group>"; };
+		5F5D4A251DC3FB34002A38EB /* PolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyView.swift; sourceTree = "<group>"; };
 		5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabasePresenterSpec.swift; sourceTree = "<group>"; };
 		5F5F98D71D22ED120016FC22 /* Presentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Presentable.swift; path = Lock/Presentable.swift; sourceTree = SOURCE_ROOT; };
 		5F5F98D91D22EF490016FC22 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Lock/Router.swift; sourceTree = SOURCE_ROOT; };
@@ -487,6 +491,7 @@
 				5F1C49941D8360F5005B74FC /* RemoteConnectionLoader.swift */,
 				5B9A54431E4B275E004B5454 /* PasswordlessInteractor.swift */,
 				5B9A54451E4B2CB4004B5454 /* PasswordlessAuthenticatable.swift */,
+				5BE978231E8405C70090EC07 /* PasswordlessAuthTransaction.swift */,
 			);
 			name = Interactors;
 			path = Lock;
@@ -605,6 +610,7 @@
 			isa = PBXGroup;
 			children = (
 				5F9231D41D5B6C5E00D92580 /* AuthCollectionViewSpec.swift */,
+				5BCB26851E8437BC00CFBF9A /* PolicyViewSpec.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -778,7 +784,7 @@
 				5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */,
 				5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */,
 				5FD6772B1D4C303C004B87C4 /* AuthButton.swift */,
-				5F5D4A251DC3FB34002A38EB /* PasswordPolicyView.swift */,
+				5F5D4A251DC3FB34002A38EB /* PolicyView.swift */,
 				5B3DA2521E6DE88900370C17 /* InternationalPhoneInputView.swift */,
 			);
 			name = Components;
@@ -1137,7 +1143,8 @@
 				5FC4348A1D1DF82A005188BC /* DatabasePresenter.swift in Sources */,
 				5B889AF01E7022B900C9FBAF /* ControllerModalPresenter.swift in Sources */,
 				5F70F1EE1D790BBE004698DA /* LockViewController.swift in Sources */,
-				5F5D4A261DC3FB34002A38EB /* PasswordPolicyView.swift in Sources */,
+				5F5D4A261DC3FB34002A38EB /* PolicyView.swift in Sources */,
+				5BE978241E8405C70090EC07 /* PasswordlessAuthTransaction.swift in Sources */,
 				5F99AA821D1B0A3900D27842 /* i18n.swift in Sources */,
 				5F73CDD41D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift in Sources */,
 				5F99AA961D1C4AF400D27842 /* CredentialView.swift in Sources */,
@@ -1152,6 +1159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BCB26861E8437BC00CFBF9A /* PolicyViewSpec.swift in Sources */,
 				5FE50DBF1D7A254000D82290 /* ConnectionLoadingPresenterSpec.swift in Sources */,
 				5F6C01551D91656100198ACD /* UsernameValidatorSpec.swift in Sources */,
 				5F2496BE1D67ADB300A1C6E2 /* EmailValidatorSpec.swift in Sources */,

@@ -447,7 +447,8 @@ func mockCredentials() -> Credentials {
 class MockPasswordlessActivity: PasswordlessUserActivity {
 
     var messagePresenter: MessagePresenter?
-    var onActivity: (String, inout MessagePresenter?) -> () = { _ in }
+    var onAuth: (String) -> Void = { _ in }
+    var current: PasswordlessAuthTransaction?
     var code: String = "123456"
 
     func withMessagePresenter(_ messagePresenter: MessagePresenter?) -> Self {
@@ -455,14 +456,16 @@ class MockPasswordlessActivity: PasswordlessUserActivity {
         return self
     }
 
-    func onActivity(callback: @escaping (String, inout MessagePresenter?) -> ()) {
-        self.onActivity = callback
-    }
-
     func continueAuth(withActivity userActivity: NSUserActivity) -> Bool {
-        self.onActivity(code, &messagePresenter)
+        self.onAuth(code)
+        self.current = nil
         return true
     }
+
+    func store(_ transaction: PasswordlessAuthTransaction) {
+        self.current = transaction
+    }
+
 }
 
 class MockPasswordlessInteractor: PasswordlessAuthenticatable {

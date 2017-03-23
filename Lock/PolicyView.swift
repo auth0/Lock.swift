@@ -1,4 +1,4 @@
-// PasswordPolicyView.swift
+// PolicyView.swift
 //
 // Copyright (c) 2016 Auth0 (http://auth0.com)
 //

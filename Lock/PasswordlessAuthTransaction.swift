@@ -1,4 +1,4 @@
-// PasswordlessAuthenticatable.swift
+// PasswordlessAuthTransaction.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -23,15 +23,27 @@
 import Foundation
 import Auth0
 
-protocol PasswordlessAuthenticatable: CredentialAuthenticatable {
-    var identifier: String? { get }
-    var validIdentifier: Bool { get }
-    var code: String? { get }
-    var validCode: Bool { get }
-    var countryCode: CountryCode? { get set }
+protocol PasswordlessAuthTransaction: CredentialAuthenticatable, Loggable {
+    var connection: String { get }
+    var options: Options { get }
+    var identifier: String { get }
+    var authentication: Authentication { get }
+    var dispatcher: Dispatcher { get }
+}
 
-    mutating func update(_ type: InputField.InputType, value: String?) throws
+struct PasswordlessLinkTransaction: PasswordlessAuthTransaction {
+    let connection: String
+    let options: Options
+    let identifier: String
+    let authentication: Authentication
+    let dispatcher: Dispatcher
+}
 
-    func request(_ connection: String, callback: @escaping (PasswordlessAuthenticatableError?) -> Void)
-    func login(_ connection: String, callback: @escaping (CredentialAuthError?) -> Void)
+extension PasswordlessAuthTransaction {
+
+    func auth(withPasscode passcode: String, callback: @escaping (CredentialAuthError?) -> Void) {
+        CredentialAuth(oidc: self.options.oidcConformant, realm: connection, authentication: self.authentication)
+            .request(withIdentifier: identifier, password: passcode, options: self.options)
+            .start { self.handle(identifier: self.identifier, result: $0, callback: callback) }
+    }
 }
