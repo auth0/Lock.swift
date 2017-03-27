@@ -36,7 +36,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
 
 In your `Cartfile` add
 
-```
+```ruby
 github "auth0/Lock.swift" ~>2.1.0
 ```
 
@@ -112,7 +112,7 @@ Lock will automatically load your client configuration automatically, if you wis
 
 Before presenting Lock you can tell it what connections it should display and use to authenticate an user. You can do that by calling the method and supply a closure that can specify the connections.
 
-Adding a database connection:
+##### Adding a Database connection
 
 ```swift
 .withConnections {
@@ -120,16 +120,21 @@ Adding a database connection:
 }
 ```
 
-Adding multiple social connections:
-
-```swift
-connections.database(name: "{CONNECTION_NAME}", requiresUsername: true)
-```
+##### Adding Social connections
 
 ```swift
 .withConnections { connections in
     connections.social(name: "facebook", style: .Facebook)
     connections.social(name: "google-oauth2", style: .Google)
+}
+```
+
+##### Adding Enterprise connections
+
+```swift
+.withConnections { connections in
+    connections.enterprise(name: "customAD", domains: ["domain1.com", "domain2.com"])
+    connections.enterprise(name: "alternativeAD", domains: ["domain3.com"], style: .Microsoft)
 }
 ```
 
@@ -160,7 +165,7 @@ Lock provides many styling options to help you apply your own brand identity to 
 }
 ```
 
-> You can explore the full range of styling options in [Style.swift](https://github.com/auth0/Lock.iOS-OSX/blob/v2/Lock/Style.swift)
+> You can explore the full range of styling options in [Style.swift](https://github.com/auth0/Lock.swift/blob/master/Lock/Style.swift)
 
 ### Styling a custom OAuth2 connection
 
@@ -322,7 +327,7 @@ Allows you to set provider scopes for oauth2/social connections with a comma sep
 }
 ```
 
-#### Custom Signup Fields
+#### Custom Signup Fields
 
 When signing up the default information requirements are the user's *email* and *password*. You can expand your data capture requirements as needed.
 
@@ -337,10 +342,10 @@ When signing up the default information requirements are the user's *email* and 
 
 *Note: You must specify the icon to use with your custom text field and store it in your App's bundle.*
 
-#### Enterprise
+#### Enterprise
 
-* *enterpriseConnectionUsingActiveAuth*: By default Enterprise connections will use Web Authentication. However you can specify which connections will alternatively use credential authentication and prompt for a username and password.
-* *activeDirectoryEmailAsUsername*: When Lock request your enterprise credentials after performing Home Realm Discovery (HRD), e.g. for Active Directory, it will try to prefill the username for you. By default it will parse the email's local part and use that as the username, e.g. `john.doe@auth0.com` will be `john.doe`. If you don't want that you can turn on this flag and it will just use the email address.
+* **enterpriseConnectionUsingActiveAuth**: By default Enterprise connections will use Web Authentication. However you can specify which connections will alternatively use credential authentication and prompt for a username and password.
+* **activeDirectoryEmailAsUsername**: When Lock request your enterprise credentials after performing Home Realm Discovery (HRD), e.g. for Active Directory, it will try to prefill the username for you. By default it will parse the email's local part and use that as the username, e.g. `john.doe@auth0.com` will be `john.doe`. If you don't want that you can turn on this flag and it will just use the email address.
 
 ```swift
 .withOptions {
