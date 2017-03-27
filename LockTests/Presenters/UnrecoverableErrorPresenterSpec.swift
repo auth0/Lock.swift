@@ -48,23 +48,60 @@ class UnrecoverableErrorPresenterSpec: QuickSpec {
                 expect(presenter.view as? UnrecoverableErrorView).toNot(beNil())
             }
 
-            it("should have button title") {
-                expect(view.primaryButton?.title) == "RETRY"
+            context("retry error") {
+
+                beforeEach {
+                    presenter = UnrecoverableErrorPresenter(error: .connectionTimeout, navigator: navigator)
+                    view = presenter.view as? UnrecoverableErrorView
+                }
+
+                it("should have relevant retry button title") {
+                    expect(view.secondaryButton?.title?.contains("retry")) == true
+                }
             }
 
-            it("should display relevant error message") {
-                expect(view.label?.text) == error.localizableMessage
+            context("support error") {
+
+                beforeEach {
+                    presenter = UnrecoverableErrorPresenter(error: .invalidClientOrDomain, navigator: navigator)
+                    view = presenter.view as? UnrecoverableErrorView
+                }
+
+                it("should have relevant support button title") {
+                    expect(view.secondaryButton?.title?.contains("support")) == true
+                }
             }
         }
 
         describe("action") {
 
-            it("should trigger retry on button press") {
-                view.primaryButton?.onPress(view.primaryButton!)
-                expect(navigator.route) == Route.root
+            context("retry error") {
+
+                beforeEach {
+                    presenter = UnrecoverableErrorPresenter(error: .connectionTimeout, navigator: navigator)
+                    view = presenter.view as? UnrecoverableErrorView
+                }
+
+                it("should trigger retry on button press") {
+                    view.secondaryButton?.onPress(view.secondaryButton!)
+                    expect(navigator.route) == Route.root
+                }
             }
 
-        }
+            context("support error") {
 
+                beforeEach {
+                    presenter = UnrecoverableErrorPresenter(error: .invalidClientOrDomain, navigator: navigator)
+                    view = presenter.view as? UnrecoverableErrorView
+                }
+
+                it("should not trigger retry on button press") {
+                    view.secondaryButton?.onPress(view.secondaryButton!)
+                    expect(navigator.route).to(beNil())
+                }
+            }
+            
+        }
+        
     }
 }

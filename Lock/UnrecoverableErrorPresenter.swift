@@ -22,7 +22,7 @@
 
 import Foundation
 
-class UnrecoverableErrorPresenter: Presentable, Loggable {
+class UnrecoverableErrorPresenter: Presentable {
     let navigator: Navigable
     let error: UnrecoverableError
 
@@ -34,9 +34,15 @@ class UnrecoverableErrorPresenter: Presentable, Loggable {
     }
 
     var view: View {
-        let view = UnrecoverableErrorView(message: self.error.localizableMessage)
-        view.primaryButton?.onPress = { _ in
-            self.navigator.navigate(.root)
+        let view = UnrecoverableErrorView(canRetry: self.error.canRetry)
+        if self.error.canRetry {
+            view.secondaryButton?.onPress = { _ in
+                self.navigator.navigate(.root)
+            }
+        } else {
+            view.secondaryButton?.onPress = { _ in
+                UIApplication.shared.openURL(URL(string: "https://auth0.com/docs/")!)
+            }
         }
         return view
     }

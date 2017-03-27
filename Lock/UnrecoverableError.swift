@@ -42,6 +42,15 @@ enum UnrecoverableError: Equatable, Error {
             return "Something went wrong.\nPlease contact technical support.".i18n(key: "com.auth0.lock.error.unrecoverable.default", comment: "Default error")
         }
     }
+
+    var canRetry: Bool {
+        switch self {
+        case .connectionTimeout, .requestIssue:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 func == (lhs: UnrecoverableError, rhs: UnrecoverableError) -> Bool {
