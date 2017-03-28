@@ -178,7 +178,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
                 }
             }
 
-            context("disable provider") {
+            context("native provider unavailable") {
 
                 beforeEach {
                     MockNativeAuthHandler.validProvider = false
@@ -187,7 +187,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
                     nativeHandlers["twitter"] = authHandler
                     interactor = Auth0OAuth2Interactor(authentication: authentication, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
                 }
-
+                
                 it("should fallback to webAuth with connection") {
                     interactor.login("twitter", callback: { _ in })
                     expect(authentication.webAuth?.connection) == "twitter"
