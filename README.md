@@ -209,11 +209,11 @@ Lock
     .present(from: self)
 ```
 
-Passwordless can only be use with a single connection and will prioritize the use of email connections over sms. 
+Passwordless can only be used with a single connection and will prioritize the use of email connections over sms.
 
 #### Passwordless Method
 
-When using Lock passworldess the default passwordless method is `.code` which sends the user a one time passcode to login. If you want to use email [Universal Links](https://auth0.com/docs/clients/enable-universal-links) you can use:
+When using Lock passwordless the default `passwordlessMethod` is `.code` which sends the user a one time passcode to login. If you want to use [Universal Links](https://auth0.com/docs/clients/enable-universal-links) you can add the following:
 
 ```swift
 .withOptions {
@@ -223,7 +223,7 @@ When using Lock passworldess the default passwordless method is `.code` which se
 
 #### Activity callback
 
-If you are using Lock passwordless and have specified the `.emailLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
+If you are using Lock passwordless and have specified the `.magicLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
 
 ```swift
 func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
@@ -352,16 +352,6 @@ When signing up the default information requirements are the user's *email* and 
 .withOptions {
   $0.activeDirectoryEmailAsUsername = true
   $0.enterpriseConnectionUsingActiveAuth = ["enterprisedomain.com"]
-}
-```
-
-#### Passwordless
-
-If you are using passwordless connections and have specified the `.magicLink` option to send the user universal links then you will need to add the following to your `AppDelegate.swift`:
-
-```swift
-func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-  return Lock.continueActivity(userActivity)
 }
 ```
 

@@ -150,7 +150,7 @@ class ClassicRouterSpec: QuickSpec {
 
                 it("should not return root for passwordless email connection") {
                     _ = lock.withConnections {
-                        $0.passwordless(name: "custom-email", strategy: "email")
+                        $0.email(name: "custom-email")
                     }
                     let presenter = router.root as? PasswordlessPresenter
                     expect(presenter).to(beNil())
@@ -158,7 +158,7 @@ class ClassicRouterSpec: QuickSpec {
 
                 it("should not return root for passwordless sms connection") {
                     _ = lock.withConnections {
-                        $0.passwordless(name: "custom-sms", strategy: "sms")
+                        $0.sms(name: "custom-sms")
                     }
                     let presenter = router.root as? PasswordlessPresenter
                     expect(presenter).to(beNil())

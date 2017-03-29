@@ -89,7 +89,7 @@ class PasswordlessView: UIView, View {
     }
 
     func showForm(withPhone phone: String?, countryCode: CountryCode?, authCollectionView: AuthCollectionView?) {
-        let countryData = CountryCodeStore()
+        let countryData = CountryCodes()
         let formView = InternationalPhoneInputView(withCountryData: countryData)
         let messageView = UILabel()
 
@@ -108,7 +108,7 @@ class PasswordlessView: UIView, View {
         messageView.textAlignment = .center
         messageView.font = regularSystemFont(size: 15)
 
-        if let selectedCountry = countryCode ?? countryData.countryCode(forId: "US") {
+        if let selectedCountry = countryCode ?? countryData.countryCode("US") {
             formView.updateCountry(selectedCountry)
         }
 
@@ -136,7 +136,7 @@ class PasswordlessView: UIView, View {
         self.container?.addArrangedSubview(formView)
 
         if let countryCode = countryCode, let identifier = identifier {
-            displayIdentifier = countryCode.prefix + identifier
+            displayIdentifier = countryCode.phoneCode + identifier
         } else  if let identifier = identifier {
             displayIdentifier = identifier
         }
@@ -175,7 +175,7 @@ class PasswordlessView: UIView, View {
         imageView.image = LazyImage(name: "ic_email_sent", bundle: bundleForLock()).image(compatibleWithTraits: self.traitCollection)
 
         if let countryCode = countryCode, let identifier = identifier {
-            displayIdentifier = countryCode.prefix + identifier
+            displayIdentifier = countryCode.phoneCode + identifier
         } else  if let identifier = identifier {
             displayIdentifier = identifier
         }

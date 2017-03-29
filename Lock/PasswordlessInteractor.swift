@@ -65,7 +65,7 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
             authenticator =  self.authentication.startPasswordless(email: identifier, type: passwordlessType, connection: connection, parameters: self.options.parameters)
         } else {
             guard let countryCode = self.countryCode else { return callback(.nonValidInput) }
-            identifier = countryCode.prefix + identifier
+            identifier = countryCode.phoneCode + identifier
             authenticator =  self.authentication.startPasswordless(phoneNumber: identifier, type: passwordlessType, connection: connection)
         }
 
@@ -93,7 +93,7 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
             else { return callback(.nonValidInput) }
 
         if let countryCode = self.countryCode {
-            identifier = countryCode.prefix + identifier
+            identifier = countryCode.phoneCode + identifier
         }
 
         CredentialAuth(oidc: options.oidcConformant, realm: connection, authentication: authentication)

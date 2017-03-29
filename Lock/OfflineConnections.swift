@@ -53,8 +53,13 @@ struct OfflineConnections: ConnectionBuildable {
         self.enterprise.append(enterprise)
     }
 
-    mutating func passwordless(name: String, strategy: String) {
-        let passwordless = PasswordlessConnection(name: name, strategy: strategy)
+    mutating func sms(name: String) {
+        let passwordless = PasswordlessConnection(name: name, strategy: "sms")
+        self.passwordless.append(passwordless)
+    }
+
+    mutating func email(name: String) {
+        let passwordless = PasswordlessConnection(name: name, strategy: "email")
         self.passwordless.append(passwordless)
     }
 

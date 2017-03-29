@@ -32,6 +32,6 @@ protocol Form: class {
 extension Form {
     var onCountryChange: (CountryCode) -> Void {
         get { return self.onCountryChange }
-        set { }
+        set { self.onCountryChange = newValue }
     }
 }

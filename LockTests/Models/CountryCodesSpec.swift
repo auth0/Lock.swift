@@ -1,4 +1,4 @@
-// CountryCodeStoreSpec.swift
+// CountryCodesSpec.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -24,39 +24,39 @@ import Quick
 import Nimble
 @testable import Lock
 
-class CountryCodeStoreSpec: QuickSpec {
+class CountryCodesSpec: QuickSpec {
 
     override func spec() {
 
-        var store: CountryCodeStore?
+        var store: CountryCodes?
 
         describe("countrycode") {
 
             beforeEach {
-                store = CountryCodeStore()
+                store = CountryCodes()
             }
 
-            it("should return 240 countries") {
-                expect(store?.filteredData().count) == 240
+            it("should return 229 countries") {
+                expect(store?.filteredData().count) == 229
             }
 
             it("should filter countries to 1") {
-                store?.updateFilter("United Kingdom")
+                store?.filter = "United Kingdom"
                 expect(store?.filteredData().count) == 1
             }
 
             it("should return no countries") {
-                store?.updateFilter("ZZZZ")
+                store?.filter = "ZZZZ"
                 expect(store?.filteredData().count) == 0
             }
 
             it("should return entry for valid code") {
-                let countryData = store?.countryCode(forId: "US")
-                expect(countryData?.prefix) == "+1"
+                let countryData = store?.countryCode("US")
+                expect(countryData?.phoneCode) == "+1"
             }
 
             it("should return nil entry for invalid code") {
-                let countryData = store?.countryCode(forId: "ZZ")
+                let countryData = store?.countryCode("ZZ")
                 expect(countryData).to(beNil())
             }
         }

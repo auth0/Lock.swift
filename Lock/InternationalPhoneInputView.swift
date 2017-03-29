@@ -29,9 +29,9 @@ class InternationalPhoneInputView: UIView, Form {
     var codeLabel: UILabel
     var inputField: InputField
     var stackView: UIStackView
-    var countryStore: CountryCodeStore
+    var countryStore: CountryCodes
 
-    init(withCountryData data: CountryCodeStore) {
+    init(withCountryData data: CountryCodes) {
         self.container = UIView()
         self.countryLabel = UILabel()
         self.codeLabel = UILabel()
@@ -39,7 +39,8 @@ class InternationalPhoneInputView: UIView, Form {
         self.stackView = UIStackView()
         self.countryStore = data
         super.init(frame: CGRect.zero)
-        self.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.launchCountryTable(_:)))
+        self.container.addGestureRecognizer(tapGesture)
         self.layoutForm()
     }
 
@@ -69,8 +70,9 @@ class InternationalPhoneInputView: UIView, Form {
     }
 
     func updateCountry(_ countryCode: CountryCode) {
-        self.countryLabel.text = countryCode.name
-        self.codeLabel.text = countryCode.prefix
+        self.countryLabel.text = countryCode.localizedName
+        self.codeLabel.text = countryCode.phoneCode
+        self.onCountryChange(countryCode)
     }
 
     // MARK: - PasswordlessForm
@@ -184,15 +186,30 @@ class InternationalPhoneInputView: UIView, Form {
         container.layer.borderColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 ).cgColor
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let countryTableView = CountryTableViewController(withData: self.countryStore)
-        countryTableView.onDidSelect = {
+    func launchCountryTable(_ sender: UITapGestureRecognizer) {
+        let countryTableView = CountryTableViewController(withData: self.countryStore) {
             self.updateCountry($0)
-            self.onCountryChange($0)
         }
-        let navigationModal = ModalNavigationController(rootViewController: countryTableView)
-        navigationModal.header = "Calling codes".i18n(key: "com.auth0.lock.passwordless.sms.country.header", comment: "Country tableview navigation header")
-        ControllerModalPresenter().present(controller: navigationModal)
+        let navigationController = UINavigationController(rootViewController: countryTableView)
+        guard let topController = findTopViewController() else { return }
+        topController.present(navigationController, animated: true, completion: nil)
     }
+}
 
+fileprivate func findTopViewController(from root: UIViewController? = nil) -> UIViewController? {
+    guard let root = root ?? UIApplication.shared.keyWindow?.rootViewController else { return nil }
+    if let presented = root.presentedViewController { return findTopViewController(from: presented) }
+    switch root {
+    case let split as UISplitViewController:
+        guard let last = split.viewControllers.last else { return split }
+        return findTopViewController(from: last)
+    case let navigation as UINavigationController:
+        guard let top = navigation.topViewController else { return navigation }
+        return findTopViewController(from: top)
+    case let tab as UITabBarController:
+        guard let selected = tab.selectedViewController else { return tab }
+        return findTopViewController(from: selected)
+    default:
+        return root
+    }
 }

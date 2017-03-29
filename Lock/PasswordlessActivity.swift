@@ -48,12 +48,12 @@ class PasswordlessActivity: PasswordlessUserActivity, Loggable {
 
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb, let url = userActivity.webpageURL,
             let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
-                self.logger.error("Not intended audience of this useractivity")
+                self.logger.error("The userActivity does not contain a valid passwordless URL")
                 return false
         }
 
         guard let bundlerIdentifier = Bundle.main.bundleIdentifier, components.path.lowercased().contains(bundlerIdentifier.lowercased()), let items = components.queryItems else {
-            self.logger.error("URL does not contain our bundle identifier")
+            self.logger.error("Passwordless URL does not match our bundle identifier")
             return false
         }
 

@@ -74,12 +74,18 @@ public protocol ConnectionBuildable: Connections {
     mutating func enterprise(name: String, domains: [String])
 
     /**
-     Adds a new passwordless connection
+     Adds a new passwordless SMS connection
 
-     - parameter name:  name of the connection
-     - paramater strategy: name of the strategy, "sms" or "email"
+     - parameter name: name of the connection
      */
-    mutating func passwordless(name: String, strategy: String)
+    mutating func sms(name: String)
+
+    /**
+     Adds a new passwordless Email connection
+
+     - parameter name: name of the connection
+     */
+    mutating func email(name: String)
 }
 
 public extension ConnectionBuildable {

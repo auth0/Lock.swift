@@ -60,7 +60,7 @@ class PasswordlessPresenter: Presentable, Loggable {
 
         form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
-            self.logger.verbose("Inputn value: \(input.text) for type: \(input.type)")
+            self.logger.verbose("Input value: \(input.text) for type: \(input.type)")
             do {
                 try self.interactor.update(input.type, value: input.text)
                 input.showValid()
@@ -76,7 +76,7 @@ class PasswordlessPresenter: Presentable, Loggable {
             let interactor = self.interactor
             let connection = self.connection
             button.inProgress = true
-            self.logger.info("Login passwordless \(self.interactor.identifier)")
+            self.logger.info("Login passwordless \(self.interactor.identifier) with passcode using connection: \(self.connection.name)")
             interactor.login(connection.name) { error in
                 Queue.main.async {
                     button.inProgress = false
@@ -112,9 +112,12 @@ class PasswordlessPresenter: Presentable, Loggable {
         }
 
         let form = view.form
-        form?.onCountryChange = {
-            self.interactor.countryCode = $0
-            self.logger.verbose("SMS Country: \($0.name), Prefix: \($0.prefix)")
+
+        if self.connection.strategy == "sms" {
+            form?.onCountryChange = {
+                self.interactor.countryCode = $0
+                self.logger.verbose("SMS Country: \($0.localizedName), Prefix: \($0.phoneCode)")
+            }
         }
 
         form?.onValueChange = { input in
@@ -135,7 +138,7 @@ class PasswordlessPresenter: Presentable, Loggable {
             let interactor = self.interactor
             let connection = self.connection
             button.inProgress = true
-            self.logger.info("Request passwordless \(self.interactor.identifier)")
+            self.logger.info("Request passwordless \(self.options.passwordlessMethod) for \(self.interactor.identifier) using connection: \(self.connection.name)")
             interactor.request(connection.name) { error in
                 Queue.main.async {
                     button.inProgress = false

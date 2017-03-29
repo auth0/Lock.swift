@@ -97,7 +97,13 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
                     strategy.connections.forEach { connections.social(name: $0.name, style: AuthStyle.style(forStrategy: strategy.name, connectionName: $0.name)) }
                 }
                 info.passwordless.forEach { strategy in
-                    strategy.connections.forEach { connections.passwordless(name: $0.name, strategy: strategy.name) }
+                    strategy.connections.forEach {
+                        if strategy.name == "email" {
+                            connections.email(name: $0.name)
+                        } else {
+                            connections.sms(name: $0.name)
+                        }
+                    }
                 }
 
                 guard !connections.isEmpty else { return callback(.clientWithNoConnections, connections) }

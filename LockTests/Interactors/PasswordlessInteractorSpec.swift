@@ -29,7 +29,7 @@ import Auth0
 
 private let phone = "01234567891"
 private let phoneInternational = "+4401234567891"
-private let countryData = CountryCode(id: "UK", prefix: "+44", name: "United Kingdom")
+private let countryData = CountryCode(isoCode: "UK", phoneCode: "+44", localizedName: "United Kingdom")
 
 class PasswordlessInteractorSpec: QuickSpec {
 
@@ -354,7 +354,7 @@ class PasswordlessInteractorSpec: QuickSpec {
 
                 it("should set get country") {
                     interactor.countryCode = countryData
-                    expect(interactor.countryCode?.name) == countryData.name
+                    expect(interactor.countryCode?.localizedName) == countryData.localizedName
                 }
             }
 

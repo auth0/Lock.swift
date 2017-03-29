@@ -29,13 +29,13 @@ class CountryTableViewControllerSpec: QuickSpec {
 
     override func spec() {
 
-        let countryData = CountryCodeStore()
+        let countryData = CountryCodes()
 
         describe("init") {
 
             it("should init with country data") {
                 var controller: CountryTableViewController?
-                controller = CountryTableViewController(withData: countryData)
+                controller = CountryTableViewController(withData: countryData, onSelect: ({ _ in }) )
                 expect(controller).to(beAnInstanceOf(CountryTableViewController.self))
             }
         }
@@ -45,17 +45,17 @@ class CountryTableViewControllerSpec: QuickSpec {
             var tableView: UITableView!
 
             beforeEach {
-                controller = CountryTableViewController(withData: countryData)
+                controller = CountryTableViewController(withData: countryData, onSelect: ({ _ in }) )
                 tableView = controller.tableView
             }
 
             it("should return cell count equal to datastore records") {
-                expect(controller.tableView(tableView, numberOfRowsInSection: 0)) == 240
+                expect(controller.tableView(tableView, numberOfRowsInSection: 0)) == 229
             }
 
             it("should return cell info for Argentina") {
-                let index = IndexPath(item: 9, section: 0)
-                expect(tableView.cellForRow(at: index)?.textLabel?.text) == "Argentina   +54"
+                let index = IndexPath(item: 8, section: 0)
+                expect(tableView.cellForRow(at: index)?.textLabel?.text) == "Argentina    +54"
             }
 
 
@@ -65,7 +65,7 @@ class CountryTableViewControllerSpec: QuickSpec {
 
                 beforeEach {
                     countryCode = nil
-                    controller = CountryTableViewController(withData: countryData)
+                    controller = CountryTableViewController(withData: countryData, onSelect: ({ _ in }) )
                     controller.onDidSelect = { countryCode = $0 }
                     tableView = controller.tableView
                 }

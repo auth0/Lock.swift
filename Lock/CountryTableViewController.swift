@@ -24,29 +24,35 @@ import UIKit
 
 class CountryTableViewController: UITableViewController {
 
-    var dataStore: CountryCodeStore
+    var dataStore: CountryCodes
     let cellReuseIdentifier = "CountryCodeCell"
-    var searchController: UISearchController
+    var search: UISearchController
 
     var onDidSelect: (CountryCode) -> Void = { _ in }
 
-    init(withData dataStore: CountryCodeStore) {
+    init(withData dataStore: CountryCodes, onSelect: @escaping (CountryCode) -> Void) {
         self.dataStore = dataStore
-        self.searchController = UISearchController(searchResultsController: nil)
+        self.search = UISearchController(searchResultsController: nil)
+        self.onDidSelect = onSelect
         super.init(style: .grouped)
 
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search country".i18n(key: "com.auth0.lock.passwordless.sms.country.search", comment: "Country code tableview search placeholder")
+        search.searchResultsUpdater = self
+        search.dimsBackgroundDuringPresentation = false
+        search.searchBar.placeholder = "Search country".i18n(key: "com.auth0.lock.passwordless.sms.country.search", comment: "CountryCodes TableView searchbar placeholder")
         definesPresentationContext = true
-        tableView.tableHeaderView = searchController.searchBar
+        tableView.tableHeaderView = search.searchBar
 
-        let navigiationHeader = UINavigationBar()
-        self.tableView.addSubview(navigiationHeader)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action:#selector(close))
+        navigationItem.title = "Select your Country code".i18n(key: "com.auth0.lock.passwordless.sms.country.header", comment: "Country tableview navigation header")
+
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func close() {
+        self.dismiss(animated: true, completion:  nil)
     }
 
     override func viewDidLoad() {
@@ -61,14 +67,15 @@ class CountryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellData = dataStore.filteredData()[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
-        cell.textLabel?.text = cellData.name + "   " + cellData.prefix
+        cell.textLabel?.text = String(format: "%1$@    %2$@".i18n(key: "com.auth0.passwordless.sms.country.tablecell", comment: "CountryCodes TableView cell %@{localizedName}    %@{phoneCode}"),
+                                      cellData.localizedName, cellData.phoneCode)
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellData = dataStore.filteredData()[indexPath.row]
         self.onDidSelect(cellData)
-        self.searchController.dismiss(animated: false)
+        self.search.dismiss(animated: false)
         self.dismiss(animated: true)
     }
 }
@@ -77,7 +84,7 @@ extension CountryTableViewController: UISearchResultsUpdating {
 
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        dataStore.updateFilter(searchText)
+        dataStore.filter = searchText
         self.tableView.reloadData()
     }
 }

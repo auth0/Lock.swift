@@ -37,7 +37,7 @@ class PasswordlessRouterSpec: QuickSpec {
 
         beforeEach {
             lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth(), classic: false)
-            _ = lock.withConnections { $0.passwordless(name: "custom-email", strategy: "email") }
+            _ = lock.withConnections { $0.email(name: "custom-email") }
             controller = MockLockController(lock: lock)
             header = HeaderView()
             controller.headerView = header
@@ -52,7 +52,7 @@ class PasswordlessRouterSpec: QuickSpec {
 
             it("should return root for passwordless email connection") {
                 _ = lock.withConnections {
-                    $0.passwordless(name: "custom-email", strategy: "email")
+                    $0.email(name: "custom-email")
                 }
                 let presenter = router.root as? PasswordlessPresenter
                 expect(presenter).toNot(beNil())
@@ -60,7 +60,7 @@ class PasswordlessRouterSpec: QuickSpec {
 
             it("should return root for passwordless sms connection") {
                 _ = lock.withConnections {
-                    $0.passwordless(name: "custom-sms", strategy: "sms")
+                    $0.sms(name: "custom-sms")
                 }
                 let presenter = router.root as? PasswordlessPresenter
                 expect(presenter).toNot(beNil())
@@ -77,7 +77,7 @@ class PasswordlessRouterSpec: QuickSpec {
             it("should return root for social connections and passwordless email") {
                 _ = lock.withConnections {
                     $0.social(name: "facebook", style: .Facebook)
-                    $0.passwordless(name: "custom-email", strategy: "email")
+                    $0.email(name: "custom-email")
                 }
                 let presenter = router.root as? PasswordlessPresenter
                 expect(presenter).toNot(beNil())
@@ -87,7 +87,7 @@ class PasswordlessRouterSpec: QuickSpec {
             it("should return root for social connections and passwordless sms") {
                 _ = lock.withConnections {
                     $0.social(name: "facebook", style: .Facebook)
-                    $0.passwordless(name: "custom-sms", strategy: "sms")
+                    $0.sms(name: "custom-sms")
                 }
                 let presenter = router.root as? PasswordlessPresenter
                 expect(presenter).toNot(beNil())
@@ -201,7 +201,7 @@ class PasswordlessRouterSpec: QuickSpec {
 
             it("should override connections") {
                 var connections = OfflineConnections()
-                connections.passwordless(name: "custom-email", strategy: "email")
+                connections.email(name: "custom-email")
                 router.reload(with: connections)
                 let actual = router.lock.connections
                 expect(actual.isEmpty) == false
@@ -210,7 +210,7 @@ class PasswordlessRouterSpec: QuickSpec {
 
             it("should show root") {
                 var connections = OfflineConnections()
-                connections.passwordless(name: "custom-email", strategy: "email")
+                connections.email(name: "custom-email")
                 router.reload(with: connections)
                 expect(controller.presentable).toNot(beNil())
                 expect(controller.routes.history).to(beEmpty())
@@ -222,8 +222,8 @@ class PasswordlessRouterSpec: QuickSpec {
                 controller.headerView = header
                 router = PasswordlessRouter(lock: lock, controller: controller)
                 var connections = OfflineConnections()
-                connections.passwordless(name: "custom-email", strategy: "email")
-                connections.passwordless(name: "custom-sms", strategy: "sms")
+                connections.email(name: "custom-email")
+                connections.sms(name: "custom-sms")
                 router.reload(with: connections)
                 let actual = router.lock.connections
                 expect(actual.passwordless.map { $0.name }).toNot(contain("sms"))
