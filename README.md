@@ -231,6 +231,24 @@ func application(_ application: UIApplication, continue userActivity: NSUserActi
 }
 ```
 
+#### Adding a Passwordless connection
+
+##### SMS
+
+```swift
+.withConnections {
+    $0.sms(name: "custom-sms")
+}
+```
+
+##### Email
+
+```swift
+.withConnections {
+    $0.email(name: "custom-email")
+}
+```
+
 ## Customization options
 
 Lock provides numerous options to customize the Lock experience.

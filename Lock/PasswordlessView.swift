@@ -27,6 +27,7 @@ class PasswordlessView: UIView, View {
     weak var form: Form?
     weak var primaryButton: PrimaryButton?
     weak var secondaryButton: SecondaryButton?
+    weak var countrySelector: InternationalPhoneInputView?
 
     private weak var container: UIStackView?
     private weak var centerGuide: UILayoutGuide?
@@ -94,6 +95,7 @@ class PasswordlessView: UIView, View {
         let messageView = UILabel()
 
         self.form = formView
+        self.countrySelector = formView
 
         self.container?.addArrangedSubview(strutView(withHeight: 25))
         if let authView = authCollectionView {

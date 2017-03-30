@@ -30,6 +30,7 @@ class InternationalPhoneInputView: UIView, Form {
     var inputField: InputField
     var stackView: UIStackView
     var countryStore: CountryCodes
+    var onPresent: (UIViewController) -> Void = { _ in }
 
     init(withCountryData data: CountryCodes) {
         self.container = UIView()
@@ -191,25 +192,6 @@ class InternationalPhoneInputView: UIView, Form {
             self.updateCountry($0)
         }
         let navigationController = UINavigationController(rootViewController: countryTableView)
-        guard let topController = findTopViewController() else { return }
-        topController.present(navigationController, animated: true, completion: nil)
-    }
-}
-
-fileprivate func findTopViewController(from root: UIViewController? = nil) -> UIViewController? {
-    guard let root = root ?? UIApplication.shared.keyWindow?.rootViewController else { return nil }
-    if let presented = root.presentedViewController { return findTopViewController(from: presented) }
-    switch root {
-    case let split as UISplitViewController:
-        guard let last = split.viewControllers.last else { return split }
-        return findTopViewController(from: last)
-    case let navigation as UINavigationController:
-        guard let top = navigation.topViewController else { return navigation }
-        return findTopViewController(from: top)
-    case let tab as UITabBarController:
-        guard let selected = tab.selectedViewController else { return tab }
-        return findTopViewController(from: selected)
-    default:
-        return root
+        self.onPresent(navigationController)
     }
 }

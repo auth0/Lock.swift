@@ -187,9 +187,8 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                 try! enterprise.updateEmail("user@test.com")
                 enterprise.login() { error = $0 }
                 expect(error).toEventually(beNil())
-                expect(authentication.webAuth.parameters["login_hint"]) == "user@test.com"
+                expect(authentication.webAuth?.parameters["login_hint"]) == "user@test.com"
             }
-
 
             it("should call credentials callback") {
                 let expected = mockCredentials()

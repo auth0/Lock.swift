@@ -125,9 +125,9 @@
 // Multifactor title
 "com.auth0.lock.multifactor.title" = "Two Step Verification";
 // Country tableview navigation header
-"com.auth0.lock.passwordless.sms.country.header" = "Select your Country code";
+"com.auth0.lock.passwordless.sms.country.header" = "Select your Country";
 // CountryCodes TableView searchbar placeholder
-"com.auth0.lock.passwordless.sms.country.search" = "Search country";
+"com.auth0.lock.passwordless.sms.country.search" = "Search";
 // Amazon
 "com.auth0.lock.strategy.localized.amazon" = "AMAZON";
 // Aol
@@ -228,8 +228,10 @@
 "com.auth0.passwordless.link.sent" = "We sent you a link to sign in to %1$@";
 // Passwordless code sent by sms to %@{identifier}
 "com.auth0.passwordless.sms.code.sent" = "An sms with the code has been sent to %1$@";
-// CountryCodes TableView cell %@{localizedName}    %@{phoneCode}
-"com.auth0.passwordless.sms.country.tablecell" = "%1$@    %2$@";
+// CountryCodes TableViewCell detail %@{phoneCode}
+"com.auth0.passwordless.sms.country.cell.detail" = "%1$@";
+// CountryCodes TableViewCell label %@{localizedName}
+"com.auth0.passwordless.sms.country.cell.label" = "%1$@";
 // Passwordless sms title
 "com.auth0.passwordless.sms.title" = "Enter your phone to sign in or create an account.";
 // Passwordless sms title with social

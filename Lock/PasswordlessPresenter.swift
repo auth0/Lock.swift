@@ -109,6 +109,7 @@ class PasswordlessPresenter: Presentable, Loggable {
             view.showForm(withEmail: self.interactor.identifier, authCollectionView: authCollectionView)
         } else {
             view.showForm(withPhone: self.interactor.identifier, countryCode: self.interactor.countryCode, authCollectionView: authCollectionView)
+            view.countrySelector?.onPresent = { self.navigator.present($0) }
         }
 
         let form = view.form

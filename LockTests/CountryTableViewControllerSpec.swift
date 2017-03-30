@@ -55,7 +55,8 @@ class CountryTableViewControllerSpec: QuickSpec {
 
             it("should return cell info for Argentina") {
                 let index = IndexPath(item: 8, section: 0)
-                expect(tableView.cellForRow(at: index)?.textLabel?.text) == "Argentina    +54"
+                expect(tableView.cellForRow(at: index)?.textLabel?.text) == "Argentina"
+                expect(tableView.cellForRow(at: index)?.detailTextLabel?.text) == "+54"
             }
 
 
