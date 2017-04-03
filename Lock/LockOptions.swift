@@ -48,4 +48,6 @@ struct LockOptions: OptionBuildable {
     var audience: String?
 
     var passwordlessMethod: PasswordlessMethod = .code
+
+    var enableOnePasswordWithIdentifier: String?
 }

@@ -5,7 +5,7 @@
 //  Copyright (c) 2014 AgileBits. All rights reserved.
 //
 
-#import "OnePasswordExtension.h"
+#import "LockOnePasswordExtension.h"
 
 // Version
 #define VERSION_NUMBER @(184)
@@ -22,16 +22,16 @@ static NSString *const kUTTypeAppExtensionFillBrowserAction = @"org.appextension
 static NSString *const AppExtensionWebViewPageFillScript = @"fillScript";
 static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
-@implementation OnePasswordExtension
+@implementation LockOnePasswordExtension
 
 #pragma mark - Public Methods
 
-+ (OnePasswordExtension *)sharedExtension {
++ (LockOnePasswordExtension *)sharedExtension {
 	static dispatch_once_t onceToken;
-	static OnePasswordExtension *__sharedExtension;
+	static LockOnePasswordExtension *__sharedExtension;
 
 	dispatch_once(&onceToken, ^{
-		__sharedExtension = [OnePasswordExtension new];
+		__sharedExtension = [LockOnePasswordExtension new];
 	});
 
 	return __sharedExtension;
@@ -47,14 +47,14 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 #pragma mark - Native app Login
 
-- (void)findLoginForURLString:(nonnull NSString *)URLString forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nonnull OnePasswordLoginDictionaryCompletionBlock)completion {
+- (void)findLoginForURLString:(nonnull NSString *)URLString forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nonnull LockOnePasswordLoginDictionaryCompletionBlock)completion {
 	NSAssert(URLString != nil, @"URLString must not be nil");
 	NSAssert(viewController != nil, @"viewController must not be nil");
 
 	if (NO == [self isSystemAppExtensionAPIAvailable]) {
 		NSLog(@"Failed to findLoginForURLString, system API is not available");
 		if (completion) {
-			completion(nil, [OnePasswordExtension systemAppExtensionAPINotAvailableError]);
+			completion(nil, [LockOnePasswordExtension systemAppExtensionAPINotAvailableError]);
 		}
 
 		return;
@@ -69,10 +69,10 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 			NSError *error = nil;
 			if (activityError) {
 				NSLog(@"Failed to findLoginForURLString: %@", activityError);
-				error = [OnePasswordExtension failedToContactExtensionErrorWithActivityError:activityError];
+				error = [LockOnePasswordExtension failedToContactExtensionErrorWithActivityError:activityError];
 			}
 			else {
-				error = [OnePasswordExtension extensionCancelledByUserError];
+				error = [LockOnePasswordExtension extensionCancelledByUserError];
 			}
 
 			if (completion) {
@@ -95,14 +95,14 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 #pragma mark - New User Registration
 
-- (void)storeLoginForURLString:(nonnull NSString *)URLString loginDetails:(nullable NSDictionary *)loginDetailsDictionary passwordGenerationOptions:(nullable NSDictionary *)passwordGenerationOptions forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nonnull OnePasswordLoginDictionaryCompletionBlock)completion {
+- (void)storeLoginForURLString:(nonnull NSString *)URLString loginDetails:(nullable NSDictionary *)loginDetailsDictionary passwordGenerationOptions:(nullable NSDictionary *)passwordGenerationOptions forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nonnull LockOnePasswordLoginDictionaryCompletionBlock)completion {
 	NSAssert(URLString != nil, @"URLString must not be nil");
 	NSAssert(viewController != nil, @"viewController must not be nil");
 
 	if (NO == [self isSystemAppExtensionAPIAvailable]) {
 		NSLog(@"Failed to storeLoginForURLString, system API is not available");
 		if (completion) {
-			completion(nil, [OnePasswordExtension systemAppExtensionAPINotAvailableError]);
+			completion(nil, [LockOnePasswordExtension systemAppExtensionAPINotAvailableError]);
 		}
 
 		return;
@@ -124,10 +124,10 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 			NSError *error = nil;
 			if (activityError) {
 				NSLog(@"Failed to storeLoginForURLString: %@", activityError);
-				error = [OnePasswordExtension failedToContactExtensionErrorWithActivityError:activityError];
+				error = [LockOnePasswordExtension failedToContactExtensionErrorWithActivityError:activityError];
 			}
 			else {
-				error = [OnePasswordExtension extensionCancelledByUserError];
+				error = [LockOnePasswordExtension extensionCancelledByUserError];
 			}
 
 			if (completion) {
@@ -150,14 +150,14 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 #pragma mark - Change Password
 
-- (void)changePasswordForLoginForURLString:(nonnull NSString *)URLString loginDetails:(nullable NSDictionary *)loginDetailsDictionary passwordGenerationOptions:(nullable NSDictionary *)passwordGenerationOptions forViewController:(UIViewController *)viewController sender:(nullable id)sender completion:(nonnull OnePasswordLoginDictionaryCompletionBlock)completion {
+- (void)changePasswordForLoginForURLString:(nonnull NSString *)URLString loginDetails:(nullable NSDictionary *)loginDetailsDictionary passwordGenerationOptions:(nullable NSDictionary *)passwordGenerationOptions forViewController:(UIViewController *)viewController sender:(nullable id)sender completion:(nonnull LockOnePasswordLoginDictionaryCompletionBlock)completion {
 	NSAssert(URLString != nil, @"URLString must not be nil");
 	NSAssert(viewController != nil, @"viewController must not be nil");
 
 	if (NO == [self isSystemAppExtensionAPIAvailable]) {
 		NSLog(@"Failed to changePasswordForLoginWithUsername, system API is not available");
 		if (completion) {
-			completion(nil, [OnePasswordExtension systemAppExtensionAPINotAvailableError]);
+			completion(nil, [LockOnePasswordExtension systemAppExtensionAPINotAvailableError]);
 		}
 
 		return;
@@ -179,10 +179,10 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 			NSError *error = nil;
 			if (activityError) {
 				NSLog(@"Failed to changePasswordForLoginWithUsername: %@", activityError);
-				error = [OnePasswordExtension failedToContactExtensionErrorWithActivityError:activityError];
+				error = [LockOnePasswordExtension failedToContactExtensionErrorWithActivityError:activityError];
 			}
 			else {
-				error = [OnePasswordExtension extensionCancelledByUserError];
+				error = [LockOnePasswordExtension extensionCancelledByUserError];
 			}
 
 			if (completion) {
@@ -205,7 +205,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 #pragma mark - Web View filling Support
 
-- (void)fillItemIntoWebView:(nonnull id)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
+- (void)fillItemIntoWebView:(nonnull id)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(nonnull LockOnePasswordSuccessCompletionBlock)completion {
 	NSAssert(webView != nil, @"webView must not be nil");
 	NSAssert(viewController != nil, @"viewController must not be nil");
 	NSAssert([webView isKindOfClass:[UIWebView class]] || [webView isKindOfClass:[WKWebView class]], @"webView must be an instance of WKWebView or UIWebView.");
@@ -236,7 +236,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 	return [@"com.agilebits.onepassword-ios.extension" isEqualToString:activityType] || [@"com.agilebits.beta.onepassword-ios.extension" isEqualToString:activityType];
 }
 
-- (void)createExtensionItemForWebView:(nonnull id)webView completion:(nonnull OnePasswordExtensionItemCompletionBlock)completion {
+- (void)createExtensionItemForWebView:(nonnull id)webView completion:(nonnull LockOnePasswordExtensionItemCompletionBlock)completion {
 	NSAssert(webView != nil, @"webView must not be nil");
 	NSAssert([webView isKindOfClass:[UIWebView class]] || [webView isKindOfClass:[WKWebView class]], @"webView must be an instance of WKWebView or UIWebView.");
 	
@@ -253,7 +253,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 		[wkWebView evaluateJavaScript:OPWebViewCollectFieldsScript completionHandler:^(NSString *result, NSError *evaluateError) {
 			if (result == nil) {
 				NSLog(@"1Password Extension failed to collect web page fields: %@", evaluateError);
-				NSError *failedToCollectFieldsError = [OnePasswordExtension failedToCollectFieldsErrorWithUnderlyingError:evaluateError];
+				NSError *failedToCollectFieldsError = [LockOnePasswordExtension failedToCollectFieldsErrorWithUnderlyingError:evaluateError];
 				if (completion) {
 					if ([NSThread isMainThread]) {
 						completion(nil, failedToCollectFieldsError);
@@ -275,11 +275,11 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 #endif
 }
 
-- (void)fillReturnedItems:(nullable NSArray *)returnedItems intoWebView:(nonnull id)webView completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
+- (void)fillReturnedItems:(nullable NSArray *)returnedItems intoWebView:(nonnull id)webView completion:(nonnull LockOnePasswordSuccessCompletionBlock)completion {
 	NSAssert(webView != nil, @"webView must not be nil");
 
 	if (returnedItems.count == 0) {
-		NSError *error = [OnePasswordExtension extensionCancelledByUserError];
+		NSError *error = [LockOnePasswordExtension extensionCancelledByUserError];
 		if (completion) {
 			completion(NO, error);
 		}
@@ -315,9 +315,9 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 #endif
 }
 
-- (void)findLoginIn1PasswordWithURLString:(nonnull NSString *)URLString collectedPageDetails:(nullable NSString *)collectedPageDetails forWebViewController:(nonnull UIViewController *)forViewController sender:(nullable id)sender withWebView:(nonnull id)webView showOnlyLogins:(BOOL)yesOrNo completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
+- (void)findLoginIn1PasswordWithURLString:(nonnull NSString *)URLString collectedPageDetails:(nullable NSString *)collectedPageDetails forWebViewController:(nonnull UIViewController *)forViewController sender:(nullable id)sender withWebView:(nonnull id)webView showOnlyLogins:(BOOL)yesOrNo completion:(nonnull LockOnePasswordSuccessCompletionBlock)completion {
 	if ([URLString length] == 0) {
-		NSError *URLStringError = [OnePasswordExtension failedToObtainURLStringFromWebViewError];
+		NSError *URLStringError = [LockOnePasswordExtension failedToObtainURLStringFromWebViewError];
 		NSLog(@"Failed to findLoginIn1PasswordWithURLString: %@", URLStringError);
 		if (completion) {
 			completion(NO, URLStringError);
@@ -346,10 +346,10 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 			NSError *error = nil;
 			if (activityError) {
 				NSLog(@"Failed to findLoginIn1PasswordWithURLString: %@", activityError);
-				error = [OnePasswordExtension failedToContactExtensionErrorWithActivityError:activityError];
+				error = [LockOnePasswordExtension failedToContactExtensionErrorWithActivityError:activityError];
 			}
 			else {
-				error = [OnePasswordExtension extensionCancelledByUserError];
+				error = [LockOnePasswordExtension extensionCancelledByUserError];
 			}
 
 			if (completion) {
@@ -381,12 +381,12 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 }
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0 || ONE_PASSWORD_EXTENSION_ENABLE_WK_WEB_VIEW
-- (void)fillItemIntoWKWebView:(nonnull WKWebView *)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
+- (void)fillItemIntoWKWebView:(nonnull WKWebView *)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(nonnull LockOnePasswordSuccessCompletionBlock)completion {
 	[webView evaluateJavaScript:OPWebViewCollectFieldsScript completionHandler:^(NSString *result, NSError *error) {
 		if (result == nil) {
 			NSLog(@"1Password Extension failed to collect web page fields: %@", error);
 			if (completion) {
-				completion(NO,[OnePasswordExtension failedToCollectFieldsErrorWithUnderlyingError:error]);
+				completion(NO,[LockOnePasswordExtension failedToCollectFieldsErrorWithUnderlyingError:error]);
 			}
 
 			return;
@@ -401,7 +401,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 }
 #endif
 
-- (void)fillItemIntoUIWebView:(nonnull UIWebView *)webView webViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
+- (void)fillItemIntoUIWebView:(nonnull UIWebView *)webView webViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(nonnull LockOnePasswordSuccessCompletionBlock)completion {
 	NSString *collectedPageDetails = [webView stringByEvaluatingJavaScriptFromString:OPWebViewCollectFieldsScript];
 	[self findLoginIn1PasswordWithURLString:webView.request.URL.absoluteString collectedPageDetails:collectedPageDetails forWebViewController:viewController sender:sender withWebView:webView showOnlyLogins:yesOrNo completion:^(BOOL success, NSError *error) {
 		if (completion) {
@@ -410,12 +410,12 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 	}];
 }
 
-- (void)executeFillScript:(NSString * __nullable)fillScript inWebView:(nonnull id)webView completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
+- (void)executeFillScript:(NSString * __nullable)fillScript inWebView:(nonnull id)webView completion:(nonnull LockOnePasswordSuccessCompletionBlock)completion {
 
 	if (fillScript == nil) {
 		NSLog(@"Failed to executeFillScript, fillScript is missing");
 		if (completion) {
-			completion(NO, [OnePasswordExtension failedToFillFieldsErrorWithLocalizedErrorMessage:NSLocalizedStringFromTable(@"Failed to fill web page because script is missing", @"OnePasswordExtension", @"1Password Extension Error Message") underlyingError:nil]);
+			completion(NO, [LockOnePasswordExtension failedToFillFieldsErrorWithLocalizedErrorMessage:NSLocalizedStringFromTable(@"Failed to fill web page because script is missing", @"OnePasswordExtension", @"1Password Extension Error Message") underlyingError:nil]);
 		}
 
 		return;
@@ -432,7 +432,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 		if (!success) {
 			NSLog(@"Cannot executeFillScript, stringByEvaluatingJavaScriptFromString failed");
-			error = [OnePasswordExtension failedToFillFieldsErrorWithLocalizedErrorMessage:NSLocalizedStringFromTable(@"Failed to fill web page because script could not be evaluated", @"OnePasswordExtension", @"1Password Extension Error Message") underlyingError:nil];
+			error = [LockOnePasswordExtension failedToFillFieldsErrorWithLocalizedErrorMessage:NSLocalizedStringFromTable(@"Failed to fill web page because script could not be evaluated", @"OnePasswordExtension", @"1Password Extension Error Message") underlyingError:nil];
 		}
 
 		if (completion) {
@@ -448,7 +448,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 			if (!success) {
 				NSLog(@"Cannot executeFillScript, evaluateJavaScript failed: %@", evaluationError);
-				error = [OnePasswordExtension failedToFillFieldsErrorWithLocalizedErrorMessage:NSLocalizedStringFromTable(@"Failed to fill web page because script could not be evaluated", @"OnePasswordExtension", @"1Password Extension Error Message") underlyingError:error];
+				error = [LockOnePasswordExtension failedToFillFieldsErrorWithLocalizedErrorMessage:NSLocalizedStringFromTable(@"Failed to fill web page because script could not be evaluated", @"OnePasswordExtension", @"1Password Extension Error Message") underlyingError:error];
 			}
 
 			if (completion) {
@@ -461,7 +461,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 }
 
 #ifdef __IPHONE_8_0
-- (void)processExtensionItem:(nullable NSExtensionItem *)extensionItem completion:(nonnull OnePasswordLoginDictionaryCompletionBlock)completion {
+- (void)processExtensionItem:(nullable NSExtensionItem *)extensionItem completion:(nonnull LockOnePasswordLoginDictionaryCompletionBlock)completion {
 	if (extensionItem.attachments.count == 0) {
 		NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"Unexpected data returned by App Extension: extension item had no attachments." };
 		NSError *error = [[NSError alloc] initWithDomain:AppExtensionErrorDomain code:AppExtensionErrorCodeUnexpectedData userInfo:userInfo];
@@ -486,7 +486,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 		 NSError *error = nil;
 		 if (itemDictionary.count == 0) {
 			 NSLog(@"Failed to loadItemForTypeIdentifier: %@", itemProviderError);
-			 error = [OnePasswordExtension failedToLoadItemProviderDataErrorWithUnderlyingError:itemProviderError];
+			 error = [LockOnePasswordExtension failedToLoadItemProviderDataErrorWithUnderlyingError:itemProviderError];
 		 }
 
 		 if (completion) {
@@ -532,7 +532,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 #endif
 
-- (void)createExtensionItemForURLString:(nonnull NSString *)URLString webPageDetails:(nullable NSString *)webPageDetails completion:(nonnull OnePasswordExtensionItemCompletionBlock)completion {
+- (void)createExtensionItemForURLString:(nonnull NSString *)URLString webPageDetails:(nullable NSString *)webPageDetails completion:(nonnull LockOnePasswordExtensionItemCompletionBlock)completion {
 	NSError *jsonError = nil;
 	NSData *data = [webPageDetails dataUsingEncoding:NSUTF8StringEncoding];
 	NSDictionary *webPageDetailsDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
@@ -689,7 +689,7 @@ function z(a){var b;if(void 0===a||null===a)return null;try{var c=Array.prototyp
  Deprecated in version 1.5
  Use fillItemIntoWebView:forViewController:sender:showOnlyLogins:completion: instead
  */
-- (void)fillLoginIntoWebView:(nonnull id)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
+- (void)fillLoginIntoWebView:(nonnull id)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nonnull LockOnePasswordSuccessCompletionBlock)completion {
 	[self fillItemIntoWebView:webView forViewController:viewController sender:sender showOnlyLogins:YES completion:completion];
 }
 

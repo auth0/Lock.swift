@@ -99,12 +99,6 @@ class DatabasePresenter: Presentable, Loggable {
         let form = view.form
         form?.onValueChange = self.handleInput
 
-        view.passwordManagerButton?.onPress = { _ in
-            self.passwordManager?.openManager() { result, error in
-                result?.forEach { self.handleInput($1) }
-            }
-        }
-
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
             self.logger.info("Perform login for email: \(self.authenticator.email.verbatim())")
@@ -154,6 +148,17 @@ class DatabasePresenter: Presentable, Loggable {
         view.secondaryButton?.onPress = { button in
             self.navigator.navigate(.forgotPassword)
         }
+
+        if let passwordManager = self.passwordManager, let passwordButton = view.passwordManagerButton {
+            passwordButton.onPress = { _ in
+                passwordManager.login { result, error in
+                    guard error == nil else {
+                        return self.logger.error("There was a problem with the password manager: \(error)")
+                    }
+                    result?.forEach { self.handleInput($1) }
+                }
+            }
+        }
     }
 
     private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
@@ -194,7 +199,6 @@ class DatabasePresenter: Presentable, Loggable {
                     form?.needsToUpdateState()
                     self.messagePresenter?.showError(error)
                     self.logger.error("Failed with error \(error)")
-
                 }
             }
         }
@@ -213,6 +217,17 @@ class DatabasePresenter: Presentable, Loggable {
             let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy", comment: "Privacy"), style: .default, handler: safariBuilder(forURL: self.options.privacyPolicyURL as URL, navigator: self.navigator))
             [cancel, tos, privacy].forEach { alert.addAction($0) }
             self.navigator.present(alert)
+        }
+
+        if let passwordManager = self.passwordManager, let passwordButton = view.passwordManagerButton {
+            passwordButton.onPress = { _ in
+                passwordManager.store(withPolicy: passwordPolicyValidator?.policy.onePasswordRules()) { result, error in
+                    guard error == nil else {
+                        return self.logger.error("There was a problem with the password manager: \(error)")
+                    }
+                    result?.forEach { self.handleInput($1) }
+                }
+            }
         }
     }
 

@@ -153,6 +153,12 @@ class DatabaseOnlyView: UIView, DatabaseView {
                 view.isHidden = true
             }
         }
+
+        if var passwordManager = passwordManager {
+            self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0))
+            passwordManager.fields[AppExtensionUsernameKey] = showUsername ? form.usernameField : form.emailField
+            passwordManager.fields[AppExtensionPasswordKey] = form.passwordField
+        }
     }
 
     func presentEnterprise() {

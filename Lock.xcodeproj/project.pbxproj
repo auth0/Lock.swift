@@ -51,8 +51,8 @@
 		5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */; };
 		5BB78CC21E54BC730074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB78CC01E54BC2D0074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift */; };
 		5BB78CC51E54BD530074DFE3 /* PasswordlessPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB78CC31E54BD440074DFE3 /* PasswordlessPresenterSpec.swift */; };
-		5BBD9E311E8E6F5E007EF625 /* OnePasswordExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD9E2F1E8E6F5E007EF625 /* OnePasswordExtension.m */; };
-		5BBD9E321E8E6F5E007EF625 /* OnePasswordExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BBD9E301E8E6F5E007EF625 /* OnePasswordExtension.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5BBD9E311E8E6F5E007EF625 /* LockOnePasswordExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD9E2F1E8E6F5E007EF625 /* LockOnePasswordExtension.m */; };
+		5BBD9E321E8E6F5E007EF625 /* LockOnePasswordExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BBD9E301E8E6F5E007EF625 /* LockOnePasswordExtension.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BBD9E361E8E730C007EF625 /* OnePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD9E351E8E730C007EF625 /* OnePassword.swift */; };
 		5BBD9E3A1E8E929E007EF625 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD9E391E8E929E007EF625 /* IconButton.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
@@ -276,8 +276,8 @@
 		5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
 		5BB78CC01E54BC2D0074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessAuthenticatableErrorSpec.swift; sourceTree = "<group>"; };
 		5BB78CC31E54BD440074DFE3 /* PasswordlessPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessPresenterSpec.swift; sourceTree = "<group>"; };
-		5BBD9E2F1E8E6F5E007EF625 /* OnePasswordExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnePasswordExtension.m; sourceTree = "<group>"; };
-		5BBD9E301E8E6F5E007EF625 /* OnePasswordExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnePasswordExtension.h; sourceTree = "<group>"; };
+		5BBD9E2F1E8E6F5E007EF625 /* LockOnePasswordExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockOnePasswordExtension.m; sourceTree = "<group>"; };
+		5BBD9E301E8E6F5E007EF625 /* LockOnePasswordExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockOnePasswordExtension.h; sourceTree = "<group>"; };
 		5BBD9E351E8E730C007EF625 /* OnePassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePassword.swift; sourceTree = "<group>"; };
 		5BBD9E391E8E929E007EF625 /* IconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthPresenterSpec.swift; sourceTree = "<group>"; };
@@ -480,8 +480,8 @@
 			isa = PBXGroup;
 			children = (
 				5BBD9E351E8E730C007EF625 /* OnePassword.swift */,
-				5BBD9E2F1E8E6F5E007EF625 /* OnePasswordExtension.m */,
-				5BBD9E301E8E6F5E007EF625 /* OnePasswordExtension.h */,
+				5BBD9E2F1E8E6F5E007EF625 /* LockOnePasswordExtension.m */,
+				5BBD9E301E8E6F5E007EF625 /* LockOnePasswordExtension.h */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -872,7 +872,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BBD9E321E8E6F5E007EF625 /* OnePasswordExtension.h in Headers */,
+				5BBD9E321E8E6F5E007EF625 /* LockOnePasswordExtension.h in Headers */,
 				5FEAE1CA1D1A5154005C0028 /* Lock.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -974,9 +974,9 @@
 					};
 					5FEADCF31D1A7EBC0032D810 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 2NUJ273DRF;
+						DevelopmentTeam = 86WQXF56BC;
 						LastSwiftMigration = 0810;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.SafariKeychain = {
 								enabled = 0;
@@ -1191,7 +1191,7 @@
 				5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
 				5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */,
 				5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */,
-				5BBD9E311E8E6F5E007EF625 /* OnePasswordExtension.m in Sources */,
+				5BBD9E311E8E6F5E007EF625 /* LockOnePasswordExtension.m in Sources */,
 				5B9A544A1E4B354A004B5454 /* PasswordlessPresenter.swift in Sources */,
 				5FBE5CC61D3E7F9D0038536D /* MultifactorPresenter.swift in Sources */,
 				5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */,
@@ -1375,7 +1375,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2NUJ273DRF;
+				DEVELOPMENT_TEAM = 86WQXF56BC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1386,8 +1386,8 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "97f7985c-a5ce-42be-a3e5-39a6c818bc78";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.auth0.Lock";
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1398,7 +1398,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2NUJ273DRF;
+				DEVELOPMENT_TEAM = 86WQXF56BC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1409,8 +1409,8 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "97f7985c-a5ce-42be-a3e5-39a6c818bc78";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.auth0.Lock";
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_VERSION = 3.0;
 			};

@@ -62,9 +62,9 @@ public struct PasswordPolicy {
         return PasswordPolicy(name: Auth0.fair.rawValue, rules: [
             withPassword(lengthInRange: 8...Int.max, message: String(format: atLeast, 8)),
             AtLeastRule(minimum: 3, rules: [
-                    withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
-                    withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
-                    withPassword(havingCharactersIn: .decimalDigits, message: numbers)
+                withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
+                withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
+                withPassword(havingCharactersIn: .decimalDigits, message: numbers)
                 ], message: shouldContain)
             ])
     }
@@ -75,10 +75,10 @@ public struct PasswordPolicy {
         return PasswordPolicy(name: Auth0.good.rawValue, rules: [
             withPassword(lengthInRange: 8...Int.max, message: String(format: atLeast, 8)),
             AtLeastRule(minimum: 3, rules: [
-                    withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
-                    withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
-                    withPassword(havingCharactersIn: .decimalDigits, message: numbers),
-                    withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters)
+                withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
+                withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
+                withPassword(havingCharactersIn: .decimalDigits, message: numbers),
+                withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters)
                 ], message: String(format: containAtLeast, 3, 4))
             ])
     }
@@ -89,13 +89,36 @@ public struct PasswordPolicy {
         return PasswordPolicy(name: Auth0.excellent.rawValue, rules: [
             withPassword(lengthInRange: 10...128, message: String(format: atLeast, 10)),
             AtLeastRule(minimum: 3, rules: [
-                    withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
-                    withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
-                    withPassword(havingCharactersIn: .decimalDigits, message: numbers),
-                    withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters)
-            ], message: String(format: containAtLeast, 3, 4)),
+                withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
+                withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
+                withPassword(havingCharactersIn: .decimalDigits, message: numbers),
+                withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters)
+                ], message: String(format: containAtLeast, 3, 4)),
             withPassword(havingMaxConsecutiveRepeats: 2, message: String(format: noMoreThanSimilar, 2, "aaa"))
             ])
     }
 
+}
+
+extension PasswordPolicy {
+    func onePasswordRules() -> [String: Any] {
+        switch self.name {
+        case Auth0.low.rawValue:
+            return [ AppExtensionGeneratedPasswordMinLengthKey: "6" ]
+        case Auth0.fair.rawValue:
+            return [ AppExtensionGeneratedPasswordMinLengthKey: "8",
+                     AppExtensionGeneratedPasswordRequireDigitsKey: true ]
+        case Auth0.good.rawValue:
+            return [ AppExtensionGeneratedPasswordMinLengthKey: "8",
+                     AppExtensionGeneratedPasswordRequireDigitsKey: true,
+                     AppExtensionGeneratedPasswordRequireSymbolsKey: true ]
+        case Auth0.excellent.rawValue:
+            return [ AppExtensionGeneratedPasswordMinLengthKey: "10",
+                     AppExtensionGeneratedPasswordMaxLengthKey: "128",
+                     AppExtensionGeneratedPasswordRequireDigitsKey: true,
+                     AppExtensionGeneratedPasswordRequireSymbolsKey: true ]
+        default:
+            return [ AppExtensionGeneratedPasswordMinLengthKey: "1" ]
+        }
+    }
 }

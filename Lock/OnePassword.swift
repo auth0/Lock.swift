@@ -25,15 +25,15 @@ import Foundation
 protocol PasswordManager {
     var fields: [String: InputField] { get set }
 
-    func isAvailable() -> Bool
-    func openManager(callback: @escaping ([String: InputField]?, Error?) -> Void)
+    static func isAvailable() -> Bool
+    func login(callback: @escaping ([String: InputField]?, Error?) -> Void)
+    func store(withPolicy policy: [String: Any]?, callback: @escaping ([String: InputField]?, Error?) -> Void)
 }
 
 class OnePassword: PasswordManager {
 
     let identifier: String
     weak var controller: UIViewController?
-
     var fields: [String: InputField] = [:]
 
     init(identifier: String, controller: UIViewController?) {
@@ -41,23 +41,32 @@ class OnePassword: PasswordManager {
         self.controller = controller
     }
 
-    func isAvailable() -> Bool {
-        return OnePasswordExtension.shared().isAppExtensionAvailable()
+    static func isAvailable() -> Bool {
+        return LockOnePasswordExtension.shared().isAppExtensionAvailable()
     }
 
-    func openManager(callback: @escaping ([String: InputField]?, Error?) -> Void) {
+    func login(callback: @escaping ([String: InputField]?, Error?) -> Void) {
         guard let controller = self.controller else { return }
-        OnePasswordExtension.shared().findLogin(forURLString: self.identifier, for: controller, sender: nil) { (result, error) in
+        LockOnePasswordExtension.shared().findLogin(forURLString: self.identifier, for: controller, sender: nil) { (result, error) in
             guard error == nil else {
                 return callback(nil, error)
             }
-            guard let credentials = result as? [String: String] else {
-                return callback(nil, nil)
+            self.fields[AppExtensionUsernameKey]?.text = result?[AppExtensionUsernameKey] as? String
+            self.fields[AppExtensionPasswordKey]?.text = result?[AppExtensionPasswordKey] as? String
+            callback(self.fields, nil)
+        }
+    }
+
+    func store(withPolicy policy: [String: Any]?, callback: @escaping ([String: InputField]?, Error?) -> Void) {
+        guard let controller = self.controller else { return }
+        var loginDetails: [String: String] = [:]
+        self.fields.forEach { loginDetails[$0] = $1.text }
+        LockOnePasswordExtension.shared().storeLogin(forURLString: self.identifier, loginDetails: loginDetails, passwordGenerationOptions: policy, for: controller, sender: nil) { (result, error) in
+            guard error == nil else {
+                return callback(nil, error)
             }
-
-            self.fields[AppExtensionUsernameKey]?.text = credentials[AppExtensionUsernameKey]
-            self.fields[AppExtensionPasswordKey]?.text = credentials[AppExtensionPasswordKey]
-
+            self.fields[AppExtensionUsernameKey]?.text = result?[AppExtensionUsernameKey] as? String
+            self.fields[AppExtensionPasswordKey]?.text = result?[AppExtensionPasswordKey] as? String
             callback(self.fields, nil)
         }
     }
