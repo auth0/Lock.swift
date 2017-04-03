@@ -25,12 +25,14 @@ import Foundation
 class UnrecoverableErrorPresenter: Presentable {
     let navigator: Navigable
     let error: UnrecoverableError
+    let options: Options
 
     var messagePresenter: MessagePresenter?
 
-    init(error: UnrecoverableError, navigator: Navigable) {
+    init(error: UnrecoverableError, navigator: Navigable, options: Options) {
         self.navigator = navigator
         self.error = error
+        self.options = options
     }
 
     var view: View {
@@ -39,10 +41,11 @@ class UnrecoverableErrorPresenter: Presentable {
             view.secondaryButton?.onPress = { _ in
                 self.navigator.navigate(.root)
             }
-        } else {
+        } else if let supportURL = self.options.supportURL {
             view.secondaryButton?.onPress = { _ in
-                UIApplication.shared.openURL(URL(string: "https://auth0.com/docs/")!)
+                UIApplication.shared.openURL(supportURL)
             }
+            view.secondaryButton?.isHidden = false
         }
         return view
     }

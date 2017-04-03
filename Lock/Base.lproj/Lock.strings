@@ -88,16 +88,14 @@
 "com.auth0.lock.error.unrecoverable.invalid_options" = "Your options configuration failed with: %1$@";
 // No connections
 "com.auth0.lock.error.unrecoverable.no_connections" = "No authentication methods found for this client. please check your client setup.";
-// Retry action
-"com.auth0.lock.error.unrecoverable.retry.action" = "retry.";
-// Retry label
-"com.auth0.lock.error.unrecoverable.retry.title" = "Please ";
-// Support action
-"com.auth0.lock.error.unrecoverable.support.action" = "support.";
-// Support label
-"com.auth0.lock.error.unrecoverable.support.title" = "Please contact ";
-// Unrecoverable error title
-"com.auth0.lock.error.unrecoverable.title" = "We encountered an error";
+// Retry button title
+"com.auth0.lock.error.unrecoverable.retry.button" = "Retry request";
+// Unrecoverable error retry title
+"com.auth0.lock.error.unrecoverable.retry.title" = "There was a problem with the request.";
+// Support button title
+"com.auth0.lock.error.unrecoverable.support.button" = "Contact support";
+// Unrecoverable error support title
+"com.auth0.lock.error.unrecoverable.support.title" = "There was an unexpected error, please contact support.";
 // Forgot Password message
 "com.auth0.lock.forgot.message" = "Please enter your email and the new password. We will send you an email to confirm the password change.";
 // Forgot Password title

@@ -30,20 +30,15 @@ class UnrecoverableErrorView: UIView, View {
         let center = UILayoutGuide()
         let messageLabel = UILabel()
         let imageView = UIImageView()
-        let actionLabel = UILabel()
         let actionButton = SecondaryButton()
-        let actionView = UIView()
         self.secondaryButton = actionButton
 
         super.init(frame: CGRect.zero)
 
         self.addSubview(imageView)
         self.addSubview(messageLabel)
-        self.addSubview(actionView)
+        self.addSubview(actionButton)
         self.addLayoutGuide(center)
-
-        actionView.addSubview(actionLabel)
-        actionView.addSubview(actionButton)
 
         constraintEqual(anchor: center.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: center.topAnchor, toAnchor: self.topAnchor)
@@ -54,41 +49,29 @@ class UnrecoverableErrorView: UIView, View {
         constraintEqual(anchor: imageView.centerYAnchor, toAnchor: center.centerYAnchor, constant: -90)
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: messageLabel.leftAnchor, toAnchor: self.leftAnchor)
-        constraintEqual(anchor: messageLabel.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: messageLabel.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: messageLabel.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
         constraintEqual(anchor: messageLabel.centerYAnchor, toAnchor: center.centerYAnchor)
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: actionView.centerXAnchor, toAnchor: center.centerXAnchor)
-        constraintEqual(anchor: actionView.centerYAnchor, toAnchor: center.centerYAnchor, constant: 50)
-        dimension(dimension: actionView.heightAnchor, withValue: 50)
-        actionView.translatesAutoresizingMaskIntoConstraints = false
-
-        constraintEqual(anchor: actionLabel.leftAnchor, toAnchor: actionView.leftAnchor)
-        constraintEqual(anchor: actionLabel.centerYAnchor, toAnchor: actionView.centerYAnchor)
-        constraintEqual(anchor: actionLabel.rightAnchor, toAnchor: actionButton.leftAnchor)
-        actionLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        constraintEqual(anchor: actionButton.rightAnchor, toAnchor: actionView.rightAnchor)
-        constraintEqual(anchor: actionButton.leftAnchor, toAnchor: actionLabel.rightAnchor)
-        constraintEqual(anchor: actionButton.centerYAnchor, toAnchor: actionView.centerYAnchor)
+        constraintEqual(anchor: actionButton.centerXAnchor, toAnchor: center.centerXAnchor)
+        constraintEqual(anchor: actionButton.centerYAnchor, toAnchor: center.centerYAnchor, constant: 70)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
 
         imageView.image = LazyImage(name: "ic_connection_error", bundle: bundleForLock()).image(compatibleWithTraits: self.traitCollection)
-        messageLabel.text = "We encountered an error".i18n(key: "com.auth0.lock.error.unrecoverable.title", comment: "Unrecoverable error title")
         messageLabel.textAlignment = .center
-        messageLabel.font = lightSystemFont(size: 24)
-        actionLabel.textColor = UIColor.lightGray
-        actionLabel.font = regularSystemFont(size: 16)
+        messageLabel.font = lightSystemFont(size: 22)
+        messageLabel.numberOfLines = 3
         actionButton.button?.setTitleColor(UIColor(red:0.04, green:0.53, blue:0.69, alpha:1.0), for: .normal)
-        actionButton.button?.titleLabel?.font = actionLabel.font
+        actionButton.button?.titleLabel?.font = regularSystemFont(size: 16)
 
         if canRetry {
-            actionLabel.text = "Please ".i18n(key: "com.auth0.lock.error.unrecoverable.retry.title", comment: "Retry label")
-            actionButton.title = "retry.".i18n(key: "com.auth0.lock.error.unrecoverable.retry.action", comment: "Retry action")
+            messageLabel.text = "There was a problem with the request.".i18n(key: "com.auth0.lock.error.unrecoverable.retry.title", comment: "Unrecoverable error retry title")
+            actionButton.title = "Retry request".i18n(key: "com.auth0.lock.error.unrecoverable.retry.button", comment: "Retry button title")
         } else {
-            actionLabel.text = "Please contact ".i18n(key: "com.auth0.lock.error.unrecoverable.support.title", comment: "Support label")
-            actionButton.title = "support.".i18n(key: "com.auth0.lock.error.unrecoverable.support.action", comment: "Support action")
+            messageLabel.text = "There was an unexpected error, please contact support.".i18n(key: "com.auth0.lock.error.unrecoverable.support.title", comment: "Unrecoverable error support title")
+            actionButton.title = "Contact support".i18n(key: "com.auth0.lock.error.unrecoverable.support.button", comment: "Support button title")
+            actionButton.isHidden = true
         }
     }
 

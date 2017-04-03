@@ -36,6 +36,9 @@ public protocol OptionBuildable: Options {
         /// Privacy Policy URL. By default is Auth0's.
     var privacyPolicyURL: URL { get set }
 
+        /// Support page url that will be displayed (Inside Safari) when an unrecoverable error occurs and the user taps the "Contact Support" button in the error screen.
+    var supportURL: URL? { get set }
+
         /// Log level for Lock. By default is `Off`.
     var logLevel: LoggerLevel { get set }
 
@@ -133,6 +136,18 @@ public extension OptionBuildable {
         set {
             guard let url = URL(string: newValue) else { return } // FIXME: log error
             self.privacyPolicyURL = url
+        }
+    }
+
+        /// Support Page URL. By default is not set.
+    var supportPage: String? {
+        get {
+            guard let url = self.supportURL else { return nil }
+            return url.absoluteString
+        }
+        set {
+            guard let value = newValue, let url = URL(string: value) else { return } // FIXME: log error
+            self.supportURL = url
         }
     }
 

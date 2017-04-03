@@ -57,7 +57,8 @@ extension Router {
     }
 
     func unrecoverableError(for error: UnrecoverableError) -> Presentable? {
-        let presenter = UnrecoverableErrorPresenter(error: error, navigator: self)
+        guard let options = self.controller?.lock.options else { return nil }
+        let presenter = UnrecoverableErrorPresenter(error: error, navigator: self, options: options)
         return presenter
     }
 }
