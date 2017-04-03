@@ -38,6 +38,8 @@ class DatabasePresenter: Presentable, Loggable {
         }
     }
 
+    var passwordManager: PasswordManager?
+
     var authPresenter: AuthPresenter?
     var enterpriseInteractor: EnterpriseDomainInteractor?
 
@@ -92,10 +94,16 @@ class DatabasePresenter: Presentable, Loggable {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20), isLogin: true)
         let style = self.database.requiresUsername ? self.options.usernameStyle : [.Email]
-        view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView)
+        view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView, passwordManager: self.passwordManager)
         self.currentScreen = .login
         let form = view.form
         form?.onValueChange = self.handleInput
+
+        view.passwordManagerButton?.onPress = { _ in
+            self.passwordManager?.openManager() { result, error in
+                result?.forEach { self.handleInput($1) }
+            }
+        }
 
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
@@ -155,7 +163,7 @@ class DatabasePresenter: Presentable, Loggable {
         let passwordPolicyValidator = interactor?.passwordValidator as? PasswordPolicyValidator
         self.currentScreen = .signup
 
-        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator)
+        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator, passwordManager: self.passwordManager)
         let form = view.form
         view.form?.onValueChange = self.handleInput
         let action = { [weak form] (button: PrimaryButton) in

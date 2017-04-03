@@ -50,5 +50,9 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>org-appextension-feature-password-management</string>
+    </array>
 </dict>
 </plist>

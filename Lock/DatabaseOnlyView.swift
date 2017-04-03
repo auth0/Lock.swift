@@ -34,6 +34,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var ssoBar: InfoBarView?
     weak var spacer: UIView?
     private var style: Style?
+    weak var passwordManagerButton: IconButton?
 
     // FIXME: Remove this from the view since it should not even know it exists
     var navigator: Navigable?
@@ -86,7 +87,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     private let separatorIndex = 2
     private let socialIndex = 1
 
-    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil) {
+    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil, passwordManager: PasswordManager?) {
         let form = CredentialView()
 
         let type: InputField.InputType
@@ -108,9 +109,15 @@ class DatabaseOnlyView: UIView, DatabaseView {
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(self.allowedModes.contains(.ResetPassword))
         self.form = form
+        if var passwordManager = passwordManager {
+            self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0))
+            passwordManager.fields[AppExtensionUsernameKey] = form.identityField
+            passwordManager.fields[AppExtensionPasswordKey] = form.passwordField
+        }
+
     }
 
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil) {
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil, passwordManager: PasswordManager?) {
         let form = SignUpView(additionalFields: additionalFields)
         form.showUsername = showUsername
         form.emailField.text = email

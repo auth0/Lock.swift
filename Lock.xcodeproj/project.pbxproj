@@ -51,8 +51,10 @@
 		5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */; };
 		5BB78CC21E54BC730074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB78CC01E54BC2D0074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift */; };
 		5BB78CC51E54BD530074DFE3 /* PasswordlessPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB78CC31E54BD440074DFE3 /* PasswordlessPresenterSpec.swift */; };
-		5BBEED381E79A9F900B3308D /* CountryCodesSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBEED361E79A96C00B3308D /* CountryCodesSpec.swift */; };
-		5BCB26861E8437BC00CFBF9A /* PolicyViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB26851E8437BC00CFBF9A /* PolicyViewSpec.swift */; };
+		5BBD9E311E8E6F5E007EF625 /* OnePasswordExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD9E2F1E8E6F5E007EF625 /* OnePasswordExtension.m */; };
+		5BBD9E321E8E6F5E007EF625 /* OnePasswordExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BBD9E301E8E6F5E007EF625 /* OnePasswordExtension.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5BBD9E361E8E730C007EF625 /* OnePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD9E351E8E730C007EF625 /* OnePassword.swift */; };
+		5BBD9E3A1E8E929E007EF625 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD9E391E8E929E007EF625 /* IconButton.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
 		5BE4344E1E64820800950FA1 /* HRDAuthenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */; };
@@ -274,8 +276,10 @@
 		5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
 		5BB78CC01E54BC2D0074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessAuthenticatableErrorSpec.swift; sourceTree = "<group>"; };
 		5BB78CC31E54BD440074DFE3 /* PasswordlessPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessPresenterSpec.swift; sourceTree = "<group>"; };
-		5BBEED361E79A96C00B3308D /* CountryCodesSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCodesSpec.swift; sourceTree = "<group>"; };
-		5BCB26851E8437BC00CFBF9A /* PolicyViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyViewSpec.swift; sourceTree = "<group>"; };
+		5BBD9E2F1E8E6F5E007EF625 /* OnePasswordExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnePasswordExtension.m; sourceTree = "<group>"; };
+		5BBD9E301E8E6F5E007EF625 /* OnePasswordExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnePasswordExtension.h; sourceTree = "<group>"; };
+		5BBD9E351E8E730C007EF625 /* OnePassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePassword.swift; sourceTree = "<group>"; };
+		5BBD9E391E8E929E007EF625 /* IconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthPresenterSpec.swift; sourceTree = "<group>"; };
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
 		5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRDAuthenticatable.swift; sourceTree = "<group>"; };
@@ -473,13 +477,13 @@
 			path = LockSnapshot;
 			sourceTree = "<group>";
 		};
-		5BE978191E82CFA00090EC07 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5F2496AE1D66210500A1C6E2 /* LockViewControllerSpec.swift */,
-				5BE9781F1E82E7FA0090EC07 /* CountryTableViewControllerSpec.swift */,
+				5BBD9E351E8E730C007EF625 /* OnePassword.swift */,
+				5BBD9E2F1E8E6F5E007EF625 /* OnePasswordExtension.m */,
+				5BBD9E301E8E6F5E007EF625 /* OnePasswordExtension.h */,
 			);
-			name = Controllers;
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		5F2496B41D665A9700A1C6E2 /* Errors */ = {
@@ -758,6 +762,7 @@
 				5FBE5CB51D3D8EE70038536D /* Models */,
 				5FC434871D1DF7FA005188BC /* Presenters */,
 				5FFC54FC1D37E3E400579581 /* Router */,
+				5B94D5AC1E8E6AF400E9D4F1 /* Extensions */,
 				5F99AA801D1B0A2B00D27842 /* Utils */,
 				5F50900C1D1DF3ED00EAA650 /* Views */,
 				5F99AA831D1B0BCE00D27842 /* Lock.swift */,
@@ -804,6 +809,7 @@
 				5FDB41CF1D2C95B100166B67 /* MessageView.swift */,
 				5F99AA891D1B360C00D27842 /* PrimaryButton.swift */,
 				5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */,
+				5BBD9E391E8E929E007EF625 /* IconButton.swift */,
 				5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */,
 				5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */,
 				5FD6772B1D4C303C004B87C4 /* AuthButton.swift */,
@@ -866,6 +872,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BBD9E321E8E6F5E007EF625 /* OnePasswordExtension.h in Headers */,
 				5FEAE1CA1D1A5154005C0028 /* Lock.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -967,9 +974,9 @@
 					};
 					5FEADCF31D1A7EBC0032D810 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 86WQXF56BC;
+						DevelopmentTeam = 2NUJ273DRF;
 						LastSwiftMigration = 0810;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.SafariKeychain = {
 								enabled = 0;
@@ -978,7 +985,7 @@
 					};
 					5FEAE1C51D1A5154005C0028 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 0820;
 					};
 					5FEAE1CF1D1A5154005C0028 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -1142,6 +1149,7 @@
 				5B3DA2551E6EB9F800370C17 /* CountryTableViewController.swift in Sources */,
 				5F70F1DF1D7904A3004698DA /* ConnectionBuildable.swift in Sources */,
 				5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */,
+				5BBD9E361E8E730C007EF625 /* OnePassword.swift in Sources */,
 				5BE4344F1E64820800950FA1 /* PasswordRecoverable.swift in Sources */,
 				5FD6772C1D4C303C004B87C4 /* AuthButton.swift in Sources */,
 				5F99AA8A1D1B360C00D27842 /* PrimaryButton.swift in Sources */,
@@ -1165,6 +1173,7 @@
 				5B9A54441E4B275E004B5454 /* PasswordlessInteractor.swift in Sources */,
 				5F51EE681D1C88FC0024BCD6 /* SignUpView.swift in Sources */,
 				5F57DFD41D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift in Sources */,
+				5BBD9E3A1E8E929E007EF625 /* IconButton.swift in Sources */,
 				5B4DE0151DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift in Sources */,
 				5F57DFD21D4FE59800C54DA8 /* OAuth2Authenticatable.swift in Sources */,
 				5F508FF71D1D868900EAA650 /* DatabaseInteractor.swift in Sources */,
@@ -1182,6 +1191,7 @@
 				5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
 				5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */,
 				5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */,
+				5BBD9E311E8E6F5E007EF625 /* OnePasswordExtension.m in Sources */,
 				5B9A544A1E4B354A004B5454 /* PasswordlessPresenter.swift in Sources */,
 				5FBE5CC61D3E7F9D0038536D /* MultifactorPresenter.swift in Sources */,
 				5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */,
@@ -1365,7 +1375,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 86WQXF56BC;
+				DEVELOPMENT_TEAM = 2NUJ273DRF;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1376,8 +1386,8 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "97f7985c-a5ce-42be-a3e5-39a6c818bc78";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.auth0.Lock";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1388,7 +1398,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 86WQXF56BC;
+				DEVELOPMENT_TEAM = 2NUJ273DRF;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1399,8 +1409,8 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "97f7985c-a5ce-42be-a3e5-39a6c818bc78";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.auth0.Lock";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1523,6 +1533,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.ios.Lock;
 				PRODUCT_NAME = Lock;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1548,6 +1559,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.ios.Lock;
 				PRODUCT_NAME = Lock;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

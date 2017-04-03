@@ -163,7 +163,7 @@ class InputField: UIView, UITextFieldDelegate, Stylable {
 
         self.textFieldLeftAnchor = constraintEqual(anchor: textField.leftAnchor, toAnchor: iconContainer.rightAnchor, constant: 16)
         constraintEqual(anchor: textField.topAnchor, toAnchor: container.topAnchor)
-        constraintEqual(anchor: textField.rightAnchor, toAnchor: container.rightAnchor, constant: -16)
+        self.textFieldRightPadding = constraintEqual(anchor: textField.rightAnchor, toAnchor: container.rightAnchor, constant: -16)
         constraintEqual(anchor: textField.bottomAnchor, toAnchor: container.bottomAnchor)
         dimension(dimension: textField.heightAnchor, withValue: 50)
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -197,6 +197,26 @@ class InputField: UIView, UITextFieldDelegate, Stylable {
 
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 230, height: 50)
+    }
+
+    // MARK: - Password Manager
+
+    func addFieldButton(withIcon name: String, color: UIColor = .black) -> IconButton? {
+        guard let container = self.containerView, let textField = self.textField else { return nil }
+
+        let button = IconButton()
+        button.icon = LazyImage(name: name, bundle: Lock.bundle).image(compatibleWithTraits: self.traitCollection)
+        button.color = color
+        container.addSubview(button)
+
+        self.textFieldRightPadding?.constant = -50
+        constraintEqual(anchor: button.leftAnchor, toAnchor: textField.rightAnchor, constant: 0)
+        constraintEqual(anchor: button.topAnchor, toAnchor: textField.topAnchor)
+        constraintEqual(anchor: button.rightAnchor, toAnchor: container.rightAnchor, constant: 0)
+        constraintEqual(anchor: button.bottomAnchor, toAnchor: textField.bottomAnchor)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        return button
     }
 
     // MARK: - Internal
