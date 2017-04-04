@@ -75,7 +75,7 @@ class PasswordlessPresenter: Presentable, Loggable {
             let connection = self.connection
             button.inProgress = true
             if screen == .request {
-                self.logger.info("Request passwordless \(self.interactor.identifier)")
+                self.logger.info("Request passwordless \(String(describing: self.interactor.identifier))")
                 interactor.request(connection.name) { error in
                     Queue.main.async {
                         button.inProgress = false
@@ -93,7 +93,7 @@ class PasswordlessPresenter: Presentable, Loggable {
                     }
                 }
             } else {
-                self.logger.info("Login passwordless \(self.interactor.identifier)")
+                self.logger.info("Login passwordless \(String(describing: self.interactor.identifier))")
                 interactor.login(connection.name) { error in
                     Queue.main.async {
                         button.inProgress = false

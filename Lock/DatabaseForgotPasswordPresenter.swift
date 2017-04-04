@@ -60,7 +60,7 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
         }
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("request forgot password for email \(self.interactor.email)")
+            self.logger.info("request forgot password for email \(String(describing: self.interactor.email))")
             let interactor = self.interactor
             button.inProgress = true
             interactor.requestEmail { error in

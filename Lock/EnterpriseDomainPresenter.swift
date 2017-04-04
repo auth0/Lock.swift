@@ -72,7 +72,7 @@ class EnterpriseDomainPresenter: Presentable, Loggable {
             }
 
             self.messagePresenter?.hideCurrent()
-            self.logger.info("Enterprise connection started: \(self.interactor.email), \(self.interactor.connection)")
+            self.logger.info("Enterprise connection started: \(String(describing: self.interactor.email)), \(String(describing: self.interactor.connection))")
             let interactor = self.interactor
             button.inProgress = true
             interactor.login { error in

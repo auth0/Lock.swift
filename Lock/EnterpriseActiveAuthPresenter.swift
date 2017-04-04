@@ -70,7 +70,7 @@ class EnterpriseActiveAuthPresenter: Presentable, Loggable {
 
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("Enterprise password connection started: \(self.interactor.identifier), \(self.interactor.connection)")
+            self.logger.info("Enterprise password connection started: \(String(describing: self.interactor.identifier)), \(self.interactor.connection)")
             let interactor = self.interactor
 
             button.inProgress = true
