@@ -53,7 +53,7 @@ class AuthPresenter: Presentable, Loggable {
 
     private func newView(withInsets insets: UIEdgeInsets, mode: AuthCollectionView.Mode) -> AuthCollectionView {
         let view = AuthCollectionView(connections: self.connections, mode: mode, insets: insets, customStyle: self.customStyle) { name in
-            self.interactor.login(name) { error in
+            self.interactor.login(name, loginHint: nil) { error in
                 guard let error = error else { return }
                 self.messagePresenter?.showError(error)
             }

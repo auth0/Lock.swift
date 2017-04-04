@@ -73,7 +73,7 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
 
     func login(_ callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
         guard let connection = self.connection else { return callback(.noConnectionAvailable) }
-        authenticator.login(connection.name, callback: callback)
+        authenticator.login(connection.name, loginHint: self.email, callback: callback)
     }
 
 }
