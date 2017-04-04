@@ -189,7 +189,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
                 }
                 
                 it("should fallback to webAuth with connection") {
-                    interactor.login("twitter", callback: { _ in })
+                    interactor.login("twitter", loginHint: nil, callback: { _ in })
                     expect(authentication.webAuth?.connection) == "twitter"
                 }
                 
