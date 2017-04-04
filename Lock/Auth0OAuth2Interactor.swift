@@ -23,7 +23,7 @@
 import Foundation
 import Auth0
 
-struct Auth0OAuth2Interactor: OAuth2Authenticatable {
+struct Auth0OAuth2Interactor: OAuth2Authenticatable, Loggable {
 
     let authentication: Authentication
     let dispatcher: Dispatcher
@@ -31,7 +31,7 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable {
     let nativeHandlers: [String: AuthProvider]
 
     func login(_ connection: String, loginHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
-        if let nativeHandler = self.nativeHandlers[connection] {
+        if let nativeHandler = self.nativeHandlers[connection], type(of: nativeHandler).isAvailable() {
             self.nativeAuth(withConnection: connection, nativeAuth: nativeHandler, callback: callback)
         } else {
             self.webAuth(withConnection: connection, loginHint: loginHint, callback: callback)
