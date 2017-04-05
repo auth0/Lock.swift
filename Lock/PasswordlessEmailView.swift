@@ -27,6 +27,7 @@ class PasswordlessEmailView: UIView, View {
     weak var form: Form?
     weak var primaryButton: PrimaryButton?
     weak var secondaryButton: SecondaryButton?
+    weak var additionalButton: SecondaryButton?
 
     init() {
         super.init(frame: CGRect.zero)
@@ -35,12 +36,14 @@ class PasswordlessEmailView: UIView, View {
     func showForm(email: String?, screen: PasswordlessScreen, authCollectionView: AuthCollectionView?) {
         let primaryButton = PrimaryButton()
         let secondaryButton = SecondaryButton()
+        let additionalButton = SecondaryButton()
         let formView = SingleInputView()
         let container = UIStackView()
         let center = UILayoutGuide()
 
         self.primaryButton = primaryButton
         self.secondaryButton = secondaryButton
+        self.additionalButton = additionalButton
         self.form = formView
 
         self.addSubview(container)
@@ -85,6 +88,7 @@ class PasswordlessEmailView: UIView, View {
                 }
                 formView.value = email
                 container.addArrangedSubview(strutView(withHeight: 25))
+                container.addArrangedSubview(additionalButton)
             case .code:
                 formView.type = .oneTimePassword
                 formView.returnKey = .done

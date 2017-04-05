@@ -118,6 +118,18 @@ class PasswordlessPresenter: Presentable, Loggable {
                 self.navigator.onBack()
             }
         }
+        
+        view.additionalButton?.title = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos", comment: "tos & privacy")
+        view.additionalButton?.color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
+        view.additionalButton?.onPress = { button in
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let cancel = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel", comment: "Cancel"), style: .cancel, handler: nil)
+            let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.title", comment: "ToS"), style: .default, handler: safariBuilder(forURL: self.options.termsOfServiceURL as URL, navigator: self.navigator))
+            let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy", comment: "Privacy"), style: .default, handler: safariBuilder(forURL: self.options.privacyPolicyURL as URL, navigator: self.navigator))
+            [cancel, tos, privacy].forEach { alert.addAction($0) }
+            self.navigator.present(alert)
+        }
+
         return view
     }
 
@@ -128,5 +140,12 @@ class PasswordlessPresenter: Presentable, Loggable {
             self.navigator.onBack()
         }
         return view
+    }
+}
+
+fileprivate func safariBuilder(forURL url: URL, navigator: Navigable) -> (UIAlertAction) -> Void {
+    return { _ in
+        let safari = SFSafariViewController(url: url)
+        navigator.present(safari)
     }
 }
