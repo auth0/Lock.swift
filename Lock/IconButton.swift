@@ -59,21 +59,24 @@ class IconButton: UIView {
 
     private func layoutButton() {
         let button = UIButton(type: .custom)
-
         self.addSubview(button)
 
-        constraintEqual(anchor: button.centerXAnchor, toAnchor: self.centerXAnchor)
+        constraintEqual(anchor: button.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: button.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: button.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: button.centerYAnchor, toAnchor: self.centerYAnchor)
+        constraintEqual(anchor: button.bottomAnchor, toAnchor: self.bottomAnchor)
         button.translatesAutoresizingMaskIntoConstraints = false
 
         button.addTarget(self, action: #selector(pressed), for: .touchUpInside)
-
+        button.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         self.button = button
     }
 
     func pressed(_ sender: Any) {
         self.onPress(self)
+    }
+
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 50, height: UIViewNoIntrinsicMetric)
     }
 }

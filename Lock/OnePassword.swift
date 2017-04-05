@@ -23,51 +23,66 @@
 import Foundation
 
 protocol PasswordManager {
-    var fields: [String: InputField] { get set }
 
-    static func isAvailable() -> Bool
-    func login(callback: @escaping ([String: InputField]?, Error?) -> Void)
-    func store(withPolicy policy: [String: Any]?, callback: @escaping ([String: InputField]?, Error?) -> Void)
+    var enabled: Bool { get set }
+    var available: Bool { get }
+
+    var onUpdate: (String, String) -> Void { get set }
+
+    func login(callback: @escaping (Error?) -> Void)
+    func store(withPolicy policy: [String: Any]?, identifier: String?, callback: @escaping (Error?) -> Void)
 }
 
-class OnePassword: PasswordManager {
+public class OnePassword: PasswordManager {
 
-    let identifier: String
+    /// A Boolean value indicating whether the password manager is enabled.
+    public var enabled: Bool = true
+
+    /// The text identifier to use with the password manager to identify which credentials to use.
+    public var appIdentifier: String
+
+    /// The title to be displayed when creating a new password manager entry.
+    public var displayName: String
+
     weak var controller: UIViewController?
-    var fields: [String: InputField] = [:]
 
-    init(identifier: String, controller: UIViewController?) {
-        self.identifier = identifier
-        self.controller = controller
+    public init() {
+        self.appIdentifier = Bundle.main.bundleIdentifier.verbatim()
+        self.displayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName").verbatim()
     }
 
-    static func isAvailable() -> Bool {
-        return LockOnePasswordExtension.shared().isAppExtensionAvailable()
+    var available: Bool {
+        return self.enabled && OnePasswordExtension.shared().isAppExtensionAvailable()
     }
 
-    func login(callback: @escaping ([String: InputField]?, Error?) -> Void) {
+    var onUpdate: (String, String) -> Void = { _ in }
+
+    func login(callback: @escaping (Error?) -> Void) {
         guard let controller = self.controller else { return }
-        LockOnePasswordExtension.shared().findLogin(forURLString: self.identifier, for: controller, sender: nil) { (result, error) in
+        OnePasswordExtension.shared().findLogin(forURLString: self.appIdentifier, for: controller, sender: nil) { (result, error) in
             guard error == nil else {
-                return callback(nil, error)
+                return callback(error)
             }
-            self.fields[AppExtensionUsernameKey]?.text = result?[AppExtensionUsernameKey] as? String
-            self.fields[AppExtensionPasswordKey]?.text = result?[AppExtensionPasswordKey] as? String
-            callback(self.fields, nil)
+            self.handleResut(result)
+            callback(nil)
         }
     }
 
-    func store(withPolicy policy: [String: Any]?, callback: @escaping ([String: InputField]?, Error?) -> Void) {
+    func store(withPolicy policy: [String: Any]?, identifier: String?, callback: @escaping (Error?) -> Void) {
         guard let controller = self.controller else { return }
-        var loginDetails: [String: String] = [:]
-        self.fields.forEach { loginDetails[$0] = $1.text }
-        LockOnePasswordExtension.shared().storeLogin(forURLString: self.identifier, loginDetails: loginDetails, passwordGenerationOptions: policy, for: controller, sender: nil) { (result, error) in
+        var loginDetails: [String: String] = [ AppExtensionTitleKey: self.displayName ]
+        loginDetails[AppExtensionUsernameKey] = identifier
+        OnePasswordExtension.shared().storeLogin(forURLString: self.appIdentifier, loginDetails: loginDetails, passwordGenerationOptions: policy, for: controller, sender: nil) { (result, error) in
             guard error == nil else {
-                return callback(nil, error)
+                return callback(error)
             }
-            self.fields[AppExtensionUsernameKey]?.text = result?[AppExtensionUsernameKey] as? String
-            self.fields[AppExtensionPasswordKey]?.text = result?[AppExtensionPasswordKey] as? String
-            callback(self.fields, nil)
+            self.handleResut(result)
+            callback(nil)
         }
+    }
+
+    private func handleResut(_ dict: [AnyHashable : Any]?) {
+        guard let username = dict?[AppExtensionUsernameKey] as? String, let password = dict?[AppExtensionPasswordKey] as? String else { return }
+        self.onUpdate(username, password)
     }
 }

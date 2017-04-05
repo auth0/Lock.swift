@@ -36,6 +36,9 @@ class DatabaseOnlyView: UIView, DatabaseView {
     private var style: Style?
     weak var passwordManagerButton: IconButton?
 
+    weak var identityField: InputField?
+    weak var passwordField: InputField?
+
     // FIXME: Remove this from the view since it should not even know it exists
     var navigator: Navigable?
 
@@ -87,7 +90,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     private let separatorIndex = 2
     private let socialIndex = 1
 
-    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil, passwordManager: PasswordManager?) {
+    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil, showPassswordManager: Bool) {
         let form = CredentialView()
 
         let type: InputField.InputType
@@ -109,15 +112,16 @@ class DatabaseOnlyView: UIView, DatabaseView {
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(self.allowedModes.contains(.ResetPassword))
         self.form = form
-        if var passwordManager = passwordManager {
+        self.identityField = form.identityField
+        self.passwordField = form.passwordField
+
+        if showPassswordManager {
             self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0))
-            passwordManager.fields[AppExtensionUsernameKey] = form.identityField
-            passwordManager.fields[AppExtensionPasswordKey] = form.passwordField
         }
 
     }
 
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil, passwordManager: PasswordManager?) {
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil, showPassswordManager: Bool) {
         let form = SignUpView(additionalFields: additionalFields)
         form.showUsername = showUsername
         form.emailField.text = email
@@ -131,6 +135,9 @@ class DatabaseOnlyView: UIView, DatabaseView {
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(true)
         self.form = form
+
+        self.identityField = showUsername ? form.usernameField : form.emailField
+        self.passwordField = form.passwordField
 
         if let passwordPolicyValidator = passwordPolicyValidator {
             let passwordPolicyView = PolicyView(rules: passwordPolicyValidator.policy.rules)
@@ -154,10 +161,8 @@ class DatabaseOnlyView: UIView, DatabaseView {
             }
         }
 
-        if var passwordManager = passwordManager {
+        if showPassswordManager {
             self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0))
-            passwordManager.fields[AppExtensionUsernameKey] = showUsername ? form.usernameField : form.emailField
-            passwordManager.fields[AppExtensionPasswordKey] = form.passwordField
         }
     }
 

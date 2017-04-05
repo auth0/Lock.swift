@@ -39,12 +39,14 @@ class DatabasePresenterSpec: QuickSpec {
         var navigator: MockNavigator!
         var options: OptionBuildable!
         var user: User!
+        var passwordManager: MockPasswordManager!
 
         beforeEach {
             oauth2 = MockOAuth2()
             connections = OfflineConnections()
             options = LockOptions()
             user = User()
+            passwordManager = MockPasswordManager()
             enterpriseInteractor = EnterpriseDomainInteractor(connections: connections, user: user, authentication: oauth2)
             authPresenter = MockAuthPresenter(connections: [], interactor: MockAuthInteractor(), customStyle: [:])
             messagePresenter = MockMessagePresenter()
@@ -215,6 +217,28 @@ class DatabasePresenterSpec: QuickSpec {
                 expect(view.primaryButton?.title) == "LOG IN"
             }
 
+            it("should not show password manager button") {
+                expect(view.passwordManagerButton).to(beNil())
+            }
+
+            context("with password manager available") {
+
+                beforeEach {
+                    presenter.passwordManager = passwordManager
+                    view = presenter.view as! DatabaseOnlyView
+                }
+
+                it("should show password manager button") {
+                    expect(view.passwordManagerButton).toNot(beNil())
+                }
+
+                it("should not show password manager when disabled") {
+                    presenter.passwordManager.enabled = false
+                    view = presenter.view as! DatabaseOnlyView
+                    expect(view.passwordManagerButton).to(beNil())
+                }
+            }
+
             describe("user input") {
 
                 it("should clear global message") {
@@ -380,7 +404,30 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(messagePresenter.message).toEventuallyNot(beNil())
                 }
             }
+
+            context("password manager") {
+
+                var username: String?
+                var password: String?
+
+                beforeEach {
+                    username = nil
+                    password = nil
+                    presenter.passwordManager = passwordManager
+                    view = presenter.view as! DatabaseOnlyView
+                    view.switcher?.selected = .signup
+                    view.switcher?.onSelectionChange(view.switcher!)
+                    presenter.passwordManager.onUpdate = { username = $0; password = $1 }
+                }
+
+                it("should trigger password manager and return username and password") {
+                    view.passwordManagerButton?.pressed(view.passwordManagerButton!)
+                    expect(username).toNot(beNil())
+                    expect(password).toNot(beNil())
+                }
+            }
         }
+
 
         // MARK: - Sign Up
         describe("sign up") {
@@ -451,6 +498,40 @@ class DatabasePresenterSpec: QuickSpec {
                     let input = mockInput(.username, value: "invalid")
                     view.form?.onValueChange(input)
                     expect(input.valid) == false
+                }
+
+                it("should not show password manager button") {
+                    expect(view.passwordManagerButton).to(beNil())
+                }
+
+                context("with password manager available") {
+
+                    beforeEach {
+                        presenter.passwordManager = passwordManager
+                        view = presenter.view as! DatabaseOnlyView
+                        view.switcher?.selected = .signup
+                        view.switcher?.onSelectionChange(view.switcher!)
+                    }
+
+                    it("should show password manager button") {
+                        expect(view.passwordManagerButton).toNot(beNil())
+                    }
+
+                    context("disable password manager") {
+
+                        beforeEach {
+                            presenter.passwordManager = passwordManager
+                            presenter.passwordManager.enabled = false
+                            view = presenter.view as! DatabaseOnlyView
+                            view.switcher?.selected = .signup
+                            view.switcher?.onSelectionChange(view.switcher!)
+                        }
+
+                        it("should not show password manager when disabled") {
+                            expect(view.passwordManagerButton).to(beNil())
+                        }
+
+                    }
                 }
 
             }
@@ -593,26 +674,48 @@ class DatabasePresenterSpec: QuickSpec {
                         expect(button.title).toEventually(contain("SIGN UP"))
                     }
 
-                context("no auto login or auto close") {
+                    context("no auto login or auto close") {
 
-                    beforeEach {
-                        options.loginAfterSignup = false
-                        options.allow = [.Signup]
-                        options.autoClose = false
-                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
-                        presenter.messagePresenter = messagePresenter
-                        view = presenter.view as! DatabaseOnlyView
-                    }
-
-                    it("should show no success message") {
-                        interactor.onSignUp = {
-                            return nil
+                        beforeEach {
+                            options.loginAfterSignup = false
+                            options.allow = [.Signup]
+                            options.autoClose = false
+                            presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                            presenter.messagePresenter = messagePresenter
+                            view = presenter.view as! DatabaseOnlyView
                         }
-                        view.primaryButton?.onPress(view.primaryButton!)
-                        expect(messagePresenter.error).toEventually(beNil())
-                        expect(messagePresenter.message).toEventuallyNot(beNil())
+
+                        it("should show no success message") {
+                            interactor.onSignUp = {
+                                return nil
+                            }
+                            view.primaryButton?.onPress(view.primaryButton!)
+                            expect(messagePresenter.error).toEventually(beNil())
+                            expect(messagePresenter.message).toEventuallyNot(beNil())
+                        }
                     }
                 }
+
+                describe("password manager action") {
+
+                    var username: String?
+                    var password: String?
+
+                    beforeEach {
+                        username = nil
+                        password = nil
+                        presenter.passwordManager = passwordManager
+                        view = presenter.view as! DatabaseOnlyView
+                        view.switcher?.selected = .signup
+                        view.switcher?.onSelectionChange(view.switcher!)
+                        presenter.passwordManager.onUpdate =  { username = $0; password = $1 }
+                    }
+
+                    it("should trigger password manager and return username and password") {
+                        view.passwordManagerButton?.pressed(view.passwordManagerButton!)
+                        expect(username).toNot(beNil())
+                        expect(password).toNot(beNil())
+                    }
                 }
             }
 
@@ -729,32 +832,32 @@ class DatabasePresenterSpec: QuickSpec {
                     beforeEach {
                         var options = LockOptions()
                         options.enterpriseConnectionUsingActiveAuth = ["validAD"]
-
+                        
                         connections = OfflineConnections()
                         connections.enterprise(name: "validAD", domains: ["valid.com"])
-
+                        
                         presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
                         enterpriseInteractor = EnterpriseDomainInteractor(connections: connections, user: user, authentication: oauth2)
                         presenter.enterpriseInteractor = enterpriseInteractor
-
+                        
                         view = presenter.view as! DatabaseOnlyView
-
+                        
                         let input = mockInput(.email, value: "user@valid.com")
                         view.form?.onValueChange(input)
-
+                        
                     }
-
+                    
                     it("should navigate to enterprise password presenter") {
                         view.primaryButton?.onPress(view.primaryButton!)
                         let connection = presenter.enterpriseInteractor?.connection!
                         expect(connection).toNot(beNil())
                         expect(navigator.route).toEventually(equal(Route.enterpriseActiveAuth(connection: connection!, domain: "valid.com")))
                     }
-
+                    
                 }
-
+                
             }
-
+            
         }
     }
 }

@@ -102,23 +102,10 @@ public struct PasswordPolicy {
 
 extension PasswordPolicy {
     func onePasswordRules() -> [String: Any] {
-        switch self.name {
-        case Auth0.low.rawValue:
-            return [ AppExtensionGeneratedPasswordMinLengthKey: "6" ]
-        case Auth0.fair.rawValue:
-            return [ AppExtensionGeneratedPasswordMinLengthKey: "8",
-                     AppExtensionGeneratedPasswordRequireDigitsKey: true ]
-        case Auth0.good.rawValue:
-            return [ AppExtensionGeneratedPasswordMinLengthKey: "8",
-                     AppExtensionGeneratedPasswordRequireDigitsKey: true,
-                     AppExtensionGeneratedPasswordRequireSymbolsKey: true ]
-        case Auth0.excellent.rawValue:
-            return [ AppExtensionGeneratedPasswordMinLengthKey: "10",
-                     AppExtensionGeneratedPasswordMaxLengthKey: "128",
-                     AppExtensionGeneratedPasswordRequireDigitsKey: true,
-                     AppExtensionGeneratedPasswordRequireSymbolsKey: true ]
-        default:
-            return [ AppExtensionGeneratedPasswordMinLengthKey: "1" ]
-        }
+        // Excellent
+        return [ AppExtensionGeneratedPasswordMinLengthKey: "10",
+                 AppExtensionGeneratedPasswordMaxLengthKey: "128",
+                 AppExtensionGeneratedPasswordRequireDigitsKey: true,
+                 AppExtensionGeneratedPasswordRequireSymbolsKey: true ]
     }
 }

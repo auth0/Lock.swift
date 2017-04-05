@@ -364,6 +364,34 @@ When signing up the default information requirements are the user's *email* and 
 
 *Note: You must specify the icon to use with your custom text field and store it in your App's bundle.*
 
+#### Password Manager
+
+By default password manager support using [1Password](https://1password.com/) is enabled for database connections, although you will still need to have the 1Password app installed for the option to be visible in the login and signup screens. You can disable 1Password support using the `enabled` property of the `passwordManager`.
+
+```swift
+.withOptions {
+    $0.passwordManager.enabled = false
+}
+```
+
+By default the `appIdentifier` will be set to the app's bundle identifier and the `displayName` will be set to the app's display name. You can customize these as follows:
+
+```swift
+.withOptions {
+    $0.passwordManager.appIdentifier = "www.myapp.com"
+    $0.passwordManager.displayName = "My App"
+}
+```
+
+You will need to add the following to your app's `info.plist`:
+
+```xml
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>org-appextension-feature-password-management</string>
+</array>
+```
+
 #### Enterprise
 
 * **enterpriseConnectionUsingActiveAuth**: By default Enterprise connections will use Web Authentication. However you can specify which connections will alternatively use credential authentication and prompt for a username and password.

@@ -209,11 +209,12 @@ class InputField: UIView, UITextFieldDelegate, Stylable {
         button.color = color
         container.addSubview(button)
 
-        self.textFieldRightPadding?.constant = -50
-        constraintEqual(anchor: button.leftAnchor, toAnchor: textField.rightAnchor, constant: 0)
+        self.textFieldRightPadding?.isActive = false
+        constraintEqual(anchor: textField.rightAnchor, toAnchor: button.leftAnchor)
+        constraintEqual(anchor: button.leftAnchor, toAnchor: textField.rightAnchor)
         constraintEqual(anchor: button.topAnchor, toAnchor: textField.topAnchor)
-        constraintEqual(anchor: button.rightAnchor, toAnchor: container.rightAnchor, constant: 0)
         constraintEqual(anchor: button.bottomAnchor, toAnchor: textField.bottomAnchor)
+        constraintEqual(anchor: button.rightAnchor, toAnchor: container.rightAnchor)
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
