@@ -40,8 +40,10 @@
 #endif
 
     A0Lock *lock = [A0Lock sharedLock];
-    A0SafariAuthenticator *safari = [[A0SafariAuthenticator alloc] initWithLock:lock connectionName:@"instagram" useUniversalLink:useUniversalLink];
-    [lock registerAuthenticators:@[safari]];
+    [[lock identityProviderAuthenticator] registerDefaultAuthenticationProvider:^A0BaseAuthenticator * _Nonnull(A0Lock * _Nonnull lock, NSString * _Nonnull connectionName) {
+        return [[A0SafariAuthenticator alloc] initWithLock:lock connectionName:connectionName useUniversalLink:useUniversalLink];
+
+    }];
     [lock applicationLaunchedWithOptions:launchOptions];
     return YES;
 }
