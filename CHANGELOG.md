@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.29.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.29.0) (2017-04-06)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.28.2...1.29.0)
+
+**Added**
+- Specify default web auth provider [\#424](https://github.com/auth0/Lock.swift/pull/424) ([hzalaz](https://github.com/hzalaz))
+
+**Changed**
+- Update keyboard to numeric to input SMS code #2 [\#406](https://github.com/auth0/Lock.swift/pull/406) ([bourgois](https://github.com/bourgois))
+
 ## [1.28.2](https://github.com/auth0/Lock.iOS-OSX/tree/1.28.2) (2017-02-16)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.28.1...1.28.2)
 

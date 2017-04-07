@@ -34,7 +34,7 @@ You'll need iOS 7 or later, if you need to use it with an older version please u
 The Lock is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Lock', '~> 1.28'
+pod 'Lock', '~> 1.29'
 ```
 
 ## Before Getting Started
@@ -213,7 +213,7 @@ lock.registerAuthenticators([safari])
 Add the following line to your Podfile:
 
 ```ruby
-pod 'Lock/TouchID', '~> 1.28'
+pod 'Lock/TouchID', '~> 1.29'
 ```
 
 First instantiate `A0TouchIDLockViewController` and register the authentication callback that will receive the authenticated user's credentials. Finally present it to the user:
@@ -254,7 +254,7 @@ And you'll see TouchID login screen
 Add the following line to your Podfile:
 
 ```ruby
-pod 'Lock/SMS', '~> 1.28'
+pod 'Lock/SMS', '~> 1.29'
 ```
 
 First instantiate `A0SMSLockViewController` and register the authentication callback that will receive the authenticated user's credentials.
@@ -297,7 +297,7 @@ And you'll see SMS login screen
 Add the following line to your Podfile:
 
 ```ruby
-pod 'Lock/Email', '~> 1.28'
+pod 'Lock/Email', '~> 1.29'
 ```
 
 First instantiate `A0EmailLockViewController` and register the authentication callback that will receive the authenticated user's credentials.
