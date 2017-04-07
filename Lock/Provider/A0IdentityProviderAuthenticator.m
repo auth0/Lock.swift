@@ -109,7 +109,9 @@
 
 - (id<A0AuthenticationProvider>)defaultProviderForConnectionName:(NSString *)connectionName {
     if (self.defaultProvider) {
-        return self.defaultProvider(self.lock, connectionName);
+        id<A0AuthenticationProvider> provider = self.defaultProvider(self.lock, connectionName);
+        [self registerAuthenticationProvider:provider];
+        return provider;
     }
 #ifdef HAS_WEBVIEW_SUPPORT
     return [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName lock:self.lock];
