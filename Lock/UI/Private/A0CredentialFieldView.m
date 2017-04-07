@@ -98,7 +98,7 @@
         case A0CredentialFieldViewOTPCode:
             self.placeholderText = A0LocalizedString(@"Verification Code");
             self.textField.secureTextEntry = YES;
-            self.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+            self.textField.keyboardType = UIKeyboardTypeNumberPad;
             self.iconImageView.image = [[theme imageForKey:A0ThemeIconLock] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
     self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
