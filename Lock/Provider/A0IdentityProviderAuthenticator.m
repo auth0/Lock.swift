@@ -40,6 +40,7 @@
 @property (weak, nonatomic) A0Lock *lock;
 @property (strong, nonatomic) NSMutableDictionary *authenticators;
 @property (assign, nonatomic) BOOL useWebAsDefault;
+@property (copy, nonatomic) A0IdPAuthenticatorDefault defaultProvider;
 
 @end
 
@@ -59,6 +60,10 @@
     [authenticationProviders enumerateObjectsUsingBlock:^(id<A0AuthenticationProvider> provider, NSUInteger idx, BOOL *stop) {
         [self registerAuthenticationProvider:provider];
     }];
+}
+
+- (void)registerDefaultAuthenticationProvider:(A0IdPAuthenticatorDefault)defaultProvider {
+    self.defaultProvider = defaultProvider;
 }
 
 - (void)registerAuthenticationProvider:(A0BaseAuthenticator *)authenticationProvider {
@@ -103,6 +108,11 @@
 }
 
 - (id<A0AuthenticationProvider>)defaultProviderForConnectionName:(NSString *)connectionName {
+    if (self.defaultProvider) {
+        id<A0AuthenticationProvider> provider = self.defaultProvider(self.lock, connectionName);
+        [self registerAuthenticationProvider:provider];
+        return provider;
+    }
 #ifdef HAS_WEBVIEW_SUPPORT
     return [[A0WebViewAuthenticator alloc] initWithConnectionName:connectionName lock:self.lock];
 #else

@@ -27,6 +27,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef A0BaseAuthenticator *_Nonnull(^A0IdPAuthenticatorDefault)(A0Lock* __nonnull lock, NSString* __nonnull connectionName);
+
 /**
  *  `A0IdentityProviderAuthenticator` provides a single interface to handle all interactions with different identity providers. Each identity provider (a class that conforms with the protocol `A0AuthenticationProvider`) to be used must be registered with this object.
  *  We recommend using `A0Lock` object instead of this object directly.
@@ -57,6 +59,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param authenticationProvider object that conforms `A0AuthenticationProvider` protocol
  */
 - (void)registerAuthenticationProvider:(A0BaseAuthenticator *)authenticationProvider;
+
+/**
+ *  Register a block that will return the default authentication provider. By default it will use webview
+ *
+ *  @param defaultProvider block that returns the default authentication provider
+ */
+- (void)registerDefaultAuthenticationProvider:(A0IdPAuthenticatorDefault)defaultProvider;
 
 /**
  *  Authenticate a user with a specific connection name using a registered IdP authenticator registered for the Auth0 connection.
