@@ -226,7 +226,7 @@ extension InputField.InputType: Equatable {}
 
 public func ==(lhs: InputField.InputType, rhs: InputField.InputType) -> Bool {
     switch((lhs, rhs)) {
-    case (.username, .username), (.email, .email), (.oneTimePassword, .oneTimePassword):
+    case (.username, .username), (.email, .email), (.oneTimePassword, .oneTimePassword), (.phone, .phone):
         return true
     default:
         return false

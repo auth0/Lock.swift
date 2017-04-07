@@ -369,12 +369,16 @@ class MockOAuth2: OAuth2Authenticatable {
     }
 }
 
-class MockController: UIViewController {
+class MockViewController: UIViewController {
 
     var presented: UIViewController?
 
     override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
         self.presented = viewControllerToPresent
+    }
+
+    override var presentedViewController: UIViewController? {
+        return self.presented ?? super.presentedViewController
     }
 
     override func dismiss(animated flag: Bool, completion: (() -> Void)?) {
@@ -443,7 +447,8 @@ func mockCredentials() -> Credentials {
 class MockPasswordlessActivity: PasswordlessUserActivity {
 
     var messagePresenter: MessagePresenter?
-    var onActivity: (String, inout MessagePresenter?) -> () = { _ in }
+    var onAuth: (String) -> Void = { _ in }
+    var current: PasswordlessAuthTransaction?
     var code: String = "123456"
 
     func withMessagePresenter(_ messagePresenter: MessagePresenter?) -> Self {
@@ -451,14 +456,16 @@ class MockPasswordlessActivity: PasswordlessUserActivity {
         return self
     }
 
-    func onActivity(callback: @escaping (String, inout MessagePresenter?) -> ()) {
-        self.onActivity = callback
-    }
-
     func continueAuth(withActivity userActivity: NSUserActivity) -> Bool {
-        self.onActivity(code, &messagePresenter)
+        self.onAuth(code)
+        self.current = nil
         return true
     }
+
+    func store(_ transaction: PasswordlessAuthTransaction) {
+        self.current = transaction
+    }
+
 }
 
 class MockPasswordlessInteractor: PasswordlessAuthenticatable {
@@ -470,6 +477,7 @@ class MockPasswordlessInteractor: PasswordlessAuthenticatable {
     var validIdentifier: Bool = false
     var code: String? = nil
     var validCode: Bool = false
+    var countryCode: CountryCode? 
 
     var onLogin: () -> CredentialAuthError? = { return nil }
     var onRequest: () -> PasswordlessAuthenticatableError? = { return nil }

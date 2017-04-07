@@ -209,23 +209,43 @@ Lock
     .present(from: self)
 ```
 
+Passwordless can only be used with a single connection and will prioritize the use of email connections over sms.
+
 #### Passwordless Method
 
-When using Lock passworldess the default passwordless method is `.emailCode` which sends the user a one time passcode to login. If you want to use universal links you can use:
+When using Lock passwordless the default `passwordlessMethod` is `.code` which sends the user a one time passcode to login. If you want to use [Universal Links](https://auth0.com/docs/clients/enable-universal-links) you can add the following:
 
 ```swift
 .withOptions {
-    $0.passwordlessMethod = .emailLink
+    $0.passwordlessMethod = .magicLink
 }
 ```
 
 #### Activity callback
 
-If you are using Lock passwordless and have specified the `.emailLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
+If you are using Lock passwordless and have specified the `.magicLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
 
 ```swift
 func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
     return Lock.continueAuth(using: userActivity)
+}
+```
+
+#### Adding a Passwordless connection
+
+##### SMS
+
+```swift
+.withConnections {
+    $0.sms(name: "custom-sms")
+}
+```
+
+##### Email
+
+```swift
+.withConnections {
+    $0.email(name: "custom-email")
 }
 ```
 
@@ -311,7 +331,6 @@ Allows you to set provider scopes for oauth2/social connections with a comma sep
 ```swift
 .withOptions {
   $0.connectionScope = ["facebook": "user_friends,email"]
-```
 
 #### Database
 

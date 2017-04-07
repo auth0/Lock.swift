@@ -55,6 +55,10 @@ func passwordlessStart(email: String, connection: String) -> OHHTTPStubsTestBloc
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/passwordless/start") && hasAtLeast(["email": email, "connection": connection])
 }
 
+func passwordlessStart(phone: String, connection: String) -> OHHTTPStubsTestBlock {
+    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/passwordless/start") && hasAtLeast(["phone_number": phone, "connection": connection])
+}
+
 // MARK: - Internal Matchers
 
 extension URLRequest {
@@ -98,10 +102,6 @@ func isSignUp(_ domain: String) -> OHHTTPStubsTestBlock {
 
 func isResetPassword(_ domain: String) -> OHHTTPStubsTestBlock {
     return isMethodPOST() && isHost(domain) && isPath("/dbconnections/change_password")
-}
-
-func isPasswordless(_ domain: String) -> OHHTTPStubsTestBlock {
-    return isMethodPOST() && isHost(domain) && isPath("/passwordless/start")
 }
 
 func isTokenInfo(_ domain: String) -> OHHTTPStubsTestBlock {

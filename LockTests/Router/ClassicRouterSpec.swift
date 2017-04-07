@@ -52,6 +52,10 @@ class ClassicRouterSpec: QuickSpec {
                 router = ClassicRouter(lock: lock, controller: controller)
             }
 
+            it("should be in classic mode") {
+                expect(lock.classicMode) == true
+            }
+
             it("should return root for single database connection") {
                 _ = lock.withConnections { $0.database(name: connection, requiresUsername: true) }
                 let root = router.root as? DatabasePresenter
@@ -142,13 +146,24 @@ class ClassicRouterSpec: QuickSpec {
                 expect(router.root as? AuthPresenter).toNot(beNil())
             }
 
-            it("should not return root for passwordless connection") {
-                _ = lock.withConnections {
-                    $0.passwordless(name: "email")
-                }
-                expect(router.root as? PasswordlessPresenter).to(beNil())
-            }
+            describe("passwordless") {
 
+                it("should not return root for passwordless email connection") {
+                    _ = lock.withConnections {
+                        $0.email(name: "custom-email")
+                    }
+                    let presenter = router.root as? PasswordlessPresenter
+                    expect(presenter).to(beNil())
+                }
+
+                it("should not return root for passwordless sms connection") {
+                    _ = lock.withConnections {
+                        $0.sms(name: "custom-sms")
+                    }
+                    let presenter = router.root as? PasswordlessPresenter
+                    expect(presenter).to(beNil())
+                }
+            }
         }
 
         describe("events") {
@@ -206,10 +221,10 @@ class ClassicRouterSpec: QuickSpec {
 
             describe("exit") {
 
-                var presenting: MockController!
+                var presenting: MockViewController!
 
                 beforeEach {
-                    presenting = MockController()
+                    presenting = MockViewController()
                     presenting.presented = controller
                     controller.presenting = presenting
                 }
@@ -298,7 +313,7 @@ class ClassicRouterSpec: QuickSpec {
         describe("reload") {
 
             beforeEach {
-                let presenting = MockController()
+                let presenting = MockViewController()
                 presenting.presented = controller
                 controller.presenting = presenting
             }
@@ -367,12 +382,6 @@ class ClassicRouterSpec: QuickSpec {
             it("EnterpriseActiveAuth should should be equatable with EnterpriseActiveAuth") {
                 let enterpriseConnection = EnterpriseConnection(name: "TestAD", domains: ["test.com"])
                 let match = Route.enterpriseActiveAuth(connection: enterpriseConnection, domain: "test.com") == Route.enterpriseActiveAuth(connection: enterpriseConnection, domain: "test.com")
-                expect(match).to(beTrue())
-            }
-
-            it("PasswordlessConnection should should be equatable with PasswordlessConnection") {
-                let passwordlessConnection = PasswordlessConnection(name: "email")
-                let match = Route.passwordlessEmail(screen: .code, connection: passwordlessConnection) ==  Route.passwordlessEmail(screen: .code, connection: passwordlessConnection)
                 expect(match).to(beTrue())
             }
 

@@ -46,9 +46,11 @@ struct PasswordlessRouter: Router {
         }
 
         // Passwordless Email
-        if let connection = connections.passwordless.filter({ $0.name == "email" }).first {
-            let passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(self.controller?.messagePresenter)
-            let interactor = PasswordlessInteractor(authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
+        if let connection = connections.passwordless.filter({ $0.strategy == "email" }).first ?? connections.passwordless.filter({ $0.strategy == "sms" }).first {
+            let passwordlessActivity = PasswordlessActivity.shared
+            passwordlessActivity.dispatcher = self.lock.observerStore
+            passwordlessActivity.messagePresenter = self.controller?.messagePresenter
+            let interactor = PasswordlessInteractor(connection: connection, authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
             let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options)
             // +Social
             if !connections.oauth2.isEmpty {
@@ -56,8 +58,6 @@ struct PasswordlessRouter: Router {
                 presenter.authPresenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
             }
             return presenter
-        } else {
-            self.lock.logger.debug("Currently only Passwordless Email is supported.")
         }
         // Social Only
         if !connections.oauth2.isEmpty {
@@ -70,8 +70,10 @@ struct PasswordlessRouter: Router {
     }
 
     func passwordless(withScreen screen: PasswordlessScreen, connection: PasswordlessConnection) -> Presentable? {
-        let passwordlessActivity = PasswordlessActivity.shared.withMessagePresenter(self.controller?.messagePresenter)
-        let interactor = PasswordlessInteractor(authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
+        let passwordlessActivity = PasswordlessActivity.shared
+        passwordlessActivity.dispatcher = self.lock.observerStore
+        passwordlessActivity.messagePresenter = self.controller?.messagePresenter
+        let interactor = PasswordlessInteractor(connection: connection, authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
         let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options, screen: screen)
         return presenter
     }
@@ -99,7 +101,7 @@ struct PasswordlessRouter: Router {
             presentable = self.root
         case .unrecoverableError(let error):
             presentable = self.unrecoverableError(for: error)
-        case .passwordlessEmail(let screen, let connection):
+        case .passwordless(let screen, let connection):
             presentable = self.passwordless(withScreen: screen, connection: connection)
         default:
             self.lock.logger.warn("Ignoring navigation \(route)")

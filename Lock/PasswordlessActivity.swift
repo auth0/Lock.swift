@@ -22,34 +22,58 @@
 
 import Foundation
 
-class PasswordlessActivity: PasswordlessUserActivity {
+protocol PasswordlessUserActivity {
+    func store(_ transaction: PasswordlessAuthTransaction)
+    func continueAuth(withActivity userActivity: NSUserActivity) -> Bool
+}
+
+class PasswordlessActivity: PasswordlessUserActivity, Loggable {
 
     static let shared = PasswordlessActivity()
 
-    private(set) var onActivity: (String, inout MessagePresenter?) -> Void = { _ in }
-    private(set) var messagePresenter: MessagePresenter?
+    var messagePresenter: MessagePresenter?
+    var dispatcher: Dispatcher?
+
+    private(set) var current: PasswordlessAuthTransaction?
 
     private init() {}
 
-    func onActivity(callback: @escaping (String, inout MessagePresenter?) -> Void) {
-        self.onActivity = callback
-    }
-
-    func withMessagePresenter(_ messagePresenter: MessagePresenter?) -> Self {
-        self.messagePresenter = messagePresenter
-        return self
+    func store(_ transaction: PasswordlessAuthTransaction) {
+        self.current = transaction
     }
 
     func continueAuth(withActivity userActivity: NSUserActivity) -> Bool {
+
+        self.logger.verbose("Processing userActivity")
+
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb, let url = userActivity.webpageURL,
-            let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return false }
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+                self.logger.error("The userActivity does not contain a valid passwordless URL")
+                return false
+        }
 
-        guard let bundlerIdentifier = Bundle.main.bundleIdentifier, components.path.lowercased().contains(bundlerIdentifier.lowercased()), let items = components.queryItems else { return false }
+        guard let bundlerIdentifier = Bundle.main.bundleIdentifier, components.path.lowercased().contains(bundlerIdentifier.lowercased()), let items = components.queryItems else {
+            self.logger.error("Passwordless URL does not match our bundle identifier")
+            return false
+        }
 
-        guard let key = items.filter({ $0.name == "code" }).first, let code = key.value else { return false }
+        guard let key = items.filter({ $0.name == "code" }).first, let passcode = key.value, Int(passcode) != nil else {
+            self.logger.error("No valid passcode was found in the URL")
+            messagePresenter?.showError(PasswordlessAuthenticatableError.invalidLink)
+            self.dispatcher?.dispatch(result: .error(PasswordlessAuthenticatableError.invalidLink))
+            return false
+        }
 
-        self.onActivity(code, &messagePresenter)
-        self.onActivity = { _ in }
+        guard let passwordlessAuth = self.current else {
+            self.logger.error("No passworldess authenticator is currently stored")
+            return true
+        }
+
+        passwordlessAuth.auth(withPasscode: passcode) {
+            if let error = $0 { self.messagePresenter?.showError(error) }
+        }
+        self.current = nil
         return true
+
     }
 }

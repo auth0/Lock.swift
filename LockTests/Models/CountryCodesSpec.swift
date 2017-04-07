@@ -1,4 +1,4 @@
-// PasswordlessAuthenticatable.swift
+// CountryCodesSpec.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -20,18 +20,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
-import Auth0
+import Quick
+import Nimble
+@testable import Lock
 
-protocol PasswordlessAuthenticatable: CredentialAuthenticatable {
-    var identifier: String? { get }
-    var validIdentifier: Bool { get }
-    var code: String? { get }
-    var validCode: Bool { get }
-    var countryCode: CountryCode? { get set }
+class CountryCodesSpec: QuickSpec {
 
-    mutating func update(_ type: InputField.InputType, value: String?) throws
+    override func spec() {
 
-    func request(_ connection: String, callback: @escaping (PasswordlessAuthenticatableError?) -> Void)
-    func login(_ connection: String, callback: @escaping (CredentialAuthError?) -> Void)
+        var store: CountryCodes?
+
+        describe("countrycode") {
+
+            beforeEach {
+                store = CountryCodes()
+            }
+
+            it("should return 229 countries") {
+                expect(store?.filteredData().count) == 229
+            }
+
+            it("should filter countries to 1") {
+                store?.filter = "United Kingdom"
+                expect(store?.filteredData().count) == 1
+            }
+
+            it("should return no countries") {
+                store?.filter = "ZZZZ"
+                expect(store?.filteredData().count) == 0
+            }
+
+            it("should return entry for valid code") {
+                let countryData = store?.countryCode("US")
+                expect(countryData?.phoneCode) == "+1"
+            }
+
+            it("should return nil entry for invalid code") {
+                let countryData = store?.countryCode("ZZ")
+                expect(countryData).to(beNil())
+            }
+        }
+
+    }
+
 }

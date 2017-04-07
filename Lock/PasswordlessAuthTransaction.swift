@@ -1,6 +1,6 @@
-// LockOptions.swift
+// PasswordlessAuthTransaction.swift
 //
-// Copyright (c) 2016 Auth0 (http://auth0.com)
+// Copyright (c) 2017 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,28 +23,27 @@
 import Foundation
 import Auth0
 
-struct LockOptions: OptionBuildable {
-    var closable: Bool = false
-    var termsOfServiceURL: URL = URL(string: "https://auth0.com/terms")!
-    var privacyPolicyURL: URL = URL(string: "https://auth0.com/privacy")!
-    var logLevel: LoggerLevel = .off
-    var loggerOutput: LoggerOutput?
-    var logHttpRequest: Bool = false
-    var scope: String = "openid"
-    var connectionScope: [String: String] = [:]
-    var parameters: [String : Any] = [:]
-    var allow: DatabaseMode = [.Login, .Signup, .ResetPassword]
-    var autoClose: Bool = true
-    var initialScreen: DatabaseScreen = .login
-    var usernameStyle: DatabaseIdentifierStyle = [.Username, .Email]
-    var customSignupFields: [CustomTextField] = []
-    var loginAfterSignup: Bool = true
+protocol PasswordlessAuthTransaction: CredentialAuthenticatable, Loggable {
+    var connection: String { get }
+    var options: Options { get }
+    var identifier: String { get }
+    var authentication: Authentication { get }
+    var dispatcher: Dispatcher { get }
+}
 
-    var activeDirectoryEmailAsUsername: Bool = false
-    var enterpriseConnectionUsingActiveAuth: [String] = []
+struct PasswordlessLinkTransaction: PasswordlessAuthTransaction {
+    let connection: String
+    let options: Options
+    let identifier: String
+    let authentication: Authentication
+    let dispatcher: Dispatcher
+}
 
-    var oidcConformant: Bool = false
-    var audience: String?
+extension PasswordlessAuthTransaction {
 
-    var passwordlessMethod: PasswordlessMethod = .code
+    func auth(withPasscode passcode: String, callback: @escaping (CredentialAuthError?) -> Void) {
+        CredentialAuth(oidc: self.options.oidcConformant, realm: connection, authentication: self.authentication)
+            .request(withIdentifier: identifier, password: passcode, options: self.options)
+            .start { self.handle(identifier: self.identifier, result: $0, callback: callback) }
+    }
 }

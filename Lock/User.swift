@@ -37,12 +37,19 @@ protocol DatabaseUser {
     func validAdditionaAttribute(_ name: String, valid: Bool)
 }
 
-class User: DatabaseUser {
+protocol PasswordlessUser {
+    var email: String? { get set }
+    var validEmail: Bool { get set }
+    var countryCode: CountryCode? { get set }
+}
+
+class User: DatabaseUser, PasswordlessUser {
     var email: String?
     var username: String?
     var password: String?
     var additionalAttributes: [String : String] = [:]
     var additionalAttributesStatus: [String: Bool] = [:]
+    var countryCode: CountryCode?
 
     var validEmail: Bool = false
     var validUsername: Bool = false
@@ -55,7 +62,10 @@ class User: DatabaseUser {
 
     func reset() {
         if !self.validUsername { self.username = nil }
-        if !self.validEmail { self.email = nil }
+        if !self.validEmail {
+            self.email = nil
+            self.countryCode = nil
+        }
         self.password = nil
         self.additionalAttributesStatus = [:]
         self.additionalAttributes = [:]
