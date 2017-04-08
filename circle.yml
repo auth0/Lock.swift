@@ -9,6 +9,9 @@ machine:
     IOS_DESTINATION_VERSION: 10.0
     CLIENT_ID: RANDOM
     DOMAIN: samples.auth0.com
+dependencies:
+  pre:
+    - brew install wget
 test:
   override:
     - script/cibuild
