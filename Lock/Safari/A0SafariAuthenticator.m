@@ -95,7 +95,7 @@
 }
 
 - (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
-    BOOL shouldHandle = [url.path hasPrefix:self.session.callbackURL.path];
+    BOOL shouldHandle = [url.path hasPrefix:self.session.callbackURL.path] && self.controller != nil;
     if (shouldHandle) {
         A0LogDebug(@"Handling callback URL %@", url);
         [self.session tokenFromURL:url callback:self.onAuthentication];
