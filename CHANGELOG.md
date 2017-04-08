@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.29.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.29.1) (2017-04-08)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.29.0...1.29.1)
+
+**Fixed**
+- Only handle url if there is a current controller for Safari Web Auth [\#425](https://github.com/auth0/Lock.swift/pull/425) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.29.0](https://github.com/auth0/Lock.iOS-OSX/tree/1.29.0) (2017-04-06)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.28.2...1.29.0)
 
