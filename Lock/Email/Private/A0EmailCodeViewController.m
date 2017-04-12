@@ -96,13 +96,13 @@
     self.messageLabel = messageLabel;
     self.loginButton = loginButton;
 
-    self.title = A0LocalizedString(@"Enter Email Code");
+    self.title = A0LocalizedString(@"Enter Passcode");
     A0Theme *theme = [A0Theme sharedInstance];
     [theme configurePrimaryButton:self.loginButton];
     [theme configureLabel:self.messageLabel];
     [self.loginButton setTitle:A0LocalizedString(@"LOGIN") forState:UIControlStateNormal];
     [self.loginButton addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
-    NSString *message = [NSString stringWithFormat:A0LocalizedString(@"Please check your mail %@.\nYou’ve received a message from us with your passcode"), self.viewModel.identifier];
+    NSString *message = [NSString stringWithFormat:A0LocalizedString(@"We’ve sent your passcode to %@"), self.viewModel.identifier];
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:message];
     if (self.viewModel.hasIdentifier) {
         NSRange phoneRange = [message rangeOfString:self.viewModel.identifier];
@@ -116,7 +116,7 @@
     self.messageLabel.preferredMaxLayoutWidth = 298;
     self.messageLabel.textAlignment = NSTextAlignmentCenter;
     self.codeFieldView.type = A0CredentialFieldViewOTPCode;
-    [self.codeFieldView setFieldPlaceholderText:A0LocalizedString(@"Email Code")];
+    [self.codeFieldView setFieldPlaceholderText:A0LocalizedString(@"Enter Passcode")];
     self.codeFieldView.returnKeyType = UIReturnKeyGo;
     [self.codeFieldView.textField addTarget:self action:@selector(login:) forControlEvents:UIControlEventEditingDidEndOnExit];
 }
@@ -145,7 +145,7 @@
         A0LogError(@"Must provide a non-empty passcode.");
         [A0Alert showInController:self errorAlert:^(A0Alert *alert) {
             alert.title = A0LocalizedString(@"There was an error logging in");
-            alert.message = A0LocalizedString(@"You must enter a valid email code");
+            alert.message = A0LocalizedString(@"You must enter a valid passcode");
         }];
     }
 }
