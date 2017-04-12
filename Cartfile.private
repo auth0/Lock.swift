@@ -1,4 +1,4 @@
 github "Quick/Quick" ~> 1.1
-github "Quick/Nimble" ~> 6.0
-github "AliSoftware/OHHTTPStubs" "5.2.3-swift3"
-github "emaloney/CleanroomLogger" ~> 5.0
+github "Quick/Nimble" ~> 6.1
+github "AliSoftware/OHHTTPStubs" ~> 6.0
+github "emaloney/CleanroomLogger" ~> 5.1
