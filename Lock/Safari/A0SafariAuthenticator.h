@@ -84,6 +84,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithLock:(A0Lock *)lock useUniversalLink:(BOOL)useUniversalLink;
 
+- (void) forceLogout:(A0Lock *)lock;
+
 @end
 
 NS_ASSUME_NONNULL_END

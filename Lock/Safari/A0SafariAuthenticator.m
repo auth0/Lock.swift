@@ -104,6 +104,13 @@
     return shouldHandle;
 }
 
+- (void) forceLogout:(A0Lock *)lock {
+    NSURL * logoutURL = [NSURL URLWithString:[lock.domainURL.absoluteString stringByAppendingString:@"/v2/logout?federated"]];
+    SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:logoutURL];
+    [self.presenter presentController:controller completion:nil];
+    self.controller = controller;
+}
+
 - (NSString *)identifier {
     return self.session.connectionName;
 }
