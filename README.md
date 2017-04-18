@@ -331,12 +331,13 @@ Allows you to set provider scopes for oauth2/social connections with a comma sep
 ```swift
 .withOptions {
   $0.connectionScope = ["facebook": "user_friends,email"]
+```
 
 #### Database
 
-* **allow**: Which database screens will be accessible, the default is enable all screens e.g. `.Login, .Signup, .ResetPassword`
-* **initialScreen**: The first screen to present to the user, the default is `.login`.
-* **usernameStyle**: Specify the type of identifier the login will require.  The default is either `[.Username, .Email]`.  However it's important to note that this option is only active if you have set the **requires_username** flag to `true` in your [Auth0 Dashboard](https://manage.auth0.com/#/)
+- **allow**: Which database screens will be accessible, the default is enable all screens e.g. `.Login, .Signup, .ResetPassword`
+- **initialScreen**: The first screen to present to the user, the default is `.login`.
+- **usernameStyle**: Specify the type of identifier the login will require.  The default is either `[.Username, .Email]`.  However it's important to note that this option is only active if you have set the **requires_username** flag to `true` in your [Auth0 Dashboard](https://manage.auth0.com/#/)
 
 ```swift
 .withOptions {
