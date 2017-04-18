@@ -53,7 +53,7 @@ platform :ios do
   end
 
   lane :i18n do |options|
-    require 'set'
+    fastlane_require 'set'
 
     Entry = Struct.new(:key, :value, :comment)
 
