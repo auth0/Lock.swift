@@ -77,7 +77,7 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
             do {
                 var connections = OfflineConnections()
                 let json = try JSONSerialization.jsonObject(with: jsonp.data(using: String.Encoding.utf8)!, options: []) as? JSONObject
-                self.logger.debug("Client configuration is \(String(describing: json))")
+                self.logger.debug("Client configuration is \(json.verbatim())")
                 let info = ClientInfo(json: json)
                 if let auth0 = info.auth0 {
                     auth0.connections.forEach { connection in
