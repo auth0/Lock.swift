@@ -60,7 +60,7 @@ class PasswordlessPresenter: Presentable, Loggable {
 
         form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
-            self.logger.verbose("Input value: \(input.text) for type: \(input.type)")
+            self.logger.verbose("Input value: \(input.text.verbatim()) for type: \(input.type)")
             do {
                 try self.interactor.update(input.type, value: input.text)
                 input.showValid()
@@ -76,7 +76,7 @@ class PasswordlessPresenter: Presentable, Loggable {
             let interactor = self.interactor
             let connection = self.connection
             button.inProgress = true
-            self.logger.info("Login passwordless \(self.interactor.identifier) with passcode using connection: \(self.connection.name)")
+            self.logger.info("Login passwordless \(self.interactor.identifier.verbatim()) with passcode using connection: \(self.connection.name)")
             interactor.login(connection.name) { error in
                 Queue.main.async {
                     button.inProgress = false
@@ -122,7 +122,7 @@ class PasswordlessPresenter: Presentable, Loggable {
         }
 
         form?.onValueChange = { input in
-            self.logger.verbose("Input value: \(input.text) for type: \(input.type)")
+            self.logger.verbose("Input value: \(input.text.verbatim()) for type: \(input.type)")
             self.messagePresenter?.hideCurrent()
             do {
                 try self.interactor.update(input.type, value: input.text)
@@ -139,7 +139,7 @@ class PasswordlessPresenter: Presentable, Loggable {
             let interactor = self.interactor
             let connection = self.connection
             button.inProgress = true
-            self.logger.info("Request passwordless \(self.options.passwordlessMethod) for \(self.interactor.identifier) using connection: \(self.connection.name)")
+            self.logger.info("Request passwordless \(self.options.passwordlessMethod) for \(self.interactor.identifier.verbatim()) using connection: \(self.connection.name)")
             interactor.request(connection.name) { error in
                 Queue.main.async {
                     button.inProgress = false

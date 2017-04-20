@@ -124,7 +124,7 @@ class PasswordPolicySpec: QuickSpec {
 
 func beRuleResult(valid: Bool, forPassword password: String?) -> MatcherFunc<[RuleResult]> {
     return MatcherFunc { expression, failureMessage in
-        failureMessage.postfixMessage = "be a rule result of password <\(password)> valid <\(valid)>"
+        failureMessage.postfixMessage = "be a rule result of password <\(String(describing: password))> valid <\(valid)>"
         if let actual = try expression.evaluate() {
             return actual.reduce(true) { $0 && $1.valid } == valid
         }

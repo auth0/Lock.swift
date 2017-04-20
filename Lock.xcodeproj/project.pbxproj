@@ -39,6 +39,7 @@
 		5B568F801E4B64D2004B3D98 /* Passwordless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B568F7F1E4B64D2004B3D98 /* Passwordless.swift */; };
 		5B568F821E4B6506004B3D98 /* PasswordlessAuthenticatableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B568F811E4B6506004B3D98 /* PasswordlessAuthenticatableError.swift */; };
 		5B5F9F9F1E4B3FBE00EAB9EE /* PasswordlessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5F9F9E1E4B3FBE00EAB9EE /* PasswordlessView.swift */; };
+		5B6E02C01EA77B4E00B28579 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6E02BF1EA77B4E00B28579 /* Extensions.swift */; };
 		5B889AEE1E700FCA00C9FBAF /* CountryCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B889AED1E700FCA00C9FBAF /* CountryCodes.swift */; };
 		5B8B795B1E8BAE5E00D0C57E /* passwordless_country_codes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5B8B795A1E8BAE5E00D0C57E /* passwordless_country_codes.plist */; };
 		5B9A54441E4B275E004B5454 /* PasswordlessInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9A54431E4B275E004B5454 /* PasswordlessInteractor.swift */; };
@@ -250,6 +251,7 @@
 		5B568F811E4B6506004B3D98 /* PasswordlessAuthenticatableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessAuthenticatableError.swift; sourceTree = "<group>"; };
 		5B5F9F9E1E4B3FBE00EAB9EE /* PasswordlessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessView.swift; sourceTree = "<group>"; };
 		5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainInteractorSpec.swift; sourceTree = "<group>"; };
+		5B6E02BF1EA77B4E00B28579 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5B889AED1E700FCA00C9FBAF /* CountryCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCodes.swift; sourceTree = "<group>"; };
 		5B8B795A1E8BAE5E00D0C57E /* passwordless_country_codes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = passwordless_country_codes.plist; sourceTree = "<group>"; };
 		5B9A54431E4B275E004B5454 /* PasswordlessInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessInteractor.swift; sourceTree = "<group>"; };
@@ -609,6 +611,7 @@
 			isa = PBXGroup;
 			children = (
 				5F99AA871D1B0E2500D27842 /* Layout.swift */,
+				5B6E02BF1EA77B4E00B28579 /* Extensions.swift */,
 				5FDB41CD1D2C79FD00166B67 /* Operations.swift */,
 				5F99AA851D1B0BF100D27842 /* Resources.swift */,
 				5FBE5CC31D3E67320038536D /* Validators.swift */,
@@ -1138,6 +1141,7 @@
 				5F1C498E1D8360AA005B74FC /* Style.swift in Sources */,
 				5B011CDE1E13E16500543F12 /* NotificationStatus.swift in Sources */,
 				5F73CDDA1D30957900D8D8D1 /* DatabasePasswordInteractor.swift in Sources */,
+				5B6E02C01EA77B4E00B28579 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

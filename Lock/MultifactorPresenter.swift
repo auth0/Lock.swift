@@ -55,7 +55,7 @@ class MultifactorPresenter: Presentable, Loggable {
         }
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.debug("resuming with mutifactor code \(self.interactor.code)")
+            self.logger.debug("resuming with mutifactor code: \(self.interactor.code.verbatim())")
             let interactor = self.interactor
             button.inProgress = true
             interactor.login { error in
