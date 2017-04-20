@@ -33,6 +33,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var secondaryStrut: UIView?
     weak var ssoBar: InfoBarView?
     weak var spacer: UIView?
+    private var style: Style?
 
     // FIXME: Remove this from the view since it should not even know it exists
     var navigator: Navigable?
@@ -107,7 +108,6 @@ class DatabaseOnlyView: UIView, DatabaseView {
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(self.allowedModes.contains(.ResetPassword))
         self.form = form
-
     }
 
     func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil) {
@@ -226,7 +226,6 @@ class DatabaseOnlyView: UIView, DatabaseView {
             let label = UILabel()
             label.text = "or".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
             label.font = mediumSystemFont(size: 13.75)
-            label.textColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54 )
             label.textAlignment = .center
             self.container?.insertArrangedSubview(social, at: socialIndex)
             self.container?.insertArrangedSubview(label, at: separatorIndex)
@@ -236,11 +235,12 @@ class DatabaseOnlyView: UIView, DatabaseView {
         } else {
             self.container?.insertArrangedSubview(view, at: formOnlyIndex)
         }
+        if let style = self.style { self.apply(style: style) }
     }
 
-    // MARK: - Styling
-
     func apply(style: Style) {
-        primaryButton?.apply(style: style)
+        if self.style == nil { self.style = style }
+        self.separator?.textColor = style.socialSeperatorTextColor
+        self.applyStyle(style: style)
     }
 }

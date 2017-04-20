@@ -1,6 +1,6 @@
-// Extensions.swift
+// LockSnapshot.swift
 //
-// Copyright (c) 2016 Auth0 (http://auth0.com)
+// Copyright (c) 2017 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import XCTest
 
-extension Optional {
+class LockSnapshot: XCTestCase {
 
-    func verbatim() -> String {
-        switch self {
-        case .some(let value):
-            return String(describing: value)
-        case _:
-            return "<no value>"
-        }
+    let app = XCUIApplication()
+
+    override func setUp() {
+        super.setUp()
+        setupSnapshot(app)
+        app.launch()
     }
-}
 
-extension UIView {
-
-    func applyStyle(style: Style) {
-        self.subviews.forEach { view in
-            if let view = view as? Stylable {
-                view.apply(style: style)
-            }
-            view.applyStyle(style: style)
-        }
+    override func tearDown() {
+        super.tearDown()
     }
+
+    func testClassic() {
+        app.buttons["LOGIN WITH CDN CLASSIC"].tap()
+        snapshot("1A-Lock-Classic-Database-Social-Login")
+    }
+
+    func testClassicCustom() {
+        app.buttons["LOGIN WITH CUSTOM STYLE"].tap()
+        snapshot("1B-Lock-Classic-Database-Social-Login-Custom")
+    }
+
 }

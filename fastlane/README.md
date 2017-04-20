@@ -60,6 +60,11 @@ Runs all the tests in a CI environment
 fastlane ios i18n
 ```
 
+### ios screenshots
+```
+fastlane ios screenshots
+```
+UI Screenshots
 ### ios release
 ```
 fastlane ios release

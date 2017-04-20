@@ -70,6 +70,12 @@ public struct Style {
         /// OAuth2 custom connection styles by mapping a connection name with an `AuthStyle`
     public var oauth2: [String: AuthStyle] = [:]
 
+        /// Social seperator label
+    public var socialSeperatorTextColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54 )
+
+        /// Input field text color
+    public var inputTextColor = UIColor.red
+
     var headerMask: UIImage? {
         let image = self.logo.image(compatibleWithTraits: nil)
         if Style.Auth0.logo == self.logo {

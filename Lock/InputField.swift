@@ -335,3 +335,10 @@ class InputField: UIView, UITextFieldDelegate {
         }
     }
 }
+
+extension InputField: Stylable {
+
+    func apply(style: Style) {
+        self.textField?.textColor = style.inputTextColor
+    }
+}

@@ -88,8 +88,11 @@ class ViewController: UIViewController {
                         $0.headerBlur = .extraLight
                         $0.logo = LazyImage(name: "icn_phantom")
                         $0.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
+                        $0.socialSeperatorTextColor = UIColor.red
                     }
                     .withConnections { connections in
+                        connections.social(name: "facebook", style: .Facebook)
+                        connections.social(name: "google-oauth2", style: .Google)
                         connections.database(name: "Username-Password-Authentication", requiresUsername: true)
                 }
             },
