@@ -37,13 +37,41 @@ class LockSnapshot: XCTestCase {
     }
 
     func testClassic() {
+        
+        let app = XCUIApplication()
+
         app.buttons["LOGIN WITH CDN CLASSIC"].tap()
         snapshot("1A-Lock-Classic-Database-Social-Login")
+
+        app.textFields["Email"].tap()
+        app.textFields["Email"].typeText("foo")
+        snapshot("2A-Lock-Classic-Database-Social-Login-Input-Error")
+
+        app.scrollViews.otherElements.buttons["Sign Up"].tap()
+        snapshot("3A-Lock-Classic-Database-Social-Signup")
+
+        app.textFields["Email"].tap()
+        app.textFields["Email"].typeText("foo")
+        snapshot("4A-Lock-Classic-Database-Social-Signup-Input-Error")
     }
 
     func testClassicCustom() {
+
+        let app = XCUIApplication()
+
         app.buttons["LOGIN WITH CUSTOM STYLE"].tap()
-        snapshot("1B-Lock-Classic-Database-Social-Login-Custom")
+        snapshot("1B-Lock-Classic-Custom-Database-Social-Login")
+
+        app.textFields["Email"].tap()
+        app.textFields["Email"].typeText("foo")
+        snapshot("2B-Lock-Classic-Custom-Database-Social-Login-Input-Error")
+
+        app.scrollViews.otherElements.buttons["Sign Up"].tap()
+        snapshot("3B-Lock-Classic-Custom-Database-Social-Signup")
+
+        app.textFields["Email"].tap()
+        app.textFields["Email"].typeText("foo")
+        snapshot("4B-Lock-Classic-Custom-Database-Social-Signup-Input-Error")
     }
 
 }

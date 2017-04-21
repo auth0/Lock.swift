@@ -82,19 +82,28 @@ class ViewController: UIViewController {
                     .classic()
                     .withOptions {
                         applyDefaultOptions(&$0)
+                        $0.customSignupFields = [
+                            CustomTextField(name: "first_name", placeholder: "First Name"),
+                            CustomTextField(name: "last_name", placeholder: "Last Name")
+                        ]
                     }
                     .withStyle {
+                        // Header
                         $0.title = "Phantom Inc."
                         $0.headerBlur = .extraLight
                         $0.logo = LazyImage(name: "icn_phantom")
                         $0.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
-                        $0.socialSeperatorTextColor = UIColor.red
+                        // Social
+                        $0.socialSeperatorTextColor = UIColor(red: 0.192, green: 0.200, blue: 0.302, alpha: 1.00)
+                        // Input Field
+                        $0.inputTextColor = UIColor(red: 0.192, green: 0.200, blue: 0.302, alpha: 1.00)
+                        $0.inputPlaceholderTextColor = UIColor(red: 0.659, green: 0.553, blue: 0.722, alpha: 1.00)
+                        $0.inputBorderColor = UIColor(red: 0.192, green: 0.200, blue: 0.302, alpha: 1.00)
+                        $0.inputBorderColorError = UIColor(red: 0.545, green: 0.016, blue: 0.000, alpha: 1.00)
+                        $0.inputIconBackgroundColor = UIColor(red: 0.192, green: 0.200, blue: 0.302, alpha: 1.00)
+                        $0.inputBackgroundColor = UIColor(red: 0.980, green: 0.980, blue: 0.980, alpha: 1.00)
+                        $0.inputIconColor = UIColor.white
                     }
-                    .withConnections { connections in
-                        connections.social(name: "facebook", style: .Facebook)
-                        connections.social(name: "google-oauth2", style: .Google)
-                        connections.database(name: "Username-Password-Authentication", requiresUsername: true)
-                }
             },
             actionButton(withTitle: "LOGIN WITH DB") {
                 return Lock
@@ -132,7 +141,7 @@ class ViewController: UIViewController {
                     .withConnections { connections in
                         connections.social(name: "facebook", style: .Facebook)
                         connections.social(name: "google-oauth2", style: .Google)
-                        connections.database(name: "Username-Password-Authentication", requiresUsername: true)
+                        connections.database(name: "Username-Password-Authentication", requiresUsername: false)
                 }
             },
             actionButton(withTitle: "LOGIN WITH SOCIAL") {

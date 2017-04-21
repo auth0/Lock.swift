@@ -37,10 +37,10 @@ public struct Style {
     public var backgroundColor = UIColor.white
 
         /// Lock disabled component color
-    public var disabledColor = UIColor ( red: 0.8902, green: 0.898, blue: 0.9059, alpha: 1.0 )
+    public var disabledColor = UIColor(red: 0.8902, green: 0.898, blue: 0.9059, alpha: 1.0 )
 
         /// Lock disabled component text color
-    public var disabledTextColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
+    public var disabledTextColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
 
         /// Primary button tint color
     public var buttonTintColor = UIColor.white
@@ -71,10 +71,28 @@ public struct Style {
     public var oauth2: [String: AuthStyle] = [:]
 
         /// Social seperator label
-    public var socialSeperatorTextColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54 )
+    public var socialSeperatorTextColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54)
 
         /// Input field text color
-    public var inputTextColor = UIColor.red
+    public var inputTextColor = UIColor.black
+
+        /// Input field placeholder text color
+    public var inputPlaceholderTextColor = UIColor(red: 0.780, green: 0.780, blue: 0.804, alpha: 1.00)
+
+        /// Input field border color default
+    public var inputBorderColor = UIColor(red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0)
+
+        /// Input field border color invalid
+    public var inputBorderColorError = UIColor.red
+
+        /// Input field background color
+    public var inputBackgroundColor = UIColor.white
+
+        /// Input field icon background color
+    public var inputIconBackgroundColor = UIColor(red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0)
+
+        /// Input field icon color
+    public var inputIconColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
 
     var headerMask: UIImage? {
         let image = self.logo.image(compatibleWithTraits: nil)

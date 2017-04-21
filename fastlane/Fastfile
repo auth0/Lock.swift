@@ -85,11 +85,6 @@ platform :ios do
     ENV["FASTLANE_HIDE_TIMESTAMP"] = "false"
   end
 
-  desc "UI Screenshots"
-  lane :screenshots do
-    snapshot
-  end
-
   desc "Releases the library to Cocoapods & Github Releases and updates README/CHANGELOG"
   desc "You need to specify the type of release with the `bump` parameter with the values [major|minor|patch]"
   lane :release do |options|

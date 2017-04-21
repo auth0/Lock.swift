@@ -26,13 +26,13 @@ public struct CustomTextField {
 
     let name: String
     let placeholder: String
-    let icon: LazyImage
+    let icon: LazyImage?
     let keyboardType: UIKeyboardType
     let autocorrectionType: UITextAutocorrectionType
     let secure: Bool
     let validation: (String?) -> Error?
 
-    public init(name: String, placeholder: String, icon: LazyImage, keyboardType: UIKeyboardType = .default, autocorrectionType: UITextAutocorrectionType = .default, secure: Bool = false, validation: @escaping (String?) -> Error? = nonEmpty) {
+    public init(name: String, placeholder: String, icon: LazyImage? = nil, keyboardType: UIKeyboardType = .default, autocorrectionType: UITextAutocorrectionType = .default, secure: Bool = false, validation: @escaping (String?) -> Error? = nonEmpty) {
         self.name = name
         self.placeholder = placeholder
         self.icon = icon
