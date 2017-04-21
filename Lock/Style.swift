@@ -51,6 +51,12 @@ public struct Style {
         /// Blur effect style used. It can be any value defined in `UIBlurEffectStyle`
     public var headerBlur: UIBlurEffectStyle = .light
 
+        /// Header close button image
+    public var headerCloseIcon: LazyImage = lazyImage(named: "ic_close")
+
+        /// Header back button image
+    public var headerBackIcon: LazyImage = lazyImage(named: "ic_back")
+
         /// Header title color
     public var titleColor = UIColor.black
 

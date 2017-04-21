@@ -92,6 +92,8 @@ class ViewController: UIViewController {
                         $0.title = "Phantom Inc."
                         $0.headerBlur = .extraLight
                         $0.logo = LazyImage(name: "icn_phantom")
+                        $0.headerCloseIcon = LazyImage(name: "icn_phantom_exit")
+                        $0.headerBackIcon = LazyImage(name: "icn_phantom_back")
                         $0.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
                         // Social
                         $0.socialSeperatorTextColor = UIColor(red: 0.192, green: 0.200, blue: 0.302, alpha: 1.00)
