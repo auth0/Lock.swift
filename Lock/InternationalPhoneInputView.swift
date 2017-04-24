@@ -31,6 +31,7 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
     var stackView: UIStackView
     var countryStore: CountryCodes
     var onPresent: (UIViewController) -> Void = { _ in }
+    var style: Style?
 
     private var iconContainer: UIView?
     private var iconView: UIImageView?
@@ -200,10 +201,13 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
             self.updateCountry($0)
         }
         let navigationController = UINavigationController(rootViewController: countryTableView)
+        navigationController.modalPresentationStyle = .overFullScreen
         self.onPresent(navigationController)
+        if let style = self.style { countryTableView.apply(style: style) }
     }
 
     func apply(style: Style) {
+        self.style = style
         self.countryLabel.textColor = style.inputPlaceholderTextColor
         self.codeLabel.textColor = style.inputPlaceholderTextColor
         self.iconContainer?.backgroundColor = style.inputIconBackgroundColor

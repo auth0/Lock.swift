@@ -106,6 +106,9 @@ class LockSnapshot: XCTestCase {
 
         app.buttons["LOGIN WITH CDN PASSWORDLESS"].tap()
         snapshot("B1-Lock-Passwordless")
+
+        app.scrollViews.otherElements.staticTexts["United States"].tap()
+        snapshot("B2-Lock-Passwordless-Country")
     }
 
     func testPasswordlessCustom() {
@@ -114,6 +117,9 @@ class LockSnapshot: XCTestCase {
 
         app.buttons["LOGIN WITH CDN PASSWORDLESS CUSTOM STYLE"].tap()
         snapshot("B1C-Lock-Passwordless-Custom")
+
+        app.scrollViews.otherElements.staticTexts["United States"].tap()
+        snapshot("B2C-Lock-Passwordless-Country")
     }
 
 }

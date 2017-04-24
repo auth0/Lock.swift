@@ -220,6 +220,9 @@ func applyPhantomStyle(_ style: inout Style) {
     style.backgroundColor = lightPurple
     style.textColor = darkPurple
 
+    // Primary Button
+    style.buttonTintColor = UIColor.black
+
     // Header
     style.title = "Phantom Inc."
     style.headerBlur = .extraLight
@@ -227,8 +230,8 @@ func applyPhantomStyle(_ style: inout Style) {
     style.headerCloseIcon = LazyImage(name: "icn_phantom_exit")
     style.headerBackIcon = LazyImage(name: "icn_phantom_back")
     style.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
-    // Social
 
+    // Social
     style.seperatorTextColor = darkPurple
 
     // Input Field
@@ -249,6 +252,9 @@ func applyPhantomStyle(_ style: inout Style) {
 
     // Status Bar
     style.statusBarHidden = true
+
+    // Table View
+    style.searchBarStyle = .minimal
 }
 
 class CleanroomLockLogger: LoggerOutput {

@@ -22,13 +22,16 @@
 
 import UIKit
 
-class CountryTableViewController: UITableViewController {
+class CountryTableViewController: UITableViewController, Stylable {
 
     var dataStore: CountryCodes
     let cellReuseIdentifier = "CountryCodeCell"
     var search: UISearchController
 
     var onDidSelect: (CountryCode) -> Void = { _ in }
+
+    private var cellTextColor: UIColor = Style.Auth0.inputTextColor
+    private var cellBackgroundColor: UIColor = Style.Auth0.backgroundColor
 
     init(withData dataStore: CountryCodes, onSelect: @escaping (CountryCode) -> Void) {
         self.dataStore = dataStore
@@ -67,6 +70,9 @@ class CountryTableViewController: UITableViewController {
         let cellData = dataStore.filteredData()[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) ??
             UITableViewCell(style: .value1, reuseIdentifier: cellReuseIdentifier)
+        cell.backgroundColor = self.cellBackgroundColor
+        cell.textLabel?.textColor = self.cellTextColor
+        cell.detailTextLabel?.textColor = self.cellTextColor.withAlphaComponent(0.50)
         cell.textLabel?.text = String(format: "%1$@".i18n(key: "com.auth0.passwordless.sms.country.cell.label", comment: "CountryCodes TableViewCell label %@{localizedName}"),
                                       cellData.localizedName)
         cell.detailTextLabel?.text = String(format: "%1$@".i18n(key: "com.auth0.passwordless.sms.country.cell.detail", comment: "CountryCodes TableViewCell detail %@{phoneCode}"),
@@ -79,6 +85,16 @@ class CountryTableViewController: UITableViewController {
         self.onDidSelect(cellData)
         self.search.dismiss(animated: false)
         self.dismiss(animated: true)
+    }
+
+    func apply(style: Style) {
+        self.navigationController!.navigationBar.barTintColor = style.headerColor
+        self.navigationController!.navigationBar.tintColor = style.titleColor
+        self.search.searchBar.searchBarStyle = style.searchBarStyle
+        self.tableView.separatorColor = style.inputBorderColor
+        self.cellTextColor = style.inputTextColor
+        self.tableView.backgroundColor = style.backgroundColor
+        self.cellBackgroundColor = style.backgroundColor
     }
 }
 

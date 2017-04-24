@@ -235,11 +235,14 @@ class DatabaseOnlyView: UIView, DatabaseView {
         } else {
             self.container?.insertArrangedSubview(view, at: formOnlyIndex)
         }
-        if let style = self.style { self.apply(style: style) }
+        if let style = self.style {
+            self.separator?.textColor = style.seperatorTextColor
+            self.container?.styleSubViews(style: style)
+        }
     }
 
     func apply(style: Style) {
-        if self.style == nil { self.style = style }
+        self.style = style
         self.separator?.textColor = style.seperatorTextColor
         self.styleSubViews(style: style)
     }

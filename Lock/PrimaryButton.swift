@@ -22,10 +22,12 @@
 
 import UIKit
 
-class PrimaryButton: UIView {
+class PrimaryButton: UIView, Stylable {
 
     weak var button: UIButton?
     weak var indicator: UIActivityIndicatorView?
+
+    private weak var textColor: UIColor?
 
     var hideTitle: Bool = false {
         didSet {
@@ -118,14 +120,14 @@ class PrimaryButton: UIView {
         attributedText.append(NSAttributedString(
             string: "\(title)  ",
             attributes: [
-                NSForegroundColorAttributeName: UIColor.white,
+                NSForegroundColorAttributeName: self.textColor ?? Style.Auth0.buttonTintColor,
                 NSFontAttributeName: font
             ]
         ))
         attributedText.append(NSAttributedString(attachment: attachment))
         button.setAttributedTitle(attributedText, for: .normal)
         button.setAttributedTitle(NSAttributedString(), for: .disabled)
-}
+    }
 
     override var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 95)
@@ -134,14 +136,12 @@ class PrimaryButton: UIView {
     func pressed(_ sender: Any) {
         self.onPress(self)
     }
-}
-
-extension PrimaryButton: Stylable {
 
     func apply(style: Style) {
         self.button?.setBackgroundImage(image(withColor: style.primaryColor), for: UIControlState())
         self.button?.setBackgroundImage(image(withColor: style.primaryColor.a0_darker(0.20)), for: .highlighted)
         self.button?.setBackgroundImage(image(withColor: style.disabledColor), for: .disabled)
+        self.textColor = style.buttonTintColor
         self.button?.tintColor = style.buttonTintColor
         self.indicator?.color = style.disabledTextColor
         self.hideTitle = style.hideButtonTitle

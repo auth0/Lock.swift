@@ -66,6 +66,11 @@ public class LockViewController: UIViewController {
         root.backgroundColor = style.backgroundColor
         self.view = root
 
+        if let backgroundImage = style.backgroundImage?.image(compatibleWithTraits: self.traitCollection) {
+            let bgImageView = UIImageView(image: backgroundImage)
+            self.view.addSubview(bgImageView)
+        }
+
         let scrollView = UIScrollView()
         scrollView.bounces = false
         scrollView.keyboardDismissMode = .interactive
