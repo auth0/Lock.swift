@@ -166,6 +166,8 @@
 "com.auth0.lock.strategy.localized.miicard" = "MIICARD";
 // Paypal
 "com.auth0.lock.strategy.localized.paypal" = "PAYPAL";
+// PaypalSandbox
+"com.auth0.lock.strategy.localized.paypal_sandbox" = "PAYPAL (SANDBOX)";
 // PlanningCenter
 "com.auth0.lock.strategy.localized.planning_center" = "PLANNING CENTER";
 // RenRen
