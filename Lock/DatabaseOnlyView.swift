@@ -240,7 +240,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
     func apply(style: Style) {
         if self.style == nil { self.style = style }
-        self.separator?.textColor = style.socialSeperatorTextColor
-        self.applyStyle(style: style)
+        self.separator?.textColor = style.seperatorTextColor
+        self.styleSubViews(style: style)
     }
 }

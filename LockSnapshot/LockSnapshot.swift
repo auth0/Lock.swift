@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import XCTest
+@testable import Lock
 
 class LockSnapshot: XCTestCase {
 
@@ -41,37 +42,78 @@ class LockSnapshot: XCTestCase {
         let app = XCUIApplication()
 
         app.buttons["LOGIN WITH CDN CLASSIC"].tap()
-        snapshot("1A-Lock-Classic-Database-Social-Login")
+        snapshot("A1-Lock-Classic-Database-Social-Login")
 
         app.textFields["Email"].tap()
         app.textFields["Email"].typeText("foo")
-        snapshot("2A-Lock-Classic-Database-Social-Login-Input-Error")
+        snapshot("A2-Lock-Classic-Database-Social-Login-Input-Error")
 
         app.scrollViews.otherElements.buttons["Sign Up"].tap()
-        snapshot("3A-Lock-Classic-Database-Social-Signup")
+        snapshot("A3-Lock-Classic-Database-Social-Signup")
 
         app.textFields["Email"].tap()
         app.textFields["Email"].typeText("foo")
-        snapshot("4A-Lock-Classic-Database-Social-Signup-Input-Error")
+        snapshot("A4-Lock-Classic-Database-Social-Signup-Input-Error")
+
+        app.scrollViews.otherElements.buttons["Log In"].tap()
+        app.scrollViews.otherElements.buttons["Don’t remember your password?"].tap()
+        snapshot("A5-Lock-Classic-Database-Social-Forgot-Password")
+
+        app.scrollViews.otherElements.containing(.staticText, identifier:"Reset Password").children(matching: .button).element(boundBy: 0).tap()
+        app.textFields["Email"].tap()
+        app.textFields["Email"].typeText("foo@bar.com")
+        snapshot("A6-Lock-Classic-Database-Social-Enterprise")
+
+        app.scrollViews.otherElements.buttons["LOG IN  ￼"].tap()
+        snapshot("A7-Lock-Classic-Database-Social-Enterprise-ActiveAuth")
+
     }
 
     func testClassicCustom() {
 
         let app = XCUIApplication()
 
-        app.buttons["LOGIN WITH CUSTOM STYLE"].tap()
-        snapshot("1B-Lock-Classic-Custom-Database-Social-Login")
+        app.buttons["LOGIN WITH CDN CUSTOM STYLE"].tap()
+        snapshot("A1B-Lock-Classic-Custom-Database-Social-Login")
 
         app.textFields["Email"].tap()
         app.textFields["Email"].typeText("foo")
-        snapshot("2B-Lock-Classic-Custom-Database-Social-Login-Input-Error")
+        snapshot("A2B-Lock-Classic-Custom-Database-Social-Login-Input-Error")
 
         app.scrollViews.otherElements.buttons["Sign Up"].tap()
-        snapshot("3B-Lock-Classic-Custom-Database-Social-Signup")
+        snapshot("A3B-Lock-Classic-Custom-Database-Social-Signup")
 
         app.textFields["Email"].tap()
         app.textFields["Email"].typeText("foo")
-        snapshot("4B-Lock-Classic-Custom-Database-Social-Signup-Input-Error")
+        snapshot("A4B-Lock-Classic-Custom-Database-Social-Signup-Input-Error")
+
+        app.scrollViews.otherElements.buttons["Log In"].tap()
+        app.scrollViews.otherElements.buttons["Don’t remember your password?"].tap()
+        snapshot("A5B-Lock-Classic-Custom-Database-Social-Forgot-Password")
+
+        app.scrollViews.otherElements.containing(.staticText, identifier:"Reset Password").children(matching: .button).element(boundBy: 0).tap()
+        app.textFields["Email"].tap()
+        app.textFields["Email"].typeText("foo@bar.com")
+        snapshot("A6B-Lock-Classic-Custom-Database-Social-Enterprise")
+
+        app.scrollViews.otherElements.buttons["LOG IN  ￼"].tap()
+        snapshot("A7B-Lock-Classic-Custom-Database-Social-Enterprise-ActiveAuth")
+    }
+
+    func testPasswordless() {
+
+        let app = XCUIApplication()
+
+        app.buttons["LOGIN WITH CDN PASSWORDLESS"].tap()
+        snapshot("B1-Lock-Passwordless")
+    }
+
+    func testPasswordlessCustom() {
+
+        let app = XCUIApplication()
+
+        app.buttons["LOGIN WITH CDN PASSWORDLESS CUSTOM STYLE"].tap()
+        snapshot("B1C-Lock-Passwordless-Custom")
     }
 
 }

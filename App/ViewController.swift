@@ -54,6 +54,7 @@ class ViewController: UIViewController {
                             CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
                             CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
                         ]
+                        $0.enterpriseConnectionUsingActiveAuth = ["testAD"]
                     }
                     .withStyle {
                         $0.oauth2["slack"] = AuthStyle(
@@ -69,15 +70,8 @@ class ViewController: UIViewController {
                     .withOptions {
                         applyDefaultOptions(&$0)
                     }
-                    .withStyle {
-                        $0.oauth2["slack"] = AuthStyle(
-                            name: "Slack",
-                            color: UIColor ( red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0 ),
-                            withImage: LazyImage(name: "ic_slack")
-                        )
-                }
             },
-            actionButton(withTitle: "LOGIN WITH CUSTOM STYLE") {
+            actionButton(withTitle: "LOGIN WITH CDN CUSTOM STYLE") {
                 return Lock
                     .classic()
                     .withOptions {
@@ -86,30 +80,25 @@ class ViewController: UIViewController {
                             CustomTextField(name: "first_name", placeholder: "First Name"),
                             CustomTextField(name: "last_name", placeholder: "Last Name")
                         ]
+                        $0.enterpriseConnectionUsingActiveAuth = ["testAD"]
                     }
                     .withStyle {
-                        // Header
-                        $0.title = "Phantom Inc."
-                        $0.headerBlur = .extraLight
-                        $0.logo = LazyImage(name: "icn_phantom")
-                        $0.headerCloseIcon = LazyImage(name: "icn_phantom_exit")
-                        $0.headerBackIcon = LazyImage(name: "icn_phantom_back")
-                        $0.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
-                        // Social
-                        $0.socialSeperatorTextColor = UIColor(red: 0.192, green: 0.200, blue: 0.302, alpha: 1.00)
-                        // Input Field
-                        $0.inputTextColor = UIColor(red: 0.192, green: 0.200, blue: 0.302, alpha: 1.00)
-                        $0.inputPlaceholderTextColor = UIColor(red: 0.659, green: 0.553, blue: 0.722, alpha: 1.00)
-                        $0.inputBorderColor = UIColor(red: 0.192, green: 0.200, blue: 0.302, alpha: 1.00)
-                        $0.inputBorderColorError = UIColor(red: 0.545, green: 0.016, blue: 0.000, alpha: 1.00)
-                        $0.inputIconBackgroundColor = UIColor(red: 0.192, green: 0.200, blue: 0.302, alpha: 1.00)
-                        $0.inputBackgroundColor = UIColor(red: 0.980, green: 0.980, blue: 0.980, alpha: 1.00)
-                        $0.inputIconColor = UIColor.white
+                        applyPhantomStyle(&$0)
+                    }
+            },
+            actionButton(withTitle: "LOGIN WITH CDN PASSWORDLESS CUSTOM STYLE") {
+                return Lock
+                    .passwordless()
+                    .withOptions {
+                        applyDefaultOptions(&$0)
+                    }
+                    .withStyle {
+                        applyPhantomStyle(&$0)
                     }
             },
             actionButton(withTitle: "LOGIN WITH DB") {
                 return Lock
-                    .classic()
+                    .passwordless()
                     .withOptions {
                         applyDefaultOptions(&$0)
                         $0.customSignupFields = [
@@ -162,8 +151,7 @@ class ViewController: UIViewController {
                         connections.social(name: "dropbox", style: .Dropbox)
                         connections.social(name: "bitbucket", style: .Bitbucket)
                 }
-            },
-
+            }
             ]
 
         let stack = UIStackView(arrangedSubviews: actions.map { wrap($0) })
@@ -221,6 +209,46 @@ func applyDefaultOptions(_ options: inout OptionBuildable) {
     options.logLevel = .all
     options.loggerOutput = CleanroomLockLogger()
     options.logHttpRequest = true
+}
+
+func applyPhantomStyle(_ style: inout Style) {
+    let lightPurple = UIColor(red: 0.949, green: 0.910, blue: 0.973, alpha: 1.00)
+    let mediumPurple = UIColor(red: 0.659, green: 0.553, blue: 0.722, alpha: 1.00)
+    let darkPurple = UIColor(red: 0.192, green: 0.200, blue: 0.302, alpha: 1.00)
+
+    // Lock
+    style.backgroundColor = lightPurple
+    style.textColor = darkPurple
+
+    // Header
+    style.title = "Phantom Inc."
+    style.headerBlur = .extraLight
+    style.logo = LazyImage(name: "icn_phantom")
+    style.headerCloseIcon = LazyImage(name: "icn_phantom_exit")
+    style.headerBackIcon = LazyImage(name: "icn_phantom_back")
+    style.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
+    // Social
+
+    style.seperatorTextColor = darkPurple
+
+    // Input Field
+    style.inputTextColor = darkPurple
+    style.inputPlaceholderTextColor = mediumPurple
+    style.inputBorderColor = darkPurple
+    style.inputBorderColorError = UIColor(red: 0.545, green: 0.016, blue: 0.000, alpha: 1.00)
+    style.inputIconBackgroundColor = darkPurple
+    style.inputBackgroundColor = UIColor(red: 0.980, green: 0.980, blue: 0.980, alpha: 1.00)
+    style.inputIconColor = UIColor.white
+
+    // Secondary Button
+    style.secondaryButtonColor = darkPurple
+
+    // Database Tabs
+    style.tabTintColor = darkPurple
+    style.tabTextColor = mediumPurple
+
+    // Status Bar
+    style.statusBarHidden = true
 }
 
 class CleanroomLockLogger: LoggerOutput {

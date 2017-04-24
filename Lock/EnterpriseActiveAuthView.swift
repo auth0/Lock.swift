@@ -96,7 +96,7 @@ class EnterpriseActiveAuthView: UIView, View {
     }
 
     func apply(style: Style) {
-        self.primaryButton?.apply(style: style)
+        self.styleSubViews(style: style)
     }
 
 }

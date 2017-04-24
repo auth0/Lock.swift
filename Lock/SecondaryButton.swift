@@ -71,7 +71,7 @@ class SecondaryButton: UIView {
         constraintEqual(anchor: button.centerYAnchor, toAnchor: self.centerYAnchor)
         button.translatesAutoresizingMaskIntoConstraints = false
 
-        button.tintColor = .black
+        button.tintColor = Style.Auth0.secondaryButtonColor
         button.titleLabel?.font = regularSystemFont(size: 15)
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
@@ -86,5 +86,12 @@ class SecondaryButton: UIView {
 
     func pressed(_ sender: Any) {
         self.onPress(self)
+    }
+}
+
+extension SecondaryButton: Stylable {
+
+    func apply(style: Style) {
+        self.button?.tintColor = style.secondaryButtonColor
     }
 }

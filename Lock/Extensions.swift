@@ -36,12 +36,12 @@ extension Optional {
 
 extension UIView {
 
-    func applyStyle(style: Style) {
+    func styleSubViews(style: Style) {
         self.subviews.forEach { view in
             if let view = view as? Stylable {
                 view.apply(style: style)
             }
-            view.applyStyle(style: style)
+            view.styleSubViews(style: style)
         }
     }
 }

@@ -67,6 +67,9 @@ public struct Style {
         }
     }
 
+        /// Default main text color
+    public var textColor = UIColor.black
+
         /// Hide primary bytton title (show only icon). By default is false
     public var hideButtonTitle = false
 
@@ -77,7 +80,7 @@ public struct Style {
     public var oauth2: [String: AuthStyle] = [:]
 
         /// Social seperator label
-    public var socialSeperatorTextColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54)
+    public var seperatorTextColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54)
 
         /// Input field text color
     public var inputTextColor = UIColor.black
@@ -99,6 +102,24 @@ public struct Style {
 
         /// Input field icon color
     public var inputIconColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
+
+        /// Secondary button color
+    public var secondaryButtonColor = UIColor.black
+
+        /// Database login Tab Text Color
+    public var tabTextColor = UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
+
+        /// Database login Tab Tint Color
+    public var tabTintColor = UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
+
+        /// Lock Controller Status bar update animation
+    public var statusBarUpdateAnimation: UIStatusBarAnimation = .none
+
+        /// Lock Controller Status bar hidden
+    public var statusBarHidden = false
+
+        /// Lock Controller Status bar style
+    public var statusBarStyle: UIStatusBarStyle = .default
 
     var headerMask: UIImage? {
         let image = self.logo.image(compatibleWithTraits: nil)
