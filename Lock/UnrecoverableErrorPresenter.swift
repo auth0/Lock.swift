@@ -46,6 +46,7 @@ class UnrecoverableErrorPresenter: Presentable {
                 UIApplication.shared.openURL(supportURL)
             }
             view.secondaryButton?.isHidden = false
+            view.messageLabel?.text = "There was an unexpected error while resolving the login box configuration.".i18n(key: "com.auth0.lock.error.unrecoverable.message", comment: "Unrecoverable error message")
         }
         return view
     }
