@@ -1,5 +1,15 @@
 # Change Log
 
+## [2.2.0](https://github.com/auth0/Lock.swift/tree/2.2.0) (2017-04-25)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.1.0...2.2.0)
+
+**Added**
+- Add palpal-sandbox support [\#431](https://github.com/auth0/Lock.swift/pull/431) ([ziluvatar](https://github.com/ziluvatar))
+- NativeAuth provider check and fallback in Auth0OAuth2Interactor [\#418](https://github.com/auth0/Lock.swift/pull/418) ([cocojoe](https://github.com/cocojoe))
+- Added Passwordless SMS Support [\#414](https://github.com/auth0/Lock.swift/pull/414) ([cocojoe](https://github.com/cocojoe))
+- Added login_hint support to Enterprise Connections [\#413](https://github.com/auth0/Lock.swift/pull/413) ([cocojoe](https://github.com/cocojoe))
+- Passwordless Email (Code/Link) and Social [\#395](https://github.com/auth0/Lock.swift/pull/395) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.1.0](https://github.com/auth0/Lock.swift/tree/2.1.0) (2017-03-13)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.0.0...2.1.0)
 
