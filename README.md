@@ -29,7 +29,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
  Add the following line to your Podfile:
 
  ```ruby
- pod "Lock", "~> 2.1.0"
+ pod "Lock", "~> 2.1"
  ```
 
 ### Carthage
@@ -37,7 +37,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
 In your `Cartfile` add
 
 ```ruby
-github "auth0/Lock.swift" ~>2.1.0
+github "auth0/Lock.swift" ~> 2.1
 ```
 
 ## Usage
