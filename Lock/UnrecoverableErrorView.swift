@@ -82,7 +82,7 @@ class UnrecoverableErrorView: UIView, View {
         if canRetry {
             titleLabel.text = "Can't load the login box".i18n(key: "com.auth0.lock.error.recoverable.title", comment: "Recoverable error title")
             messageLabel.text = "Please check your internet connection.".i18n(key: "com.auth0.lock.error.recoverable.message", comment: "Recoverable error message")
-            actionButton.title = "Retry".i18n(key: "com.auth0.lock.error.recoverable.retry.button", comment: "Recoverable error button")
+            actionButton.title = "Retry".i18n(key: "com.auth0.lock.error.recoverable.button", comment: "Recoverable error button")
         } else {
             titleLabel.text = "Can't resolve your request".i18n(key: "com.auth0.lock.error.unrecoverable.title", comment: "Unrecoverable error title")
             messageLabel.text = "There was an unexpected error while resolving the login box configuration, please contact support.".i18n(key: "com.auth0.lock.error.unrecoverable.message.no_action", comment: "Unrecoverable error message")

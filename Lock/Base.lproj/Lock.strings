@@ -68,10 +68,10 @@
 "com.auth0.lock.error.passwordless.invalid_link" = "WE'RE SORRY, THERE WAS A PROBLEM WITH YOUR LINK. PLEASE REQUEST A NEW ONE.";
 // Passwordless sign ups disabled.
 "com.auth0.lock.error.passwordless.signup_disabled" = "NEW SIGN UPS ARE DISABLED FOR THIS ACCOUNT, PLEASE CONTACT YOUR ADMINISTRATOR.";
+// Recoverable error button
+"com.auth0.lock.error.recoverable.button" = "Retry";
 // Recoverable error message
 "com.auth0.lock.error.recoverable.message" = "Please check your internet connection.";
-// Recoverable error button
-"com.auth0.lock.error.recoverable.retry.button" = "Retry";
 // Recoverable error title
 "com.auth0.lock.error.recoverable.title" = "Can't load the login box";
 // Generic sign up error
