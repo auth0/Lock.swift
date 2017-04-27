@@ -68,6 +68,12 @@
 "com.auth0.lock.error.passwordless.invalid_link" = "WE'RE SORRY, THERE WAS A PROBLEM WITH YOUR LINK. PLEASE REQUEST A NEW ONE.";
 // Passwordless sign ups disabled.
 "com.auth0.lock.error.passwordless.signup_disabled" = "NEW SIGN UPS ARE DISABLED FOR THIS ACCOUNT, PLEASE CONTACT YOUR ADMINISTRATOR.";
+// Recoverable error button
+"com.auth0.lock.error.recoverable.button" = "Retry";
+// Recoverable error message
+"com.auth0.lock.error.recoverable.message" = "Please check your internet connection.";
+// Recoverable error title
+"com.auth0.lock.error.recoverable.title" = "Can't load the login box";
 // Generic sign up error
 "com.auth0.lock.error.signup.fallback" = "WE'RE SORRY, SOMETHING WENT WRONG WHEN ATTEMPTING TO SIGN UP.";
 // invalid_password
@@ -80,14 +86,22 @@
 "com.auth0.lock.error.signup.password_no_user_info_error" = "PASSWORD IS BASED ON USER INFORMATION.";
 // password_strength_error
 "com.auth0.lock.error.signup.password_strength_error" = "PASSWORD IS TOO WEAK.";
+// Unrecoverable error button
+"com.auth0.lock.error.unrecoverable.button" = "Contact support";
 // Default error
 "com.auth0.lock.error.unrecoverable.default" = "Something went wrong.\nPlease contact technical support.";
 // Invalid client or domain
 "com.auth0.lock.error.unrecoverable.invalid_credentials" = "Your Auth0 credentials ClientId and/or Domain are invalid.";
 // Your options configuration failed with: %@{error}
 "com.auth0.lock.error.unrecoverable.invalid_options" = "Your options configuration failed with: %1$@";
+// Unrecoverable error message
+"com.auth0.lock.error.unrecoverable.message" = "There was an unexpected error while resolving the login box configuration.";
+// Unrecoverable error message
+"com.auth0.lock.error.unrecoverable.message.no_action" = "There was an unexpected error while resolving the login box configuration, please contact support.";
 // No connections
 "com.auth0.lock.error.unrecoverable.no_connections" = "No authentication methods found for this client. please check your client setup.";
+// Unrecoverable error title
+"com.auth0.lock.error.unrecoverable.title" = "Can't resolve your request";
 // Forgot Password message
 "com.auth0.lock.forgot.message" = "Please enter your email and the new password. We will send you an email to confirm the password change.";
 // Forgot Password title
@@ -208,8 +222,6 @@
 "com.auth0.lock.strategy.signup.title" = "SIGN UP WITH %1$@";
 // Login Button title
 "com.auth0.lock.submit.login.title" = "LOG IN";
-// Retry
-"com.auth0.lock.submit.retry.title" = "RETRY";
 // Send 2fa code
 "com.auth0.lock.submit.send_code.title" = "SEND";
 // Send Email button title

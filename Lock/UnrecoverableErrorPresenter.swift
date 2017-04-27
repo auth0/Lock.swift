@@ -22,21 +22,31 @@
 
 import Foundation
 
-class UnrecoverableErrorPresenter: Presentable, Loggable {
+class UnrecoverableErrorPresenter: Presentable {
     let navigator: Navigable
     let error: UnrecoverableError
+    let options: Options
 
     var messagePresenter: MessagePresenter?
 
-    init(error: UnrecoverableError, navigator: Navigable) {
+    init(error: UnrecoverableError, navigator: Navigable, options: Options) {
         self.navigator = navigator
         self.error = error
+        self.options = options
     }
 
     var view: View {
-        let view = UnrecoverableErrorView(message: self.error.localizableMessage)
-        view.primaryButton?.onPress = { _ in
-            self.navigator.navigate(.root)
+        let view = UnrecoverableErrorView(canRetry: self.error.canRetry)
+        if self.error.canRetry {
+            view.secondaryButton?.onPress = { _ in
+                self.navigator.navigate(.root)
+            }
+        } else if let supportURL = self.options.supportURL {
+            view.secondaryButton?.onPress = { _ in
+                UIApplication.shared.openURL(supportURL)
+            }
+            view.secondaryButton?.isHidden = false
+            view.messageLabel?.text = "There was an unexpected error while resolving the login box configuration.".i18n(key: "com.auth0.lock.error.unrecoverable.message", comment: "Unrecoverable error message")
         }
         return view
     }

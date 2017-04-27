@@ -34,11 +34,13 @@ class UnrecoverableErrorPresenterSpec: QuickSpec {
         var navigator: MockNavigator!
         var error: UnrecoverableError!
         var view: UnrecoverableErrorView!
+        var options: OptionBuildable!
 
         beforeEach {
+            options = LockOptions()
             error = UnrecoverableError.connectionTimeout
             navigator = MockNavigator()
-            presenter = UnrecoverableErrorPresenter(error: error, navigator: navigator)
+            presenter = UnrecoverableErrorPresenter(error: error, navigator: navigator, options: options)
             view = presenter.view as? UnrecoverableErrorView
         }
 
@@ -48,23 +50,77 @@ class UnrecoverableErrorPresenterSpec: QuickSpec {
                 expect(presenter.view as? UnrecoverableErrorView).toNot(beNil())
             }
 
-            it("should have button title") {
-                expect(view.primaryButton?.title) == "RETRY"
+            context("retry error") {
+
+                beforeEach {
+                    presenter = UnrecoverableErrorPresenter(error: .connectionTimeout, navigator: navigator, options: options)
+                    view = presenter.view as? UnrecoverableErrorView
+                }
+
+                it("should have relevant retry button title") {
+                    expect(view.secondaryButton?.title?.contains("Retry")) == true
+                }
             }
 
-            it("should display relevant error message") {
-                expect(view.label?.text) == error.localizableMessage
+            context("support error with no page (default)") {
+
+                beforeEach {
+                    presenter = UnrecoverableErrorPresenter(error: .invalidClientOrDomain, navigator: navigator, options: options)
+                    view = presenter.view as? UnrecoverableErrorView
+                }
+
+                it("should not display support button") {
+                    expect(view.secondaryButton?.isHidden) == true
+                }
+            }
+
+            context("support error with support page provided") {
+
+                beforeEach {
+                    options.supportPage = "http://auth0.com/docs"
+                    presenter = UnrecoverableErrorPresenter(error: .invalidClientOrDomain, navigator: navigator, options: options)
+                    view = presenter.view as? UnrecoverableErrorView
+                }
+
+                it("should have a support button title") {
+                    expect(view.secondaryButton?.title?.contains("Contact")) == true
+                }
+
+                it("should have a visible support button") {
+                    expect(view.secondaryButton?.isHidden) == false
+                }
             }
         }
 
         describe("action") {
 
-            it("should trigger retry on button press") {
-                view.primaryButton?.onPress(view.primaryButton!)
-                expect(navigator.route) == Route.root
+            context("retry error") {
+
+                beforeEach {
+                    presenter = UnrecoverableErrorPresenter(error: .connectionTimeout, navigator: navigator, options: options)
+                    view = presenter.view as? UnrecoverableErrorView
+                }
+
+                it("should trigger retry on button press") {
+                    view.secondaryButton?.onPress(view.secondaryButton!)
+                    expect(navigator.route) == Route.root
+                }
             }
 
-        }
+            context("support error") {
 
+                beforeEach {
+                    presenter = UnrecoverableErrorPresenter(error: .invalidClientOrDomain, navigator: navigator, options: options)
+                    view = presenter.view as? UnrecoverableErrorView
+                }
+
+                it("should not trigger retry on button press") {
+                    view.secondaryButton?.onPress(view.secondaryButton!)
+                    expect(navigator.route).to(beNil())
+                }
+            }
+            
+        }
+        
     }
 }

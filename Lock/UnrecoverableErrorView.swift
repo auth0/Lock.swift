@@ -24,43 +24,71 @@ import UIKit
 
 class UnrecoverableErrorView: UIView, View {
 
-    weak var primaryButton: PrimaryButton?
-    weak var label: UILabel?
+    weak var secondaryButton: SecondaryButton?
+    weak var messageLabel: UILabel?
 
-    init(message: String) {
-        let primaryButton = PrimaryButton()
+    init(canRetry: Bool) {
         let center = UILayoutGuide()
-        let label = UILabel()
-
-        self.primaryButton = primaryButton
-        self.label = label
+        let titleLabel = UILabel()
+        let messageLabel = UILabel()
+        let imageView = UIImageView()
+        let actionButton = SecondaryButton()
+        self.secondaryButton = actionButton
+        self.messageLabel = messageLabel
 
         super.init(frame: CGRect.zero)
 
-        self.addSubview(primaryButton)
-        self.addSubview(label)
+        self.addSubview(imageView)
+        self.addSubview(titleLabel)
+        self.addSubview(messageLabel)
+        self.addSubview(actionButton)
         self.addLayoutGuide(center)
 
-        constraintEqual(anchor: center.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: center.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: center.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: center.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
-        constraintEqual(anchor: center.bottomAnchor, toAnchor: primaryButton.topAnchor)
+        constraintEqual(anchor: center.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: center.bottomAnchor, toAnchor: self.bottomAnchor)
 
-        constraintEqual(anchor: label.leftAnchor, toAnchor: center.leftAnchor)
-        constraintEqual(anchor: label.rightAnchor, toAnchor: center.rightAnchor)
-        constraintEqual(anchor: label.centerYAnchor, toAnchor: center.centerYAnchor, constant: -20)
-        label.translatesAutoresizingMaskIntoConstraints = false
+        constraintEqual(anchor: imageView.centerXAnchor, toAnchor: center.centerXAnchor)
+        constraintEqual(anchor: imageView.centerYAnchor, toAnchor: center.centerYAnchor, constant: -90)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
-        constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
-        primaryButton.translatesAutoresizingMaskIntoConstraints = false
+        constraintEqual(anchor: titleLabel.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: titleLabel.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
+        constraintEqual(anchor: titleLabel.centerYAnchor, toAnchor: center.centerYAnchor, constant: -15)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        label.text = message
-        label.textAlignment = .center
-        label.numberOfLines = 3
-        label.font = mediumSystemFont(size: 16)
-        primaryButton.title = "RETRY".i18n(key: "com.auth0.lock.submit.retry.title", comment: "Retry")
+        constraintEqual(anchor: messageLabel.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: messageLabel.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
+        constraintEqual(anchor: messageLabel.topAnchor, toAnchor: titleLabel.bottomAnchor, constant: 15)
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        constraintEqual(anchor: actionButton.centerXAnchor, toAnchor: center.centerXAnchor)
+        constraintEqual(anchor: actionButton.topAnchor, toAnchor: messageLabel.bottomAnchor, constant: 10)
+        actionButton.translatesAutoresizingMaskIntoConstraints = false
+
+        imageView.image = LazyImage(name: "ic_connection_error", bundle: bundleForLock()).image(compatibleWithTraits: self.traitCollection)
+        titleLabel.textAlignment = .center
+        titleLabel.font = lightSystemFont(size: 22)
+        titleLabel.numberOfLines = 1
+        messageLabel.textAlignment = .center
+        messageLabel.font = regularSystemFont(size: 15)
+        messageLabel.textColor = UIColor(red: 0.408, green: 0.408, blue: 0.408, alpha: 1.00)
+        messageLabel.numberOfLines = 3
+
+        actionButton.button?.setTitleColor(UIColor(red:0.04, green:0.53, blue:0.69, alpha:1.0), for: .normal)
+        actionButton.button?.titleLabel?.font = regularSystemFont(size: 16)
+
+        if canRetry {
+            titleLabel.text = "Can't load the login box".i18n(key: "com.auth0.lock.error.recoverable.title", comment: "Recoverable error title")
+            messageLabel.text = "Please check your internet connection.".i18n(key: "com.auth0.lock.error.recoverable.message", comment: "Recoverable error message")
+            actionButton.title = "Retry".i18n(key: "com.auth0.lock.error.recoverable.button", comment: "Recoverable error button")
+        } else {
+            titleLabel.text = "Can't resolve your request".i18n(key: "com.auth0.lock.error.unrecoverable.title", comment: "Unrecoverable error title")
+            messageLabel.text = "There was an unexpected error while resolving the login box configuration, please contact support.".i18n(key: "com.auth0.lock.error.unrecoverable.message.no_action", comment: "Unrecoverable error message")
+            actionButton.title = "Contact support".i18n(key: "com.auth0.lock.error.unrecoverable.button", comment: "Unrecoverable error button")
+            actionButton.isHidden = true
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -68,6 +96,5 @@ class UnrecoverableErrorView: UIView, View {
     }
 
     func apply(style: Style) {
-        self.primaryButton?.apply(style: style)
     }
 }

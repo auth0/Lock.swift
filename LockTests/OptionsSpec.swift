@@ -57,6 +57,14 @@ class OptionsSpec: QuickSpec {
                 expect(options.privacyPolicyURL.absoluteString) == "https://auth0.com/privacy"
             }
 
+            it("should have Auth0 support as nil") {
+                expect(options.supportURL).to(beNil())
+            }
+
+            it("should return Auth0 supportPage as nil") {
+                expect(options.supportPage).to(beNil())
+            }
+
             it("should have openid as scope") {
                 expect(options.scope) == "openid"
             }
@@ -222,6 +230,16 @@ class OptionsSpec: QuickSpec {
             it("should ignore invalid privacy policy") {
                 options.privacyPolicy = "not a url"
                 expect(options.privacyPolicyURL.absoluteString) == "https://auth0.com/privacy"
+            }
+
+            it("should set support site") {
+                options.supportPage = "https://auth0.com/docs"
+                expect(options.supportURL?.absoluteString) == "https://auth0.com/docs"
+            }
+
+            it("should ignore invalid support site") {
+                options.supportPage = "not a url"
+                expect(options.supportURL?.absoluteString).to(beNil())
             }
         }
     }
