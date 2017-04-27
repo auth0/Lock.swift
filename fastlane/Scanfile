@@ -1,6 +1,5 @@
 scheme "Lock"
-device "iPhone 7 (10.3)"
-
+devices ["iPhone 7 (10.3)", "iPhone 6 (9.3)"]
 clean true
-
-output_types "html"
+output_types "junit"
+skip_build true
