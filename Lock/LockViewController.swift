@@ -114,7 +114,7 @@ public class LockViewController: UIViewController {
         guard var presenter = presentable else { return }
         self.current?.remove()
         let view = presenter.view
-        view.apply(style: self.lock.style)
+        view.applyAll(withStyle: self.lock.style)
         self.anchorConstraint = view.layout(inView: self.scrollView, below: self.headerView)
         presenter.messagePresenter = self.messagePresenter
         self.current = view

@@ -99,7 +99,6 @@ class EnterpriseActiveAuthView: UIView, View {
 
     func apply(style: Style) {
         self.titleView?.textColor = style.textColor
-        self.styleSubViews(style: style)
     }
 
 }

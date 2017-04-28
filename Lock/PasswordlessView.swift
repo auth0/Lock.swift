@@ -200,6 +200,5 @@ class PasswordlessView: UIView, View {
 
     func apply(style: Style) {
         self.messageLabel?.textColor = style.textColor
-        self.styleSubViews(style: style)
     }
 }

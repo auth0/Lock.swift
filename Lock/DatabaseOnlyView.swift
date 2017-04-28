@@ -244,6 +244,5 @@ class DatabaseOnlyView: UIView, DatabaseView {
     func apply(style: Style) {
         self.style = style
         self.separator?.textColor = style.seperatorTextColor
-        self.styleSubViews(style: style)
     }
 }

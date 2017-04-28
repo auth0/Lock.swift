@@ -98,7 +98,6 @@ class EnterpriseDomainView: UIView, View {
     }
 
     func apply(style: Style) {
-        self.styleSubViews(style: style)
         self.seperatorLabel?.textColor = style.seperatorTextColor
     }
 

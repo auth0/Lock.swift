@@ -215,6 +215,5 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
         self.actionIconView?.tintColor = style.inputIconBackgroundColor
         self.container.backgroundColor = style.inputBackgroundColor
         self.container.layer.borderColor = style.inputBorderColor.cgColor
-        self.styleSubViews(style: style)
     }
 }
