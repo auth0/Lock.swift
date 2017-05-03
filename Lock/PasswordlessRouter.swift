@@ -42,26 +42,26 @@ struct PasswordlessRouter: Router {
         guard !connections.isEmpty else {
             self.lock.logger.debug("No connections configured. Loading client info from Auth0...")
             let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
-            return ConnectionLoadingPresenter(loader: interactor, navigator: self, dispatcher: observerStore, options: self.lock.options)
+            return ConnectionLoadingPresenter(loader: interactor, navigator: self, dispatcher: self.observerStore, options: self.lock.options)
         }
 
         // Passwordless Email
         if let connection = connections.passwordless.filter({ $0.strategy == "email" }).first ?? connections.passwordless.filter({ $0.strategy == "sms" }).first {
             let passwordlessActivity = PasswordlessActivity.shared
-            passwordlessActivity.dispatcher = self.lock.observerStore
+            passwordlessActivity.dispatcher = self.observerStore
             passwordlessActivity.messagePresenter = self.controller?.messagePresenter
-            let interactor = PasswordlessInteractor(connection: connection, authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
+            let interactor = PasswordlessInteractor(connection: connection, authentication: self.lock.authentication, dispatcher: self.observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
             let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options)
             // +Social
             if !connections.oauth2.isEmpty {
-                let interactor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
+                let interactor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: self.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
                 presenter.authPresenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
             }
             return presenter
         }
         // Social Only
         if !connections.oauth2.isEmpty {
-            let interactor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
+            let interactor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: self.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
             let presenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
             return presenter
         }
@@ -71,7 +71,7 @@ struct PasswordlessRouter: Router {
 
     func passwordless(withScreen screen: PasswordlessScreen, connection: PasswordlessConnection) -> Presentable? {
         let passwordlessActivity = PasswordlessActivity.shared
-        passwordlessActivity.dispatcher = self.lock.observerStore
+        passwordlessActivity.dispatcher = self.observerStore
         passwordlessActivity.messagePresenter = self.controller?.messagePresenter
         let interactor = PasswordlessInteractor(connection: connection, authentication: self.lock.authentication, dispatcher: observerStore, user: self.user, options: self.lock.options, passwordlessActivity: passwordlessActivity)
         let presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: self, options: self.lock.options, screen: screen)

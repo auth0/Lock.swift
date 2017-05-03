@@ -20,6 +20,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
 
 
   s.dependency 'Auth0', '~> 1.5'
+  s.dependency 'SimpleKeychain'
   s.default_subspecs = 'Classic'
 
   s.subspec 'Classic' do |classic|

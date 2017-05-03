@@ -39,6 +39,7 @@
 		5B568F801E4B64D2004B3D98 /* Passwordless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B568F7F1E4B64D2004B3D98 /* Passwordless.swift */; };
 		5B568F821E4B6506004B3D98 /* PasswordlessAuthenticatableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B568F811E4B6506004B3D98 /* PasswordlessAuthenticatableError.swift */; };
 		5B5F9F9F1E4B3FBE00EAB9EE /* PasswordlessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5F9F9E1E4B3FBE00EAB9EE /* PasswordlessView.swift */; };
+		5B6747C41EBA2B44002DBB12 /* SimpleKeychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5BC8B5291EB8A46F00727D78 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B6E02C01EA77B4E00B28579 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6E02BF1EA77B4E00B28579 /* Extensions.swift */; };
 		5B889AEE1E700FCA00C9FBAF /* CountryCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B889AED1E700FCA00C9FBAF /* CountryCodes.swift */; };
 		5B8B795B1E8BAE5E00D0C57E /* passwordless_country_codes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5B8B795A1E8BAE5E00D0C57E /* passwordless_country_codes.plist */; };
@@ -50,6 +51,10 @@
 		5BB78CC21E54BC730074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB78CC01E54BC2D0074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift */; };
 		5BB78CC51E54BD530074DFE3 /* PasswordlessPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB78CC31E54BD440074DFE3 /* PasswordlessPresenterSpec.swift */; };
 		5BBEED381E79A9F900B3308D /* CountryCodesSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBEED361E79A96C00B3308D /* CountryCodesSpec.swift */; };
+		5BC8B5281EB89B3E00727D78 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8B5271EB89B3E00727D78 /* Storage.swift */; };
+		5BC8B52B1EB8A48900727D78 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BC8B5291EB8A46F00727D78 /* SimpleKeychain.framework */; };
+		5BC8B52D1EB8AFED00727D78 /* TouchAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8B52C1EB8AFED00727D78 /* TouchAuthentication.swift */; };
+		5BC8B52E1EBA27C700727D78 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BC8B5291EB8A46F00727D78 /* SimpleKeychain.framework */; };
 		5BCB26861E8437BC00CFBF9A /* PolicyViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB26851E8437BC00CFBF9A /* PolicyViewSpec.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
@@ -201,6 +206,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5B6747C41EBA2B44002DBB12 /* SimpleKeychain.framework in CopyFiles */,
 				5F5090031D1DE78800EAA650 /* Quick.framework in CopyFiles */,
 				5F5090041D1DE78800EAA650 /* Nimble.framework in CopyFiles */,
 				5F5090051D1DE78800EAA650 /* OHHTTPStubs.framework in CopyFiles */,
@@ -262,6 +268,9 @@
 		5BB78CC01E54BC2D0074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessAuthenticatableErrorSpec.swift; sourceTree = "<group>"; };
 		5BB78CC31E54BD440074DFE3 /* PasswordlessPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessPresenterSpec.swift; sourceTree = "<group>"; };
 		5BBEED361E79A96C00B3308D /* CountryCodesSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCodesSpec.swift; sourceTree = "<group>"; };
+		5BC8B5271EB89B3E00727D78 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		5BC8B5291EB8A46F00727D78 /* SimpleKeychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SimpleKeychain.framework; path = Carthage/Build/iOS/SimpleKeychain.framework; sourceTree = "<group>"; };
+		5BC8B52C1EB8AFED00727D78 /* TouchAuthentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchAuthentication.swift; sourceTree = "<group>"; };
 		5BCB26851E8437BC00CFBF9A /* PolicyViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyViewSpec.swift; sourceTree = "<group>"; };
 		5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthPresenterSpec.swift; sourceTree = "<group>"; };
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
@@ -288,7 +297,6 @@
 		5F2496BD1D67ADB300A1C6E2 /* EmailValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailValidatorSpec.swift; sourceTree = "<group>"; };
 		5F390E861D638A6D00FC549C /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Lock/Logger.swift; sourceTree = SOURCE_ROOT; };
 		5F390E881D63A5B800FC549C /* CleanroomLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomLogger.framework; path = Carthage/Build/iOS/CleanroomLogger.framework; sourceTree = "<group>"; };
-		5F390E891D63A5B800FC549C /* CleanroomASL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomASL.framework; path = Carthage/Build/iOS/CleanroomASL.framework; sourceTree = "<group>"; };
 		5F390E8C1D63B99300FC549C /* LoggerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggerSpec.swift; sourceTree = "<group>"; };
 		5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseInteractor.swift; path = Lock/DatabaseInteractor.swift; sourceTree = SOURCE_ROOT; };
 		5F508FF91D1DB1C200EAA650 /* DatabaseInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseInteractorSpec.swift; sourceTree = "<group>"; };
@@ -396,6 +404,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BC8B52B1EB8A48900727D78 /* SimpleKeychain.framework in Frameworks */,
 				5F390E8A1D63A5B800FC549C /* CleanroomLogger.framework in Frameworks */,
 				5F99AA761D1A7FA100D27842 /* Auth0.framework in Frameworks */,
 				5FEADD071D1A7EFC0032D810 /* Lock.framework in Frameworks */,
@@ -407,6 +416,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FEADCEF1D1A76610032D810 /* Auth0.framework in Frameworks */,
+				5BC8B52E1EBA27C700727D78 /* SimpleKeychain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +622,7 @@
 			children = (
 				5F99AA871D1B0E2500D27842 /* Layout.swift */,
 				5B6E02BF1EA77B4E00B28579 /* Extensions.swift */,
+				5BC8B5271EB89B3E00727D78 /* Storage.swift */,
 				5FDB41CD1D2C79FD00166B67 /* Operations.swift */,
 				5F99AA851D1B0BF100D27842 /* Resources.swift */,
 				5FBE5CC31D3E67320038536D /* Validators.swift */,
@@ -621,6 +632,7 @@
 				5F1456591D5130E80085DF9C /* Colors.swift */,
 				5F390E861D638A6D00FC549C /* Logger.swift */,
 				5FF0B2271E1726C400A73257 /* CredentialAuth.swift */,
+				5BC8B52C1EB8AFED00727D78 /* TouchAuthentication.swift */,
 				5B1FD96C1E4E2B6B0055C1AC /* PasswordlessActivity.swift */,
 			);
 			name = Utils;
@@ -785,8 +797,8 @@
 		5FEAE2111D1A5716005C0028 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5BC8B5291EB8A46F00727D78 /* SimpleKeychain.framework */,
 				5F390E881D63A5B800FC549C /* CleanroomLogger.framework */,
-				5F390E891D63A5B800FC549C /* CleanroomASL.framework */,
 				5F814FD21D1A7294003670A4 /* Auth0.framework */,
 				5F814FD01D1A7294003670A4 /* Quick.framework */,
 				5F814FD11D1A7294003670A4 /* Nimble.framework */,
@@ -1020,6 +1032,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Auth0.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CleanroomLogger.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SimpleKeychain.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -1067,6 +1080,7 @@
 				5FF0B2281E1726C400A73257 /* CredentialAuth.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
 				5F2496B81D665AC500A1C6E2 /* UserAttribute.swift in Sources */,
+				5BC8B5281EB89B3E00727D78 /* Storage.swift in Sources */,
 				5B3DA2551E6EB9F800370C17 /* CountryTableViewController.swift in Sources */,
 				5F70F1DF1D7904A3004698DA /* ConnectionBuildable.swift in Sources */,
 				5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */,
@@ -1122,6 +1136,7 @@
 				5F2496BC1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift in Sources */,
 				5F5F98D81D22ED120016FC22 /* Presentable.swift in Sources */,
 				5B4DE0171DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift in Sources */,
+				5BC8B52D1EB8AFED00727D78 /* TouchAuthentication.swift in Sources */,
 				5F99AA841D1B0BCE00D27842 /* Lock.swift in Sources */,
 				5B5F9F9F1E4B3FBE00EAB9EE /* PasswordlessView.swift in Sources */,
 				5FBE5CBE1D3E5C7B0038536D /* MultifactorAuthenticatable.swift in Sources */,

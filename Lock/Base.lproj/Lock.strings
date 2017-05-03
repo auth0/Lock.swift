@@ -228,6 +228,14 @@
 "com.auth0.lock.submit.send_email.title" = "SEND EMAIL";
 // Signup Button title
 "com.auth0.lock.submit.signup.title" = "SIGN UP";
+// Touch prompt to cancel login
+"com.auth0.lock.touch.authenticate.cancel" = "Login with another user";
+// Touch prompt to login message
+"com.auth0.lock.touch.authenticate.title" = "Touch to authenticate";
+// Touch prompt to cancel remeber me
+"com.auth0.lock.touch.rememberme.cancel" = "Don't remeber me";
+// Touch prompt to remeber me title
+"com.auth0.lock.touch.rememberme.title" = "Touch to remeber me";
 // Passwordless code reminder action
 "com.auth0.passwordless.code.reminder" = "Did not get the code?";
 // Passwordless code sent by email to %@{identifier}

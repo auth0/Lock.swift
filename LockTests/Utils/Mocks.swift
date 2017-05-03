@@ -289,6 +289,10 @@ class MockAuthentication: Authentication {
     func loginSocial(token: String, connection: String, scope: String, parameters: [String : Any]) -> Request<Credentials, AuthenticationError> {
         return self.authentication.loginSocial(token: token, connection: connection, scope: scope, parameters: parameters)
     }
+
+    func revoke(refreshToken: String) -> Request<Void, AuthenticationError> {
+        return self.revoke(refreshToken: refreshToken)
+    }
 }
 
 class MockWebAuth: WebAuth {
