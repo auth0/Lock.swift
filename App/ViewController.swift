@@ -23,6 +23,7 @@
 import UIKit
 import Lock
 import CleanroomLogger
+import Auth0
 
 class ViewController: UIViewController {
 

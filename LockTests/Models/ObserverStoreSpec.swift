@@ -33,6 +33,7 @@ class ObserverStoreSpec: QuickSpec {
 
             var error: Error?
             var credentials: Credentials?
+            var postCredentials: Credentials?
             var closed: Bool = false
             var dispatcher: ObserverStore!
             var newEmail: String?
@@ -42,6 +43,7 @@ class ObserverStoreSpec: QuickSpec {
                 closed = false
                 error = nil
                 credentials = nil
+                postCredentials = nil
                 newEmail = nil
                 newAttributes = nil
                 var store = ObserverStore()
@@ -51,6 +53,7 @@ class ObserverStoreSpec: QuickSpec {
                 store.onSignUp = { newEmail = $0; newAttributes = $1 }
                 store.onForgotPassword = { newEmail = $0 }
                 store.onPasswordless = { newEmail = $0 }
+                store.onPostAuth = { postCredentials = $0 }
                 dispatcher = store
             }
 
@@ -63,6 +66,13 @@ class ObserverStoreSpec: QuickSpec {
                 let value = mockCredentials()
                 dispatcher.dispatch(result: .auth(value))
                 expect(credentials).toEventually(equal(value))
+            }
+
+            it("should dispatch credentials to posth auth") {
+                let value = mockCredentials()
+                dispatcher.dispatch(result: .auth(value))
+                expect(credentials).toEventually(equal(value))
+                expect(postCredentials).toEventually(equal(value))
             }
 
             it("should dispatch when lock is dismissed") {

@@ -189,8 +189,4 @@ public class LockViewController: UIViewController {
         },
             completion: nil)
     }
-
-    deinit {
-        print("deinit")
-    }
 }

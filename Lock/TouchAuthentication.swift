@@ -26,19 +26,21 @@ import LocalAuthentication
 
 struct TouchAuthentication {
 
-    let storage = Storage()
+    let storage: Storage
     let authentication: Authentication
     let options: Options
-    let context = LAContext()
+    let authContext: LAContext
     let storeKey = "credentials"
 
     var available: Bool {
-        return self.context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: nil)
+        return self.authContext.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: nil)
     }
 
-    init(authentication: Authentication, options: Options) {
+    init(authentication: Authentication, options: Options, storage: Storage = Storage(), authContext: LAContext = LAContext()) {
         self.authentication = authentication
         self.options = options
+        self.storage = storage
+        self.authContext = authContext
     }
 
     func store(credentials: Credentials, callback: @escaping (Error?) -> Void) {
@@ -46,10 +48,10 @@ struct TouchAuthentication {
         let touchMessage = "Touch to remeber me".i18n(key: "com.auth0.lock.touch.rememberme.title", comment: "Touch prompt to remeber me title")
 
         if #available(iOS 10, *) {
-            context.localizedCancelTitle = "Don't remeber me".i18n(key: "com.auth0.lock.touch.rememberme.cancel", comment: "Touch prompt to cancel remeber me")
+            self.authContext.localizedCancelTitle = "Don't remeber me".i18n(key: "com.auth0.lock.touch.rememberme.cancel", comment: "Touch prompt to cancel remeber me")
         }
-        context.localizedFallbackTitle = nil
-        context.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: touchMessage) { (success, error) in
+        self.authContext.localizedFallbackTitle = nil
+        self.authContext.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: touchMessage) { (success, error) in
             guard error == nil else {
                 self.storage.deleteEntry(forKey: self.storeKey)
                 return callback(error)
@@ -67,10 +69,10 @@ struct TouchAuthentication {
         let touchMessage = "Touch to authenticate".i18n(key: "com.auth0.lock.touch.authenticate.title", comment: "Touch prompt to login message")
 
         if #available(iOS 10, *) {
-            context.localizedCancelTitle = "Login with another user".i18n(key: "com.auth0.lock.touch.authenticate.cancel", comment: "Touch prompt to cancel login")
+            self.authContext.localizedCancelTitle = "Login with another user".i18n(key: "com.auth0.lock.touch.authenticate.cancel", comment: "Touch prompt to cancel login")
         }
 
-        context.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: touchMessage) { (success, error) in
+        self.authContext.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: touchMessage) { (success, error) in
             guard error == nil else {
                 self.storage.deleteEntry(forKey: self.storeKey)
                 return callback(error, nil)
