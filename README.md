@@ -237,7 +237,7 @@ func application(_ application: UIApplication, continue userActivity: NSUserActi
 
 ```swift
 .withConnections {
-    $0.sms(name: "custom-sms")
+    $0.sms(name: "sms")
 }
 ```
 
@@ -245,7 +245,7 @@ func application(_ application: UIApplication, continue userActivity: NSUserActi
 
 ```swift
 .withConnections {
-    $0.email(name: "custom-email")
+    $0.email(name: "email")
 }
 ```
 
