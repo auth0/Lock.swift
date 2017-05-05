@@ -45,11 +45,10 @@ public class LockViewController: UIViewController {
         self.lock.observerStore.controller = self
         self.router = lock.classicMode ? ClassicRouter(lock: lock, controller: self) : PasswordlessRouter(lock: lock, controller: self)
         if self.touchAuth.available, self.router is ClassicRouter {
-            self.lock.observerStore.onPostAuth = { [unowned self] in
-                self.touchAuth.store(credentials: $0) {
+            self.lock.observerStore.onPostAuth = { [weak self] in
+                self?.touchAuth.store(credentials: $0) {
                     if $0 != nil {
-                        self.lock.logger.debug("Touch storage unsuccessful: \($0.verbatim())")
-                        return self.lock.observerStore.dispatch(result: .error($0!))
+                        self?.lock.logger.debug("Touch storage unsuccessful: \($0.verbatim())")
                     }
                 }
             }

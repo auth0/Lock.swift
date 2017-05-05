@@ -50,7 +50,7 @@ struct TouchAuthentication {
         if #available(iOS 10, *) {
             self.authContext.localizedCancelTitle = "Don't remeber me".i18n(key: "com.auth0.lock.touch.rememberme.cancel", comment: "Touch prompt to cancel remeber me")
         }
-        self.authContext.localizedFallbackTitle = nil
+        self.authContext.localizedFallbackTitle = ""
         self.authContext.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: touchMessage) { (success, error) in
             guard error == nil else {
                 self.storage.deleteEntry(forKey: self.storeKey)
@@ -72,6 +72,7 @@ struct TouchAuthentication {
             self.authContext.localizedCancelTitle = "Login with another user".i18n(key: "com.auth0.lock.touch.authenticate.cancel", comment: "Touch prompt to cancel login")
         }
 
+        self.authContext.localizedFallbackTitle = ""
         self.authContext.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: touchMessage) { (success, error) in
             guard error == nil else {
                 self.storage.deleteEntry(forKey: self.storeKey)
