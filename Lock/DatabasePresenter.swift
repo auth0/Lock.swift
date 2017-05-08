@@ -38,6 +38,8 @@ class DatabasePresenter: Presentable, Loggable {
         }
     }
 
+    var passwordManager: PasswordManager
+
     var authPresenter: AuthPresenter?
     var enterpriseInteractor: EnterpriseDomainInteractor?
 
@@ -57,6 +59,7 @@ class DatabasePresenter: Presentable, Loggable {
         self.database = connection
         self.navigator = navigator
         self.options = options
+        self.passwordManager = options.passwordManager
     }
 
     var view: View {
@@ -85,6 +88,7 @@ class DatabasePresenter: Presentable, Loggable {
             showSignup(inView: database, username: initialUsername, email: initialEmail)
         }
         self.databaseView = database
+
         return database
     }
 
@@ -92,11 +96,10 @@ class DatabasePresenter: Presentable, Loggable {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20), isLogin: true)
         let style = self.database.requiresUsername ? self.options.usernameStyle : [.Email]
-        view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView)
+        view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView, showPassswordManager: self.passwordManager.available)
         self.currentScreen = .login
         let form = view.form
         form?.onValueChange = self.handleInput
-
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
             self.logger.info("Perform login for email: \(self.authenticator.email.verbatim())")
@@ -146,6 +149,23 @@ class DatabasePresenter: Presentable, Loggable {
         view.secondaryButton?.onPress = { button in
             self.navigator.navigate(.forgotPassword)
         }
+
+        if let identifyField = view.identityField, let passwordField = view.passwordField {
+            passwordManager.onUpdate = { [unowned self, unowned identifyField, unowned passwordField] identifier, password in
+                identifyField.text = identifier
+                passwordField.text = password
+                self.handleInput(identifyField)
+                self.handleInput(passwordField)
+            }
+        }
+        view.passwordManagerButton?.onPress = { _ in
+            self.passwordManager.login {
+                guard $0 == nil else {
+                    return self.logger.error("There was a problem with the password manager: \($0.verbatim())")
+                }
+            }
+        }
+
     }
 
     private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
@@ -155,7 +175,7 @@ class DatabasePresenter: Presentable, Loggable {
         let passwordPolicyValidator = interactor?.passwordValidator as? PasswordPolicyValidator
         self.currentScreen = .signup
 
-        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator)
+        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator, showPassswordManager: self.passwordManager.available)
         let form = view.form
         view.form?.onValueChange = self.handleInput
         let action = { [weak form] (button: PrimaryButton) in
@@ -186,7 +206,6 @@ class DatabasePresenter: Presentable, Loggable {
                     form?.needsToUpdateState()
                     self.messagePresenter?.showError(error)
                     self.logger.error("Failed with error \(error)")
-
                 }
             }
         }
@@ -206,6 +225,23 @@ class DatabasePresenter: Presentable, Loggable {
             [cancel, tos, privacy].forEach { alert.addAction($0) }
             self.navigator.present(alert)
         }
+
+        if let identifyField = view.identityField, let passwordField = view.passwordField {
+            passwordManager.onUpdate = { [unowned self, unowned identifyField, unowned passwordField] identifier, password in
+                identifyField.text = identifier
+                passwordField.text = password
+                self.handleInput(identifyField)
+                self.handleInput(passwordField)
+            }
+        }
+        view.passwordManagerButton?.onPress = { _ in
+            self.passwordManager.store(withPolicy: passwordPolicyValidator?.policy.onePasswordRules(), identifier: self.creator.identifier) {
+                guard $0 == nil else {
+                    return self.logger.error("There was a problem with the password manager: \($0.verbatim())")
+                }
+            }
+        }
+
     }
 
     private func handleInput(_ input: InputField) {
@@ -238,9 +274,9 @@ class DatabasePresenter: Presentable, Loggable {
             input.showValid()
 
             guard
-                    let mode = self.databaseView?.switcher?.selected,
-                    mode == .login && updateHRD
-                    else { return }
+                let mode = self.databaseView?.switcher?.selected,
+                mode == .login && updateHRD
+                else { return }
             try? self.enterpriseInteractor?.updateEmail(input.text)
             if let connection = self.enterpriseInteractor?.connection {
                 self.logger.verbose("Enterprise connection detected: \(connection)")

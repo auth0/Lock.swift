@@ -119,6 +119,36 @@ class PasswordPolicySpec: QuickSpec {
 
         }
 
+        describe("one password policy recipe") {
+
+            it("none should return excellent") {
+                let policy = PasswordPolicy.none
+                expect(policy.onePasswordRules()).to(beExcellentPassword())
+            }
+
+            it("low should return excellent") {
+                let policy = PasswordPolicy.low
+                expect(policy.onePasswordRules()).to(beExcellentPassword())
+            }
+
+            it("fair should return excellent") {
+                let policy = PasswordPolicy.fair
+                expect(policy.onePasswordRules()).to(beExcellentPassword())
+            }
+
+            it("good should return excellent") {
+                let policy = PasswordPolicy.good
+                expect(policy.onePasswordRules()).to(beExcellentPassword())
+            }
+
+            it("excellent should return excellent") {
+                let policy = PasswordPolicy.excellent
+                expect(policy.onePasswordRules()).to(beExcellentPassword())
+            }
+
+        }
+
+
     }
 }
 

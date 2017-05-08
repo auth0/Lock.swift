@@ -93,6 +93,9 @@ public protocol OptionBuildable: Options {
 
         /// Specify the passwordless method, send a passcode or magic link. By default is .code
     var passwordlessMethod: PasswordlessMethod { get set }
+
+        /// Specify the password manager configuration, specify the appIdentifier, displyName and enable/disable manager.  By default manager is enabled and defaults to the app's bundle identifier and display name.
+    var passwordManager: OnePassword { get set }
 }
 
 extension OptionBuildable {

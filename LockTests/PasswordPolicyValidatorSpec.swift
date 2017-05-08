@@ -64,7 +64,6 @@ class PasswordPolicyValidatorSpec: QuickSpec {
                 fail("Invalid error. Expected PasswordPolicyViolation")
             }
         }
-
     }
 }
 

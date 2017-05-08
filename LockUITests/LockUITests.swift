@@ -1,4 +1,4 @@
-// LockSnapshot.swift
+// LockUITests.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -23,7 +23,7 @@
 import XCTest
 @testable import Lock
 
-class LockSnapshot: XCTestCase {
+class LockUITests: XCTestCase {
 
     let app = XCUIApplication()
 

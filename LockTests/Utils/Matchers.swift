@@ -63,3 +63,18 @@ func beErrorResult() -> MatcherFunc<Result> {
         return false
     }
 }
+
+func beExcellentPassword() -> MatcherFunc<[String: Any]> {
+    return MatcherFunc { expression, failureMessage in
+        failureMessage.postfixMessage = "be an excellent strength password recipe"
+        if let actual = try expression.evaluate(),
+            actual[AppExtensionGeneratedPasswordMinLengthKey] as? String == "10",
+            actual[AppExtensionGeneratedPasswordMaxLengthKey] as? String == "128",
+            actual[AppExtensionGeneratedPasswordRequireDigitsKey] as? Bool == true,
+            actual[AppExtensionGeneratedPasswordRequireSymbolsKey] as? Bool == true
+        {
+            return true
+        }
+        return false
+    }
+}

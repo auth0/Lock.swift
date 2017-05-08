@@ -289,6 +289,10 @@ class MockAuthentication: Authentication {
     func loginSocial(token: String, connection: String, scope: String, parameters: [String : Any]) -> Request<Credentials, AuthenticationError> {
         return self.authentication.loginSocial(token: token, connection: connection, scope: scope, parameters: parameters)
     }
+
+    func revoke(refreshToken: String) -> Request<Void, AuthenticationError> {
+        return self.revoke(refreshToken: refreshToken)
+    }
 }
 
 class MockWebAuth: WebAuth {
@@ -491,5 +495,30 @@ class MockPasswordlessInteractor: PasswordlessAuthenticatable {
 
     func login(_ connection: String, callback: @escaping (CredentialAuthError?) -> ()) {
         callback(onLogin())
+    }
+}
+
+class MockPasswordManager: PasswordManager {
+
+    var identifier: String = "username"
+    var password: String = "password"
+    
+    var _available: Bool = true
+    var enabled: Bool = true
+
+    var available: Bool {
+        return self.enabled && _available
+    }
+
+    var onUpdate: (String, String) -> Void = { _ in }
+
+    func login(callback: @escaping (Error?) -> Void) {
+        self.onUpdate(identifier, self.password)
+        callback(nil)
+    }
+
+    func store(withPolicy policy: [String: Any]?, identifier: String?, callback: @escaping (Error?) -> Void) {
+        self.onUpdate(self.identifier, self.password)
+        callback(nil)
     }
 }
