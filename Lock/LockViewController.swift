@@ -48,11 +48,28 @@ public class LockViewController: UIViewController {
         fatalError("Storyboard currently not supported")
     }
 
+    public override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return self.lock.style.statusBarUpdateAnimation
+    }
+
+    public override var prefersStatusBarHidden: Bool {
+        return self.lock.style.statusBarHidden
+    }
+
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        return self.lock.style.statusBarStyle
+    }
+
     public override func loadView() {
         let root = UIView()
         let style = self.lock.style
         root.backgroundColor = style.backgroundColor
         self.view = root
+
+        if let backgroundImage = style.backgroundImage?.image(compatibleWithTraits: self.traitCollection) {
+            let bgImageView = UIImageView(image: backgroundImage)
+            self.view.addSubview(bgImageView)
+        }
 
         let scrollView = UIScrollView()
         scrollView.bounces = false
@@ -97,7 +114,7 @@ public class LockViewController: UIViewController {
         guard var presenter = presentable else { return }
         self.current?.remove()
         let view = presenter.view
-        view.apply(style: self.lock.style)
+        view.applyAll(withStyle: self.lock.style)
         self.anchorConstraint = view.layout(inView: self.scrollView, below: self.headerView)
         presenter.messagePresenter = self.messagePresenter
         self.current = view
@@ -131,7 +148,7 @@ public class LockViewController: UIViewController {
             let value = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue,
             let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
             let curveValue = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
-        else { return }
+            else { return }
         let frame = value.cgRectValue
         let insets = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
 
@@ -144,7 +161,7 @@ public class LockViewController: UIViewController {
             options: options,
             animations: {
                 self.anchorConstraint?.isActive = false
-            },
+        },
             completion: nil)
     }
 
@@ -163,7 +180,7 @@ public class LockViewController: UIViewController {
             options: options,
             animations: {
                 self.traitCollectionDidChange(nil)
-            },
+        },
             completion: nil)
     }
 

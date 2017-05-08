@@ -69,6 +69,5 @@ class DatabaseForgotPasswordView: UIView, View {
     }
 
     func apply(style: Style) {
-        self.primaryButton?.apply(style: style)
     }
 }

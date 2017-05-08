@@ -486,7 +486,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                     }
 
                     it("should store passwordless transaction on sending link") {
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: 4) { done in
                             interactor.request(connection.name) { error in
                                 expect(error).to(beNil())
                                 done()

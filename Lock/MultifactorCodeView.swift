@@ -68,6 +68,5 @@ class MultifactorCodeView: UIView, View {
     }
 
     func apply(style: Style) {
-        self.primaryButton?.apply(style: style)
     }
 }

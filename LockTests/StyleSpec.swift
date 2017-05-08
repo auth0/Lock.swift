@@ -49,6 +49,81 @@ class StyleSpec: QuickSpec {
                 expect(style.hideButtonTitle) == false
             }
 
+            it("should have text color") {
+                expect(style.textColor) == UIColor.black
+            }
+
+            it("should have logo") {
+                expect(style.logo) == lazyImage(named: "ic_auth0")
+            }
+
+            it("should have social seperator text color") {
+                expect(style.seperatorTextColor) == UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54)
+            }
+
+            it("should have input field text color") {
+                expect(style.inputTextColor) == UIColor.black
+            }
+
+            it("should have input field placeholder text color") {
+                expect(style.inputPlaceholderTextColor) == UIColor(red: 0.780, green: 0.780, blue: 0.804, alpha: 1.00)
+            }
+
+            it("should have input field border color default") {
+                expect(style.inputBorderColor) == UIColor(red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0)
+            }
+
+            it("should have input field border color invalid") {
+                expect(style.inputBorderColorError) == UIColor.red
+            }
+
+            it("should have input field background color") {
+                expect(style.inputBackgroundColor) == UIColor.white
+            }
+
+            it("should have input field icon background color") {
+                expect(style.inputIconBackgroundColor) == UIColor(red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0)
+            }
+
+            it("should have input field icon color") {
+                expect(style.inputIconColor) == UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
+            }
+
+            it("should have secondary button color") {
+                expect(style.secondaryButtonColor) == UIColor.black
+            }
+
+            it("should have database login tab text color") {
+                expect(style.tabTextColor) == UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
+            }
+
+            it("should have database login tab tint color") {
+                expect(style.tabTintColor) == UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
+            }
+
+            it("should have lock controller status bar update animation") {
+                expect(style.statusBarUpdateAnimation.rawValue) == 0
+            }
+
+            it("should have lock controller status bar hidden") {
+                expect(style.statusBarHidden) == false
+            }
+
+            it("should have lock controller status bar style") {
+                expect(style.statusBarStyle.rawValue) == 0
+            }
+
+            it("should have search status bar style") {
+                expect(style.searchBarStyle.rawValue) == 0
+            }
+
+            it("should have header close button image") {
+                expect(style.headerCloseIcon) == lazyImage(named: "ic_close")
+            }
+
+            it("should have header back button image") {
+                expect(style.headerBackIcon) == lazyImage(named: "ic_back")
+            }
         }
 
         describe("custom style") {

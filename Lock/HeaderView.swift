@@ -151,24 +151,24 @@ public class HeaderView: UIView {
         logoView.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
-        constraintEqual(anchor: closeButton.rightAnchor, toAnchor: self.rightAnchor)
-        closeButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        closeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        constraintEqual(anchor: closeButton.rightAnchor, toAnchor: self.rightAnchor, constant: -10)
+        closeButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        closeButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         closeButton.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: backButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
-        constraintEqual(anchor: backButton.leftAnchor, toAnchor: self.leftAnchor)
-        backButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        backButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        constraintEqual(anchor: backButton.leftAnchor, toAnchor: self.leftAnchor, constant: 10)
+        backButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         backButton.translatesAutoresizingMaskIntoConstraints = false
 
         self.applyBackground()
         self.apply(style: Style.Auth0)
         titleView.font = regularSystemFont(size: 20)
         logoView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)
-        closeButton.setImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: UIControlState())
+        closeButton.setBackgroundImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: UIControlState())
         closeButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        backButton.setImage(image(named: "ic_back", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: UIControlState())
+        backButton.setBackgroundImage(image(named: "ic_back", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: UIControlState())
         backButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
 
         self.titleView = titleView
@@ -249,5 +249,7 @@ extension HeaderView: Stylable {
         self.titleColor = style.titleColor
         self.logo = style.logo.image(compatibleWithTraits: self.traitCollection)
         self.maskImage = style.headerMask
+        self.backButton?.setBackgroundImage(style.headerBackIcon.image(compatibleWithTraits: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
+        self.closeButton?.setBackgroundImage(style.headerCloseIcon.image(compatibleWithTraits: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
 }

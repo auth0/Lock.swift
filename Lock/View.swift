@@ -25,6 +25,7 @@ import UIKit
 protocol View: Stylable {
     func layout(inView root: UIView, below view: UIView) -> NSLayoutConstraint?
     func remove()
+    func applyAll(withStyle style: Style)
 }
 
 extension View where Self: UIView {
@@ -44,5 +45,10 @@ extension View where Self: UIView {
 
     func remove() {
         self.removeFromSuperview()
+    }
+
+    func applyAll(withStyle style: Style) {
+        self.apply(style: style)
+        self.styleSubViews(style: style)
     }
 }

@@ -1,3 +1,4 @@
+skip_docs
 opt_out_usage
 
 fastlane_version "2.27.0"

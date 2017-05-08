@@ -45,7 +45,7 @@ class LoadingView: UIView, View {
 
     init() {
         super.init(frame: CGRect.zero)
-        self.backgroundColor = .white
+        self.backgroundColor = Style.Auth0.backgroundColor
 
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         apply(style: Style.Auth0)
@@ -63,6 +63,7 @@ class LoadingView: UIView, View {
     }
 
     func apply(style: Style) {
+        self.backgroundColor = style.backgroundColor
         self.indicator?.color = style.disabledTextColor
     }
 }

@@ -22,7 +22,7 @@
 
 import UIKit
 
-class SingleInputView: UIView, Form {
+class SingleInputView: UIView, Form, Stylable {
     private var inputField: InputField
     private var titleView: UILabel
     private var messageView: UILabel
@@ -118,7 +118,12 @@ class SingleInputView: UIView, Form {
         messageView.numberOfLines = 4
         messageView.textAlignment = .center
         messageView.font = regularSystemFont(size: 15)
+        messageView.textColor = Style.Auth0.textColor
         inputField.type = self.type
         inputField.returnKey = self.returnKey
+    }
+
+    func apply(style: Style) {
+        self.messageView.textColor = style.textColor
     }
 }

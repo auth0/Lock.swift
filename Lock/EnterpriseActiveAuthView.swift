@@ -28,6 +28,7 @@ class EnterpriseActiveAuthView: UIView, View {
     weak var primaryButton: PrimaryButton?
 
     private weak var container: UIStackView?
+    private weak var titleView: UILabel?
 
     init(identifier: String?, identifierAttribute: UserAttribute, domain: String? = nil) {
         let primaryButton = PrimaryButton()
@@ -37,6 +38,7 @@ class EnterpriseActiveAuthView: UIView, View {
 
         self.primaryButton = primaryButton
         self.form = credentialView
+        self.titleView = titleView
 
         super.init(frame: CGRect.zero)
 
@@ -96,7 +98,7 @@ class EnterpriseActiveAuthView: UIView, View {
     }
 
     func apply(style: Style) {
-        self.primaryButton?.apply(style: style)
+        self.titleView?.textColor = style.textColor
     }
 
 }

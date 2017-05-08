@@ -27,6 +27,8 @@ class UnrecoverableErrorView: UIView, View {
     weak var secondaryButton: SecondaryButton?
     weak var messageLabel: UILabel?
 
+    private weak var titleLabel: UILabel?
+
     init(canRetry: Bool) {
         let center = UILayoutGuide()
         let titleLabel = UILabel()
@@ -35,6 +37,7 @@ class UnrecoverableErrorView: UIView, View {
         let actionButton = SecondaryButton()
         self.secondaryButton = actionButton
         self.messageLabel = messageLabel
+        self.titleLabel = titleLabel
 
         super.init(frame: CGRect.zero)
 
@@ -71,9 +74,10 @@ class UnrecoverableErrorView: UIView, View {
         titleLabel.textAlignment = .center
         titleLabel.font = lightSystemFont(size: 22)
         titleLabel.numberOfLines = 1
+        titleLabel.textColor = Style.Auth0.textColor
         messageLabel.textAlignment = .center
         messageLabel.font = regularSystemFont(size: 15)
-        messageLabel.textColor = UIColor(red: 0.408, green: 0.408, blue: 0.408, alpha: 1.00)
+        messageLabel.textColor = Style.Auth0.textColor.withAlphaComponent(0.50)
         messageLabel.numberOfLines = 3
 
         actionButton.button?.setTitleColor(UIColor(red:0.04, green:0.53, blue:0.69, alpha:1.0), for: .normal)
@@ -96,5 +100,7 @@ class UnrecoverableErrorView: UIView, View {
     }
 
     func apply(style: Style) {
+        self.titleLabel?.textColor = style.textColor
+        self.messageLabel?.textColor = style.textColor.withAlphaComponent(0.50)
     }
 }

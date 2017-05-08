@@ -94,18 +94,17 @@ class DatabaseModeSwitcher: UIView {
         segmented.setBackgroundImage(image(named: "ic_switcher_selected", compatibleWithTraitCollection: self.traitCollection), for: .highlighted, barMetrics: .default)
         segmented.setBackgroundImage(image(named: "ic_switcher_normal", compatibleWithTraitCollection: self.traitCollection), for: UIControlState(), barMetrics: .default)
         segmented.setTitleTextAttributes([
-            NSForegroundColorAttributeName: UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6 ),
+            NSForegroundColorAttributeName: Style.Auth0.tabTextColor,
             NSFontAttributeName: mediumSystemFont(size: 15)
             ], for: UIControlState())
         segmented.setTitleTextAttributes([
-            NSForegroundColorAttributeName: UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 1.0 ),
+            NSForegroundColorAttributeName: Style.Auth0.tabTextColor,
             NSFontAttributeName: semiBoldSystemFont(size: 15)
             ], for: .selected)
-        segmented.tintColor = UIColor ( red: 0.3608, green: 0.4, blue: 0.4353, alpha: 1.0 )
+        segmented.tintColor = Style.Auth0.tabTintColor
         segmented.addTarget(self, action: #selector(selectedIndex), for: .valueChanged)
 
         self.segmentedControl = segmented
-
         self.selected = .login
     }
 
@@ -117,5 +116,20 @@ class DatabaseModeSwitcher: UIView {
 
     func selectedIndex(_ sender: UISegmentedControl) {
         self.onSelectionChange(self)
+    }
+}
+
+extension DatabaseModeSwitcher: Stylable {
+
+    func apply(style: Style) {
+        self.segmentedControl?.tintColor = style.tabTintColor
+        self.segmentedControl?.setTitleTextAttributes([
+            NSForegroundColorAttributeName: style.tabTextColor,
+            NSFontAttributeName: mediumSystemFont(size: 15)
+            ], for: UIControlState())
+        self.segmentedControl?.setTitleTextAttributes([
+            NSForegroundColorAttributeName: style.tabTextColor,
+            NSFontAttributeName: semiBoldSystemFont(size: 15)
+            ], for: .selected)
     }
 }

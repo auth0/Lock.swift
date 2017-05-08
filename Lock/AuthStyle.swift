@@ -253,7 +253,7 @@ public extension AuthStyle {
             withImage: LazyImage(name: "ic_auth_paypal", bundle: bundleForLock())
         )
     }
-    
+
     /// Planning Center style for AuthButton
     public static var PlanningCenter: AuthStyle {
         return AuthStyle(

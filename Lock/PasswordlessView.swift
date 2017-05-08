@@ -31,6 +31,7 @@ class PasswordlessView: UIView, View {
 
     private weak var container: UIStackView?
     private weak var centerGuide: UILayoutGuide?
+    private weak var messageLabel: UILabel?
 
     init() {
         let container = UIStackView()
@@ -96,6 +97,7 @@ class PasswordlessView: UIView, View {
 
         self.form = formView
         self.countrySelector = formView
+        self.messageLabel = messageView
 
         self.container?.addArrangedSubview(strutView(withHeight: 25))
         if let authView = authCollectionView {
@@ -164,6 +166,7 @@ class PasswordlessView: UIView, View {
 
         self.secondaryButton = secondaryButton
         self.primaryButton?.isHidden = true
+        self.messageLabel = messageLabel
 
         self.container?.addArrangedSubview(strutView(withHeight: 75))
         self.container?.addArrangedSubview(imageView)
@@ -185,7 +188,7 @@ class PasswordlessView: UIView, View {
         messageLabel.numberOfLines = 2
         messageLabel.textAlignment = .center
         messageLabel.font = .systemFont(ofSize: 16, weight: UIFontWeightSemibold)
-        messageLabel.textColor = .black
+        messageLabel.textColor = Style.Auth0.textColor
         messageLabel.text = String(format: "We sent you a link to sign in to %1$@".i18n(key: "com.auth0.passwordless.link.sent", comment: "Passwordless link sent to %@{identifier}"),
                                    displayIdentifier)
         secondaryButton.title = "Did not receive the link?".i18n(key: "com.auth0.passwordless.link.reminder", comment: "Passwordless link reminder action")
@@ -196,6 +199,6 @@ class PasswordlessView: UIView, View {
     }
 
     func apply(style: Style) {
-        self.primaryButton?.apply(style: style)
+        self.messageLabel?.textColor = style.textColor
     }
 }

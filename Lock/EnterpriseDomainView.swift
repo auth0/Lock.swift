@@ -31,6 +31,8 @@ class EnterpriseDomainView: UIView, View {
     weak var container: UIStackView?
     weak var authButton: AuthButton?
 
+    private weak var seperatorLabel: UILabel?
+
     init(email: String?, authCollectionView: AuthCollectionView? = nil) {
         let primaryButton = PrimaryButton()
         let domainView = SingleInputView()
@@ -61,8 +63,8 @@ class EnterpriseDomainView: UIView, View {
             let label = UILabel()
             label.text = "or".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
             label.font = mediumSystemFont(size: 13.75)
-            label.textColor = UIColor ( red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54 )
             label.textAlignment = .center
+            self.seperatorLabel = label
             container.addArrangedSubview(label)
         }
         container.addArrangedSubview(domainView)
@@ -96,7 +98,7 @@ class EnterpriseDomainView: UIView, View {
     }
 
     func apply(style: Style) {
-        self.primaryButton?.apply(style: style)
+        self.seperatorLabel?.textColor = style.seperatorTextColor
     }
 
 }

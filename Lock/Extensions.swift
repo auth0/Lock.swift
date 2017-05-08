@@ -32,5 +32,16 @@ extension Optional {
             return "<no value>"
         }
     }
+}
 
+extension UIView {
+
+    func styleSubViews(style: Style) {
+        self.subviews.forEach { view in
+            if let view = view as? Stylable {
+                view.apply(style: style)
+            }
+            view.styleSubViews(style: style)
+        }
+    }
 }

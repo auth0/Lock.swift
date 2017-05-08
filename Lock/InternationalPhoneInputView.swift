@@ -22,7 +22,7 @@
 
 import UIKit
 
-class InternationalPhoneInputView: UIView, Form {
+class InternationalPhoneInputView: UIView, Form, Stylable {
 
     var container: UIView
     var countryLabel: UILabel
@@ -31,6 +31,11 @@ class InternationalPhoneInputView: UIView, Form {
     var stackView: UIStackView
     var countryStore: CountryCodes
     var onPresent: (UIViewController) -> Void = { _ in }
+    var style: Style?
+
+    private var iconContainer: UIView?
+    private var iconView: UIImageView?
+    private var actionIconView: UIImageView?
 
     init(withCountryData data: CountryCodes) {
         self.container = UIView()
@@ -118,6 +123,10 @@ class InternationalPhoneInputView: UIView, Form {
         actionIconContainer.addSubview(actionIconView)
         self.addSubview(stackView)
 
+        self.iconView = iconView
+        self.actionIconView = actionIconView
+        self.iconContainer = iconContainer
+
         stackView.addArrangedSubview(container)
         stackView.addArrangedSubview(inputField)
 
@@ -173,18 +182,18 @@ class InternationalPhoneInputView: UIView, Form {
         iconView.image = lazyImage(named: "ic_globe").image()
         actionIconView.image = lazyImage(named: "ic_chevron_right").image()
 
-        countryLabel.textColor = UIColor(red:0.73, green:0.73, blue:0.73, alpha:1.0)
-        codeLabel.textColor = countryLabel.textColor
+        countryLabel.textColor = Style.Auth0.inputPlaceholderTextColor
+        codeLabel.textColor = Style.Auth0.inputPlaceholderTextColor
         codeLabel.textAlignment = .right
-        iconContainer.backgroundColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
-        iconView.tintColor = UIColor ( red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
-        actionIconView.tintColor = UIColor.black
+        iconContainer.backgroundColor = Style.Auth0.inputIconBackgroundColor
+        iconView.tintColor = Style.Auth0.inputIconColor
+        actionIconView.tintColor = Style.Auth0.inputIconBackgroundColor
 
-        container.backgroundColor = UIColor(red:0.98, green:0.98, blue:0.98, alpha:1.0)
+        container.backgroundColor = Style.Auth0.inputBackgroundColor
         container.layer.cornerRadius = 3.67
         container.layer.masksToBounds = true
         container.layer.borderWidth = 1
-        container.layer.borderColor = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 ).cgColor
+        container.layer.borderColor = Style.Auth0.inputBorderColor.cgColor
     }
 
     func launchCountryTable(_ sender: UITapGestureRecognizer) {
@@ -192,6 +201,19 @@ class InternationalPhoneInputView: UIView, Form {
             self.updateCountry($0)
         }
         let navigationController = UINavigationController(rootViewController: countryTableView)
+        navigationController.modalPresentationStyle = .overFullScreen
         self.onPresent(navigationController)
+        if let style = self.style { countryTableView.apply(style: style) }
+    }
+
+    func apply(style: Style) {
+        self.style = style
+        self.countryLabel.textColor = style.inputPlaceholderTextColor
+        self.codeLabel.textColor = style.inputPlaceholderTextColor
+        self.iconContainer?.backgroundColor = style.inputIconBackgroundColor
+        self.iconView?.tintColor = style.inputIconColor
+        self.actionIconView?.tintColor = style.inputIconBackgroundColor
+        self.container.backgroundColor = style.inputBackgroundColor
+        self.container.layer.borderColor = style.inputBorderColor.cgColor
     }
 }
