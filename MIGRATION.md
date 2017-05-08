@@ -198,7 +198,9 @@ Lock
     .present(from: self)
 ```
 
-**Note:** Passwordless can only be used with a single connection and will prioritize the use of email connections over sms.
+**Notes:**
+- Passwordless can only be used with a single connection and will prioritize the use of email connections over sms.  
+- The `audience` option is not available in Passwordless.
 
 #### Configuration Options
 
