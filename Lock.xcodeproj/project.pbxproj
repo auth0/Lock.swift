@@ -14,8 +14,6 @@
 		5B0CF2D61DE9AE0F00F82BF4 /* InputValidationErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */; };
 		5B0CF2D91DE9B1DB00F82BF4 /* DatabaseAuthenticatableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */; };
 		5B0CF2DE1DE9B4AF00F82BF4 /* DatabaseUserCreatorErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */; };
-		5B124ED01EA8D15E0050E567 /* LockSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B124ECF1EA8D15E0050E567 /* LockSnapshot.swift */; };
-		5B124ED81EA8D17A0050E567 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B124ED71EA8D17A0050E567 /* SnapshotHelper.swift */; };
 		5B1FD96D1E4E2B6B0055C1AC /* PasswordlessActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FD96C1E4E2B6B0055C1AC /* PasswordlessActivity.swift */; };
 		5B1FD9701E4E2F170055C1AC /* PasswordlessActivitySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FD96E1E4E2E670055C1AC /* PasswordlessActivitySpec.swift */; };
 		5B1FD9721E546F500055C1AC /* PasswordlessInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FD9711E546F500055C1AC /* PasswordlessInteractorSpec.swift */; };
@@ -65,6 +63,8 @@
 		5BE4344E1E64820800950FA1 /* HRDAuthenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */; };
 		5BE4344F1E64820800950FA1 /* PasswordRecoverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */; };
 		5BE978241E8405C70090EC07 /* PasswordlessAuthTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE978231E8405C70090EC07 /* PasswordlessAuthTransaction.swift */; };
+		5BEDE14A1EC0A9F10007300D /* LockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEDE1441EC0A9EB0007300D /* LockUITests.swift */; };
+		5BEDE14C1EC0A9F10007300D /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEDE1461EC0A9EB0007300D /* SnapshotHelper.swift */; };
 		5F0FCF901E20117E00E3D53B /* ObserverStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */; };
 		5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
@@ -185,7 +185,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5B124ED21EA8D15E0050E567 /* PBXContainerItemProxy */ = {
+		5BEDE13F1EC0A9750007300D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5FEAE1BD1D1A5154005C0028 /* Project object */;
 			proxyType = 1;
@@ -241,10 +241,6 @@
 		5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidationErrorSpec.swift; sourceTree = "<group>"; };
 		5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseAuthenticatableErrorSpec.swift; sourceTree = "<group>"; };
 		5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseUserCreatorErrorSpec.swift; sourceTree = "<group>"; };
-		5B124ECD1EA8D15D0050E567 /* LockSnapshot.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LockSnapshot.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5B124ECF1EA8D15E0050E567 /* LockSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockSnapshot.swift; sourceTree = "<group>"; };
-		5B124ED11EA8D15E0050E567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5B124ED71EA8D17A0050E567 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		5B1FD96C1E4E2B6B0055C1AC /* PasswordlessActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessActivity.swift; sourceTree = "<group>"; };
 		5B1FD96E1E4E2E670055C1AC /* PasswordlessActivitySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessActivitySpec.swift; sourceTree = "<group>"; };
 		5B1FD9711E546F500055C1AC /* PasswordlessInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessInteractorSpec.swift; sourceTree = "<group>"; };
@@ -293,6 +289,10 @@
 		5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRDAuthenticatable.swift; sourceTree = "<group>"; };
 		5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordRecoverable.swift; sourceTree = "<group>"; };
 		5BE978231E8405C70090EC07 /* PasswordlessAuthTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessAuthTransaction.swift; sourceTree = "<group>"; };
+		5BEDE13A1EC0A9750007300D /* LockUITests.iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LockUITests.iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BEDE13E1EC0A9750007300D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5BEDE1441EC0A9EB0007300D /* LockUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockUITests.swift; sourceTree = "<group>"; };
+		5BEDE1461EC0A9EB0007300D /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverStore.swift; sourceTree = "<group>"; };
 		5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ObserverStoreSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Lock/Colors.swift; sourceTree = SOURCE_ROOT; };
@@ -415,7 +415,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5B124ECA1EA8D15D0050E567 /* Frameworks */ = {
+		5BEDE1371EC0A9750007300D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -490,6 +490,7 @@
 			name = Extension;
 			sourceTree = "<group>";
 		};
+		5B94D5AC1E8E6AF400E9D4F1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				5BBD9E351E8E730C007EF625 /* OnePassword.swift */,
@@ -497,6 +498,16 @@
 				5BBD9E301E8E6F5E007EF625 /* OnePasswordExtension.h */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		5BEDE13B1EC0A9750007300D /* LockUITests */ = {
+			isa = PBXGroup;
+			children = (
+				5BEDE1441EC0A9EB0007300D /* LockUITests.swift */,
+				5BEDE1461EC0A9EB0007300D /* SnapshotHelper.swift */,
+				5BEDE13E1EC0A9750007300D /* Info.plist */,
+			);
+			path = LockUITests;
 			sourceTree = "<group>";
 		};
 		5F2496B41D665A9700A1C6E2 /* Errors */ = {
@@ -747,7 +758,7 @@
 				5FEAE1C81D1A5154005C0028 /* Lock */,
 				5FEAE1D41D1A5154005C0028 /* LockTests */,
 				5FEADCF51D1A7EBC0032D810 /* App */,
-				5B124ECE1EA8D15E0050E567 /* LockSnapshot */,
+				5BEDE13B1EC0A9750007300D /* LockUITests */,
 				5FEAE2111D1A5716005C0028 /* Frameworks */,
 				5FEAE1C71D1A5154005C0028 /* Products */,
 			);
@@ -759,7 +770,7 @@
 				5FEAE1C61D1A5154005C0028 /* Lock.framework */,
 				5FEAE1D01D1A5154005C0028 /* LockTests.iOS.xctest */,
 				5FEADCF41D1A7EBC0032D810 /* LockApp.app */,
-				5B124ECD1EA8D15D0050E567 /* LockSnapshot.xctest */,
+				5BEDE13A1EC0A9750007300D /* LockUITests.iOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -894,22 +905,22 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		5B124ECC1EA8D15D0050E567 /* LockSnapshot */ = {
+		5BEDE1391EC0A9750007300D /* LockUITests.iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5B124ED61EA8D15E0050E567 /* Build configuration list for PBXNativeTarget "LockSnapshot" */;
+			buildConfigurationList = 5BEDE1411EC0A9750007300D /* Build configuration list for PBXNativeTarget "LockUITests.iOS" */;
 			buildPhases = (
-				5B124EC91EA8D15D0050E567 /* Sources */,
-				5B124ECA1EA8D15D0050E567 /* Frameworks */,
-				5B124ECB1EA8D15D0050E567 /* Resources */,
+				5BEDE1361EC0A9750007300D /* Sources */,
+				5BEDE1371EC0A9750007300D /* Frameworks */,
+				5BEDE1381EC0A9750007300D /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				5B124ED31EA8D15E0050E567 /* PBXTargetDependency */,
+				5BEDE1401EC0A9750007300D /* PBXTargetDependency */,
 			);
-			name = LockSnapshot;
-			productName = LockSnapshot;
-			productReference = 5B124ECD1EA8D15D0050E567 /* LockSnapshot.xctest */;
+			name = LockUITests.iOS;
+			productName = LockUITests;
+			productReference = 5BEDE13A1EC0A9750007300D /* LockUITests.iOS.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		5FEADCF31D1A7EBC0032D810 /* LockApp */ = {
@@ -981,9 +992,9 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Auth0;
 				TargetAttributes = {
-					5B124ECC1EA8D15D0050E567 = {
-						CreatedOnToolsVersion = 8.3;
-						ProvisioningStyle = Manual;
+					5BEDE1391EC0A9750007300D = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 5FEADCF31D1A7EBC0032D810;
 					};
 					5FEADCF31D1A7EBC0032D810 = {
@@ -1025,13 +1036,13 @@
 				5FEAE1C51D1A5154005C0028 /* Lock.iOS */,
 				5FEAE1CF1D1A5154005C0028 /* LockTests.iOS */,
 				5FEADCF31D1A7EBC0032D810 /* LockApp */,
-				5B124ECC1EA8D15D0050E567 /* LockSnapshot */,
+				5BEDE1391EC0A9750007300D /* LockUITests.iOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5B124ECB1EA8D15D0050E567 /* Resources */ = {
+		5BEDE1381EC0A9750007300D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1115,12 +1126,12 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5B124EC91EA8D15D0050E567 /* Sources */ = {
+		5BEDE1361EC0A9750007300D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B124ED01EA8D15E0050E567 /* LockSnapshot.swift in Sources */,
-				5B124ED81EA8D17A0050E567 /* SnapshotHelper.swift in Sources */,
+				5BEDE14A1EC0A9F10007300D /* LockUITests.swift in Sources */,
+				5BEDE14C1EC0A9F10007300D /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1301,10 +1312,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5B124ED31EA8D15E0050E567 /* PBXTargetDependency */ = {
+		5BEDE1401EC0A9750007300D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5FEADCF31D1A7EBC0032D810 /* LockApp */;
-			targetProxy = 5B124ED21EA8D15E0050E567 /* PBXContainerItemProxy */;
+			targetProxy = 5BEDE13F1EC0A9750007300D /* PBXContainerItemProxy */;
 		};
 		5FEADD091D1A7F010032D810 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1348,38 +1359,34 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		5B124ED41EA8D15E0050E567 /* Debug */ = {
+		5BEDE1421EC0A9750007300D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = LockSnapshot/Info.plist;
+				INFOPLIST_FILE = LockUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockSnapshot;
+				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "97f7985c-a5ce-42be-a3e5-39a6c818bc78";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = LockApp;
 			};
 			name = Debug;
 		};
-		5B124ED51EA8D15E0050E567 /* Release */ = {
+		5BEDE1431EC0A9750007300D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = LockSnapshot/Info.plist;
+				INFOPLIST_FILE = LockUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockSnapshot;
+				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "97f7985c-a5ce-42be-a3e5-39a6c818bc78";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = LockApp;
 			};
@@ -1616,11 +1623,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5B124ED61EA8D15E0050E567 /* Build configuration list for PBXNativeTarget "LockSnapshot" */ = {
+		5BEDE1411EC0A9750007300D /* Build configuration list for PBXNativeTarget "LockUITests.iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5B124ED41EA8D15E0050E567 /* Debug */,
-				5B124ED51EA8D15E0050E567 /* Release */,
+				5BEDE1421EC0A9750007300D /* Debug */,
+				5BEDE1431EC0A9750007300D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

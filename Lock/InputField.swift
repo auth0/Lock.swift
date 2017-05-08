@@ -33,6 +33,7 @@ class InputField: UIView, UITextFieldDelegate, Stylable {
 
     private weak var errorLabelTopPadding: NSLayoutConstraint?
     private weak var textFieldLeftAnchor: NSLayoutConstraint?
+    private weak var textFieldRightPadding: NSLayoutConstraint?
     private(set) var state: State = .invalid(nil)
     private weak var borderColor: UIColor?
     private weak var borderColorError: UIColor?

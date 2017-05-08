@@ -116,7 +116,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.passwordField = form.passwordField
 
         if showPassswordManager {
-            self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0))
+            self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: Style.Auth0.onePasswordIconColor)
         }
 
     }
@@ -162,7 +162,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         }
 
         if showPassswordManager {
-            self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0))
+            self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: Style.Auth0.onePasswordIconColor)
         }
     }
 
@@ -262,5 +262,6 @@ class DatabaseOnlyView: UIView, DatabaseView {
     func apply(style: Style) {
         self.style = style
         self.separator?.textColor = style.seperatorTextColor
+        self.passwordManagerButton?.color = style.onePasswordIconColor
     }
 }
