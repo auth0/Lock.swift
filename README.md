@@ -209,7 +209,9 @@ Lock
     .present(from: self)
 ```
 
-Passwordless can only be used with a single connection and will prioritize the use of email connections over sms.
+**Notes:**
+- Passwordless can only be used with a single connection and will prioritize the use of email connections over sms.  
+- The `audience` option is not available in Passwordless.
 
 #### Passwordless Method
 
@@ -237,7 +239,7 @@ func application(_ application: UIApplication, continue userActivity: NSUserActi
 
 ```swift
 .withConnections {
-    $0.sms(name: "custom-sms")
+    $0.sms(name: "sms")
 }
 ```
 
@@ -245,7 +247,7 @@ func application(_ application: UIApplication, continue userActivity: NSUserActi
 
 ```swift
 .withConnections {
-    $0.email(name: "custom-email")
+    $0.email(name: "email")
 }
 ```
 
