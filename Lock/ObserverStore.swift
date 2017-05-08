@@ -30,6 +30,7 @@ struct ObserverStore: Dispatcher {
     var onSignUp: (String, [String: Any]) -> Void = { _ in }
     var onForgotPassword: (String) -> Void = { _ in }
     var onPasswordless: (String) -> Void = { _ in }
+    var onPostAuth: (Credentials) -> Void = { _ in }
 
     var options: Options = LockOptions()
 
@@ -40,9 +41,15 @@ struct ObserverStore: Dispatcher {
         switch result {
         case .auth(let credentials):
             if self.options.autoClose {
-                closure = dismiss(from: controller?.presentingViewController, completion: { self.onAuth(credentials) })
+                closure = dismiss(from: controller?.presentingViewController, completion: {
+                    self.onAuth(credentials)
+                    self.onPostAuth(credentials)
+                })
             } else {
-                closure = { self.onAuth(credentials) }
+                closure = {
+                    self.onAuth(credentials)
+                    self.onPostAuth(credentials)
+                }
             }
         case .error(let error):
             closure = { self.onFailure(error) }

@@ -36,12 +36,23 @@ public class LockViewController: UIViewController {
     var messagePresenter: MessagePresenter!
     var router: Router!
     let lock: Lock
+    let touchAuth: TouchAuthentication
 
     public required init(lock: Lock) {
         self.lock = lock
+        self.touchAuth = TouchAuthentication(authentication: self.lock.authentication, options: self.lock.options)
         super.init(nibName: nil, bundle: nil)
-        lock.observerStore.controller = self
+        self.lock.observerStore.controller = self
         self.router = lock.classicMode ? ClassicRouter(lock: lock, controller: self) : PasswordlessRouter(lock: lock, controller: self)
+        if self.touchAuth.available, self.router is ClassicRouter {
+            self.lock.observerStore.onPostAuth = { [weak self] in
+                self?.touchAuth.store(credentials: $0) {
+                    if $0 != nil {
+                        self?.lock.logger.debug("Touch storage unsuccessful: \($0.verbatim())")
+                    }
+                }
+            }
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -132,6 +143,17 @@ public class LockViewController: UIViewController {
         guard !self.lock.connections.isEmpty else { return router.exit(withError: UnrecoverableError.clientWithNoConnections) }
         self.routes.reset()
         self.present(self.router.root, title: self.routes.current.title(withStyle: self.lock.style))
+        if self.touchAuth.available, self.router is ClassicRouter {
+            self.touchAuth.renewAuth { error, credentials in
+                guard error == nil else {
+                    self.lock.logger.debug("Touch auth unsuccessful: \(error.verbatim())")
+                    return self.lock.observerStore.dispatch(result: .error(error!))
+                }
+                if let credentials = credentials {
+                    self.lock.observerStore.dispatch(result: .auth(credentials))
+                }
+            }
+        }
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -183,5 +205,4 @@ public class LockViewController: UIViewController {
         },
             completion: nil)
     }
-
 }

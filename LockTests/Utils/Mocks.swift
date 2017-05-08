@@ -22,6 +22,8 @@
 
 import Foundation
 import Auth0
+import LocalAuthentication
+
 @testable import Lock
 
 class MockLockController: LockViewController {
@@ -289,6 +291,10 @@ class MockAuthentication: Authentication {
     func loginSocial(token: String, connection: String, scope: String, parameters: [String : Any]) -> Request<Credentials, AuthenticationError> {
         return self.authentication.loginSocial(token: token, connection: connection, scope: scope, parameters: parameters)
     }
+
+    func revoke(refreshToken: String) -> Request<Void, AuthenticationError> {
+        return self.revoke(refreshToken: refreshToken)
+    }
 }
 
 class MockWebAuth: WebAuth {
@@ -444,6 +450,10 @@ func mockCredentials() -> Credentials {
     return Credentials(accessToken: UUID().uuidString, tokenType: "Bearer")
 }
 
+func mockCredentialsAll() -> Credentials {
+    return Credentials(accessToken: UUID().uuidString, tokenType: "Bearer", idToken: UUID().uuidString, refreshToken: UUID().uuidString, expiresIn: Date())
+}
+
 class MockPasswordlessActivity: PasswordlessUserActivity {
 
     var messagePresenter: MessagePresenter?
@@ -491,5 +501,18 @@ class MockPasswordlessInteractor: PasswordlessAuthenticatable {
 
     func login(_ connection: String, callback: @escaping (CredentialAuthError?) -> ()) {
         callback(onLogin())
+    }
+}
+
+class MockLAContext: LAContext {
+
+    var error: LAError?
+
+    override func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
+        return true
+    }
+
+    override func evaluatePolicy(_ policy: LAPolicy, localizedReason: String, reply: @escaping (Bool, Error?) -> Void) {
+        reply(true, self.error)
     }
 }
