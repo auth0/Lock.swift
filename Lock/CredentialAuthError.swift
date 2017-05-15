@@ -64,3 +64,9 @@ enum CredentialAuthError: Error, LocalizableError {
         }
     }
 }
+
+extension CredentialAuthError: Equatable {
+    static func ==(lhs: CredentialAuthError, rhs: CredentialAuthError) -> Bool {
+        return lhs.localizableMessage == rhs.localizableMessage
+    }
+}
