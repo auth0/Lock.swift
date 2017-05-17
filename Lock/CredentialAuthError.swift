@@ -64,24 +64,3 @@ enum CredentialAuthError: Error, LocalizableError {
         }
     }
 }
-
-extension CredentialAuthError: Equatable {
-    static func ==(lhs: CredentialAuthError, rhs: CredentialAuthError) -> Bool {
-        switch (lhs, rhs) {
-        case (.nonValidInput, .nonValidInput),
-             (.userBlocked, .userBlocked),
-             (.invalidEmailPassword, .invalidEmailPassword),
-             (.couldNotLogin, .couldNotLogin),
-             (.passwordChangeRequired, .passwordChangeRequired),
-             (.passwordLeaked, .passwordLeaked),
-             (.tooManyAttempts, .tooManyAttempts),
-             (.multifactorRequired, .multifactorRequired),
-             (.multifactorInvalid, .multifactorInvalid):
-            return true
-        case (.customRuleFailure(let lhsCause), .customRuleFailure(let rhsCause)):
-            return lhsCause == rhsCause
-        default:
-            return false
-        }
-    }
-}
