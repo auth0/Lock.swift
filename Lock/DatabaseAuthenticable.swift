@@ -66,6 +66,10 @@ extension CredentialAuthenticatable {
             self.logger.error("Blocked user <\(identifier)>")
             callback(.userBlocked)
             self.dispatcher.dispatch(result: .error(CredentialAuthError.userBlocked))
+        case .failure(let cause as AuthenticationError) where cause.isRuleError:
+            self.logger.error("Failed login of user <\(identifier)> by custom rule")
+            callback(.customRuleFailure(cause: cause.description))
+            self.dispatcher.dispatch(result: .error(CredentialAuthError.customRuleFailure(cause: cause.description)))
         case .failure(let cause as AuthenticationError) where cause.code == "password_change_required":
             self.logger.error("Change password required for user <\(identifier)>")
             callback(.passwordChangeRequired)

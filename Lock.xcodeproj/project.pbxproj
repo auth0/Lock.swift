@@ -12,7 +12,7 @@
 		5B0971801DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */; };
 		5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */; };
 		5B0CF2D61DE9AE0F00F82BF4 /* InputValidationErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */; };
-		5B0CF2D91DE9B1DB00F82BF4 /* DatabaseAuthenticatableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */; };
+		5B0CF2D91DE9B1DB00F82BF4 /* CredentialAuthErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2D71DE9B14000F82BF4 /* CredentialAuthErrorSpec.swift */; };
 		5B0CF2DE1DE9B4AF00F82BF4 /* DatabaseUserCreatorErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */; };
 		5B1FD96D1E4E2B6B0055C1AC /* PasswordlessActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FD96C1E4E2B6B0055C1AC /* PasswordlessActivity.swift */; };
 		5B1FD9701E4E2F170055C1AC /* PasswordlessActivitySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FD96E1E4E2E670055C1AC /* PasswordlessActivitySpec.swift */; };
@@ -239,7 +239,7 @@
 		5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainPresenter.swift; path = Lock/EnterpriseDomainPresenter.swift; sourceTree = SOURCE_ROOT; };
 		5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainView.swift; path = Lock/EnterpriseDomainView.swift; sourceTree = SOURCE_ROOT; };
 		5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidationErrorSpec.swift; sourceTree = "<group>"; };
-		5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseAuthenticatableErrorSpec.swift; sourceTree = "<group>"; };
+		5B0CF2D71DE9B14000F82BF4 /* CredentialAuthErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialAuthErrorSpec.swift; sourceTree = "<group>"; };
 		5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseUserCreatorErrorSpec.swift; sourceTree = "<group>"; };
 		5B1FD96C1E4E2B6B0055C1AC /* PasswordlessActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessActivity.swift; sourceTree = "<group>"; };
 		5B1FD96E1E4E2E670055C1AC /* PasswordlessActivitySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessActivitySpec.swift; sourceTree = "<group>"; };
@@ -458,7 +458,7 @@
 			isa = PBXGroup;
 			children = (
 				5B0CF2D41DE9ADF900F82BF4 /* InputValidationErrorSpec.swift */,
-				5B0CF2D71DE9B14000F82BF4 /* DatabaseAuthenticatableErrorSpec.swift */,
+				5B0CF2D71DE9B14000F82BF4 /* CredentialAuthErrorSpec.swift */,
 				5B0CF2DC1DE9B47C00F82BF4 /* DatabaseUserCreatorErrorSpec.swift */,
 				5BB78CC01E54BC2D0074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift */,
 				5B55F3D21E24F3F000B75CF5 /* UnrecoverableErrorSpec.swift */,
@@ -1290,7 +1290,7 @@
 				5F57DFCE1D4FBE5A00C54DA8 /* AuthPresenterSpec.swift in Sources */,
 				5F92C6911D510AFE00CCE6C0 /* LazyImageSpec.swift in Sources */,
 				5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */,
-				5B0CF2D91DE9B1DB00F82BF4 /* DatabaseAuthenticatableErrorSpec.swift in Sources */,
+				5B0CF2D91DE9B1DB00F82BF4 /* CredentialAuthErrorSpec.swift in Sources */,
 				5FF0B22A1E1864FE00A73257 /* StyleSpec.swift in Sources */,
 				5F50900A1D1DEE9A00EAA650 /* Constants.swift in Sources */,
 				5B3440CB1E7C11E7009F8BF7 /* ClassicRouterSpec.swift in Sources */,

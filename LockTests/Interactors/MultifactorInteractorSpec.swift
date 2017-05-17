@@ -156,6 +156,16 @@ class MultifactorInteractorSpec: QuickSpec {
                 }
             }
             
+            it("should indicate that a custom rule prevented the user from logging in") {
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
+                try! interactor.setMultifactorCode(code)
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error) == .customRuleFailure(cause: "Only admins can use this")
+                        done()
+                    }
+                }
+            }
         }
 
     }

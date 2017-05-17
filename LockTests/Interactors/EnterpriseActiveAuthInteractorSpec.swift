@@ -219,6 +219,17 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 }
             }
 
+            it("should indicate that a custom rule prevented the user from logging in") {
+                stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
+                try! interactor.update(.email, value: email)
+                try! interactor.update(.password(enforcePolicy: false), value: password)
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error) == .customRuleFailure(cause: "Only admins can use this")
+                        done()
+                    }
+                }
+            }
         }
 
         describe ("login OIDC Conformnat") {
@@ -308,6 +319,17 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 }
             }
             
+            it("should indicate that a custom rule prevented the user from logging in") {
+                stub(condition: realmLogin(identifier: email, password: password, realm: interactor.connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
+                try! interactor.update(.email, value: email)
+                try! interactor.update(.password(enforcePolicy: false), value: password)
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error) == .customRuleFailure(cause: "Only admins can use this")
+                        done()
+                    }
+                }
+            }
         }
         
     }
