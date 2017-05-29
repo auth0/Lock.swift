@@ -29,14 +29,7 @@ platform :ios do
   desc "Runs all the tests"
   lane :test do |options|
     scheme = options[:scheme]
-    device = options[:device]
-    scan(
-      scheme: scheme,
-      device: device,
-      clean: true,
-      skip_build: true,
-      output_types: 'junit'
-      )
+    scan(scheme: scheme)
   end
 
   desc "Runs all the tests in a CI environment"
@@ -46,8 +39,7 @@ platform :ios do
     scheme = ENV["SCHEME"]
     UI.user_error!("You must supply a valid scheme in 'SCHEME' env variable") if scheme.nil?
     options = {
-      scheme: scheme,
-      device: ENV["DEVICE"]
+      scheme: scheme
     }
     test(options)
     lint
