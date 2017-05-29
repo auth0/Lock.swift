@@ -110,6 +110,18 @@ public class LockViewController: UIViewController {
         self.present(self.router.root, title: Route.root.title(withStyle: self.lock.style))
     }
 
+    public override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return self.lock.style.statusBarUpdateAnimation
+    }
+
+    public override var prefersStatusBarHidden: Bool {
+        return self.lock.style.statusBarHidden
+    }
+
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        return self.lock.style.statusBarStyle
+    }
+
     func present(_ presentable: Presentable?, title: String?) {
         guard var presenter = presentable else { return }
         self.current?.remove()

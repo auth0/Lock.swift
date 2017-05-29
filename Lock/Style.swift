@@ -79,6 +79,15 @@ public struct Style {
         /// Header logo image
     public var logo: LazyImage = lazyImage(named: "ic_auth0")
 
+        /// Status bar update animation. It can be any value defined in `UIStatusBarAnimation`
+    public var statusBarUpdateAnimation: UIStatusBarAnimation = .none
+
+        /// Status bar hidden.
+    public var statusBarHidden = false
+
+        /// Prefered status bar style. It can be any value defined in `UIStatusBarStyle`
+    public var statusBarStyle: UIStatusBarStyle = .default
+
         /// OAuth2 custom connection styles by mapping a connection name with an `AuthStyle`
     public var oauth2: [String: AuthStyle] = [:]
 
