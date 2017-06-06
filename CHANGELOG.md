@@ -1,5 +1,17 @@
 # Change Log
 
+## [2.3.0](https://github.com/auth0/Lock.swift/tree/2.3.0) (2017-06-06)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.2.0...2.3.0)
+**Closed issues**
+- Add style properties for the status bar [\#416](https://github.com/auth0/Lock.swift/issues/416)
+- CustomTextField & sign up form should support fields without icons [\#409](https://github.com/auth0/Lock.swift/issues/409)
+
+**Added**
+- Added Custom Rule Error support  [\#436](https://github.com/auth0/Lock.swift/pull/436) ([adolfo](https://github.com/adolfo))
+- Expand Lock style customization [\#432](https://github.com/auth0/Lock.swift/pull/432) ([cocojoe](https://github.com/cocojoe))
+- 1Password Support for Database Connections [\#422](https://github.com/auth0/Lock.swift/pull/422) ([cocojoe](https://github.com/cocojoe))
+- Added UnrecoverableError support and retry links [\#419](https://github.com/auth0/Lock.swift/pull/419) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.2.0](https://github.com/auth0/Lock.swift/tree/2.2.0) (2017-04-25)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.1.0...2.2.0)
 
