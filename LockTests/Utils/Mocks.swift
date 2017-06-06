@@ -358,6 +358,9 @@ class MockWebAuth: WebAuth {
     }
     
     var logger: Auth0.Logger? = nil
+
+    func clearSession(federated: Bool, callback: @escaping (Bool) -> Void) {
+    }
 }
 
 class MockOAuth2: OAuth2Authenticatable {
