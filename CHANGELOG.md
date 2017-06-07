@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.29.2](https://github.com/auth0/Lock.iOS-OSX/tree/1.29.2) (2017-06-07)
+[Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.29.1...1.29.2)
+
+**Fixed**
+- Fix issue with response from change password [\#440](https://github.com/auth0/Lock.swift/pull/440) ([hzalaz](https://github.com/hzalaz))
+
 ## [1.29.1](https://github.com/auth0/Lock.iOS-OSX/tree/1.29.1) (2017-04-08)
 [Full Changelog](https://github.com/auth0/Lock.iOS-OSX/compare/1.29.0...1.29.1)
 
