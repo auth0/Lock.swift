@@ -27,8 +27,16 @@
 @implementation A0JSONResponseSerializer
 
 - (id)responseObjectForResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError **)error {
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     id responseObject = nil;
-    if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {
+    //FIXME: change password answer is not JSON so we need this hack
+    if ([httpResponse.URL.path isEqualToString:@"/dbconnections/change_password"]
+        && httpResponse.statusCode == 200
+        && data) {
+        NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        return @{ @"message": message };
+    }
+    if (![self validateResponse:httpResponse data:data error:error]) {
         NSError *validateError = *error;
         if (validateError) {
             NSError *jsonError;
@@ -44,15 +52,7 @@
         }
     } else {
         responseObject = [super responseObjectForResponse:response data:data error:error];
-        //FIXME: change password answer is not a valid JSON so we need this hack
-        if (!responseObject && [response.URL.path isEqualToString:@"/dbconnections/change_password"]) {
-            responseObject = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            if (error != NULL) {
-                *error = nil;
-            }
-        }
     }
     return responseObject;
 }
-
 @end
