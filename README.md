@@ -183,6 +183,8 @@ Lock provides many styling options to help you apply your own brand identity to 
 
 Lock Passwordless handles authentication using Passwordless & Social Connections.
 
+> The Passwordless feature requires your client to have the *Resource Owner* Legacy Grant Type enabled. Check [this article](https://auth0.com/docs/clients/client-grant-types) for more information.
+
 To show Lock, add the following snippet in your `UIViewController`
 
 ```swift
