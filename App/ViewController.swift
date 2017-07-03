@@ -258,8 +258,11 @@ func applyPhantomStyle(_ style: inout Style) {
     // Table View
     style.searchBarStyle = .minimal
 
-    // 1 Password
+    // One Password Button
     style.onePasswordIconColor = darkPurple
+
+    // Show Password Button
+    style.showPasswordIconColor = darkPurple
 }
 
 class CleanroomLockLogger: LoggerOutput {

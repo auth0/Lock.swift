@@ -96,6 +96,9 @@ public protocol OptionBuildable: Options {
 
         /// Specify the password manager configuration, specify the appIdentifier, displyName and enable/disable manager.  By default manager is enabled and defaults to the app's bundle identifier and display name.
     var passwordManager: OnePassword { get set }
+
+        /// Should Lock display the option to toggle the visibility of the password field text.  By default is false
+    var showPassword: Bool { get set }
 }
 
 extension OptionBuildable {

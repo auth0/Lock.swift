@@ -51,4 +51,5 @@ public protocol Options {
 
     var passwordlessMethod: PasswordlessMethod { get }
     var passwordManager: OnePassword { get }
+    var showPassword: Bool { get }
 }
