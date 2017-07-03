@@ -396,11 +396,11 @@ You will need to add the following to your app's `info.plist`:
 
 #### Show Password
 
-By default a show password icon is shown in password fields to toggle visibility of the input text. You can disable this using the `showPassword` option.
+By default a show password icon is shown in password fields to toggle visibility of the input text. You can disable this using the `allowShowPassword` option.
 
 ```swift
 .withOptions {
-    $0.showPassword = false
+    $0.allowShowPassword = false
 }
 ```
 

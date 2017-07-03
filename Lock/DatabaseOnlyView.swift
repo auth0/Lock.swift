@@ -119,7 +119,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         if showPassswordManager {
             self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: Style.Auth0.onePasswordIconColor)
         } else if showPassword, let passwordInput = form.passwordField.textField {
-            self.showPasswordButton = form.passwordField.addFieldButton(withIcon: "ic_show_password_hidden", color: Style.Auth0.showPasswordIconColor)
+            self.showPasswordButton = form.passwordField.addFieldButton(withIcon: "ic_show_password_hidden", color: Style.Auth0.inputIconColor)
             self.showPasswordButton?.onPress = { button in
                 passwordInput.isSecureTextEntry = !passwordInput.isSecureTextEntry
                 button.icon = LazyImage(name: passwordInput.isSecureTextEntry ? "ic_show_password_hidden" : "ic_show_password_visible", bundle: Lock.bundle).image(compatibleWithTraits: self.traitCollection)
@@ -171,7 +171,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         if showPassswordManager {
             self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: Style.Auth0.onePasswordIconColor)
         } else if showPassword, let passwordInput = form.passwordField.textField {
-            self.showPasswordButton = form.passwordField.addFieldButton(withIcon: "ic_show_password_hidden", color: Style.Auth0.showPasswordIconColor)
+            self.showPasswordButton = form.passwordField.addFieldButton(withIcon: "ic_show_password_hidden", color: Style.Auth0.inputIconColor)
             self.showPasswordButton?.onPress = { button in
                 passwordInput.isSecureTextEntry = !passwordInput.isSecureTextEntry
                 button.icon = LazyImage(name: passwordInput.isSecureTextEntry ? "ic_show_password_hidden" : "ic_show_password_visible", bundle: Lock.bundle).image(compatibleWithTraits: self.traitCollection)

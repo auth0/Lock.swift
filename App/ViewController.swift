@@ -260,9 +260,6 @@ func applyPhantomStyle(_ style: inout Style) {
 
     // One Password Button
     style.onePasswordIconColor = darkPurple
-
-    // Show Password Button
-    style.showPasswordIconColor = darkPurple
 }
 
 class CleanroomLockLogger: LoggerOutput {

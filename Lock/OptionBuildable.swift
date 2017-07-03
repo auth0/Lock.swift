@@ -98,7 +98,7 @@ public protocol OptionBuildable: Options {
     var passwordManager: OnePassword { get set }
 
         /// Should Lock display the option to toggle the visibility of the password field text, will not be visible if password manager is available.  By default is true
-    var showPassword: Bool { get set }
+    var allowShowPassword: Bool { get set }
 }
 
 extension OptionBuildable {
