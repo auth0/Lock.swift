@@ -394,6 +394,18 @@ You will need to add the following to your app's `info.plist`:
 </array>
 ```
 
+#### Show Password
+
+By default a show password icon is shown in password fields to toggle visibility of the input text. You can disable this using the `showPassword` option.
+
+```swift
+.withOptions {
+    $0.showPassword = false
+}
+```
+
+**Note:** Show password will not be available if the [Password Manager](#Password Manager) is available.
+
 #### Enterprise
 
 * **enterpriseConnectionUsingActiveAuth**: By default Enterprise connections will use Web Authentication. However you can specify which connections will alternatively use credential authentication and prompt for a username and password.
