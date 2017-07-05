@@ -76,6 +76,8 @@
 "com.auth0.lock.error.recoverable.title" = "Can't load the login box";
 // Generic sign up error
 "com.auth0.lock.error.signup.fallback" = "WE'RE SORRY, SOMETHING WENT WRONG WHEN ATTEMPTING TO SIGN UP.";
+// user exists
+"com.auth0.lock.error.signup.user_exists" = "THE USER ALREADY EXISTS.";
 // invalid_password
 "com.auth0.lock.error.signup.invalid_password" = "PASSWORD IS INVALID.";
 // password_dictionary_error
