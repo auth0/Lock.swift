@@ -32,6 +32,7 @@ enum CredentialAuthError: Error, LocalizableError {
     case tooManyAttempts
     case multifactorRequired
     case multifactorInvalid
+    case customRuleFailure(cause: String)
 
     var localizableMessage: String {
         switch self {
@@ -47,6 +48,8 @@ enum CredentialAuthError: Error, LocalizableError {
             return "YOUR ACCOUNT HAS BEEN BLOCKED AFTER MULTIPLE CONSECUTIVE LOGIN ATTEMPTS.".i18n(key: "com.auth0.lock.error.authentication.too_many_attempts", comment: "too_many_attempts")
         case .multifactorInvalid:
             return "WRONG CODE.".i18n(key: "com.auth0.lock.error.authentication.mfa_invalid_code", comment: "a0.mfa_invalid_code")
+        case .customRuleFailure(let cause):
+            return cause
         default:
             return "WE'RE SORRY, SOMETHING WENT WRONG WHEN ATTEMPTING TO LOG IN.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
         }

@@ -293,6 +293,10 @@ class MockAuthentication: Authentication {
     func revoke(refreshToken: String) -> Request<Void, AuthenticationError> {
         return self.revoke(refreshToken: refreshToken)
     }
+
+    func userInfo(withAccessToken accessToken: String) -> Request<UserInfo, AuthenticationError> {
+        return self.userInfo(withAccessToken: accessToken)
+    }
 }
 
 class MockWebAuth: WebAuth {
@@ -358,6 +362,9 @@ class MockWebAuth: WebAuth {
     }
     
     var logger: Auth0.Logger? = nil
+
+    func clearSession(federated: Bool, callback: @escaping (Bool) -> Void) {
+    }
 }
 
 class MockOAuth2: OAuth2Authenticatable {

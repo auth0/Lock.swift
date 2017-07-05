@@ -96,7 +96,7 @@ class DatabasePresenter: Presentable, Loggable {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20), isLogin: true)
         let style = self.database.requiresUsername ? self.options.usernameStyle : [.Email]
-        view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView, showPassswordManager: self.passwordManager.available)
+        view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView, showPassswordManager: self.passwordManager.available, showPassword: self.options.allowShowPassword)
         self.currentScreen = .login
         let form = view.form
         form?.onValueChange = self.handleInput
@@ -175,7 +175,7 @@ class DatabasePresenter: Presentable, Loggable {
         let passwordPolicyValidator = interactor?.passwordValidator as? PasswordPolicyValidator
         self.currentScreen = .signup
 
-        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator, showPassswordManager: self.passwordManager.available)
+        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator, showPassswordManager: self.passwordManager.available, showPassword: self.options.allowShowPassword)
         let form = view.form
         view.form?.onValueChange = self.handleInput
         let action = { [weak form] (button: PrimaryButton) in
@@ -234,6 +234,7 @@ class DatabasePresenter: Presentable, Loggable {
                 self.handleInput(passwordField)
             }
         }
+
         view.passwordManagerButton?.onPress = { _ in
             self.passwordManager.store(withPolicy: passwordPolicyValidator?.policy.onePasswordRules(), identifier: self.creator.identifier) {
                 guard $0 == nil else {
@@ -241,7 +242,6 @@ class DatabasePresenter: Presentable, Loggable {
                 }
             }
         }
-
     }
 
     private func handleInput(_ input: InputField) {

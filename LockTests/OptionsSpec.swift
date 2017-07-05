@@ -117,6 +117,10 @@ class OptionsSpec: QuickSpec {
             it("should have passwordManager app display name") {
                 expect(options.passwordManager.displayName) == Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
             }
+
+            it("should have allowShowPassword enabled") {
+                expect(options.allowShowPassword) == true
+            }
         }
 
         describe("validation") {

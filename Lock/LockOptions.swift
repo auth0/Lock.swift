@@ -49,4 +49,5 @@ struct LockOptions: OptionBuildable {
 
     var passwordlessMethod: PasswordlessMethod = .code
     var passwordManager: OnePassword = OnePassword()
+    var allowShowPassword: Bool = true
 }

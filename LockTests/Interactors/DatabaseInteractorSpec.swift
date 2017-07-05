@@ -566,6 +566,18 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
+
+            it("should indicate that a custom rule prevented the user from logging in") {
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error) == .customRuleFailure(cause: "Only admins can use this")
+                        done()
+                    }
+                }
+            }
         }
 
         describe("login OIDC Conformant") {
@@ -735,6 +747,18 @@ class DatabaseInteractorSpec: QuickSpec {
                 waitUntil(timeout: 2) { done in
                     database.login { error in
                         expect(error) == .passwordLeaked
+                        done()
+                    }
+                }
+            }
+
+            it("should indicate that a custom rule prevented the user from logging in") {
+                stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error) == .customRuleFailure(cause: "Only admins can use this")
                         done()
                     }
                 }
