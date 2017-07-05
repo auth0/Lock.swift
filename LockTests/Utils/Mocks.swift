@@ -293,6 +293,10 @@ class MockAuthentication: Authentication {
     func revoke(refreshToken: String) -> Request<Void, AuthenticationError> {
         return self.revoke(refreshToken: refreshToken)
     }
+
+    func userInfo(withAccessToken accessToken: String) -> Request<UserInfo, AuthenticationError> {
+        return self.userInfo(withAccessToken: accessToken)
+    }
 }
 
 class MockWebAuth: WebAuth {
