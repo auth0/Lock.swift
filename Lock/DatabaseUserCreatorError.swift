@@ -30,7 +30,7 @@ enum DatabaseUserCreatorError: Error, LocalizableError {
     case passwordHasUserInfo
     case passwordInvalid
     case passwordAlreadyUsed
-	case userExists
+    case userExists
 
     var localizableMessage: String {
         switch self {
