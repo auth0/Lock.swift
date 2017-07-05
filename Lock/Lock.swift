@@ -101,6 +101,7 @@ public class Lock: NSObject {
      - Domain: your Auth0 domain
 
      - returns: a newly created Lock Passwordless instance
+     - requires: Legacy Grant `http://auth0.com/oauth/legacy/grant-type/ro`. Check [our documentation](https://auth0.com/docs/clients/client-grant-types) for more info and how to enable it.
      */
     public static func passwordless() -> Lock {
         return self.init(authentication: Auth0.authentication(), webAuth: Auth0.webAuth(), classic: false)
@@ -113,6 +114,7 @@ public class Lock: NSObject {
      - parameter domain:   Your Auth0 account domain
 
      - returns: a newly created Lock passwordless instance
+     - requires: Legacy Grant `http://auth0.com/oauth/legacy/grant-type/ro`. Check [our documentation](https://auth0.com/docs/clients/client-grant-types) for more info and how to enable it.
      */
     public static func passwordless(clientId: String, domain: String) -> Lock {
         return Lock(authentication: Auth0.authentication(clientId: clientId, domain: domain), webAuth: Auth0.webAuth(clientId: clientId, domain: domain), classic: false)
