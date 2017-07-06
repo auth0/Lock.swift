@@ -60,10 +60,10 @@ class DatabaseUserCreatorErrorSpec: QuickSpec {
                 expect(error.localizableMessage).to(contain("SOMETHING WENT WRONG"))
             }
 			
-			it(".userExists should return relevant string") {
-				let error = DatabaseUserCreatorError.userExists
-				expect(error.localizableMessage).to(contain("USER ALREADY EXISTS"))
-			}
+            it(".userExists should return relevant string") {
+                let error = DatabaseUserCreatorError.userExists
+                expect(error.localizableMessage).to(contain("USER ALREADY EXISTS"))
+            }
         }
 
         describe("user visibility") {
