@@ -79,9 +79,21 @@ In your application bundle you can add a `plist` file named `Auth0.plist` with t
 </plist>
 ```
 
-### Classic
+## Lock Classic
 
 Lock Classic handles authentication using Database, Social & Enterprise connections.
+
+### OIDC Conformant Mode
+
+It is strongly encouraged that this SDK be used in OIDC Conformant mode. When this mode is enabled, it will force the SDK to use Auth0's current authentication pipeline and will prevent it from reaching legacy endpoints. By default this is `false`
+
+```swift
+.withOptions {
+    $0.oidcConformant = true
+}
+```
+
+For more information, please see the [OIDC adoption guide](https://auth0.com/docs/api-auth/tutorials/adoption).
 
 To show Lock, add the following snippet in your `UIViewController`
 
@@ -90,6 +102,7 @@ Lock
     .classic()
     .withOptions {
         $0.closable = false
+        $0.oidcConformant = true
     }
     .withStyle {
       $0.title = "Welcome to my App!"
@@ -179,7 +192,7 @@ Lock provides many styling options to help you apply your own brand identity to 
 }
 ```
 
-## Passwordless
+## Lock Passwordless
 
 Lock Passwordless handles authentication using Passwordless & Social Connections.
 
