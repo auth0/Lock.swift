@@ -86,6 +86,8 @@
 "com.auth0.lock.error.signup.password_no_user_info_error" = "PASSWORD IS BASED ON USER INFORMATION.";
 // password_strength_error
 "com.auth0.lock.error.signup.password_strength_error" = "PASSWORD IS TOO WEAK.";
+// user_exists
+"com.auth0.lock.error.signup.user_exists" = "THE USER ALREADY EXISTS.";
 // Unrecoverable error button
 "com.auth0.lock.error.unrecoverable.button" = "Contact support";
 // Default error
