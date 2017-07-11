@@ -1,5 +1,15 @@
 # Change Log
 
+## [2.3.1](https://github.com/auth0/Lock.swift/tree/2.3.1) (2017-07-11)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.3.0...2.3.1)
+
+**Added**
+- Added Error message on database user creation if user already exists [\#443](https://github.com/auth0/Lock.swift/pull/443) ([f2m2rd](https://github.com/f2m2rd))
+- Added allowShowPassword option, toggle password text visibility [\#442](https://github.com/auth0/Lock.swift/pull/442) ([cocojoe](https://github.com/cocojoe))
+
+**Changed**
+- Added Grant information for Passwordless docheaders [\#441](https://github.com/auth0/Lock.swift/pull/441) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.3.0](https://github.com/auth0/Lock.swift/tree/2.3.0) (2017-06-06)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.2.0...2.3.0)
 **Closed issues**
