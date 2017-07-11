@@ -30,6 +30,7 @@ enum DatabaseUserCreatorError: Error, LocalizableError {
     case passwordHasUserInfo
     case passwordInvalid
     case passwordAlreadyUsed
+    case userExists
 
     var localizableMessage: String {
         switch self {
@@ -43,6 +44,8 @@ enum DatabaseUserCreatorError: Error, LocalizableError {
             return "PASSWORD HAS PREVIOUSLY BEEN USED.".i18n(key: "com.auth0.lock.error.signup.password_history", comment: "password_history")
         case .passwordInvalid:
             return "PASSWORD IS INVALID.".i18n(key: "com.auth0.lock.error.signup.invalid_password", comment: "invalid_password")
+        case .userExists:
+            return "THE USER ALREADY EXISTS.".i18n(key: "com.auth0.lock.error.signup.user_exists", comment: "user_exists")
         default:
             return "WE'RE SORRY, SOMETHING WENT WRONG WHEN ATTEMPTING TO SIGN UP.".i18n(key: "com.auth0.lock.error.signup.fallback", comment: "Generic sign up error")
         }
