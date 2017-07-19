@@ -45,7 +45,7 @@ public struct PasswordPolicy {
         case excellent
     }
 
-    func on(_ password: String?) -> [RuleResult] {
+    public func on(_ password: String?) -> [RuleResult] {
         return rules.map { $0.evaluate(on: password) }
     }
 
