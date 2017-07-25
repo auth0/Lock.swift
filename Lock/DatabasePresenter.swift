@@ -240,6 +240,12 @@ class DatabasePresenter: Presentable, Loggable {
             let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.title", comment: "ToS"), style: .default, handler: safariBuilder(forURL: self.options.termsOfServiceURL as URL, navigator: self.navigator))
             let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy", comment: "Privacy"), style: .default, handler: safariBuilder(forURL: self.options.privacyPolicyURL as URL, navigator: self.navigator))
             [cancel, tos, privacy].forEach { alert.addAction($0) }
+            
+            // Provide location information (required for iPad)
+            alert.popoverPresentationController?.sourceView = button
+            alert.popoverPresentationController?.sourceRect = button.bounds
+            
+            alert.view.layoutIfNeeded()
             self.navigator.present(alert)
         }
 
