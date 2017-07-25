@@ -190,7 +190,24 @@ class DatabasePresenter: Presentable, Loggable {
                         if !self.options.loginAfterSignup {
                             let message = "Thanks for signing up.".i18n(key: "com.auth0.lock.database.signup.success.message", comment: "User signed up")
                             if let databaseView = self.databaseView, self.options.allow.contains(.Login) {
+                                self.databaseView?.switcher?.segmentedControl?.selectedSegmentIndex = DatabaseModeSwitcher.Mode.login.rawValue
                                 self.showLogin(inView: databaseView, identifier: self.creator.identifier)
+                                
+                                // Clear the password for repeat sign-ups
+                                do {
+                                    try self.authenticator.update(.password(enforcePolicy: true), value: nil)
+                                } catch {
+                                    self.logger.error("could not clear the password field")
+                                }
+                                
+                                // Clear the custom field values for repeat sign-ups
+                                for customField in self.options.customSignupFields {
+                                    do {
+                                        try self.authenticator.update(.custom(name: customField.name), value: nil)
+                                    } catch {
+                                        self.logger.error("could not clear the custom field \(customField.name)")
+                                    }
+                                }
                             }
                             if self.options.allow.contains(.Login) || !self.options.autoClose {
                                 self.messagePresenter?.showSuccess(message)
