@@ -111,6 +111,10 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             else { return callback(.nonValidInput, nil) }
 
         guard !connection.requiresUsername || self.validUsername else { return callback(.nonValidInput, nil) }
+        
+        for (fieldName, field) in customFields {
+            guard self.user.validAdditionaAttribute(fieldName) else { return callback(.nonValidInput, nil) }
+        }
 
         let username = connection.requiresUsername ? self.username : nil
         let metadata: [String: String]? = self.user.additionalAttributes.isEmpty ? nil : self.user.additionalAttributes
