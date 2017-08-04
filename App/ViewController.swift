@@ -57,6 +57,7 @@ class ViewController: UIViewController {
                             CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
                         ]
                         $0.enterpriseConnectionUsingActiveAuth = ["testAD"]
+                        $0.oidcConformant = true
                     }
                     .withStyle {
                         $0.oauth2["slack"] = AuthStyle(

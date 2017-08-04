@@ -297,6 +297,10 @@ class MockAuthentication: Authentication {
     func userInfo(withAccessToken accessToken: String) -> Request<UserInfo, AuthenticationError> {
         return self.userInfo(withAccessToken: accessToken)
     }
+
+    func changePassword(email: String, oldPassword: String, newPassword: String, connection: String) -> Request<Void, AuthenticationError> {
+        return self.changePassword(email: email, oldPassword: oldPassword, newPassword: newPassword, connection: connection)
+    }
 }
 
 class MockWebAuth: WebAuth {

@@ -17,6 +17,11 @@
 		5B1FD96D1E4E2B6B0055C1AC /* PasswordlessActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FD96C1E4E2B6B0055C1AC /* PasswordlessActivity.swift */; };
 		5B1FD9701E4E2F170055C1AC /* PasswordlessActivitySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FD96E1E4E2E670055C1AC /* PasswordlessActivitySpec.swift */; };
 		5B1FD9721E546F500055C1AC /* PasswordlessInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FD9711E546F500055C1AC /* PasswordlessInteractorSpec.swift */; };
+		5B24300E1F3472940030A8E6 /* DatabaseChangePasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B24300D1F3472940030A8E6 /* DatabaseChangePasswordPresenter.swift */; };
+		5B2430101F34752C0030A8E6 /* DatabaseChangePasswordInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B24300F1F34752C0030A8E6 /* DatabaseChangePasswordInteractor.swift */; };
+		5B2430121F3476190030A8E6 /* DatabaseChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2430111F3476190030A8E6 /* DatabaseChangePasswordView.swift */; };
+		5B2430161F347B720030A8E6 /* ChangeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2430151F347B720030A8E6 /* ChangeInputView.swift */; };
+		5B2430181F34B74A0030A8E6 /* PasswordChangeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2430171F34B74A0030A8E6 /* PasswordChangeable.swift */; };
 		5B2826431E32297E00E48467 /* NativeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2826421E32297E00E48467 /* NativeHandler.swift */; };
 		5B2981781DD51A460062535C /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2981771DD51A460062535C /* InfoBarView.swift */; };
 		5B3440C11E7C0955009F8BF7 /* Navigable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3440C01E7C0955009F8BF7 /* Navigable.swift */; };
@@ -245,6 +250,11 @@
 		5B1FD96C1E4E2B6B0055C1AC /* PasswordlessActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessActivity.swift; sourceTree = "<group>"; };
 		5B1FD96E1E4E2E670055C1AC /* PasswordlessActivitySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessActivitySpec.swift; sourceTree = "<group>"; };
 		5B1FD9711E546F500055C1AC /* PasswordlessInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessInteractorSpec.swift; sourceTree = "<group>"; };
+		5B24300D1F3472940030A8E6 /* DatabaseChangePasswordPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseChangePasswordPresenter.swift; sourceTree = "<group>"; };
+		5B24300F1F34752C0030A8E6 /* DatabaseChangePasswordInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseChangePasswordInteractor.swift; sourceTree = "<group>"; };
+		5B2430111F3476190030A8E6 /* DatabaseChangePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseChangePasswordView.swift; sourceTree = "<group>"; };
+		5B2430151F347B720030A8E6 /* ChangeInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeInputView.swift; sourceTree = "<group>"; };
+		5B2430171F34B74A0030A8E6 /* PasswordChangeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordChangeable.swift; sourceTree = "<group>"; };
 		5B2826421E32297E00E48467 /* NativeHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeHandler.swift; sourceTree = "<group>"; };
 		5B2981771DD51A460062535C /* InfoBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoBarView.swift; path = Lock/InfoBarView.swift; sourceTree = SOURCE_ROOT; };
 		5B3440C01E7C0955009F8BF7 /* Navigable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigable.swift; sourceTree = "<group>"; };
@@ -531,11 +541,13 @@
 			children = (
 				5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */,
 				5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */,
+				5B2430171F34B74A0030A8E6 /* PasswordChangeable.swift */,
 				5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */,
 				5F1C49951D8360F5005B74FC /* CDNLoaderInteractor.swift */,
 				5FC4348E1D1E0A57005188BC /* DatabaseAuthenticable.swift */,
 				5F508FF61D1D868900EAA650 /* DatabaseInteractor.swift */,
 				5F73CDD91D30957900D8D8D1 /* DatabasePasswordInteractor.swift */,
+				5B24300F1F34752C0030A8E6 /* DatabaseChangePasswordInteractor.swift */,
 				5F2496B21D665A5600A1C6E2 /* DatabaseUserCreator.swift */,
 				5B09717D1DC8F292003AA88F /* EnterpriseActiveAuthInteractor.swift */,
 				5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */,
@@ -585,6 +597,7 @@
 				5B55F3C81E24273D00B75CF5 /* UnrecoverableErrorView.swift */,
 				5B5F9F9E1E4B3FBE00EAB9EE /* PasswordlessView.swift */,
 				5F73CDD31D3073BE00D8D8D1 /* DatabaseForgotPasswordView.swift */,
+				5B2430111F3476190030A8E6 /* DatabaseChangePasswordView.swift */,
 				5B0971811DC8FAC5003AA88F /* EnterpriseDomainView.swift */,
 				5B4DE0181DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift */,
 				5F50900D1D1DF40400EAA650 /* DatabaseOnlyView.swift */,
@@ -728,6 +741,7 @@
 				5B55F3CA1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift */,
 				5B09717F1DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift */,
 				5F73CDD51D30790500D8D8D1 /* DatabaseForgotPasswordPresenter.swift */,
+				5B24300D1F3472940030A8E6 /* DatabaseChangePasswordPresenter.swift */,
 				5B9A54491E4B354A004B5454 /* PasswordlessPresenter.swift */,
 				5B4DE0161DD67064004C8AC2 /* EnterpriseActiveAuthPresenter.swift */,
 				5FC434891D1DF82A005188BC /* DatabasePresenter.swift */,
@@ -841,6 +855,7 @@
 				5BBD9E391E8E929E007EF625 /* IconButton.swift */,
 				5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */,
 				5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */,
+				5B2430151F347B720030A8E6 /* ChangeInputView.swift */,
 				5FD6772B1D4C303C004B87C4 /* AuthButton.swift */,
 				5F5D4A251DC3FB34002A38EB /* PolicyView.swift */,
 			);
@@ -1175,6 +1190,7 @@
 				5FBE5CB81D3D8F030038536D /* User.swift in Sources */,
 				5FF0B2281E1726C400A73257 /* CredentialAuth.swift in Sources */,
 				5F99AA861D1B0BF100D27842 /* Resources.swift in Sources */,
+				5B2430161F347B720030A8E6 /* ChangeInputView.swift in Sources */,
 				5F2496B81D665AC500A1C6E2 /* UserAttribute.swift in Sources */,
 				5B3DA2551E6EB9F800370C17 /* CountryTableViewController.swift in Sources */,
 				5F70F1DF1D7904A3004698DA /* ConnectionBuildable.swift in Sources */,
@@ -1191,8 +1207,10 @@
 				5F70F1E51D790735004698DA /* Options.swift in Sources */,
 				5FDB41D01D2C95B100166B67 /* MessageView.swift in Sources */,
 				5B2826431E32297E00E48467 /* NativeHandler.swift in Sources */,
+				5B2430101F34752C0030A8E6 /* DatabaseChangePasswordInteractor.swift in Sources */,
 				5F2496B61D665AA800A1C6E2 /* InputValidationError.swift in Sources */,
 				5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */,
+				5B24300E1F3472940030A8E6 /* DatabaseChangePasswordPresenter.swift in Sources */,
 				5F1C49931D8360DF005B74FC /* LoadingView.swift in Sources */,
 				5B0971801DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift in Sources */,
 				5FC434861D1DF769005188BC /* View.swift in Sources */,
@@ -1214,7 +1232,9 @@
 				5B568F821E4B6506004B3D98 /* PasswordlessAuthenticatableError.swift in Sources */,
 				5B3440C51E7C09A1009F8BF7 /* PasswordlessRouter.swift in Sources */,
 				5F92C68F1D50EAC200CCE6C0 /* LazyImage.swift in Sources */,
+				5B2430181F34B74A0030A8E6 /* PasswordChangeable.swift in Sources */,
 				5F2496BA1D665AE900A1C6E2 /* CredentialAuthError.swift in Sources */,
+				5B2430121F3476190030A8E6 /* DatabaseChangePasswordView.swift in Sources */,
 				5B9A54461E4B2CB4004B5454 /* PasswordlessAuthenticatable.swift in Sources */,
 				5B55F3CB1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift in Sources */,
 				5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
