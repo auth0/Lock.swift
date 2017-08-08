@@ -23,13 +23,17 @@
 import Foundation
 
 enum PasswordChangeableError: Error, LocalizableError {
+    case nonValidInput
     case invalidEmail
-    case invalidPassword
-    case changeFailed
+    case invalidCredentials
     case invalidRequest
+    case policyFail(String)
+    case changeFailed
 
     var localizableMessage: String {
         switch self {
+        case .policyFail(let cause):
+            return "\(cause)".i18n(key: "com.auth0.lock.error.change_password.changefailed", comment: "Change password failed")
         default:
             return "SOMETHING WENT WRONG.\nPLEASE CONTACT TECHNICAL SUPPORT.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
         }
@@ -37,8 +41,10 @@ enum PasswordChangeableError: Error, LocalizableError {
 
     var userVisible: Bool {
         switch self {
-        default:
+        case .nonValidInput:
             return false
+        default:
+            return true
         }
     }
 }

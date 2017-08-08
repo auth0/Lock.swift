@@ -60,19 +60,29 @@ struct DatabaseChangePasswordInteractor {
         guard let email = self.user.email, self.user.validEmail else { return callback(.invalidEmail) }
         guard
             let oldPassword = self.user.password, self.user.validPassword,
-            let newPassword = self.newPassword, self.validPassword,
-            self.confirmed
-            else { return callback(.invalidPassword) }
+            let newPassword = self.newPassword, self.validPassword, self.confirmed
+            else { return callback(.nonValidInput) }
 
         self.authentication
             .changePassword(email: email, oldPassword: oldPassword, newPassword: newPassword, connection: self.connection.name)
             .start {
-                guard case .success = $0 else {
+                switch $0 {
+                case .failure(let cause as AuthenticationError) where cause.code == "invalid_user_password":
+                    callback(.invalidCredentials)
+                    self.dispatcher.dispatch(result: .error(PasswordChangeableError.invalidCredentials))
+                case .failure(let cause as AuthenticationError) where cause.code == "invalid_request":
+                    callback(.invalidRequest)
+                    self.dispatcher.dispatch(result: .error(PasswordChangeableError.invalidRequest))
+                case .failure(let cause as AuthenticationError) where cause.code == "change_password_error":
+                    callback(.policyFail(cause.description.uppercased()))
+                    self.dispatcher.dispatch(result: .error(PasswordChangeableError.policyFail(cause.description)))
+                case .failure:
                     callback(.changeFailed)
-                    return self.dispatcher.dispatch(result: .error(PasswordChangeableError.changeFailed))
+                    self.dispatcher.dispatch(result: .error(PasswordChangeableError.changeFailed))
+                case .success:
+                    self.dispatcher.dispatch(result: .changePassword(email))
+                    callback(nil)
                 }
-                //self.dispatcher.dispatch(result: .forgotPassword(email))
-                callback(nil)
         }
     }
 }

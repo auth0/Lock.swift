@@ -56,7 +56,6 @@ class ViewController: UIViewController {
                             CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
                             CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
                         ]
-                        $0.enterpriseConnectionUsingActiveAuth = ["testAD"]
                         $0.oidcConformant = true
                     }
                     .withStyle {
@@ -203,6 +202,8 @@ class ViewController: UIViewController {
             .onSignUp { email, _ in  Log.debug?.message("New user \(email)") }
             .onCancel { Log.debug?.message("User closed lock") }
             .onPasswordless { Log.debug?.message("Passwordless requested for \($0)") }
+            .onForgotPassword { Log.debug?.message("User \($0) request a password reset") }
+            .onChangePassword { Log.debug?.message("User \($0) changed their password") }
             .present(from: self)
     }
 }

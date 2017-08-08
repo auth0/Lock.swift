@@ -40,8 +40,12 @@ class DatabaseChangePasswordPresenter: Presentable, Loggable {
     var messagePresenter: MessagePresenter?
 
     var view: View {
-        let view = DatabaseChangePasswordView(passwordPolicyValidator: database.passwordValidator)
+        let view = DatabaseChangePasswordView(passwordPolicyValidator: database.passwordValidator, showPassword: self.options.allowShowPassword)
         let form = view.form
+
+        if self.options.allowShowPassword {
+            self.interactor.confirmed = true
+        }
 
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
@@ -69,10 +73,9 @@ class DatabaseChangePasswordPresenter: Presentable, Loggable {
                         self.logger.error("Failed with error \(error)")
                     } else {
                         let message = "Your password was successfully changed.".i18n(key: "com.auth0.lock.database.change_password.success.message", comment: "change password success")
-                        if self.options.allow.contains(.Login) || !self.options.autoClose {
+                        if !self.options.autoClose {
                             self.messagePresenter?.showSuccess(message)
                         }
-                        guard self.options.allow.contains(.Login) else { return }
                         self.navigator.navigate(.root)
                     }
                 }
