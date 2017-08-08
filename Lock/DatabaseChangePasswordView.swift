@@ -27,7 +27,7 @@ class DatabaseChangePasswordView: UIView, View {
     weak var form: Form?
     weak var primaryButton: PrimaryButton?
 
-    init() {
+    init(passwordPolicyValidator: PasswordPolicyValidator?) {
         let primaryButton = PrimaryButton()
         let changePasswordView = ChangeInputView()
         let center = UILayoutGuide()
@@ -61,7 +61,28 @@ class DatabaseChangePasswordView: UIView, View {
         changePasswordView.message = "Your password has expired. Please change your password to continue logging in.".i18n(key: "com.auth0.lock.change_password.message", comment: "Change Password message")
 
         changePasswordView.newValueField.type = .password
-        changePasswordView.confirmValueField.type = .password
+        changePasswordView.confirmValueField.type = .custom(name: "match", placeholder: "Confirm password", icon: InputField.InputType.password.icon, keyboardType: InputField.InputType.password.keyboardType, autocorrectionType: InputField.InputType.password.autocorrectionType, secure: InputField.InputType.password.secure)
+
+        if let passwordPolicyValidator = passwordPolicyValidator {
+            let passwordPolicyView = PolicyView(rules: passwordPolicyValidator.policy.rules)
+            passwordPolicyValidator.delegate = passwordPolicyView
+            let passwordIndex = changePasswordView.stackView.arrangedSubviews.index(of: changePasswordView.newValueField)
+            changePasswordView.stackView.insertArrangedSubview(passwordPolicyView, at:passwordIndex!)
+
+            passwordPolicyView.isHidden = true
+            changePasswordView.newValueField.errorLabel?.removeFromSuperview()
+            changePasswordView.newValueField.onBeginEditing = { [weak passwordPolicyView] _ in
+                guard let view = passwordPolicyView else { return }
+                Queue.main.async {
+                    view.isHidden = false
+                }
+            }
+
+            changePasswordView.newValueField.onEndEditing = { [weak passwordPolicyView] _ in
+                guard let view = passwordPolicyView else { return }
+                view.isHidden = true
+            }
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {

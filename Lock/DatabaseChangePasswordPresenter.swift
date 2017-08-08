@@ -40,16 +40,13 @@ class DatabaseChangePasswordPresenter: Presentable, Loggable {
     var messagePresenter: MessagePresenter?
 
     var view: View {
-        let view = DatabaseChangePasswordView()
+        let view = DatabaseChangePasswordView(passwordPolicyValidator: database.passwordValidator)
         let form = view.form
 
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()
-
-            guard case .email = input.type else { return }
-
             do {
-                try self.interactor.updateEmail(input.text)
+                try self.interactor.update(input)
                 input.showValid()
             } catch let error as InputValidationError {
                 input.showError(error.localizedMessage(withConnection: self.database))
@@ -60,10 +57,10 @@ class DatabaseChangePasswordPresenter: Presentable, Loggable {
 
         let action = { [weak form] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("request forgot password for email: \(self.interactor.email.verbatim())")
+            self.logger.info("change password for email: \(self.interactor.email.verbatim())")
             let interactor = self.interactor
             button.inProgress = true
-            interactor.requestEmail { error in
+            interactor.changePassword { error in
                 Queue.main.async {
                     button.inProgress = false
                     form?.needsToUpdateState()
@@ -71,7 +68,7 @@ class DatabaseChangePasswordPresenter: Presentable, Loggable {
                         self.messagePresenter?.showError(error)
                         self.logger.error("Failed with error \(error)")
                     } else {
-                        let message = "We've just sent you an email to reset your password".i18n(key: "com.auth0.lock.database.forgot.success.message", comment: "forgot password email sent")
+                        let message = "Your password was successfully changed.".i18n(key: "com.auth0.lock.database.change_password.success.message", comment: "change password success")
                         if self.options.allow.contains(.Login) || !self.options.autoClose {
                             self.messagePresenter?.showSuccess(message)
                         }

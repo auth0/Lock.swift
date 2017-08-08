@@ -26,7 +26,7 @@ class ChangeInputView: UIView, Form, Stylable {
     var newValueField: InputField
     var confirmValueField: InputField
     private var messageView: UILabel
-    private var stackView: UIStackView
+    var stackView: UIStackView
 
     var onValueChange: (InputField) -> Void = {_ in} {
         didSet {

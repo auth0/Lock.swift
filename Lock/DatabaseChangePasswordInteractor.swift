@@ -28,13 +28,14 @@ struct DatabaseChangePasswordInteractor {
     private var user: DatabaseUser
     private let dispatcher: Dispatcher
 
-    var newPassword: String = ""
+    var newPassword: String?
     var validPassword: Bool = false
+    var confirmed: Bool = false
+    var email: String? { return self.user.email }
 
     let authentication: Authentication
     let connection: DatabaseConnection
     var passwordValidator: InputValidator { return self.connection.passwordValidator }
-    var requiredValidator = NonEmptyValidator()
 
     init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, dispatcher: Dispatcher) {
         self.authentication = authentication
@@ -43,21 +44,28 @@ struct DatabaseChangePasswordInteractor {
         self.dispatcher = dispatcher
     }
 
-    mutating func update(_ attribute: UserAttribute, value: String) throws {
-        if case .password(let enforcingPolicy) = attribute {
-            self.newPassword = value.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            let error = enforcingPolicy ? self.passwordValidator.validate(self.newPassword) : self.requiredValidator.validate(self.newPassword)
+    mutating func update(_ input: InputField) throws {
+        if case .password = input.type {
+            self.newPassword = input.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            let error = self.passwordValidator.validate(self.newPassword)
             self.validPassword = error == nil
             if let error = error { throw error }
+        } else if case .custom = input.type {
+            confirmed = input.text == newPassword
+            if !confirmed { throw InputValidationError.doesNotMatch("Passwords") }
         }
     }
 
     func changePassword(_ callback: @escaping (PasswordChangeableError?) -> Void) {
         guard let email = self.user.email, self.user.validEmail else { return callback(.invalidEmail) }
-        guard let oldPassword = self.user.password, self.user.validPassword else { return callback(.invalidPassword) }
+        guard
+            let oldPassword = self.user.password, self.user.validPassword,
+            let newPassword = self.newPassword, self.validPassword,
+            self.confirmed
+            else { return callback(.invalidPassword) }
 
         self.authentication
-            .changePassword(email: email, oldPassword: oldPassword, newPassword: self.newPassword, connection: self.connection.name)
+            .changePassword(email: email, oldPassword: oldPassword, newPassword: newPassword, connection: self.connection.name)
             .start {
                 guard case .success = $0 else {
                     callback(.changeFailed)
