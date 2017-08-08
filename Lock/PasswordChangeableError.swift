@@ -33,7 +33,7 @@ enum PasswordChangeableError: Error, LocalizableError {
     var localizableMessage: String {
         switch self {
         case .policyFail(let cause):
-            return "\(cause)".i18n(key: "com.auth0.lock.error.change_password.changefailed", comment: "Change password failed")
+            return cause
         default:
             return "SOMETHING WENT WRONG.\nPLEASE CONTACT TECHNICAL SUPPORT.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
         }

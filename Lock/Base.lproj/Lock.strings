@@ -1,7 +1,13 @@
+// Change Password message
+"com.auth0.lock.change_password.message" = "Your password has expired. Please change your password to continue logging in.";
+// Change Password title
+"com.auth0.lock.change_password.title" = "Change Password";
 // Forgot password
 "com.auth0.lock.database.button.forgot_password" = "Don’t remember your password?";
 // tos & privacy
 "com.auth0.lock.database.button.tos" = "By signing up, you agree to our terms of\n service and privacy policy";
+// change password success
+"com.auth0.lock.database.change_password.success.message" = "Your password was successfully changed.";
 // forgot password email sent
 "com.auth0.lock.database.forgot.success.message" = "We've just sent you an email to reset your password";
 // User logged in
@@ -120,6 +126,8 @@
 "com.auth0.lock.input.empty.error" = "Must not be empty";
 // generic input error
 "com.auth0.lock.input.generic.error" = "Invalid input";
+// input does not match
+"com.auth0.lock.input.nomatch.error" = "\(type) do not match";
 // invalid otp
 "com.auth0.lock.input.otp.error" = "Must be a valid numeric code";
 // OTP placeholder
@@ -222,6 +230,8 @@
 "com.auth0.lock.strategy.login.title" = "LOG IN WITH %1$@";
 // Sign up with %@{strategy}
 "com.auth0.lock.strategy.signup.title" = "SIGN UP WITH %1$@";
+// Change Password button title
+"com.auth0.lock.submit.change_password.title" = "CHANGE PASSWORD";
 // Login Button title
 "com.auth0.lock.submit.login.title" = "LOG IN";
 // Send 2fa code

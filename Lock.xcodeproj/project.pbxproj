@@ -21,7 +21,7 @@
 		5B2430101F34752C0030A8E6 /* DatabaseChangePasswordInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B24300F1F34752C0030A8E6 /* DatabaseChangePasswordInteractor.swift */; };
 		5B2430121F3476190030A8E6 /* DatabaseChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2430111F3476190030A8E6 /* DatabaseChangePasswordView.swift */; };
 		5B2430161F347B720030A8E6 /* ChangeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2430151F347B720030A8E6 /* ChangeInputView.swift */; };
-		5B2430181F34B74A0030A8E6 /* PasswordChangeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2430171F34B74A0030A8E6 /* PasswordChangeable.swift */; };
+		5B2430181F34B74A0030A8E6 /* PasswordChangeableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2430171F34B74A0030A8E6 /* PasswordChangeableError.swift */; };
 		5B2826431E32297E00E48467 /* NativeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2826421E32297E00E48467 /* NativeHandler.swift */; };
 		5B2981781DD51A460062535C /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2981771DD51A460062535C /* InfoBarView.swift */; };
 		5B3440C11E7C0955009F8BF7 /* Navigable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3440C01E7C0955009F8BF7 /* Navigable.swift */; };
@@ -254,7 +254,7 @@
 		5B24300F1F34752C0030A8E6 /* DatabaseChangePasswordInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseChangePasswordInteractor.swift; sourceTree = "<group>"; };
 		5B2430111F3476190030A8E6 /* DatabaseChangePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseChangePasswordView.swift; sourceTree = "<group>"; };
 		5B2430151F347B720030A8E6 /* ChangeInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeInputView.swift; sourceTree = "<group>"; };
-		5B2430171F34B74A0030A8E6 /* PasswordChangeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordChangeable.swift; sourceTree = "<group>"; };
+		5B2430171F34B74A0030A8E6 /* PasswordChangeableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordChangeableError.swift; sourceTree = "<group>"; };
 		5B2826421E32297E00E48467 /* NativeHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeHandler.swift; sourceTree = "<group>"; };
 		5B2981771DD51A460062535C /* InfoBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoBarView.swift; path = Lock/InfoBarView.swift; sourceTree = SOURCE_ROOT; };
 		5B3440C01E7C0955009F8BF7 /* Navigable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigable.swift; sourceTree = "<group>"; };
@@ -531,6 +531,7 @@
 				5F2496B91D665AE900A1C6E2 /* CredentialAuthError.swift */,
 				5F2496BB1D665AF700A1C6E2 /* DatabaseUserCreatorError.swift */,
 				5B568F811E4B6506004B3D98 /* PasswordlessAuthenticatableError.swift */,
+				5B2430171F34B74A0030A8E6 /* PasswordChangeableError.swift */,
 			);
 			name = Errors;
 			path = Lock;
@@ -541,7 +542,6 @@
 			children = (
 				5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */,
 				5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */,
-				5B2430171F34B74A0030A8E6 /* PasswordChangeable.swift */,
 				5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */,
 				5F1C49951D8360F5005B74FC /* CDNLoaderInteractor.swift */,
 				5FC4348E1D1E0A57005188BC /* DatabaseAuthenticable.swift */,
@@ -1232,7 +1232,7 @@
 				5B568F821E4B6506004B3D98 /* PasswordlessAuthenticatableError.swift in Sources */,
 				5B3440C51E7C09A1009F8BF7 /* PasswordlessRouter.swift in Sources */,
 				5F92C68F1D50EAC200CCE6C0 /* LazyImage.swift in Sources */,
-				5B2430181F34B74A0030A8E6 /* PasswordChangeable.swift in Sources */,
+				5B2430181F34B74A0030A8E6 /* PasswordChangeableError.swift in Sources */,
 				5F2496BA1D665AE900A1C6E2 /* CredentialAuthError.swift in Sources */,
 				5B2430121F3476190030A8E6 /* DatabaseChangePasswordView.swift in Sources */,
 				5B9A54461E4B2CB4004B5454 /* PasswordlessAuthenticatable.swift in Sources */,
