@@ -132,12 +132,19 @@ class DatabaseOnlyView: UIView, DatabaseView {
         let form = SignUpView(additionalFields: additionalFields)
         form.showUsername = showUsername
         form.emailField.text = email
-        form.emailField.returnKey = .next
         form.emailField.nextField = showUsername ? form.usernameField : form.passwordField
         form.usernameField?.text = username
         form.usernameField?.returnKey = .next
         form.usernameField?.nextField = form.passwordField
-        form.passwordField.returnKey = .done
+        
+        if additionalFields.isEmpty == false {
+            form.passwordField.nextField = form.extraFields.first
+            
+            for i in form.extraFields.indices.dropLast() {
+                form.extraFields[i].nextField = form.extraFields[i+1]
+            }
+        }
+        
         primaryButton?.title = "SIGN UP".i18n(key: "com.auth0.lock.submit.signup.title", comment: "Signup Button title")
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(true)
