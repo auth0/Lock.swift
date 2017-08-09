@@ -273,16 +273,14 @@ class DatabasePresenter: Presentable, Loggable {
             try self.authenticator.update(attribute, value: input.text)
             input.showValid()
 
-            guard
-                let mode = self.databaseView?.switcher?.selected,
-                mode == .login && updateHRD
-                else { return }
-            try? self.enterpriseInteractor?.updateEmail(input.text)
-            if let connection = self.enterpriseInteractor?.connection {
-                self.logger.verbose("Enterprise connection detected: \(connection)")
-                if self.databaseView?.ssoBar == nil { self.databaseView?.presentEnterprise() }
-            } else {
-                self.databaseView?.removeEnterprise()
+            if self.currentScreen == .login && updateHRD {
+                try? self.enterpriseInteractor?.updateEmail(input.text)
+                if let connection = self.enterpriseInteractor?.connection {
+                    self.logger.verbose("Enterprise connection detected: \(connection)")
+                    if self.databaseView?.ssoBar == nil { self.databaseView?.presentEnterprise() }
+                } else {
+                    self.databaseView?.removeEnterprise()
+                }
             }
         } catch let error as InputValidationError {
             input.showError(error.localizedMessage(withConnection: self.database))
