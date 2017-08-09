@@ -48,6 +48,8 @@
 "com.auth0.lock.error.authentication.password_leaked" = "THIS LOGIN HAS BEEN BLOCKED BECAUSE YOUR PASSWORD HAS BEEN LEAKED IN ANOTHER WEBSITE. WE’VE SENT YOU AN EMAIL WITH INSTRUCTIONS ON HOW TO UNBLOCK IT.";
 // too_many_attempts
 "com.auth0.lock.error.authentication.too_many_attempts" = "YOUR ACCOUNT HAS BEEN BLOCKED AFTER MULTIPLE CONSECUTIVE LOGIN ATTEMPTS.";
+// Change password no confirmation
+"com.auth0.lock.error.change_password.noconfirmation" = "Password confirmation does not match.";
 // Generic error
 "com.auth0.lock.error.fallback" = "SOMETHING WENT WRONG.\nPLEASE CONTACT TECHNICAL SUPPORT.";
 // Generic password error
@@ -126,8 +128,6 @@
 "com.auth0.lock.input.empty.error" = "Must not be empty";
 // generic input error
 "com.auth0.lock.input.generic.error" = "Invalid input";
-// input does not match
-"com.auth0.lock.input.nomatch.error" = "\(type) do not match";
 // invalid otp
 "com.auth0.lock.input.otp.error" = "Must be a valid numeric code";
 // OTP placeholder

@@ -284,6 +284,12 @@ class ClassicRouterSpec: QuickSpec {
                 expect(controller.presentable as? UnrecoverableErrorPresenter).toNot(beNil())
             }
 
+            it("should show change password screen") {
+                router.navigate(.changePassword)
+                expect(controller.presentable as? DatabaseChangePasswordPresenter).toNot(beNil())
+                expect(controller.headerView.title) == "Change Password"
+            }
+
             context("no connection") {
                 beforeEach {
                     lock = Lock(authentication: Auth0.authentication(clientId: "CLIENT_ID", domain: "samples.auth0.com"), webAuth: MockWebAuth())
@@ -299,6 +305,11 @@ class ClassicRouterSpec: QuickSpec {
 
                 it("should fail forgotPassword screen") {
                     router.navigate(.forgotPassword)
+                    expect(controller.presentable).to(beNil())
+                }
+
+                it("should fail changePassword screen") {
+                    router.navigate(.changePassword)
                     expect(controller.presentable).to(beNil())
                 }
             }
@@ -394,6 +405,11 @@ class ClassicRouterSpec: QuickSpec {
             it("root should should not be equatable with Multifactor") {
                 let match = Route.root == Route.multifactor
                 expect(match).to(beFalse())
+            }
+
+            it("changePassword should should be equatable with changePassword") {
+                let match = Route.changePassword == Route.changePassword
+                expect(match).to(beTrue())
             }
 
         }

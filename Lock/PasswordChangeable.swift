@@ -1,4 +1,4 @@
-// PasswordChangeableError.swift
+// PasswordChangeable.swift
 //
 // Copyright (c) 2017 Auth0 (http://auth0.com)
 //
@@ -22,29 +22,10 @@
 
 import Foundation
 
-enum PasswordChangeableError: Error, LocalizableError {
-    case nonValidInput
-    case noConfirmation
-    case policyFail(String)
-    case changeFailed
+protocol PasswordChangeable {
+    var email: String? { get }
 
-    var localizableMessage: String {
-        switch self {
-        case .policyFail(let cause):
-            return cause
-        case .noConfirmation:
-            return "Password confirmation does not match.".i18n(key: "com.auth0.lock.error.change_password.noconfirmation", comment: "Change password no confirmation")
-        default:
-            return "SOMETHING WENT WRONG.\nPLEASE CONTACT TECHNICAL SUPPORT.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
-        }
-    }
+    mutating func update(_ input: InputField) throws
 
-    var userVisible: Bool {
-        switch self {
-        case .nonValidInput:
-            return false
-        default:
-            return true
-        }
-    }
+    func changePassword(_ callback: @escaping (PasswordChangeableError?) -> Void)
 }

@@ -68,6 +68,7 @@
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
 		5BE4344E1E64820800950FA1 /* HRDAuthenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */; };
 		5BE4344F1E64820800950FA1 /* PasswordRecoverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */; };
+		5BE5D05C1F3B06E00046C6A1 /* PasswordChangeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE5D05B1F3B06E00046C6A1 /* PasswordChangeable.swift */; };
 		5BE978241E8405C70090EC07 /* PasswordlessAuthTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE978231E8405C70090EC07 /* PasswordlessAuthTransaction.swift */; };
 		5BEDE14A1EC0A9F10007300D /* LockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEDE1441EC0A9EB0007300D /* LockUITests.swift */; };
 		5BEDE14C1EC0A9F10007300D /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEDE1461EC0A9EB0007300D /* SnapshotHelper.swift */; };
@@ -300,6 +301,7 @@
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
 		5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRDAuthenticatable.swift; sourceTree = "<group>"; };
 		5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordRecoverable.swift; sourceTree = "<group>"; };
+		5BE5D05B1F3B06E00046C6A1 /* PasswordChangeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordChangeable.swift; sourceTree = "<group>"; };
 		5BE978231E8405C70090EC07 /* PasswordlessAuthTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessAuthTransaction.swift; sourceTree = "<group>"; };
 		5BEDE13A1EC0A9750007300D /* LockUITests.iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LockUITests.iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BEDE13E1EC0A9750007300D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -540,6 +542,7 @@
 		5F508FF21D1D863400EAA650 /* Interactors */ = {
 			isa = PBXGroup;
 			children = (
+				5BE5D05B1F3B06E00046C6A1 /* PasswordChangeable.swift */,
 				5BE4344C1E64820800950FA1 /* HRDAuthenticatable.swift */,
 				5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */,
 				5F57DFD31D4FE64700C54DA8 /* Auth0OAuth2Interactor.swift */,
@@ -1214,6 +1217,7 @@
 				5F1C49931D8360DF005B74FC /* LoadingView.swift in Sources */,
 				5B0971801DC8F5C4003AA88F /* EnterpriseDomainPresenter.swift in Sources */,
 				5FC434861D1DF769005188BC /* View.swift in Sources */,
+				5BE5D05C1F3B06E00046C6A1 /* PasswordChangeable.swift in Sources */,
 				5FDB41CE1D2C79FD00166B67 /* Operations.swift in Sources */,
 				5B889AEE1E700FCA00C9FBAF /* CountryCodes.swift in Sources */,
 				5B1FD96D1E4E2B6B0055C1AC /* PasswordlessActivity.swift in Sources */,

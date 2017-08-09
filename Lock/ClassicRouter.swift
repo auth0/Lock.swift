@@ -132,7 +132,7 @@ struct ClassicRouter: Router {
             exit(withError: UnrecoverableError.missingDatabaseConnection)
             return nil
         }
-        let interactor = DatabaseChangePasswordInteractor(connection: database, authentication: self.lock.authentication, user: self.user, dispatcher: lock.observerStore)
+        let interactor = DatabaseChangePasswordInteractor(connection: database, authentication: self.lock.authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
         let presenter =  DatabaseChangePasswordPresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
         presenter.customLogger = self.lock.logger
         return presenter

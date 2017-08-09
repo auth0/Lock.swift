@@ -24,13 +24,13 @@ import Foundation
 
 class DatabaseChangePasswordPresenter: Presentable, Loggable {
 
-    var interactor: DatabaseChangePasswordInteractor
+    var interactor: PasswordChangeable
     let database: DatabaseConnection
     var customLogger: Logger?
     var navigator: Navigable
     let options: Options
 
-    init(interactor: DatabaseChangePasswordInteractor, connection: DatabaseConnection, navigator: Navigable, options: Options) {
+    init(interactor: PasswordChangeable, connection: DatabaseConnection, navigator: Navigable, options: Options) {
         self.interactor = interactor
         self.database = connection
         self.navigator = navigator
@@ -42,10 +42,6 @@ class DatabaseChangePasswordPresenter: Presentable, Loggable {
     var view: View {
         let view = DatabaseChangePasswordView(passwordPolicyValidator: database.passwordValidator, showPassword: self.options.allowShowPassword)
         let form = view.form
-
-        if self.options.allowShowPassword {
-            self.interactor.confirmed = true
-        }
 
         view.form?.onValueChange = { input in
             self.messagePresenter?.hideCurrent()

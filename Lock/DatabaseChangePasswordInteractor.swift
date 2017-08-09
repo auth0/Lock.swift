@@ -23,7 +23,7 @@
 import Foundation
 import Auth0
 
-struct DatabaseChangePasswordInteractor {
+struct DatabaseChangePasswordInteractor: PasswordChangeable {
 
     private var user: DatabaseUser
     private let dispatcher: Dispatcher
@@ -35,13 +35,17 @@ struct DatabaseChangePasswordInteractor {
 
     let authentication: Authentication
     let connection: DatabaseConnection
+    let options: Options
     var passwordValidator: InputValidator { return self.connection.passwordValidator }
 
-    init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, dispatcher: Dispatcher) {
+    init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
         self.authentication = authentication
         self.connection = connection
         self.user = user
         self.dispatcher = dispatcher
+        self.options = options
+
+        if self.options.allowShowPassword { self.confirmed = true }
     }
 
     mutating func update(_ input: InputField) throws {
@@ -52,13 +56,13 @@ struct DatabaseChangePasswordInteractor {
             if let error = error { throw error }
         } else if case .custom = input.type {
             confirmed = input.text == newPassword
-            if !confirmed { throw InputValidationError.doesNotMatch("Passwords") }
+            if !confirmed { throw PasswordChangeableError.noConfirmation }
         }
     }
 
     func changePassword(_ callback: @escaping (PasswordChangeableError?) -> Void) {
-        guard let email = self.user.email, self.user.validEmail else { return callback(.invalidEmail) }
         guard
+            let email = self.user.email, self.user.validEmail,
             let oldPassword = self.user.password, self.user.validPassword,
             let newPassword = self.newPassword, self.validPassword, self.confirmed
             else { return callback(.nonValidInput) }
@@ -67,12 +71,6 @@ struct DatabaseChangePasswordInteractor {
             .changePassword(email: email, oldPassword: oldPassword, newPassword: newPassword, connection: self.connection.name)
             .start {
                 switch $0 {
-                case .failure(let cause as AuthenticationError) where cause.code == "invalid_user_password":
-                    callback(.invalidCredentials)
-                    self.dispatcher.dispatch(result: .error(PasswordChangeableError.invalidCredentials))
-                case .failure(let cause as AuthenticationError) where cause.code == "invalid_request":
-                    callback(.invalidRequest)
-                    self.dispatcher.dispatch(result: .error(PasswordChangeableError.invalidRequest))
                 case .failure(let cause as AuthenticationError) where cause.code == "change_password_error":
                     callback(.policyFail(cause.description.uppercased()))
                     self.dispatcher.dispatch(result: .error(PasswordChangeableError.policyFail(cause.description)))
