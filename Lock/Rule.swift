@@ -28,7 +28,7 @@ protocol Rule {
 
 }
 
-protocol RuleResult {
+public protocol RuleResult {
     var message: String { get }
     var conditions: [RuleResult] { get }
     var valid: Bool { get }
