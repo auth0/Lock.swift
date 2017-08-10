@@ -51,6 +51,10 @@ func databaseForgotPassword(email: String, connection: String) -> OHHTTPStubsTes
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/dbconnections/change_password") && hasAtLeast(["email": email, "connection": connection])
 }
 
+func databaseChangePassword(username: String, oldPassword: String, newPassword: String, connection: String) -> OHHTTPStubsTestBlock {
+    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/dbconnections/self_change_password") && hasAtLeast(["username": username, "old_password": oldPassword, "new_password": newPassword, "connection": connection])
+}
+
 func passwordlessStart(email: String, connection: String) -> OHHTTPStubsTestBlock {
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/passwordless/start") && hasAtLeast(["email": email, "connection": connection])
 }
@@ -58,6 +62,7 @@ func passwordlessStart(email: String, connection: String) -> OHHTTPStubsTestBloc
 func passwordlessStart(phone: String, connection: String) -> OHHTTPStubsTestBlock {
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/passwordless/start") && hasAtLeast(["phone_number": phone, "connection": connection])
 }
+
 
 // MARK: - Internal Matchers
 
@@ -146,6 +151,11 @@ struct Auth0Stubs {
 
     static func forgotEmailSent() -> OHHTTPStubsResponse {
         return OHHTTPStubsResponse(data: "Sent".data(using: String.Encoding.utf8)!, statusCode: 200, headers: ["Content-Type": "application/json"])
+    }
+
+    static func changePasswordSuccess() -> OHHTTPStubsResponse {
+        let data = "".data(using: .utf8)!
+        return OHHTTPStubsResponse(data: data, statusCode: 204, headers: ["Content-Type": "application/json"])
     }
 
     static func authentication() -> OHHTTPStubsResponse {

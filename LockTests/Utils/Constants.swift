@@ -27,6 +27,7 @@ let domain = "samples.auth0.com"
 
 let email = "info@auth0.com"
 let password = "a long secure password"
+let newPassword = "an even longer secure password"
 let username = "info"
 let connection = "Username-Password-Authentication"
 let code = "999999"
