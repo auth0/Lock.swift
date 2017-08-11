@@ -193,6 +193,19 @@ class DatabaseChangePasswordPresenterSpec: QuickSpec {
                 expect(button.inProgress).toEventually(beFalse())
             }
 
+            it("should show global success message") {
+                options.autoClose = false
+                presenter = DatabaseChangePasswordPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
+                presenter.messagePresenter = messagePresenter
+                view = presenter.view as! DatabaseChangePasswordView
+
+                interactor.onRequest = {
+                    return nil
+                }
+                view.primaryButton?.onPress(view.primaryButton!)
+                expect(messagePresenter.message).toEventuallyNot(beNil())
+            }
+
         }
 
         describe("navigation on success") {
