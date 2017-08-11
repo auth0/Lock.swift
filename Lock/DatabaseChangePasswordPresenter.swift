@@ -79,7 +79,10 @@ class DatabaseChangePasswordPresenter: Presentable, Loggable {
         }
         view.primaryButton?.onPress = action
         view.form?.onReturn = { [weak view] field in
-            guard let button = view?.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
+            guard let button = view?.primaryButton, field.returnKey == .done else {
+                self.logger.verbose("unable to trigger button")
+                return
+            }
             action(button)
         }
         return view

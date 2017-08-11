@@ -70,6 +70,7 @@
 		5BE4344F1E64820800950FA1 /* PasswordRecoverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */; };
 		5BE5D05C1F3B06E00046C6A1 /* PasswordChangeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE5D05B1F3B06E00046C6A1 /* PasswordChangeable.swift */; };
 		5BE5D0611F3B13250046C6A1 /* DatabaseChangePasswordInteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE5D0601F3B13250046C6A1 /* DatabaseChangePasswordInteractorSpec.swift */; };
+		5BE5D0631F3C86700046C6A1 /* DatabaseChangePasswordPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE5D0621F3C86700046C6A1 /* DatabaseChangePasswordPresenterSpec.swift */; };
 		5BE978241E8405C70090EC07 /* PasswordlessAuthTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE978231E8405C70090EC07 /* PasswordlessAuthTransaction.swift */; };
 		5BEDE14A1EC0A9F10007300D /* LockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEDE1441EC0A9EB0007300D /* LockUITests.swift */; };
 		5BEDE14C1EC0A9F10007300D /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEDE1461EC0A9EB0007300D /* SnapshotHelper.swift */; };
@@ -304,6 +305,7 @@
 		5BE4344D1E64820800950FA1 /* PasswordRecoverable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordRecoverable.swift; sourceTree = "<group>"; };
 		5BE5D05B1F3B06E00046C6A1 /* PasswordChangeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordChangeable.swift; sourceTree = "<group>"; };
 		5BE5D0601F3B13250046C6A1 /* DatabaseChangePasswordInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseChangePasswordInteractorSpec.swift; sourceTree = "<group>"; };
+		5BE5D0621F3C86700046C6A1 /* DatabaseChangePasswordPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseChangePasswordPresenterSpec.swift; sourceTree = "<group>"; };
 		5BE978231E8405C70090EC07 /* PasswordlessAuthTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessAuthTransaction.swift; sourceTree = "<group>"; };
 		5BEDE13A1EC0A9750007300D /* LockUITests.iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LockUITests.iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BEDE13E1EC0A9750007300D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -629,6 +631,7 @@
 			isa = PBXGroup;
 			children = (
 				5F73CDDD1D30B16900D8D8D1 /* DatabaseForgotPasswordPresenterSpec.swift */,
+				5BE5D0621F3C86700046C6A1 /* DatabaseChangePasswordPresenterSpec.swift */,
 				5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */,
 				5F5F98D31D21E3890016FC22 /* DatabasePresenterSpec.swift */,
 				5BB78CC31E54BD440074DFE3 /* PasswordlessPresenterSpec.swift */,
@@ -1317,6 +1320,7 @@
 				5FA250521D48F08200C544FA /* LockSpec.swift in Sources */,
 				5B54CDC41E25200900F0AFFF /* UnrecoverableErrorPresenterSpec.swift in Sources */,
 				5FBE5CCD1D3EDF960038536D /* UserSpec.swift in Sources */,
+				5BE5D0631F3C86700046C6A1 /* DatabaseChangePasswordPresenterSpec.swift in Sources */,
 				5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */,
 				5FBE5CC81D3EA0EA0038536D /* Mocks.swift in Sources */,
 				5B3874D41E97C13D00244326 /* CountryCodesSpec.swift in Sources */,
