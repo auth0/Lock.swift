@@ -92,6 +92,7 @@ class DatabaseChangePasswordView: UIView, View {
                 button.icon = LazyImage(name: passwordInput.isSecureTextEntry ? "ic_show_password_hidden" : "ic_show_password_visible", bundle: Lock.bundle).image(compatibleWithTraits: self.traitCollection)
             }
             form.confirmValueField.removeFromSuperview()
+            form.newValueField.returnKey = .done
         }
     }
 

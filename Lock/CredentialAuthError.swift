@@ -58,7 +58,7 @@ enum CredentialAuthError: Error, LocalizableError {
 
     var userVisible: Bool {
         switch self {
-        case .multifactorRequired, .nonValidInput, .expiredPassword:
+        case .multifactorRequired, .nonValidInput:
             return false
         default:
             return true

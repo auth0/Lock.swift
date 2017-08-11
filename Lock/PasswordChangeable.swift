@@ -22,7 +22,7 @@
 
 import Foundation
 
-protocol PasswordChangeable {
+protocol PasswordChangeable: CredentialAuthenticatable {
     var email: String? { get }
 
     mutating func update(_ input: InputField) throws

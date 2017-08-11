@@ -77,7 +77,7 @@ extension CredentialAuthenticatable {
         case .failure(let cause as AuthenticationError) where cause.code == "password_leaked":
             self.logger.error("The password of user <\(identifier)> was leaked")
             callback(.passwordLeaked)
-            self.dispatcher.dispatch(result: .error(CredentialAuthError.expiredPassword))
+            self.dispatcher.dispatch(result: .error(CredentialAuthError.passwordLeaked))
         case .failure(let cause as AuthenticationError) where cause.code == "expired_password":
             self.logger.error("The password of user <\(identifier)> has expired")
             callback(.expiredPassword)

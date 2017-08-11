@@ -23,10 +23,10 @@
 import Foundation
 import Auth0
 
-struct DatabaseChangePasswordInteractor: PasswordChangeable {
+struct DatabaseChangePasswordInteractor: PasswordChangeable, Loggable {
 
     private var user: DatabaseUser
-    private let dispatcher: Dispatcher
+    let dispatcher: Dispatcher
 
     var newPassword: String?
     var validPassword: Bool = false
@@ -36,6 +36,7 @@ struct DatabaseChangePasswordInteractor: PasswordChangeable {
     let authentication: Authentication
     let connection: DatabaseConnection
     let options: Options
+    let credentialAuth: CredentialAuth
     var passwordValidator: InputValidator { return self.connection.passwordValidator }
 
     init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
@@ -44,6 +45,7 @@ struct DatabaseChangePasswordInteractor: PasswordChangeable {
         self.user = user
         self.dispatcher = dispatcher
         self.options = options
+        self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
 
         if self.options.allowShowPassword { self.confirmed = true }
     }
@@ -80,6 +82,9 @@ struct DatabaseChangePasswordInteractor: PasswordChangeable {
                 case .success:
                     self.dispatcher.dispatch(result: .changePassword(email))
                     callback(nil)
+                    self.credentialAuth
+                        .request(withIdentifier: email, password: newPassword, options: self.options)
+                        .start { self.handle(identifier: email, result: $0, callback: { _ in }) }
                 }
         }
     }
