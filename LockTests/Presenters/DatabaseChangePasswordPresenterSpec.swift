@@ -155,6 +155,57 @@ class DatabaseChangePasswordPresenterSpec: QuickSpec {
                 }
             }
 
+            it("should not trigger action with nil button") {
+                let input = mockInput(.password, value: "invalid")
+                input.returnKey = .done
+                interactor.onRequest = {
+                    return .nonValidInput
+                }
+                view.primaryButton = nil
+                view.form?.onReturn(input)
+                expect(messagePresenter.message).toEventually(beNil())
+                expect(messagePresenter.error).toEventually(beNil())
+            }
+
+            it("should show global error message") {
+                interactor.onRequest = {
+                    return .changeFailed
+                }
+                view.primaryButton?.onPress(view.primaryButton!)
+                expect(messagePresenter.error).toEventually(beError(error: PasswordChangeableError.changeFailed))
+            }
+
+            it("should set button in progress on button press") {
+                let button = view.primaryButton!
+                waitUntil { done in
+                    interactor.onRequest = {
+                        expect(button.inProgress) == true
+                        done()
+                        return nil
+                    }
+                    button.onPress(button)
+                }
+            }
+
+            it("should set button to normal after request") {
+                let button = view.primaryButton!
+                button.onPress(button)
+                expect(button.inProgress).toEventually(beFalse())
+            }
+
+        }
+
+        describe("navigation on success") {
+
+            it("should navigate to .root") {
+                let button = view.primaryButton!
+                interactor.onRequest = {
+                    return nil
+                }
+                button.onPress(button)
+                expect(navigator.route).toEventually(equal(Route.root))
+            }
+
         }
 
     }
