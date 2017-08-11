@@ -56,7 +56,7 @@ enum Route: Equatable {
     func title(withStyle style: Style) -> String? {
         switch self {
         case .changePassword:
-            return "Change Password".i18n(key: "com.auth0.lock.change_password.title", comment: "Change Password title")
+            return "Password Expired".i18n(key: "com.auth0.lock.change_password.title", comment: "Change Password title")
         case .forgotPassword:
             return "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
         case .multifactor:

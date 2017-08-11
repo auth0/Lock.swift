@@ -74,6 +74,10 @@ class DatabaseChangePasswordPresenterSpec: QuickSpec {
                 expect(form.confirmValueField.superview).to(beNil())
             }
 
+            it("should have done return type for password") {
+                expect(form.newValueField.returnKey) == UIReturnKeyType.done
+            }
+
             context("disable allowShowPassword") {
 
                 beforeEach {
@@ -90,6 +94,14 @@ class DatabaseChangePasswordPresenterSpec: QuickSpec {
 
                 it("should have password confirm field") {
                     expect(form.confirmValueField).toNot(beNil())
+                }
+
+                it("should have next return type for password") {
+                    expect(form.newValueField.returnKey) == UIReturnKeyType.next
+                }
+
+                it("should have done return type for confirmfield") {
+                    expect(form.confirmValueField.returnKey) == UIReturnKeyType.done
                 }
 
             }
@@ -224,13 +236,15 @@ class DatabaseChangePasswordPresenterSpec: QuickSpec {
     }
 }
 
-class MockPasswordChangeableInteractor: PasswordChangeable {
+class MockPasswordChangeableInteractor: PasswordChangeable, Loggable {
 
     var newPassword: String?
     var validPassword: Bool = false
     var confirmed: Bool = false
     var email: String?
     var onRequest: () -> PasswordChangeableError? = { return nil }
+
+    let dispatcher: Dispatcher = ObserverStore()
 
     func changePassword(_ callback: @escaping (PasswordChangeableError?) -> ()) {
         callback(onRequest())

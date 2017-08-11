@@ -1,7 +1,7 @@
 // Change Password message
-"com.auth0.lock.change_password.message" = "Your password has expired. Please change your password to continue logging in.";
+"com.auth0.lock.change_password.message" = "Please change your password to continue logging in.";
 // Change Password title
-"com.auth0.lock.change_password.title" = "Change Password";
+"com.auth0.lock.change_password.title" = "Password Expired";
 // Forgot password
 "com.auth0.lock.database.button.forgot_password" = "Don’t remember your password?";
 // tos & privacy

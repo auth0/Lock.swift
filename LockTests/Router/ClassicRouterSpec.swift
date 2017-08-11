@@ -287,7 +287,7 @@ class ClassicRouterSpec: QuickSpec {
             it("should show change password screen") {
                 router.navigate(.changePassword)
                 expect(controller.presentable as? DatabaseChangePasswordPresenter).toNot(beNil())
-                expect(controller.headerView.title) == "Change Password"
+                expect(controller.headerView.title) == "Password Expired"
             }
 
             context("no connection") {

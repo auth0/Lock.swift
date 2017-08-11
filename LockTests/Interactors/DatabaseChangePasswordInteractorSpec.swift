@@ -166,17 +166,22 @@ class DatabaseChangePasswordInteractorSpec: QuickSpec {
 
         describe("request") {
 
+            var credentials: Credentials?
+
             beforeEach {
                 user.email = email
                 user.validEmail = true
                 user.password = password
                 user.validPassword = true
+                credentials = nil
+                dispatcher.onAuth = { credentials = $0 }
                 interactor = DatabaseChangePasswordInteractor(connection: connection, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
                 stub(condition: databaseChangePassword(username: email, oldPassword: password, newPassword: newPassword, connection: connection.name)) { _ in return Auth0Stubs.changePasswordSuccess() }
+                stub(condition: databaseLogin(identifier: email, password: newPassword, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                 input = mockInput(InputField.InputType.password, value: newPassword)
             }
 
-            it("should yield no error on success") {
+            it("should yield no credentials on success") {
                 try! interactor.update(input)
                 waitUntil(timeout: 2) { done in
                     interactor.changePassword { error in
@@ -184,7 +189,7 @@ class DatabaseChangePasswordInteractorSpec: QuickSpec {
                         done()
                     }
                 }
-
+                expect(credentials).toEventuallyNot(beNil())
             }
 
             it("should yield error on failure") {

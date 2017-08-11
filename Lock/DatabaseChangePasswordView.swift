@@ -59,7 +59,7 @@ class DatabaseChangePasswordView: UIView, View {
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
 
         primaryButton.title = "CHANGE PASSWORD".i18n(key: "com.auth0.lock.submit.change_password.title", comment: "Change Password button title")
-        form.message = "Your password has expired. Please change your password to continue logging in.".i18n(key: "com.auth0.lock.change_password.message", comment: "Change Password message")
+        form.message = "Please change your password to continue logging in.".i18n(key: "com.auth0.lock.change_password.message", comment: "Change Password message")
 
         form.newValueField.type = .password
         form.confirmValueField.type = .custom(name: "match", placeholder: "Confirm password", icon: InputField.InputType.password.icon, keyboardType: InputField.InputType.password.keyboardType, autocorrectionType: InputField.InputType.password.autocorrectionType, secure: InputField.InputType.password.secure)
