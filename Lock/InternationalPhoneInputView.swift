@@ -147,7 +147,7 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
 
         constraintEqual(anchor: countryLabel.leftAnchor, toAnchor: iconContainer.rightAnchor, constant: 16)
         constraintEqual(anchor: countryLabel.topAnchor, toAnchor: container.topAnchor)
-        constraintEqual(anchor: countryLabel.rightAnchor, toAnchor: codeLabel.leftAnchor, priority: UILayoutPriorityDefaultHigh)
+        constraintEqual(anchor: countryLabel.rightAnchor, toAnchor: codeLabel.leftAnchor, priority: UILayoutPriority.defaultHigh)
         constraintEqual(anchor: countryLabel.bottomAnchor, toAnchor: container.bottomAnchor)
         countryLabel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -156,7 +156,7 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
         constraintEqual(anchor: codeLabel.rightAnchor, toAnchor: actionIconContainer.leftAnchor)
         constraintEqual(anchor: codeLabel.bottomAnchor, toAnchor: container.bottomAnchor)
         dimension(dimension: codeLabel.widthAnchor, withValue: 60.0)
-        codeLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        codeLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         codeLabel.translatesAutoresizingMaskIntoConstraints = false
 
         constraintGreaterOrEqual(anchor: actionIconContainer.leftAnchor, toAnchor: codeLabel.rightAnchor)
@@ -196,7 +196,7 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
         container.layer.borderColor = Style.Auth0.inputBorderColor.cgColor
     }
 
-    func launchCountryTable(_ sender: UITapGestureRecognizer) {
+    @objc func launchCountryTable(_ sender: UITapGestureRecognizer) {
         let countryTableView = CountryTableViewController(withData: self.countryStore) {
             self.updateCountry($0)
         }

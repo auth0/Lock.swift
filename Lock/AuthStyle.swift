@@ -52,7 +52,9 @@ public struct AuthStyle {
 
      - returns: a new style
      */
-    public init(name: String, color: UIColor = UIColor.a0_orange, foregroundColor: UIColor = .white, withImage image: LazyImage = LazyImage(name: "ic_auth_auth0", bundle: bundleForLock())) {
+    public init(name: String, color: UIColor? = nil, foregroundColor: UIColor = .white, withImage image: LazyImage? = nil) {
+        let color = color ?? UIColor.a0_orange
+        let image = image ?? LazyImage(name: "ic_auth_auth0", bundle: bundleForLock())
         self.init(name: name, normalColor: color, highlightedColor: color.a0_darker(0.3), foregroundColor: foregroundColor, withImage: image)
     }
 

@@ -46,7 +46,7 @@ extension Router {
         let controller = self.controller?.presentingViewController
         let observerStore = self.observerStore
         Queue.main.async {
-            controller?.dismiss(animated: true, completion: { _ in
+            controller?.dismiss(animated: true, completion: {
                 observerStore.onFailure(error)
             })
         }

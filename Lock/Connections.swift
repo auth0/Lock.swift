@@ -46,11 +46,11 @@ public struct DatabaseConnection {
     public let usernameValidator: UsernameValidator
     public let passwordValidator: PasswordPolicyValidator
 
-    public init(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator(), passwordValidator: PasswordPolicyValidator = PasswordPolicyValidator(policy: .none)) {
+    public init(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator(), passwordValidator: PasswordPolicyValidator? = nil) {
         self.name = name
         self.requiresUsername =  requiresUsername
         self.usernameValidator = usernameValidator
-        self.passwordValidator = passwordValidator
+        self.passwordValidator = passwordValidator ?? PasswordPolicyValidator(policy: .none)
     }
 }
 
