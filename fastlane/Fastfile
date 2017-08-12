@@ -1,7 +1,7 @@
 skip_docs
 opt_out_usage
 
-fastlane_version "2.27.0"
+fastlane_version "2.53.0"
 
 default_platform :ios
 
