@@ -143,7 +143,7 @@ public class LockViewController: UIViewController {
 
     // MARK: - Keyboard
 
-    func keyboardWasShown(_ notification: Notification) {
+    @objc func keyboardWasShown(_ notification: Notification) {
         guard
             let value = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue,
             let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
@@ -165,7 +165,7 @@ public class LockViewController: UIViewController {
             completion: nil)
     }
 
-    func keyboardWasHidden(_ notification: Notification) {
+    @objc func keyboardWasHidden(_ notification: Notification) {
         guard
             let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
             let curveValue = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber

@@ -38,7 +38,7 @@ class LockUITests: XCTestCase {
     }
 
     func testClassic() {
-        
+
         let app = XCUIApplication()
 
         app.buttons["LOGIN WITH CDN CLASSIC"].tap()

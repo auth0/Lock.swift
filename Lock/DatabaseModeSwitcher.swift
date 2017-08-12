@@ -94,12 +94,12 @@ class DatabaseModeSwitcher: UIView {
         segmented.setBackgroundImage(image(named: "ic_switcher_selected", compatibleWithTraitCollection: self.traitCollection), for: .highlighted, barMetrics: .default)
         segmented.setBackgroundImage(image(named: "ic_switcher_normal", compatibleWithTraitCollection: self.traitCollection), for: UIControlState(), barMetrics: .default)
         segmented.setTitleTextAttributes([
-            NSForegroundColorAttributeName: Style.Auth0.tabTextColor,
-            NSFontAttributeName: mediumSystemFont(size: 15)
+            NSAttributedStringKey.foregroundColor: Style.Auth0.tabTextColor,
+            NSAttributedStringKey.font: mediumSystemFont(size: 15)
             ], for: UIControlState())
         segmented.setTitleTextAttributes([
-            NSForegroundColorAttributeName: Style.Auth0.tabTextColor,
-            NSFontAttributeName: semiBoldSystemFont(size: 15)
+            NSAttributedStringKey.foregroundColor: Style.Auth0.tabTextColor,
+            NSAttributedStringKey.font: semiBoldSystemFont(size: 15)
             ], for: .selected)
         segmented.tintColor = Style.Auth0.tabTintColor
         segmented.addTarget(self, action: #selector(selectedIndex), for: .valueChanged)
@@ -114,7 +114,7 @@ class DatabaseModeSwitcher: UIView {
 
     // MARK: - Internal
 
-    func selectedIndex(_ sender: UISegmentedControl) {
+    @objc func selectedIndex(_ sender: UISegmentedControl) {
         self.onSelectionChange(self)
     }
 }
@@ -124,12 +124,12 @@ extension DatabaseModeSwitcher: Stylable {
     func apply(style: Style) {
         self.segmentedControl?.tintColor = style.tabTintColor
         self.segmentedControl?.setTitleTextAttributes([
-            NSForegroundColorAttributeName: style.tabTextColor,
-            NSFontAttributeName: mediumSystemFont(size: 15)
+            NSAttributedStringKey.foregroundColor: style.tabTextColor,
+            NSAttributedStringKey.font: mediumSystemFont(size: 15)
             ], for: UIControlState())
         self.segmentedControl?.setTitleTextAttributes([
-            NSForegroundColorAttributeName: style.tabTextColor,
-            NSFontAttributeName: semiBoldSystemFont(size: 15)
+            NSAttributedStringKey.foregroundColor: style.tabTextColor,
+            NSAttributedStringKey.font: semiBoldSystemFont(size: 15)
             ], for: .selected)
     }
 }
