@@ -660,7 +660,7 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield invalid credentials error on failure") {
-                stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("invalid_user_password") }
+                stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("invalid_grant", description: "Wrong email or password.") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
