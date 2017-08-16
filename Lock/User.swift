@@ -35,6 +35,8 @@ protocol DatabaseUser {
 
     func validAdditionaAttribute(_ name: String) -> Bool
     func validAdditionaAttribute(_ name: String, valid: Bool)
+
+    func reset()
 }
 
 protocol PasswordlessUser {

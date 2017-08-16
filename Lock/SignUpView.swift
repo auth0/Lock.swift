@@ -26,7 +26,7 @@ class SignUpView: UIView, Form {
     var emailField: InputField
     var passwordField: InputField
     var usernameField: InputField?
-    var extraFields: [InputField] = []
+    var customFields: [InputField] = []
     var stackView: UIStackView
 
     var showUsername: Bool = false {
@@ -77,8 +77,8 @@ class SignUpView: UIView, Form {
         self.emailField = inputField(withType: .email)
         self.passwordField = inputField(withType: .password)
         var fields = [emailField, passwordField]
-        self.extraFields = additionalFields.map { return inputField(withType: $0.type) }
-        fields.append(contentsOf: self.extraFields)
+        self.customFields = additionalFields.map { return inputField(withType: $0.type) }
+        fields.append(contentsOf: self.customFields)
         self.stackView = UIStackView(arrangedSubviews: fields)
         super.init(frame: CGRect.zero)
         self.layoutForm()
