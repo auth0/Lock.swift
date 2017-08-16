@@ -58,6 +58,10 @@ extension CredentialAuthenticatable {
             self.logger.error("Invalid credentials of user <\(identifier)>")
             callback(.invalidEmailPassword)
             self.dispatcher.dispatch(result: .error(CredentialAuthError.invalidEmailPassword))
+        case .failure(let cause as AuthenticationError) where cause.code == "invalid_grant" && cause.description == "Wrong email or password.":
+            self.logger.error("Invalid credentials of user <\(identifier)>")
+            callback(.invalidEmailPassword)
+            self.dispatcher.dispatch(result: .error(CredentialAuthError.invalidEmailPassword))
         case .failure(let cause as AuthenticationError) where cause.isMultifactorCodeInvalid:
             self.logger.error("Multifactor code is invalid for user <\(identifier)>")
             callback(.multifactorInvalid)
