@@ -407,6 +407,14 @@ You will need to add the following to your app's `info.plist`:
 </array>
 ```
 
+If you see the following debug error:
+
+```text
+canOpenURL: failed for URL: "org-appextension-feature-password-management://" - error: "This app is not allowed to query for scheme org-appextension-feature-password-management"
+```
+
+This is normal and expected behavior when there is no app that can open a custom URL. In this case when the 1Password app is not installed.  Unfortunately, the message can be a little confusing but it is coming from iOS itself.
+
 #### Show Password
 
 By default a show password icon is shown in password fields to toggle visibility of the input text. You can disable this using the `allowShowPassword` option.
