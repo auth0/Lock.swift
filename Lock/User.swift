@@ -36,7 +36,7 @@ protocol DatabaseUser {
     func validAdditionalAttribute(_ name: String) -> Bool
     func validAdditionalAttribute(_ name: String, valid: Bool)
 
-    func clear()
+    func reset()
 }
 
 protocol PasswordlessUser {
@@ -62,7 +62,7 @@ class User: DatabaseUser, PasswordlessUser {
         return self.validEmail ? self.email : self.username
     }
 
-    func clear() {
+    func reset() {
         if !self.validUsername { self.username = nil }
         if !self.validEmail {
             self.email = nil

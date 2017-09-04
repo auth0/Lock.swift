@@ -60,54 +60,54 @@ class UserSpec: QuickSpec {
 
         }
 
-        describe("clear") {
+        describe("reset") {
 
             it("should clear invalid email") {
                 user.email = email
                 user.validEmail = false
-                user.clear()
+                user.reset()
                 expect(user.email).to(beNil())
             }
 
             it("should clear invalid username") {
                 user.username = username
                 user.validUsername = false
-                user.clear()
+                user.reset()
                 expect(user.username).to(beNil())
             }
 
             it("should clear password") {
                 user.password = password
                 user.validUsername = false
-                user.clear()
+                user.reset()
                 expect(user.username).to(beNil())
             }
 
             it("should not clear email") {
                 user.email = email
                 user.validEmail = true
-                user.clear()
+                user.reset()
                 expect(user.email) == email
             }
 
             it("should not clear username") {
                 user.username = username
                 user.validUsername = true
-                user.clear()
+                user.reset()
                 expect(user.username) == username
             }
 
             it("should always clear password") {
                 user.password = password
                 user.validUsername = true
-                user.clear()
+                user.reset()
                 expect(user.username).to(beNil())
             }
 
             it("should clear additional attributes") {
                 user.additionalAttributes["first_name"] = "John"
                 user.additionalAttributesStatus["first_name"] = true
-                user.clear()
+                user.reset()
                 expect(user.additionalAttributes["first_name"]).to(beNil())
             }
         }
