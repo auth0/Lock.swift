@@ -33,10 +33,10 @@ protocol DatabaseUser {
     var validUsername: Bool { get set }
     var validPassword: Bool { get set }
 
-    func validAdditionaAttribute(_ name: String) -> Bool
-    func validAdditionaAttribute(_ name: String, valid: Bool)
+    func validAdditionalAttribute(_ name: String) -> Bool
+    func validAdditionalAttribute(_ name: String, valid: Bool)
 
-    func reset()
+    func clear()
 }
 
 protocol PasswordlessUser {
@@ -62,7 +62,7 @@ class User: DatabaseUser, PasswordlessUser {
         return self.validEmail ? self.email : self.username
     }
 
-    func reset() {
+    func clear() {
         if !self.validUsername { self.username = nil }
         if !self.validEmail {
             self.email = nil
@@ -73,11 +73,11 @@ class User: DatabaseUser, PasswordlessUser {
         self.additionalAttributes = [:]
     }
 
-    func validAdditionaAttribute(_ name: String) -> Bool {
+    func validAdditionalAttribute(_ name: String) -> Bool {
         return self.additionalAttributesStatus[name] ?? false
     }
 
-    func validAdditionaAttribute(_ name: String, valid: Bool) {
+    func validAdditionalAttribute(_ name: String, valid: Bool) {
         self.additionalAttributesStatus[name] = valid
     }
 }

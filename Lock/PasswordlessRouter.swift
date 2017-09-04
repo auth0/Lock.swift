@@ -81,7 +81,7 @@ struct PasswordlessRouter: Router {
     func onBack() {
         guard let current = self.controller?.routes.back() else { return }
 
-        self.user.reset()
+        self.user.clear()
 
         let style = self.lock.style
 

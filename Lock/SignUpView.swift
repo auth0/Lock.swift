@@ -26,7 +26,6 @@ class SignUpView: UIView, Form {
     var emailField: InputField
     var passwordField: InputField
     var usernameField: InputField?
-    var customFields: [InputField] = []
     var stackView: UIStackView
 
     var showUsername: Bool = false {
@@ -77,8 +76,7 @@ class SignUpView: UIView, Form {
         self.emailField = inputField(withType: .email)
         self.passwordField = inputField(withType: .password)
         var fields = [emailField, passwordField]
-        self.customFields = additionalFields.map { return inputField(withType: $0.type) }
-        fields.append(contentsOf: self.customFields)
+        fields.append(contentsOf: additionalFields.map { return inputField(withType: $0.type) })
         self.stackView = UIStackView(arrangedSubviews: fields)
         super.init(frame: CGRect.zero)
         self.layoutForm()
@@ -125,7 +123,10 @@ class SignUpView: UIView, Form {
         password.type = .password
 
         let fields = self.stackView.arrangedSubviews.map { $0 as? InputField }.filter { $0 != nil }.map { $0! }
-        fields.forEach { $0.returnKey = .next }
+        fields.indices.dropLast().forEach {
+            fields[$0].returnKey = .next
+            fields[$0].nextField = fields[$0+1]
+        }
         fields.last?.returnKey = .done
     }
 }

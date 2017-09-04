@@ -60,54 +60,54 @@ class UserSpec: QuickSpec {
 
         }
 
-        describe("reset") {
+        describe("clear") {
 
             it("should clear invalid email") {
                 user.email = email
                 user.validEmail = false
-                user.reset()
+                user.clear()
                 expect(user.email).to(beNil())
             }
 
             it("should clear invalid username") {
                 user.username = username
                 user.validUsername = false
-                user.reset()
+                user.clear()
                 expect(user.username).to(beNil())
             }
 
             it("should clear password") {
                 user.password = password
                 user.validUsername = false
-                user.reset()
+                user.clear()
                 expect(user.username).to(beNil())
             }
 
             it("should not clear email") {
                 user.email = email
                 user.validEmail = true
-                user.reset()
+                user.clear()
                 expect(user.email) == email
             }
 
             it("should not clear username") {
                 user.username = username
                 user.validUsername = true
-                user.reset()
+                user.clear()
                 expect(user.username) == username
             }
 
             it("should always clear password") {
                 user.password = password
                 user.validUsername = true
-                user.reset()
+                user.clear()
                 expect(user.username).to(beNil())
             }
 
             it("should clear additional attributes") {
                 user.additionalAttributes["first_name"] = "John"
                 user.additionalAttributesStatus["first_name"] = true
-                user.reset()
+                user.clear()
                 expect(user.additionalAttributes["first_name"]).to(beNil())
             }
         }
@@ -119,12 +119,12 @@ class UserSpec: QuickSpec {
             }
 
             it("should return non valid as default") {
-                expect(user.validAdditionaAttribute("attr")) == false
+                expect(user.validAdditionalAttribute("attr")) == false
             }
 
             it("should update attribute status") {
-                user.validAdditionaAttribute("attr", valid: true)
-                expect(user.validAdditionaAttribute("attr")) == true
+                user.validAdditionalAttribute("attr", valid: true)
+                expect(user.validAdditionalAttribute("attr")) == true
             }
 
         }

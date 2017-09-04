@@ -78,7 +78,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             let field = self.customFields[name]
             error = field?.validation(value)
             self.user.additionalAttributes[name] = value
-            self.user.validAdditionaAttribute(name, valid: error == nil)
+            self.user.validAdditionalAttribute(name, valid: error == nil)
         }
 
         if let error = error { throw error }
@@ -113,7 +113,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         guard !connection.requiresUsername || self.validUsername else { return callback(.nonValidInput, nil) }
 
         for (fieldName, _) in customFields {
-            guard self.user.validAdditionaAttribute(fieldName) else { return callback(.nonValidInput, nil) }
+            guard self.user.validAdditionalAttribute(fieldName) else { return callback(.nonValidInput, nil) }
         }
 
         let username = connection.requiresUsername ? self.username : nil
