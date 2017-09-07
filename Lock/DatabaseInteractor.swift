@@ -25,7 +25,7 @@ import Auth0
 
 struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggable {
 
-    private var user: DatabaseUser
+    var user: DatabaseUser
 
     var identifier: String? { return self.user.identifier }
     var email: String? { return self.user.email }
@@ -78,7 +78,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             let field = self.customFields[name]
             error = field?.validation(value)
             self.user.additionalAttributes[name] = value
-            self.user.validAdditionaAttribute(name, valid: error == nil)
+            self.user.validAdditionalAttribute(name, valid: error == nil)
         }
 
         if let error = error { throw error }
@@ -111,6 +111,10 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             else { return callback(.nonValidInput, nil) }
 
         guard !connection.requiresUsername || self.validUsername else { return callback(.nonValidInput, nil) }
+
+        for (fieldName, _) in customFields {
+            guard self.user.validAdditionalAttribute(fieldName) else { return callback(.nonValidInput, nil) }
+        }
 
         let username = connection.requiresUsername ? self.username : nil
         let metadata: [String: String]? = self.user.additionalAttributes.isEmpty ? nil : self.user.additionalAttributes

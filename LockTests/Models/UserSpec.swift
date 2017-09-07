@@ -119,12 +119,12 @@ class UserSpec: QuickSpec {
             }
 
             it("should return non valid as default") {
-                expect(user.validAdditionaAttribute("attr")) == false
+                expect(user.validAdditionalAttribute("attr")) == false
             }
 
             it("should update attribute status") {
-                user.validAdditionaAttribute("attr", valid: true)
-                expect(user.validAdditionaAttribute("attr")) == true
+                user.validAdditionalAttribute("attr", valid: true)
+                expect(user.validAdditionalAttribute("attr")) == true
             }
 
         }

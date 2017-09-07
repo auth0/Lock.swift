@@ -123,7 +123,10 @@ class SignUpView: UIView, Form {
         password.type = .password
 
         let fields = self.stackView.arrangedSubviews.map { $0 as? InputField }.filter { $0 != nil }.map { $0! }
-        fields.forEach { $0.returnKey = .next }
+        fields.indices.dropLast().forEach {
+            fields[$0].returnKey = .next
+            fields[$0].nextField = fields[$0+1]
+        }
         fields.last?.returnKey = .done
     }
 }
