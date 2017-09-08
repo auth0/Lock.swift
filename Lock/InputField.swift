@@ -339,7 +339,6 @@ class InputField: UIView, Stylable {
     }
 
     // MARK: - Styable
-
     func apply(style: Style) {
         self.borderColor = style.inputBorderColor
         self.borderColorError = style.inputBorderColorError
