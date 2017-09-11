@@ -1,6 +1,6 @@
 github "AliSoftware/OHHTTPStubs" "6.0.0"
 github "Quick/Nimble" "v6.1.0"
 github "Quick/Quick" "v1.1.0"
-github "auth0/Auth0.swift" "1.7.1"
+github "auth0/Auth0.swift" "1.7.2"
 github "auth0/SimpleKeychain" "0.8.0"
-github "emaloney/CleanroomLogger" "5.1.1"
+github "emaloney/CleanroomLogger" "5.1.2"
