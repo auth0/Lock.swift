@@ -258,7 +258,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                     }
 
                     it("should have empty passwordless transcation store") {
-                        expect(passwordlessActivity.current).to(beNil())
+                        expect(passwordlessActivity.current).toEventually(beNil())
                     }
 
                     it("should store passwordless transaction on sending link") {
@@ -268,7 +268,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                                 done()
                             }
                         }
-                        expect(passwordlessActivity.current).toNot(beNil())
+                        expect(passwordlessActivity.current).toEventuallyNot(beNil())
                     }
                 }
 

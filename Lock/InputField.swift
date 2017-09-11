@@ -22,7 +22,7 @@
 
 import UIKit
 
-class InputField: UIView, UITextFieldDelegate, Stylable {
+class InputField: UIView, Stylable {
 
     weak var containerView: UIView?
     weak var textField: UITextField?
@@ -246,28 +246,6 @@ class InputField: UIView, UITextFieldDelegate, Stylable {
         }
     }
 
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.onBeginEditing(self)
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        self.onEndEditing(self)
-    }
-
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.onReturn(self)
-        if let field = self.nextField?.textField {
-            Queue.main.async {
-                field.becomeFirstResponder()
-            }
-        } else {
-            Queue.main.async {
-                textField.resignFirstResponder()
-            }
-        }
-        return true
-    }
-
     func textChanged(_ field: UITextField) {
         self.onTextChange(self)
     }
@@ -361,7 +339,6 @@ class InputField: UIView, UITextFieldDelegate, Stylable {
     }
 
     // MARK: - Styable
-
     func apply(style: Style) {
         self.borderColor = style.inputBorderColor
         self.borderColorError = style.inputBorderColorError
@@ -374,4 +351,32 @@ class InputField: UIView, UITextFieldDelegate, Stylable {
         self.iconContainer?.backgroundColor = style.inputIconBackgroundColor
         self.iconView?.tintColor = style.inputIconColor
     }
+}
+
+// MARK: - UITextFieldDelegate
+extension InputField: UITextFieldDelegate {
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.onBeginEditing(self)
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.onEndEditing(self)
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.onTextChange(self)
+        self.onReturn(self)
+        if let field = self.nextField?.textField {
+            Queue.main.async {
+                field.becomeFirstResponder()
+            }
+        } else {
+            Queue.main.async {
+                textField.resignFirstResponder()
+            }
+        }
+        return true
+    }
+
 }

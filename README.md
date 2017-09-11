@@ -443,7 +443,7 @@ By default a show password icon is shown in password fields to toggle visibility
 
 Auth0 helps you to:
 
-* Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, amont others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
+* Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, amongst others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
 * Add support for [Custom OAuth2 Connections](https://auth0.com/docs/connections/social/oauth2).
 * Add authentication through more traditional **[username/password databases](https://docs.auth0.com/mysql-connection-tutorial)**.
 * Add support for **[linking different user accounts](https://docs.auth0.com/link-accounts)** with the same user.
