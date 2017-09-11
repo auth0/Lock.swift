@@ -118,6 +118,8 @@ class DatabasePresenter: Presentable, Loggable {
                     }
                     if case CredentialAuthError.multifactorRequired = error {
                         self.navigator.navigate(.multifactor)
+                    } else if case CredentialAuthError.expiredPassword = error {
+                        self.navigator.navigate(.changePassword)
                     } else {
                         form?.needsToUpdateState()
                         self.messagePresenter?.showError(error)

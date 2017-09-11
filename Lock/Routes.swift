@@ -51,9 +51,12 @@ enum Route: Equatable {
     case enterpriseActiveAuth(connection: EnterpriseConnection, domain: String)
     case unrecoverableError(error: UnrecoverableError)
     case passwordless(screen: PasswordlessScreen, connection: PasswordlessConnection)
+    case changePassword
 
     func title(withStyle style: Style) -> String? {
         switch self {
+        case .changePassword:
+            return "Password Expired".i18n(key: "com.auth0.lock.change_password.title", comment: "Change Password title")
         case .forgotPassword:
             return "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
         case .multifactor:
@@ -66,7 +69,7 @@ enum Route: Equatable {
 
 func == (lhs: Route, rhs: Route) -> Bool {
     switch((lhs, rhs)) {
-    case (.root, .root), (.forgotPassword, .forgotPassword), (.multifactor, .multifactor):
+    case (.root, .root), (.forgotPassword, .forgotPassword), (.multifactor, .multifactor), (.changePassword, . changePassword):
         return true
     case (.enterpriseActiveAuth(let lhsConnection, let lhsDomain), .enterpriseActiveAuth(let rhsConnection, let rhsDomain)):
         return lhsConnection.name == rhsConnection.name && lhsDomain == rhsDomain

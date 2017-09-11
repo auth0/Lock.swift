@@ -1,6 +1,6 @@
-// Constants.swift
+// PasswordChangeableError.swift
 //
-// Copyright (c) 2016 Auth0 (http://auth0.com)
+// Copyright (c) 2017 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,29 @@
 
 import Foundation
 
-let clientId = "CLIENT_ID"
-let domain = "samples.auth0.com"
+enum PasswordChangeableError: Error, LocalizableError {
+    case nonValidInput
+    case noConfirmation
+    case policyFail(String)
+    case changeFailed
 
-let email = "info@auth0.com"
-let password = "a long secure password"
-let newPassword = "an even longer secure password"
-let username = "info"
-let connection = "Username-Password-Authentication"
-let code = "999999"
+    var localizableMessage: String {
+        switch self {
+        case .policyFail(let cause):
+            return cause
+        case .noConfirmation:
+            return "Password confirmation does not match.".i18n(key: "com.auth0.lock.error.change_password.noconfirmation", comment: "Change password no confirmation")
+        default:
+            return "SOMETHING WENT WRONG.\nPLEASE CONTACT TECHNICAL SUPPORT.".i18n(key: "com.auth0.lock.error.fallback", comment: "Generic error")
+        }
+    }
+
+    var userVisible: Bool {
+        switch self {
+        case .nonValidInput:
+            return false
+        default:
+            return true
+        }
+    }
+}

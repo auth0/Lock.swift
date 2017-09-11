@@ -276,6 +276,32 @@ public class Lock: NSObject {
         return self
     }
 
+    /**
+     Register a callback to be notified when a user changes their password.
+     The callback will yield the user identifier.
+
+     - parameter callback: called when a user changes their password
+
+     - returns: Lock itself for chaining
+     */
+    public func onChangePassword(callback: @escaping (String) -> Void) -> Lock {
+        self.observerStore.onChangePassword = callback
+        return self
+    }
+
+    /**
+     Register a callback to be notified when a user requests a password reset.
+     The callback will yield the user identifier.
+
+     - parameter callback: called when a user requests a password reset.
+
+     - returns: Lock itself for chaining
+     */
+    public func onForgotPassword(callback: @escaping (String) -> Void) -> Lock {
+        self.observerStore.onForgotPassword = callback
+        return self
+    }
+
         /// Lock's Bundle. Useful for getting bundled resources like images.
     public static var bundle: Bundle {
         return bundleForLock()

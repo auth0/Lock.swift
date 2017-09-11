@@ -30,6 +30,7 @@ struct ObserverStore: Dispatcher {
     var onSignUp: (String, [String: Any]) -> Void = { _ in }
     var onForgotPassword: (String) -> Void = { _ in }
     var onPasswordless: (String) -> Void = { _ in }
+    var onChangePassword: (String) -> Void = { _ in }
 
     var options: Options = LockOptions()
 
@@ -62,6 +63,8 @@ struct ObserverStore: Dispatcher {
             }
         case .passwordless(let identifier):
             closure = { self.onPasswordless(identifier) }
+        case .changePassword(let identifier):
+            closure = { self.onChangePassword(identifier) }
         }
 
         Queue.main.async(closure)
@@ -80,6 +83,7 @@ enum Result {
     case signUp(String, [String: Any])
     case forgotPassword(String)
     case passwordless(String)
+    case changePassword(String)
 }
 
 protocol Dispatcher {

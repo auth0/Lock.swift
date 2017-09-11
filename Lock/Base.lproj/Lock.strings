@@ -1,7 +1,13 @@
+// Change Password message
+"com.auth0.lock.change_password.message" = "Please change your password to continue logging in.";
+// Change Password title
+"com.auth0.lock.change_password.title" = "Password Expired";
 // Forgot password
 "com.auth0.lock.database.button.forgot_password" = "Don’t remember your password?";
 // tos & privacy
 "com.auth0.lock.database.button.tos" = "By signing up, you agree to our terms of\n service and privacy policy";
+// change password success
+"com.auth0.lock.database.change_password.success.message" = "Your password was successfully changed.";
 // forgot password email sent
 "com.auth0.lock.database.forgot.success.message" = "We've just sent you an email to reset your password";
 // User logged in
@@ -42,6 +48,8 @@
 "com.auth0.lock.error.authentication.password_leaked" = "THIS LOGIN HAS BEEN BLOCKED BECAUSE YOUR PASSWORD HAS BEEN LEAKED IN ANOTHER WEBSITE. WE’VE SENT YOU AN EMAIL WITH INSTRUCTIONS ON HOW TO UNBLOCK IT.";
 // too_many_attempts
 "com.auth0.lock.error.authentication.too_many_attempts" = "YOUR ACCOUNT HAS BEEN BLOCKED AFTER MULTIPLE CONSECUTIVE LOGIN ATTEMPTS.";
+// Change password no confirmation
+"com.auth0.lock.error.change_password.noconfirmation" = "Password confirmation does not match.";
 // Generic error
 "com.auth0.lock.error.fallback" = "SOMETHING WENT WRONG.\nPLEASE CONTACT TECHNICAL SUPPORT.";
 // Generic password error
@@ -222,6 +230,8 @@
 "com.auth0.lock.strategy.login.title" = "LOG IN WITH %1$@";
 // Sign up with %@{strategy}
 "com.auth0.lock.strategy.signup.title" = "SIGN UP WITH %1$@";
+// Change Password button title
+"com.auth0.lock.submit.change_password.title" = "CHANGE PASSWORD";
 // Login Button title
 "com.auth0.lock.submit.login.title" = "LOG IN";
 // Send 2fa code

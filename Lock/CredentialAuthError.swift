@@ -33,6 +33,7 @@ enum CredentialAuthError: Error, LocalizableError {
     case multifactorRequired
     case multifactorInvalid
     case customRuleFailure(cause: String)
+    case expiredPassword
 
     var localizableMessage: String {
         switch self {

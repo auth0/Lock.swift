@@ -1,6 +1,6 @@
-// Constants.swift
+// PasswordChangeable.swift
 //
-// Copyright (c) 2016 Auth0 (http://auth0.com)
+// Copyright (c) 2017 Auth0 (http://auth0.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,10 @@
 
 import Foundation
 
-let clientId = "CLIENT_ID"
-let domain = "samples.auth0.com"
+protocol PasswordChangeable: CredentialAuthenticatable {
+    var email: String? { get }
 
-let email = "info@auth0.com"
-let password = "a long secure password"
-let newPassword = "an even longer secure password"
-let username = "info"
-let connection = "Username-Password-Authentication"
-let code = "999999"
+    mutating func update(_ input: InputField) throws
+
+    func changePassword(_ callback: @escaping (PasswordChangeableError?) -> Void)
+}

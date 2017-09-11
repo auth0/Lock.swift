@@ -126,6 +126,18 @@ struct ClassicRouter: Router {
         return presenter
     }
 
+    var changePassword: Presentable? {
+        let connections = self.lock.connections
+        guard let database = connections.database else {
+            exit(withError: UnrecoverableError.missingDatabaseConnection)
+            return nil
+        }
+        let interactor = DatabaseChangePasswordInteractor(connection: database, authentication: self.lock.authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
+        let presenter =  DatabaseChangePasswordPresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
+        presenter.customLogger = self.lock.logger
+        return presenter
+    }
+
     func onBack() {
         guard let current = self.controller?.routes.back() else { return }
 
@@ -137,6 +149,8 @@ struct ClassicRouter: Router {
         switch current {
         case .forgotPassword:
             self.controller?.present(self.forgotPassword, title: current.title(withStyle: style))
+        case .changePassword:
+            self.controller?.present(self.changePassword, title: current.title(withStyle: style))
         case .root:
             self.controller?.present(self.root, title: style.hideTitle ? nil : style.title)
         default:
@@ -151,6 +165,8 @@ struct ClassicRouter: Router {
             presentable = self.root
         case .forgotPassword:
             presentable = self.forgotPassword
+        case .changePassword:
+            presentable = self.changePassword
         case .multifactor:
             presentable = self.multifactor
         case .enterpriseActiveAuth(let connection, let domain):
