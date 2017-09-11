@@ -19,7 +19,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
   s.requires_arc = true
 
 
-  s.dependency 'Auth0', '~> 1.6'
+  s.dependency 'Auth0', '~> 1.7'
   s.default_subspecs = 'Classic'
 
   s.subspec 'Classic' do |classic|
