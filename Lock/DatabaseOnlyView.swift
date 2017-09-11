@@ -39,6 +39,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
     weak var identityField: InputField?
     weak var passwordField: InputField?
+    var allFields: [InputField]?
 
     // FIXME: Remove this from the view since it should not even know it exists
     var navigator: Navigable?
@@ -143,13 +144,13 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         self.identityField = showUsername ? form.usernameField : form.emailField
         self.passwordField = form.passwordField
+        self.allFields = form.stackView.arrangedSubviews.map { $0 as? InputField }.filter { $0 != nil }.map { $0! }
 
         if let passwordPolicyValidator = passwordPolicyValidator {
             let passwordPolicyView = PolicyView(rules: passwordPolicyValidator.policy.rules)
             passwordPolicyValidator.delegate = passwordPolicyView
             let passwordIndex = form.stackView.arrangedSubviews.index(of: form.passwordField)
             form.stackView.insertArrangedSubview(passwordPolicyView, at:passwordIndex!)
-
             passwordPolicyView.isHidden = true
             form.passwordField.errorLabel?.removeFromSuperview()
             form.passwordField.onBeginEditing = { [weak self, weak passwordPolicyView] _ in

@@ -178,9 +178,10 @@ class DatabasePresenter: Presentable, Loggable {
         view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator, showPassswordManager: self.passwordManager.available, showPassword: self.options.allowShowPassword)
         let form = view.form
         view.form?.onValueChange = self.handleInput
-        let action = { [weak form] (button: PrimaryButton) in
+        let action = { [weak form, weak view] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
-            self.logger.info("perform sign up for email \(self.creator.email.verbatim())")
+            self.logger.info("Perform sign up for email \(self.creator.email.verbatim())")
+            view?.allFields?.forEach { self.handleInput($0) }
             let interactor = self.creator
             button.inProgress = true
             interactor.create { createError, loginError in
