@@ -221,6 +221,10 @@ class DatabasePresenterSpec: QuickSpec {
                 expect(view.passwordManagerButton).to(beNil())
             }
 
+            it("should have show password button") {
+                expect(view.showPasswordButton).toNot(beNil())
+            }
+
             context("with password manager available") {
 
                 beforeEach {
@@ -236,6 +240,10 @@ class DatabasePresenterSpec: QuickSpec {
                     presenter.passwordManager.enabled = false
                     view = presenter.view as! DatabaseOnlyView
                     expect(view.passwordManagerButton).to(beNil())
+                }
+
+                it("should not have show password button") {
+                    expect(view.showPasswordButton).to(beNil())
                 }
             }
 
@@ -291,6 +299,12 @@ class DatabasePresenterSpec: QuickSpec {
                     let input = mockInput(.username, value: "invalid")
                     view.form?.onValueChange(input)
                     expect(input.valid) == false
+                }
+
+                it("should toggle show password") {
+                    expect(view.passwordField?.textField?.isSecureTextEntry).to(beTrue())
+                    view.showPasswordButton?.onPress(view.showPasswordButton!)
+                    expect(view.passwordField?.textField?.isSecureTextEntry).to(beFalse())
                 }
 
             }
@@ -445,6 +459,10 @@ class DatabasePresenterSpec: QuickSpec {
                 expect(view.primaryButton?.title) == "SIGN UP"
             }
 
+            it("should have show password button") {
+                expect(view.showPasswordButton).toNot(beNil())
+            }
+
             describe("user input") {
 
                 it("should clear global message") {
@@ -504,6 +522,10 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(view.passwordManagerButton).to(beNil())
                 }
 
+                it("should not show password manager when disabled") {
+                    expect(view.passwordManagerButton).to(beNil())
+                }
+
                 context("with password manager available") {
 
                     beforeEach {
@@ -517,21 +539,15 @@ class DatabasePresenterSpec: QuickSpec {
                         expect(view.passwordManagerButton).toNot(beNil())
                     }
 
-                    context("disable password manager") {
-
-                        beforeEach {
-                            presenter.passwordManager = passwordManager
-                            presenter.passwordManager.enabled = false
-                            view = presenter.view as! DatabaseOnlyView
-                            view.switcher?.selected = .signup
-                            view.switcher?.onSelectionChange(view.switcher!)
-                        }
-
-                        it("should not show password manager when disabled") {
-                            expect(view.passwordManagerButton).to(beNil())
-                        }
-
+                    it("should not have show password button") {
+                        expect(view.showPasswordButton).to(beNil())
                     }
+                }
+
+                it("should toggle show password") {
+                    expect(view.passwordField?.textField?.isSecureTextEntry).to(beTrue())
+                    view.showPasswordButton?.onPress(view.showPasswordButton!)
+                    expect(view.passwordField?.textField?.isSecureTextEntry).to(beFalse())
                 }
 
             }
