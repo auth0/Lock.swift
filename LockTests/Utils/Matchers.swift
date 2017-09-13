@@ -24,57 +24,52 @@ import Foundation
 import Nimble
 @testable import Lock
 
-func beExpandedMode(isLogin login: Bool = true) -> MatcherFunc<AuthCollectionView.Mode> {
-    return MatcherFunc { expression, failureMessage in
-        failureMessage.postfixMessage = "be with expanded mode with isLogin: <\(login)>"
+func beExpandedMode(isLogin login: Bool = true) -> Predicate<AuthCollectionView.Mode> {
+        return Predicate<AuthCollectionView.Mode>.define("be with expanded mode with isLogin: <\(login)>") { expression, failureMessage -> PredicateResult in
         if let actual = try expression.evaluate(), case .expanded(let isLogin) = actual, isLogin == login {
-            return true
+            return PredicateResult(status: .matches, message: failureMessage)
         }
-        return false
+         return PredicateResult(status: .doesNotMatch, message: failureMessage)
     }
 }
 
-func beCompactMode() -> MatcherFunc<AuthCollectionView.Mode> {
-    return MatcherFunc { expression, failureMessage in
-        failureMessage.postfixMessage = "be with compact mode"
+func beCompactMode() -> Predicate<AuthCollectionView.Mode> {
+    return Predicate<AuthCollectionView.Mode>.define("be with compact mode") { expression, failureMessage -> PredicateResult in
         if let actual = try expression.evaluate(), case .compact = actual {
-            return true
+            return PredicateResult(status: .matches, message: failureMessage)
         }
-        return false
+        return PredicateResult(status: .doesNotMatch, message: failureMessage)
     }
 }
 
-func beError(error: LocalizableError) -> MatcherFunc<LocalizableError> {
-    return MatcherFunc { expression, failureMessage in
-        failureMessage.postfixMessage = "be error with message \(error.localizableMessage)"
+func beError(error: LocalizableError) -> Predicate<LocalizableError> {
+    return Predicate<LocalizableError>.define("be error with message \(error.localizableMessage)") { expression, failureMessage -> PredicateResult in
         if let actual = try expression.evaluate(), actual.localizableMessage == error.localizableMessage && actual.userVisible == error.userVisible {
-            return true
+            return PredicateResult(status: .matches, message: failureMessage)
         }
-        return false
+        return PredicateResult(status: .doesNotMatch, message: failureMessage)
     }
 }
 
-func beErrorResult() -> MatcherFunc<Result> {
-    return MatcherFunc { expression, failureMessage in
-        failureMessage.postfixMessage = "be an error result"
+
+func beErrorResult() -> Predicate<Result> {
+    return Predicate<Result>.define("be an error result") { expression, failureMessage -> PredicateResult in
         if let actual = try expression.evaluate(), case .error = actual {
-            return true
+            return PredicateResult(status: .matches, message: failureMessage)
         }
-        return false
+        return PredicateResult(status: .doesNotMatch, message: failureMessage)
     }
 }
 
-func beExcellentPassword() -> MatcherFunc<[String: Any]> {
-    return MatcherFunc { expression, failureMessage in
-        failureMessage.postfixMessage = "be an excellent strength password recipe"
+func beExcellentPassword() -> Predicate<[String: Any]> {
+    return Predicate<[String: Any]>.define("be an excellent strength password recipe") { expression, failureMessage -> PredicateResult in
         if let actual = try expression.evaluate(),
             actual[AppExtensionGeneratedPasswordMinLengthKey] as? String == "10",
             actual[AppExtensionGeneratedPasswordMaxLengthKey] as? String == "128",
             actual[AppExtensionGeneratedPasswordRequireDigitsKey] as? Bool == true,
             actual[AppExtensionGeneratedPasswordRequireSymbolsKey] as? Bool == true
         {
-            return true
+            return PredicateResult(status: .matches, message: failureMessage)
         }
-        return false
-    }
+        return PredicateResult(status: .doesNotMatch, message: failureMessage)    }
 }
