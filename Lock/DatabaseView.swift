@@ -31,6 +31,7 @@ protocol DatabaseView: class, View {
     weak var showPasswordButton: IconButton? { get }
     weak var identityField: InputField? { get }
     weak var passwordField: InputField? { get }
+    var allFields: [InputField]? { get }
 
     var traitCollection: UITraitCollection { get }
 
