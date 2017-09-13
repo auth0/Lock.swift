@@ -152,12 +152,13 @@ class PasswordPolicySpec: QuickSpec {
     }
 }
 
-func beRuleResult(valid: Bool, forPassword password: String?) -> MatcherFunc<[RuleResult]> {
-    return MatcherFunc { expression, failureMessage in
-        failureMessage.postfixMessage = "be a rule result of password <\(String(describing: password))> valid <\(valid)>"
+func beRuleResult(valid: Bool, forPassword password: String?) -> Predicate<[RuleResult]> {
+    return Predicate<[RuleResult]>.define("be a rule result of password <\(String(describing: password))> valid <\(valid)>") { expression, failureMessage -> PredicateResult in
         if let actual = try expression.evaluate() {
-            return actual.reduce(true) { $0 && $1.valid } == valid
+            if actual.reduce(true, {$0 && $1.valid}) == valid {
+                return PredicateResult(status: .matches, message: failureMessage)
+            }
         }
-        return false
+        return PredicateResult(status: .doesNotMatch, message: failureMessage)
     }
 }

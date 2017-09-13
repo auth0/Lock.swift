@@ -862,14 +862,13 @@ class DatabasePresenterSpec: QuickSpec {
     }
 }
 
-func haveAction(_ title: String, style: UIAlertActionStyle) -> MatcherFunc<[UIAlertAction]> {
-    return MatcherFunc { expression, failureMessage in
-        failureMessage.postfixMessage = "have action with title \(title) and style \(style)"
+func haveAction(_ title: String, style: UIAlertActionStyle) -> Predicate<[UIAlertAction]> {
+    return Predicate<[UIAlertAction]>.define("have action with title \(title) and style \(style)") { expression, failureMessage -> PredicateResult in
         if let actions = try expression.evaluate() {
-            return actions.contains { alert in
+            if actions.contains(where: { alert in
                 return alert.title == title && alert.style == style
-            }
+            }) { return PredicateResult(status: .matches, message: failureMessage) }
         }
-        return false
+        return PredicateResult(status: .doesNotMatch, message: failureMessage)
     }
 }
