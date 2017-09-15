@@ -398,7 +398,7 @@ By default the `appIdentifier` will be set to the app's bundle identifier and th
 }
 ```
 
-You will need to add the following to your app's `info.plist`:
+You will need to add the following to your app's `Info.plist`:
 
 ```xml
 <key>LSApplicationQueriesSchemes</key>
@@ -406,6 +406,9 @@ You will need to add the following to your app's `info.plist`:
     <string>org-appextension-feature-password-management</string>
 </array>
 ```
+
+> If your `Info.plist` is not shown in this format, you can **Right Click** on `Info.plist` in Xcode and then select **Open As / Source Code**.
+
 
 If you see the following debug error:
 
