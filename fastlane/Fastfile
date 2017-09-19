@@ -42,7 +42,7 @@ platform :ios do
   desc "Runs all the tests in a CI environment"
   lane :ci do
     i18n(silent: true) # Generate base strings file
-    ensure_git_status_clean # Until we add dangerfile check if there are changes this way
+    # ensure_git_status_clean # Until we add dangerfile check if there are changes this way
     scheme = ENV["SCHEME"]
     UI.user_error!("You must supply a valid scheme in 'SCHEME' env variable") if scheme.nil?
     options = {
