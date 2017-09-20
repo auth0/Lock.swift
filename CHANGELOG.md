@@ -1,5 +1,19 @@
 # Change Log
 
+## [2.4.0](https://github.com/auth0/Lock.swift/tree/2.4.0) (2017-09-20)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.3.1...2.4.0)
+
+**Changed**
+- Disabled Code coverage Xcode 9 [\#467](https://github.com/auth0/Lock.swift/pull/467) ([cocojoe](https://github.com/cocojoe))
+- Update Nimble lib and test code (Fixes tests in Xcode 9) [\#464](https://github.com/auth0/Lock.swift/pull/464) ([cocojoe](https://github.com/cocojoe))
+
+**Fixed**
+- Fix self retain cycle in DatabaseView [\#463](https://github.com/auth0/Lock.swift/pull/463) ([cocojoe](https://github.com/cocojoe))
+- Fix - Custom field validation on form submission [\#462](https://github.com/auth0/Lock.swift/pull/462) ([cocojoe](https://github.com/cocojoe))
+- Fix text replacement on return [\#460](https://github.com/auth0/Lock.swift/pull/460) ([cocojoe](https://github.com/cocojoe))
+- Fixed Signup Bugs [\#455](https://github.com/auth0/Lock.swift/pull/455) ([cocojoe](https://github.com/cocojoe))
+- Fix SSO in Database with allow option [\#450](https://github.com/auth0/Lock.swift/pull/450) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.3.1](https://github.com/auth0/Lock.swift/tree/2.3.1) (2017-07-11)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.3.0...2.3.1)
 
