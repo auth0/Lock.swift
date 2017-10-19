@@ -1,14 +1,13 @@
 machine:
   xcode:
-    version: 8.3
+    version: 9.0
   environment:
     SCHEME: "Lock"
-    DEVICE: "iPhone 7 (10.3)"
+    DEVICE: "iPhone 8"
     FASTLANE_EXPLICIT_OPEN_SIMULATOR: 2
 
 dependencies:
   pre:
-    - brew update
     - brew install swiftlint
     - grep -lR "shouldUseLaunchSchemeArgsEnv" *.* --null | xargs -0 sed -i '' -e 's/shouldUseLaunchSchemeArgsEnv = "YES"/shouldUseLaunchSchemeArgsEnv = "YES" codeCoverageEnabled = "YES"/g'
   post:
