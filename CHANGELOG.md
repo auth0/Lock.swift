@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.4.1](https://github.com/auth0/Lock.swift/tree/2.4.1) (2017-10-19)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.4.0...2.4.1)
+
+**Changed**
+- Update latest Auth0.swift lib [\#472](https://github.com/auth0/Lock.swift/pull/472) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.4.0](https://github.com/auth0/Lock.swift/tree/2.4.0) (2017-09-20)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.3.1...2.4.0)
 
