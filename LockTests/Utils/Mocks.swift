@@ -365,6 +365,10 @@ class MockWebAuth: WebAuth {
 
     func clearSession(federated: Bool, callback: @escaping (Bool) -> Void) {
     }
+
+    func useLegacyAuthentication() -> Self {
+        return self
+    }
 }
 
 class MockOAuth2: OAuth2Authenticatable {
