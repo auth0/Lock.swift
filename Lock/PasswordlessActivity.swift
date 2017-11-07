@@ -59,7 +59,7 @@ class PasswordlessActivity: PasswordlessUserActivity, Loggable {
 
         guard let key = items.filter({ $0.name == "code" }).first, let passcode = key.value, Int(passcode) != nil else {
             self.logger.error("No valid passcode was found in the URL")
-            messagePresenter?.showError(PasswordlessAuthenticatableError.invalidLink)
+            self.messagePresenter?.showError(PasswordlessAuthenticatableError.invalidLink)
             self.dispatcher?.dispatch(result: .error(PasswordlessAuthenticatableError.invalidLink))
             return false
         }
@@ -70,10 +70,13 @@ class PasswordlessActivity: PasswordlessUserActivity, Loggable {
         }
 
         passwordlessAuth.auth(withPasscode: passcode) {
-            if let error = $0 { self.messagePresenter?.showError(error) }
+            if let error = $0 {
+                Queue.main.async {
+                    self.messagePresenter?.showError(error)
+                }
+            }
         }
         self.current = nil
         return true
-
     }
 }
