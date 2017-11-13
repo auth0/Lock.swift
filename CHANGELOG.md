@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.4.2](https://github.com/auth0/Lock.swift/tree/2.4.2) (2017-11-13)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.4.1...2.4.2)
+
+**Fixed**
+- Fixed error presenter callback thread during failed universal link auth [\#476](https://github.com/auth0/Lock.swift/pull/476) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.4.1](https://github.com/auth0/Lock.swift/tree/2.4.1) (2017-10-19)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.4.0...2.4.1)
 
