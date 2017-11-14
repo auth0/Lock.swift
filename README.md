@@ -60,13 +60,13 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 
 ### Configuration
 
-In order to use Lock you need to provide your Auth0 Client Id and Domain.
+In order to use Lock you need to provide your Auth0 Client ID and Domain.
 
-> Auth0 ClientId & Domain can be found in your [Auth0 Dashboard](https://manage.auth0.com)
+> The Auth0 Client ID & Domain can be found in your [Auth0 Dashboard](https://manage.auth0.com)
 
 #### Auth0.plist file
 
-In your application bundle you can add a `plist` file named `Auth0.plist` with the following format
+In your application bundle you can add a `plist` file named `Auth0.plist` with the following information:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -87,7 +87,7 @@ Lock Classic handles authentication using Database, Social & Enterprise connecti
 
 ### OIDC Conformant Mode
 
-It is strongly encouraged that this SDK be used in OIDC Conformant mode. When this mode is enabled, it will force the SDK to use Auth0's current authentication pipeline and will prevent it from reaching legacy endpoints. By default this is `false`
+It is strongly encouraged that this SDK be used in OIDC Conformant mode. When this mode is enabled, it will force the SDK to use Auth0's current authentication pipeline and will prevent it from reaching legacy endpoints. By default this is `false`.
 
 ```swift
 .withOptions {
