@@ -99,6 +99,9 @@ public protocol OptionBuildable: Options {
 
         /// Should Lock display the option to toggle the visibility of the password field text, will not be visible if password manager is available.  By default is true
     var allowShowPassword: Bool { get set }
+
+        /// Allow custom database connection resolver through. By default is nil which will use default database connection
+    var connectionResolver: (String, DatabaseScreen) -> String? { get set }
 }
 
 extension OptionBuildable {

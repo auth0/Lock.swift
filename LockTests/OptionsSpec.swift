@@ -101,7 +101,6 @@ class OptionsSpec: QuickSpec {
                 expect(options.autoClose) == true
             }
 
-
             it("should be passwordless emailCode method by default") {
                 expect(options.passwordlessMethod).to(equal(PasswordlessMethod.code))
             }
@@ -120,6 +119,10 @@ class OptionsSpec: QuickSpec {
 
             it("should have allowShowPassword enabled") {
                 expect(options.allowShowPassword) == true
+            }
+
+            it("should expect connectionResolve to return nil") {
+                expect(options.connectionResolver("name", .login)).to(beNil())
             }
         }
 
@@ -207,6 +210,40 @@ class OptionsSpec: QuickSpec {
 
             }
 
+            context("connection resolver") {
+
+                beforeEach {
+                    options.connectionResolver = {
+                        guard $0 == "valid" else { return nil }
+
+                        switch($1) {
+                        case .login:
+                            return "connection1"
+                        case .signup:
+                            return "connection2"
+                        default:
+                            return "Username-Password-Authentication"
+                        }
+                    }
+                }
+
+                it("should return connection1 for login") {
+                    expect(options.connectionResolver("valid", .login)) == "connection1"
+                }
+
+                it("should return connection2 for sign up") {
+                    expect(options.connectionResolver("valid", .signup)) == "connection2"
+                }
+
+                it("should return Username-Password-Authentication for anything else") {
+                    expect(options.connectionResolver("valid", .resetPassword)) == "Username-Password-Authentication"
+                }
+
+                it("should return nil for invalid email") {
+                    expect(options.connectionResolver("invalid", .login)).to(beNil())
+                }
+
+            }
 
         }
 
