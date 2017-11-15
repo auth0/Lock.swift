@@ -33,7 +33,7 @@ struct LockOptions: OptionBuildable {
     var logHttpRequest: Bool = false
     var scope: String = "openid"
     var connectionScope: [String: String] = [:]
-    var parameters: [String : Any] = [:]
+    var parameters: [String: Any] = [:]
     var allow: DatabaseMode = [.Login, .Signup, .ResetPassword]
     var autoClose: Bool = true
     var initialScreen: DatabaseScreen = .login

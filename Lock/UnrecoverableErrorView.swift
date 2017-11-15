@@ -80,7 +80,7 @@ class UnrecoverableErrorView: UIView, View {
         messageLabel.textColor = Style.Auth0.textColor.withAlphaComponent(0.50)
         messageLabel.numberOfLines = 3
 
-        actionButton.button?.setTitleColor(UIColor(red:0.04, green:0.53, blue:0.69, alpha:1.0), for: .normal)
+        actionButton.button?.setTitleColor(UIColor(red: 0.04, green: 0.53, blue: 0.69, alpha: 1.0), for: .normal)
         actionButton.button?.titleLabel?.font = regularSystemFont(size: 16)
 
         if canRetry {

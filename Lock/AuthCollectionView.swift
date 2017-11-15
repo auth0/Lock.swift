@@ -27,7 +27,7 @@ class AuthCollectionView: UIView, View {
     let connections: [OAuth2Connection]
     let mode: Mode
     let onAction: (String) -> Void
-    let customStyle: [String : AuthStyle]
+    let customStyle: [String: AuthStyle]
 
     enum Mode {
         case expanded(isLogin: Bool)

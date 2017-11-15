@@ -120,10 +120,10 @@ class InputField: UIView, Stylable {
             self.errorLabel?.text = self.state.text
             self.errorLabelTopPadding?.constant = self.state.padding
             switch self.state {
-                case .valid:
-                    self.containerView?.layer.borderColor = self.borderColor?.cgColor
-                case .invalid:
-                    self.containerView?.layer.borderColor = self.borderColorError?.cgColor
+            case .valid:
+                self.containerView?.layer.borderColor = self.borderColor?.cgColor
+            case .invalid:
+                self.containerView?.layer.borderColor = self.borderColorError?.cgColor
             }
         }
     }

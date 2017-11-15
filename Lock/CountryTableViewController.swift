@@ -45,7 +45,7 @@ class CountryTableViewController: UITableViewController, Stylable {
         definesPresentationContext = true
         tableView.tableHeaderView = search.searchBar
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action:#selector(close))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(close))
         navigationItem.title = "Select your Country".i18n(key: "com.auth0.lock.passwordless.sms.country.header", comment: "Country tableview navigation header")
 
     }
@@ -55,7 +55,7 @@ class CountryTableViewController: UITableViewController, Stylable {
     }
 
     func close() {
-        self.dismiss(animated: true, completion:  nil)
+        self.dismiss(animated: true, completion: nil)
     }
 
     override func viewDidLoad() {

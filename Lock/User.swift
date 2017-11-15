@@ -49,7 +49,7 @@ class User: DatabaseUser, PasswordlessUser {
     var email: String?
     var username: String?
     var password: String?
-    var additionalAttributes: [String : String] = [:]
+    var additionalAttributes: [String: String] = [:]
     var additionalAttributesStatus: [String: Bool] = [:]
     var countryCode: CountryCode?
 
