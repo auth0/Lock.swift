@@ -53,5 +53,5 @@ public protocol Options {
     var passwordManager: OnePassword { get }
     var allowShowPassword: Bool { get }
 
-    var connectionResolver: (String, DatabaseScreen) -> String? { get }
+    var connectionResolver: (String) -> String? { get }
 }

@@ -52,5 +52,5 @@ struct LockOptions: OptionBuildable {
     var passwordManager: OnePassword = OnePassword()
     var allowShowPassword: Bool = true
 
-    var connectionResolver: (String, DatabaseScreen) -> String? = { _ in return nil }
+    var connectionResolver: (String) -> String? = { _ in return nil }
 }

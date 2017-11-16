@@ -122,7 +122,7 @@ class OptionsSpec: QuickSpec {
             }
 
             it("should expect connectionResolve to return nil") {
-                expect(options.connectionResolver("name", .login)).to(beNil())
+                expect(options.connectionResolver("name")).to(beNil())
             }
         }
 
@@ -214,35 +214,28 @@ class OptionsSpec: QuickSpec {
 
                 beforeEach {
                     options.connectionResolver = {
-                        guard $0 == "valid" else { return nil }
-
-                        switch($1) {
-                        case .login:
+                        switch($0) {
+                        case "email@connection1.com":
                             return "connection1"
-                        case .signup:
+                        case "email@connection2.com":
                             return "connection2"
                         default:
-                            return "Username-Password-Authentication"
+                            return nil
                         }
                     }
                 }
 
-                it("should return connection1 for login") {
-                    expect(options.connectionResolver("valid", .login)) == "connection1"
+                it("should return connection1") {
+                    expect(options.connectionResolver("email@connection1.com")) == "connection1"
                 }
 
-                it("should return connection2 for sign up") {
-                    expect(options.connectionResolver("valid", .signup)) == "connection2"
+                it("should return connection2") {
+                    expect(options.connectionResolver("email@connection2.com")) == "connection2"
                 }
 
-                it("should return Username-Password-Authentication for anything else") {
-                    expect(options.connectionResolver("valid", .resetPassword)) == "Username-Password-Authentication"
+                it("should return nil for anything else") {
+                    expect(options.connectionResolver(email)).to(beNil())
                 }
-
-                it("should return nil for invalid email") {
-                    expect(options.connectionResolver("invalid", .login)).to(beNil())
-                }
-
             }
 
         }

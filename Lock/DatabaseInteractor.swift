@@ -45,7 +45,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     let dispatcher: Dispatcher
     let options: Options
     let customFields: [String: CustomTextField]
-    var connectionResolver: (String, DatabaseScreen) -> String?
+    var connectionResolver: (String) -> String?
 
     init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
         self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, authentication: authentication)
@@ -99,7 +99,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         guard let password = self.password, self.validPassword else { return callback(.nonValidInput) }
 
-        let realm = connectionResolver(identifier, .login) ?? self.connection.name
+        let realm = connectionResolver(identifier) ?? self.connection.name
         self.credentialAuth
             .request(withIdentifier: identifier, password: password, realm: realm, options: self.options)
             .start { self.handle(identifier: identifier, result: $0, callback: callback) }
@@ -122,7 +122,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         let username = connection.requiresUsername ? self.username : nil
         let metadata: [String: String]? = self.user.additionalAttributes.isEmpty ? nil : self.user.additionalAttributes
 
-        let realm = connectionResolver(email, .login) ?? self.connection.name
+        let realm = connectionResolver(email) ?? self.connection.name
 
         let login = self.credentialAuth.request(withIdentifier: email, password: password, realm: realm, options: self.options)
         self.credentialAuth

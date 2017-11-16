@@ -582,7 +582,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 beforeEach {
                     options.connectionResolver = {
-                        guard $0.0 == "email@valid.com" else { return "invalidconnection" }
+                        guard $0 == "email@valid.com" else { return "invalidconnection" }
                         return "validconnection"
                     }
                     let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
@@ -1088,7 +1088,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 beforeEach {
                     options.connectionResolver = {
-                        guard $0.0 == "email@valid.com" else { return "invalidconnection" }
+                        guard $0 == "email@valid.com" else { return "invalidconnection" }
                         return "validconnection"
                     }
                     let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
