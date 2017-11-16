@@ -438,7 +438,7 @@ By default a show password icon is shown in password fields to toggle visibility
 
 #### Connection Resolver
 
-Extensibility point to make it possible to choose which database connection should be used during login and sign up. By default will return nil. Which will result in the default database connection being used. You must ensure any connections values returned are valid and associated with your Auth0 client.
+Extensibility point to make it possible to choose which database connection should be used during login and sign up. By default will return nil. Which will result in the default database connection being used. 
 
 ```swift
 .withOptions {
@@ -455,6 +455,7 @@ Extensibility point to make it possible to choose which database connection shou
 }
 ```
 
+**Important:** You must ensure any connections values returned are valid and associated with your Auth0 client.
 
 #### Enterprise
 
