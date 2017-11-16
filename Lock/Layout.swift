@@ -101,6 +101,6 @@ import Foundation
 func strutView(withHeight height: CGFloat = 50) -> UIView {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    dimension(dimension:view.heightAnchor, withValue: height)
+    dimension(dimension: view.heightAnchor, withValue: height)
     return view
 }
