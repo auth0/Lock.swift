@@ -121,7 +121,7 @@ class OptionsSpec: QuickSpec {
                 expect(options.allowShowPassword) == true
             }
 
-            it("should expect connectionResolve to return nil") {
+            it("should expect connectionResolver to return nil") {
                 expect(options.connectionResolver("name")).to(beNil())
             }
         }
