@@ -416,7 +416,6 @@ You will need to add the following to your app's `Info.plist`:
 
 > If your `Info.plist` is not shown in this format, you can **Right Click** on `Info.plist` in Xcode and then select **Open As / Source Code**.
 
-
 If you see the following debug error:
 
 ```text
@@ -436,6 +435,27 @@ By default a show password icon is shown in password fields to toggle visibility
 ```
 
 **Note:** Show password will not be available if the [Password Manager](#Password Manager) is available.
+
+#### Connection Resolver
+
+Extensibility point to make it possible to choose which database connection should be used during login and sign up. By default will return nil. Which will result in the default database connection being used. 
+
+```swift
+.withOptions {
+    $0.connectionResolver = {
+        guard let domain = $0.components(separatedBy: "@").last else { return nil }
+
+        switch(domain) {
+        case "customdomain.com":
+            return "Custom-Database-Authentication"
+        default:
+            return nil
+        }
+    }
+}
+```
+
+**Important:** You must ensure any connections values returned are valid and associated with your Auth0 client.
 
 #### Enterprise
 

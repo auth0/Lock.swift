@@ -24,6 +24,7 @@ import Foundation
 import Auth0
 
 struct LockOptions: OptionBuildable {
+
     var closable: Bool = false
     var termsOfServiceURL: URL = URL(string: "https://auth0.com/terms")!
     var privacyPolicyURL: URL = URL(string: "https://auth0.com/privacy")!
@@ -50,4 +51,6 @@ struct LockOptions: OptionBuildable {
     var passwordlessMethod: PasswordlessMethod = .code
     var passwordManager: OnePassword = OnePassword()
     var allowShowPassword: Bool = true
+
+    var connectionResolver: (String) -> String? = { _ in return nil }
 }
