@@ -84,7 +84,7 @@ class SecondaryButton: UIView {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 76)
     }
 
-    func pressed(_ sender: Any) {
+    @objc func pressed(_ sender: Any) {
         self.onPress(self)
     }
 }

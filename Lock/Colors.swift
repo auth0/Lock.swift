@@ -22,14 +22,14 @@
 
 import UIKit
 
-extension UIColor {
+public extension UIColor {
 
-    static var a0_orange: UIColor { return UIColor ( red: 0.9176, green: 0.3255, blue: 0.1373, alpha: 1.0 ) }
+    public static var a0_orange: UIColor { return UIColor ( red: 0.9176, green: 0.3255, blue: 0.1373, alpha: 1.0 ) }
 
     static func a0_fromRGB(_ string: String, defaultColor: UIColor = .a0_orange) -> UIColor {
         guard string.hasPrefix("#") else { return defaultColor }
 
-        let hexString: String = string.substring(from: string.characters.index(string.startIndex, offsetBy: 1))
+        let hexString: String = String(string[string.index(string.startIndex, offsetBy: 1)...])
         var hexValue: UInt32 = 0
 
         guard Scanner(string: hexString).scanHexInt32(&hexValue) else {

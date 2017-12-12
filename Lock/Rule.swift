@@ -35,7 +35,7 @@ protocol RuleResult {
 }
 
 func withPassword(lengthInRange range: CountableClosedRange<Int>, message: String) -> Rule {
-    return SimpleRule(message: message) { range ~= $0.characters.count }
+    return SimpleRule(message: message) { range ~= $0.count }
 }
 
 func withPassword(havingCharactersIn characterSet: CharacterSet, message: String) -> Rule {
@@ -44,7 +44,7 @@ func withPassword(havingCharactersIn characterSet: CharacterSet, message: String
 
 func withPassword(havingMaxConsecutiveRepeats count: Int, message: String) -> Rule {
     return SimpleRule(message: message) {
-        let repeated = $0.characters.reduce([]) { (partial: [Character], character: Character) in
+        let repeated = $0.reduce([]) { (partial: [Character], character: Character) in
             guard partial.count <= count else { return partial }
             guard partial.contains(character) else { return [character] }
             return partial + [character]

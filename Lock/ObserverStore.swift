@@ -27,7 +27,7 @@ struct ObserverStore: Dispatcher {
     var onAuth: (Credentials) -> Void = { _ in }
     var onFailure: (Error) -> Void = { _ in }
     var onCancel: () -> Void = {  }
-    var onSignUp: (String, [String: Any]) -> Void = { _ in }
+    var onSignUp: (String, [String: Any]) -> Void = { _, _  in }
     var onForgotPassword: (String) -> Void = { _ in }
     var onPasswordless: (String) -> Void = { _ in }
 

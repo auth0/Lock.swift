@@ -22,7 +22,7 @@
 
 import Foundation
 
-func bundleForLock() -> Bundle { return Bundle(for: InputField.classForCoder()) }
+public func bundleForLock() -> Bundle { return Bundle(for: InputField.classForCoder()) }
 
 func lazyImage(named name: String) -> LazyImage { return LazyImage(name: name, bundle: bundleForLock()) }
 
@@ -43,17 +43,17 @@ func image(withColor color: UIColor) -> UIImage? {
 }
 
 func semiBoldSystemFont(size: CGFloat) -> UIFont {
-    return UIFont.systemFont(ofSize: size, weight: UIFontWeightSemibold)
+    return UIFont.systemFont(ofSize: size, weight: UIFont.Weight.semibold)
 }
 
 func mediumSystemFont(size: CGFloat) -> UIFont {
-    return UIFont.systemFont(ofSize: size, weight: UIFontWeightMedium)
+    return UIFont.systemFont(ofSize: size, weight: UIFont.Weight.medium)
 }
 
 func lightSystemFont(size: CGFloat) -> UIFont {
-    return UIFont.systemFont(ofSize: size, weight: UIFontWeightLight)
+    return UIFont.systemFont(ofSize: size, weight: UIFont.Weight.light)
 }
 
 func regularSystemFont(size: CGFloat) -> UIFont {
-    return UIFont.systemFont(ofSize: size, weight: UIFontWeightRegular)
+    return UIFont.systemFont(ofSize: size, weight: UIFont.Weight.regular)
 }

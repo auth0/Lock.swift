@@ -55,7 +55,7 @@ public class OnePassword: PasswordManager {
         return self.enabled && OnePasswordExtension.shared().isAppExtensionAvailable()
     }
 
-    var onUpdate: (String, String) -> Void = { _ in }
+    var onUpdate: (String, String) -> Void = { _, _  in }
 
     func login(callback: @escaping (Error?) -> Void) {
         guard let controller = self.controller else { return }

@@ -44,7 +44,7 @@ public class PhoneValidator: InputValidator {
 public class OneTimePasswordValidator: InputValidator {
     func validate(_ value: String?) -> Error? {
         guard let value = value?.trimmed, !value.isEmpty else { return InputValidationError.mustNotBeEmpty }
-        guard value.characters.count > 3, value.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil else { return InputValidationError.notAOneTimePassword }
+        guard value.count > 3, value.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil else { return InputValidationError.notAOneTimePassword }
         return nil
     }
 }
@@ -76,7 +76,7 @@ public class UsernameValidator: InputValidator {
 
     func validate(_ value: String?) -> Error? {
         guard let username = value?.trimmed, !username.isEmpty else { return InputValidationError.mustNotBeEmpty }
-        guard self.range ~= username.characters.count else { return self.invalidSet == nil ? InputValidationError.mustNotBeEmpty : InputValidationError.notAUsername }
+        guard self.range ~= username.count else { return self.invalidSet == nil ? InputValidationError.mustNotBeEmpty : InputValidationError.notAUsername }
         guard let characterSet = self.invalidSet else { return nil }
         guard username.rangeOfCharacter(from: characterSet) == nil else { return InputValidationError.notAUsername }
         return nil
@@ -113,7 +113,7 @@ public class PasswordPolicyValidator: InputValidator {
     let policy: PasswordPolicy
     weak var delegate: PasswordPolicyValidatorDelegate?
 
-    init(policy: PasswordPolicy) {
+    public init(policy: PasswordPolicy) {
         self.policy = policy
     }
 
