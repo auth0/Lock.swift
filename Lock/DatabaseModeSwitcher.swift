@@ -94,12 +94,12 @@ class DatabaseModeSwitcher: UIView {
         segmented.setBackgroundImage(image(named: "ic_switcher_selected", compatibleWithTraitCollection: self.traitCollection), for: .highlighted, barMetrics: .default)
         segmented.setBackgroundImage(image(named: "ic_switcher_normal", compatibleWithTraitCollection: self.traitCollection), for: UIControlState(), barMetrics: .default)
         segmented.setTitleTextAttributes([
-            NSAttributedStringKey.foregroundColor: Style.Auth0.tabTextColor,
-            NSAttributedStringKey.font: mediumSystemFont(size: 15)
+            attributedKeyColor: Style.Auth0.tabTextColor,
+            attributedFont: mediumSystemFont(size: 15)
             ], for: UIControlState())
         segmented.setTitleTextAttributes([
-            NSAttributedStringKey.foregroundColor: Style.Auth0.tabTextColor,
-            NSAttributedStringKey.font: semiBoldSystemFont(size: 15)
+            attributedKeyColor: Style.Auth0.tabTextColor,
+            attributedFont: semiBoldSystemFont(size: 15)
             ], for: .selected)
         segmented.tintColor = Style.Auth0.tabTintColor
         segmented.addTarget(self, action: #selector(selectedIndex), for: .valueChanged)
@@ -124,12 +124,12 @@ extension DatabaseModeSwitcher: Stylable {
     func apply(style: Style) {
         self.segmentedControl?.tintColor = style.tabTintColor
         self.segmentedControl?.setTitleTextAttributes([
-            NSAttributedStringKey.foregroundColor: style.tabTextColor,
-            NSAttributedStringKey.font: mediumSystemFont(size: 15)
+            attributedKeyColor: style.tabTextColor,
+            attributedFont: mediumSystemFont(size: 15)
             ], for: UIControlState())
         self.segmentedControl?.setTitleTextAttributes([
-            NSAttributedStringKey.foregroundColor: style.tabTextColor,
-            NSAttributedStringKey.font: semiBoldSystemFont(size: 15)
+            attributedKeyColor: style.tabTextColor,
+            attributedFont: semiBoldSystemFont(size: 15)
             ], for: .selected)
     }
 }

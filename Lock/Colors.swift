@@ -29,7 +29,11 @@ public extension UIColor {
     static func a0_fromRGB(_ string: String, defaultColor: UIColor = .a0_orange) -> UIColor {
         guard string.hasPrefix("#") else { return defaultColor }
 
+        #if swift(>=3.2)
         let hexString: String = String(string[string.index(string.startIndex, offsetBy: 1)...])
+        #else
+        let hexString: String = string.substring(from: string.characters.index(string.startIndex, offsetBy: 1))
+        #endif
         var hexValue: UInt32 = 0
 
         guard Scanner(string: hexString).scanHexInt32(&hexValue) else {

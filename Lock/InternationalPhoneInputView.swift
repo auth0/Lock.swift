@@ -147,7 +147,7 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
 
         constraintEqual(anchor: countryLabel.leftAnchor, toAnchor: iconContainer.rightAnchor, constant: 16)
         constraintEqual(anchor: countryLabel.topAnchor, toAnchor: container.topAnchor)
-        constraintEqual(anchor: countryLabel.rightAnchor, toAnchor: codeLabel.leftAnchor, priority: UILayoutPriority.defaultHigh)
+        constraintEqual(anchor: countryLabel.rightAnchor, toAnchor: codeLabel.leftAnchor, priority: UILayoutPriority.priorityDefaultHigh)
         constraintEqual(anchor: countryLabel.bottomAnchor, toAnchor: container.bottomAnchor)
         countryLabel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -156,7 +156,7 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
         constraintEqual(anchor: codeLabel.rightAnchor, toAnchor: actionIconContainer.leftAnchor)
         constraintEqual(anchor: codeLabel.bottomAnchor, toAnchor: container.bottomAnchor)
         dimension(dimension: codeLabel.widthAnchor, withValue: 60.0)
-        codeLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        codeLabel.setContentCompressionResistancePriority(UILayoutPriority.priorityRequired, for: .horizontal)
         codeLabel.translatesAutoresizingMaskIntoConstraints = false
 
         constraintGreaterOrEqual(anchor: actionIconContainer.leftAnchor, toAnchor: codeLabel.rightAnchor)

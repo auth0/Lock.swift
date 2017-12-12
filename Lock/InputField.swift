@@ -152,8 +152,8 @@ class InputField: UIView, Stylable {
         constraintEqual(anchor: errorLabel.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: errorLabel.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: errorLabel.bottomAnchor, toAnchor: self.bottomAnchor)
-        errorLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
-        errorLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .vertical)
+        errorLabel.setContentHuggingPriority(UILayoutPriority.priorityDefaultHigh, for: .vertical)
+        errorLabel.setContentCompressionResistancePriority(UILayoutPriority.priorityDefaultHigh, for: .vertical)
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: iconContainer.leftAnchor, toAnchor: container.leftAnchor)
@@ -344,7 +344,7 @@ class InputField: UIView, Stylable {
         self.borderColorError = style.inputBorderColorError
         self.textField?.textColor = style.inputTextColor
         self.textField?.attributedPlaceholder = NSAttributedString(string: self.textField?.placeholder ?? "",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: style.inputPlaceholderTextColor])
+                                                               attributes: [attributedKeyColor: style.inputPlaceholderTextColor])
         self.containerView?.backgroundColor = style.inputBackgroundColor
         self.containerView?.layer.borderColor = style.inputBorderColor.cgColor
         self.errorLabel?.textColor = style.inputBorderColorError

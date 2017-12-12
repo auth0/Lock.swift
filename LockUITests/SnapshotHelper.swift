@@ -103,7 +103,11 @@ open class Snapshot: NSObject {
         #elseif os(OSX)
             XCUIApplication().typeKey(XCUIKeyboardKeySecondaryFn, modifierFlags: [])
         #else
+            #if swift(>=3.2)
             XCUIDevice.shared.orientation = .unknown
+            #else
+            XCUIDevice.shared().orientation = .unknown
+            #endif
         #endif
     }
 

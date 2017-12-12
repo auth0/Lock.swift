@@ -141,8 +141,8 @@ public class HeaderView: UIView {
 
         constraintEqual(anchor: titleView.bottomAnchor, toAnchor: centerGuide.bottomAnchor)
         constraintEqual(anchor: titleView.centerXAnchor, toAnchor: centerGuide.centerXAnchor)
-        titleView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
-        titleView.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+        titleView.setContentCompressionResistancePriority(UILayoutPriority.priorityRequired, for: .horizontal)
+        titleView.setContentHuggingPriority(UILayoutPriority.priorityRequired, for: .horizontal)
         titleView.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: logoView.centerXAnchor, toAnchor: self.centerXAnchor)

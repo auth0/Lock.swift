@@ -43,17 +43,17 @@ func image(withColor color: UIColor) -> UIImage? {
 }
 
 func semiBoldSystemFont(size: CGFloat) -> UIFont {
-    return UIFont.systemFont(ofSize: size, weight: UIFont.Weight.semibold)
+    return UIFont.systemFont(ofSize: size, weight: UIFont.weightSemiBold)
 }
 
 func mediumSystemFont(size: CGFloat) -> UIFont {
-    return UIFont.systemFont(ofSize: size, weight: UIFont.Weight.medium)
+    return UIFont.systemFont(ofSize: size, weight: UIFont.weightMedium)
 }
 
 func lightSystemFont(size: CGFloat) -> UIFont {
-    return UIFont.systemFont(ofSize: size, weight: UIFont.Weight.light)
+    return UIFont.systemFont(ofSize: size, weight: UIFont.weightLight)
 }
 
 func regularSystemFont(size: CGFloat) -> UIFont {
-    return UIFont.systemFont(ofSize: size, weight: UIFont.Weight.regular)
+    return UIFont.systemFont(ofSize: size, weight: UIFont.weightRegular)
 }

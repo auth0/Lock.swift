@@ -38,7 +38,7 @@ extension View where Self: UIView {
         constraintEqual(anchor: self.rightAnchor, toAnchor: root.rightAnchor)
         constraintEqual(anchor: self.bottomAnchor, toAnchor: root.bottomAnchor)
         if let superview = root.superview?.bottomAnchor {
-            return constraintEqual(anchor: self.bottomAnchor, toAnchor: superview, priority: UILayoutPriority.defaultLow)
+            return constraintEqual(anchor: self.bottomAnchor, toAnchor: superview, priority: UILayoutPriority.priorityDefaultLow)
         }
         return nil
     }

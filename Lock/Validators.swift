@@ -44,7 +44,11 @@ public class PhoneValidator: InputValidator {
 public class OneTimePasswordValidator: InputValidator {
     func validate(_ value: String?) -> Error? {
         guard let value = value?.trimmed, !value.isEmpty else { return InputValidationError.mustNotBeEmpty }
-        guard value.count > 3, value.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil else { return InputValidationError.notAOneTimePassword }
+        #if swift(>=3.2)
+            guard value.count > 3, value.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil else { return InputValidationError.notAOneTimePassword }
+        #else
+            guard value.characters.count > 3, value.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil else { return InputValidationError.notAOneTimePassword }
+        #endif
         return nil
     }
 }
@@ -76,7 +80,11 @@ public class UsernameValidator: InputValidator {
 
     func validate(_ value: String?) -> Error? {
         guard let username = value?.trimmed, !username.isEmpty else { return InputValidationError.mustNotBeEmpty }
+        #if swift(>=3.2)
         guard self.range ~= username.count else { return self.invalidSet == nil ? InputValidationError.mustNotBeEmpty : InputValidationError.notAUsername }
+        #else
+        guard self.range ~= username.characters.count else { return self.invalidSet == nil ? InputValidationError.mustNotBeEmpty : InputValidationError.notAUsername }
+        #endif
         guard let characterSet = self.invalidSet else { return nil }
         guard username.rangeOfCharacter(from: characterSet) == nil else { return InputValidationError.notAUsername }
         return nil

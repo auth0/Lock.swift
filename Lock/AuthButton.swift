@@ -153,7 +153,7 @@ public class AuthButton: UIView {
         button.setBackgroundImage(image(withColor: self.color), for: UIControlState())
         button.setBackgroundImage(image(withColor: self.color.a0_darker(0.3)), for: .highlighted)
         button.setTitleColor(self.titleColor, for: UIControlState())
-        button.titleLabel?.font = .systemFont(ofSize: 13.33, weight: UIFont.Weight.medium)
+        button.titleLabel?.font = .systemFont(ofSize: 13.33, weight: UIFont.weightMedium)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.5
         button.contentVerticalAlignment = .center
