@@ -187,7 +187,7 @@ class PasswordlessView: UIView, View {
 
         messageLabel.numberOfLines = 2
         messageLabel.textAlignment = .center
-        messageLabel.font = .systemFont(ofSize: 16, weight: UIFontWeightSemibold)
+        messageLabel.font = .systemFont(ofSize: 16, weight: UIFont.weightSemiBold)
         messageLabel.textColor = Style.Auth0.textColor
         messageLabel.text = String(format: "We sent you a link to sign in to %1$@".i18n(key: "com.auth0.passwordless.link.sent", comment: "Passwordless link sent to %@{identifier}"),
                                    displayIdentifier)

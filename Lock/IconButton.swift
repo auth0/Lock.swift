@@ -72,7 +72,7 @@ class IconButton: UIView {
         self.button = button
     }
 
-    func pressed(_ sender: Any) {
+    @objc func pressed(_ sender: Any) {
         self.onPress(self)
     }
 

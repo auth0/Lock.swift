@@ -499,6 +499,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         user.validEmail = true
                         user.countryCode = countryData
                         options.passwordlessMethod = .magicLink
+                        passwordlessActivity = MockPasswordlessActivity()
                         interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                         stub(condition: passwordlessStart(phone: phoneInternational, connection: connection.name)) { _ in return Auth0Stubs.passwordlessSent(phoneInternational)
                         }
@@ -516,7 +517,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                                 done()
                             }
                         }
-                        expect(passwordlessActivity.current).toNot(beNil())
+                        expect(passwordlessActivity.current).toEventuallyNot(beNil())
                     }
 
                 }

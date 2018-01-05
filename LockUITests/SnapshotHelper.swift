@@ -79,7 +79,7 @@ open class Snapshot: NSObject {
         do {
             let launchArguments = try String(contentsOf: path, encoding: String.Encoding.utf8)
             let regex = try NSRegularExpression(pattern: "(\\\".+?\\\"|\\S+)", options: [])
-            let matches = regex.matches(in: launchArguments, options: [], range: NSRange(location:0, length:launchArguments.characters.count))
+            let matches = regex.matches(in: launchArguments, options: [], range: NSRange(location:0, length:launchArguments.count))
             let results = matches.map { result -> String in
                 (launchArguments as NSString).substring(with: result.range)
             }
@@ -103,7 +103,11 @@ open class Snapshot: NSObject {
         #elseif os(OSX)
             XCUIApplication().typeKey(XCUIKeyboardKeySecondaryFn, modifierFlags: [])
         #else
+            #if swift(>=3.2)
+            XCUIDevice.shared.orientation = .unknown
+            #else
             XCUIDevice.shared().orientation = .unknown
+            #endif
         #endif
     }
 

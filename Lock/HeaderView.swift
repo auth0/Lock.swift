@@ -141,8 +141,8 @@ public class HeaderView: UIView {
 
         constraintEqual(anchor: titleView.bottomAnchor, toAnchor: centerGuide.bottomAnchor)
         constraintEqual(anchor: titleView.centerXAnchor, toAnchor: centerGuide.centerXAnchor)
-        titleView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        titleView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        titleView.setContentCompressionResistancePriority(UILayoutPriority.priorityRequired, for: .horizontal)
+        titleView.setContentHuggingPriority(UILayoutPriority.priorityRequired, for: .horizontal)
         titleView.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: logoView.centerXAnchor, toAnchor: self.centerXAnchor)
@@ -184,7 +184,7 @@ public class HeaderView: UIView {
         return CGSize(width: 200, height: 154)
     }
 
-    func buttonPressed(_ sender: UIButton) {
+    @objc func buttonPressed(_ sender: UIButton) {
         if sender == self.backButton {
             self.onBackPressed()
         }

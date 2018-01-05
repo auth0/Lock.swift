@@ -45,3 +45,37 @@ extension UIView {
         }
     }
 }
+
+extension UILayoutPriority {
+    #if swift(>=4.0)
+    static let priorityRequired = UILayoutPriority.required
+    static let priorityDefaultLow = UILayoutPriority.defaultLow
+    static let priorityDefaultHigh = UILayoutPriority.defaultHigh
+    #else
+    static let priorityRequired = UILayoutPriorityRequired
+    static let priorityDefaultLow = UILayoutPriorityDefaultLow
+    static let priorityDefaultHigh = UILayoutPriorityDefaultHigh
+    #endif
+}
+
+#if swift(>=4.0)
+let attributedKeyColor = NSAttributedStringKey.foregroundColor
+let attributedFont = NSAttributedStringKey.font
+#else
+let attributedKeyColor = NSForegroundColorAttributeName
+let attributedFont = NSFontAttributeName
+#endif
+
+extension UIFont {
+    #if swift(>=4.0)
+    static let weightLight = UIFont.Weight.light
+    static let weightMedium = UIFont.Weight.medium
+    static let weightRegular = UIFont.Weight.regular
+    static let weightSemiBold = UIFont.Weight.semibold
+    #else
+    static let weightLight = UIFontWeightLight
+    static let weightMedium = UIFontWeightMedium
+    static let weightRegular = UIFontWeightRegular
+    static let weightSemiBold = UIFontWeightSemibold
+    #endif
+}

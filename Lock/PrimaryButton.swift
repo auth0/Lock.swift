@@ -120,8 +120,8 @@ class PrimaryButton: UIView, Stylable {
         attributedText.append(NSAttributedString(
             string: "\(title)  ",
             attributes: [
-                NSForegroundColorAttributeName: self.textColor ?? Style.Auth0.buttonTintColor,
-                NSFontAttributeName: font
+                attributedKeyColor: self.textColor ?? Style.Auth0.buttonTintColor,
+                attributedFont: font
             ]
         ))
         attributedText.append(NSAttributedString(attachment: attachment))
@@ -133,7 +133,7 @@ class PrimaryButton: UIView, Stylable {
         return CGSize(width: UIViewNoIntrinsicMetric, height: 95)
     }
 
-    func pressed(_ sender: Any) {
+    @objc func pressed(_ sender: Any) {
         self.onPress(self)
     }
 

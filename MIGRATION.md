@@ -7,8 +7,8 @@ This guide is provided in order to ease the transition of existing applications 
 ## Requirements
 
 - iOS 9.0+
-- Xcode 8.0+
-- Swift 3.0+
+- Xcode 8.3+
+- Swift 3.2+
 
 ### Objective-C Support
 

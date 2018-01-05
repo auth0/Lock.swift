@@ -47,7 +47,7 @@ public struct CustomTextField {
     }
 }
 
-private func nonEmpty(_ value: String?) -> Error? {
+public func nonEmpty(_ value: String?) -> Error? {
     guard let username = value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), !username.isEmpty else { return InputValidationError.mustNotBeEmpty }
     return nil
 }

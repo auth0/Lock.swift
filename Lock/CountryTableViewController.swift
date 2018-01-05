@@ -54,7 +54,7 @@ class CountryTableViewController: UITableViewController, Stylable {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func close() {
+    @objc func close() {
         self.dismiss(animated: true, completion: nil)
     }
 
