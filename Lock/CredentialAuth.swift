@@ -26,9 +26,10 @@ import Auth0
 struct CredentialAuth {
 
     let oidc: Bool
+    let realm: String
     let authentication: Authentication
 
-    func request(withIdentifier identifier: String, password: String, realm: String, options: Options) -> Request<Credentials, AuthenticationError> {
+    func request(withIdentifier identifier: String, password: String, options: Options) -> Request<Credentials, AuthenticationError> {
         if oidc {
             return self.authentication.login(
                 usernameOrEmail: identifier,

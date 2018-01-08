@@ -99,9 +99,6 @@ public protocol OptionBuildable: Options {
 
         /// Should Lock display the option to toggle the visibility of the password field text, will not be visible if password manager is available.  By default is true
     var allowShowPassword: Bool { get set }
-
-        /// Extensibility point to make it possible to choose which database connection should be used during login and sign up. By default will return nil. e.g. Use default connection.
-    var connectionResolver: (String) -> String? { get set }
 }
 
 extension OptionBuildable {

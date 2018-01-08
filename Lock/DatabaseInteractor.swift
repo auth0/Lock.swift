@@ -45,10 +45,9 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     let dispatcher: Dispatcher
     let options: Options
     let customFields: [String: CustomTextField]
-    var connectionResolver: (String) -> String?
 
     init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
-        self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, authentication: authentication)
+        self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
         self.connection = connection
         self.dispatcher = dispatcher
         self.user = user
@@ -56,7 +55,6 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         var fields: [String: CustomTextField] = [:]
         options.customSignupFields.forEach { fields[$0.name] = $0 }
         self.customFields = fields
-        self.connectionResolver = options.connectionResolver
     }
 
     mutating func update(_ attribute: UserAttribute, value: String?) throws {
@@ -99,14 +97,13 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         guard let password = self.password, self.validPassword else { return callback(.nonValidInput) }
 
-        let realm = connectionResolver(identifier) ?? self.connection.name
         self.credentialAuth
-            .request(withIdentifier: identifier, password: password, realm: realm, options: self.options)
+            .request(withIdentifier: identifier, password: password, options: self.options)
             .start { self.handle(identifier: identifier, result: $0, callback: callback) }
-
     }
 
     func create(_ callback: @escaping (DatabaseUserCreatorError?, CredentialAuthError?) -> Void) {
+        let databaseName = connection.name
 
         guard
             let email = self.email, self.validEmail,
@@ -122,16 +119,14 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         let username = connection.requiresUsername ? self.username : nil
         let metadata: [String: String]? = self.user.additionalAttributes.isEmpty ? nil : self.user.additionalAttributes
 
-        let realm = connectionResolver(email) ?? self.connection.name
-
-        let login = self.credentialAuth.request(withIdentifier: email, password: password, realm: realm, options: self.options)
+        let login = self.credentialAuth.request(withIdentifier: email, password: password, options: self.options)
         self.credentialAuth
             .authentication
             .createUser(
                 email: email,
                 username: username,
                 password: password,
-                connection: realm,
+                connection: databaseName,
                 userMetadata: metadata
             )
             .start {

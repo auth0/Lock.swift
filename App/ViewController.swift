@@ -211,7 +211,6 @@ func applyDefaultOptions(_ options: inout OptionBuildable) {
     options.logLevel = .all
     options.loggerOutput = CleanroomLockLogger()
     options.logHttpRequest = true
-    options.oidcConformant = true
 }
 
 func applyPhantomStyle(_ style: inout Style) {

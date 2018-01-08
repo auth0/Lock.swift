@@ -101,6 +101,7 @@ class OptionsSpec: QuickSpec {
                 expect(options.autoClose) == true
             }
 
+
             it("should be passwordless emailCode method by default") {
                 expect(options.passwordlessMethod).to(equal(PasswordlessMethod.code))
             }
@@ -119,10 +120,6 @@ class OptionsSpec: QuickSpec {
 
             it("should have allowShowPassword enabled") {
                 expect(options.allowShowPassword) == true
-            }
-
-            it("should expect connectionResolver to return nil") {
-                expect(options.connectionResolver("name")).to(beNil())
             }
         }
 
@@ -210,33 +207,6 @@ class OptionsSpec: QuickSpec {
 
             }
 
-            context("connection resolver") {
-
-                beforeEach {
-                    options.connectionResolver = {
-                        switch($0) {
-                        case "email@connection1.com":
-                            return "connection1"
-                        case "email@connection2.com":
-                            return "connection2"
-                        default:
-                            return nil
-                        }
-                    }
-                }
-
-                it("should return connection1") {
-                    expect(options.connectionResolver("email@connection1.com")) == "connection1"
-                }
-
-                it("should return connection2") {
-                    expect(options.connectionResolver("email@connection2.com")) == "connection2"
-                }
-
-                it("should return nil for anything else") {
-                    expect(options.connectionResolver(email)).to(beNil())
-                }
-            }
 
         }
 

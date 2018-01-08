@@ -51,6 +51,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 expect(database.credentialAuth.authentication.clientId) == "CLIENT_ID"
                 expect(database.credentialAuth.authentication.url.host) == "samples.auth0.com"
                 expect(database.credentialAuth.oidc) == false
+                expect(database.credentialAuth.realm) == "db"
             }
         }
 
@@ -130,7 +131,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     expect(database.validUsername) == true
                 }
 
-                it("should raise error if email is invalid") {
+                it("should not raise error if email is invalid") {
                     expect{ try database.update(.emailOrUsername, value: "not an email") }.to(throwError(InputValidationError.notAnEmailAddress))
                 }
 
@@ -576,43 +577,6 @@ class DatabaseInteractorSpec: QuickSpec {
                         done()
                     }
                 }
-            }
-
-            context("connection resolver") {
-
-                beforeEach {
-                    options.connectionResolver = {
-                        guard $0 == "email@valid.com" else { return "invalidconnection" }
-                        return "validconnection"
-                    }
-                    let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
-                    database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
-                }
-
-                it("should indicate login failed") {
-                    stub(condition: databaseLogin(identifier: "email@invalid.com", password: password, connection: "invalidconnection")) { _ in return Auth0Stubs.failure("invalid_request") }
-                    try! database.update(.email, value: "email@invalid.com")
-                    try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
-                        database.login { error in
-                            expect(error) == .couldNotLogin
-                            done()
-                        }
-                    }
-                }
-
-                it("should yield no error on success") {
-                    stub(condition: databaseLogin(identifier: "email@valid.com", password: password, connection: "validconnection")) { _ in return Auth0Stubs.authentication() }
-                    try! database.update(.email, value: "email@valid.com")
-                    try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
-                        database.login { error in
-                            expect(error).to(beNil())
-                            done()
-                        }
-                    }
-                }
-
             }
         }
 
@@ -1083,48 +1047,6 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
-
-            context("connection resolver") {
-
-                beforeEach {
-                    options.connectionResolver = {
-                        guard $0 == "email@valid.com" else { return "invalidconnection" }
-                        return "validconnection"
-                    }
-                    let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
-                    database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
-                }
-
-                it("should yield error on signup failure") {
-                    stub(condition: databaseSignUp(email:  "email@invalid.com", username: username, password: password, connection: "invalidconnection")) { _ in return Auth0Stubs.failure() }
-                    try! database.update(.email, value: "email@invalid.com")
-                    try! database.update(.username, value: username)
-                    try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
-                        database.create { create, login in
-                            expect(create) == .couldNotCreateUser
-                            done()
-                        }
-                    }
-                }
-
-                it("should yield no error on success") {
-                    stub(condition: databaseSignUp(email: "email@valid.com", username: username, password: password, connection: "validconnection")) { _ in return Auth0Stubs.createdUser("email@valid.com") }
-                    stub(condition: databaseLogin(identifier: "email@valid.com", password: password, connection: "validconnection")) { _ in return Auth0Stubs.authentication() }
-                    try! database.update(.email, value: "email@valid.com")
-                    try! database.update(.username, value: username)
-                    try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
-                        database.create { create, login in
-                            expect(create).to(beNil())
-                            expect(login).to(beNil())
-                            done()
-                        }
-                    }
-                }
-
-            }
-
         }
 
         describe("signup OIDC Conformnant") {
