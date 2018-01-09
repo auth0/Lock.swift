@@ -42,8 +42,8 @@ struct PasswordlessLinkTransaction: PasswordlessAuthTransaction {
 extension PasswordlessAuthTransaction {
 
     func auth(withPasscode passcode: String, callback: @escaping (CredentialAuthError?) -> Void) {
-        CredentialAuth(oidc: self.options.oidcConformant, authentication: self.authentication)
-            .request(withIdentifier: identifier, password: passcode, realm: connection, options: self.options)
+        CredentialAuth(oidc: self.options.oidcConformant, realm: connection, authentication: self.authentication)
+            .request(withIdentifier: identifier, password: passcode, options: self.options)
             .start { self.handle(identifier: self.identifier, result: $0, callback: callback) }
     }
 }
