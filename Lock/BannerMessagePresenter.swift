@@ -48,7 +48,7 @@ struct BannerMessagePresenter: MessagePresenter {
 
         guard let root = self.root else { return }
         root.addSubview(view)
-        
+
         constraintEqual(anchor: view.topAnchor, toAnchor: root.layoutMarginsGuide.topAnchor)
         constraintEqual(anchor: view.leftAnchor, toAnchor: root.leftAnchor)
         constraintEqual(anchor: view.rightAnchor, toAnchor: root.rightAnchor)
