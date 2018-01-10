@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'fastlane', '~> 2.5'
+gem 'fastlane', '2.60'
 gem 'jwt', '~> 1.5'
 
 group :development do
