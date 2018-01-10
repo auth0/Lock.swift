@@ -26,6 +26,8 @@ import XCTest
 class LockUITests: XCTestCase {
 
     let app = XCUIApplication()
+    var counter: Int = 0
+    var prefix: String = ""
 
     override func setUp() {
         super.setUp()
@@ -37,89 +39,120 @@ class LockUITests: XCTestCase {
         super.tearDown()
     }
 
-    func testClassic() {
-        
+    func testClassicScreenshots() {
+        // 3 Social, Database, Password Policy Fair, Enterprise AD `bar.com` with ActiveAuth
         let app = XCUIApplication()
+        self.prefix = "A"
+        self.counter = 0
 
         app.buttons["LOGIN WITH CDN CLASSIC"].tap()
-        snapshot("A1-Lock-Classic-Database-Social-Login")
+        screenshot("Database Social Login")
 
         app.textFields["Email"].tap()
-        app.textFields["Email"].typeText("foo")
-        snapshot("A2-Lock-Classic-Database-Social-Login-Input-Error")
+        app.textFields["Email"].clearAndEnter(text: "foo")
+        screenshot("Database Login Email Input Error")
 
-        app.scrollViews.otherElements.buttons["Sign Up"].tap()
-        snapshot("A3-Lock-Classic-Database-Social-Signup")
+        app.textFields["Email"].clearAndEnter(text: "foo@foobar.com")
+        let passwordLoginSecureTextField = XCUIApplication().scrollViews.otherElements.secureTextFields["Password"]
+        passwordLoginSecureTextField.tap()
+        passwordLoginSecureTextField.clearAndEnter(text: " ")
+        screenshot("Database Login Password Input Error")
+
+        passwordLoginSecureTextField.clearAndEnter(text: "Password")
+        XCUIApplication().scrollViews.otherElements.buttons["LOG IN  ￼"].tap()
+        sleep(1)
+        screenshot("Database Login Failed")
+
+        sleep(3)
+        app.scrollViews.otherElements/*@START_MENU_TOKEN@*/.buttons["Sign Up"]/*[[".segmentedControls.buttons[\"Sign Up\"]",".buttons[\"Sign Up\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        screenshot("Database Signup")
 
         app.textFields["Email"].tap()
-        app.textFields["Email"].typeText("foo")
-        snapshot("A4-Lock-Classic-Database-Social-Signup-Input-Error")
+        app.textFields["Email"].clearAndEnter(text: "foo")
+        screenshot("Database Signup Input Error")
+
+        let passwordSignupSecureTextField = XCUIApplication().scrollViews.otherElements.secureTextFields["Password"]
+        passwordSignupSecureTextField.tap()
+        screenshot("Database Social Password Policy Empty")
+
+        passwordSignupSecureTextField.clearAndEnter(text: "test1")
+        screenshot("Database Social Password Policy Validation")
 
         app.scrollViews.otherElements.buttons["Log In"].tap()
         app.scrollViews.otherElements.buttons["Don’t remember your password?"].tap()
-        snapshot("A5-Lock-Classic-Database-Social-Forgot-Password")
+        screenshot("Database Forgot Password")
 
-        app.scrollViews.otherElements.containing(.staticText, identifier:"Reset Password").children(matching: .button).element(boundBy: 0).tap()
         app.textFields["Email"].tap()
-        app.textFields["Email"].typeText("foo@bar.com")
-        snapshot("A6-Lock-Classic-Database-Social-Enterprise")
+        app.textFields["Email"].clearAndEnter(text: "foo")
+        screenshot("Database Forgot Password Email Error")
+
+        app.textFields["Email"].clearAndEnter(text: "foo@foobar.com")
+        XCUIApplication().scrollViews.otherElements.buttons["SEND EMAIL  ￼"].tap()
+        screenshot("Database Forgot Password Send Email Success")
+
+        sleep(3)
+        app.textFields["Email"].tap()
+        app.textFields["Email"].clearAndEnter(text: "foo@bar.com")
+        screenshot("Database Enterprise SSO")
 
         app.scrollViews.otherElements.buttons["LOG IN  ￼"].tap()
-        snapshot("A7-Lock-Classic-Database-Social-Enterprise-ActiveAuth")
-
+        screenshot("Database Enterprise ActiveAuth")
     }
 
-    func testClassicCustom() {
-
+    func testPasswordlessScreenshots() {
+        // Passwordless SMS
         let app = XCUIApplication()
-
-        app.buttons["LOGIN WITH CDN CUSTOM STYLE"].tap()
-        snapshot("A1B-Lock-Classic-Custom-Database-Social-Login")
-
-        app.textFields["Email"].tap()
-        app.textFields["Email"].typeText("foo")
-        snapshot("A2B-Lock-Classic-Custom-Database-Social-Login-Input-Error")
-
-        app.scrollViews.otherElements.buttons["Sign Up"].tap()
-        snapshot("A3B-Lock-Classic-Custom-Database-Social-Signup")
-
-        app.textFields["Email"].tap()
-        app.textFields["Email"].typeText("foo")
-        snapshot("A4B-Lock-Classic-Custom-Database-Social-Signup-Input-Error")
-
-        app.scrollViews.otherElements.buttons["Log In"].tap()
-        app.scrollViews.otherElements.buttons["Don’t remember your password?"].tap()
-        snapshot("A5B-Lock-Classic-Custom-Database-Social-Forgot-Password")
-
-        app.scrollViews.otherElements.containing(.staticText, identifier:"Reset Password").children(matching: .button).element(boundBy: 0).tap()
-        app.textFields["Email"].tap()
-        app.textFields["Email"].typeText("foo@bar.com")
-        snapshot("A6B-Lock-Classic-Custom-Database-Social-Enterprise")
-
-        app.scrollViews.otherElements.buttons["LOG IN  ￼"].tap()
-        snapshot("A7B-Lock-Classic-Custom-Database-Social-Enterprise-ActiveAuth")
-    }
-
-    func testPasswordless() {
-
-        let app = XCUIApplication()
+        self.prefix = "Y"
+        self.counter = 0
 
         app.buttons["LOGIN WITH CDN PASSWORDLESS"].tap()
-        snapshot("B1-Lock-Passwordless")
+        screenshot("Passwordless SMS")
 
         app.scrollViews.otherElements.staticTexts["United States"].tap()
-        snapshot("B2-Lock-Passwordless-Country")
+        screenshot("Passwordless SMS Country Table")
+
+        let tablesQuery = app.tables
+        tablesQuery.searchFields["Search"].tap()
+        app.searchFields["Search"].typeText("united kingdom")
+        screenshot("Passwordless SMS Country Table Search")
+
+        tablesQuery/*@START_MENU_TOKEN@*/.staticTexts["United Kingdom"]/*[[".cells.staticTexts[\"United Kingdom\"]",".staticTexts[\"United Kingdom\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+
+        let phoneNumberTextField = app.scrollViews.otherElements.textFields["Phone Number"]
+        phoneNumberTextField.tap()
+        phoneNumberTextField.clearAndEnter(text: "07")
+        screenshot("Passwordless SMS Error")
+
+        phoneNumberTextField.clearAndEnter(text: "07966000000")
+        let button = app.scrollViews.children(matching: .other).element(boundBy: 1).children(matching: .other).element(boundBy: 1).children(matching: .button).element
+        button.tap()
+        screenshot("Passwordless SMS Login Success")
+
+        sleep(3)
+        let codeTextField = app.scrollViews.otherElements.textFields["Code"]
+        codeTextField.tap()
+        codeTextField.typeText("12345")
+        app.scrollViews.otherElements.buttons["ic submit"].tap()
+        screenshot("Passwordless SMS Code Failed")
     }
 
-    func testPasswordlessCustom() {
-
-        let app = XCUIApplication()
-
-        app.buttons["LOGIN WITH CDN PASSWORDLESS CUSTOM STYLE"].tap()
-        snapshot("B1C-Lock-Passwordless-Custom")
-
-        app.scrollViews.otherElements.staticTexts["United States"].tap()
-        snapshot("B2C-Lock-Passwordless-Country")
+    private func screenshot(_ description: String) {
+        self.counter += 1
+        snapshot("\(prefix)\(String(format: "%02d", counter))-\(description)")
     }
 
+}
+
+extension XCUIElement {
+    func clearAndEnter(text: String) {
+        guard let stringValue = self.value as? String else {
+            XCTFail("Tried to clear and enter text into a non string value")
+            return
+        }
+
+        self.tap()
+        let deleteString = stringValue.characters.map { _ in XCUIKeyboardKeyDelete }.joined(separator: "")
+        self.typeText(deleteString)
+        self.typeText(text)
+    }
 }
