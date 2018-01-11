@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.5.0](https://github.com/auth0/Lock.swift/tree/2.5.0) (2018-01-10)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.4.2...2.5.0)
+
+**Added**
+- Updated Libs [\#488](https://github.com/auth0/Lock.swift/pull/488) ([cocojoe](https://github.com/cocojoe))
+- Fix iPhone X Use top margin guide for Banner [\#481](https://github.com/auth0/Lock.swift/pull/481) ([cocojoe](https://github.com/cocojoe))
+- Added Swift 3.2/4.0 Compatibility [\#480](https://github.com/auth0/Lock.swift/pull/480) ([cocojoe](https://github.com/cocojoe))
+- Added Circle CI 2.0 YML [\#478](https://github.com/auth0/Lock.swift/pull/478) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.4.2](https://github.com/auth0/Lock.swift/tree/2.4.2) (2017-11-13)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.4.1...2.4.2)
 
