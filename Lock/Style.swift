@@ -73,7 +73,7 @@ public struct Style {
         /// Main body text color
     public var textColor = UIColor.black
 
-        /// Hide primary bytton title (show only icon). By default is false
+        /// Hide primary button title (show only icon). By default is false
     public var hideButtonTitle = false
 
         /// Header logo image
