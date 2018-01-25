@@ -201,9 +201,11 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
             self.updateCountry($0)
         }
         let navigationController = UINavigationController(rootViewController: countryTableView)
-        navigationController.modalPresentationStyle = .overFullScreen
+        if let style = self.style {
+            countryTableView.apply(style: style)
+            navigationController.modalPresentationStyle = style.modalPopup ? .formSheet : .overFullScreen
+        }
         self.onPresent(navigationController)
-        if let style = self.style { countryTableView.apply(style: style) }
     }
 
     func apply(style: Style) {
