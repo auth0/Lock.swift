@@ -107,7 +107,7 @@ public class LockViewController: UIViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let superview = self.view.superview {
-            superview.layer.cornerRadius  = 3.0
+            superview.layer.cornerRadius  = 4.0
         }
     }
 
