@@ -175,6 +175,16 @@ Lock
 
 Lock provides many styling options to help you apply your own brand identity to Lock.
 
+### iPad Modal Presentation
+
+iPad presentation is show in a modal popup, this can be disabled to use full screen as follows.
+
+```swift
+.withStyle {
+  $0.modalPopup = false
+}
+```
+
 ### Customize your header and primary color
 
 ```swift
