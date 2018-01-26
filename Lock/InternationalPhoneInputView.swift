@@ -200,7 +200,7 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
         let countryTableView = CountryTableViewController(withData: self.countryStore) {
             self.updateCountry($0)
         }
-        let navigationController = UINavigationController(rootViewController: countryTableView)
+        let navigationController = CustomNagivationController(rootViewController: countryTableView)
         if let style = self.style {
             countryTableView.apply(style: style)
             navigationController.modalPresentationStyle = style.modalPopup ? .formSheet : .overFullScreen
@@ -217,5 +217,15 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
         self.actionIconView?.tintColor = style.inputIconBackgroundColor
         self.container.backgroundColor = style.inputBackgroundColor
         self.container.layer.borderColor = style.inputBorderColor.cgColor
+    }
+}
+
+class CustomNagivationController: UINavigationController {
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let superview = self.view.superview {
+            superview.layer.cornerRadius  = 3.0
+        }
     }
 }

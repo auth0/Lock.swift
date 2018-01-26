@@ -104,6 +104,13 @@ public class LockViewController: UIViewController {
         self.messagePresenter = BannerMessagePresenter(root: root, messageView: nil)
     }
 
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let superview = self.view.superview {
+            superview.layer.cornerRadius  = 3.0
+        }
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
 
