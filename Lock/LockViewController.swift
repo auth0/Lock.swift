@@ -41,6 +41,10 @@ public class LockViewController: UIViewController {
         self.lock = lock
         super.init(nibName: nil, bundle: nil)
         lock.observerStore.controller = self
+        if self.lock.style.modalPopup {
+            self.modalPresentationStyle = .formSheet
+            self.preferredContentSize = CGSize(width: 375, height: 667)
+        }
         self.router = lock.classicMode ? ClassicRouter(lock: lock, controller: self) : PasswordlessRouter(lock: lock, controller: self)
     }
 
@@ -98,6 +102,13 @@ public class LockViewController: UIViewController {
 
         self.headerView = header
         self.messagePresenter = BannerMessagePresenter(root: root, messageView: nil)
+    }
+
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let superview = self.view.superview {
+            superview.layer.cornerRadius  = 4.0
+        }
     }
 
     public override func viewDidLoad() {
