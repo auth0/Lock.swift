@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.5.1](https://github.com/auth0/Lock.swift/tree/2.5.1) (2018-01-30)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.5.0...2.5.1)
+
+**Changed**
+- Changed default modal presentation style for iPad [\#493](https://github.com/auth0/Lock.swift/pull/493) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.5.0](https://github.com/auth0/Lock.swift/tree/2.5.0) (2018-01-10)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.4.2...2.5.0)
 
