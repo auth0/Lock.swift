@@ -221,7 +221,7 @@ Lock
 
 #### Specify Connections
 
-> Eventually **Lock.swift** will be able to load your client configuration automatically, but until then you should describe what connections it should use.
+> Eventually **Lock.swift** will be able to load your application configuration automatically, but until then you should describe what connections it should use.
 
 Before presenting **Lock.swift** you can tell it what connections it should display and use to authenticate an user. You can do that by calling the method and supply a closure that can specify the connections
 

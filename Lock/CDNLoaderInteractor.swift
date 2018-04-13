@@ -34,7 +34,7 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
     }
 
     func load(_ callback: @escaping (UnrecoverableError?, Connections?) -> Void) {
-        self.logger.info("Loading client info from \(self.url)")
+        self.logger.info("Loading application info from \(self.url)")
         let task = URLSession.shared.dataTask(with: self.url, completionHandler: { (data, response, error) in
             guard error?._code != NSURLErrorTimedOut else { return callback(.connectionTimeout, nil) }
             guard error == nil else {
@@ -77,7 +77,7 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
             do {
                 var connections = OfflineConnections()
                 let json = try JSONSerialization.jsonObject(with: jsonp.data(using: String.Encoding.utf8)!, options: []) as? JSONObject
-                self.logger.debug("Client configuration is \(json.verbatim())")
+                self.logger.debug("Application configuration is \(json.verbatim())")
                 let info = ClientInfo(json: json)
                 if let auth0 = info.auth0 {
                     auth0.connections.forEach { connection in

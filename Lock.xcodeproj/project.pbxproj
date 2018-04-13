@@ -269,6 +269,9 @@
 		5B55F3D21E24F3F000B75CF5 /* UnrecoverableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnrecoverableErrorSpec.swift; sourceTree = "<group>"; };
 		5B568F7F1E4B64D2004B3D98 /* Passwordless.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Passwordless.swift; sourceTree = "<group>"; };
 		5B568F811E4B6506004B3D98 /* PasswordlessAuthenticatableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessAuthenticatableError.swift; sourceTree = "<group>"; };
+		5B5F877A2074CBD7006DD55F /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
+		5B5F877B2074CBD7006DD55F /* MIGRATION.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = MIGRATION.md; sourceTree = SOURCE_ROOT; };
+		5B5F877C2074CBD7006DD55F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		5B5F9F9E1E4B3FBE00EAB9EE /* PasswordlessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessView.swift; sourceTree = "<group>"; };
 		5B64AC4D1F668B18000A8842 /* InputFieldSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputFieldSpec.swift; sourceTree = "<group>"; };
 		5B6631511DDB990B001CB043 /* EnterpriseDomainInteractorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainInteractorSpec.swift; sourceTree = "<group>"; };
@@ -660,6 +663,9 @@
 		5F70F1EC1D790A6D004698DA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5B5F877A2074CBD7006DD55F /* CHANGELOG.md */,
+				5B5F877B2074CBD7006DD55F /* MIGRATION.md */,
+				5B5F877C2074CBD7006DD55F /* README.md */,
 				5B8B795A1E8BAE5E00D0C57E /* passwordless_country_codes.plist */,
 				5FEAE1CB1D1A5154005C0028 /* Info.plist */,
 				5FEAE1C91D1A5154005C0028 /* Lock.h */,

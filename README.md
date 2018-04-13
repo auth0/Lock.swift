@@ -128,7 +128,7 @@ If you are using a Database Connection in Lock then you will need to enable the 
 
 #### Specify Connections
 
-Lock will automatically load your client configuration automatically, if you wish to override this behaviour you can manually specify which of your connections to use.  
+Lock will automatically load your application configuration automatically, if you wish to override this behaviour you can manually specify which of your connections to use.  
 
 Before presenting Lock you can tell it what connections it should display and use to authenticate an user. You can do that by calling the method and supply a closure that can specify the connections.
 
@@ -213,7 +213,7 @@ iPad presentation is show in a modal popup, this can be disabled to use full scr
 
 Lock Passwordless handles authentication using Passwordless & Social Connections.
 
-> The Passwordless feature requires your client to have the *Resource Owner* Legacy Grant Type enabled. Check [this article](https://auth0.com/docs/clients/client-grant-types) for more information.
+> The Passwordless feature requires your application to have the *Resource Owner* Legacy Grant Type enabled. Check [this article](https://auth0.com/docs/clients/client-grant-types) for more information.
 
 To show Lock, add the following snippet in your `UIViewController`
 
