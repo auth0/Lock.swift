@@ -139,7 +139,6 @@ public class HeaderView: UIView {
         constraintEqual(anchor: centerGuide.centerYAnchor, toAnchor: self.centerYAnchor, constant: 10)
         constraintEqual(anchor: centerGuide.centerXAnchor, toAnchor: self.centerXAnchor)
 
-        constraintEqual(anchor: titleView.bottomAnchor, toAnchor: centerGuide.bottomAnchor)
         constraintEqual(anchor: titleView.centerXAnchor, toAnchor: centerGuide.centerXAnchor)
         titleView.setContentCompressionResistancePriority(UILayoutPriority.priorityRequired, for: .horizontal)
         titleView.setContentHuggingPriority(UILayoutPriority.priorityRequired, for: .horizontal)
@@ -147,20 +146,32 @@ public class HeaderView: UIView {
 
         constraintEqual(anchor: logoView.centerXAnchor, toAnchor: self.centerXAnchor)
         constraintEqual(anchor: logoView.bottomAnchor, toAnchor: titleView.topAnchor, constant: -15)
-        constraintEqual(anchor: logoView.topAnchor, toAnchor: centerGuide.topAnchor)
         logoView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
-        constraintEqual(anchor: closeButton.rightAnchor, toAnchor: self.rightAnchor, constant: -10)
         closeButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         closeButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         closeButton.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: backButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
-        constraintEqual(anchor: backButton.leftAnchor, toAnchor: self.leftAnchor, constant: 10)
         backButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         backButton.translatesAutoresizingMaskIntoConstraints = false
+
+        if #available(iOS 11, *) {
+            let guide = self.safeAreaLayoutGuide
+            constraintEqual(anchor: titleView.bottomAnchor, toAnchor: guide.bottomAnchor, constant: -5)
+            constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: guide.topAnchor, constant: 15)
+            constraintEqual(anchor: closeButton.rightAnchor, toAnchor: guide.rightAnchor, constant: -10)
+            constraintEqual(anchor: backButton.centerYAnchor, toAnchor: guide.topAnchor, constant: 15)
+            constraintEqual(anchor: backButton.leftAnchor, toAnchor: guide.leftAnchor, constant: 10)
+            constraintEqual(anchor: logoView.topAnchor, toAnchor: guide.topAnchor)
+        } else {
+            constraintEqual(anchor: titleView.bottomAnchor, toAnchor: centerGuide.bottomAnchor)
+            constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
+            constraintEqual(anchor: closeButton.rightAnchor, toAnchor: self.rightAnchor, constant: -10)
+            constraintEqual(anchor: backButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
+            constraintEqual(anchor: backButton.leftAnchor, toAnchor: self.leftAnchor, constant: 10)
+            constraintEqual(anchor: logoView.topAnchor, toAnchor: centerGuide.topAnchor)
+        }
 
         self.applyBackground()
         self.apply(style: Style.Auth0)

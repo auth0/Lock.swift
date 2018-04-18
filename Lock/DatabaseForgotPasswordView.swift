@@ -54,8 +54,14 @@ class DatabaseForgotPasswordView: UIView, View {
 
         constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
+
+        if #available(iOS 11, *) {
+            let guide = self.safeAreaLayoutGuide
+            constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: guide.bottomAnchor)
+        } else {
+            constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
+        }
 
         primaryButton.title = "SEND EMAIL".i18n(key: "com.auth0.lock.submit.send_email.title", comment: "Send Email button title")
         forgotView.type = .email
