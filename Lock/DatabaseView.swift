@@ -23,14 +23,14 @@
 import UIKit
 
 protocol DatabaseView: class, View {
-    weak var form: Form? { get }
-    weak var secondaryButton: SecondaryButton? { get }
-    weak var primaryButton: PrimaryButton? { get }
-    weak var switcher: DatabaseModeSwitcher? { get }
-    weak var passwordManagerButton: IconButton? { get }
-    weak var showPasswordButton: IconButton? { get }
-    weak var identityField: InputField? { get }
-    weak var passwordField: InputField? { get }
+    var form: Form? { get }
+    var secondaryButton: SecondaryButton? { get }
+    var primaryButton: PrimaryButton? { get }
+    var switcher: DatabaseModeSwitcher? { get }
+    var passwordManagerButton: IconButton? { get }
+    var showPasswordButton: IconButton? { get }
+    var identityField: InputField? { get }
+    var passwordField: InputField? { get }
     var allFields: [InputField]? { get }
 
     var traitCollection: UITraitCollection { get }
