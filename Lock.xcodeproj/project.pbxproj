@@ -1015,13 +1015,14 @@
 				TargetAttributes = {
 					5BEDE1391EC0A9750007300D = {
 						CreatedOnToolsVersion = 8.3.2;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Manual;
 						TestTargetID = 5FEADCF31D1A7EBC0032D810;
 					};
 					5FEADCF31D1A7EBC0032D810 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 86WQXF56BC;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.SafariKeychain = {
@@ -1031,7 +1032,7 @@
 					};
 					5FEAE1C51D1A5154005C0028 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 0930;
 					};
 					5FEAE1CF1D1A5154005C0028 = {
 						CreatedOnToolsVersion = 7.3.1;
