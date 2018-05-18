@@ -126,6 +126,7 @@ public class HeaderView: UIView {
     private func layoutHeader() {
         let titleView = UILabel()
         let logoView = UIImageView()
+        logoView.contentMode = .scaleAspectFit
         let closeButton = UIButton(type: .system)
         let backButton = UIButton(type: .system)
         let centerGuide = UILayoutGuide()
@@ -145,7 +146,7 @@ public class HeaderView: UIView {
         titleView.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: logoView.centerXAnchor, toAnchor: self.centerXAnchor)
-        constraintEqual(anchor: logoView.bottomAnchor, toAnchor: titleView.topAnchor, constant: -15)
+        constraintEqual(anchor: logoView.bottomAnchor, toAnchor: titleView.topAnchor, constant: 0)
         logoView.translatesAutoresizingMaskIntoConstraints = false
 
         closeButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
@@ -158,7 +159,7 @@ public class HeaderView: UIView {
 
         if #available(iOS 11, *) {
             let guide = self.safeAreaLayoutGuide
-            constraintEqual(anchor: titleView.bottomAnchor, toAnchor: guide.bottomAnchor, constant: -5)
+            constraintEqual(anchor: titleView.bottomAnchor, toAnchor: guide.bottomAnchor, constant: -10)
             constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: guide.topAnchor, constant: 15)
             constraintEqual(anchor: closeButton.rightAnchor, toAnchor: guide.rightAnchor, constant: -10)
             constraintEqual(anchor: backButton.centerYAnchor, toAnchor: guide.topAnchor, constant: 15)
@@ -192,7 +193,7 @@ public class HeaderView: UIView {
     }
 
     public override var intrinsicContentSize: CGSize {
-        return CGSize(width: 200, height: 154)
+        return CGSize(width: 200, height: 170)
     }
 
     @objc func buttonPressed(_ sender: UIButton) {
