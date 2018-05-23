@@ -59,7 +59,7 @@ class LockUITests: XCTestCase {
         screenshot("Database Login Password Input Error")
 
         passwordLoginSecureTextField.clearAndEnter(text: "Password")
-        XCUIApplication().scrollViews.otherElements.buttons["LOG IN  ￼"].tap()
+        app.scrollViews.otherElements.buttons["Log In"].tap()
         sleep(1)
         screenshot("Database Login Failed")
 
@@ -87,7 +87,7 @@ class LockUITests: XCTestCase {
         screenshot("Database Forgot Password Email Error")
 
         app.textFields["Email"].clearAndEnter(text: "foo@foobar.com")
-        XCUIApplication().scrollViews.otherElements.buttons["SEND EMAIL  ￼"].tap()
+        app.scrollViews.otherElements.buttons["SEND EMAIL  "].tap()
         screenshot("Database Forgot Password Send Email Success")
 
         sleep(3)
@@ -95,7 +95,7 @@ class LockUITests: XCTestCase {
         app.textFields["Email"].clearAndEnter(text: "foo@bar.com")
         screenshot("Database Enterprise SSO")
 
-        app.scrollViews.otherElements.buttons["LOG IN  ￼"].tap()
+        app.scrollViews.otherElements.buttons["LOG IN  "].tap()
         screenshot("Database Enterprise ActiveAuth")
     }
 

@@ -108,8 +108,8 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
 
                 guard !connections.isEmpty else { return callback(.clientWithNoConnections, connections) }
                 callback(nil, connections)
-            } catch let e {
-                self.logger.error("Failed to parse \(jsonp) with error \(e)")
+            } catch let exception {
+                self.logger.error("Failed to parse \(jsonp) with error \(exception)")
                 return callback(.invalidClientOrDomain, nil)
             }
         })

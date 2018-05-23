@@ -269,6 +269,9 @@ class MockAuthentication: Authentication {
         return self.authentication.tokenExchange(withParameters: parameters)
     }
 
+    func login(withOTP otp: String, mfaToken: String) -> Request<Credentials, AuthenticationError> {
+        return self.login(withOTP: otp, mfaToken: mfaToken)
+    }
 
     func tokenExchange(withCode code: String, codeVerifier: String, redirectURI: String) -> Request<Credentials, AuthenticationError> {
         return self.authentication.tokenExchange(withCode: code, codeVerifier: codeVerifier, redirectURI: redirectURI)
