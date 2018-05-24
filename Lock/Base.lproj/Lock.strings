@@ -2,6 +2,8 @@
 "com.auth0.lock.database.button.forgot_password" = "Don’t remember your password?";
 // tos & privacy
 "com.auth0.lock.database.button.tos" = "By signing up, you agree to our terms of\n service and privacy policy";
+// tos title
+"com.auth0.lock.database.button.tos.title" = "Terms & Policy";
 // forgot password email sent
 "com.auth0.lock.database.forgot.success.message" = "We've just sent you an email to reset your password";
 // User logged in

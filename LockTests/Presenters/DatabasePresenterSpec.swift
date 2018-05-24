@@ -88,6 +88,15 @@ class DatabasePresenterSpec: QuickSpec {
             }
         }
 
+        describe("terms alert") {
+
+            it("present alert") {
+                presenter.showTermsPrompt(atButton: view.primaryButton!) { _ in }
+                expect(navigator.presented as? UIAlertController).toEventuallyNot(beNil())
+            }
+
+        }
+
         describe("user state") {
 
             it("should return initial valid email") {

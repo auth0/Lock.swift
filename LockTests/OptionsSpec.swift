@@ -121,6 +121,10 @@ class OptionsSpec: QuickSpec {
             it("should have allowShowPassword enabled") {
                 expect(options.allowShowPassword) == true
             }
+
+            it("should have mustAcceptTerms disabled") {
+                expect(options.mustAcceptTerms) == false
+            }
         }
 
         describe("validation") {
