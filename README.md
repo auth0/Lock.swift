@@ -303,8 +303,18 @@ By default Lock will use Auth0's [Terms of Service](https://auth0.com/terms) and
 
 ```swift
 .withOptions {
-  $0.termsOfService = "https://mycompany.com/terms"
-  $0.privacyPolicy = "https://mycompany.com/privacy"
+    $0.termsOfService = "https://mycompany.com/terms"
+    $0.privacyPolicy = "https://mycompany.com/privacy"
+}
+```
+
+#### Must accept Terms of Service
+
+Database connection will require explicit acceptance of terms of service
+
+```swift
+.withOptions {
+    $0.mustAcceptTerms = true
 }
 ```
 
