@@ -244,6 +244,15 @@ class InputField: UIView, Stylable {
                 return 0
             }
         }
+
+        var isValid: Bool {
+            switch self {
+            case .valid:
+                return true
+            case .invalid:
+                return false
+            }
+        }
     }
 
     @objc func textChanged(_ field: UITextField) {

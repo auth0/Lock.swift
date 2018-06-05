@@ -178,6 +178,7 @@ class DatabasePresenter: Presentable, Loggable {
         view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator, showPassswordManager: self.passwordManager.available, showPassword: self.options.allowShowPassword)
         let form = view.form
         view.form?.onValueChange = self.handleInput
+
         let action = { [weak form, weak view] (button: PrimaryButton) in
             self.messagePresenter?.hideCurrent()
             self.logger.info("Perform sign up for email \(self.creator.email.verbatim())")
@@ -212,11 +213,22 @@ class DatabasePresenter: Presentable, Loggable {
             }
         }
 
+        let checkTermsAndSignup = { [weak view] (button: PrimaryButton) in
+            if self.options.mustAcceptTerms {
+                let validForm = view?.allFields?
+                    .filter { !$0.state.isValid }
+                    .isEmpty ?? false
+                if validForm { self.showTermsPrompt(atButton: button) { _ in action(button) } }
+            } else {
+                action(button)
+            }
+        }
+
         view.form?.onReturn = { [weak view] field in
             guard let button = view?.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
-            action(button)
+            checkTermsAndSignup(button)
         }
-        view.primaryButton?.onPress = action
+        view.primaryButton?.onPress = checkTermsAndSignup
         view.secondaryButton?.title = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos", comment: "tos & privacy")
         view.secondaryButton?.color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
         view.secondaryButton?.onPress = { button in
@@ -291,6 +303,19 @@ class DatabasePresenter: Presentable, Loggable {
         } catch {
             input.showError()
         }
+    }
+
+    func showTermsPrompt(atButton button: PrimaryButton, successHandler: @escaping (PrimaryButton) -> Void) {
+        let terms = "Terms & Policy".i18n(key: "com.auth0.lock.database.button.tos.title", comment: "tos title")
+        let alert = UIAlertController(title: terms, message: "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos", comment: "tos & privacy"), preferredStyle: .alert)
+        alert.popoverPresentationController?.sourceView = button
+        alert.popoverPresentationController?.sourceRect = button.bounds
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "Accept", style: .default) { _ in
+            successHandler(button)
+        }
+        [cancelAction, okAction].forEach { alert.addAction($0) }
+        self.navigator.present(alert)
     }
 }
 

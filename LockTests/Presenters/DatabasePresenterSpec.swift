@@ -88,6 +88,15 @@ class DatabasePresenterSpec: QuickSpec {
             }
         }
 
+        describe("accept terms alert") {
+
+            it("present alert") {
+                presenter.showTermsPrompt(atButton: view.primaryButton!) { _ in }
+                expect(navigator.presented as? UIAlertController).toEventuallyNot(beNil())
+            }
+
+        }
+
         describe("user state") {
 
             it("should return initial valid email") {
@@ -657,6 +666,39 @@ class DatabasePresenterSpec: QuickSpec {
                     let button = view.primaryButton!
                     button.onPress(button)
                     expect(button.inProgress).toEventually(beFalse())
+                }
+
+                context("must accept terms popup") {
+
+                    beforeEach {
+                        options.mustAcceptTerms = true
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: false), navigator: navigator, options: options)
+                        view = presenter.view as! DatabaseOnlyView
+                        view.switcher?.selected = .signup
+                        view.switcher?.onSelectionChange(view.switcher!)
+                    }
+
+                    it("will not show terms alert as invalid form") {
+                        let button = view.primaryButton!
+                        interactor.onSignUp = {
+                            return nil
+                        }
+                        button.onPress(button)
+                        expect(navigator.presented as? UIAlertController).toEventually(beNil())
+                    }
+
+                    it("will show terms alert as valid form") {
+                        let form = view.form as! SignUpView
+                        form.emailField.showValid()
+                        form.passwordField.showValid()
+                        let button = view.primaryButton!
+                        interactor.onSignUp = {
+                            return nil
+                        }
+                        button.onPress(button)
+                        expect(navigator.presented as? UIAlertController).toEventuallyNot(beNil())
+                    }
+
                 }
 
                 context("no login after signup") {
