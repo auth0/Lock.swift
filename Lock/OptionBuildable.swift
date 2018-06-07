@@ -135,7 +135,7 @@ public extension OptionBuildable {
             return self.termsOfServiceURL.absoluteString
         }
         set {
-            guard let url = URL(string: newValue) else { return } // FIXME: log error
+            guard let url = URL(string: newValue) else { return }
             self.termsOfServiceURL = url
         }
     }
@@ -146,7 +146,7 @@ public extension OptionBuildable {
             return self.privacyPolicyURL.absoluteString
         }
         set {
-            guard let url = URL(string: newValue) else { return } // FIXME: log error
+            guard let url = URL(string: newValue) else { return }
             self.privacyPolicyURL = url
         }
     }
@@ -158,7 +158,7 @@ public extension OptionBuildable {
             return url.absoluteString
         }
         set {
-            guard let value = newValue, let url = URL(string: value) else { return } // FIXME: log error
+            guard let value = newValue, let url = URL(string: value) else { return }
             self.supportURL = url
         }
     }
@@ -170,7 +170,7 @@ public extension OptionBuildable {
             return url.absoluteString
         }
         set {
-            guard let value = newValue, let url = URL(string: value) else { return } // FIXME: log error
+            guard let value = newValue, let url = URL(string: value) else { return }
             self.configurationBaseURL = url
         }
     }

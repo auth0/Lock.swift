@@ -259,7 +259,7 @@ class OptionsSpec: QuickSpec {
                 expect(options.supportURL?.absoluteString) == "https://auth0.com/docs"
             }
 
-            it("should set baseURL") {
+            it("should set configurationBaseURL") {
                 options.configurationBase = "https://auth0.customdomain.com"
                 expect(options.configurationBaseURL?.absoluteString) == "https://auth0.customdomain.com"
             }
