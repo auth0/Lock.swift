@@ -158,6 +158,17 @@ Before presenting Lock you can tell it what connections it should display and us
 }
 ```
 
+### Custom Domains
+
+If you are using [Custom Domains](https://auth0.com/docs/custom-domains), you will need to set the `configurationBaseURL` to your Auth0 Domain so the Lock configuration can 
+be read correctly.
+
+```swift
+.withOptions {
+   $0.configurationBase = "https://<YOUR DOMAIN>.auth0.com"
+}
+```
+
 ### Logging
 
 You can easily turn on/off logging capabilities.

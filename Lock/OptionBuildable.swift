@@ -102,6 +102,9 @@ public protocol OptionBuildable: Options {
 
         /// Should Lock display the option to toggle the visibility of the password field text, will not be visible if password manager is available.  By default is true
     var allowShowPassword: Bool { get set }
+
+        /// Set configuration URL to use for Lock configuration. Required when using Custom Domains
+    var configurationBaseURL: URL? { get set }
 }
 
 extension OptionBuildable {
@@ -132,7 +135,7 @@ public extension OptionBuildable {
             return self.termsOfServiceURL.absoluteString
         }
         set {
-            guard let url = URL(string: newValue) else { return } // FIXME: log error
+            guard let url = URL(string: newValue) else { return }
             self.termsOfServiceURL = url
         }
     }
@@ -143,7 +146,7 @@ public extension OptionBuildable {
             return self.privacyPolicyURL.absoluteString
         }
         set {
-            guard let url = URL(string: newValue) else { return } // FIXME: log error
+            guard let url = URL(string: newValue) else { return }
             self.privacyPolicyURL = url
         }
     }
@@ -155,8 +158,20 @@ public extension OptionBuildable {
             return url.absoluteString
         }
         set {
-            guard let value = newValue, let url = URL(string: value) else { return } // FIXME: log error
+            guard let value = newValue, let url = URL(string: value) else { return }
             self.supportURL = url
+        }
+    }
+
+        /// Base CDN URL. By default is not set.
+    var configurationBase: String? {
+        get {
+            guard let url = self.configurationBaseURL else { return nil }
+            return url.absoluteString
+        }
+        set {
+            guard let value = newValue, let url = URL(string: value) else { return }
+            self.configurationBaseURL = url
         }
     }
 

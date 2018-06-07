@@ -101,7 +101,6 @@ class OptionsSpec: QuickSpec {
                 expect(options.autoClose) == true
             }
 
-
             it("should be passwordless emailCode method by default") {
                 expect(options.passwordlessMethod).to(equal(PasswordlessMethod.code))
             }
@@ -124,6 +123,10 @@ class OptionsSpec: QuickSpec {
 
             it("should have mustAcceptTerms disabled") {
                 expect(options.mustAcceptTerms) == false
+            }
+            
+            it("should have configurationBaseURL as nil") {
+                expect(options.configurationBaseURL).to(beNil())
             }
         }
 
@@ -254,6 +257,11 @@ class OptionsSpec: QuickSpec {
             it("should set support site") {
                 options.supportPage = "https://auth0.com/docs"
                 expect(options.supportURL?.absoluteString) == "https://auth0.com/docs"
+            }
+
+            it("should set configurationBaseURL") {
+                options.configurationBase = "https://auth0.customdomain.com"
+                expect(options.configurationBaseURL?.absoluteString) == "https://auth0.customdomain.com"
             }
 
             it("should ignore invalid support site") {

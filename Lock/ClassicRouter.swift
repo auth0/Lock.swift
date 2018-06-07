@@ -40,7 +40,8 @@ struct ClassicRouter: Router {
         let connections = self.lock.connections
         guard !connections.isEmpty else {
             self.lock.logger.debug("No connections configured. Loading application info from Auth0...")
-            let interactor = CDNLoaderInteractor(baseURL: self.lock.authentication.url, clientId: self.lock.authentication.clientId)
+            let baseURL = self.lock.options.configurationBaseURL ?? self.lock.authentication.url
+            let interactor = CDNLoaderInteractor(baseURL: baseURL, clientId: self.lock.authentication.clientId)
             return ConnectionLoadingPresenter(loader: interactor, navigator: self, dispatcher: lock.observerStore, options: self.lock.options)
         }
         let whitelistForActiveAuth = self.lock.options.enterpriseConnectionUsingActiveAuth
