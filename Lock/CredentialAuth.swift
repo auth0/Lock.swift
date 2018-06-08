@@ -36,7 +36,8 @@ struct CredentialAuth {
                 password: password,
                 realm: realm,
                 audience: options.audience,
-                scope: options.scope
+                scope: options.scope,
+                parameters: options.parameters
             )
         } else {
             return self.authentication.login(

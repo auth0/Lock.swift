@@ -635,6 +635,25 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
+            it("should send parameters") {
+                let state = UUID().uuidString
+                var options = LockOptions()
+                options.parameters = ["state": state]
+                options.oidcConformant = true
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                stub(condition: realmLogin(identifier: email, password: password, realm: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(error).to(beNil())
+                        done()
+                    }
+                }
+            }
+
+
             it("should use username") {
                 stub(condition: realmLogin(identifier: username, password: password, realm: connection)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.username, value: username)
