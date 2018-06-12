@@ -43,6 +43,7 @@ Auth0.plist
 fastlane/report.xml
 fastlane/test_output/
 .env
+.env.default 
 fastlane/screenshots/
 
 #AppCode
