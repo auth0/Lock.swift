@@ -1,5 +1,19 @@
 # Change Log
 
+## [2.6.0](https://github.com/auth0/Lock.swift/tree/2.6.0) (2018-06-12)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.5.1...2.6.0)
+
+**Added**
+- Updated Auth0 Shipper Plugin [\#508](https://github.com/auth0/Lock.swift/pull/508) ([cocojoe](https://github.com/cocojoe))
+- Added `configurationBaseURL` option for Custom Domains support [\#505](https://github.com/auth0/Lock.swift/pull/505) ([cocojoe](https://github.com/cocojoe))
+- Added `mustAcceptTerms` option for Sign up [\#503](https://github.com/auth0/Lock.swift/pull/503) ([cocojoe](https://github.com/cocojoe))
+
+**Changed**
+- Update Xcode 9.3 / Libs [\#500](https://github.com/auth0/Lock.swift/pull/500) ([cocojoe](https://github.com/cocojoe))
+
+**Fixed**
+- Fixed passing parameters option to OIDC Login [\#507](https://github.com/auth0/Lock.swift/pull/507) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.5.1](https://github.com/auth0/Lock.swift/tree/2.5.1) (2018-01-30)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.5.0...2.5.1)
 
