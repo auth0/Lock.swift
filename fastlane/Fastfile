@@ -87,13 +87,13 @@ platform :ios do
   desc "Prepares the library for release by updating versions and creating release pull request"
   desc "You need to specify the type of release with the `bump` parameter with the values [major|minor|patch]"
   lane :release_prepare do |options|
-    release_options = {repository: 'Lock.swift', xcodeproj: 'Lock.xcodeproj', target: 'Lock'}.merge(options)
+    release_options = {repository: 'Lock.swift', xcodeproj: 'Lock.xcodeproj', target: 'Lock.iOS'}.merge(options)
     prepare_release release_options
   end
 
   desc "Performs the prepared release by creating a tag and pusing to remote"
   lane :release_perform do
-    perform_release target: 'Lock'
+    perform_release target: 'Lock.iOS'
   end
 
   desc "Releases the library to CocoaPods trunk & Github Releases"
