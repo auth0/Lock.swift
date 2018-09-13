@@ -36,6 +36,7 @@ public struct PasswordPolicy {
 
     let name: String
     let rules: [Rule]
+    static let mininumLengthKey = "min_length"
 
     enum Auth0: String {
         case none
@@ -53,14 +54,37 @@ public struct PasswordPolicy {
         return PasswordPolicy(name: Auth0.none.rawValue, rules: [withPassword(lengthInRange: 1...Int.max, message: nonEmpty)])
     }
 
+    public static func none(withOptions options: [String: Any]? = nil) -> PasswordPolicy {
+        let minLength = (options?[mininumLengthKey] as? Int) ?? 1
+        return PasswordPolicy(name: Auth0.none.rawValue, rules: [withPassword(lengthInRange: minLength...Int.max, message: nonEmpty)])
+    }
+
     public static var low: PasswordPolicy {
         let message = String(format: atLeast, 6)
         return PasswordPolicy(name: Auth0.low.rawValue, rules: [withPassword(lengthInRange: 6...Int.max, message: message)])
     }
 
+    public static func low(withOptions options: [String: Any]? = nil) -> PasswordPolicy {
+        let minLength = (options?[mininumLengthKey] as? Int) ?? 6
+        let message = String(format: atLeast, minLength)
+        return PasswordPolicy(name: Auth0.low.rawValue, rules: [withPassword(lengthInRange: minLength...Int.max, message: message)])
+    }
+
     public static var fair: PasswordPolicy {
         return PasswordPolicy(name: Auth0.fair.rawValue, rules: [
             withPassword(lengthInRange: 8...Int.max, message: String(format: atLeast, 8)),
+            AtLeastRule(minimum: 3, rules: [
+                withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
+                withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
+                withPassword(havingCharactersIn: .decimalDigits, message: numbers)
+                ], message: shouldContain)
+            ])
+    }
+
+    public static func fair(withOptions options: [String: Any]? = nil) -> PasswordPolicy {
+        let minLength = (options?[mininumLengthKey] as? Int) ?? 8
+        return PasswordPolicy(name: Auth0.fair.rawValue, rules: [
+            withPassword(lengthInRange: minLength...Int.max, message: String(format: atLeast, minLength)),
             AtLeastRule(minimum: 3, rules: [
                 withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
                 withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
@@ -83,11 +107,42 @@ public struct PasswordPolicy {
             ])
     }
 
+    public static func good(withOptions options: [String: Any]? = nil) -> PasswordPolicy {
+        var specialCharacterSet = CharacterSet.punctuationCharacters
+        specialCharacterSet.formUnion(.symbols)
+        let minLength = (options?[mininumLengthKey] as? Int) ?? 8
+        return PasswordPolicy(name: Auth0.good.rawValue, rules: [
+            withPassword(lengthInRange: minLength...Int.max, message: String(format: atLeast, minLength)),
+            AtLeastRule(minimum: 3, rules: [
+                withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
+                withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
+                withPassword(havingCharactersIn: .decimalDigits, message: numbers),
+                withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters)
+                ], message: String(format: containAtLeast, 3, 4))
+            ])
+    }
+
     public static var excellent: PasswordPolicy {
         var specialCharacterSet = CharacterSet.punctuationCharacters
         specialCharacterSet.formUnion(.symbols)
         return PasswordPolicy(name: Auth0.excellent.rawValue, rules: [
             withPassword(lengthInRange: 10...128, message: String(format: atLeast, 10)),
+            AtLeastRule(minimum: 3, rules: [
+                withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
+                withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),
+                withPassword(havingCharactersIn: .decimalDigits, message: numbers),
+                withPassword(havingCharactersIn: specialCharacterSet, message: specialCharacters)
+                ], message: String(format: containAtLeast, 3, 4)),
+            withPassword(havingMaxConsecutiveRepeats: 2, message: String(format: noMoreThanSimilar, 2, "aaa"))
+            ])
+    }
+
+    public static func excellent(withOptions options: [String: Any]? = nil) -> PasswordPolicy {
+        var specialCharacterSet = CharacterSet.punctuationCharacters
+        specialCharacterSet.formUnion(.symbols)
+        let minLength = (options?[mininumLengthKey] as? Int) ?? 10
+        return PasswordPolicy(name: Auth0.excellent.rawValue, rules: [
+            withPassword(lengthInRange: minLength...128, message: String(format: atLeast, minLength)),
             AtLeastRule(minimum: 3, rules: [
                 withPassword(havingCharactersIn: .lowercaseLetters, message: lowercase),
                 withPassword(havingCharactersIn: .uppercaseLetters, message: upperCase),

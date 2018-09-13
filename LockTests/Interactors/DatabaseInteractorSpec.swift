@@ -67,7 +67,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
             Auth0Stubs.failUnknown()
             user = User()
-            let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+            let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
             database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
         }
 
@@ -236,7 +236,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     beforeEach {
                         Auth0Stubs.failUnknown()
                         user = User()
-                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .low))
+                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .low()))
                         database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
                     }
 
@@ -254,7 +254,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     beforeEach {
                         Auth0Stubs.failUnknown()
                         user = User()
-                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .fair))
+                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .fair()))
                         database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
                     }
 
@@ -280,7 +280,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     beforeEach {
                         Auth0Stubs.failUnknown()
                         user = User()
-                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
                         database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
                     }
 
@@ -310,7 +310,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     beforeEach {
                         Auth0Stubs.failUnknown()
                         user = User()
-                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .excellent))
+                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .excellent()))
                         database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
                     }
 
@@ -387,7 +387,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 Auth0Stubs.failUnknown()
                 user = User()
-                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
                 database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
             }
 
@@ -588,7 +588,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 Auth0Stubs.failUnknown()
                 user = User()
-                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
                 database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
             }
 
@@ -793,7 +793,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 Auth0Stubs.failUnknown()
                 user = User()
-                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
                 database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
             }
 
@@ -850,7 +850,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 beforeEach {
                     options.loginAfterSignup = true
-                    let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+                    let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
                     database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
                 }
 
@@ -1076,7 +1076,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 Auth0Stubs.failUnknown()
                 user = User()
-                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good))
+                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
                 database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
             }
 

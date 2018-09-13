@@ -99,7 +99,7 @@ public extension ConnectionBuildable {
      - parameter passwordPolicy:    password policy for the database
      - important: Only **ONE** database connection can be used so subsequent calls will override the previous value
      */
-    public mutating func database(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator(), passwordPolicy: PasswordPolicy = .none) {
+    public mutating func database(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator(), passwordPolicy: PasswordPolicy = .none()) {
         self.database(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator, passwordValidator: PasswordPolicyValidator(policy: passwordPolicy))
     }
 }
