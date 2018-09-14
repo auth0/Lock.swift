@@ -50,6 +50,7 @@ public struct PasswordPolicy {
         return rules.map { $0.evaluate(on: password) }
     }
 
+    @available(*, deprecated, message: "see none(withOptions: options)")
     public static var none: PasswordPolicy {
         return PasswordPolicy(name: Auth0.none.rawValue, rules: [withPassword(lengthInRange: 1...Int.max, message: nonEmpty)])
     }
@@ -59,6 +60,7 @@ public struct PasswordPolicy {
         return PasswordPolicy(name: Auth0.none.rawValue, rules: [withPassword(lengthInRange: minLength...Int.max, message: nonEmpty)])
     }
 
+    @available(*, deprecated, message: "see low(withOptions: options)")
     public static var low: PasswordPolicy {
         let message = String(format: atLeast, 6)
         return PasswordPolicy(name: Auth0.low.rawValue, rules: [withPassword(lengthInRange: 6...Int.max, message: message)])
@@ -70,6 +72,7 @@ public struct PasswordPolicy {
         return PasswordPolicy(name: Auth0.low.rawValue, rules: [withPassword(lengthInRange: minLength...Int.max, message: message)])
     }
 
+    @available(*, deprecated, message: "see fair(withOptions: options)")
     public static var fair: PasswordPolicy {
         return PasswordPolicy(name: Auth0.fair.rawValue, rules: [
             withPassword(lengthInRange: 8...Int.max, message: String(format: atLeast, 8)),
@@ -93,6 +96,7 @@ public struct PasswordPolicy {
             ])
     }
 
+    @available(*, deprecated, message: "see good(withOptions: options)")
     public static var good: PasswordPolicy {
         var specialCharacterSet = CharacterSet.punctuationCharacters
         specialCharacterSet.formUnion(.symbols)
@@ -122,6 +126,7 @@ public struct PasswordPolicy {
             ])
     }
 
+    @available(*, deprecated, message: "see excellent(withOptions: options)")
     public static var excellent: PasswordPolicy {
         var specialCharacterSet = CharacterSet.punctuationCharacters
         specialCharacterSet.formUnion(.symbols)
