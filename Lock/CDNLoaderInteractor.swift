@@ -209,18 +209,19 @@ private struct ConnectionInfo {
 
     var passwordPolicy: PasswordPolicy {
         let name = (json["passwordPolicy"] as? String) ?? "none"
-        guard let policy = PasswordPolicy.Auth0(rawValue: name) else { return .none }
+        guard let policy = PasswordPolicy.Auth0(rawValue: name) else { return .none() }
+        let options = (json["password_complexity_options"] as? [String: Any]) ?? nil
         switch policy {
         case .excellent:
-            return .excellent
+            return .excellent(withOptions: options)
         case .good:
-            return .good
+            return .good(withOptions: options)
         case .fair:
-            return .fair
+            return .fair(withOptions: options)
         case .low:
-            return .low
+            return .low(withOptions: options)
         case .none:
-            return .none
+            return .none(withOptions: options)
         }
     }
 

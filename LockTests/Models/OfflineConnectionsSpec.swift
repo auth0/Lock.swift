@@ -37,7 +37,7 @@ class OfflineConnectionsSpec: QuickSpec {
         it("should add a database connection") {
             var connections = OfflineConnections()
             let usernameValidator = UsernameValidator()
-            let passwordValidator = PasswordPolicyValidator(policy: .none)
+            let passwordValidator = PasswordPolicyValidator(policy: .none())
             connections.database(name: connection, requiresUsername: false, usernameValidator: usernameValidator, passwordValidator: passwordValidator)
             expect(connections.isEmpty) == false
             expect(connections.database?.name) == connection

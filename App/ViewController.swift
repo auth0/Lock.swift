@@ -110,7 +110,7 @@ class ViewController: UIViewController {
                     }
                     .withConnections { connections in
                         let usernameValidator = UsernameValidator(withLength: 1...20, characterSet: UsernameValidator.auth0)
-                        connections.database(name: "Username-Password-Authentication", requiresUsername: true, usernameValidator: usernameValidator, passwordPolicy: .excellent)
+                        connections.database(name: "Username-Password-Authentication", requiresUsername: true, usernameValidator: usernameValidator, passwordPolicy: .excellent())
                 }
             },
             actionButton(withTitle: "LOGIN ONLY WITH DB") {
