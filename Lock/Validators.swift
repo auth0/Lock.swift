@@ -90,7 +90,7 @@ public class UsernameValidator: InputValidator {
         return nil
     }
 
-    open static var auth0: CharacterSet {
+    public static var auth0: CharacterSet {
         let set = NSMutableCharacterSet()
         set.formUnion(with: CharacterSet.alphanumerics)
         set.addCharacters(in: "_")
