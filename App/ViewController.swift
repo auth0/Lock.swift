@@ -125,6 +125,18 @@ class ViewController: UIViewController {
                         connections.database(name: "Username-Password-Authentication", requiresUsername: true)
                 }
             },
+            actionButton(withTitle: "SIGNUP ONLY WITH DB") {
+                return Lock
+                    .classic()
+                    .withOptions {
+                        applyDefaultOptions(&$0)
+                        $0.allow = [.Signup]
+                        $0.usernameStyle = [.Email]
+                    }
+                    .withConnections { connections in
+                        connections.database(name: "Username-Password-Authentication", requiresUsername: true)
+                }
+            },
             actionButton(withTitle: "LOGIN WITH DB & SOCIAL") {
                 return Lock
                     .classic()

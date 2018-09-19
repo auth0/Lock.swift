@@ -228,18 +228,20 @@ class DatabasePresenter: Presentable, Loggable {
             guard let button = view?.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
             checkTermsAndSignup(button)
         }
-        view.primaryButton?.onPress = checkTermsAndSignup
-        view.secondaryButton?.title = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos", comment: "tos & privacy")
-        view.secondaryButton?.color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
-        view.secondaryButton?.onPress = { button in
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            alert.popoverPresentationController?.sourceView = button
-            alert.popoverPresentationController?.sourceRect = button.bounds
-            let cancel = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel", comment: "Cancel"), style: .cancel, handler: nil)
-            let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.title", comment: "ToS"), style: .default, handler: safariBuilder(forURL: self.options.termsOfServiceURL as URL, navigator: self.navigator))
-            let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy", comment: "Privacy"), style: .default, handler: safariBuilder(forURL: self.options.privacyPolicyURL as URL, navigator: self.navigator))
-            [cancel, tos, privacy].forEach { alert.addAction($0) }
-            self.navigator.present(alert)
+        if let terms = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos", comment: "tos & privacy") as String!, terms != "com.auth0.lock.database.button.tos" {
+            view.primaryButton?.onPress = checkTermsAndSignup
+            view.secondaryButton?.title = terms
+            view.secondaryButton?.color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
+            view.secondaryButton?.onPress = { button in
+                let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                alert.popoverPresentationController?.sourceView = button
+                alert.popoverPresentationController?.sourceRect = button.bounds
+                let cancel = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel", comment: "Cancel"), style: .cancel, handler: nil)
+                let tos = UIAlertAction(title: "Terms of Service".i18n(key: "com.auth0.lock.database.tos.sheet.title", comment: "ToS"), style: .default, handler: safariBuilder(forURL: self.options.termsOfServiceURL as URL, navigator: self.navigator))
+                let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy", comment: "Privacy"), style: .default, handler: safariBuilder(forURL: self.options.privacyPolicyURL as URL, navigator: self.navigator))
+                [cancel, tos, privacy].forEach { alert.addAction($0) }
+                self.navigator.present(alert)
+            }
         }
 
         if let identifyField = view.identityField, let passwordField = view.passwordField {

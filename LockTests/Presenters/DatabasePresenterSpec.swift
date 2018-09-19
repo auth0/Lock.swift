@@ -459,6 +459,11 @@ class DatabasePresenterSpec: QuickSpec {
                 view.switcher?.selected = .signup
                 view.switcher?.onSelectionChange(view.switcher!)
             }
+            
+            it("should not set title for secondary button when there is no tos string") {
+                //do something
+                expect(view.secondaryButton?.title).to(beNil())
+            }
 
             it("should set title for secondary button") {
                 expect(view.secondaryButton?.title).notTo(beNil())
