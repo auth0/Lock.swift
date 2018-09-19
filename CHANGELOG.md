@@ -1,5 +1,20 @@
 # Change Log
 
+## [2.7.0](https://github.com/auth0/Lock.swift/tree/2.7.0) (2018-09-18)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.6.0...2.7.0)
+
+**Added**
+- Added Password Complexity Support in Password Policies [\#513](https://github.com/auth0/Lock.swift/pull/513) ([cocojoe](https://github.com/cocojoe))
+
+**Changed**
+- Ensure Xcode10 Auth0.swift dependency used [\#516](https://github.com/auth0/Lock.swift/pull/516) ([cocojoe](https://github.com/cocojoe))
+
+**Deprecated**
+- Deprecated static vars in password policy in favour of funcs [\#514](https://github.com/auth0/Lock.swift/pull/514) ([cocojoe](https://github.com/cocojoe))
+
+**Fixed**
+- Xcode 10 Update [\#515](https://github.com/auth0/Lock.swift/pull/515) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.6.0](https://github.com/auth0/Lock.swift/tree/2.6.0) (2018-06-12)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.5.1...2.6.0)
 
