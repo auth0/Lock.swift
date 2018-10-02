@@ -39,8 +39,11 @@ public protocol OptionBuildable: Options {
         /// Support page url that will be displayed (Inside Safari) when an unrecoverable error occurs and the user taps the "Contact Support" button in the error screen.
     var supportURL: URL? { get set }
 
-        /// Whether the user needs to accept the terms before sign up or not.
+        /// Whether the user needs to accept the terms before sign up or not. By default is false.
     var mustAcceptTerms: Bool { get set }
+
+        /// Whether the terms should be shown on the signup screen. By default is true.
+    var showTerms: Bool { get set }
 
         /// Log level for Lock. By default is `Off`.
     var logLevel: LoggerLevel { get set }

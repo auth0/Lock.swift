@@ -175,7 +175,7 @@ class DatabasePresenter: Presentable, Loggable {
         let passwordPolicyValidator = interactor?.passwordValidator as? PasswordPolicyValidator
         self.currentScreen = .signup
         interactor?.user.reset()
-        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator, showPassswordManager: self.passwordManager.available, showPassword: self.options.allowShowPassword)
+        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator, showPassswordManager: self.passwordManager.available, showPassword: self.options.allowShowPassword, showTerms: options.showTerms || options.mustAcceptTerms)
         let form = view.form
         view.form?.onValueChange = self.handleInput
 

@@ -43,7 +43,7 @@ class MultifactorPresenterSpec: QuickSpec {
             connection = DatabaseConnection(name: "my-connection", requiresUsername: true)
             presenter = MultifactorPresenter(interactor: interactor, connection: connection, navigator: navigator)
             presenter.messagePresenter = messagePresenter
-            view = presenter.view as! MultifactorCodeView
+            view = presenter.view as? MultifactorCodeView
         }
 
         it("should have button title") {

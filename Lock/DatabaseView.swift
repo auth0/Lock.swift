@@ -39,5 +39,5 @@ protocol DatabaseView: class, View {
 
     func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String?, authCollectionView: AuthCollectionView?, showPassswordManager: Bool, showPassword: Bool)
     // swiftlint:disable:next function_parameter_count
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView?, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator?, showPassswordManager: Bool, showPassword: Bool)
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView?, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator?, showPassswordManager: Bool, showPassword: Bool, showTerms: Bool)
 }

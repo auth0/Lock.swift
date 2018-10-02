@@ -29,6 +29,7 @@ public protocol Options {
     var privacyPolicyURL: URL { get }
     var supportURL: URL? { get }
     var mustAcceptTerms: Bool { get }
+    var showTerms: Bool { get }
 
     var logLevel: LoggerLevel { get }
     var loggerOutput: LoggerOutput? { get }

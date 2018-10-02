@@ -29,6 +29,7 @@ struct LockOptions: OptionBuildable {
     var privacyPolicyURL: URL = URL(string: "https://auth0.com/privacy")!
     var supportURL: URL?
     var mustAcceptTerms: Bool = false
+    var showTerms: Bool = true
     var logLevel: LoggerLevel = .off
     var loggerOutput: LoggerOutput?
     var logHttpRequest: Bool = false

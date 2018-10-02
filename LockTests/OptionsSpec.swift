@@ -128,6 +128,10 @@ class OptionsSpec: QuickSpec {
             it("should have configurationBaseURL as nil") {
                 expect(options.configurationBaseURL).to(beNil())
             }
+
+            it("should have showTerms as enabled") {
+                expect(options.showTerms) == true
+            }
         }
 
         describe("validation") {
@@ -181,7 +185,7 @@ class OptionsSpec: QuickSpec {
                 options.audience = "https://myapi.com"
                 expect(options.validate()).to(beNil())
             }
-
+            
             context("passwordless") {
 
                 it("should fail setting audience in passwordless mode") {

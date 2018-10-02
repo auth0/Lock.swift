@@ -93,7 +93,7 @@ class AuthPresenterSpec: QuickSpec {
                 var view: AuthCollectionView!
 
                 beforeEach {
-                    view = presenter.view as! AuthCollectionView
+                    view = presenter.view as? AuthCollectionView
 
                 }
 
