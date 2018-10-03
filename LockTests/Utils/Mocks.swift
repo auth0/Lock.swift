@@ -254,7 +254,7 @@ class MockAuthentication: Authentication {
     }
 
     func tokenInfo(token: String) -> Request<Profile, AuthenticationError> {
-        return self.userInfo(token: token)
+        return self.authentication.userInfo(token: token)
     }
 
     func resetPassword(email: String, connection: String) -> Request<Void, AuthenticationError> {
@@ -270,7 +270,7 @@ class MockAuthentication: Authentication {
     }
 
     func login(withOTP otp: String, mfaToken: String) -> Request<Credentials, AuthenticationError> {
-        return self.login(withOTP: otp, mfaToken: mfaToken)
+        return self.authentication.login(withOTP: otp, mfaToken: mfaToken)
     }
 
     func tokenExchange(withCode code: String, codeVerifier: String, redirectURI: String) -> Request<Credentials, AuthenticationError> {
@@ -278,7 +278,7 @@ class MockAuthentication: Authentication {
     }
 
     func renew(withRefreshToken refreshToken: String) -> Request<Credentials, AuthenticationError> {
-        return self.renew(withRefreshToken: refreshToken)
+        return self.authentication.renew(withRefreshToken: refreshToken)
     }
 
     func login(usernameOrEmail username: String, password: String, multifactorCode: String?, connection: String, scope: String, parameters: [String : Any]) -> Request<Credentials, AuthenticationError> {
@@ -294,11 +294,11 @@ class MockAuthentication: Authentication {
     }
 
     func revoke(refreshToken: String) -> Request<Void, AuthenticationError> {
-        return self.revoke(refreshToken: refreshToken)
+        return self.authentication.revoke(refreshToken: refreshToken)
     }
 
     func userInfo(withAccessToken accessToken: String) -> Request<UserInfo, AuthenticationError> {
-        return self.userInfo(withAccessToken: accessToken)
+        return self.authentication.userInfo(withAccessToken: accessToken)
     }
 }
 

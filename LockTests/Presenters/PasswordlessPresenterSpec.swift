@@ -60,7 +60,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                 interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                 presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                 presenter.messagePresenter = messagePresenter
-                view = presenter.view as! PasswordlessView
+                view = presenter.view as? PasswordlessView
             }
 
             describe("request screen") {
@@ -105,7 +105,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                         interactor.onRequest = { return nil }
                         presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                         presenter.messagePresenter = messagePresenter
-                        view = presenter.view as! PasswordlessView
+                        view = presenter.view as? PasswordlessView
                     }
 
                     it("should trigger action on return of field") {
@@ -157,7 +157,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                         interactor.onRequest = { return nil }
                         presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                         presenter.messagePresenter = messagePresenter
-                        view = presenter.view as! PasswordlessView
+                        view = presenter.view as? PasswordlessView
                     }
 
                     it("should trigger action on return of field") {
@@ -195,7 +195,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                 beforeEach {
                     presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
                     presenter.messagePresenter = messagePresenter
-                    view = presenter.view as! PasswordlessView
+                    view = presenter.view as? PasswordlessView
                 }
 
                 it("should show code screen") {
@@ -238,7 +238,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                         interactor.onRequest = { return nil }
                         presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
                         presenter.messagePresenter = messagePresenter
-                        view = presenter.view as! PasswordlessView
+                        view = presenter.view as? PasswordlessView
                     }
 
                     it("should trigger action on return of field") {
@@ -272,7 +272,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                 beforeEach {
                     presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
                     presenter.messagePresenter = messagePresenter
-                    view = presenter.view as! PasswordlessView
+                    view = presenter.view as? PasswordlessView
                 }
                 
                 it("should show code screen") {
@@ -300,7 +300,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                 interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
                 presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                 presenter.messagePresenter = messagePresenter
-                view = presenter.view as! PasswordlessView
+                view = presenter.view as? PasswordlessView
             }
 
             describe("request screen") {
@@ -361,7 +361,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                         interactor.onRequest = { return nil }
                         presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                         presenter.messagePresenter = messagePresenter
-                        view = presenter.view as! PasswordlessView
+                        view = presenter.view as? PasswordlessView
                     }
 
                     it("should trigger action on return of field") {
@@ -411,7 +411,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                         interactor.onRequest = { return nil }
                         presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options)
                         presenter.messagePresenter = messagePresenter
-                        view = presenter.view as! PasswordlessView
+                        view = presenter.view as? PasswordlessView
                     }
 
                     it("should trigger action on return of field") {
@@ -449,7 +449,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                 beforeEach {
                     presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
                     presenter.messagePresenter = messagePresenter
-                    view = presenter.view as! PasswordlessView
+                    view = presenter.view as? PasswordlessView
                 }
 
                 it("should show code screen") {
@@ -492,7 +492,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                         interactor.onRequest = { return nil }
                         presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
                         presenter.messagePresenter = messagePresenter
-                        view = presenter.view as! PasswordlessView
+                        view = presenter.view as? PasswordlessView
                     }
 
                     it("should trigger action on return of field") {
@@ -526,7 +526,7 @@ class PasswordlessPresenterSpec: QuickSpec {
                 beforeEach {
                     presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
                     presenter.messagePresenter = messagePresenter
-                    view = presenter.view as! PasswordlessView
+                    view = presenter.view as? PasswordlessView
                 }
                 
                 it("should show code screen") {

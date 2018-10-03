@@ -48,7 +48,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
             presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options, domain: "test.com")
             presenter.messagePresenter = messagePresenter
 
-            view = presenter.view as! EnterpriseActiveAuthView
+            view = presenter.view as? EnterpriseActiveAuthView
         }
 
         describe("init") {
@@ -155,7 +155,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                     presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options, domain: "test.com")
                     presenter.messagePresenter = messagePresenter
 
-                    view = presenter.view as! EnterpriseActiveAuthView
+                    view = presenter.view as? EnterpriseActiveAuthView
                 }
 
                 it("should update email if value is valid") {
@@ -193,7 +193,7 @@ class EnterpriseActiveAuthPresenterSpec: QuickSpec {
                 presenter = EnterpriseActiveAuthPresenter(interactor: interactor, options: options, domain: "test.com")
                 presenter.messagePresenter = messagePresenter
 
-                view = presenter.view as! EnterpriseActiveAuthView
+                view = presenter.view as? EnterpriseActiveAuthView
             }
 
             it("should not trigger action with nil button") {

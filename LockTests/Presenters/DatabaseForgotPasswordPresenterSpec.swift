@@ -46,7 +46,7 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
             connections.database(name: connection, requiresUsername: true)
             presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
             presenter.messagePresenter = messagePresenter
-            view = presenter.view as! DatabaseForgotPasswordView
+            view = presenter.view as? DatabaseForgotPasswordView
         }
 
         it("should use valid email") {
@@ -200,7 +200,7 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
                         options.allow = .ResetPassword
                         presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
                         presenter.messagePresenter = messagePresenter
-                        view = presenter.view as! DatabaseForgotPasswordView
+                        view = presenter.view as? DatabaseForgotPasswordView
                     }
 
                     it("should not show global success message") {
@@ -216,7 +216,7 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
                         options.autoClose = false
                         presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
                         presenter.messagePresenter = messagePresenter
-                        view = presenter.view as! DatabaseForgotPasswordView
+                        view = presenter.view as? DatabaseForgotPasswordView
 
                         interactor.onRequest = {
                             return nil
@@ -246,7 +246,7 @@ class DatabaseForgotPasswordPresenterSpec: QuickSpec {
                     navigator.route = .forgotPassword
 
                     presenter = DatabaseForgotPasswordPresenter(interactor: interactor, connections: connections, navigator: navigator, options: options)
-                    view = presenter.view as! DatabaseForgotPasswordView
+                    view = presenter.view as? DatabaseForgotPasswordView
 
                     let button = view.primaryButton!
                     interactor.onRequest = {

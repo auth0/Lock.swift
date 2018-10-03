@@ -56,7 +56,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
             interactor = EnterpriseDomainInteractor(connections: connections, user: user, authentication: oauth2)
             presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
             presenter.messagePresenter = messagePresenter
-            view = presenter.view as! EnterpriseDomainView
+            view = presenter.view as? EnterpriseDomainView
         }
 
         describe("init") {
@@ -200,7 +200,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
 
                     presenter = EnterpriseDomainPresenter(interactor: interactor, navigator: navigator, options: options)
                     presenter.messagePresenter = messagePresenter
-                    view = presenter.view as! EnterpriseDomainView
+                    view = presenter.view as? EnterpriseDomainView
                 }
 
                 it("should navigate to enterprise password presenter") {
