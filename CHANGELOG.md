@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.8.0](https://github.com/auth0/Lock.swift/tree/2.8.0) (2018-10-05)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.7.0...2.8.0)
+
+**Added**
+- Added showTerms feature flag [\#520](https://github.com/auth0/Lock.swift/pull/520) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.7.0](https://github.com/auth0/Lock.swift/tree/2.7.0) (2018-09-18)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.6.0...2.7.0)
 
