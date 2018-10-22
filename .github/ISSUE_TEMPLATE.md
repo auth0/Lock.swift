@@ -1,19 +1,37 @@
-<!---
-Thank you for using Lock! Please read the following before creating a new issue.
+In order to efficiently and accurately address your issue or feature request, please read through the template below and answer all relevant questions. Your additional work here is greatly appreciated and will help us respond as quickly as possible. Please delete any sections or questions below that do not pertain to this request.
 
-- Is this a question about Auth0 in general or a support request? Get in touch with us at https://support.auth0.com.
-- Is this a feature request? Get in touch with us also at https://support.auth0.com.
-- Is this issue something you can fix? Please send us a pull request! Bug fixes are welcome.
-- Remember you can always enable and check Lock's log (Check https://github.com/auth0/Lock.swift#logging) to troubleshoot the issue.
+For general support or usage questions, please user the [Auth0 Community](https://community.auth0.com/).
 
-Otherwise, create a new issue with the following information:
+### Description
 
-- Code snippet or sample project that reproduces the bug
-- Screenshots when appropriate
+Description of the bug or feature request and why it's a problem. Consider including:
+
+- The use case or overall problem you're trying to solve
+- Information about when the problem started
+
+### Prerequisites
+
+* [ ] Did you check the documentation? [Add a link]
+* [ ] Did you check the [Auth0 Community](https://community.auth0.com/)?
+* [ ] Are you reporting this to the correct repository?
+* [ ] Are there any related or duplicate Issues or PRs for this issue?
+
+### Environment
+
+Please provide the following:
+
 - Lock version
 - iOS version
 - If using Carthage or CocoaPods, please include your Cartfile or Podfile
-- Lock.swift log information and HTTP request traces. Remember to obfuscate sensitive information.
+- Xcode version
 
-Make sure to include **as much information as possible** for us to understand and reproduce the bug, that way we can fix it as quickly as possible.
---->
+### Reproduction
+
+Detail the steps taken to reproduce this error and note if this issue can be reproduced consistently or if it is intermittent.
+
+Please include:
+
+- Application settings (redact/remove sensitive information)
+- Lock.swift log information and HTTP request traces. Remember to obfuscate sensitive information.
+- Code snippet or sample project that reproduces the bug
+- Screenshots when appropriate
