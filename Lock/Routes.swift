@@ -48,6 +48,7 @@ enum Route: Equatable {
     case root
     case forgotPassword
     case multifactor
+    case multifactorWithToken(String)
     case enterpriseActiveAuth(connection: EnterpriseConnection, domain: String)
     case unrecoverableError(error: UnrecoverableError)
     case passwordless(screen: PasswordlessScreen, connection: PasswordlessConnection)
@@ -56,7 +57,7 @@ enum Route: Equatable {
         switch self {
         case .forgotPassword:
             return "Reset Password".i18n(key: "com.auth0.lock.forgot.title", comment: "Forgot Password title")
-        case .multifactor:
+        case .multifactor, .multifactorWithToken:
             return "Two Step Verification".i18n(key: "com.auth0.lock.multifactor.title", comment: "Multifactor title")
         case .root, .unrecoverableError, .enterpriseActiveAuth, .passwordless:
             return style.hideTitle ? nil : style.title
@@ -72,6 +73,8 @@ func == (lhs: Route, rhs: Route) -> Bool {
         return lhsConnection.name == rhsConnection.name && lhsDomain == rhsDomain
     case (.unrecoverableError(let lhsError), .unrecoverableError(let rhsError)):
         return lhsError == rhsError
+    case (.multifactorWithToken(let lhsToken), .multifactorWithToken(let rhsToken)):
+        return lhsToken == rhsToken
     case (.passwordless(let lhsScreen, let lhsConnection), .passwordless(let rhsScreen, let rhsConnection)):
         return lhsScreen == rhsScreen && lhsConnection.name == rhsConnection.name
     default:

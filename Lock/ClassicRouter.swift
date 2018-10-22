@@ -106,14 +106,14 @@ struct ClassicRouter: Router {
         return presenter
     }
 
-    var multifactor: Presentable? {
+    func multifactor(withToken mfaToken: String? = nil) -> Presentable? {
         let connections = self.lock.connections
         guard let database = connections.database else {
             exit(withError: UnrecoverableError.missingDatabaseConnection)
             return nil
         }
         let authentication = self.lock.authentication
-        let interactor = MultifactorInteractor(user: self.user, authentication: authentication, connection: database, options: self.lock.options, dispatcher: lock.observerStore)
+        let interactor = MultifactorInteractor(user: self.user, authentication: authentication, connection: database, options: self.lock.options, dispatcher: lock.observerStore, mfaToken: mfaToken)
         let presenter = MultifactorPresenter(interactor: interactor, connection: database, navigator: self)
         presenter.customLogger = self.lock.logger
         return presenter
@@ -153,7 +153,9 @@ struct ClassicRouter: Router {
         case .forgotPassword:
             presentable = self.forgotPassword
         case .multifactor:
-            presentable = self.multifactor
+            presentable = self.multifactor()
+        case .multifactorWithToken(let token):
+            presentable = self.multifactor(withToken: token)
         case .enterpriseActiveAuth(let connection, let domain):
             presentable = self.enterpriseActiveAuth(connection: connection, domain: domain)
         case .unrecoverableError(let error):

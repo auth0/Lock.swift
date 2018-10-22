@@ -118,6 +118,10 @@ class DatabasePresenter: Presentable, Loggable {
                     }
                     if case CredentialAuthError.multifactorRequired = error {
                         self.navigator.navigate(.multifactor)
+                        return
+                    } else if case CredentialAuthError.multifactorTokenRequired(let token) = error {
+                        self.navigator.navigate(.multifactorWithToken(token))
+                        return
                     } else {
                         form?.needsToUpdateState()
                         self.messagePresenter?.showError(error)
@@ -203,6 +207,9 @@ class DatabasePresenter: Presentable, Loggable {
                     }
                     if let error = loginError, case .multifactorRequired = error {
                         self.navigator.navigate(.multifactor)
+                        return
+                    } else if let error = loginError, case .multifactorTokenRequired(let token) = error {
+                        self.navigator.navigate(.multifactorWithToken(token))
                         return
                     }
                     let error: LocalizableError = createError ?? loginError!

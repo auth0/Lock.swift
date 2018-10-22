@@ -30,6 +30,7 @@ enum CredentialAuthError: Error, LocalizableError {
     case passwordChangeRequired
     case passwordLeaked
     case tooManyAttempts
+    case multifactorTokenRequired(token: String)
     case multifactorRequired
     case multifactorInvalid
     case customRuleFailure(cause: String)
@@ -57,7 +58,7 @@ enum CredentialAuthError: Error, LocalizableError {
 
     var userVisible: Bool {
         switch self {
-        case .multifactorRequired, .nonValidInput:
+        case .multifactorRequired, .multifactorTokenRequired, .nonValidInput:
             return false
         default:
             return true
