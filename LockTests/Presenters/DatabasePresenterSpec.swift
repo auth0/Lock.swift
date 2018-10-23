@@ -397,6 +397,14 @@ class DatabasePresenterSpec: QuickSpec {
                     view.primaryButton?.onPress(view.primaryButton!)
                     expect(navigator.route).toEventually(equal(Route.multifactor))
                 }
+                
+                it("should navigate to multifactor with token required screen") {
+                    interactor.onLogin = {
+                        return .multifactorTokenRequired(token: "VALID_TOKEN")
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(navigator.route).toEventually(equal(Route.multifactorWithToken("VALID_TOKEN")))
+                }
 
                 it("should trigger login on button press") {
                     waitUntil { done in
@@ -658,6 +666,15 @@ class DatabasePresenterSpec: QuickSpec {
                     view.primaryButton?.onPress(view.primaryButton!)
                     expect(navigator.route).toEventually(equal(Route.multifactor))
                 }
+                
+                it("should navigate to multifactor token required screen") {
+                    interactor.onLogin = {
+                        return .multifactorTokenRequired(token: "VALID_TOKEN")
+                    }
+                    view.primaryButton?.onPress(view.primaryButton!)
+                    expect(navigator.route).toEventually(equal(Route.multifactorWithToken("VALID_TOKEN")))
+                }
+
 
                 it("should trigger sign up on button press") {
                     waitUntil { done in

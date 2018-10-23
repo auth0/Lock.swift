@@ -579,7 +579,8 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
         }
-
+        
+        //MARK:- Login OIDC
         describe("login OIDC Conformant") {
 
             beforeEach {
@@ -690,13 +691,13 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
-            it("should indicate that mfa is required") {
-                stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
+            it("should indicate that mfa with token is required") {
+                stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required", jsonExtra: ["mfa_token": "VALID_TOKEN"]) }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
                 waitUntil(timeout: 2) { done in
                     database.login { error in
-                        expect(error) == .multifactorRequired
+                        expect(error) == .multifactorTokenRequired(token: "VALID_TOKEN")
                         done()
                     }
                 }

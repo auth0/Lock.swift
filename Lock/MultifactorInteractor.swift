@@ -72,7 +72,10 @@ struct MultifactorInteractor: MultifactorAuthenticatable, Loggable {
         let database = self.connection.name
 
         if self.options.oidcConformant {
-            guard let mfaToken = self.mfaToken  else { return callback(.couldNotLogin) }
+            guard let mfaToken = self.mfaToken  else {
+                self.logger.error("Token required for OIDC MFA")
+                return callback(.couldNotLogin)
+            }
             authentication
                 .login(withOTP: code, mfaToken: mfaToken)
                 .start { self.handle(identifier: identifier, result: $0, callback: callback) }
