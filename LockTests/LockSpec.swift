@@ -72,6 +72,21 @@ class LockSpec: QuickSpec {
             it("should return itself") {
                 expect(lock.withOptions { _ in } ) == lock
             }
+            
+            context("loggable") {
+                
+                it("should be disabled by default") {
+                    expect(lock.authentication.logger).to(beNil())
+                    expect(lock.webAuth.logger).to(beNil())
+                }
+                
+                it("should enable logging") {
+                    _ = lock.withOptions { $0.logHttpRequest = true }
+                    expect(lock.authentication.logger).toNot(beNil())
+                    expect(lock.webAuth.logger).toNot(beNil())
+                }
+                
+            }
         }
 
         describe("withConnections") {
