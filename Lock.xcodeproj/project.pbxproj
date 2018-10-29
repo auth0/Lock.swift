@@ -184,7 +184,6 @@
 		5FF45EA81E549EA2008224C8 /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FF45EAA1E549EA2008224C8 /* Lock.strings */; };
 		5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC54FD1D37E3F700579581 /* Routes.swift */; };
 		B73CCF98908698EC6FE6B978 /* PasswordPolicyValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */; };
-		F84AF4F121872CA500A4EDAB /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FBE5CB31D3D52EE0038536D /* Auth0.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1087,7 +1086,6 @@
 				5FEADD011D1A7EBC0032D810 /* LaunchScreen.storyboard in Resources */,
 				5FEADCFE1D1A7EBC0032D810 /* Assets.xcassets in Resources */,
 				5FEADCFC1D1A7EBC0032D810 /* Main.storyboard in Resources */,
-				F84AF4F121872CA500A4EDAB /* Auth0.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
