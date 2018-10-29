@@ -40,7 +40,7 @@ public class AuthButton: UIView {
     public var normalColor: UIColor = UIColor.a0_orange {
         didSet {
             let normal = image(withColor: self.normalColor)
-            self.button?.setBackgroundImage(normal, for: UIControlState())
+            self.button?.setBackgroundImage(normal, for: .normal)
         }
     }
 
@@ -150,9 +150,9 @@ public class AuthButton: UIView {
         iconView.contentMode = .center
         iconView.tintColor = self.titleColor
 
-        button.setBackgroundImage(image(withColor: self.color), for: UIControlState())
+        button.setBackgroundImage(image(withColor: self.color), for: .normal)
         button.setBackgroundImage(image(withColor: self.color.a0_darker(0.3)), for: .highlighted)
-        button.setTitleColor(self.titleColor, for: UIControlState())
+        button.setTitleColor(self.titleColor, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 13.33, weight: UIFont.weightMedium)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.5
@@ -161,7 +161,7 @@ public class AuthButton: UIView {
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
 
         if case .big = self.size {
-            button.setTitle(self.title, for: UIControlState())
+            button.setTitle(self.title, for: .normal)
         }
 
         self.button = button

@@ -446,7 +446,7 @@ class MockNativeAuthTransaction: NativeAuthTransaction {
         self.delayed = { _ in }
     }
 
-    func resume(_ url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+    func resume(_ url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
         self.delayed(self.onNativeAuth())
         self.delayed = { _ in }
         return true

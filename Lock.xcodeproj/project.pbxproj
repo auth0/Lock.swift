@@ -184,6 +184,7 @@
 		5FF45EA81E549EA2008224C8 /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FF45EAA1E549EA2008224C8 /* Lock.strings */; };
 		5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC54FD1D37E3F700579581 /* Routes.swift */; };
 		B73CCF98908698EC6FE6B978 /* PasswordPolicyValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */; };
+		F84AF4F121872CA500A4EDAB /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FBE5CB31D3D52EE0038536D /* Auth0.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1023,14 +1024,14 @@
 				TargetAttributes = {
 					5BEDE1391EC0A9750007300D = {
 						CreatedOnToolsVersion = 8.3.2;
-						LastSwiftMigration = 0930;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 						TestTargetID = 5FEADCF31D1A7EBC0032D810;
 					};
 					5FEADCF31D1A7EBC0032D810 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 86WQXF56BC;
-						LastSwiftMigration = 0930;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.SafariKeychain = {
@@ -1040,11 +1041,11 @@
 					};
 					5FEAE1C51D1A5154005C0028 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0930;
+						LastSwiftMigration = 1000;
 					};
 					5FEAE1CF1D1A5154005C0028 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 						TestTargetID = 5FEADCF31D1A7EBC0032D810;
 					};
@@ -1086,6 +1087,7 @@
 				5FEADD011D1A7EBC0032D810 /* LaunchScreen.storyboard in Resources */,
 				5FEADCFE1D1A7EBC0032D810 /* Assets.xcassets in Resources */,
 				5FEADCFC1D1A7EBC0032D810 /* Main.storyboard in Resources */,
+				F84AF4F121872CA500A4EDAB /* Auth0.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1411,7 +1413,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = LockApp;
 			};
 			name = Debug;
@@ -1430,7 +1432,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = LockApp;
 			};
 			name = Release;
@@ -1454,8 +1456,7 @@
 				PROVISIONING_PROFILE = "97f7985c-a5ce-42be-a3e5-39a6c818bc78";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.auth0.Lock";
 				REEXPORTED_LIBRARY_PATHS = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1478,8 +1479,7 @@
 				PROVISIONING_PROFILE = "97f7985c-a5ce-42be-a3e5-39a6c818bc78";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.auth0.Lock";
 				REEXPORTED_LIBRARY_PATHS = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1618,8 +1618,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1644,8 +1643,7 @@
 				PRODUCT_NAME = Lock;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1661,8 +1659,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LockApp.app/LockApp";
 			};
 			name = Debug;
@@ -1679,8 +1676,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.LockTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LockApp.app/LockApp";
 			};
 			name = Release;

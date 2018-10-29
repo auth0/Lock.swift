@@ -58,7 +58,10 @@ extension UILayoutPriority {
     #endif
 }
 
-#if swift(>=4.0)
+#if swift(>=4.2)
+let attributedKeyColor = NSAttributedString.Key.foregroundColor
+let attributedFont = NSAttributedString.Key.font
+#elseif swift(>=4.0)
 let attributedKeyColor = NSAttributedStringKey.foregroundColor
 let attributedFont = NSAttributedStringKey.font
 #else
@@ -79,3 +82,67 @@ extension UIFont {
     static let weightSemiBold = UIFontWeightSemibold
     #endif
 }
+
+#if swift(>=4.2)
+let accessibilityIsReduceTransparencyEnabled = UIAccessibility.isReduceTransparencyEnabled
+#else
+let accessibilityIsReduceTransparencyEnabled = UIAccessibilityIsReduceTransparencyEnabled()
+#endif
+
+#if swift(>=4.2)
+let viewNoIntrinsicMetric = UIView.noIntrinsicMetric
+#else
+let viewNoIntrinsicMetric = UIViewNoIntrinsicMetric
+#endif
+
+#if swift(>=4.2)
+let responderKeyboardWillShowNotification = UIResponder.keyboardWillShowNotification
+let responderKeyboardWillHideNotification = UIResponder.keyboardWillHideNotification
+let responderKeyboardFrameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
+let responderKeyboardAnimationDurationUserInfoKey = UIResponder.keyboardAnimationDurationUserInfoKey
+let responderKeyboardAnimationCurveUserInfoKey = UIResponder.keyboardAnimationCurveUserInfoKey
+#else
+let responderKeyboardWillShowNotification = NSNotification.Name.UIKeyboardWillShow
+let responderKeyboardWillHideNotification = NSNotification.Name.UIKeyboardWillHide
+let responderKeyboardFrameEndUserInfoKey = UIKeyboardFrameEndUserInfoKey
+let responderKeyboardAnimationDurationUserInfoKey = UIKeyboardAnimationDurationUserInfoKey
+let responderKeyboardAnimationCurveUserInfoKey = UIKeyboardAnimationCurveUserInfoKey
+#endif
+
+// MARK: - Public Typealiases
+
+#if swift(>=4.2)
+public typealias ApplicationLaunchOptionsKey = UIApplication.LaunchOptionsKey
+#else
+public typealias ApplicationLaunchOptionsKey = UIApplicationLaunchOptionsKey
+#endif
+
+#if swift(>=4.2)
+public typealias ApplicationOpenURLOptionsKey = UIApplication.OpenURLOptionsKey
+#else
+public typealias ApplicationOpenURLOptionsKey = UIApplicationOpenURLOptionsKey
+#endif
+
+#if swift(>=4.2)
+public typealias BlurEffectStyle = UIBlurEffect.Style
+#else
+public typealias BlurEffectStyle = UIBlurEffectStyle
+#endif
+
+#if swift(>=4.2)
+public typealias ControlState = UIControl.State
+#else
+public typealias ControlState = UIControlState
+#endif
+
+#if swift(>=4.2)
+public typealias SearchBarStyle = UISearchBar.Style
+#else
+public typealias SearchBarStyle = UISearchBarStyle
+#endif
+
+#if swift(>=4.2)
+public typealias ViewAnimationOptions = UIView.AnimationOptions
+#else
+public typealias ViewAnimationOptions = UIViewAnimationOptions
+#endif

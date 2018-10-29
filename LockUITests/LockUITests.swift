@@ -151,7 +151,7 @@ extension XCUIElement {
         }
 
         self.tap()
-        let deleteString = stringValue.characters.map { _ in XCUIKeyboardKeyDelete }.joined(separator: "")
+        let deleteString = stringValue.map { _ in XCUIKeyboardKey.delete.rawValue }.joined(separator: "")
         self.typeText(deleteString)
         self.typeText(text)
     }

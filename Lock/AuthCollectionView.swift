@@ -66,7 +66,7 @@ class AuthCollectionView: UIView, View {
     }
 
     public override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: self.height)
+        return CGSize(width: viewNoIntrinsicMetric, height: self.height)
     }
 
     private func layout(_ connections: [OAuth2Connection], mode: Mode, insets: UIEdgeInsets) {

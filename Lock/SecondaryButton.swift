@@ -39,7 +39,7 @@ class SecondaryButton: UIView {
             return self.button?.currentTitle
         }
         set {
-            self.button?.setTitle(newValue, for: UIControlState())
+            self.button?.setTitle(newValue, for: .normal)
         }
     }
 
@@ -81,7 +81,7 @@ class SecondaryButton: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 76)
+        return CGSize(width: viewNoIntrinsicMetric, height: 76)
     }
 
     @objc func pressed(_ sender: Any) {
