@@ -198,7 +198,7 @@ class MultifactorInteractorSpec: QuickSpec {
                 expect(credentials).toEventuallyNot(beNil())
             }
             
-            it("should yield error on failure") {
+            it("should yield error when not token set") {
                 interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options, dispatcher: dispatcher, mfaToken: nil)
                 try! interactor.setMultifactorCode(code)
                 waitUntil(timeout: 2) { done in
