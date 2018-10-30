@@ -26,6 +26,12 @@ import OHHTTPStubs
 
 // MARK: - Request Matchers
 
+func += <K, V> (left: inout [K:V], right: [K:V]) {
+    for (k, v) in right {
+        left[k] = v
+    }
+}
+
 func realmLogin(identifier: String, password: String, realm: String) -> OHHTTPStubsTestBlock {
     var parameters = ["username": identifier, "password": password]
     parameters["realm"] = realm
@@ -39,6 +45,11 @@ func databaseLogin(identifier: String, password: String, code: String? = nil, co
     }
     parameters["connection"] = connection
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/ro") && hasAtLeast(parameters)
+}
+
+func otpLogin(otp: String, mfaToken: String) -> OHHTTPStubsTestBlock {
+    let parameters = ["otp": code, "mfa_token": mfaToken]
+    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
 }
 
 func databaseSignUp(email: String, username: String? = nil, password: String, connection: String) -> OHHTTPStubsTestBlock {
@@ -131,9 +142,10 @@ struct Auth0Stubs {
             }.name = "YOU SHALL NOT PASS!"
     }
 
-    static func failure(_ code: String = "random_error", description: String = "FAILURE", name: String? = nil) -> OHHTTPStubsResponse {
+    static func failure(_ code: String = "random_error", description: String = "FAILURE", name: String? = nil, jsonExtra: [String: String] = [:]) -> OHHTTPStubsResponse {
         var json = ["error": code, "error_description": description]
         json["name"] = name
+        json += jsonExtra
         return OHHTTPStubsResponse(jsonObject: json, statusCode: 400, headers: ["Content-Type": "application/json"])
     }
 

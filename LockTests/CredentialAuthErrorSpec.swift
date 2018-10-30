@@ -73,6 +73,11 @@ class CredentialAuthErrorSpec: QuickSpec {
                 let error = CredentialAuthError.multifactorRequired
                 expect(error.userVisible).to(beFalse())
             }
+            
+            it("should return false") {
+                let error = CredentialAuthError.multifactorTokenRequired(token: "TOKEN")
+                expect(error.userVisible).to(beFalse())
+            }
 
             it("should return false") {
                 let error = CredentialAuthError.nonValidInput
@@ -103,6 +108,8 @@ extension CredentialAuthError: Equatable {
             return true
         case (.customRuleFailure(let lhsCause), .customRuleFailure(let rhsCause)):
             return lhsCause == rhsCause
+        case (.multifactorTokenRequired(let lhsToken), .multifactorTokenRequired(let rhsToken)):
+            return lhsToken == rhsToken
         default:
             return false
         }

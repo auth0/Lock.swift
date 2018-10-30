@@ -48,7 +48,11 @@ extension CredentialAuthenticatable {
         switch result {
         case .failure(let cause as AuthenticationError) where cause.isMultifactorRequired || cause.isMultifactorEnrollRequired:
             self.logger.error("Multifactor is required for user <\(identifier)>")
-            callback(.multifactorRequired)
+            if let mfaToken: String = cause.value("mfa_token") {
+                callback(.multifactorTokenRequired(token: mfaToken))
+            } else {
+                callback(.multifactorRequired)
+            }
             self.dispatcher.dispatch(result: .error(CredentialAuthError.multifactorRequired))
         case .failure(let cause as AuthenticationError) where cause.isTooManyAttempts:
             self.logger.error("Blocked user <\(identifier)> for too many login attempts")

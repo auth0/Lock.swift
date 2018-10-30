@@ -31,18 +31,20 @@ struct MultifactorInteractor: MultifactorAuthenticatable, Loggable {
 
     private(set) var code: String?
     private(set) var validCode: Bool = false
+    private(set) var mfaToken: String?
     let dispatcher: Dispatcher
 
     private let validator = OneTimePasswordValidator()
 
     private let options: Options
 
-    init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, options: Options, dispatcher: Dispatcher) {
+    init(user: DatabaseUser, authentication: Authentication, connection: DatabaseConnection, options: Options, dispatcher: Dispatcher, mfaToken: String? = nil) {
         self.user = user
         self.authentication = authentication
         self.connection = connection
         self.dispatcher = dispatcher
         self.options = options
+        self.mfaToken = mfaToken
     }
 
     mutating func setMultifactorCode(_ code: String?) throws {
@@ -69,15 +71,25 @@ struct MultifactorInteractor: MultifactorAuthenticatable, Loggable {
         guard let code = self.code, self.validCode else { return callback(.nonValidInput) }
         let database = self.connection.name
 
-        // FIXME: MFA support for password-realm
-        guard !self.options.oidcConformant else { return callback(.couldNotLogin) }
-        authentication.login(
+        if self.options.oidcConformant {
+            guard let mfaToken = self.mfaToken  else {
+                self.logger.error("Token required for OIDC MFA")
+                return callback(.couldNotLogin)
+            }
+            authentication
+                .login(withOTP: code, mfaToken: mfaToken)
+                .start { self.handle(identifier: identifier, result: $0, callback: callback) }
+        } else {
+            authentication
+                .login(
                 usernameOrEmail: identifier,
                 password: password,
                 multifactorCode: code,
                 connection: database,
                 scope: self.options.scope,
                 parameters: self.options.parameters
-            ).start { self.handle(identifier: identifier, result: $0, callback: callback) }
+                )
+                .start { self.handle(identifier: identifier, result: $0, callback: callback) }
+        }
     }
 }

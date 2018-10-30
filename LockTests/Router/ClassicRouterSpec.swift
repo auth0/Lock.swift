@@ -272,6 +272,12 @@ class ClassicRouterSpec: QuickSpec {
                 expect(controller.presentable as? MultifactorPresenter).toNot(beNil())
                 expect(controller.headerView.title) == "Two Step Verification"
             }
+            
+            it("should show multifactor screen for .multifactorWithToken ") {
+                router.navigate(.multifactorWithToken("TOKEN"))
+                expect(controller.presentable as? MultifactorPresenter).toNot(beNil())
+                expect(controller.headerView.title) == "Two Step Verification"
+            }
 
             it("should show enterprise active auth screen") {
                 router.navigate(.enterpriseActiveAuth(connection: EnterpriseConnection(name: "testAD", domains: ["testad.com"]), domain: "testad.com"))

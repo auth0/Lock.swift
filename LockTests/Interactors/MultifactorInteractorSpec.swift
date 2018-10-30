@@ -167,6 +167,80 @@ class MultifactorInteractorSpec: QuickSpec {
                 }
             }
         }
+        
+        describe("login OIDC") {
+            
+            var dispatcher = ObserverStore()
+            let mfaToken = "VALID_TOKEN"
+            
+            beforeEach {
+                options.oidcConformant = true
+                dispatcher.onAuth = { credentials = $0 }
+                interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options, dispatcher: dispatcher, mfaToken: mfaToken)
+            }
+            
+            
+            it("should yield no error on success") {
+                stub(condition: otpLogin(otp: code, mfaToken: mfaToken)) { _ in return Auth0Stubs.authentication() }
+                try! interactor.setMultifactorCode(code)
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error).to(beNil())
+                        done()
+                    }
+                }
+            }
+            
+            it("should yield credentials") {
+                stub(condition: otpLogin(otp: code, mfaToken: mfaToken)) { _ in return Auth0Stubs.authentication() }
+                try! interactor.setMultifactorCode(code)
+                interactor.login { _ in }
+                expect(credentials).toEventuallyNot(beNil())
+            }
+            
+            it("should yield error when not token set") {
+                interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options, dispatcher: dispatcher, mfaToken: nil)
+                try! interactor.setMultifactorCode(code)
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error) == .couldNotLogin
+                        done()
+                    }
+                }
+            }
+            
+            it("should notify when code is invalid") {
+                interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options, dispatcher: dispatcher, mfaToken: "INVALID_TOKEN")
+                stub(condition: otpLogin(otp: code, mfaToken: "INVALID_TOKEN")) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
+                try! interactor.setMultifactorCode(code)
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error) == .multifactorInvalid
+                        done()
+                    }
+                }
+            }
+            
+            it("should yield error when input is not valid") {
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error) == .nonValidInput
+                        done()
+                    }
+                }
+            }
+            
+            it("should indicate that a custom rule prevented the user from logging in") {
+                stub(condition: otpLogin(otp: code, mfaToken: mfaToken)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
+                try! interactor.setMultifactorCode(code)
+                waitUntil(timeout: 2) { done in
+                    interactor.login { error in
+                        expect(error) == .customRuleFailure(cause: "Only admins can use this")
+                        done()
+                    }
+                }
+            }
+        }
 
     }
 }
