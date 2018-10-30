@@ -33,7 +33,7 @@ jobs:
           path: fastlane/test_output
   build-and-test-swift-3.0:
     macos:
-      xcode: "9.4.0"
+      xcode: "9.4.1"
     environment:
           LC_ALL: en_US.UTF-8
           LANG: en_US.UTF-8
