@@ -165,7 +165,7 @@ public class LockViewController: UIViewController {
 
         self.keyboard = true
         self.scrollView.contentInset = insets
-        let options = ViewAnimationOptions(rawValue: UInt(curveValue.intValue << 16))
+        let options = A0ViewAnimationOptions(rawValue: UInt(curveValue.intValue << 16))
         UIView.animate(
             withDuration: duration.doubleValue,
             delay: 0,
@@ -184,7 +184,7 @@ public class LockViewController: UIViewController {
         self.scrollView.contentInset = UIEdgeInsets.zero
 
         self.keyboard = false
-        let options = ViewAnimationOptions(rawValue: UInt(curveValue.intValue << 16))
+        let options = A0ViewAnimationOptions(rawValue: UInt(curveValue.intValue << 16))
         UIView.animate(
             withDuration: duration.doubleValue,
             delay: 0,

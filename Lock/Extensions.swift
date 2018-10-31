@@ -99,8 +99,8 @@ let viewNoIntrinsicMetric = UIViewNoIntrinsicMetric
 let responderKeyboardWillShowNotification = UIResponder.keyboardWillShowNotification
 let responderKeyboardWillHideNotification = UIResponder.keyboardWillHideNotification
 let responderKeyboardFrameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
-let responderKeyboardAnimationDurationUserInfoKey = UIResponder.keyboardAnimationDurationUserInfoKey
-let responderKeyboardAnimationCurveUserInfoKey = UIResponder.keyboardAnimationCurveUserInfoKey
+let responderKeyboardAnimationDurationUserInfoKey = UIResponder.keyboardAnimationDurationUserInfoKey // swiftlint:disable:this identifier_name
+let responderKeyboardAnimationCurveUserInfoKey = UIResponder.keyboardAnimationCurveUserInfoKey // swiftlint:disable:this identifier_name
 #else
 let responderKeyboardWillShowNotification = NSNotification.Name.UIKeyboardWillShow
 let responderKeyboardWillHideNotification = NSNotification.Name.UIKeyboardWillHide
@@ -112,37 +112,31 @@ let responderKeyboardAnimationCurveUserInfoKey = UIKeyboardAnimationCurveUserInf
 // MARK: - Public Typealiases
 
 #if swift(>=4.2)
-public typealias ApplicationLaunchOptionsKey = UIApplication.LaunchOptionsKey
+public typealias A0ApplicationLaunchOptionsKey = UIApplication.LaunchOptionsKey
 #else
-public typealias ApplicationLaunchOptionsKey = UIApplicationLaunchOptionsKey
+public typealias A0ApplicationLaunchOptionsKey = UIApplicationLaunchOptionsKey
 #endif
 
 #if swift(>=4.2)
-public typealias ApplicationOpenURLOptionsKey = UIApplication.OpenURLOptionsKey
+public typealias A0BlurEffectStyle = UIBlurEffect.Style
 #else
-public typealias ApplicationOpenURLOptionsKey = UIApplicationOpenURLOptionsKey
+public typealias A0BlurEffectStyle = UIBlurEffectStyle
 #endif
 
 #if swift(>=4.2)
-public typealias BlurEffectStyle = UIBlurEffect.Style
+public typealias A0ControlState = UIControl.State
 #else
-public typealias BlurEffectStyle = UIBlurEffectStyle
+public typealias A0ControlState = UIControlState
 #endif
 
 #if swift(>=4.2)
-public typealias ControlState = UIControl.State
+public typealias A0SearchBarStyle = UISearchBar.Style
 #else
-public typealias ControlState = UIControlState
+public typealias A0SearchBarStyle = UISearchBarStyle
 #endif
 
 #if swift(>=4.2)
-public typealias SearchBarStyle = UISearchBar.Style
+public typealias A0ViewAnimationOptions = UIView.AnimationOptions
 #else
-public typealias SearchBarStyle = UISearchBarStyle
-#endif
-
-#if swift(>=4.2)
-public typealias ViewAnimationOptions = UIView.AnimationOptions
-#else
-public typealias ViewAnimationOptions = UIViewAnimationOptions
+public typealias A0ViewAnimationOptions = UIViewAnimationOptions
 #endif

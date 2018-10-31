@@ -8,22 +8,29 @@
 
 import UIKit
 import Lock
+import Auth0
+
+#if swift(>=4.2)
+typealias A0RestorationHandler = UIUserActivityRestoring
+#else
+typealias A0RestorationHandler = Any
+#endif
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [A0ApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [Auth0.A0URLOptionsKey : Any]) -> Bool {
         return Lock.resumeAuth(url, options: options)
     }
 
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([A0RestorationHandler]?) -> Void) -> Bool {
         return Lock.continueAuth(using: userActivity)
     }
     

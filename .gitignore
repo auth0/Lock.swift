@@ -11,6 +11,7 @@ build/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
+xcshareddata/IDEWorkspaceChecks.plist
 xcuserdata
 *.xccheckout
 profile

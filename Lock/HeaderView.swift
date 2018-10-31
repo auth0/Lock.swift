@@ -96,7 +96,7 @@ public class HeaderView: UIView {
         }
     }
 
-    public var blurStyle: BlurEffectStyle = .light {
+    public var blurStyle: A0BlurEffectStyle = .light {
         didSet {
             self.applyBackground()
             self.setNeedsDisplay()
