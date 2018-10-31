@@ -124,6 +124,12 @@ public typealias A0AlertControllerStyle = UIAlertControllerStyle
 #endif
 
 #if swift(>=4.2)
+public typealias A0URLOptionsKey = UIApplication.OpenURLOptionsKey
+#else
+public typealias A0URLOptionsKey = UIApplicationOpenURLOptionsKey
+#endif
+
+#if swift(>=4.2)
 public typealias A0ApplicationLaunchOptionsKey = UIApplication.LaunchOptionsKey
 #else
 public typealias A0ApplicationLaunchOptionsKey = UIApplicationLaunchOptionsKey

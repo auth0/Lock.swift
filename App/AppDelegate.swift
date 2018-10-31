@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [Auth0.A0URLOptionsKey : Any]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [A0URLOptionsKey : Any]) -> Bool {
         return Lock.resumeAuth(url, options: options)
     }
 
