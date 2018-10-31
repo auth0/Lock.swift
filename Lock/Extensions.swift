@@ -105,11 +105,23 @@ let responderKeyboardAnimationCurveUserInfoKey = UIResponder.keyboardAnimationCu
 let responderKeyboardWillShowNotification = NSNotification.Name.UIKeyboardWillShow
 let responderKeyboardWillHideNotification = NSNotification.Name.UIKeyboardWillHide
 let responderKeyboardFrameEndUserInfoKey = UIKeyboardFrameEndUserInfoKey
-let responderKeyboardAnimationDurationUserInfoKey = UIKeyboardAnimationDurationUserInfoKey
-let responderKeyboardAnimationCurveUserInfoKey = UIKeyboardAnimationCurveUserInfoKey
+let responderKeyboardAnimationDurationUserInfoKey = UIKeyboardAnimationDurationUserInfoKey // swiftlint:disable:this identifier_name
+let responderKeyboardAnimationCurveUserInfoKey = UIKeyboardAnimationCurveUserInfoKey // swiftlint:disable:this identifier_name
 #endif
 
 // MARK: - Public Typealiases
+
+#if swift(>=4.2)
+public typealias A0AlertActionStyle = UIAlertAction.Style
+#else
+public typealias A0AlertActionStyle = UIAlertActionStyle
+#endif
+
+#if swift(>=4.2)
+public typealias A0AlertControllerStyle = UIAlertController.Style
+#else
+public typealias A0AlertControllerStyle = UIAlertControllerStyle
+#endif
 
 #if swift(>=4.2)
 public typealias A0ApplicationLaunchOptionsKey = UIApplication.LaunchOptionsKey

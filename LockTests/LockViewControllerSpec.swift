@@ -58,12 +58,12 @@ class LockViewControllerSpec: QuickSpec {
 
                 var frame: CGRect!
                 var duration: TimeInterval!
-                var curve: UIView.AnimationOptions!
+                var curve: A0ViewAnimationOptions!
 
                 beforeEach {
                     frame = CGRect(x: randomInteger(0, to: 200), y: randomInteger(0, to: 200), width: randomInteger(0, to: 200), height: randomInteger(0, to: 200))
                     duration = randomTimeInterval(0, to: 60)
-                    curve = UIView.AnimationOptions()
+                    curve = A0ViewAnimationOptions()
                 }
 
                 it("should ignore invalid notification") {
@@ -95,11 +95,11 @@ class LockViewControllerSpec: QuickSpec {
             context("hide") {
 
                 var duration: TimeInterval!
-                var curve: UIView.AnimationOptions!
+                var curve: A0ViewAnimationOptions!
 
                 beforeEach {
                     duration = randomTimeInterval(0, to: 60)
-                    curve = UIView.AnimationOptions()
+                    curve = A0ViewAnimationOptions()
                 }
 
                 it("should ignore invalid notification") {
@@ -142,7 +142,7 @@ func randomTimeInterval(_ from: Int, to: Int) -> TimeInterval {
     return Double(value)
 }
 
-func willShowNotification(frame: CGRect, duration: TimeInterval, curve: UIView.AnimationOptions) -> Notification {
+func willShowNotification(frame: CGRect, duration: TimeInterval, curve: A0ViewAnimationOptions) -> Notification {
     let notification = Notification(
         name: responderKeyboardWillShowNotification,
         object: nil,
@@ -155,7 +155,7 @@ func willShowNotification(frame: CGRect, duration: TimeInterval, curve: UIView.A
     return notification
 }
 
-func willHideNotification(duration: TimeInterval, curve: UIView.AnimationOptions) -> Notification {
+func willHideNotification(duration: TimeInterval, curve: A0ViewAnimationOptions) -> Notification {
     let notification = Notification(
         name: responderKeyboardWillHideNotification,
         object: nil,

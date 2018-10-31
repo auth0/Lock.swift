@@ -828,7 +828,7 @@ class DatabasePresenterSpec: QuickSpec {
                 it("should have actions") {
                     let alert = navigator.presented as? UIAlertController
                     expect(alert?.message).toEventually(beNil())
-                    expect(alert?.preferredStyle) == UIAlertController.Style.actionSheet
+                    expect(alert?.preferredStyle) == A0AlertControllerStyle.actionSheet
                     expect(alert?.actions).to(haveAction("Cancel", style: .cancel))
                     expect(alert?.actions).to(haveAction("Terms of Service", style: .default))
                     expect(alert?.actions).to(haveAction("Privacy Policy", style: .default))
@@ -956,7 +956,7 @@ class DatabasePresenterSpec: QuickSpec {
     }
 }
 
-func haveAction(_ title: String, style: UIAlertAction.Style) -> Predicate<[UIAlertAction]> {
+func haveAction(_ title: String, style: A0AlertActionStyle) -> Predicate<[UIAlertAction]> {
     return Predicate<[UIAlertAction]>.define("have action with title \(title) and style \(style)") { expression, failureMessage -> PredicateResult in
         if let actions = try expression.evaluate() {
             if actions.contains(where: { alert in
