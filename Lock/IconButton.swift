@@ -77,6 +77,6 @@ class IconButton: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: 50, height: viewNoIntrinsicMetric)
+        return CGSize(width: 50, height: UIView.viewNoIntrinsicMetric)
     }
 }

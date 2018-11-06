@@ -115,8 +115,8 @@ public class LockViewController: UIViewController {
         super.viewDidLoad()
 
         let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(keyboardWasShown), name: responderKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(keyboardWasHidden), name: responderKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(keyboardWasShown), name: UIResponder.responderKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(keyboardWasHidden), name: UIResponder.responderKeyboardWillHideNotification, object: nil)
 
         self.present(self.router.root, title: Route.root.title(withStyle: self.lock.style))
     }
@@ -156,9 +156,9 @@ public class LockViewController: UIViewController {
 
     @objc func keyboardWasShown(_ notification: Notification) {
         guard
-            let value = notification.userInfo?[responderKeyboardFrameEndUserInfoKey] as? NSValue,
-            let duration = notification.userInfo?[responderKeyboardAnimationDurationUserInfoKey] as? NSNumber,
-            let curveValue = notification.userInfo?[responderKeyboardAnimationCurveUserInfoKey] as? NSNumber
+            let value = notification.userInfo?[UIResponder.responderKeyboardFrameEndUserInfoKey] as? NSValue,
+            let duration = notification.userInfo?[UIResponder.responderKeyboardAnimationDurationUserInfoKey] as? NSNumber,
+            let curveValue = notification.userInfo?[UIResponder.responderKeyboardAnimationCurveUserInfoKey] as? NSNumber
             else { return }
         let frame = value.cgRectValue
         let insets = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
@@ -178,8 +178,8 @@ public class LockViewController: UIViewController {
 
     @objc func keyboardWasHidden(_ notification: Notification) {
         guard
-            let duration = notification.userInfo?[responderKeyboardAnimationDurationUserInfoKey] as? NSNumber,
-            let curveValue = notification.userInfo?[responderKeyboardAnimationCurveUserInfoKey] as? NSNumber
+            let duration = notification.userInfo?[UIResponder.responderKeyboardAnimationDurationUserInfoKey] as? NSNumber,
+            let curveValue = notification.userInfo?[UIResponder.responderKeyboardAnimationCurveUserInfoKey] as? NSNumber
             else { return }
         self.scrollView.contentInset = UIEdgeInsets.zero
 

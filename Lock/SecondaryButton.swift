@@ -81,7 +81,7 @@ class SecondaryButton: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: viewNoIntrinsicMetric, height: 76)
+        return CGSize(width: UIView.viewNoIntrinsicMetric, height: 76)
     }
 
     @objc func pressed(_ sender: Any) {

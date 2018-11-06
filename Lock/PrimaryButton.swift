@@ -134,7 +134,7 @@ class PrimaryButton: UIView, Stylable {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: viewNoIntrinsicMetric, height: 95)
+        return CGSize(width: UIView.viewNoIntrinsicMetric, height: 95)
     }
 
     @objc func pressed(_ sender: Any) {

@@ -48,9 +48,9 @@ extension UIView {
 
 extension UILayoutPriority {
     #if swift(>=4.0)
-    static let priorityRequired = UILayoutPriority.required
-    static let priorityDefaultLow = UILayoutPriority.defaultLow
-    static let priorityDefaultHigh = UILayoutPriority.defaultHigh
+    static let priorityRequired = required
+    static let priorityDefaultLow = defaultLow
+    static let priorityDefaultHigh = defaultHigh
     #else
     static let priorityRequired = UILayoutPriorityRequired
     static let priorityDefaultLow = UILayoutPriorityDefaultLow
@@ -71,10 +71,10 @@ let attributedFont = NSFontAttributeName
 
 extension UIFont {
     #if swift(>=4.0)
-    static let weightLight = UIFont.Weight.light
-    static let weightMedium = UIFont.Weight.medium
-    static let weightRegular = UIFont.Weight.regular
-    static let weightSemiBold = UIFont.Weight.semibold
+    static let weightLight = Weight.light
+    static let weightMedium = Weight.medium
+    static let weightRegular = Weight.regular
+    static let weightSemiBold = Weight.semibold
     #else
     static let weightLight = UIFontWeightLight
     static let weightMedium = UIFontWeightMedium
@@ -83,31 +83,37 @@ extension UIFont {
     #endif
 }
 
-#if swift(>=4.2)
-let accessibilityIsReduceTransparencyEnabled = UIAccessibility.isReduceTransparencyEnabled
-#else
-let accessibilityIsReduceTransparencyEnabled = UIAccessibilityIsReduceTransparencyEnabled()
-#endif
+extension UIAccessibility {
+    #if swift(>=4.2)
+    static let accessibilityIsReduceTransparencyEnabled = isReduceTransparencyEnabled
+    #else
+    static let accessibilityIsReduceTransparencyEnabled = UIAccessibilityIsReduceTransparencyEnabled()
+    #endif
+}
 
-#if swift(>=4.2)
-let viewNoIntrinsicMetric = UIView.noIntrinsicMetric
-#else
-let viewNoIntrinsicMetric = UIViewNoIntrinsicMetric
-#endif
+extension UIView {
+    #if swift(>=4.2)
+    static let viewNoIntrinsicMetric = noIntrinsicMetric
+    #else
+    static let viewNoIntrinsicMetric = UIViewNoIntrinsicMetric
+    #endif
+}
 
-#if swift(>=4.2)
-let responderKeyboardWillShowNotification = UIResponder.keyboardWillShowNotification
-let responderKeyboardWillHideNotification = UIResponder.keyboardWillHideNotification
-let responderKeyboardFrameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
-let responderKeyboardAnimationDurationUserInfoKey = UIResponder.keyboardAnimationDurationUserInfoKey // swiftlint:disable:this identifier_name
-let responderKeyboardAnimationCurveUserInfoKey = UIResponder.keyboardAnimationCurveUserInfoKey // swiftlint:disable:this identifier_name
-#else
-let responderKeyboardWillShowNotification = NSNotification.Name.UIKeyboardWillShow
-let responderKeyboardWillHideNotification = NSNotification.Name.UIKeyboardWillHide
-let responderKeyboardFrameEndUserInfoKey = UIKeyboardFrameEndUserInfoKey
-let responderKeyboardAnimationDurationUserInfoKey = UIKeyboardAnimationDurationUserInfoKey // swiftlint:disable:this identifier_name
-let responderKeyboardAnimationCurveUserInfoKey = UIKeyboardAnimationCurveUserInfoKey // swiftlint:disable:this identifier_name
-#endif
+extension UIResponder {
+    #if swift(>=4.2)
+    static let responderKeyboardWillShowNotification = keyboardWillShowNotification
+    static let responderKeyboardWillHideNotification = keyboardWillHideNotification
+    static let responderKeyboardFrameEndUserInfoKey = keyboardFrameEndUserInfoKey
+    static let responderKeyboardAnimationDurationUserInfoKey = keyboardAnimationDurationUserInfoKey // swiftlint:disable:this identifier_name
+    static let responderKeyboardAnimationCurveUserInfoKey = keyboardAnimationCurveUserInfoKey // swiftlint:disable:this identifier_name
+    #else
+    static let responderKeyboardWillShowNotification = NSNotification.Name.UIKeyboardWillShow
+    static let responderKeyboardWillHideNotification = NSNotification.Name.UIKeyboardWillHide
+    static let responderKeyboardFrameEndUserInfoKey = UIKeyboardFrameEndUserInfoKey
+    static let responderKeyboardAnimationDurationUserInfoKey = UIKeyboardAnimationDurationUserInfoKey // swiftlint:disable:this identifier_name
+    static let responderKeyboardAnimationCurveUserInfoKey = UIKeyboardAnimationCurveUserInfoKey // swiftlint:disable:this identifier_name
+    #endif
+}
 
 // MARK: - Public Typealiases
 
