@@ -353,7 +353,7 @@ class InputField: UIView, Stylable {
         self.borderColorError = style.inputBorderColorError
         self.textField?.textColor = style.inputTextColor
         self.textField?.attributedPlaceholder = NSAttributedString(string: self.textField?.placeholder ?? "",
-                                                                   attributes: [attributedKeyColor: style.inputPlaceholderTextColor])
+                                                                   attributes: [NSAttributedString.attributedKeyColor: style.inputPlaceholderTextColor])
         self.containerView?.backgroundColor = style.inputBackgroundColor
         self.containerView?.layer.borderColor = style.inputBorderColor.cgColor
         self.errorLabel?.textColor = style.inputBorderColorError

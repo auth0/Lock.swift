@@ -138,8 +138,8 @@ class RuleView: UIView {
         attributedText.append(NSAttributedString(
             string: "  " + text,
             attributes: [
-                attributedKeyColor: status.color,
-                attributedFont: font
+                NSAttributedString.attributedKeyColor: status.color,
+                NSAttributedString.attributedFont: font
             ]
         ))
         self.label.attributedText = attributedText

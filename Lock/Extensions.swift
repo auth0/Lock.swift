@@ -58,16 +58,18 @@ extension UILayoutPriority {
     #endif
 }
 
-#if swift(>=4.2)
-let attributedKeyColor = NSAttributedString.Key.foregroundColor
-let attributedFont = NSAttributedString.Key.font
-#elseif swift(>=4.0)
-let attributedKeyColor = NSAttributedStringKey.foregroundColor
-let attributedFont = NSAttributedStringKey.font
-#else
-let attributedKeyColor = NSForegroundColorAttributeName
-let attributedFont = NSFontAttributeName
-#endif
+extension NSAttributedString {
+    #if swift(>=4.2)
+    static let attributedKeyColor = Key.foregroundColor
+    static let attributedFont = Key.font
+    #elseif swift(>=4.0)
+    static let attributedKeyColor = NSAttributedStringKey.foregroundColor
+    static let attributedFont = NSAttributedStringKey.font
+    #else
+    static let attributedKeyColor = NSForegroundColorAttributeName
+    static let attributedFont = NSFontAttributeName
+    #endif
+}
 
 extension UIFont {
     #if swift(>=4.0)
@@ -83,13 +85,11 @@ extension UIFont {
     #endif
 }
 
-extension UIAccessibility {
-    #if swift(>=4.2)
-    static let accessibilityIsReduceTransparencyEnabled = isReduceTransparencyEnabled
-    #else
-    static let accessibilityIsReduceTransparencyEnabled = UIAccessibilityIsReduceTransparencyEnabled()
-    #endif
-}
+#if swift(>=4.2)
+let accessibilityIsReduceTransparencyEnabled = UIAccessibility.isReduceTransparencyEnabled
+#else
+let accessibilityIsReduceTransparencyEnabled = UIAccessibilityIsReduceTransparencyEnabled()
+#endif
 
 extension UIView {
     #if swift(>=4.2)

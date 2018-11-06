@@ -124,8 +124,8 @@ class PrimaryButton: UIView, Stylable {
         attributedText.append(NSAttributedString(
             string: "\(title)  ",
             attributes: [
-                attributedKeyColor: self.textColor ?? Style.Auth0.buttonTintColor,
-                attributedFont: font
+                NSAttributedString.attributedKeyColor: self.textColor ?? Style.Auth0.buttonTintColor,
+                NSAttributedString.attributedFont: font
             ]
         ))
         attributedText.append(NSAttributedString(attachment: attachment))

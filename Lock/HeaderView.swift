@@ -197,7 +197,7 @@ public class HeaderView: UIView {
     // MARK: - Blur
 
     private var canBlur: Bool {
-        return self.blurred && !UIAccessibility.accessibilityIsReduceTransparencyEnabled
+        return self.blurred && !accessibilityIsReduceTransparencyEnabled
     }
 
     private func applyBackground() {
