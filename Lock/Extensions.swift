@@ -99,21 +99,23 @@ extension UIView {
     #endif
 }
 
+// swiftlint:disable identifier_name
 extension UIResponder {
     #if swift(>=4.2)
     static let responderKeyboardWillShowNotification = keyboardWillShowNotification
     static let responderKeyboardWillHideNotification = keyboardWillHideNotification
     static let responderKeyboardFrameEndUserInfoKey = keyboardFrameEndUserInfoKey
-    static let responderKeyboardAnimationDurationUserInfoKey = keyboardAnimationDurationUserInfoKey // swiftlint:disable:this identifier_name
-    static let responderKeyboardAnimationCurveUserInfoKey = keyboardAnimationCurveUserInfoKey // swiftlint:disable:this identifier_name
+    static let responderKeyboardAnimationDurationUserInfoKey = keyboardAnimationDurationUserInfoKey
+    static let responderKeyboardAnimationCurveUserInfoKey = keyboardAnimationCurveUserInfoKey
     #else
     static let responderKeyboardWillShowNotification = NSNotification.Name.UIKeyboardWillShow
     static let responderKeyboardWillHideNotification = NSNotification.Name.UIKeyboardWillHide
     static let responderKeyboardFrameEndUserInfoKey = UIKeyboardFrameEndUserInfoKey
-    static let responderKeyboardAnimationDurationUserInfoKey = UIKeyboardAnimationDurationUserInfoKey // swiftlint:disable:this identifier_name
-    static let responderKeyboardAnimationCurveUserInfoKey = UIKeyboardAnimationCurveUserInfoKey // swiftlint:disable:this identifier_name
+    static let responderKeyboardAnimationDurationUserInfoKey = UIKeyboardAnimationDurationUserInfoKey
+    static let responderKeyboardAnimationCurveUserInfoKey = UIKeyboardAnimationCurveUserInfoKey
     #endif
 }
+// swiftlint:enable identifier_name
 
 // MARK: - Public Typealiases
 
