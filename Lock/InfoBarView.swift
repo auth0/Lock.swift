@@ -97,7 +97,7 @@ class InfoBarView: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 35)
+        return CGSize(width: UIView.viewNoIntrinsicMetric, height: 35)
     }
 
     static var ssoInfoBar: InfoBarView {

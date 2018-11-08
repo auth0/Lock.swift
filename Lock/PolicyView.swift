@@ -59,7 +59,7 @@ class PolicyView: UIStackView, PasswordPolicyValidatorDelegate {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: CGFloat(self.views.count * 24))
+        return CGSize(width: UIView.viewNoIntrinsicMetric, height: CGFloat(self.views.count * 24))
     }
 }
 
@@ -138,8 +138,8 @@ class RuleView: UIView {
         attributedText.append(NSAttributedString(
             string: "  " + text,
             attributes: [
-                attributedKeyColor: status.color,
-                attributedFont: font
+                NSAttributedString.attributedKeyColor: status.color,
+                NSAttributedString.attributedFont: font
             ]
         ))
         self.label.attributedText = attributedText

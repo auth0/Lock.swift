@@ -96,7 +96,7 @@ public class HeaderView: UIView {
         }
     }
 
-    public var blurStyle: UIBlurEffectStyle = .light {
+    public var blurStyle: A0BlurEffectStyle = .light {
         didSet {
             self.applyBackground()
             self.setNeedsDisplay()
@@ -166,9 +166,9 @@ public class HeaderView: UIView {
         self.apply(style: Style.Auth0)
         titleView.font = regularSystemFont(size: 20)
         logoView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)
-        closeButton.setBackgroundImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: UIControlState())
+        closeButton.setBackgroundImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
         closeButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        backButton.setBackgroundImage(image(named: "ic_back", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: UIControlState())
+        backButton.setBackgroundImage(image(named: "ic_back", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
         backButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
 
         self.titleView = titleView
@@ -197,7 +197,7 @@ public class HeaderView: UIView {
     // MARK: - Blur
 
     private var canBlur: Bool {
-        return self.blurred && !UIAccessibilityIsReduceTransparencyEnabled()
+        return self.blurred && !accessibilityIsReduceTransparencyEnabled
     }
 
     private func applyBackground() {

@@ -58,16 +58,16 @@ class LockViewControllerSpec: QuickSpec {
 
                 var frame: CGRect!
                 var duration: TimeInterval!
-                var curve: UIViewAnimationOptions!
+                var curve: A0ViewAnimationOptions!
 
                 beforeEach {
                     frame = CGRect(x: randomInteger(0, to: 200), y: randomInteger(0, to: 200), width: randomInteger(0, to: 200), height: randomInteger(0, to: 200))
                     duration = randomTimeInterval(0, to: 60)
-                    curve = UIViewAnimationOptions()
+                    curve = A0ViewAnimationOptions()
                 }
 
                 it("should ignore invalid notification") {
-                    let notification = Notification(name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                    let notification = Notification(name: UIResponder.responderKeyboardWillShowNotification, object: nil)
                     controller.keyboardWasShown(notification)
                     expect(controller.keyboard) == false
                 }
@@ -95,15 +95,15 @@ class LockViewControllerSpec: QuickSpec {
             context("hide") {
 
                 var duration: TimeInterval!
-                var curve: UIViewAnimationOptions!
+                var curve: A0ViewAnimationOptions!
 
                 beforeEach {
                     duration = randomTimeInterval(0, to: 60)
-                    curve = UIViewAnimationOptions()
+                    curve = A0ViewAnimationOptions()
                 }
 
                 it("should ignore invalid notification") {
-                    let notification = Notification(name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+                    let notification = Notification(name: UIResponder.responderKeyboardWillHideNotification, object: nil)
                     controller.keyboardWasHidden(notification)
                     expect(controller.keyboard) == false
                 }
@@ -142,26 +142,26 @@ func randomTimeInterval(_ from: Int, to: Int) -> TimeInterval {
     return Double(value)
 }
 
-func willShowNotification(frame: CGRect, duration: TimeInterval, curve: UIViewAnimationOptions) -> Notification {
+func willShowNotification(frame: CGRect, duration: TimeInterval, curve: A0ViewAnimationOptions) -> Notification {
     let notification = Notification(
-        name: NSNotification.Name.UIKeyboardWillShow,
+        name: UIResponder.responderKeyboardWillShowNotification,
         object: nil,
         userInfo: [
-            UIKeyboardFrameEndUserInfoKey: NSValue(cgRect: frame),
-            UIKeyboardAnimationDurationUserInfoKey: NSNumber(value: duration as Double),
-            UIKeyboardAnimationCurveUserInfoKey: NSNumber(value: curve.rawValue as UInt),
+            UIResponder.responderKeyboardFrameEndUserInfoKey: NSValue(cgRect: frame),
+            UIResponder.responderKeyboardAnimationDurationUserInfoKey: NSNumber(value: duration as Double),
+            UIResponder.responderKeyboardAnimationCurveUserInfoKey: NSNumber(value: curve.rawValue as UInt),
         ]
     )
     return notification
 }
 
-func willHideNotification(duration: TimeInterval, curve: UIViewAnimationOptions) -> Notification {
+func willHideNotification(duration: TimeInterval, curve: A0ViewAnimationOptions) -> Notification {
     let notification = Notification(
-        name: NSNotification.Name.UIKeyboardWillHide,
+        name: UIResponder.responderKeyboardWillHideNotification,
         object: nil,
         userInfo: [
-            UIKeyboardAnimationDurationUserInfoKey: NSNumber(value: duration as Double),
-            UIKeyboardAnimationCurveUserInfoKey: NSNumber(value: curve.rawValue as UInt),
+            UIResponder.responderKeyboardAnimationDurationUserInfoKey: NSNumber(value: duration as Double),
+            UIResponder.responderKeyboardAnimationCurveUserInfoKey: NSNumber(value: curve.rawValue as UInt),
         ]
     )
     return notification

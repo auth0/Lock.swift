@@ -47,7 +47,11 @@ class LoadingView: UIView, View {
         super.init(frame: CGRect.zero)
         self.backgroundColor = Style.Auth0.backgroundColor
 
+        #if swift(>=4.2)
+        let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        #else
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        #endif
         apply(style: Style.Auth0)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(activityIndicator)

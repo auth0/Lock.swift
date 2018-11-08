@@ -298,7 +298,7 @@ public class Lock: NSObject {
 
      - returns: true if the url matched an ongoing Auth session, false otherwise
      */
-    public static func resumeAuth(_ url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
+    public static func resumeAuth(_ url: URL, options: [A0URLOptionsKey: Any]) -> Bool {
         return Auth0.resumeAuth(url, options: options)
     }
 

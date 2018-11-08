@@ -75,7 +75,11 @@ class PrimaryButton: UIView, Stylable {
 
     private func layoutButton() {
         let button = UIButton(type: .custom)
+        #if swift(>=4.2)
+        let indicator = UIActivityIndicatorView(style: .whiteLarge)
+        #else
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        #endif
 
         self.addSubview(button)
         self.addSubview(indicator)
@@ -106,7 +110,7 @@ class PrimaryButton: UIView, Stylable {
         button.setAttributedTitle(nil, for: .normal)
         button.setAttributedTitle(nil, for: .disabled)
         guard let title = title, !self.hideTitle else {
-            button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), for: UIControlState())
+            button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), for: .normal)
             button.setImage(UIImage(), for: .disabled)
             return
         }
@@ -120,8 +124,8 @@ class PrimaryButton: UIView, Stylable {
         attributedText.append(NSAttributedString(
             string: "\(title)  ",
             attributes: [
-                attributedKeyColor: self.textColor ?? Style.Auth0.buttonTintColor,
-                attributedFont: font
+                NSAttributedString.attributedKeyColor: self.textColor ?? Style.Auth0.buttonTintColor,
+                NSAttributedString.attributedFont: font
             ]
         ))
         attributedText.append(NSAttributedString(attachment: attachment))
@@ -130,7 +134,7 @@ class PrimaryButton: UIView, Stylable {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 95)
+        return CGSize(width: UIView.viewNoIntrinsicMetric, height: 95)
     }
 
     @objc func pressed(_ sender: Any) {
@@ -138,7 +142,7 @@ class PrimaryButton: UIView, Stylable {
     }
 
     func apply(style: Style) {
-        self.button?.setBackgroundImage(image(withColor: style.primaryColor), for: UIControlState())
+        self.button?.setBackgroundImage(image(withColor: style.primaryColor), for: .normal)
         self.button?.setBackgroundImage(image(withColor: style.primaryColor.a0_darker(0.20)), for: .highlighted)
         self.button?.setBackgroundImage(image(withColor: style.disabledColor), for: .disabled)
         self.textColor = style.buttonTintColor
