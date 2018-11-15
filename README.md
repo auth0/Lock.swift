@@ -20,9 +20,9 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
 
 ## Requirements
 
-- iOS 9 or later
-- Xcode 8.3+
-- Swift 3.2+
+- iOS 9+
+- Xcode 9+
+- Swift 3.x/4.x
 
 ## Install
 
