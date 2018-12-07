@@ -1,4 +1,4 @@
 github "Quick/Quick" ~> 1.2
 github "Quick/Nimble" ~> 7.1
 github "AliSoftware/OHHTTPStubs" ~> 6.1
-github "emaloney/CleanroomLogger" ~> 5.1
+github "emaloney/CleanroomLogger" ~> 6.0
