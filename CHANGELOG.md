@@ -1,5 +1,17 @@
 # Change Log
 
+## [2.9.0](https://github.com/auth0/Lock.swift/tree/2.9.0) (2018-12-12)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.8.0...2.9.0)
+
+**Added**
+- Update Dependencies [\#535](https://github.com/auth0/Lock.swift/pull/535) ([cocojoe](https://github.com/cocojoe))
+- Added Multiple Swift CI Support [\#530](https://github.com/auth0/Lock.swift/pull/530) ([cocojoe](https://github.com/cocojoe))
+- Added support for Swift 4.2 [\#529](https://github.com/auth0/Lock.swift/pull/529) ([guykogus](https://github.com/guykogus))
+- Added OIDC MFA Support [\#528](https://github.com/auth0/Lock.swift/pull/528) ([cocojoe](https://github.com/cocojoe))
+
+**Changed**
+- Fixed Authentication HTTP logging pass through flag  [\#527](https://github.com/auth0/Lock.swift/pull/527) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.8.0](https://github.com/auth0/Lock.swift/tree/2.8.0) (2018-10-05)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.7.0...2.8.0)
 
