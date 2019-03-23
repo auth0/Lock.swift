@@ -529,7 +529,7 @@ class DatabasePresenterSpec: QuickSpec {
 
                 it("should custom field") {
                     let name = "Auth0"
-                    let input = mockInput(.custom(name: "first_name", placeholder: "Name", icon: LazyImage(name: "ic_auth0", bundle: Lock.bundle), keyboardType: .default, autocorrectionType: .no, secure: false), value: name)
+                    let input = mockInput(.custom(name: "first_name", placeholder: "Name", icon: LazyImage(name: "ic_auth0", bundle: Lock.bundle), keyboardType: .default, autocorrectionType: .no, secure: false, contentType: nil), value: name)
                     view.form?.onValueChange(input)
                     expect(interactor.custom["first_name"]) == name
                 }

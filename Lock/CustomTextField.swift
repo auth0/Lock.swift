@@ -30,20 +30,22 @@ public struct CustomTextField {
     let keyboardType: UIKeyboardType
     let autocorrectionType: UITextAutocorrectionType
     let secure: Bool
+    let contentType: UITextContentType?
     let validation: (String?) -> Error?
 
-    public init(name: String, placeholder: String, icon: LazyImage? = nil, keyboardType: UIKeyboardType = .default, autocorrectionType: UITextAutocorrectionType = .default, secure: Bool = false, validation: @escaping (String?) -> Error? = nonEmpty) {
+    public init(name: String, placeholder: String, icon: LazyImage? = nil, keyboardType: UIKeyboardType = .default, autocorrectionType: UITextAutocorrectionType = .default, secure: Bool = false, contentType: UITextContentType? = nil, validation: @escaping (String?) -> Error? = nonEmpty) {
         self.name = name
         self.placeholder = placeholder
         self.icon = icon
         self.keyboardType = keyboardType
         self.autocorrectionType = autocorrectionType
         self.secure = secure
+        self.contentType = contentType
         self.validation = validation
     }
 
     var type: InputField.InputType {
-        return .custom(name: name, placeholder: placeholder, icon: icon, keyboardType: keyboardType, autocorrectionType: self.autocorrectionType, secure: secure)
+        return .custom(name: name, placeholder: placeholder, icon: icon, keyboardType: keyboardType, autocorrectionType: self.autocorrectionType, secure: secure, contentType: contentType)
     }
 }
 

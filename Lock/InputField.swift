@@ -56,6 +56,9 @@ class InputField: UIView, Stylable {
             self.textField?.autocorrectionType = .no
             self.textField?.autocapitalizationType = .none
             self.textField?.keyboardType = type.keyboardType
+            if #available(iOS 10.0, *) {
+                self.textField?.textContentType = type.contentType
+            }
             if let icon = type.icon {
                 self.iconView?.image = icon.image(compatibleWithTraits: self.traitCollection)
             } else if let textField = self.textField, let container = self.containerView {
@@ -267,7 +270,7 @@ class InputField: UIView, Stylable {
         case password
         case phone
         case oneTimePassword
-        case custom(name: String, placeholder: String, icon: LazyImage?, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, secure: Bool)
+        case custom(name: String, placeholder: String, icon: LazyImage?, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, secure: Bool, contentType: UITextContentType?)
 
         var placeholder: String? {
             switch self {
@@ -283,7 +286,7 @@ class InputField: UIView, Stylable {
                 return "Phone Number".i18n(key: "com.auth0.lock.input.phone.placeholder", comment: "Phone placeholder")
             case .oneTimePassword:
                 return "Code".i18n(key: "com.auth0.lock.input.otp.placeholder", comment: "OTP placeholder")
-            case .custom(_, let placeholder, _, _, _, _):
+            case .custom(_, let placeholder, _, _, _, _, _):
                 return placeholder
             }
         }
@@ -293,7 +296,7 @@ class InputField: UIView, Stylable {
                 return true
             }
 
-            if case .custom(_, _, _, _, _, let secure) = self {
+            if case .custom(_, _, _, _, _, let secure, _) = self {
                 return secure
             }
             return false
@@ -313,7 +316,7 @@ class InputField: UIView, Stylable {
                 return lazyImage(named: "ic_phone")
             case .oneTimePassword:
                 return lazyImage(named: "ic_lock")
-            case .custom(_, _, let icon, _, _, _):
+            case .custom(_, _, let icon, _, _, _, _):
                 return icon
             }
         }
@@ -332,14 +335,48 @@ class InputField: UIView, Stylable {
                 return .phonePad
             case .oneTimePassword:
                 return .decimalPad
-            case .custom(_, _, _, let keyboardType, _, _):
+            case .custom(_, _, _, let keyboardType, _, _, _):
                 return keyboardType
+            }
+        }
+
+        var contentType: UITextContentType? {
+            switch self {
+            case .email, .emailOrUsername:
+                if #available(iOS 10.0, *) {
+                    return .emailAddress
+                }
+                return nil
+            case .username:
+                if #available(iOS 11.0, *) {
+                    return .username
+                }
+                return nil
+            case .password:
+                if #available(iOS 11.0, *) {
+                    return .password
+                }
+                return nil
+            case .phone:
+                if #available(iOS 10.0, *) {
+                    return .telephoneNumber
+                }
+                return nil
+            case .oneTimePassword:
+                #if swift(>=4.0)
+                    if #available(iOS 12.0, *) {
+                        return .oneTimeCode
+                    }
+                #endif
+                return nil
+            case .custom(_, _, _, _, _, _, let contentType):
+                return contentType
             }
         }
 
         var autocorrectionType: UITextAutocorrectionType {
             switch self {
-            case .custom(_, _, _, _, let autocorrectionType, _):
+            case .custom(_, _, _, _, let autocorrectionType, _, _):
                 return autocorrectionType
             default:
                 return .no
