@@ -52,10 +52,6 @@ class ViewController: UIViewController {
                         applyDefaultOptions(&$0)
                         $0.passwordManager.appIdentifier = "www.myapp.com"
                         $0.passwordManager.displayName = "My App"
-                        $0.customSignupFields = [
-                            CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
-                            CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
-                        ]
                         $0.enterpriseConnectionUsingActiveAuth = ["testAD"]
                     }
                     .withStyle {
@@ -78,10 +74,6 @@ class ViewController: UIViewController {
                     .classic()
                     .withOptions {
                         applyDefaultOptions(&$0)
-                        $0.customSignupFields = [
-                            CustomTextField(name: "first_name", placeholder: "First Name"),
-                            CustomTextField(name: "last_name", placeholder: "Last Name")
-                        ]
                         $0.enterpriseConnectionUsingActiveAuth = ["testAD"]
                     }
                     .withStyle {
@@ -103,10 +95,6 @@ class ViewController: UIViewController {
                     .passwordless()
                     .withOptions {
                         applyDefaultOptions(&$0)
-                        $0.customSignupFields = [
-                            CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
-                            CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
-                        ]
                     }
                     .withConnections { connections in
                         let usernameValidator = UsernameValidator(withLength: 1...20, characterSet: UsernameValidator.auth0)
@@ -212,6 +200,18 @@ func applyDefaultOptions(_ options: inout OptionBuildable) {
     options.loggerOutput = CleanroomLockLogger()
     options.logHttpRequest = true
     options.oidcConformant = true
+
+    if #available(iOS 10, *) {
+        options.customSignupFields = [
+            CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .givenName),
+            CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .familyName)
+        ]
+    } else {
+        options.customSignupFields = [
+            CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
+            CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
+        ]
+    }
 }
 
 func applyPhantomStyle(_ style: inout Style) {
