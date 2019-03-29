@@ -420,8 +420,8 @@ When signing up the default information requirements are the user's *email* and 
 ```swift
 .withOptions {
   $0.customSignupFields = [
-    CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
-    CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
+    CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .givenName),
+    CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .familyName)
   ]
 }
 ```

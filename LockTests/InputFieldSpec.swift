@@ -80,5 +80,112 @@ class InputFieldSpec: QuickSpec {
             }
             
         }
+
+        describe("keyboard type") {
+            var input: InputField!
+            var text: UITextField!
+
+            beforeEach {
+                input = InputField()
+                text = input.textField
+            }
+
+            it("should assign email type") {
+                input.type = .email
+                expect(text.keyboardType) == UIKeyboardType.emailAddress
+            }
+
+            it("should assign username type") {
+                input.type = .username
+                expect(text.keyboardType) == UIKeyboardType.default
+            }
+
+            it("should assign emailOrUsername type") {
+                input.type = .emailOrUsername
+                expect(text.keyboardType) == UIKeyboardType.emailAddress
+            }
+
+            it("should assign password type") {
+                input.type = .password
+                expect(text.keyboardType) == UIKeyboardType.default
+            }
+
+
+            it("should assign phone type") {
+                input.type = .phone
+                expect(text.keyboardType) == UIKeyboardType.phonePad
+            }
+
+            it("should assign oneTimePassword type") {
+                input.type = .oneTimePassword
+                expect(text.keyboardType) == UIKeyboardType.decimalPad
+            }
+
+            it("should assign custom type") {
+                input.type = .custom(name: "test", placeholder: "", icon: nil, keyboardType: .twitter, autocorrectionType: .no, secure: false, contentType: nil)
+                expect(text.keyboardType) == UIKeyboardType.twitter
+            }
+        }
+
+        describe("content type") {
+            var input: InputField!
+            var text: UITextField!
+
+            beforeEach {
+                input = InputField()
+                text = input.textField
+            }
+
+            if #available(iOS 10.0, *) {
+                it("should assign email type") {
+                    input.type = .email
+                    expect(text.textContentType) == UITextContentType.emailAddress
+                }
+            }
+
+            if #available(iOS 11.0, *) {
+                it("should assign username type") {
+                    input.type = .username
+                    expect(text.textContentType) == UITextContentType.username
+                }
+            }
+
+            if #available(iOS 10.0, *) {
+                it("should assign emailOrUsername type") {
+                    input.type = .emailOrUsername
+                    expect(text.textContentType) == UITextContentType.emailAddress
+                }
+            }
+
+            if #available(iOS 11.0, *) {
+                it("should assign password type") {
+                    input.type = .password
+                    expect(text.textContentType) == UITextContentType.password
+                }
+            }
+
+            if #available(iOS 10.0, *) {
+                it("should assign phone type") {
+                    input.type = .phone
+                    expect(text.textContentType) == UITextContentType.telephoneNumber
+                }
+            }
+
+            #if swift(>=4.0)
+                if #available(iOS 12.0, *) {
+                    it("should assign oneTimePassword type") {
+                        input.type = .oneTimePassword
+                        expect(text.textContentType) == UITextContentType.oneTimeCode
+                    }
+                }
+            #endif
+
+            if #available(iOS 10.0, *) {
+                it("should assign custom type") {
+                    input.type = .custom(name: "test", placeholder: "", icon: nil, keyboardType: .default, autocorrectionType: .no, secure: false, contentType: .name)
+                    expect(text.textContentType) == UITextContentType.name
+                }
+            }
+        }
     }
 }
