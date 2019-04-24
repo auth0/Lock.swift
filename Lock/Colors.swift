@@ -24,7 +24,7 @@ import UIKit
 
 public extension UIColor {
 
-    public static var a0_orange: UIColor { return UIColor ( red: 0.9176, green: 0.3255, blue: 0.1373, alpha: 1.0 ) }
+    static var a0_orange: UIColor { return UIColor ( red: 0.9176, green: 0.3255, blue: 0.1373, alpha: 1.0 ) }
 
     static func a0_fromRGB(_ string: String, defaultColor: UIColor = .a0_orange) -> UIColor {
         guard string.hasPrefix("#") else { return defaultColor }
