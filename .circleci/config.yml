@@ -100,6 +100,7 @@ jobs:
 
 workflows:
   version: 2
+  build:
     jobs:
       -  build-and-test-swift-5.0
       -  build-and-test-swift-4.2
