@@ -65,7 +65,7 @@ jobs:
             - Carthage/Build
       - store_test_results:
           path: fastlane/test_output
-  build-and-test-swift-4.2:
+  build-and-test-swift-4.0:
     macos:
       xcode: "10.2.0"
     environment:
