@@ -1,11 +1,14 @@
 version: 2
 jobs:
-  build-and-test-swift-4.2:
+  build-and-test-swift-5.0:
     macos:
-      xcode: "10.0.0"
+      xcode: "10.2.0"
     environment:
           LC_ALL: en_US.UTF-8
           LANG: en_US.UTF-8
+          HOMEBREW_LOGS: ~/homebrew-logs
+          HOMEBREW_TEMP: ~/homebrew-temp
+          HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
       - run: |
@@ -30,19 +33,22 @@ jobs:
             - Carthage/Build
       - store_test_results:
           path: fastlane/test_output
-  build-and-test-swift-4.0:
+  build-and-test-swift-4.2:
     macos:
-      xcode: "10.0.0"
+      xcode: "10.2.0"
     environment:
           LC_ALL: en_US.UTF-8
           LANG: en_US.UTF-8
+          HOMEBREW_LOGS: ~/homebrew-logs
+          HOMEBREW_TEMP: ~/homebrew-temp
+          HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
       - run: |
           brew install swiftlint
           bundle install --without=development
           grep -lR "shouldUseLaunchSchemeArgsEnv" *.* --null | xargs -0 sed -i '' -e 's/shouldUseLaunchSchemeArgsEnv = "YES"/shouldUseLaunchSchemeArgsEnv = "YES" codeCoverageEnabled = "YES"/g'
-          sed -i "" 's/SWIFT_VERSION = 4.2/SWIFT_VERSION = 4.0/g' "Lock.xcodeproj/project.pbxproj"
+          sed -i "" 's/SWIFT_VERSION = 5.0/SWIFT_VERSION = 4.2/g' "Lock.xcodeproj/project.pbxproj"
       - run:
           name: Bootstrap
           command: bundle exec fastlane ios bootstrap
@@ -59,20 +65,22 @@ jobs:
             - Carthage/Build
       - store_test_results:
           path: fastlane/test_output
-  build-and-test-swift-3.0:
+  build-and-test-swift-4.2:
     macos:
-      xcode: "9.4.1"
+      xcode: "10.2.0"
     environment:
           LC_ALL: en_US.UTF-8
           LANG: en_US.UTF-8
+          HOMEBREW_LOGS: ~/homebrew-logs
+          HOMEBREW_TEMP: ~/homebrew-temp
+          HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
       - run: |
           brew install swiftlint
-          sudo gem install bundler
           bundle install --without=development
           grep -lR "shouldUseLaunchSchemeArgsEnv" *.* --null | xargs -0 sed -i '' -e 's/shouldUseLaunchSchemeArgsEnv = "YES"/shouldUseLaunchSchemeArgsEnv = "YES" codeCoverageEnabled = "YES"/g'
-          sed -i "" 's/SWIFT_VERSION = 4.2/SWIFT_VERSION = 3.0/g' "Lock.xcodeproj/project.pbxproj"
+          sed -i "" 's/SWIFT_VERSION = 5.0/SWIFT_VERSION = 4.0/g' "Lock.xcodeproj/project.pbxproj"
       - run:
           name: Bootstrap
           command: bundle exec fastlane ios bootstrap
@@ -92,12 +100,7 @@ jobs:
 
 workflows:
   version: 2
-  build-test-4.2:
     jobs:
+      -  build-and-test-swift-5.0
       -  build-and-test-swift-4.2
-  build-test-4.0:
-    jobs:
       -  build-and-test-swift-4.0
-  build-test-3.0:
-    jobs:
-      - build-and-test-swift-3.0
