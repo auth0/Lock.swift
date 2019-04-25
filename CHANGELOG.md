@@ -1,5 +1,15 @@
 # Change Log
 
+## [2.10.0](https://github.com/auth0/Lock.swift/tree/2.10.0) (2019-04-25)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.9.0...2.10.0)
+
+**Added**
+- Added Swift 5 / Xcode 10.2 support [\#545](https://github.com/auth0/Lock.swift/pull/545) ([cocojoe](https://github.com/cocojoe))
+- UITextContentType support in InputField [\#542](https://github.com/auth0/Lock.swift/pull/542) ([ejensen](https://github.com/ejensen))
+
+**Changed**
+- Facebook compliance logo update [\#546](https://github.com/auth0/Lock.swift/pull/546) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.9.0](https://github.com/auth0/Lock.swift/tree/2.9.0) (2018-12-12)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.8.0...2.9.0)
 
