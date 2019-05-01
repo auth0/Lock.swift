@@ -78,12 +78,6 @@ class AuthPresenterSpec: QuickSpec {
                 expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero).mode).to(beExpandedMode())
             }
 
-            it("should return view with compact mode for more than three connecitons") {
-                let connections = OfflineConnections(databases: [], oauth2: mockConnections(count: Int(arc4random_uniform(10)) + 3), enterprise: [], passwordless: [])
-                presenter = AuthPresenter(connections: connections.oauth2, interactor: interactor, customStyle: [:])
-                expect(presenter.newViewToEmbed(withInsets: UIEdgeInsets.zero).mode).to(beCompactMode())
-            }
-
         }
 
         describe("action") {
