@@ -24,7 +24,6 @@ import Foundation
 
 class AuthPresenter: Presentable, Loggable {
 
-    let compactModeThreshold = 3
     let connections: [OAuth2Connection]
     let interactor: OAuth2Authenticatable
     let customStyle: [String: AuthStyle]
@@ -43,11 +42,7 @@ class AuthPresenter: Presentable, Loggable {
 
     func newViewToEmbed(withInsets insets: UIEdgeInsets, isLogin: Bool = true) -> AuthCollectionView {
         let mode: AuthCollectionView.Mode
-        if self.connections.count < compactModeThreshold {
-            mode = .expanded(isLogin: isLogin)
-        } else {
-            mode = .compact
-        }
+        mode = .expanded(isLogin: isLogin)
         return self.newView(withInsets: insets, mode: mode)
     }
 
