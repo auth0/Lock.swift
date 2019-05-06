@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.10.1](https://github.com/auth0/Lock.swift/tree/2.10.1) (2019-05-06)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.10.0...2.10.1)
+
+**Changed**
+- Changed OAuth Google logo inline with new compliance [\#548](https://github.com/auth0/Lock.swift/pull/548) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.10.0](https://github.com/auth0/Lock.swift/tree/2.10.0) (2019-04-25)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.9.0...2.10.0)
 
