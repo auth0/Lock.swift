@@ -37,7 +37,7 @@ class EmailValidatorSpec: QuickSpec {
             }
         }
 
-        ["test@iana.org", "test@nominet.org.uk", "test@about.museum", "a@iana.org", "test@e.com", "test@iana.a", "123@iana.org", "test@123.com", "test.mail@server.co.uk"].forEach { value in
+        ["test@iana.org", "test@nominet.org.uk", "test@about.museum", "a@iana.org", "test@e.com", "test@iana.a", "123@iana.org", "test@123.com", "test.mail@server.co.uk","TestEmail@server.com"].forEach { value in
             it("should consider \(value!) a valid email") {
                 expect(validator.validate(value)).to(beNil())
             }
