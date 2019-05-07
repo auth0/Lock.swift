@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.10.1](https://github.com/auth0/Lock.swift/tree/2.10.1) (2019-05-07)
+From this release on, the option to display social connections in small styled buttons is no longer available due to branding compliance reasons. All the social connections will now be displayed as large styled buttons.
+
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.10.0...2.10.1)
+
+**Changed**
+- Update Email validation to allow uppercase characters [\#551](https://github.com/auth0/Lock.swift/pull/551) ([cocojoe](https://github.com/cocojoe))
+- Changed OAuth Google logo inline with new compliance [\#548](https://github.com/auth0/Lock.swift/pull/548) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.10.0](https://github.com/auth0/Lock.swift/tree/2.10.0) (2019-04-25)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.9.0...2.10.0)
 
