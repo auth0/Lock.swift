@@ -107,7 +107,7 @@
 // Unrecoverable error title
 "com.auth0.lock.error.unrecoverable.title" = "Can't resolve your request";
 // Forgot Password message
-"com.auth0.lock.forgot.message" = "Please enter your email and the new password. We will send you an email to confirm the password change.";
+"com.auth0.lock.forgot.message" = "Please enter your email. We will send you an email to confirm the password change.";
 // Forgot Password title
 "com.auth0.lock.forgot.title" = "Reset Password";
 // Header Title
