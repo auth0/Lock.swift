@@ -111,8 +111,8 @@ class DatabaseOnlyView: UIView, DatabaseView {
         form.identityField.nextField = form.passwordField
         form.passwordField.returnKey = .done
         primaryButton?.title = "LOG IN".i18n(key: "com.auth0.lock.submit.login.title", comment: "Login Button title")
-        layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutSecondaryButton(self.allowedModes.contains(.ResetPassword))
+        layoutInStack(form, authCollectionView: authCollectionView)
         self.form = form
         self.identityField = form.identityField
         self.passwordField = form.passwordField
