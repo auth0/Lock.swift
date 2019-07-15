@@ -373,6 +373,16 @@ class DatabaseInteractorSpec: QuickSpec {
                     database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
                     expect{ try database.update(.custom(name: "first_name", rootAttribute: false), value: nil) }.to(throwError(error))
                 }
+                
+                context("root attributes") {
+                    
+                    it("should store root attribute") {
+                        let _ = try? database.update(.custom(name: "family_name", rootAttribute: true), value: "Doe")
+                        expect(user.rootAttributes["family_name"]) == "Doe"
+                    }
+
+                    
+                }
 
             }
 
