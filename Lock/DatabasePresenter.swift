@@ -286,8 +286,8 @@ class DatabasePresenter: Presentable, Loggable {
             attribute = .password(enforcePolicy: self.currentScreen == .signup)
         case .username:
             attribute = .username
-        case .custom(let name, _, _, _, _, _, _):
-            attribute = .custom(name: name)
+        case .custom(let name, _, let rootAttribute, _, _, _, _, _):
+            attribute = .custom(name: name, rootAttribute: rootAttribute)
         default:
             return
         }

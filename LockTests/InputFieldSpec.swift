@@ -122,7 +122,7 @@ class InputFieldSpec: QuickSpec {
             }
 
             it("should assign custom type") {
-                input.type = .custom(name: "test", placeholder: "", icon: nil, keyboardType: .twitter, autocorrectionType: .no, secure: false, contentType: nil)
+                input.type = .custom(name: "test", placeholder: "", rootAttribute: false, icon: nil, keyboardType: .twitter, autocorrectionType: .no, secure: false, contentType: nil)
                 expect(text.keyboardType) == UIKeyboardType.twitter
             }
         }
@@ -182,7 +182,7 @@ class InputFieldSpec: QuickSpec {
 
             if #available(iOS 10.0, *) {
                 it("should assign custom type") {
-                    input.type = .custom(name: "test", placeholder: "", icon: nil, keyboardType: .default, autocorrectionType: .no, secure: false, contentType: .name)
+                    input.type = .custom(name: "test", placeholder: "",  rootAttribute: false, icon: nil, keyboardType: .default, autocorrectionType: .no, secure: false, contentType: .name)
                     expect(text.textContentType) == UITextContentType.name
                 }
             }

@@ -207,7 +207,7 @@ class MockDBInteractor: DatabaseAuthenticatable, DatabaseUserCreator {
         case .emailOrUsername:
             self.email = value
             self.username = value
-        case .custom(let name):
+        case .custom(let name, _):
             self.custom[name] = value
         }
     }
@@ -303,6 +303,11 @@ class MockAuthentication: Authentication {
 }
 
 class MockWebAuth: WebAuth {
+    
+    func useLegacyAuthentication(withStyle style: UIModalPresentationStyle) -> Self {
+        return self
+    }
+    
 
     var clientId: String = "CLIENT_ID"
     var url: URL = .a0_url(domain)

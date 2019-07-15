@@ -27,5 +27,5 @@ enum UserAttribute {
     case username
     case password(enforcePolicy: Bool)
     case emailOrUsername
-    case custom(name: String)
+    case custom(name: String, rootAttribute: Bool)
 }

@@ -28,6 +28,7 @@ protocol DatabaseUser {
     var password: String? { get set }
     var identifier: String? { get }
     var additionalAttributes: [String: String] { get set }
+    var rootAttributes: [String: String] { get set }
 
     var validEmail: Bool { get set }
     var validUsername: Bool { get set }
@@ -51,6 +52,7 @@ class User: DatabaseUser, PasswordlessUser {
     var password: String?
     var additionalAttributes: [String: String] = [:]
     var additionalAttributesStatus: [String: Bool] = [:]
+    var rootAttributes: [String: String] = [:]
     var countryCode: CountryCode?
 
     var validEmail: Bool = false
@@ -71,6 +73,7 @@ class User: DatabaseUser, PasswordlessUser {
         self.password = nil
         self.additionalAttributesStatus = [:]
         self.additionalAttributes = [:]
+        self.rootAttributes = [:]
     }
 
     func validAdditionalAttribute(_ name: String) -> Bool {
