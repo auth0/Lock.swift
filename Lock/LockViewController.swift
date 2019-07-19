@@ -41,9 +41,11 @@ public class LockViewController: UIViewController {
         self.lock = lock
         super.init(nibName: nil, bundle: nil)
         lock.observerStore.controller = self
-        if self.lock.style.modalPopup {
+        if self.lock.style.modalPopup && UIDevice.current.userInterfaceIdiom == .pad {
             self.modalPresentationStyle = .formSheet
             self.preferredContentSize = CGSize(width: 375, height: 667)
+        } else {
+            self.modalPresentationStyle = .fullScreen
         }
         self.router = lock.classicMode ? ClassicRouter(lock: lock, controller: self) : PasswordlessRouter(lock: lock, controller: self)
     }
