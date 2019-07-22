@@ -95,7 +95,7 @@ public class UsernameValidator: InputValidator {
     public static var auth0: CharacterSet {
         let set = NSMutableCharacterSet()
         set.formUnion(with: CharacterSet.alphanumerics)
-        set.addCharacters(in: "_.-!#$'^`~@")
+        set.addCharacters(in: "_.-!#$'^`~@+")
         return set.inverted
     }
 }
