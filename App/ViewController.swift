@@ -203,14 +203,14 @@ func applyDefaultOptions(_ options: inout OptionBuildable) {
 
     if #available(iOS 10, *) {
         options.customSignupFields = [
-            CustomTextField(name: "given_name", placeholder: "First Name", rootAttribute: true, icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .givenName),
-            CustomTextField(name: "family_name", placeholder: "Last Name", rootAttribute: true, icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .familyName),
+            CustomTextField(name: "given_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .givenName),
+            CustomTextField(name: "family_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .familyName),
             CustomTextField(name: "nickname", placeholder: "Nick Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .nickname)
         ]
     } else {
         options.customSignupFields = [
-            CustomTextField(name: "given_name", placeholder: "First Name", rootAttribute: true, icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
-            CustomTextField(name: "family_name", placeholder: "Last Name",  rootAttribute: true, icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
+            CustomTextField(name: "given_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
+            CustomTextField(name: "family_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
             CustomTextField(name: "nickname", placeholder: "Nick Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
         ]
     }

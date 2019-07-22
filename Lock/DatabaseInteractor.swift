@@ -74,10 +74,10 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             } else {
                 error = nil
             }
-        case .custom(let name, let root):
+        case .custom(let name, let storage):
             let field = self.customFields[name]
             error = field?.validation(value)
-            if root {
+            if case .rootAttribute = storage {
                 self.user.rootAttributes[name] = value
             } else {
                 self.user.additionalAttributes[name] = value

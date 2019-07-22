@@ -26,7 +26,7 @@ public struct CustomTextField {
 
     let name: String
     let placeholder: String
-    let rootAttribute: Bool
+    let storage: UserStorage
     let icon: LazyImage?
     let keyboardType: UIKeyboardType
     let autocorrectionType: UITextAutocorrectionType
@@ -34,7 +34,7 @@ public struct CustomTextField {
     let contentType: UITextContentType?
     let validation: (String?) -> Error?
 
-    public init(name: String, placeholder: String, rootAttribute: Bool = false, icon: LazyImage? = nil, keyboardType: UIKeyboardType = .default, autocorrectionType: UITextAutocorrectionType = .default, secure: Bool = false, contentType: UITextContentType? = nil, validation: @escaping (String?) -> Error? = nonEmpty) {
+    public init(name: String, placeholder: String, storage: UserStorage = .userMetadata, icon: LazyImage? = nil, keyboardType: UIKeyboardType = .default, autocorrectionType: UITextAutocorrectionType = .default, secure: Bool = false, contentType: UITextContentType? = nil, validation: @escaping (String?) -> Error? = nonEmpty) {
         self.name = name
         self.placeholder = placeholder
         self.icon = icon
@@ -43,11 +43,11 @@ public struct CustomTextField {
         self.secure = secure
         self.contentType = contentType
         self.validation = validation
-        self.rootAttribute = rootAttribute
+        self.storage = storage
     }
 
     var type: InputField.InputType {
-        return .custom(name: name, placeholder: placeholder, rootAttribute: rootAttribute, icon: icon, keyboardType: keyboardType, autocorrectionType: self.autocorrectionType, secure: secure, contentType: contentType)
+        return .custom(name: name, placeholder: placeholder, storage: storage, icon: icon, keyboardType: keyboardType, autocorrectionType: self.autocorrectionType, secure: secure, contentType: contentType)
     }
 }
 

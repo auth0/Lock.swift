@@ -114,7 +114,7 @@ class UserSpec: QuickSpec {
             it("should clear root attributes") {
                 user.rootAttributes["family_name"] = "Doe"
                 user.reset()
-                expect(user.rootAttributes["first_name"]).to(beNil())
+                expect(user.rootAttributes["family_name"]).to(beNil())
             }
         }
 

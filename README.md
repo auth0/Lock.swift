@@ -417,13 +417,13 @@ Allows you to set provider scopes for oauth2/social connections with a comma sep
 
 When signing up the default information requirements are the user's *email* and *password*. You can expand your data capture requirements as needed.
 
-If you want to save the value of the attribute in the root of a user's profile, ensure you set the  `rootAttribute` parameter to `true`. Only a subset of values can be stored this way. The list of attributes that can be added to your root profile is [here](https://auth0.com/docs/api/authentication#signup). By default, every additional sign up field is stored inside the user's `user_metadata` object.
+If you want to save the value of the attribute in the root of a user's profile, ensure you set the  `storage` parameter to `.rootAttribute`. Only a subset of values can be stored this way. The list of attributes that can be added to your root profile is [here](https://auth0.com/docs/api/authentication#signup). By default, every additional sign up field is stored inside the user's `user_metadata` object.
 
 ```swift
 .withOptions {
   $0.customSignupFields = [
-    CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .givenName),
-    CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .familyName)
+    CustomTextField(name: "first_name", placeholder: "First Name", storage: .rootAttribute, icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .givenName),
+    CustomTextField(name: "last_name", placeholder: "Last Name", storage: .rootAttribute, icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .familyName)
   ]
 }
 ```

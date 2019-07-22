@@ -270,7 +270,7 @@ class InputField: UIView, Stylable {
         case password
         case phone
         case oneTimePassword
-        case custom(name: String, placeholder: String, rootAttribute: Bool, icon: LazyImage?, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, secure: Bool, contentType: UITextContentType?)
+        case custom(name: String, placeholder: String, storage: UserStorage, icon: LazyImage?, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, secure: Bool, contentType: UITextContentType?)
 
         var placeholder: String? {
             switch self {
