@@ -110,6 +110,12 @@ class UserSpec: QuickSpec {
                 user.reset()
                 expect(user.additionalAttributes["first_name"]).to(beNil())
             }
+            
+            it("should clear root attributes") {
+                user.rootAttributes["family_name"] = "Doe"
+                user.reset()
+                expect(user.rootAttributes["family_name"]).to(beNil())
+            }
         }
 
         describe("additional attributes") {

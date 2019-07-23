@@ -350,20 +350,20 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
 
                 it("should always store value") {
-                    let _ = try? database.update(.custom(name: "first_name"), value: "Auth0")
+                    let _ = try? database.update(.custom(name: "first_name", storage: .userMetadata), value: "Auth0")
                     expect(user.additionalAttributes["first_name"]) == "Auth0"
                 }
 
                 it("should raise error if value is empty") {
-                    expect{ try database.update(.custom(name: "first_name"), value: "") }.to(throwError(InputValidationError.mustNotBeEmpty))
+                    expect{ try database.update(.custom(name: "first_name", storage: .userMetadata), value: "") }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
 
                 it("should raise error if password is only spaces") {
-                    expect{ try database.update(.custom(name: "first_name"), value: "     ") }.to(throwError(InputValidationError.mustNotBeEmpty))
+                    expect{ try database.update(.custom(name: "first_name", storage: .userMetadata), value: "     ") }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
 
                 it("should raise error if password is nil") {
-                    expect{ try database.update(.custom(name: "first_name"), value: nil) }.to(throwError(InputValidationError.mustNotBeEmpty))
+                    expect{ try database.update(.custom(name: "first_name", storage: .userMetadata), value: nil) }.to(throwError(InputValidationError.mustNotBeEmpty))
                 }
 
                 it("should raise error for custom validation") {
@@ -371,7 +371,17 @@ class DatabaseInteractorSpec: QuickSpec {
                     let error = NSError(domain: "com.auth0", code: -99999, userInfo: [:])
                     options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), validation: { _ in return error })]
                     database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
-                    expect{ try database.update(.custom(name: "first_name"), value: nil) }.to(throwError(error))
+                    expect{ try database.update(.custom(name: "first_name", storage: .userMetadata), value: nil) }.to(throwError(error))
+                }
+                
+                context("root attributes") {
+                    
+                    it("should store root attribute") {
+                        let _ = try? database.update(.custom(name: "family_name", storage: .rootAttribute), value: "Doe")
+                        expect(user.rootAttributes["family_name"]) == "Doe"
+                    }
+
+                    
                 }
 
             }

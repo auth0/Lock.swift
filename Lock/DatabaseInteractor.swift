@@ -74,10 +74,14 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
             } else {
                 error = nil
             }
-        case .custom(let name):
+        case .custom(let name, let storage):
             let field = self.customFields[name]
             error = field?.validation(value)
-            self.user.additionalAttributes[name] = value
+            if case .rootAttribute = storage {
+                self.user.rootAttributes[name] = value
+            } else {
+                self.user.additionalAttributes[name] = value
+            }
             self.user.validAdditionalAttribute(name, valid: error == nil)
         }
 
@@ -118,6 +122,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         let username = connection.requiresUsername ? self.username : nil
         let metadata: [String: String]? = self.user.additionalAttributes.isEmpty ? nil : self.user.additionalAttributes
+        let rootAttributes: [String: String]? = self.user.rootAttributes.isEmpty ? nil : self.user.rootAttributes
 
         let login = self.credentialAuth.request(withIdentifier: email, password: password, options: self.options)
         self.credentialAuth
@@ -127,7 +132,8 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                 username: username,
                 password: password,
                 connection: databaseName,
-                userMetadata: metadata
+                userMetadata: metadata,
+                rootAttributes: rootAttributes
             )
             .start {
                 switch $0 {
