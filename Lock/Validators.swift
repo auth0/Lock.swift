@@ -64,6 +64,7 @@ public class UsernameValidator: InputValidator {
 
     let invalidSet: CharacterSet?
     let range: CountableClosedRange<Int>
+    let emailValidator = EmailValidator()
 
     var min: Int { return self.range.lowerBound }
     var max: Int { return self.range.upperBound }
@@ -87,13 +88,14 @@ public class UsernameValidator: InputValidator {
         #endif
         guard let characterSet = self.invalidSet else { return nil }
         guard username.rangeOfCharacter(from: characterSet) == nil else { return InputValidationError.notAUsername }
+        guard self.emailValidator.validate(username) != nil else { return InputValidationError.notAUsername }
         return nil
     }
 
     public static var auth0: CharacterSet {
         let set = NSMutableCharacterSet()
         set.formUnion(with: CharacterSet.alphanumerics)
-        set.addCharacters(in: "_")
+        set.addCharacters(in: "_.-!#$'^`~@+")
         return set.inverted
     }
 }
