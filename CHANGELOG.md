@@ -1,5 +1,19 @@
 # Change Log
 
+## [2.11.0](https://github.com/auth0/Lock.swift/tree/2.11.0) (2019-07-26)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.10.1...2.11.0)
+
+**Added**
+- Expanded username validation characters [\#560](https://github.com/auth0/Lock.swift/pull/560) ([cocojoe](https://github.com/cocojoe))
+- Added support for rootAttributes [\#557](https://github.com/auth0/Lock.swift/pull/557) ([cocojoe](https://github.com/cocojoe))
+
+**Changed**
+- Updated Password Reset messaging [\#554](https://github.com/auth0/Lock.swift/pull/554) ([dms90](https://github.com/dms90))
+
+**Fixed**
+- Fixed use default .fullScreen modalPresentationStyle [\#559](https://github.com/auth0/Lock.swift/pull/559) ([cocojoe](https://github.com/cocojoe))
+- Fix secondary button color after switching tabs [\#555](https://github.com/auth0/Lock.swift/pull/555) ([mariancerny](https://github.com/mariancerny))
+
 ## [2.10.1](https://github.com/auth0/Lock.swift/tree/2.10.1) (2019-05-07)
 From this release on, the option to display social connections in small styled buttons is no longer available due to branding compliance reasons. All the social connections will now be displayed as large styled buttons.
 
