@@ -37,7 +37,7 @@ jobs:
           path: fastlane/test_output
   build-and-test-swift-5.0:
     macos:
-      xcode: "10.2.0"
+      xcode: "10.3.0"
     environment:
           LC_ALL: en_US.UTF-8
           LANG: en_US.UTF-8
@@ -70,7 +70,7 @@ jobs:
           path: fastlane/test_output
   build-and-test-swift-4.2:
     macos:
-      xcode: "10.2.0"
+      xcode: "10.3.0"
     environment:
           LC_ALL: en_US.UTF-8
           LANG: en_US.UTF-8
@@ -102,7 +102,7 @@ jobs:
           path: fastlane/test_output
   build-and-test-swift-4.0:
     macos:
-      xcode: "10.2.0"
+      xcode: "10.3.0"
     environment:
           LC_ALL: en_US.UTF-8
           LANG: en_US.UTF-8
