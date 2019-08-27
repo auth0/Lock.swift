@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.12.0](https://github.com/auth0/Lock.swift/tree/2.12.0) (2019-08-27)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.11.0...2.12.0)
+
+**Added**
+- Updated for iOS 13 dependencies [\#564](https://github.com/auth0/Lock.swift/pull/564) ([cocojoe](https://github.com/cocojoe))
+
 ## [2.11.0](https://github.com/auth0/Lock.swift/tree/2.11.0) (2019-07-26)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.10.1...2.11.0)
 
