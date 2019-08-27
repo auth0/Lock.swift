@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/Lock.svg?style=flat-square)](http://cocoadocs.org/docsets/Lock)
 [![Platform](https://img.shields.io/cocoapods/p/Lock.svg?style=flat-square)](http://cocoadocs.org/docsets/Lock)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat-square)](https://github.com/Carthage/Carthage)
-![Swift 4.2](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat-square)
+![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat-square)
 
 [Auth0](https://auth0.com) is an authentication broker that supports social identity providers as well as enterprise identity providers such as Active Directory, LDAP, Google Apps and Salesforce.
 
@@ -21,8 +21,8 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
 ## Requirements
 
 - iOS 9+
-- Xcode 9+
-- Swift 3.x/4.x
+- Xcode 10.x/11.x
+- Swift 4.x/5.x
 
 ## Install
 

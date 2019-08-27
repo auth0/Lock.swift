@@ -18,7 +18,7 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
 
   s.requires_arc = true
 
-  s.dependency 'Auth0', '~> 1.13'
+  s.dependency 'Auth0', '~> 1.17'
   s.default_subspecs = 'Classic'
 
   s.subspec 'Classic' do |classic|
@@ -26,6 +26,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     classic.ios.resource = ["Lock/*.xcassets", "Lock/*.lproj", "Lock/passwordless_country_codes.plist"]
   end
 
-  s.swift_version = '4.0'
+  s.swift_versions = ['4.0', '4.1', '4.2', '5.0']
 
 end
