@@ -73,6 +73,12 @@ class RuleView: UIView {
     }
     let label: UILabel
 
+    private var style = Style.Auth0 {
+        didSet {
+            self.render(text: self.message, withStatus: self.status)
+        }
+    }
+
     init(message: String, level: Int = 0) {
         self.message = message
         self.label = UILabel()
@@ -113,17 +119,6 @@ class RuleView: UIView {
                 return image(named: "ic_pwd_policy_none")
             }
         }
-
-        var color: UIColor {
-            switch self {
-            case .ok:
-                return UIColor(red: 0.502, green: 0.820, blue: 0.208, alpha: 1)
-            case .error:
-                return UIColor(red: 0.745, green: 0.271, blue: 0.153, alpha: 1)
-            case .none:
-                return UIColor(red: 0.016, green: 0.016, blue: 0.016, alpha: 1)
-            }
-        }
     }
 
     fileprivate func render(text: String, withStatus status: Status) {
@@ -133,15 +128,28 @@ class RuleView: UIView {
         attachment.image = status.icon
         attachment.bounds = CGRect(x: 0.0, y: font.descender / 2.0, width: attachment.image!.size.width, height: attachment.image!.size.height)
 
+        let textColor: UIColor
+        switch status {
+        case .ok: textColor = style.statusTextOkColor
+        case .error: textColor = style.statusTextErrorColor
+        case .none: textColor = style.statusTextNoneColor
+        }
+
         let attributedText = NSMutableAttributedString()
         attributedText.append(NSAttributedString(attachment: attachment))
         attributedText.append(NSAttributedString(
             string: "  " + text,
             attributes: [
-                NSAttributedString.attributedKeyColor: status.color,
+                NSAttributedString.attributedKeyColor: textColor,
                 NSAttributedString.attributedFont: font
             ]
         ))
         self.label.attributedText = attributedText
+    }
+}
+
+extension RuleView: Stylable {
+    func apply(style: Style) {
+        self.style = style
     }
 }

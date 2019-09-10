@@ -127,6 +127,15 @@ public struct Style {
         /// Passwordless search bar style
     public var searchBarStyle: A0SearchBarStyle = .default
 
+        /// Status text OK color
+    public var statusTextOkColor = UIColor(red: 0.502, green: 0.820, blue: 0.208, alpha: 1.0)
+
+        /// Status text error color
+    public var statusTextErrorColor = UIColor(red: 0.745, green: 0.271, blue: 0.153, alpha: 1.0)
+
+        /// Status text none color
+    public var statusTextNoneColor = UIColor(red: 0.016, green: 0.016, blue: 0.016, alpha: 1.0)
+
         /// 1Password Icon color
     public var onePasswordIconColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0)
 

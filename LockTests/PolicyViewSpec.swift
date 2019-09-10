@@ -47,30 +47,10 @@ class PolicyViewSpec: QuickSpec {
                     expect(ruleView.label.text).to(contain("MY RULE"))
                 }
 
-                it("should have default color of status none") {
-                    let ruleView = RuleView(message: "MY RULE")
-                    expect(ruleView.status.color) == UIColor(red: 0.016, green: 0.016, blue: 0.016, alpha: 1)
-                }
-
             }
 
-            describe("status") {
-
-                var ruleView: RuleView!
-
-                beforeEach {
-                    ruleView = RuleView(message: "MY RULE")
-                }
-
-                it("should change status color to error") {
-                    ruleView.status = .error
-                    expect(ruleView.status.color) == UIColor(red: 0.745, green: 0.271, blue: 0.153, alpha: 1)
-                }
-
-            }
         }
 
     }
-
 
 }

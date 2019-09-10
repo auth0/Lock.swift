@@ -148,6 +148,9 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         if let passwordPolicyValidator = passwordPolicyValidator {
             let passwordPolicyView = PolicyView(rules: passwordPolicyValidator.policy.rules)
+            if let style = style {
+                passwordPolicyView.styleSubViews(style: style)
+            }
             passwordPolicyValidator.delegate = passwordPolicyView
             let passwordIndex = form.stackView.arrangedSubviews.firstIndex(of: form.passwordField)
             form.stackView.insertArrangedSubview(passwordPolicyView, at: passwordIndex!)
