@@ -41,6 +41,7 @@ struct LockOptions: OptionBuildable {
     var initialScreen: DatabaseScreen = .login
     var usernameStyle: DatabaseIdentifierStyle = [.Username, .Email]
     var customSignupFields: [CustomTextField] = []
+    var customSignupUserMetadata: [String: String] = [:]
     var loginAfterSignup: Bool = true
 
     var activeDirectoryEmailAsUsername: Bool = false

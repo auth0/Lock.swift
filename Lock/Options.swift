@@ -43,6 +43,7 @@ public protocol Options {
     var initialScreen: DatabaseScreen { get }
     var usernameStyle: DatabaseIdentifierStyle { get }
     var customSignupFields: [CustomTextField] { get }
+    var customSignupUserMetadata: [String: String] { get }
     var loginAfterSignup: Bool { get }
 
     var activeDirectoryEmailAsUsername: Bool { get }

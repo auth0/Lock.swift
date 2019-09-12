@@ -82,6 +82,9 @@ public protocol OptionBuildable: Options {
         /// Additional fields showed for Database Sign Up. By default the list is empty
     var customSignupFields: [CustomTextField] { get set }
 
+        /// Additional user metadata for Database Sign Up. By default the dictionary is empty
+    var customSignupUserMetadata: [String: String] { get set }
+
         /// Automatically log user in after sign up.  By default true
     var loginAfterSignup: Bool { get set }
 

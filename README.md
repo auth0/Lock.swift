@@ -430,6 +430,19 @@ If you want to save the value of the attribute in the root of a user's profile, 
 
 *Note: You must specify the icon to use with your custom text field and store it in your App's bundle.*
 
+#### Custom Signup User Metadata
+
+When signing up, your app may need to assign values to the `user_metadata` object that are not entered by the user through [Custom Signup Fields](#custom-signup-fields).
+The `customSignupUserMetadata` option allows your app to assign specific values to the `user_metadata` object upon user account creation.
+
+```swift
+.withOptions {
+  $0.customSignupUserMetadata = [
+    "referral_code": referralCode
+  ]
+}
+```
+
 #### Password Manager
 
 This functionality has been removed as of Release 2.18 due to the 1Password extension using deprecated methods, which can result in your app being rejected by the AppStore. This functionality was superseded in iOS 12 when Apple introduced the integration of password managers into login forms.

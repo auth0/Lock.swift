@@ -121,8 +121,14 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         }
 
         let username = connection.requiresUsername ? self.username : nil
-        let metadata: [String: String]? = self.user.additionalAttributes.isEmpty ? nil : self.user.additionalAttributes
         let rootAttributes: [String: String]? = self.user.rootAttributes.isEmpty ? nil : self.user.rootAttributes
+        let metadata: [String: String]?
+
+        if user.additionalAttributes.isEmpty && options.customSignupUserMetadata.isEmpty {
+            metadata = nil
+        } else {
+            metadata = user.additionalAttributes.merging(options.customSignupUserMetadata) { key, _ in key }
+        }
 
         let login = self.credentialAuth.request(withIdentifier: email, password: password, options: self.options)
         self.credentialAuth

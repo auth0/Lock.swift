@@ -89,6 +89,10 @@ class OptionsSpec: QuickSpec {
                 expect(options.customSignupFields).to(beEmpty())
             }
 
+            it("should have no custom user metadata") {
+                expect(options.customSignupUserMetadata).to(beEmpty())
+            }
+
             it("should not be OIDC conformant") {
                 expect(options.oidcConformant) == false
             }
@@ -259,6 +263,11 @@ class OptionsSpec: QuickSpec {
             it("should ignore invalid support site") {
                 options.supportPage = "not a url"
                 expect(options.supportURL?.absoluteString).to(beNil())
+            }
+
+            it("should set customSignupUserMetadata") {
+                options.customSignupUserMetadata = ["key": "value"]
+                expect(options.customSignupUserMetadata["key"]) == "value"
             }
         }
     }
