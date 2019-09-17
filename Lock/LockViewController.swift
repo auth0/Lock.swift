@@ -27,6 +27,7 @@ public class LockViewController: UIViewController {
     weak var headerView: HeaderView!
     weak var scrollView: UIScrollView!
     weak var messageView: MessageView?
+    weak var scrollContentView: UIView!
     var current: View?
     var keyboard: Bool = false
     var routes: Routes = Routes()
@@ -80,6 +81,9 @@ public class LockViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.bounces = false
         scrollView.keyboardDismissMode = .interactive
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        }
         self.view.addSubview(scrollView)
         constraintEqual(anchor: scrollView.leftAnchor, toAnchor: self.view.leftAnchor)
         constraintEqual(anchor: scrollView.topAnchor, toAnchor: self.view.topAnchor)
@@ -88,12 +92,22 @@ public class LockViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         self.scrollView = scrollView
 
+        let scrollContentView = UIView()
+        self.scrollView.addSubview(scrollContentView)
+        constraintEqual(anchor: scrollContentView.leftAnchor, toAnchor: scrollView.leftAnchor)
+        constraintEqual(anchor: scrollContentView.topAnchor, toAnchor: scrollView.topAnchor)
+        constraintEqual(anchor: scrollContentView.rightAnchor, toAnchor: scrollView.rightAnchor)
+        constraintEqual(anchor: scrollContentView.bottomAnchor, toAnchor: scrollView.bottomAnchor)
+        constraintEqual(anchor: scrollContentView.widthAnchor, toAnchor: scrollView.widthAnchor)
+        constraintEqual(anchor: scrollContentView.heightAnchor, toAnchor: view.heightAnchor, priority: .defaultLow)
+        scrollContentView.translatesAutoresizingMaskIntoConstraints = false
+        self.scrollContentView = scrollContentView
+
         let header = HeaderView()
-        self.scrollView.addSubview(header)
-        constraintEqual(anchor: header.leftAnchor, toAnchor: scrollView.leftAnchor)
-        constraintEqual(anchor: header.topAnchor, toAnchor: scrollView.topAnchor)
-        constraintEqual(anchor: header.rightAnchor, toAnchor: scrollView.rightAnchor)
-        constraintEqual(anchor: header.widthAnchor, toAnchor: scrollView.widthAnchor)
+        self.scrollContentView.addSubview(header)
+        constraintEqual(anchor: header.leftAnchor, toAnchor: scrollContentView.leftAnchor)
+        constraintEqual(anchor: header.topAnchor, toAnchor: scrollContentView.topAnchor)
+        constraintEqual(anchor: header.rightAnchor, toAnchor: scrollContentView.rightAnchor)
         header.translatesAutoresizingMaskIntoConstraints = false
 
         header.showClose = self.lock.options.closable
@@ -128,7 +142,7 @@ public class LockViewController: UIViewController {
         self.current?.remove()
         let view = presenter.view
         view.applyAll(withStyle: self.lock.style)
-        self.anchorConstraint = view.layout(inView: self.scrollView, below: self.headerView)
+        self.anchorConstraint = view.layout(inView: self.scrollContentView, below: self.headerView)
         presenter.messagePresenter = self.messagePresenter
         self.current = view
         self.headerView.title = title
