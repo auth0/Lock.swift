@@ -432,24 +432,19 @@ If you want to save the value of the attribute in the root of a user's profile, 
 
 #### Password Manager
 
-By default password manager support using [1Password](https://1password.com/) is enabled for database connections, although you will still need to have the 1Password app installed for the option to be visible in the login and signup screens. You can disable 1Password support using the `enabled` property of the `passwordManager`.
+This functionality has been removed as of Release 2.18 due to the 1Password extension using deprecated methods which can result in your app being rejected by ther AppStore. This functionality was superseded in iOS 12 when apple introduced the integration of password managers into login forms.
+
+If you are setting any of the following options, you will need to remove them.
 
 ```swift
 .withOptions {
     $0.passwordManager.enabled = false
-}
-```
-
-By default the `appIdentifier` will be set to the app's bundle identifier and the `displayName` will be set to the app's display name. You can customize these as follows:
-
-```swift
-.withOptions {
     $0.passwordManager.appIdentifier = "www.myapp.com"
     $0.passwordManager.displayName = "My App"
 }
 ```
 
-You will need to add the following to your app's `Info.plist`:
+You may also remove the following entry from your app's `Info.plist`:
 
 ```xml
 <key>LSApplicationQueriesSchemes</key>
@@ -457,17 +452,6 @@ You will need to add the following to your app's `Info.plist`:
     <string>org-appextension-feature-password-management</string>
 </array>
 ```
-
-> If your `Info.plist` is not shown in this format, you can **Right Click** on `Info.plist` in Xcode and then select **Open As / Source Code**.
-
-
-If you see the following debug error:
-
-```text
-canOpenURL: failed for URL: "org-appextension-feature-password-management://" - error: "This app is not allowed to query for scheme org-appextension-feature-password-management"
-```
-
-This is normal and expected behavior when there is no app that can open a custom URL. In this case when the 1Password app is not installed.  Unfortunately, the message can be a little confusing but it is coming from iOS itself.
 
 #### Show Password
 
