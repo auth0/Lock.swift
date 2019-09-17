@@ -39,14 +39,12 @@ class DatabasePresenterSpec: QuickSpec {
         var navigator: MockNavigator!
         var options: OptionBuildable!
         var user: User!
-        var passwordManager: MockPasswordManager!
 
         beforeEach {
             oauth2 = MockOAuth2()
             connections = OfflineConnections()
             options = LockOptions()
             user = User()
-            passwordManager = MockPasswordManager()
             enterpriseInteractor = EnterpriseDomainInteractor(connections: connections, user: user, authentication: oauth2)
             authPresenter = MockAuthPresenter(connections: [], interactor: MockAuthInteractor(), customStyle: [:])
             messagePresenter = MockMessagePresenter()
@@ -245,34 +243,8 @@ class DatabasePresenterSpec: QuickSpec {
                 expect(view.primaryButton?.title) == "LOG IN"
             }
 
-            it("should not show password manager button") {
-                expect(view.passwordManagerButton).to(beNil())
-            }
-
             it("should have show password button") {
                 expect(view.showPasswordButton).toNot(beNil())
-            }
-
-            context("with password manager available") {
-
-                beforeEach {
-                    presenter.passwordManager = passwordManager
-                    view = presenter.view as? DatabaseOnlyView
-                }
-
-                it("should show password manager button") {
-                    expect(view.passwordManagerButton).toNot(beNil())
-                }
-
-                it("should not show password manager when disabled") {
-                    presenter.passwordManager.enabled = false
-                    view = presenter.view as? DatabaseOnlyView
-                    expect(view.passwordManagerButton).to(beNil())
-                }
-
-                it("should not have show password button") {
-                    expect(view.showPasswordButton).to(beNil())
-                }
             }
 
             describe("user input") {
@@ -455,27 +427,6 @@ class DatabasePresenterSpec: QuickSpec {
                 }
             }
 
-            context("password manager") {
-
-                var username: String?
-                var password: String?
-
-                beforeEach {
-                    username = nil
-                    password = nil
-                    presenter.passwordManager = passwordManager
-                    view = presenter.view as? DatabaseOnlyView
-                    view.switcher?.selected = .signup
-                    view.switcher?.onSelectionChange(view.switcher!)
-                    presenter.passwordManager.onUpdate = { username = $0; password = $1 }
-                }
-
-                it("should trigger password manager and return username and password") {
-                    view.passwordManagerButton?.pressed(view.passwordManagerButton!)
-                    expect(username).toNot(beNil())
-                    expect(password).toNot(beNil())
-                }
-            }
         }
 
 
@@ -552,32 +503,6 @@ class DatabasePresenterSpec: QuickSpec {
                     let input = mockInput(.username, value: "invalid")
                     view.form?.onValueChange(input)
                     expect(input.valid) == false
-                }
-
-                it("should not show password manager button") {
-                    expect(view.passwordManagerButton).to(beNil())
-                }
-
-                it("should not show password manager when disabled") {
-                    expect(view.passwordManagerButton).to(beNil())
-                }
-
-                context("with password manager available") {
-
-                    beforeEach {
-                        presenter.passwordManager = passwordManager
-                        view = presenter.view as? DatabaseOnlyView
-                        view.switcher?.selected = .signup
-                        view.switcher?.onSelectionChange(view.switcher!)
-                    }
-
-                    it("should show password manager button") {
-                        expect(view.passwordManagerButton).toNot(beNil())
-                    }
-
-                    it("should not have show password button") {
-                        expect(view.showPasswordButton).to(beNil())
-                    }
                 }
 
                 it("should toggle show password") {
@@ -790,27 +715,6 @@ class DatabasePresenterSpec: QuickSpec {
                     }
                 }
 
-                describe("password manager action") {
-
-                    var username: String?
-                    var password: String?
-
-                    beforeEach {
-                        username = nil
-                        password = nil
-                        presenter.passwordManager = passwordManager
-                        view = presenter.view as? DatabaseOnlyView
-                        view.switcher?.selected = .signup
-                        view.switcher?.onSelectionChange(view.switcher!)
-                        presenter.passwordManager.onUpdate =  { username = $0; password = $1 }
-                    }
-
-                    it("should trigger password manager and return username and password") {
-                        view.passwordManagerButton?.pressed(view.passwordManagerButton!)
-                        expect(username).toNot(beNil())
-                        expect(password).toNot(beNil())
-                    }
-                }
             }
 
             describe("tos action") {

@@ -60,16 +60,3 @@ func beErrorResult() -> Predicate<Result> {
         return PredicateResult(status: .doesNotMatch, message: failureMessage)
     }
 }
-
-func beExcellentPassword() -> Predicate<[String: Any]> {
-    return Predicate<[String: Any]>.define("be an excellent strength password recipe") { expression, failureMessage -> PredicateResult in
-        if let actual = try expression.evaluate(),
-            actual[AppExtensionGeneratedPasswordMinLengthKey] as? String == "10",
-            actual[AppExtensionGeneratedPasswordMaxLengthKey] as? String == "128",
-            actual[AppExtensionGeneratedPasswordRequireDigitsKey] as? Bool == true,
-            actual[AppExtensionGeneratedPasswordRequireSymbolsKey] as? Bool == true
-        {
-            return PredicateResult(status: .matches, message: failureMessage)
-        }
-        return PredicateResult(status: .doesNotMatch, message: failureMessage)    }
-}

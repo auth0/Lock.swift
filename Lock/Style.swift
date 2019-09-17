@@ -127,9 +127,6 @@ public struct Style {
         /// Passwordless search bar style
     public var searchBarStyle: A0SearchBarStyle = .default
 
-        /// 1Password Icon color
-    public var onePasswordIconColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0)
-
         /// iPad Modal Presentation Style
     public var modalPopup = true
 

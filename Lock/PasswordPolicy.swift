@@ -159,13 +159,3 @@ public struct PasswordPolicy {
     }
 
 }
-
-extension PasswordPolicy {
-    func onePasswordRules() -> [String: Any] {
-        // Excellent
-        return [ AppExtensionGeneratedPasswordMinLengthKey: "10",
-                 AppExtensionGeneratedPasswordMaxLengthKey: "128",
-                 AppExtensionGeneratedPasswordRequireDigitsKey: true,
-                 AppExtensionGeneratedPasswordRequireSymbolsKey: true ]
-    }
-}

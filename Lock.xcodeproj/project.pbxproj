@@ -27,7 +27,6 @@
 		5B3874CA1E97C0C600244326 /* InternationalPhoneInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3874C91E97C0C600244326 /* InternationalPhoneInputView.swift */; };
 		5B3874D41E97C13D00244326 /* CountryCodesSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3874D01E97C11000244326 /* CountryCodesSpec.swift */; };
 		5B3874D51E97C14000244326 /* PolicyViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3874D21E97C11E00244326 /* PolicyViewSpec.swift */; };
-		5B38F84F1E93F2A300C25EAC /* OnePasswordSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38F84D1E93F2A000C25EAC /* OnePasswordSpec.swift */; };
 		5B3DA2551E6EB9F800370C17 /* CountryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3DA2541E6EB9F800370C17 /* CountryTableViewController.swift */; };
 		5B416D961EE7475B009BA5BD /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B416D951EE7475B009BA5BD /* SimpleKeychain.framework */; };
 		5B4BA3EB1E8000100067FC3F /* Auth0OAuth2InteractorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F92C68A1D4FE90F00CCE6C0 /* Auth0OAuth2InteractorSpec.swift */; };
@@ -57,9 +56,6 @@
 		5BB4A7C11DF9A38E008E8C37 /* DatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */; };
 		5BB78CC21E54BC730074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB78CC01E54BC2D0074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift */; };
 		5BB78CC51E54BD530074DFE3 /* PasswordlessPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB78CC31E54BD440074DFE3 /* PasswordlessPresenterSpec.swift */; };
-		5BBD9E311E8E6F5E007EF625 /* OnePasswordExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD9E2F1E8E6F5E007EF625 /* OnePasswordExtension.m */; };
-		5BBD9E321E8E6F5E007EF625 /* OnePasswordExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BBD9E301E8E6F5E007EF625 /* OnePasswordExtension.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5BBD9E361E8E730C007EF625 /* OnePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD9E351E8E730C007EF625 /* OnePassword.swift */; };
 		5BBD9E3A1E8E929E007EF625 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD9E391E8E929E007EF625 /* IconButton.swift */; };
 		5BCDE1361DDDF17F00AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */; };
 		5BCED4C71DD1FEAA00E2CE8A /* EnterpriseDomainPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */; };
@@ -264,7 +260,6 @@
 		5B3874C91E97C0C600244326 /* InternationalPhoneInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternationalPhoneInputView.swift; sourceTree = "<group>"; };
 		5B3874D01E97C11000244326 /* CountryCodesSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCodesSpec.swift; sourceTree = "<group>"; };
 		5B3874D21E97C11E00244326 /* PolicyViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyViewSpec.swift; sourceTree = "<group>"; };
-		5B38F84D1E93F2A000C25EAC /* OnePasswordSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePasswordSpec.swift; sourceTree = "<group>"; };
 		5B3DA2541E6EB9F800370C17 /* CountryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryTableViewController.swift; sourceTree = "<group>"; };
 		5B416D951EE7475B009BA5BD /* SimpleKeychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SimpleKeychain.framework; path = Carthage/Build/iOS/SimpleKeychain.framework; sourceTree = "<group>"; };
 		5B4DE0141DD66DE1004C8AC2 /* EnterpriseDomainInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnterpriseDomainInteractor.swift; path = Lock/EnterpriseDomainInteractor.swift; sourceTree = SOURCE_ROOT; };
@@ -296,9 +291,6 @@
 		5BB4A7C01DF9A38E008E8C37 /* DatabaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseView.swift; sourceTree = "<group>"; };
 		5BB78CC01E54BC2D0074DFE3 /* PasswordlessAuthenticatableErrorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessAuthenticatableErrorSpec.swift; sourceTree = "<group>"; };
 		5BB78CC31E54BD440074DFE3 /* PasswordlessPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordlessPresenterSpec.swift; sourceTree = "<group>"; };
-		5BBD9E2F1E8E6F5E007EF625 /* OnePasswordExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnePasswordExtension.m; sourceTree = "<group>"; };
-		5BBD9E301E8E6F5E007EF625 /* OnePasswordExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnePasswordExtension.h; sourceTree = "<group>"; };
-		5BBD9E351E8E730C007EF625 /* OnePassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePassword.swift; sourceTree = "<group>"; };
 		5BBD9E391E8E929E007EF625 /* IconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		5BCDE1341DDDF12100AA2A6C /* EnterpriseActiveAuthPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseActiveAuthPresenterSpec.swift; sourceTree = "<group>"; };
 		5BCED4C51DD1FCF200E2CE8A /* EnterpriseDomainPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterpriseDomainPresenterSpec.swift; sourceTree = "<group>"; };
@@ -499,30 +491,12 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		5B38F8501E93F45C00C25EAC /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				5B38F84D1E93F2A000C25EAC /* OnePasswordSpec.swift */,
-			);
-			name = Extension;
-			sourceTree = "<group>";
-		};
 		5B64AC4C1F668AF5000A8842 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				5B64AC4D1F668B18000A8842 /* InputFieldSpec.swift */,
 			);
 			name = Components;
-			sourceTree = "<group>";
-		};
-		5B94D5AC1E8E6AF400E9D4F1 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				5BBD9E351E8E730C007EF625 /* OnePassword.swift */,
-				5BBD9E2F1E8E6F5E007EF625 /* OnePasswordExtension.m */,
-				5BBD9E301E8E6F5E007EF625 /* OnePasswordExtension.h */,
-			);
-			name = Extensions;
 			sourceTree = "<group>";
 		};
 		5BEDE13B1EC0A9750007300D /* LockUITests */ = {
@@ -814,7 +788,6 @@
 				5FBE5CB51D3D8EE70038536D /* Models */,
 				5FC434871D1DF7FA005188BC /* Presenters */,
 				5FFC54FC1D37E3E400579581 /* Router */,
-				5B94D5AC1E8E6AF400E9D4F1 /* Extensions */,
 				5F99AA801D1B0A2B00D27842 /* Utils */,
 				5F50900C1D1DF3ED00EAA650 /* Views */,
 				5F99AA831D1B0BCE00D27842 /* Lock.swift */,
@@ -834,7 +807,6 @@
 				5FFC54FF1D3803EC00579581 /* Router */,
 				5F5090061D1DE7A000EAA650 /* Utils */,
 				5B3874CF1E97C0F100244326 /* Controllers */,
-				5B38F8501E93F45C00C25EAC /* Extension */,
 				5FEAE1D71D1A5154005C0028 /* Info.plist */,
 				5B3874D21E97C11E00244326 /* PolicyViewSpec.swift */,
 				5FA2504F1D48E2A200C544FA /* OptionsSpec.swift */,
@@ -928,7 +900,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BBD9E321E8E6F5E007EF625 /* OnePasswordExtension.h in Headers */,
 				5FEAE1CA1D1A5154005C0028 /* Lock.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1032,7 +1003,6 @@
 					};
 					5FEADCF31D1A7EBC0032D810 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 86WQXF56BC;
 						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
@@ -1208,7 +1178,6 @@
 				5B3DA2551E6EB9F800370C17 /* CountryTableViewController.swift in Sources */,
 				5F70F1DF1D7904A3004698DA /* ConnectionBuildable.swift in Sources */,
 				5FC4348F1D1E0A57005188BC /* DatabaseAuthenticable.swift in Sources */,
-				5BBD9E361E8E730C007EF625 /* OnePassword.swift in Sources */,
 				5BE4344F1E64820800950FA1 /* PasswordRecoverable.swift in Sources */,
 				5FD6772C1D4C303C004B87C4 /* AuthButton.swift in Sources */,
 				5F99AA8A1D1B360C00D27842 /* PrimaryButton.swift in Sources */,
@@ -1250,7 +1219,6 @@
 				5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
 				5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */,
 				5B4DE0191DD670F7004C8AC2 /* EnterpriseActiveAuthView.swift in Sources */,
-				5BBD9E311E8E6F5E007EF625 /* OnePasswordExtension.m in Sources */,
 				5B9A544A1E4B354A004B5454 /* PasswordlessPresenter.swift in Sources */,
 				5FBE5CC61D3E7F9D0038536D /* MultifactorPresenter.swift in Sources */,
 				5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */,
@@ -1305,7 +1273,6 @@
 				5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */,
 				5B55F3D41E24FFD000B75CF5 /* UnrecoverableErrorSpec.swift in Sources */,
 				5F73CDDC1D309BE900D8D8D1 /* DatabasePasswordInteractorSpec.swift in Sources */,
-				5B38F84F1E93F2A300C25EAC /* OnePasswordSpec.swift in Sources */,
 				5FA250501D48E2A200C544FA /* OptionsSpec.swift in Sources */,
 				5FBE5CC21D3E5EF50038536D /* MultifactorInteractorSpec.swift in Sources */,
 				5B3874D51E97C14000244326 /* PolicyViewSpec.swift in Sources */,
@@ -1441,8 +1408,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 86WQXF56BC;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1454,7 +1423,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "97f7985c-a5ce-42be-a3e5-39a6c818bc78";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.auth0.Lock";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REEXPORTED_LIBRARY_PATHS = "";
 			};
 			name = Debug;
@@ -1463,8 +1432,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 86WQXF56BC;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1476,7 +1447,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.auth0.Lock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "97f7985c-a5ce-42be-a3e5-39a6c818bc78";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.auth0.Lock";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REEXPORTED_LIBRARY_PATHS = "";
 			};
 			name = Release;

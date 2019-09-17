@@ -125,10 +125,6 @@ class StyleSpec: QuickSpec {
                 expect(style.headerBackIcon) == lazyImage(named: "ic_back")
             }
 
-            it("should have header close button image") {
-                expect(style.onePasswordIconColor) == UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0)
-            }
-
             it("should have modal popup true") {
                 expect(style.modalPopup) == true
             }

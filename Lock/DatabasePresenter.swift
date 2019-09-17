@@ -38,8 +38,6 @@ class DatabasePresenter: Presentable, Loggable {
         }
     }
 
-    var passwordManager: PasswordManager
-
     var authPresenter: AuthPresenter?
     var enterpriseInteractor: EnterpriseDomainInteractor?
 
@@ -59,7 +57,6 @@ class DatabasePresenter: Presentable, Loggable {
         self.database = connection
         self.navigator = navigator
         self.options = options
-        self.passwordManager = options.passwordManager
     }
 
     var view: View {
@@ -96,7 +93,7 @@ class DatabasePresenter: Presentable, Loggable {
         self.messagePresenter?.hideCurrent()
         let authCollectionView = self.authPresenter?.newViewToEmbed(withInsets: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20), isLogin: true)
         let style = self.database.requiresUsername ? self.options.usernameStyle : [.Email]
-        view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView, showPassswordManager: self.passwordManager.available, showPassword: self.options.allowShowPassword)
+        view.showLogin(withIdentifierStyle: style, identifier: identifier, authCollectionView: authCollectionView, showPassword: self.options.allowShowPassword)
         self.currentScreen = .login
         let form = view.form
         form?.onValueChange = self.handleInput
@@ -153,23 +150,6 @@ class DatabasePresenter: Presentable, Loggable {
         view.secondaryButton?.onPress = { button in
             self.navigator.navigate(.forgotPassword)
         }
-
-        if let identifyField = view.identityField, let passwordField = view.passwordField {
-            passwordManager.onUpdate = { [unowned self, unowned identifyField, unowned passwordField] identifier, password in
-                identifyField.text = identifier
-                passwordField.text = password
-                self.handleInput(identifyField)
-                self.handleInput(passwordField)
-            }
-        }
-        view.passwordManagerButton?.onPress = { _ in
-            self.passwordManager.login {
-                guard $0 == nil else {
-                    return self.logger.error("There was a problem with the password manager: \($0.verbatim())")
-                }
-            }
-        }
-
     }
 
     private func showSignup(inView view: DatabaseView, username: String?, email: String?) {
@@ -179,7 +159,7 @@ class DatabasePresenter: Presentable, Loggable {
         let passwordPolicyValidator = interactor?.passwordValidator as? PasswordPolicyValidator
         self.currentScreen = .signup
         interactor?.user.reset()
-        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator, showPassswordManager: self.passwordManager.available, showPassword: self.options.allowShowPassword, showTerms: options.showTerms || options.mustAcceptTerms)
+        view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator, showPassword: self.options.allowShowPassword, showTerms: options.showTerms || options.mustAcceptTerms)
         let form = view.form
         view.form?.onValueChange = self.handleInput
 
@@ -247,23 +227,6 @@ class DatabasePresenter: Presentable, Loggable {
             let privacy = UIAlertAction(title: "Privacy Policy".i18n(key: "com.auth0.lock.database.tos.sheet.privacy", comment: "Privacy"), style: .default, handler: safariBuilder(forURL: self.options.privacyPolicyURL as URL, navigator: self.navigator))
             [cancel, tos, privacy].forEach { alert.addAction($0) }
             self.navigator.present(alert)
-        }
-
-        if let identifyField = view.identityField, let passwordField = view.passwordField {
-            passwordManager.onUpdate = { [unowned self, unowned identifyField, unowned passwordField] identifier, password in
-                identifyField.text = identifier
-                passwordField.text = password
-                self.handleInput(identifyField)
-                self.handleInput(passwordField)
-            }
-        }
-
-        view.passwordManagerButton?.onPress = { _ in
-            self.passwordManager.store(withPolicy: passwordPolicyValidator?.policy.onePasswordRules(), identifier: self.creator.identifier) {
-                guard $0 == nil else {
-                    return self.logger.error("There was a problem with the password manager: \($0.verbatim())")
-                }
-            }
         }
     }
 

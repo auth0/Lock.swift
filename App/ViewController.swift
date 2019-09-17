@@ -50,8 +50,6 @@ class ViewController: UIViewController {
                     .classic()
                     .withOptions {
                         applyDefaultOptions(&$0)
-                        $0.passwordManager.appIdentifier = "www.myapp.com"
-                        $0.passwordManager.displayName = "My App"
                         $0.enterpriseConnectionUsingActiveAuth = ["testAD"]
                     }
                     .withStyle {
@@ -260,9 +258,6 @@ func applyPhantomStyle(_ style: inout Style) {
 
     // Table View
     style.searchBarStyle = .minimal
-
-    // One Password Button
-    style.onePasswordIconColor = darkPurple
 }
 
 class CleanroomLockLogger: LoggerOutput {

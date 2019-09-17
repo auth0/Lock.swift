@@ -27,7 +27,6 @@ protocol DatabaseView: class, View {
     var secondaryButton: SecondaryButton? { get }
     var primaryButton: PrimaryButton? { get }
     var switcher: DatabaseModeSwitcher? { get }
-    var passwordManagerButton: IconButton? { get }
     var showPasswordButton: IconButton? { get }
     var identityField: InputField? { get }
     var passwordField: InputField? { get }
@@ -37,7 +36,7 @@ protocol DatabaseView: class, View {
 
     var allowedModes: DatabaseMode { get }
 
-    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String?, authCollectionView: AuthCollectionView?, showPassswordManager: Bool, showPassword: Bool)
+    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String?, authCollectionView: AuthCollectionView?, showPassword: Bool)
     // swiftlint:disable:next function_parameter_count
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView?, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator?, showPassswordManager: Bool, showPassword: Bool, showTerms: Bool)
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView?, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator?, showPassword: Bool, showTerms: Bool)
 }

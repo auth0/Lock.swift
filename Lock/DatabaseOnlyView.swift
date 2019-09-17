@@ -34,7 +34,6 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var ssoBar: InfoBarView?
     weak var spacer: UIView?
     private var style: Style?
-    weak var passwordManagerButton: IconButton?
     weak var showPasswordButton: IconButton?
 
     weak var identityField: InputField?
@@ -92,7 +91,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     private let separatorIndex = 2
     private let socialIndex = 1
 
-    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil, showPassswordManager: Bool, showPassword: Bool) {
+    func showLogin(withIdentifierStyle style: DatabaseIdentifierStyle, identifier: String? = nil, authCollectionView: AuthCollectionView? = nil, showPassword: Bool) {
         let form = CredentialView()
 
         let type: InputField.InputType
@@ -117,9 +116,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.identityField = form.identityField
         self.passwordField = form.passwordField
 
-        if showPassswordManager {
-            self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: Style.Auth0.onePasswordIconColor)
-        } else if showPassword, let passwordInput = form.passwordField.textField {
+        if showPassword, let passwordInput = form.passwordField.textField {
             self.showPasswordButton = form.passwordField.addFieldButton(withIcon: "ic_show_password_hidden", color: Style.Auth0.inputIconColor)
             self.showPasswordButton?.onPress = { [unowned self] button in
                 passwordInput.isSecureTextEntry = !passwordInput.isSecureTextEntry
@@ -129,7 +126,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
     }
 
     // swiftlint:disable:next function_parameter_count
-    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil, showPassswordManager: Bool, showPassword: Bool, showTerms: Bool) {
+    func showSignUp(withUsername showUsername: Bool, username: String?, email: String?, authCollectionView: AuthCollectionView? = nil, additionalFields: [CustomTextField], passwordPolicyValidator: PasswordPolicyValidator? = nil, showPassword: Bool, showTerms: Bool) {
         let form = SignUpView(additionalFields: additionalFields)
         form.showUsername = showUsername
         form.emailField.text = email
@@ -167,9 +164,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
             }
         }
 
-        if showPassswordManager {
-            self.passwordManagerButton = form.passwordField.addFieldButton(withIcon: "ic_onepassword", color: Style.Auth0.onePasswordIconColor)
-        } else if showPassword, let passwordInput = form.passwordField.textField {
+       if showPassword, let passwordInput = form.passwordField.textField {
             self.showPasswordButton = form.passwordField.addFieldButton(withIcon: "ic_show_password_hidden", color: Style.Auth0.inputIconColor)
             self.showPasswordButton?.onPress = { [unowned self] button in
                 passwordInput.isSecureTextEntry = !passwordInput.isSecureTextEntry
@@ -274,6 +269,5 @@ class DatabaseOnlyView: UIView, DatabaseView {
     func apply(style: Style) {
         self.style = style
         self.separator?.textColor = style.seperatorTextColor
-        self.passwordManagerButton?.color = style.onePasswordIconColor
     }
 }
