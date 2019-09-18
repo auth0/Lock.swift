@@ -432,7 +432,7 @@ If you want to save the value of the attribute in the root of a user's profile, 
 
 #### Password Manager
 
-This functionality has been removed as of Release 2.18 due to the 1Password extension using deprecated methods which can result in your app being rejected by ther AppStore. This functionality was superseded in iOS 12 when apple introduced the integration of password managers into login forms.
+This functionality has been removed as of Release 2.18 due to the 1Password extension using deprecated methods, which can result in your app being rejected by the AppStore. This functionality was superseded in iOS 12 when Apple introduced the integration of password managers into login forms.
 
 If you are setting any of the following options, you will need to remove them.
 
