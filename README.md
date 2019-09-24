@@ -434,7 +434,7 @@ If you want to save the value of the attribute in the root of a user's profile, 
 
 This functionality has been removed as of Release 2.18 due to the 1Password extension using deprecated methods, which can result in your app being rejected by the AppStore. This functionality was superseded in iOS 12 when Apple introduced the integration of password managers into login forms.
 
-If you are setting any of the following options, you will need to remove them.
+The following options are now deprecated:
 
 ```swift
 .withOptions {
@@ -444,7 +444,7 @@ If you are setting any of the following options, you will need to remove them.
 }
 ```
 
-You may also remove the following entry from your app's `Info.plist`:
+You may also safely remove the following entry from your app's `Info.plist`:
 
 ```xml
 <key>LSApplicationQueriesSchemes</key>

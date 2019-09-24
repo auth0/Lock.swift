@@ -50,6 +50,8 @@ struct LockOptions: OptionBuildable {
     var audience: String?
 
     var passwordlessMethod: PasswordlessMethod = .code
+    var passwordManager: OnePassword = OnePassword()
+
     var allowShowPassword: Bool = true
     var configurationBaseURL: URL?
 }

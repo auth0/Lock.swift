@@ -52,6 +52,7 @@ public protocol Options {
     var audience: String? { get }
 
     var passwordlessMethod: PasswordlessMethod { get }
+    var passwordManager: OnePassword { get }
     var allowShowPassword: Bool { get }
 
     var configurationBaseURL: URL? { get }
