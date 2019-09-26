@@ -516,28 +516,3 @@ class MockPasswordlessInteractor: PasswordlessAuthenticatable {
         callback(onLogin())
     }
 }
-
-class MockPasswordManager: PasswordManager {
-
-    var identifier: String = "username"
-    var password: String = "password"
-    
-    var _available: Bool = true
-    var enabled: Bool = true
-
-    var available: Bool {
-        return self.enabled && _available
-    }
-
-    var onUpdate: (String, String) -> Void = { _, _  in }
-
-    func login(callback: @escaping (Error?) -> Void) {
-        self.onUpdate(identifier, self.password)
-        callback(nil)
-    }
-
-    func store(withPolicy policy: [String: Any]?, identifier: String?, callback: @escaping (Error?) -> Void) {
-        self.onUpdate(self.identifier, self.password)
-        callback(nil)
-    }
-}

@@ -52,37 +52,20 @@ public class OnePassword: PasswordManager {
     }
 
     var available: Bool {
-        return self.enabled && OnePasswordExtension.shared().isAppExtensionAvailable()
+        return false
     }
 
     var onUpdate: (String, String) -> Void = { _, _  in }
 
     func login(callback: @escaping (Error?) -> Void) {
-        guard let controller = self.controller else { return }
-        OnePasswordExtension.shared().findLogin(forURLString: self.appIdentifier, for: controller, sender: nil) { (result, error) in
-            guard error == nil else {
-                return callback(error)
-            }
-            self.handleResut(result)
-            callback(nil)
-        }
+        return
     }
 
     func store(withPolicy policy: [String: Any]?, identifier: String?, callback: @escaping (Error?) -> Void) {
-        guard let controller = self.controller else { return }
-        var loginDetails: [String: String] = [ AppExtensionTitleKey: self.displayName ]
-        loginDetails[AppExtensionUsernameKey] = identifier
-        OnePasswordExtension.shared().storeLogin(forURLString: self.appIdentifier, loginDetails: loginDetails, passwordGenerationOptions: policy, for: controller, sender: nil) { (result, error) in
-            guard error == nil else {
-                return callback(error)
-            }
-            self.handleResut(result)
-            callback(nil)
-        }
+        return
     }
 
     private func handleResut(_ dict: [AnyHashable: Any]?) {
-        guard let username = dict?[AppExtensionUsernameKey] as? String, let password = dict?[AppExtensionPasswordKey] as? String else { return }
-        self.onUpdate(username, password)
+        return
     }
 }

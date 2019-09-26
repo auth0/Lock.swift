@@ -101,6 +101,7 @@ public protocol OptionBuildable: Options {
     var passwordlessMethod: PasswordlessMethod { get set }
 
         /// Specify the password manager configuration, specify the appIdentifier, displyName and enable/disable manager.  By default manager is enabled and defaults to the app's bundle identifier and display name.
+    @available(*, deprecated, message: "replaced by iOS built-in password manager support")
     var passwordManager: OnePassword { get set }
 
         /// Should Lock display the option to toggle the visibility of the password field text, will not be visible if password manager is available.  By default is true

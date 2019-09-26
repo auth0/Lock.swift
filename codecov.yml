@@ -3,7 +3,7 @@ coverage:
   round: down
   range: "70...100"
   ignore:
-    - Lock/OnePasswordExtension.*
+    - Lock/OnePassword.swift
     - LockTests/*
     - App/*
   status:
