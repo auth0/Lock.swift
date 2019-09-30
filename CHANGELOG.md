@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.13.0](https://github.com/auth0/Lock.swift/tree/2.13.0) (2019-09-30)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.12.0...2.13.0)
+
+**Deprecated**
+- Deprecated Legacy 1Password Manager Functionality [\#572](https://github.com/auth0/Lock.swift/pull/572) ([cocojoe](https://github.com/cocojoe))
+
+**Fixed**
+- Fix LockViewController scrolling [\#571](https://github.com/auth0/Lock.swift/pull/571) ([ejensen](https://github.com/ejensen))
+
 ## [2.12.0](https://github.com/auth0/Lock.swift/tree/2.12.0) (2019-08-27)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.11.0...2.12.0)
 
