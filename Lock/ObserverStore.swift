@@ -40,23 +40,25 @@ struct ObserverStore: Dispatcher {
         switch result {
         case .auth(let credentials):
             if self.options.autoClose {
-                closure = dismiss(from: controller?.presentingViewController, completion: { self.onAuth(credentials) })
+                closure = dismiss(from: controller, completion: { self.onAuth(credentials) })
             } else {
                 closure = { self.onAuth(credentials) }
             }
         case .error(let error):
             closure = { self.onFailure(error) }
         case .cancel:
-            closure = dismiss(from: controller?.presentingViewController, completion: { self.onCancel() })
+            closure = dismiss(from: controller, completion: { self.onCancel() })
         case .signUp(let email, let attributes):
             if !self.options.allow.contains(.Login) && self.options.autoClose {
-                closure = dismiss(from: controller?.presentingViewController, completion: { self.onSignUp(email, attributes) })
+                closure = dismiss(from: controller, completion: {
+					self.onSignUp(email, attributes)
+				})
             } else {
                 closure = { self.onSignUp(email, attributes) }
             }
         case .forgotPassword(let email):
             if !self.options.allow.contains(.Login) && self.options.autoClose {
-                closure = dismiss(from: controller?.presentingViewController, completion: { self.onForgotPassword(email) })
+                closure = dismiss(from: controller, completion: { self.onForgotPassword(email) })
             } else {
                 closure = { self.onForgotPassword(email) }
             }
@@ -67,9 +69,15 @@ struct ObserverStore: Dispatcher {
         Queue.main.async(closure)
     }
 
-    private func dismiss(from controller: UIViewController?, completion: @escaping () -> Void) -> () -> Void {
-        guard let controller = controller else { return completion }
-        return { controller.dismiss(animated: true, completion: completion) }
+    private func dismiss(from sub: UIViewController?, completion: @escaping () -> Void) -> () -> Void {
+		return {
+			//controller?.presentingViewController has to be INSIDE Queue.main.async
+			if let controller = sub?.presentingViewController {
+				controller.dismiss(animated: true, completion: completion)
+			} else {
+				completion()
+			}
+		}
     }
 }
 
