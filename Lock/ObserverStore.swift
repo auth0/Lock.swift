@@ -69,10 +69,9 @@ struct ObserverStore: Dispatcher {
         Queue.main.async(closure)
     }
 
-    private func dismiss(from sub: UIViewController?, completion: @escaping () -> Void) -> () -> Void {
+    private func dismiss(from controller: UIViewController?, completion: @escaping () -> Void) -> () -> Void {
 		return {
-			//controller?.presentingViewController has to be INSIDE Queue.main.async
-			if let controller = sub?.presentingViewController {
+			if let controller = controller?.presentingViewController {
 				controller.dismiss(animated: true, completion: completion)
 			} else {
 				completion()
