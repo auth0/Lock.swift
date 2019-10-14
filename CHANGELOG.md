@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.13.1](https://github.com/auth0/Lock.swift/tree/2.13.1) (2019-10-14)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.13.0...2.13.1)
+
+**Fixed**
+- Fix iOS 13.x Bug - Calling UI on non-main thread [\#576](https://github.com/auth0/Lock.swift/pull/576) ([pixeled](https://github.com/pixeled))
+
 ## [2.13.0](https://github.com/auth0/Lock.swift/tree/2.13.0) (2019-09-30)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.12.0...2.13.0)
 
