@@ -120,15 +120,14 @@ class PrimaryButton: UIView, Stylable {
         attachment.image = image(named: "ic_chevron_right", compatibleWithTraitCollection: self.traitCollection)
         attachment.bounds = CGRect(x: 0.0, y: font.descender / 2.0, width: attachment.image!.size.width, height: attachment.image!.size.height)
 
-        let attributedText = NSMutableAttributedString()
-        attributedText.append(NSAttributedString(
-            string: "\(title)  ",
-            attributes: [
+        let attributedText = NSMutableAttributedString(string: "\(title)  ")
+        attributedText.append(NSAttributedString(attachment: attachment))
+        attributedText.addAttributes(
+            [
                 NSAttributedString.attributedKeyColor: self.textColor ?? Style.Auth0.buttonTintColor,
                 NSAttributedString.attributedFont: font
-            ]
-        ))
-        attributedText.append(NSAttributedString(attachment: attachment))
+            ],
+            range: NSRange(location: 0, length: attributedText.length))
         button.setAttributedTitle(attributedText, for: .normal)
         button.setAttributedTitle(NSAttributedString(), for: .disabled)
     }
