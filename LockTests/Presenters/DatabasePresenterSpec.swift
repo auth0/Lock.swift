@@ -51,7 +51,7 @@ class DatabasePresenterSpec: QuickSpec {
             messagePresenter = MockMessagePresenter()
             interactor = MockDBInteractor()
             navigator = MockNavigator()
-            presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+            presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
             presenter.messagePresenter = messagePresenter
             view = presenter.view as? DatabaseOnlyView
         }
@@ -163,7 +163,7 @@ class DatabasePresenterSpec: QuickSpec {
             it("should keep switcher when login and signup are allowed") {
                 var options = LockOptions()
                 options.allow = [.Login, .Signup]
-                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                 view = presenter.view as? DatabaseOnlyView
                 expect(view.switcher).toNot(beNil())
             }
@@ -171,7 +171,7 @@ class DatabasePresenterSpec: QuickSpec {
             it("should remove switcher when login or signup are not allowed") {
                 var options = LockOptions()
                 options.allow = [.Login]
-                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                 view = presenter.view as? DatabaseOnlyView
                 expect(view.switcher).to(beNil())
             }
@@ -179,7 +179,7 @@ class DatabasePresenterSpec: QuickSpec {
             it("should remove forgot button if it's not allowed") {
                 var options = LockOptions()
                 options.allow = [.Login]
-                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                 view = presenter.view as? DatabaseOnlyView
                 expect(view.secondaryButton).to(beNil())
             }
@@ -188,7 +188,7 @@ class DatabasePresenterSpec: QuickSpec {
                 var options = LockOptions()
                 options.allow = [.Login]
                 options.initialScreen = .login
-                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                 view = presenter.view as? DatabaseOnlyView
                 expect(view.form as? CredentialView).toNot(beNil())
             }
@@ -196,7 +196,7 @@ class DatabasePresenterSpec: QuickSpec {
             it("should show signup if login is not allowed") {
                 var options = LockOptions()
                 options.allow = [.Signup]
-                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                 view = presenter.view as? DatabaseOnlyView
                 expect(view.form as? SignUpView).toNot(beNil())
             }
@@ -205,7 +205,7 @@ class DatabasePresenterSpec: QuickSpec {
                 var options = LockOptions()
                 options.allow = [.Signup, .Login]
                 options.initialScreen = .signup
-                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                 view = presenter.view as? DatabaseOnlyView
                 expect(view.form as? SignUpView).toNot(beNil())
             }
@@ -213,7 +213,7 @@ class DatabasePresenterSpec: QuickSpec {
             it("should always show terms button in signup") {
                 var options = LockOptions()
                 options.allow = [.Signup]
-                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                 view = presenter.view as? DatabaseOnlyView
                 expect(view.secondaryButton).toNot(beNil())
             }
@@ -222,7 +222,7 @@ class DatabasePresenterSpec: QuickSpec {
                 var options = LockOptions()
                 options.allow = [.Signup]
                 options.showTerms = false
-                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                 view = presenter.view as? DatabaseOnlyView
                 expect(view.secondaryButton).to(beNil())
             }
@@ -232,7 +232,7 @@ class DatabasePresenterSpec: QuickSpec {
                 options.allow = [.Signup]
                 options.showTerms = false
                 options.mustAcceptTerms = true
-                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                 view = presenter.view as? DatabaseOnlyView
                 expect(view.secondaryButton).toNot(beNil())
             }
@@ -470,7 +470,7 @@ class DatabasePresenterSpec: QuickSpec {
                 it("should always show terms button in signup") {
                     var options = LockOptions()
                     options.autoClose = false
-                    presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                    presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                     presenter.messagePresenter = messagePresenter
                     view = presenter.view as? DatabaseOnlyView
                     interactor.onLogin = {
@@ -718,7 +718,7 @@ class DatabasePresenterSpec: QuickSpec {
 
                     beforeEach {
                         options.mustAcceptTerms = true
-                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: false), navigator: navigator, options: options)
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: false), navigator: navigator, options: options, style: .Auth0)
                         view = presenter.view as? DatabaseOnlyView
                         view.switcher?.selected = .signup
                         view.switcher?.onSelectionChange(view.switcher!)
@@ -754,7 +754,7 @@ class DatabasePresenterSpec: QuickSpec {
                     }
 
                     it("should switch to login on success") {
-                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                         view = presenter.view as? DatabaseOnlyView
 
                         let button = view.primaryButton!
@@ -767,7 +767,7 @@ class DatabasePresenterSpec: QuickSpec {
 
                     it("should remain on signup on success") {
                         options.allow = .Signup
-                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                         view = presenter.view as? DatabaseOnlyView
 
                         let button = view.primaryButton!
@@ -784,7 +784,7 @@ class DatabasePresenterSpec: QuickSpec {
                             options.loginAfterSignup = false
                             options.allow = [.Signup]
                             options.autoClose = false
-                            presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                            presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                             presenter.messagePresenter = messagePresenter
                             view = presenter.view as? DatabaseOnlyView
                         }
@@ -919,7 +919,7 @@ class DatabasePresenterSpec: QuickSpec {
                         connections = OfflineConnections()
                         connections.enterprise(name: "validAD", domains: ["valid.com"])
                         
-                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options)
+                        presenter = DatabasePresenter(authenticator: interactor, creator: interactor, connection: DatabaseConnection(name: connection, requiresUsername: true), navigator: navigator, options: options, style: .Auth0)
                         enterpriseInteractor = EnterpriseDomainInteractor(connections: connections, user: user, authentication: oauth2)
                         presenter.enterpriseInteractor = enterpriseInteractor
                         
