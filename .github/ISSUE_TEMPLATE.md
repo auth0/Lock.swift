@@ -20,7 +20,7 @@ Description of the bug or feature request and why it's a problem. Consider inclu
 
 Please provide the following:
 
-- Lock version
+- Lock version 1
 - iOS version
 - If using Carthage or CocoaPods, please include your Cartfile or Podfile
 - Xcode version
