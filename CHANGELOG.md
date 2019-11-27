@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.13.2](https://github.com/auth0/Lock.swift/tree/2.13.2) (2019-11-27)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.13.1...2.13.2)
+
+**Fixed**
+- Fix PrimaryButton chevron tinting [\#579](https://github.com/auth0/Lock.swift/pull/579) ([ejensen](https://github.com/ejensen))
+
 ## [2.13.1](https://github.com/auth0/Lock.swift/tree/2.13.1) (2019-10-14)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.13.0...2.13.1)
 
