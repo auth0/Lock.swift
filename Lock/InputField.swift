@@ -52,9 +52,12 @@ class InputField: UIView, Stylable {
     var type: InputType = .email {
         didSet {
             self.textField?.placeholder = type.placeholder
+            if self.textField?.text?.isEmpty ?? true {
+                self.textField?.text = type.defaultValue
+            }
             self.textField?.isSecureTextEntry = type.secure
-            self.textField?.autocorrectionType = .no
-            self.textField?.autocapitalizationType = .none
+            self.textField?.autocorrectionType = type.autocorrectionType
+            self.textField?.autocapitalizationType = type.autocapitalizationType
             self.textField?.keyboardType = type.keyboardType
             if #available(iOS 10.0, *) {
                 self.textField?.textContentType = type.contentType
@@ -64,6 +67,10 @@ class InputField: UIView, Stylable {
             } else if let textField = self.textField, let container = self.containerView {
                 self.iconContainer?.removeFromSuperview()
                 textFieldLeftAnchor = constraintEqual(anchor: textField.leftAnchor, toAnchor: container.leftAnchor, constant: 16)
+            }
+            isHidden = type.hidden
+            if isHidden {
+                showValid()
             }
         }
     }
@@ -270,7 +277,7 @@ class InputField: UIView, Stylable {
         case password
         case phone
         case oneTimePassword
-        case custom(name: String, placeholder: String, storage: UserStorage, icon: LazyImage?, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, secure: Bool, contentType: UITextContentType?)
+        case custom(name: String, placeholder: String, defaultValue: String?, storage: UserStorage, icon: LazyImage?, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, autocapitalizationType: UITextAutocapitalizationType, secure: Bool, hidden: Bool, contentType: UITextContentType?)
 
         var placeholder: String? {
             switch self {
@@ -286,20 +293,38 @@ class InputField: UIView, Stylable {
                 return "Phone Number".i18n(key: "com.auth0.lock.input.phone.placeholder", comment: "Phone placeholder")
             case .oneTimePassword:
                 return "Code".i18n(key: "com.auth0.lock.input.otp.placeholder", comment: "OTP placeholder")
-            case .custom(_, let placeholder, _, _, _, _, _, _):
+            case .custom(_, let placeholder, _, _, _, _, _, _, _, _, _):
                 return placeholder
             }
         }
 
-        var secure: Bool {
-            if case .password = self {
-                return true
+        var defaultValue: String? {
+            switch self {
+            case .custom(_, _, let defaultValue, _, _, _, _, _, _, _, _):
+                return defaultValue
+            default:
+                return nil
             }
+        }
 
-            if case .custom(_, _, _, _, _, _, let secure, _) = self {
+        var secure: Bool {
+            switch self {
+            case .password:
+                return true
+            case .custom(_, _, _, _, _, _, _, _, let secure, _, _):
                 return secure
+            default:
+                return false
             }
-            return false
+        }
+
+        var hidden: Bool {
+            switch self {
+            case .custom(_, _, _, _, _, _, _, _, _, let hidden, _):
+                return hidden
+            default:
+                return false
+            }
         }
 
         var icon: LazyImage? {
@@ -316,7 +341,7 @@ class InputField: UIView, Stylable {
                 return lazyImage(named: "ic_phone")
             case .oneTimePassword:
                 return lazyImage(named: "ic_lock")
-            case .custom(_, _, _, let icon, _, _, _, _):
+            case .custom(_, _, _, _, let icon, _, _, _, _, _, _):
                 return icon
             }
         }
@@ -335,7 +360,7 @@ class InputField: UIView, Stylable {
                 return .phonePad
             case .oneTimePassword:
                 return .decimalPad
-            case .custom(_, _, _, _, let keyboardType, _, _, _):
+            case .custom(_, _, _, _, _, let keyboardType, _, _, _, _, _):
                 return keyboardType
             }
         }
@@ -369,17 +394,26 @@ class InputField: UIView, Stylable {
                     }
                 #endif
                 return nil
-            case .custom(_, _, _, _, _, _, _, let contentType):
+            case .custom(_, _, _, _, _, _, _, _, _, _, let contentType):
                 return contentType
             }
         }
 
         var autocorrectionType: UITextAutocorrectionType {
             switch self {
-            case .custom(_, _, _, _, _, let autocorrectionType, _, _):
+            case .custom(_, _, _, _, _, _, let autocorrectionType, _, _, _, _):
                 return autocorrectionType
             default:
                 return .no
+            }
+        }
+
+        var autocapitalizationType: UITextAutocapitalizationType {
+            switch self {
+            case .custom(_, _, _, _, _, _, _, let autocapitalizationType, _, _, _):
+                return autocapitalizationType
+            default:
+                return .none
             }
         }
     }

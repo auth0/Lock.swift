@@ -419,11 +419,15 @@ When signing up the default information requirements are the user's *email* and 
 
 If you want to save the value of the attribute in the root of a user's profile, ensure you set the  `storage` parameter to `.rootAttribute`. Only a subset of values can be stored this way. The list of attributes that can be added to your root profile is [here](https://auth0.com/docs/api/authentication#signup). By default, every additional sign up field is stored inside the user's `user_metadata` object.
 
+When signing up, your app may need to assign values to the user's profile that are not entered by the user. The `hidden` property of `CustomTextField` prevents the signup field from being shown to the user. Allowing your app to assign default values to the user profile.
+
+
 ```swift
 .withOptions {
   $0.customSignupFields = [
     CustomTextField(name: "first_name", placeholder: "First Name", storage: .rootAttribute, icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .givenName),
-    CustomTextField(name: "last_name", placeholder: "Last Name", storage: .rootAttribute, icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .familyName)
+    CustomTextField(name: "last_name", placeholder: "Last Name", storage: .rootAttribute, icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .familyName),
+    CustomTextField(name: "referral_code", placeholder: "Referral Code", defaultValue: referralCode, hidden: true)
   ]
 }
 ```
