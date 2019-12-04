@@ -117,6 +117,7 @@ class AuthStyleSpec: QuickSpec {
             [
                 forStyle(.Amazon, name: "AMAZON", iconName: "ic_auth_amazon"),
                 forStyle(.Aol, name: "AOL", iconName: "ic_auth_aol"),
+                forStyle(.Apple, name: "Apple", iconName: "ic_auth_apple"),
                 forStyle(.Baidu, name: "百度", iconName: "ic_auth_baidu"),
                 forStyle(.Bitbucket, name: "BITBUCKET", iconName: "ic_auth_bitbucket"),
                 forStyle(.Dropbox, name: "DROPBOX", iconName: "ic_auth_dropbox"),
@@ -170,6 +171,7 @@ class AuthStyleSpec: QuickSpec {
                 ("adfs", AuthStyle.Microsoft),
                 ("amazon", AuthStyle.Amazon),
                 ("aol", AuthStyle.Aol),
+                ("apple", AuthStyle.Apple),
                 ("baidu", AuthStyle.Baidu),
                 ("bitbucket", AuthStyle.Bitbucket),
                 ("dropbox", AuthStyle.Dropbox),

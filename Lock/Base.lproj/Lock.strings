@@ -150,6 +150,8 @@
 "com.auth0.lock.strategy.localized.amazon" = "AMAZON";
 // Aol
 "com.auth0.lock.strategy.localized.aol" = "AOL";
+// Apple
+"com.auth0.lock.strategy.localized.apple" = "APPLE";
 // Baidu
 "com.auth0.lock.strategy.localized.baidu" = "百度";
 // Bitbucket
