@@ -110,7 +110,6 @@ class InputFieldSpec: QuickSpec {
                 expect(text.keyboardType) == UIKeyboardType.default
             }
 
-
             it("should assign phone type") {
                 input.type = .phone
                 expect(text.keyboardType) == UIKeyboardType.phonePad
@@ -122,8 +121,231 @@ class InputFieldSpec: QuickSpec {
             }
 
             it("should assign custom type") {
-                input.type = .custom(name: "test", placeholder: "", storage: .userMetadata, icon: nil, keyboardType: .twitter, autocorrectionType: .no, secure: false, contentType: nil)
+                input.type = .custom(name: "test", placeholder: "", defaultValue: nil, storage: .userMetadata, icon: nil, keyboardType: .twitter, autocorrectionType: .no, autocapitalizationType: .none, secure: false, hidden: false, contentType: nil)
                 expect(text.keyboardType) == UIKeyboardType.twitter
+            }
+        }
+
+        describe("autocorrect type") {
+            var input: InputField!
+            var text: UITextField!
+
+            beforeEach {
+                input = InputField()
+                text = input.textField
+            }
+
+            it("should assign email type") {
+                input.type = .email
+                expect(text.autocorrectionType) == .no
+            }
+
+            it("should assign username type") {
+                input.type = .username
+                expect(text.autocorrectionType) == .no
+            }
+
+            it("should assign emailOrUsername type") {
+                input.type = .emailOrUsername
+                expect(text.autocorrectionType) == .no
+            }
+
+            it("should assign password type") {
+                input.type = .password
+                expect(text.autocorrectionType) == .no
+            }
+
+            it("should assign phone type") {
+                input.type = .phone
+                expect(text.autocorrectionType) == .no
+            }
+
+            it("should assign oneTimePassword type") {
+                input.type = .oneTimePassword
+                expect(text.autocorrectionType) == .no
+            }
+
+            it("should assign custom type") {
+                input.type = .custom(name: "test", placeholder: "", defaultValue: nil, storage: .userMetadata, icon: nil, keyboardType: .default, autocorrectionType: .yes, autocapitalizationType: .none, secure: false, hidden: false, contentType: nil)
+                expect(text.autocorrectionType) == .yes
+            }
+        }
+
+        describe("autocapitalization type") {
+            var input: InputField!
+            var text: UITextField!
+
+            beforeEach {
+                input = InputField()
+                text = input.textField
+            }
+
+            it("should assign email type") {
+                input.type = .email
+                expect(text.autocapitalizationType) == UITextAutocapitalizationType.none
+            }
+
+            it("should assign username type") {
+                input.type = .username
+                expect(text.autocapitalizationType) == UITextAutocapitalizationType.none
+            }
+
+            it("should assign emailOrUsername type") {
+                input.type = .emailOrUsername
+                expect(text.autocapitalizationType) == UITextAutocapitalizationType.none
+            }
+
+            it("should assign password type") {
+                input.type = .password
+                expect(text.autocapitalizationType) == UITextAutocapitalizationType.none
+            }
+
+            it("should assign phone type") {
+                input.type = .phone
+                expect(text.autocapitalizationType) == UITextAutocapitalizationType.none
+            }
+
+            it("should assign oneTimePassword type") {
+                input.type = .oneTimePassword
+                expect(text.autocapitalizationType) == UITextAutocapitalizationType.none
+            }
+
+            it("should assign custom type") {
+                input.type = .custom(name: "test", placeholder: "", defaultValue: nil, storage: .userMetadata, icon: nil, keyboardType: .default, autocorrectionType: .default, autocapitalizationType: .words, secure: false, hidden: false, contentType: nil)
+                expect(text.autocapitalizationType) == .words
+            }
+        }
+
+        describe("default value") {
+            var input: InputField!
+            var text: UITextField!
+
+            beforeEach {
+                input = InputField()
+                text = input.textField
+            }
+
+            it("should assign email value") {
+                input.type = .email
+                expect(text.text?.isEmpty ?? true) == true
+            }
+
+            it("should assign username value") {
+                input.type = .username
+                expect(text.text?.isEmpty ?? true) == true
+            }
+
+            it("should assign emailOrUsername value") {
+                input.type = .emailOrUsername
+                expect(text.text?.isEmpty ?? true) == true
+            }
+
+            it("should assign password value") {
+                input.type = .password
+                expect(text.text?.isEmpty ?? true) == true
+            }
+
+            it("should assign phone value") {
+                input.type = .phone
+                expect(text.text?.isEmpty ?? true) == true
+            }
+
+            it("should assign oneTimePassword value") {
+                input.type = .oneTimePassword
+                expect(text.text?.isEmpty ?? true) == true
+            }
+
+            it("should assign custom value") {
+                input.type = .custom(name: "test", placeholder: "", defaultValue: "Default Value", storage: .userMetadata, icon: nil, keyboardType: .default, autocorrectionType: .default, autocapitalizationType: .none, secure: true, hidden: false, contentType: nil)
+                expect(text.text) == "Default Value"
+            }
+        }
+
+        describe("secure value") {
+            var input: InputField!
+            var text: UITextField!
+
+            beforeEach {
+                input = InputField()
+                text = input.textField
+            }
+
+            it("should assign email value") {
+                input.type = .email
+                expect(text.isSecureTextEntry) == false
+            }
+
+            it("should assign username value") {
+                input.type = .username
+                expect(text.isSecureTextEntry) == false
+            }
+
+            it("should assign emailOrUsername value") {
+                input.type = .emailOrUsername
+                expect(text.isSecureTextEntry) == false
+            }
+
+            it("should assign password value") {
+                input.type = .password
+                expect(text.isSecureTextEntry) == true
+            }
+
+            it("should assign phone value") {
+                input.type = .phone
+                expect(text.isSecureTextEntry) == false
+            }
+
+            it("should assign oneTimePassword value") {
+                input.type = .oneTimePassword
+                expect(text.isSecureTextEntry) == false
+            }
+
+            it("should assign custom value") {
+                input.type = .custom(name: "test", placeholder: "", defaultValue: nil, storage: .userMetadata, icon: nil, keyboardType: .default, autocorrectionType: .default, autocapitalizationType: .words, secure: true, hidden: false, contentType: nil)
+                expect(text.isSecureTextEntry) == true
+            }
+        }
+
+        describe("hidden value") {
+            var input: InputField!
+
+            beforeEach {
+                input = InputField()
+            }
+
+            it("should assign email value") {
+                input.type = .email
+                expect(input.isHidden) == false
+            }
+
+            it("should assign username value") {
+                input.type = .username
+                expect(input.isHidden) == false
+            }
+
+            it("should assign emailOrUsername value") {
+                input.type = .emailOrUsername
+                expect(input.isHidden) == false
+            }
+
+            it("should assign password value") {
+                input.type = .password
+                expect(input.isHidden) == false
+            }
+
+            it("should assign phone value") {
+                input.type = .phone
+                expect(input.isHidden) == false
+            }
+
+            it("should assign oneTimePassword value") {
+                input.type = .oneTimePassword
+                expect(input.isHidden) == false
+            }
+
+            it("should assign custom value") {
+                input.type = .custom(name: "test", placeholder: "", defaultValue: nil, storage: .userMetadata, icon: nil, keyboardType: .default, autocorrectionType: .default, autocapitalizationType: .words, secure: false, hidden: true, contentType: nil)
+                expect(input.isHidden) == true
             }
         }
 
@@ -182,7 +404,7 @@ class InputFieldSpec: QuickSpec {
 
             if #available(iOS 10.0, *) {
                 it("should assign custom type") {
-                    input.type = .custom(name: "test", placeholder: "", storage: .userMetadata, icon: nil, keyboardType: .default, autocorrectionType: .no, secure: false, contentType: .name)
+                    input.type = .custom(name: "test", placeholder: "", defaultValue: nil, storage: .userMetadata, icon: nil, keyboardType: .default, autocorrectionType: .no, autocapitalizationType: .none, secure: false, hidden: false, contentType: .name)
                     expect(text.textContentType) == UITextContentType.name
                 }
             }

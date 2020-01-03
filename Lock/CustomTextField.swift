@@ -26,28 +26,34 @@ public struct CustomTextField {
 
     let name: String
     let placeholder: String
+    let defaultValue: String?
     let storage: UserStorage
     let icon: LazyImage?
     let keyboardType: UIKeyboardType
     let autocorrectionType: UITextAutocorrectionType
+    let autocapitalizationType: UITextAutocapitalizationType
     let secure: Bool
+    let hidden: Bool
     let contentType: UITextContentType?
     let validation: (String?) -> Error?
 
-    public init(name: String, placeholder: String, storage: UserStorage = .userMetadata, icon: LazyImage? = nil, keyboardType: UIKeyboardType = .default, autocorrectionType: UITextAutocorrectionType = .default, secure: Bool = false, contentType: UITextContentType? = nil, validation: @escaping (String?) -> Error? = nonEmpty) {
+    public init(name: String, placeholder: String, defaultValue: String? = nil, storage: UserStorage = .userMetadata, icon: LazyImage? = nil, keyboardType: UIKeyboardType = .default, autocorrectionType: UITextAutocorrectionType = .default, autocapitalizationType: UITextAutocapitalizationType = .none, secure: Bool = false, hidden: Bool = false, contentType: UITextContentType? = nil, validation: @escaping (String?) -> Error? = nonEmpty) {
         self.name = name
         self.placeholder = placeholder
+        self.defaultValue = defaultValue
         self.icon = icon
         self.keyboardType = keyboardType
         self.autocorrectionType = autocorrectionType
+        self.autocapitalizationType = autocapitalizationType
         self.secure = secure
+        self.hidden = hidden
         self.contentType = contentType
         self.validation = validation
         self.storage = storage
     }
 
     var type: InputField.InputType {
-        return .custom(name: name, placeholder: placeholder, storage: storage, icon: icon, keyboardType: keyboardType, autocorrectionType: self.autocorrectionType, secure: secure, contentType: contentType)
+        return .custom(name: name, placeholder: placeholder, defaultValue: defaultValue, storage: storage, icon: icon, keyboardType: keyboardType, autocorrectionType: autocorrectionType, autocapitalizationType: autocapitalizationType, secure: secure, hidden: hidden, contentType: contentType)
     }
 }
 
