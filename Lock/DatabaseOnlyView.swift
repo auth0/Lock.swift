@@ -141,7 +141,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         self.identityField = showUsername ? form.usernameField : form.emailField
         self.passwordField = form.passwordField
-        self.allFields = form.stackView.arrangedSubviews.map { $0 as? InputField }.filter { $0 != nil }.map { $0! }
+        self.allFields = form.stackView.arrangedSubviews.compactMap { $0 as? InputField }
 
         if let passwordPolicyValidator = passwordPolicyValidator {
             let passwordPolicyView = PolicyView(rules: passwordPolicyValidator.policy.rules)
