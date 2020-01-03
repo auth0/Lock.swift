@@ -89,19 +89,33 @@ struct PasswordlessInteractor: PasswordlessAuthenticatable, Loggable {
     }
 
     func login(_ connection: String, callback: @escaping (CredentialAuthError?) -> Void) {
-        guard let password = self.code, self.validCode, var identifier = self.identifier, self.validIdentifier
+        guard let code = self.code, self.validCode, var identifier = self.identifier, self.validIdentifier
             else { return callback(.nonValidInput) }
 
         if let countryCode = self.countryCode {
             identifier = countryCode.phoneCode + identifier
         }
 
-        CredentialAuth(oidc: options.oidcConformant, realm: connection, authentication: authentication)
-            .request(withIdentifier: identifier, password: password, options: self.options)
-            .start { result in
-                self.handle(identifier: identifier, result: result, callback: callback)
+        var request: Request<Credentials, AuthenticationError>
+        if !options.oidcConformant {
+            request = CredentialAuth(oidc: false, realm: connection, authentication: authentication)
+                .request(withIdentifier: identifier, password: code, options: options)
+        } else if connection == "email" {
+            request = authentication.login(email: identifier,
+                                           code: code,
+                                           audience: options.audience,
+                                           scope: options.scope,
+                                           parameters: options.parameters)
+        } else {
+            request = authentication.login(phoneNumber: identifier,
+                                           code: code,
+                                           audience: options.audience,
+                                           scope: options.scope,
+                                           parameters: options.parameters)
         }
-
+        request.start { result in
+            self.handle(identifier: identifier, result: result, callback: callback)
+        }
     }
 
     mutating func update(_ type: InputField.InputType, value: String?) throws {

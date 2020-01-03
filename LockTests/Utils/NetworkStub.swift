@@ -47,6 +47,11 @@ func databaseLogin(identifier: String, password: String, code: String? = nil, co
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/ro") && hasAtLeast(parameters)
 }
 
+func passwordlessLogin(username: String, otp: String, realm: String) -> OHHTTPStubsTestBlock {
+    let parameters = ["username": username, "otp": otp, "realm": realm, "grant_type": "http://auth0.com/oauth/grant-type/passwordless/otp"]
+    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
+}
+
 func otpLogin(otp: String, mfaToken: String) -> OHHTTPStubsTestBlock {
     let parameters = ["otp": code, "mfa_token": mfaToken]
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
