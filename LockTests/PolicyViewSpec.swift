@@ -39,6 +39,8 @@ class PolicyViewSpec: QuickSpec {
         }
 
         context("rule view") {
+            
+            let style = Style.Auth0
 
             describe("init") {
 
@@ -49,7 +51,7 @@ class PolicyViewSpec: QuickSpec {
 
                 it("should have default color of status none") {
                     let ruleView = RuleView(message: "MY RULE")
-                    expect(ruleView.status.color) == UIColor(red: 0.016, green: 0.016, blue: 0.016, alpha: 1)
+                    expect(ruleView.status.color(from: style)) == Style.Auth0.ruleTextColor
                 }
 
             }
@@ -61,10 +63,15 @@ class PolicyViewSpec: QuickSpec {
                 beforeEach {
                     ruleView = RuleView(message: "MY RULE")
                 }
+                
+                it("should change status color to success") {
+                    ruleView.status = .ok
+                    expect(ruleView.status.color(from: style)) == Style.Auth0.ruleTextColorSuccess
+                }
 
                 it("should change status color to error") {
                     ruleView.status = .error
-                    expect(ruleView.status.color) == UIColor(red: 0.745, green: 0.271, blue: 0.153, alpha: 1)
+                    expect(ruleView.status.color(from: style)) == Style.Auth0.ruleTextColorError
                 }
 
             }
