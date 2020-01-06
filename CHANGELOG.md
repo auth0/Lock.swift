@@ -1,5 +1,16 @@
 # Change Log
 
+## [2.14.0](https://github.com/auth0/Lock.swift/tree/2.14.0) (2020-01-06)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.13.2...2.14.0)
+
+**Added**
+- Allowed customization of rule text color [SDK-1243] [\#590](https://github.com/auth0/Lock.swift/pull/590) ([Widcket](https://github.com/Widcket))
+- Added support for hidden CustomTextField [\#587](https://github.com/auth0/Lock.swift/pull/587) ([ejensen](https://github.com/ejensen))
+- Added default styling for Sign in with Apple social login button [\#586](https://github.com/auth0/Lock.swift/pull/586) ([ejensen](https://github.com/ejensen))
+
+**Changed**
+- Replaced old passwordless authentication method [SDK-1186] [\#591](https://github.com/auth0/Lock.swift/pull/591) ([Widcket](https://github.com/Widcket))
+
 ## [2.13.2](https://github.com/auth0/Lock.swift/tree/2.13.2) (2019-11-27)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.13.1...2.13.2)
 
