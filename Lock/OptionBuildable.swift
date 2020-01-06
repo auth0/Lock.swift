@@ -126,11 +126,10 @@ extension OptionBuildable {
     }
 
     func validatePasswordless() -> UnrecoverableError? {
-        if !self.oidcConformant && self.audience != nil {
-            return UnrecoverableError.invalidOptions(cause: "Audience option not available in Lock Passwordless")
-        }
+        guard self.oidcConformant || self.audience == nil else { return UnrecoverableError.invalidOptions(cause: "Must set OIDC-Conformant flag in Lock to use audience option") }
         return nil
     }
+    
 }
 
 public extension OptionBuildable {
