@@ -228,7 +228,7 @@ Lock Passwordless handles authentication using Passwordless & Social Connections
 
 To use Passwordless Authentication with Lock, you need to configure it with **OIDC Conformant Mode** set to `true`.
 
-> It is strongly encouraged that Lock be used in OIDC Conformant mode. When this mode is enabled, it will force Lock to use Auth0's current authentication pipeline and will prevent it from reaching legacy endpoints. By default this is `false`. For more information, please see the [OIDC adoption guide](https://auth0.com/docs/api-auth/tutorials/adoption).
+> OIDC Conformant Mode will force Lock to use Auth0's current authentication pipeline and will prevent it from reaching legacy endpoints. By default this mode is disabled. For more information, please see the [OIDC adoption guide](https://auth0.com/docs/api-auth/tutorials/adoption).
 
 To show Lock, add the following snippet in your `UIViewController`
 
