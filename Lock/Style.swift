@@ -105,6 +105,15 @@ public struct Style {
 
         /// Input field icon color
     public var inputIconColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0)
+    
+        /// Password rule text color default
+    public var ruleTextColor = UIColor(red: 0.016, green: 0.016, blue: 0.016, alpha: 1.0)
+    
+        /// Password rule text color valid
+    public var ruleTextColorSuccess = UIColor(red: 0.502, green: 0.820, blue: 0.208, alpha: 1.0)
+    
+        /// Password rule text color invalid
+    public var ruleTextColorError = UIColor(red: 0.745, green: 0.271, blue: 0.153, alpha: 1.0)
 
         /// Secondary button color
     public var secondaryButtonColor = UIColor.black
