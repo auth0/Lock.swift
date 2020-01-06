@@ -72,6 +72,12 @@ class RuleView: UIView {
         }
     }
     let label: UILabel
+    
+    private var style = Style.Auth0 {
+        didSet {
+            self.render(text: self.message, withStatus: self.status)
+        }
+    }
 
     init(message: String, level: Int = 0) {
         self.message = message
@@ -114,14 +120,14 @@ class RuleView: UIView {
             }
         }
 
-        var color: UIColor {
+        func color(from style: Style) -> UIColor {
             switch self {
             case .ok:
-                return UIColor(red: 0.502, green: 0.820, blue: 0.208, alpha: 1)
+                return style.ruleTextColorSuccess
             case .error:
-                return UIColor(red: 0.745, green: 0.271, blue: 0.153, alpha: 1)
+                return style.ruleTextColorError
             case .none:
-                return UIColor(red: 0.016, green: 0.016, blue: 0.016, alpha: 1)
+                return style.ruleTextColor
             }
         }
     }
@@ -138,10 +144,16 @@ class RuleView: UIView {
         attributedText.append(NSAttributedString(
             string: "  " + text,
             attributes: [
-                NSAttributedString.attributedKeyColor: status.color,
+                NSAttributedString.attributedKeyColor: status.color(from: style),
                 NSAttributedString.attributedFont: font
             ]
         ))
         self.label.attributedText = attributedText
+    }
+}
+
+extension RuleView: Stylable {
+    func apply(style: Style) {
+        self.style = style
     }
 }
