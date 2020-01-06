@@ -176,11 +176,28 @@ class OptionsSpec: QuickSpec {
             
             context("passwordless") {
 
-                it("should fail setting audience in passwordless mode") {
+                beforeEach {
                     options.passwordlessMethod = .code
-                    options.audience = "https://myapi.com"
-                    expect(options.validate(classic: false)).toNot(beNil())
                 }
+                
+                it("should fail setting audience in non OIDC mode") {
+                    options.audience = "https://myapi.com"
+                    options.oidcConformant = false
+                    expect(options.validate()).toNot(beNil())
+                }
+                
+                it("should allow setting audience in OIDC mode") {
+                    options.audience = "https://myapi.com"
+                    options.oidcConformant = true
+                    expect(options.validate()).to(beNil())
+                }
+
+                it("should allow setting a nil audience in OIDC mode") {
+                    options.audience = nil
+                    options.oidcConformant = true
+                    expect(options.validate()).to(beNil())
+                }
+                
             }
 
             context("auto close") {

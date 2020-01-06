@@ -54,7 +54,7 @@ class PasswordlessInteractorSpec: QuickSpec {
         context("email") {
 
             beforeEach {
-                connection = PasswordlessConnection(name: "custom-email", strategy: "email")
+                connection = PasswordlessConnection(name: "email", strategy: "email")
                 dispatchCredentials = nil
                 dispatchError = nil
                 dispatchPasswordlessIdentifier = nil
@@ -139,56 +139,104 @@ class PasswordlessInteractorSpec: QuickSpec {
             }
 
             describe("login") {
-
-                it("should yield no error and dipsatch credentials on success") {
-                    stub(condition: databaseLogin(identifier: email, password: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
-                    try! interactor.update(.email, value: email)
-                    try! interactor.update(.oneTimePassword, value: code)
-                    waitUntil(timeout: 2) { done in
-                        interactor.login(connection.name) { error in
-                            expect(error).to(beNil())
-                            done()
+                
+                context("input validation") {
+                    
+                    it("should yield error when email input invalid") {
+                        let user = User()
+                        user.validEmail = false
+                        interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .nonValidInput
+                                done()
+                            }
                         }
                     }
-                    expect(dispatchCredentials).toEventuallyNot(beNil())
-                }
 
-                it("should yield error when email input invalid") {
-                    let user = User()
-                    user.validEmail = false
-                    interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                    waitUntil(timeout: 2) { done in
-                        interactor.login(connection.name) { error in
-                            expect(error) == .nonValidInput
-                            done()
+                    it("should yield error when code input invalid") {
+                        let user = User()
+                        user.validEmail = true
+                        user.validPassword = false
+                        interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .nonValidInput
+                                done()
+                            }
                         }
                     }
-                }
-
-                it("should yield error when code input invalid") {
-                    let user = User()
-                    user.validEmail = true
-                    user.validPassword = false
-                    interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                    waitUntil(timeout: 2) { done in
-                        interactor.login(connection.name) { error in
-                            expect(error) == .nonValidInput
-                            done()
-                        }
-                    }
+                    
                 }
                 
-                it("should indicate that a custom rule prevented the user from logging in") {
-                    stub(condition: databaseLogin(identifier: email, password: code, connection: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
-                    try! interactor.update(.email, value: email)
-                    try! interactor.update(.oneTimePassword, value: code)
-                    waitUntil(timeout: 2) { done in
-                        interactor.login(connection.name) { error in
-                            expect(error) == .customRuleFailure(cause: "Only admins can use this")
-                            done()
+                context("oidc conformant") {
+                    
+                    beforeEach {
+                        options.oidcConformant = true
+                        interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                    }
+                    
+                    it("should yield no error and dispatch credentials on success") {
+                        stub(condition: passwordlessLogin(username: email, otp: code, realm: connection.name)) { _ in return Auth0Stubs.authentication() }
+                        try! interactor.update(.email, value: email)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error).to(beNil())
+                                done()
+                            }
+                        }
+                        expect(dispatchCredentials).toEventuallyNot(beNil())
+                    }
+                    
+                    it("should indicate that a custom rule prevented the user from logging in") {
+                        stub(condition: passwordlessLogin(username: email, otp: code, realm: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
+                        try! interactor.update(.email, value: email)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .customRuleFailure(cause: "Only admins can use this")
+                                done()
+                            }
                         }
                     }
+                    
                 }
+                
+                context("non oidc conformant") {
+                    
+                    beforeEach {
+                        options.oidcConformant = false
+                        interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                    }
+                    
+                    it("should yield no error and dispatch credentials on success") {
+                        stub(condition: databaseLogin(identifier: email, password: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
+                        try! interactor.update(.email, value: email)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error).to(beNil())
+                                done()
+                            }
+                        }
+                        expect(dispatchCredentials).toEventuallyNot(beNil())
+                    }
+                    
+                    it("should indicate that a custom rule prevented the user from logging in") {
+                        stub(condition: databaseLogin(identifier: email, password: code, connection: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
+                        try! interactor.update(.email, value: email)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .customRuleFailure(cause: "Only admins can use this")
+                                done()
+                            }
+                        }
+                    }
+                    
+                }
+                
             }
 
             describe("request") {
@@ -278,7 +326,7 @@ class PasswordlessInteractorSpec: QuickSpec {
         context("sms") {
 
             beforeEach {
-                connection = PasswordlessConnection(name: "custom-sms", strategy: "sms")
+                connection = PasswordlessConnection(name: "sms", strategy: "sms")
                 dispatchCredentials = nil
                 dispatchError = nil
                 dispatchPasswordlessIdentifier = nil
@@ -371,56 +419,104 @@ class PasswordlessInteractorSpec: QuickSpec {
             }
 
             describe("login") {
-
-                it("should yield no error and dipsatch credentials on success") {
-                    stub(condition: databaseLogin(identifier: phone, password: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
-                    try! interactor.update(.phone, value: phone)
-                    try! interactor.update(.oneTimePassword, value: code)
-                    waitUntil(timeout: 2) { done in
-                        interactor.login(connection.name) { error in
-                            expect(error).to(beNil())
-                            done()
+                
+                context("input validation") {
+                    
+                    it("should yield error when email input invalid") {
+                        let user = User()
+                        user.validEmail = false
+                        interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .nonValidInput
+                                done()
+                            }
                         }
                     }
-                    expect(dispatchCredentials).toEventuallyNot(beNil())
-                }
 
-                it("should yield error when email input invalid") {
-                    let user = User()
-                    user.validEmail = false
-                    interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                    waitUntil(timeout: 2) { done in
-                        interactor.login(connection.name) { error in
-                            expect(error) == .nonValidInput
-                            done()
+                    it("should yield error when code input invalid") {
+                        let user = User()
+                        user.validEmail = true
+                        user.validPassword = false
+                        interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .nonValidInput
+                                done()
+                            }
                         }
                     }
-                }
-
-                it("should yield error when code input invalid") {
-                    let user = User()
-                    user.validEmail = true
-                    user.validPassword = false
-                    interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                    waitUntil(timeout: 2) { done in
-                        interactor.login(connection.name) { error in
-                            expect(error) == .nonValidInput
-                            done()
-                        }
-                    }
+                    
                 }
                 
-                it("should indicate that a custom rule prevented the user from logging in") {
-                    stub(condition: databaseLogin(identifier: phone, password: code, connection: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
-                    try! interactor.update(.phone, value: phone)
-                    try! interactor.update(.oneTimePassword, value: code)
-                    waitUntil(timeout: 2) { done in
-                        interactor.login(connection.name) { error in
-                            expect(error) == .customRuleFailure(cause: "Only admins can use this")
-                            done()
+                context("oidc conformant") {
+                    
+                    beforeEach {
+                        options.oidcConformant = true
+                        interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                    }
+                    
+                    it("should yield no error and dispatch credentials on success") {
+                        stub(condition: passwordlessLogin(username: phone, otp: code, realm: connection.name)) { _ in return Auth0Stubs.authentication() }
+                        try! interactor.update(.phone, value: phone)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error).to(beNil())
+                                done()
+                            }
+                        }
+                        expect(dispatchCredentials).toEventuallyNot(beNil())
+                    }
+                    
+                    it("should indicate that a custom rule prevented the user from logging in") {
+                        stub(condition: passwordlessLogin(username: phone, otp: code, realm: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
+                        try! interactor.update(.phone, value: phone)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .customRuleFailure(cause: "Only admins can use this")
+                                done()
+                            }
                         }
                     }
+                    
                 }
+                
+                context("non oidc conformant") {
+                    
+                    beforeEach {
+                        options.oidcConformant = false
+                        interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
+                    }
+                    
+                    it("should yield no error and dispatch credentials on success") {
+                        stub(condition: databaseLogin(identifier: phone, password: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
+                        try! interactor.update(.phone, value: phone)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error).to(beNil())
+                                done()
+                            }
+                        }
+                        expect(dispatchCredentials).toEventuallyNot(beNil())
+                    }
+                    
+                    it("should indicate that a custom rule prevented the user from logging in") {
+                        stub(condition: databaseLogin(identifier: phone, password: code, connection: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
+                        try! interactor.update(.phone, value: phone)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: 2) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .customRuleFailure(cause: "Only admins can use this")
+                                done()
+                            }
+                        }
+                    }
+                    
+                }
+                
             }
 
             describe("request") {

@@ -46,7 +46,7 @@ struct PasswordlessRouter: Router {
             return ConnectionLoadingPresenter(loader: interactor, navigator: self, dispatcher: observerStore, options: self.lock.options)
         }
 
-        // Passwordless Email
+        // Passwordless Email/SMS
         if let connection = connections.passwordless.filter({ $0.strategy == "email" }).first ?? connections.passwordless.filter({ $0.strategy == "sms" }).first {
             let passwordlessActivity = PasswordlessActivity.shared
             passwordlessActivity.dispatcher = self.lock.observerStore
