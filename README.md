@@ -222,7 +222,7 @@ iPad presentation is show in a modal popup, this can be disabled to use full scr
 
 ## Lock Passwordless
 
-Lock Passwordless handles authentication using **email** and **sms** connections.
+Lock Passwordless handles authentication using Passwordless & Social Connections.
 
 > The Passwordless feature requires your application to have the *Passwordless OTP* Grant Type enabled. Check [this article](https://auth0.com/docs/clients/client-grant-types) for more information.
 
