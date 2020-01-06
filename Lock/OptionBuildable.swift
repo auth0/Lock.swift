@@ -129,7 +129,6 @@ extension OptionBuildable {
         if !self.oidcConformant && self.audience != nil {
             return UnrecoverableError.invalidOptions(cause: "Audience option not available in Lock Passwordless")
         }
-        
         return nil
     }
 }
