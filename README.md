@@ -123,7 +123,7 @@ Lock
 
 ### Important: Database Connection Authentication
 
-Since June 2017 new Clients no longer have the **Password Grant Type*** enabled by default.
+Since June 2017 new Clients no longer have the **Password Grant Type** enabled by default.
 If you are using a Database Connection in Lock then you will need to enable the Password Grant Type, please follow [this guide](https://auth0.com/docs/clients/client-grant-types#how-to-edit-the-client-grant_types-property).
 
 #### Specify Connections
@@ -222,9 +222,13 @@ iPad presentation is show in a modal popup, this can be disabled to use full scr
 
 ## Lock Passwordless
 
-Lock Passwordless handles authentication using Passwordless & Social Connections.
+Lock Passwordless handles authentication using **email** and **sms** connections.
 
-> The Passwordless feature requires your application to have the *Resource Owner* Legacy Grant Type enabled. Check [this article](https://auth0.com/docs/clients/client-grant-types) for more information.
+> The Passwordless feature requires your application to have the *Passwordless OTP* Grant Type enabled. Check [this article](https://auth0.com/docs/clients/client-grant-types) for more information.
+
+To use Passwordless Authentication with Lock, you need to configure it with **OIDC Conformant Mode** set to `true`.
+
+> It is strongly encouraged that Lock be used in OIDC Conformant mode. When this mode is enabled, it will force Lock to use Auth0's current authentication pipeline and will prevent it from reaching legacy endpoints. By default is `false`. For more information, please see the [OIDC adoption guide](https://auth0.com/docs/api-auth/tutorials/adoption).
 
 To show Lock, add the following snippet in your `UIViewController`
 
@@ -232,7 +236,7 @@ To show Lock, add the following snippet in your `UIViewController`
 Lock
     .passwordless()
     .withOptions {
-        $0.closable = false
+        $0.oidcConformant = true
     }
     .withStyle {
       $0.title = "Welcome to my App!"
@@ -254,11 +258,10 @@ Lock
 
 **Notes:**
 - Passwordless can only be used with a single connection and will prioritize the use of email connections over sms.  
-- The `audience` option is not available in Passwordless.
 
 #### Passwordless Method
 
-When using Lock passwordless the default `passwordlessMethod` is `.code` which sends the user a one time passcode to login. If you want to use [Universal Links](https://auth0.com/docs/clients/enable-universal-links) you can add the following:
+When using Lock Passwordless the default `passwordlessMethod` is `.code` which sends the user a one time passcode to login. If you want to use [Universal Links](https://auth0.com/docs/clients/enable-universal-links) you can add the following:
 
 ```swift
 .withOptions {
@@ -268,7 +271,7 @@ When using Lock passwordless the default `passwordlessMethod` is `.code` which s
 
 #### Activity callback
 
-If you are using Lock passwordless and have specified the `.magicLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
+If you are using Lock Passwordless and have specified the `.magicLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
 
 ```swift
 func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
