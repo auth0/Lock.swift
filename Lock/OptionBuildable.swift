@@ -129,7 +129,7 @@ extension OptionBuildable {
         guard self.oidcConformant || self.audience == nil else { return UnrecoverableError.invalidOptions(cause: "Must set OIDC-Conformant flag in Lock to use audience option") }
         return nil
     }
-    
+
 }
 
 public extension OptionBuildable {

@@ -114,7 +114,7 @@ class SingleInputView: UIView, Form, Stylable {
 
         titleView.textAlignment = .center
         titleView.font = regularSystemFont(size: 26)
-        titleView.textColor = UIColor ( red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0 )
+        titleView.textColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
         messageView.numberOfLines = 4
         messageView.textAlignment = .center
         messageView.font = regularSystemFont(size: 15)
