@@ -117,6 +117,11 @@ class EnterpriseDomainInteractorSpec: QuickSpec {
                     try! enterprise.updateEmail("user@test.com")
                     expect(enterprise.connection?.name) == "TestAD"
                 }
+                
+                it("should case-insensitively match email domain and provide enteprise connection") {
+                    try! enterprise.updateEmail("user@tEsT.com")
+                    expect(enterprise.connection?.name) == "TestAD"
+                }
 
                 it("should not match connection with unknown domain") {
                     try! enterprise.updateEmail("user@domainnotmatched.com")
