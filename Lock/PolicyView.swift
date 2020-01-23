@@ -72,7 +72,7 @@ class RuleView: UIView {
         }
     }
     let label: UILabel
-    
+
     private var style = Style.Auth0 {
         didSet {
             self.render(text: self.message, withStatus: self.status)

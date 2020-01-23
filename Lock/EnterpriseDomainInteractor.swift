@@ -65,7 +65,7 @@ struct EnterpriseDomainInteractor: HRDAuthenticatable {
         }
 
         self.connection = nil
-        if let domain = value?.components(separatedBy: "@").last {
+        if let domain = value?.components(separatedBy: "@").last?.lowercased() {
             self.connection = match(domain: domain)
             self.domain = domain
         }

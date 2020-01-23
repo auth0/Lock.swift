@@ -103,7 +103,7 @@ public class HeaderView: UIView {
         }
     }
 
-    public var maskColor: UIColor = UIColor ( red: 0.8745, green: 0.8745, blue: 0.8745, alpha: 1.0 ) {
+    public var maskColor: UIColor = UIColor(red: 0.8745, green: 0.8745, blue: 0.8745, alpha: 1.0) {
         didSet {
             self.mask?.tintColor = self.maskColor
         }
@@ -204,7 +204,7 @@ public class HeaderView: UIView {
         self.maskImageView?.removeFromSuperview()
         self.blurView?.removeFromSuperview()
 
-        self.backgroundColor = self.canBlur ? .white : UIColor ( red: 0.9451, green: 0.9451, blue: 0.9451, alpha: 1.0 )
+        self.backgroundColor = self.canBlur ? .white : UIColor(red: 0.9451, green: 0.9451, blue: 0.9451, alpha: 1.0)
 
         guard self.canBlur else { return }
 

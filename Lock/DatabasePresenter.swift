@@ -217,7 +217,7 @@ class DatabasePresenter: Presentable, Loggable {
         }
         view.primaryButton?.onPress = checkTermsAndSignup
         view.secondaryButton?.title = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos", comment: "tos & privacy")
-        view.secondaryButton?.color = UIColor ( red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0 )
+        view.secondaryButton?.color = UIColor(red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0)
         view.secondaryButton?.onPress = { button in
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = button

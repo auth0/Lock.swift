@@ -53,9 +53,9 @@ class MessageView: UIView {
         var color: UIColor {
             switch self {
             case .success:
-                return UIColor ( red: 0.4941, green: 0.8275, blue: 0.1294, alpha: 1.0 )
+                return UIColor(red: 0.4941, green: 0.8275, blue: 0.1294, alpha: 1.0)
             case .failure:
-                return UIColor ( red: 1.0, green: 0.2431, blue: 0.0, alpha: 1.0 )
+                return UIColor(red: 1.0, green: 0.2431, blue: 0.0, alpha: 1.0)
             }
         }
     }
