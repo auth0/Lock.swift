@@ -16,6 +16,8 @@
 "com.auth0.lock.database.separator" = "or";
 // User signed up
 "com.auth0.lock.database.signup.success.message" = "Thanks for signing up.";
+// Accept
+"com.auth0.lock.database.tos.sheet.accept" = "Accept";
 // Cancel
 "com.auth0.lock.database.tos.sheet.cancel" = "Cancel";
 // Privacy

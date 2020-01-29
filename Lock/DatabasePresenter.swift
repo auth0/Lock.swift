@@ -280,8 +280,8 @@ class DatabasePresenter: Presentable, Loggable {
         let alert = UIAlertController(title: terms, message: "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos", comment: "tos & privacy"), preferredStyle: .alert)
         alert.popoverPresentationController?.sourceView = button
         alert.popoverPresentationController?.sourceRect = button.bounds
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let okAction = UIAlertAction(title: "Accept", style: .default) { _ in
+        let cancelAction = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel", comment: "Cancel"), style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "Accept".i18n(key: "com.auth0.lock.database.tos.sheet.accept", comment: "Accept"), style: .default) { _ in
             successHandler(button)
         }
         [cancelAction, okAction].forEach { alert.addAction($0) }
