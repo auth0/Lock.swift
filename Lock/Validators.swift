@@ -130,7 +130,7 @@ public class PasswordPolicyValidator: InputValidator {
     func validate(_ value: String?) -> Error? {
         let result = self.policy.on(value)
         self.delegate?.update(withRules: result)
-        let valid = result.reduce(true) { $0 && $1.valid }
+        let valid = result.allSatisfy { $0.valid }
         guard !valid else { return nil }
         return InputValidationError.passwordPolicyViolation(result: result.filter { !$0.valid })
     }
