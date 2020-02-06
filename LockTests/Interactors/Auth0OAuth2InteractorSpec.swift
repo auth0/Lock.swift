@@ -109,6 +109,20 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
                 expect(authentication.webAuth?.audience) == "https://myapi.com/v1"
             }
 
+            it("should set leeway") {
+                options.leeway = 1000
+                interactor = Auth0OAuth2Interactor(authentication: authentication, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
+                interactor.login("facebook", loginHint: nil, callback: { _ in })
+                expect(authentication.webAuth?.leeway) == 1000
+            }
+
+            it("should set maxAge") {
+                options.maxAge = 1000
+                interactor = Auth0OAuth2Interactor(authentication: authentication, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
+                interactor.login("facebook", loginHint: nil, callback: { _ in })
+                expect(authentication.webAuth?.maxAge) == 1000
+            }
+
             it("should set parameters") {
                 let state = UUID().uuidString
                 options.parameters = ["state": state as Any]
