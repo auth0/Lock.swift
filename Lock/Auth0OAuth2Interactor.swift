@@ -55,6 +55,14 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable, Loggable {
             auth = auth.audience(audience)
         }
 
+        if let leeway = self.options.leeway {
+            auth = auth.leeway(leeway)
+        }
+
+        if let maxAge = self.options.maxAge {
+            auth = auth.maxAge(maxAge)
+        }
+
         if let connectionScope = self.options.connectionScope[connection] {
             auth = auth.connectionScope(connectionScope)
         }
