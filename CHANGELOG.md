@@ -1,5 +1,15 @@
 # Change Log
 
+## [2.15.0](https://github.com/auth0/Lock.swift/tree/2.15.0) (2020-02-06)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.14.0...2.15.0)
+
+**Added**
+- Integrated ID Token Validation on WebAuth [SDK-982] [\#596](https://github.com/auth0/Lock.swift/pull/596) ([Widcket](https://github.com/Widcket))
+
+**Fixed**
+- Internationalised hardcoded strings [\#595](https://github.com/auth0/Lock.swift/pull/595) ([Widcket](https://github.com/Widcket))
+- Made email/domain match case-insensitive [\#594](https://github.com/auth0/Lock.swift/pull/594) ([Widcket](https://github.com/Widcket))
+
 ## [2.14.0](https://github.com/auth0/Lock.swift/tree/2.14.0) (2020-01-06)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.13.2...2.14.0)
 
