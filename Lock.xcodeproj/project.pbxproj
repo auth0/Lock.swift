@@ -65,6 +65,7 @@
 		5BE978241E8405C70090EC07 /* PasswordlessAuthTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE978231E8405C70090EC07 /* PasswordlessAuthTransaction.swift */; };
 		5BEDE14A1EC0A9F10007300D /* LockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEDE1441EC0A9EB0007300D /* LockUITests.swift */; };
 		5BEDE14C1EC0A9F10007300D /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEDE1461EC0A9EB0007300D /* SnapshotHelper.swift */; };
+		5C49EB2E23EB138C008D562F /* JWTDecode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C49EB2D23EB138C008D562F /* JWTDecode.framework */; };
 		5F0FCF901E20117E00E3D53B /* ObserverStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */; };
 		5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
@@ -303,6 +304,7 @@
 		5BEDE13E1EC0A9750007300D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BEDE1441EC0A9EB0007300D /* LockUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockUITests.swift; sourceTree = "<group>"; };
 		5BEDE1461EC0A9EB0007300D /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
+		5C49EB2D23EB138C008D562F /* JWTDecode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JWTDecode.framework; path = Carthage/Build/iOS/JWTDecode.framework; sourceTree = "<group>"; };
 		5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverStore.swift; sourceTree = "<group>"; };
 		5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ObserverStoreSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5F1456591D5130E80085DF9C /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = Lock/Colors.swift; sourceTree = SOURCE_ROOT; };
@@ -436,6 +438,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C49EB2E23EB138C008D562F /* JWTDecode.framework in Frameworks */,
 				5B416D961EE7475B009BA5BD /* SimpleKeychain.framework in Frameworks */,
 				5F390E8A1D63A5B800FC549C /* CleanroomLogger.framework in Frameworks */,
 				5F99AA761D1A7FA100D27842 /* Auth0.framework in Frameworks */,
@@ -853,6 +856,7 @@
 		5FEAE2111D1A5716005C0028 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5C49EB2D23EB138C008D562F /* JWTDecode.framework */,
 				5B416D951EE7475B009BA5BD /* SimpleKeychain.framework */,
 				5F390E881D63A5B800FC549C /* CleanroomLogger.framework */,
 				5F390E891D63A5B800FC549C /* CleanroomASL.framework */,
@@ -1122,13 +1126,14 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Auth0.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CleanroomLogger.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SimpleKeychain.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/JWTDecode.framework",
 			);
 			name = Carthage;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

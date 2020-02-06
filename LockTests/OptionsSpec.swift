@@ -96,6 +96,14 @@ class OptionsSpec: QuickSpec {
             it("should have no audience") {
                 expect(options.audience).to(beNil())
             }
+            
+            it("should have no leeway") {
+                expect(options.leeway).to(beNil())
+            }
+            
+            it("should have no maxAge") {
+                expect(options.maxAge).to(beNil())
+            }
 
             it("should be auto closeable") {
                 expect(options.autoClose) == true
@@ -241,6 +249,16 @@ class OptionsSpec: QuickSpec {
             it("should set audience") {
                 options.audience = "http://myapi.com/"
                 expect(options.audience) == "http://myapi.com/"
+            }
+
+            it("should set leeway") {
+                options.leeway = 1000
+                expect(options.leeway) == 1000
+            }
+
+            it("should set maxAge") {
+                options.maxAge = 1000
+                expect(options.maxAge) == 1000
             }
 
             it("should set tos") {

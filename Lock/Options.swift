@@ -50,6 +50,8 @@ public protocol Options {
 
     var oidcConformant: Bool { get }
     var audience: String? { get }
+    var leeway: Int? { get }
+    var maxAge: Int? { get }
 
     var passwordlessMethod: PasswordlessMethod { get }
     var passwordManager: OnePassword { get }

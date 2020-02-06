@@ -48,6 +48,8 @@ struct LockOptions: OptionBuildable {
 
     var oidcConformant: Bool = false
     var audience: String?
+    var leeway: Int?
+    var maxAge: Int?
 
     var passwordlessMethod: PasswordlessMethod = .code
     var passwordManager: OnePassword = OnePassword()

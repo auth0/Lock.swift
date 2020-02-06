@@ -224,7 +224,7 @@ class MockConnectionsLoader: RemoteConnectionLoader {
 }
 
 class MockAuthentication: Authentication {
-
+    
     private var authentication: Authentication
 
     public var clientId: String
@@ -300,14 +300,14 @@ class MockAuthentication: Authentication {
     func userInfo(withAccessToken accessToken: String) -> Request<UserInfo, AuthenticationError> {
         return self.authentication.userInfo(withAccessToken: accessToken)
     }
+    
+    func jwks() -> Request<JWKS, AuthenticationError> {
+        return self.authentication.jwks()
+    }
+    
 }
 
 class MockWebAuth: WebAuth {
-    
-    func useLegacyAuthentication(withStyle style: UIModalPresentationStyle) -> Self {
-        return self
-    }
-    
 
     var clientId: String = "CLIENT_ID"
     var url: URL = .a0_url(domain)
@@ -316,9 +316,12 @@ class MockWebAuth: WebAuth {
     var parameters: [String: String] = [:]
     var scope: String? = nil
     var audience: String? = nil
+    var leeway: Int? = nil
+    var maxAge: Int? = nil
 
     var result: () -> Auth0.Result<Credentials> = { return Auth0.Result.failure(error: AuthenticationError(string: "FAILED", statusCode: 500)) }
     var telemetry: Telemetry = Telemetry()
+    var logger: Auth0.Logger? = nil
 
     func connection(_ connection: String) -> Self {
         self.connection = connection
@@ -368,15 +371,29 @@ class MockWebAuth: WebAuth {
         self.audience = audience
         return self
     }
-    
-    var logger: Auth0.Logger? = nil
+
+    func leeway(_ leeway: Int) -> Self {
+        self.leeway = leeway
+        return self
+    }
+
+    func maxAge(_ maxAge: Int) -> Self {
+        self.maxAge = maxAge
+        return self
+    }
 
     func clearSession(federated: Bool, callback: @escaping (Bool) -> Void) {
+        callback(true)
     }
 
     func useLegacyAuthentication() -> Self {
         return self
     }
+    
+    func useLegacyAuthentication(withStyle style: UIModalPresentationStyle) -> Self {
+        return self
+    }
+    
 }
 
 class MockOAuth2: OAuth2Authenticatable {
