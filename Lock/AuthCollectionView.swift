@@ -147,6 +147,7 @@ func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: 
         button.title = login ? style.localizedLoginTitle : style.localizedSignUpTitle
         button.normalColor = style.normalColor
         button.highlightedColor = style.highlightedColor
+        button.borderColor = style.borderColor
         button.titleColor = style.foregroundColor
         button.icon = style.image.image(compatibleWithTraits: button.traitCollection)
         button.onPress = { _ in
