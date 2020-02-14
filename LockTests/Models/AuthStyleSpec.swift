@@ -92,6 +92,10 @@ class AuthStyleSpec: QuickSpec {
                 expect(strategy.foregroundColor) == UIColor.white
             }
 
+            it("should not have default border color") {
+                expect(strategy.borderColor).to(beNil())
+            }
+
             it("should have main bundle") {
                 expect(strategy.image.bundle) == bundleForLock()
             }
@@ -102,12 +106,12 @@ class AuthStyleSpec: QuickSpec {
 
             it("should provide login title") {
                 let strategy = AuthStyle(name: "facebook")
-                expect(strategy.localizedLoginTitle) == "LOG IN WITH facebook"
+                expect(strategy.localizedLoginTitle) == "Sign in with facebook"
             }
 
             it("should provide signup title") {
                 let strategy = AuthStyle(name: "facebook")
-                expect(strategy.localizedSignUpTitle) == "SIGN UP WITH facebook"
+                expect(strategy.localizedSignUpTitle) == "Sign in with facebook"
             }
 
         }
@@ -115,43 +119,43 @@ class AuthStyleSpec: QuickSpec {
         describe("first class connections") {
 
             [
-                forStyle(.Amazon, name: "AMAZON", iconName: "ic_auth_amazon"),
+                forStyle(.Amazon, name: "Amazon", iconName: "ic_auth_amazon"),
                 forStyle(.Aol, name: "AOL", iconName: "ic_auth_aol"),
-                forStyle(.Apple, name: "APPLE", iconName: "ic_auth_apple"),
+                forStyle(.Apple, name: "Apple", iconName: "ic_auth_apple"),
                 forStyle(.Baidu, name: "百度", iconName: "ic_auth_baidu"),
-                forStyle(.Bitbucket, name: "BITBUCKET", iconName: "ic_auth_bitbucket"),
-                forStyle(.Dropbox, name: "DROPBOX", iconName: "ic_auth_dropbox"),
-                forStyle(.Dwolla, name: "DWOLLA", iconName: "ic_auth_dwolla"),
-                forStyle(.Ebay, name: "EBAY", iconName: "ic_auth_ebay"),
-                forStyle(.Evernote, name: "EVERNOTE", iconName: "ic_auth_evernote"),
-                forStyle(.EvernoteSandbox, name: "EVERNOTE (SANDBOX)", iconName: "ic_auth_evernote"),
-                forStyle(.Exact, name: "EXACT", iconName: "ic_auth_exact"),
-                forStyle(.Facebook, name: "FACEBOOK", iconName: "ic_auth_facebook"),
-                forStyle(.Fitbit, name: "FITBIT", iconName: "ic_auth_fitbit"),
-                forStyle(.Github, name: "GITHUB", iconName: "ic_auth_github"),
-                forStyle(.Google, name: "GOOGLE", iconName: "ic_auth_google"),
-                forStyle(.Instagram, name: "INSTAGRAM", iconName: "ic_auth_instagram"),
-                forStyle(.Linkedin, name: "LINKEDIN", iconName: "ic_auth_linkedin"),
-                forStyle(.Miicard, name: "MIICARD", iconName: "ic_auth_miicard"),
-                forStyle(.Paypal, name: "PAYPAL", iconName: "ic_auth_paypal"),
-                forStyle(.PaypalSandbox, name: "PAYPAL (SANDBOX)", iconName: "ic_auth_paypal"),
-                forStyle(.PlanningCenter, name: "PLANNING CENTER", iconName: "ic_auth_planningcenter"),
+                forStyle(.Bitbucket, name: "Bitbucket", iconName: "ic_auth_bitbucket"),
+                forStyle(.Dropbox, name: "Dropbox", iconName: "ic_auth_dropbox"),
+                forStyle(.Dwolla, name: "Dwolla", iconName: "ic_auth_dwolla"),
+                forStyle(.Ebay, name: "Ebay", iconName: "ic_auth_ebay"),
+                forStyle(.Evernote, name: "Evernote", iconName: "ic_auth_evernote"),
+                forStyle(.EvernoteSandbox, name: "Evernote (sandbox)", iconName: "ic_auth_evernote"),
+                forStyle(.Exact, name: "Exact", iconName: "ic_auth_exact"),
+                forStyle(.Facebook, name: "Facebook", iconName: "ic_auth_facebook"),
+                forStyle(.Fitbit, name: "Fitbit", iconName: "ic_auth_fitbit"),
+                forStyle(.Github, name: "GitHub", iconName: "ic_auth_github"),
+                forStyle(.Google, name: "Google", iconName: "ic_auth_google"),
+                forStyle(.Instagram, name: "Instagram", iconName: "ic_auth_instagram"),
+                forStyle(.Linkedin, name: "LinkedIn", iconName: "ic_auth_linkedin"),
+                forStyle(.Miicard, name: "miiCard", iconName: "ic_auth_miicard"),
+                forStyle(.Paypal, name: "PayPal", iconName: "ic_auth_paypal"),
+                forStyle(.PaypalSandbox, name: "PayPal (sandbox)", iconName: "ic_auth_paypal"),
+                forStyle(.PlanningCenter, name: "Planning Center", iconName: "ic_auth_planningcenter"),
                 forStyle(.RenRen, name: "人人", iconName: "ic_auth_renren"),
-                forStyle(.Salesforce, name: "SALESFORCE", iconName: "ic_auth_salesforce"),
-                forStyle(.SalesforceCommunity, name: "SALESFORCE COMMUNITY", iconName: "ic_auth_salesforce"),
-                forStyle(.SalesforceSandbox, name: "SALESFORCE (SANDBOX)", iconName: "ic_auth_salesforce"),
-                forStyle(.Shopify, name: "SHOPIFY", iconName: "ic_auth_shopify"),
-                forStyle(.Soundcloud, name: "SOUNDCLOUD", iconName: "ic_auth_soundcloud"),
-                forStyle(.TheCity, name: "THE CITY", iconName: "ic_auth_thecity"),
-                forStyle(.TheCitySandbox, name: "THE CITY (SANDBOX)", iconName: "ic_auth_thecity"),
-                forStyle(.ThirtySevenSignals, name: "37 SIGNALS", iconName: "ic_auth_thirtysevensignals"),
-                forStyle(.Twitter, name: "TWITTER", iconName: "ic_auth_twitter"),
-                forStyle(.Vkontakte, name: "VKONTAKTE", iconName: "ic_auth_vk"),
-                forStyle(.Microsoft, name: "MICROSOFT ACCOUNT", iconName: "ic_auth_microsoft"),
-                forStyle(.Wordpress, name: "WORDPRESS", iconName: "ic_auth_wordpress"),
-                forStyle(.Yahoo, name: "YAHOO!", iconName: "ic_auth_yahoo"),
-                forStyle(.Yammer, name: "YAMMER", iconName: "ic_auth_yammer"),
-                forStyle(.Yandex, name: "YANDEX", iconName: "ic_auth_yandex"),
+                forStyle(.Salesforce, name: "Salesforce", iconName: "ic_auth_salesforce"),
+                forStyle(.SalesforceCommunity, name: "Salesforce Community", iconName: "ic_auth_salesforce"),
+                forStyle(.SalesforceSandbox, name: "Salesforce (sandbox)", iconName: "ic_auth_salesforce"),
+                forStyle(.Shopify, name: "Shopify", iconName: "ic_auth_shopify"),
+                forStyle(.Soundcloud, name: "SoundCloud", iconName: "ic_auth_soundcloud"),
+                forStyle(.TheCity, name: "The City", iconName: "ic_auth_thecity"),
+                forStyle(.TheCitySandbox, name: "The City (sandbox)", iconName: "ic_auth_thecity"),
+                forStyle(.ThirtySevenSignals, name: "37 Signals", iconName: "ic_auth_thirtysevensignals"),
+                forStyle(.Twitter, name: "Twitter", iconName: "ic_auth_twitter"),
+                forStyle(.Vkontakte, name: "VKontakte", iconName: "ic_auth_vk"),
+                forStyle(.Microsoft, name: "Microsoft Account", iconName: "ic_auth_microsoft"),
+                forStyle(.Wordpress, name: "WordPress", iconName: "ic_auth_wordpress"),
+                forStyle(.Yahoo, name: "Yahoo!", iconName: "ic_auth_yahoo"),
+                forStyle(.Yammer, name: "Yammer", iconName: "ic_auth_yammer"),
+                forStyle(.Yandex, name: "Yandex", iconName: "ic_auth_yandex"),
                 forStyle(.Weibo, name: "新浪微博", iconName: "ic_auth_weibo"),
                 ].forEach { style in
                     itBehavesLike(FirstClassStyleExample) { return style }

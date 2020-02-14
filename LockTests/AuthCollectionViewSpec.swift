@@ -93,12 +93,12 @@ class AuthCollectionViewSpec: QuickSpec {
 
             it("should set proper title") {
                 let button = styleButton(.Facebook)
-                expect(button.title) == "LOG IN WITH FACEBOOK"
+                expect(button.title) == "Sign in with Facebook"
             }
 
             it("should set proper title") {
                 let button = styleButton(.Facebook, isLogin: false)
-                expect(button.title) == "SIGN UP WITH FACEBOOK"
+                expect(button.title) == "Sign in with Facebook"
             }
 
             it("should set color") {
@@ -106,6 +106,12 @@ class AuthCollectionViewSpec: QuickSpec {
                 let button = styleButton(style)
                 expect(button.normalColor) == style.normalColor
                 expect(button.highlightedColor) == style.highlightedColor
+            }
+
+            it("should set border color") {
+                let style = AuthStyle.Google
+                let button = styleButton(style)
+                expect(button.borderColor) == style.borderColor
             }
 
             it("should set icon") {
@@ -117,7 +123,7 @@ class AuthCollectionViewSpec: QuickSpec {
             it("should use custom style") {
                 let style = ["steam": AuthStyle(name: "Steam", color: .white)]
                 let button = oauth2Buttons(forConnections: [SocialConnection(name: "steam", style: AuthStyle(name: "steam"))], customStyle: style, isLogin: true, onAction: {_ in }).first!
-                expect(button.title) == "LOG IN WITH Steam"
+                expect(button.title) == "Sign in with Steam"
                 expect(button.color) == UIColor.white
             }
 
