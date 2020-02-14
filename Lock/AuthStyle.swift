@@ -25,20 +25,21 @@ import UIKit
 /// Style for AuthButton
 public struct AuthStyle {
 
-        /// Name that will be used for titles. e.g. 'Login with Auth0'
+    /// Name that will be used for titles. e.g. 'Login with Auth0'
     let name: String
     let image: LazyImage
     let foregroundColor: UIColor
     let normalColor: UIColor
     let highlightedColor: UIColor
+    let borderColor: UIColor?
 
     var localizedLoginTitle: String {
-        let format = "LOG IN WITH %1$@".i18n(key: "com.auth0.lock.strategy.login.title", comment: "Log in with %@{strategy}")
+        let format = "Sign in with %1$@".i18n(key: "com.auth0.lock.strategy.login.title", comment: "Sign in with %@{strategy}")
         return String(format: format, self.name)
     }
 
     var localizedSignUpTitle: String {
-        let format = "SIGN UP WITH %1$@".i18n(key: "com.auth0.lock.strategy.signup.title", comment: "Sign up with %@{strategy}")
+        let format = "Sign in with %1$@".i18n(key: "com.auth0.lock.strategy.signup.title", comment: "Sign in with %@{strategy}")
         return String(format: format, self.name)
     }
 
@@ -46,7 +47,7 @@ public struct AuthStyle {
      Create a new AuthStyle using a brand color
 
      - parameter name:            name to be used as the name of the Auth provider for the titles
-     - parameter color:           brand color that will be used for the button. Default Auth0 color
+     - parameter color:           brand color that will be used for the button. Default is Auth0 color
      - parameter foregroundColor: text color of the button. Default is white
      - parameter image:           icon used in the button. By default is Auth0's
 
@@ -61,7 +62,7 @@ public struct AuthStyle {
 
      - parameter name:             name to be used as the name of the Auth provider for the titles
      - parameter normalColor:      color used as the normal state color
-     - parameter highlightedColor: color used as the highlighted state color and for the icon background if the size of button is `Big`
+     - parameter highlightedColor: color used as the highlighted state color
      - parameter foregroundColor:  text color of the button
      - parameter image:            icon used in the button
 
@@ -72,11 +73,39 @@ public struct AuthStyle {
         self.normalColor = normalColor
         self.highlightedColor = highlightedColor
         self.foregroundColor = foregroundColor
+        self.borderColor = nil
         self.image = image
     }
+
+    // TODO: In the next major, integrate border color in the other initializers and remove this one
+    /**
+     Create a new AuthStyle using a brand color and a border color
+
+     - parameter name:            name to be used as the name of the Auth provider for the titles
+     - parameter color:           brand color that will be used for the button. Default is Auth0 color
+     - parameter foregroundColor: text color of the button. Default is white
+     - parameter borderColor:     fill color of the border. Default is Auth0 color
+     - parameter image:           icon used in the button. By default is Auth0's
+
+     - returns: a new style
+     */
+    public init(name: String,
+                color: UIColor = UIColor.a0_orange,
+                foregroundColor: UIColor = .white,
+                borderColor: UIColor = UIColor.a0_orange, // This should be optional in the next major, defaulting to nil
+                withImage image: LazyImage = LazyImage(name: "ic_auth_auth0", bundle: bundleForLock())) {
+        self.name = name
+        self.normalColor = color
+        self.foregroundColor = foregroundColor
+        self.highlightedColor = color.a0_darker(0.3)
+        self.borderColor = borderColor
+        self.image = image
+    }
+
     static func custom(_ name: String) -> AuthStyle {
         return AuthStyle(name: name)
     }
+
 }
 
 // MARK: - First class social connection styles
@@ -213,7 +242,9 @@ public extension AuthStyle {
     static var Google: AuthStyle {
         return AuthStyle(
                 name: "GOOGLE".i18n(key: "com.auth0.lock.strategy.localized.google", comment: "Google"),
-                color: .a0_fromRGB("#4285f4"),
+                color: .a0_fromRGB("#ffffff"),
+                foregroundColor: .a0_fromRGB("#333333"),
+                borderColor: .a0_fromRGB("#dee0e2"),
                 withImage: LazyImage(name: "ic_auth_google", bundle: bundleForLock())
         )
     }

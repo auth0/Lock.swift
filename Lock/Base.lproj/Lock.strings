@@ -149,85 +149,85 @@
 // CountryCodes TableView searchbar placeholder
 "com.auth0.lock.passwordless.sms.country.search" = "Search";
 // Amazon
-"com.auth0.lock.strategy.localized.amazon" = "AMAZON";
+"com.auth0.lock.strategy.localized.amazon" = "Amazon";
 // Aol
 "com.auth0.lock.strategy.localized.aol" = "AOL";
 // Apple
-"com.auth0.lock.strategy.localized.apple" = "APPLE";
+"com.auth0.lock.strategy.localized.apple" = "Apple";
 // Baidu
 "com.auth0.lock.strategy.localized.baidu" = "百度";
 // Bitbucket
-"com.auth0.lock.strategy.localized.bitbucket" = "BITBUCKET";
+"com.auth0.lock.strategy.localized.bitbucket" = "Bitbucket";
 // Dropbox
-"com.auth0.lock.strategy.localized.dropbox" = "DROPBOX";
+"com.auth0.lock.strategy.localized.dropbox" = "Dropbox";
 // Dwolla
-"com.auth0.lock.strategy.localized.dwolla" = "DWOLLA";
+"com.auth0.lock.strategy.localized.dwolla" = "Dwolla";
 // Ebay
-"com.auth0.lock.strategy.localized.ebay" = "EBAY";
+"com.auth0.lock.strategy.localized.ebay" = "Ebay";
 // Evernote
-"com.auth0.lock.strategy.localized.evernote" = "EVERNOTE";
+"com.auth0.lock.strategy.localized.evernote" = "Evernote";
 // EvernoteSandbox
-"com.auth0.lock.strategy.localized.evernote_sandbox" = "EVERNOTE (SANDBOX)";
+"com.auth0.lock.strategy.localized.evernote_sandbox" = "Evernote (sandbox)";
 // Exact
-"com.auth0.lock.strategy.localized.exact" = "EXACT";
+"com.auth0.lock.strategy.localized.exact" = "Exact";
 // Facebook
-"com.auth0.lock.strategy.localized.facebook" = "FACEBOOK";
+"com.auth0.lock.strategy.localized.facebook" = "Facebook";
 // Fitbit
-"com.auth0.lock.strategy.localized.fitbit" = "FITBIT";
+"com.auth0.lock.strategy.localized.fitbit" = "Fitbit";
 // Github
-"com.auth0.lock.strategy.localized.github" = "GITHUB";
+"com.auth0.lock.strategy.localized.github" = "GitHub";
 // Google
-"com.auth0.lock.strategy.localized.google" = "GOOGLE";
+"com.auth0.lock.strategy.localized.google" = "Google";
 // Instagram
-"com.auth0.lock.strategy.localized.instagram" = "INSTAGRAM";
+"com.auth0.lock.strategy.localized.instagram" = "Instagram";
 // Linkedin
-"com.auth0.lock.strategy.localized.linkedin" = "LINKEDIN";
+"com.auth0.lock.strategy.localized.linkedin" = "LinkedIn";
 // Microsoft
-"com.auth0.lock.strategy.localized.microsoft" = "MICROSOFT ACCOUNT";
+"com.auth0.lock.strategy.localized.microsoft" = "Microsoft Account";
 // Miicard
-"com.auth0.lock.strategy.localized.miicard" = "MIICARD";
+"com.auth0.lock.strategy.localized.miicard" = "miiCard";
 // Paypal
-"com.auth0.lock.strategy.localized.paypal" = "PAYPAL";
+"com.auth0.lock.strategy.localized.paypal" = "PayPal";
 // PaypalSandbox
-"com.auth0.lock.strategy.localized.paypal_sandbox" = "PAYPAL (SANDBOX)";
+"com.auth0.lock.strategy.localized.paypal_sandbox" = "PayPal (sandbox)";
 // PlanningCenter
-"com.auth0.lock.strategy.localized.planning_center" = "PLANNING CENTER";
+"com.auth0.lock.strategy.localized.planning_center" = "Planning Center";
 // RenRen
 "com.auth0.lock.strategy.localized.renren" = "人人";
 // Salesforce
-"com.auth0.lock.strategy.localized.salesforce" = "SALESFORCE";
+"com.auth0.lock.strategy.localized.salesforce" = "Salesforce";
 // SalesforceCommunity
-"com.auth0.lock.strategy.localized.salesforce_community" = "SALESFORCE COMMUNITY";
+"com.auth0.lock.strategy.localized.salesforce_community" = "Salesforce Community";
 // SalesforceSandbox
-"com.auth0.lock.strategy.localized.salesforce_sandbox" = "SALESFORCE (SANDBOX)";
+"com.auth0.lock.strategy.localized.salesforce_sandbox" = "Salesforce (sandbox)";
 // Shopify
-"com.auth0.lock.strategy.localized.shopify" = "SHOPIFY";
+"com.auth0.lock.strategy.localized.shopify" = "Shopify";
 // Soundcloud
-"com.auth0.lock.strategy.localized.soundcloud" = "SOUNDCLOUD";
+"com.auth0.lock.strategy.localized.soundcloud" = "SoundCloud";
 // TheCity
-"com.auth0.lock.strategy.localized.the_city" = "THE CITY";
+"com.auth0.lock.strategy.localized.the_city" = "The City";
 // TheCitySandbox
-"com.auth0.lock.strategy.localized.the_city_sandbox" = "THE CITY (SANDBOX)";
+"com.auth0.lock.strategy.localized.the_city_sandbox" = "The City (sandbox)";
 // ThirtySevenSignals
-"com.auth0.lock.strategy.localized.thirty_seven_signals" = "37 SIGNALS";
+"com.auth0.lock.strategy.localized.thirty_seven_signals" = "37 Signals";
 // Twitter
-"com.auth0.lock.strategy.localized.twitter" = "TWITTER";
+"com.auth0.lock.strategy.localized.twitter" = "Twitter";
 // Vkontakte
-"com.auth0.lock.strategy.localized.vkontakte" = "VKONTAKTE";
+"com.auth0.lock.strategy.localized.vkontakte" = "VKontakte";
 // Weibo
 "com.auth0.lock.strategy.localized.weibo" = "新浪微博";
 // Wordpress
-"com.auth0.lock.strategy.localized.wordpress" = "WORDPRESS";
+"com.auth0.lock.strategy.localized.wordpress" = "WordPress";
 // Yahoo
-"com.auth0.lock.strategy.localized.yahoo" = "YAHOO!";
+"com.auth0.lock.strategy.localized.yahoo" = "Yahoo!";
 // Yammer
-"com.auth0.lock.strategy.localized.yammer" = "YAMMER";
+"com.auth0.lock.strategy.localized.yammer" = "Yammer";
 // Yandex
-"com.auth0.lock.strategy.localized.yandex" = "YANDEX";
+"com.auth0.lock.strategy.localized.yandex" = "Yandex";
 // Log in with %@{strategy}
-"com.auth0.lock.strategy.login.title" = "LOG IN WITH %1$@";
+"com.auth0.lock.strategy.login.title" = "Sign in with %1$@";
 // Sign up with %@{strategy}
-"com.auth0.lock.strategy.signup.title" = "SIGN UP WITH %1$@";
+"com.auth0.lock.strategy.signup.title" = "Sign in with %1$@";
 // Login Button title
 "com.auth0.lock.submit.login.title" = "LOG IN";
 // Send 2fa code

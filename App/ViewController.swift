@@ -45,7 +45,7 @@ class ViewController: UIViewController {
         header.translatesAutoresizingMaskIntoConstraints = false
 
         let actions = [
-            actionButton(withTitle: "LOGIN WITH CDN CLASSIC") {
+            actionButton(withTitle: "Login with CDN classic") {
                 return Lock
                     .classic()
                     .withOptions {
@@ -60,14 +60,14 @@ class ViewController: UIViewController {
                         )
                 }
             },
-            actionButton(withTitle: "LOGIN WITH CDN PASSWORDLESS") {
+            actionButton(withTitle: "Login with CDN passwordless") {
                 return Lock
                     .passwordless()
                     .withOptions {
                         applyDefaultOptions(&$0)
                     }
             },
-            actionButton(withTitle: "LOGIN WITH CDN CUSTOM STYLE") {
+            actionButton(withTitle: "Login with CDN custom style") {
                 return Lock
                     .classic()
                     .withOptions {
@@ -78,7 +78,7 @@ class ViewController: UIViewController {
                         applyPhantomStyle(&$0)
                     }
             },
-            actionButton(withTitle: "LOGIN WITH CDN PASSWORDLESS CUSTOM STYLE") {
+            actionButton(withTitle: "Login with CDN passwordless custom style") {
                 return Lock
                     .passwordless()
                     .withOptions {
@@ -88,7 +88,7 @@ class ViewController: UIViewController {
                         applyPhantomStyle(&$0)
                     }
             },
-            actionButton(withTitle: "LOGIN WITH DB") {
+            actionButton(withTitle: "Login with DB") {
                 return Lock
                     .passwordless()
                     .withOptions {
@@ -99,7 +99,7 @@ class ViewController: UIViewController {
                         connections.database(name: "Username-Password-Authentication", requiresUsername: true, usernameValidator: usernameValidator, passwordPolicy: .excellent())
                 }
             },
-            actionButton(withTitle: "LOGIN ONLY WITH DB") {
+            actionButton(withTitle: "Login only with DB") {
                 return Lock
                     .classic()
                     .withOptions {
@@ -111,19 +111,21 @@ class ViewController: UIViewController {
                         connections.database(name: "Username-Password-Authentication", requiresUsername: true)
                 }
             },
-            actionButton(withTitle: "LOGIN WITH DB & SOCIAL") {
+            actionButton(withTitle: "Login with DB & social") {
                 return Lock
                     .classic()
                     .withOptions {
                         applyDefaultOptions(&$0)
                     }
                     .withConnections { connections in
+                        connections.social(name: "apple", style: .Apple)
                         connections.social(name: "facebook", style: .Facebook)
                         connections.social(name: "google-oauth2", style: .Google)
+                        connections.social(name: "twitter", style: .Twitter)
                         connections.database(name: "Username-Password-Authentication", requiresUsername: false)
                 }
             },
-            actionButton(withTitle: "LOGIN WITH SOCIAL") {
+            actionButton(withTitle: "Login with social") {
                 return Lock
                     .classic()
                     .withOptions {
