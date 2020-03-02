@@ -98,7 +98,7 @@ class AuthCollectionViewSpec: QuickSpec {
 
             it("should set proper title") {
                 let button = styleButton(.Facebook, isLogin: false)
-                expect(button.title) == "Sign in with Facebook"
+                expect(button.title) == "Sign up with Facebook"
             }
 
             it("should set color") {

@@ -120,8 +120,8 @@ class ViewController: UIViewController {
                     .withConnections { connections in
                         connections.social(name: "apple", style: .Apple)
                         connections.social(name: "facebook", style: .Facebook)
+                        connections.social(name: "github", style: .Github)
                         connections.social(name: "google-oauth2", style: .Google)
-                        connections.social(name: "twitter", style: .Twitter)
                         connections.database(name: "Username-Password-Authentication", requiresUsername: false)
                 }
             },
