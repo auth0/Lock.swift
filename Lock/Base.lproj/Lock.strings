@@ -227,7 +227,7 @@
 // Log in with %@{strategy}
 "com.auth0.lock.strategy.login.title" = "Sign in with %1$@";
 // Sign up with %@{strategy}
-"com.auth0.lock.strategy.signup.title" = "Sign in with %1$@";
+"com.auth0.lock.strategy.signup.title" = "Sign up with %1$@";
 // Login Button title
 "com.auth0.lock.submit.login.title" = "LOG IN";
 // Send 2fa code

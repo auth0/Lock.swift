@@ -25,6 +25,7 @@ import UIKit
 public class AuthButton: UIView {
 
     weak var button: UIButton?
+    weak var iconView: UIImageView?
 
     public var color: UIColor {
         get {
@@ -53,7 +54,7 @@ public class AuthButton: UIView {
     public var borderColor: UIColor? {
         didSet {
             if let borderColor = self.borderColor {
-                self.layer.borderWidth = 2
+                self.layer.borderWidth = 1
                 self.layer.borderColor = borderColor.cgColor
             } else {
                 self.layer.borderWidth = 0
@@ -64,9 +65,9 @@ public class AuthButton: UIView {
 
     public var titleColor: UIColor = .white {
         didSet {
+            self.iconView?.tintColor = self.titleColor
             self.button?.setTitleColor(self.titleColor, for: .normal)
             self.button?.tintColor = self.titleColor
-            self.button?.imageView?.tintColor = self.titleColor
         }
     }
 
@@ -79,10 +80,10 @@ public class AuthButton: UIView {
 
     public var icon: UIImage? {
         get {
-            return self.button?.image(for: .normal)
+            return self.iconView?.image
         }
         set {
-            self.button?.setImage(newValue, for: .normal)
+            self.iconView?.image = newValue
         }
     }
 
@@ -130,7 +131,16 @@ public class AuthButton: UIView {
         self.layer.masksToBounds = true
 
         let button = UIButton(type: .custom)
+        let iconView = UIImageView()
+
         self.addSubview(button)
+        button.addSubview(iconView)
+
+        constraintEqual(anchor: iconView.leftAnchor, toAnchor: button.leftAnchor)
+        constraintEqual(anchor: iconView.topAnchor, toAnchor: button.topAnchor)
+        constraintEqual(anchor: iconView.bottomAnchor, toAnchor: button.bottomAnchor)
+        constraintEqual(anchor: iconView.widthAnchor, toAnchor: iconView.heightAnchor)
+        iconView.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: button.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: button.topAnchor, toAnchor: self.topAnchor)
@@ -142,12 +152,11 @@ public class AuthButton: UIView {
         }
 
         dimension(dimension: button.heightAnchor, greaterThanOrEqual: 50)
-
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(self.icon ?? image(named: "ic_auth_auth0", compatibleWithTraitCollection: self.traitCollection),
-                        for: .normal)
-        button.imageView?.contentMode = .right
-        button.imageView?.tintColor = self.titleColor
+
+        iconView.image = self.icon ?? image(named: "ic_auth_auth0", compatibleWithTraitCollection: self.traitCollection)
+        iconView.contentMode = .center
+        iconView.tintColor = self.titleColor
 
         button.setBackgroundImage(image(withColor: self.color), for: .normal)
         button.setBackgroundImage(image(withColor: self.color.a0_darker(0.3)), for: .highlighted)
@@ -156,7 +165,7 @@ public class AuthButton: UIView {
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.5
         button.contentVerticalAlignment = .center
-        button.contentHorizontalAlignment = .center
+        button.contentHorizontalAlignment = .left
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
 
         if case .big = self.size {
@@ -164,15 +173,12 @@ public class AuthButton: UIView {
         }
 
         self.button = button
+        self.iconView = iconView
     }
 
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-
-        let spacing: CGFloat = 12 / 2
-        self.button?.imageEdgeInsets = UIEdgeInsets(top: 0, left: -spacing, bottom: 0, right: spacing)
-        self.button?.titleEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: -spacing)
-        self.button?.contentEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
+    public override func updateConstraints() {
+        super.updateConstraints()
+        self.button?.titleEdgeInsets = UIEdgeInsets(top: 0, left: max(self.frame.size.height, 50) + 12, bottom: 0, right: 12)
     }
 
     public override var intrinsicContentSize: CGSize {

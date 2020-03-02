@@ -39,7 +39,7 @@ public struct AuthStyle {
     }
 
     var localizedSignUpTitle: String {
-        let format = "Sign in with %1$@".i18n(key: "com.auth0.lock.strategy.signup.title", comment: "Sign in with %@{strategy}")
+        let format = "Sign up with %1$@".i18n(key: "com.auth0.lock.strategy.signup.title", comment: "Sign up with %@{strategy}")
         return String(format: format, self.name)
     }
 
