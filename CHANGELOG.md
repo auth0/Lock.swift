@@ -1,5 +1,12 @@
 # Change Log
 
+## [2.16.0](https://github.com/auth0/Lock.swift/tree/2.16.0) (2020-03-02)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.15.0...2.16.0)
+
+**Changed**
+- Updated AuthButton style to match Lock.js [SDK-1376] [\#600](https://github.com/auth0/Lock.swift/pull/600) ([Widcket](https://github.com/Widcket))
+- Updated AuthButton style [SDK-1376] [\#599](https://github.com/auth0/Lock.swift/pull/599) ([Widcket](https://github.com/Widcket))
+
 ## [2.15.0](https://github.com/auth0/Lock.swift/tree/2.15.0) (2020-02-06)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.14.0...2.15.0)
 
