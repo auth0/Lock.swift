@@ -50,7 +50,9 @@ class AuthPresenter: Presentable, Loggable {
         let view = AuthCollectionView(connections: self.connections, mode: mode, insets: insets, customStyle: self.customStyle) { name in
             self.interactor.login(name, loginHint: nil) { error in
                 guard let error = error else { return }
-                self.messagePresenter?.showError(error)
+                Queue.main.async {
+                    self.messagePresenter?.showError(error)
+                }
             }
         }
         return view
