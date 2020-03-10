@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.16.1](https://github.com/auth0/Lock.swift/tree/2.16.1) (2020-03-10)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.16.0...2.16.1)
+
+**Fixed**
+- Fixed crash in banner presentation [\#603](https://github.com/auth0/Lock.swift/pull/603) ([ejensen](https://github.com/ejensen))
+
 ## [2.16.0](https://github.com/auth0/Lock.swift/tree/2.16.0) (2020-03-02)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.15.0...2.16.0)
 
