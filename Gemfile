@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'fastlane'
+gem 'fastlane', '>= 2.127.2'
 gem 'jwt', '~> 1.5'
 gem 'dotenv', '~> 2.4'
-gem "cocoapods"
+gem "cocoapods", ">= 1.8.4"
 
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
 eval(File.read(plugins_path), binding) if File.exist?(plugins_path)
