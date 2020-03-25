@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'fastlane', '>= 2.127.2'
-gem 'jwt', '~> 1.5'
+gem 'jwt', '~> 2.1'
 gem 'dotenv', '~> 2.4'
 gem "cocoapods", ">= 1.8.4"
 
