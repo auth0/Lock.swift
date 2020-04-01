@@ -160,6 +160,7 @@ class DatabasePresenter: Presentable, Loggable {
         self.currentScreen = .signup
         interactor?.user.reset()
         view.showSignUp(withUsername: self.database.requiresUsername, username: username, email: email, authCollectionView: authCollectionView, additionalFields: self.options.customSignupFields, passwordPolicyValidator: passwordPolicyValidator, showPassword: self.options.allowShowPassword, showTerms: options.showTerms || options.mustAcceptTerms)
+        view.allFields?.filter { $0.text != nil && !$0.text!.isEmpty }.forEach(self.handleInput)
         let form = view.form
         view.form?.onValueChange = self.handleInput
 
