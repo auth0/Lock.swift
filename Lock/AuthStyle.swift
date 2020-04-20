@@ -132,9 +132,12 @@ public extension AuthStyle {
 
     /// Apple style for AuthButton
     static var Apple: AuthStyle {
+        let normalColor = UIColor.a0_fromRGB("#000000")
         return AuthStyle(
                 name: "Apple".i18n(key: "com.auth0.lock.strategy.localized.apple", comment: "Apple"),
-                color: .a0_fromRGB("#000000"),
+                normalColor: normalColor,
+                highlightedColor: normalColor.a0_lighter(0.3),
+                foregroundColor: .white,
                 withImage: LazyImage(name: "ic_auth_apple", bundle: bundleForLock())
         )
     }
