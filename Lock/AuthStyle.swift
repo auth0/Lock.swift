@@ -134,7 +134,7 @@ public extension AuthStyle {
     static var Apple: AuthStyle {
         return AuthStyle(
                 name: "Apple".i18n(key: "com.auth0.lock.strategy.localized.apple", comment: "Apple"),
-                color: .a0_fromRGB("#1c1c1c"),
+                color: .a0_fromRGB("#000000"),
                 withImage: LazyImage(name: "ic_auth_apple", bundle: bundleForLock())
         )
     }
