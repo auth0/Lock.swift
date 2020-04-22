@@ -33,7 +33,6 @@ public class AuthButton: UIView {
         }
         set {
             self.normalColor = newValue
-            self.highlightedColor = newValue.a0_darker(0.3)
         }
     }
 
@@ -159,7 +158,7 @@ public class AuthButton: UIView {
         iconView.tintColor = self.titleColor
 
         button.setBackgroundImage(image(withColor: self.color), for: .normal)
-        button.setBackgroundImage(image(withColor: self.color.a0_darker(0.3)), for: .highlighted)
+        button.setBackgroundImage(image(withColor: self.highlightedColor), for: .highlighted)
         button.setTitleColor(self.titleColor, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: UIFont.weightMedium)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -204,5 +203,12 @@ extension UIColor {
         var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0
         guard self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) else { return self }
         return UIColor(hue: hue, saturation: saturation, brightness: (brightness - percentage), alpha: alpha)
+    }
+
+    func a0_lighter(_ percentage: CGFloat) -> UIColor {
+        guard percentage >= 0 && percentage <= 1 else { return self }
+        var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0
+        guard self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) else { return self }
+        return UIColor(hue: hue, saturation: saturation, brightness: (brightness + percentage), alpha: alpha)
     }
 }
