@@ -1,5 +1,16 @@
 # Change Log
 
+## [2.17.0](https://github.com/auth0/Lock.swift/tree/2.17.0) (2020-04-22)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.16.1...2.17.0)
+
+**Fixed**
+- Fixed auth button highlighted color issue [\#611](https://github.com/auth0/Lock.swift/pull/611) ([Widcket](https://github.com/Widcket))
+- Changed the background color to black [\#610](https://github.com/auth0/Lock.swift/pull/610) ([Widcket](https://github.com/Widcket))
+- Fixed signup form state bug [SDK-1490] [\#608](https://github.com/auth0/Lock.swift/pull/608) ([Widcket](https://github.com/Widcket))
+
+**Security**
+- [Snyk] Fix for 3 vulnerabilities [\#606](https://github.com/auth0/Lock.swift/pull/606) ([crew-security](https://github.com/crew-security))
+
 ## [2.16.1](https://github.com/auth0/Lock.swift/tree/2.16.1) (2020-03-10)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.16.0...2.16.1)
 
