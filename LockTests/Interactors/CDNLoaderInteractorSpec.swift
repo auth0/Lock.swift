@@ -86,19 +86,19 @@ class CDNLoaderInteractorSpec: QuickSpec {
                 }
 
                 it("should fail for status code not in range 200...299") {
-                    stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: Data(), statusCode: 400, headers: [:]) }
+                    stub(condition: isCDN(forClientId: clientId)) { _ in HTTPStubsResponse(data: Data(), statusCode: 400, headers: [:]) }
                     loader.load(callback)
                     expect(connections).toEventually(beNil())
                 }
 
                 it("should fail when there is no body") {
-                    stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: Data(), statusCode: 200, headers: [:]) }
+                    stub(condition: isCDN(forClientId: clientId)) { _ in HTTPStubsResponse(data: Data(), statusCode: 200, headers: [:]) }
                     loader.load(callback)
                     expect(connections).toEventually(beNil())
                 }
 
                 it("should fail for invalid json") {
-                    stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: "not a json object".data(using: String.Encoding.utf8)!, statusCode: 200, headers: [:]) }
+                    stub(condition: isCDN(forClientId: clientId)) { _ in HTTPStubsResponse(data: "not a json object".data(using: String.Encoding.utf8)!, statusCode: 200, headers: [:]) }
                     loader.load(callback)
                     expect(connections).toEventually(beNil())
                 }
@@ -107,13 +107,13 @@ class CDNLoaderInteractorSpec: QuickSpec {
             context("remote connection errors") {
 
                 it("should return invalid client error") {
-                    stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: Data(), statusCode: 403, headers: [:]) }
+                    stub(condition: isCDN(forClientId: clientId)) { _ in HTTPStubsResponse(data: Data(), statusCode: 403, headers: [:]) }
                     loader.load(callback)
                     expect(error).toEventually(equal(UnrecoverableError.invalidClientOrDomain))
                 }
 
                 it("should return invalid client info error") {
-                    stub(condition: isCDN(forClientId: clientId)) { _ in OHHTTPStubsResponse(data: "not a json object".data(using: String.Encoding.utf8)!, statusCode: 200, headers: [:]) }
+                    stub(condition: isCDN(forClientId: clientId)) { _ in HTTPStubsResponse(data: "not a json object".data(using: String.Encoding.utf8)!, statusCode: 200, headers: [:]) }
                     loader.load(callback)
                     expect(error).toEventually(equal(UnrecoverableError.invalidClientOrDomain))
                 }

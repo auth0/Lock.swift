@@ -32,13 +32,13 @@ func += <K, V> (left: inout [K:V], right: [K:V]) {
     }
 }
 
-func realmLogin(identifier: String, password: String, realm: String) -> OHHTTPStubsTestBlock {
+func realmLogin(identifier: String, password: String, realm: String) -> HTTPStubsTestBlock {
     var parameters = ["username": identifier, "password": password]
     parameters["realm"] = realm
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
 }
 
-func databaseLogin(identifier: String, password: String, code: String? = nil, connection: String) -> OHHTTPStubsTestBlock {
+func databaseLogin(identifier: String, password: String, code: String? = nil, connection: String) -> HTTPStubsTestBlock {
     var parameters = ["username": identifier, "password": password]
     if let code = code {
         parameters["mfa_code"] = code
@@ -47,31 +47,31 @@ func databaseLogin(identifier: String, password: String, code: String? = nil, co
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/ro") && hasAtLeast(parameters)
 }
 
-func passwordlessLogin(username: String, otp: String, realm: String) -> OHHTTPStubsTestBlock {
+func passwordlessLogin(username: String, otp: String, realm: String) -> HTTPStubsTestBlock {
     let parameters = ["username": username, "otp": otp, "realm": realm, "grant_type": "http://auth0.com/oauth/grant-type/passwordless/otp"]
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
 }
 
-func otpLogin(otp: String, mfaToken: String) -> OHHTTPStubsTestBlock {
+func otpLogin(otp: String, mfaToken: String) -> HTTPStubsTestBlock {
     let parameters = ["otp": code, "mfa_token": mfaToken]
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
 }
 
-func databaseSignUp(email: String, username: String? = nil, password: String, connection: String) -> OHHTTPStubsTestBlock {
+func databaseSignUp(email: String, username: String? = nil, password: String, connection: String) -> HTTPStubsTestBlock {
     var parameters = ["email": email, "password": password, "connection": connection]
     if let username = username { parameters["username"] = username }
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/dbconnections/signup") && hasAtLeast(parameters)
 }
 
-func databaseForgotPassword(email: String, connection: String) -> OHHTTPStubsTestBlock {
+func databaseForgotPassword(email: String, connection: String) -> HTTPStubsTestBlock {
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/dbconnections/change_password") && hasAtLeast(["email": email, "connection": connection])
 }
 
-func passwordlessStart(email: String, connection: String) -> OHHTTPStubsTestBlock {
+func passwordlessStart(email: String, connection: String) -> HTTPStubsTestBlock {
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/passwordless/start") && hasAtLeast(["email": email, "connection": connection])
 }
 
-func passwordlessStart(phone: String, connection: String) -> OHHTTPStubsTestBlock {
+func passwordlessStart(phone: String, connection: String) -> HTTPStubsTestBlock {
     return isHost("samples.auth0.com") && isMethodPOST() && isPath("/passwordless/start") && hasAtLeast(["phone_number": phone, "connection": connection])
 }
 
@@ -87,14 +87,14 @@ extension URLRequest {
     }
 }
 
-func hasEntry(key: String, value: String) -> OHHTTPStubsTestBlock {
+func hasEntry(key: String, value: String) -> HTTPStubsTestBlock {
     return { request in
         guard let payload = request.a0_payload else { return false }
         return payload[key] as? String == value
     }
 }
 
-func hasAtLeast(_ parameters: [String: String]) -> OHHTTPStubsTestBlock {
+func hasAtLeast(_ parameters: [String: String]) -> HTTPStubsTestBlock {
     return { request in
         guard let payload = request.a0_payload else { return false }
         let entries = parameters.filter { (key, _) in payload.contains { (name, _) in  key == name } }
@@ -104,89 +104,89 @@ func hasAtLeast(_ parameters: [String: String]) -> OHHTTPStubsTestBlock {
     }
 }
 
-func isResourceOwner(_ domain: String) -> OHHTTPStubsTestBlock {
+func isResourceOwner(_ domain: String) -> HTTPStubsTestBlock {
     return isMethodPOST() && isHost(domain) && isPath("/oauth/ro")
 }
 
-func isToken(_ domain: String) -> OHHTTPStubsTestBlock {
+func isToken(_ domain: String) -> HTTPStubsTestBlock {
     return isMethodPOST() && isHost(domain) && isPath("/oauth/token")
 }
 
-func isSignUp(_ domain: String) -> OHHTTPStubsTestBlock {
+func isSignUp(_ domain: String) -> HTTPStubsTestBlock {
     return isMethodPOST() && isHost(domain) && isPath("/dbconnections/signup")
 }
 
-func isResetPassword(_ domain: String) -> OHHTTPStubsTestBlock {
+func isResetPassword(_ domain: String) -> HTTPStubsTestBlock {
     return isMethodPOST() && isHost(domain) && isPath("/dbconnections/change_password")
 }
 
-func isTokenInfo(_ domain: String) -> OHHTTPStubsTestBlock {
+func isTokenInfo(_ domain: String) -> HTTPStubsTestBlock {
     return isMethodPOST() && isHost(domain) && isPath("/tokeninfo")
 }
 
-func isUserInfo(_ domain: String) -> OHHTTPStubsTestBlock {
+func isUserInfo(_ domain: String) -> HTTPStubsTestBlock {
     return isMethodGET() && isHost(domain) && isPath("/userinfo")
 }
 
-func isOAuthAccessToken(_ domain: String) -> OHHTTPStubsTestBlock {
+func isOAuthAccessToken(_ domain: String) -> HTTPStubsTestBlock {
     return isMethodPOST() && isHost(domain) && isPath("/oauth/access_token")
 }
 
-func isCDN(forClientId clientId: String) -> OHHTTPStubsTestBlock {
+func isCDN(forClientId clientId: String) -> HTTPStubsTestBlock {
     return isMethodGET() && isHost("cdn.auth0.com") && isPath("/client/\(clientId).js")
 }
 
 // MARK: - Response Stubs
 
 struct Auth0Stubs {
-    static func cleanAll() { OHHTTPStubs.removeAllStubs() }
+    static func cleanAll() { HTTPStubs.removeAllStubs() }
 
     static func failUnknown() {
         stub(condition: { _ in return true }) { _ in
-            return OHHTTPStubsResponse.init(error: NSError(domain: "com.auth0.lock", code: -99999, userInfo: nil))
+            return HTTPStubsResponse.init(error: NSError(domain: "com.auth0.lock", code: -99999, userInfo: nil))
             }.name = "YOU SHALL NOT PASS!"
     }
 
-    static func failure(_ code: String = "random_error", description: String = "FAILURE", name: String? = nil, jsonExtra: [String: String] = [:]) -> OHHTTPStubsResponse {
+    static func failure(_ code: String = "random_error", description: String = "FAILURE", name: String? = nil, jsonExtra: [String: String] = [:]) -> HTTPStubsResponse {
         var json = ["error": code, "error_description": description]
         json["name"] = name
         json += jsonExtra
-        return OHHTTPStubsResponse(jsonObject: json, statusCode: 400, headers: ["Content-Type": "application/json"])
+        return HTTPStubsResponse(jsonObject: json, statusCode: 400, headers: ["Content-Type": "application/json"])
     }
 
-    static func createdUser(_ email: String) -> OHHTTPStubsResponse {
+    static func createdUser(_ email: String) -> HTTPStubsResponse {
         let json = [
             "email": email,
             ]
-        return OHHTTPStubsResponse(jsonObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
+        return HTTPStubsResponse(jsonObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
     }
 
-    static func forgotEmailSent() -> OHHTTPStubsResponse {
-        return OHHTTPStubsResponse(data: "Sent".data(using: String.Encoding.utf8)!, statusCode: 200, headers: ["Content-Type": "application/json"])
+    static func forgotEmailSent() -> HTTPStubsResponse {
+        return HTTPStubsResponse(data: "Sent".data(using: String.Encoding.utf8)!, statusCode: 200, headers: ["Content-Type": "application/json"])
     }
 
-    static func authentication() -> OHHTTPStubsResponse {
+    static func authentication() -> HTTPStubsResponse {
         let json = [
             "access_token": "token",
             "token_type": "bearer",
             ]
-        return OHHTTPStubsResponse(jsonObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
+        return HTTPStubsResponse(jsonObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
     }
 
-    static func passwordlessSent(_ email: String) -> OHHTTPStubsResponse {
+    static func passwordlessSent(_ email: String) -> HTTPStubsResponse {
         let json = [
             "email": email,
             ]
-        return OHHTTPStubsResponse(jsonObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
+        return HTTPStubsResponse(jsonObject: json, statusCode: 200, headers: ["Content-Type": "application/json"])
     }
 
-    static func strategiesFromCDN(_ strategies: [[String: Any]]) -> OHHTTPStubsResponse {
+    static func strategiesFromCDN(_ strategies: [[String: Any]]) -> HTTPStubsResponse {
         let json = [
             "strategies": strategies
         ]
         let data = try! JSONSerialization.data(withJSONObject: json, options: [])
         let string = String(data: data, encoding: String.Encoding.utf8)!
         let jsonp = "Auth0.setClient(\(string));"
-        return OHHTTPStubsResponse(data: jsonp.data(using: String.Encoding.utf8)!, statusCode: 200, headers: ["Content-Type": "application/x-javascript"])
+        return HTTPStubsResponse(data: jsonp.data(using: String.Encoding.utf8)!, statusCode: 200, headers: ["Content-Type": "application/x-javascript"])
     }
 }

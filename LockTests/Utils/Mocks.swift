@@ -346,6 +346,10 @@ class MockWebAuth: WebAuth {
         return self
     }
 
+    func redirectURL(_ redirectURL: URL) -> Self {
+        return self
+    }
+
     func usingImplicitGrant() -> Self {
         return self
     }
