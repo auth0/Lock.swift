@@ -331,6 +331,10 @@ class MockWebAuth: WebAuth {
     func useUniversalLink() -> Self {
         return self
     }
+    
+    func useEphemeralSession() -> Self {
+        return self
+    }
 
     func state(_ state: String) -> Self {
         return self
