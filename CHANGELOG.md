@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.17.1](https://github.com/auth0/Lock.swift/tree/2.17.1) (2020-05-18)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.17.0...2.17.1)
+
+**Changed**
+- Bumped dependencies [SDK-1629] [\#613](https://github.com/auth0/Lock.swift/pull/613) ([Widcket](https://github.com/Widcket))
+
 ## [2.17.0](https://github.com/auth0/Lock.swift/tree/2.17.0) (2020-04-22)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.16.1...2.17.0)
 
