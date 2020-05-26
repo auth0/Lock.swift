@@ -254,6 +254,7 @@ func applyPhantomStyle(_ style: inout Style) {
     // Database Tabs
     style.tabTintColor = darkPurple
     style.tabTextColor = mediumPurple
+    style.selectedTabTextColor = mediumPurple
 
     // Status Bar
     style.statusBarHidden = true

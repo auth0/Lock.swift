@@ -121,6 +121,9 @@ public struct Style {
         /// Database login Tab Text Color
     public var tabTextColor = UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
 
+        /// Database login selected Tab Text Color
+    public var selectedTabTextColor = UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
+
         /// Database login Tab Tint Color
     public var tabTintColor = UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
 
