@@ -85,13 +85,15 @@ class InputField: UIView, Stylable {
         }
     }
 
-    var onTextChange: (InputField) -> Void = {_ in}
+    var onTextChange: (InputField) -> Void = { _ in }
 
-    var onReturn: (InputField) -> Void = {_ in}
+    var onReturn: (InputField) -> Void = { _ in }
 
-    var onBeginEditing: (InputField) -> Void = {_ in}
+    var onBeginEditing: (InputField) -> Void = { _ in }
 
-    var onEndEditing: (InputField) -> Void = {_ in}
+    var onEndEditing: (InputField) -> Void = { _ in }
+
+    var onSubmit: (InputField) -> Bool = { _ in return true }
 
     // MARK: - Initialisers
 

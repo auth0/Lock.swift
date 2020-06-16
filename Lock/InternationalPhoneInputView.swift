@@ -102,6 +102,19 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
         }
     }
 
+    var onSubmit: (InputField) -> Bool {
+        get {
+            return self.inputField.onSubmit
+        }
+        set {
+            self.inputField.onSubmit = newValue
+        }
+    }
+
+    func shouldSubmit() -> Bool {
+        return self.inputField.onSubmit(self.inputField)
+    }
+
     func needsToUpdateState() {
         self.inputField.needsToUpdateState()
     }

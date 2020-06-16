@@ -43,6 +43,19 @@ class CredentialView: UIView, Form {
         }
     }
 
+    var onSubmit: (InputField) -> Bool = { _ in return true } {
+        didSet {
+            self.identityField.onSubmit = onSubmit
+            self.passwordField.onSubmit = onSubmit
+        }
+    }
+
+    func shouldSubmit() -> Bool {
+        let shouldSubmitIdentityField = self.identityField.onSubmit(self.identityField)
+        let shouldSubmitPasswordField = self.passwordField.onSubmit(self.passwordField)
+        return shouldSubmitIdentityField && shouldSubmitPasswordField
+    }
+
     func needsToUpdateState() {
         self.identityField.needsToUpdateState()
         self.passwordField.needsToUpdateState()

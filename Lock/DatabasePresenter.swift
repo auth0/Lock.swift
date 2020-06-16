@@ -97,7 +97,23 @@ class DatabasePresenter: Presentable, Loggable {
         self.currentScreen = .login
         let form = view.form
         form?.onValueChange = self.handleInput
+
+        form?.onSubmit = { input in
+            form?.onValueChange(input)
+
+            guard let attribute = self.getUserAttribute(from: input.type) else { return false }
+
+            do {
+                try self.authenticator.update(attribute, value: input.text)
+                return true
+            } catch {
+                return false
+            }
+        }
+
         let action = { [weak form] (button: PrimaryButton) in
+            guard let isValid = view.form?.shouldSubmit(), isValid else { return }
+
             self.messagePresenter?.hideCurrent()
             self.logger.info("Perform login for email: \(self.authenticator.email.verbatim())")
             button.inProgress = true
@@ -164,7 +180,22 @@ class DatabasePresenter: Presentable, Loggable {
         let form = view.form
         view.form?.onValueChange = self.handleInput
 
+        form?.onSubmit = { input in
+            form?.onValueChange(input)
+
+            guard let attribute = self.getUserAttribute(from: input.type) else { return false }
+
+            do {
+                try self.authenticator.update(attribute, value: input.text)
+                return true
+            } catch {
+                return false
+            }
+        }
+
         let action = { [weak form, weak view] (button: PrimaryButton) in
+            guard let isValid = view?.form?.shouldSubmit(), isValid else { return }
+
             self.messagePresenter?.hideCurrent()
             self.logger.info("Perform sign up for email \(self.creator.email.verbatim())")
             view?.allFields?.forEach { self.handleInput($0) }
@@ -233,27 +264,15 @@ class DatabasePresenter: Presentable, Loggable {
 
     private func handleInput(_ input: InputField) {
         self.messagePresenter?.hideCurrent()
-
         self.logger.verbose("new value: \(input.text.verbatim()) for type: \(input.type)")
-        var updateHRD: Bool = false
 
-        // FIXME: enum mapping outlived its usefulness
-        let attribute: UserAttribute
-        switch input.type {
-        case .email:
-            attribute = .email
-            updateHRD = true
-        case .emailOrUsername:
-            attribute = .emailOrUsername
-            updateHRD = true
-        case .password:
-            attribute = .password(enforcePolicy: self.currentScreen == .signup)
-        case .username:
-            attribute = .username
-        case .custom(let name, _, _, let storage, _, _, _, _, _, _, _):
-            attribute = .custom(name: name, storage: storage)
-        default:
-            return
+        guard let attribute = getUserAttribute(from: input.type) else { return }
+
+        var updateHRD: Bool = false
+        switch attribute {
+        case .email: updateHRD = true
+        case .emailOrUsername: updateHRD = true
+        default: break
         }
 
         do {
@@ -273,6 +292,18 @@ class DatabasePresenter: Presentable, Loggable {
             input.showError(error.localizedMessage(withConnection: self.database))
         } catch {
             input.showError()
+        }
+    }
+
+    private func getUserAttribute(from inputType: InputField.InputType) -> UserAttribute? {
+        switch inputType {
+        case .email: return .email
+        case .emailOrUsername: return .emailOrUsername
+        case .password: return .password(enforcePolicy: self.currentScreen == .signup)
+        case .username: return .username
+        case .custom(let name, _, _, let storage, _, _, _, _, _, _, _):
+            return .custom(name: name, storage: storage)
+        default: return nil
         }
     }
 
