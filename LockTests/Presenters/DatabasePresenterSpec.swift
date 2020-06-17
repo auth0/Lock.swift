@@ -839,6 +839,7 @@ class DatabasePresenterSpec: QuickSpec {
                         presenter.enterpriseInteractor = enterpriseInteractor
                         
                         view = presenter.view as? DatabaseOnlyView
+                        view.form?.onSubmit = { _ in return true }
                         
                         let input = mockInput(.email, value: "user@valid.com")
                         view.form?.onValueChange(input)
