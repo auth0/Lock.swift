@@ -86,6 +86,20 @@ class DatabasePresenterSpec: QuickSpec {
             }
         }
 
+        describe("form submit") {
+
+            it("should allow form submit") {
+                view.form?.onSubmit = { _ in return true }
+                expect(view.form?.shouldSubmit()) == true
+            }
+
+            it("should not allow form submit") {
+                view.form?.onSubmit = { _ in return false }
+                expect(view.form?.shouldSubmit()) == false
+            }
+
+        }
+
         describe("accept terms alert") {
 
             it("present alert") {
