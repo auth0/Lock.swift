@@ -60,8 +60,23 @@ class SignUpView: UIView, Form {
         }
     }
 
+    var onSubmit: (InputField) -> Bool = { _ in return true } {
+        didSet {
+            self.stackView.arrangedSubviews
+                .compactMap { $0 as? InputField }
+                .forEach { $0.onSubmit = onSubmit }
+        }
+    }
+
     var lastField: InputField? {
         return self.stackView.arrangedSubviews.last as? InputField
+    }
+
+    func shouldSubmit() -> Bool {
+        return !self.stackView.arrangedSubviews
+            .compactMap { $0 as? InputField }
+            .map { $0.onSubmit($0) }
+            .contains(false)
     }
 
     func needsToUpdateState() {
@@ -116,7 +131,7 @@ class SignUpView: UIView, Form {
 
         stackView.axis = .vertical
         stackView.spacing = 16
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.alignment = .fill
 
         email.type = .email

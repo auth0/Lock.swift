@@ -25,8 +25,11 @@ import Foundation
 protocol Form: class {
     var onValueChange: (InputField) -> Void { get set }
     var onReturn: (InputField) -> Void { get set }
-    func needsToUpdateState()
+    var onSubmit: (InputField) -> Bool { get set }
     var onCountryChange: (CountryCode) -> Void { get set }
+
+    func shouldSubmit() -> Bool
+    func needsToUpdateState()
 }
 
 extension Form {
