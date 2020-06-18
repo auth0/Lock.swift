@@ -277,10 +277,30 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(interactor.email) == email
                 }
 
+                it("should allow a valid email") {
+                    let input = mockInput(.email, value: email)
+                    expect(view.form?.onSubmit(input)) == true
+                }
+
+                it("should not allow an invalid email") {
+                    let input = mockInput(.email, value: "invalid")
+                    expect(view.form?.onSubmit(input)) == false
+                }
+
                 it("should update username") {
                     let input = mockInput(.username, value: username)
                     view.form?.onValueChange(input)
                     expect(interactor.username) == username
+                }
+
+                it("should allow a valid username") {
+                    let input = mockInput(.username, value: username)
+                    expect(view.form?.onSubmit(input)) == true
+                }
+
+                it("should not allow an invalid username") {
+                    let input = mockInput(.username, value: "invalid")
+                    expect(view.form?.onSubmit(input)) == false
                 }
 
                 it("should update password") {
@@ -289,10 +309,30 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(interactor.password) == password
                 }
 
+                it("should allow a valid password") {
+                    let input = mockInput(.password, value: password)
+                    expect(view.form?.onSubmit(input)) == true
+                }
+
+                it("should not allow an invalid password") {
+                    let input = mockInput(.password, value: "invalid")
+                    expect(view.form?.onSubmit(input)) == false
+                }
+
                 it("should update username or email") {
                     let input = mockInput(.emailOrUsername, value: username)
                     view.form?.onValueChange(input)
                     expect(interactor.username) == username
+                }
+
+                it("should allow a valid username or email") {
+                    let input = mockInput(.emailOrUsername, value: username)
+                    expect(view.form?.onSubmit(input)) == true
+                }
+
+                it("should not allow an invalid username or email") {
+                    let input = mockInput(.emailOrUsername, value: "invalid")
+                    expect(view.form?.onSubmit(input)) == false
                 }
 
                 it("should not update if type is not valid for db connection") {
