@@ -520,16 +520,46 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(interactor.email) == email
                 }
 
+                it("should allow a valid email") {
+                    let input = mockInput(.email, value: email)
+                    expect(view.form?.onSubmit(input)) == true
+                }
+
+                it("should not allow an invalid email") {
+                    let input = mockInput(.email, value: "invalid")
+                    expect(view.form?.onSubmit(input)) == false
+                }
+
                 it("should update username") {
                     let input = mockInput(.username, value: username)
                     view.form?.onValueChange(input)
                     expect(interactor.username) == username
                 }
 
+                it("should allow a valid username") {
+                    let input = mockInput(.username, value: username)
+                    expect(view.form?.onSubmit(input)) == true
+                }
+
+                it("should not allow an invalid username") {
+                    let input = mockInput(.username, value: "invalid")
+                    expect(view.form?.onSubmit(input)) == false
+                }
+
                 it("should update password") {
                     let input = mockInput(.password, value: password)
                     view.form?.onValueChange(input)
                     expect(interactor.password) == password
+                }
+
+                it("should allow a valid password") {
+                    let input = mockInput(.password, value: password)
+                    expect(view.form?.onSubmit(input)) == true
+                }
+
+                it("should not allow an invalid password") {
+                    let input = mockInput(.password, value: "invalid")
+                    expect(view.form?.onSubmit(input)) == false
                 }
 
                 it("should custom field") {
