@@ -229,6 +229,7 @@ class InputField: UIView, Stylable {
         constraintEqual(anchor: button.bottomAnchor, toAnchor: textField.bottomAnchor)
         constraintEqual(anchor: button.rightAnchor, toAnchor: container.rightAnchor)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setContentCompressionResistancePriority(UILayoutPriority.priorityRequired, for: .horizontal)
 
         return button
     }
