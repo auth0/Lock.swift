@@ -26,6 +26,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     classic.ios.resource = ["Lock/*.xcassets", "Lock/*.lproj", "Lock/passwordless_country_codes.plist"]
   end
 
-  s.swift_versions = ['4.0', '4.1', '4.2', '5.0']
+  s.swift_versions = ['4.0', '4.1', '4.2', '5.0', '5.1', '5.2']
 
 end

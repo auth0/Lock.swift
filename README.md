@@ -1,11 +1,11 @@
 # Lock.swift 
 
 [![CircleCI](https://img.shields.io/circleci/project/github/auth0/Lock.swift.svg?style=flat-square)](https://circleci.com/gh/auth0/Lock.swift/tree/master)
-[![Version](https://img.shields.io/cocoapods/v/Lock.svg?style=flat-square)](http://cocoadocs.org/docsets/Lock)
-[![License](https://img.shields.io/cocoapods/l/Lock.svg?style=flat-square)](http://cocoadocs.org/docsets/Lock)
-[![Platform](https://img.shields.io/cocoapods/p/Lock.svg?style=flat-square)](http://cocoadocs.org/docsets/Lock)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat-square)](https://github.com/Carthage/Carthage)
-![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat-square)
+[![Coverage Status](https://img.shields.io/codecov/c/github/auth0/Lock.swift/master.svg?style=flat-square)](https://codecov.io/github/auth0/Lock.swift)
+[![Version](https://img.shields.io/cocoapods/v/Lock.svg?style=flat-square)](https://cocoadocs.org/docsets/Lock)
+[![License](https://img.shields.io/cocoapods/l/Lock.svg?style=flat-square)](https://cocoadocs.org/docsets/Lock)
+[![Platform](https://img.shields.io/cocoapods/p/Lock.svg?style=flat-square)](https://cocoadocs.org/docsets/Lock)
+![Swift 5.2](https://img.shields.io/badge/Swift-5.2-orange.svg?style=flat-square)
 
 [Auth0](https://auth0.com) is an authentication broker that supports social identity providers as well as enterprise identity providers such as Active Directory, LDAP, Google Apps and Salesforce.
 
@@ -16,35 +16,43 @@ Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 * Solving the home realm discovery challenge with enterprise users (i.e.: asking the enterprise user the email, and redirecting to the right enterprise identity provider).
 * Implementing a standard sign in protocol (OpenID Connect / OAuth2 Login)
 
-Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
+Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md).
 
 ## Requirements
 
 - iOS 9+
-- Xcode 10.x/11.x
+- Xcode 11.x
 - Swift 4.x/5.x
 
-## Install
+## Installation
 
-### CocoaPods
+### Cocoapods
 
- Add the following line to your Podfile:
+If you are using [Cocoapods](https://cocoapods.org), add this line to your `Podfile`:
 
- ```ruby
- pod "Lock", "~> 2.17"
- ```
+```ruby
+pod "Lock", "~> 2.17"
+```
+
+Then run `pod install`.
+
+> For more information on Cocoapods, check [their official documentation](https://guides.cocoapods.org/using/getting-started.html).
 
 ### Carthage
 
-In your `Cartfile` add
+If you are using [Carthage](https://github.com/Carthage/Carthage), add the following line to your `Cartfile`:
 
 ```ruby
 github "auth0/Lock.swift" ~> 2.17
 ```
 
+Then run `carthage bootstrap`.
+
+> For more information about Carthage usage, check [their official documentation](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos).
+
 ## Usage
 
-First import **Lock**
+First import **Lock**:
 
 ```swift
 import Lock
@@ -53,7 +61,7 @@ import Lock
 Next in your `AppDelegate.swift` add the following:
 
 ```swift
-func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
   return Lock.resumeAuth(url, options: options)
 }
 ```
@@ -97,7 +105,7 @@ It is strongly encouraged that this SDK be used in OIDC Conformant mode. When th
 
 For more information, please see the [OIDC adoption guide](https://auth0.com/docs/api-auth/tutorials/adoption).
 
-To show Lock, add the following snippet in your `UIViewController`
+To show Lock, add the following snippet in your `UIViewController`:
 
 ```swift
 Lock
@@ -124,9 +132,9 @@ Lock
 ### Important: Database Connection Authentication
 
 Since June 2017 new Clients no longer have the **Password Grant Type** enabled by default.
-If you are using a Database Connection in Lock then you will need to enable the Password Grant Type, please follow [this guide](https://auth0.com/docs/clients/client-grant-types#how-to-edit-the-client-grant_types-property).
+If you are using a Database Connection in Lock then you will need to enable the Password Grant Type, please follow [this guide](https://auth0.com/docs/applications/concepts/application-grant-types#how-to-edit-the-client-grant_types-property).
 
-#### Specify Connections
+#### Specify connections
 
 Lock will automatically load your application configuration automatically, if you wish to override this behaviour you can manually specify which of your connections to use.  
 
@@ -161,7 +169,7 @@ Before presenting Lock you can tell it what connections it should display and us
 ### Custom Domains
 
 If you are using [Custom Domains](https://auth0.com/docs/custom-domains), you will need to set the `configurationBaseURL` to your Auth0 Domain so the Lock configuration can 
-be read correctly.
+be read correctly:
 
 ```swift
 .withOptions {
@@ -171,7 +179,7 @@ be read correctly.
 
 ### Logging
 
-You can easily turn on/off logging capabilities.
+You can easily turn on/off logging capabilities:
 
 ```swift
 Lock
@@ -188,7 +196,7 @@ Lock provides many styling options to help you apply your own brand identity to 
 
 ### iPad Modal Presentation
 
-iPad presentation is show in a modal popup, this can be disabled to use full screen as follows.
+iPad presentation is show in a modal popup, this can be disabled to use full screen as follows:
 
 ```swift
 .withStyle {
@@ -196,7 +204,7 @@ iPad presentation is show in a modal popup, this can be disabled to use full scr
 }
 ```
 
-### Customize your header and primary color
+### Customize Your Header and Primary Color
 
 ```swift
 .withStyle {
@@ -208,7 +216,7 @@ iPad presentation is show in a modal popup, this can be disabled to use full scr
 
 > You can explore the full range of styling options in [Style.swift](https://github.com/auth0/Lock.swift/blob/master/Lock/Style.swift)
 
-### Styling a custom OAuth2 connection
+### Styling a Custom OAuth2 Connection
 
 ```swift
 .withStyle {
@@ -224,13 +232,13 @@ iPad presentation is show in a modal popup, this can be disabled to use full scr
 
 Lock Passwordless handles authentication using Passwordless & Social Connections.
 
-> The Passwordless feature requires your application to have the *Passwordless OTP* Grant Type enabled. Check [this article](https://auth0.com/docs/clients/client-grant-types) for more information.
+> The Passwordless feature requires your application to have the *Passwordless OTP* Grant Type enabled. Check [this article](https://auth0.com/docs/applications/concepts/application-grant-types) for more information.
 
 To use Passwordless Authentication with Lock, you need to configure it with **OIDC Conformant Mode** set to `true`.
 
 > OIDC Conformant Mode will force Lock to use Auth0's current authentication pipeline and will prevent it from reaching legacy endpoints. By default this mode is disabled. For more information, please see the [OIDC adoption guide](https://auth0.com/docs/api-auth/tutorials/adoption).
 
-To show Lock, add the following snippet in your `UIViewController`
+To show Lock, add the following snippet in your `UIViewController`:
 
 ```swift
 Lock
@@ -259,9 +267,9 @@ Lock
 **Notes:**
 - Passwordless can only be used with a single connection and will prioritize the use of email connections over sms.  
 
-#### Passwordless Method
+#### Passwordless method
 
-When using Lock Passwordless the default `passwordlessMethod` is `.code` which sends the user a one time passcode to login. If you want to use [Universal Links](https://auth0.com/docs/clients/enable-universal-links) you can add the following:
+When using Lock Passwordless the default `passwordlessMethod` is `.code` which sends the user a one time passcode to login. If you want to use [Universal Links](https://auth0.com/docs/dashboard/guides/applications/enable-universal-links) you can add the following:
 
 ```swift
 .withOptions {
@@ -274,7 +282,7 @@ When using Lock Passwordless the default `passwordlessMethod` is `.code` which s
 If you are using Lock Passwordless and have specified the `.magicLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
 
 ```swift
-func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
     return Lock.continueAuth(using: userActivity)
 }
 ```
@@ -297,7 +305,7 @@ func application(_ application: UIApplication, continue userActivity: NSUserActi
 }
 ```
 
-## Customization options
+## Customization Options
 
 Lock provides numerous options to customize the Lock experience.
 
@@ -313,7 +321,7 @@ Allows Lock to be dismissed by the user. By default this is `false`.
 
 #### Terms of Service
 
-By default Lock will use Auth0's [Terms of Service](https://auth0.com/terms) and [Privacy Policy](https://auth0.com/privacy)
+By default Lock will use Auth0's [Terms of Service](https://auth0.com/web-terms) and [Privacy Policy](https://auth0.com/privacy):
 
 ```swift
 .withOptions {
@@ -324,7 +332,7 @@ By default Lock will use Auth0's [Terms of Service](https://auth0.com/terms) and
 
 #### Must accept Terms of Service
 
-Database connection will require explicit acceptance of terms of service.
+Database connection will require explicit acceptance of terms of service:
 
 ```swift
 .withOptions {
@@ -335,13 +343,14 @@ Database connection will require explicit acceptance of terms of service.
 #### Show Terms of Service
 
 Database connection will display the Terms & Service dialog. Default is `true`.
-Note: Terms will always be shown if the `mustAcceptTerms` flag has been enabled.
 
 ```swift
 .withOptions {
     $0.showTerms = true
 }
 ```
+
+*Note: Terms will always be shown if the `mustAcceptTerms` flag has been enabled.*
 
 #### Logging
 
@@ -393,7 +402,7 @@ Scope used for authentication. By default is `openid`. It will return not only t
 }
 ```
 
-#### Connection Scope
+#### Connection scope
 
 Allows you to set provider scopes for oauth2/social connections with a comma separated list. By default is empty.
 
@@ -416,7 +425,7 @@ Allows you to set provider scopes for oauth2/social connections with a comma sep
 }
 ```
 
-#### Custom Signup Fields
+#### Custom signup fields
 
 When signing up the default information requirements are the user's *email* and *password*. You can expand your data capture requirements as needed.
 
@@ -437,7 +446,7 @@ When signing up, your app may need to assign values to the user's profile that a
 
 *Note: You must specify the icon to use with your custom text field and store it in your App's bundle.*
 
-#### Password Manager
+#### Password manager
 
 This functionality has been removed as of Release 2.18 due to the 1Password extension using deprecated methods, which can result in your app being rejected by the AppStore. This functionality was superseded in iOS 12 when Apple introduced the integration of password managers into login forms.
 
@@ -460,9 +469,9 @@ You may also safely remove the following entry from your app's `Info.plist`:
 </array>
 ```
 
-#### Show Password
+#### Show password
 
-By default a show password icon is shown in password fields to toggle visibility of the input text. You can disable this using the `allowShowPassword` option.
+By default a show password icon is shown in password fields to toggle visibility of the input text. You can disable this using the `allowShowPassword` option:
 
 ```swift
 .withOptions {
@@ -470,7 +479,7 @@ By default a show password icon is shown in password fields to toggle visibility
 }
 ```
 
-**Note:** Show password will not be available if the [Password Manager](#Password Manager) is available.
+**Note:** Show password will not be available if the **Password Manager** is available.
 
 #### Enterprise
 
@@ -488,27 +497,26 @@ By default a show password icon is shown in password fields to toggle visibility
 
 Auth0 helps you to:
 
-* Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, amongst others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
-* Add support for [Custom OAuth2 Connections](https://auth0.com/docs/connections/social/oauth2).
-* Add authentication through more traditional **[username/password databases](https://docs.auth0.com/mysql-connection-tutorial)**.
-* Add support for **[linking different user accounts](https://docs.auth0.com/link-accounts)** with the same user.
-* Support for generating signed [JSON Web Tokens](https://docs.auth0.com/jwt) to call your APIs and **flow the user identity** securely.
-* Analytics of how, when and where users are logging in.
-* Pull data from other sources and add it to the user profile, through [JavaScript rules](https://docs.auth0.com/rules).
+* Add authentication with [multiple sources](https://auth0.com/docs/identityproviders), either social identity providers such as **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce** (amongst others), or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS, or any SAML Identity Provider**.
+* Add authentication through more traditional **[username/password databases](https://auth0.com/docs/connections/database/custom-db)**.
+* Add support for **[linking different user accounts](https://auth0.com/docs/link-accounts)** with the same user.
+* Support for generating signed [JSON Web Tokens](https://auth0.com/docs/tokens/concepts/jwts) to call your APIs and **flow the user identity** securely.
+* Analytics of how, when, and where users are logging in.
+* Pull data from other sources and add it to the user profile through [JavaScript rules](https://auth0.com/docs/rules).
 
-## Create a free account in Auth0
+## Create a Free Auth0 Account
 
-1. Go to [Auth0](https://auth0.com) and click Sign Up.
-2. Use Google, GitHub or Microsoft Account to login.
+1. Go to [Auth0](https://auth0.com) and click **Sign Up**.
+2. Use Google, GitHub, or Microsoft Account to login.
 
 ## Issue Reporting
 
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
+If you have found a bug or to request a feature, please [raise an issue](https://github.com/auth0/Lock.swift/issues). Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/responsible-disclosure-policy) details the procedure for disclosing security issues.
 
 ## Author
 
-[Auth0](auth0.com)
+[Auth0](https://auth0.com)
 
 ## License
 
-This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
+This project is licensed under the MIT license. See the [LICENSE](https://github.com/auth0/Lock.swift/blob/master/LICENSE) file for more info.
