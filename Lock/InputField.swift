@@ -85,13 +85,15 @@ class InputField: UIView, Stylable {
         }
     }
 
-    var onTextChange: (InputField) -> Void = {_ in}
+    var onTextChange: (InputField) -> Void = { _ in }
 
-    var onReturn: (InputField) -> Void = {_ in}
+    var onReturn: (InputField) -> Void = { _ in }
 
-    var onBeginEditing: (InputField) -> Void = {_ in}
+    var onBeginEditing: (InputField) -> Void = { _ in }
 
-    var onEndEditing: (InputField) -> Void = {_ in}
+    var onEndEditing: (InputField) -> Void = { _ in }
+
+    var onSubmit: (InputField) -> Bool = { _ in return true }
 
     // MARK: - Initialisers
 
@@ -227,6 +229,7 @@ class InputField: UIView, Stylable {
         constraintEqual(anchor: button.bottomAnchor, toAnchor: textField.bottomAnchor)
         constraintEqual(anchor: button.rightAnchor, toAnchor: container.rightAnchor)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setContentCompressionResistancePriority(UILayoutPriority.priorityRequired, for: .horizontal)
 
         return button
     }

@@ -1,5 +1,12 @@
 # Change Log
 
+## [2.17.2](https://github.com/auth0/Lock.swift/tree/2.17.2) (2020-06-18)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.17.1...2.17.2)
+
+**Fixed**
+- Fixed password field icon [\#622](https://github.com/auth0/Lock.swift/pull/622) ([Widcket](https://github.com/Widcket))
+- Fixed input validation [SDK-913] [\#620](https://github.com/auth0/Lock.swift/pull/620) ([Widcket](https://github.com/Widcket))
+
 ## [2.17.1](https://github.com/auth0/Lock.swift/tree/2.17.1) (2020-05-18)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.17.0...2.17.1)
 

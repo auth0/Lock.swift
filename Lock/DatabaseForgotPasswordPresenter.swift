@@ -58,11 +58,26 @@ class DatabaseForgotPasswordPresenter: Presentable, Loggable {
                 input.showError()
             }
         }
+
+        view.form?.onSubmit = { input in
+            view.form?.onValueChange(input)
+
+            do {
+                try self.interactor.updateEmail(input.text)
+                return true
+            } catch {
+                return false
+            }
+        }
+
         let action = { [weak form] (button: PrimaryButton) in
+            guard let isValid = view.form?.shouldSubmit(), isValid else { return }
+
             self.messagePresenter?.hideCurrent()
             self.logger.info("request forgot password for email: \(self.interactor.email.verbatim())")
             let interactor = self.interactor
             button.inProgress = true
+
             interactor.requestEmail { error in
                 Queue.main.async {
                     button.inProgress = false
