@@ -81,7 +81,7 @@ class DatabaseModeSwitcher: UIView {
         constraintEqual(anchor: segmented.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: segmented.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: segmented.leftAnchor, toAnchor: self.leftAnchor)
-        dimension(dimension: segmented.heightAnchor, withValue: 45)
+        dimension(dimension: segmented.heightAnchor, withValue: 50)
         segmented.translatesAutoresizingMaskIntoConstraints = false
 
         segmented.setDividerImage(image(named: "ic_switcher_left", compatibleWithTraitCollection: self.traitCollection), forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)

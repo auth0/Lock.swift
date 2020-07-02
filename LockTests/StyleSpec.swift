@@ -98,7 +98,7 @@ class StyleSpec: QuickSpec {
             }
 
             it("should have database login tab text color") {
-                expect(style.selectedTabTextColor) == UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
+                expect(style.selectedTabTextColor) == UIColor.black
             }
 
             it("should have database login tab tint color") {
