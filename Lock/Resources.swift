@@ -42,6 +42,10 @@ func image(withColor color: UIColor) -> UIImage? {
     return image
 }
 
+func boldSystemFont(size: CGFloat) -> UIFont {
+    return UIFont.systemFont(ofSize: size, weight: UIFont.weightBold)
+}
+
 func semiBoldSystemFont(size: CGFloat) -> UIFont {
     return UIFont.systemFont(ofSize: size, weight: UIFont.weightSemiBold)
 }

@@ -82,13 +82,13 @@ class MessageView: UIView {
 
         constraintEqual(anchor: guide.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
         constraintEqual(anchor: guide.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
-        constraintEqual(anchor: guide.topAnchor, toAnchor: self.topAnchor, constant: 30)
-        constraintEqual(anchor: guide.bottomAnchor, toAnchor: self.bottomAnchor, constant: -10)
+        constraintEqual(anchor: guide.topAnchor, toAnchor: self.topAnchor, constant: 24)
+        constraintEqual(anchor: guide.bottomAnchor, toAnchor: self.bottomAnchor, constant: -24)
 
         let messageLabel = UILabel()
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
-        messageLabel.font = .systemFont(ofSize: 11, weight: UIFont.weightMedium)
+        messageLabel.font = .systemFont(ofSize: 16, weight: UIFont.weightMedium)
         messageLabel.textColor = self.type.textColor
 
         self.addSubview(messageLabel)

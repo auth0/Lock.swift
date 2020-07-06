@@ -77,11 +77,13 @@ extension UIFont {
     static let weightMedium = Weight.medium
     static let weightRegular = Weight.regular
     static let weightSemiBold = Weight.semibold
+    static let weightBold = Weight.bold
     #else
     static let weightLight = UIFontWeightLight
     static let weightMedium = UIFontWeightMedium
     static let weightRegular = UIFontWeightRegular
     static let weightSemiBold = UIFontWeightSemibold
+    static let weightBold = UIFontWeightBold
     #endif
 }
 

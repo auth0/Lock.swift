@@ -94,11 +94,15 @@ class StyleSpec: QuickSpec {
             }
 
             it("should have database login tab text color") {
-                expect(style.tabTextColor) == UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
+                expect(style.tabTextColor) == UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0)
+            }
+
+            it("should have database login tab text color") {
+                expect(style.selectedTabTextColor) == UIColor.black
             }
 
             it("should have database login tab tint color") {
-                expect(style.tabTintColor) == UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
+                expect(style.tabTintColor) == UIColor.black
             }
 
             it("should have lock controller status bar update animation") {

@@ -40,10 +40,10 @@ public struct Style {
     public var backgroundImage: LazyImage?
 
         /// Lock disabled component color
-    public var disabledColor = UIColor(red: 0.8902, green: 0.898, blue: 0.9059, alpha: 1.0 )
+    public var disabledColor = UIColor(red: 0.8902, green: 0.898, blue: 0.9059, alpha: 1.0)
 
         /// Lock disabled component text color
-    public var disabledTextColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0 )
+    public var disabledTextColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0) // #929495
 
         /// Primary button tint color
     public var buttonTintColor = UIColor.white
@@ -89,7 +89,7 @@ public struct Style {
     public var inputTextColor = UIColor.black
 
         /// Input field placeholder text color
-    public var inputPlaceholderTextColor = UIColor(red: 0.780, green: 0.780, blue: 0.804, alpha: 1.00)
+    public var inputPlaceholderTextColor = UIColor(red: 0.780, green: 0.780, blue: 0.804, alpha: 1.00) // #C7C7CD
 
         /// Input field border color default
     public var inputBorderColor = UIColor(red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0)
@@ -104,7 +104,7 @@ public struct Style {
     public var inputIconBackgroundColor = UIColor(red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0)
 
         /// Input field icon color
-    public var inputIconColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0)
+    public var inputIconColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0) // #929495
 
         /// Password rule text color default
     public var ruleTextColor = UIColor(red: 0.016, green: 0.016, blue: 0.016, alpha: 1.0)
@@ -119,10 +119,13 @@ public struct Style {
     public var secondaryButtonColor = UIColor.black
 
         /// Database login Tab Text Color
-    public var tabTextColor = UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
+    public var tabTextColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0) // #929495
+
+        /// Database login selected Tab Text Color
+    public var selectedTabTextColor = UIColor.black
 
         /// Database login Tab Tint Color
-    public var tabTintColor = UIColor(red: 0.3608, green: 0.4, blue: 0.4353, alpha: 0.6)
+    public var tabTintColor = UIColor.black
 
         /// Lock Controller Status bar update animation
     public var statusBarUpdateAnimation: UIStatusBarAnimation = .none
