@@ -1,1 +1,1 @@
-github "auth0/Auth0.swift"
+github "auth0/Auth0.swift" "added-xcode-12-beta"

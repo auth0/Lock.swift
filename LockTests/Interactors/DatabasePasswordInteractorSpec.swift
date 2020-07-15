@@ -26,6 +26,7 @@ import OHHTTPStubs
 import Auth0
 
 @testable import Lock
+private let Timeout = DispatchTimeInterval.seconds(2)
 
 class DatabasePasswordInteractorSpec: QuickSpec {
 
@@ -106,7 +107,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
             it("should fail if no db connection is found") {
                 forgot = DatabasePasswordInteractor(connections: OfflineConnections(), authentication: authentication, user: user, dispatcher: dispatcher)
                 try! forgot.updateEmail(email)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     forgot.requestEmail { error in
                         expect(error) == .noDatabaseConnection
                         done()
@@ -117,7 +118,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
             it("should yield no error on success") {
                 stub(condition: databaseForgotPassword(email: email, connection: connection)) { _ in return Auth0Stubs.forgotEmailSent() }
                 try! forgot.updateEmail(email)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     forgot.requestEmail { error in
                         expect(error).to(beNil())
                         done()
@@ -128,7 +129,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
             it("should yield error on failure") {
                 stub(condition: databaseForgotPassword(email: email, connection: connection)) { _ in return Auth0Stubs.failure() }
                 try! forgot.updateEmail(email)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     forgot.requestEmail { error in
                         expect(error) == .emailNotSent
                         done()
@@ -137,7 +138,7 @@ class DatabasePasswordInteractorSpec: QuickSpec {
             }
 
             it("should yield error when input is not valid") {
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     forgot.requestEmail { error in
                         expect(error) == .nonValidInput
                         done()

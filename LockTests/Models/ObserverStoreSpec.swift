@@ -25,6 +25,7 @@ import Nimble
 
 import Auth0
 @testable import Lock
+private let Timeout = DispatchTimeInterval.seconds(2)
 
 class ObserverStoreSpec: QuickSpec {
     override func spec() {
@@ -104,7 +105,7 @@ class ObserverStoreSpec: QuickSpec {
                 it("should dismiss onAuth") {
                     let value = mockCredentials()
                     dispatcher.dispatch(result: .auth(value))
-                    expect(presenter.presented).toEventually(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventually(beNil(), timeout: Timeout)
                 }
 
                 it("should not dismiss onAuth when autoclose disabled") {
@@ -113,18 +114,18 @@ class ObserverStoreSpec: QuickSpec {
                     options.autoClose = false
                     dispatcher.options = options
                     dispatcher.dispatch(result: .auth(value))
-                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: Timeout)
                 }
 
                 it("should dismiss onCancel") {
                     dispatcher.dispatch(result: .cancel)
-                    expect(presenter.presented).toEventually(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventually(beNil(), timeout: Timeout)
                 }
 
                 it("should not dismiss onSignUp") {
                     dispatcher.dispatch(result: .signUp(email, ["username": username]))
                     expect(newEmail).toEventually(equal(email))
-                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: Timeout)
                 }
 
                 it("should dismiss onSignUp when single screen") {
@@ -133,7 +134,7 @@ class ObserverStoreSpec: QuickSpec {
                     dispatcher.options = options
                     dispatcher.dispatch(result: .signUp(email, ["username": username]))
                     expect(newEmail).toEventually(equal(email))
-                    expect(presenter.presented).toEventually(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventually(beNil(), timeout: Timeout)
                 }
 
                 it("should not dismiss onSignUp when single screen but autoclose disabled") {
@@ -143,12 +144,12 @@ class ObserverStoreSpec: QuickSpec {
                     dispatcher.options = options
                     dispatcher.dispatch(result: .signUp(email, ["username": username]))
                     expect(newEmail).toEventually(equal(email))
-                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: Timeout)
                 }
 
                 it("should not dismiss forgotPassword") {
                     dispatcher.dispatch(result: .forgotPassword(email))
-                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: Timeout)
                 }
 
                 it("should dismiss forgotPassword when single screen") {
@@ -157,7 +158,7 @@ class ObserverStoreSpec: QuickSpec {
                     dispatcher.options = options
                     dispatcher.dispatch(result: .forgotPassword(email))
                     expect(newEmail).toEventually(equal(email))
-                    expect(presenter.presented).toEventually(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventually(beNil(), timeout: Timeout)
                 }
 
                 it("should not dismiss forgotPassword when single screen but autoclose disabled") {
@@ -167,12 +168,12 @@ class ObserverStoreSpec: QuickSpec {
                     dispatcher.options = options
                     dispatcher.dispatch(result: .forgotPassword(email))
                     expect(newEmail).toEventually(equal(email))
-                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: Timeout)
                 }
 
                 it("should not dismiss onPasswordless") {
                     dispatcher.dispatch(result: .passwordless(email))
-                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: 2)
+                    expect(presenter.presented).toEventuallyNot(beNil(), timeout: Timeout)
                 }
 
             }

@@ -25,6 +25,7 @@ import Quick
 import Auth0
 
 @testable import Lock
+private let Timeout = DispatchTimeInterval.seconds(2)
 
 class ClassicRouterSpec: QuickSpec {
 
@@ -235,7 +236,7 @@ class ClassicRouterSpec: QuickSpec {
                 }
 
                 it("should pass error in callback") {
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: Timeout) { done in
                         lock.observerStore.onFailure = { cause in
                             if  case UnrecoverableError.invalidClientOrDomain = cause {
                                 done()
@@ -356,7 +357,7 @@ class ClassicRouterSpec: QuickSpec {
             }
 
             it("should exit with error when connections are empty") {
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     lock.observerStore.onFailure = { cause in
                         if case UnrecoverableError.clientWithNoConnections = cause {
                             done()

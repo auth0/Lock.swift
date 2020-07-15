@@ -27,6 +27,8 @@ import Auth0
 
 @testable import Lock
 
+private let Timeout = DispatchTimeInterval.seconds(2)
+
 class DatabaseInteractorSpec: QuickSpec {
 
     override func spec() {
@@ -405,7 +407,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error).to(beNil())
                         done()
@@ -418,7 +420,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error).to(beNil())
                         done()
@@ -435,7 +437,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error).to(beNil())
                         done()
@@ -452,7 +454,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error).to(beNil())
                         done()
@@ -464,7 +466,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: username, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error).to(beNil())
                         done()
@@ -476,7 +478,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure() }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .couldNotLogin
                         done()
@@ -488,7 +490,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("invalid_user_password") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .invalidEmailPassword
                         done()
@@ -500,7 +502,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .multifactorRequired
                         done()
@@ -512,7 +514,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("a0.mfa_registration_required") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .multifactorRequired
                         done()
@@ -521,7 +523,7 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield error when input is not valid") {
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .nonValidInput
                         done()
@@ -533,7 +535,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("too_many_attempts") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .tooManyAttempts
                         done()
@@ -545,7 +547,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("unauthorized", description: "user is blocked") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .userBlocked
                         done()
@@ -557,7 +559,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("password_change_required") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .passwordChangeRequired
                         done()
@@ -569,7 +571,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("password_leaked") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .passwordLeaked
                         done()
@@ -581,7 +583,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .customRuleFailure(cause: "Only admins can use this")
                         done()
@@ -607,7 +609,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error).to(beNil())
                         done()
@@ -620,7 +622,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error).to(beNil())
                         done()
@@ -638,7 +640,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error).to(beNil())
                         done()
@@ -656,7 +658,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error).to(beNil())
                         done()
@@ -669,7 +671,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: username, password: password, realm: connection)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error).to(beNil())
                         done()
@@ -681,7 +683,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure() }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .couldNotLogin
                         done()
@@ -693,7 +695,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("invalid_user_password") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .invalidEmailPassword
                         done()
@@ -705,7 +707,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("a0.mfa_required", jsonExtra: ["mfa_token": "VALID_TOKEN"]) }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .multifactorTokenRequired(token: "VALID_TOKEN")
                         done()
@@ -717,7 +719,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("a0.mfa_registration_required") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .multifactorRequired
                         done()
@@ -726,7 +728,7 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield error when input is not valid") {
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .nonValidInput
                         done()
@@ -738,7 +740,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("too_many_attempts") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .tooManyAttempts
                         done()
@@ -750,7 +752,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("unauthorized", description: "user is blocked") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .userBlocked
                         done()
@@ -762,7 +764,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("password_change_required") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .passwordChangeRequired
                         done()
@@ -774,7 +776,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("password_leaked") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .passwordLeaked
                         done()
@@ -786,7 +788,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.login { error in
                         expect(error) == .customRuleFailure(cause: "Only admins can use this")
                         done()
@@ -814,7 +816,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login).to(beNil())
@@ -831,7 +833,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 let _ = try? database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login).to(beNil())
@@ -846,7 +848,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login) == .multifactorRequired
@@ -871,7 +873,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     try! database.update(.email, value: email)
                     try! database.update(.username, value: username)
                     try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: Timeout) { done in
                         database.create { create, login in
                             expect(create).to(beNil())
                             expect(login).to(beNil())
@@ -888,7 +890,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     try! database.update(.email, value: email)
                     let _ = try? database.update(.username, value: username)
                     try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: Timeout) { done in
                         database.create { create, login in
                             expect(create).to(beNil())
                             expect(login).to(beNil())
@@ -903,7 +905,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     try! database.update(.email, value: email)
                     try! database.update(.username, value: username)
                     try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: Timeout) { done in
                         database.create { create, login in
                             expect(create).to(beNil())
                             expect(login) == .multifactorRequired
@@ -918,7 +920,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     try! database.update(.email, value: email)
                     try! database.update(.username, value: username)
                     try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: Timeout) { done in
                         database.create { create, login in
                             expect(create).to(beNil())
                             expect(login) == .couldNotLogin
@@ -932,7 +934,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     try! database.update(.email, value: email)
                     try! database.update(.username, value: username)
                     try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: Timeout) { done in
                         database.create { create, login in
                             expect(create) == .couldNotCreateUser
                             done()
@@ -945,7 +947,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     try! database.update(.email, value: email)
                     try! database.update(.username, value: username)
                     try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: Timeout) { done in
                         database.create { create, login in
                             expect(create) == .passwordInvalid
                             done()
@@ -958,7 +960,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     try! database.update(.email, value: email)
                     try! database.update(.username, value: username)
                     try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: Timeout) { done in
                         database.create { create, login in
                             expect(create) == .passwordTooWeak
                             done()
@@ -971,7 +973,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     try! database.update(.email, value: email)
                     try! database.update(.username, value: username)
                     try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: Timeout) { done in
                         database.create { create, login in
                             expect(create) == .passwordAlreadyUsed
                             done()
@@ -984,7 +986,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     try! database.update(.email, value: email)
                     try! database.update(.username, value: username)
                     try! database.update(.password(enforcePolicy: false), value: password)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: Timeout) { done in
                         database.create { create, login in
                             expect(create) == .passwordTooCommon
                             done()
@@ -999,7 +1001,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login) == .couldNotLogin
@@ -1013,7 +1015,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create) == .passwordHasUserInfo
                         done()
@@ -1022,7 +1024,7 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield error when input is not valid") {
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create) == .nonValidInput
                         done()
@@ -1033,7 +1035,7 @@ class DatabaseInteractorSpec: QuickSpec {
             it("should yield error when username is not valid and required") {
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create) == .nonValidInput
                         done()
@@ -1051,7 +1053,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login).to(beNil())
@@ -1069,7 +1071,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login).to(beNil())
@@ -1097,7 +1099,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login).to(beNil())
@@ -1114,7 +1116,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 let _ = try? database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login).to(beNil())
@@ -1129,7 +1131,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login) == .multifactorRequired
@@ -1144,7 +1146,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login) == .couldNotLogin
@@ -1158,7 +1160,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create) == .couldNotCreateUser
                         done()
@@ -1171,7 +1173,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create) == .passwordInvalid
                         done()
@@ -1184,7 +1186,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create) == .passwordTooWeak
                         done()
@@ -1197,7 +1199,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create) == .passwordAlreadyUsed
                         done()
@@ -1210,7 +1212,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create) == .passwordTooCommon
                         done()
@@ -1223,7 +1225,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create) == .passwordHasUserInfo
                         done()
@@ -1232,7 +1234,7 @@ class DatabaseInteractorSpec: QuickSpec {
             }
 
             it("should yield error when input is not valid") {
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create) == .nonValidInput
                         done()
@@ -1243,7 +1245,7 @@ class DatabaseInteractorSpec: QuickSpec {
             it("should yield error when username is not valid and required") {
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create) == .nonValidInput
                         done()
@@ -1262,7 +1264,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login).to(beNil())
@@ -1281,7 +1283,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
                 try! database.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: Timeout) { done in
                     database.create { create, login in
                         expect(create).to(beNil())
                         expect(login).to(beNil())
