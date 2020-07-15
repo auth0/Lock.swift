@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.18.0](https://github.com/auth0/Lock.swift/tree/2.18.0) (2020-07-14)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.17.2...2.18.0)
+
+**Changed**
+- Improved usability and readability [\#618](https://github.com/auth0/Lock.swift/pull/618) ([horsejockey](https://github.com/horsejockey))
+
 ## [2.17.2](https://github.com/auth0/Lock.swift/tree/2.17.2) (2020-06-18)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.17.1...2.17.2)
 
