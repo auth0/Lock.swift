@@ -147,7 +147,6 @@ public class HeaderView: UIView {
 
         constraintEqual(anchor: logoView.centerXAnchor, toAnchor: self.centerXAnchor)
         constraintEqual(anchor: logoView.bottomAnchor, toAnchor: titleView.topAnchor, constant: -15)
-        constraintEqual(anchor: logoView.topAnchor, toAnchor: centerGuide.topAnchor)
         logoView.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
@@ -181,7 +180,7 @@ public class HeaderView: UIView {
     }
 
     public override var intrinsicContentSize: CGSize {
-        return CGSize(width: 200, height: 154)
+        return CGSize(width: 200, height: 196)
     }
 
     @objc func buttonPressed(_ sender: UIButton) {
