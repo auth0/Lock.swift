@@ -42,12 +42,7 @@ public class LockViewController: UIViewController {
         self.lock = lock
         super.init(nibName: nil, bundle: nil)
         lock.observerStore.controller = self
-        if self.lock.style.modalPopup && UIDevice.current.userInterfaceIdiom == .pad {
-            self.modalPresentationStyle = .formSheet
-            self.preferredContentSize = CGSize(width: 375, height: 667)
-        } else {
-            self.modalPresentationStyle = .fullScreen
-        }
+        self.modalPresentationStyle = .fullScreen
         self.router = lock.classicMode ? ClassicRouter(lock: lock, controller: self) : PasswordlessRouter(lock: lock, controller: self)
     }
 
@@ -85,9 +80,17 @@ public class LockViewController: UIViewController {
             scrollView.contentInsetAdjustmentBehavior = .never
         }
         self.view.addSubview(scrollView)
-        constraintEqual(anchor: scrollView.leftAnchor, toAnchor: self.view.leftAnchor)
+        let isIPad = UIDevice.current.userInterfaceIdiom == .pad
         constraintEqual(anchor: scrollView.topAnchor, toAnchor: self.view.topAnchor)
+        let screenSize = UIScreen.main.bounds.size
         constraintEqual(anchor: scrollView.rightAnchor, toAnchor: self.view.rightAnchor)
+        let minDimension = min(screenSize.width, screenSize.height)
+        let screenOffset = minDimension / 3.0
+        let paddingH = isIPad ? CGFloat(screenOffset) : CGFloat(0)
+        let paddingV = isIPad ? CGFloat(screenOffset - 75) : CGFloat(0)
+        constraintEqual(anchor: scrollView.leftAnchor, toAnchor: self.view.leftAnchor, constant: paddingH)
+        constraintEqual(anchor: scrollView.topAnchor, toAnchor: self.view.topAnchor, constant: paddingV)
+        constraintEqual(anchor: scrollView.rightAnchor, toAnchor: self.view.rightAnchor, constant: -paddingH)
         constraintEqual(anchor: scrollView.bottomAnchor, toAnchor: self.view.bottomAnchor)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         self.scrollView = scrollView
