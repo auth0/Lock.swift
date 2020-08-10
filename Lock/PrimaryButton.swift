@@ -130,6 +130,8 @@ class PrimaryButton: UIView, Stylable {
             range: NSRange(location: 0, length: attributedText.length))
         button.setAttributedTitle(attributedText, for: .normal)
         button.setAttributedTitle(NSAttributedString(), for: .disabled)
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 3.67
     }
 
     override var intrinsicContentSize: CGSize {
