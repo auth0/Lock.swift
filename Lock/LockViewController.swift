@@ -99,7 +99,6 @@ public class LockViewController: UIViewController {
         constraintEqual(anchor: scrollContentView.rightAnchor, toAnchor: scrollView.rightAnchor)
         constraintEqual(anchor: scrollContentView.bottomAnchor, toAnchor: scrollView.bottomAnchor)
         constraintEqual(anchor: scrollContentView.widthAnchor, toAnchor: scrollView.widthAnchor)
-        constraintEqual(anchor: scrollContentView.heightAnchor, toAnchor: view.heightAnchor, priority: .defaultLow)
         scrollContentView.translatesAutoresizingMaskIntoConstraints = false
         self.scrollContentView = scrollContentView
 

@@ -66,15 +66,15 @@ class DatabaseOnlyView: UIView, DatabaseView {
         container.spacing = 10
 
         constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
-        constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
+        constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor, constant: -45)
         constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor)
+        constraintEqual(anchor: container.bottomAnchor, toAnchor: primaryButton.topAnchor, constant: 20)
         container.translatesAutoresizingMaskIntoConstraints = false
 
         self.layoutSwitcher(allowedModes.contains(.Login) && allowedModes.contains(.Signup))
 
-        constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor)
-        constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor)
+        constraintEqual(anchor: primaryButton.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: primaryButton.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
         constraintEqual(anchor: primaryButton.bottomAnchor, toAnchor: self.bottomAnchor)
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
     }
