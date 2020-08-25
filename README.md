@@ -31,7 +31,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md).
 If you are using [Cocoapods](https://cocoapods.org), add this line to your `Podfile`:
 
 ```ruby
-pod "Lock", "~> 2.17"
+pod "Lock", "~> 2.19"
 ```
 
 Then run `pod install`.
@@ -43,7 +43,7 @@ Then run `pod install`.
 If you are using [Carthage](https://github.com/Carthage/Carthage), add the following line to your `Cartfile`:
 
 ```ruby
-github "auth0/Lock.swift" ~> 2.17
+github "auth0/Lock.swift" ~> 2.19
 ```
 
 Then run `carthage bootstrap`.

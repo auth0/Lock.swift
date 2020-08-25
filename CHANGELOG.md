@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.19.0](https://github.com/auth0/Lock.swift/tree/2.19.0) (2020-08-25)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.18.0...2.19.0)
+
+**Added**
+- Added support for Bot Protection verification [SDK-1867] [\#629](https://github.com/auth0/Lock.swift/pull/629) ([Widcket](https://github.com/Widcket))
+
 ## [2.18.0](https://github.com/auth0/Lock.swift/tree/2.18.0) (2020-07-14)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.17.2...2.18.0)
 
