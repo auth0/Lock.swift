@@ -30,19 +30,15 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable, Loggable {
     let options: Options
     let nativeHandlers: [String: AuthProvider]
 
-    func login(_ connection: String, loginHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
+    func start(_ connection: String, loginHint: String?, screenHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
         if let nativeHandler = self.nativeHandlers[connection], type(of: nativeHandler).isAvailable() {
             self.nativeAuth(withConnection: connection, nativeAuth: nativeHandler, callback: callback)
         } else {
-            self.webAuth(withConnection: connection, loginHint: loginHint, screenHint: "login", callback: callback)
+            self.webAuth(withConnection: connection, loginHint: loginHint, screenHint: screenHint, callback: callback)
         }
     }
 
-    func signup(_ connection: String, loginHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
-        self.webAuth(withConnection: connection, loginHint: loginHint, screenHint: "signup", callback: callback)
-    }
-
-    private func webAuth(withConnection connection: String, loginHint: String?, screenHint: String, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
+    private func webAuth(withConnection connection: String, loginHint: String?, screenHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
 
         var parameters: [String: String] = [:]
         self.options.parameters.forEach { parameters[$0] = "\($1)" }

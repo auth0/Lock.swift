@@ -159,7 +159,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
 
             it("should trigger submission of form") {
                 presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"], style: AuthStyle(name: "ad"))
-                oauth2.onLogin = { return OAuth2AuthenticatableError.couldNotAuthenticate }
+                oauth2.onStart = { return OAuth2AuthenticatableError.couldNotAuthenticate }
                 let input = mockInput(.email, value: "user@test.com")
                 input.returnKey = .done
                 view.form?.onReturn(input)
@@ -174,7 +174,7 @@ class EnterpriseDomainPresenterSpec: QuickSpec {
 
             it("should show yield oauth2 error on failure") {
                 presenter.interactor.connection = EnterpriseConnection(name: "ad", domains: ["auth0.com"])
-                oauth2.onLogin = { return OAuth2AuthenticatableError.couldNotAuthenticate }
+                oauth2.onStart = { return OAuth2AuthenticatableError.couldNotAuthenticate }
                 view.primaryButton?.onPress(view.primaryButton!)
                 expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
             }

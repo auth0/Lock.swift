@@ -787,7 +787,7 @@ class DatabaseInteractorSpec: QuickSpec {
             it("should yield verification is required") {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("requires_verification") }
                 let webAuthentication = MockOAuth2()
-                webAuthentication.onLogin = { .couldNotAuthenticate }
+                webAuthentication.onStart = { .couldNotAuthenticate }
                 database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 try! database.update(.email, value: email)
                 try! database.update(.password(enforcePolicy: false), value: password)
@@ -1253,7 +1253,7 @@ class DatabaseInteractorSpec: QuickSpec {
             it("should yield verification is required") {
                 stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("requires_verification") }
                 let webAuthentication = MockOAuth2()
-                webAuthentication.onSignup = { .couldNotAuthenticate }
+                webAuthentication.onStart = { .couldNotAuthenticate }
                 database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
