@@ -31,6 +31,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
     override func spec() {
         let authentication = Auth0.authentication(clientId: clientId, domain: domain)
+        let webAuthentication = MockOAuth2()
 
         afterEach {
             Auth0Stubs.cleanAll()
@@ -42,12 +43,12 @@ class DatabaseInteractorSpec: QuickSpec {
             let dispatcher = ObserverStore()
 
             it("should build with authentication") {
-                let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, user: User(), options: options, dispatcher: dispatcher)
+                let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: User(), options: options, dispatcher: dispatcher)
                 expect(database).toNot(beNil())
             }
 
             it("should have authentication object") {
-                let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, user: User(), options: options, dispatcher: dispatcher)
+                let database = DatabaseInteractor(connection: DatabaseConnection(name: "db", requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: User(), options: options, dispatcher: dispatcher)
                 expect(database.credentialAuth.authentication.clientId) == "CLIENT_ID"
                 expect(database.credentialAuth.authentication.url.host) == "samples.auth0.com"
                 expect(database.credentialAuth.oidc) == false
@@ -58,6 +59,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
         var database: DatabaseInteractor!
         var user: User!
+        var db: DatabaseConnection!
         var options: OptionBuildable!
         var dispatcher: ObserverStore!
 
@@ -67,8 +69,8 @@ class DatabaseInteractorSpec: QuickSpec {
 
             Auth0Stubs.failUnknown()
             user = User()
-            let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
-            database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: dispatcher)
+            db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
+            database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: dispatcher)
         }
 
         describe("updateAttribute") {
@@ -236,8 +238,8 @@ class DatabaseInteractorSpec: QuickSpec {
                     beforeEach {
                         Auth0Stubs.failUnknown()
                         user = User()
-                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .low()))
-                        database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
+                        db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .low()))
+                        database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
                     }
 
                     it("should raise error if password is <6 characters") {
@@ -254,8 +256,8 @@ class DatabaseInteractorSpec: QuickSpec {
                     beforeEach {
                         Auth0Stubs.failUnknown()
                         user = User()
-                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .fair()))
-                        database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
+                        db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .fair()))
+                        database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
                     }
 
                     it("should raise error if password is <8 characters") {
@@ -280,8 +282,8 @@ class DatabaseInteractorSpec: QuickSpec {
                     beforeEach {
                         Auth0Stubs.failUnknown()
                         user = User()
-                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
-                        database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
+                        db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
+                        database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
                     }
 
                     it("should raise error if password is <8 characters") {
@@ -310,8 +312,8 @@ class DatabaseInteractorSpec: QuickSpec {
                     beforeEach {
                         Auth0Stubs.failUnknown()
                         user = User()
-                        let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .excellent()))
-                        database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
+                        db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .excellent()))
+                        database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: LockOptions(), dispatcher: ObserverStore())
                     }
 
                     it("should raise error if password is <10 characters") {
@@ -346,7 +348,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 beforeEach {
                     var options = LockOptions()
                     options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))]
-                    database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                    database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 }
 
                 it("should always store value") {
@@ -370,7 +372,7 @@ class DatabaseInteractorSpec: QuickSpec {
                     var options = LockOptions()
                     let error = NSError(domain: "com.auth0", code: -99999, userInfo: [:])
                     options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), validation: { _ in return error })]
-                    database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                    database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                     expect{ try database.update(.custom(name: "first_name", storage: .userMetadata), value: nil) }.to(throwError(error))
                 }
                 
@@ -397,8 +399,8 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 Auth0Stubs.failUnknown()
                 user = User()
-                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
-                database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
+                database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
             }
 
             it("should yield no error on success") {
@@ -430,7 +432,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 let scope = "openid email"
                 var options = LockOptions()
                 options.scope = scope
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
@@ -447,7 +449,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 let state = UUID().uuidString
                 var options = LockOptions()
                 options.parameters = ["state": state as Any]
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
@@ -599,8 +601,8 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 Auth0Stubs.failUnknown()
                 user = User()
-                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
-                database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
+                database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
             }
 
             it("should yield no error on success") {
@@ -633,7 +635,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 var options = LockOptions()
                 options.oidcConformant = true
                 options.scope = scope
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
@@ -651,7 +653,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 var options = LockOptions()
                 options.parameters = ["state": state]
                 options.oidcConformant = true
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
                 try! database.update(.username, value: username)
@@ -782,6 +784,23 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
+            it("should yield verification is required") {
+                stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("requires_verification") }
+                let webAuthentication = MockOAuth2()
+                webAuthentication.onLogin = { .couldNotAuthenticate }
+                database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
+                waitUntil(timeout: 2) { done in
+                    database.login { error in
+                        expect(webAuthentication.parameters["login_hint"]) == email
+                        expect(webAuthentication.parameters["screen_hint"]) == "login"
+                        expect(error) == .verificationFailure(error: OAuth2AuthenticatableError.couldNotAuthenticate)
+                        done()
+                    }
+                }
+            }
+
             it("should indicate that a custom rule prevented the user from logging in") {
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
                 try! database.update(.email, value: email)
@@ -804,8 +823,8 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 Auth0Stubs.failUnknown()
                 user = User()
-                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
-                database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
+                database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
             }
 
             it("should yield no error on success") {
@@ -825,7 +844,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
             it("should not send username") {
                 let username = "AN INVALID USERNAME"
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: false), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: false), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 stub(condition: databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
@@ -861,8 +880,8 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 beforeEach {
                     options.loginAfterSignup = true
-                    let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
-                    database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                    db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
+                    database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 }
 
                 it("should yield no error on success") {
@@ -882,7 +901,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 it("should not send username") {
                     let username = "AN INVALID USERNAME"
-                    database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: false), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                    database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: false), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                     stub(condition: databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
                     stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.authentication() }
                     try! database.update(.email, value: email)
@@ -1045,7 +1064,7 @@ class DatabaseInteractorSpec: QuickSpec {
             it("should send scope on login") {
                 let scope = "openid email"
                 options.scope = scope
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
@@ -1063,7 +1082,7 @@ class DatabaseInteractorSpec: QuickSpec {
             it("should send parameters on login") {
                 let state = UUID().uuidString
                 options.parameters = ["state": state as Any]
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
@@ -1087,8 +1106,8 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 Auth0Stubs.failUnknown()
                 user = User()
-                let db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
-                database = DatabaseInteractor(connection: db, authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                db = DatabaseConnection(name: connection, requiresUsername: true, usernameValidator: UsernameValidator(withLength: 1...15, characterSet: UsernameValidator.auth0), passwordValidator: PasswordPolicyValidator(policy: .good()))
+                database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
             }
 
             it("should yield no error on success") {
@@ -1108,7 +1127,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
             it("should not send username") {
                 let username = "AN INVALID USERNAME"
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: false), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: false), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 stub(condition: databaseSignUp(email: email, password: password, connection: connection) && !hasEntry(key: "username", value: username)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
@@ -1231,6 +1250,25 @@ class DatabaseInteractorSpec: QuickSpec {
                 }
             }
 
+            it("should yield verification is required") {
+                stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.failure("requires_verification") }
+                let webAuthentication = MockOAuth2()
+                webAuthentication.onSignup = { .couldNotAuthenticate }
+                database = DatabaseInteractor(connection: db, authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
+                try! database.update(.email, value: email)
+                try! database.update(.username, value: username)
+                try! database.update(.password(enforcePolicy: false), value: password)
+                waitUntil(timeout: 2) { done in
+                    database.create { create, login in
+                        expect(create).to(beNil())
+                        expect(webAuthentication.parameters["login_hint"]) == email
+                        expect(webAuthentication.parameters["screen_hint"]) == "signup"
+                        expect(login) == .verificationFailure(error: OAuth2AuthenticatableError.couldNotAuthenticate)
+                        done()
+                    }
+                }
+            }
+
             it("should yield error when input is not valid") {
                 waitUntil(timeout: 2) { done in
                     database.create { create, login in
@@ -1256,7 +1294,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 let scope = "openid email"
                 var options = LockOptions()
                 options.scope = scope
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "scope", value: scope)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
@@ -1275,7 +1313,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 let state = UUID().uuidString
                 var options = LockOptions()
                 options.parameters = ["state": state as Any]
-                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, user: user, options: options, dispatcher: ObserverStore())
+                database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 stub(condition: databaseSignUp(email: email, username: username, password: password, connection: connection)) { _ in return Auth0Stubs.createdUser(email) }
                 stub(condition: databaseLogin(identifier: email, password: password, connection: connection) && hasEntry(key: "state", value: state)) { _ in return Auth0Stubs.authentication() }
                 try! database.update(.email, value: email)
