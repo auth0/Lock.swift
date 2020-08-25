@@ -40,14 +40,16 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     var requiredValidator = NonEmptyValidator()
 
     let credentialAuth: CredentialAuth
+    let webAuth: OAuth2Authenticatable
     let connection: DatabaseConnection
     let emailValidator: InputValidator = EmailValidator()
     let dispatcher: Dispatcher
     let options: Options
     let customFields: [String: CustomTextField]
 
-    init(connection: DatabaseConnection, authentication: Authentication, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
+    init(connection: DatabaseConnection, authentication: Authentication, webAuthentication: OAuth2Authenticatable, user: DatabaseUser, options: Options, dispatcher: Dispatcher) {
         self.credentialAuth = CredentialAuth(oidc: options.oidcConformant, realm: connection.name, authentication: authentication)
+        self.webAuth = webAuthentication
         self.connection = connection
         self.dispatcher = dispatcher
         self.user = user
@@ -103,7 +105,19 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
 
         self.credentialAuth
             .request(withIdentifier: identifier, password: password, options: self.options)
-            .start { self.handle(identifier: identifier, result: $0, callback: callback) }
+            .start { result in
+                switch result {
+                case .failure(let error as AuthenticationError) where error.isVerificationRequired:
+                    Queue.main.async {
+                        self.webAuth.start(self.connection.name, loginHint: identifier, screenHint: "login") { webAuthError in
+                            guard let webAuthError = webAuthError else { return callback(nil) }
+                            self.logger.error("Failed web-based verification of user <\(identifier)> with error \(webAuthError)")
+                            callback(.verificationFailure(error: webAuthError))
+                        }
+                    }
+                default: self.handle(identifier: identifier, result: result, callback: callback)
+                }
+        }
     }
 
     func create(_ callback: @escaping (DatabaseUserCreatorError?, CredentialAuthError?) -> Void) {
@@ -154,6 +168,14 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                 case .failure(let cause as AuthenticationError) where cause.isPasswordAlreadyUsed:
                     callback(.passwordAlreadyUsed, nil)
                     self.dispatcher.dispatch(result: .error(DatabaseUserCreatorError.passwordAlreadyUsed))
+                case .failure(let cause as AuthenticationError) where cause.isVerificationRequired:
+                    Queue.main.async {
+                        self.webAuth.start(self.connection.name, loginHint: email, screenHint: "signup") { webAuthError in
+                            guard let webAuthError = webAuthError else { return callback(nil, nil) }
+                            self.logger.error("Failed web-based verification of user <\(email)> with error \(webAuthError)")
+                            callback(nil, .verificationFailure(error: webAuthError))
+                        }
+                    }
                 case .failure(let cause as AuthenticationError) where cause.code == "invalid_password" && cause.value("name") == "PasswordDictionaryError":
                     callback(.passwordTooCommon, nil)
                     self.dispatcher.dispatch(result: .error(DatabaseUserCreatorError.passwordTooCommon))

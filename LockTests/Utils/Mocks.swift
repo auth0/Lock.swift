@@ -158,7 +158,7 @@ class MockMultifactorInteractor: MultifactorAuthenticatable {
 }
 
 class MockAuthInteractor: OAuth2Authenticatable {
-    func login(_ connection: String, loginHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    func start(_ connection: String, loginHint: String? = nil, screenHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
     }
 }
 
@@ -316,6 +316,7 @@ class MockWebAuth: WebAuth {
     var parameters: [String: String] = [:]
     var scope: String? = nil
     var audience: String? = nil
+    var issuer: String? = nil
     var leeway: Int? = nil
     var maxAge: Int? = nil
 
@@ -380,6 +381,11 @@ class MockWebAuth: WebAuth {
         return self
     }
 
+    func issuer(_ issuer: String) -> Self {
+        self.issuer = issuer
+        return self
+    }
+
     func leeway(_ leeway: Int) -> Self {
         self.leeway = leeway
         return self
@@ -407,14 +413,16 @@ class MockWebAuth: WebAuth {
 class MockOAuth2: OAuth2Authenticatable {
 
     var connection: String? = nil
-    var onLogin: () -> OAuth2AuthenticatableError? = { return nil }
+    var onStart: () -> OAuth2AuthenticatableError? = { return nil }
     var parameters: [String: String] = [:]
 
-    func login(_ connection: String, loginHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    func start(_ connection: String, loginHint: String? = nil, screenHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         self.connection = connection
         self.parameters["login_hint"] = loginHint
-        callback(self.onLogin())
+        self.parameters["screen_hint"] = screenHint
+        callback(self.onStart())
     }
+
 }
 
 class MockViewController: UIViewController {

@@ -34,6 +34,7 @@ enum CredentialAuthError: Error, LocalizableError {
     case multifactorRequired
     case multifactorInvalid
     case customRuleFailure(cause: String)
+    case verificationFailure(error: LocalizableError)
 
     var localizableMessage: String {
         switch self {
@@ -51,6 +52,8 @@ enum CredentialAuthError: Error, LocalizableError {
             return "WRONG CODE.".i18n(key: "com.auth0.lock.error.authentication.mfa_invalid_code", comment: "a0.mfa_invalid_code")
         case .customRuleFailure(let cause):
             return cause
+        case .verificationFailure(let error):
+            return error.localizableMessage
         default:
             return "WE'RE SORRY, SOMETHING WENT WRONG WHEN ATTEMPTING TO LOG IN.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
         }
@@ -60,8 +63,43 @@ enum CredentialAuthError: Error, LocalizableError {
         switch self {
         case .multifactorRequired, .multifactorTokenRequired, .nonValidInput:
             return false
+        case .verificationFailure(let error):
+            return error.userVisible
         default:
             return true
+        }
+    }
+}
+
+extension CredentialAuthError: Equatable {
+    static func == (lhs: CredentialAuthError, rhs: CredentialAuthError) -> Bool {
+        switch (lhs, rhs) {
+        case (.nonValidInput, .nonValidInput):
+            return true
+        case (.userBlocked, .userBlocked):
+            return true
+        case (.invalidEmailPassword, .invalidEmailPassword):
+            return true
+        case (.couldNotLogin, .couldNotLogin):
+            return true
+        case (.passwordChangeRequired, .passwordChangeRequired):
+            return true
+        case (.passwordLeaked, .passwordLeaked):
+            return true
+        case (.tooManyAttempts, .tooManyAttempts):
+            return true
+        case (.multifactorTokenRequired(let lhsToken), .multifactorTokenRequired(let rhsToken)):
+            return lhsToken == rhsToken
+        case (.multifactorRequired, .multifactorRequired):
+            return true
+        case (.multifactorInvalid, .multifactorInvalid):
+            return true
+        case (.customRuleFailure(let lhsCause), .customRuleFailure(let rhsCause)):
+            return lhsCause == rhsCause
+        case (.verificationFailure(let lhsError), .verificationFailure(let rhsError)):
+            return lhsError.localizableMessage == rhsError.localizableMessage
+        default:
+            return false
         }
     }
 }

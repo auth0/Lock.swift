@@ -102,7 +102,7 @@ class AuthPresenterSpec: QuickSpec {
                 }
 
                 it("should show error") {
-                    interactor.onLogin = { return .couldNotAuthenticate }
+                    interactor.onStart = { return .couldNotAuthenticate }
                     view.onAction("social0")
                     expect(messagePresenter.error).toEventually(beError(error: OAuth2AuthenticatableError.couldNotAuthenticate))
                 }
