@@ -34,6 +34,7 @@ enum CredentialAuthError: Error, LocalizableError {
     case multifactorRequired
     case multifactorInvalid
     case customRuleFailure(cause: String)
+    case verificationFailure(error: LocalizableError)
 
     var localizableMessage: String {
         switch self {
@@ -51,6 +52,8 @@ enum CredentialAuthError: Error, LocalizableError {
             return "WRONG CODE.".i18n(key: "com.auth0.lock.error.authentication.mfa_invalid_code", comment: "a0.mfa_invalid_code")
         case .customRuleFailure(let cause):
             return cause
+        case .verificationFailure(let error):
+            return error.localizableMessage
         default:
             return "WE'RE SORRY, SOMETHING WENT WRONG WHEN ATTEMPTING TO LOG IN.".i18n(key: "com.auth0.lock.error.authentication.fallback", comment: "Generic login error")
         }
@@ -60,6 +63,8 @@ enum CredentialAuthError: Error, LocalizableError {
         switch self {
         case .multifactorRequired, .multifactorTokenRequired, .nonValidInput:
             return false
+        case .verificationFailure(let error):
+            return error.userVisible
         default:
             return true
         }

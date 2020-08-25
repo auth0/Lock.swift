@@ -51,7 +51,8 @@ struct ClassicRouter: Router {
         case (.some(let database), let oauth2, let enterprise):
             guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .resetPassword else { return forgotPassword }
             let authentication = self.lock.authentication
-            let interactor = DatabaseInteractor(connection: database, authentication: authentication, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
+            let webAuthInteractor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: lock.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
+            let interactor = DatabaseInteractor(connection: database, authentication: authentication, webAuthentication: webAuthInteractor, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
             let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
             if !oauth2.isEmpty {
                 let interactor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: lock.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
