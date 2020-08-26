@@ -49,7 +49,7 @@ If you are using [Cocoapods](https://cocoapods.org), add this line to your `Podf
 pod "Lock", "~> 2.19"
 ```
 
-Then run `pod install`.
+Then, run `pod install`.
 
 > For more information on Cocoapods, check [their official documentation](https://guides.cocoapods.org/using/getting-started.html).
 
@@ -61,7 +61,7 @@ If you are using [Carthage](https://github.com/Carthage/Carthage), add the follo
 github "auth0/Lock.swift" ~> 2.19
 ```
 
-Then run `carthage bootstrap`.
+Then, run `carthage bootstrap`.
 
 > For more information about Carthage usage, check [their official documentation](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos).
 
