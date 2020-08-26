@@ -18,6 +18,21 @@ Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 
 Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md).
 
+## Table of Contents
+
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Lock Classic](#lock-classic)
+- [Styling Lock](#styling-lock)
+- [Lock Passwordless](#lock-passwordless)
+- [Customization Options](#customization-options)
+- [What is Auth0?](#what-is-auth0-)
+- [Create a Free Auth0 Account](#create-a-free-auth0-account)
+- [Issue Reporting](#issue-reporting)
+- [Author](#author)
+- [License](#license)
+
 ## Requirements
 
 - iOS 9+
