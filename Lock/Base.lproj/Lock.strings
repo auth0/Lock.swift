@@ -209,7 +209,7 @@
 // TheCitySandbox
 "com.auth0.lock.strategy.localized.the_city_sandbox" = "The City (sandbox)";
 // ThirtySevenSignals
-"com.auth0.lock.strategy.localized.thirty_seven_signals" = "37 Signals";
+"com.auth0.lock.strategy.localized.thirty_seven_signals" = "Basecamp";
 // Twitter
 "com.auth0.lock.strategy.localized.twitter" = "Twitter";
 // Vkontakte
