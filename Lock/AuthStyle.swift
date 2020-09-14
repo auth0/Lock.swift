@@ -381,7 +381,7 @@ public extension AuthStyle {
     /// 37 Signals style for AuthButton
     static var ThirtySevenSignals: AuthStyle {
         return AuthStyle(
-                name: "37 Signals".i18n(key: "com.auth0.lock.strategy.localized.thirty_seven_signals", comment: "ThirtySevenSignals"),
+                name: "Basecamp".i18n(key: "com.auth0.lock.strategy.localized.thirty_seven_signals", comment: "Basecamp"),
                 color: .a0_fromRGB("#6AC071"),
                 withImage: LazyImage(name: "ic_auth_thirtysevensignals", bundle: bundleForLock())
         )

@@ -148,7 +148,7 @@ class AuthStyleSpec: QuickSpec {
                 forStyle(.Soundcloud, name: "SoundCloud", iconName: "ic_auth_soundcloud"),
                 forStyle(.TheCity, name: "The City", iconName: "ic_auth_thecity"),
                 forStyle(.TheCitySandbox, name: "The City (sandbox)", iconName: "ic_auth_thecity"),
-                forStyle(.ThirtySevenSignals, name: "37 Signals", iconName: "ic_auth_thirtysevensignals"),
+                forStyle(.ThirtySevenSignals, name: "Basecamp", iconName: "ic_auth_thirtysevensignals"),
                 forStyle(.Twitter, name: "Twitter", iconName: "ic_auth_twitter"),
                 forStyle(.Vkontakte, name: "VKontakte", iconName: "ic_auth_vk"),
                 forStyle(.Microsoft, name: "Microsoft Account", iconName: "ic_auth_microsoft"),
