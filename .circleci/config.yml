@@ -6,6 +6,8 @@ executors:
     environment:
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
       HOMEBREW_LOGS: ~/homebrew-logs
       HOMEBREW_TEMP: ~/homebrew-temp
       HOMEBREW_NO_AUTO_UPDATE: 1
@@ -30,12 +32,9 @@ commands:
           keys:
           - lock-swift-gems-{{ checksum "Gemfile.lock" }}
           - lock-swift-gems-
-      - run:
-          name: Bundle install
-          command: echo "ruby-<< parameters.ruby >>" > ~/.ruby-version; bundle check || bundle install --without=development
-          environment:
-            BUNDLE_JOBS: 4
-            BUNDLE_RETRY: 3
+      - run: |
+          echo "ruby-<< parameters.ruby >>" > ~/.ruby-version
+          bundle check || bundle install --without=development
       - save_cache:
           key: lock-swift-gems-{{ checksum "Gemfile.lock" }}
           paths:
@@ -47,11 +46,10 @@ commands:
           keys:
             - lock-swift-carthage-{ checksum "Cartfile.resolved" }}
             - lock-swift-carthage-
-      - run:
-          name: Bootstrap
-          command: bundle exec fastlane ios bootstrap
+      - run: |
+          bundle exec fastlane ios bootstrap
       - save_cache:
-          key: dependency-cache
+          key: lock-swift-carthage-{ checksum "Cartfile.resolved" }}
           paths:
             - Carthage/Build
   build:
