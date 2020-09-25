@@ -48,6 +48,7 @@ commands:
       - restore_cache:
           keys:
             - lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
+            - lock-swift-carthage-{ checksum "Cartfile.resolved" }}
             - lock-swift-carthage-
       - run: |
           bundle exec fastlane ios bootstrap
