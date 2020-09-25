@@ -2,6 +2,7 @@ version: 2.1
 
 executors:
   job-environment:
+    resource_class: large
     shell: /bin/bash --login -eo pipefail
     environment:
       LC_ALL: en_US.UTF-8
