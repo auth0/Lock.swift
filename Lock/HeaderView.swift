@@ -126,7 +126,7 @@ public class HeaderView: UIView {
     private func layoutHeader() {
         let titleView = UILabel()
         let logoView = UIImageView()
-        let closeButton = UIButton(type: .system)
+        let closeButton = CloseButton(type: .system)
         let backButton = UIButton(type: .system)
         let centerGuide = UILayoutGuide()
 
@@ -252,4 +252,12 @@ extension HeaderView: Stylable {
         self.backButton?.setBackgroundImage(style.headerBackIcon.image(compatibleWithTraits: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
         self.closeButton?.setBackgroundImage(style.headerCloseIcon.image(compatibleWithTraits: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
+}
+
+private class CloseButton: UIButton {
+
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return bounds.insetBy(dx: -10, dy: -10).contains(point)
+    }
+
 }
