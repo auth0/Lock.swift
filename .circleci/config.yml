@@ -52,7 +52,7 @@ commands:
       - run: |
           bundle exec fastlane ios bootstrap
       - save_cache:
-          key: lock-swift-carthage-{ checksum "Cartfile.resolved" }}--<< parameters.xcode >>
+          key: lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
           paths:
             - Carthage/Build
   build:
