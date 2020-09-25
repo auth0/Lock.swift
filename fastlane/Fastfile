@@ -51,6 +51,11 @@ platform :ios do
     lint
   end
 
+  desc "Cocoapods library lint"
+  lane :pod_lint do
+    pod_lib_lint(verbose: false, allow_warnings: true)
+  end
+
   lane :i18n do |options|
     fastlane_require 'set'
 
