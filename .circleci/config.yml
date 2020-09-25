@@ -56,10 +56,7 @@ commands:
           key: lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
           paths:
             - Carthage/Build
-  build:
-    steps:
-      - run: |
-          carthage build --no-skip-current
+
   test:
     steps: 
       - run: |
@@ -82,7 +79,6 @@ jobs:
       - prepare:
           ruby: "2.7.1p83"
           xcode: "11.7.0"
-      - build
       - test
       - send-coverage-report
       - pod-lint
@@ -95,7 +91,6 @@ jobs:
     steps:
       - checkout
       - prepare
-      - build
       - test
   build-and-test-swift-4_2:
     executor: job-environment
@@ -106,7 +101,6 @@ jobs:
       - use-swift: 
           version: "4.2"
       - prepare
-      - build
       - test
   build-and-test-swift-4_0:
     executor: job-environment
@@ -117,7 +111,6 @@ jobs:
       - use-swift: 
           version: "4.0"
       - prepare
-      - build
       - test
 
 workflows:
