@@ -27,19 +27,16 @@ commands:
       ruby:
         type: string
         default: "2.6.3"
-      xcode:
-        type: string
-        default: "10.3.0"
     steps:
       - restore_cache:
           keys:
-          - lock-swift-gems-{{ checksum "Gemfile.lock" }}-<< parameters.xcode >>
+          - lock-swift-gems-{{ checksum "Gemfile.lock" }}
           - lock-swift-gems-
       - run: |
           echo "ruby-<< parameters.ruby >>" > ~/.ruby-version
           bundle check || bundle install --without=development
       - save_cache:
-          key: lock-swift-gems-{{ checksum "Gemfile.lock" }}-<< parameters.xcode >>
+          key: lock-swift-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
       - run: |
@@ -47,12 +44,12 @@ commands:
           grep -lR "shouldUseLaunchSchemeArgsEnv" *.* --null | xargs -0 sed -i '' -e 's/shouldUseLaunchSchemeArgsEnv = "YES"/shouldUseLaunchSchemeArgsEnv = "YES" codeCoverageEnabled = "YES"/g'
       - restore_cache:
           keys:
-            - lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
+            - lock-swift-carthage-{ checksum "Cartfile.resolved" }}-{{ xcodebuild -version | grep Xcode | tr -d 'Xcode ' }}
             - lock-swift-carthage-
       - run: |
           bundle exec fastlane ios bootstrap
       - save_cache:
-          key: lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
+          key: lock-swift-carthage-{ checksum "Cartfile.resolved" }}-{{ xcodebuild -version | grep Xcode | tr -d 'Xcode ' }}
           paths:
             - Carthage/Build
   build:
@@ -80,7 +77,6 @@ jobs:
       - checkout
       - prepare:
           ruby: "2.7.1p83"
-          xcode: "11.7.0"
       - build
       - test
       - send-coverage-report
