@@ -83,7 +83,9 @@ jobs:
       - send-coverage-report
       - pod-lint
       - store_test_results:
-          path: fastlane/test_output
+          path: output/scan
+      - store_artifacts:
+          path: output
   build-and-test-swift-5_0:
     executor: job-environment
     macos:
