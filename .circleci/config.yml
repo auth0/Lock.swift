@@ -33,13 +33,13 @@ commands:
     steps:
       - restore_cache:
           keys:
-          - lock-swift-gems-{{ checksum "Gemfile.lock" }}-{{ parameters.xcode }}
+          - lock-swift-gems-{{ checksum "Gemfile.lock" }}-<< parameters.xcode >>
           - lock-swift-gems-
       - run: |
           echo "ruby-<< parameters.ruby >>" > ~/.ruby-version
           bundle check || bundle install --without=development
       - save_cache:
-          key: lock-swift-gems-{{ checksum "Gemfile.lock" }}
+          key: lock-swift-gems-{{ checksum "Gemfile.lock" }}-<< parameters.xcode >>
           paths:
             - vendor/bundle
       - run: |
@@ -47,12 +47,12 @@ commands:
           grep -lR "shouldUseLaunchSchemeArgsEnv" *.* --null | xargs -0 sed -i '' -e 's/shouldUseLaunchSchemeArgsEnv = "YES"/shouldUseLaunchSchemeArgsEnv = "YES" codeCoverageEnabled = "YES"/g'
       - restore_cache:
           keys:
-            - lock-swift-carthage-{ checksum "Cartfile.resolved" }}-{{ parameters.xcode }}
+            - lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
             - lock-swift-carthage-
       - run: |
           bundle exec fastlane ios bootstrap
       - save_cache:
-          key: lock-swift-carthage-{ checksum "Cartfile.resolved" }}
+          key: lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
           paths:
             - Carthage/Build
   build:
