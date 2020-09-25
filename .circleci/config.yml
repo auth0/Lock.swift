@@ -2,7 +2,6 @@ version: 2.1
 
 executors:
   job-environment:
-    resource_class: large
     shell: /bin/bash --login -eo pipefail
     environment:
       LC_ALL: en_US.UTF-8
@@ -28,10 +27,13 @@ commands:
       ruby:
         type: string
         default: "2.6.3"
+      xcode:
+        type: string
+        default: "10.3.0"
     steps:
       - restore_cache:
           keys:
-          - lock-swift-gems-{{ checksum "Gemfile.lock" }}
+          - lock-swift-gems-{{ checksum "Gemfile.lock" }}-{{ parameters.xcode }}
           - lock-swift-gems-
       - run: |
           echo "ruby-<< parameters.ruby >>" > ~/.ruby-version
@@ -45,7 +47,7 @@ commands:
           grep -lR "shouldUseLaunchSchemeArgsEnv" *.* --null | xargs -0 sed -i '' -e 's/shouldUseLaunchSchemeArgsEnv = "YES"/shouldUseLaunchSchemeArgsEnv = "YES" codeCoverageEnabled = "YES"/g'
       - restore_cache:
           keys:
-            - lock-swift-carthage-{ checksum "Cartfile.resolved" }}
+            - lock-swift-carthage-{ checksum "Cartfile.resolved" }}-{{ parameters.xcode }}
             - lock-swift-carthage-
       - run: |
           bundle exec fastlane ios bootstrap
@@ -78,6 +80,7 @@ jobs:
       - checkout
       - prepare:
           ruby: "2.7.1p83"
+          xcode: "11.7.0"
       - build
       - test
       - send-coverage-report
