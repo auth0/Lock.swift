@@ -127,7 +127,7 @@ public class HeaderView: UIView {
         let titleView = UILabel()
         let logoView = UIImageView()
         let closeButton = CloseButton(type: .system)
-        let backButton = UIButton(type: .system)
+        let backButton = CloseButton(type: .system)
         let centerGuide = UILayoutGuide()
 
         self.addLayoutGuide(centerGuide)
