@@ -1,5 +1,12 @@
 # Change Log
 
+## [2.19.1](https://github.com/auth0/Lock.swift/tree/2.19.1) (2020-10-05)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.19.0...2.19.1
+
+**Changed**
+- Increased tappable surface of close and back buttons [\#635](https://github.com/auth0/Lock.swift/pull/635) ([Widcket](https://github.com/Widcket))
+- Updated 37 Signals icon and display name [SDK-1945] [\#633](https://github.com/auth0/Lock.swift/pull/633) ([Widcket](https://github.com/Widcket))
+
 ## [2.19.0](https://github.com/auth0/Lock.swift/tree/2.19.0) (2020-08-25)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.18.0...2.19.0)
 
