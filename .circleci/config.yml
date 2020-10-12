@@ -8,11 +8,12 @@ executors:
       LANG: en_US.UTF-8
       BUNDLE_JOBS: 4
       BUNDLE_RETRY: 3
+      BUNDLE_PATH: vendor/bundle
       HOMEBREW_LOGS: ~/homebrew-logs
       HOMEBREW_TEMP: ~/homebrew-temp
       HOMEBREW_NO_AUTO_UPDATE: 1
-      SCHEME: Lock
-      DEVICE: iPhone 11
+      HOMEBREW_NO_INSTALL_CLEANUP: 1
+      FL_OUTPUT_DIR: output
       FASTLANE_EXPLICIT_OPEN_SIMULATOR: 2
 
 commands:
@@ -50,8 +51,7 @@ commands:
             - lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
             - lock-swift-carthage-{ checksum "Cartfile.resolved" }}
             - lock-swift-carthage-
-      - run: |
-          bundle exec fastlane ios bootstrap
+      - run: bundle exec fastlane ios bootstrap
       - save_cache:
           key: lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
           paths:
@@ -59,12 +59,10 @@ commands:
 
   test:
     steps: 
-      - run: |
-          bundle exec fastlane ios ci
+      - run: bundle exec fastlane ios ci
   pod-lint:
     steps:
-      - run: |
-          bundle exec fastlane ios pod_lint
+      - run: bundle exec fastlane ios pod_lint
   send-coverage-report:
     steps:
       - run: bash <(curl -s https://codecov.io/bash) -J 'Lock'
