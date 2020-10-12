@@ -45,14 +45,8 @@ platform :ios do
   lane :ci do
     i18n(silent: true) # Generate base strings file
     # ensure_git_status_clean # Until we add dangerfile check if there are changes this way
-    scheme = ENV["SCHEME"]
-    UI.user_error!("You must supply a valid scheme in 'SCHEME' env variable") if scheme.nil?
-    options = {
-      scheme: scheme,
-      device: ENV["DEVICE"]
-    }
-    test(options)
     lint
+    test
   end
 
   desc "Cocoapods library lint"
