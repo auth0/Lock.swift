@@ -1,6 +1,4 @@
 scheme "Lock"
-device "iPhone 8"
+device "iPhone 11"
 
 clean true
-
-output_types "html"
