@@ -158,7 +158,7 @@ class PasswordlessRouterSpec: QuickSpec {
                 }
 
                 it("should pass error in callback") {
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: .seconds(2)) { done in
                         lock.observerStore.onFailure = { cause in
                             if  case UnrecoverableError.invalidClientOrDomain = cause {
                                 done()
@@ -231,7 +231,7 @@ class PasswordlessRouterSpec: QuickSpec {
             }
 
             it("should exit with error when connections are empty") {
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     lock.observerStore.onFailure = { cause in
                         if case UnrecoverableError.clientWithNoConnections = cause {
                             done()

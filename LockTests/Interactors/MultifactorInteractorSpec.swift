@@ -110,7 +110,7 @@ class MultifactorInteractorSpec: QuickSpec {
             it("should yield no error on success") {
                 stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.setMultifactorCode(code)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error).to(beNil())
                         done()
@@ -128,7 +128,7 @@ class MultifactorInteractorSpec: QuickSpec {
             it("should yield error on failure") {
                 stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure() }
                 try! interactor.setMultifactorCode(code)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .couldNotLogin
                         done()
@@ -139,7 +139,7 @@ class MultifactorInteractorSpec: QuickSpec {
             it("should notify when code is invalid") {
                 stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
                 try! interactor.setMultifactorCode(code)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .multifactorInvalid
                         done()
@@ -148,7 +148,7 @@ class MultifactorInteractorSpec: QuickSpec {
             }
 
             it("should yield error when input is not valid") {
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .nonValidInput
                         done()
@@ -159,7 +159,7 @@ class MultifactorInteractorSpec: QuickSpec {
             it("should indicate that a custom rule prevented the user from logging in") {
                 stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
                 try! interactor.setMultifactorCode(code)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .customRuleFailure(cause: "Only admins can use this")
                         done()
@@ -183,7 +183,7 @@ class MultifactorInteractorSpec: QuickSpec {
             it("should yield no error on success") {
                 stub(condition: otpLogin(otp: code, mfaToken: mfaToken)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.setMultifactorCode(code)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error).to(beNil())
                         done()
@@ -201,7 +201,7 @@ class MultifactorInteractorSpec: QuickSpec {
             it("should yield error when not token set") {
                 interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options, dispatcher: dispatcher, mfaToken: nil)
                 try! interactor.setMultifactorCode(code)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .couldNotLogin
                         done()
@@ -213,7 +213,7 @@ class MultifactorInteractorSpec: QuickSpec {
                 interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options, dispatcher: dispatcher, mfaToken: "INVALID_TOKEN")
                 stub(condition: otpLogin(otp: code, mfaToken: "INVALID_TOKEN")) { _ in return Auth0Stubs.failure("a0.mfa_invalid_code") }
                 try! interactor.setMultifactorCode(code)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .multifactorInvalid
                         done()
@@ -222,7 +222,7 @@ class MultifactorInteractorSpec: QuickSpec {
             }
             
             it("should yield error when input is not valid") {
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .nonValidInput
                         done()
@@ -233,7 +233,7 @@ class MultifactorInteractorSpec: QuickSpec {
             it("should indicate that a custom rule prevented the user from logging in") {
                 stub(condition: otpLogin(otp: code, mfaToken: mfaToken)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
                 try! interactor.setMultifactorCode(code)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .customRuleFailure(cause: "Only admins can use this")
                         done()

@@ -28,7 +28,7 @@ import Auth0
 @testable import Lock
 
 private let DomainURL = URL(fileURLWithPath: domain)
-private let Timeout = 2.0
+private let Timeout = DispatchTimeInterval.seconds(2)
 private let AccessToken = UUID().uuidString.replacingOccurrences(of: "-", with: "")
 private let IdToken = UUID().uuidString.replacingOccurrences(of: "-", with: "")
 private let FacebookToken = UUID().uuidString.replacingOccurrences(of: "-", with: "")

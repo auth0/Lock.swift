@@ -151,7 +151,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error).to(beNil())
                         done()
@@ -163,7 +163,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("invalid_user_password") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .invalidEmailPassword
                         done()
@@ -175,7 +175,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .multifactorRequired
                         done()
@@ -187,7 +187,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_registration_required") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .multifactorRequired
                         done()
@@ -199,7 +199,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "user is blocked") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .userBlocked
                         done()
@@ -211,7 +211,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("password_change_required") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .passwordChangeRequired
                         done()
@@ -223,7 +223,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: databaseLogin(identifier: email, password: password, connection: interactor.connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .customRuleFailure(cause: "Only admins can use this")
                         done()
@@ -251,7 +251,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: interactor.connection.name)) { _ in return Auth0Stubs.authentication() }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error).to(beNil())
                         done()
@@ -263,7 +263,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: interactor.connection.name)) { _ in return Auth0Stubs.failure("invalid_user_password") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .invalidEmailPassword
                         done()
@@ -275,7 +275,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: interactor.connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_required") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .multifactorRequired
                         done()
@@ -287,7 +287,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: interactor.connection.name)) { _ in return Auth0Stubs.failure("a0.mfa_registration_required") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .multifactorRequired
                         done()
@@ -299,7 +299,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: interactor.connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "user is blocked") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .userBlocked
                         done()
@@ -311,7 +311,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: interactor.connection.name)) { _ in return Auth0Stubs.failure("password_change_required") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .passwordChangeRequired
                         done()
@@ -323,7 +323,7 @@ class EnterpriseActiveAuthInteractorSpec: QuickSpec {
                 stub(condition: realmLogin(identifier: email, password: password, realm: interactor.connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
                 try! interactor.update(.email, value: email)
                 try! interactor.update(.password(enforcePolicy: false), value: password)
-                waitUntil(timeout: 2) { done in
+                waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .customRuleFailure(cause: "Only admins can use this")
                         done()
@@ -341,7 +341,7 @@ public func ==(lhs: UserAttribute, rhs: UserAttribute) -> Bool {
     switch((lhs, rhs)) {
     case (.email, .email), (.username, .username), (.password, .password), (.emailOrUsername, .emailOrUsername):
         return true
-    case (.custom(let lhsConnection), .custom(let rhsConnection)):
+    case (.custom(let lhsConnection, _), .custom(let rhsConnection, _)):
         return lhsConnection == rhsConnection
     default:
         return false
