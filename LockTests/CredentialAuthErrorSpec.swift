@@ -92,26 +92,3 @@ class CredentialAuthErrorSpec: QuickSpec {
 
     }
 }
-
-extension CredentialAuthError: Equatable {
-    public static func ==(lhs: CredentialAuthError, rhs: CredentialAuthError) -> Bool {
-        switch (lhs, rhs) {
-        case (.nonValidInput, .nonValidInput),
-             (.userBlocked, .userBlocked),
-             (.invalidEmailPassword, .invalidEmailPassword),
-             (.couldNotLogin, .couldNotLogin),
-             (.passwordChangeRequired, .passwordChangeRequired),
-             (.passwordLeaked, .passwordLeaked),
-             (.tooManyAttempts, .tooManyAttempts),
-             (.multifactorRequired, .multifactorRequired),
-             (.multifactorInvalid, .multifactorInvalid):
-            return true
-        case (.customRuleFailure(let lhsCause), .customRuleFailure(let rhsCause)):
-            return lhsCause == rhsCause
-        case (.multifactorTokenRequired(let lhsToken), .multifactorTokenRequired(let rhsToken)):
-            return lhsToken == rhsToken
-        default:
-            return false
-        }
-    }
-}
