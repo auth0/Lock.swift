@@ -5,7 +5,7 @@
 [![Version](https://img.shields.io/cocoapods/v/Lock.svg?style=flat-square)](https://cocoadocs.org/docsets/Lock)
 [![License](https://img.shields.io/cocoapods/l/Lock.svg?style=flat-square)](https://cocoadocs.org/docsets/Lock)
 [![Platform](https://img.shields.io/cocoapods/p/Lock.svg?style=flat-square)](https://cocoadocs.org/docsets/Lock)
-![Swift 5.2](https://img.shields.io/badge/Swift-5.2-orange.svg?style=flat-square)
+![Swift 5.3](https://img.shields.io/badge/Swift-5.3-orange.svg?style=flat-square)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fauth0%2FLock.swift.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fauth0%2FLock.swift?ref=badge_shield)
 
 [Auth0](https://auth0.com) is an authentication broker that supports social identity providers as well as enterprise identity providers such as Active Directory, LDAP, Google Apps and Salesforce.
@@ -37,7 +37,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md).
 ## Requirements
 
 - iOS 9+
-- Xcode 11.x
+- Xcode 11.4+ / 12.x
 - Swift 4.x/5.x
 
 ## Installation
