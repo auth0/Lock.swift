@@ -6,7 +6,6 @@
 [![License](https://img.shields.io/cocoapods/l/Lock.svg?style=flat-square)](https://cocoadocs.org/docsets/Lock)
 [![Platform](https://img.shields.io/cocoapods/p/Lock.svg?style=flat-square)](https://cocoadocs.org/docsets/Lock)
 ![Swift 5.3](https://img.shields.io/badge/Swift-5.3-orange.svg?style=flat-square)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fauth0%2FLock.swift.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fauth0%2FLock.swift?ref=badge_shield)
 
 [Auth0](https://auth0.com) is an authentication broker that supports social identity providers as well as enterprise identity providers such as Active Directory, LDAP, Google Apps and Salesforce.
 
@@ -535,7 +534,4 @@ If you have found a bug or to request a feature, please [raise an issue](https:/
 
 ## License
 
-This project is licensed under the MIT license. See the [LICENSE](https://github.com/auth0/Lock.swift/blob/master/LICENSE) file for more info.
-
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fauth0%2FLock.swift.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fauth0%2FLock.swift?ref=badge_large)
+This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
