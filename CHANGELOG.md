@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.20.0](https://github.com/auth0/Lock.swift/tree/2.20.0) (2020-10-22)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.19.1...2.20.0
+
+**Changed**
+- Updated Quick and Nimble [\#641](https://github.com/auth0/Lock.swift/pull/641) ([Widcket](https://github.com/Widcket))
+
 ## [2.19.1](https://github.com/auth0/Lock.swift/tree/2.19.1) (2020-10-05)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.19.0...2.19.1
 
