@@ -146,7 +146,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         let user = User()
                         user.validEmail = false
                         interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error) == .nonValidInput
                                 done()
@@ -159,7 +159,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         user.validEmail = true
                         user.validPassword = false
                         interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error) == .nonValidInput
                                 done()
@@ -180,7 +180,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         stub(condition: passwordlessLogin(username: email, otp: code, realm: connection.name)) { _ in return Auth0Stubs.authentication() }
                         try! interactor.update(.email, value: email)
                         try! interactor.update(.oneTimePassword, value: code)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error).to(beNil())
                                 done()
@@ -193,7 +193,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         stub(condition: passwordlessLogin(username: email, otp: code, realm: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
                         try! interactor.update(.email, value: email)
                         try! interactor.update(.oneTimePassword, value: code)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error) == .customRuleFailure(cause: "Only admins can use this")
                                 done()
@@ -214,7 +214,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         stub(condition: databaseLogin(identifier: email, password: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                         try! interactor.update(.email, value: email)
                         try! interactor.update(.oneTimePassword, value: code)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error).to(beNil())
                                 done()
@@ -227,7 +227,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         stub(condition: databaseLogin(identifier: email, password: code, connection: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
                         try! interactor.update(.email, value: email)
                         try! interactor.update(.oneTimePassword, value: code)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error) == .customRuleFailure(cause: "Only admins can use this")
                                 done()
@@ -251,7 +251,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                     user = User()
                     user.validEmail = false
                     interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: .seconds(2)) { done in
                         interactor.request(connection.name) { error in
                             expect(error) == .nonValidInput
                             done()
@@ -262,7 +262,7 @@ class PasswordlessInteractorSpec: QuickSpec {
 
                 it("should yield specific error when new signups disabled") {
                     stub(condition: passwordlessStart(email: email, connection: connection.name)) { _ in return Auth0Stubs.failure("bad.connection", name: "no_signup") }
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: .seconds(2)) { done in
                         interactor.request(connection.name) { error in
                             expect(error) == .noSignup
                             done()
@@ -273,7 +273,7 @@ class PasswordlessInteractorSpec: QuickSpec {
 
                 it("should yield error on response error") {
                     stub(condition: passwordlessStart(email: email, connection: connection.name)) { _ in return Auth0Stubs.failure("unknown.error", name: "Generic error") }
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: .seconds(2)) { done in
                         interactor.request(connection.name) { error in
                             expect(error) == .codeNotSent
                             done()
@@ -284,7 +284,7 @@ class PasswordlessInteractorSpec: QuickSpec {
 
                 it("should yield success on response success") {
                     stub(condition: passwordlessStart(email: email, connection: connection.name)) { _ in return Auth0Stubs.passwordlessSent(email) }
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: .seconds(2)) { done in
                         interactor.request(connection.name) { error in
                             expect(error).to(beNil())
                             done()
@@ -310,7 +310,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                     }
 
                     it("should store passwordless transaction on sending link") {
-                        waitUntil(timeout: 4) { done in
+                        waitUntil(timeout: .seconds(4)) { done in
                             interactor.request(connection.name) { error in
                                 expect(error).to(beNil())
                                 done()
@@ -426,7 +426,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         let user = User()
                         user.validEmail = false
                         interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error) == .nonValidInput
                                 done()
@@ -439,7 +439,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         user.validEmail = true
                         user.validPassword = false
                         interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error) == .nonValidInput
                                 done()
@@ -460,7 +460,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         stub(condition: passwordlessLogin(username: phone, otp: code, realm: connection.name)) { _ in return Auth0Stubs.authentication() }
                         try! interactor.update(.phone, value: phone)
                         try! interactor.update(.oneTimePassword, value: code)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error).to(beNil())
                                 done()
@@ -473,7 +473,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         stub(condition: passwordlessLogin(username: phone, otp: code, realm: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
                         try! interactor.update(.phone, value: phone)
                         try! interactor.update(.oneTimePassword, value: code)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error) == .customRuleFailure(cause: "Only admins can use this")
                                 done()
@@ -494,7 +494,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         stub(condition: databaseLogin(identifier: phone, password: code, connection: connection.name)) { _ in return Auth0Stubs.authentication() }
                         try! interactor.update(.phone, value: phone)
                         try! interactor.update(.oneTimePassword, value: code)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error).to(beNil())
                                 done()
@@ -507,7 +507,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         stub(condition: databaseLogin(identifier: phone, password: code, connection: connection.name)) { _ in return Auth0Stubs.failure("unauthorized", description: "Only admins can use this") }
                         try! interactor.update(.phone, value: phone)
                         try! interactor.update(.oneTimePassword, value: code)
-                        waitUntil(timeout: 2) { done in
+                        waitUntil(timeout: .seconds(2)) { done in
                             interactor.login(connection.name) { error in
                                 expect(error) == .customRuleFailure(cause: "Only admins can use this")
                                 done()
@@ -532,7 +532,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                     user = User()
                     user.validEmail = false
                     interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: .seconds(2)) { done in
                         interactor.request(connection.name) { error in
                             expect(error) == .nonValidInput
                             done()
@@ -543,7 +543,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                 it("should yield error on no country code") {
                     user.countryCode = nil
                     interactor = PasswordlessInteractor(connection: connection, authentication: authentication, dispatcher: dispatcher, user: user, options: options, passwordlessActivity: passwordlessActivity)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: .seconds(2)) { done in
                         interactor.request(connection.name) { error in
                             expect(error) == .nonValidInput
                             done()
@@ -557,7 +557,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                         return Auth0Stubs.failure("bad.connection", name: "no_signup")
                     }
                     print(phoneInternational)
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: .seconds(2)) { done in
                         interactor.request(connection.name) { error in
                             expect(error) == .noSignup
                             done()
@@ -568,7 +568,7 @@ class PasswordlessInteractorSpec: QuickSpec {
 
                 it("should yield error on response error") {
                     stub(condition: passwordlessStart(phone: phoneInternational, connection: connection.name)) { _ in return Auth0Stubs.failure("unknown.error", name: "Generic error") }
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: .seconds(2)) { done in
                         interactor.request(connection.name) { error in
                             expect(error) == .codeNotSent
                             done()
@@ -579,7 +579,7 @@ class PasswordlessInteractorSpec: QuickSpec {
 
                 it("should yield success on response success") {
                     stub(condition: passwordlessStart(phone: phoneInternational, connection: connection.name)) { _ in return Auth0Stubs.passwordlessSent(email) }
-                    waitUntil(timeout: 2) { done in
+                    waitUntil(timeout: .seconds(2)) { done in
                         interactor.request(connection.name) { error in
                             expect(error).to(beNil())
                             done()
@@ -607,7 +607,7 @@ class PasswordlessInteractorSpec: QuickSpec {
                     }
 
                     it("should store passwordless transaction on sending link") {
-                        waitUntil(timeout: 4) { done in
+                        waitUntil(timeout: .seconds(4)) { done in
                             interactor.request(connection.name) { error in
                                 expect(error).to(beNil())
                                 done()

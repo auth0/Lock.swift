@@ -17,20 +17,14 @@ executors:
       FASTLANE_EXPLICIT_OPEN_SIMULATOR: 2
 
 commands:
-  use-swift:
-    parameters:
-      version: 
-        type: string
-    steps: 
-      - run: sed -i "" 's/SWIFT_VERSION = 5.0/SWIFT_VERSION = << parameters.version >>/g' "Lock.xcodeproj/project.pbxproj"
   prepare:
     parameters:
       ruby:
         type: string
-        default: "2.6.3"
+        default: "2.7.1p83"
       xcode:
         type: string
-        default: "10.3.0"
+        default: "11.7.0"
     steps:
       - restore_cache:
           keys:
@@ -56,7 +50,6 @@ commands:
           key: lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
           paths:
             - Carthage/Build
-
   test:
     steps: 
       - run: bundle exec fastlane ios ci
@@ -74,9 +67,7 @@ jobs:
       xcode: 11.7.0
     steps:
       - checkout
-      - prepare:
-          ruby: "2.7.1p83"
-          xcode: "11.7.0"
+      - prepare
       - test
       - send-coverage-report
       - pod-lint
@@ -84,39 +75,8 @@ jobs:
           path: output/scan
       - store_artifacts:
           path: output
-  build-and-test-swift-5_0:
-    executor: job-environment
-    macos:
-      xcode: 10.3.0
-    steps:
-      - checkout
-      - prepare
-      - test
-  build-and-test-swift-4_2:
-    executor: job-environment
-    macos:
-      xcode: 10.3.0
-    steps:
-      - checkout
-      - use-swift: 
-          version: "4.2"
-      - prepare
-      - test
-  build-and-test-swift-4_0:
-    executor: job-environment
-    macos:
-      xcode: 10.3.0
-    steps:
-      - checkout
-      - use-swift: 
-          version: "4.0"
-      - prepare
-      - test
 
 workflows:
   build:
     jobs:
       -  build-and-test-swift-5_2
-      -  build-and-test-swift-5_0
-      -  build-and-test-swift-4_2
-      -  build-and-test-swift-4_0
