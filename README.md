@@ -37,7 +37,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md).
 
 - iOS 9+
 - Xcode 11.4+ / 12.x
-- Swift 4.x/5.x
+- Swift 4.x / 5.x
 
 ## Installation
 
@@ -46,7 +46,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md).
 If you are using [Cocoapods](https://cocoapods.org), add this line to your `Podfile`:
 
 ```ruby
-pod "Lock", "~> 2.19"
+pod "Lock", "~> 2.20"
 ```
 
 Then run `pod install`.
@@ -58,7 +58,7 @@ Then run `pod install`.
 If you are using [Carthage](https://github.com/Carthage/Carthage), add the following line to your `Cartfile`:
 
 ```ruby
-github "auth0/Lock.swift" ~> 2.19
+github "auth0/Lock.swift" ~> 2.20
 ```
 
 Then run `carthage bootstrap`.
