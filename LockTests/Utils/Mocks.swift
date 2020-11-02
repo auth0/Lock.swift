@@ -21,7 +21,9 @@
 // THE SOFTWARE.
 
 import Foundation
+import UIKit
 import Auth0
+
 @testable import Lock
 
 class MockLockController: LockViewController {

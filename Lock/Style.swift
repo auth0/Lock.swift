@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
+import UIKit
 
 /**
  *  Define Auth0 Lock style and allows to customise it.

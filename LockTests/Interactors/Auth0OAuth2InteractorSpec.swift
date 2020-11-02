@@ -22,9 +22,12 @@
 
 import Quick
 import Nimble
-import OHHTTPStubs
-
 import Auth0
+import OHHTTPStubs
+#if SWIFT_PACKAGE
+import OHHTTPStubsSwift
+#endif
+
 @testable import Lock
 
 private let DomainURL = URL(fileURLWithPath: domain)

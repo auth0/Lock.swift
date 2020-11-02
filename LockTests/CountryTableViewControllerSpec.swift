@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import UIKit
 import Quick
 import Nimble
 
@@ -55,10 +56,9 @@ class CountryTableViewControllerSpec: QuickSpec {
 
             it("should return cell info for Argentina") {
                 let index = IndexPath(item: 8, section: 0)
-                expect(tableView.cellForRow(at: index)?.textLabel?.text) == "Argentina"
-                expect(tableView.cellForRow(at: index)?.detailTextLabel?.text) == "+54"
+                expect(controller.tableView(tableView, cellForRowAt: index).textLabel?.text) == "Argentina"
+                expect(controller.tableView(tableView, cellForRowAt: index).detailTextLabel?.text) == "+54"
             }
-
 
             describe("tableview action") {
 

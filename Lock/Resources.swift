@@ -21,8 +21,15 @@
 // THE SOFTWARE.
 
 import Foundation
+import UIKit
 
-public func bundleForLock() -> Bundle { return Bundle(for: InputField.classForCoder()) }
+public func bundleForLock() -> Bundle {
+    #if SWIFT_PACKAGE
+    return Bundle.module
+    #else
+    return Bundle(for: InputField.classForCoder())
+    #endif
+}
 
 func lazyImage(named name: String) -> LazyImage { return LazyImage(name: name, bundle: bundleForLock()) }
 

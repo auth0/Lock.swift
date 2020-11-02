@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
+import UIKit
 
 class EnterpriseDomainPresenter: Presentable, Loggable {
 

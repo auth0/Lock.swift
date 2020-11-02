@@ -23,6 +23,9 @@
 import Foundation
 import Auth0
 import OHHTTPStubs
+#if SWIFT_PACKAGE
+import OHHTTPStubsSwift
+#endif
 
 // MARK: - Request Matchers
 

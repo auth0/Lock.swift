@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
+import UIKit
 
 public struct CustomTextField {
 
