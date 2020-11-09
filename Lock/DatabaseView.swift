@@ -26,6 +26,8 @@ protocol DatabaseView: class, View {
     var form: Form? { get }
     var secondaryButton: SecondaryButton? { get }
     var primaryButton: PrimaryButton? { get }
+    var termsButton: TermsButton? { get }
+    var termsCheckbox: TermsCheckbox? { get }
     var switcher: DatabaseModeSwitcher? { get }
     var showPasswordButton: IconButton? { get }
     var identityField: InputField? { get }

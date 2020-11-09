@@ -38,7 +38,7 @@ class InputField: UIView, Stylable {
     private weak var borderColor: UIColor?
     private weak var borderColorError: UIColor?
 
-    private lazy var debounceShowError: () -> Void = debounce(0.8, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: { [weak self] in self?.needsToUpdateState() })
+    private lazy var debounceShowError: () -> Void = debounce(2, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated), action: { [weak self] in self?.needsToUpdateState() })
 
     var text: String? {
         get {
@@ -62,9 +62,10 @@ class InputField: UIView, Stylable {
             if #available(iOS 10.0, *) {
                 self.textField?.textContentType = type.contentType
             }
-            if let icon = type.icon {
-                self.iconView?.image = icon.image(compatibleWithTraits: self.traitCollection)
-            } else if let textField = self.textField, let container = self.containerView {
+//            if let icon = type.icon {
+//                self.iconView?.image = icon.image(compatibleWithTraits: self.traitCollection)
+//            } else
+            if let textField = self.textField, let container = self.containerView {
                 self.iconContainer?.removeFromSuperview()
                 textFieldLeftAnchor = constraintEqual(anchor: textField.leftAnchor, toAnchor: container.leftAnchor, constant: 16)
             }
@@ -161,7 +162,7 @@ class InputField: UIView, Stylable {
         self.errorLabelTopPadding = constraintEqual(anchor: container.bottomAnchor, toAnchor: errorLabel.topAnchor)
         container.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: errorLabel.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: errorLabel.leftAnchor, toAnchor: self.leftAnchor, constant: 15)
         constraintEqual(anchor: errorLabel.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: errorLabel.bottomAnchor, toAnchor: self.bottomAnchor)
         errorLabel.setContentHuggingPriority(UILayoutPriority.priorityDefaultHigh, for: .vertical)
@@ -189,20 +190,28 @@ class InputField: UIView, Stylable {
         iconView.tintColor = Style.Auth0.inputIconColor
         textField.addTarget(self, action: #selector(textChanged), for: .editingChanged)
         textField.delegate = self
-        textField.font = UIFont.systemFont(ofSize: 17)
+//        textField.font = UIFont.systemFont(ofSize: 17)
+        textField.font = UIFont(name: "Gotham-Medium", size: 16)
         errorLabel.text = nil
         errorLabel.numberOfLines = 0
-
+        errorLabel.font = UIFont(name: "Gotham-Medium", size: 16)
+        
         self.textField = textField
         self.iconView = iconView
         self.iconContainer = iconContainer
         self.containerView = container
         self.errorLabel = errorLabel
 
-        self.containerView?.backgroundColor = .white
-        self.containerView?.layer.cornerRadius = 3.67
-        self.containerView?.layer.masksToBounds = true
-        self.containerView?.layer.borderWidth = 1
+//        self.containerView?.backgroundColor = .white
+//        self.containerView?.layer.cornerRadius = 3.67
+//        self.containerView?.layer.masksToBounds = true
+//        self.containerView?.layer.borderWidth = 1
+        var border = CALayer()
+        border.backgroundColor = UIColor.white.cgColor
+        border.frame = CGRect(x: 15, y: 50, width: 310, height: 1)
+
+        self.containerView?.layer.addSublayer(border)
+        
         self.type = .email
         self.errorLabel?.text = State.valid.text
         self.containerView?.layer.borderColor = Style.Auth0.inputBorderColor.cgColor

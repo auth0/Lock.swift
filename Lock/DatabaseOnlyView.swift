@@ -27,10 +27,14 @@ class DatabaseOnlyView: UIView, DatabaseView {
     weak var form: Form?
     weak var secondaryButton: SecondaryButton?
     weak var primaryButton: PrimaryButton?
+    weak var termsButton: TermsButton?
+    weak var termsCheckbox: TermsCheckbox?
     weak var switcher: DatabaseModeSwitcher?
     weak var authCollectionView: AuthCollectionView?
     weak var separator: UILabel?
     weak var secondaryStrut: UIView?
+    weak var termsStrut: UIView?
+    weak var termsCheckboxStrut: UIView?
     weak var ssoBar: InfoBarView?
     weak var spacer: UIView?
     private var style: Style?
@@ -136,7 +140,10 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         primaryButton?.title = "SIGN UP".i18n(key: "com.auth0.lock.submit.signup.title", comment: "Signup Button title")
         layoutInStack(form, authCollectionView: authCollectionView)
+        self.layoutTermsButton(showTerms)
         self.layoutSecondaryButton(showTerms)
+
+//        self.layoutTermsCheckbox(true)
         self.form = form
 
         self.identityField = showUsername ? form.usernameField : form.emailField
@@ -230,6 +237,30 @@ class DatabaseOnlyView: UIView, DatabaseView {
             self.container?.addArrangedSubview(view)
         }
     }
+    
+    // lays out the terms text and check box in a stack view
+    private func layoutTermsButton(_ enabled: Bool) {
+        self.termsStrut?.removeFromSuperview()
+        self.termsButton?.removeFromSuperview()
+        if enabled {
+            var container = UIStackView()
+            container.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 25)
+            container.isLayoutMarginsRelativeArrangement = true
+            let termsCheckbox = TermsCheckbox()
+            self.termsCheckbox = termsCheckbox
+            container.addArrangedSubview(termsCheckbox)
+            let termsButton = TermsButton()
+            self.termsButton = termsButton
+            container.addArrangedSubview(termsButton)
+            self.container?.addArrangedSubview(container)
+
+        } else {
+            let view = strutView()
+            self.termsStrut = view
+            self.container?.addArrangedSubview(view)
+        }
+    }
+    
 
     private func layoutSwitcher(_ enabled: Bool) {
         self.container?.arrangedSubviews.first?.removeFromSuperview()
@@ -253,7 +284,8 @@ class DatabaseOnlyView: UIView, DatabaseView {
         if let social = authCollectionView {
             let label = UILabel()
             label.text = "or".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
-            label.font = mediumSystemFont(size: 13.75)
+//            label.font = mediumSystemFont(size: 13.75)
+            label.font = UIFont(name: "Gotham-Medium", size: 16)
             label.textAlignment = .center
             self.container?.insertArrangedSubview(social, at: socialIndex)
             self.container?.insertArrangedSubview(label, at: separatorIndex)

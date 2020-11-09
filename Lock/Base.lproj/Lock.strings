@@ -1,9 +1,11 @@
 // Forgot password
-"com.auth0.lock.database.button.forgot_password" = "Don’t remember your password?";
+"com.auth0.lock.database.button.forgot_password" = "Forgot your password?";
 // tos & privacy
-"com.auth0.lock.database.button.tos" = "By signing up, you agree to our terms of\n service and privacy policy";
+"com.auth0.lock.database.button.tos" = "I agree to Forme Terms and Privacy";
+// tos & popup
+"com.auth0.lock.database.button.tos.error" = "To sign up you must agree to the Forme Life Term and Privacy Policy";
 // tos title
-"com.auth0.lock.database.button.tos.title" = "Terms & Policy";
+"com.auth0.lock.database.button.tos.title" = "Terms & Privacy Policy";
 // forgot password email sent
 "com.auth0.lock.database.forgot.success.message" = "We've just sent you an email to reset your password";
 // User logged in
@@ -53,7 +55,7 @@
 // At least N characters
 "com.auth0.lock.error.password.at_least_length" = "At least %d characters in length";
 // At least n groups
-"com.auth0.lock.error.password.contain_at_least" = "Contain at least %d of the following %d types of characters:";
+"com.auth0.lock.error.password.contain_at_least" = "Contain %d of the %d types of characters:";
 // Lowercase letters
 "com.auth0.lock.error.password.lowercase_letters" = "Lower case letters (a-z)";
 // No more than %@{count} identical characters in a row (e.g., \"%@{identical sample}\" not allowed)
@@ -61,11 +63,11 @@
 // Must no be empty
 "com.auth0.lock.error.password.non_empty" = "Non-empty password required";
 // Numbers
-"com.auth0.lock.error.password.numbers" = "Numbers (i.e. 0-9)";
+"com.auth0.lock.error.password.numbers" = "Numbers (0-9)";
 // N groups
 "com.auth0.lock.error.password.should_contain" = "Should contain:";
 // Special Characters
-"com.auth0.lock.error.password.special_characters" = "Special characters (e.g. !@#$%^&*)";
+"com.auth0.lock.error.password.special_characters" = "Special characters (!@#$%^&*)";
 // Uppercase letters
 "com.auth0.lock.error.password.uppercase_letters" = "Upper case letters (A-Z)";
 // Passwordless link invalid.
@@ -121,7 +123,7 @@
 // Username or Email placeholder
 "com.auth0.lock.input.email_username.placeholder" = "Username/Email";
 // empty input
-"com.auth0.lock.input.empty.error" = "Must not be empty";
+"com.auth0.lock.input.empty.error" = "Please enter email";
 // generic input error
 "com.auth0.lock.input.generic.error" = "Invalid input";
 // invalid otp
@@ -235,7 +237,7 @@
 // Send Email button title
 "com.auth0.lock.submit.send_email.title" = "SEND EMAIL";
 // Signup Button title
-"com.auth0.lock.submit.signup.title" = "SIGN UP";
+"com.auth0.lock.submit.signup.title" = "Create Account";
 // Passwordless code reminder action
 "com.auth0.passwordless.code.reminder" = "Did not get the code?";
 // Passwordless code sent by email to %@{identifier}

@@ -88,7 +88,7 @@ class RuleView: UIView {
         self.render(text: message, withStatus: self.status)
 
         self.addSubview(self.label)
-        let margin = 20 * level
+        let margin = level == 0 ? 20 : 40 
         NSLayoutConstraint.activate([
             self.label.leftAnchor.constraint(equalTo: self.leftAnchor, constant: CGFloat(margin)),
             self.label.topAnchor.constraint(equalTo: self.topAnchor),
@@ -133,7 +133,8 @@ class RuleView: UIView {
     }
 
     fileprivate func render(text: String, withStatus status: Status) {
-        let font = UIFont.systemFont(ofSize: 13)
+//        let font = UIFont.systemFont(ofSize: 13)
+        let font = UIFont(name: "Gotham-Medium", size: 13)!
 
         let attachment = NSTextAttachment()
         attachment.image = status.icon
@@ -142,7 +143,7 @@ class RuleView: UIView {
         let attributedText = NSMutableAttributedString()
         attributedText.append(NSAttributedString(attachment: attachment))
         attributedText.append(NSAttributedString(
-            string: "  " + text,
+            string: "    " + text,
             attributes: [
                 NSAttributedString.attributedKeyColor: status.color(from: style),
                 NSAttributedString.attributedFont: font

@@ -109,27 +109,36 @@ class PrimaryButton: UIView, Stylable {
         button.setImage(nil, for: .disabled)
         button.setAttributedTitle(nil, for: .normal)
         button.setAttributedTitle(nil, for: .disabled)
-        guard let title = title, !self.hideTitle else {
-            button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), for: .normal)
+//        guard let title = title, !self.hideTitle else {
+//        print(title)
+        if title == "Create Account" {
+            button.setImage(image(named: "create_account_button", compatibleWithTraitCollection: self.traitCollection), for: .normal)
             button.setImage(UIImage(), for: .disabled)
-            return
+        } else if title == "LOG IN" {
+            button.setImage(image(named: "login_button", compatibleWithTraitCollection: self.traitCollection), for: .normal)
+            button.setImage(UIImage(), for: .disabled)
+        } else  {
+            button.setImage(image(named: "send_email_button", compatibleWithTraitCollection: self.traitCollection), for: .normal)
+            button.setImage(UIImage(), for: .disabled)
         }
+//            return
+//        }
 
-        let font = mediumSystemFont(size: 16)
-        let attachment = NSTextAttachment()
-        attachment.image = image(named: "ic_chevron_right", compatibleWithTraitCollection: self.traitCollection)
-        attachment.bounds = CGRect(x: 0.0, y: font.descender / 2.0, width: attachment.image!.size.width, height: attachment.image!.size.height)
-
-        let attributedText = NSMutableAttributedString(string: "\(title)  ")
-        attributedText.append(NSAttributedString(attachment: attachment))
-        attributedText.addAttributes(
-            [
-                NSAttributedString.attributedKeyColor: self.textColor ?? Style.Auth0.buttonTintColor,
-                NSAttributedString.attributedFont: font
-            ],
-            range: NSRange(location: 0, length: attributedText.length))
-        button.setAttributedTitle(attributedText, for: .normal)
-        button.setAttributedTitle(NSAttributedString(), for: .disabled)
+//        let font = mediumSystemFont(size: 16)
+//        let attachment = NSTextAttachment()
+//        attachment.image = image(named: "ic_chevron_right", compatibleWithTraitCollection: self.traitCollection)
+//        attachment.bounds = CGRect(x: 0.0, y: font.descender / 2.0, width: attachment.image!.size.width, height: attachment.image!.size.height)
+//
+//        let attributedText = NSMutableAttributedString(string: "\(title)  ")
+//        attributedText.append(NSAttributedString(attachment: attachment))
+//        attributedText.addAttributes(
+//            [
+//                NSAttributedString.attributedKeyColor: self.textColor ?? Style.Auth0.buttonTintColor,
+//                NSAttributedString.attributedFont: font
+//            ],
+//            range: NSRange(location: 0, length: attributedText.length))
+//        button.setAttributedTitle(attributedText, for: .normal)
+//        button.setAttributedTitle(NSAttributedString(), for: .disabled)
     }
 
     override var intrinsicContentSize: CGSize {
@@ -141,11 +150,11 @@ class PrimaryButton: UIView, Stylable {
     }
 
     func apply(style: Style) {
-        self.button?.setBackgroundImage(image(withColor: style.primaryColor), for: .normal)
-        self.button?.setBackgroundImage(image(withColor: style.primaryColor.a0_darker(0.20)), for: .highlighted)
-        self.button?.setBackgroundImage(image(withColor: style.disabledColor), for: .disabled)
-        self.textColor = style.buttonTintColor
-        self.button?.tintColor = style.buttonTintColor
+//        self.button?.setBackgroundImage(image(withColor: style.primaryColor), for: .normal)
+//        self.button?.setBackgroundImage(image(withColor: style.primaryColor.a0_darker(0.20)), for: .highlighted)
+//        self.button?.setBackgroundImage(image(withColor: style.disabledColor), for: .disabled)
+//        self.textColor = style.buttonTintColor
+//        self.button?.tintColor = style.buttonTintColor
         self.indicator?.color = style.disabledTextColor
         self.hideTitle = style.hideButtonTitle
     }

@@ -177,7 +177,7 @@ public class LockViewController: UIViewController {
             let curveValue = notification.userInfo?[UIResponder.responderKeyboardAnimationCurveUserInfoKey] as? NSNumber
             else { return }
         let frame = value.cgRectValue
-        let insets = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
+        let insets = UIEdgeInsets(top: 0, left: 0, bottom: frame.height/3, right: 0)
 
         self.keyboard = true
         self.scrollView.contentInset = insets

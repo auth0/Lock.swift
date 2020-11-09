@@ -133,7 +133,7 @@ public class HeaderView: UIView {
         self.addLayoutGuide(centerGuide)
         self.addSubview(titleView)
         self.addSubview(logoView)
-        self.addSubview(closeButton)
+//        self.addSubview(closeButton)
         self.addSubview(backButton)
 
         constraintEqual(anchor: centerGuide.centerYAnchor, toAnchor: self.centerYAnchor, constant: 10)
@@ -150,11 +150,11 @@ public class HeaderView: UIView {
         constraintEqual(anchor: logoView.topAnchor, toAnchor: centerGuide.topAnchor)
         logoView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
-        constraintEqual(anchor: closeButton.rightAnchor, toAnchor: self.rightAnchor, constant: -10)
-        closeButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        closeButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
+//        constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
+//        constraintEqual(anchor: closeButton.rightAnchor, toAnchor: self.rightAnchor, constant: -10)
+//        closeButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+//        closeButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+//        closeButton.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: backButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
         constraintEqual(anchor: backButton.leftAnchor, toAnchor: self.leftAnchor, constant: 10)
@@ -166,14 +166,14 @@ public class HeaderView: UIView {
         self.apply(style: Style.Auth0)
         titleView.font = regularSystemFont(size: 20)
         logoView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)
-        closeButton.setBackgroundImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
-        closeButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+//        closeButton.setBackgroundImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
+//        closeButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         backButton.setBackgroundImage(image(named: "ic_back", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
         backButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
 
         self.titleView = titleView
         self.logoView = logoView
-        self.closeButton = closeButton
+//        self.closeButton = closeButton
         self.backButton = backButton
 
         self.showBack = false

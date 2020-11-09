@@ -237,7 +237,14 @@ class DatabasePresenter: Presentable, Loggable {
                 let validForm = view?.allFields?
                     .filter { !$0.state.isValid }
                     .isEmpty ?? false
-                if validForm { self.showTermsPrompt(atButton: button) { _ in action(button) } }
+                if validForm {
+                    // check if the terms checkbox is checked
+                    if view?.termsCheckbox?.button?.isSelected == false {
+                        self.showTermsPrompt(atButton: button) { _ in action(button) }
+                    } else {
+                        action(button)
+                    }
+                }
             } else {
                 action(button)
             }
@@ -247,10 +254,19 @@ class DatabasePresenter: Presentable, Loggable {
             guard let button = view?.primaryButton, field.returnKey == .done else { return } // FIXME: Log warn
             checkTermsAndSignup(button)
         }
+        
+        
+        
+        
         view.primaryButton?.onPress = checkTermsAndSignup
-        view.secondaryButton?.title = "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos", comment: "tos & privacy")
-        view.secondaryButton?.color = UIColor(red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0)
-        view.secondaryButton?.onPress = { button in
+        print(view.termsCheckbox?.button?.isSelected)
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos", comment: "tos & privacy"))
+        // we are underline Terms and Privacy text in the string
+        attributeString.addAttribute(NSAttributedString.Key.underlineStyle,  value: NSUnderlineStyle.thick.rawValue, range: NSMakeRange(17, 5))
+        attributeString.addAttribute(NSAttributedString.Key.underlineStyle,  value: NSUnderlineStyle.thick.rawValue, range: NSMakeRange(27, 7))
+
+        view.termsButton?.attributedTitle = attributeString
+        view.termsButton?.onPress = { button in
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = button
             alert.popoverPresentationController?.sourceRect = button.bounds
@@ -308,15 +324,17 @@ class DatabasePresenter: Presentable, Loggable {
     }
 
     func showTermsPrompt(atButton button: PrimaryButton, successHandler: @escaping (PrimaryButton) -> Void) {
-        let terms = "Terms & Policy".i18n(key: "com.auth0.lock.database.button.tos.title", comment: "tos title")
-        let alert = UIAlertController(title: terms, message: "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos", comment: "tos & privacy"), preferredStyle: .alert)
+        let terms = "Terms & Privacy".i18n(key: "com.auth0.lock.database.button.tos.title", comment: "tos title")
+        let alert = UIAlertController(title: terms, message: "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos.error", comment: "tos & privacy"), preferredStyle: .alert)
         alert.popoverPresentationController?.sourceView = button
         alert.popoverPresentationController?.sourceRect = button.bounds
         let cancelAction = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel", comment: "Cancel"), style: .cancel, handler: nil)
-        let okAction = UIAlertAction(title: "Accept".i18n(key: "com.auth0.lock.database.tos.sheet.accept", comment: "Accept"), style: .default) { _ in
-            successHandler(button)
-        }
-        [cancelAction, okAction].forEach { alert.addAction($0) }
+//        let okAction = UIAlertAction(title: "Accept".i18n(key: "com.auth0.lock.database.tos.sheet.accept", comment: "Accept"), style: .default) { _ in
+//            successHandler(button)
+//        }
+//        [cancelAction, okAction].forEach { alert.addAction($0) }
+        [cancelAction].forEach { alert.addAction($0) }
+  
         self.navigator.present(alert)
     }
 }

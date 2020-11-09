@@ -34,7 +34,7 @@ public struct Style {
     public var primaryColor = UIColor.a0_orange
 
         /// Lock background color
-    public var backgroundColor = UIColor.white
+    public var backgroundColor = UIColor.black
 
         /// Lock background image
     public var backgroundImage: LazyImage?
@@ -86,7 +86,7 @@ public struct Style {
     public var seperatorTextColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54)
 
         /// Input field text color
-    public var inputTextColor = UIColor.black
+    public var inputTextColor = UIColor.white
 
         /// Input field placeholder text color
     public var inputPlaceholderTextColor = UIColor(red: 0.780, green: 0.780, blue: 0.804, alpha: 1.00) // #C7C7CD
@@ -107,7 +107,7 @@ public struct Style {
     public var inputIconColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0) // #929495
 
         /// Password rule text color default
-    public var ruleTextColor = UIColor(red: 0.016, green: 0.016, blue: 0.016, alpha: 1.0)
+    public var ruleTextColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1.0)
 
         /// Password rule text color valid
     public var ruleTextColorSuccess = UIColor(red: 0.502, green: 0.820, blue: 0.208, alpha: 1.0)
