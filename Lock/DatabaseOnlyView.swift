@@ -157,7 +157,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
             }
             passwordPolicyValidator.delegate = passwordPolicyView
             let passwordIndex = form.stackView.arrangedSubviews.firstIndex(of: form.passwordField)
-            form.stackView.insertArrangedSubview(passwordPolicyView, at: passwordIndex!)
+            form.stackView.insertArrangedSubview(passwordPolicyView, at: passwordIndex! + 1) // to display under the password box
             passwordPolicyView.isHidden = true
             form.passwordField.errorLabel?.removeFromSuperview()
             form.passwordField.onBeginEditing = { [weak self, weak passwordPolicyView] _ in

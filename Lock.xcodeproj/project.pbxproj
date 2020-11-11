@@ -424,6 +424,7 @@
 		5FF45EA91E549EA2008224C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Lock.strings; sourceTree = "<group>"; };
 		5FFC54FD1D37E3F700579581 /* Routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Routes.swift; path = Lock/Routes.swift; sourceTree = SOURCE_ROOT; };
 		B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicyValidatorSpec.swift; sourceTree = "<group>"; };
+		D9951675255C849000618815 /* GothamSSm-Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamSSm-Book.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -787,6 +788,7 @@
 		5FEAE1C81D1A5154005C0028 /* Lock */ = {
 			isa = PBXGroup;
 			children = (
+				D9951674255C846900618815 /* Fonts */,
 				5F2496B41D665A9700A1C6E2 /* Errors */,
 				5FEAE20E1D1A5682005C0028 /* Components */,
 				5F51EE6B1D1CE6110024BCD6 /* Controllers */,
@@ -898,6 +900,14 @@
 				5B3440C61E7C0D6E009F8BF7 /* PasswordlessRouterSpec.swift */,
 			);
 			path = Router;
+			sourceTree = "<group>";
+		};
+		D9951674255C846900618815 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				D9951675255C849000618815 /* GothamSSm-Book.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

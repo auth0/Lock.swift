@@ -3,7 +3,7 @@
 // tos & privacy
 "com.auth0.lock.database.button.tos" = "I agree to Forme Terms and Privacy";
 // tos & popup
-"com.auth0.lock.database.button.tos.error" = "To sign up you must agree to the Forme Life Term and Privacy Policy";
+"com.auth0.lock.database.button.tos.error" = "To sign up you must agree to the FORME Life Term and Privacy Policy";
 // tos title
 "com.auth0.lock.database.button.tos.title" = "Terms & Privacy Policy";
 // forgot password email sent
