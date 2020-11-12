@@ -66,8 +66,8 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
         container.alignment = .fill
         container.axis = .vertical
-        container.distribution = .equalSpacing
-        container.spacing = 10
+        container.distribution = .fill
+        container.spacing = 0
 
         constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
         constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
@@ -142,8 +142,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         layoutInStack(form, authCollectionView: authCollectionView)
         self.layoutTermsButton(showTerms)
         self.layoutSecondaryButton(showTerms)
-
-//        self.layoutTermsCheckbox(true)
+        
         self.form = form
 
         self.identityField = showUsername ? form.usernameField : form.emailField
@@ -231,6 +230,9 @@ class DatabaseOnlyView: UIView, DatabaseView {
             let secondaryButton = SecondaryButton()
             self.secondaryButton = secondaryButton
             self.container?.addArrangedSubview(secondaryButton)
+            let spacerView = UIView()
+            spacerView.frame = CGRect(x: 0, y: 0, width: 10, height: 150)
+            self.container?.addArrangedSubview(spacerView)
         } else {
             let view = strutView()
             self.secondaryStrut = view
@@ -244,7 +246,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.termsButton?.removeFromSuperview()
         if enabled {
             var container = UIStackView()
-            container.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 25)
+            container.layoutMargins = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 25)
             container.isLayoutMarginsRelativeArrangement = true
             let termsCheckbox = TermsCheckbox()
             self.termsCheckbox = termsCheckbox
@@ -252,7 +254,13 @@ class DatabaseOnlyView: UIView, DatabaseView {
             let termsButton = TermsButton()
             self.termsButton = termsButton
             container.addArrangedSubview(termsButton)
+            let label = UILabel()
+            label.text = "  "
+            container.addArrangedSubview(label)
+            let spacerView = UIView()
+            spacerView.frame = CGRect(x: 0, y: 0, width: 10, height: 150)
             self.container?.addArrangedSubview(container)
+            self.container?.addArrangedSubview(spacerView)
 
         } else {
             let view = strutView()
