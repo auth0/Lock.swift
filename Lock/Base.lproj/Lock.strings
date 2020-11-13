@@ -123,7 +123,7 @@
 // Username or Email placeholder
 "com.auth0.lock.input.email_username.placeholder" = "Username/Email";
 // empty input
-"com.auth0.lock.input.empty.error" = "Please enter email";
+"com.auth0.lock.input.empty.error" = "Must not be empty";
 // generic input error
 "com.auth0.lock.input.generic.error" = "Invalid input";
 // invalid otp
