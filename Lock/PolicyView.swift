@@ -134,7 +134,7 @@ class RuleView: UIView {
 
     fileprivate func render(text: String, withStatus status: Status) {
 //        let font = UIFont.systemFont(ofSize: 13)
-        let font = UIFont(name: "Gotham-Medium", size: 13)!
+        let font = UIFont(name: "GothamSSm-Book", size: 13)!
 
         let attachment = NSTextAttachment()
         attachment.image = status.icon

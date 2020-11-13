@@ -82,7 +82,7 @@ class SecondaryButton: UIView {
 
         button.tintColor = Style.Auth0.secondaryButtonColor
 //        button.titleLabel?.font = regularSystemFont(size: 15)
-        button.titleLabel?.font = UIFont(name: "Gotham-Medium", size: 14)
+        button.titleLabel?.font = UIFont(name: "GothamSSm-Book", size: 14)
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
         button.addTarget(self, action: #selector(pressed), for: .touchUpInside)

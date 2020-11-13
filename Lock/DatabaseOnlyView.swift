@@ -293,7 +293,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
             let label = UILabel()
             label.text = "or".i18n(key: "com.auth0.lock.database.separator", comment: "Social separator")
 //            label.font = mediumSystemFont(size: 13.75)
-            label.font = UIFont(name: "Gotham-Medium", size: 16)
+            label.font = UIFont(name: "GothamSSm-Book", size: 16)
             label.textAlignment = .center
             self.container?.insertArrangedSubview(social, at: socialIndex)
             self.container?.insertArrangedSubview(label, at: separatorIndex)

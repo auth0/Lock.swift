@@ -60,5 +60,5 @@ func lightSystemFont(size: CGFloat) -> UIFont {
 
 func regularSystemFont(size: CGFloat) -> UIFont {
 //    return UIFont.systemFont(ofSize: size, weight: UIFont.weightRegular)
-    return UIFont(name: "Gotham-Medium", size: 16)!
+    return UIFont(name: "GothamSSm-Book", size: 16)!
 }

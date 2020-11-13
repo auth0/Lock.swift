@@ -89,7 +89,7 @@ class MessageView: UIView {
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
 //        messageLabel.font = .systemFont(ofSize: 16, weight: UIFont.weightMedium)
-        messageLabel.font = UIFont(name: "Gotham-Medium", size: 16)
+        messageLabel.font = UIFont(name: "GothamSSm-Book", size: 16)
         messageLabel.textColor = self.type.textColor
 
         self.addSubview(messageLabel)

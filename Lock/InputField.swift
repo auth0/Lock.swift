@@ -191,10 +191,10 @@ class InputField: UIView, Stylable {
         textField.addTarget(self, action: #selector(textChanged), for: .editingChanged)
         textField.delegate = self
 //        textField.font = UIFont.systemFont(ofSize: 17)
-        textField.font = UIFont(name: "Gotham-Medium", size: 16)
+        textField.font = UIFont(name: "GothamSSm-Book", size: 16)
         errorLabel.text = nil
         errorLabel.numberOfLines = 0
-        errorLabel.font = UIFont(name: "Gotham-Medium", size: 16)
+        errorLabel.font = UIFont(name: "GothamSSm-Book", size: 16)
         
         self.textField = textField
         self.iconView = iconView
