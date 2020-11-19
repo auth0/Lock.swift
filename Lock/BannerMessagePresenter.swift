@@ -49,14 +49,14 @@ struct BannerMessagePresenter: MessagePresenter {
         guard let root = self.root else { return }
         root.addSubview(view)
 
-        constraintEqual(anchor: view.topAnchor, toAnchor: root.layoutMarginsGuide.topAnchor)
+        constraintEqual(anchor: view.topAnchor, toAnchor: root.layoutMarginsGuide.topAnchor, constant: 60)
         constraintEqual(anchor: view.leftAnchor, toAnchor: root.leftAnchor)
         constraintEqual(anchor: view.rightAnchor, toAnchor: root.rightAnchor)
         view.translatesAutoresizingMaskIntoConstraints = false
 
         self.messageView = view
 
-        Queue.main.after(4) { [weak view] in view?.removeFromSuperview() }
+        Queue.main.after(6) { [weak view] in view?.removeFromSuperview() }
     }
 
 }
