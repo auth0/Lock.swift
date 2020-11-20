@@ -86,7 +86,7 @@ public struct Style {
     public var seperatorTextColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.54)
 
         /// Input field text color
-    public var inputTextColor = UIColor.white
+    public var inputTextColor = UIColor.black
 
         /// Input field placeholder text color
     public var inputPlaceholderTextColor = UIColor(red: 0.780, green: 0.780, blue: 0.804, alpha: 1.00) // #C7C7CD
