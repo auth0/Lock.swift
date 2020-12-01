@@ -51,6 +51,7 @@ public class LockViewController: UIViewController {
         if #available(iOS 13.0, *) {
             self.isModalInPresentation = !lock.options.closable
         }
+        self.presentationController?.delegate = self
         self.router = lock.classicMode ? ClassicRouter(lock: lock, controller: self) : PasswordlessRouter(lock: lock, controller: self)
     }
 
@@ -214,4 +215,12 @@ public class LockViewController: UIViewController {
             completion: nil)
     }
 
+}
+
+// MARK: - UIAdaptivePresentationControllerDelegate
+
+extension LockViewController: UIAdaptivePresentationControllerDelegate {
+    public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        self.lock.observerStore.dispatch(result: .cancel)
+    }
 }
