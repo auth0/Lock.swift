@@ -48,6 +48,9 @@ public class LockViewController: UIViewController {
         } else {
             self.modalPresentationStyle = .fullScreen
         }
+        if #available(iOS 13.0, *) {
+            self.isModalInPresentation = !lock.options.closable
+        }
         self.router = lock.classicMode ? ClassicRouter(lock: lock, controller: self) : PasswordlessRouter(lock: lock, controller: self)
     }
 
