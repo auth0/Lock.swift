@@ -20,9 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import Foundation
+import UIKit
 import Quick
 import Nimble
 import Auth0
+
 @testable import Lock
 
 class LockSpec: QuickSpec {

@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
+import UIKit
 
 /**
  *  Convenience struct to hold an image reference to a `NSBundle` without loading the `UIImage`.

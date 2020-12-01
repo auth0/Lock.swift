@@ -31,6 +31,11 @@ examples/**/Pods/
 # Carthage
 Carthage/
 
+# SPM
+.swiftpm
+.build
+Package.resolved
+
 #Fabric
 .fabric_key
 

@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
+import UIKit
 
 // MARK: - NSLayoutXAxisAnchor
 @discardableResult func constraintEqual<C: NSLayoutAnchor<NSLayoutXAxisAnchor>>(anchor: C, toAnchor anotherAnchor: C, constant: CGFloat? = nil, priority: UILayoutPriority = UILayoutPriority.priorityRequired) -> NSLayoutConstraint {

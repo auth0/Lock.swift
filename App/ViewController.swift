@@ -105,7 +105,7 @@ class ViewController: UIViewController {
                     .withOptions {
                         applyDefaultOptions(&$0)
                         $0.allow = [.Login]
-                        $0.usernameStyle = [.Email]
+                        $0.usernameStyle = [.Username]
                     }
                     .withConnections { connections in
                         connections.database(name: "Username-Password-Authentication", requiresUsername: true)
@@ -116,6 +116,7 @@ class ViewController: UIViewController {
                     .classic()
                     .withOptions {
                         applyDefaultOptions(&$0)
+                        $0.usernameStyle = [.Username]
                     }
                     .withConnections { connections in
                         connections.social(name: "apple", style: .Apple)

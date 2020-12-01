@@ -23,6 +23,9 @@
 import Quick
 import Nimble
 import OHHTTPStubs
+#if SWIFT_PACKAGE
+import OHHTTPStubsSwift
+#endif
 
 import Auth0
 @testable import Lock
