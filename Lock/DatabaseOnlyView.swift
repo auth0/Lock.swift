@@ -169,7 +169,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
 
             form.passwordField.onEndEditing = { [weak passwordPolicyView] _ in
                 guard let view = passwordPolicyView else { return }
-                view.isHidden = true
+                view.isHidden = false
             }
         }
 

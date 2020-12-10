@@ -234,6 +234,9 @@ class DatabasePresenter: Presentable, Loggable {
 
         let checkTermsAndSignup = { [weak view] (button: PrimaryButton) in
             if self.options.mustAcceptTerms {
+                if view?.passwordField?.text == "" {
+                    self.showEnterValid(atButton: button) { _ in action(button) }
+                }
                 let validForm = view?.allFields?
                     .filter { !$0.state.isValid }
                     .isEmpty ?? false
@@ -333,6 +336,17 @@ class DatabasePresenter: Presentable, Loggable {
 //            successHandler(button)
 //        }
 //        [cancelAction, okAction].forEach { alert.addAction($0) }
+        [cancelAction].forEach { alert.addAction($0) }
+  
+        self.navigator.present(alert)
+    }
+    
+    func showEnterValid(atButton button: PrimaryButton, successHandler: @escaping (PrimaryButton) -> Void) {
+        let terms = "Password"
+        let alert = UIAlertController(title: terms, message: "Please enter a valid password", preferredStyle: .alert)
+        alert.popoverPresentationController?.sourceView = button
+        alert.popoverPresentationController?.sourceRect = button.bounds
+        let cancelAction = UIAlertAction(title: "Cancel".i18n(key: "com.auth0.lock.database.tos.sheet.cancel", comment: "Cancel"), style: .cancel, handler: nil)
         [cancelAction].forEach { alert.addAction($0) }
   
         self.navigator.present(alert)
