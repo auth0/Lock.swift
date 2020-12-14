@@ -156,13 +156,13 @@ class InputField: UIView, Stylable {
         self.addSubview(container)
         self.addSubview(errorLabel)
 
-        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor)
+        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor, constant: -15)
         constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
         constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
         self.errorLabelTopPadding = constraintEqual(anchor: container.bottomAnchor, toAnchor: errorLabel.topAnchor)
         container.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: errorLabel.leftAnchor, toAnchor: self.leftAnchor, constant: 15)
+        constraintEqual(anchor: errorLabel.leftAnchor, toAnchor: self.leftAnchor, constant: 0)
         constraintEqual(anchor: errorLabel.rightAnchor, toAnchor: self.rightAnchor)
         constraintEqual(anchor: errorLabel.bottomAnchor, toAnchor: self.bottomAnchor)
         errorLabel.setContentHuggingPriority(UILayoutPriority.priorityDefaultHigh, for: .vertical)
@@ -177,9 +177,10 @@ class InputField: UIView, Stylable {
 
         self.textFieldLeftAnchor = constraintEqual(anchor: textField.leftAnchor, toAnchor: iconContainer.rightAnchor, constant: 16)
         constraintEqual(anchor: textField.topAnchor, toAnchor: container.topAnchor)
-        self.textFieldRightPadding = constraintEqual(anchor: textField.rightAnchor, toAnchor: container.rightAnchor, constant: -16)
+        self.textFieldRightPadding = constraintEqual(anchor: textField.rightAnchor, toAnchor: container.rightAnchor, constant: 0)
         constraintEqual(anchor: textField.bottomAnchor, toAnchor: container.bottomAnchor)
         dimension(dimension: textField.heightAnchor, withValue: 50)
+        textField.widthAnchor.constraint(equalToConstant: 290).isActive = true
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: iconView.centerXAnchor, toAnchor: iconContainer.centerXAnchor)
@@ -188,6 +189,8 @@ class InputField: UIView, Stylable {
 
         iconContainer.backgroundColor = Style.Auth0.inputIconBackgroundColor
         iconView.tintColor = Style.Auth0.inputIconColor
+ 
+
         textField.addTarget(self, action: #selector(textChanged), for: .editingChanged)
         textField.delegate = self
 //        textField.font = UIFont.systemFont(ofSize: 17)

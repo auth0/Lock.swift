@@ -1,7 +1,7 @@
 // Forgot password
 "com.auth0.lock.database.button.forgot_password" = "Forgot your password?";
 // tos & privacy
-"com.auth0.lock.database.button.tos" = "I agree to Forme Terms and Privacy";
+"com.auth0.lock.database.button.tos" = " I agree to Forme Terms and Privacy";
 // tos & popup
 "com.auth0.lock.database.button.tos.error" = "To sign up you must agree to the FORME Life Term and Privacy Policy";
 // tos title
