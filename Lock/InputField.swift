@@ -177,10 +177,10 @@ class InputField: UIView, Stylable {
 
         self.textFieldLeftAnchor = constraintEqual(anchor: textField.leftAnchor, toAnchor: iconContainer.rightAnchor, constant: 16)
         constraintEqual(anchor: textField.topAnchor, toAnchor: container.topAnchor)
-        self.textFieldRightPadding = constraintEqual(anchor: textField.rightAnchor, toAnchor: container.rightAnchor, constant: 0)
+//        self.textFieldRightPadding = constraintEqual(anchor: textField.rightAnchor, toAnchor: container.rightAnchor, constant: -16)
         constraintEqual(anchor: textField.bottomAnchor, toAnchor: container.bottomAnchor)
         dimension(dimension: textField.heightAnchor, withValue: 50)
-        textField.widthAnchor.constraint(equalToConstant: 290).isActive = true
+        textField.widthAnchor.constraint(equalToConstant: 265).isActive = true
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         constraintEqual(anchor: iconView.centerXAnchor, toAnchor: iconContainer.centerXAnchor)
