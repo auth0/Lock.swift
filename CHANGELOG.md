@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.21.0](https://github.com/auth0/Lock.swift/tree/2.21.0) (2020-12-04)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.20.0...2.21.0
+
+**Added**
+- Added Swift Package Manager support [SDK-2118] [\#646](https://github.com/auth0/Lock.swift/pull/646) ([Widcket](https://github.com/Widcket))
+
 ## [2.20.0](https://github.com/auth0/Lock.swift/tree/2.20.0) (2020-10-22)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.19.1...2.20.0
 
