@@ -267,7 +267,12 @@ class DatabasePresenter: Presentable, Loggable {
         // we are underline Terms and Privacy text in the string
         attributeString.addAttribute(NSAttributedString.Key.underlineStyle,  value: NSUnderlineStyle.thick.rawValue, range: NSMakeRange(18, 5))
         attributeString.addAttribute(NSAttributedString.Key.underlineStyle,  value: NSUnderlineStyle.thick.rawValue, range: NSMakeRange(28, 7))
-
+        let font = UIFont(name: "GothamSSm-Book", size: 15)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: UIColor.white,
+        ]
+        attributeString.addAttributes(attributes, range: NSMakeRange(1, attributeString.length-1))
         view.termsButton?.attributedTitle = attributeString
         view.termsButton?.onPress = { button in
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
