@@ -209,6 +209,8 @@ class InputField: UIView, Stylable {
 //        self.containerView?.layer.cornerRadius = 3.67
 //        self.containerView?.layer.masksToBounds = true
 //        self.containerView?.layer.borderWidth = 1
+        
+        // white line at bottom of field
         var border = CALayer()
         border.backgroundColor = UIColor.white.cgColor
         border.frame = CGRect(x: 15, y: 50, width: 310, height: 1)

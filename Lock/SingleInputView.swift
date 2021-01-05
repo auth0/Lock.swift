@@ -114,9 +114,9 @@ class SingleInputView: UIView, Form, Stylable {
     private func layoutForm() {
         self.addSubview(self.stackView)
 
-        constraintEqual(anchor: self.stackView.leftAnchor, toAnchor: self.leftAnchor, constant: 20)
+        constraintEqual(anchor: self.stackView.leftAnchor, toAnchor: self.centerXAnchor, constant: -160)
         constraintEqual(anchor: self.stackView.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: self.stackView.rightAnchor, toAnchor: self.rightAnchor, constant: -20)
+        constraintEqual(anchor: self.stackView.rightAnchor, toAnchor: self.centerXAnchor, constant: 160)
         constraintEqual(anchor: self.stackView.bottomAnchor, toAnchor: self.bottomAnchor)
         self.stackView.translatesAutoresizingMaskIntoConstraints = false
 
