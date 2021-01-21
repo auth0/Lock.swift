@@ -160,7 +160,7 @@ class MockMultifactorInteractor: MultifactorAuthenticatable {
 }
 
 class MockAuthInteractor: OAuth2Authenticatable {
-    func start(_ connection: String, loginHint: String? = nil, screenHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    func start(_ connection: String, loginHint: String? = nil, screenHint: String? = nil, useEphemeralSession: Bool = false, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
     }
 }
 
@@ -417,11 +417,13 @@ class MockOAuth2: OAuth2Authenticatable {
     var connection: String? = nil
     var onStart: () -> OAuth2AuthenticatableError? = { return nil }
     var parameters: [String: String] = [:]
+    var useEphemeralSession: Bool = false
 
-    func start(_ connection: String, loginHint: String? = nil, screenHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    func start(_ connection: String, loginHint: String? = nil, screenHint: String? = nil, useEphemeralSession: Bool = false, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         self.connection = connection
         self.parameters["login_hint"] = loginHint
         self.parameters["screen_hint"] = screenHint
+        self.useEphemeralSession = useEphemeralSession
         callback(self.onStart())
     }
 

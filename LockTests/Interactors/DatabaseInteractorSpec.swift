@@ -799,6 +799,7 @@ class DatabaseInteractorSpec: QuickSpec {
                         expect(webAuthentication.parameters["login_hint"]) == email
                         expect(webAuthentication.parameters["screen_hint"]) == "login"
                         expect(error) == .verificationFailure(error: OAuth2AuthenticatableError.couldNotAuthenticate)
+                        expect(webAuthentication.useEphemeralSession) == true
                         done()
                     }
                 }
@@ -1267,6 +1268,7 @@ class DatabaseInteractorSpec: QuickSpec {
                         expect(webAuthentication.parameters["login_hint"]) == email
                         expect(webAuthentication.parameters["screen_hint"]) == "signup"
                         expect(login) == .verificationFailure(error: OAuth2AuthenticatableError.couldNotAuthenticate)
+                        expect(webAuthentication.useEphemeralSession) == true
                         done()
                     }
                 }
