@@ -135,6 +135,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         let rootAttributes: [String: String]? = self.user.rootAttributes.isEmpty ? nil : self.user.rootAttributes
 
         let login = self.credentialAuth.request(withIdentifier: email, password: password, options: self.options)
+
         self.credentialAuth
             .authentication
             .createUser(
