@@ -110,14 +110,14 @@ class PrimaryButton: UIView, Stylable {
         button.setAttributedTitle(nil, for: .normal)
         button.setAttributedTitle(nil, for: .disabled)
         guard let title = title, !self.hideTitle else {
-            button.setImage(image(named: "ic_submit", compatibleWithTraitCollection: self.traitCollection), for: .normal)
+            button.setImage(UIImage(named: "ic_submit", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
             button.setImage(UIImage(), for: .disabled)
             return
         }
 
         let font = mediumSystemFont(size: 16)
         let attachment = NSTextAttachment()
-        attachment.image = image(named: "ic_chevron_right", compatibleWithTraitCollection: self.traitCollection)
+        attachment.image = UIImage(named: "ic_chevron_right", in: bundleForLock(), compatibleWith: self.traitCollection)
         attachment.bounds = CGRect(x: 0.0, y: font.descender / 2.0, width: attachment.image!.size.width, height: attachment.image!.size.height)
 
         let attributedText = NSMutableAttributedString(string: "\(title)  ")

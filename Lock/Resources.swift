@@ -31,10 +31,23 @@ public func bundleForLock() -> Bundle {
     #endif
 }
 
-func lazyImage(named name: String) -> LazyImage { return LazyImage(name: name, bundle: bundleForLock()) }
+@available(*, deprecated, renamed: "UIImage")
+public typealias LazyImage = UIImage
 
-func image(named name: String, compatibleWithTraitCollection traitCollection: UITraitCollection? = nil) -> UIImage? {
-    return UIImage(named: name, in: bundleForLock(), compatibleWith: traitCollection)
+extension UIImage {
+    public convenience init?(named name: String, in bundle: Bundle) {
+        self.init(named: name, in: bundle, compatibleWith: nil)
+    }
+
+    @available(*, deprecated, renamed: "init(named:)")
+    public convenience init?(name: String) {
+        self.init(named: name)
+    }
+
+    @available(*, deprecated, renamed: "init(named:in:)")
+    public convenience init?(name: String, bundle: Bundle) {
+        self.init(named: name, in: bundle, compatibleWith: nil)
+    }
 }
 
 func image(withColor color: UIColor) -> UIImage? {

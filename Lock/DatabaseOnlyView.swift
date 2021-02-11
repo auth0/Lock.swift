@@ -120,7 +120,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
             self.showPasswordButton = form.passwordField.addFieldButton(withIcon: "ic_show_password_hidden", color: Style.Auth0.inputIconColor)
             self.showPasswordButton?.onPress = { [unowned self] button in
                 passwordInput.isSecureTextEntry = !passwordInput.isSecureTextEntry
-                button.icon = LazyImage(name: passwordInput.isSecureTextEntry ? "ic_show_password_hidden" : "ic_show_password_visible", bundle: Lock.bundle).image(compatibleWithTraits: self.traitCollection)
+                button.icon = UIImage(named: passwordInput.isSecureTextEntry ? "ic_show_password_hidden" : "ic_show_password_visible", in: Lock.bundle, compatibleWith: self.traitCollection)
             }
         }
     }
@@ -171,7 +171,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
             self.showPasswordButton = form.passwordField.addFieldButton(withIcon: "ic_show_password_hidden", color: Style.Auth0.inputIconColor)
             self.showPasswordButton?.onPress = { [unowned self] button in
                 passwordInput.isSecureTextEntry = !passwordInput.isSecureTextEntry
-                button.icon = LazyImage(name: passwordInput.isSecureTextEntry ? "ic_show_password_hidden" : "ic_show_password_visible", bundle: Lock.bundle).image(compatibleWithTraits: self.traitCollection)
+                button.icon = UIImage(named: passwordInput.isSecureTextEntry ? "ic_show_password_hidden" : "ic_show_password_visible", in: Lock.bundle, compatibleWith: self.traitCollection)
             }
         }
     }

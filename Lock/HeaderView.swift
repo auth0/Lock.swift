@@ -165,10 +165,10 @@ public class HeaderView: UIView {
         self.applyBackground()
         self.apply(style: Style.Auth0)
         titleView.font = regularSystemFont(size: 20)
-        logoView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)
-        closeButton.setBackgroundImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
+        logoView.image = UIImage(named: "ic_auth0", in: bundleForLock(), compatibleWith: self.traitCollection)
+        closeButton.setBackgroundImage(UIImage(named: "ic_close", in: bundleForLock(), compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
         closeButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        backButton.setBackgroundImage(image(named: "ic_back", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
+        backButton.setBackgroundImage(UIImage(named: "ic_back", in: bundleForLock(), compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
         backButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
 
         self.titleView = titleView
@@ -228,7 +228,7 @@ public class HeaderView: UIView {
         constraintEqual(anchor: maskView.centerXAnchor, toAnchor: self.centerXAnchor)
 
         maskView.contentMode = .scaleToFill
-        maskView.image = image(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
+        maskView.image = UIImage(named: "ic_auth0", in: bundleForLock(), compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
         maskView.tintColor = self.maskColor
 
         self.maskImageView = maskView
@@ -247,10 +247,10 @@ extension HeaderView: Stylable {
         }
         self.title = style.hideTitle ? nil : style.title
         self.titleColor = style.titleColor
-        self.logo = style.logo.image(compatibleWithTraits: self.traitCollection)
+        self.logo = style.logo
         self.maskImage = style.headerMask
-        self.backButton?.setBackgroundImage(style.headerBackIcon.image(compatibleWithTraits: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
-        self.closeButton?.setBackgroundImage(style.headerCloseIcon.image(compatibleWithTraits: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
+        self.backButton?.setBackgroundImage(style.headerBackIcon?.withRenderingMode(.alwaysOriginal), for: .normal)
+        self.closeButton?.setBackgroundImage(style.headerCloseIcon?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
 }
 

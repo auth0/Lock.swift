@@ -149,7 +149,7 @@ func oauth2Buttons(forConnections connections: [OAuth2Connection], customStyle: 
         button.highlightedColor = style.highlightedColor
         button.borderColor = style.borderColor
         button.titleColor = style.foregroundColor
-        button.icon = style.image.image(compatibleWithTraits: button.traitCollection)
+        button.icon = style.image
         button.onPress = { _ in
             onAction(connection.name)
         }
