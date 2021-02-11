@@ -94,6 +94,14 @@ class StyleSpec: QuickSpec {
                 expect(style.secondaryButtonColor) == UIColor.black
             }
 
+            it("should have terms button color") {
+                expect(style.termsButtonColor) == UIColor(red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0)
+            }
+
+            it("should have terms title color") {
+                expect(style.termsButtonTitleColor) == UIColor.black
+            }
+
             it("should have database login tab text color") {
                 expect(style.tabTextColor) == UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0)
             }

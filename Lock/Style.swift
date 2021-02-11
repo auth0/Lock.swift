@@ -119,6 +119,12 @@ public struct Style {
         /// Secondary button color
     public var secondaryButtonColor = UIColor.black
 
+        /// Terms of Use and Privacy Policy button color
+    public var termsButtonColor = UIColor(red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0)
+
+        /// Terms of Use and Privacy Policy button title color
+    public var termsButtonTitleColor = UIColor.black
+
         /// Database login Tab Text Color
     public var tabTextColor = UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0) // #929495
 

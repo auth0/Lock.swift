@@ -43,6 +43,15 @@ class SecondaryButton: UIView {
         }
     }
 
+    var titleColor: UIColor? {
+        get {
+            return self.button?.currentTitleColor
+        }
+        set {
+            self.button?.setTitleColor(newValue, for: .normal)
+        }
+    }
+
     // MARK: - Initialisers
     convenience init() {
         self.init(frame: CGRect.zero)
