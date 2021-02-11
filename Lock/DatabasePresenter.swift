@@ -203,6 +203,7 @@ class DatabasePresenter: Presentable, Loggable {
             view?.allFields?.forEach { self.handleInput($0) }
             let interactor = self.creator
             button.inProgress = true
+
             interactor.create { createError, loginError in
                 Queue.main.async {
                     button.inProgress = false
