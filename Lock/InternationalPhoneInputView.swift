@@ -192,8 +192,8 @@ class InternationalPhoneInputView: UIView, Form, Stylable {
         stackView.distribution = .equalSpacing
         stackView.spacing = 10
 
-        iconView.image = lazyImage(named: "ic_globe").image()
-        actionIconView.image = lazyImage(named: "ic_chevron_right").image()
+        iconView.image = UIImage(named: "ic_globe", in: bundleForLock(), compatibleWith: self.traitCollection)
+        actionIconView.image = UIImage(named: "ic_chevron_right", in: bundleForLock(), compatibleWith: self.traitCollection)
 
         countryLabel.textColor = Style.Auth0.inputPlaceholderTextColor
         codeLabel.textColor = Style.Auth0.inputPlaceholderTextColor

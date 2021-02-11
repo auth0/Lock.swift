@@ -29,7 +29,7 @@ public struct CustomTextField {
     let placeholder: String
     let defaultValue: String?
     let storage: UserStorage
-    let icon: LazyImage?
+    let icon: UIImage?
     let keyboardType: UIKeyboardType
     let autocorrectionType: UITextAutocorrectionType
     let autocapitalizationType: UITextAutocapitalizationType
@@ -38,7 +38,7 @@ public struct CustomTextField {
     let contentType: UITextContentType?
     let validation: (String?) -> Error?
 
-    public init(name: String, placeholder: String, defaultValue: String? = nil, storage: UserStorage = .userMetadata, icon: LazyImage? = nil, keyboardType: UIKeyboardType = .default, autocorrectionType: UITextAutocorrectionType = .default, autocapitalizationType: UITextAutocapitalizationType = .none, secure: Bool = false, hidden: Bool = false, contentType: UITextContentType? = nil, validation: @escaping (String?) -> Error? = nonEmpty) {
+    public init(name: String, placeholder: String, defaultValue: String? = nil, storage: UserStorage = .userMetadata, icon: UIImage? = nil, keyboardType: UIKeyboardType = .default, autocorrectionType: UITextAutocorrectionType = .default, autocapitalizationType: UITextAutocapitalizationType = .none, secure: Bool = false, hidden: Bool = false, contentType: UITextContentType? = nil, validation: @escaping (String?) -> Error? = nonEmpty) {
         self.name = name
         self.placeholder = placeholder
         self.defaultValue = defaultValue

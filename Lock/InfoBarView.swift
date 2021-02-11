@@ -103,7 +103,7 @@ class InfoBarView: UIView {
     static var ssoInfoBar: InfoBarView {
         let ssoBar = InfoBarView()
         ssoBar.title  = "SINGLE SIGN-ON ENABLED".i18n(key: "com.auth0.lock.enterprise.sso.title", comment: "SSO Header")
-        ssoBar.icon = image(named: "ic_lock_full")
+        ssoBar.icon = UIImage(named: "ic_lock_full", in: bundleForLock())
         return ssoBar
     }
 }

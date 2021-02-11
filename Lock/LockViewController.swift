@@ -73,7 +73,7 @@ public class LockViewController: UIViewController {
         root.backgroundColor = style.backgroundColor
         self.view = root
 
-        if let backgroundImage = style.backgroundImage?.image(compatibleWithTraits: self.traitCollection) {
+        if let backgroundImage = style.backgroundImage {
             let bgImageView = UIImageView(image: backgroundImage)
             self.view.addSubview(bgImageView)
         }

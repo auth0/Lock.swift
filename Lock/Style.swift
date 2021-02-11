@@ -38,7 +38,7 @@ public struct Style {
     public var backgroundColor = UIColor.white
 
         /// Lock background image
-    public var backgroundImage: LazyImage?
+    public var backgroundImage: UIImage?
 
         /// Lock disabled component color
     public var disabledColor = UIColor(red: 0.8902, green: 0.898, blue: 0.9059, alpha: 1.0)
@@ -56,10 +56,10 @@ public struct Style {
     public var headerBlur: A0BlurEffectStyle = .light
 
         /// Header close button image
-    public var headerCloseIcon: LazyImage = lazyImage(named: "ic_close")
+    public var headerCloseIcon: UIImage? = UIImage(named: "ic_close", in: bundleForLock())
 
         /// Header back button image
-    public var headerBackIcon: LazyImage = lazyImage(named: "ic_back")
+    public var headerBackIcon: UIImage? = UIImage(named: "ic_back", in: bundleForLock())
 
         /// Header title color
     public var titleColor = UIColor.black
@@ -78,7 +78,7 @@ public struct Style {
     public var hideButtonTitle = false
 
         /// Header logo image
-    public var logo: LazyImage = lazyImage(named: "ic_auth0")
+    public var logo: UIImage? = UIImage(named: "ic_auth0", in: bundleForLock())
 
         /// OAuth2 custom connection styles by mapping a connection name with an `AuthStyle`
     public var oauth2: [String: AuthStyle] = [:]
@@ -150,8 +150,8 @@ public struct Style {
     public var modalPopup = true
 
     var headerMask: UIImage? {
-        let image = self.logo.image(compatibleWithTraits: nil)
-        if Style.Auth0.logo == self.logo {
+        let image = self.logo
+        if Style.Auth0.logo == image {
             return image?.withRenderingMode(.alwaysTemplate)
         }
         return image

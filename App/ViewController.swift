@@ -56,7 +56,7 @@ class ViewController: UIViewController {
                         $0.oauth2["slack"] = AuthStyle(
                             name: "Slack",
                             color: UIColor ( red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0 ),
-                            withImage: LazyImage(name: "ic_slack")
+                            withImage: UIImage(named: "ic_slack")
                         )
                 }
             },
@@ -204,15 +204,15 @@ func applyDefaultOptions(_ options: inout OptionBuildable) {
 
     if #available(iOS 10, *) {
         options.customSignupFields = [
-            CustomTextField(name: "given_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .givenName),
-            CustomTextField(name: "family_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .familyName),
-            CustomTextField(name: "nickname", placeholder: "Nick Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .nickname)
+            CustomTextField(name: "given_name", placeholder: "First Name", icon: UIImage(named: "ic_person", in: Lock.bundle), contentType: .givenName),
+            CustomTextField(name: "family_name", placeholder: "Last Name", icon: UIImage(named: "ic_person", in: Lock.bundle), contentType: .familyName),
+            CustomTextField(name: "nickname", placeholder: "Nick Name", icon: UIImage(named: "ic_person", in: Lock.bundle), contentType: .nickname)
         ]
     } else {
         options.customSignupFields = [
-            CustomTextField(name: "given_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
-            CustomTextField(name: "family_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
-            CustomTextField(name: "nickname", placeholder: "Nick Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
+            CustomTextField(name: "given_name", placeholder: "First Name", icon: UIImage(named: "ic_person", in: Lock.bundle)),
+            CustomTextField(name: "family_name", placeholder: "Last Name", icon: UIImage(named: "ic_person", in: Lock.bundle)),
+            CustomTextField(name: "nickname", placeholder: "Nick Name", icon: UIImage(named: "ic_person", in: Lock.bundle))
         ]
     }
 }
@@ -232,9 +232,9 @@ func applyPhantomStyle(_ style: inout Style) {
     // Header
     style.title = "Phantom Inc."
     style.headerBlur = .extraLight
-    style.logo = LazyImage(name: "icn_phantom")
-    style.headerCloseIcon = LazyImage(name: "icn_phantom_exit")
-    style.headerBackIcon = LazyImage(name: "icn_phantom_back")
+    style.logo = UIImage(named: "icn_phantom")
+    style.headerCloseIcon = UIImage(named: "icn_phantom_exit")
+    style.headerBackIcon = UIImage(named: "icn_phantom_back")
     style.primaryColor = UIColor ( red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0 )
 
     // Social
