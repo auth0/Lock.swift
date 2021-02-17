@@ -52,7 +52,7 @@ class CredentialView: UIView, Form {
 
     func shouldSubmit() -> Bool {
         let shouldSubmitIdentityField = self.identityField.onSubmit(self.identityField)
-        let shouldSubmitPasswordField = self.passwordField.onSubmit(self.passwordField)
+        let shouldSubmitPasswordField = self.passwordField.isHidden || self.passwordField.onSubmit(self.passwordField)
         return shouldSubmitIdentityField && shouldSubmitPasswordField
     }
 

@@ -863,8 +863,16 @@ class DatabasePresenterSpec: QuickSpec {
                     expect(interactor.username) == "user@valid.com"
                 }
 
-                it("should ignore password input") {
+                it("should ignore non-empty password input") {
                     let input = mockInput(.password, value: "random password")
+                    view.form?.onValueChange(input)
+                    expect(enterpriseInteractor.email).to(beNil())
+                    expect(interactor.email).to(beNil())
+                    expect(interactor.username).to(beNil())
+                }
+                
+                it("should ignore empty password input") {
+                    let input = mockInput(.password, value: "")
                     view.form?.onValueChange(input)
                     expect(enterpriseInteractor.email).to(beNil())
                     expect(interactor.email).to(beNil())
