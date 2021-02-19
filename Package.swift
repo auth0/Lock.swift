@@ -10,7 +10,7 @@ let package = Package(
         .library(name: "Lock", targets: ["Lock"])
     ],
     dependencies: [
-         .package(name: "Auth0", url: "https://github.com/auth0/Auth0.swift.git", .upToNextMajor(from: "1.30.0")),
+         .package(name: "Auth0", url: "https://github.com/auth0/Auth0.swift.git", .upToNextMajor(from: "1.31.0")),
          .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "3.0.0")),
          .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "9.0.0")),
          .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", .upToNextMajor(from: "9.0.0"))

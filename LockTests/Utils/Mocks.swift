@@ -275,6 +275,18 @@ class MockAuthentication: Authentication {
         return self.authentication.login(withOTP: otp, mfaToken: mfaToken)
     }
 
+    func login(withOOBCode oobCode: String, mfaToken: String, bindingCode: String?) -> Request<Credentials, AuthenticationError> {
+        return self.authentication.login(withOOBCode: oobCode, mfaToken: mfaToken, bindingCode: bindingCode)
+    }
+
+    func login(withRecoveryCode recoveryCode: String, mfaToken: String) -> Request<Credentials, AuthenticationError> {
+        return self.authentication.login(withRecoveryCode: recoveryCode, mfaToken: mfaToken)
+    }
+
+    func multifactorChallenge(mfaToken: String, types: [String]?, channel: String?, authenticatorId: String?) -> Request<Challenge, AuthenticationError> {
+        return self.authentication.multifactorChallenge(mfaToken: mfaToken, types: types, channel: channel, authenticatorId: authenticatorId)
+    }
+
     func tokenExchange(withCode code: String, codeVerifier: String, redirectURI: String) -> Request<Credentials, AuthenticationError> {
         return self.authentication.tokenExchange(withCode: code, codeVerifier: codeVerifier, redirectURI: redirectURI)
     }
