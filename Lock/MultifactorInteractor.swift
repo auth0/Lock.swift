@@ -110,7 +110,6 @@ class MultifactorInteractor: MultifactorAuthenticatable, Loggable {
             switch result {
             case let .success(response):
                 self?.challenge = response
-
             case let .failure(error):
                 self?.logger.error("Failed to start MFA challenge \(error)")
             }
