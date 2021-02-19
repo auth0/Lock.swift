@@ -69,14 +69,14 @@ struct OfflineConnections: ConnectionBuildable {
 
     func select(byNames names: [String]) -> OfflineConnections {
         var connections = OfflineConnections()
-        connections.databases = self.databases.filter { isWhitelisted(connectionName: $0.name, inList: names) }
-        connections.oauth2 = self.oauth2.filter { isWhitelisted(connectionName: $0.name, inList: names) }
-        connections.enterprise = self.enterprise.filter { isWhitelisted(connectionName: $0.name, inList: names) }
-        connections.passwordless = self.passwordless.filter { isWhitelisted(connectionName: $0.name, inList: names) }
+        connections.databases = self.databases.filter { isAllowed(connectionName: $0.name, inList: names) }
+        connections.oauth2 = self.oauth2.filter { isAllowed(connectionName: $0.name, inList: names) }
+        connections.enterprise = self.enterprise.filter { isAllowed(connectionName: $0.name, inList: names) }
+        connections.passwordless = self.passwordless.filter { isAllowed(connectionName: $0.name, inList: names) }
         return connections
     }
 }
 
-private func isWhitelisted(connectionName name: String, inList whitelist: [String]) -> Bool {
-    return whitelist.isEmpty || whitelist.contains(name)
+private func isAllowed(connectionName name: String, inList allowList: [String]) -> Bool {
+    return allowList.isEmpty || allowList.contains(name)
 }

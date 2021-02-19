@@ -165,7 +165,7 @@ class DatabasePresenter: Presentable, Loggable {
         view.primaryButton?.onPress = action
         view.secondaryButton?.title = "Don’t remember your password?".i18n(key: "com.auth0.lock.database.button.forgot_password", comment: "Forgot password")
         view.secondaryButton?.color = .clear
-        view.secondaryButton?.onPress = { button in
+        view.secondaryButton?.onPress = { _ in
             self.navigator.navigate(.forgotPassword)
         }
     }
