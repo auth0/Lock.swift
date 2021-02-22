@@ -119,7 +119,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     func create(_ callback: @escaping (DatabaseUserCreatorError?, CredentialAuthError?) -> Void) {
         let databaseName = connection.name
 
-        guard let email = self.email, self.validEmail, let password = self.password, self.validPassword else { 
+        guard let email = self.email, self.validEmail, let password = self.password, self.validPassword else {
             return callback(.nonValidInput, nil)
         }
 

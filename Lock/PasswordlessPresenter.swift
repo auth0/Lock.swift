@@ -95,7 +95,7 @@ class PasswordlessPresenter: Presentable, Loggable {
             guard let button = view.primaryButton else { return }
             action(button)
         }
-        view.secondaryButton?.onPress = { button in
+        view.secondaryButton?.onPress = { _ in
             self.navigator.onBack()
         }
 
@@ -171,7 +171,7 @@ class PasswordlessPresenter: Presentable, Loggable {
     private func showLinkSent() -> View {
         let view = PasswordlessView()
         view.showLinkSent(identifier: self.interactor.identifier, countryCode: self.interactor.countryCode)
-        view.secondaryButton?.onPress = { button in
+        view.secondaryButton?.onPress = { _ in
             self.navigator.onBack()
         }
         return view
