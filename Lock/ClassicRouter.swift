@@ -164,6 +164,7 @@ struct ClassicRouter: Router {
             self.lock.logger.warn("Ignoring navigation \(route)")
             return
         }
+
         self.lock.logger.debug("Navigating to \(route)")
         self.controller?.routes.go(route)
         self.controller?.present(presentable, title: route.title(withStyle: self.lock.style))
