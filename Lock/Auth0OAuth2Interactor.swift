@@ -30,15 +30,15 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable, Loggable {
     let options: Options
     let nativeHandlers: [String: AuthProvider]
 
-    func start(_ connection: String, loginHint: String?, screenHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
+    func start(_ connection: String, loginHint: String?, screenHint: String?, useEphemeralSession: Bool, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
         if let nativeHandler = self.nativeHandlers[connection], type(of: nativeHandler).isAvailable() {
             self.nativeAuth(withConnection: connection, nativeAuth: nativeHandler, callback: callback)
         } else {
-            self.webAuth(withConnection: connection, loginHint: loginHint, screenHint: screenHint, callback: callback)
+            self.webAuth(withConnection: connection, loginHint: loginHint, screenHint: screenHint, useEphemeralSession: useEphemeralSession, callback: callback)
         }
     }
 
-    private func webAuth(withConnection connection: String, loginHint: String?, screenHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
+    private func webAuth(withConnection connection: String, loginHint: String?, screenHint: String?, useEphemeralSession: Bool, callback: @escaping (OAuth2AuthenticatableError?) -> Void) {
 
         var parameters: [String: String] = [:]
         self.options.parameters.forEach { parameters[$0] = "\($1)" }
@@ -49,6 +49,10 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable, Loggable {
             .webAuth(withConnection: connection)
             .scope(self.options.scope)
             .parameters(parameters)
+
+        if useEphemeralSession {
+            auth = auth.useEphemeralSession()
+        }
 
         auth = auth.logging(enabled: self.options.logHttpRequest)
 

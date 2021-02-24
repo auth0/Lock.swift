@@ -63,7 +63,7 @@ class InputField: UIView, Stylable {
                 self.textField?.textContentType = type.contentType
             }
             if let icon = type.icon {
-                self.iconView?.image = icon.image(compatibleWithTraits: self.traitCollection)
+                self.iconView?.image = icon
             } else if let textField = self.textField, let container = self.containerView {
                 self.iconContainer?.removeFromSuperview()
                 textFieldLeftAnchor = constraintEqual(anchor: textField.leftAnchor, toAnchor: container.leftAnchor, constant: 16)
@@ -218,7 +218,7 @@ class InputField: UIView, Stylable {
         guard let container = self.containerView, let textField = self.textField else { return nil }
 
         let button = IconButton()
-        button.icon = LazyImage(name: name, bundle: Lock.bundle).image(compatibleWithTraits: self.traitCollection)
+        button.icon = UIImage(named: name, in: Lock.bundle, compatibleWith: self.traitCollection)
         button.color = color
         container.addSubview(button)
 
@@ -280,7 +280,7 @@ class InputField: UIView, Stylable {
         case password
         case phone
         case oneTimePassword
-        case custom(name: String, placeholder: String, defaultValue: String?, storage: UserStorage, icon: LazyImage?, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, autocapitalizationType: UITextAutocapitalizationType, secure: Bool, hidden: Bool, contentType: UITextContentType?)
+        case custom(name: String, placeholder: String, defaultValue: String?, storage: UserStorage, icon: UIImage?, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, autocapitalizationType: UITextAutocapitalizationType, secure: Bool, hidden: Bool, contentType: UITextContentType?)
 
         var placeholder: String? {
             switch self {
@@ -330,20 +330,20 @@ class InputField: UIView, Stylable {
             }
         }
 
-        var icon: LazyImage? {
+        var icon: UIImage? {
             switch self {
             case .email:
-                return lazyImage(named: "ic_mail")
+                return UIImage(named: "ic_mail", in: bundleForLock())
             case .username:
-                return lazyImage(named: "ic_person")
+                return UIImage(named: "ic_person", in: bundleForLock())
             case .emailOrUsername:
-                return lazyImage(named: "ic_mail")
+                return UIImage(named: "ic_mail", in: bundleForLock())
             case .password:
-                return lazyImage(named: "ic_lock")
+                return UIImage(named: "ic_lock", in: bundleForLock())
             case .phone:
-                return lazyImage(named: "ic_phone")
+                return UIImage(named: "ic_phone", in: bundleForLock())
             case .oneTimePassword:
-                return lazyImage(named: "ic_lock")
+                return UIImage(named: "ic_lock", in: bundleForLock())
             case .custom(_, _, _, _, let icon, _, _, _, _, _, _):
                 return icon
             }

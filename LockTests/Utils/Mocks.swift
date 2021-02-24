@@ -160,7 +160,7 @@ class MockMultifactorInteractor: MultifactorAuthenticatable {
 }
 
 class MockAuthInteractor: OAuth2Authenticatable {
-    func start(_ connection: String, loginHint: String? = nil, screenHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    func start(_ connection: String, loginHint: String? = nil, screenHint: String? = nil, useEphemeralSession: Bool = false, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
     }
 }
 
@@ -273,6 +273,18 @@ class MockAuthentication: Authentication {
 
     func login(withOTP otp: String, mfaToken: String) -> Request<Credentials, AuthenticationError> {
         return self.authentication.login(withOTP: otp, mfaToken: mfaToken)
+    }
+
+    func login(withOOBCode oobCode: String, mfaToken: String, bindingCode: String?) -> Request<Credentials, AuthenticationError> {
+        return self.authentication.login(withOOBCode: oobCode, mfaToken: mfaToken, bindingCode: bindingCode)
+    }
+
+    func login(withRecoveryCode recoveryCode: String, mfaToken: String) -> Request<Credentials, AuthenticationError> {
+        return self.authentication.login(withRecoveryCode: recoveryCode, mfaToken: mfaToken)
+    }
+
+    func multifactorChallenge(mfaToken: String, types: [String]?, channel: String?, authenticatorId: String?) -> Request<Challenge, AuthenticationError> {
+        return self.authentication.multifactorChallenge(mfaToken: mfaToken, types: types, channel: channel, authenticatorId: authenticatorId)
     }
 
     func tokenExchange(withCode code: String, codeVerifier: String, redirectURI: String) -> Request<Credentials, AuthenticationError> {
@@ -417,11 +429,13 @@ class MockOAuth2: OAuth2Authenticatable {
     var connection: String? = nil
     var onStart: () -> OAuth2AuthenticatableError? = { return nil }
     var parameters: [String: String] = [:]
+    var useEphemeralSession: Bool = false
 
-    func start(_ connection: String, loginHint: String? = nil, screenHint: String? = nil, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
+    func start(_ connection: String, loginHint: String? = nil, screenHint: String? = nil, useEphemeralSession: Bool = false, callback: @escaping (OAuth2AuthenticatableError?) -> ()) {
         self.connection = connection
         self.parameters["login_hint"] = loginHint
         self.parameters["screen_hint"] = screenHint
+        self.useEphemeralSession = useEphemeralSession
         callback(self.onStart())
     }
 

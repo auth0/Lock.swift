@@ -23,7 +23,7 @@
 import Foundation
 import Auth0
 
-struct MultifactorInteractor: MultifactorAuthenticatable, Loggable {
+class MultifactorInteractor: MultifactorAuthenticatable, Loggable {
 
     private var connection: DatabaseConnection
     private var user: DatabaseUser
@@ -32,6 +32,7 @@ struct MultifactorInteractor: MultifactorAuthenticatable, Loggable {
     private(set) var code: String?
     private(set) var validCode: Bool = false
     private(set) var mfaToken: String?
+    private(set) var challenge: Challenge?
     let dispatcher: Dispatcher
 
     private let validator = OneTimePasswordValidator()
@@ -45,9 +46,13 @@ struct MultifactorInteractor: MultifactorAuthenticatable, Loggable {
         self.dispatcher = dispatcher
         self.options = options
         self.mfaToken = mfaToken
+
+        if let mfaToken = mfaToken {
+            self.startMultifactorChallenge(mfaToken: mfaToken)
+        }
     }
 
-    mutating func setMultifactorCode(_ code: String?) throws {
+    func setMultifactorCode(_ code: String?) throws {
         self.validCode = false
         self.code = code?.trimmingCharacters(in: CharacterSet.whitespaces)
         if let error = self.validator.validate(code) {
@@ -76,9 +81,16 @@ struct MultifactorInteractor: MultifactorAuthenticatable, Loggable {
                 self.logger.error("Token required for OIDC MFA")
                 return callback(.couldNotLogin)
             }
-            authentication
-                .login(withOTP: code, mfaToken: mfaToken)
-                .start { self.handle(identifier: identifier, result: $0, callback: callback) }
+
+            if self.challenge?.challengeType == "oob", let oobCode = self.challenge?.oobCode {
+                authentication
+                    .login(withOOBCode: oobCode, mfaToken: mfaToken, bindingCode: code)
+                    .start { self.handle(identifier: identifier, result: $0, callback: callback) }
+            } else {
+                authentication
+                    .login(withOTP: code, mfaToken: mfaToken)
+                    .start { self.handle(identifier: identifier, result: $0, callback: callback) }
+            }
         } else {
             authentication
                 .login(
@@ -90,6 +102,19 @@ struct MultifactorInteractor: MultifactorAuthenticatable, Loggable {
                 parameters: self.options.parameters
                 )
                 .start { self.handle(identifier: identifier, result: $0, callback: callback) }
+        }
+    }
+
+    func startMultifactorChallenge(mfaToken: String, completion: ((Auth0.Result<Challenge>) -> Void)? = nil) {
+        authentication.multifactorChallenge(mfaToken: mfaToken, types: nil, channel: nil, authenticatorId: nil).start { [weak self] result in
+            switch result {
+            case let .success(response):
+                self?.challenge = response
+            case let .failure(error):
+                self?.logger.error("Failed to start MFA challenge \(error)")
+            }
+
+            completion?(result)
         }
     }
 }

@@ -27,7 +27,7 @@ public struct AuthStyle {
 
     /// Name that will be used for titles. e.g. 'Login with Auth0'
     let name: String
-    let image: LazyImage
+    let image: UIImage?
     let foregroundColor: UIColor
     let normalColor: UIColor
     let highlightedColor: UIColor
@@ -53,7 +53,7 @@ public struct AuthStyle {
 
      - returns: a new style
      */
-    public init(name: String, color: UIColor = UIColor.a0_orange, foregroundColor: UIColor = .white, withImage image: LazyImage = LazyImage(name: "ic_auth_auth0", bundle: bundleForLock())) {
+    public init(name: String, color: UIColor = UIColor.a0_orange, foregroundColor: UIColor = .white, withImage image: UIImage? = UIImage(named: "ic_auth_auth0", in: bundleForLock())) {
         self.init(name: name, normalColor: color, highlightedColor: color.a0_darker(0.3), foregroundColor: foregroundColor, withImage: image)
     }
 
@@ -68,7 +68,7 @@ public struct AuthStyle {
 
      - returns: a new style
      */
-    public init(name: String, normalColor: UIColor, highlightedColor: UIColor, foregroundColor: UIColor, withImage image: LazyImage) {
+    public init(name: String, normalColor: UIColor, highlightedColor: UIColor, foregroundColor: UIColor, withImage image: UIImage?) {
         self.name = name
         self.normalColor = normalColor
         self.highlightedColor = highlightedColor
@@ -93,7 +93,7 @@ public struct AuthStyle {
                 color: UIColor = UIColor.a0_orange,
                 foregroundColor: UIColor = .white,
                 borderColor: UIColor = UIColor.a0_orange, // This should be optional in the next major, defaulting to nil
-                withImage image: LazyImage = LazyImage(name: "ic_auth_auth0", bundle: bundleForLock())) {
+                withImage image: UIImage? = UIImage(named: "ic_auth_auth0", in: bundleForLock())) {
         self.name = name
         self.normalColor = color
         self.foregroundColor = foregroundColor
@@ -117,7 +117,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Amazon".i18n(key: "com.auth0.lock.strategy.localized.amazon", comment: "Amazon"),
                 color: .a0_fromRGB("#ff9900"),
-                withImage: LazyImage(name: "ic_auth_amazon", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_amazon", in: bundleForLock())
         )
     }
 
@@ -126,7 +126,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "AOL".i18n(key: "com.auth0.lock.strategy.localized.aol", comment: "AOL"),
                 color: .a0_fromRGB("#ff0b00"),
-                withImage: LazyImage(name: "ic_auth_aol", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_aol", in: bundleForLock())
         )
     }
 
@@ -138,7 +138,7 @@ public extension AuthStyle {
                 normalColor: normalColor,
                 highlightedColor: normalColor.a0_lighter(0.3),
                 foregroundColor: .white,
-                withImage: LazyImage(name: "ic_auth_apple", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_apple", in: bundleForLock())
         )
     }
 
@@ -147,7 +147,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "百度".i18n(key: "com.auth0.lock.strategy.localized.baidu", comment: "Baidu"),
                 color: .a0_fromRGB("#2529d8"),
-                withImage: LazyImage(name: "ic_auth_baidu", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_baidu", in: bundleForLock())
         )
     }
 
@@ -156,7 +156,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Bitbucket".i18n(key: "com.auth0.lock.strategy.localized.bitbucket", comment: "Bitbucket"),
                 color: .a0_fromRGB("#205081"),
-                withImage: LazyImage(name: "ic_auth_bitbucket", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_bitbucket", in: bundleForLock())
         )
     }
 
@@ -165,7 +165,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Dropbox".i18n(key: "com.auth0.lock.strategy.localized.dropbox", comment: "Dropbox"),
                 color: .a0_fromRGB("#0064d2"),
-                withImage: LazyImage(name: "ic_auth_dropbox", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_dropbox", in: bundleForLock())
         )
     }
 
@@ -174,7 +174,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Dwolla".i18n(key: "com.auth0.lock.strategy.localized.dwolla", comment: "Dwolla"),
                 color: .a0_fromRGB("#F5891F"),
-                withImage: LazyImage(name: "ic_auth_dwolla", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_dwolla", in: bundleForLock())
         )
     }
 
@@ -183,7 +183,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Ebay".i18n(key: "com.auth0.lock.strategy.localized.ebay", comment: "Ebay"),
                 color: .a0_fromRGB("#007ee5"),
-                withImage: LazyImage(name: "ic_auth_ebay", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_ebay", in: bundleForLock())
         )
     }
 
@@ -192,7 +192,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Evernote".i18n(key: "com.auth0.lock.strategy.localized.evernote", comment: "Evernote"),
                 color: .a0_fromRGB("#2dbe60"),
-                withImage: LazyImage(name: "ic_auth_evernote", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_evernote", in: bundleForLock())
         )
     }
 
@@ -201,7 +201,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Evernote (sandbox)".i18n(key: "com.auth0.lock.strategy.localized.evernote_sandbox", comment: "EvernoteSandbox"),
                 color: .a0_fromRGB("#2dbe60"),
-                withImage: LazyImage(name: "ic_auth_evernote", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_evernote", in: bundleForLock())
         )
     }
 
@@ -210,7 +210,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Exact".i18n(key: "com.auth0.lock.strategy.localized.exact", comment: "Exact"),
                 color: .a0_fromRGB("#ED1C24"),
-                withImage: LazyImage(name: "ic_auth_exact", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_exact", in: bundleForLock())
         )
     }
 
@@ -219,7 +219,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Facebook".i18n(key: "com.auth0.lock.strategy.localized.facebook", comment: "Facebook"),
                 color: .a0_fromRGB("#3b5998"),
-                withImage: LazyImage(name: "ic_auth_facebook", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_facebook", in: bundleForLock())
         )
     }
 
@@ -228,7 +228,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Fitbit".i18n(key: "com.auth0.lock.strategy.localized.fitbit", comment: "Fitbit"),
                 color: .a0_fromRGB("#4cc2c4"),
-                withImage: LazyImage(name: "ic_auth_fitbit", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_fitbit", in: bundleForLock())
         )
     }
 
@@ -237,7 +237,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "GitHub".i18n(key: "com.auth0.lock.strategy.localized.github", comment: "GitHub"),
                 color: .a0_fromRGB("#333333"),
-                withImage: LazyImage(name: "ic_auth_github", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_github", in: bundleForLock())
         )
     }
 
@@ -248,7 +248,7 @@ public extension AuthStyle {
                 color: .a0_fromRGB("#ffffff"),
                 foregroundColor: .a0_fromRGB("#333333"),
                 borderColor: .a0_fromRGB("#dee0e2"),
-                withImage: LazyImage(name: "ic_auth_google", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_google", in: bundleForLock())
         )
     }
 
@@ -257,7 +257,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Instagram".i18n(key: "com.auth0.lock.strategy.localized.instagram", comment: "Instagram"),
                 color: .a0_fromRGB("#3f729b"),
-                withImage: LazyImage(name: "ic_auth_instagram", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_instagram", in: bundleForLock())
         )
     }
 
@@ -266,7 +266,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "LinkedIn".i18n(key: "com.auth0.lock.strategy.localized.linkedin", comment: "LinkedIn"),
                 color: .a0_fromRGB("#0077b5"),
-                withImage: LazyImage(name: "ic_auth_linkedin", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_linkedin", in: bundleForLock())
         )
     }
 
@@ -275,7 +275,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "miiCard".i18n(key: "com.auth0.lock.strategy.localized.miicard", comment: "miiCard"),
                 color: .a0_fromRGB("#35A6FE"),
-                withImage: LazyImage(name: "ic_auth_miicard", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_miicard", in: bundleForLock())
         )
     }
 
@@ -284,7 +284,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "PayPal".i18n(key: "com.auth0.lock.strategy.localized.paypal", comment: "PayPal"),
                 color: .a0_fromRGB("#009cde"),
-                withImage: LazyImage(name: "ic_auth_paypal", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_paypal", in: bundleForLock())
         )
     }
 
@@ -293,7 +293,7 @@ public extension AuthStyle {
         return AuthStyle(
             name: "PayPal (sandbox)".i18n(key: "com.auth0.lock.strategy.localized.paypal_sandbox", comment: "PaypalSandbox"),
             color: .a0_fromRGB("#009cde"),
-            withImage: LazyImage(name: "ic_auth_paypal", bundle: bundleForLock())
+            withImage: UIImage(named: "ic_auth_paypal", in: bundleForLock())
         )
     }
 
@@ -302,7 +302,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Planning Center".i18n(key: "com.auth0.lock.strategy.localized.planning_center", comment: "PlanningCenter"),
                 color: .a0_fromRGB("#4e4e4e"),
-                withImage: LazyImage(name: "ic_auth_planningcenter", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_planningcenter", in: bundleForLock())
         )
     }
 
@@ -311,7 +311,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "人人".i18n(key: "com.auth0.lock.strategy.localized.renren", comment: "RenRen"),
                 color: .a0_fromRGB("#0056B5"),
-                withImage: LazyImage(name: "ic_auth_renren", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_renren", in: bundleForLock())
         )
     }
 
@@ -320,7 +320,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Salesforce".i18n(key: "com.auth0.lock.strategy.localized.salesforce", comment: "Salesforce"),
                 color: .a0_fromRGB("#1798c1"),
-                withImage: LazyImage(name: "ic_auth_salesforce", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_salesforce", in: bundleForLock())
         )
     }
 
@@ -329,7 +329,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Salesforce Community".i18n(key: "com.auth0.lock.strategy.localized.salesforce_community", comment: "SalesforceCommunity"),
                 color: .a0_fromRGB("#1798c1"),
-                withImage: LazyImage(name: "ic_auth_salesforce", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_salesforce", in: bundleForLock())
         )
     }
 
@@ -338,7 +338,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Salesforce (sandbox)".i18n(key: "com.auth0.lock.strategy.localized.salesforce_sandbox", comment: "SalesforceSandbox"),
                 color: .a0_fromRGB("#1798c1"),
-                withImage: LazyImage(name: "ic_auth_salesforce", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_salesforce", in: bundleForLock())
         )
     }
 
@@ -347,7 +347,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Shopify".i18n(key: "com.auth0.lock.strategy.localized.shopify", comment: "Shopify"),
                 color: .a0_fromRGB("#96bf48"),
-                withImage: LazyImage(name: "ic_auth_shopify", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_shopify", in: bundleForLock())
         )
     }
 
@@ -356,7 +356,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "SoundCloud".i18n(key: "com.auth0.lock.strategy.localized.soundcloud", comment: "SoundCloud"),
                 color: .a0_fromRGB("#ff8800"),
-                withImage: LazyImage(name: "ic_auth_soundcloud", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_soundcloud", in: bundleForLock())
         )
     }
 
@@ -365,7 +365,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "The City".i18n(key: "com.auth0.lock.strategy.localized.the_city", comment: "TheCity"),
                 color: .a0_fromRGB("#767571"),
-                withImage: LazyImage(name: "ic_auth_thecity", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_thecity", in: bundleForLock())
         )
     }
 
@@ -374,7 +374,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "The City (sandbox)".i18n(key: "com.auth0.lock.strategy.localized.the_city_sandbox", comment: "TheCitySandbox"),
                 color: .a0_fromRGB("#767571"),
-                withImage: LazyImage(name: "ic_auth_thecity", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_thecity", in: bundleForLock())
         )
     }
 
@@ -383,7 +383,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Basecamp".i18n(key: "com.auth0.lock.strategy.localized.thirty_seven_signals", comment: "Basecamp"),
                 color: .a0_fromRGB("#6AC071"),
-                withImage: LazyImage(name: "ic_auth_thirtysevensignals", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_thirtysevensignals", in: bundleForLock())
         )
     }
 
@@ -392,7 +392,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Twitter".i18n(key: "com.auth0.lock.strategy.localized.twitter", comment: "Twitter"),
                 color: .a0_fromRGB("#55acee"),
-                withImage: LazyImage(name: "ic_auth_twitter", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_twitter", in: bundleForLock())
         )
     }
 
@@ -401,7 +401,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "VKontakte".i18n(key: "com.auth0.lock.strategy.localized.vkontakte", comment: "VKontakte"),
                 color: .a0_fromRGB("#45668e"),
-                withImage: LazyImage(name: "ic_auth_vk", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_vk", in: bundleForLock())
         )
     }
 
@@ -410,7 +410,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Microsoft Account".i18n(key: "com.auth0.lock.strategy.localized.microsoft", comment: "Microsoft"),
                 color: .a0_fromRGB("#00a1f1"),
-                withImage: LazyImage(name: "ic_auth_microsoft", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_microsoft", in: bundleForLock())
         )
     }
 
@@ -419,7 +419,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "WordPress".i18n(key: "com.auth0.lock.strategy.localized.wordpress", comment: "WordPress"),
                 color: .a0_fromRGB("#21759b"),
-                withImage: LazyImage(name: "ic_auth_wordpress", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_wordpress", in: bundleForLock())
         )
     }
 
@@ -428,7 +428,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Yahoo!".i18n(key: "com.auth0.lock.strategy.localized.yahoo", comment: "Yahoo"),
                 color: .a0_fromRGB("#410093"),
-                withImage: LazyImage(name: "ic_auth_yahoo", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_yahoo", in: bundleForLock())
         )
     }
 
@@ -437,7 +437,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Yammer".i18n(key: "com.auth0.lock.strategy.localized.yammer", comment: "Yammer"),
                 color: .a0_fromRGB("#0072c6"),
-                withImage: LazyImage(name: "ic_auth_yammer", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_yammer", in: bundleForLock())
         )
     }
 
@@ -446,7 +446,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "Yandex".i18n(key: "com.auth0.lock.strategy.localized.yandex", comment: "Yandex"),
                 color: .a0_fromRGB("#ffcc00"),
-                withImage: LazyImage(name: "ic_auth_yandex", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_yandex", in: bundleForLock())
         )
     }
 
@@ -455,7 +455,7 @@ public extension AuthStyle {
         return AuthStyle(
                 name: "新浪微博".i18n(key: "com.auth0.lock.strategy.localized.weibo", comment: "Weibo"),
                 color: .a0_fromRGB("#DD4B39"),
-                withImage: LazyImage(name: "ic_auth_weibo", bundle: bundleForLock())
+                withImage: UIImage(named: "ic_auth_weibo", in: bundleForLock())
         )
     }
 }

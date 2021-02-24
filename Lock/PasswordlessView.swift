@@ -177,7 +177,7 @@ class PasswordlessView: UIView, View {
 
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
-        imageView.image = LazyImage(name: "ic_email_sent", bundle: bundleForLock()).image(compatibleWithTraits: self.traitCollection)
+        imageView.image = UIImage(named: "ic_email_sent", in: bundleForLock(), compatibleWith: self.traitCollection)
 
         if let countryCode = countryCode, let identifier = identifier {
             displayIdentifier = countryCode.phoneCode + identifier
