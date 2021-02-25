@@ -182,7 +182,7 @@ class DatabasePresenter: Presentable, Loggable {
         let form = view.form
         view.form?.onValueChange = self.handleInput
 
-        form?.onSubmit = { input in
+        form?.onSubmit = { [weak form] input in
             form?.onValueChange(input)
 
             guard let attribute = self.getUserAttribute(from: input.type) else { return false }
