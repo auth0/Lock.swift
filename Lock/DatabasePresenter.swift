@@ -100,7 +100,7 @@ class DatabasePresenter: Presentable, Loggable {
         let form = view.form
         form?.onValueChange = self.handleInput
 
-        form?.onSubmit = { input in
+        form?.onSubmit = { [weak form] input in
             form?.onValueChange(input)
 
             guard let attribute = self.getUserAttribute(from: input.type) else { return false }
@@ -114,7 +114,7 @@ class DatabasePresenter: Presentable, Loggable {
         }
 
         let action = { [weak form] (button: PrimaryButton) in
-            guard let isValid = view.form?.shouldSubmit(), isValid else { return }
+            guard let isValid = form?.shouldSubmit(), isValid else { return }
 
             self.messagePresenter?.hideCurrent()
             self.logger.info("Perform login for email: \(self.authenticator.email.verbatim())")
@@ -182,7 +182,7 @@ class DatabasePresenter: Presentable, Loggable {
         let form = view.form
         view.form?.onValueChange = self.handleInput
 
-        form?.onSubmit = { input in
+        form?.onSubmit = { [weak form] input in
             form?.onValueChange(input)
 
             guard let attribute = self.getUserAttribute(from: input.type) else { return false }
@@ -196,7 +196,7 @@ class DatabasePresenter: Presentable, Loggable {
         }
 
         let action = { [weak form, weak view] (button: PrimaryButton) in
-            guard let isValid = view?.form?.shouldSubmit(), isValid else { return }
+            guard let isValid = form?.shouldSubmit(), isValid else { return }
 
             self.messagePresenter?.hideCurrent()
             self.logger.info("Perform sign up for email \(self.creator.email.verbatim())")
