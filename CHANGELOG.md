@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.22.1](https://github.com/auth0/Lock.swift/tree/2.22.1) (2021-04-13)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.22.0...2.22.1)
+
+**Fixed**
+- Fix LockViewController dismissal when presented as a popup [\#647](https://github.com/auth0/Lock.swift/pull/647) ([agirault](https://github.com/agirault))
+
 ## [2.22.0](https://github.com/auth0/Lock.swift/tree/2.22.0) (2021-03-09)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.21.0...2.22.0
 
