@@ -409,6 +409,14 @@ class MockWebAuth: WebAuth {
         self.maxAge = maxAge
         return self
     }
+    
+    func invitationURL(_ invitationURL: URL) -> Self {
+       return self
+   }
+       
+   func organization(_ organization: String) -> Self {
+       return self
+   }
 
     func clearSession(federated: Bool, callback: @escaping (Bool) -> Void) {
         callback(true)
