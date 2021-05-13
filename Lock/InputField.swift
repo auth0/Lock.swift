@@ -232,7 +232,7 @@ class InputField: UIView, Stylable {
         guard let container = self.containerView, let textField = self.textField else { return nil }
 
         let button = IconButton()
-        button.icon = UIImage(name: name, bundle: Lock.bundle).image(compatibleWithTraits: self.traitCollection)
+        button.icon = UIImage(named: name, in: Lock.bundle, compatibleWith: self.traitCollection)
         button.color = color
         container.addSubview(button)
 
@@ -294,7 +294,7 @@ class InputField: UIView, Stylable {
         case password
         case phone
         case oneTimePassword
-        case custom(name: String, placeholder: String, defaultValue: String?, storage: UserStorage, icon: LazyImage?, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, autocapitalizationType: UITextAutocapitalizationType, secure: Bool, hidden: Bool, contentType: UITextContentType?)
+        case custom(name: String, placeholder: String, defaultValue: String?, storage: UserStorage, icon: UIImage?, keyboardType: UIKeyboardType, autocorrectionType: UITextAutocorrectionType, autocapitalizationType: UITextAutocapitalizationType, secure: Bool, hidden: Bool, contentType: UITextContentType?)
 
         var placeholder: String? {
             switch self {

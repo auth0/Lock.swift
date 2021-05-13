@@ -165,10 +165,10 @@ public class HeaderView: UIView {
         self.applyBackground()
         self.apply(style: Style.Auth0)
         titleView.font = regularSystemFont(size: 20)
-        logoView.image = UIImage(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)
-//        closeButton.setBackgroundImage(image(named: "ic_close", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
+        logoView.image = UIImage(named: "ic_auth0", in: bundleForLock(), compatibleWith: self.traitCollection)
+//        closeButton.setBackgroundImage(UIImage(named: "ic_close", in: bundleForLock(), compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
 //        closeButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        backButton.setBackgroundImage(UIImage(named: "ic_back", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
+        backButton.setBackgroundImage(UIImage(named: "ic_back", in: bundleForLock(), compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysOriginal), for: .normal)
         backButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
 
         self.titleView = titleView
