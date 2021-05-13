@@ -22,8 +22,11 @@
 
 import Quick
 import Nimble
-import OHHTTPStubs
 import Auth0
+import OHHTTPStubs
+#if SWIFT_PACKAGE
+import OHHTTPStubsSwift
+#endif
 
 @testable import Lock
 
@@ -347,7 +350,7 @@ class DatabaseInteractorSpec: QuickSpec {
 
                 beforeEach {
                     var options = LockOptions()
-                    options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))]
+                    options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: UIImage(named: "ic_person", in: Lock.bundle))]
                     database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                 }
 
@@ -371,7 +374,7 @@ class DatabaseInteractorSpec: QuickSpec {
                 it("should raise error for custom validation") {
                     var options = LockOptions()
                     let error = NSError(domain: "com.auth0", code: -99999, userInfo: [:])
-                    options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle), validation: { _ in return error })]
+                    options.customSignupFields = [CustomTextField(name: "first_name", placeholder: "First Name", icon: UIImage(named: "ic_person", in: Lock.bundle), validation: { _ in return error })]
                     database = DatabaseInteractor(connection: DatabaseConnection(name: connection, requiresUsername: true), authentication: authentication, webAuthentication: webAuthentication, user: user, options: options, dispatcher: ObserverStore())
                     expect{ try database.update(.custom(name: "first_name", storage: .userMetadata), value: nil) }.to(throwError(error))
                 }
@@ -796,6 +799,7 @@ class DatabaseInteractorSpec: QuickSpec {
                         expect(webAuthentication.parameters["login_hint"]) == email
                         expect(webAuthentication.parameters["screen_hint"]) == "login"
                         expect(error) == .verificationFailure(error: OAuth2AuthenticatableError.couldNotAuthenticate)
+                        expect(webAuthentication.useEphemeralSession) == true
                         done()
                     }
                 }
@@ -1264,6 +1268,7 @@ class DatabaseInteractorSpec: QuickSpec {
                         expect(webAuthentication.parameters["login_hint"]) == email
                         expect(webAuthentication.parameters["screen_hint"]) == "signup"
                         expect(login) == .verificationFailure(error: OAuth2AuthenticatableError.couldNotAuthenticate)
+                        expect(webAuthentication.useEphemeralSession) == true
                         done()
                     }
                 }

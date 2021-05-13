@@ -70,7 +70,7 @@ class UnrecoverableErrorView: UIView, View {
         constraintEqual(anchor: actionButton.topAnchor, toAnchor: messageLabel.bottomAnchor, constant: 10)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
 
-        imageView.image = LazyImage(name: "ic_connection_error", bundle: bundleForLock()).image(compatibleWithTraits: self.traitCollection)
+        imageView.image = UIImage(named: "ic_connection_error", in: bundleForLock(), compatibleWith: self.traitCollection)
         titleLabel.textAlignment = .center
         titleLabel.font = lightSystemFont(size: 22)
         titleLabel.numberOfLines = 1

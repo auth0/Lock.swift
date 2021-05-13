@@ -1,5 +1,33 @@
 # Change Log
 
+## [2.22.1](https://github.com/auth0/Lock.swift/tree/2.22.1) (2021-04-13)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.22.0...2.22.1)
+
+**Fixed**
+- Fix LockViewController dismissal when presented as a popup [\#647](https://github.com/auth0/Lock.swift/pull/647) ([agirault](https://github.com/agirault))
+
+## [2.22.0](https://github.com/auth0/Lock.swift/tree/2.22.0) (2021-03-09)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.21.0...2.22.0
+
+**Added**
+- Support OOB MFA challenges [\#649](https://github.com/auth0/Lock.swift/pull/649) ([ejensen](https://github.com/ejensen))
+- Added support for terms and privacy button color customization [\#652](https://github.com/auth0/Lock.swift/pull/652) ([ejensen](https://github.com/ejensen))
+
+**Changed**
+- Use standard UIImages instead of custom LazyImages [\#654](https://github.com/auth0/Lock.swift/pull/654) ([ejensen](https://github.com/ejensen))
+
+**Fixed**
+- Fix bot detection CAPTCHA not being shown [\#651](https://github.com/auth0/Lock.swift/pull/651) ([ejensen](https://github.com/ejensen))
+- Fixed enterprise form validation [SDK-2327] [\#655](https://github.com/auth0/Lock.swift/pull/655) ([Widcket](https://github.com/Widcket))
+- Project and SwiftLint warning fixes [\#657](https://github.com/auth0/Lock.swift/pull/657) ([ejensen](https://github.com/ejensen))
+- Fixed retain cycles on DatabasePresenter [SDK-2360] [\#660](https://github.com/auth0/Lock.swift/pull/660) ([Widcket](https://github.com/Widcket))
+
+## [2.21.0](https://github.com/auth0/Lock.swift/tree/2.21.0) (2020-12-04)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.20.0...2.21.0
+
+**Added**
+- Added Swift Package Manager support [SDK-2118] [\#646](https://github.com/auth0/Lock.swift/pull/646) ([Widcket](https://github.com/Widcket))
+
 ## [2.20.0](https://github.com/auth0/Lock.swift/tree/2.20.0) (2020-10-22)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.19.1...2.20.0
 

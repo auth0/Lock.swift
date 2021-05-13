@@ -22,9 +22,12 @@
 
 import Quick
 import Nimble
-import OHHTTPStubs
-
 import Auth0
+import OHHTTPStubs
+#if SWIFT_PACKAGE
+import OHHTTPStubsSwift
+#endif
+
 @testable import Lock
 
 private let DomainURL = URL(fileURLWithPath: domain)
@@ -69,19 +72,19 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
             }
 
             it("should set connection") {
-                interactor.start("facebook", loginHint: nil, screenHint: nil, callback: { _ in })
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false, callback: { _ in })
                 expect(authentication.webAuth?.connection) == "facebook"
             }
 
             it("should set scope") {
-                interactor.start("facebook", loginHint: nil, screenHint: nil, callback: { _ in })
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false, callback: { _ in })
                 expect(authentication.webAuth?.scope) == "openid"
             }
 
             it("should set connection scope for specified connection") {
                 options.connectionScope = ["facebook": "user_friends,email"]
                 interactor = Auth0OAuth2Interactor(authentication: authentication, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
-                interactor.start("facebook", loginHint: nil, screenHint: nil, callback: { _ in })
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false, callback: { _ in })
                 expect(authentication.webAuth?.parameters["connection_scope"]) == "user_friends,email"
             }
 
@@ -89,37 +92,37 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
                 options.connectionScope = ["facebook": "user_friends,email",
                                            "google-oauth2": "gmail,ads"]
                 interactor = Auth0OAuth2Interactor(authentication: authentication, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
-                interactor.start("facebook", loginHint: nil, screenHint: nil, callback: { _ in })
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false, callback: { _ in })
                 expect(authentication.webAuth?.parameters["connection_scope"]) == "user_friends,email"
-                interactor.start("google-oauth2", loginHint: nil, screenHint: nil, callback: { _ in })
+                interactor.start("google-oauth2", loginHint: nil, screenHint: nil,  useEphemeralSession: false, callback: { _ in })
                 expect(authentication.webAuth?.parameters["connection_scope"]) == "gmail,ads"
             }
 
             it("should not set audience if nil") {
                 options.audience = nil
                 interactor = Auth0OAuth2Interactor(authentication: authentication, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
-                interactor.start("facebook", loginHint: nil, screenHint: nil, callback: { _ in })
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false, callback: { _ in })
                 expect(authentication.webAuth?.audience).to(beNil())
             }
 
             it("should set audience") {
                 options.audience = "https://myapi.com/v1"
                 interactor = Auth0OAuth2Interactor(authentication: authentication, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
-                interactor.start("facebook", loginHint: nil, screenHint: nil, callback: { _ in })
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false, callback: { _ in })
                 expect(authentication.webAuth?.audience) == "https://myapi.com/v1"
             }
 
             it("should set leeway") {
                 options.leeway = 1000
                 interactor = Auth0OAuth2Interactor(authentication: authentication, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
-                interactor.start("facebook", loginHint: nil, screenHint: nil, callback: { _ in })
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false, callback: { _ in })
                 expect(authentication.webAuth?.leeway) == 1000
             }
 
             it("should set maxAge") {
                 options.maxAge = 1000
                 interactor = Auth0OAuth2Interactor(authentication: authentication, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
-                interactor.start("facebook", loginHint: nil, screenHint: nil, callback: { _ in })
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false, callback: { _ in })
                 expect(authentication.webAuth?.maxAge) == 1000
             }
 
@@ -127,32 +130,32 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
                 let state = UUID().uuidString
                 options.parameters = ["state": state as Any]
                 interactor = Auth0OAuth2Interactor(authentication: authentication, dispatcher: dispatcher, options: options, nativeHandlers: nativeHandlers)
-                interactor.start("facebook", loginHint: nil, screenHint: nil, callback: { _ in })
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false, callback: { _ in })
                 expect(authentication.webAuth?.parameters["state"]) == state
             }
 
             it("should not yield error on success") {
                 authentication.webAuthResult = { return .success(result: mockCredentials()) }
-                interactor.start("facebook", loginHint: nil, screenHint: nil) { error = $0 }
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false) { error = $0 }
                 expect(error).toEventually(beNil())
             }
 
             it("should call credentials callback") {
                 let expected = mockCredentials()
                 authentication.webAuthResult = { return .success(result: expected) }
-                interactor.start("facebook", loginHint: nil, screenHint: nil) { error = $0 }
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false) { error = $0 }
                 expect(credentials).toEventually(equal(expected))
             }
 
             it("should handle cancel error") {
                 authentication.webAuthResult = { return .failure(error: WebAuthError.userCancelled) }
-                interactor.start("facebook", loginHint: nil, screenHint: nil) { error = $0 }
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false) { error = $0 }
                 expect(error).toEventually(equal(OAuth2AuthenticatableError.cancelled))
             }
 
             it("should handle generic error") {
                 authentication.webAuthResult = { return .failure(error: WebAuthError.noBundleIdentifierFound) }
-                interactor.start("facebook", loginHint: nil, screenHint: nil) { error = $0 }
+                interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false) { error = $0 }
                 expect(error).toEventually(equal(OAuth2AuthenticatableError.couldNotAuthenticate))
             }
 
@@ -173,7 +176,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
             it("should yield no error on success") {
                 stub(condition: isOAuthAccessToken(domain) && hasAtLeast(["access_token": "SocialToken", "connection": "facebook"])) { _ in return Auth0Stubs.authentication() }.name = "Social Auth"
                 waitUntil(timeout: Timeout) { done in
-                    interactor.start("facebook", loginHint: nil, screenHint: nil) { error in
+                    interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false) { error in
                         expect(error).to(beNil())
                         done()
                     }
@@ -184,7 +187,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
             it("should yield error on failure") {
                 stub(condition: isOAuthAccessToken(domain) && hasAtLeast(["access_token": "SocialToken", "connection": "facebook"])) { _ in return Auth0Stubs.failure() }.name = "Social Auth Fail"
                 waitUntil(timeout: Timeout) { done in
-                    interactor.start("facebook", loginHint: nil, screenHint: nil) { error in
+                    interactor.start("facebook", loginHint: nil, screenHint: nil, useEphemeralSession: false) { error in
                         expect(error).toNot(beNil())
                         done()
                     }
@@ -203,7 +206,7 @@ class Auth0OAuth2InteractorSpec: QuickSpec {
                 }
                 
                 it("should fallback to webAuth with connection") {
-                    interactor.start("twitter", loginHint: nil, screenHint: nil, callback: { _ in })
+                    interactor.start("twitter", loginHint: nil, screenHint: nil, useEphemeralSession: false, callback: { _ in })
                     expect(authentication.webAuth?.connection) == "twitter"
                 }
                 

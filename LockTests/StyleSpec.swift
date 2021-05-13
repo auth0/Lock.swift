@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import UIKit
 import Quick
 import Nimble
 
@@ -54,7 +55,7 @@ class StyleSpec: QuickSpec {
             }
 
             it("should have logo") {
-                expect(style.logo) == lazyImage(named: "ic_auth0")
+                expect(style.logo) == UIImage(named: "ic_auth0", in: Lock.bundle)
             }
 
             it("should have social seperator text color") {
@@ -93,6 +94,14 @@ class StyleSpec: QuickSpec {
                 expect(style.secondaryButtonColor) == UIColor.black
             }
 
+            it("should have terms button color") {
+                expect(style.termsButtonColor) == UIColor(red: 0.9333, green: 0.9333, blue: 0.9333, alpha: 1.0)
+            }
+
+            it("should have terms title color") {
+                expect(style.termsButtonTitleColor) == UIColor.black
+            }
+
             it("should have database login tab text color") {
                 expect(style.tabTextColor) == UIColor(red: 0.5725, green: 0.5804, blue: 0.5843, alpha: 1.0)
             }
@@ -122,11 +131,11 @@ class StyleSpec: QuickSpec {
             }
 
             it("should have header close button image") {
-                expect(style.headerCloseIcon) == lazyImage(named: "ic_close")
+                expect(style.headerCloseIcon) == UIImage(named: "ic_close", in: Lock.bundle)
             }
 
             it("should have header back button image") {
-                expect(style.headerBackIcon) == lazyImage(named: "ic_back")
+                expect(style.headerBackIcon) == UIImage(named: "ic_back", in: Lock.bundle)
             }
 
             it("should have modal popup true") {

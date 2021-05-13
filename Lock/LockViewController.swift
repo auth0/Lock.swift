@@ -49,6 +49,9 @@ public class LockViewController: UIViewController {
             self.modalPresentationStyle = .fullScreen
         }
         self.router = lock.classicMode ? ClassicRouter(lock: lock, controller: self) : PasswordlessRouter(lock: lock, controller: self)
+        if #available(iOS 13.0, *) {
+            self.isModalInPresentation = !lock.options.closable
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -73,7 +76,7 @@ public class LockViewController: UIViewController {
         root.backgroundColor = style.backgroundColor
         self.view = root
 
-        if let backgroundImage = style.backgroundImage?.image(compatibleWithTraits: self.traitCollection) {
+        if let backgroundImage = style.backgroundImage {
             let bgImageView = UIImageView(image: backgroundImage)
             self.view.addSubview(bgImageView)
         }
@@ -134,6 +137,7 @@ public class LockViewController: UIViewController {
         center.addObserver(self, selector: #selector(keyboardWasShown), name: UIResponder.responderKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: #selector(keyboardWasHidden), name: UIResponder.responderKeyboardWillHideNotification, object: nil)
 
+        self.presentationController?.delegate = self
         self.present(self.router.root, title: Route.root.title(withStyle: self.lock.style))
     }
 
@@ -211,4 +215,12 @@ public class LockViewController: UIViewController {
             completion: nil)
     }
 
+}
+
+// MARK: - UIAdaptivePresentationControllerDelegate
+
+extension LockViewController: UIAdaptivePresentationControllerDelegate {
+    public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        self.lock.observerStore.dispatch(result: .cancel)
+    }
 }

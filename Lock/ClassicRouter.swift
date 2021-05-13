@@ -44,16 +44,16 @@ struct ClassicRouter: Router {
             let interactor = CDNLoaderInteractor(baseURL: baseURL, clientId: self.lock.authentication.clientId)
             return ConnectionLoadingPresenter(loader: interactor, navigator: self, dispatcher: lock.observerStore, options: self.lock.options)
         }
-        let whitelistForActiveAuth = self.lock.options.enterpriseConnectionUsingActiveAuth
+        let allowListForActiveAuth = self.lock.options.enterpriseConnectionUsingActiveAuth
 
         switch (connections.database, connections.oauth2, connections.enterprise) {
         // Database root
         case (.some(let database), let oauth2, let enterprise):
             guard self.lock.options.allow != [.ResetPassword] && self.lock.options.initialScreen != .resetPassword else { return forgotPassword }
             let authentication = self.lock.authentication
-            let webAuthInteractor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: lock.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
+            let webAuthInteractor = Auth0OAuth2Interactor(authentication: authentication, dispatcher: lock.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
             let interactor = DatabaseInteractor(connection: database, authentication: authentication, webAuthentication: webAuthInteractor, user: self.user, options: self.lock.options, dispatcher: lock.observerStore)
-            let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options)
+            let presenter = DatabasePresenter(interactor: interactor, connection: database, navigator: self, options: self.lock.options, style: self.lock.style)
             if !oauth2.isEmpty {
                 let interactor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: lock.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
                 presenter.authPresenter = AuthPresenter(connections: oauth2, interactor: interactor, customStyle: self.lock.style.oauth2)
@@ -65,11 +65,11 @@ struct ClassicRouter: Router {
             }
             return presenter
         // Single Enterprise with active auth support (e.g. AD)
-        case (nil, let oauth2, let enterprise) where oauth2.isEmpty && enterprise.hasJustOne(andIn: whitelistForActiveAuth):
+        case (nil, let oauth2, let enterprise) where oauth2.isEmpty && enterprise.hasJustOne(andIn: allowListForActiveAuth):
             guard let connection = enterprise.first else { return nil }
             return enterpriseActiveAuth(connection: connection, domain: connection.domains.first)
         // Single Enterprise with support for passive auth only (web auth) and some social connections
-        case (nil, let oauth2, let enterprise) where enterprise.hasJustOne(andNotIn: whitelistForActiveAuth):
+        case (nil, let oauth2, let enterprise) where enterprise.hasJustOne(andNotIn: allowListForActiveAuth):
             guard let connection = enterprise.first else { return nil }
             let authInteractor = Auth0OAuth2Interactor(authentication: self.lock.authentication, dispatcher: lock.observerStore, options: self.lock.options, nativeHandlers: self.lock.nativeHandlers)
             let connections: [OAuth2Connection] = oauth2 + [connection]
@@ -164,6 +164,7 @@ struct ClassicRouter: Router {
             self.lock.logger.warn("Ignoring navigation \(route)")
             return
         }
+
         self.lock.logger.debug("Navigating to \(route)")
         self.controller?.routes.go(route)
         self.controller?.present(presentable, title: route.title(withStyle: self.lock.style))

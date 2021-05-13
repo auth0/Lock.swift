@@ -23,6 +23,9 @@
 import Foundation
 import Auth0
 import OHHTTPStubs
+#if SWIFT_PACKAGE
+import OHHTTPStubsSwift
+#endif
 
 // MARK: - Request Matchers
 
@@ -35,7 +38,7 @@ func += <K, V> (left: inout [K:V], right: [K:V]) {
 func realmLogin(identifier: String, password: String, realm: String) -> HTTPStubsTestBlock {
     var parameters = ["username": identifier, "password": password]
     parameters["realm"] = realm
-    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
+    return isHost(domain) && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
 }
 
 func databaseLogin(identifier: String, password: String, code: String? = nil, connection: String) -> HTTPStubsTestBlock {
@@ -44,35 +47,47 @@ func databaseLogin(identifier: String, password: String, code: String? = nil, co
         parameters["mfa_code"] = code
     }
     parameters["connection"] = connection
-    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/ro") && hasAtLeast(parameters)
+    return isHost(domain) && isMethodPOST() && isPath("/oauth/ro") && hasAtLeast(parameters)
 }
 
 func passwordlessLogin(username: String, otp: String, realm: String) -> HTTPStubsTestBlock {
     let parameters = ["username": username, "otp": otp, "realm": realm, "grant_type": "http://auth0.com/oauth/grant-type/passwordless/otp"]
-    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
+    return isHost(domain) && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
 }
 
 func otpLogin(otp: String, mfaToken: String) -> HTTPStubsTestBlock {
-    let parameters = ["otp": code, "mfa_token": mfaToken]
-    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
+    let parameters = ["otp": otp, "mfa_token": mfaToken]
+    return isHost(domain) && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
+}
+
+func oobLogin(oob: String, mfaToken: String, bindingCode: String? = nil) -> HTTPStubsTestBlock {
+    var parameters = ["oob_code": oob, "mfa_token": mfaToken]
+    if let bindingCode = bindingCode {
+        parameters["binding_code"] = bindingCode
+    }
+    return isHost(domain) && isMethodPOST() && isPath("/oauth/token") && hasAtLeast(parameters)
 }
 
 func databaseSignUp(email: String, username: String? = nil, password: String, connection: String) -> HTTPStubsTestBlock {
     var parameters = ["email": email, "password": password, "connection": connection]
     if let username = username { parameters["username"] = username }
-    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/dbconnections/signup") && hasAtLeast(parameters)
+    return isHost(domain) && isMethodPOST() && isPath("/dbconnections/signup") && hasAtLeast(parameters)
 }
 
 func databaseForgotPassword(email: String, connection: String) -> HTTPStubsTestBlock {
-    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/dbconnections/change_password") && hasAtLeast(["email": email, "connection": connection])
+    return isHost(domain) && isMethodPOST() && isPath("/dbconnections/change_password") && hasAtLeast(["email": email, "connection": connection])
 }
 
 func passwordlessStart(email: String, connection: String) -> HTTPStubsTestBlock {
-    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/passwordless/start") && hasAtLeast(["email": email, "connection": connection])
+    return isHost(domain) && isMethodPOST() && isPath("/passwordless/start") && hasAtLeast(["email": email, "connection": connection])
 }
 
 func passwordlessStart(phone: String, connection: String) -> HTTPStubsTestBlock {
-    return isHost("samples.auth0.com") && isMethodPOST() && isPath("/passwordless/start") && hasAtLeast(["phone_number": phone, "connection": connection])
+    return isHost(domain) && isMethodPOST() && isPath("/passwordless/start") && hasAtLeast(["phone_number": phone, "connection": connection])
+}
+
+func mfaChallengeStart(mfaToken: String) -> HTTPStubsTestBlock {
+    return isHost(domain) && isMethodPOST() && isPath("/mfa/challenge") && hasAtLeast(["mfa_token": mfaToken])
 }
 
 // MARK: - Internal Matchers
@@ -189,4 +204,8 @@ struct Auth0Stubs {
         let jsonp = "Auth0.setClient(\(string));"
         return HTTPStubsResponse(data: jsonp.data(using: String.Encoding.utf8)!, statusCode: 200, headers: ["Content-Type": "application/x-javascript"])
     }
+
+    static func multifactorChallenge(challengeType: String, oobCode: String? = nil, bindingMethod: String? = nil) -> HTTPStubsResponse {
+         return HTTPStubsResponse(jsonObject: ["challenge_type": challengeType, "oob_code": oobCode, "binding_method": bindingMethod], statusCode: 200, headers: nil)
+     }
 }

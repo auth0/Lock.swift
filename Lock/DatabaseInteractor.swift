@@ -109,11 +109,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                 switch result {
                 case .failure(let error as AuthenticationError) where error.isVerificationRequired:
                     Queue.main.async {
-                        self.webAuth.start(self.connection.name, loginHint: identifier, screenHint: "login") { webAuthError in
-                            guard let webAuthError = webAuthError else { return callback(nil) }
-                            self.logger.error("Failed web-based verification of user <\(identifier)> with error \(webAuthError)")
-                            callback(.verificationFailure(error: webAuthError))
-                        }
+                        self.startWebAuth(loginHint: identifier, screenHint: "login", callback: callback)
                     }
                 default: self.handle(identifier: identifier, result: result, callback: callback)
                 }
@@ -123,10 +119,9 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
     func create(_ callback: @escaping (DatabaseUserCreatorError?, CredentialAuthError?) -> Void) {
         let databaseName = connection.name
 
-        guard
-            let email = self.email, self.validEmail,
-            let password = self.password, self.validPassword
-            else { return callback(.nonValidInput, nil) }
+        guard let email = self.email, self.validEmail, let password = self.password, self.validPassword else {
+            return callback(.nonValidInput, nil)
+        }
 
         guard !connection.requiresUsername || self.validUsername else { return callback(.nonValidInput, nil) }
 
@@ -139,6 +134,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
         let rootAttributes: [String: String]? = self.user.rootAttributes.isEmpty ? nil : self.user.rootAttributes
 
         let login = self.credentialAuth.request(withIdentifier: email, password: password, options: self.options)
+
         self.credentialAuth
             .authentication
             .createUser(
@@ -170,11 +166,7 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                     self.dispatcher.dispatch(result: .error(DatabaseUserCreatorError.passwordAlreadyUsed))
                 case .failure(let cause as AuthenticationError) where cause.isVerificationRequired:
                     Queue.main.async {
-                        self.webAuth.start(self.connection.name, loginHint: email, screenHint: "signup") { webAuthError in
-                            guard let webAuthError = webAuthError else { return callback(nil, nil) }
-                            self.logger.error("Failed web-based verification of user <\(email)> with error \(webAuthError)")
-                            callback(nil, .verificationFailure(error: webAuthError))
-                        }
+                        self.startWebAuth(loginHint: email, screenHint: "signup", callback: { callback(nil, $0) })
                     }
                 case .failure(let cause as AuthenticationError) where cause.code == "invalid_password" && cause.value("name") == "PasswordDictionaryError":
                     callback(.passwordTooCommon, nil)
@@ -192,6 +184,14 @@ struct DatabaseInteractor: DatabaseAuthenticatable, DatabaseUserCreator, Loggabl
                     callback(.couldNotCreateUser, nil)
                     self.dispatcher.dispatch(result: .error(DatabaseUserCreatorError.couldNotCreateUser))
                 }
+        }
+    }
+
+    private func startWebAuth(loginHint: String, screenHint: String, callback: @escaping (CredentialAuthError?) -> Void) {
+        self.webAuth.start(self.connection.name, loginHint: loginHint, screenHint: screenHint, useEphemeralSession: true) { webAuthError in
+            guard let webAuthError = webAuthError else { return callback(nil) }
+            self.logger.error("Failed web-based verification of user <\(loginHint)> with error \(webAuthError)")
+            callback(.verificationFailure(error: webAuthError))
         }
     }
 

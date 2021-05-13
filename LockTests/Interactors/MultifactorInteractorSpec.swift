@@ -23,6 +23,9 @@
 import Quick
 import Nimble
 import OHHTTPStubs
+#if SWIFT_PACKAGE
+import OHHTTPStubsSwift
+#endif
 
 import Auth0
 @testable import Lock
@@ -48,6 +51,39 @@ class MultifactorInteractorSpec: QuickSpec {
             dispatcher.onAuth = { credentials = $0 }
             connection = DatabaseConnection(name: "myConnection", requiresUsername: true)
             interactor = MultifactorInteractor(user: user, authentication: Auth0.authentication(clientId: clientId, domain: domain), connection: connection, options: options, dispatcher: dispatcher)
+        }
+
+        describe("OOB challenge") {
+
+            let mfaToken = "VALID_TOKEN"
+
+            describe("start challenge") {
+
+                it("should yield challenge on success") {
+                    let challengeType = "oob"
+                    let oobCode = "oob:\(UUID().uuidString)"
+                    let bindingMethod = "binding method"
+                    stub(condition: mfaChallengeStart(mfaToken: mfaToken)) { _ in return Auth0Stubs.multifactorChallenge(challengeType: challengeType, oobCode: oobCode, bindingMethod: bindingMethod) }
+                    waitUntil(timeout: .seconds(2)) { done in
+                        interactor.startMultifactorChallenge(mfaToken: mfaToken) { _ in
+                            expect(interactor.challenge?.challengeType) == challengeType
+                            expect(interactor.challenge?.oobCode) == oobCode
+                            expect(interactor.challenge?.bindingMethod) == bindingMethod
+                            done()
+                        }
+                    }
+                }
+
+                it("should yield error on failure") {
+                    stub(condition: mfaChallengeStart(mfaToken: mfaToken)) { _ in return Auth0Stubs.failure() }
+                    waitUntil(timeout: .seconds(2)) { done in
+                        interactor.startMultifactorChallenge(mfaToken: mfaToken) { _ in
+                            expect(interactor.challenge).to(beNil())
+                            done()
+                        }
+                    }
+                }
+            }
         }
 
         describe("updateCode") {
@@ -238,6 +274,42 @@ class MultifactorInteractorSpec: QuickSpec {
                         expect(error) == .customRuleFailure(cause: "Only admins can use this")
                         done()
                     }
+                }
+            }
+
+            describe("OOB challenge code") {
+
+                beforeEach {
+                    let oobCode = "oob:\(UUID().uuidString)"
+                    stub(condition: mfaChallengeStart(mfaToken: mfaToken)) { _ in return Auth0Stubs.multifactorChallenge(challengeType: "oob", oobCode: oobCode) }
+                    stub(condition: oobLogin(oob: oobCode, mfaToken: mfaToken, bindingCode: code)) { _ in return Auth0Stubs.authentication() }
+                }
+
+                it("should yield no error on success") {
+                    waitUntil(timeout: .seconds(2)) { done in
+                        interactor.startMultifactorChallenge(mfaToken: mfaToken) { _ in
+                            done()
+                        }
+                    }
+
+                    try! interactor.setMultifactorCode(code)
+                    waitUntil(timeout: .seconds(2)) { done in
+                        interactor.login { error in
+                            expect(error).to(beNil())
+                            done()
+                        }
+                    }
+                }
+
+                it("should yield credentials") {
+                    waitUntil(timeout: .seconds(2)) { done in
+                        interactor.startMultifactorChallenge(mfaToken: mfaToken) { _ in
+                            done()
+                        }
+                    }
+                    try! interactor.setMultifactorCode(code)
+                    interactor.login { _ in }
+                    expect(credentials).toEventuallyNot(beNil())
                 }
             }
         }

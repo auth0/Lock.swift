@@ -153,7 +153,7 @@ public class AuthButton: UIView {
         dimension(dimension: button.heightAnchor, greaterThanOrEqual: 50)
         button.translatesAutoresizingMaskIntoConstraints = false
 
-        iconView.image = self.icon ?? image(named: "ic_auth_auth0", compatibleWithTraitCollection: self.traitCollection)
+        iconView.image = self.icon ?? UIImage(named: "ic_auth_auth0", in: bundleForLock(), compatibleWith: self.traitCollection)
         iconView.contentMode = .center
         iconView.tintColor = self.titleColor
 

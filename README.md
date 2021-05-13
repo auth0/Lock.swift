@@ -41,29 +41,45 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md).
 
 ## Installation
 
-### Cocoapods
+#### Cocoapods
 
 If you are using [Cocoapods](https://cocoapods.org), add this line to your `Podfile`:
 
 ```ruby
-pod "Lock", "~> 2.20"
+pod "Lock", "~> 2.22"
 ```
 
 Then run `pod install`.
 
 > For more information on Cocoapods, check [their official documentation](https://guides.cocoapods.org/using/getting-started.html).
 
-### Carthage
+#### Carthage
 
 If you are using [Carthage](https://github.com/Carthage/Carthage), add the following line to your `Cartfile`:
 
 ```ruby
-github "auth0/Lock.swift" ~> 2.20
+github "auth0/Lock.swift" ~> 2.22
 ```
 
 Then run `carthage bootstrap`.
 
 > For more information about Carthage usage, check [their official documentation](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos).
+
+#### SPM
+
+If you are using the Swift Package Manager, open the following menu item in Xcode:
+
+**File > Swift Packages > Add Package Dependency...**
+
+In the **Choose Package Repository** prompt add this url: 
+
+```
+https://github.com/auth0/Lock.swift.git
+```
+
+Then press **Next** and complete the remaining steps.
+
+> For further reference on SPM, check [its official documentation](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app).
 
 ## Usage
 
@@ -224,7 +240,7 @@ iPad presentation is show in a modal popup, this can be disabled to use full scr
 ```swift
 .withStyle {
   $0.title = "Company LLC"
-  $0.logo = LazyImage(name: "company_logo")
+  $0.logo = UIImage(named: "company_logo")
   $0.primaryColor = UIColor(red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0)
 }
 ```
@@ -238,7 +254,7 @@ iPad presentation is show in a modal popup, this can be disabled to use full scr
   $0.oauth2["slack"] = AuthStyle(
       name: "Slack",
       color: UIColor(red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0),
-      withImage: LazyImage(name: "ic_slack")
+      withImage: UIImage(named: "ic_slack")
   )
 }
 ```
@@ -452,8 +468,8 @@ When signing up, your app may need to assign values to the user's profile that a
 ```swift
 .withOptions {
   $0.customSignupFields = [
-    CustomTextField(name: "first_name", placeholder: "First Name", storage: .rootAttribute, icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .givenName),
-    CustomTextField(name: "last_name", placeholder: "Last Name", storage: .rootAttribute, icon: LazyImage(name: "ic_person", bundle: Lock.bundle), contentType: .familyName),
+    CustomTextField(name: "first_name", placeholder: "First Name", storage: .rootAttribute, icon: UIImage(named: "ic_person", bundle: Lock.bundle), contentType: .givenName),
+    CustomTextField(name: "last_name", placeholder: "Last Name", storage: .rootAttribute, icon: UIImage(named: "ic_person", bundle: Lock.bundle), contentType: .familyName),
     CustomTextField(name: "referral_code", placeholder: "Referral Code", defaultValue: referralCode, hidden: true)
   ]
 }

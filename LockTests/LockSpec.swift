@@ -20,9 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import Foundation
+import UIKit
 import Quick
 import Nimble
 import Auth0
+
 @testable import Lock
 
 class LockSpec: QuickSpec {
@@ -209,7 +212,7 @@ class LockSpec: QuickSpec {
                 _ = lock.withStyle {
                     $0.title = "Test Title"
                     $0.primaryColor = UIColor.green
-                    $0.logo = LazyImage(name: "icn_auth0")
+                    $0.logo = UIImage(named: "ic_auth0", in: Lock.bundle)
                 }
             }
 
@@ -221,8 +224,8 @@ class LockSpec: QuickSpec {
                 expect(lock.style.primaryColor).to(equal(UIColor.green))
             }
             
-            it("logo should be match custom LazyImage") {
-                expect(lock.style.logo).to(equal(LazyImage(name: "icn_auth0")))
+            it("logo should be match custom UIImage") {
+                expect(lock.style.logo).to(equal(UIImage(named: "ic_auth0", in: Lock.bundle)))
             }
             
         }

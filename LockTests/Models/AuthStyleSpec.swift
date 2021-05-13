@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import UIKit
 import Quick
 import Nimble
 
@@ -57,8 +58,7 @@ class AuthStyleSpecSharedExamplesConfiguration: QuickConfiguration {
                 }
 
                 it("should have icon") {
-                    expect(style.image.name) == iconName
-                    expect(style.image.bundle) == Lock.bundle
+                    expect(style.image) == UIImage(named: iconName, in: Lock.bundle)
                 }
             }
         }
@@ -77,7 +77,7 @@ class AuthStyleSpec: QuickSpec {
             }
 
             it("should have default image") {
-                expect(strategy.image.name) == "ic_auth_auth0"
+                expect(strategy.image) == UIImage(named: "ic_auth_auth0", in: Lock.bundle)
             }
 
             it("should have default color") {
@@ -94,10 +94,6 @@ class AuthStyleSpec: QuickSpec {
 
             it("should not have default border color") {
                 expect(strategy.borderColor).to(beNil())
-            }
-
-            it("should have main bundle") {
-                expect(strategy.image.bundle) == bundleForLock()
             }
 
         }
@@ -254,5 +250,5 @@ extension AuthStyle: Equatable, CustomStringConvertible {
 }
 
 public func ==(lhs: AuthStyle, rhs: AuthStyle) -> Bool {
-    return lhs.name == rhs.name && lhs.normalColor == rhs.normalColor && lhs.highlightedColor == rhs.highlightedColor && lhs.foregroundColor == rhs.foregroundColor && lhs.image.name == rhs.image.name
+    return lhs.name == rhs.name && lhs.normalColor == rhs.normalColor && lhs.highlightedColor == rhs.highlightedColor && lhs.foregroundColor == rhs.foregroundColor && lhs.image == rhs.image
 }

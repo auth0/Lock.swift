@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 import Foundation
+import UIKit
 import Auth0
 
 /// Lock main class to configure and show the native widget
@@ -185,7 +186,7 @@ public class Lock: NSObject {
         .style {
             $0.title = "Auth0 Inc."
             $0.primaryColor = .orange
-            $0.logo = LazyImage(name: "icn_auth0")
+            $0.logo = UIImage(named: "icn_auth0")
         }
      ```
 

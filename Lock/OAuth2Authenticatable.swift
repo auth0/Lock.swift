@@ -23,7 +23,7 @@
 import Foundation
 
 protocol OAuth2Authenticatable {
-    func start(_ connection: String, loginHint: String?, screenHint: String?, callback: @escaping (OAuth2AuthenticatableError?) -> Void)
+    func start(_ connection: String, loginHint: String?, screenHint: String?, useEphemeralSession: Bool, callback: @escaping (OAuth2AuthenticatableError?) -> Void)
 }
 
 enum OAuth2AuthenticatableError: Error, LocalizableError {
