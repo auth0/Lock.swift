@@ -181,6 +181,7 @@
 		5FF45EA81E549EA2008224C8 /* Lock.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FF45EAA1E549EA2008224C8 /* Lock.strings */; };
 		5FFC54FE1D37E3F700579581 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC54FD1D37E3F700579581 /* Routes.swift */; };
 		B73CCF98908698EC6FE6B978 /* PasswordPolicyValidatorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */; };
+		D9906CA3264CE96300A4F0CC /* TermsCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9906CA2264CE96300A4F0CC /* TermsCheckbox.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -420,6 +421,7 @@
 		5FF45EA91E549EA2008224C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Lock.strings; sourceTree = "<group>"; };
 		5FFC54FD1D37E3F700579581 /* Routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Routes.swift; path = Lock/Routes.swift; sourceTree = SOURCE_ROOT; };
 		B73CCC32F59C19B95EC03F30 /* PasswordPolicyValidatorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordPolicyValidatorSpec.swift; sourceTree = "<group>"; };
+		D9906CA2264CE96300A4F0CC /* TermsCheckbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsCheckbox.swift; sourceTree = "<group>"; };
 		D9951675255C849000618815 /* GothamSSm-Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamSSm-Book.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -839,6 +841,7 @@
 				5FDB41CF1D2C95B100166B67 /* MessageView.swift */,
 				5F99AA891D1B360C00D27842 /* PrimaryButton.swift */,
 				5F99AA931D1BABFC00D27842 /* SecondaryButton.swift */,
+				D9906CA2264CE96300A4F0CC /* TermsCheckbox.swift */,
 				5BBD9E391E8E929E007EF625 /* IconButton.swift */,
 				5F51EE671D1C88FC0024BCD6 /* SignUpView.swift */,
 				5F51EE691D1CBC830024BCD6 /* SingleInputView.swift */,
@@ -1227,6 +1230,7 @@
 				5B3440C51E7C09A1009F8BF7 /* PasswordlessRouter.swift in Sources */,
 				5F2496BA1D665AE900A1C6E2 /* CredentialAuthError.swift in Sources */,
 				5B9A54461E4B2CB4004B5454 /* PasswordlessAuthenticatable.swift in Sources */,
+				D9906CA3264CE96300A4F0CC /* TermsCheckbox.swift in Sources */,
 				5B55F3CB1E242A2E00B75CF5 /* UnrecoverableErrorPresenter.swift in Sources */,
 				5F57DFC61D4F79DD00C54DA8 /* AuthStyle.swift in Sources */,
 				5B0971821DC8FAC5003AA88F /* EnterpriseDomainView.swift in Sources */,

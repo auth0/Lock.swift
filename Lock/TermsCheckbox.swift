@@ -68,8 +68,8 @@ class TermsCheckbox: UIView, Stylable {
     }
 
     private func layout(title: String?, inButton button: UIButton) {
-            button.setImage(UIImage(named: "checkbox.selected", compatibleWithTraitCollection: self.traitCollection), for: .selected)
-            button.setImage(UIImage(named: "checkbox", compatibleWithTraitCollection: self.traitCollection), for: .normal)
+            button.setImage(UIImage(named: "checkbox.selected", in: bundleForLock(), compatibleWithTraitCollection: self.traitCollection), for: .selected)
+            button.setImage(UIImage(named: "checkbox", in: bundleForLock(), compatibleWithTraitCollection: self.traitCollection), for: .normal)
     }
 
     override var intrinsicContentSize: CGSize {
