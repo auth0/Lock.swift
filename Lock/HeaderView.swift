@@ -228,7 +228,7 @@ public class HeaderView: UIView {
         constraintEqual(anchor: maskView.centerXAnchor, toAnchor: self.centerXAnchor)
 
         maskView.contentMode = .scaleToFill
-        maskView.image = UIImage(named: "ic_auth0", compatibleWithTraitCollection: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
+        maskView.image = UIImage(named: "ic_auth0", in: bundleForLock(), compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
         maskView.tintColor = self.maskColor
 
         self.maskImageView = maskView
