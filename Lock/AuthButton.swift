@@ -38,14 +38,14 @@ public class AuthButton: UIView {
 
     public var normalColor: UIColor = UIColor.a0_orange {
         didSet {
-            let normal = image(withColor: self.normalColor)
+            let normal = UIImage(withColor: self.normalColor)
             self.button?.setBackgroundImage(normal, for: .normal)
         }
     }
 
     public var highlightedColor: UIColor = UIColor.a0_orange.a0_darker(0.3) {
         didSet {
-            let highlighted = image(withColor: self.highlightedColor)
+            let highlighted = UIImage(withColor: self.highlightedColor)
             self.button?.setBackgroundImage(highlighted, for: .highlighted)
         }
     }
@@ -157,8 +157,8 @@ public class AuthButton: UIView {
         iconView.contentMode = .center
         iconView.tintColor = self.titleColor
 
-        button.setBackgroundImage(image(withColor: self.color), for: .normal)
-        button.setBackgroundImage(image(withColor: self.highlightedColor), for: .highlighted)
+        button.setBackgroundImage(UIImage(withColor: self.color), for: .normal)
+        button.setBackgroundImage(UIImage(withColor: self.highlightedColor), for: .highlighted)
         button.setTitleColor(self.titleColor, for: .normal)
 //        button.titleLabel?.font = .systemFont(ofSize: 16, weight: UIFont.weightMedium)
         button.titleLabel?.font = UIFont(name: "GothamSSm-Book", size: 16)

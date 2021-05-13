@@ -112,15 +112,16 @@ class PrimaryButton: UIView, Stylable {
 //        guard let title = title, !self.hideTitle else {
 //        print(title)
         if title == "Create Account" {
-            button.setImage(image(named: "create_account_button", compatibleWithTraitCollection: self.traitCollection), for: .normal)
+            button.setImage(UIImage(named: "create_account_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
             button.setImage(UIImage(), for: .disabled)
         } else if title == "LOG IN" {
-            button.setImage(image(named: "login_button", compatibleWithTraitCollection: self.traitCollection), for: .normal)
+            button.setImage(UIImage(named: "login_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
             button.setImage(UIImage(), for: .disabled)
         } else  {
-            button.setImage(image(named: "send_email_button", compatibleWithTraitCollection: self.traitCollection), for: .normal)
+            button.setImage(UIImage(named: "send_email_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
             button.setImage(UIImage(), for: .disabled)
         }
+
 //            return
 //        }
 

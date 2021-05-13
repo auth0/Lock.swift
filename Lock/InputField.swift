@@ -63,7 +63,7 @@ class InputField: UIView, Stylable {
                 self.textField?.textContentType = type.contentType
             }
 //            if let icon = type.icon {
-//                self.iconView?.image = icon.image(compatibleWithTraits: self.traitCollection)
+//                self.iconView?.image = icon.UIImage(compatibleWithTraits: self.traitCollection)
 //            } else
             if let textField = self.textField, let container = self.containerView {
                 self.iconContainer?.removeFromSuperview()
@@ -232,7 +232,7 @@ class InputField: UIView, Stylable {
         guard let container = self.containerView, let textField = self.textField else { return nil }
 
         let button = IconButton()
-        button.icon = LazyImage(name: name, bundle: Lock.bundle).image(compatibleWithTraits: self.traitCollection)
+        button.icon = UIImage(name: name, bundle: Lock.bundle).image(compatibleWithTraits: self.traitCollection)
         button.color = color
         container.addSubview(button)
 
@@ -347,17 +347,17 @@ class InputField: UIView, Stylable {
         var icon: LazyImage? {
             switch self {
             case .email:
-                return lazyImage(named: "ic_mail")
+                return UIImage(named: "ic_mail")
             case .username:
-                return lazyImage(named: "ic_person")
+                return UIImage(named: "ic_person")
             case .emailOrUsername:
-                return lazyImage(named: "ic_mail")
+                return UIImage(named: "ic_mail")
             case .password:
-                return lazyImage(named: "ic_lock")
+                return UIImage(named: "ic_lock")
             case .phone:
-                return lazyImage(named: "ic_phone")
+                return UIImage(named: "ic_phone")
             case .oneTimePassword:
-                return lazyImage(named: "ic_lock")
+                return UIImage(named: "ic_lock")
             case .custom(_, _, _, _, let icon, _, _, _, _, _, _):
                 return icon
             }
