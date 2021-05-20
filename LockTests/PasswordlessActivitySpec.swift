@@ -105,22 +105,50 @@ class PasswordlessActivitySpec: QuickSpec {
                 activity = NSUserActivity(activityType: NSUserActivityTypeBrowsingWeb)
             }
 
-            it("should use passcode in transaction auth and yield credentials") {
-                stub(condition: databaseLogin(identifier: identifier, password: "12345678", connection: "customsms")) { _ in return Auth0Stubs.authentication() }
-                passwordlessActivity.store(passwordlessTransaction)
-                activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=12345678")
-                expect(passwordlessActivity.continueAuth(withActivity: activity)) == true
-                expect(credentials).toEventuallyNot(beNil())
-                expect(errorCode).toEventually(beNil())
-            }
+            context("non-oidc conformant") {
+                it("should use passcode in transaction auth and yield credentials") {
+                    stub(condition: databaseLogin(identifier: identifier, password: "12345678", connection: "customsms")) { _ in return Auth0Stubs.authentication() }
+                    passwordlessActivity.store(passwordlessTransaction)
+                    activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=12345678")
+                    expect(passwordlessActivity.continueAuth(withActivity: activity)) == true
+                    expect(credentials).toEventuallyNot(beNil())
+                    expect(errorCode).toEventually(beNil())
+                }
 
-            it("should use passcode in transaction auth and fail") {
-                stub(condition: databaseLogin(identifier: identifier, password: "12345678", connection: "customsms")) { _ in return Auth0Stubs.failure("invalid_user_password")}
-                passwordlessActivity.store(passwordlessTransaction)
-                activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=12345678")
-                expect(passwordlessActivity.continueAuth(withActivity: activity)) == true
-                expect(credentials).toEventually(beNil())
-                expect(errorCode).toEventuallyNot(beNil())
+                it("should use passcode in transaction auth and fail") {
+                    stub(condition: databaseLogin(identifier: identifier, password: "12345678", connection: "customsms")) { _ in return Auth0Stubs.failure("invalid_user_password")}
+                    passwordlessActivity.store(passwordlessTransaction)
+                    activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=12345678")
+                    expect(passwordlessActivity.continueAuth(withActivity: activity)) == true
+                    expect(credentials).toEventually(beNil())
+                    expect(errorCode).toEventuallyNot(beNil())
+                }
+            }
+            
+            context("oidc conformant") {
+
+                beforeEach {
+                    options.oidcConformant = true
+                    passwordlessTransaction = PasswordlessLinkTransaction(connection: "email", options: options, identifier: identifier, authentication: authentication, dispatcher: dispatcher)
+                }
+
+                it("should use passcode in transaction auth and yield credentials") {
+                    stub(condition: passwordlessLogin(username: identifier, otp: "12345678", realm: "email")) { _ in return Auth0Stubs.authentication() }
+                    passwordlessActivity.store(passwordlessTransaction)
+                    activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=12345678")
+                    expect(passwordlessActivity.continueAuth(withActivity: activity)) == true
+                    expect(credentials).toEventuallyNot(beNil())
+                    expect(errorCode).toEventually(beNil())
+                }
+
+                it("should use passcode in transaction auth and fail") {
+                    stub(condition: passwordlessLogin(username: identifier, otp: "12345678", realm: "email")) { _ in return Auth0Stubs.failure("invalid_link")}
+                    passwordlessActivity.store(passwordlessTransaction)
+                    activity.webpageURL = URL(string: "http://testdomain.auth0.com/" + Bundle.main.bundleIdentifier!.lowercased() + "/?code=12345678")
+                    expect(passwordlessActivity.continueAuth(withActivity: activity)) == true
+                    expect(credentials).toEventually(beNil())
+                    expect(errorCode).toEventuallyNot(beNil())
+                }
             }
 
         }
