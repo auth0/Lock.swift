@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.22.3](https://github.com/auth0/Lock.swift/tree/2.22.3) (2021-06-07)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.22.2...2.22.3)
+
+**Changed**
+- Make test dependencies not resolve when installing with SPM [SDK-2601] [\#671](https://github.com/auth0/Lock.swift/pull/671) ([Widcket](https://github.com/Widcket))
+
 ## [2.22.2](https://github.com/auth0/Lock.swift/tree/2.22.2) (2021-05-20)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.22.1...2.22.2)
 
