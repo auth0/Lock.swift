@@ -251,6 +251,19 @@ public class Lock: NSObject {
     }
 
     /**
+     Register a callback to be notified when a user requests a password reset.
+     The callback will yield the user identifier.
+
+     - parameter callback: called when a user requests a password reset.
+
+     - returns: Lock itself for chaining
+     */
+    public func onForgotPassword(callback: @escaping (String) -> Void) -> Lock {
+        self.observerStore.onForgotPassword = callback
+        return self
+    }
+
+    /**
      Presents Lock from the given controller
 
      - parameter controller: controller from where Lock is presented
@@ -277,7 +290,7 @@ public class Lock: NSObject {
         return self
     }
 
-        /// Lock's Bundle. Useful for getting bundled resources like images.
+    /// Lock's Bundle. Useful for getting bundled resources like images.
     public static var bundle: Bundle {
         return bundleForLock()
     }
