@@ -179,7 +179,7 @@ class LockSpec: QuickSpec {
             it("should register onForgotPassword callback") {
                 var email: String? = nil
                 let callback: (String) -> () = { email = $0 }
-                let _ = lock.onForgotPassword(callback)
+                let _ = lock.onForgotPassword(callback: callback)
                 lock.observerStore.onForgotPassword("mail@mail.com")
                 expect(email) == "mail@mail.com"
             }
