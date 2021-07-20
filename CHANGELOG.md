@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.23.0](https://github.com/auth0/Lock.swift/tree/2.23.0) (2021-07-20)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.22.3...2.23.0)
+
+**Added**
+- Expose onForgotPassword [SDK-2632] [\#673](https://github.com/auth0/Lock.swift/pull/673) ([Widcket](https://github.com/Widcket))
+
 ## [2.22.3](https://github.com/auth0/Lock.swift/tree/2.22.3) (2021-06-07)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.22.2...2.22.3)
 
