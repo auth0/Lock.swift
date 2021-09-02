@@ -1,7 +1,6 @@
-version = `agvtool mvers -terse1`.strip
 Pod::Spec.new do |s|
   s.name             = "Lock"
-  s.version          = version
+  s.version          = '2.23.0'
   s.summary          = "A library that uses Auth0 for Authentication with Native Look & Feel"
   s.description      = <<-DESC
 [![Auth0](https://i.cloudup.com/1vaSVATKTL.png)](http://auth0.com)
@@ -26,6 +25,6 @@ Auth0 is a SaaS that helps you with Authentication and Authorization. You can us
     classic.ios.resource = ["Lock/*.xcassets", "Lock/*.lproj", "Lock/passwordless_country_codes.plist"]
   end
 
-  s.swift_versions = ['4.0', '4.1', '4.2', '5.0', '5.1', '5.2', '5.3']
+  s.swift_versions = ['4.0', '4.1', '4.2', '5.0', '5.1', '5.2', '5.3', '5.4']
 
 end

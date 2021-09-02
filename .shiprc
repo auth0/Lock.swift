@@ -1,6 +1,7 @@
 {
     "files": {
         "Lock/Info.plist": [],
+        "Lock.podspec": [],
         "README.md": ["~> {MAJOR}.{MINOR}"]
     },
     "postbump": "bundle update",
