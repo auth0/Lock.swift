@@ -40,24 +40,9 @@ class CDNLoaderInteractorSpec: QuickSpec {
 
         describe("init") {
 
-            it("should build url from non-auth0 domain") {
-                let loader = CDNLoaderInteractor(baseURL: URL(string: "https://somewhere.far.beyond")!, clientId: clientId)
-                expect(loader.url.absoluteString) == "https://somewhere.far.beyond/client/\(clientId).js"
-            }
-
-            it("should build url from auth0 domain") {
+            it("should use the base url to load strategies") {
                 let loader = CDNLoaderInteractor(baseURL: URL(string: "https://samples.auth0.com")!, clientId: clientId)
-                expect(loader.url.absoluteString) == "https://cdn.auth0.com/client/\(clientId).js"
-            }
-
-            it("should build url from auth0 domain for eu region") {
-                let loader = CDNLoaderInteractor(baseURL: URL(string: "https://samples.eu.auth0.com")!, clientId: clientId)
-                expect(loader.url.absoluteString) == "https://cdn.eu.auth0.com/client/\(clientId).js"
-            }
-
-            it("should build url from auth0 domain for au region") {
-                let loader = CDNLoaderInteractor(baseURL: URL(string: "https://samples.au.auth0.com")!, clientId: clientId)
-                expect(loader.url.absoluteString) == "https://cdn.au.auth0.com/client/\(clientId).js"
+                expect(loader.url.absoluteString) == "https://samples.auth0.com/client/\(clientId).js"
             }
 
         }

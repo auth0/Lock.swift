@@ -148,7 +148,7 @@ func isOAuthAccessToken(_ domain: String) -> HTTPStubsTestBlock {
 }
 
 func isCDN(forClientId clientId: String) -> HTTPStubsTestBlock {
-    return isMethodGET() && isHost("cdn.auth0.com") && isPath("/client/\(clientId).js")
+    return isMethodGET() && isHost("overmind.auth0.com") && isPath("/client/\(clientId).js")
 }
 
 // MARK: - Response Stubs
