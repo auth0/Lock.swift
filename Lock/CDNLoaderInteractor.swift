@@ -30,7 +30,7 @@ struct CDNLoaderInteractor: RemoteConnectionLoader, Loggable {
     let url: URL
 
     init(baseURL: URL, clientId: String) {
-        self.url = URL(string: "client/\(clientId).js", relativeTo: cdnURL(from: baseURL))!
+        self.url = URL(string: "client/\(clientId).js", relativeTo: baseURL)!
     }
 
     func load(_ callback: @escaping (UnrecoverableError?, Connections?) -> Void) {
@@ -230,12 +230,4 @@ private struct ConnectionInfo {
         self.json = json
         self.name = name
     }
-}
-
-private func cdnURL(from url: URL) -> URL {
-    guard let host = url.host, host.hasSuffix(".auth0.com") else { return url }
-    let components = host.components(separatedBy: ".")
-    guard components.count == 4 else { return URL(string: "https://cdn.auth0.com")! }
-    let region = components[1]
-    return URL(string: "https://cdn.\(region).auth0.com")!
 }
