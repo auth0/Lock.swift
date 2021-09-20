@@ -115,7 +115,7 @@ public class EmailValidator: InputValidator {
     }
 }
 
-protocol PasswordPolicyValidatorDelegate: class {
+protocol PasswordPolicyValidatorDelegate: AnyObject {
     func update(withRules rules: [RuleResult])
 }
 

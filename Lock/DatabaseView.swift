@@ -22,7 +22,7 @@
 
 import UIKit
 
-protocol DatabaseView: class, View {
+protocol DatabaseView: AnyObject, View {
     var form: Form? { get }
     var secondaryButton: SecondaryButton? { get }
     var primaryButton: PrimaryButton? { get }

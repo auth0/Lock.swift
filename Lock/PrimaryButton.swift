@@ -36,7 +36,7 @@ class PrimaryButton: UIView, Stylable {
         }
     }
 
-    var title: String? = nil {
+    var title: String? {
         didSet {
             guard let button = self.button else { return }
             self.layout(title: self.title, inButton: button)
