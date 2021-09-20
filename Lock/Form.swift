@@ -22,7 +22,7 @@
 
 import Foundation
 
-protocol Form: class {
+protocol Form: AnyObject {
     var onValueChange: (InputField) -> Void { get set }
     var onReturn: (InputField) -> Void { get set }
     var onSubmit: (InputField) -> Bool { get set }
