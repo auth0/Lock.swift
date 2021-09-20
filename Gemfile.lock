@@ -273,10 +273,8 @@ PLATFORMS
 
 DEPENDENCIES
   cocoapods (>= 1.8.4)
-  dotenv (~> 2.4)
   fastlane (>= 2.127.2)
   fastlane-plugin-auth0_shipper
-  jwt (~> 2.1)
 
 BUNDLED WITH
    2.2.24
