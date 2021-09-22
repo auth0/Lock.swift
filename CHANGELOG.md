@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.23.1](https://github.com/auth0/Lock.swift/tree/2.23.1) (2021-09-21)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.23.0...2.23.1)
+
+**Changed**
+- Use tenant.locality.auth0.com as CDN URL [SDK-2709] [\#679](https://github.com/auth0/Lock.swift/pull/679) ([Widcket](https://github.com/Widcket))
+
+**Fixed**
+- Fixed warnings [\#680](https://github.com/auth0/Lock.swift/pull/680) ([Widcket](https://github.com/Widcket))
+
 ## [2.23.0](https://github.com/auth0/Lock.swift/tree/2.23.0) (2021-07-20)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.22.3...2.23.0)
 
