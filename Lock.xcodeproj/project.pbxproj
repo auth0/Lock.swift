@@ -78,7 +78,6 @@
 		5C53A8112703F4E100A7C0A3 /* JWTDecode.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5C53A8022703F4AB00A7C0A3 /* JWTDecode.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5C53A8122703F4E100A7C0A3 /* SimpleKeychain.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C53A8002703F4AB00A7C0A3 /* SimpleKeychain.xcframework */; };
 		5C53A8132703F4E100A7C0A3 /* SimpleKeychain.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5C53A8002703F4AB00A7C0A3 /* SimpleKeychain.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5C53A8142703F4FF00A7C0A3 /* Auth0.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C53A8062703F4B900A7C0A3 /* Auth0.xcframework */; };
 		5F0FCF901E20117E00E3D53B /* ObserverStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */; };
 		5F0FCF921E201CF300E3D53B /* ObserverStoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0FCF911E201CF300E3D53B /* ObserverStoreSpec.swift */; };
 		5F14565A1D5130E80085DF9C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1456591D5130E80085DF9C /* Colors.swift */; };
@@ -174,7 +173,6 @@
 		5FEADD011D1A7EBC0032D810 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FEADCFF1D1A7EBC0032D810 /* LaunchScreen.storyboard */; };
 		5FEADD071D1A7EFC0032D810 /* Lock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FEAE1C61D1A5154005C0028 /* Lock.framework */; };
 		5FEAE1CA1D1A5154005C0028 /* Lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEAE1C91D1A5154005C0028 /* Lock.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FEAE1D11D1A5154005C0028 /* Lock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FEAE1C61D1A5154005C0028 /* Lock.framework */; };
 		5FEAE2101D1A5691005C0028 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAE20F1D1A5691005C0028 /* HeaderView.swift */; };
 		5FEEE8181DB6AC8E00B4DFED /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE8171DB6AC8E00B4DFED /* Rule.swift */; };
 		5FEEE81A1DB6AF3800B4DFED /* RuleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEE8191DB6AF3800B4DFED /* RuleSpec.swift */; };
@@ -453,7 +451,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C53A8142703F4FF00A7C0A3 /* Auth0.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,7 +461,6 @@
 				5C53A7FA2703F48100A7C0A3 /* Quick.xcframework in Frameworks */,
 				5C53A7FB2703F48100A7C0A3 /* Nimble.xcframework in Frameworks */,
 				5C53A7FC2703F48100A7C0A3 /* OHHTTPStubs.xcframework in Frameworks */,
-				5FEAE1D11D1A5154005C0028 /* Lock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
