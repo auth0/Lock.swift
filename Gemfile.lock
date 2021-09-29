@@ -276,8 +276,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cocoapods (>= 1.8.4)
-  fastlane (>= 2.127.2)
+  cocoapods
+  fastlane
   fastlane-plugin-auth0_shipper
 
 BUNDLED WITH
