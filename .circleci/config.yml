@@ -1,8 +1,13 @@
 version: 2.1
 
 executors:
-  job-environment:
+  macos-executor:
+    parameters:
+      xcode:
+        type: string
     shell: /bin/bash --login -eo pipefail
+    macos:
+      xcode: << parameters.xcode >>
     environment:
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
@@ -19,63 +24,76 @@ executors:
 commands:
   prepare:
     parameters:
-      ruby:
+      scheme:
         type: string
-        default: "2.7.1p83"
-      xcode:
-        type: string
-        default: "11.7.0"
     steps:
       - restore_cache:
           keys:
-          - lock-swift-gems-{{ checksum "Gemfile.lock" }}
-          - lock-swift-gems-
-      - run: |
-          echo "ruby-<< parameters.ruby >>" > ~/.ruby-version
-          bundle check || bundle install --without=development
+            - << parameters.scheme >>-v1-gems-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Install gems
+          command: bundle check || bundle install --without=development
       - save_cache:
-          key: lock-swift-gems-{{ checksum "Gemfile.lock" }}
+          key: << parameters.scheme >>-v1-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-      - run: |
-          brew install swiftlint
+      - run:
+          name: Install Swiftlint
+          command: brew install swiftlint
+      - run:
+          name: Save Xcode version
+          command: xcodebuild -version | tee .xcode-version
       - restore_cache:
           keys:
-            - lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
-            - lock-swift-carthage-{ checksum "Cartfile.resolved" }}
-            - lock-swift-carthage-
-      - run: bundle exec fastlane ios bootstrap
+            - << parameters.scheme >>-v1-carthage-{{ checksum "Cartfile.resolved" }}-{{ checksum ".xcode-version" }}
+      - run:
+          name: Install dependencies
+          command: carthage bootstrap --use-xcframeworks --no-use-binaries --cache-builds --platform iOS
       - save_cache:
-          key: lock-swift-carthage-{ checksum "Cartfile.resolved" }}-<< parameters.xcode >>
+          key: << parameters.scheme >>-v1-carthage-{{ checksum "Cartfile.resolved" }}-{{ checksum ".xcode-version" }}
           paths:
             - Carthage/Build
-  test:
-    steps: 
-      - run: bundle exec fastlane ios ci
-  pod-lint:
+  test-ios:
+    parameters:
+      scheme:
+        type: string
     steps:
-      - run: bundle exec fastlane ios pod_lint
-  send-coverage-report:
-    steps:
-      - run: bash <(curl -s https://codecov.io/bash) -J 'Lock'
-
-jobs:
-  build-and-test-swift-5_2:
-    executor: job-environment
-    macos:
-      xcode: 11.7.0
-    steps:
-      - checkout
-      - prepare
-      - test
-      - send-coverage-report
-      - pod-lint
+      - run:
+          name: Run iOS tests
+          command: bundle exec fastlane ios ci
+      - run:
+          name: Upload coverage report
+          command: bash <(curl -s https://codecov.io/bash) -J '<< parameters.scheme >>'
+      - run:
+          name: Run pod lib lint
+          command: bundle exec fastlane ios pod_lint
       - store_test_results:
           path: output/scan
       - store_artifacts:
           path: output
 
+jobs:
+  build-and-test:
+    parameters:
+      xcode:
+        type: string
+      scheme:
+        type: string
+    executor:
+      name: macos-executor
+      xcode: << parameters.xcode >>
+    steps:
+      - checkout
+      - prepare:
+          scheme: << parameters.scheme >>
+      - test-ios:
+          scheme: << parameters.scheme >>
+
 workflows:
   build:
     jobs:
-      -  build-and-test-swift-5_2
+      - build-and-test:
+          scheme: "Lock"
+          matrix:
+            parameters:
+              xcode: ["13.0.0", "12.5.1"]

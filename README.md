@@ -5,7 +5,7 @@
 [![Version](https://img.shields.io/cocoapods/v/Lock.svg?style=flat-square)](https://cocoadocs.org/docsets/Lock)
 [![License](https://img.shields.io/cocoapods/l/Lock.svg?style=flat-square)](https://cocoadocs.org/docsets/Lock)
 [![Platform](https://img.shields.io/cocoapods/p/Lock.svg?style=flat-square)](https://cocoadocs.org/docsets/Lock)
-![Swift 5.3](https://img.shields.io/badge/Swift-5.3-orange.svg?style=flat-square)
+![Swift 5.5](https://img.shields.io/badge/Swift-5.5-orange.svg?style=flat-square)
 
 [Auth0](https://auth0.com) is an authentication broker that supports social identity providers as well as enterprise identity providers such as Active Directory, LDAP, Google Apps and Salesforce.
 
@@ -36,7 +36,7 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md).
 ## Requirements
 
 - iOS 9+
-- Xcode 11.4+ / 12.x
+- Xcode 12.x / 13.x
 - Swift 4.x / 5.x
 
 ## Installation
@@ -61,7 +61,7 @@ If you are using [Carthage](https://github.com/Carthage/Carthage), add the follo
 github "auth0/Lock.swift" ~> 2.23
 ```
 
-Then run `carthage bootstrap`.
+Then run `carthage bootstrap --use-xcframeworks --platform iOS`.
 
 > For more information about Carthage usage, check [their official documentation](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos).
 

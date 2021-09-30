@@ -1,4 +1,4 @@
 scheme "Lock"
-device "iPhone 11"
+device "iPhone 12"
 
 clean true
