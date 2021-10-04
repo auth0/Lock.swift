@@ -96,11 +96,7 @@ class PasswordlessPresenter: Presentable, Loggable {
             action(button)
         }
         view.secondaryButton?.onPress = { _ in
-            if self.options.passwordlessMethod == .magicLink {
-                self.navigator.navigate(Route.passwordless(screen: .code, connection: self.connection))
-            } else {
-                self.navigator.onBack()
-            }
+            self.navigator.onBack()
         }
 
         return view
@@ -178,7 +174,11 @@ class PasswordlessPresenter: Presentable, Loggable {
                           countryCode: self.interactor.countryCode,
                           method: self.options.passwordlessMethod)
         view.secondaryButton?.onPress = { _ in
-            self.navigator.onBack()
+            if self.options.passwordlessMethod == .magicLink {
+                self.navigator.navigate(Route.passwordless(screen: .code, connection: self.connection))
+            } else {
+                self.navigator.onBack()
+            }
         }
         return view
     }
