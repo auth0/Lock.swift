@@ -246,6 +246,8 @@
 "com.auth0.passwordless.email.title.social" = "Otherwise, enter your email to sign in or create an account.";
 // Passwordless link reminder action
 "com.auth0.passwordless.link.reminder" = "Did not receive the link?";
+// Passwordless input link code manually action
+"com.auth0.passwordless.link.code" = "I have a code";
 // Passwordless link sent to %@{identifier}
 "com.auth0.passwordless.link.sent" = "We sent you a link to sign in to %1$@";
 // Passwordless code sent by sms to %@{identifier}

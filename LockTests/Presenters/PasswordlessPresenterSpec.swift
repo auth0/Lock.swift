@@ -282,6 +282,14 @@ class PasswordlessPresenterSpec: QuickSpec {
                 it("should expect title on secondary button") {
                     expect(view.secondaryButton!.title).to(contain("Did not receive the link"))
                 }
+
+                it("should expect title on secondary button if using magic links") {
+                    options.passwordlessMethod = .magicLink
+                    presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
+                    view = presenter.view as? PasswordlessView
+
+                    expect(view.secondaryButton!.title).to(contain("I have a code"))
+                }
                 
             }
         }
@@ -537,9 +545,15 @@ class PasswordlessPresenterSpec: QuickSpec {
                     expect(view.secondaryButton!.title).to(contain("Did not receive the link"))
                 }
                 
+                it("should expect title on secondary button if using magic links") {
+                    options.passwordlessMethod = .magicLink
+                    presenter = PasswordlessPresenter(interactor: interactor, connection: connection, navigator: navigator, options: options, screen: screen)
+                    view = presenter.view as? PasswordlessView
+
+                    expect(view.secondaryButton!.title).to(contain("I have a code"))
+                }
+
             }
         }
     }
 }
-
-

@@ -170,9 +170,15 @@ class PasswordlessPresenter: Presentable, Loggable {
 
     private func showLinkSent() -> View {
         let view = PasswordlessView()
-        view.showLinkSent(identifier: self.interactor.identifier, countryCode: self.interactor.countryCode)
+        view.showLinkSent(identifier: self.interactor.identifier,
+                          countryCode: self.interactor.countryCode,
+                          method: self.options.passwordlessMethod)
         view.secondaryButton?.onPress = { _ in
-            self.navigator.onBack()
+            if self.options.passwordlessMethod == .magicLink {
+                self.navigator.navigate(Route.passwordless(screen: .code, connection: self.connection))
+            } else {
+                self.navigator.onBack()
+            }
         }
         return view
     }

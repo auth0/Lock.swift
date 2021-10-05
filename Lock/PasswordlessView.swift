@@ -158,7 +158,7 @@ class PasswordlessView: UIView, View {
         self.container?.addArrangedSubview(secondaryButton)
     }
 
-    func showLinkSent(identifier: String?, countryCode: CountryCode?) {
+    func showLinkSent(identifier: String?, countryCode: CountryCode?, method: PasswordlessMethod) {
         let secondaryButton = SecondaryButton()
         let imageView = UIImageView()
         let messageLabel = UILabel()
@@ -191,7 +191,11 @@ class PasswordlessView: UIView, View {
         messageLabel.textColor = Style.Auth0.textColor
         messageLabel.text = String(format: "We sent you a link to sign in to %1$@".i18n(key: "com.auth0.passwordless.link.sent", comment: "Passwordless link sent to %@{identifier}"),
                                    displayIdentifier)
-        secondaryButton.title = "Did not receive the link?".i18n(key: "com.auth0.passwordless.link.reminder", comment: "Passwordless link reminder action")
+        if method == .magicLink {
+            secondaryButton.title = "I have a code".i18n(key: "com.auth0.passwordless.link.code", comment: "Passwordless input link code manually action")
+        } else {
+            secondaryButton.title = "Did not receive the link?".i18n(key: "com.auth0.passwordless.link.reminder", comment: "Passwordless link reminder action")
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
