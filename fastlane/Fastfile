@@ -77,13 +77,9 @@ platform :ios do
     ENV["FASTLANE_HIDE_TIMESTAMP"] = "false"
   end
 
-  desc "Performs the prepared release by creating a tag and pushing to remote"
-  lane :release_perform do
+  desc "Tags the release and pushes the Podspec to CocoaPods"
+  lane :release do
     perform_release target: 'Lock.iOS'
-  end
-
-  desc "Releases the library to CocoaPods trunk & Github Releases"
-  lane :release_publish do
     publish_release repository: 'Lock.swift'
   end
 end
