@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.24.0](https://github.com/auth0/Lock.swift/tree/2.24.0) (2021-10-12)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.23.1...2.24.0)
+
+**Added**
+- Add ability to input code when using magic links [SDK-2826] [\#684](https://github.com/auth0/Lock.swift/pull/684) ([Widcket](https://github.com/Widcket))
+
 ## [2.23.1](https://github.com/auth0/Lock.swift/tree/2.23.1) (2021-09-21)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.23.0...2.23.1)
 
