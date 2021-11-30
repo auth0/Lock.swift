@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.24.1](https://github.com/auth0/Lock.swift/tree/2.24.1) (2021-11-30)
+[Full Changelog](https://github.com/auth0/Lock.swift/compare/2.24.0...2.24.1)
+
+**Fixed**
+- Add `Carthage/Build` to the frameworks search path [\#690](https://github.com/auth0/Lock.swift/pull/690) ([Widcket](https://github.com/Widcket))
+
 ## [2.24.0](https://github.com/auth0/Lock.swift/tree/2.24.0) (2021-10-12)
 [Full Changelog](https://github.com/auth0/Lock.swift/compare/2.23.1...2.24.0)
 
