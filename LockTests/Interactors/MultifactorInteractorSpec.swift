@@ -202,6 +202,17 @@ class MultifactorInteractorSpec: QuickSpec {
                     }
                 }
             }
+
+            it("should indicate that a custom action prevented the user from logging in") {
+                stub(condition: databaseLogin(identifier: email, password: password, code: code, connection: connection.name)) { _ in return Auth0Stubs.failure("access_denied", description: "Only admins can use this") }
+                try! interactor.setMultifactorCode(code)
+                waitUntil(timeout: .seconds(2)) { done in
+                    interactor.login { error in
+                        expect(error) == .customActionFailure(cause: "Only admins can use this")
+                        done()
+                    }
+                }
+            }
         }
         
         describe("login OIDC") {
@@ -272,6 +283,17 @@ class MultifactorInteractorSpec: QuickSpec {
                 waitUntil(timeout: .seconds(2)) { done in
                     interactor.login { error in
                         expect(error) == .customRuleFailure(cause: "Only admins can use this")
+                        done()
+                    }
+                }
+            }
+
+            it("should indicate that a custom action prevented the user from logging in") {
+                stub(condition: otpLogin(otp: code, mfaToken: mfaToken)) { _ in return Auth0Stubs.failure("access_denied", description: "Only admins can use this") }
+                try! interactor.setMultifactorCode(code)
+                waitUntil(timeout: .seconds(2)) { done in
+                    interactor.login { error in
+                        expect(error) == .customActionFailure(cause: "Only admins can use this")
                         done()
                     }
                 }

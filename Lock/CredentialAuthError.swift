@@ -34,6 +34,7 @@ enum CredentialAuthError: Error, LocalizableError {
     case multifactorRequired
     case multifactorInvalid
     case customRuleFailure(cause: String)
+    case customActionFailure(cause: String)
     case verificationFailure(error: LocalizableError)
 
     var localizableMessage: String {
@@ -51,6 +52,8 @@ enum CredentialAuthError: Error, LocalizableError {
         case .multifactorInvalid:
             return "WRONG CODE.".i18n(key: "com.auth0.lock.error.authentication.mfa_invalid_code", comment: "a0.mfa_invalid_code")
         case .customRuleFailure(let cause):
+            return cause
+        case .customActionFailure(let cause):
             return cause
         case .verificationFailure(let error):
             return error.localizableMessage
@@ -95,6 +98,8 @@ extension CredentialAuthError: Equatable {
         case (.multifactorInvalid, .multifactorInvalid):
             return true
         case (.customRuleFailure(let lhsCause), .customRuleFailure(let rhsCause)):
+            return lhsCause == rhsCause
+        case (.customActionFailure(let lhsCause), .customActionFailure(let rhsCause)):
             return lhsCause == rhsCause
         case (.verificationFailure(let lhsError), .verificationFailure(let rhsError)):
             return lhsError.localizableMessage == rhsError.localizableMessage

@@ -594,6 +594,18 @@ class DatabaseInteractorSpec: QuickSpec {
                     }
                 }
             }
+
+            it("should indicate that a custom action prevented the user from logging in") {
+                stub(condition: databaseLogin(identifier: email, password: password, connection: connection)) { _ in return Auth0Stubs.failure("access_denied", description: "Only admins can use this") }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
+                waitUntil(timeout: .seconds(2)) { done in
+                    database.login { error in
+                        expect(error) == .customActionFailure(cause: "Only admins can use this")
+                        done()
+                    }
+                }
+            }
         }
         
         //MARK:- Login OIDC
@@ -813,6 +825,18 @@ class DatabaseInteractorSpec: QuickSpec {
                 waitUntil(timeout: .seconds(2)) { done in
                     database.login { error in
                         expect(error) == .customRuleFailure(cause: "Only admins can use this")
+                        done()
+                    }
+                }
+            }
+
+            it("should indicate that a custom action prevented the user from logging in") {
+                stub(condition: realmLogin(identifier: email, password: password, realm: connection)) { _ in return Auth0Stubs.failure("access_denied", description: "Only admins can use this") }
+                try! database.update(.email, value: email)
+                try! database.update(.password(enforcePolicy: false), value: password)
+                waitUntil(timeout: .seconds(2)) { done in
+                    database.login { error in
+                        expect(error) == .customActionFailure(cause: "Only admins can use this")
                         done()
                     }
                 }

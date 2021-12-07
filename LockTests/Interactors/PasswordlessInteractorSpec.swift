@@ -203,7 +203,19 @@ class PasswordlessInteractorSpec: QuickSpec {
                             }
                         }
                     }
-                    
+
+                    it("should indicate that a custom action prevented the user from logging in") {
+                        stub(condition: passwordlessLogin(username: email, otp: code, realm: connection.name)) { _ in return Auth0Stubs.failure("access_denied", description: "Only admins can use this") }
+                        try! interactor.update(.email, value: email)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: .seconds(2)) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .customActionFailure(cause: "Only admins can use this")
+                                done()
+                            }
+                        }
+                    }
+
                 }
                 
                 context("non oidc conformant") {
@@ -237,7 +249,19 @@ class PasswordlessInteractorSpec: QuickSpec {
                             }
                         }
                     }
-                    
+
+                    it("should indicate that a custom action prevented the user from logging in") {
+                        stub(condition: databaseLogin(identifier: email, password: code, connection: connection.name)) { _ in return Auth0Stubs.failure("access_denied", description: "Only admins can use this") }
+                        try! interactor.update(.email, value: email)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: .seconds(2)) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .customActionFailure(cause: "Only admins can use this")
+                                done()
+                            }
+                        }
+                    }
+
                 }
                 
             }
@@ -483,7 +507,19 @@ class PasswordlessInteractorSpec: QuickSpec {
                             }
                         }
                     }
-                    
+
+                    it("should indicate that a custom action prevented the user from logging in") {
+                        stub(condition: passwordlessLogin(username: phone, otp: code, realm: connection.name)) { _ in return Auth0Stubs.failure("access_denied", description: "Only admins can use this") }
+                        try! interactor.update(.phone, value: phone)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: .seconds(2)) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .customActionFailure(cause: "Only admins can use this")
+                                done()
+                            }
+                        }
+                    }
+
                 }
                 
                 context("non oidc conformant") {
@@ -517,7 +553,19 @@ class PasswordlessInteractorSpec: QuickSpec {
                             }
                         }
                     }
-                    
+
+                    it("should indicate that a custom action prevented the user from logging in") {
+                        stub(condition: databaseLogin(identifier: phone, password: code, connection: connection.name)) { _ in return Auth0Stubs.failure("access_denied", description: "Only admins can use this") }
+                        try! interactor.update(.phone, value: phone)
+                        try! interactor.update(.oneTimePassword, value: code)
+                        waitUntil(timeout: .seconds(2)) { done in
+                            interactor.login(connection.name) { error in
+                                expect(error) == .customActionFailure(cause: "Only admins can use this")
+                                done()
+                            }
+                        }
+                    }
+
                 }
                 
             }
