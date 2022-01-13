@@ -132,7 +132,7 @@ class PrimaryButton: UIView, Stylable {
 //            return
 //        }
 
-//        let font = mediumSystemFont(size: 16)
+        let font = mediumSystemFont(size: 16)
 //        let attachment = NSTextAttachment()
 //        attachment.image = image(named: "ic_chevron_right", compatibleWithTraitCollection: self.traitCollection)
 //        attachment.bounds = CGRect(x: 0.0, y: font.descender / 2.0, width: attachment.image!.size.width, height: attachment.image!.size.height)
