@@ -134,7 +134,7 @@ class PrimaryButton: UIView, Stylable {
 
         let font = mediumSystemFont(size: 24)
         let attachment = NSTextAttachment()
-        attachment.image = UIImage(named: "arow_right", in: bundleForLock(), compatibleWith: self.traitCollection)
+        attachment.image = UIImage(named: "arrow_right", in: bundleForLock(), compatibleWith: self.traitCollection)
         attachment.bounds = CGRect(x: 0.0, y: font.descender / 2.0, width: attachment.image!.size.width, height: attachment.image!.size.height)
 //
         let attributedText = NSMutableAttributedString(string: "\(title)  ")
