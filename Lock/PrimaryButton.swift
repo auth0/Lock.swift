@@ -151,11 +151,11 @@ class PrimaryButton: UIView, Stylable {
     }
 
     func apply(style: Style) {
-//        self.button?.setBackgroundImage(image(withColor: style.primaryColor), for: .normal)
-//        self.button?.setBackgroundImage(image(withColor: style.primaryColor.a0_darker(0.20)), for: .highlighted)
-//        self.button?.setBackgroundImage(image(withColor: style.disabledColor), for: .disabled)
-//        self.textColor = style.buttonTintColor
-//        self.button?.tintColor = style.buttonTintColor
+        self.button?.setBackgroundImage(image(withColor: style.primaryColor), for: .normal)
+        self.button?.setBackgroundImage(image(withColor: style.primaryColor.a0_darker(0.20)), for: .highlighted)
+        self.button?.setBackgroundImage(image(withColor: style.disabledColor), for: .disabled)
+        self.textColor = style.buttonTintColor
+        self.button?.tintColor = style.buttonTintColor
         self.indicator?.color = style.disabledTextColor
         self.hideTitle = style.hideButtonTitle
     }
