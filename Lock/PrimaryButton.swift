@@ -111,15 +111,22 @@ class PrimaryButton: UIView, Stylable {
         button.setAttributedTitle(nil, for: .disabled)
 //        guard let title = title, !self.hideTitle else {
 //        print(title)
-        if title == "Create Account" {
-            button.setImage(UIImage(named: "create_account_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
+//        if title == "Create Account" {
+//            button.setImage(UIImage(named: "create_account_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
+//            button.setImage(UIImage(), for: .disabled)
+//        } else if title == "LOG IN" {
+//            button.setImage(UIImage(named: "login_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
+//            button.setImage(UIImage(), for: .disabled)
+//        } else  {
+//            button.setImage(UIImage(named: "send_email_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
+//            button.setImage(UIImage(), for: .disabled)
+//        }
+        
+        
+        guard let title = title, !self.hideTitle else {
+            button.setImage(UIImage(named: "ic_submit", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
             button.setImage(UIImage(), for: .disabled)
-        } else if title == "LOG IN" {
-            button.setImage(UIImage(named: "login_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
-            button.setImage(UIImage(), for: .disabled)
-        } else  {
-            button.setImage(UIImage(named: "send_email_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
-            button.setImage(UIImage(), for: .disabled)
+            return
         }
 
 //            return
