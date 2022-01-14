@@ -1,17 +1,18 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename" : "Checkbox.Selected.svg",
+      "idiom" : "universal"
     },
     {
-      "filename" : "Selected@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Checkbox.Selected.White.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
