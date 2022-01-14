@@ -212,7 +212,7 @@ class InputField: UIView, Stylable {
         
         // white line at bottom of field
         var border = CALayer()
-        border.backgroundColor = UIColor.white.cgColor
+        border.backgroundColor = Style.Auth0.inputBorderColor.cgColor
         border.frame = CGRect(x: 15, y: 50, width: 310, height: 1)
 
         self.containerView?.layer.addSublayer(border)

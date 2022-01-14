@@ -109,27 +109,32 @@ class PrimaryButton: UIView, Stylable {
         button.setImage(nil, for: .disabled)
         button.setAttributedTitle(nil, for: .normal)
         button.setAttributedTitle(nil, for: .disabled)
-//        guard let title = title, !self.hideTitle else {
-//        print(title)
+        
         if title == "Create Account" {
-            button.setImage(UIImage(named: "create_account_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
+            button.setImage(UIImage(named: "create_account", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
             button.setImage(UIImage(), for: .disabled)
         } else if title == "LOG IN" {
-            button.setImage(UIImage(named: "login_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
+            button.setImage(UIImage(named: "sign_in", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
             button.setImage(UIImage(), for: .disabled)
         } else  {
             button.setImage(UIImage(named: "send_email_button", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
             button.setImage(UIImage(), for: .disabled)
         }
 
+//        guard let title = title, !self.hideTitle else {
+//            button.setImage(UIImage(named: "ic_submit", in: bundleForLock(), compatibleWith: self.traitCollection), for: .normal)
+//            button.setImage(UIImage(), for: .disabled)
 //            return
 //        }
-
-//        let font = mediumSystemFont(size: 16)
-//        let attachment = NSTextAttachment()
-//        attachment.image = image(named: "ic_chevron_right", compatibleWithTraitCollection: self.traitCollection)
-//        attachment.bounds = CGRect(x: 0.0, y: font.descender / 2.0, width: attachment.image!.size.width, height: attachment.image!.size.height)
 //
+////            return
+////        }
+//
+//        let font = mediumSystemFont(size: 24)
+//        let attachment = NSTextAttachment()
+//        attachment.image = UIImage(named: "arrow_right", in: bundleForLock(), compatibleWith: self.traitCollection)
+//        attachment.bounds = CGRect(x: 0.0, y: font.descender / 2.0, width: attachment.image!.size.width, height: attachment.image!.size.height)
+////
 //        let attributedText = NSMutableAttributedString(string: "\(title)  ")
 //        attributedText.append(NSAttributedString(attachment: attachment))
 //        attributedText.addAttributes(

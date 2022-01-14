@@ -270,7 +270,7 @@ class DatabasePresenter: Presentable, Loggable {
         let font = UIFont(name: "GothamSSm-Book", size: 15)
         let attributes: [NSAttributedString.Key: Any] = [
             .font: font,
-            .foregroundColor: UIColor.white,
+            .foregroundColor: UIColor.systemGray,
         ]
         attributeString.addAttributes(attributes, range: NSMakeRange(1, attributeString.length-1))
         view.termsButton?.attributedTitle = attributeString
