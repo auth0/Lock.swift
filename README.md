@@ -39,6 +39,8 @@ Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md).
 - Xcode 12.x / 13.x
 - Swift 4.x / 5.x
 
+**Lock.swift uses Auth0.swift 1.x**.
+
 ## Installation
 
 #### Cocoapods
