@@ -52,6 +52,8 @@ public class LockViewController: UIViewController {
         if #available(iOS 13.0, *) {
             self.isModalInPresentation = !lock.options.closable
         }
+        
+        print("View Loaded")
     }
 
     public required init?(coder aDecoder: NSCoder) {
