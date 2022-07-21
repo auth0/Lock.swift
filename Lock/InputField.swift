@@ -155,6 +155,7 @@ class InputField: UIView, Stylable {
         let geometry = Geometry()
         let font = UIFont(name: "GothamSSm-Book", size: 16)
 
+        // Input container
         let container = _containerView
         do {
             self.addSubview(container)
@@ -210,7 +211,7 @@ class InputField: UIView, Stylable {
             textField.font = font
         }
         
-        // text white line at bottom of field
+        // Bottom line/separator
         do {
             let v = UIView()
             container.addSubview(v)
@@ -442,13 +443,6 @@ class InputField: UIView, Stylable {
         _containerView.backgroundColor = style.inputBackgroundColor
         _containerView.layer.borderColor = style.inputBorderColor.cgColor
         self.errorLabel?.textColor = style.inputBorderColorError
-        // self.iconContainer?.backgroundColor = style.inputIconBackgroundColor
-        // self.iconView?.tintColor = style.inputIconColor
-        
-        // These are for debuggin
-        //_containerView.backgroundColor = .green.withAlphaComponent(0.5)
-        // self.textField?.backgroundColor = .red.withAlphaComponent(0.5)
-        ///self.backgroundColor = .yellow.withAlphaComponent(0.5)
     }
 }
 
