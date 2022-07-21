@@ -126,7 +126,7 @@ public class HeaderView: UIView {
     private func layoutHeader() {
         let titleView = UILabel()
         let logoView = UIImageView()
-        let closeButton = CloseButton(type: .system)
+        // let closeButton = CloseButton(type: .system)
         let backButton = CloseButton(type: .system)
         let centerGuide = UILayoutGuide()
 

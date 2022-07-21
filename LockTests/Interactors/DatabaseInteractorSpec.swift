@@ -27,6 +27,7 @@ import OHHTTPStubs
 #if SWIFT_PACKAGE
 import OHHTTPStubsSwift
 #endif
+import UIKit
 
 @testable import Lock
 

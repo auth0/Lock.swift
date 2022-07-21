@@ -24,16 +24,14 @@ import UIKit
 
 class InputField: UIView, Stylable {
 
-    weak var containerView: UIView?
     weak var textField: UITextField?
-    weak var iconView: UIImageView?
-    weak var iconContainer: UIView?
     weak var errorLabel: UILabel?
     weak var nextField: InputField?
-
+    
+    private let _containerView = UIView()
+    private let _fieldButtonPlaceholder = UIView()
+        
     private weak var errorLabelTopPadding: NSLayoutConstraint?
-    private weak var textFieldLeftAnchor: NSLayoutConstraint?
-    private weak var textFieldRightPadding: NSLayoutConstraint?
     private(set) var state: State = .invalid(nil)
     private weak var borderColor: UIColor?
     private weak var borderColorError: UIColor?
@@ -62,13 +60,17 @@ class InputField: UIView, Stylable {
             if #available(iOS 10.0, *) {
                 self.textField?.textContentType = type.contentType
             }
+            
+            if let _ = type.icon {
+                assertionFailure("Icon support has been removed")
+            }
 //            if let icon = type.icon {
 //                self.iconView?.image = icon.UIImage(compatibleWithTraits: self.traitCollection)
 //            } else
-            if let textField = self.textField, let container = self.containerView {
-                self.iconContainer?.removeFromSuperview()
-                textFieldLeftAnchor = constraintEqual(anchor: textField.leftAnchor, toAnchor: container.leftAnchor, constant: 16)
-            }
+//            if let textField = self.textField, let container = self.containerView {
+//                self.iconContainer?.removeFromSuperview()
+//                textFieldLeftAnchor = constraintEqual(anchor: textField.leftAnchor, toAnchor: container.leftAnchor, constant: 16)
+//            }
             isHidden = type.hidden
             if isHidden {
                 showValid()
@@ -134,117 +136,112 @@ class InputField: UIView, Stylable {
             self.errorLabelTopPadding?.constant = self.state.padding
             switch self.state {
             case .valid:
-                self.containerView?.layer.borderColor = self.borderColor?.cgColor
+                self._containerView.layer.borderColor = self.borderColor?.cgColor
             case .invalid:
-                self.containerView?.layer.borderColor = self.borderColorError?.cgColor
+                self._containerView.layer.borderColor = self.borderColorError?.cgColor
             }
         }
     }
 
     // MARK: - Layout
+    
+    private struct Geometry {
+        let width = 265.0 + 50.0
+        let inputHeight = 50.0
+    }
 
     private func layoutField() {
-        let container = UIView()
-        let iconContainer = UIView()
+        
+        let geometry = Geometry()
+        let font = UIFont(name: "GothamSSm-Book", size: 16)
+
+        let container = _containerView
+        do {
+            self.addSubview(container)
+            constraintEqual(anchor: container.leftAnchor, toAnchor: leftAnchor, constant: 0)
+            constraintEqual(anchor: container.topAnchor, toAnchor: topAnchor)
+            constraintEqual(anchor: container.rightAnchor, toAnchor: rightAnchor)
+            dimension(dimension: container.widthAnchor, withValue: geometry.width)
+            container.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        // Error label
+        do {
+            let errorLabel = UILabel()
+            errorLabel.numberOfLines = 0
+            errorLabel.font = font
+            errorLabel.text = State.valid.text
+            self.errorLabel = errorLabel
+            addSubview(errorLabel)
+            self.errorLabelTopPadding = constraintEqual(anchor: container.bottomAnchor, toAnchor: errorLabel.topAnchor)
+            constraintEqual(anchor: errorLabel.leftAnchor, toAnchor: leftAnchor, constant: 0)
+            constraintEqual(anchor: errorLabel.rightAnchor, toAnchor: self.rightAnchor)
+            constraintEqual(anchor: errorLabel.bottomAnchor, toAnchor: self.bottomAnchor)
+            errorLabel.setContentHuggingPriority(UILayoutPriority.priorityDefaultHigh, for: .vertical)
+            errorLabel.setContentCompressionResistancePriority(UILayoutPriority.priorityDefaultHigh, for: .vertical)
+            errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        // Field button placeholder
+        do {
+            container.addSubview(_fieldButtonPlaceholder)
+            constraintEqual(anchor: _fieldButtonPlaceholder.rightAnchor, toAnchor: container.rightAnchor)
+            constraintEqual(anchor: _fieldButtonPlaceholder.topAnchor, toAnchor: container.topAnchor)
+            constraintEqual(anchor: _fieldButtonPlaceholder.bottomAnchor, toAnchor: container.bottomAnchor)
+            dimension(dimension: _fieldButtonPlaceholder.widthAnchor, withValue: 0).priority = .defaultHigh
+            _fieldButtonPlaceholder.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+            _fieldButtonPlaceholder.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        // Text field
         let textField = UITextField()
-        let iconView = UIImageView()
-        let errorLabel = UILabel()
-
-        iconContainer.addSubview(iconView)
-        container.addSubview(iconContainer)
-        container.addSubview(textField)
-        self.addSubview(container)
-        self.addSubview(errorLabel)
-
-        constraintEqual(anchor: container.leftAnchor, toAnchor: self.leftAnchor, constant: -15)
-        constraintEqual(anchor: container.topAnchor, toAnchor: self.topAnchor)
-        constraintEqual(anchor: container.rightAnchor, toAnchor: self.rightAnchor)
-        self.errorLabelTopPadding = constraintEqual(anchor: container.bottomAnchor, toAnchor: errorLabel.topAnchor)
-        container.translatesAutoresizingMaskIntoConstraints = false
-
-        constraintEqual(anchor: errorLabel.leftAnchor, toAnchor: self.leftAnchor, constant: 0)
-        constraintEqual(anchor: errorLabel.rightAnchor, toAnchor: self.rightAnchor)
-        constraintEqual(anchor: errorLabel.bottomAnchor, toAnchor: self.bottomAnchor)
-        errorLabel.setContentHuggingPriority(UILayoutPriority.priorityDefaultHigh, for: .vertical)
-        errorLabel.setContentCompressionResistancePriority(UILayoutPriority.priorityDefaultHigh, for: .vertical)
-        errorLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        constraintEqual(anchor: iconContainer.leftAnchor, toAnchor: container.leftAnchor)
-        constraintEqual(anchor: iconContainer.topAnchor, toAnchor: container.topAnchor)
-        constraintEqual(anchor: iconContainer.bottomAnchor, toAnchor: container.bottomAnchor)
-        constraintEqual(anchor: iconContainer.heightAnchor, toAnchor: iconContainer.widthAnchor)
-        iconContainer.translatesAutoresizingMaskIntoConstraints = false
-
-        self.textFieldLeftAnchor = constraintEqual(anchor: textField.leftAnchor, toAnchor: iconContainer.rightAnchor, constant: 16)
-        constraintEqual(anchor: textField.topAnchor, toAnchor: container.topAnchor)
-//        self.textFieldRightPadding = constraintEqual(anchor: textField.rightAnchor, toAnchor: container.rightAnchor, constant: -16)
-        constraintEqual(anchor: textField.bottomAnchor, toAnchor: container.bottomAnchor)
-        dimension(dimension: textField.heightAnchor, withValue: 50)
-        textField.widthAnchor.constraint(equalToConstant: 265).isActive = true
-        textField.translatesAutoresizingMaskIntoConstraints = false
-
-        constraintEqual(anchor: iconView.centerXAnchor, toAnchor: iconContainer.centerXAnchor)
-        constraintEqual(anchor: iconView.centerYAnchor, toAnchor: iconContainer.centerYAnchor)
-        iconView.translatesAutoresizingMaskIntoConstraints = false
-
-        iconContainer.backgroundColor = Style.Auth0.inputIconBackgroundColor
-        iconView.tintColor = Style.Auth0.inputIconColor
- 
-
-        textField.addTarget(self, action: #selector(textChanged), for: .editingChanged)
-        textField.delegate = self
-//        textField.font = UIFont.systemFont(ofSize: 17)
-        textField.font = UIFont(name: "GothamSSm-Book", size: 16)
-        errorLabel.text = nil
-        errorLabel.numberOfLines = 0
-        errorLabel.font = UIFont(name: "GothamSSm-Book", size: 16)
+        do {
+            self.textField = textField
+            container.addSubview(textField)
+            constraintEqual(anchor: textField.leftAnchor, toAnchor: container.leftAnchor)
+            constraintEqual(anchor: textField.topAnchor, toAnchor: container.topAnchor)
+            constraintEqual(anchor: textField.bottomAnchor, toAnchor: container.bottomAnchor)
+            constraintEqual(anchor: textField.rightAnchor, toAnchor: _fieldButtonPlaceholder.leftAnchor)
+            dimension(dimension: textField.heightAnchor, withValue: geometry.inputHeight)
+            // textField.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
+            textField.translatesAutoresizingMaskIntoConstraints = false
+            textField.addTarget(self, action: #selector(textChanged), for: .editingChanged)
+            textField.delegate = self
+            textField.font = font
+        }
         
-        self.textField = textField
-        self.iconView = iconView
-        self.iconContainer = iconContainer
-        self.containerView = container
-        self.errorLabel = errorLabel
+        // text white line at bottom of field
+        do {
+            let v = UIView()
+            container.addSubview(v)
+            constraintEqual(anchor: v.leftAnchor, toAnchor: container.leftAnchor)
+            constraintEqual(anchor: v.topAnchor, toAnchor: textField.bottomAnchor)
+            constraintEqual(anchor: v.rightAnchor, toAnchor: container.rightAnchor)
+            dimension(dimension: v.heightAnchor, withValue: 1)
+            v.translatesAutoresizingMaskIntoConstraints = false
+            v.backgroundColor = Style.Auth0.inputBorderColor
+        }
 
-//        self.containerView?.backgroundColor = .white
-//        self.containerView?.layer.cornerRadius = 3.67
-//        self.containerView?.layer.masksToBounds = true
-//        self.containerView?.layer.borderWidth = 1
-        
-        // white line at bottom of field
-        var border = CALayer()
-        border.backgroundColor = Style.Auth0.inputBorderColor.cgColor
-        border.frame = CGRect(x: 15, y: 50, width: 310, height: 1)
-
-        self.containerView?.layer.addSublayer(border)
-        
         self.type = .email
-        self.errorLabel?.text = State.valid.text
-        self.containerView?.layer.borderColor = Style.Auth0.inputBorderColor.cgColor
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: 230, height: 50)
+        return CGSize(width: 230, height: 50) // mk: have no idea why 230 is used. Should be fixed with Geometry, i guess 
     }
 
     // MARK: - Password Manager
 
     func addFieldButton(withIcon name: String, color: UIColor = .black) -> IconButton? {
-        guard let container = self.containerView, let textField = self.textField else { return nil }
-
         let button = IconButton()
         button.icon = UIImage(named: name, in: Lock.bundle, compatibleWith: self.traitCollection)
         button.color = color
-        container.addSubview(button)
-
-        self.textFieldRightPadding?.isActive = false
-        constraintEqual(anchor: textField.rightAnchor, toAnchor: button.leftAnchor)
-        constraintEqual(anchor: button.leftAnchor, toAnchor: textField.rightAnchor)
-        constraintEqual(anchor: button.topAnchor, toAnchor: textField.topAnchor)
-        constraintEqual(anchor: button.bottomAnchor, toAnchor: textField.bottomAnchor)
-        constraintEqual(anchor: button.rightAnchor, toAnchor: container.rightAnchor)
+        _fieldButtonPlaceholder.addSubview(button)
+        constraintEqual(anchor: button.leftAnchor, toAnchor: _fieldButtonPlaceholder.leftAnchor)
+        constraintEqual(anchor: button.rightAnchor, toAnchor: _fieldButtonPlaceholder.rightAnchor)
+        constraintEqual(anchor: button.topAnchor, toAnchor: _fieldButtonPlaceholder.topAnchor)
+        constraintEqual(anchor: button.bottomAnchor, toAnchor: _fieldButtonPlaceholder.bottomAnchor)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setContentCompressionResistancePriority(UILayoutPriority.priorityRequired, for: .horizontal)
-
         return button
     }
 
@@ -344,7 +341,7 @@ class InputField: UIView, Stylable {
             }
         }
 
-        var icon: LazyImage? {
+        var icon: UIImage? {
             switch self {
             case .email:
                 return UIImage(named: "ic_mail")
@@ -442,11 +439,16 @@ class InputField: UIView, Stylable {
         self.textField?.textColor = style.inputTextColor
         self.textField?.attributedPlaceholder = NSAttributedString(string: self.textField?.placeholder ?? "",
                                                                    attributes: [NSAttributedString.attributedKeyColor: style.inputPlaceholderTextColor])
-        self.containerView?.backgroundColor = style.inputBackgroundColor
-        self.containerView?.layer.borderColor = style.inputBorderColor.cgColor
+        _containerView.backgroundColor = style.inputBackgroundColor
+        _containerView.layer.borderColor = style.inputBorderColor.cgColor
         self.errorLabel?.textColor = style.inputBorderColorError
-        self.iconContainer?.backgroundColor = style.inputIconBackgroundColor
-        self.iconView?.tintColor = style.inputIconColor
+        // self.iconContainer?.backgroundColor = style.inputIconBackgroundColor
+        // self.iconView?.tintColor = style.inputIconColor
+        
+        // These are for debuggin
+        //_containerView.backgroundColor = .green.withAlphaComponent(0.5)
+        // self.textField?.backgroundColor = .red.withAlphaComponent(0.5)
+        ///self.backgroundColor = .yellow.withAlphaComponent(0.5)
     }
 }
 

@@ -245,7 +245,7 @@ class DatabaseOnlyView: UIView, DatabaseView {
         self.termsStrut?.removeFromSuperview()
         self.termsButton?.removeFromSuperview()
         if enabled {
-            var container = UIStackView()
+            let container = UIStackView()
             container.layoutMargins = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 25)
             container.isLayoutMarginsRelativeArrangement = true
             let termsCheckbox = TermsCheckbox()
