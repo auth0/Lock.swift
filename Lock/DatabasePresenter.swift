@@ -263,14 +263,14 @@ class DatabasePresenter: Presentable, Loggable {
         
         
         view.primaryButton?.onPress = checkTermsAndSignup
-        print(view.termsCheckbox?.button?.isSelected)
+        // print(view.termsCheckbox?.button?.isSelected)
         let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "By signing up, you agree to our terms of\n service and privacy policy".i18n(key: "com.auth0.lock.database.button.tos", comment: "tos & privacy"))
         // we are underline Terms and Privacy text in the string
         attributeString.addAttribute(NSAttributedString.Key.underlineStyle,  value: NSUnderlineStyle.thick.rawValue, range: NSMakeRange(18, 5))
         attributeString.addAttribute(NSAttributedString.Key.underlineStyle,  value: NSUnderlineStyle.thick.rawValue, range: NSMakeRange(28, 7))
         let font = UIFont(name: "GothamSSm-Book", size: 15)
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: font,
+            .font: font as Any,
             .foregroundColor: UIColor.systemGray,
         ]
         attributeString.addAttributes(attributes, range: NSMakeRange(1, attributeString.length-1))

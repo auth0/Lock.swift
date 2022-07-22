@@ -77,7 +77,6 @@ class TermsCheckbox: UIView, Stylable {
     }
 
     @objc func pressed(_ sender: Any) {
-        print("pressed checkbox")
         self.button?.isSelected = !(self.button?.isSelected ?? true)
         self.onPress(self)
 

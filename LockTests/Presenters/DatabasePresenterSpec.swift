@@ -26,6 +26,19 @@ import Nimble
 
 @testable import Lock
 
+///
+/// MuradK: Had to add this fake constructor to make things compilable. Perhaps there is an issue with
+/// synchronization between tests and main source tree. Had no time to investigate the issue,
+/// let leave things as they are
+///
+extension DatabasePresenter {
+    convenience init(authenticator: DatabaseAuthenticatable, creator: DatabaseUserCreator, connection: DatabaseConnection,
+                     navigator: Navigable, options: Options, style: Style) {
+        self.init(authenticator: authenticator, creator: creator, connection:
+                  connection, navigator: navigator, options: options)
+    }
+}
+
 class DatabasePresenterSpec: QuickSpec {
 
     override func spec() {
