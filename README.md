@@ -148,8 +148,8 @@ func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>)
 
 **Learn how to use Lock.swift in [Examples ↗](EXAMPLES.md)**
 
-- [**Lock Classic**](EXAMPLES.md#lock-classic) - handles authentication using Database, Social, and Enterprise connections.
-- [**Lock Passwordless**](EXAMPLES.md#lock-passwordless) - handles authentication using Passwordless and Social connections.
+- [**Lock Classic**](https://github.com/auth0/Lock.swift/blob/master/EXAMPLES.md#lock-classic) - handles authentication using Database, Social, and Enterprise connections.
+- [**Lock Passwordless**](https://github.com/auth0/Lock.swift/blob/master/EXAMPLES.md#lock-passwordless) - handles authentication using Passwordless and Social connections.
 
 ## Feedback
 
