@@ -51,13 +51,13 @@ Lock
 
 If you are using a Database connection in Lock then you will need to enable the Password Grant Type, please follow the [Update Grant Types](https://auth0.com/docs/get-started/applications/update-grant-types) guide.
 
-#### Specify connections
+### Specify connections
 
 Lock will automatically load your application configuration automatically, if you wish to override this behaviour you can manually specify which of your connections to use.  
 
 Before presenting Lock you can tell it what connections it should display and use to authenticate an user. You can do that by calling the method and supply a closure that can specify the connections.
 
-##### Adding a Database connection
+#### Adding a Database connection
 
 ```swift
 .withConnections {
@@ -65,7 +65,7 @@ Before presenting Lock you can tell it what connections it should display and us
 }
 ```
 
-##### Adding Social connections
+#### Adding Social connections
 
 ```swift
 .withConnections { connections in
@@ -74,7 +74,7 @@ Before presenting Lock you can tell it what connections it should display and us
 }
 ```
 
-##### Adding Enterprise connections
+#### Adding Enterprise connections
 
 ```swift
 .withConnections { connections in
@@ -147,7 +147,7 @@ Lock
 
 > ⚠️ Passwordless can only be used with a single connection and will prioritize the use of email connections over sms.
 
-#### Passwordless method
+### Passwordless method
 
 When using Lock Passwordless the default `passwordlessMethod` is `.code` which sends the user a one time passcode to login. If you want to use [Universal Links](https://auth0.com/docs/get-started/applications/enable-universal-links-support-in-apple-xcode) you can add the following:
 
@@ -157,7 +157,7 @@ When using Lock Passwordless the default `passwordlessMethod` is `.code` which s
 }
 ```
 
-#### Activity callback
+### Activity callback
 
 If you are using Lock Passwordless and have specified the `.magicLink` option to send the user a universal link then you will need to add the following to your `AppDelegate.swift`:
 
@@ -167,9 +167,9 @@ func application(_ application: UIApplication, continue userActivity: NSUserActi
 }
 ```
 
-#### Adding a Passwordless connection
+### Adding a Passwordless connection
 
-##### SMS
+#### SMS
 
 ```swift
 .withConnections {
@@ -177,7 +177,7 @@ func application(_ application: UIApplication, continue userActivity: NSUserActi
 }
 ```
 
-##### Email
+#### Email
 
 ```swift
 .withConnections {
@@ -231,7 +231,7 @@ iPad presentation is show in a modal popup, this can be disabled to use full scr
 
 Lock.swift provides numerous options to customize the Lock experience.
 
-#### Closable
+### Closable
 
 Allows Lock to be dismissed by the user. Defaults to `false`.
 
@@ -241,7 +241,7 @@ Allows Lock to be dismissed by the user. Defaults to `false`.
 }
 ```
 
-#### Terms of Service
+### Terms of Service
 
 By default Lock will use Auth0's [Terms of Service](https://auth0.com/web-terms) and [Privacy Policy](https://auth0.com/privacy):
 
@@ -274,7 +274,7 @@ Database connection will display the Terms of Service dialog. Defaults to `true`
 
 > ⚠️ Terms will always be shown if the `mustAcceptTerms` flag has been enabled.
 
-#### Logging
+### Logging
 
 * **logLevel**: Defaults to `.off`. *Syslog* logging levels are supported.
 * **logHttpRequest**: Log Auth0.swift API requests. Defaults to `false`.
@@ -314,7 +314,7 @@ class CleanroomLockLogger: LoggerOutput {
 }
 ```
 
-#### Scope
+### Scope
 
 Scope used for authentication. By default is `openid`. It will return not only the **access_token**, but also an **id_token** which is a [JSON Web Token (JWT)](https://jwt.io/) containing user information.
 
@@ -324,7 +324,7 @@ Scope used for authentication. By default is `openid`. It will return not only t
 }
 ```
 
-#### Connection scope
+### Connection scope
 
 Allows you to set provider scopes for OAuth2/Social connections with a comma separated list. By default is empty.
 
@@ -333,7 +333,7 @@ Allows you to set provider scopes for OAuth2/Social connections with a comma sep
   $0.connectionScope = ["github": "public_repo read:user"]
 ```
 
-#### Database
+### Database
 
 - **allow**: Which database screens will be accessible, the default is enable all screens e.g. `.Login, .Signup, .ResetPassword`
 - **initialScreen**: The first screen to present to the user, the default is `.login`.
@@ -347,7 +347,7 @@ Allows you to set provider scopes for OAuth2/Social connections with a comma sep
 }
 ```
 
-#### Custom signup fields
+### Custom signup fields
 
 When signing up the default information requirements are the user's *email* and *password*. You can expand your data capture requirements as needed.
 
@@ -367,7 +367,7 @@ When signing up, your app may need to assign values to the user's profile that a
 
 > ⚠️ You must specify the icon to use with your custom text field and store it in your App's bundle.
 
-#### Password manager
+### Password manager
 
 This functionality has been removed as of Release 2.18 due to the 1Password extension using deprecated methods, which can result in your app being rejected by the AppStore. This functionality was superseded in iOS 12 when Apple introduced the integration of password managers into login forms.
 
@@ -390,7 +390,7 @@ You may also safely remove the following entry from your app's `Info.plist`:
 </array>
 ```
 
-#### Show password
+### Show password
 
 By default a show password icon is shown in password fields to toggle visibility of the input text. You can disable this using the `allowShowPassword` option:
 
@@ -402,7 +402,7 @@ By default a show password icon is shown in password fields to toggle visibility
 
 > ⚠️ Show password will not be available if the **Password Manager** is available.
 
-#### Enterprise
+### Enterprise
 
 * **enterpriseConnectionUsingActiveAuth**: By default Enterprise connections will use Web Authentication. However you can specify which connections will alternatively use credential authentication and prompt for a username and password.
 * **activeDirectoryEmailAsUsername**: When Lock request your enterprise credentials after performing Home Realm Discovery (HRD), e.g. for Active Directory, it will try to prefill the username for you. By default it will parse the email's local part and use that as the username, e.g. `john.doe@auth0.com` will be `john.doe`. If you don't want that you can turn on this flag and it will just use the email address.
