@@ -1,8 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Auth0 Community
-    url: https://community.auth0.com/tags/c/sdks/5/lock-ios
-    about: Discuss this library in the Auth0 Community forums
-  - name: Library Documentation
-    url: https://auth0.com/docs/libraries/lock-swift
-    about: Read the library docs on Auth0.com
+  - name: 🤔 Help & Questions
+    url: https://community.auth0.com
+    about: Ask general support or usage questions in the Auth0 Community forums
