@@ -101,4 +101,4 @@ workflows:
           scheme: Lock
           matrix:
             parameters:
-              xcode: ["13.0.0", "12.5.1"]
+              xcode: ["13.4.1", "12.5.1"]
