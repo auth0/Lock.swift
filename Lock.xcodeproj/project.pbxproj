@@ -1096,7 +1096,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ \"${CONFIGURATION}\" = \"Debug\" ]] && [ -z ${CIRCLECI} ] && which swiftlint >/dev/null; then\nswiftlint\nfi\n";
+			shellScript = "if [ -z ${CI} ]; then\n    if [[ \"$(uname -m)\" == arm64 ]]; then\n        export PATH=\"/opt/homebrew/bin:$PATH\"\n    fi\n\n    if which swiftlint > /dev/null; then\n        swiftlint\n    else\n        echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    fi\nfi\n";
 		};
 		5FC4348D1D1E02EF005188BC /* Auth0 */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1110,7 +1110,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "AUTH0_PLIST=\"${SRCROOT}/Auth0.plist\"\nif [ -f \"$AUTH0_PLIST\" ];\nthen\ncp \"$AUTH0_PLIST\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nfi\n";
+			shellScript = "AUTH0_PLIST=\"${SRCROOT}/Auth0.plist\"\n\nif [ -f \"$AUTH0_PLIST\" ]; then\n    cp \"$AUTH0_PLIST\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
