@@ -39,7 +39,7 @@ jobs:
               run: bundle exec slather coverage -x --scheme ${{ env.scheme }} ${{ env.xcodeproj }}
 
             - name: Upload coverage report
-              uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d
+              uses: codecov/codecov-action@4fe8c5f003fae66aa5ebb77cfd3e7bfbbda0b6b0
 
             - name: Cancel wokflow on failure
               uses: andymckay/cancel-action@b9280e3f8986d7a8e91c7462efc0fa318010c8b1
