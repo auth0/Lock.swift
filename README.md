@@ -3,6 +3,7 @@
 ![Version](https://img.shields.io/cocoapods/v/Lock.svg?style=flat)
 [![CircleCI](https://img.shields.io/circleci/project/github/auth0/Lock.swift.svg?style=flat)](https://circleci.com/gh/auth0/Lock.swift/tree/master)
 [![Coverage Status](https://img.shields.io/codecov/c/github/auth0/Lock.swift/master.svg?style=flat)](https://codecov.io/github/auth0/Lock.swift)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/auth0/Lock.swift)
 ![License](https://img.shields.io/github/license/auth0/Lock.swift.svg?style=flat)
 
 📚 [**Documentation**](#documentation) • 🚀 [**Getting Started**](#getting-started) • 💬 [**Feedback**](#feedback)
