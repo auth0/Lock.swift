@@ -1,1 +1,1 @@
-github "auth0/Auth0.swift" ~> 1.31
+github "auth0/Auth0.swift" ~> 2.16.0
