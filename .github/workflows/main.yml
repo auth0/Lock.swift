@@ -78,6 +78,9 @@ jobs:
             - name: Checkout
               uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
+            - name: Install SwiftLint
+              run: brew install swiftlint
+
             - name: Run SwiftLint
               run: swiftlint lint --reporter github-actions-logging
 
