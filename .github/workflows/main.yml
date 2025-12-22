@@ -5,10 +5,14 @@ on:
         - opened
         - synchronize
 
+env:
+    ruby: '3.3.1'
+
 jobs:
     test:
         name: Test using Xcode ${{ matrix.xcode }}
-        runs-on: macos-latest
+        runs-on: macos-14
+
 
         env:
             xcodeproj: Lock.xcodeproj
@@ -17,7 +21,7 @@ jobs:
         strategy:
           matrix:
             xcode: 
-              - '14.1'
+              - '16.1'
 
         steps:
             - name: Checkout
@@ -47,12 +51,12 @@ jobs:
 
     pod-lint:
         name: Lint podspec using Xcode ${{ matrix.xcode }}
-        runs-on: macos-latest
+        runs-on: macos-14
 
         strategy:
           matrix:
             xcode: 
-              - '14.1'
+              - '16.1'
 
         steps:
             - name: Checkout
@@ -72,7 +76,7 @@ jobs:
 
     swiftlint:
         name: Lint code with SwiftLint
-        runs-on: macos-latest
+        runs-on: macos-14
 
         steps:
             - name: Checkout
