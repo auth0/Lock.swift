@@ -22,7 +22,7 @@
 
 import UIKit
 import Lock
-import CleanroomLogger
+import os.log
 
 class ViewController: UIViewController {
 
@@ -184,13 +184,24 @@ class ViewController: UIViewController {
     }
 
     private func showLock(lock: Lock) {
-        Log.enable(minimumSeverity: LogSeverity.verbose, debugMode: true)
+        let log = OSLog(subsystem: "com.auth0.Lock.Example", category: "Authentication")
+        
         lock
-            .onAuth { Log.info?.message("Obtained credentials \($0)") }
-            .onError { Log.error?.message("Failed with \($0)") }
-            .onSignUp { email, _ in  Log.debug?.message("New user \(email)") }
-            .onCancel { Log.debug?.message("User closed lock") }
-            .onPasswordless { Log.debug?.message("Passwordless requested for \($0)") }
+            .onAuth { credentials in
+                os_log("Obtained credentials: %{public}@", log: log, type: .info, String(describing: credentials))
+            }
+            .onError { error in
+                os_log("Failed with error: %{public}@", log: log, type: .error, String(describing: error))
+            }
+            .onSignUp { email, _ in
+                os_log("New user: %{public}@", log: log, type: .info, email)
+            }
+            .onCancel {
+                os_log("User closed lock", log: log, type: .info)
+            }
+            .onPasswordless { email in
+                os_log("Passwordless requested for: %{public}@", log: log, type: .info, email)
+            }
             .present(from: self)
     }
 }
@@ -198,7 +209,7 @@ class ViewController: UIViewController {
 func applyDefaultOptions(_ options: inout OptionBuildable) {
     options.closable = true
     options.logLevel = .all
-    options.loggerOutput = CleanroomLockLogger()
+    options.loggerOutput = LockLogger()
     options.logHttpRequest = true
     options.oidcConformant = true
 
@@ -267,24 +278,27 @@ func applyPhantomStyle(_ style: inout Style) {
     style.ruleTextColor = darkPurple
 }
 
-class CleanroomLockLogger: LoggerOutput {
+class LockLogger: LoggerOutput {
+    private let log = OSLog(subsystem: "com.auth0.Lock", category: "Lock")
 
     func message(_ message: String, level: LoggerLevel, filename: String, line: Int) {
-        let channel: LogChannel?
+        let logType: OSLogType
+        
         switch level {
         case .debug:
-            channel = Log.debug
+            logType = .debug
         case .error:
-            channel = Log.error
+            logType = .error
         case .info:
-            channel = Log.info
+            logType = .info
         case .verbose:
-            channel = Log.verbose
+            logType = .debug
         case .warn:
-            channel = Log.warning
+            logType = .default
         default:
-            channel = nil
+            logType = .default
         }
-        channel?.message(message, filePath: filename, fileLine: line)
+        
+        os_log("%{public}@", log: log, type: logType, "\(message) - \(filename):\(line)")
     }
 }
