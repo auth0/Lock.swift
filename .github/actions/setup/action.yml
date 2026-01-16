@@ -11,11 +11,10 @@ runs:
 
   steps:
     - name: Set up Ruby
-      uses: ruby/setup-ruby@250fcd6a742febb1123a77a841497ccaa8b9e939
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.2'
+        ruby-version: '3.3.1'
         bundler-cache: true
-        cache-version: 1
 
     - name: Setup Xcode
       uses: maxim-lobanov/setup-xcode@v1
