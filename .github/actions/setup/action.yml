@@ -10,18 +10,14 @@ runs:
   using: composite
 
   steps:
-    - name: Set Ruby version
-      run: ruby -e 'puts RUBY_VERSION' | tee .ruby-version
-      shell: bash
-
     - name: Set up Ruby
       uses: ruby/setup-ruby@250fcd6a742febb1123a77a841497ccaa8b9e939
       with:
+        ruby-version: '3.2'
         bundler-cache: true
         cache-version: 1
 
     - name: Setup Xcode
-      uses: mxcl/xcodebuild@6e60022a0cbe8c89278be2dd1773a2f68e7c5c87
+      uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode: ${{ inputs.xcode }}
-        action: none
+        xcode-version: ${{ inputs.xcode }}
