@@ -33,7 +33,7 @@ runs:
 
     - name: Install dependencies
       if: steps.restore-carthage-cache.outputs.cache-hit != 'true'
-      run: carthage bootstrap --platform ${{ inputs.platform }} --use-xcframeworks --no-use-binaries --cache-builds
+      run: carthage bootstrap --platform ${{ inputs.platform }} --use-xcframeworks --cache-builds --no-build-dependencies
       shell: bash
 
     - name: Save Carthage cache
