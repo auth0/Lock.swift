@@ -47,7 +47,6 @@ runs:
     - name: Run tests
       uses: mxcl/xcodebuild@v2
       with:
-        xcode: ${{ inputs.xcode }}
         scheme: ${{ inputs.scheme }}
         platform: ${{ inputs.platform }}
         code-coverage: true
