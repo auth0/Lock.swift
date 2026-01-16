@@ -8,7 +8,7 @@ on:
 jobs:
     test:
         name: Test using Xcode ${{ matrix.xcode }}
-        runs-on: macos-latest
+        runs-on: macos-14
 
         env:
             xcodeproj: Lock.xcodeproj
@@ -47,7 +47,7 @@ jobs:
 
     pod-lint:
         name: Lint podspec using Xcode ${{ matrix.xcode }}
-        runs-on: macos-latest
+        runs-on: macos-14
 
         strategy:
           matrix:
@@ -72,7 +72,7 @@ jobs:
 
     swiftlint:
         name: Lint code with SwiftLint
-        runs-on: macos-latest
+        runs-on: macos-14
 
         steps:
             - name: Checkout
