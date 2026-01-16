@@ -66,7 +66,7 @@ enum Route: Equatable {
 }
 
 func == (lhs: Route, rhs: Route) -> Bool {
-    switch((lhs, rhs)) {
+    switch (lhs, rhs) {
     case (.root, .root), (.forgotPassword, .forgotPassword), (.multifactor, .multifactor):
         return true
     case (.enterpriseActiveAuth(let lhsConnection, let lhsDomain), .enterpriseActiveAuth(let rhsConnection, let rhsDomain)):

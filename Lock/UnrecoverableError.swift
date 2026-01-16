@@ -54,7 +54,7 @@ enum UnrecoverableError: Equatable, Error {
 }
 
 func == (lhs: UnrecoverableError, rhs: UnrecoverableError) -> Bool {
-    switch((lhs, rhs)) {
+    switch (lhs, rhs) {
     case (.connectionTimeout, .connectionTimeout), (.invalidClientOrDomain, .invalidClientOrDomain), (.clientWithNoConnections, .clientWithNoConnections),
          (.requestIssue, .requestIssue), (.missingDatabaseConnection, .missingDatabaseConnection):
         return true
