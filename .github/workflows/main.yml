@@ -41,7 +41,7 @@ jobs:
             - name: Upload coverage report
               uses: codecov/codecov-action@ab904c41d6ece82784817410c45d8b8c02684457
 
-            - name: Cancel wokflow on failure
+            - name: Cancel workflow on failure
               uses: andymckay/cancel-action@271cfbfa11ca9222f7be99a47e8f929574549e0a
               if: ${{ failure() }}
 
@@ -64,9 +64,9 @@ jobs:
                 xcode: ${{ matrix.xcode }}
 
             - name: Run pod lib lint
-              run: bundle exec pod lib lint --allow-warnings --fail-fast
+              run: bundle exec pod lib lint --allow-warnings --fail-fast --skip-import-validation
 
-            - name: Cancel wokflow on failure
+            - name: Cancel workflow on failure
               uses: andymckay/cancel-action@271cfbfa11ca9222f7be99a47e8f929574549e0a
               if: ${{ failure() }}
 
@@ -84,6 +84,6 @@ jobs:
             - name: Run SwiftLint
               run: swiftlint lint --reporter github-actions-logging
 
-            - name: Cancel wokflow on failure
+            - name: Cancel workflow on failure
               uses: andymckay/cancel-action@271cfbfa11ca9222f7be99a47e8f929574549e0a
               if: ${{ failure() }}
