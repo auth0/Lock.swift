@@ -42,7 +42,7 @@ jobs:
               uses: codecov/codecov-action@ab904c41d6ece82784817410c45d8b8c02684457
 
             - name: Cancel wokflow on failure
-              uses: andymckay/cancel-action@271cfbfa11ca9222f7be99a47e8f929574549e0a
+              uses: andymckay/cancel-action@a955d435292c0d409d104b57d8e78435a93a6ef1
               if: ${{ failure() }}
 
     pod-lint:
@@ -67,7 +67,7 @@ jobs:
               run: bundle exec pod lib lint --allow-warnings --fail-fast
 
             - name: Cancel wokflow on failure
-              uses: andymckay/cancel-action@271cfbfa11ca9222f7be99a47e8f929574549e0a
+              uses: andymckay/cancel-action@a955d435292c0d409d104b57d8e78435a93a6ef1
               if: ${{ failure() }}
 
     swiftlint:
@@ -82,5 +82,5 @@ jobs:
               run: swiftlint lint --reporter github-actions-logging
 
             - name: Cancel wokflow on failure
-              uses: andymckay/cancel-action@271cfbfa11ca9222f7be99a47e8f929574549e0a
+              uses: andymckay/cancel-action@a955d435292c0d409d104b57d8e78435a93a6ef1
               if: ${{ failure() }}
