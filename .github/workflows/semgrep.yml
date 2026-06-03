@@ -18,7 +18,7 @@ jobs:
     # Skip any PR created by dependabot to avoid permission issues
     if: (github.actor != 'dependabot[bot]')
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
 
       - run: semgrep ci
         env:
