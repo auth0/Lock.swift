@@ -24,11 +24,11 @@ import Foundation
 
 struct OfflineConnections: ConnectionBuildable {
 
-    private (set) var databases: [DatabaseConnection] = []
+    private(set) var databases: [DatabaseConnection] = []
     var database: DatabaseConnection? { return self.databases.first }
-    private (set) var oauth2: [OAuth2Connection] = []
-    private (set) var enterprise: [EnterpriseConnection] = []
-    private (set) var passwordless: [PasswordlessConnection] = []
+    private(set) var oauth2: [OAuth2Connection] = []
+    private(set) var enterprise: [EnterpriseConnection] = []
+    private(set) var passwordless: [PasswordlessConnection] = []
 
     mutating func database(name: String, requiresUsername: Bool, usernameValidator: UsernameValidator = UsernameValidator(), passwordValidator: PasswordPolicyValidator) {
         self.databases.append(DatabaseConnection(name: name, requiresUsername: requiresUsername, usernameValidator: usernameValidator, passwordValidator: passwordValidator))
