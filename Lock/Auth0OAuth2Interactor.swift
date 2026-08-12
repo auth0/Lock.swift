@@ -25,7 +25,6 @@ import Auth0
 
 struct Auth0OAuth2Interactor: OAuth2Authenticatable, Loggable {
 
-    let authentication: Authentication
     let dispatcher: Dispatcher
     let options: Options
     let nativeHandlers: [String: AuthProvider]
@@ -45,8 +44,8 @@ struct Auth0OAuth2Interactor: OAuth2Authenticatable, Loggable {
         parameters["login_hint"] = loginHint
         parameters["screen_hint"] = screenHint
 
-        var auth = authentication
-            .webAuth(withConnection: connection)
+        var auth = Auth0
+            .webAuth()
             .scope(self.options.scope)
             .parameters(parameters)
 

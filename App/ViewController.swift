@@ -22,8 +22,7 @@
 
 import UIKit
 import Lock
-import CleanroomLogger
-
+import OSLog
 class ViewController: UIViewController {
 
     override func loadView() {
@@ -184,14 +183,14 @@ class ViewController: UIViewController {
     }
 
     private func showLock(lock: Lock) {
-        Log.enable(minimumSeverity: LogSeverity.verbose, debugMode: true)
-        lock
-            .onAuth { Log.info?.message("Obtained credentials \($0)") }
-            .onError { Log.error?.message("Failed with \($0)") }
-            .onSignUp { email, _ in  Log.debug?.message("New user \(email)") }
-            .onCancel { Log.debug?.message("User closed lock") }
-            .onPasswordless { Log.debug?.message("Passwordless requested for \($0)") }
-            .present(from: self)
+//        Log.enable(minimumSeverity: LogSeverity.verbose, debugMode: true)
+//        lock
+//            .onAuth { Log.info?.message("Obtained credentials \($0)") }
+//            .onError { Log.error?.message("Failed with \($0)") }
+//            .onSignUp { email, _ in  Log.debug?.message("New user \(email)") }
+//            .onCancel { Log.debug?.message("User closed lock") }
+//            .onPasswordless { Log.debug?.message("Passwordless requested for \($0)") }
+//            .present(from: self)
     }
 }
 
@@ -270,21 +269,21 @@ func applyPhantomStyle(_ style: inout Style) {
 class CleanroomLockLogger: LoggerOutput {
 
     func message(_ message: String, level: LoggerLevel, filename: String, line: Int) {
-        let channel: LogChannel?
-        switch level {
-        case .debug:
-            channel = Log.debug
-        case .error:
-            channel = Log.error
-        case .info:
-            channel = Log.info
-        case .verbose:
-            channel = Log.verbose
-        case .warn:
-            channel = Log.warning
-        default:
-            channel = nil
-        }
-        channel?.message(message, filePath: filename, fileLine: line)
+//        let channel: LogChannel?
+//        switch level {
+//        case .debug:
+//            channel = Log.debug
+//        case .error:
+//            channel = Log.error
+//        case .info:
+//            channel = Log.info
+//        case .verbose:
+//            channel = Log.verbose
+//        case .warn:
+//            channel = Log.warning
+//        default:
+//            channel = nil
+//        }
+//        channel?.message(message, filePath: filename, fileLine: line)
     }
 }
