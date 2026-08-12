@@ -319,7 +319,6 @@
 		5C53A7F82703F48100A7C0A3 /* Nimble.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Nimble.xcframework; path = Carthage/Build/Nimble.xcframework; sourceTree = "<group>"; };
 		5C53A7F92703F48100A7C0A3 /* OHHTTPStubs.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OHHTTPStubs.xcframework; path = Carthage/Build/OHHTTPStubs.xcframework; sourceTree = "<group>"; };
 		5C53A8002703F4AB00A7C0A3 /* SimpleKeychain.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SimpleKeychain.xcframework; path = Carthage/Build/SimpleKeychain.xcframework; sourceTree = "<group>"; };
-		5C53A8012703F4AB00A7C0A3 /* CleanroomLogger.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CleanroomLogger.xcframework; path = Carthage/Build/CleanroomLogger.xcframework; sourceTree = "<group>"; };
 		5C53A8022703F4AB00A7C0A3 /* JWTDecode.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = JWTDecode.xcframework; path = Carthage/Build/JWTDecode.xcframework; sourceTree = "<group>"; };
 		5C53A8062703F4B900A7C0A3 /* Auth0.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Auth0.xcframework; path = Carthage/Build/Auth0.xcframework; sourceTree = "<group>"; };
 		5F0FCF8F1E20117E00E3D53B /* ObserverStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverStore.swift; sourceTree = "<group>"; };
@@ -861,7 +860,6 @@
 			isa = PBXGroup;
 			children = (
 				5C53A8062703F4B900A7C0A3 /* Auth0.xcframework */,
-				5C53A8012703F4AB00A7C0A3 /* CleanroomLogger.xcframework */,
 				5C53A8022703F4AB00A7C0A3 /* JWTDecode.xcframework */,
 				5C53A8002703F4AB00A7C0A3 /* SimpleKeychain.xcframework */,
 				5C53A7F82703F48100A7C0A3 /* Nimble.xcframework */,

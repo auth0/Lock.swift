@@ -284,32 +284,35 @@ Database connection will display the Terms of Service dialog. Defaults to `true`
 .withOptions {
     $0.logLevel = .all
     $0.logHttpRequest = true
-    $0.loggerOutput = CleanroomLockLogger()
+    $0.loggerOutput = OSLockLogger()
 }
 ```
 
-In the code above, the *loggerOutput* has been set to use [CleanroomLogger](https://github.com/emaloney/CleanroomLogger).
-This can typically be achieved by implementing the *loggerOutput* protocol.  You can of course use your favorite logger library.
+In the code above, the *loggerOutput* has been set to use Apple's native [unified logging system](https://developer.apple.com/documentation/os/logger) (`os.Logger`).
+This can typically be achieved by implementing the *loggerOutput* protocol. You can of course use your favorite logger library.
 
 ```swift
-class CleanroomLockLogger: LoggerOutput {
+import os
+
+class OSLockLogger: LoggerOutput {
+  private let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.auth0.lock", category: "Lock")
+
   func message(_ message: String, level: LoggerLevel, filename: String, line: Int) {
-    let channel: LogChannel?
+    let osLevel: OSLogType
     switch level {
-    case .debug:
-        channel = Log.debug
     case .error:
-        channel = Log.error
-    case .info:
-        channel = Log.info
-    case .verbose:
-        channel = Log.verbose
+        osLevel = .error
     case .warn:
-        channel = Log.warning
+        osLevel = .default
+    case .info:
+        osLevel = .info
+    case .debug, .verbose:
+        osLevel = .debug
     default:
-        channel = nil
+        osLevel = .default
     }
-    channel?.message(message, filePath: filename, fileLine: line)
+    let filename = URL(fileURLWithPath: filename).lastPathComponent
+    logger.log(level: osLevel, "\(filename):\(line) - \(message)")
   }
 }
 ```
