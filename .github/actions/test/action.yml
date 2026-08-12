@@ -20,34 +20,24 @@ runs:
       run: gem install xcpretty
       shell: bash
 
-    - name: Save Xcode version
-      run: xcodebuild -version | tee .xcode-version
-      shell: bash
-
-    - id: restore-carthage-cache
-      name: Restore Carthage cache
-      uses: actions/cache/restore@v3
-      with:
-        path: Carthage
-        key: carthage-${{ inputs.platform }}-${{ hashFiles('Cartfile.resolved') }}-${{ hashFiles('.xcode-version') }}-v1
-
-    - name: Install dependencies
-      if: steps.restore-carthage-cache.outputs.cache-hit != 'true'
-      run: carthage bootstrap --platform ${{ inputs.platform }} --use-xcframeworks --no-use-binaries --cache-builds
-      shell: bash
-
-    - name: Save Carthage cache
-      id: save-carthage-cache
-      uses: actions/cache/save@v3
-      if: steps.restore-carthage-cache.outputs.cache-hit != 'true'
-      with:
-        path: Carthage
-        key: carthage-${{ inputs.platform }}-${{ hashFiles('Cartfile.resolved') }}-${{ hashFiles('.xcode-version') }}-v1
-
     - name: Run tests
-      uses: mxcl/xcodebuild@d3ee9b419c1be9a988086c58fe0988f32d99cfc5
-      with:
-        xcode: ${{ inputs.xcode }}
-        scheme: ${{ inputs.scheme }}
-        platform: ${{ inputs.platform }}
-        code-coverage: true
+      shell: bash
+      run: |
+        device=$(xcrun simctl list devices available | grep -m1 'iPhone' | sed -E 's/^ *([^(]+) \(.*/\1/' | sed -E 's/ *$//')
+
+        # Lock.xcodeproj and Package.swift coexist at the repo root; xcodebuild defaults
+        # to the .xcodeproj, so it's moved aside to force resolution of the SPM package
+        # (whose dependency graph, unlike Carthage's, builds cleanly on Apple Silicon runners).
+        mv Lock.xcodeproj /tmp/Lock.xcodeproj
+
+        set -o pipefail
+        xcodebuild test \
+          -scheme ${{ inputs.scheme }} \
+          -destination "platform=${{ inputs.platform }} Simulator,name=$device" \
+          -derivedDataPath DerivedData \
+          -enableCodeCoverage YES \
+          | xcpretty
+        status=$?
+
+        mv /tmp/Lock.xcodeproj Lock.xcodeproj
+        exit $status

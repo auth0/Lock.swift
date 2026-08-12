@@ -36,7 +36,7 @@ jobs:
                 platform: iOS
 
             - name: Convert coverage report
-              run: bundle exec slather coverage -x --scheme ${{ env.scheme }} ${{ env.xcodeproj }}
+              run: bundle exec slather coverage -x --scheme ${{ env.scheme }} --build-directory DerivedData --binary-file "DerivedData/Build/Products/Debug-iphonesimulator/LockTests.xctest/LockTests" ${{ env.xcodeproj }}
 
             - name: Upload coverage report
               uses: codecov/codecov-action@ab904c41d6ece82784817410c45d8b8c02684457
