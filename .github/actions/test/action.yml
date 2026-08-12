@@ -45,7 +45,7 @@ runs:
         key: carthage-${{ inputs.platform }}-${{ hashFiles('Cartfile.resolved') }}-${{ hashFiles('.xcode-version') }}-v1
 
     - name: Run tests
-      uses: mxcl/xcodebuild@v2
+      uses: mxcl/xcodebuild@d3ee9b419c1be9a988086c58fe0988f32d99cfc5
       with:
         xcode: ${{ inputs.xcode }}
         scheme: ${{ inputs.scheme }}
