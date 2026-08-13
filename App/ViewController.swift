@@ -22,9 +22,10 @@
 
 import UIKit
 import Lock
-import CleanroomLogger
-
+import os
 class ViewController: UIViewController {
+
+    private let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.auth0.lock", category: "ViewController")
 
     override func loadView() {
         let view = UIView()
@@ -184,13 +185,12 @@ class ViewController: UIViewController {
     }
 
     private func showLock(lock: Lock) {
-        Log.enable(minimumSeverity: LogSeverity.verbose, debugMode: true)
         lock
-            .onAuth { Log.info?.message("Obtained credentials \($0)") }
-            .onError { Log.error?.message("Failed with \($0)") }
-            .onSignUp { email, _ in  Log.debug?.message("New user \(email)") }
-            .onCancel { Log.debug?.message("User closed lock") }
-            .onPasswordless { Log.debug?.message("Passwordless requested for \($0)") }
+            .onAuth { [logger] in logger.info("Obtained credentials \($0)") }
+            .onError { [logger] in logger.error("Failed with \($0)") }
+            .onSignUp { [logger] email, _ in logger.debug("New user \(email)") }
+            .onCancel { [logger] in logger.debug("User closed lock") }
+            .onPasswordless { [logger] in logger.debug("Passwordless requested for \($0)") }
             .present(from: self)
     }
 }
@@ -198,7 +198,7 @@ class ViewController: UIViewController {
 func applyDefaultOptions(_ options: inout OptionBuildable) {
     options.closable = true
     options.logLevel = .all
-    options.loggerOutput = CleanroomLockLogger()
+    options.loggerOutput = OSLockLogger()
     options.logHttpRequest = true
     options.oidcConformant = true
 
@@ -267,24 +267,25 @@ func applyPhantomStyle(_ style: inout Style) {
     style.ruleTextColor = darkPurple
 }
 
-class CleanroomLockLogger: LoggerOutput {
+class OSLockLogger: LoggerOutput {
+
+    private let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.auth0.lock", category: "Lock")
 
     func message(_ message: String, level: LoggerLevel, filename: String, line: Int) {
-        let channel: LogChannel?
+        let osLevel: OSLogType
         switch level {
-        case .debug:
-            channel = Log.debug
         case .error:
-            channel = Log.error
-        case .info:
-            channel = Log.info
-        case .verbose:
-            channel = Log.verbose
+            osLevel = .error
         case .warn:
-            channel = Log.warning
+            osLevel = .default
+        case .info:
+            osLevel = .info
+        case .debug, .verbose:
+            osLevel = .debug
         default:
-            channel = nil
+            osLevel = .default
         }
-        channel?.message(message, filePath: filename, fileLine: line)
+        let filename = URL(fileURLWithPath: filename).lastPathComponent
+        logger.log(level: osLevel, "\(filename):\(line) - \(message)")
     }
 }

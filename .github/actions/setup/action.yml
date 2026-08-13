@@ -15,13 +15,13 @@ runs:
       shell: bash
 
     - name: Set up Ruby
-      uses: ruby/setup-ruby@250fcd6a742febb1123a77a841497ccaa8b9e939
+      uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
       with:
         bundler-cache: true
         cache-version: 1
 
     - name: Setup Xcode
-      uses: mxcl/xcodebuild@6e60022a0cbe8c89278be2dd1773a2f68e7c5c87
+      uses: mxcl/xcodebuild@d3ee9b419c1be9a988086c58fe0988f32d99cfc5
       with:
         xcode: ${{ inputs.xcode }}
         action: none

@@ -140,7 +140,7 @@ public extension OptionBuildable {
             return self.termsOfServiceURL.absoluteString
         }
         set {
-            guard let url = URL(string: newValue) else { return }
+            guard let url = URL(string: newValue), url.scheme != nil else { return }
             self.termsOfServiceURL = url
         }
     }
@@ -151,7 +151,7 @@ public extension OptionBuildable {
             return self.privacyPolicyURL.absoluteString
         }
         set {
-            guard let url = URL(string: newValue) else { return }
+            guard let url = URL(string: newValue), url.scheme != nil else { return }
             self.privacyPolicyURL = url
         }
     }
@@ -163,7 +163,7 @@ public extension OptionBuildable {
             return url.absoluteString
         }
         set {
-            guard let value = newValue, let url = URL(string: value) else { return }
+            guard let value = newValue, let url = URL(string: value), url.scheme != nil else { return }
             self.supportURL = url
         }
     }

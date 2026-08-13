@@ -24,8 +24,8 @@ import Foundation
 import Nimble
 @testable import Lock
 
-func beExpandedMode(isLogin login: Bool = true) -> Predicate<AuthCollectionView.Mode> {
-        return Predicate<AuthCollectionView.Mode>.define("be with expanded mode with isLogin: <\(login)>") { expression, failureMessage -> PredicateResult in
+func beExpandedMode(isLogin login: Bool = true) -> Nimble.Predicate<AuthCollectionView.Mode> {
+        return Nimble.Predicate<AuthCollectionView.Mode>.define("be with expanded mode with isLogin: <\(login)>") { expression, failureMessage -> PredicateResult in
         if let actual = try expression.evaluate(), case .expanded(let isLogin) = actual, isLogin == login {
             return PredicateResult(status: .matches, message: failureMessage)
         }
@@ -33,8 +33,8 @@ func beExpandedMode(isLogin login: Bool = true) -> Predicate<AuthCollectionView.
     }
 }
 
-func beCompactMode() -> Predicate<AuthCollectionView.Mode> {
-    return Predicate<AuthCollectionView.Mode>.define("be with compact mode") { expression, failureMessage -> PredicateResult in
+func beCompactMode() -> Nimble.Predicate<AuthCollectionView.Mode> {
+    return Nimble.Predicate<AuthCollectionView.Mode>.define("be with compact mode") { expression, failureMessage -> PredicateResult in
         if let actual = try expression.evaluate(), case .compact = actual {
             return PredicateResult(status: .matches, message: failureMessage)
         }
@@ -42,8 +42,8 @@ func beCompactMode() -> Predicate<AuthCollectionView.Mode> {
     }
 }
 
-func beError(error: LocalizableError) -> Predicate<LocalizableError> {
-    return Predicate<LocalizableError>.define("be error with message \(error.localizableMessage)") { expression, failureMessage -> PredicateResult in
+func beError(error: LocalizableError) -> Nimble.Predicate<LocalizableError> {
+    return Nimble.Predicate<LocalizableError>.define("be error with message \(error.localizableMessage)") { expression, failureMessage -> PredicateResult in
         if let actual = try expression.evaluate(), actual.localizableMessage == error.localizableMessage && actual.userVisible == error.userVisible {
             return PredicateResult(status: .matches, message: failureMessage)
         }
@@ -52,8 +52,8 @@ func beError(error: LocalizableError) -> Predicate<LocalizableError> {
 }
 
 
-func beErrorResult() -> Predicate<Result> {
-    return Predicate<Result>.define("be an error result") { expression, failureMessage -> PredicateResult in
+func beErrorResult() -> Nimble.Predicate<Result> {
+    return Nimble.Predicate<Result>.define("be an error result") { expression, failureMessage -> PredicateResult in
         if let actual = try expression.evaluate(), case .error = actual {
             return PredicateResult(status: .matches, message: failureMessage)
         }
