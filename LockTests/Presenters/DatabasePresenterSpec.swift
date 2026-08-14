@@ -954,8 +954,8 @@ class DatabasePresenterSpec: QuickSpec {
     }
 }
 
-func haveAction(_ title: String, style: A0AlertActionStyle) -> Predicate<[UIAlertAction]> {
-    return Predicate<[UIAlertAction]>.define("have action with title \(title) and style \(style)") { expression, failureMessage -> PredicateResult in
+func haveAction(_ title: String, style: A0AlertActionStyle) -> Nimble.Predicate<[UIAlertAction]> {
+    return Nimble.Predicate<[UIAlertAction]>.define("have action with title \(title) and style \(style)") { expression, failureMessage -> PredicateResult in
         if let actions = try expression.evaluate() {
             if actions.contains(where: { alert in
                 return alert.title == title && alert.style == style
