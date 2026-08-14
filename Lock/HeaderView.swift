@@ -150,13 +150,21 @@ public class HeaderView: UIView {
         constraintEqual(anchor: logoView.topAnchor, toAnchor: centerGuide.topAnchor)
         logoView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
+        if #available(iOS 11.0, *) {
+            constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: self.safeAreaLayoutGuide.topAnchor, constant: 25)
+        } else {
+            constraintEqual(anchor: closeButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
+        }
         constraintEqual(anchor: closeButton.rightAnchor, toAnchor: self.rightAnchor, constant: -10)
         closeButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         closeButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         closeButton.translatesAutoresizingMaskIntoConstraints = false
 
-        constraintEqual(anchor: backButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
+        if #available(iOS 11.0, *) {
+            constraintEqual(anchor: backButton.centerYAnchor, toAnchor: self.safeAreaLayoutGuide.topAnchor, constant: 25)
+        } else {
+            constraintEqual(anchor: backButton.centerYAnchor, toAnchor: self.topAnchor, constant: 45)
+        }
         constraintEqual(anchor: backButton.leftAnchor, toAnchor: self.leftAnchor, constant: 10)
         backButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
